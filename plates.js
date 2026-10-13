@@ -8,17 +8,15 @@ const e = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;'
 const ROLE = { parts: 'poora model + parts', main: 'poora model + parts', views: 'views, parts aur working' };
 const NOTE = 'DUET STEM model illustration. ';
 const noteOf = p => NOTE + (p.n ? 'Dhyan do: ' + p.n : 'Parts ke sahi naam Parts tab ke diagram se milao.');
-// 1) lesson "Photo · 3D · 360°" tab
+// 1) lesson assets: older illustration labels made neutral (plates are drawn by the tab hooks below)
 const A = window.LMS_ASSETS = window.LMS_ASSETS || {};
-Object.keys(D.lessons).forEach(lid => {
-  const add = [];
-  D.lessons[lid].forEach((iid, k) => { const it = D.items[iid]; if (!it) return;
-    it.pl.forEach((p, j) => add.push({ id: 'plate-' + p.f, kind: 'schematic', origin: 'duet', verified: false,
-      role: k === 0 && j === 0 ? 'poster' : 'overview', src: u(p.f), big: u(p.f), title: it.t + ' – ' + ROLE[p.r],
-      alt: 'Teaching illustration of ' + it.t + ' (' + ROLE[p.r] + ')', note: noteOf(p),
-      credit: 'DUET STEM model reference · ' + iid, licence: 'DUET STEM use' })); });
-  A[lid] = add.concat(A[lid] || []);
-});
+Object.keys(A).forEach(lid => (A[lid] || []).forEach(a => { if (a.kind !== 'ai_illustration') return;
+  a.note = String(a.note || '').replace(/AI se bani tasveer hai[^.]*\.\s*/i, '').replace(/\s*\(asli photo nahi\)/i, '').replace(/,?\s*sirf overview ke liye\.?/i, '.').trim();
+  a.credit = 'DUET STEM'; a.alt = String(a.alt || '').replace(/AI-generated /i, ''); }));
+const bigFig = (it, p) => `<figure style="margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff">
+  <a href="${e(u(p.f))}" target="_blank" rel="noopener" title="Bada dekho"><img src="${e(u(p.f))}" alt="${e(it.t + ' – ' + ROLE[p.r])}" loading="lazy" style="display:block;width:100%;height:auto"></a>
+  <figcaption style="padding:8px 12px;font-size:.88rem;background:var(--surface);border-top:1px solid var(--line)"><b>${e(it.t)}</b> <span class="muted">· ${e(ROLE[p.r])}</span>${p.n ? `<br><span style="color:var(--warn)">Dhyan do: ${e(p.n)}</span>` : ''}</figcaption></figure>`;
+const lessonItems = lid => (D.lessons[lid] || []).map(i => D.items[i]).filter(Boolean);
 // 2) lab equipment library: plate as the card picture (a real photo saved on the server still wins)
 const PH = window.LMS_EQUIP_PH = window.LMS_EQUIP_PH || {};
 Object.keys(D.eq).forEach(sid => { const it = D.items[D.eq[sid]]; if (!it || PH[sid]) return; const p = it.pl[0];
@@ -52,6 +50,30 @@ const tick = () => { busy = false; try {
     const html = window.lmsWalk({ id: lid });
     if (h && html && !document.getElementById('plwalk')) { const d = document.createElement('div'); d.id = 'plwalk'; d.innerHTML = html; h.parentNode.insertBefore(d, h); }
   }
+  const sel = document.querySelector('[data-tab][aria-selected="true"]'), tab = sel && sel.dataset.tab, body = document.getElementById('tabbody');
+  const its = lessonItems(lid);
+  if (body && its.length && !body.querySelector('[data-plx="' + tab + '"]')) {
+    if (tab === 'real' && body.querySelector('.mtab')) {
+      const s = document.createElement('section'); s.className = 'card msec'; s.setAttribute('data-plx', 'real');
+      s.innerHTML = `<h3 style="margin:0 0 4px">Model – poora, alag angle se, parts aur working</h3><p class="muted" style="margin:0 0 12px;font-size:.9rem">Lab mein jo model/kit milti hai uski tasveer. Kisi bhi tasveer par click karke bada dekho.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr));gap:14px">${its.map(it => it.pl.map(p => bigFig(it, p)).join('')).join('')}</div>`;
+      const mt = body.querySelector('.mtab'); mt.insertBefore(s, mt.firstChild);
+    } else if (tab === 'parts' && body.querySelector('.split')) {
+      const s = document.createElement('section'); s.className = 'card'; s.setAttribute('data-plx', 'parts'); s.style.marginTop = '18px';
+      const pl = its.slice(0, 3).map(it => [it, it.pl.find(p => p.r !== 'views') || it.pl[0], it.pl.find(p => p.r === 'views')]);
+      s.innerHTML = `<h3 style="margin:0 0 4px">Asli model ke parts – complete aur alag-alag</h3><p class="muted" style="margin:0 0 12px;font-size:.9rem">Upar wale diagram ke parts ko is model mein pehchaano. Click karke bada dekho.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr));gap:14px">${pl.map(([it, a, b]) => bigFig(it, a) + (b && b !== a ? bigFig(it, b) : '')).join('')}</div>`;
+      body.querySelector('.split').insertAdjacentElement('afterend', s);
+    } else if (tab === 'learn') {
+      const it = its[0], p = it.pl.find(x => x.r !== 'views') || it.pl[0];
+      const s = document.createElement('div'); s.setAttribute('data-plx', 'learn'); s.style.margin = '0 0 18px';
+      s.innerHTML = `<figure style="margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff"><a href="${e(u(p.f))}" target="_blank" rel="noopener"><img src="${e(u(p.f))}" alt="${e(it.t)}" style="display:block;width:100%;max-height:440px;object-fit:contain;background:#fff"></a>
+        <figcaption style="padding:8px 12px;font-size:.88rem;background:var(--surface);border-top:1px solid var(--line)"><b>${e(it.t)}</b> <span class="muted">· poora model aur parts – baaki tasveerein "Photo · 3D · 360°" aur "Parts" tab mein</span></figcaption></figure>`;
+      body.insertBefore(s, body.firstChild);
+    }
+  }
+  document.querySelectorAll('.kbadge:not([data-pl]), .msec h3:not([data-pl])').forEach(x => { x.setAttribute('data-pl', '1');
+    if (/AI illustration/.test(x.textContent)) x.textContent = x.textContent.replace(/AI illustrations? · asli photo nahi/, 'Illustration').replace(/AI illustrations – samajhne ke liye bani tasveerein \(asli photo nahi\)/, 'Illustrations – samajhne ke liye'); });
   const big = document.querySelector('#eqdet .eqbig:not([data-pl])');
   if (big) { big.setAttribute('data-pl', '1'); const b = document.querySelector('[data-eq][aria-pressed="true"]');
     const id = b && b.dataset.eq; const html = id ? window.lmsEqPlates({ id }) : ''; if (html) big.insertAdjacentHTML('beforeend', html); }
