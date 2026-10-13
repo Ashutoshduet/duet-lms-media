@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="640" viewBox="0 0 1000 640" role="img" aria-labelledby="title desc">
+<title id="title">Closed low-voltage circuit</title><desc id="desc">A cell, closed switch and lamp connected in one series loop. Arrows show conventional current from positive to negative through the external circuit.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0 6 3 0 6" fill="none" stroke="#d27621" stroke-width="1.5"/></marker></defs>
+<rect width="1000" height="640" rx="24" fill="#f5f7fa"/>
+<g font-family="Arial,sans-serif" fill="#17283a"><text x="60" y="65" font-size="30" font-weight="bold">One complete path → lamp on</text><text x="60" y="100" font-size="18">Low-voltage cell • closed switch • lamp</text></g>
+<g fill="none" stroke="#234b67" stroke-width="7" stroke-linecap="round"><path d="M200 295V190H430M550 190H800V295M800 385V490H200V345"/><path d="M430 190H550"/><circle cx="430" cy="190" r="8" fill="#f5f7fa"/><circle cx="550" cy="190" r="8" fill="#f5f7fa"/><path d="M164 295H236M178 345H222"/><circle cx="800" cy="340" r="45" fill="#ffe5a3"/><path d="M770 310L830 370M830 310L770 370"/></g>
+<g font-family="Arial,sans-serif" font-size="21" fill="#17283a"><text x="135" y="289">+</text><text x="139" y="352">−</text><text x="90" y="407">Cell</text><text x="422" y="155">Closed switch</text><text x="862" y="348">Lamp</text><text x="60" y="580">Conventional current: + → external circuit → −</text></g>
+<g fill="none" stroke="#d27621" stroke-width="4" marker-end="url(#arrow)"><path d="M290 166H355"/><path d="M680 166H735"/><path d="M833 230V270"/><path d="M700 520H625"/><path d="M345 520H280"/></g>
+</svg>
