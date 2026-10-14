@@ -147,15 +147,7 @@ const tick = () => { busy = false; try {
       s.innerHTML = `<h3 style="margin:0 0 4px">Model – poora, alag angle se, parts aur working</h3><p class="muted" style="margin:0 0 12px;font-size:.9rem">Lab mein jo model/kit milti hai uski tasveer. Kisi bhi tasveer par click karke bada dekho.</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,460px),1fr));gap:14px">${its.map(it => it.pl.map(p => bigFig(it, p)).join('')).join('')}</div>`;
       const mt = body.querySelector('.mtab'); mt.insertBefore(s, mt.firstChild);
-      const M = window.LMS_M3D && window.LMS_M3D.items || {}; const m3 = its.filter(it => M[it.id] != null).sort((a, b) => M[b.id] - M[a.id]);
-      if (m3.length && window.lmsM3D) {
-        const s3 = document.createElement('section'); s3.className = 'card msec'; s3.setAttribute('data-plx', 'real3d');
-        s3.innerHTML = `<h3 style="margin:0 0 4px">3D / 360° model – ghuma ke dekho</h3><p class="muted" style="margin:0 0 10px;font-size:.9rem">Model ki tasveeron se bana 3D view. Mouse ya ungli se ghumao, scroll/pinch se zoom karo.</p>
-          ${m3.length > 1 ? `<div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:10px">${m3.map((it, k) => `<button class="chip" data-m3i="${e(it.id)}" aria-pressed="${k === 0}">${e(it.t)}${M[it.id] ? ' · 360°' : ''}</button>`).join('')}</div>` : ''}<div class="m3dv"></div>`;
-        mt.insertBefore(s3, mt.firstChild);
-        const box = s3.querySelector('.m3dv'); window.lmsM3D(box, m3[0].id);
-        s3.querySelectorAll('[data-m3i]').forEach(b => b.onclick = () => { s3.querySelectorAll('[data-m3i]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); window.lmsM3D(box, b.dataset.m3i); });
-      }
+
     } else if (tab === 'parts' && body.querySelector('.split')) {
       const s = document.createElement('section'); s.className = 'card'; s.setAttribute('data-plx', 'parts'); s.style.marginTop = '18px';
       const pl = its.slice(0, 3).map(it => [it, it.pl.find(p => p.r !== 'views') || it.pl[0], it.pl.find(p => p.r === 'views')]);
@@ -172,6 +164,18 @@ const tick = () => { busy = false; try {
   }
   document.querySelectorAll('.kbadge:not([data-pl]), .msec h3:not([data-pl])').forEach(x => { x.setAttribute('data-pl', '1');
     if (/AI illustration/.test(x.textContent)) x.textContent = x.textContent.replace(/AI illustrations? · asli photo nahi/, 'Illustration').replace(/AI illustrations – samajhne ke liye bani tasveerein \(asli photo nahi\)/, 'Illustrations – samajhne ke liye'); });
+  if (body && its.length && tab === 'real' && body.querySelector('.mtab') && !body.querySelector('[data-plx="real3d"]')) {
+    const mt = body.querySelector('.mtab');
+    const M = window.LMS_M3D && window.LMS_M3D.items || {}; const m3 = its.filter(it => M[it.id] != null).sort((a, b) => M[b.id] - M[a.id]);
+      if (m3.length && window.lmsM3D) {
+        const s3 = document.createElement('section'); s3.className = 'card msec'; s3.setAttribute('data-plx', 'real3d');
+        s3.innerHTML = `<h3 style="margin:0 0 4px">3D / 360° model – ghuma ke dekho</h3><p class="muted" style="margin:0 0 10px;font-size:.9rem">Model ki tasveeron se bana 3D view. Mouse ya ungli se ghumao, scroll/pinch se zoom karo.</p>
+          ${m3.length > 1 ? `<div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:10px">${m3.map((it, k) => `<button class="chip" data-m3i="${e(it.id)}" aria-pressed="${k === 0}">${e(it.t)}${M[it.id] ? ' · 360°' : ''}</button>`).join('')}</div>` : ''}<div class="m3dv"></div>`;
+        mt.insertBefore(s3, mt.firstChild);
+        const box = s3.querySelector('.m3dv'); window.lmsM3D(box, m3[0].id);
+        s3.querySelectorAll('[data-m3i]').forEach(b => b.onclick = () => { s3.querySelectorAll('[data-m3i]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); window.lmsM3D(box, b.dataset.m3i); });
+      }
+  }
   const big = document.querySelector('#eqdet .eqbig:not([data-pl])');
   if (big) { big.setAttribute('data-pl', '1'); const b = document.querySelector('[data-eq][aria-pressed="true"]');
     const id = b && b.dataset.eq; const html = id ? window.lmsEqPlates({ id }) : ''; if (html) big.insertAdjacentHTML('beforeend', html);
