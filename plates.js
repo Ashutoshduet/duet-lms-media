@@ -69,7 +69,7 @@ window.lmsM3D = async function (el, iid) {
     let auto = true, t0 = performance.now(); oc.addEventListener('start', () => { auto = false; });
     const v = new T.Vector3();
     const fade = () => { // show the picture that faces the camera, blend neighbours
-      v.copy(cam.position).normalize(); let tot = 0; const ws = parts.map(o => { const c = o.userData.n.dot(v); const w = Math.max(0, (c - 0.25) / 0.75); tot += w; return w; });
+      v.copy(cam.position).normalize(); let tot = 0; const ws = parts.map(o => { const c = o.userData.n.dot(v); const w = Math.pow(Math.max(0, c), 8); tot += w; return w; });
       parts.forEach((o, i) => { const a = tot ? ws[i] / tot : 0; o.visible = a > 0.02; o.children[0].material.opacity = Math.min(1, a * 1.6); o.children[0].material.depthWrite = a > 0.6; });
     };
     let alive = true;
