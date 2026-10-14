@@ -1,101 +1,29 @@
-window.LMS_M3D={base:'https://ashutoshduet.github.io/duet-lms-media/m3d/',items:{"E201": 1, "E176": 0, "E029": 0, "E099": 0, "E050": 0, "R028": 0, "E171": 1, "E194": 0, "E109": 0, "E037": 0, "X028": 0, "E035": 0, "E038": 0, "E139": 0, "E196": 0, "E180": 1, "X042": 1, "E193": 0, "E142": 0, "E051": 0, "R012": 1, "E112": 0, "E110": 0, "E039": 0, "E121": 0, "R014": 0, "R025": 0, "E190": 1, "E083": 0, "R039": 1, "R034": 0, "E054": 0, "R016": 0, "X001": 0, "E016": 0, "E032": 0, "E021": 0, "E015": 0, "E170": 1, "E080": 0, "E056": 0, "E211": 0, "R001": 0, "E207": 1, "X038": 1, "E063": 0, "E091": 0, "X018": 1, "E024": 0, "E040": 0, "E042": 0, "E081": 0, "E087": 0, "E157": 0, "E231": 1, "E184": 1, "E225": 0, "E047": 0, "E154": 0, "E095": 0, "E008": 0, "E189": 0, "X023": 1, "E100": 0, "E061": 0, "E111": 0, "R002": 0, "E018": 0, "E013": 0, "E234": 0, "E132": 0, "E098": 0, "E052": 0, "E147": 0, "E006": 0, "E235": 0, "E060": 0, "E010": 0, "E005": 0, "X030": 1, "R022": 0, "E004": 0, "E125": 0, "E163": 0, "E210": 0, "E120": 0, "E188": 0, "X009": 1, "R037": 0, "E085": 0, "E082": 0, "X043": 0, "E162": 0, "R023": 0, "E007": 0, "E130": 0, "E227": 0, "E219": 0, "X002": 0, "E065": 0, "X011": 1, "R042": 1, "E127": 0, "E203": 1, "X006": 1, "E068": 0, "E075": 0, "R018": 0, "E023": 0, "R013": 0, "R021": 1, "E213": 0, "X014": 1, "R003": 0, "E166": 0, "E043": 0, "R004": 0, "E232": 1, "E059": 0, "R019": 0, "E118": 0, "E104": 0, "E049": 0, "E158": 0, "E066": 0, "X035": 1, "E044": 0, "E101": 0, "E179": 0, "R033": 0, "R008": 1, "E167": 0, "R009": 0, "E077": 0, "E216": 1, "R040": 0, "E046": 0, "E209": 0, "X029": 0, "R035": 1, "X033": 0, "E172": 1, "E138": 0, "E123": 0, "E148": 0, "X013": 1, "E129": 0, "R007": 0, "X027": 0, "E182": 0, "E053": 0, "E233": 0, "E136": 0, "E092": 0, "E202": 1, "E030": 0, "E116": 0, "E027": 0, "E057": 0, "E031": 0, "X041": 0, "X004": 1, "E088": 0, "E069": 0, "E198": 1, "E146": 0, "E160": 0, "E212": 1, "E169": 0, "E071": 0, "E084": 0, "E205": 0, "E181": 0, "E086": 0, "E097": 0, "E025": 0, "E177": 0, "R017": 0, "E105": 0, "E175": 0, "E137": 0, "E151": 0, "E034": 0, "E221": 0, "E001": 0, "R005": 0, "E074": 0, "E094": 0, "E197": 1, "E076": 0, "E113": 0, "E093": 0, "X040": 1, "X037": 0, "E192": 1, "E206": 0, "E228": 0, "E103": 0, "E178": 1, "X019": 0, "E017": 0, "R010": 0, "E048": 0, "E067": 0, "E150": 0, "E214": 0, "X008": 0, "E002": 0, "X034": 0, "E173": 1, "E079": 0, "E033": 0, "E011": 0, "E019": 0, "E003": 0, "X012": 0, "E055": 0, "X015": 0, "E134": 0, "R024": 0, "E022": 0, "E156": 0, "E014": 0, "X020": 1, "E174": 0, "R030": 1, "E064": 0, "E090": 0, "E218": 0, "E119": 0, "E145": 0, "E220": 0, "R041": 0, "E072": 0, "X003": 0, "E114": 0, "E128": 0, "R006": 0, "E226": 1, "E107": 0, "E161": 1, "E164": 0, "E028": 0, "E115": 0, "R032": 1, "E183": 1, "E191": 1, "X016": 1, "E108": 0, "R026": 0, "E143": 0, "E223": 0, "E026": 0, "E195": 0, "E185": 1, "E204": 0, "E096": 0, "X031": 0, "E117": 0, "E200": 1, "R011": 1, "E149": 0, "E152": 0, "E208": 0, "E036": 0, "E141": 0, "E199": 0, "E215": 1, "E222": 1, "R020": 0, "E078": 0, "E140": 0, "X005": 1, "E089": 0, "E124": 0, "E187": 0, "E012": 0, "X010": 0, "E135": 0, "X036": 0, "E131": 0, "E217": 0, "E062": 0, "E126": 0, "E155": 0, "X032": 1, "E045": 0, "E106": 0, "X017": 0, "E009": 0, "E073": 0, "E133": 0, "E102": 0, "E144": 0, "E153": 0, "E159": 0}};
-/* DUET STEM LMS — 3D / 360° view built from the model reference pictures.
-   Each picture is turned into a raised (depth) surface; when front, side, back and top views exist they are
-   arranged around the model so dragging turns it all the way round. */
+// ---- DUET STEM own 3D teaching models (built by Claude from the reference pictures) ----
 (function(){
-const M3 = window.LMS_M3D = window.LMS_M3D || { base: 'https://ashutoshduet.github.io/duet-lms-media/m3d/', items: {} };
-const LIBS = window.__M3D_LIBS || ['https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js',
-  'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js'];
-let libP = null;
-const loadScript = src => new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = () => rej(new Error('load ' + src)); document.head.appendChild(s); });
-const libs = () => libP || (libP = (window.THREE && window.THREE.OrbitControls ? Promise.resolve() :
-  (window.THREE ? Promise.resolve() : loadScript(LIBS[0])).then(() => window.THREE.OrbitControls ? 0 : loadScript(LIBS[1]))));
-const img = src => new Promise((res, rej) => { const i = new Image(); i.crossOrigin = 'anonymous'; i.onload = () => res(i); i.onerror = rej; i.src = src; });
-
-function relief(T, tex, dep, w, h) {
-  // plane of height 1, width w/h; vertices pushed out by depth; transparent outside the model
-  const ar = w / h, seg = 110, g = new T.PlaneGeometry(ar, 1, Math.round(seg * Math.min(ar, 1.6)), seg);
-  const c = document.createElement('canvas'); c.width = dep.width; c.height = dep.height;
-  const x = c.getContext('2d'); x.drawImage(dep, 0, 0); const D = x.getImageData(0, 0, c.width, c.height).data;
-  const p = g.attributes.position, uv = g.attributes.uv, depthScale = 0.32 * Math.min(1, ar);
-  for (let i = 0; i < p.count; i++) {
-    const u = uv.getX(i), v = 1 - uv.getY(i);
-    const px = Math.min(c.width - 1, Math.round(u * (c.width - 1))), py = Math.min(c.height - 1, Math.round(v * (c.height - 1)));
-    p.setZ(i, D[(py * c.width + px) * 4] / 255 * depthScale);
-  }
-  g.computeVertexNormals();
-  const t = new T.Texture(tex); t.needsUpdate = true; t.encoding = T.sRGBEncoding; t.anisotropy = 4;
-  const m = new T.MeshStandardMaterial({ map: t, transparent: true, alphaTest: 0.35, roughness: 0.62, metalness: 0.05, side: T.FrontSide });
-  return new T.Mesh(g, m);
-}
-
-window.lmsM3D = async function (el, iid) {
-  el.innerHTML = '<div class="muted" style="padding:20px;text-align:center">3D model load ho raha hai…</div>';
-  try {
-    await libs(); const T = window.THREE;
-    const base = M3.base + iid + '/';
-    const meta = await fetch(base + 'meta.json').then(r => r.json());
-    const four = meta.views && meta.views.length === 4;
-    const names = four ? meta.views.map(v => v[0]) : ['hero'];
-    const sizes = four ? meta.views.map(v => [v[1], v[2]]) : [meta.hero];
-    const pics = await Promise.all(names.map(n => Promise.all([img(base + n + '.webp'), img(base + n + '.d.png')])));
-    el.innerHTML = '';
-    const W = () => el.clientWidth || 600, H = () => Math.max(300, Math.min(460, Math.round(W() * 0.62)));
-    if (el._m3dStop) el._m3dStop();
-    const rnd = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' }); rnd.setPixelRatio(Math.min(1.5, window.devicePixelRatio || 1));
-    rnd.outputEncoding = T.sRGBEncoding; rnd.setSize(W(), H()); rnd.domElement.style.cssText = 'display:block;width:100%;touch-action:none;border-radius:10px;background:radial-gradient(circle at 50% 40%,#ffffff,#e9edf2)';
-    el.appendChild(rnd.domElement);
-    const sc = new T.Scene(), cam = new T.PerspectiveCamera(35, W() / H(), 0.05, 50);
-    sc.add(new T.HemisphereLight(0xffffff, 0x8a8f99, 0.9)); const dl = new T.DirectionalLight(0xffffff, 0.75); dl.position.set(1.5, 2, 2.5); sc.add(dl);
-    const dl2 = new T.DirectionalLight(0xffffff, 0.35); dl2.position.set(-2, 1, -2); sc.add(dl2);
-    const grp = new T.Group(); sc.add(grp); const parts = [];
-    pics.forEach(([tex, dep], i) => {
-      const [w, h] = sizes[i]; const m = relief(T, tex, dep, w, h); const nm = names[i];
-      const o = new T.Group(); o.add(m);
-      const r = 0.12; // views sit slightly in front of the centre so their surfaces meet near the middle
-      if (nm === 'front' || nm === 'hero') { m.position.z = four ? r : 0; o.userData.n = new T.Vector3(0, 0, 1); }
-      if (nm === 'right') { m.position.z = r; o.rotation.y = Math.PI / 2; o.userData.n = new T.Vector3(1, 0, 0); }
-      if (nm === 'back') { m.position.z = r; o.rotation.y = Math.PI; o.userData.n = new T.Vector3(0, 0, -1); }
-      if (nm === 'top') { m.position.z = r; o.rotation.x = -Math.PI / 2; o.userData.n = new T.Vector3(0, 1, 0); }
-      grp.add(o); parts.push(o);
-      if (nm === 'right') { // left side = mirror of the right side view
-        const l = new T.Group(); const m2 = m.clone(); m2.material = m.material.clone(); m2.scale.x = -1; m2.material.side = T.BackSide;
-        m2.position.z = r; l.add(m2); l.rotation.y = -Math.PI / 2; l.userData.n = new T.Vector3(-1, 0, 0); grp.add(l); parts.push(l);
-      }
-    });
-    cam.position.set(0, 0.15, 2.4);
-    const oc = new T.OrbitControls(cam, rnd.domElement); oc.enableDamping = true; oc.enablePan = false; oc.minDistance = 1.2; oc.maxDistance = 4;
-    if (!four) { oc.minAzimuthAngle = -0.9; oc.maxAzimuthAngle = 0.9; oc.minPolarAngle = 0.9; oc.maxPolarAngle = 2.1; }
-    else { oc.minPolarAngle = 0.15; oc.maxPolarAngle = 2.2; }
-    let auto = true, t0 = performance.now(); oc.addEventListener('start', () => { auto = false; });
-    const v = new T.Vector3();
-    const fade = () => { // show the picture that faces the camera, blend neighbours
-      v.copy(cam.position).normalize(); let tot = 0; const ws = parts.map(o => { const c = o.userData.n.dot(v); const w = Math.pow(Math.max(0, c), 8); tot += w; return w; });
-      parts.forEach((o, i) => { const a = tot ? ws[i] / tot : 0; o.visible = a > 0.02; o.children[0].material.opacity = Math.min(1, a * 1.6); o.children[0].material.depthWrite = a > 0.6; });
-    };
-    // render only when something changes: a short auto-turn, while dragging, and while damping settles
-    let alive = true, busyUntil = performance.now() + (four ? 12600 : 8000), visible = true, raf = 0;
-    const wake = ms => { busyUntil = Math.max(busyUntil, performance.now() + (ms || 1200)); if (!raf && alive && visible) raf = requestAnimationFrame(loop); };
-    const stop = () => { if (!alive) return; alive = false; cancelAnimationFrame(raf); try { io.disconnect(); } catch (e) {}
-      sc.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) { if (o.material.map) o.material.map.dispose(); o.material.dispose(); } });
-      rnd.dispose(); try { rnd.forceContextLoss(); } catch (e) {} };
-    el._m3dStop = stop;
-    const loop = now => { raf = 0; if (!alive) return; if (!el.isConnected) return stop();
-      if (auto) { const s = (now - t0) / 1000; if (s * 1000 > (four ? 12600 : 8000)) auto = false;
-        if (four) { const a = s * 0.5; cam.position.set(Math.sin(a) * 2.4, 0.25, Math.cos(a) * 2.4); } else { const a = Math.sin(s * 0.8) * 0.6; cam.position.set(Math.sin(a) * 2.4, 0.15, Math.cos(a) * 2.4); } cam.lookAt(0, 0, 0); }
-      oc.update(); if (four) fade(); rnd.render(sc, cam);
-      if (now < busyUntil || auto) raf = requestAnimationFrame(loop); };
-    oc.addEventListener('change', () => wake(600)); oc.addEventListener('start', () => wake(100000)); oc.addEventListener('end', () => { busyUntil = performance.now() + 1200; });
-    const io = new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) wake(300); }); io.observe(el);
-    raf = requestAnimationFrame(loop);
-    const bar = document.createElement('div'); bar.className = 'row'; bar.style.cssText = 'gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center';
-    bar.innerHTML = `<span class="muted" style="font-size:.85rem">${four ? '360° – mouse/ungli se ghumao (front, side, back, upar se)' : '3D – mouse/ungli se ghumao aur zoom karo'}</span>`;
-    const b = document.createElement('button'); b.className = 'btn sm'; b.textContent = '↺ Reset'; b.onclick = () => { auto = true; t0 = performance.now(); oc.reset(); busyUntil = performance.now() + 12600; wake(); };
-    bar.appendChild(b); el.appendChild(bar);
-    const onR = () => { if (!alive) return window.removeEventListener('resize', onR); rnd.setSize(W(), H()); cam.aspect = W() / H(); cam.updateProjectionMatrix(); wake(200); }; window.addEventListener('resize', onR);
-    el._m3d = { four, parts: parts.length };
-  } catch (e) { el.innerHTML = '<div class="muted" style="padding:12px">3D view load nahi hua.</div>'; el._m3dErr = String(e); }
+const GH = 'https://ashutoshduet.github.io/duet-lms-media/assets/';
+const OWN = window.LMS_OWN3D = {
+  'bio-ear': { id: 'ear-3d', kind: 'model3d', origin: 'duet', verified: false, view: [-0.5, 0.25, 1], autoRotate: false,
+    src: GH + 'bio-ear__model3d__ear-teaching-model.glb', title: 'Human Ear – 3D model (bahari, beech aur andar ka kaan)',
+    alt: '3D teaching model of the human ear: pinna, ear canal, eardrum, three ossicles, cochlea, semicircular canals, auditory nerve and Eustachian tube on a temporal-bone section',
+    note: 'Classroom model jaisa – andar ke parts (haddiyan, cochlea, canals) samajhne ke liye bade karke dikhaye gaye hain. Asli kaan mein ye bahut chhote hote hain.',
+    credit: 'DUET STEM 3D model', licence: 'DUET STEM use',
+    groups: [
+      { id: 'bone', n: 'Temporal bone (section)', d: 'Khopdi ki haddi ka kata hua hissa – iske andar beech aur andar ka kaan surakshit rehta hai.', nodes: ['temporal-bone'], base: true },
+      { id: 'pinna', n: 'Pinna (bahari kaan)', d: 'Cartilage aur skin ka bana – awaaz ki tarangon ko ikattha karke kaan ki nali mein bhejta hai.', nodes: ['pinna', 'pinna-concha'] },
+      { id: 'canal', n: 'Ear canal (kaan ki nali)', d: 'Lagbhag 2.5 cm lambi nali – awaaz ko eardrum tak le jaati hai. Yahan wax (mail) dhool se bachata hai.', nodes: ['ear-canal'] },
+      { id: 'drum', n: 'Eardrum (tympanic membrane)', d: 'Patli jhilli – awaaz padte hi kaanpne lagti hai (vibrate).', nodes: ['eardrum'] },
+      { id: 'malleus', n: 'Malleus (hathoda)', d: 'Pehli chhoti haddi – eardrum se juda, kampan aage deta hai.', nodes: ['malleus'], needs: ['drum'] },
+      { id: 'incus', n: 'Incus (nihai / anvil)', d: 'Beech wali haddi – malleus se kampan lekar stapes ko deti hai.', nodes: ['incus'], needs: ['malleus'] },
+      { id: 'stapes', n: 'Stapes (rakaab / stirrup)', d: 'Sharir ki sabse chhoti haddi – oval window par dabaav dalkar andar ke kaan ka drav hilaati hai.', nodes: ['stapes'], needs: ['incus'] },
+      { id: 'vestibule', n: 'Vestibule', d: 'Andar ke kaan ka beech ka hissa – cochlea aur semicircular canals isse jude hain.', nodes: ['vestibule'] },
+      { id: 'canals', n: 'Semicircular canals (santulan)', d: 'Teen gol nalikayein, teen dishaon mein – inke drav se sharir ka balance (santulan) pata chalta hai.', nodes: ['semicircular-canals'], needs: ['vestibule'] },
+      { id: 'cochlea', n: 'Cochlea (ghonghe jaisi)', d: 'Ghonghe ke aakaar ki nali – kampan ko nerve signal mein badalti hai. Yahin se sunna shuru hota hai.', nodes: ['cochlea'], needs: ['vestibule'] },
+      { id: 'nerve', n: 'Auditory nerve', d: 'Cochlea aur canals ke signal dimaag tak le jaati hai.', nodes: ['auditory-nerve'], needs: ['cochlea'] },
+      { id: 'eust', n: 'Eustachian tube', d: 'Beech ke kaan ko gale se jodti hai – dono taraf hawa ka dabaav barabar rakhti hai (plane mein kaan "pop" hona).', nodes: ['eustachian-tube'] }
+    ] }
 };
+const A = window.LMS_ASSETS = window.LMS_ASSETS || {};
+Object.keys(OWN).forEach(lid => { A[lid] = [OWN[lid]].concat((A[lid] || []).filter(a => a && a.id !== OWN[lid].id)); });
 })();
 
 /* DUET STEM LMS — model reference plates from the DUET LMS PDF pack (ChatGPT image tool; reviewed by Claude 14 Oct 2026).
@@ -187,6 +115,15 @@ const tick = () => { busy = false; try {
         s3.querySelectorAll('[data-m3i]').forEach(b => b.onclick = () => { s3.querySelectorAll('[data-m3i]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); window.lmsM3D(box, b.dataset.m3i); });
       }
   }
+  const OWN = window.LMS_OWN3D || {};
+  if (body && tab === 'khol' && OWN[lid] && window.LMS3D && !body.querySelector('[data-plx="khol3d"]')) {
+    const old = [...body.children]; const s = document.createElement('section'); s.className = 'card'; s.setAttribute('data-plx', 'khol3d'); s.style.marginBottom = '16px';
+    s.innerHTML = `<h3 style="margin:0 0 4px">3D model – khol ke dekho</h3><p class="muted" style="margin:0 0 10px;font-size:.9rem">Model ko ghumao. <b>"Parts alag karo"</b> slider khiskao to har part alag dikhega, part par click karo to uska naam aur kaam. <b>🧩 Jodo</b> dabao to saare parts bahar – unhe sahi jagah wapas lagao.</p><div class="kh3"></div>
+      <button class="btn sm ghost" data-old2d style="margin-top:10px">Saral 2D chitra dikhao</button>`;
+    body.insertBefore(s, body.firstChild); old.forEach(x => { x.hidden = true; x.setAttribute('data-old2d-el', '1'); });
+    s.querySelector('[data-old2d]').onclick = ev => { const show = ev.target.textContent.startsWith('Saral'); body.querySelectorAll('[data-old2d-el]').forEach(x => x.hidden = !show); ev.target.textContent = show ? 'Saral 2D chitra chhupao' : 'Saral 2D chitra dikhao'; };
+    try { window.LMS3D.mount(s.querySelector('.kh3'), OWN[lid]); } catch (err) {}
+  }
   const big = document.querySelector('#eqdet .eqbig:not([data-pl])');
   if (big) { big.setAttribute('data-pl', '1'); const b = document.querySelector('[data-eq][aria-pressed="true"]');
     const id = b && b.dataset.eq; const html = id ? window.lmsEqPlates({ id }) : ''; if (html) big.insertAdjacentHTML('beforeend', html);
@@ -196,6 +133,9 @@ const tick = () => { busy = false; try {
     const th = cb.querySelector('.thumb'); if (!th || th.querySelector('img')) return;
     const c = (window.LMS_COURSES || []).find(x => x.id === cb.dataset.arg); const img = c && window.lmsPlateThumb(c); if (img) th.innerHTML = img; });
 } catch (err) {} };
-const start = () => { new MutationObserver(() => { if (!busy) { busy = true; setTimeout(tick, 40); } }).observe(document.body, { childList: true, subtree: true }); tick(); };
+let lastKey = '';
+const keyNow = () => { const s = document.querySelector('[data-tab][aria-selected="true"]'), b = document.getElementById('tabbody');
+  return location.hash + '|' + (s ? s.dataset.tab : '') + '|' + (b ? b.childElementCount : -1) + '|' + (document.querySelector('#eqdet .eqbig:not([data-pl])') ? 1 : 0) + '|' + (document.querySelector('button.course:not([data-pl])') ? 1 : 0) + '|' + (document.querySelector('.lessonvid:not([data-pl])') ? 1 : 0); };
+const start = () => { new MutationObserver(() => { if (busy) return; const k = keyNow(); if (k === lastKey) return; lastKey = k; busy = true; setTimeout(tick, 60); }).observe(document.getElementById('view') || document.body, { childList: true, subtree: true }); tick(); };
 if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
 })();
