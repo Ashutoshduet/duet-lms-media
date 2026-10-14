@@ -81,6 +81,6 @@ const tick = () => { busy = false; try {
     const th = cb.querySelector('.thumb'); if (!th || th.querySelector('img')) return;
     const c = (window.LMS_COURSES || []).find(x => x.id === cb.dataset.arg); const img = c && window.lmsPlateThumb(c); if (img) th.innerHTML = img; });
 } catch (err) {} };
-const start = () => { new MutationObserver(() => { if (!busy) { busy = true; requestAnimationFrame(tick); } }).observe(document.body, { childList: true, subtree: true }); tick(); };
+const start = () => { new MutationObserver(() => { if (!busy) { busy = true; setTimeout(tick, 40); } }).observe(document.body, { childList: true, subtree: true }); tick(); };
 if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
 })();
