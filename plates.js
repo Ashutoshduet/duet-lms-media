@@ -10,7 +10,7 @@ const NOTE = 'DUET STEM model illustration. ';
 const noteOf = p => NOTE + (p.n ? 'Dhyan do: ' + p.n : 'Parts ke sahi naam Parts tab ke diagram se milao.');
 // 1) lesson assets: older illustration labels made neutral (plates are drawn by the tab hooks below)
 const A = window.LMS_ASSETS = window.LMS_ASSETS || {};
-Object.keys(A).forEach(lid => (A[lid] || []).forEach(a => { if (a.kind !== 'ai_illustration') return;
+Object.keys(A).forEach(lid => Array.isArray(A[lid]) && A[lid].forEach(a => { if (!a || a.kind !== 'ai_illustration') return;
   a.note = String(a.note || '').replace(/AI se bani tasveer hai[^.]*\.\s*/i, '').replace(/\s*\(asli photo nahi\)/i, '').replace(/,?\s*sirf overview ke liye\.?/i, '.').trim();
   a.credit = 'DUET STEM'; a.alt = String(a.alt || '').replace(/AI-generated /i, ''); }));
 const bigFig = (it, p) => `<figure style="margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff">
