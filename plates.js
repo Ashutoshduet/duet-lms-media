@@ -41,7 +41,8 @@ window.lmsM3D = async function (el, iid) {
     const pics = await Promise.all(names.map(n => Promise.all([img(base + n + '.webp'), img(base + n + '.d.png')])));
     el.innerHTML = '';
     const W = () => el.clientWidth || 600, H = () => Math.max(300, Math.min(460, Math.round(W() * 0.62)));
-    const rnd = new T.WebGLRenderer({ antialias: true, alpha: true }); rnd.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    if (el._m3dStop) el._m3dStop();
+    const rnd = new T.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' }); rnd.setPixelRatio(Math.min(1.5, window.devicePixelRatio || 1));
     rnd.outputEncoding = T.sRGBEncoding; rnd.setSize(W(), H()); rnd.domElement.style.cssText = 'display:block;width:100%;touch-action:none;border-radius:10px;background:radial-gradient(circle at 50% 40%,#ffffff,#e9edf2)';
     el.appendChild(rnd.domElement);
     const sc = new T.Scene(), cam = new T.PerspectiveCamera(35, W() / H(), 0.05, 50);
@@ -72,16 +73,26 @@ window.lmsM3D = async function (el, iid) {
       v.copy(cam.position).normalize(); let tot = 0; const ws = parts.map(o => { const c = o.userData.n.dot(v); const w = Math.pow(Math.max(0, c), 8); tot += w; return w; });
       parts.forEach((o, i) => { const a = tot ? ws[i] / tot : 0; o.visible = a > 0.02; o.children[0].material.opacity = Math.min(1, a * 1.6); o.children[0].material.depthWrite = a > 0.6; });
     };
-    let alive = true;
-    const loop = now => { if (!alive) return; if (!el.isConnected) { alive = false; rnd.dispose(); return; }
-      if (auto) { const s = (now - t0) / 1000; if (four) { const a = s * 0.5; cam.position.set(Math.sin(a) * 2.4, 0.25, Math.cos(a) * 2.4); } else { const a = Math.sin(s * 0.8) * 0.6; cam.position.set(Math.sin(a) * 2.4, 0.15, Math.cos(a) * 2.4); } cam.lookAt(0, 0, 0); }
-      oc.update(); if (four) fade(); rnd.render(sc, cam); requestAnimationFrame(loop); };
-    requestAnimationFrame(loop);
+    // render only when something changes: a short auto-turn, while dragging, and while damping settles
+    let alive = true, busyUntil = performance.now() + (four ? 12600 : 8000), visible = true, raf = 0;
+    const wake = ms => { busyUntil = Math.max(busyUntil, performance.now() + (ms || 1200)); if (!raf && alive && visible) raf = requestAnimationFrame(loop); };
+    const stop = () => { if (!alive) return; alive = false; cancelAnimationFrame(raf); try { io.disconnect(); } catch (e) {}
+      sc.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) { if (o.material.map) o.material.map.dispose(); o.material.dispose(); } });
+      rnd.dispose(); try { rnd.forceContextLoss(); } catch (e) {} };
+    el._m3dStop = stop;
+    const loop = now => { raf = 0; if (!alive) return; if (!el.isConnected) return stop();
+      if (auto) { const s = (now - t0) / 1000; if (s * 1000 > (four ? 12600 : 8000)) auto = false;
+        if (four) { const a = s * 0.5; cam.position.set(Math.sin(a) * 2.4, 0.25, Math.cos(a) * 2.4); } else { const a = Math.sin(s * 0.8) * 0.6; cam.position.set(Math.sin(a) * 2.4, 0.15, Math.cos(a) * 2.4); } cam.lookAt(0, 0, 0); }
+      oc.update(); if (four) fade(); rnd.render(sc, cam);
+      if (now < busyUntil || auto) raf = requestAnimationFrame(loop); };
+    oc.addEventListener('change', () => wake(600)); oc.addEventListener('start', () => wake(100000)); oc.addEventListener('end', () => { busyUntil = performance.now() + 1200; });
+    const io = new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible) wake(300); }); io.observe(el);
+    raf = requestAnimationFrame(loop);
     const bar = document.createElement('div'); bar.className = 'row'; bar.style.cssText = 'gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center';
     bar.innerHTML = `<span class="muted" style="font-size:.85rem">${four ? '360° – mouse/ungli se ghumao (front, side, back, upar se)' : '3D – mouse/ungli se ghumao aur zoom karo'}</span>`;
-    const b = document.createElement('button'); b.className = 'btn sm'; b.textContent = '↺ Reset'; b.onclick = () => { auto = true; t0 = performance.now(); oc.reset(); };
+    const b = document.createElement('button'); b.className = 'btn sm'; b.textContent = '↺ Reset'; b.onclick = () => { auto = true; t0 = performance.now(); oc.reset(); busyUntil = performance.now() + 12600; wake(); };
     bar.appendChild(b); el.appendChild(bar);
-    window.addEventListener('resize', () => { rnd.setSize(W(), H()); cam.aspect = W() / H(); cam.updateProjectionMatrix(); });
+    const onR = () => { if (!alive) return window.removeEventListener('resize', onR); rnd.setSize(W(), H()); cam.aspect = W() / H(); cam.updateProjectionMatrix(); wake(200); }; window.addEventListener('resize', onR);
     el._m3d = { four, parts: parts.length };
   } catch (e) { el.innerHTML = '<div class="muted" style="padding:12px">3D view load nahi hua.</div>'; el._m3dErr = String(e); }
 };
