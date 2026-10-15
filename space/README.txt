@@ -3,6 +3,7 @@ SOLAR SYSTEM 360 - OFFLINE EDITION (Meta Quest, phones, PCs)
 
 LIVE SITE (already online, nothing to upload):
   https://ashutoshduet.github.io/duet-lms-media/space/
+  Short link (easier to type in the headset):  tinyurl.com/solar360vr
 
 Everything the site needs is inside this folder: three.js, fonts, planet and moon
 textures, NASA's 8K star map, star catalogues, 16 spacecraft 3D models and all
@@ -16,7 +17,8 @@ Browsers block 3D textures and offline saving for files. Use route A, B or C bel
 ROUTE A - Meta Quest + the live site  (easiest, no computer needed)
 -------------------------------------------------------------------
 1. Put on the Quest and open the Browser.
-2. Type  ashutoshduet.github.io/duet-lms-media/space  and open it.
+2. Type  tinyurl.com/solar360vr  and open it.
+   (It opens ashutoshduet.github.io/duet-lms-media/space)
 3. Wait until the bottom of the page says "Saved on this device · works offline".
    Keep the page open until then (1-3 minutes on good Wi-Fi).
 4. Bookmark the page (the star/bookmark button next to the address).
