@@ -457,3 +457,36 @@ ISRO licence: https://www.isro.gov.in/Copyright_Policy.html. Material may be "re
    - The Gaia 8K 360 JPG link (404)
    - The pixel sizes of the NASA library 8K Curiosity MP4s (the CDN was blocked from this sandbox)
    - The NASA Trek terrain-export feature
+
+## Landings: real footage, real photos, real 360° views
+
+Everything on the Landings page comes from the spacecraft's own cameras, mission control, or astronauts. Animations, renders and artist's impressions were left out on purpose; where a video mixes in a title card, the site says so.
+
+| What | Where it comes from | Licence |
+|---|---|---|
+| Chandrayaan-3 landing, rover roll-out, Vikram hop, Pragyan videos and photos | [ISRO Chandrayaan-3 gallery](https://www.isro.gov.in/chandrayaan3_gallery.html) | Free reuse with credit to ISRO ([ISRO copyright policy](https://www.isro.gov.in/Copyright_Policy.html)) |
+| Perseverance descent video, Ingenuity's first flight, Curiosity's MARDI descent | [NASA Image and Video Library](https://images.nasa.gov) · [NASA Science](https://science.nasa.gov/mars) | Public domain (NASA/JPL-Caltech) |
+| OSIRIS-REx Touch-And-Go footage | [NASA Scientific Visualization Studio](https://svs.gsfc.nasa.gov/31244) | Public domain |
+| Hayabusa2 touchdown video | [JAXA Hayabusa2 project](https://www.hayabusa2.jaxa.jp/en/) | Free for non-profit education with credit; unmodified |
+| Orbital photos of landers on the Moon (Lunokhod 1, Chang'e 3/4/6, Vikram crash site, Blue Ghost) | [LROC, Arizona State University](https://lroc.im-ldi.com) | Public domain (NASA/GSFC/ASU) |
+| Venera 9, 10 and 13 surface images | [NASA NSSDCA](https://nssdc.gsfc.nasa.gov/imgcat/) | Soviet mission data (USSR Academy of Sciences / IKI), shown for education |
+| Huygens on Titan | [NASA Photojournal](https://science.nasa.gov/photojournal/) | ESA/NASA/JPL/University of Arizona, credit required |
+| Philae on comet 67P | [ESA](https://www.esa.int/Science_Exploration/Space_Science/Rosetta) | ESA Standard Licence (education with credit) |
+| Other landing videos (Apollo 11 16 mm film, Chang'e, SLIM, Zhurong, Blue Ghost, Odysseus and more) | Official uploads on YouTube (NASA, NASA JPL, Firefly Aerospace, JAXA, The Planetary Society, SciNews), embedded, not copied | The uploader's terms |
+| 360° panoramas of Mars (Perseverance, Curiosity, Spirit, Opportunity, Pathfinder) | [NASA Photojournal](https://science.nasa.gov/photojournal/) · [Mastcam-Z, ASU](https://mastcamz.asu.edu) | Public domain (NASA/JPL-Caltech/ASU/MSSS, NASA/JPL/Cornell) |
+| 360° panoramas of the Moon (Apollo 11, 12, 17) | [NASA JSC via NASA Image Library](https://images.nasa.gov/details/jsc2007e045375) | Public domain |
+| Chang'e 4 far-side panorama | [IAU iau1901a](https://iauarchive.eso.org/public/images/detail/iau1901a/) | CNSA, CC BY 4.0 as published by the IAU |
+| 360° videos | NASA JPL's official 360° uploads on YouTube | The uploader's terms |
+
+The panoramas are real mosaics with uneven edges. To use them in a 360° viewer the site trims rows that are mostly empty and softly fills the remaining empty corners with the neighbouring sky or ground colour; nothing in the picture itself is changed.
+
+## Spacecraft 3D models and photos
+
+| What | Where it comes from | Licence |
+|---|---|---|
+| 3D models of JWST, Hubble, ISS, Voyager, Parker Solar Probe, Juno, Cassini, Galileo, MRO, MAVEN, Dawn, OSIRIS-REx, Perseverance, Curiosity | [NASA Eyes on the Solar System](https://eyes.nasa.gov/apps/solar-system/) and [NASA Science 3D resources](https://science.nasa.gov/3d-resources/) | NASA media guidelines (not copyrighted; credit NASA) |
+| Ingenuity and Apollo Lunar Module models | [NASA Science 3D resources](https://science.nasa.gov/3d-resources/) | As above |
+| Real photos of each spacecraft (clean rooms, launches, selfies on Mars) | [NASA Image and Video Library](https://images.nasa.gov) | Public domain; credits shown with each photo |
+| Vikram and Pragyan photos | [ISRO](https://www.isro.gov.in/chandrayaan3_gallery.html) | Free reuse with credit to ISRO; ISRO has not published a 3D model |
+
+The models were compressed (meshoptimizer geometry, WebP textures) so they load quickly on a headset; shapes and textures are NASA's own.
