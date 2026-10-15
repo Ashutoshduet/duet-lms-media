@@ -1,0 +1,459 @@
+# Original Space Imagery and 3D Sources for the Solar System Site and Meta Quest VR
+
+Checked on 15 Oct 2026. Each entry is tagged with how far it was checked:
+
+- **[V]** Verified. The page was opened, and the formats, sizes and licence were read from it, or the files were listed through the site's API.
+- **[P]** Partly verified. The page is live, but some details (resolution, terms) could not be confirmed.
+- **[U]** Not verified. The site could not be reached from here, or the claim rests on secondary sources.
+
+These sources are not mirrors or fan re-uploads. Each one is the agency's own archive, or a named author's original work built from mission data.
+
+---
+
+## 0. Licence cheat-sheet (read first)
+
+Duet STEM / AIVAN360 is a commercial education business, so the licence matters.
+
+| Source | Licence | Commercial use? | What you must do |
+|---|---|---|---|
+| NASA (science.nasa.gov, SVS, JPL, images.nasa.gov) | Generally not copyrighted in the US | Yes, but no implied endorsement | Credit "NASA" (plus the stated credit line, e.g. NASA/JPL-Caltech/MSSS). Don't use the NASA logo ("meatball") without approval. Third-party-credited items are excluded. |
+| ESA/Hubble (esahubble.org), ESA/Webb (esawebb.org) | CC BY 4.0 | Yes, no endorsement | Keep the credit visible. On YouTube, burn the credit into the video. |
+| ESO (eso.org) | CC BY 4.0 (logo excluded) | Yes, no endorsement | Keep the credit visible. Note any edits and disclose any AI modification. |
+| ESA main site (esa.int) | Free for educational, editorial or informational use with "©ESA". Some items are CC BY-SA 3.0 IGO. | **No** for entertainment, ads or merchandise without written ESA permission | Credit "©ESA" (or the stated credit). Prefer the items that carry CC BY-SA 3.0 IGO. |
+| ESA Gaia images (sci.esa.int) | CC BY-SA 3.0 IGO | Yes (share-alike) | Credit "ESA/Gaia/DPAC" plus the acknowledgement on the page |
+| Gaia **archive data** (gea.esac.esa.int) | **CC BY-NC 3.0 IGO** | **No**, unless you follow ESA's archive terms | Use NASA SVS Deep Star Maps or HYG for the star field instead |
+| ISRO (isro.gov.in) | Free reproduction "in any format or media" without permission | Not addressed | Reproduce accurately, never derogatory or misleading, and credit ISRO. Third-party items are excluded. |
+| USGS Astrogeology | Public domain (per the dataset metadata) | Yes | Credit is courteous |
+| Solar System Scope textures | CC BY 4.0 ("any purpose, even commercially") | Yes | Credit "Solar System Scope" |
+| HYG star database | CC BY-SA 4.0 | Yes (share-alike) | Credit astronexus.com/HYG. Derived star data stays CC BY-SA. |
+| Björn Jónsson maps | Free to use with credit, **but "please do not place a copy on your website"** | Ask him | Credit "created by Björn Jónsson". Ask permission before hosting them as web textures. |
+| Planet Pixel Emporium | **[U]** Could not be verified (site unreachable) | Assume no | Skip it, or buy a licence |
+
+---
+
+## 1. 3D models (planets, moons, spacecraft)
+
+### 1.1 NASA 3D Resources [V]
+- **URL:** https://science.nasa.gov/3d-resources/ (the old nasa3d.arc.nasa.gov now redirects here)
+- **Offers:** A catalogue of mission models, 3D-print files and textures. The Planet, Lunar, Mars, Satellite and Rocket collections cover asteroids, Apollo landing sites, spacecraft and rockets.
+- **Formats:** The site's format filter lists 3ds, blender, fbx, glb, jpg, lwo, max, maya, openvsp, stl and tif.
+- **Licence:** The page says "All of these assets are free to download and use", subject to the NASA Images & Media Usage Guidelines (https://www.nasa.gov/nasa-brand-center/images-and-media/).
+- **Use:** Search a mission, take the GLB, and load it with three.js `GLTFLoader`.
+
+### 1.2 NASA VTAD planet, moon and spacecraft models (GLB + USDZ) [V]
+These are individual NASA Science pages. Each has a GLB (for web and WebXR) and a USDZ (for iOS AR). The credit line is "NASA Visualization Technology Applications and Development (VTAD)". All the URLs below returned HTTP 200 with GLB/USDZ links on 15 Oct 2026.
+
+- **Planets:** `https://science.nasa.gov/resource/{mercury|venus|jupiter|saturn|uranus|neptune|pluto}-3d-model/`
+  - Mars is at https://science.nasa.gov/resource/planet-mars-3d-model/
+  - Example sizes: Jupiter GLB 11.5 MB, Saturn GLB 5.5 MB, Uranus GLB 0.17 MB
+- **Earth and Moon:** No landing page was found. The direct GLB assets do exist:
+  - https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/e/Earth_1_12756.glb
+  - https://assets.science.nasa.gov/content/dam/science/psd/solar/2023/09/m/Moon_1_3474.glb
+  - For a better Moon, see 1.4.
+- **Moons and small bodies:** `https://science.nasa.gov/resource/{europa|io|ganymede|callisto|titan|enceladus|charon|ceres|vesta|bennu}-3d-model/`
+  - No pages were found for the Sun, Phobos or Deimos.
+- **Spacecraft:** `https://science.nasa.gov/resource/{voyager|hubble-space-telescope|cassini|juno|curiosity|new-horizons|parker-solar-probe|europa-clipper|international-space-station|osiris-rex|mars-reconnaissance-orbiter|insight-lander|mars-ingenuity-helicopter}-3d-model/`
+  - Perseverance: https://science.nasa.gov/resource/mars-perseverance-rover-3d-model/ (GLB 11.15 MB, USDZ 12.7 MB)
+  - Example sizes: ISS GLB 44.5 MB, Hubble GLB 11.5 MB, Voyager GLB 3.1 MB
+- **JWST:** A 3D-print STL kit (ZIP, ~96 MB) is at https://science.nasa.gov/?p=894835. For a display GLB, use the GitHub repo (1.3).
+- **Licence:** NASA guidelines (see section 0).
+- **Use:** These are drop-in GLBs. The planet models are textured spheres, so for close-ups swap in the higher-resolution maps from section 2. Compress the ISS model (gltf-transform draco/meshopt) before shipping it to the Quest.
+
+### 1.3 GitHub: nasa/NASA-3D-Resources [V]
+- **URL:** https://github.com/nasa/NASA-3D-Resources
+- **Offers:** The full mirror of the catalogue.
+  - **3D Models:** 227 folders. Among them are the ISS (5 variants, including "High Res" and "Internal"), JWST (A/B), Hubble (A/B), Voyager (A/B), Cassini, Juno, Curiosity, Perseverance (GLB + .blend), Ingenuity, LRO, MAVEN, MRO, Spirit/Opportunity, the Apollo Lunar Module, Saturn V and more.
+  - **Images and Textures:** 48 folders, each with a JPG and a TIF. Planets: Earth A/B, Mars, Moon, Venus, Jupiter, Saturn, Neptune, Pluto. Moons: Io, Europa, Ganymede, Callisto, Titan, Enceladus, Mimas, Rhea, Dione, Tethys, Iapetus, Ariel, Miranda, Oberon, Titania, Umbriel, Triton, Charon, Phobos, Deimos. Star maps: **Hipparcos, Tycho and Yale Bright Star**.
+  - **3D Printing:** 106 folders.
+- **Formats:** Counted across the repo: 342 STL, 257 GLB, 49 TIF, 13 .blend, 29 .7z archives.
+- **Status:** The last commit was 3 Jun 2025 and the repo is not archived.
+- **Licence:** The README calls the assets "free and without copyright" and points to the NASA guidelines.
+- **Use:** The repo is very large. Use `git clone --filter=blob:none --sparse` and then a `sparse-checkout` of only the folders you need, or download single files from the GitHub web UI.
+
+### 1.4 NASA SVS "Moon 3D Models for Web, AR, and Animation" [V]
+- **URL:** https://svs.gsfc.nasa.gov/14959 (released 29 Jan 2026)
+- **Offers:** LRO-based Moon models: `moon.glb`, `moon_small.glb`, `Moon_NASA_LRO_8k_Topo(.glb/_Small.glb)`, `Moon_NASA_LRO_15k_Grid(.glb/.usdz)`, and `Moon_NASA_LRO_23k_Topo/Flat.usdz`.
+- **Licence:** NASA. Credit "NASA's Scientific Visualization Studio".
+- **Use:** This is the best ready-made Moon for WebXR. Use the `_Small` GLB on Quest.
+
+### 1.5 ESO 3D models [P]
+- **URL:** https://www.eso.org/public/products/models3d/ (15 items)
+- **Offers:** Telescopes and observatories, not planets.
+- **Licence:** CC BY 4.0.
+- **Use:** An optional "observatories of the world" corner.
+
+### 1.6 NASA Trek portals (Moon, Mars and other bodies) [P]
+- **URL:** https://trek.nasa.gov/moon/ and https://trek.nasa.gov/mars/ (both live)
+- **Offers:** Browser GIS of mission mosaics and elevation. A 2015 NASA release said users can export terrain for 3D printing; that export was not re-checked here.
+- **Use:** Cutting high-resolution terrain patches, for example a landing-site diorama.
+
+---
+
+## 2. Textures, maps and global mosaics (equirectangular)
+
+### 2.1 NASA SVS: CGI Moon Kit [V]
+- **URL:** https://svs.gsfc.nasa.gov/4720
+- **Colour maps:**
+  - 2025 version: float16 EXR (943 MB), 16-bit sRGB TIFFs at 4K (4096×2048), 8K (8192×4096) and 16K (16384×8192), plus a 2K JPG.
+  - 2019 version: 24-bit TIFFs up to 27360×13680.
+- **Displacement maps:** TIFFs at 4, 16 and 64 px/deg (1440×720, 5760×2880, 23040×11520).
+  - Float TIFF values are in km relative to a 1737.4 km radius.
+  - The uint16 version is in half-metres with a +20,000 offset.
+- **Licence:** NASA. Credit "NASA's Scientific Visualization Studio". The maps are "optimized for aesthetics, not science".
+- **Use:** Use the 4K or 8K colour map plus the 4 ppd displacement map on a three.js `SphereGeometry` (`displacementMap`). Convert to KTX2 or JPG for the Quest.
+
+### 2.2 Solar System Scope textures [V]
+- **URL:** https://www.solarsystemscope.com/textures/
+- **Offers:**
+  - Sun, Mercury, Venus (surface and atmosphere), Earth (day, night, clouds, normal, specular), Moon, Mars, Jupiter, Saturn, Saturn ring (alpha PNG), Uranus and Neptune.
+  - **Stars** and **Stars + Milky Way** sky maps.
+  - "Fictional" Ceres, Haumea, Makemake and Eris.
+- **Formats:** Mostly 2K and 8K JPG (Venus atmosphere and the dwarf planets go up to 4K). Uranus and Neptune are 2K only. The Earth normal and specular maps are TIF.
+- **Licence:** CC BY 4.0. The page says "use, adapt, and share these textures for any purpose, even commercially".
+- **Caveat:** These are not raw originals. They are built from NASA data, but unmapped gaps are filled with **fictional terrain** and the colours are deliberately **more saturated**.
+- **Use:** The quickest consistent set for the whole system. The 8K stars + Milky Way JPG makes an easy skybox.
+
+### 2.3 USGS Astrogeology: Astropedia global mosaics [V]
+- **URL:** https://astrogeology.usgs.gov/search
+- **Examples:**
+  - Mars Viking Colorized Global Mosaic 232 m (256 px/deg, **12 GB** download): https://astrogeology.usgs.gov/search/map/mars_viking_colorized_global_mosaic_232m
+  - Moon LRO LROC WAC Global Morphology Mosaic 100 m (**5.5 GB**): https://astrogeology.usgs.gov/search/map/moon_lro_lroc_wac_global_morphology_mosaic_100m
+  - The site also offers collections for Jupiter Voyager/Galileo, Mercury MESSENGER, Venus Magellan and Moon Kaguya TC.
+- **Formats:** Mostly GeoTIFF or ISIS cubes, simple-cylindrical (equirectangular) projection.
+- **Licence:** The metadata says **"Access Constraints: public domain; Use Constraints: None"**.
+- **Use:** The source of truth for science-grade maps. Downsample in GDAL to 8K or 16K, then tile.
+
+### 2.4 Björn Jónsson planetary maps [V]
+- **URL:** https://bjj.mmedia.is/data/planetary_maps.html
+- **Offers:** Hand-processed true-colour maps from raw Voyager, Galileo and Cassini data in the PDS:
+  - Venus
+  - Jupiter (Cassini 2000, Voyager 1, and Voyager 2, including a 2026 release)
+  - Io (plus a largely fictional DEM), Europa, Ganymede, Callisto
+  - Saturn (original 9000×4500; the web copy is 2880×1440)
+  - Saturn's rings, Rhea, Neptune
+- **Terms:** The maps are free to use without permission if you credit "created by Björn Jónsson". However, he asks people **not to place copies on their website**, because he updates them.
+- **Use:** These are the most faithful Jupiter and Saturn colours. **Email him for permission** before hosting them as WebXR textures, or use them only in rendered videos or images.
+
+### 2.5 NASA Blue Marble (Earth) [P]
+- **URL:** https://science.nasa.gov/earth/earth-observatory/collections/blue-marble/ (the old Visible Earth URL redirects here)
+- **Offers:** NASA's monthly true-colour Earth mosaics, at up to 86400×43200 historically.
+- **Licence:** NASA.
+- **Use:** The Earth day map. Pair it with the Solar System Scope night, cloud and specular maps.
+
+### 2.6 Planet Pixel Emporium [U]
+- **URL:** https://planetpixelemporium.com/planets.html
+- **Status:** The site was unreachable from here (DNS and proxy errors).
+- **Terms:** Secondary sources only say "mostly free… read the copyright info". The terms could not be confirmed, so treat it as **non-commercial unless purchased**.
+- **Use:** Prefer 2.1–2.5 instead.
+
+---
+
+## 3. 360° photos (panoramas)
+
+### 3.1 Mars: Perseverance Mastcam-Z 360° Panorama Collection [V]
+- **URL:** https://mastcamz.asu.edu/mastcam-zs-360-panorama-collection/ (updated 18 Sep 2026)
+- **Offers:** **56** full-azimuth panoramas from sols 0 to 1968, as JPEG, PNG and TIFF at full camera resolution. Some files are several GB.
+- **Projection:** Simple cylindrical, with north in the centre. Elevation typically runs **−70° to +10°**, so these are **partial, not full 360×180**. Only a subset covers all the ground out to the horizon.
+- **Terms:** "Available for public or scientific community use without the need for explicit permission." Credit "NASA/JPL-Caltech/ASU/MSSS" and, if possible, cite their LPSC abstract.
+- **Use:** Map onto a sphere with a computed `thetaStart` and `thetaLength`, and fill the zenith with a sky gradient.
+
+### 3.2 Mars: individual Perseverance 360° panoramas on NASA Science [V]
+- **First 360 (Sol 3):** https://science.nasa.gov/resource/mastcam-zs-first-360-degree-panorama/
+  - JPEG, 51.8 MB, about 36952×11570.
+- **Van Zyl Overlook:** https://science.nasa.gov/resource/mastcam-zs-360-degree-view-of-van-zyl-overlook
+  - PIA24663 PNG, 23265×5165, 149 MB (from a 2.4-gigapixel original).
+  - Rover parts were patched, and the sky was "digitally smoothed and expanded".
+- **Credit:** NASA/JPL-Caltech/ASU/MSSS. Both are partial vertical coverage.
+
+### 3.3 Mars: DLR Jezero interactive map with panoramic viewpoints [V]
+- **URL:** https://maps.planet.fu-berlin.de/jezero/
+- **Offers:** A browser map with clickable panoramic views. ASU says it works in the Quest browser.
+- **Note:** The older Quest stereo viewer at `mars-2020-stereo.glitch.me` is **dead** (HTTP 410).
+- **Use:** A reference, or a link-out.
+
+### 3.4 Moon: Apollo landing-site 360° panoramas (USGS) [V]
+- **URL:** https://astrogeology.usgs.gov/search/map/moon-apollo-landing-panoramas
+- **Offers:** Panoramas for Apollo 11, 12, 14, 15, 16 and 17, built by a USGS team from the astronauts' Hasselblad frames. Example: Apollo 17 Station 6 (`AP17_6.jpg`).
+- **Coverage:** **Horizontal strips (360° wide, narrow vertical band)**, not full spheres.
+- **Resolution:** The downloads are small (Station 6 is about 0.5 MB).
+- **Licence:** A US Government work. The page doesn't state a licence; public domain is expected.
+- **Use:** Wrap onto a cylinder inside a starfield sphere with a grey ground plane.
+
+### 3.5 Moon: Apollo Lunar Surface Journal (ALSJ) [P]
+- **URL:** https://apollojournals.org/alsj/main.html. The image libraries are at https://apollojournals.org/alsj/picture.html (Apollo 9–17).
+- **Offers:** All the surface photos, including high-resolution scans, plus the journal's own assembled pans. Some of those pans are still at nasa.gov/history/alsj/…, for example https://www.nasa.gov/history/alsj/a15/a15pan1480225.html.
+- **Terms:** The photos are NASA. The site itself is "© Eric M. Jones". Volunteer-assembled pans may carry the assembler's credit, so check each one.
+- **Not found:** A single "panoramas index" page on the new domain.
+
+### 3.6 Moon: NASA JSC "Panoramas of Apollo sites" [V]
+- **Where:** NASA Image Library (images.nasa.gov), search "Panoramas of Apollo sites". Examples: `jsc2007e045375`, `jsc2007e045377`, `jsc2008e040725`.
+- **Offers:** JSC-assembled panoramas from Apollo 11 and 14 frames. These are partial panoramas.
+
+### 3.7 Earth and sky: ESO 360° panoramas [V]
+- **URL:** https://www.eso.org/public/images/archive/category/360pano/ (**459** items)
+- **True 360×180 example:** "Rare 360-degree panorama of the southern sky", https://www.eso.org/public/images/vlt-mw-potw-cc-extended/
+  - 15204×7602, **FOV 360°×180°**.
+  - TIFF 101.7 MB; 10K and 4K TIFF and JPEG versions.
+  - Credit ESO/H.H. Heyer.
+- **Partial example:** "360 degree Paranal panorama", https://www.eso.org/public/images/pano360-paranal-2/
+  - 16733×4634, **FOV 360°×99.7°**. Credit ESO/S. Brunier.
+- **Licence:** CC BY 4.0.
+- **Use:** Real night-sky domes from the Atacama. Check the "Field of View" line on each page to pick the 360×180 ones.
+
+### 3.8 Milky Way: ESO "The Milky Way panorama" (GigaGalaxy Zoom) [V]
+- **URL:** https://www.eso.org/public/images/eso0932a/
+- **Offers:** The whole sky with the galactic plane horizontal, at a 2:1 aspect.
+- **Projection:** The page doesn't name it; the thumbnail looks equirectangular in galactic coordinates.
+- **Resolution:** 6000×3000. The 800-megapixel original is not public (copyright S. Brunier).
+- **Licence:** CC BY 4.0. Credit ESO/S. Brunier.
+- **Use:** A photographic Milky Way skybox. To align it with celestial coordinates, rotate it by the galactic-to-equatorial transform.
+
+### 3.9 ISS interior: ESA "International Space Station panoramic tour" [V]
+- **URL:** https://www.esa.int/Our_Activities/Human_Spaceflight/International_Space_Station/Highlights/International_Space_Station_panoramic_tour
+- **Offers:** An interactive 360° of each module (Cupola/Node-3, Zvezda, Zarya, Unity, Destiny and more), stitched from astronaut photos taken in June 2015.
+- **Licence:** ESA standard terms (educational use OK with ©ESA; **commercial use needs permission**).
+- **Use:** Link-out. Ask ESA before re-hosting the stitched panoramas.
+
+### 3.10 Earth from the ISS: NASA "Gateway to Astronaut Photography of Earth" [V]
+- **URL:** https://eol.jsc.nasa.gov/
+- **Offers:** Every crew Earth-observation photo, searchable, with the latest ISS imagery. These are **not 360°**.
+- **Licence:** NASA.
+- **Use:** "Earth from the ISS" galleries and window views.
+
+---
+
+## 4. 360° and fulldome videos (downloadable masters)
+
+### 4.1 NASA SVS 360 & VR gallery [V]
+- **URL:** https://svs.gsfc.nasa.gov/gallery/360and-vrgallery/. Each entry also has JSON at `https://svs.gsfc.nasa.gov/api/<id>`.
+
+| ID | Title | Best equirect file |
+|---|---|---|
+| 14576 | NASA Black Hole Visualization: plunge and orbit 360 | MP4 **8192×4096**, also 4096×2048 and 2160×1080. Frame sets in rectangular (8K) and Mollweide projections. |
+| 14720 | COBE All-Sky Map 360 Video with Narration | MP4 **8192×4096** |
+| 13856 | A Web Around Asteroid Bennu (360) | MP4 **8000×4000** ("360_Small"), plus a 2000×1000 preview |
+| 13733 | Sample Asteroid Bennu in 360 | MP4 2000×1000 |
+| 13091 | JWST in 360 at Johnson Space Center | MP4 3840×1920 |
+| 13060 | 360° Virtual Tour of Hubble Mission Operations | MP4/WebM 3840×1920 |
+| 14472 | 360 Video of Webb at Goddard | 720p only |
+
+- **Licence:** NASA. Credit "NASA's Scientific Visualization Studio" or the credit given on the page.
+- **Use:** Self-host 4K versions for the Quest browser; 8K needs H.265/AV1 (see 6.6). These are true 2:1 full-sphere videos.
+
+### 4.2 NASA SVS fulldome / dome versions [V]
+- **URL:** https://svs.gsfc.nasa.gov/40431 (Fulldome Gallery)
+- **Examples:**
+  - 14657 Journey into the Orion Nebula (dome, 4096×4096 frames)
+  - 14655 Globular Star Cluster Exploration
+  - 14656 Galaxy Collision Simulation
+  - 14598 Cruising the Cosmic Web
+  - 5644 The Moon Passes Through Earth's Magnetotail
+- **Format:** Domemaster, a 180° fisheye, which is **not** a 360 equirect.
+- **Use:** For a planetarium or dome mode only, or reproject to a 180° hemisphere in WebXR.
+
+### 4.3 NASA Image and Video Library: 360 videos [V]
+- **URL:** https://images.nasa.gov/. API: `https://images-api.nasa.gov/search?q=360&media_type=video` (40 hits on 15 Oct 2026).
+- **Notable:**
+  - `JPL-20240329-MSLf-0001-Curiosity_Reaches_Gediz_Vallis_Channel_360_8k` (**8K**)
+  - `JPL-20240717-MSLf-0001-Curiosity_Explores_Gediz_Vallis_360_View_8k`
+  - Perseverance First 360 View of Mars
+  - Bennu in 360
+  - Artemis I 360 time-lapses (KSC)
+- **Formats:** Files are listed at `https://images-api.nasa.gov/asset/<nasa_id>`: `~orig.mp4`, `~large`, `~medium`, `~small`, plus SRT captions.
+- **Licence:** NASA.
+- **Use:** Download `~orig.mp4` and transcode to 4K H.264 and 8K H.265 for the Quest.
+- **Note:** The CDN (images-assets.nasa.gov) did not resolve from this sandbox, so the actual pixel sizes of these files weren't confirmed. The "8k" label comes from the NASA ID.
+
+### 4.4 NASA JPL Curiosity 360 MP4 on NASA Science [V]
+- **URL:** https://science.nasa.gov/resource/nasas-curiosity-mars-rover-departs-vera-rubin-ridge-360-view/
+- **Offers:** An MP4 download (2160p, 395 MB) plus the YouTube version. Credit NASA/JPL-Caltech/MSSS.
+
+### 4.5 ESA 360 videos [V]
+- **URL:** https://www.esa.int/esatv/Keywords/Description/360 (30 videos)
+- **Examples:** The Cosmic Kiss 360 series, the Space Station 360 modules, BepiColombo VR flyby and Lunar rover driving in VR.
+- **Formats:** Each page has an MP4 download (`download/public/videos/…`). YouTube links are in section 5.
+- **Licence:** ESA standard terms. Educational use is OK with "©ESA"; **commercial use needs written permission**.
+
+### 4.6 ESO fulldome and VR [V]
+- **Fulldome videos:** https://www.eso.org/public/videos/archive/category/fulldome/ (**604** items)
+  - Full shows, e.g. "From Earth to the Universe", https://www.eso.org/public/videos/eso-fettu/
+  - That show runs 31 min 40 s: 4K domemaster 357.6 GB, 2K 116.4 GB, preview 6.7 GB.
+  - Short clips, e.g. "Sun 360 Panorama", https://eso.org/public/videos/fettu-sun360 (4K master 2.0 GB)
+- **Fulldome stills:** https://www.eso.org/public/images/archive/category/fulldome/ (187 items)
+- **VR video:** "Virtual Reality tour of ALMA and the VLT", https://eso.org/public/videos/HITS_ALMA_Paranal_clean
+  - 7 min 23 s, **4K cylindrical** VR master, a 43.9 GB ZIP. Cylindrical means **not** a full sphere.
+- **Virtual tours with a VR mode:** https://eso.org/public/products/virtualtours/paranal-vr
+- **Licence:** CC BY 4.0. ESO Supernova planetarium shows are CC BY 4.0 **or** CC BY-ND, so check each one.
+
+### 4.7 ESA/Hubble fulldome [V]
+- **URL:** https://esahubble.org/videos/archive/category/fulldome/ (**50** items)
+- **Examples:** Bubble Nebula for fulldome (4K master 15.5 GB), Orion Nebula infrared flight (dome), Ring Nebula fly-around, Cosmic Reef.
+- **Licence:** CC BY 4.0.
+- **Note:** A fulldome category on esawebb.org returned 404 **[U]**.
+
+---
+
+## 5. Verified official 360° YouTube videos
+
+Titles and channels were confirmed through YouTube oEmbed on 15 Oct 2026. On the Quest, open these in the YouTube VR app. They cannot be used as WebXR textures inside your own page; for in-site playback, self-host the MP4 from section 4.
+
+| Channel | Title | Link |
+|---|---|---|
+| NASA JPL | NASA'S Perseverance Rover's First 360 View of Mars (Official) | https://www.youtube.com/watch?v=wE-aQO9XD1g |
+| NASA JPL | NASA's Curiosity Mars Rover at Namib Dune (360 view) | https://www.youtube.com/watch?v=ME_T4B1rxCg |
+| NASA JPL | NASA's Curiosity Mars Rover Departs Vera Rubin Ridge (360 View) | https://www.youtube.com/watch?v=e-gZpz8zuDQ |
+| NASA JPL | Explore Mars' Gediz Vallis Channel With NASA's Curiosity Rover (360 View) | https://www.youtube.com/watch?v=XPmVS-ARNPM |
+| NASA Goddard | 360 Video: NASA Simulation Plunges Into a Black Hole | https://www.youtube.com/watch?v=crXGmeWFb9o |
+| NASA Goddard | 360 Video: NASA Simulation Shows a Flight Around a Black Hole | https://www.youtube.com/watch?v=dGEIsnBRWGs |
+| NASA Goddard | Take a 360 Tour of COBE's Cosmic Baby Picture | https://www.youtube.com/watch?v=ef3QboVd83Y |
+| NASA Goddard | A Web Around Asteroid Bennu in 360° | https://www.youtube.com/watch?v=v-9P04Nvdbk |
+| NASA Goddard | Sample Asteroid Bennu in 360 | https://www.youtube.com/watch?v=KGdooPr8XfI |
+| ESA | Floating through the Space Station in 360 | https://www.youtube.com/watch?v=YwDeib8Fd3c |
+| ESA | Columbus module, Space Station 360 (French, English subtitles) | https://www.youtube.com/watch?v=yhGv02tFA5k |
+| ESA | Space science in 360°, Cosmic Kiss | https://www.youtube.com/watch?v=Hrg4yxhH0OM |
+| ESA | Zoom past Earth with BepiColombo in virtual reality simulation | https://www.youtube.com/watch?v=CYEmNxsVq0c |
+| ESA | Lunar rover driving in VR | https://www.youtube.com/watch?v=KaSEJkd55WM |
+
+No ESO 360 video on YouTube could be verified. ESO publishes its VR and fulldome masters for download on eso.org instead (see 4.6).
+
+---
+
+## 6. Star, galaxy and exoplanet data
+
+### 6.1 NASA SVS Deep Star Maps 2020 [V]
+- **URL:** https://svs.gsfc.nasa.gov/4851
+- **Offers:** Star maps built from **about 1.7 billion stars** (Hipparcos-2, Tycho-2 and Gaia DR2), with separate Milky Way and bright-star layers. Also included: constellation figures and the IAU boundaries, and a celestial grid.
+- **Formats:** Half-float **OpenEXR**, plate carrée (equirectangular), in **celestial (ICRF/J2000)** or **galactic** coordinates. Sizes: 4K 4096×2048, 8K, 16K, 32K and 64K 65536×32768. The grid and figures are grayscale TIFF.
+- **Licence:** NASA. Credit "NASA/Goddard Space Flight Center Scientific Visualization Studio" plus "Gaia DR2: ESA/Gaia/DPAC". The constellation figures are based on Sky & Telescope (A. MacRobert) and are not official.
+- **Use:** **The best real sky background.** Tone-map the 8K EXR to JPG or KTX2. Because it is in celestial coordinates, the RA/Dec of real stars line up when it is mapped inside a sphere.
+
+### 6.2 NASA SVS Deep Star Maps (2012) [V]
+- **URL:** https://svs.gsfc.nasa.gov/3895
+- **Offers:** About 100 million stars (BSC, Tycho-2, UCAC3).
+- **Formats:** **JPG/TIF** at 4K, 8K and 16K in celestial and galactic coordinates, plus constellation overlays.
+- **Use:** An easier format for the web than EXR.
+
+### 6.3 ESA Gaia all-sky maps (equirectangular) [V]
+- **DR2 "Gaia's sky in colour", equirectangular:** https://sci.esa.int/web/gaia/-/60196-gaia-s-sky-in-colour-equirectangular-projection
+  - PNG at 1000×500, 2000×1000, 4000×2000, and **40000×20000 (890 MB)**.
+  - The page also links a 360° JPG (8192×4096), but that link returned **404** on 15 Oct 2026.
+- **EDR3 "Colour of the sky", equirectangular:** https://sci.esa.int/web/gaia/-/the-colour-of-the-sky-from-gaia-s-early-data-release-3-equirectangular-projection
+  - PNG at 2000×1000, 4000×2000, and **16000×8000 (236 MB)**.
+- **360° video:** https://sci.esa.int/web/gaia/-/60219-360-view-of-gaia-s-sky (MP4 4096×2048, 172.6 MB)
+- **Licence:** **CC BY-SA 3.0 IGO**. Credit "ESA/Gaia/DPAC; CC BY-SA 3.0 IGO. Acknowledgement: A. Moitinho" (EDR3).
+- **Use:** An "our galaxy as Gaia sees it" sphere, in galactic coordinates (Milky Way along the equator).
+
+### 6.4 Gaia archive (raw catalogue) [V]
+- **URL:** https://gea.esac.esa.int/archive/
+- **Licence:** **CC BY-NC 3.0 IGO** (https://www.cosmos.esa.int/web/gaia-users/license). That is non-commercial; commercial use goes through ESA's archive terms.
+- **Use:** Avoid it for a commercial product. Use HYG or the SVS maps instead.
+
+### 6.5 HYG Database v4.2 [V]
+- **URL:** https://www.astronexus.com/projects/hyg (mirror: https://codeberg.org/astronexus/hyg)
+- **Offers:** All stars from Hipparcos, Yale BSC5 and Gliese, about **120,000 stars**, in a 14 MB CSV. Fields include proper names, Bayer/Flamsteed IDs, RA/Dec, distance, magnitude, colour index and constellation.
+- **Licence:** **CC BY-SA 4.0** (older v3.7 is CC BY-SA 2.5).
+- **Use:** A real 3D star field: place stars at their actual x/y/z (in parsecs), colour them by B–V, and label the named stars. A related set, AT-HYG (Tycho-2 + Gaia distances, https://www.astronexus.com/projects/at-hyg), was not checked in detail **[P]**.
+
+### 6.6 Yale Bright Star Catalogue, 5th revised edition [P]
+- **URL:** https://cdsarc.cds.unistra.fr/viz-bin/cat/V/50 (CDS/VizieR V/50)
+- **Offers:** The roughly 9,110 naked-eye stars.
+- **Status:** The page is live, but its JavaScript-rendered licence field could not be read. It is also included inside HYG, and the NASA repo has a "Yale Bright Star Map" texture (1.3).
+- **Use:** A lightweight naked-eye sky (about 9k points).
+
+### 6.7 NASA Exoplanet Archive [V]
+- **URL:** https://exoplanetarchive.ipac.caltech.edu/
+- **Offers:** Confirmed planets: **6,445** on 15 Oct 2026 (`ps` table, `default_flag=1`). It also has host stars, Kepler/TESS data and more.
+- **API:** The TAP endpoint was tested and works:
+  `https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+pl_name,hostname,sy_dist,pl_rade,ra,dec+from+pscomppars&format=csv`
+- **Licence:** NASA public data. It requests its standard acknowledgement text in publications.
+- **Use:** Plot exoplanet hosts in the 3D star field and link each one to NASA Eyes on Exoplanets.
+
+### 6.8 Gaia Sky (ESA/ARI open-source app) [V]
+- **URL:** https://gaiasky.space/ (v3.8.0, released 23 Jul 2026, licence MPL 2.0)
+- **Offers:** A real-time desktop universe built on Gaia data, with **OpenXR VR** support. Its **360 mode renders equirectangular, cylindrical or Hammer frames**.
+- **Use:** Render your own 360° fly-through videos of the real star field. Quest needs Link or Air Link to a PC; it is not standalone. Check the data licence (Gaia NC) before commercial release.
+
+---
+
+## 7. Mission imagery archives (flat photos, as source material)
+
+| Source | URL | Notes |
+|---|---|---|
+| NASA Image and Video Library [V] | https://images.nasa.gov/ (API https://images-api.nasa.gov/) | Images, video and audio. Original-resolution files are listed per asset. NASA licence. |
+| NASA Photojournal [V] | https://science.nasa.gov/photojournal/ (the old photojournal.jpl.nasa.gov redirects here) | Planetary mission images and animations by PIA number. The credit line varies per image, e.g. NASA/JPL-Caltech/… |
+| ESA/Hubble images [V] | https://esahubble.org/images/ (Solar System category: https://esahubble.org/images/archive/category/solarsystem/) | CC BY 4.0, up to full-resolution TIFF |
+| ESA/Webb images [V] | https://esawebb.org/images/ | CC BY 4.0. On YouTube the credit must be burned in. |
+| ISRO Chandrayaan-3 gallery [V] | https://www.isro.gov.in/chandrayaan3_gallery.html | Lander and rover images (e.g. `Ch3_lander_Left.png`), journey images. Many are WebP web-size. |
+| ISRO Chandrayaan-2 OHRC images [P] | https://www.isro.gov.in/Chandrayaan2.html | Orbiter High Resolution Camera images. The page is live; image links are script-loaded and weren't counted. |
+| ISRO Mars Orbiter Mission (Mangalyaan) [V] | https://www.isro.gov.in/mission_Pictures_from_Mars_Colour_Camera.html and https://www.issdc.gov.in/mom_gallery.html | Mars Colour Camera images, including full-disc Mars |
+| ISRO Aditya-L1 gallery [V] | https://www.isro.gov.in/AdityaL1_gallery.html | Gallery, mission booklets and SUIT pages |
+| ISRO PRADAN science data [V] | https://pradan.issdc.gov.in/ (Ch-2: /ch2, Ch-3: /ch3; Aditya-L1: https://pradan1.issdc.gov.in/al1; also AstroSat, XPoSat) | Raw **PDS4** science data, e.g. Ch-2 TMC-2 DEMs and OHRC at about 30 cm. **Requires a free login (SSO).** The data-use terms sit behind the login **[U]**. |
+
+ISRO licence: https://www.isro.gov.in/Copyright_Policy.html. Material may be "reproduced free of charge in any format or media without requiring specific permission", if it is accurate, not used in a derogatory or misleading way, and the source is credited. Third-party material is excluded, and commercial use is not addressed. No official ISRO 360°, VR or 3D-model releases were found.
+
+---
+
+## 8. Apps and web experiences
+
+### 8.1 NASA's Eyes (real-time 3D in the browser) [V]
+
+| App | URL |
+|---|---|
+| Eyes on the Solar System | https://eyes.nasa.gov/apps/solar-system/ |
+| Eyes on Exoplanets | https://eyes.nasa.gov/apps/exo/ |
+| Eyes on Asteroids | https://eyes.nasa.gov/apps/asteroids/ |
+| Eyes on the Earth | https://eyes.nasa.gov/apps/earth/ |
+| Mars 2020 EDL | https://eyes.nasa.gov/apps/mars2020 |
+| Experience Curiosity | https://eyes.nasa.gov/curiosity/ |
+| DSN Now | https://eyes.nasa.gov/dsn/dsn.html |
+| Spacecraft AR (mobile AR) | https://science.nasa.gov/eyes/spacecraft-ar/ |
+
+- These need an internet connection; offline use is not supported.
+- No embedding permission is stated, and the Eyes hub page carries `allow_embed: false` metadata. No X-Frame-Options header was seen on the Solar System app.
+- **Use:** Link out ("Open in NASA Eyes") rather than iframe. Test in the Quest browser; these are not WebXR.
+
+### 8.2 Meta Quest store (verified listings) [V]
+
+| App | Store URL | Price | Publisher | Original NASA/ESA content? |
+|---|---|---|---|---|
+| **Mission: ISS** | https://www.meta.com/experiences/mission-iss/2094303753986147/ | Free | Magnopus (Oculus/Meta project) | NASA is the brand partner. It uses NASA video, imagery and authentic station models, with real astronaut clips and some ESA content. Quest 2, 3, 3S and Pro; released 12 Jul 2019. |
+| **Space Explorers: The ISS Experience (Legacy Edition)** | https://www.meta.com/experiences/space-explorers-legacy-edition/3006696236087408/ | Free | Felix & Paul Studios (with TIME Studios) | Real **3D 360° footage filmed aboard the ISS** with NASA astronauts. Not NASA-published. Quest 2, 3, 3S and Pro. |
+| Titans of Space PLUS | https://www.meta.com/experiences/titans-of-space-plus/2359857214088490/ | $9.99 | DrashVR LLC | An educational tour of the Solar System and stars. No NASA content is claimed. |
+| Apollo 11 VR | https://www.meta.com/experiences/apollo-11/2164469606967296/ | $9.99 | Immersive VR Education | A third-party recreation, not NASA-published |
+
+- No Quest app **published by NASA or ESA** was found. NASA's own interactive output is web (Eyes) and mobile AR.
+- In-headset, the official 360° content is the YouTube 360 videos (section 5) and the self-hosted MP4s in section 4.
+
+### 8.3 Quest Browser playback limits (for your own WebXR site) [V]
+- **Source:** https://developers.meta.com/horizon/documentation/web/browser-video/
+- **Codecs:** H.264, H.265, VP9 and AV1 up to 4K. **8K only for H.265 and AV1.**
+- **Hardware decode gaps:** AV1 is **not** hardware-decoded on Quest 2 or Pro.
+- **Display limits for 360 reprojection:** The page lists 3840×2160 on Quest and 7680×3840 on Quest 2.
+- **Recommendation:** Use **WebXR Media Layers** for immersive video, and play one video at a time.
+- **Practical:** Ship 4096×2048 H.264 as the default, with an 8K H.265 option for Quest 3.
+
+---
+
+## 9. Honest notes
+
+1. **There is no real photo of the Milky Way from outside.** Every face-on or "top-down" Milky Way image is an artist's concept, e.g. NASA/JPL-Caltech/R. Hurt, or ESO's https://www.eso.org/public/images/eso1339g/ (5600×5600, credit NASA/JPL-Caltech/ESO/R. Hurt). Chandra's FAQ puts it this way: "we can only show an artist's representation of what our Galaxy looks like from the outside" (https://chandra.cfa.harvard.edu/resources/faq/sources/milky_way/milky_way-1.html). The real data is the edge-on view from inside: the SVS Deep Star Maps, Gaia maps and ESO eso0932a. Label any top-down galaxy in the site as "Artist's concept".
+2. **True 360×180 (full sphere, 2:1 equirect), safe as VR skyboxes:**
+   - SVS Deep Star Maps 2012/2020 and the Gaia equirectangular maps
+   - ESO `vlt-mw-potw-cc-extended` (360°×180°) and ESO `eso0932a` (whole sky)
+   - Solar System Scope stars and Milky Way textures
+   - The SVS 360 videos (black hole, COBE, Bennu, JWST/Hubble tours) and the NASA JPL/ESA YouTube 360 videos. In the rover 360 videos, NASA fills or smooths gaps; e.g. the Van Zyl sky was "digitally smoothed and expanded".
+3. **Partial panoramas, not full spheres. Fill the sky and ground yourself:**
+   - The Mastcam-Z panoramas (360° azimuth, about −70° to +10° elevation)
+   - ESO `pano360-paranal-2` (360°×99.7°)
+   - The Apollo panoramas (360° horizontal strips)
+   - The ESO ALMA/VLT VR master (cylindrical)
+   - Fulldome masters (180° fisheye domemaster)
+4. **Planet "textures" are maps, not 360 photos.** They are equirectangular surface maps to wrap onto spheres. The Solar System Scope maps include fictional gap-fill and boosted saturation. Use the USGS or SVS maps where accuracy matters.
+5. **"Official" doesn't always mean free for commercial use.** Check section 0, especially ESA main-site media, the Gaia archive data (NC) and Björn Jónsson's no-rehost request.
+6. **Things not verified here:**
+   - Planet Pixel Emporium terms (site unreachable)
+   - The PRADAN data-use terms (behind a login)
+   - A fulldome category on esawebb.org (404)
+   - The Gaia 8K 360 JPG link (404)
+   - The pixel sizes of the NASA library 8K Curiosity MP4s (the CDN was blocked from this sandbox)
+   - The NASA Trek terrain-export feature

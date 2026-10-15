@@ -1,0 +1,61 @@
+SOLAR SYSTEM 360 AS A META QUEST APP (APK)
+========================================
+
+What you get
+  - "Solar System 360" with its own icon in the Quest Library (Unknown Sources)
+  - Opens like an app: no address bar, starts on the AR / VR page
+  - Works offline after the first launch (it saves itself in the headset, ~75 MB)
+  - Inside the app, choose "VR · Deep space" or "Mixed reality · Your room"
+    (controls: trigger = planet card, grip = move, stick = resize, A/X = speed, B/Y = recentre)
+
+How it works
+  Meta's official tool (Bubblewrap) wraps the website into an Android app that runs on
+  the Quest Browser engine, so WebXR VR works exactly as in the browser. That is why
+  the site must be online at an https:// address once: the app is linked to it.
+
+You need
+  - The site folder uploaded to https hosting (README.txt, route A)
+  - A Windows PC with internet, Node.js 18+ (https://nodejs.org)
+  - Quest with Developer Mode on (Meta Horizon app > Devices > Headset settings)
+  - To install: adb (Android Platform Tools) or SideQuest (https://sidequestvr.com)
+
+Steps
+  1. Upload the site folder (for example to https://duetpower.in/space/) and open it
+     once in a browser to check it works.
+  2. Double-click tools\build-quest-app.bat and type the site address when asked.
+  3. Let Bubblewrap download Java (JDK) and the Android tools the first time.
+  4. Answers to Bubblewrap's questions:
+       App mode ................ 2D   (the app opens as a window; the "VR headset"
+                                       button inside it starts the immersive view)
+       Application ID .......... in.duetpower.solarsystem  (any reverse-domain name;
+                                       never change it after the first install)
+       Display ................. standalone
+       Orientation ............. landscape
+       Horizon Billing ......... No
+       Signing key ............. let Bubblewrap create one
+     Keep the keystore file (android.keystore) and both passwords safe.
+     Every future update must be signed with the same key.
+  5. When the build finishes you get app-release-signed.apk.
+  6. Digital Asset Links (removes the browser bar):
+       If the folder has assetlinks.json, upload it to
+         https://YOUR-DOMAIN/.well-known/assetlinks.json
+       If not, run inside the app folder:
+         keytool -list -v -keystore android.keystore
+         bubblewrap fingerprint add <the SHA256 value>
+       and upload the assetlinks.json it creates.
+  7. Install on the Quest:
+       adb install -r app-release-signed.apk
+     or drag the APK onto SideQuest while the Quest is connected.
+  8. In the headset: Library > (filter) Unknown Sources > Solar System 360.
+     Open it once with Wi-Fi on, wait for "Saved on this device · works offline".
+
+Updating the app
+  Upload new site files: the app picks them up the next time it opens online.
+  A new APK is only needed if you change the name, icon or package.
+
+Other devices
+  Android phone app: the same steps with Google's Bubblewrap
+    (npm install -g @bubblewrap/cli, then bubblewrap init --manifest=...)
+    gives an APK / Play Store bundle.
+  iPhone: open the site in Safari > Share > "Add to Home Screen". It gets an icon
+    and works offline.
