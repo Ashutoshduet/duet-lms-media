@@ -2591,6 +2591,10 @@ const XR_BODIES=[
 const XR_SUN={id:"sun",name:"Sun",hi:"सूर्य",type:"Yellow dwarf star",c:"#ffb347",s:[["Diameter","1,392,700 km"],["Surface","5,500 °C"],["Age","4.6 billion yrs"],["Mass","99.86% of all"]]};
 const XR_MOON={id:"moon",name:"Moon",hi:"चंद्रमा",type:"Earth's satellite",c:"#cfd2d8",s:[["Diameter","3,475 km"],["From Earth","384,400 km"],["Orbit","27.3 days"],["Gravity","0.17 g"]]};
 
+/* the 2D Quest app has no WebXR: hand VR / MR over to the immersive apps (same site, ?app=vr) */
+function openXRApp(kind,go){const pkg="in.duetpower.solarsystem360."+(kind==="mr"?"mr":"vr");const q="?app="+kind+(go?"&go="+encodeURIComponent(go):"");
+  location.href="intent://"+location.host+location.pathname+q+"#Intent;scheme=https;package="+pkg+";end"}
+const XR_APP_HANDOFF=/OculusBrowser|Quest/i.test(navigator.userAgent)&&window.isSecureContext;
 function SaurXR(stage,menuEl,opt){
   opt=opt||{};
   const T=THREE,EMB=!!opt.embedded,RM=matchMedia("(prefers-reduced-motion: reduce)").matches,D2R=Math.PI/180;
@@ -2691,6 +2695,7 @@ function SaurXR(stage,menuEl,opt){
   const showRay=c=>(mode==="vr"||mode==="ar")&&c.userData.mode==="tracked-pointer";
   const grab={c:null,off:new T.Matrix4()},gm=new T.Matrix4(),gp=new T.Vector3(),gq=new T.Quaternion(),gs=new T.Vector3(),ge=new T.Euler(0,0,0,"YXZ");
   const ctrls=[0,1].map(i=>{const c=R.xr.getController(i);c.addEventListener("select",()=>onXRSelect(c));
+    c.addEventListener("selectstart",()=>{if(mode==="vr"&&SPACE&&SPACE.hold)SPACE.hold(c,true)});c.addEventListener("selectend",()=>{if(SPACE&&SPACE.hold)SPACE.hold(c,false)});
     c.addEventListener("squeezestart",()=>{if(!R.xr.isPresenting||!W.visible)return;W.updateMatrixWorld();c.updateMatrixWorld();grab.c=c;grab.off.copy(c.matrixWorld).invert().multiply(W.matrixWorld);hideHint()});
     c.addEventListener("squeezeend",()=>{if(grab.c===c)grab.c=null});
     const ln=new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(),new T.Vector3(0,0,-1)]),new T.LineBasicMaterial({color:0xffb347,transparent:true,opacity:.8}));ln.scale.z=4;ln.visible=false;c.add(ln);c.userData.ln=ln;
@@ -2775,11 +2780,12 @@ function SaurXR(stage,menuEl,opt){
     else if(m==="ar"){W.scale.setScalar(1);W.visible=false;placed=false}
   }
   let floorless=false,SPACE=null;
+  const VRGO=(()=>{try{return new URLSearchParams(location.search).get("go")||""}catch(e){return ""}})();
   function setMode(m){
     if(mode==="vr"&&m!=="vr"&&SPACE)SPACE.exit();
     mode=m;place(m);select(null);
     stars.visible=m==="preview"||m==="cardboard"||m==="vr";
-    if(m==="vr"&&typeof SpaceVR==="function"){try{SPACE=SPACE||SpaceVR({R,S,cam,ctrls,tex,LD});W.visible=false;stars.visible=false;SPACE.enter()}catch(e){console.error(e);SPACE=null;W.visible=true}}
+    if(m==="vr"&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD});W.visible=false;stars.visible=false;SPACE.enter(VRGO)}catch(e){console.error(e);SPACE=null;W.visible=true}}
     R.setClearColor(0x000000,(m==="camar"||m==="ar")?0:1);
     hint3.visible=false;grab.c=null;xrFrames=0;arT0=performance.now();padHelpXR=false;
     stage.classList.toggle("xr-full",m==="cardboard"||m==="camar");
@@ -2855,11 +2861,11 @@ function SaurXR(stage,menuEl,opt){
   const st={ar:"wait",vr:"wait",cardboard:"ok",camar:"wait"};
   function renderMenu(){
     if(!menuEl)return;
-    const lab={ok:"Ready",wait:"Checking…",no:"Not on this device",host:"Needs your website",https:"Needs https://"};
-    menuEl.innerHTML=MODES.map(m=>`<button type="button" class="xr-mode" data-mode="${m.id}" ${st[m.id]==="ok"?"":"disabled"}><b>${m.t}</b><span class="xr-st ${st[m.id]==="ok"?"ok":""}">${lab[st[m.id]]}</span><span class="d">${m.d}</span></button>`).join("")+
-      (QUEST?`<p class="xr-ctrls"><b>Deep space:</b> left stick fly · right stick turn, up/down · grip faster · trigger: a world's card and “Fly there” · A next world · B back to start · X speed of time · Y menu (orbits, names, spacecraft, real spacing)<br><b>Mixed reality:</b> trigger open a planet · grip move · thumbstick resize · A/X speed · B/Y bring it back · Meta button: exit</p>`:"");
+    const lab={ok:"Ready",wait:"Checking…",no:"Not on this device",host:"Needs your website",https:"Needs https://",app:"Opens the VR app",appmr:"Opens the MR app"};
+    menuEl.innerHTML=MODES.map(m=>{const s0=st[m.id],ok=s0==="ok"||s0==="app";return `<button type="button" class="xr-mode" data-mode="${m.id}" ${ok?"":"disabled"}><b>${m.t}</b><span class="xr-st ${ok?"ok":""}">${lab[s0==="app"&&m.id==="ar"?"appmr":s0]}</span><span class="d">${m.d}</span></button>`}).join("")+
+      (QUEST?`<p class="xr-ctrls"><b>VR Space Lab:</b> a lobby with the DUET STEM Solar System and Rocket Shala. Point and pull the trigger, or pinch with your fingers · left stick fly · right stick turn · hold the trigger on empty space to fly that way · B back · Y hand menu (lobby, narration English / हिंदी / off)<br><b>Mixed reality:</b> trigger open a planet · grip move · thumbstick resize · A/X speed · B/Y bring it back · Meta button: exit</p>`:"");
   }
-  if(menuEl)menuEl.addEventListener("click",e=>{const b=e.target.closest("[data-mode]");if(!b||b.disabled)return;const m=b.dataset.mode;if(m==="ar"||m==="vr")startXR(m,e.isTrusted);else enterLook(m)});
+  if(menuEl)menuEl.addEventListener("click",e=>{const b=e.target.closest("[data-mode]");if(!b||b.disabled)return;const m=b.dataset.mode;if(st[m]==="app"){openXRApp(m==="ar"?"mr":"vr");return}if(m==="ar"||m==="vr")startXR(m,e.isTrusted);else enterLook(m)});
   renderMenu();
   (async()=>{
     const secure=window.isSecureContext;
@@ -2869,6 +2875,7 @@ function SaurXR(stage,menuEl,opt){
     st.ar=ar?"ok":(EMB?"host":(!secure?"https":"no"));
     st.vr=vr?"ok":(EMB?"host":(!secure?"https":"no"));
     st.camar=EMB?"host":(!secure?"https":(cam?"ok":"no"));
+    if(QUEST&&!EMB&&secure){if(!vr)st.vr="app";if(!ar)st.ar="app"}
     renderMenu();if(opt.onStatus)opt.onStatus({...st});
   })();
 
@@ -2990,64 +2997,325 @@ function SaurXR(stage,menuEl,opt){
   };
 }
 
-/* ================= DEEP SPACE VR (life-size) =================
-   Built by SaurXR when a headset enters VR. The user floats inside a spread-out Solar System:
-   fly with the thumbsticks, point and pull the trigger at a world or spacecraft for its card
-   ("Fly there" travels to it), and use the menu on the left hand for orbits, names, spacecraft,
-   squeezed / real spacing, the speed of time and a tour. Planets sit where they really are today. */
-function SpaceVR(o){
-  const T=THREE,R=o.R,S=o.S,cam=o.cam,ctrls=o.ctrls,tex=o.tex,LD=o.LD,D2R=Math.PI/180;
+const NARR_IDS=["callisto","charon","craft-apollo-lm","craft-cassini","craft-chandrayaan-3","craft-curiosity","craft-dawn","craft-galileo","craft-hubble","craft-ingenuity","craft-iss","craft-juno","craft-jwst","craft-maven","craft-mro","craft-osiris-rex","craft-parker-solar-probe","craft-perseverance","craft-voyager","deimos","earth","enceladus","europa","ganymede","io","jupiter","mars","mercury","moon","mu-europe_ariane5","mu-india_chandrayaan3_lander","mu-india_gslv_mk2","mu-india_lvm3","mu-india_nisar","mu-india_pragyan_rover","mu-india_pslv","mu-india_pslv_g","mu-intl_apollo_soyuz","mu-intl_iss","mu-nz_electron","mu-usa_apollo11_cm","mu-usa_apollo_lm","mu-usa_atlas_mercury","mu-usa_atlas_v_551","mu-usa_crew_dragon","mu-usa_curiosity","mu-usa_delta_ii","mu-usa_gemini","mu-usa_hubble","mu-usa_jupiter_c_explorer1","mu-usa_jwst","mu-usa_mercury_redstone","mu-usa_orion_artemis2","mu-usa_perseverance","mu-usa_shuttle_discovery","mu-usa_sls","mu-usa_space_shuttle_stack","mu-ussr_sputnik1","neptune","oberon","orb-geo","orb-gto","orb-l1","orb-leo","orb-moon","orb-sso","pano-apollo11_tranquility_base","pano-artemis1_rollout_360","pano-delta4_parker_launch_360","pano-isro_gslv_f11_rollout","pano-isro_pslv_c42_launchpad","pano-isro_pslv_c44_launchpad","pano-mars_curiosity_sand_dune","pano-nasa_mission_control","pano-orion_artemis1_cabin","pano-shuttle_discovery_flightdeck","pano-shuttle_discovery_middeck","phobos","pluto","rhea","rk-ariane6","rk-aslv","rk-falcon9","rk-gslv","rk-h3","rk-hlvm3","rk-lm5","rk-lvm3","rk-newglenn","rk-pslv","rk-saturnv","rk-sls","rk-slv3","rk-soyuz","rk-sslv","saturn","sun","titan","titania","triton","ui-compare","ui-countdown","ui-rocket","ui-solar","ui-stars","ui-welcome","uranus","venus"];
+/* ================= DUET STEM SPACE LAB · VR HUB =================
+   One immersive session, many places. A lobby (DUET STEM logo, Solar System, Rocket Shala),
+   and scenes that each fill the whole headset: no web pages to scroll.
+   Shared toolkit: rig + movement, laser pointers that stop on what they hit, buttons that
+   light up, a menu on the left hand, info cards, spoken narration (English / Hindi / off). */
+function VRHub(o){
+  const T=THREE,R=o.R,S=o.S,cam=o.cam,ctrls=o.ctrls,D2R=Math.PI/180;
+  const H={T,R,S,cam,ctrls,tex:o.tex,LD:o.LD,D2R,scenes:{},scene:null};
+  const v1=new T.Vector3(),v2=new T.Vector3(),v3=new T.Vector3(),Yax=new T.Vector3(0,1,0);
+  const rig=new T.Group();S.add(rig);H.rig=rig;
+  const F={mono:'"IBM Plex Mono", ui-monospace, monospace',sans:'"IBM Plex Sans", system-ui, sans-serif',hi:'"IBM Plex Sans Devanagari", "Nirmala UI", sans-serif',disp:'"Big Shoulders Display", "Arial Narrow", Impact, sans-serif'};H.F=F;
+  const ORANGE="#ffb347",INK="#ece7da",DUST="#8a8ea6",PANEL="rgba(8,10,20,.92)";
+  H.cnv=(w,h)=>{const c=document.createElement("canvas");c.width=w;c.height=h;return c};
+  H.ctex=c=>{const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=4;return t};
+  const rr=H.rr=(g,x,y,w,h,r)=>{g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()};
+  H.wrap=(g,text,maxW)=>{const out=[];let line="";for(const w of String(text||"").split(/\s+/)){const t=line?line+" "+w:w;if(g.measureText(t).width>maxW&&line){out.push(line);line=w}else line=t}if(line)out.push(line);return out};
+  H.fmt=(x,d)=>Number(x).toLocaleString("en-IN",{maximumFractionDigits:d||0});
+  H.fit=(g,text,font,size,maxW,min)=>{let s=size;g.font=font.replace("$",s);while(g.measureText(text).width>maxW&&s>(min||14)){s-=2;g.font=font.replace("$",s)}return s};
+  const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+  /* ---------- narration (pre-recorded, works offline) ---------- */
+  const NIDS=new Set(typeof NARR_IDS!=="undefined"?NARR_IDS:[]);
+  const NAR={mode:store.get("ss360-narr","en"),a:new Audio(),last:null};NAR.a.preload="auto";
+  H.has=id=>NIDS.has(id);
+  H.say=(id,force)=>{if(!id||!NIDS.has(id))return false;if(!force&&NAR.last===id&&!NAR.a.paused&&!NAR.a.ended)return true;NAR.last=id;if(NAR.mode==="off"&&!force)return false;const m=NAR.mode==="off"?"en":NAR.mode;
+    try{NAR.a.pause();NAR.a.src="audio/"+m+"/"+id+".mp3";NAR.a.currentTime=0;const p=NAR.a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}return true};
+  H.hush=()=>{try{NAR.a.pause()}catch(e){}};
+  H.narrLabel=()=>NAR.mode==="en"?"ENGLISH":NAR.mode==="hi"?"हिंदी":"OFF";
+  H.setNarr=m=>{NAR.mode=m;store.set("ss360-narr",m);if(m==="off")H.hush();else if(NAR.last)H.say(NAR.last);refreshUI()};
+  H.cycleNarr=()=>H.setNarr(NAR.mode==="en"?"hi":NAR.mode==="hi"?"off":"en");
+  H.narrMode=()=>NAR.mode;
+
+  /* ---------- panels: canvas UI with buttons that light up when pointed at ---------- */
+  const panels=new Set();
+  H.panel=(wm,hm,W,Hh,draw,opt)=>{opt=opt||{};
+    const c=H.cnv(W,Hh),t=H.ctex(c);
+    const m=new T.Mesh(new T.PlaneGeometry(wm,hm),new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,depthTest:!!opt.depth,side:T.DoubleSide}));
+    m.renderOrder=opt.depth?5:40+(opt.order||0);
+    const p={mesh:m,c,t,W,H:Hh,buttons:[],hover:null,draw,onPress:opt.onPress||null,data:opt.data||null};
+    p.redraw=()=>{const g=c.getContext("2d");g.clearRect(0,0,W,Hh);p.buttons=[];draw(g,p);t.needsUpdate=true};
+    p.btn=(g,id,x,y,w,h,label,st)=>{st=st||{};const hov=p.hover===id,on=!!st.on,pri=!!st.primary,dis=!!st.disabled;
+      rr(g,x,y,w,h,st.r||16);g.fillStyle=dis?"rgba(255,255,255,.03)":pri?(hov?"#ffd08a":ORANGE):on?(hov?"rgba(255,179,71,.42)":"rgba(255,179,71,.22)"):(hov?"rgba(255,255,255,.2)":"rgba(255,255,255,.07)");g.fill();
+      g.lineWidth=hov?5:2;g.strokeStyle=dis?"rgba(255,255,255,.1)":hov?"#ffffff":(pri||on)?ORANGE:"rgba(255,255,255,.26)";g.stroke();
+      const fs=st.fs||Math.min(40,Math.round(h*.4));g.fillStyle=dis?"#5c6075":pri?"#14100a":INK;g.textAlign=st.align||"center";g.textBaseline="middle";
+      H.fit(g,label,(st.font||"600 $px "+F.sans),fs,w-28,16);g.fillText(label,st.align==="left"?x+24:x+w/2,y+h/2+2);
+      if(st.val){g.textAlign="right";g.fillStyle=on?ORANGE:"#a4a7ba";g.font="700 "+Math.round(fs*.82)+"px "+F.mono;g.fillText(st.val,x+w-22,y+h/2+2)}
+      g.textAlign="left";g.textBaseline="alphabetic";if(!dis)p.buttons.push({id,x,y,w,h})};
+    m.userData.panel=p;panels.add(p);p.redraw();
+    p.dispose=()=>{panels.delete(p);if(m.parent)m.parent.remove(m);m.geometry.dispose();m.material.dispose();t.dispose()};
+    return p};
+  function refreshUI(){menu.redraw();if(card.mesh.visible)card.redraw();if(H.scene&&H.scene.refresh)H.scene.refresh()}
+  H.refreshUI=refreshUI;
+
+  /* ---------- laser pointers: stop on what they hit, show a dot ---------- */
+  const dotGeo=new T.SphereGeometry(1,16,10);
+  ctrls.forEach(c=>{const d=new T.Mesh(dotGeo,new T.MeshBasicMaterial({color:0xffb347,depthTest:false,transparent:true,opacity:.95}));d.renderOrder=999;d.visible=false;S.add(d);c.userData.dot=d});
+  const ray=new T.Raycaster(),tm=new T.Matrix4();
+  function visibleChain(o2){for(let x=o2;x;x=x.parent)if(!x.visible)return false;return true}
+  function rayFrom(c){c.updateMatrixWorld();tm.identity().extractRotation(c.matrixWorld);ray.ray.origin.setFromMatrixPosition(c.matrixWorld);ray.ray.direction.set(0,0,-1).applyMatrix4(tm);ray.near=0;ray.far=5000}
+  function aimRay(){
+    let best=null;
+    for(const p of panels){if(!visibleChain(p.mesh))continue;const h=ray.intersectObject(p.mesh,false)[0];if(h&&(!best||h.distance<best.dist))best={panel:p,dist:h.distance,point:h.point.clone(),uv:h.uv}}
+    if(best){const x=best.uv.x*best.panel.W,y=(1-best.uv.y)*best.panel.H;best.btn=best.panel.buttons.find(b=>x>=b.x&&x<=b.x+b.w&&y>=b.y&&y<=b.y+b.h)||null;return best}
+    const sc=H.scene;if(sc&&sc.picks){const L=sc.picks().filter(visibleChain);const hs=ray.intersectObjects(L,false);if(hs.length)return {pick:hs[0].object,dist:hs[0].distance,point:hs[0].point.clone()}}
+    return null}
+  H.aimFrom=c=>{rayFrom(c);return aimRay()};
+  H.aimGaze=()=>{cam.getWorldPosition(ray.ray.origin);cam.getWorldDirection(ray.ray.direction);ray.far=5000;return aimRay()};
+  const pointing=c=>c.userData.mode==="tracked-pointer"&&c.userData.on!==false;
+  ctrls.forEach(c=>{c.addEventListener("connected",e=>{c.userData.on=true;c.userData.isHand=!!(e.data&&e.data.hand)});c.addEventListener("disconnected",()=>{c.userData.on=false;c.userData.dot.visible=false})});
+  function updPointers(){
+    const hov=new Map();
+    ctrls.forEach(c=>{const d=c.userData.dot,ln=c.userData.ln;
+      if(!R.xr.isPresenting||!pointing(c)){d.visible=false;return}
+      const a=H.aimFrom(c);c.userData.aim=a;
+      const len=a?a.dist:40;if(ln){ln.visible=true;ln.scale.z=Math.max(.02,len/Math.max(1e-6,rig.scale.x))}
+      if(a){d.visible=true;d.position.copy(a.point);const s=Math.max(.006,Math.min(.6,a.dist*.009))*(a.btn?1.5:1);d.scale.setScalar(s);d.material.color.set(a.btn?0xffffff:a.pick?0x8ec5ff:0xffb347);
+        if(a.panel)hov.set(a.panel,(hov.get(a.panel)||a.btn&&a.btn.id)||null)}else d.visible=false});
+    for(const p of panels){const h=hov.has(p)?hov.get(p):null;if(p.hover!==h){p.hover=h;p.redraw()}}}
+  function press(a,c){
+    if(!a)return false;H.lastHit=a;
+    if(a.panel){if(a.btn&&a.panel.onPress){a.panel.onPress(a.btn.id,c);haptic(c)}return true}
+    if(a.pick&&H.scene&&H.scene.pick){H.scene.pick(a.pick.userData.pick||a.pick,c);haptic(c);return true}
+    return false}
+  function haptic(c){try{const ses=R.xr.getSession();if(!ses)return;const src=[...ses.inputSources].find(s=>s.handedness===c.userData.hand);const h=src&&src.gamepad&&src.gamepad.hapticActuators&&src.gamepad.hapticActuators[0];if(h&&h.pulse)h.pulse(.35,35)}catch(e){}}
+
+  /* ---------- menu on the left hand ---------- */
+  const MENU_W=640,MENU_H=1180;
+  const menu=H.panel(.24,.4425,MENU_W,MENU_H,(g,p)=>{
+    rr(g,6,6,MENU_W-12,MENU_H-12,30);g.fillStyle=PANEL;g.fill();g.lineWidth=4;g.strokeStyle=ORANGE;g.stroke();
+    g.fillStyle=ORANGE;g.font="900 60px "+F.disp;g.fillText("MENU",40,82);g.fillStyle=DUST;g.font="500 21px "+F.mono;g.textAlign="right";g.fillText((H.scene&&H.scene.title||"").toUpperCase(),600,80);g.textAlign="left";
+    let y=112;const row=(id,label,st)=>{p.btn(g,id,30,y,580,96,label,Object.assign({align:"left",fs:38},st||{}));y+=106};
+    row("lobby","⌂  Lobby");row("narr","Narration",{val:H.narrLabel(),on:NAR.mode!=="off"});
+    const sc=H.scene;if(sc&&sc.menu)sc.menu().forEach(m=>row(m.id,m.label,{val:m.val,on:m.on,disabled:m.disabled}));
+  },{order:2,onPress:(id)=>{if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
+  S.add(menu.mesh);let menuOn=true;H.menu=menu;
+  function placeMenu(){const c=ctrls.find(c=>c.userData.hand==="left"&&pointing(c));cam.getWorldPosition(v3);
+    if(c){c.updateMatrixWorld();v1.setFromMatrixPosition(c.matrixWorld);
+      // bare hands have no Y button: the menu shows while you look at your left hand
+      if(c.userData.isHand){cam.getWorldDirection(v2);const d=v1.clone().sub(v3).normalize();if(d.dot(v2)<.8)return false}
+      menu.mesh.position.copy(v1).add(v2.set(0,.24,0));menu.mesh.lookAt(v3);return true}
+    cam.getWorldDirection(v2);v2.y=0;if(v2.lengthSq()<1e-6)v2.set(0,0,-1);v2.normalize();const side=new T.Vector3().crossVectors(v2,Yax).normalize();
+    menu.mesh.position.copy(v3).addScaledVector(v2,.6).addScaledVector(side,-.42);menu.mesh.position.y=v3.y-.55;menu.mesh.lookAt(v3);return true}
+
+  /* ---------- info card ---------- */
+  const CW=1024,CH=760;let cardData=null;
+  const card=H.panel(.84,.6234,CW,CH,(g,p)=>{const b=cardData;if(!b)return;
+    rr(g,6,6,CW-12,CH-12,28);g.fillStyle=PANEL;g.fill();g.lineWidth=5;g.strokeStyle=b.color||"#8ec5ff";g.stroke();
+    g.fillStyle=b.color||"#8ec5ff";g.font="600 28px "+F.mono;g.fillText(String(b.kicker||"").toUpperCase(),48,70);
+    g.fillStyle=INK;const nm=String(b.title||"").toUpperCase();const fs=H.fit(g,nm,"900 $px "+F.disp,100,b.hi?700:920,48);g.fillText(nm,44,164);
+    if(b.hi){const w=g.measureText(nm).width;g.fillStyle="#a4a7ba";g.font="500 42px "+F.hi;if(w<760)g.fillText(b.hi,64+w,160)}
+    g.strokeStyle="rgba(255,255,255,.14)";g.lineWidth=2;g.beginPath();g.moveTo(48,196);g.lineTo(976,196);g.stroke();
+    const rows=b.rows||[],cols=b.cols||(rows.length>4?3:2),cw=(928/cols)|0;
+    rows.slice(0,cols*2).forEach(([k,v],i)=>{const x=48+(i%cols)*cw,y=244+Math.floor(i/cols)*100;g.fillStyle=DUST;g.font="600 22px "+F.mono;g.fillText(String(k).toUpperCase(),x,y);
+      g.fillStyle=INK;H.fit(g,String(v),"500 $px "+F.sans,38,cw-22,20);g.fillText(String(v),x,y+46)});
+    if(b.text){g.font="400 30px "+F.sans;g.fillStyle="#cfd2e2";H.wrap(g,b.text,920).slice(0,b.rows&&b.rows.length?3:7).forEach((ln,i)=>g.fillText(ln,48,(b.rows&&b.rows.length?462:250)+i*40))}
+    const bts=(b.buttons||[]).slice();if(b.say&&H.has(b.say))bts.push({id:"__say",label:NAR.mode==="off"?"🔊  LISTEN":"🔊  AGAIN"});bts.push({id:"__close",label:"✕  CLOSE"});
+    const n=bts.length,bw=(928-(n-1)*16)/n;bts.forEach((bt,i)=>p.btn(g,bt.id,48+i*(bw+16),640,bw,88,bt.label,{primary:!!bt.primary,on:!!bt.on,fs:32}));
+  },{order:1,onPress:(id)=>{if(id==="__close")H.hideCard();else if(id==="__say"){H.say(cardData&&cardData.say,true)}else if(cardData&&cardData.onPress)cardData.onPress(id)}});
+  S.add(card.mesh);card.mesh.visible=false;H.card=card;
+  let cardAnchor=null;
+  H.showCard=(data,anchor)=>{cardData=data;cardAnchor=anchor||null;card.redraw();placeCard();card.mesh.visible=true;if(data.say&&!data.silent)H.say(data.say)};
+  H.hideCard=keepVoice=>{if(card.mesh.visible&&!keepVoice&&cardData&&cardData.say===NAR.last)H.hush();card.mesh.visible=false;cardData=null;cardAnchor=null};
+  H.showCardAt=(data,pos,look)=>{H.showCard(data);cardAnchor=null;card.mesh.position.copy(pos);card.mesh.lookAt(look)};
+  H.cardData=()=>cardData;
+  function placeCard(){cam.getWorldPosition(v1);
+    if(cardAnchor&&cardAnchor.isObject3D){cardAnchor.getWorldPosition(v2);v3.copy(v2).sub(v1);v3.y*=.3}else if(cardAnchor&&cardAnchor.isVector3){v3.copy(cardAnchor).sub(v1);v3.y*=.3}else cam.getWorldDirection(v3);
+    if(v3.lengthSq()<1e-6)v3.set(0,0,-1);v3.normalize();if(cardAnchor)v3.applyAxisAngle(Yax,-.6);
+    card.mesh.position.copy(v1).addScaledVector(v3,1.2);card.mesh.position.y=v1.y-.06;card.mesh.lookAt(v1)}
+  H.placeCard=placeCard;
+
+  /* ---------- message board ---------- */
+  let boardUntil=0,boardData=null;
+  const board=H.panel(.9,.4922,1024,560,(g)=>{const b=boardData;if(!b)return;rr(g,6,6,1012,548,26);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=4;g.strokeStyle=ORANGE;g.stroke();
+    g.fillStyle=ORANGE;H.fit(g,b.title.toUpperCase(),"900 $px "+F.disp,64,930,30);g.fillText(b.title.toUpperCase(),44,92);
+    (b.lines||[]).slice(0,7).forEach(([k,v],i)=>{const y=160+i*56;g.fillStyle=DUST;g.font="600 26px "+F.mono;g.fillText(String(k).toUpperCase(),44,y);g.fillStyle=INK;H.fit(g,String(v),"500 $px "+F.sans,32,660,18);g.fillText(String(v),310,y)})},{order:3});
+  S.add(board.mesh);board.mesh.visible=false;
+  H.hint=(title,lines,secs)=>{boardData={title,lines};board.redraw();cam.getWorldPosition(v1);cam.getWorldDirection(v2);v2.y=0;if(v2.lengthSq()<1e-4)v2.set(0,0,-1);v2.normalize();board.mesh.position.copy(v1).addScaledVector(v2,1.15);board.mesh.position.y=v1.y-.42;board.mesh.lookAt(v1);board.mesh.visible=true;boardUntil=performance.now()+(secs||6)*1000};
+  H.hideHint=()=>{board.mesh.visible=false};
+
+  /* ---------- sky ---------- */
+  const SKYM=new T.Matrix4().set(-1,0,0,0, 0,0.9174820621,-0.3977771558,0, 0,-0.3977771558,-0.9174820621,0, 0,0,0,1);
+  const SKYEQ=new T.Matrix4().makeRotationY(Math.PI);
+  const big=R.capabilities.maxTextureSize>=8192;
+  const milky=o.LD.load(big?"sky/milkyway_8k.jpg":"sky/milkyway_4k.jpg");milky.encoding=T.sRGBEncoding;
+  const skyGeo=new T.SphereGeometry(2400,64,32);skyGeo.scale(-1,1,1);
+  const sky=new T.Mesh(skyGeo,new T.MeshBasicMaterial({map:milky,depthWrite:false,color:0xb8bccb}));sky.matrixAutoUpdate=false;sky.renderOrder=-10;sky.frustumCulled=false;S.add(sky);sky.visible=false;
+  let skyFrame=SKYM;
+  H.setSky=kind=>{sky.visible=kind!=="none";skyFrame=kind==="equatorial"?SKYEQ:SKYM;sky.material.color.set(kind==="dim"?0x6a6e7c:0xb8bccb)};
+  H.skyMesh=sky;
+
+  /* ---------- moving the viewer ---------- */
+  H.placeHead=(pos,lookAt)=>{cam.getWorldDirection(v2);v2.y=0;if(v2.lengthSq()<1e-6)v2.set(0,0,-1);v2.normalize();
+    v3.copy(lookAt).sub(pos);v3.y=0;if(v3.lengthSq()<1e-6)v3.set(0,0,-1);v3.normalize();
+    rig.rotation.y+=Math.atan2(-v3.x,-v3.z)-Math.atan2(-v2.x,-v2.z);rig.updateMatrixWorld();
+    const hl=v1.copy(cam.position).applyQuaternion(rig.quaternion);rig.position.copy(pos).sub(hl);rig.updateMatrixWorld(true)};
+  H.headPos=v=>cam.getWorldPosition(v||new T.Vector3());
+  let snapReady=true;const holds=new Map();
+  H.move=(mx,my,tx,ty,boost,dt,opt)=>{opt=opt||{};const dz=v=>Math.abs(v)<.18?0:v;mx=dz(mx);my=dz(my);ty=dz(ty);
+    if((mx||my||ty)&&opt.onMove)opt.onMove();
+    if(!opt.noFly){const spd=(opt.speed||1.6)*(boost?3.5:1);
+      if(mx||my){cam.getWorldDirection(v2);if(opt.flat){v2.y=0;v2.normalize()}const side=v3.crossVectors(v2,Yax).normalize();rig.position.addScaledVector(v2,-my*spd*dt).addScaledVector(side,mx*spd*dt)}
+      if(ty&&!opt.noUp)rig.position.y-=ty*spd*.6*dt}
+    if(Math.abs(tx)>.7&&snapReady){snapReady=false;const ang=-Math.sign(tx)*Math.PI/6;cam.getWorldPosition(v1);rig.position.sub(v1).applyAxisAngle(Yax,ang).add(v1);rig.rotation.y+=ang}
+    else if(Math.abs(tx)<.3)snapReady=true};
+
+  /* ---------- scenes ---------- */
+  function go(id,arg){const next=H.scenes[id];if(!next)return;
+    if(H.scene&&H.scene.exit)H.scene.exit();H.hush();H.hideCard();H.hideHint();
+    H.scene=next;rig.position.set(0,0,0);rig.rotation.set(0,0,0);rig.scale.setScalar(1);rig.updateMatrixWorld(true);
+    H.setSky(next.sky||"milky");next.enter(arg);menu.redraw()}
+  H.go=go;
+
+  /* ---------- per-frame input ---------- */
+  const prevBtn={};
+  function input(dt){
+    const ses=R.xr.getSession();if(!ses)return;let mx=0,my=0,tx=0,ty=0,boost=false;
+    for(const src of ses.inputSources){const gp=src.gamepad;if(!gp)continue;const hnd=src.handedness||"none";
+      const ax=gp.axes.length>3?gp.axes[2]:0,ay=gp.axes.length>3?gp.axes[3]:0;
+      if(hnd==="left"){mx=ax;my=ay}else{tx=ax;ty=ay}
+      if(gp.buttons[1]&&gp.buttons[1].pressed)boost=true;
+      const a=!!(gp.buttons[4]&&gp.buttons[4].pressed),b=!!(gp.buttons[5]&&gp.buttons[5].pressed),pv=prevBtn[hnd]||{};
+      const sc=H.scene;
+      if(hnd==="left"){if(a&&!pv.a&&sc&&sc.btnX)sc.btnX();if(b&&!pv.b){menuOn=!menuOn}}
+      else{if(a&&!pv.a&&sc&&sc.btnA)sc.btnA();if(b&&!pv.b){if(sc&&sc.btnB)sc.btnB();else go("lobby")}}
+      prevBtn[hnd]={a,b}}
+    // holding the trigger / pinch on empty space flies you that way (works with bare hands)
+    const nowT=performance.now();holds.forEach((t0,c)=>{if(!t0||nowT-t0<280||!H.scene||H.scene.noFly)return;rayFrom(c);const spd=(H.scene.flySpeed||1.6);rig.position.addScaledVector(ray.ray.direction,spd*dt);if(H.scene.onMove)H.scene.onMove()});
+    const sc=H.scene;if(sc&&sc.sticks)sc.sticks(mx,my,tx,ty,boost,dt);else H.move(mx,my,tx,ty,boost,dt,{speed:sc&&sc.flySpeed,noFly:sc&&sc.noFly,onMove:sc&&sc.onMove})}
+
+  /* ---------- lobby ---------- */
+  H.scenes.lobby=LobbyScene(H);
+  if(typeof SolarScenes==="function")SolarScenes(H);
+  if(typeof SpaceScene==="function")H.scenes.space=SpaceScene(H);
+  if(typeof RocketScenes==="function")RocketScenes(H);
+
+  /* ---------- public ---------- */
+  let frames=0;const saved={};
+  return {
+    enter(arg){saved.near=cam.near;saved.far=cam.far;cam.near=.05;cam.far=3000;cam.updateProjectionMatrix();
+      rig.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();ctrls.forEach(c=>rig.add(c));frames=0;H.pending=arg||"lobby";menuOn=true;
+      if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{for(const p of panels)p.redraw();if(H.scene&&H.scene.fontsReady)H.scene.fontsReady()})},
+    exit(){if(H.scene&&H.scene.exit)H.scene.exit();H.scene=null;H.hush();S.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();cam.near=saved.near||.01;cam.far=saved.far||200;cam.updateProjectionMatrix();
+      ctrls.forEach(c=>{S.add(c);if(c.userData.ln)c.userData.ln.scale.z=4;c.userData.dot.visible=false});sky.visible=false;card.mesh.visible=false;menu.mesh.visible=false;board.mesh.visible=false;rig.position.set(0,0,0);rig.rotation.set(0,0,0)},
+    frame(dt){frames++;
+      if(frames===3)go(H.scenes[H.pending]?H.pending:"lobby");
+      if(!H.scene)return;
+      input(dt);rig.updateMatrixWorld(true);
+      if(H.scene.frame)H.scene.frame(dt);rig.updateMatrixWorld(true);
+      cam.getWorldPosition(v1);sky.matrix.copy(skyFrame).setPosition(v1);sky.matrixWorldNeedsUpdate=true;
+      menu.mesh.visible=menuOn&&!(H.scene&&H.scene.noMenu)&&placeMenu();
+      if(card.mesh.visible&&cardAnchor)placeCard();
+      if(board.mesh.visible&&performance.now()>boardUntil)board.mesh.visible=false;
+      updPointers()},
+    select(c){if(board.mesh.visible&&performance.now()<boardUntil-1000)boardUntil=performance.now()+600;const a=c.userData.aim||H.aimFrom(c);if(!press(a,c)&&H.scene&&H.scene.empty)H.scene.empty(c)},
+    hold(c,on){if(on){const a=c.userData.aim||H.aimFrom(c);if(a)return;holds.set(c,performance.now())}else holds.delete(c)},
+    pad:{immersive:true,look3d:true,
+      look:(x,y,dt)=>H.move(x,y,0,0,false,dt,{speed:H.scene&&H.scene.flySpeed,noFly:H.scene&&H.scene.noFly}),
+      zoom:(z,dt)=>H.move(0,0,0,-z,false,dt,{speed:H.scene&&H.scene.flySpeed,noFly:H.scene&&H.scene.noFly}),
+      a:()=>{const a=H.aimGaze();if(!press(a,null)&&H.scene&&H.scene.btnA)H.scene.btnA()},
+      b:()=>{if(card.mesh.visible)H.hideCard();else if(H.scene&&H.scene.btnB)H.scene.btnB();else go("lobby");return true},
+      x:()=>{if(H.scene&&H.scene.btnX)H.scene.btnX()},y:()=>{menuOn=!menuOn},
+      prev:()=>{if(H.scene&&H.scene.prev)H.scene.prev()},next:()=>{if(H.scene&&H.scene.next)H.scene.next();else if(H.scene&&H.scene.btnA)H.scene.btnA()},
+      dpad:d=>{if(d==="left"&&H.scene&&H.scene.prev)H.scene.prev();else if(d==="right"&&H.scene&&H.scene.next)H.scene.next();return true},
+      helpXR:()=>H.hint("Gamepad",[["Left stick","move"],["A","press what you look at"],["B","back"],["LB / RB","previous / next"],["Y","menu"]],8)},
+    go,H
+  };
+}
+
+/* ================= LOBBY ================= */
+function LobbyScene(H){
+  const T=H.T,F=H.F;let built=false;const root=new T.Group();root.visible=false;H.S.add(root);
+  let earth=null,clouds=null,logoImg=null,panels=[];
+  const SOLAR=[["space","Space walk","अंतरिक्ष की सैर"],["planets","Planets & moons","ग्रह और चंद्रमा"],["compare","Compare sizes","आकार की तुलना"],["stars","Stars & Milky Way","तारे और आकाशगंगा"],["craft","Spacecraft","अंतरिक्ष यान"],["land360","Landing sites 360°","लैंडिंग स्थल 360°"]];
+  const ROCKET=[["pad","Launch pad","लॉन्च पैड"],["rsizes","Rocket sizes","रॉकेटों की तुलना"],["museum","3D museum","थ्री-डी संग्रहालय"],["tours","360° tours","360° सैर"],["orbits","Orbits","कक्षाएँ"],["imissions","India's missions","भारत के मिशन"]];
+  function build(){built=true;
+    // Earth below you, as if from orbit
+    const sun=new T.DirectionalLight(0xfff4e6,1.6);sun.position.set(-6,3,-2);root.add(sun);root.add(new T.AmbientLight(0x2a3046,.6));
+    earth=new T.Mesh(new T.SphereGeometry(7,96,64),new T.MeshPhongMaterial({map:H.tex("earth.jpg"),shininess:14}));earth.position.set(2,-8.5,-13);earth.rotation.z=.4;root.add(earth);
+    clouds=new T.Mesh(new T.SphereGeometry(7.08,96,64),new T.MeshPhongMaterial({color:0xffffff,alphaMap:H.tex("earth_clouds.jpg"),transparent:true,depthWrite:false}));earth.add(clouds);
+    // DUET STEM logo
+    logoImg=new Image();logoImg.src="brand/duet-stem-logo-light.png";
+    const logo=H.panel(1.9,.62,1400,456,(g)=>{if(logoImg.complete&&logoImg.naturalWidth){const w=1300,h=w*logoImg.naturalHeight/logoImg.naturalWidth;g.drawImage(logoImg,50,20,w,h)}
+      g.textAlign="center";g.fillStyle="#ece7da";g.font="900 96px "+F.disp;g.fillText("SPACE LAB",700,340);g.fillStyle="#a4a7ba";g.font="500 46px "+F.hi;g.fillText("अंतरिक्ष प्रयोगशाला · Solar System 360 · Rocket Shala",700,412);g.textAlign="left"},{order:0});
+    logoImg.onload=()=>logo.redraw();logo.mesh.position.set(0,2.45,-2.7);root.add(logo.mesh);panels.push(logo);
+    const seg=(title,hi,sub,list,color,ready)=>H.panel(1.25,1.3,1000,1040,(g,p)=>{
+      H.rr(g,6,6,988,1028,34);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=5;g.strokeStyle=color;g.stroke();
+      g.fillStyle=color;g.font="900 92px "+F.disp;g.fillText(title,48,118);g.fillStyle="#a4a7ba";g.font="500 44px "+F.hi;g.fillText(hi,52,176);
+      g.fillStyle="#cfd2e2";g.font="400 30px "+F.sans;H.wrap(g,sub,900).slice(0,2).forEach((l,i)=>g.fillText(l,52,232+i*40));
+      list.forEach(([id,en,hiL],i)=>{const x=48+(i%2)*460,y=330+Math.floor(i/2)*226;const ok=ready(id);
+        p.btn(g,id,x,y,444,206,"",{disabled:!ok});
+        g.fillStyle=ok?"#ece7da":"#5c6075";H.fit(g,en,"700 $px "+F.sans,40,400,22);g.fillText(en,x+24,y+86);g.fillStyle=ok?"#a4a7ba":"#4a4e60";H.fit(g,hiL,"500 $px "+F.hi,34,400,20);g.fillText(hiL,x+24,y+142);
+        if(!ok){g.fillStyle="#5c6075";g.font="600 22px "+F.mono;g.fillText("COMING NEXT",x+24,y+184)}})
+    },{onPress:id=>H.go(id)});
+    const solar=seg("SOLAR SYSTEM","सौरमंडल","Float among the planets, moons, stars and real spacecraft.",SOLAR,"#ffb347",id=>!!H.scenes[id]);
+    solar.mesh.position.set(-.98,1.38,-2.25);solar.mesh.rotation.y=.42;root.add(solar.mesh);panels.push(solar);
+    const rocket=seg("ROCKET SHALA","रॉकेट शाला","India's rockets at Sriharikota and the world's rockets, at real size.",ROCKET,"#8ec5ff",id=>!!H.scenes[id]);
+    rocket.mesh.position.set(.98,1.38,-2.25);rocket.mesh.rotation.y=-.42;root.add(rocket.mesh);panels.push(rocket);
+    const narr=H.panel(1.3,.27,1300,270,(g,p)=>{H.rr(g,6,6,1288,258,26);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,255,255,.25)";g.stroke();
+      g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("NARRATION · आवाज़",44,66);const m=H.narrMode();
+      [["en","English"],["hi","हिंदी"],["off","Off"]].forEach(([id,l],i)=>p.btn(g,id,44+i*410,96,390,140,l,{on:m===id,fs:52,font:id==="hi"?"600 $px "+F.hi:"600 $px "+F.sans}))},
+      {onPress:id=>{H.setNarr(id);narr.redraw()}});
+    narr.mesh.position.set(0,.66,-1.55);narr.mesh.rotation.x=-.55;root.add(narr.mesh);panels.push(narr);
+  }
+  return {id:"lobby",title:"Lobby",sky:"milky",noFly:true,noMenu:true,btnB(){},
+    enter(){if(!built)build();root.visible=true;panels.forEach(p=>p.redraw());H.placeHead(new T.Vector3(0,1.6,0),new T.Vector3(0,1.6,-1));H.say("ui-welcome")},
+    exit(){root.visible=false},
+    frame(dt){if(earth){earth.rotation.y+=.01*dt;clouds.rotation.y+=.004*dt}},
+    refresh(){panels.forEach(p=>p.redraw())},
+    menu:()=>[]
+  };
+}
+
+/* ================= SPACE WALK (life-size Solar System inside the VR hub) =================
+   The viewer floats inside a spread-out Solar System: fly with the thumbsticks (or hold the
+   trigger / a pinch on empty space), point at a world or spacecraft for its card ("Fly there"
+   travels to it), and use the hand menu for orbits, names, spacecraft, spacing, time and a tour.
+   Planets sit where they really are today. */
+function SpaceScene(H){
+  const T=H.T,R=H.R,S=H.S,cam=H.cam,tex=H.tex,LD=H.LD,D2R=Math.PI/180,rig=H.rig;
   const BYD=typeof BY!=="undefined"?BY:{},CR=typeof CRAFT!=="undefined"?CRAFT:[];
   const EXT=typeof MODEL_EXT!=="undefined"?MODEL_EXT:"glb";
   const U=new T.Group();U.visible=false;S.add(U);
-  const rig=new T.Group();S.add(rig);
-  const st={orbits:true,names:true,craft:true,real:false,k:0,sp:1,menu:true,follow:null,fly:null,card:null,hintUntil:0};
+  const st={orbits:true,names:true,craft:true,real:false,k:0,sp:1,follow:null,fly:null,card:null,welcome:0};
   const SPEEDS=[[0,"Paused"],[1,"1 day / s"],[7,"1 week / s"],[30,"1 month / s"]];
   let sim=(Date.now()-Date.UTC(2000,0,1,12))/864e5;
   const RAD={sun:3,mercury:.14,venus:.24,earth:.25,mars:.17,jupiter:1.0,saturn:.86,uranus:.55,neptune:.53,pluto:.09};
   const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
   const rOf=a=>{const e=3+9.5*Math.sqrt(a),r=3+12*a;return e+(r-e)*ease(st.k)};
-  const v1=new T.Vector3(),v2=new T.Vector3(),v3=new T.Vector3(),qa=new T.Quaternion(),Yax=new T.Vector3(0,1,0);
-
-  /* ---------- sky (Milky Way, always at infinity) + light ---------- */
-  const skyTex=LD.load(R.capabilities.maxTextureSize>=8192?"sky/milkyway_8k.jpg":"sky/milkyway_4k.jpg");skyTex.encoding=T.sRGBEncoding;
-  const skyG=new T.SphereGeometry(2400,64,32);skyG.scale(-1,1,1);
-  const sky=new T.Mesh(skyG,new T.MeshBasicMaterial({map:skyTex,depthWrite:false,color:0xb8bccb}));sky.matrixAutoUpdate=false;sky.renderOrder=-10;sky.visible=false;S.add(sky);
-  const SKYM=new T.Matrix4().set(-1,0,0,0, 0,0.9174820621,-0.3977771558,0, 0,-0.3977771558,-0.9174820621,0, 0,0,0,1);
+  const v1=new T.Vector3(),v2=new T.Vector3(),v3=new T.Vector3(),Yax=new T.Vector3(0,1,0);
   U.add(new T.AmbientLight(0x30364a,.55));
   const sunLight=new T.PointLight(0xfff2dc,2.1,0,0);U.add(sunLight);
 
   /* ---------- helpers ---------- */
-  function cnv(w,h){const c=document.createElement("canvas");c.width=w;c.height=h;return c}
-  function canvasTex(c){const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;return t}
-  function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
-  function wrap(g,text,maxW){const out=[];let line="";for(const w of String(text).split(/\s+/)){const t=line?line+" "+w:w;if(g.measureText(t).width>maxW&&line){out.push(line);line=w}else line=t}if(line)out.push(line);return out}
+  const rr=H.rr,fmt=H.fmt;
   const labels=[];
   function makeLabel(text,sub,color,small){
-    const c=cnv(512,96),s=new T.Sprite(new T.SpriteMaterial({map:canvasTex(c),transparent:true,depthWrite:false,sizeAttenuation:false}));
+    const c=H.cnv(512,96),s=new T.Sprite(new T.SpriteMaterial({map:H.ctex(c),transparent:true,depthWrite:false,sizeAttenuation:false}));
     s.userData={c,text,sub,color,small};s.renderOrder=6;drawLabel(s);const k=small?.15:.2;s.scale.set(k,k*96/512,1);labels.push(s);return s}
   function drawLabel(s){const u=s.userData,g=u.c.getContext("2d");g.clearRect(0,0,512,96);
-    g.font='600 34px "IBM Plex Mono", ui-monospace, monospace';const t=u.text.toUpperCase();
-    g.font='600 34px "IBM Plex Mono", ui-monospace, monospace';let w=g.measureText(t).width;let sw=0;
-    if(u.sub){g.font='500 32px "IBM Plex Sans Devanagari", "Nirmala UI", sans-serif';sw=g.measureText(u.sub).width+18}
+    g.font='600 34px '+H.F.mono;const t=u.text.toUpperCase();let w=g.measureText(t).width;let sw=0;
+    if(u.sub){g.font='500 32px '+H.F.hi;sw=g.measureText(u.sub).width+18}
     const W=Math.min(500,w+sw+36),x0=256-W/2;g.fillStyle="rgba(5,6,12,.72)";rr(g,x0,14,W,62,10);g.fill();g.strokeStyle=u.color;g.lineWidth=3;g.stroke();
-    g.textBaseline="middle";g.textAlign="left";g.fillStyle="#ece7da";g.font='600 34px "IBM Plex Mono", ui-monospace, monospace';g.fillText(t,x0+18,46);
-    if(u.sub){g.fillStyle="#b9bdd0";g.font='500 32px "IBM Plex Sans Devanagari", "Nirmala UI", sans-serif';g.fillText(u.sub,x0+18+w+18,48)}
-    s.material.map.needsUpdate=true}
+    g.textBaseline="middle";g.textAlign="left";g.fillStyle="#ece7da";g.font='600 34px '+H.F.mono;g.fillText(t,x0+18,46);
+    if(u.sub){g.fillStyle="#b9bdd0";g.font='500 32px '+H.F.hi;g.fillText(u.sub,x0+18+w+18,48)}
+    g.textBaseline="alphabetic";s.material.map.needsUpdate=true}
   function ringGeo(i,o2){const g=new T.RingGeometry(i,o2,128,1),p=g.attributes.position,uv=g.attributes.uv,v=new T.Vector3();for(let k=0;k<p.count;k++){v.fromBufferAttribute(p,k);uv.setXY(k,(v.length()-i)/(o2-i),.5)}return g}
   const hitMat=new T.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false,colorWrite:false});
-  const picks=[];   // {hit, obj(world-positioned Object3D), info, r, kind}
+  const picks=[];
   function addPick(obj,info,r,kind){const h=new T.Mesh(new T.SphereGeometry(1,10,8),hitMat);obj.add(h);const p={hit:h,obj,info,r,kind};h.userData.pick=p;picks.push(p);return p}
-  const fmt=(x,d)=>Number(x).toLocaleString("en-IN",{maximumFractionDigits:d||0});
+  function glowTex(stops){const c=H.cnv(256,256),g=c.getContext("2d"),gr=g.createRadialGradient(128,128,0,128,128,128);stops.forEach(([a,col])=>gr.addColorStop(a,col));g.fillStyle=gr;g.fillRect(0,0,256,256);return new T.CanvasTexture(c)}
+  H.glowTex=glowTex;H.ringGeo=ringGeo;
 
   /* ---------- the Sun ---------- */
   const sunM=new T.Mesh(new T.SphereGeometry(RAD.sun,64,40),new T.MeshBasicMaterial({map:tex("sun.jpg"),color:0xffe2b0}));U.add(sunM);
-  function glowTex(stops){const c=cnv(256,256),g=c.getContext("2d"),gr=g.createRadialGradient(128,128,0,128,128,128);stops.forEach(([a,col])=>gr.addColorStop(a,col));g.fillStyle=gr;g.fillRect(0,0,256,256);return new T.CanvasTexture(c)}
   const glow1=new T.Sprite(new T.SpriteMaterial({map:glowTex([[0,"rgba(255,236,190,1)"],[.3,"rgba(255,200,110,.75)"],[.55,"rgba(255,140,40,.22)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));glow1.scale.set(11,11,1);U.add(glow1);
   const glow2=new T.Sprite(new T.SpriteMaterial({map:glowTex([[0,"rgba(255,190,110,.35)"],[.4,"rgba(255,140,60,.10)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));glow2.scale.set(34,34,1);U.add(glow2);
-  const sunInfo=Object.assign({},XR_SUN,{r:RAD.sun});
   const sunLab=makeLabel("Sun",XR_SUN.hi,"#ffb347");sunLab.position.y=RAD.sun+.9;U.add(sunLab);
-  const sunPick=addPick(sunM,sunInfo,RAD.sun,"world");
+  const sunPick=addPick(sunM,Object.assign({},XR_SUN,{r:RAD.sun}),RAD.sun,"world");
 
   /* ---------- planets, moons, orbits ---------- */
   const PL=[],orbitLines=[],moonSpin=[];let earthH=null;
@@ -3057,12 +3325,12 @@ function SpaceVR(o){
     const line=new T.Line(new T.BufferGeometry().setFromPoints(pts),new T.LineBasicMaterial({color:new T.Color(b.c),transparent:true,opacity:.42}));og.add(line);orbitLines.push(line);
     const h=new T.Group();og.add(h);const tg=new T.Group();tg.rotation.z=b.tilt*D2R;h.add(tg);
     const m=new T.Mesh(new T.SphereGeometry(R0,64,40),new T.MeshPhongMaterial({map:tex(b.tex),shininess:b.id==="earth"?18:4}));tg.add(m);
-    if(b.id==="earth"){const ct=tex("earth_clouds.jpg");const cl=new T.Mesh(new T.SphereGeometry(R0*1.012,64,40),new T.MeshPhongMaterial({color:0xffffff,alphaMap:ct,transparent:true,depthWrite:false,opacity:.9}));tg.add(cl);m.userData.clouds=cl;
+    if(b.id==="earth"){const cl=new T.Mesh(new T.SphereGeometry(R0*1.012,64,40),new T.MeshPhongMaterial({color:0xffffff,alphaMap:tex("earth_clouds.jpg"),transparent:true,depthWrite:false,opacity:.9}));tg.add(cl);m.userData.clouds=cl;
       const atm=new T.Sprite(new T.SpriteMaterial({map:glowTex([[0,"rgba(0,0,0,0)"],[.43,"rgba(0,0,0,0)"],[.47,"rgba(110,170,255,.45)"],[.6,"rgba(80,140,255,.08)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));atm.scale.set(R0*2.3,R0*2.3,1);h.add(atm)}
     if(b.ring){const rm=new T.Mesh(ringGeo(R0*1.2,R0*2.35),new T.MeshLambertMaterial({map:tex("saturn_ring.png"),side:T.DoubleSide,transparent:true,depthWrite:false}));rm.rotation.x=-Math.PI/2;tg.add(rm)}
     if(b.thin){const rm=new T.Mesh(ringGeo(R0*1.6,R0*1.75),new T.MeshBasicMaterial({color:0x9be3e6,side:T.DoubleSide,transparent:true,opacity:.28,depthWrite:false}));rm.rotation.x=-Math.PI/2;tg.add(rm)}
     const lab=makeLabel(b.name,b.hi,b.c);lab.position.y=R0*(b.ring?1.3:1)+.22;h.add(lab);
-    const info=Object.assign({},b,{r:R0});const pk=addPick(h,info,R0,"world");
+    const pk=addPick(h,Object.assign({},b,{r:R0}),R0,"world");
     const p={b,R0,og,h,tg,m,line,pk,moons:[]};PL.push(p);
     if(b.id==="earth"){earthH=h;
       const pv=new T.Group();h.add(pv);const mm=new T.Mesh(new T.SphereGeometry(.07,40,28),new T.MeshPhongMaterial({map:tex("moon.jpg"),shininess:2}));mm.position.x=.75;pv.add(mm);
@@ -3080,15 +3348,15 @@ function SpaceVR(o){
       addPick(mm,info,ms,"world").host=h;moonSpin.push({pv,P:Math.abs(mp),dir:Math.sign(mp)})});
   });
 
-  /* ---------- asteroid belt, Kuiper belt, drifting dust near you ---------- */
-  function dotTex(){const c=cnv(64,64),g=c.getContext("2d"),gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"rgba(255,255,255,1)");gr.addColorStop(.5,"rgba(255,255,255,.5)");gr.addColorStop(1,"rgba(255,255,255,0)");g.fillStyle=gr;g.fillRect(0,0,64,64);return new T.CanvasTexture(c)}
-  const DOT=dotTex();
+  /* ---------- asteroid belt, Kuiper belt, drifting dust ---------- */
+  function dotTex(){const c=H.cnv(64,64),g=c.getContext("2d"),gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"rgba(255,255,255,1)");gr.addColorStop(.5,"rgba(255,255,255,.5)");gr.addColorStop(1,"rgba(255,255,255,0)");g.fillStyle=gr;g.fillRect(0,0,64,64);return new T.CanvasTexture(c)}
+  const DOT=dotTex();H.DOT=DOT;
   function belt(n,a0,a1,th,size,col,op){const pos=new Float32Array(n*3),cols=new Float32Array(n*3),A=new Float32Array(n),L=new Float32Array(n),Yy=new Float32Array(n),c=new T.Color();
     for(let i=0;i<n;i++){A[i]=a0+(a1-a0)*Math.pow(Math.random(),.8);L[i]=Math.random()*Math.PI*2;Yy[i]=(Math.random()+Math.random()+Math.random()-1.5)*th;c.set(col).offsetHSL((Math.random()-.5)*.04,0,(Math.random()-.5)*.18);cols.set([c.r,c.g,c.b],i*3)}
     const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(pos,3));g.setAttribute("color",new T.BufferAttribute(cols,3));
     const pts=new T.Points(g,new T.PointsMaterial({size,map:DOT,vertexColors:true,transparent:true,opacity:op,depthWrite:false,sizeAttenuation:true}));pts.frustumCulled=false;U.add(pts);
     const upd=()=>{for(let i=0;i<n;i++){const r=rOf(A[i]);pos[i*3]=r*Math.cos(L[i]);pos[i*3+1]=Yy[i]*(1+st.k*3);pos[i*3+2]=-r*Math.sin(L[i])}g.attributes.position.needsUpdate=true};upd();
-    return {pts,upd,A,L,n,g,pos}}
+    return {pts,upd}}
   const ast=belt(2600,2.15,3.3,.35,.045,"#a59a8c",.8),kui=belt(1500,30,48,1.6,.1,"#9fb3c8",.5);
   const dustN=700,dustP=new Float32Array(dustN*3);for(let i=0;i<dustN*3;i++)dustP[i]=(Math.random()-.5)*30;
   const dustG=new T.BufferGeometry();dustG.setAttribute("position",new T.BufferAttribute(dustP,3));
@@ -3110,15 +3378,12 @@ function SpaceVR(o){
   addCraft("maven","MAVEN",.08,"mars",{orbitR:.42,per:13,inc:75});
   addCraft("juno","Juno",.2,"jupiter",{orbitR:1.75,per:22,inc:90});
   addCraft("parker-solar-probe","Parker Solar Probe",.22,"parker");
-  const V1=addCraft("voyager","Voyager 1",.35,"far",{dir:eclDir(17.22,12.0),au:171,where:"Interstellar space, about 25.6 billion km away (2026)",fact:"Launched in 1977, it passed Jupiter and Saturn and left the Sun's bubble in 2012. Its radio signal takes about 23 hours to reach Earth."});
-  const V2=addCraft("voyager","Voyager 2",.35,"far",{dir:eclDir(20.1,-60.2),au:144,where:"Interstellar space, about 21.5 billion km away (2026)",fact:"The only spacecraft to visit Uranus (1986) and Neptune (1989)."});
+  addCraft("voyager","Voyager 1",.35,"far",{dir:eclDir(17.22,12.0),au:171,where:"Interstellar space, about 25.6 billion km away (2026)",fact:"Launched in 1977, it passed Jupiter and Saturn and left the Sun's bubble in 2012. Its radio signal takes about 23 hours to reach Earth."});
+  addCraft("voyager","Voyager 2",.35,"far",{dir:eclDir(20.1,-60.2),au:144,where:"Interstellar space, about 21.5 billion km away (2026)",fact:"The only spacecraft to visit Uranus (1986) and Neptune (1989)."});
   CRAFTS.forEach(c=>{const hostId=c.where==="l2"?"earth":c.where;const hp=PL.find(p=>p.b.id===hostId);if(hp)c.pk.host=hp.h});
   function loadCrafts(){if(typeof loadModel!=="function")return;CRAFTS.forEach(c=>{if(c.loaded)return;c.loaded=true;loadModel("models/craft/"+c.id+"."+EXT,c.size,m=>{if(m)c.g.add(m)})})}
 
-  /* ---------- info card with buttons ---------- */
-  const cc=cnv(1024,720),ctex=canvasTex(cc);
-  const card=new T.Mesh(new T.PlaneGeometry(.8,.5625),new T.MeshBasicMaterial({map:ctex,transparent:true,depthWrite:false,depthTest:false}));card.renderOrder=30;card.visible=false;S.add(card);
-  const CARD_BTN=[{id:"fly",x:40,y:610,w:470,h:84,t:"✈  FLY THERE"},{id:"close",x:530,y:610,w:454,h:84,t:"✕  CLOSE"}];
+  /* ---------- cards ---------- */
   function statsFor(b){
     if(b.kind==="craft")return [["Agency",b.ag||"—"],["Launched",b.yr||"—"],["Where now",b.where||"—"],["Size",b.size||"—"]];
     const n=(BYD[b.id]&&BYD[b.id].n)||{},rows=(b.s||[]).slice(0,4);
@@ -3126,53 +3391,11 @@ function SpaceVR(o){
     if(n.g)rows.push(["Gravity",fmt(n.g/9.81,2)+" × Earth"]);
     return rows.slice(0,6)}
   function factFor(b){if(b.kind==="craft")return b.fact||"";const f=BYD[b.id]&&BYD[b.id].facts;if(f&&f.length)return f[Math.floor(Math.random()*Math.min(3,f.length))];return ""}
-  function drawCard(b){
-    const g=cc.getContext("2d");g.clearRect(0,0,1024,720);rr(g,6,6,1012,708,28);g.fillStyle="rgba(8,10,20,.93)";g.fill();g.lineWidth=5;g.strokeStyle=b.c||"#8ec5ff";g.stroke();
-    g.textBaseline="alphabetic";g.textAlign="left";g.fillStyle=b.c||"#8ec5ff";g.font='600 28px "IBM Plex Mono", ui-monospace, monospace';g.fillText((b.kind==="craft"?"SPACECRAFT":(b.type||"")).toUpperCase(),48,70);
-    g.fillStyle="#ece7da";let fs=104;g.font='900 '+fs+'px "Big Shoulders Display", "Arial Narrow", Impact, sans-serif';const nm=b.name.toUpperCase();while(g.measureText(nm).width>900&&fs>50){fs-=6;g.font='900 '+fs+'px "Big Shoulders Display", "Arial Narrow", Impact, sans-serif'}g.fillText(nm,44,166);
-    if(b.hi){const w=g.measureText(nm).width;g.fillStyle="#a4a7ba";g.font='500 42px "IBM Plex Sans Devanagari", "Nirmala UI", sans-serif';if(w<760)g.fillText(b.hi,64+w,162)}
-    g.strokeStyle="rgba(255,255,255,.14)";g.lineWidth=2;g.beginPath();g.moveTo(48,196);g.lineTo(976,196);g.stroke();
-    const rows=statsFor(b),cols=b.kind==="craft"?2:3,cw=b.kind==="craft"?464:310;
-    rows.forEach(([k,v],i)=>{const x=48+(i%cols)*cw,y=246+Math.floor(i/cols)*100;g.fillStyle="#8a8ea6";g.font='600 22px "IBM Plex Mono", ui-monospace, monospace';g.fillText(k.toUpperCase(),x,y);
-      g.fillStyle="#ece7da";let f2=38;g.font='500 '+f2+'px "IBM Plex Sans", system-ui, sans-serif';while(g.measureText(v).width>cw-20&&f2>22){f2-=2;g.font='500 '+f2+'px "IBM Plex Sans", system-ui, sans-serif'}g.fillText(v,x,y+46)});
-    const f=factFor(b);if(f){g.font='400 30px "IBM Plex Sans", system-ui, sans-serif';g.fillStyle="#cfd2e2";wrap(g,f,920).slice(0,3).forEach((ln,i)=>g.fillText(ln,48,462+i*40))}
-    CARD_BTN.forEach(bt=>{rr(g,bt.x,bt.y,bt.w,bt.h,16);g.fillStyle=bt.id==="fly"?"#ffb347":"rgba(255,255,255,.08)";g.fill();g.lineWidth=2;g.strokeStyle=bt.id==="fly"?"#ffb347":"rgba(255,255,255,.3)";g.stroke();
-      g.fillStyle=bt.id==="fly"?"#14100a":"#ece7da";g.font='700 34px "IBM Plex Sans", system-ui, sans-serif';g.textAlign="center";g.fillText(bt.t,bt.x+bt.w/2,bt.y+55);g.textAlign="left"});
-    ctex.needsUpdate=true}
-  function showCard(p){st.card=p;drawCard(p.info);placeCard();card.visible=true}
-  function hideCard(){st.card=null;card.visible=false}
-  function placeCard(){const p=st.card;if(!p)return;cam.getWorldPosition(v1);p.obj.getWorldPosition(v2);v3.copy(v2).sub(v1);v3.y*=.35;if(v3.lengthSq()<1e-6)cam.getWorldDirection(v3);v3.normalize();
-    v3.applyAxisAngle(Yax,-.62);card.position.copy(v1).addScaledVector(v3,1.2);card.position.y=v1.y-.06;card.lookAt(v1)}   // to the right of the object, so it stays in view
-
-  /* ---------- menu on the left hand ---------- */
-  const mc=cnv(640,960),mtex=canvasTex(mc);
-  const menu=new T.Mesh(new T.PlaneGeometry(.22,.33),new T.MeshBasicMaterial({map:mtex,transparent:true,depthWrite:false,depthTest:false}));menu.renderOrder=31;menu.visible=false;S.add(menu);
-  const MENU=[{id:"orbits",t:"Orbits"},{id:"names",t:"Names"},{id:"craft",t:"Spacecraft"},{id:"real",t:"Spacing"},{id:"time",t:"Time"},{id:"next",t:"Next world  ▶"},{id:"home",t:"Back to start"}];
-  function menuVal(id){return id==="orbits"?(st.orbits?"ON":"OFF"):id==="names"?(st.names?"ON":"OFF"):id==="craft"?(st.craft?"ON":"OFF"):id==="real"?(st.real?"REAL":"SQUEEZED"):id==="time"?SPEEDS[st.sp][1].toUpperCase():""}
-  function drawMenu(){const g=mc.getContext("2d");g.clearRect(0,0,640,960);rr(g,6,6,628,948,30);g.fillStyle="rgba(8,10,20,.92)";g.fill();g.lineWidth=4;g.strokeStyle="#ffb347";g.stroke();
-    g.textBaseline="alphabetic";g.textAlign="left";g.fillStyle="#ffb347";g.font='900 64px "Big Shoulders Display", "Arial Narrow", Impact, sans-serif';g.fillText("MENU",40,86);
-    g.fillStyle="#8a8ea6";g.font='500 22px "IBM Plex Mono", ui-monospace, monospace';g.fillText("POINT + TRIGGER · Y HIDES",200,80);
-    MENU.forEach((m,i)=>{const y=120+i*118;m.y=y;rr(g,30,y,580,100,18);const on=menuVal(m.id)==="ON"||menuVal(m.id)==="REAL";g.fillStyle=on?"rgba(255,179,71,.18)":"rgba(255,255,255,.06)";g.fill();g.lineWidth=2;g.strokeStyle=on?"#ffb347":"rgba(255,255,255,.22)";g.stroke();
-      g.fillStyle="#ece7da";g.font='600 40px "IBM Plex Sans", system-ui, sans-serif';g.fillText(m.t,58,y+64);
-      const v=menuVal(m.id);if(v){g.textAlign="right";g.fillStyle=on?"#ffb347":"#a4a7ba";g.font='700 32px "IBM Plex Mono", ui-monospace, monospace';g.fillText(v,584,y+62);g.textAlign="left"}});
-    mtex.needsUpdate=true}
-  drawMenu();
-  function menuPress(id){
-    if(id==="orbits")st.orbits=!st.orbits;else if(id==="names")st.names=!st.names;else if(id==="craft"){st.craft=!st.craft;if(st.craft)loadCrafts()}
-    else if(id==="real"){st.real=!st.real;st.follow=null;st.fly=null}else if(id==="time")st.sp=(st.sp+1)%SPEEDS.length;else if(id==="next")tour(1);else if(id==="home")home(true);
-    drawMenu();if(id==="real")hint(st.real?"Real spacing":"Squeezed spacing",st.real?[["Now","the gaps between the orbits are true to scale"],["Neptune","is 30 times farther from the Sun than Earth"],["Tip","press A to fly from world to world"]]:[["Now","the orbits are pushed closer so everything fits"],["Sizes","planets are drawn far bigger than real"]],7)}
-  function placeMenu(){const c=ctrls.find(c=>c.userData.hand==="left"&&c.userData.mode==="tracked-pointer")||null;
-    if(c){c.updateMatrixWorld();v1.setFromMatrixPosition(c.matrixWorld);menu.position.copy(v1).add(v2.set(0,.2,0));cam.getWorldPosition(v3);menu.lookAt(v3)}
-    else{cam.getWorldPosition(v1);cam.getWorldDirection(v2);v2.y=0;v2.normalize();const side=new T.Vector3().crossVectors(v2,Yax).normalize();menu.position.copy(v1).addScaledVector(v2,.7).addScaledVector(side,-.42);menu.position.y=v1.y-.25;menu.lookAt(v1)}}
-
-  /* ---------- hint board ---------- */
-  const hc=cnv(1024,560),htex=canvasTex(hc);
-  const board=new T.Mesh(new T.PlaneGeometry(.9,.49),new T.MeshBasicMaterial({map:htex,transparent:true,depthWrite:false,depthTest:false}));board.renderOrder=32;board.visible=false;S.add(board);
-  function hint(title,lines,secs){const g=hc.getContext("2d");g.clearRect(0,0,1024,560);rr(g,6,6,1012,548,26);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=4;g.strokeStyle="#ffb347";g.stroke();
-    g.textAlign="left";g.textBaseline="alphabetic";g.fillStyle="#ffb347";g.font='900 64px "Big Shoulders Display", "Arial Narrow", Impact, sans-serif';g.fillText(title.toUpperCase(),44,92);
-    lines.forEach(([k,v],i)=>{const y=160+i*56;g.fillStyle="#8a8ea6";g.font='600 26px "IBM Plex Mono", ui-monospace, monospace';g.fillText(k.toUpperCase(),44,y);g.fillStyle="#ece7da";g.font='500 32px "IBM Plex Sans", system-ui, sans-serif';g.fillText(v,300,y)});
-    htex.needsUpdate=true;cam.getWorldPosition(v1);cam.getWorldDirection(v2);v2.y=0;if(v2.lengthSq()<1e-4)v2.set(0,0,-1);v2.normalize();board.position.copy(v1).addScaledVector(v2,1.15);board.position.y=v1.y-.42;board.lookAt(v1);board.visible=true;st.hintUntil=performance.now()+secs*1000}
-  const HELP=[["Left stick","fly where you look"],["Right stick","turn · up and down"],["Grip","fly faster"],["Trigger","point at a world: its card"],["A","fly to the next world"],["B","back to the start"],["X · Y","speed of time · menu"]];
+  function sayId(b){return b.kind==="craft"?"craft-"+b.id:b.id}
+  function showCard(p){st.card=p;const b=p.info;
+    H.showCard({kicker:b.kind==="craft"?"Spacecraft":b.type,title:b.name,hi:b.hi,color:b.c,rows:statsFor(b),cols:b.kind==="craft"?2:3,text:factFor(b),say:sayId(b),
+      buttons:[{id:"fly",label:"✈  FLY THERE",primary:true}],onPress:id=>{if(id==="fly")flyTo(p)}},p.obj)}
+  function hideCard(keepVoice){st.card=null;H.hideCard(keepVoice)}
 
   /* ---------- positions every frame ---------- */
   const tmpW=new T.Vector3(),earthW=new T.Vector3();let lastK=-1;
@@ -3192,41 +3415,28 @@ function SpaceVR(o){
       else if(c.where==="l2"){v1.copy(earthW).normalize();c.g.position.copy(earthW).addScaledVector(v1,1.1);c.g.lookAt(0,0,0)}
       else if(c.where==="parker"){const P=88,tp=(Date.UTC(2024,11,24)-Date.UTC(2000,0,1,12))/864e5,M=((sim-tp)/P%1+1)%1*Math.PI*2,e=.881,aa=.388;let E=M;for(let k=0;k<6;k++)E=E-(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));
         const nu=2*Math.atan2(Math.sqrt(1+e)*Math.sin(E/2),Math.sqrt(1-e)*Math.cos(E/2)),rau=aa*(1-e*Math.cos(E)),ang=nu+40*D2R,r=rOf(rau);c.g.position.set(r*Math.cos(ang),0,-r*Math.sin(ang));c.g.lookAt(0,0,0)}
-      else if(c.where==="far"){const e=c.pk.info;c.g.position.copy(e.dir).multiplyScalar(rOf(e.au));c.g.lookAt(0,0,0)}
-      c.g.rotation.x+=0});
+      else if(c.where==="far"){const e=c.pk.info;c.g.position.copy(e.dir).multiplyScalar(rOf(e.au));c.g.lookAt(0,0,0)}});
   }
-
-  /* ---------- labels: names on/off, scale with distance ---------- */
   function updLabels(){cam.getWorldPosition(v1);
     sunLab.visible=st.names;
     PL.forEach(p=>{p.h.children.forEach(ch=>{if(ch.isSprite&&labels.includes(ch))ch.visible=st.names});
-      p.line.visible=st.orbits;
       p.h.getWorldPosition(v2);const d=v1.distanceTo(v2);
       if(p.moonLab)p.moonLab.visible=st.names&&d<9;p.moons.forEach(l=>l.visible=st.names&&d<14)});
     orbitLines.forEach(l=>l.visible=st.orbits);
     CRAFTS.forEach(c=>{c.g.getWorldPosition(v2);c.lab.visible=st.names&&st.craft&&(c.where==="far"||v1.distanceTo(v2)<16)});
     picks.forEach(p=>{p.obj.getWorldPosition(v2);const d=v1.distanceTo(v2);const s=Math.max(p.r*1.35,d*.03);p.hit.scale.setScalar(s/(p.obj.scale.x||1))})}
 
-  /* ---------- moving the viewer ---------- */
-  function headLocal(){return cam.position}           // XR updates cam.position inside the rig each frame
-  function placeHead(pos,lookAt){
-    // turn the rig so the current head direction faces lookAt, then put the head at pos
-    cam.getWorldDirection(v2);v2.y=0;if(v2.lengthSq()<1e-6)v2.set(0,0,-1);v2.normalize();
-    v3.copy(lookAt).sub(pos);v3.y=0;if(v3.lengthSq()<1e-6)v3.set(0,0,-1);v3.normalize();
-    const dy=Math.atan2(-v3.x,-v3.z)-Math.atan2(-v2.x,-v2.z);rig.rotation.y+=dy;rig.updateMatrixWorld();
-    const hl=v1.copy(headLocal()).applyQuaternion(rig.quaternion);rig.position.copy(pos).sub(hl);rig.updateMatrixWorld(true)}
+  /* ---------- travel ---------- */
   const START=new T.Vector3(0,3.6,23.2);
-  function home(say){st.follow=null;st.fly=null;hideCard();const p=st.real?new T.Vector3(0,7,26):START;placeHead(p,new T.Vector3(0,0,0));if(say)hint("Back at the start",[["Ahead","the Sun"],["Around you","the planets on their real paths for today"]],4)}
+  function home(say){st.follow=null;st.fly=null;hideCard();const p=st.real?new T.Vector3(0,7,26):START;H.placeHead(p,new T.Vector3(0,0,0));if(say)H.hint("Back at the start",[["Ahead","the Sun"],["Around you","the planets on their real paths for today"]],4)}
   function viewFor(p){p.obj.getWorldPosition(v1);const d=p.kind==="craft"?Math.max(.55,p.r*5):p===sunPick?RAD.sun*3.4:p.r*3.4+.65;
     const toSun=v2.copy(v1).negate();if(toSun.lengthSq()<1e-6)cam.getWorldPosition(toSun).sub(v1);toSun.y=0;toSun.normalize();
     toSun.applyAxisAngle(Yax,-.6);return {pos:v1.clone().addScaledVector(toSun,d).add(new T.Vector3(0,d*.22,0)),off:toSun.clone().multiplyScalar(d).add(new T.Vector3(0,d*.22,0))}}
-  function flyTo(p){hideCard();cam.getWorldPosition(v3);const vf=viewFor(p);const dist=v3.distanceTo(vf.pos);
-    const hl=v1.copy(headLocal()).applyQuaternion(rig.quaternion);
-    // keep the path clear of the Sun: bend it outwards if the straight line passes too close
+  function flyTo(p){hideCard(true);cam.getWorldPosition(v3);const vf=viewFor(p);const dist=v3.distanceTo(vf.pos);
     const a=v3.clone(),b=vf.pos.clone(),ab=b.clone().sub(a),t0=Math.max(0,Math.min(1,-a.dot(ab)/Math.max(1e-6,ab.lengthSq()))),cp=a.clone().addScaledVector(ab,t0),dmin=cp.length(),clear=RAD.sun+3;
     const bend=dmin<clear?(dmin>1e-3?cp.normalize():new T.Vector3(0,1,0)).multiplyScalar((clear-dmin)*1.3):new T.Vector3();
     st.fly={p,head0:v3.clone(),t:0,dur:Math.min(5,Math.max(1.6,1.2+.55*Math.log2(1+dist/3))),yaw0:rig.rotation.y,yaw1:null,off:vf.off,bend}}
-  const ORDER=()=>[sunPick].concat(PL.map(p=>p.pk)).concat(CRAFTS.filter(c=>st.craft).map(c=>c.pk));
+  const ORDER=()=>[sunPick].concat(PL.map(p=>p.pk)).concat(CRAFTS.filter(()=>st.craft).map(c=>c.pk));
   let tourI=0;
   function tour(d){const L=ORDER();tourI=((tourI+d)%L.length+L.length)%L.length;flyTo(L[tourI])}
   function updFly(dt){const f=st.fly;if(!f)return;f.t+=dt/f.dur;const k=ease(Math.min(1,f.t));
@@ -3234,78 +3444,280 @@ function SpaceVR(o){
     if(f.yaw1===null){cam.getWorldDirection(v3);v3.y=0;v3.normalize();const want=new T.Vector3().copy(v1).sub(headTarget);want.y=0;want.normalize();f.yaw1=f.yaw0+(Math.atan2(-want.x,-want.z)-Math.atan2(-v3.x,-v3.z));
       while(f.yaw1-f.yaw0>Math.PI)f.yaw1-=2*Math.PI;while(f.yaw1-f.yaw0<-Math.PI)f.yaw1+=2*Math.PI}
     rig.rotation.y=f.yaw0+(f.yaw1-f.yaw0)*k;rig.updateMatrixWorld();
-    const hl=v3.copy(headLocal()).applyQuaternion(rig.quaternion);
+    const hl=v3.copy(cam.position).applyQuaternion(rig.quaternion);
     const headNow=new T.Vector3().lerpVectors(f.head0,headTarget,k);headNow.y+=Math.sin(Math.PI*k)*Math.min(6,f.head0.distanceTo(headTarget)*.12);headNow.addScaledVector(f.bend,Math.sin(Math.PI*k));
     rig.position.copy(headNow).sub(hl);
     if(f.t>=1){st.fly=null;st.follow={p:f.p,last:null};rig.updateMatrixWorld(true);showCard(f.p)}}
   function updFollow(){const f=st.follow;if(!f)return;(f.p.host||f.p.obj).getWorldPosition(v1);if(f.last)rig.position.add(v2.copy(v1).sub(f.last));f.last=(f.last||new T.Vector3()).copy(v1)}
-
-  /* ---------- controllers ---------- */
-  const ray=new T.Raycaster(),tm=new T.Matrix4();
-  function rayFrom(c){c.updateMatrixWorld();tm.identity().extractRotation(c.matrixWorld);ray.ray.origin.setFromMatrixPosition(c.matrixWorld);ray.ray.direction.set(0,0,-1).applyMatrix4(tm);ray.far=3000}
-  function uiHit(mesh,W,H){const h=ray.intersectObject(mesh,false)[0];if(!h||!mesh.visible)return null;return {x:h.uv.x*W,y:(1-h.uv.y)*H}}
-  function select(c){
-    if(performance.now()<st.hintUntil){st.hintUntil=0;board.visible=false}
-    rayFrom(c);
-    if(menu.visible){const u=uiHit(menu,640,960);if(u){const m=MENU.find(m=>u.y>=m.y&&u.y<=m.y+100);if(m)menuPress(m.id);return}}
-    if(card.visible){const u=uiHit(card,1024,720);if(u){const b=CARD_BTN.find(b=>u.x>=b.x&&u.x<=b.x+b.w&&u.y>=b.y&&u.y<=b.y+b.h);if(b){if(b.id==="fly")flyTo(st.card);else hideCard()}return}}
-    const hs=ray.intersectObjects(picks.filter(p=>p.obj.visible!==false&&(p.kind!=="craft"||st.craft)).map(p=>p.hit),false);
-    if(hs.length){const p=hs[0].object.userData.pick;if(st.card===p)hideCard();else showCard(p)}else hideCard()}
-  function gazePick(){cam.getWorldPosition(ray.ray.origin);cam.getWorldDirection(ray.ray.direction);ray.far=3000;const hs=ray.intersectObjects(picks.map(p=>p.hit),false);return hs.length?hs[0].object.userData.pick:null}
-  const prev={};let snapReady=true;
-  function input(dt){
-    const ses=R.xr.getSession();if(!ses)return;let mx=0,my=0,tx=0,ty=0,boost=false;
-    for(const src of ses.inputSources){const gp=src.gamepad;if(!gp)continue;const hnd=src.handedness||"none";
-      const ax=gp.axes.length>3?gp.axes[2]:0,ay=gp.axes.length>3?gp.axes[3]:0;
-      if(hnd==="left"){mx=ax;my=ay}else{tx=ax;ty=ay}
-      if(gp.buttons[1]&&gp.buttons[1].pressed)boost=true;
-      const a=!!(gp.buttons[4]&&gp.buttons[4].pressed),b=!!(gp.buttons[5]&&gp.buttons[5].pressed),pv=prev[hnd]||{};
-      if(hnd==="left"){if(a&&!pv.a){st.sp=(st.sp+1)%SPEEDS.length;drawMenu();hint("Speed of time",[["Now",SPEEDS[st.sp][1]]],2)}if(b&&!pv.b){st.menu=!st.menu}}
-      else{if(a&&!pv.a)tour(1);if(b&&!pv.b)home(true)}
-      prev[hnd]={a,b}}
-    move(mx,my,tx,ty,boost,dt)}
-  function move(mx,my,tx,ty,boost,dt){
-    const dz=v=>Math.abs(v)<.18?0:v;mx=dz(mx);my=dz(my);ty=dz(ty);
-    if(mx||my||ty){st.follow=null;st.fly=null}
-    cam.getWorldPosition(v1);const far=v1.length(),base=(st.real?3:2)+far*(st.real?.12:.05),spd=base*(boost?4:1);
-    if(mx||my){cam.getWorldDirection(v2);const side=v3.crossVectors(v2,Yax).normalize();rig.position.addScaledVector(v2,-my*spd*dt).addScaledVector(side,mx*spd*dt)}
-    if(ty)rig.position.y-=ty*spd*.6*dt;
-    if(Math.abs(tx)>.7&&snapReady){snapReady=false;const ang=-Math.sign(tx)*Math.PI/6;cam.getWorldPosition(v1);rig.position.sub(v1).applyAxisAngle(Yax,ang).add(v1);rig.rotation.y+=ang}
-    else if(Math.abs(tx)<.3)snapReady=true}
-
-  /* ---------- dust follows the viewer ---------- */
+  function baseSpeed(){cam.getWorldPosition(v1);const far=v1.length();return (st.real?3:2)+far*(st.real?.12:.05)}
+  const stopTravel=()=>{st.follow=null;st.fly=null};
   function updDust(){cam.getWorldPosition(v1);for(let i=0;i<dustN;i++){for(let k=0;k<3;k++){const j=i*3+k,c=v1.getComponent(k);let d=dustP[j]-c;if(d>15)dustP[j]-=30;else if(d<-15)dustP[j]+=30}}dustG.attributes.position.needsUpdate=true}
+  const HELP=[["Left stick","fly where you look"],["Right stick","turn · up and down"],["Grip","fly faster"],["Trigger / pinch","point at a world: its card"],["Hold trigger","fly where you point"],["A · B","next world · back to start"],["X · Y","speed of time · menu"]];
+  function speedHint(){H.hint("Speed of time",[["Now",SPEEDS[st.sp][1]]],2);H.refreshUI()}
 
-  /* ---------- public ---------- */
-  let frames=0;const saved={};
-  return {
-    enter(){saved.near=cam.near;saved.far=cam.far;cam.near=.05;cam.far=3000;cam.updateProjectionMatrix();
-      rig.position.set(0,0,0);rig.rotation.set(0,0,0);cam.position.set(0,0,0);cam.quaternion.identity();rig.add(cam);ctrls.forEach(c=>{rig.add(c);if(c.userData.ln)c.userData.ln.scale.z=60});
-      U.visible=true;sky.visible=true;dust.visible=true;st.menu=true;frames=0;hideCard();if(st.craft)loadCrafts();
-      if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{labels.forEach(drawLabel);drawMenu();if(st.card)drawCard(st.card.info)})},
-    exit(){S.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();cam.near=saved.near||.01;cam.far=saved.far||200;cam.updateProjectionMatrix();
-      ctrls.forEach(c=>{S.add(c);if(c.userData.ln)c.userData.ln.scale.z=4});U.visible=false;sky.visible=false;dust.visible=false;card.visible=false;menu.visible=false;board.visible=false;st.fly=null;st.follow=null},
-    frame(dt){frames++;
+  return {id:"space",title:"Space walk",sky:"milky",
+    get flySpeed(){return baseSpeed()},
+    enter(){U.visible=true;dust.visible=true;if(st.craft)loadCrafts();home(false);st.welcome=2;
+      if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>labels.forEach(drawLabel))},
+    exit(){U.visible=false;dust.visible=false;st.fly=null;st.follow=null;st.card=null},
+    frame(dt){
+      if(st.welcome&&--st.welcome===0){home(false);H.hint("Welcome to space",HELP,16);H.say("ui-solar")}
       sim+=SPEEDS[st.sp][0]*dt;
       const kT=st.real?1:0;if(st.k!==kT){st.k=Math.max(0,Math.min(1,st.k+(kT>st.k?1:-1)*dt/2.5))}
-      if(frames===3){home(false);hint("Welcome to space",HELP,16)}
-      input(dt);updFly(dt);updFollow();rig.updateMatrixWorld(true);layout(dt);updLabels();updDust();
-      cam.getWorldPosition(v1);sky.matrix.copy(SKYM).setPosition(v1);sky.matrixWorldNeedsUpdate=true;
-      menu.visible=st.menu;if(menu.visible)placeMenu();
-      if(card.visible&&st.card&&!st.fly)placeCard();
-      if(board.visible&&performance.now()>st.hintUntil)board.visible=false},
-    select,
-    pad:{immersive:true,look3d:true,
-      look:(x,y,dt)=>move(x,y,0,0,false,dt),zoom:(z,dt)=>move(0,0,0,-z,false,dt),
-      a:()=>{const p=gazePick();if(p)showCard(p);else if(st.card)flyTo(st.card)},
-      b:()=>{if(st.card)hideCard();else home(true);return true},
-      x:()=>{st.sp=(st.sp+1)%SPEEDS.length;drawMenu();hint("Speed of time",[["Now",SPEEDS[st.sp][1]]],2)},
-      y:()=>{st.orbits=!st.orbits;drawMenu();hint("Orbits",[["Now",st.orbits?"shown":"hidden"]],2)},
-      prev:()=>tour(-1),next:()=>tour(1),
-      dpad:d=>{if(d==="left")tour(-1);else if(d==="right")tour(1);else if(d==="up")menuPress("real");else menuPress("names");return true},
-      helpXR:()=>hint("Gamepad",[["Left stick","fly"],["Right stick ↕","up and down"],["A","card of what you look at · fly there"],["LB / RB","previous / next world"],["X · Y","speed of time · orbits on/off"],["B","close the card · back to start"]],10)},
-    state:st,_:{PL,CRAFTS,picks,menuPress,tour,flyTo,rig,U,card,menu}
+      updFly(dt);updFollow();rig.updateMatrixWorld(true);layout(dt);updLabels();updDust()},
+    sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:baseSpeed(),onMove:stopTravel})},
+    onMove:stopTravel,
+    picks:()=>picks.filter(p=>p.kind!=="craft"||st.craft).map(p=>p.hit),
+    pick(p){if(st.card===p&&H.cardData()){hideCard()}else showCard(p)},
+    empty(){hideCard()},
+    menu:()=>[{id:"orbits",label:"Orbits",val:st.orbits?"ON":"OFF",on:st.orbits},{id:"names",label:"Names",val:st.names?"ON":"OFF",on:st.names},
+      {id:"craft",label:"Spacecraft",val:st.craft?"ON":"OFF",on:st.craft},{id:"real",label:"Spacing",val:st.real?"REAL":"SQUEEZED",on:st.real},
+      {id:"time",label:"Time",val:SPEEDS[st.sp][1].toUpperCase()},{id:"next",label:"Next world  ▶"},{id:"home",label:"Back to start"}],
+    menuPress(id){
+      if(id==="orbits")st.orbits=!st.orbits;else if(id==="names")st.names=!st.names;else if(id==="craft"){st.craft=!st.craft;if(st.craft)loadCrafts()}
+      else if(id==="real"){st.real=!st.real;st.follow=null;st.fly=null;H.hint(st.real?"Real spacing":"Squeezed spacing",st.real?[["Now","the gaps between the orbits are true to scale"],["Neptune","is 30 times farther from the Sun than Earth"],["Tip","press A to fly from world to world"]]:[["Now","the orbits are pushed closer so everything fits"],["Sizes","planets are drawn far bigger than real"]],7)}
+      else if(id==="time"){st.sp=(st.sp+1)%SPEEDS.length;speedHint()}else if(id==="next")tour(1);else if(id==="home")home(true)},
+    btnA:()=>tour(1),btnB:()=>{if(H.cardData())hideCard();else home(true)},btnX:()=>{st.sp=(st.sp+1)%SPEEDS.length;speedHint()},
+    prev:()=>tour(-1),next:()=>tour(1),
+    _:{PL,CRAFTS,picks,tour,flyTo,st,U,home}
   };
+}
+
+/* ================= SOLAR SYSTEM SECTIONS FOR THE VR HUB =================
+   planets  · every planet and big moon up close, one at a time
+   compare  · the planets lined up at their true sizes, with the Sun behind
+   stars    · the real Milky Way all around, constellations, bright stars
+   craft    · a museum of real NASA spacecraft models, each can grow to real size
+   land360  · real 360° panoramas from landing sites on Mars and the Moon */
+function SolarScenes(H){
+  const T=H.T,R=H.R,S=H.S,cam=H.cam,F=H.F,D2R=Math.PI/180,rig=H.rig;
+  const BYD=typeof BY!=="undefined"?BY:{},MO=typeof MOONS!=="undefined"?MOONS:{};
+  const EXT=typeof MODEL_EXT!=="undefined"?MODEL_EXT:"glb";
+  const v1=new T.Vector3(),v2=new T.Vector3(),fmt=H.fmt;
+  const HEAD=new T.Vector3(0,1.6,0),AHEAD=new T.Vector3(0,1.6,-1);
+  const loadTex=url=>{const t=H.LD.load(url);t.encoding=T.sRGBEncoding;t.anisotropy=4;return t};
+  const glow=(stops)=>{const c=H.cnv(256,256),g=c.getContext("2d"),gr=g.createRadialGradient(128,128,0,128,128,128);stops.forEach(([a,col])=>gr.addColorStop(a,col));g.fillStyle=gr;g.fillRect(0,0,256,256);return new T.CanvasTexture(c)};
+  const ringGeo=(i,o)=>{const g=new T.RingGeometry(i,o,128,1),p=g.attributes.position,uv=g.attributes.uv,v=new T.Vector3();for(let k=0;k<p.count;k++){v.fromBufferAttribute(p,k);uv.setXY(k,(v.length()-i)/(o-i),.5)}return g};
+  // front-of-the-viewer placement inside the rig (for scenes where the view can be turned)
+  H.front=(mesh,dist,dy,side,tilt)=>{v2.set(0,0,-1).applyQuaternion(cam.quaternion);v2.y=0;if(v2.lengthSq()<1e-6)v2.set(0,0,-1);v2.normalize();const yaw=Math.atan2(-v2.x,-v2.z);
+    mesh.position.set(cam.position.x+v2.x*dist+Math.cos(yaw)*(side||0),cam.position.y+dy,cam.position.z+v2.z*dist-Math.sin(yaw)*(side||0));mesh.rotation.set(tilt||0,yaw,0,"YXZ")};
+  const label=(text,sub,color,k)=>{const c=H.cnv(512,128),g=c.getContext("2d");g.font="700 44px "+F.mono;const t=text.toUpperCase(),w=g.measureText(t).width;let sw=0;if(sub){g.font="500 32px "+F.sans;sw=g.measureText(sub).width}
+    const W=Math.min(504,Math.max(w,sw)+40),x0=256-W/2;g.fillStyle="rgba(5,6,12,.78)";H.rr(g,x0,4,W,sub?118:66,12);g.fill();g.strokeStyle=color;g.lineWidth=3;g.stroke();
+    g.textAlign="center";g.fillStyle="#ece7da";g.font="700 44px "+F.mono;g.fillText(t,256,52);if(sub){g.fillStyle="#b9bdd0";g.font="500 32px "+F.sans;g.fillText(sub,256,102)}
+    const s=new T.Sprite(new T.SpriteMaterial({map:H.ctex(c),transparent:true,depthWrite:false,sizeAttenuation:false}));s.renderOrder=6;s.scale.set(k||.16,(k||.16)/4,1);return s};
+  // all the worlds with their facts
+  const PLAN=["sun","mercury","venus","earth","moon","mars","jupiter","saturn","uranus","neptune","pluto"];
+  const XB=Object.fromEntries((typeof XR_BODIES!=="undefined"?XR_BODIES:[]).map(b=>[b.id,b]));
+  const MOONL=[];["mars","jupiter","saturn","uranus","neptune","pluto"].forEach(p=>(MO[p]||[]).forEach(m=>{if(H.has(m.id))MOONL.push(Object.assign({planet:p},m))}));
+  function worldInfo(id){
+    const b=BYD[id]||{},x=XB[id]||(id==="sun"?XR_SUN:id==="moon"?XR_MOON:null);
+    if(x||b.name){const n=b.n||{},rows=((x&&x.s)||[]).slice(0,4);
+      if(n.day){const h=Math.abs(n.day);rows.push(["One day",h<48?fmt(h,1)+" hours":fmt(h/24,1)+" Earth days"])}
+      if(n.g)rows.push(["Gravity",fmt(n.g/9.81,2)+" × Earth"]);
+      return {id,name:b.name||x.name,hi:b.hi||(x&&x.hi)||"",kicker:(x&&x.type)||b.type||"",color:b.c||(x&&x.c)||"#8ec5ff",rows:rows.slice(0,6),text:(b.facts&&b.facts[0])||b.short||"",tex:id==="sun"?"tex/sun.jpg":"tex/"+((x&&x.tex)||id+".jpg"),d:n.d||0,ring:x&&x.ring,thin:x&&x.thin,tilt:(x&&x.tilt)||b.tilt||0,day:(x&&x.day)||b.day||24}}
+    const m=MOONL.find(m=>m.id===id);if(!m)return null;const P=BYD[m.planet]||{name:m.planet};
+    const per=Math.abs(m.P)<1?fmt(Math.abs(m.P)*24,1)+" hours":fmt(Math.abs(m.P),1)+" days";
+    return {id,name:m.name,hi:"",kicker:"Moon of "+P.name,color:P.c||"#cfd2d8",rows:[["Diameter",fmt(m.d)+" km"],["From "+P.name,fmt(m.a)+" km"],["One orbit",per+(m.P<0?" (backwards)":"")],["Found by",m.by||"—"]],cols:2,text:m.fact||"",tex:m.tex,model:m.model?("models/"+m.id+"."+EXT):null,d:m.d,tilt:0,day:Math.abs(m.P)*24}}
+
+  /* ======================= PLANETS & MOONS, UP CLOSE ======================= */
+  H.scenes.planets=(()=>{
+    const root=new T.Group();root.visible=false;S.add(root);let built=false;
+    const ITEMS=PLAN.concat(MOONL.map(m=>m.id));let cur=3,world=null,listP=null,zoom=1,spin=0;
+    const sunL=new T.DirectionalLight(0xfff4e6,1.5);sunL.position.set(-4,2.2,3);root.add(sunL);root.add(new T.AmbientLight(0x2c3248,.55));
+    const STAGE=new T.Vector3(0,1.5,-2.15),R0=.55;
+    function build(){built=true;
+      listP=H.panel(1.0,1.36,880,1196,(g,p)=>{H.rr(g,6,6,868,1184,30);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=4;g.strokeStyle="rgba(255,179,71,.8)";g.stroke();
+        g.fillStyle="#ffb347";g.font="900 62px "+F.disp;g.fillText("PLANETS",40,82);g.fillStyle="#a4a7ba";g.font="500 36px "+F.hi;g.fillText("ग्रह",300,80);
+        PLAN.forEach((id,i)=>{const b=BYD[id]||XB[id]||{name:id};p.btn(g,id,30+(i%3)*276,108+Math.floor(i/3)*86,262,74,b.name,{on:ITEMS[cur]===id,fs:30})});
+        const y0=108+4*86+18;g.fillStyle="#8ec5ff";g.font="900 62px "+F.disp;g.fillText("MOONS",40,y0+56);g.fillStyle="#a4a7ba";g.font="500 36px "+F.hi;g.fillText("चंद्रमा",270,y0+54);
+        MOONL.forEach((m,i)=>{p.btn(g,m.id,30+(i%3)*276,y0+80+Math.floor(i/3)*86,262,74,m.name,{on:ITEMS[cur]===m.id,fs:30})})},
+        {onPress:id=>show(ITEMS.indexOf(id))});
+      listP.mesh.position.set(-1.38,1.45,-1.45);listP.mesh.lookAt(HEAD);root.add(listP.mesh)}
+    function disposeWorld(){if(!world)return;root.remove(world);(world.userData.own||[]).forEach(n=>{n.geometry.dispose();const m=n.material;if(m.map&&m.map!==H.tex("saturn_ring.png"))m.map.dispose();if(m.alphaMap)m.alphaMap.dispose();m.dispose()});world=null}
+    function show(i){cur=(i+ITEMS.length)%ITEMS.length;const id=ITEMS[cur],w=worldInfo(id);if(!w)return;disposeWorld();
+      const g=new T.Group();g.position.copy(STAGE);root.add(g);world=g;const own=[];g.userData.own=own;const O=m=>{own.push(m);return m};const tg=new T.Group();tg.rotation.z=(w.tilt||0)*D2R;g.add(tg);const body=new T.Group();tg.add(body);g.userData.body=body;
+      if(id==="sun"){body.add(O(new T.Mesh(new T.SphereGeometry(R0,64,48),new T.MeshBasicMaterial({map:loadTex(w.tex),color:0xffe2b0}))));
+        const gl=new T.Sprite(new T.SpriteMaterial({map:glow([[0,"rgba(255,236,190,.9)"],[.3,"rgba(255,200,110,.6)"],[.55,"rgba(255,140,40,.18)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));gl.scale.set(R0*4,R0*4,1);g.add(gl)}
+      else if(w.model&&typeof loadModel==="function"){loadModel(w.model,R0*2,m=>{if(m&&world===g)body.add(m);else if(world===g)body.add(O(new T.Mesh(new T.SphereGeometry(R0,48,32),new T.MeshPhongMaterial({map:loadTex(w.tex),shininess:2}))))})}
+      else{const m=O(new T.Mesh(new T.SphereGeometry(R0,96,64),new T.MeshPhongMaterial({map:loadTex(w.tex),shininess:id==="earth"?18:3})));body.add(m);
+        if(id==="earth"){body.add(O(new T.Mesh(new T.SphereGeometry(R0*1.012,96,64),new T.MeshPhongMaterial({color:0xffffff,alphaMap:loadTex("tex/earth_clouds.jpg"),transparent:true,depthWrite:false,opacity:.9}))));
+          const atm=new T.Sprite(new T.SpriteMaterial({map:glow([[0,"rgba(0,0,0,0)"],[.43,"rgba(0,0,0,0)"],[.47,"rgba(110,170,255,.45)"],[.6,"rgba(80,140,255,.08)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));atm.scale.set(R0*2.3,R0*2.3,1);g.add(atm)}}
+      if(w.ring){const rm=O(new T.Mesh(ringGeo(R0*1.2,R0*2.35),new T.MeshLambertMaterial({map:H.tex("saturn_ring.png"),side:T.DoubleSide,transparent:true,depthWrite:false})));rm.rotation.x=-Math.PI/2;tg.add(rm)}
+      if(w.thin){const rm=O(new T.Mesh(ringGeo(R0*1.6,R0*1.75),new T.MeshBasicMaterial({color:0x9be3e6,side:T.DoubleSide,transparent:true,opacity:.3,depthWrite:false})));rm.rotation.x=-Math.PI/2;tg.add(rm)}
+      const hit=O(new T.Mesh(new T.SphereGeometry(R0*(w.ring?2.2:1.1),16,12),new T.MeshBasicMaterial({visible:false})));hit.userData.pick="world";g.add(hit);g.userData.hit=hit;
+      g.userData.base=w.ring?.62:1;g.scale.setScalar(zoom*g.userData.base);if(listP)listP.redraw();
+      const scale=w.d?"Real size: "+fmt(w.d)+" km across":"";
+      H.showCardAt({kicker:w.kicker,title:w.name,hi:w.hi,color:w.color,rows:w.rows,cols:w.cols||3,text:w.text||scale,say:id,
+        buttons:[{id:"prev",label:"◀  BACK"},{id:"next",label:"NEXT  ▶",primary:true}],onPress:b=>show(cur+(b==="next"?1:-1))},new T.Vector3(1.34,1.42,-1.4),HEAD)}
+    return {id:"planets",title:"Planets & moons",sky:"milky",noFly:true,
+      enter(){if(!built)build();root.visible=true;zoom=1;H.placeHead(HEAD,AHEAD);show(cur);H.hint("Planets & moons",[["Trigger / pinch","choose a world on the list"],["Right stick","spin it"],["Left stick ↕","bigger · smaller"],["A · X","next · previous world"],["Card","listen again, back, next"]],7)},
+      exit(){root.visible=false;disposeWorld()},
+      frame(dt){if(!world)return;const b=world.userData.body,w=worldInfo(ITEMS[cur]);b.rotation.y+=(spin||Math.sign(w.day||1)*.15)*dt;spin*=.94;if(Math.abs(spin)<.02)spin=0},
+      sticks(mx,my,tx,ty,boost,dt){if(Math.abs(tx)>.15)spin=tx*2.4;if(Math.abs(my)>.2&&world){zoom=Math.min(2.2,Math.max(.45,zoom*Math.exp(-my*1.2*dt)));world.scale.setScalar(zoom*world.userData.base)}},
+      picks:()=>world&&world.userData.hit?[world.userData.hit]:[],
+      pick(){spin=(spin?0:2.4)},
+      menu:()=>[{id:"next",label:"Next world  ▶"},{id:"prev",label:"◀  Previous world"},{id:"card",label:"Show the card"}],
+      menuPress(id){if(id==="next")show(cur+1);else if(id==="prev")show(cur-1);else show(cur)},
+      btnA:()=>show(cur+1),btnX:()=>show(cur-1),btnB:()=>H.go("lobby"),prev:()=>show(cur-1),next:()=>show(cur+1),
+      refresh(){if(listP)listP.redraw()},
+      _:{show,ITEMS}}})();
+
+  /* ======================= COMPARE SIZES ======================= */
+  H.scenes.compare=(()=>{
+    const root=new T.Group();root.visible=false;S.add(root);let built=false;const hits=[];
+    const ER=.25,EKM=12756,km2m=km=>km/EKM*ER*2;   // Earth = 50 cm across
+    const ROW=["mercury","venus","earth","moon","mars","jupiter","saturn","uranus","neptune","pluto"];
+    let sun=null,sunOn=true;
+    function build(){built=true;
+      const L=new T.DirectionalLight(0xfff4e6,1.45);L.position.set(-12,9,14);root.add(L);root.add(new T.AmbientLight(0x2c3248,.6));
+      let x=-1.2;
+      ROW.forEach(id=>{const w=worldInfo(id),r=km2m(w.d)/2,ring=w.ring?r*2.35:w.thin?r*1.75:r;x+=ring;
+        const g=new T.Group();g.position.set(x,1.5,-3.2-(r>1?r*.6:0));root.add(g);const tg=new T.Group();tg.rotation.z=(w.tilt||0)*D2R;g.add(tg);
+        const m=new T.Mesh(new T.SphereGeometry(r,r>1?96:48,r>1?64:32),new T.MeshPhongMaterial({map:loadTex(w.tex),shininess:3}));tg.add(m);g.userData.spin=m;
+        if(w.ring){const rm=new T.Mesh(ringGeo(r*1.2,r*2.35),new T.MeshLambertMaterial({map:H.tex("saturn_ring.png"),side:T.DoubleSide,transparent:true,depthWrite:false}));rm.rotation.x=-Math.PI/2;tg.add(rm)}
+        const times=w.d/EKM;
+        const lab=label(w.name,fmt(w.d)+" km · "+(times>=1?fmt(times,1)+"× Earth":fmt(times,2)+"× Earth"),w.color,.15);lab.position.set(0,Math.max(r,(w.ring?r*.5:r))+.18+r*.05,0);g.add(lab);
+        const hit=new T.Mesh(new T.SphereGeometry(Math.max(r,.12)*1.1,16,12),new T.MeshBasicMaterial({visible:false}));hit.userData.pick={id,w};g.add(hit);hits.push(hit);
+        x+=ring+.35});
+      // the Sun at the same scale: 109 Earths across, a glowing wall behind the row
+      const sr=km2m(1392700)/2;sun=new T.Group();sun.position.set(14,1.5,-3.2-sr-30);root.add(sun);
+      sun.add(new T.Mesh(new T.SphereGeometry(sr,96,64),new T.MeshBasicMaterial({map:loadTex("tex/sun.jpg"),color:0xffd9a0})));
+      const gl=new T.Sprite(new T.SpriteMaterial({map:glow([[0,"rgba(255,220,160,.0)"],[.42,"rgba(255,200,120,.0)"],[.46,"rgba(255,170,80,.45)"],[.62,"rgba(255,130,40,.10)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));gl.scale.set(sr*4.4,sr*4.4,1);sun.add(gl);
+      const sl=label("Sun","1,392,700 km · 109× Earth","#ffb347",.2);sl.position.set(0,sr+3,0);sun.add(sl);
+      const sh=new T.Mesh(new T.SphereGeometry(sr,24,16),new T.MeshBasicMaterial({visible:false}));sh.userData.pick={id:"sun",w:worldInfo("sun")};sun.add(sh);hits.push(sh)}
+    return {id:"compare",title:"Compare sizes",sky:"milky",flySpeed:2.4,
+      enter(){if(!built)build();root.visible=true;sun.visible=sunOn;H.placeHead(HEAD,new T.Vector3(.6,1.5,-3.2));H.say("ui-compare");
+        H.hint("Compare sizes",[["Earth","is 50 cm across here"],["Left stick","fly along the row → to the giants"],["Behind them","the Sun, 109 Earths wide"],["Trigger / pinch","a world's card"]],8)},
+      exit(){root.visible=false},
+      frame(dt){hits.forEach(h=>{const s=h.parent.userData.spin;if(s)s.rotation.y+=.12*dt})},
+      sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:2.4})},
+      picks:()=>hits.filter(h=>h.parent.visible),
+      pick(o){const w=o.w,times=w.d/EKM;H.showCard({kicker:w.kicker,title:w.name,hi:w.hi,color:w.color,
+        rows:[["Diameter",fmt(w.d)+" km"],["Compared with Earth",(times>=1?fmt(times,1):fmt(times,2))+" ×"],[times>=1?"Earths across it":"Fit across Earth",times>=1?fmt(times,0):fmt(1/times,1)],["Here it is",fmt(km2m(w.d)*100,0)+" cm wide"]],cols:2,text:w.text,say:o.id},H.lastHit&&H.lastHit.point?H.lastHit.point.clone():null)},
+      empty(){H.hideCard()},
+      menu:()=>[{id:"sun",label:"The Sun",val:sunOn?"ON":"OFF",on:sunOn},{id:"start",label:"Back to the start"}],
+      menuPress(id){if(id==="sun"){sunOn=!sunOn;sun.visible=sunOn}else H.placeHead(HEAD,new T.Vector3(.6,1.5,-3.2))},
+      btnB:()=>{if(H.cardData())H.hideCard();else H.go("lobby")}}})();
+
+  /* ======================= STARS & MILKY WAY ======================= */
+  H.scenes.stars=(()=>{
+    const root=new T.Group();root.visible=false;S.add(root);let built=false,lines=null,cnames=[],snames=[],stars=[],ring=null,ringUntil=0,panel=null;
+    const st={lines:true,cn:true,sn:true};const RS=1500;
+    const TARGETS=(typeof SKY_TARGETS!=="undefined"?SKY_TARGETS:[["Galactic Centre",266.42,-29.01],["Orion",83.8,-1.2]]);
+    const dirOf=(raDeg,dec)=>{const a=raDeg*D2R,d=dec*D2R;return new T.Vector3(Math.cos(d)*Math.cos(a),Math.sin(d),-Math.cos(d)*Math.sin(a))};
+    function build(){built=true;
+      fetch("sky/constellations.json").then(r=>r.json()).then(c=>{const pos=[];
+        for(const k in c.lines)c.lines[k].forEach(poly=>{for(let i=0;i<poly.length-1;i++){pos.push(...dirOf(poly[i][0],poly[i][1]).multiplyScalar(RS).toArray(),...dirOf(poly[i+1][0],poly[i+1][1]).multiplyScalar(RS).toArray())}});
+        const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));lines=new T.LineSegments(g,new T.LineBasicMaterial({color:0x8fb0ff,transparent:true,opacity:.5,depthWrite:false}));lines.frustumCulled=false;lines.visible=st.lines;root.add(lines);
+        for(const k in c.names){const n=c.names[k];if((n.rank||3)>2)continue;const s=label(n.name,"","#7fa6ff",.15);s.material.opacity=.85;s.position.copy(dirOf(n.ra,n.dec).multiplyScalar(RS*.98));s.visible=st.cn;root.add(s);cnames.push(s)}}).catch(()=>{});
+      fetch("sky/stars.json").then(r=>r.json()).then(s=>{s.stars.forEach(r=>{const [ra,dec,mag,ci,dist,name,hip]=r;if(mag>4)return;const v=dirOf(ra*15,dec);stars.push({v,ra,dec,mag,ci,dist,name,hip});
+        if(name&&mag<=1.6){const l=label(name,"","#ffe2a8",.12);l.position.copy(v).multiplyScalar(RS*.97);l.center.set(.5,-.4);l.visible=st.sn;root.add(l);snames.push(l)}})}).catch(()=>{});
+      ring=new T.Mesh(new T.RingGeometry(36,44,48),new T.MeshBasicMaterial({color:0xffb347,transparent:true,opacity:.9,depthWrite:false,side:T.DoubleSide}));ring.visible=false;root.add(ring);
+      panel=H.panel(1.12,.62,1120,620,(g,p)=>{H.rr(g,6,6,1108,608,28);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(143,176,255,.7)";g.stroke();
+        g.fillStyle="#8fb0ff";g.font="600 28px "+F.mono;g.fillText("FIND IN THE SKY · आकाश में खोजें",36,58);
+        TARGETS.forEach(([n],i)=>p.btn(g,"t"+i,30+(i%4)*268,84+Math.floor(i/4)*120,254,104,n,{fs:28}));
+        [["lines","Lines",st.lines],["cn","Constellations",st.cn],["sn","Star names",st.sn]].forEach(([id,l,on],i)=>p.btn(g,id,30+i*356,350,340,96,l,{on,fs:30,val:on?"ON":"OFF"}));
+        g.fillStyle="#a4a7ba";g.font="400 26px "+F.sans;g.fillText("Point at any bright star and pull the trigger (or pinch) to name it.",36,520);g.fillText("Right stick: turn around.",36,560)},
+        {onPress:id=>{if(id[0]==="t")find(+id.slice(1));else{st[id]=!st[id];apply();panel.redraw();H.refreshUI()}}});
+      rig.add(panel.mesh)}
+    function apply(){if(lines)lines.visible=st.lines;cnames.forEach(s=>s.visible=st.cn);snames.forEach(s=>s.visible=st.sn)}
+    function find(i){const [n,ra,dec]=TARGETS[i];const d=dirOf(ra,dec);H.headPos(v1);H.placeHead(v1.clone(),v1.clone().add(new T.Vector3(d.x,0,d.z)));
+      ring.position.copy(d).multiplyScalar(RS*.95);ring.lookAt(0,0,0);ring.visible=true;ringUntil=performance.now()+9000;H.front(panel.mesh,1.05,-.72,0,-.6);
+      const alt=Math.asin(Math.max(-1,Math.min(1,d.y)))/D2R;H.hint(n,[["Look",alt>12?"up, about "+Math.round(alt)+"°":alt<-12?"down, about "+Math.round(-alt)+"° below you":"straight ahead"],["Find","the orange ring"]],5)}
+    function starCard(s){const ly=s.dist?s.dist*3.26156:0;const col=s.ci<0?"Blue-white":s.ci<.3?"White":s.ci<.6?"Yellow-white":s.ci<.8?"Yellow, like the Sun":s.ci<1.4?"Orange":"Red";
+      H.showCard({kicker:"Star",title:s.name||("HIP "+s.hip),color:"#ffe2a8",rows:[["Brightness","magnitude "+s.mag.toFixed(1)],["Distance",ly?fmt(ly,ly<100?1:0)+" light-years":"unknown"],["Colour",col],["Light left it",ly?"about "+fmt(ly,0)+" years ago":"—"]],cols:2,
+        text:ly?"The light entering your eyes now left this star about "+fmt(ly,0)+" years ago. Every star you see is a sun, very far away.":""},v1.copy(s.v).multiplyScalar(10).add(H.headPos(v2)))}
+    return {id:"stars",title:"Stars & Milky Way",sky:"equatorial",noFly:true,
+      enter(){if(!built)build();root.visible=true;H.skyMesh.material.color.set(0xe4e6f0);H.placeHead(HEAD,AHEAD);find(0);H.front(panel.mesh,1.05,-.72,0,-.6);panel.mesh.visible=true;H.say("ui-stars")},
+      exit(){root.visible=false;panel.mesh.visible=false},
+      frame(){H.headPos(v1);root.position.copy(v1);if(ring.visible&&performance.now()>ringUntil)ring.visible=false;if(ring.visible)ring.material.opacity=.55+.4*Math.sin(performance.now()/180)},
+      sticks(mx,my,tx,ty,boost,dt){H.move(0,0,tx,0,false,dt,{noFly:true})},
+      empty(c){if(!c)return;const a=H.aimFrom(c);c.updateMatrixWorld();const o=new T.Vector3().setFromMatrixPosition(c.matrixWorld),q=new T.Quaternion();c.getWorldQuaternion(q);const d=new T.Vector3(0,0,-1).applyQuaternion(q);
+        let best=null,bd=Math.cos(2.5*D2R);for(const s of stars){const dot=s.v.dot(d);if(dot>bd){bd=dot;best=s}}if(best)starCard(best);else H.hideCard()},
+      menu:()=>[{id:"lines",label:"Constellation lines",val:st.lines?"ON":"OFF",on:st.lines},{id:"cn",label:"Constellation names",val:st.cn?"ON":"OFF",on:st.cn},{id:"sn",label:"Star names",val:st.sn?"ON":"OFF",on:st.sn},{id:"panel",label:"Find panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"next",label:"Next sight  ▶"}],
+      menuPress(id){if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,1.05,-.72,0,-.6)}else if(id==="next")this.next();else{st[id]=!st[id];apply();panel.redraw()}},
+      ti:0,next(){this.ti=(this.ti+1)%TARGETS.length;find(this.ti)},prev(){this.ti=(this.ti-1+TARGETS.length)%TARGETS.length;find(this.ti)},
+      btnA(){this.next()},btnX(){st.lines=!st.lines;apply();panel.redraw();H.refreshUI()},
+      refresh(){if(panel)panel.redraw()}}})();
+
+  /* ======================= SPACECRAFT MUSEUM ======================= */
+  H.scenes.craft=(()=>{
+    const root=new T.Group();root.visible=false;S.add(root);let built=false,env=null,real=null;const items=[];
+    const REALM={jwst:21.2,hubble:13.2,iss:109,voyager:13,"parker-solar-probe":3,juno:20.1,cassini:6.8,galileo:9,perseverance:3,ingenuity:1.2,curiosity:3,mro:13.6,maven:11.4,dawn:19.7,"osiris-rex":6.2,"apollo-lm":9.4};
+    const LIST=(typeof CRAFT!=="undefined"?CRAFT:[]).filter(c=>!c.nomodel);
+    const RING=4.6,FIT=1.3;
+    function build(){built=true;
+      root.add(new T.HemisphereLight(0xdfe6ff,0x20232c,.7));const d=new T.DirectionalLight(0xffffff,1.3);d.position.set(3,8,4);root.add(d);
+      const fc=H.cnv(512,512),fg=fc.getContext("2d"),gr=fg.createRadialGradient(256,256,0,256,256,256);gr.addColorStop(0,"#1a2030");gr.addColorStop(.7,"#0b0e16");gr.addColorStop(1,"rgba(5,6,10,0)");fg.fillStyle=gr;fg.fillRect(0,0,512,512);
+      const floor=new T.Mesh(new T.CircleGeometry(9,96),new T.MeshBasicMaterial({map:H.ctex(fc),transparent:true,depthWrite:false}));floor.rotation.x=-Math.PI/2;root.add(floor);
+      const lines=new T.Mesh(new T.RingGeometry(RING-.03,RING+.03,128),new T.MeshBasicMaterial({color:0xffb347,transparent:true,opacity:.35}));lines.rotation.x=-Math.PI/2;lines.position.y=.005;root.add(lines);
+      LIST.forEach((c,i)=>{const a=-Math.PI/2+(i+.5)/LIST.length*Math.PI*2,pos=new T.Vector3(RING*Math.cos(a),0,RING*Math.sin(a));
+        const g=new T.Group();g.position.copy(pos);root.add(g);
+        const ped=new T.Mesh(new T.CylinderGeometry(.5,.56,.55,48),new T.MeshStandardMaterial({color:0x1a1e2a,roughness:.4,metalness:.5}));ped.position.y=.275;g.add(ped);
+        const top=new T.Mesh(new T.RingGeometry(.44,.5,48),new T.MeshBasicMaterial({color:0x8ec5ff,transparent:true,opacity:.6}));top.rotation.x=-Math.PI/2;top.position.y=.552;g.add(top);
+        const holder=new T.Group();holder.position.y=.55+FIT/2+.08;g.add(holder);
+        const lab=label(c.name.replace(/ \/ .*/,""),c.yr+" · "+c.ag.split(" · ")[0],"#8ec5ff",.17);lab.position.y=.55+FIT+.42;g.add(lab);
+        const hit=new T.Mesh(new T.BoxGeometry(FIT,FIT+.6,FIT),new T.MeshBasicMaterial({visible:false}));hit.position.y=.55+FIT/2;g.add(hit);
+        const it={c,g,holder,hit,lab,ped,top,a,pos,model:null,loaded:false};hit.userData.pick=it;items.push(it);g.lookAt(0,0,0)})}
+    function loadAll(){if(typeof loadModel!=="function")return;items.forEach(it=>{if(it.loaded)return;it.loaded=true;loadModel("models/craft/"+it.c.id+"."+EXT,FIT,m=>{if(!m)return;it.model=m;it.holder.add(m);
+      if(env)m.traverse(n=>{if(n.isMesh)(Array.isArray(n.material)?n.material:[n.material]).forEach(mt=>{if("envMap" in mt&&!mt.envMap){mt.envMap=env;mt.needsUpdate=true}})})})})}
+    function setReal(it){if(real){const r=real;r.holder.scale.setScalar(1);r.holder.position.set(0,.55+FIT/2+.08,0);items.forEach(x=>{x.g.visible=true});real=null;if(r===it){card(it);return}}
+      if(!it)return;real=it;const m=REALM[it.c.id]||FIT,k=m/FIT;items.forEach(x=>{if(x!==it)x.g.visible=false});
+      it.holder.scale.setScalar(k);it.holder.position.set(0,Math.max(.55+FIT/2,m*.32),-(Math.max(0,m*.55-RING+1.8)));card(it)}
+    function card(it){const c=it.c,isReal=real===it;
+      H.showCard({kicker:"Spacecraft",title:c.name,color:"#8ec5ff",rows:[["Agency",c.ag],["Launched",c.yr],["Where now",c.where],["Size",c.size||((REALM[c.id]||"")+" m")]],cols:2,text:c.fact,say:"craft-"+c.id,
+        buttons:[{id:"real",label:isReal?"⤓  MUSEUM SIZE":"⤢  REAL SIZE",primary:!isReal}],onPress:b=>{if(b==="real")setReal(it)}},it.hit)}
+    return {id:"craft",title:"Spacecraft",sky:"dim",flySpeed:1.6,
+      enter(){if(!built)build();root.visible=true;if(!env&&typeof studioEnv==="function"){try{env=studioEnv(R)}catch(e){}}loadAll();H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2));
+        H.hint("Spacecraft museum",[["Around you","real NASA spacecraft, as 3D models"],["Trigger / pinch","its card · Real size"],["Left stick","walk"],["Right stick","turn"]],7)},
+      exit(){root.visible=false;if(real)setReal(null)},
+      frame(dt){items.forEach(it=>{if(it!==real)it.holder.rotation.y+=.25*dt})},
+      sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:1.6,flat:true,noUp:true})},
+      picks:()=>items.filter(it=>it.g.visible).map(it=>it.hit),
+      pick(it){card(it)},empty(){H.hideCard()},
+      menu:()=>[{id:"normal",label:"All back to museum size",disabled:!real},{id:"centre",label:"Back to the middle"}],
+      menuPress(id){if(id==="normal"&&real)setReal(real);else H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2))},
+      btnB:()=>{if(real)setReal(real);else if(H.cardData())H.hideCard();else H.go("lobby")},
+      _:{items,setReal}}})();
+
+  /* ======================= LANDING SITES 360° ======================= */
+  if(typeof PANOS!=="undefined"&&PANOS.length)H.scenes.land360=(()=>{
+    const root=new T.Group();root.visible=false;S.add(root);let built=false,band=null,cur=0,tok=0,panel=null,mode="info",loading=false;
+    const big=(typeof PANO8K==="undefined"||PANO8K)&&R.capabilities.maxTextureSize>=8192;
+    const bgGeo=new T.SphereGeometry(600,48,24),bgCol=new Float32Array(bgGeo.attributes.position.count*3);bgGeo.setAttribute("color",new T.BufferAttribute(bgCol,3));
+    const bg=new T.Mesh(bgGeo,new T.MeshBasicMaterial({vertexColors:true,side:T.BackSide,depthWrite:false}));bg.renderOrder=-6;bg.frustumCulled=false;root.add(bg);
+    function setBg(p){const sky=new T.Color(p.world==="moon"?"#000000":p.sky).convertSRGBToLinear(),gr=new T.Color(p.ground).convertSRGBToLinear().multiplyScalar(.75),pos=bgGeo.attributes.position,c=new T.Color();
+      for(let i=0;i<pos.count;i++){const el=Math.asin(pos.getY(i)/600)/D2R;const k=T.MathUtils.clamp((el-(p.top-p.span))/Math.max(1,p.span),0,1);c.copy(gr).lerp(sky,k);bgCol[i*3]=c.r;bgCol[i*3+1]=c.g;bgCol[i*3+2]=c.b}
+      bgGeo.attributes.color.needsUpdate=true}
+    const WN={mars:"Mars",moon:"The Moon"},TL=new T.TextureLoader();
+    function show(i){cur=(i+PANOS.length)%PANOS.length;const p=PANOS[cur],t0=++tok;setBg(p);loading=true;mode="info";panel.redraw();
+      const geo=new T.SphereGeometry(500,160,48,0,Math.PI*2,(90-p.top)*D2R,p.span*D2R);geo.scale(-1,1,1);
+      const apply=(t,final)=>{if(t0!==tok){t.dispose();return}t.encoding=T.sRGBEncoding;t.anisotropy=8;
+        if(band){band.material.map&&band.material.map.dispose();band.material.dispose();if(band.geometry!==geo)band.geometry.dispose();root.remove(band)}
+        band=new T.Mesh(geo,new T.MeshBasicMaterial({map:t,side:T.DoubleSide,depthWrite:false}));band.renderOrder=-5;root.add(band);if(final){loading=false;panel.redraw()}};
+      TL.load("pano/"+p.id+"-4k.jpg",t=>{apply(t,!big);if(big&&t0===tok)TL.load("pano/"+p.id+"-8k.jpg",t2=>apply(t2,true),undefined,()=>{loading=false;panel.redraw()})},undefined,()=>{if(big)TL.load("pano/"+p.id+"-8k.jpg",t2=>apply(t2,true));else{loading=false;panel.redraw()}})}
+    function build(){built=true;
+      panel=H.panel(1.2,.66,1200,660,(g,p)=>{H.rr(g,6,6,1188,648,28);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,179,71,.7)";g.stroke();
+        if(mode==="list"){g.fillStyle="#ffb347";g.font="600 28px "+F.mono;g.fillText("ALL LANDING SITES · सभी लैंडिंग स्थल",36,56);
+          let n=0;["mars","moon"].forEach(w=>PANOS.forEach((q,i)=>{if(q.world!==w)return;p.btn(g,"p"+i,30+(n%3)*382,78+Math.floor(n/3)*94,368,82,(w==="moon"?"☾ ":"● ")+q.name,{on:i===cur,fs:24,align:"left"});n++}));
+          p.btn(g,"back",30,560,1140,76,"◀  BACK",{fs:30});return}
+        const q=PANOS[cur];g.fillStyle=q.world==="moon"?"#cfd2d8":"#e0784a";g.font="600 28px "+F.mono;g.fillText((WN[q.world]||q.world).toUpperCase()+" · "+q.when.toUpperCase()+(loading?"  ·  LOADING…":""),36,58);
+        g.fillStyle="#ece7da";H.fit(g,q.name.toUpperCase(),"900 $px "+F.disp,76,1120,40);g.fillText(q.name.toUpperCase(),34,136);
+        g.fillStyle="#cfd2e2";g.font="400 30px "+F.sans;H.wrap(g,q.shows,1120).slice(0,4).forEach((l,i)=>g.fillText(l,36,196+i*40));
+        g.fillStyle="#8a8ea6";g.font="500 22px "+F.mono;g.fillText("REAL CAMERA IMAGES · "+String(q.credit).toUpperCase(),36,374);
+        p.btn(g,"prev",30,420,270,96,"◀  BACK",{fs:32});p.btn(g,"list",316,420,280,96,"ALL SITES",{fs:32});p.btn(g,"next",612,420,270,96,"NEXT  ▶",{fs:32,primary:true});p.btn(g,"hide",898,420,272,96,"HIDE",{fs:32});
+        g.fillStyle="#a4a7ba";g.font="400 24px "+F.sans;g.fillText("Turn all the way around: you are standing where the spacecraft landed. Y (or the hand menu) brings this panel back.",36,580)},
+        {onPress:id=>{if(id==="prev")show(cur-1);else if(id==="next")show(cur+1);else if(id==="list"){mode="list";panel.redraw()}else if(id==="back"){mode="info";panel.redraw()}else if(id==="hide")panel.mesh.visible=false;else if(id[0]==="p")show(+id.slice(1))}});
+      rig.add(panel.mesh)}
+    return {id:"land360",title:"Landing sites 360°",sky:"none",noFly:true,
+      enter(){if(!built)build();root.visible=true;H.placeHead(HEAD,AHEAD);H.front(panel.mesh,1.05,-.6,0,-.5);panel.mesh.visible=true;show(cur)},
+      exit(){root.visible=false;panel.mesh.visible=false;tok++;if(band){band.material.map&&band.material.map.dispose();band.material.dispose();band.geometry.dispose();root.remove(band);band=null}},
+      frame(){H.headPos(v1);root.position.copy(v1)},
+      sticks(mx,my,tx,ty,boost,dt){H.move(0,0,tx,0,false,dt,{noFly:true})},
+      menu:()=>[{id:"panel",label:"Info panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"next",label:"Next site  ▶"},{id:"prev",label:"◀  Previous site"}],
+      menuPress(id){if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,1.05,-.6,0,-.5)}else if(id==="next")show(cur+1);else show(cur-1)},
+      btnA:()=>show(cur+1),btnX:()=>show(cur-1),prev:()=>show(cur-1),next:()=>show(cur+1),
+      btnB:()=>{if(!panel.mesh.visible){panel.mesh.visible=true;H.front(panel.mesh,1.05,-.6,0,-.5)}else H.go("lobby")}}})();
 }
 
 
@@ -3864,8 +4276,8 @@ function initPano(){
     try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);
       rig.rotation.y=-view.yaw;lastXR=0;R.setAnimationLoop(xrFrame);s.addEventListener("end",()=>{R.setAnimationLoop(null);rig.rotation.y=0;resize()});setTimeout(()=>vrLabel(PANOS[cur].name+" · trigger: next place"),400)}
     catch(e){PAD.say("VR could not start here. Open the site in the Meta Quest Browser.",4000)}}
-  $("#panoVR").onclick=vrOn;
-  if(navigator.xr&&navigator.xr.isSessionSupported)navigator.xr.isSessionSupported("immersive-vr").then(ok=>{$("#panoVR").hidden=!ok}).catch(()=>{});
+  $("#panoVR").onclick=e=>{if(e.currentTarget.dataset.app){openXRApp("vr","land360");return}vrOn()};
+  if(navigator.xr&&navigator.xr.isSessionSupported)navigator.xr.isSessionSupported("immersive-vr").then(ok=>{$("#panoVR").hidden=!ok&&!XR_APP_HANDOFF;if(!ok&&XR_APP_HANDOFF)$("#panoVR").dataset.app="1"}).catch(()=>{});
   const resize=()=>{if(R.xr.isPresenting)return;const w=st.clientWidth,h=st.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=box?(w/2)/h:w/h;cam.updateProjectionMatrix()};
   new ResizeObserver(resize).observe(st);resize();
   PANO.frame=dt=>{
