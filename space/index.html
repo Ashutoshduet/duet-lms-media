@@ -2979,7 +2979,9 @@ function SaurXR(stage,menuEl,opt){
   return{
     start(){if(running)return;running=true;last=0;resize();R.setAnimationLoop(frame)},
     stop(){if(R.xr.isPresenting)return;running=false;R.setAnimationLoop(null);if(mode!=="preview")exitLook()},
-    status:()=>({...st})
+    status:()=>({...st}),
+    enter:kind=>startXR(kind==="mr"?"ar":kind,true),
+    presenting:()=>R.xr.isPresenting
   };
 }
 
@@ -3939,7 +3941,10 @@ let view="home";
 function setNav(key){
   document.querySelectorAll(".nav a").forEach(a=>{if(a.dataset.nav===key)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
 }
+// Quest VR / MR apps open with ?app=vr or ?app=mr: go straight into the immersive view
+const APPXR=(()=>{try{const a=new URLSearchParams(location.search).get("app");return a==="vr"||a==="mr"?a:""}catch(e){return ""}})();
 function route(){
+  if(APPXR&&!location.hash)history.replaceState(null,"","#xr");
   if(!location.hash&&/OculusBrowser|Quest/i.test(navigator.userAgent)&&matchMedia("(display-mode: standalone)").matches){history.replaceState(null,"","#xr")}
   let h=decodeURIComponent(location.hash.slice(1))||"home";
   let target=null;
@@ -3990,6 +3995,7 @@ buildShell();initCompare();
 if(HAS3D){loader=new THREE.TextureLoader()}
 else{const st=$("#orrery");st.querySelector("canvas").hidden=true;$("#labels").hidden=true;st.querySelector(".deck").hidden=true;const f=document.createElement("div");f.className="stage-fallback";f.innerHTML=`<img src="img/sun/sdo-aia-171-2023.jpg" alt="The Sun">`;st.prepend(f)}
 route();requestAnimationFrame(loop);
+if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting())XR.enter(APPXR)},2500)}
 </script>
 
 <script>
