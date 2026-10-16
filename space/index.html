@@ -442,7 +442,7 @@ tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
 .ch3-x{font-size:13px;color:var(--dust);margin-top:6px;line-height:1.45}
 .ch3-hud dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:10px 0 0}
 .ch3-hud dt{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding-top:3px}
-.ch3-hud dd{margin:0;font-family:var(--f-mono);font-size:14px;color:var(--star);font-variant-numeric:tabular-nums}
+.ch3-hud dd{margin:0;font-family:var(--f-mono);font-size:14px;color:var(--star);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ch3-wrap{position:relative}
 @media (max-width:620px){.ch3-hud{position:static;width:auto;margin-top:8px;padding:10px 12px}.ch3-ph{font-size:20px}.ch3-hud dl{grid-template-columns:auto 1fr auto 1fr;gap:3px 10px}}
 .ch3-pip{position:absolute;right:12px;top:12px;z-index:2;width:min(300px,42%);background:#000;border:1px solid var(--line-hi)}
@@ -3659,9 +3659,10 @@ async function ch3Start(firstPhase){
   $("#ch3Start").hidden=true;$("#ch3Load").hidden=false;
   let data;
   try{
-    const j=u=>fetch(u).then(r=>{if(!r.ok)throw 0;return r.json()}),b=u=>fetch(u).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()});
-    const [ter,trk,sky,tiles,rh,lh]=await Promise.all([j("ch3/terrain.json"),j("ch3/track.json"),j("ch3/sky.json"),j("ch3/tiles.json"),b("ch3/reg_h.bin"),b("ch3/loc_h.bin")]);
-    data={ter,trk,sky,tiles,rh:new Int16Array(rh),lh:new Int16Array(lh)};
+    const j=u=>fetch(u).then(r=>{if(!r.ok)throw 0;return r.json()});
+    const i16=o=>{const s=atob(o.i16le),u=new Uint8Array(s.length);for(let k=0;k<s.length;k++)u[k]=s.charCodeAt(k);return new Int16Array(u.buffer)};
+    const [ter,trk,sky,tiles,rh,lh]=await Promise.all([j("ch3/terrain.json"),j("ch3/track.json"),j("ch3/sky.json"),j("ch3/tiles.json"),j("ch3/reg_h.json"),j("ch3/loc_h.json")]);
+    data={ter,trk,sky,tiles,rh:i16(rh),lh:i16(lh)};
   }catch(e){CH3.loading=false;$("#ch3Load").textContent="The 3D data could not be loaded. Check your connection and try again.";$("#ch3Start").hidden=false;return}
   if(!document.getElementById("ch3Canvas")){CH3.loading=false;return}
   ch3Build(data,firstPhase);CH3.loading=false;
