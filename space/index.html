@@ -3372,7 +3372,7 @@ function VRHub(o){
     g.fillStyle=ORANGE;g.font="900 60px "+F.disp;g.fillText("MENU",40,82);g.fillStyle=DUST;g.font="500 21px "+F.mono;g.textAlign="right";g.fillText((H.scene&&H.scene.title||"").toUpperCase(),600,80);g.textAlign="left";
     let y=110;const row=(id,label,st)=>{p.btn(g,id,30,y,580,84,label,Object.assign({align:"left",fs:35},st||{}));y+=93};
     row("lobby","⌂  Lobby");row("narr","Narration",{val:H.narrLabel(),on:NAR.mode!=="off"});
-    row("amb","Space sound",{val:SND.amb_on?"ON":"OFF",on:SND.amb_on});row("psnd","Planet sounds",{val:SND.pl_on?"ON":"OFF",on:SND.pl_on});row("snd","Effects",{val:SND.on?"ON":"OFF",on:SND.on});
+    row("amb","Space sound",{val:SND.amb_on?"ON":"OFF",on:SND.amb_on});row("snd","Effects",{val:SND.on?"ON":"OFF",on:SND.on});
     const sc=H.scene;if(sc&&sc.menu)sc.menu().forEach(m=>row(m.id,m.label,{val:m.val,on:m.on,disabled:m.disabled}));
   },{order:2,onPress:(id)=>{if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(id==="snd")H.setSound(!SND.on);else if(id==="amb")H.setSpace(!SND.amb_on);else if(id==="psnd")H.setPlanetSnd(!SND.pl_on);else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
   S.add(menu.mesh);let menuOn=true;H.menu=menu;
@@ -3397,13 +3397,13 @@ function VRHub(o){
       g.fillStyle=INK;H.fit(g,String(v),"500 $px "+F.sans,38,cw-22,20);g.fillText(String(v),x,y+46)});
     if(b.text){g.font="400 30px "+F.sans;g.fillStyle="#cfd2e2";H.wrap(g,b.text,920).slice(0,b.rows&&b.rows.length?3:7).forEach((ln,i)=>g.fillText(ln,48,(b.rows&&b.rows.length?462:250)+i*40))}
     const cr=b.sound&&PSND.has(b.sound)&&typeof SND_CREDIT!=="undefined"&&SND_CREDIT[b.sound];if(cr){g.fillStyle=cr.real?"#7ee2a8":"#a4a7ba";g.font="500 21px "+F.sans;H.wrap(g,"🎵 "+(cr.real?"Real sound: ":"")+cr.what+(cr.real?" · "+cr.credit:""),920).slice(0,2).forEach((ln,i)=>g.fillText(ln,48,586+i*26))}
-    const bts=(b.buttons||[]).slice();if(b.sound&&PSND.has(b.sound)){const pl=H.planetPlaying(b.sound);bts.push({id:"__snd",label:pl?"🔊  SOUND ON":"🔇  SOUND OFF",on:pl})}if(b.say&&H.has(b.say))bts.push({id:"__say",label:NAR.mode==="off"?"🔊  LISTEN":"🔊  AGAIN"});bts.push({id:"__close",label:"✕  CLOSE"});
+    const bts=(b.buttons||[]).slice();if(b.sound&&PSND.has(b.sound)){const pl=H.planetPlaying(b.sound);bts.push({id:"__snd",label:pl?"■  STOP SOUND":"🔈  PLAY ITS SOUND",on:pl})}if(b.say&&H.has(b.say))bts.push({id:"__say",label:NAR.mode==="off"?"🔊  LISTEN":"🔊  AGAIN"});bts.push({id:"__close",label:"✕  CLOSE"});
     const n=bts.length,bw=(928-(n-1)*16)/n;bts.forEach((bt,i)=>p.btn(g,bt.id,48+i*(bw+16),640,bw,88,bt.label,{primary:!!bt.primary,on:!!bt.on,fs:32}));
   },{order:1,onPress:(id)=>{if(id==="__close")H.hideCard();else if(id==="__say"){H.stopPlanet();H.say(cardData&&cardData.say,true)}else if(id==="__snd"){if(H.planetPlaying(cardData.sound))H.stopPlanet();else H.planetThenSay(cardData.sound,null,true)}else if(cardData&&cardData.onPress)cardData.onPress(id)}});
   S.add(card.mesh);card.mesh.visible=false;H.card=card;
   let cardAnchor=null;
   H.showCard=(data,anchor)=>{cardData=data;cardAnchor=anchor||null;card.redraw();placeCard();card.mesh.visible=true;
-    if(data.sound&&PSND.has(data.sound)&&!data.silent)H.planetThenSay(data.sound,data.say);else if(data.say&&!data.silent)H.say(data.say)};
+    if(data.say&&!data.silent)H.say(data.say)};
   H.hideCard=keepVoice=>{if(card.mesh.visible&&!keepVoice&&cardData&&cardData.say===NAR.last)H.hush();if(!keepVoice)H.stopPlanet();card.mesh.visible=false;cardData=null;cardAnchor=null};
   H.showCardAt=(data,pos,look)=>{H.showCard(data);cardAnchor=null;card.mesh.position.copy(pos);card.mesh.lookAt(look)};
   H.cardData=()=>cardData;
@@ -3600,12 +3600,11 @@ function LobbyScene(H){
       g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("NARRATION · आवाज़ · LANGUAGE",40,60);const m=H.narrMode();
       [["en","English"],["hi","हिंदी"],["hg","Hinglish"],["off","Off"]].forEach(([id,l],i)=>p.btn(g,id,40+i*360,82,340,120,l,{on:m===id,fs:48,font:id==="hi"?"600 $px "+F.hi:"600 $px "+F.sans}));
       g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("SOUNDS · ध्वनि",40,262);
-      p.btn(g,"amb",40,284,340,110,"🌌 Space",{on:H.spaceOn(),fs:36,val:H.spaceOn()?"ON":"OFF"});
-      p.btn(g,"psnd",400,284,340,110,"🪐 Planets",{on:H.planetSndOn(),fs:36,val:H.planetSndOn()?"ON":"OFF"});
-      p.btn(g,"snd",760,284,340,110,"🚀 Effects",{on:H.soundOn(),fs:36,val:H.soundOn()?"ON":"OFF"});
+      p.btn(g,"amb",40,284,500,110,"🌌 Space sound",{on:H.spaceOn(),fs:36,val:H.spaceOn()?"ON":"OFF"});
+      p.btn(g,"snd",560,284,520,110,"🚀 Rocket & effects",{on:H.soundOn(),fs:36,val:H.soundOn()?"ON":"OFF"});
       p.btn(g,"exit",1120,284,340,110,"⏻  EXIT",{fs:44});
       if(H.offline.text){g.fillStyle="#ffd08a";g.font="500 24px "+F.sans;g.fillText(H.offline.text,40,432)}
-      g.fillStyle="#8a8ea6";g.font="400 24px "+F.sans;g.fillText("Tip: hold the trigger (or pinch) on any planet, spacecraft or rocket to turn it. Thumbstick or two hands: zoom.",40,470)},
+      g.fillStyle="#8a8ea6";g.font="400 24px "+F.sans;g.fillText("Tip: hold the trigger on a planet, spacecraft or rocket to turn it · a planet's own sound: the button on its card.",40,470)},
       {onPress:id=>{if(id==="snd")H.setSound(!H.soundOn());else if(id==="amb")H.setSpace(!H.spaceOn());else if(id==="psnd")H.setPlanetSnd(!H.planetSndOn());else if(id==="exit")H.exitVR();else H.setNarr(id);narr.redraw()}});
     narr.mesh.position.set(0,.62,-1.5);narr.mesh.rotation.x=-.6;root.add(narr.mesh);panels.push(narr);
   }
@@ -3829,7 +3828,7 @@ function SpaceScene(H){
     sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:baseSpeed(),onMove:stopTravel})},
     onMove:stopTravel,
     picks:()=>picks.filter(p=>p.kind!=="craft"||st.craft).map(p=>p.hit),
-    pick(p){if(st.card===p&&H.cardData()){if(H.planetPlaying(p.info.id))H.stopPlanet();else if(H.hasPlanetSound(p.info.id)&&H.planetSndOn())H.planetThenSay(p.info.id,null);else hideCard()}else showCard(p)},
+    pick(p){if(st.card===p&&H.cardData()){if(H.planetPlaying(p.info.id))H.stopPlanet();else hideCard()}else showCard(p)},
     grab(p){const pl=PL.find(x=>x.pk===p);
       if(pl)return {obj:pl.tg,mode:"free",minS:.6,maxS:4};
       if(p===sunPick)return {obj:sunM,mode:"free",minS:.6,maxS:2};
@@ -3922,7 +3921,7 @@ function SolarScenes(H){
       frame(dt){if(!world)return;const b=world.userData.body,w=worldInfo(ITEMS[cur]);b.rotation.y+=(spin||Math.sign(w.day||1)*.15)*dt;spin*=.94;if(Math.abs(spin)<.02)spin=0},
       sticks(mx,my,tx,ty,boost,dt){if(Math.abs(tx)>.15)spin=tx*2.4;if(Math.abs(my)>.2&&world){zoom=Math.min(2.2,Math.max(.45,zoom*Math.exp(-my*1.2*dt)));world.scale.setScalar(zoom*world.userData.base)}},
       picks:()=>world&&world.userData.hit?[world.userData.hit]:[],
-      pick(){const id=ITEMS[cur];if(H.planetPlaying(id))H.stopPlanet();else if(H.hasPlanetSound(id)&&H.planetSndOn())H.planetThenSay(id,null);else spin=(spin?0:2.4)},
+      pick(){const id=ITEMS[cur];if(H.planetPlaying(id))H.stopPlanet();else spin=(spin?0:2.4)},
       grab(){return world?{obj:world,mode:"free",minS:.3,maxS:3.2,onScale:s=>{zoom=s/(world.userData.base||1)}}:null},
       menu:()=>[{id:"next",label:"Next world  ▶"},{id:"prev",label:"◀  Previous world"},{id:"card",label:"Show the card"}],
       menuPress(id){if(id==="next")show(cur+1);else if(id==="prev")show(cur-1);else show(cur)},
@@ -6452,7 +6451,7 @@ function RocketScenes(H){
     const pk={o:null,n:0,L:[]};let view=null,ri=ROCKETS.findIndex(r=>r.id==="pslv"),panel=null,hud=null,cd=null,ride=true,real=false,ended=false,start=null,hudText={big:"",line:"",clock:""},lastHud="",namesOn=true,auto=null,liftAt=0;
     const sep={on:false,t:0,from:0,to:0,start:null,items:null};
     function make(){const host=document.createElement("div");host.style.cssText="position:fixed;left:-99px;top:0;width:8px;height:8px;overflow:hidden;opacity:0;pointer-events:none";document.body.appendChild(host);
-      view=new RS.R3.RocketView(host,{mode:"explore",onEvent:e=>{if(e.idx>=0){hudText.line=e.label;drawHud()}},onClock:t=>{const s=Math.round(t);const c=(s<0?"T−":"T+")+Math.abs(s)+" s";if(c!==hudText.clock){hudText.clock=c;drawHud()}},onEnd:()=>{ended=true;hudText.big="";hudText.line="Mission complete! Press AGAIN or pick another rocket.";drawHud();panel.redraw()}});
+      view=new RS.R3.RocketView(host,{mode:"explore",onEvent:e=>{if(e.idx>=0){hudText.line=e.label;drawHud()}},onClock:t=>{const s=Math.round(t);const c=(s<0?"T−":"T+")+Math.abs(s)+" s";if(c!==hudText.clock){hudText.clock=c;drawHud()}},onEnd:()=>{ended=true;hudText.big="";hudText.line="Mission complete! Press AGAIN or pick another rocket.";drawHud();showPanel()}});
       RS.R3.RocketView.all.length=0;Object.defineProperty(view,"visible",{get:()=>true,set(){}});
       view.skyMesh.visible=false;view.stars.visible=false;padG.add(view.scene);
       panel=H.panel(1.36,.8,1360,800,(g,p)=>{H.rr(g,6,6,1348,788,28);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,153,51,.75)";g.stroke();
@@ -6510,9 +6509,10 @@ function RocketScenes(H){
     function setReal(on){if(on)sepReset();real=on&&!!REAL[ROCKETS[ri].id];showNames();if(real){const m=REAL[ROCKETS[ri].id].model;view.setReal({url:RP+"models/"+m+".glb",id:m}).then(()=>panel.redraw())}else view.setReal(null);panel.redraw()}
     function info(){H.showCardAt(rocketCard(ROCKETS[ri],{buttons:[{id:"launch",label:"🚀  LAUNCH",primary:true}],onPress:b=>{if(b==="launch")press("launch")}}),H.frontPos(1.25,-.05,.85),H.headPos())}
     function launch(){if(view.flight||cd)return;H.endGrab();H.hideCard();sepReset();if(real){real=false;view.setReal(null);showNames()}if(view.exploded)view.setExploded(false);view.rocket.scale.setScalar(1);view.rocket.rotation.set(0,0,0);
-      ended=false;cd={t0:performance.now(),launched:false};hud.mesh.visible=true;H.front(hud.mesh,2.2,.55,0,0);hudText.line="";hudText.clock="";
+      ended=false;cd={t0:performance.now(),launched:false};hud.mesh.visible=true;panel.mesh.visible=false;H.hideCard();H.front(hud.mesh,2.2,.55,0,0);hudText.line="";hudText.clock="";
       if(!H.say("ui-countdown"))cd.silent=true;panel.redraw()}
-    function stop(){cd=null;liftAt=0;H.stopSfx("launch");if(view.flight)view.stopLaunch(false);else view.setRocket(ROCKETS[ri]);addNames();showNames();padG.position.y=0;view.world.position.y=0;setSkyK(0);H.hush();ended=false;hud.mesh.visible=false;place();panel.redraw()}
+    function showPanel(){if(!panel)return;panel.mesh.visible=true;H.front(panel.mesh,.95,-.66,0,-.62);panel.redraw()}
+    function stop(){cd=null;liftAt=0;panel.mesh.visible=true;H.stopSfx("launch");if(view.flight)view.stopLaunch(false);else view.setRocket(ROCKETS[ri]);addNames();showNames();padG.position.y=0;view.world.position.y=0;setSkyK(0);H.hush();ended=false;hud.mesh.visible=false;place();panel.redraw()}
     function press(id){
       if(id[0]==="r"&&/^r\d+$/.test(id))setRocket(+id.slice(1));
       else if(id==="launch"){if(view.flight||cd)stop();else if(ended)stop();else launch()}
@@ -6537,7 +6537,7 @@ function RocketScenes(H){
         if(cd){const el=(now-cd.t0)/1000;
           if(el<11.4){const n=el<.15?10:clamp(10-Math.floor(el-.15),0,10);if(n!==cd.n){cd.n=n;if(cd.silent)H.sfx("beep",.45)}hudText.big=String(n);drawHud()}
           if(el>=9.8&&!cd.launched){cd.launched=true;liftAt=now;view.launch();H.sfx("launch",1)}
-          if(el>=11.4){hudText.big="";if(!hudText.line)hudText.line="Liftoff!";drawHud();cd=null;panel.redraw()}}
+          if(el>=11.4){hudText.big="";if(!hudText.line)hudText.line="Liftoff!";drawHud();cd=null;panel.redraw();H.front(hud.mesh,2.0,-.62,0,-.45)}}
         view.frame(now);
         if(sep.start!=null){const k=clamp((now-sep.start)/1500,0,1);sep.t=lerp(sep.from,sep.to,k);applySep(sep.t);if(k>=1){sep.start=null;if(!sep.on)sepReset()}}
         const drop=-view.world.position.y;
@@ -6556,8 +6556,8 @@ function RocketScenes(H){
         if(sep.on){let x=o;while(x&&!x.userData.pid)x=x.parent;const m=x&&view.parts[x.userData.pid];return m?{obj:m.group,mode:"yaw",gain:4}:null}
         o=real&&view.real?view.real:view.rocket;return o?{obj:o,mode:"yaw",minS:.04,maxS:1.4,gain:4}:null},
       empty(){H.hideCard()},
-      menu:()=>[{id:"launch",label:view&&(view.flight||cd)?"Stop the launch":"Launch  🚀"},{id:"view",label:"View",val:ride?"RIDE ALONG":"FROM GROUND",on:ride},{id:"sep",label:"Separate parts",val:sep.on?"ON":"OFF",on:sep.on,disabled:!!(view&&view.flight)||!!cd||real},{id:"next",label:"Next rocket  ▶"},{id:"start",label:"Back to the start"}],
-      menuPress(id){if(id==="next")setRocket(ri+1);else if(id==="start"){if(view.flight)stop();else place()}else press(id)},
+      menu:()=>[{id:"launch",label:view&&(view.flight||cd)?"Stop the launch":"Launch  🚀"},{id:"view",label:"View",val:ride?"RIDE ALONG":"FROM GROUND",on:ride},{id:"sep",label:"Separate parts",val:sep.on?"ON":"OFF",on:sep.on,disabled:!!(view&&view.flight)||!!cd||real},{id:"panel",label:"Control panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:!!(panel&&panel.mesh.visible)},{id:"next",label:"Next rocket  ▶"},{id:"start",label:"Back to the start"}],
+      menuPress(id){if(id==="panel"){if(panel.mesh.visible)panel.mesh.visible=false;else showPanel();H.menu.redraw();return}if(id==="next")setRocket(ri+1);else if(id==="start"){if(view.flight)stop();else place()}else press(id)},
       btnA(){press("launch")},btnX(){setRocket(ri+1)},prev(){setRocket(ri-1)},next(){setRocket(ri+1)},
       refresh(){if(panel)panel.redraw()},
       _:{get view(){return view},setRocket,launch,press,setSep,get sep(){return sep},get ri(){return ri},set auto(v){auto=v}}}})();
@@ -6731,7 +6731,7 @@ function RocketScenes(H){
         if(orbs.moon&&orbs.moon.body){const a=t*2*Math.PI/240,md=rr(384400);orbs.moon.body.position.set(md*Math.cos(a),0,-md*Math.sin(a)).applyAxisAngle(new T.Vector3(1,0,0),5*D2R)}},
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:3})},
       picks:()=>earth?[earth]:[],
-      pick(){if(H.planetPlaying("earth"))H.stopPlanet();else if(H.planetSndOn())H.planetThenSay("earth",null)},
+      pick(){if(H.planetPlaying("earth"))H.stopPlanet()},
       grab(){return EG?{obj:EG,mode:"free",minS:.4,maxS:2.5}:null},
       menu:()=>[{id:"all",label:"Show all orbits"},{id:"reset",label:"Straighten Earth"},{id:"panel",label:"Orbit panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"start",label:"Back to the start"}],
       menuPress(id){if(id==="reset"){EG.quaternion.identity();EG.scale.setScalar(1)}else if(id==="all")choose(null);else if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,.95,-.62,0,-.6)}else H.placeHead(new T.Vector3(0,1.6,0),E.clone().setY(1.6))},
