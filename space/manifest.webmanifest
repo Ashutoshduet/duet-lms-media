@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Solar System 360",
-  "short_name": "Solar System",
+  "name": "DUET Solar System 360",
+  "short_name": "DUET Solar 360",
   "description": "The Solar System in 3D, AR and VR: rotatable planets, key specs, missions and 158 real spacecraft photos. Works offline.",
   "start_url": "./",
   "scope": "./",
