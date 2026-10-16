@@ -3766,7 +3766,8 @@ function ch3Build(D,firstPhase){
   const label=(text,col)=>{const t=spriteTex(g=>{g.font='600 30px "IBM Plex Mono", ui-monospace, monospace';const w=g.measureText(text).width+28;g.fillStyle="rgba(5,6,12,.78)";g.fillRect(0,8,w,44);g.strokeStyle=col;g.lineWidth=2;g.strokeRect(1,9,w-2,42);g.fillStyle="#ece7da";g.textBaseline="middle";g.fillText(text,14,31)},512,60);
     const s=new T.Sprite(new T.SpriteMaterial({map:t,sizeAttenuation:false,depthTest:false,transparent:true}));s.center.set(0,-.35);s.scale.set(.28,.033,1);s.renderOrder=11;return s};
   const vLab=label("VIKRAM · real position","#ffb347");S.add(vLab);
-  const marks=[["pdi","17:43:53 · engines start · 30 km"],["ah","7.4 km · attitude hold"],["hv1","~800 m · first hover"],["td","Touchdown · 18:02:44 IST"]].map(([k,s])=>{const m=label(s,"#8ec5ff");posAt(PH[k],m.position);m.scale.multiplyScalar(.8);m.userData.k=k;S.add(m);return m});
+  // whole-path markers (the first hover is only ~2 km from touchdown, too close to label separately at this scale)
+  const marks=[["pdi","17:43:53 · engines start · 30 km"],["ah","7.4 km · attitude hold"],["td","Touchdown · 18:02:44 IST"]].map(([k,s])=>{const m=label(s,"#8ec5ff");posAt(PH[k],m.position);m.scale.multiplyScalar(.8);if(k==="td")m.center.set(0,1.35);m.userData.k=k;S.add(m);return m});
   const drop=new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(),new T.Vector3()]),new T.LineBasicMaterial({color:0xffb347,transparent:true,opacity:.55}));S.add(drop);
   // state + controls
   const st={t:firstPhase?PH[firstPhase]:t0,play:true,speed:30,view:"chase",yaw:0,pitch:0,zoom:1,heading:new T.Vector3(0,0,1)};
@@ -3775,7 +3776,7 @@ function ch3Build(D,firstPhase){
   const fmt=(x,d)=>Number(x).toLocaleString("en-IN",{maximumFractionDigits:d||0});
   const ist=t=>{const s=Math.round((12*3600+12*60+t+19800)%86400);return `${String(Math.floor(s/3600)).padStart(2,"0")}:${String(Math.floor(s/60)%60).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`};
   const XR={panel:null};
-  let lastPh=-1,hudT=0;
+  let lastPh=-1,hudT=0,pvWait=false;
   function hud(force){const now=performance.now();if(!force&&now-hudT<120)return;hudT=now;
     const k=phaseAt(st.t);if(k!==lastPh){lastPh=k;hudEls.ph.textContent=CH3_PH[k][1];hudEls.x.textContent=CH3_PH[k][2];document.querySelectorAll("#ch3Phases [data-ph]").forEach(b=>b.setAttribute("aria-current",String(b.dataset.ph===CH3_PH[k][0])))}
     const a=altAt(st.t),sp=lv.length();hudEls.tm.textContent=ist(st.t);hudEls.al.textContent=a>=1000?fmt(a/1000,1)+" km":fmt(Math.max(0,a))+" m";
@@ -3786,19 +3787,26 @@ function ch3Build(D,firstPhase){
   $("#ch3Ticks").innerHTML=CH3_PH.slice(1).map(([k,n])=>`<span style="left:${(PH[k]-40)/(1290-40)*100}%" title="${esc(n)}"></span>`).join("");
   const setView=v=>{st.view=v;st.yaw=0;st.pitch=0;st.zoom=1;document.querySelectorAll("#ch3View [data-cv]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.cv===v)));
     tip(v==="vikram"?"You are riding on Vikram. Drag to look around; the ground is below you.":v==="site"?"Near the real landing point, looking north-west: Vikram comes down from the north, and Earth hangs low in the sky.":v==="overview"?"The whole 750 km approach over the south polar region. Drag to turn.":"")};
-  const setSpeed=s=>{st.speed=s;document.querySelectorAll("#ch3Spd [data-s]").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.s===s)))};
-  const setPlay=p=>{st.play=p;if(st.t>=t1-1&&p)st.t=t0;$("#ch3Play").textContent=p?"❚❚":"▶";$("#ch3Play").setAttribute("aria-label",p?"Pause":"Play");const v=$("#ch3Pip video");if(v&&!$("#ch3Pip").hidden){p?v.play().catch(()=>{}):v.pause()}};
-  const jump=k=>{st.t=PH[k]!=null?PH[k]:st.t;hud(true);if(!st.play)render()};
+  const setSpeed=s=>{st.speed=s;document.querySelectorAll("#ch3Spd [data-s]").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.s===s)));
+    const v=$("#ch3Pip video");if(v&&!$("#ch3Pip").hidden)v.playbackRate=Math.max(.0625,Math.min(16,s/VKV))};
+  const setPlay=p=>{st.play=p;if(st.t>=t1-1&&p){st.t=t0;vidSeek()}$("#ch3Play").textContent=p?"❚❚":"▶";$("#ch3Play").setAttribute("aria-label",p?"Pause":"Play");const v=$("#ch3Pip video");if(v&&!$("#ch3Pip").hidden){p&&!pvWait?v.play().catch(()=>{}):v.pause()}};
+  const jump=k=>{st.t=PH[k]!=null?PH[k]:st.t;vidSeek();hud(true);if(!st.play)render()};
+  // keep Vikram's real video at the same moment as the replay after any jump or scrub
+  const VKV=(EV.td-EV.pdi)/(183-10.5);
+  function vidSeek(){const p=$("#ch3Pip"),v=p&&p.querySelector("video");if(!v||p.hidden)return;
+    const vt=10.5+(st.t-EV.pdi)/VKV;
+    if(vt<10.5){pvWait=true;v.pause();try{v.currentTime=10.5}catch(_){}return}
+    pvWait=false;try{v.currentTime=Math.min(204,vt)}catch(_){}if(st.play&&vt<204)v.play().catch(()=>{})}
   let tipT=0;function tip(s){const el=$("#ch3Tip");if(!el)return;el.textContent=s;el.hidden=!s;clearTimeout(tipT);if(s)tipT=setTimeout(()=>{el.hidden=true},5000)}
   $("#ch3Play").onclick=()=>setPlay(!st.play);
   $("#ch3Spd").onclick=e=>{const b=e.target.closest("[data-s]");if(b)setSpeed(+b.dataset.s)};
   $("#ch3View").onclick=e=>{const b=e.target.closest("[data-cv]");if(!b)return;if(b.dataset.cv==="vr")xrStart();else setView(b.dataset.cv)};
-  hudEls.t.oninput=()=>{st.t=+hudEls.t.value;hud(true);if(!st.play)render()};
+  hudEls.t.oninput=()=>{st.t=+hudEls.t.value;vidSeek();hud(true);if(!st.play)render()};
   // real ISRO camera video, roughly in step (ISRO's clip is sped up about 6.6×)
   const pip=$("#ch3Pip"),pv=pip.querySelector("video"),V0=10.5,VK=(EV.td-EV.pdi)/(183-V0);
-  $("#ch3Vid").onclick=()=>{pip.hidden=false;pv.preload="auto";if(pv.readyState<1)pv.addEventListener("loadedmetadata",()=>{pv.currentTime=V0},{once:true});else pv.currentTime=V0;st.t=EV.pdi;setSpeed(7);st.speed=VK;setView("chase");setPlay(true);pv.play().catch(()=>{})};
-  pip.querySelector(".ch3-pipx").onclick=()=>{pip.hidden=true;pv.pause();if(st.speed!==1&&st.speed!==7&&st.speed!==30)setSpeed(30)};
-  pv.addEventListener("timeupdate",()=>{if(pip.hidden||!st.play)return;const want=EV.pdi+(pv.currentTime-V0)*VK;if(pv.currentTime>V0&&pv.currentTime<183&&Math.abs(want-st.t)>12)st.t=want;if(pv.currentTime>=205)pv.pause()});
+  $("#ch3Vid").onclick=()=>{pip.hidden=false;pvWait=false;pv.preload="auto";if(pv.readyState<1)pv.addEventListener("loadedmetadata",()=>{pv.currentTime=V0},{once:true});else pv.currentTime=V0;st.t=EV.pdi;setSpeed(7);st.speed=VK;pv.playbackRate=1;setView("chase");setPlay(true);pv.play().catch(()=>{})};
+  pip.querySelector(".ch3-pipx").onclick=()=>{pip.hidden=true;pvWait=false;pv.pause();pv.playbackRate=1;if(st.speed!==1&&st.speed!==7&&st.speed!==30)setSpeed(30)};
+  pv.addEventListener("timeupdate",()=>{if(pip.hidden||!st.play||pv.paused||pv.seeking)return;const want=EV.pdi+(pv.currentTime-V0)*VK;if(pv.currentTime>V0&&pv.currentTime<183&&Math.abs(want-st.t)>12)st.t=want;if(pv.currentTime>=205)pv.pause()});
   // pointer: drag to look / orbit, wheel + pinch to zoom
   const ptr=new Map();
   cv.addEventListener("pointerdown",e=>{try{cv.setPointerCapture(e.pointerId)}catch(_){}ptr.set(e.pointerId,{x:e.clientX,y:e.clientY})});
@@ -3853,7 +3861,7 @@ function ch3Build(D,firstPhase){
   let snap={};
   function xrPlace(dt){
     place(0);const ses=R.xr.getSession();
-    if(ses)for(const src of ses.inputSources){const g=src.gamepad;if(!g)continue;const ax=g.axes.length>2?g.axes[2]:0,k=src.handedness;if(Math.abs(ax)>.7&&snap[k]!==false){st.t=Math.max(t0,Math.min(t1,st.t+Math.sign(ax)*20));snap[k]=false}else if(Math.abs(ax)<.3)snap[k]=true}
+    if(ses)for(const src of ses.inputSources){const g=src.gamepad;if(!g)continue;const ax=g.axes.length>2?g.axes[2]:0,k=src.handedness;if(Math.abs(ax)>.7&&snap[k]!==false){st.t=Math.max(t0,Math.min(t1,st.t+Math.sign(ax)*20));vidSeek();snap[k]=false}else if(Math.abs(ax)<.3)snap[k]=true}
     if(XR.view==="vikram"){rig.position.copy(lp).addScaledVector(up,4)}
     else if(XR.view==="site"){rig.position.set(110,hAt(SL-.0072,SO+.0103)-hSite+30,220)}
     else{const d=Math.max(260,Math.min(42000,altAt(st.t)*1.15+240));rig.position.copy(lp).addScaledVector(hd,-d).addScaledVector(up,d*.38)}
@@ -3862,7 +3870,8 @@ function ch3Build(D,firstPhase){
     skyG.position.copy(rig.position)}
   // main loop hooks
   let last=0;
-  function step(dt){if(st.play){st.t+=dt*st.speed;if(st.t>=t1){st.t=t1;setPlay(false)}}}
+  function step(dt){if(st.play){st.t+=dt*st.speed;if(st.t>=t1){st.t=t1;setPlay(false)}
+    if(pvWait&&st.t>=EV.pdi&&!pip.hidden){pvWait=false;try{pv.currentTime=V0+(st.t-EV.pdi)/VK}catch(_){}pv.play().catch(()=>{})}}}
   const resize=()=>{if(R.xr.isPresenting)return;const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()};
   new ResizeObserver(resize).observe(stage);resize();
   R.setAnimationLoop((t)=>{const dt=last?Math.min(.05,(t-last)/1000):0;last=t;
@@ -3954,7 +3963,7 @@ function route(){
   if(v==="moons"){renderMoonsPage();document.title="Moons · Solar System 360"}
   if(v==="sky"){if(!$("#mwGrid").children.length)$("#mwGrid").innerHTML=gridHTML(PHOTOS.filter(p=>p.body==="milkyway"),"mw");if(HAS3D){if(!SKY.on)initSky();if(!NEAR.on)initNear()}document.title="Milky Way & stars · Solar System 360"}
   if(v==="craft"){if(HAS3D&&!CRAFTV.on)initCraft();else if(sub&&CRAFTV.pick)CRAFTV.pick(sub);document.title="Spacecraft 3D · Solar System 360"}
-  if(v==="land"){openLand(sub);document.title=(sub&&LBY[sub]?LBY[sub].short+" landing · ":"Landings · ")+"Solar System 360"}
+  if(v==="land"){openLand(sub);const s2=sub.replace(/-3d$/,"");document.title=(s2&&LBY[s2]?LBY[s2].short+" landing"+(s2!==sub?" in 3D":"")+" · ":"Landings · ")+"Solar System 360"}
   if(v==="sources")document.title="Original sources · Solar System 360";
   if(target){requestAnimationFrame(()=>document.getElementById(target).scrollIntoView())}else if(!(v==="land"&&sub))window.scrollTo(0,0);
   if(isBody){const a=document.querySelector(`#worlds a[data-w="${h}"]`);if(a)a.scrollIntoView({block:"nearest",inline:"center"})}
