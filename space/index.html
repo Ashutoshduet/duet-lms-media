@@ -422,6 +422,61 @@ tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
 .ld-facts dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dust);padding-top:3px}
 .ld-facts dd{margin:0;color:var(--star)}
 .ld-media{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:14px;align-items:start}
+/* Chandrayaan-3 in 3D */
+.ch3{margin:34px 0 8px;border-top:1px solid var(--line);padding-top:26px}
+.ch3-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:10px 28px;align-items:end;margin-bottom:16px}
+.ch3-head .h2{margin-top:6px}
+@media (max-width:860px){.ch3-head{grid-template-columns:1fr}}
+.ch3-stage{position:relative;aspect-ratio:16/9;min-height:300px;background:#000;border:1px solid var(--line);overflow:hidden}
+@media (max-width:620px){.ch3-stage{aspect-ratio:3/4}}
+.ch3-stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.ch3-start{position:absolute;inset:0;display:grid;place-items:center;z-index:3}
+.ch3-start img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.42)}
+.ch3-start>div{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:16px}
+.ch3-start small{color:var(--dust);font-size:13px;max-width:44ch}
+.btn-primary{min-height:48px;padding:12px 22px;background:var(--corona);color:var(--corona-ink);border:0;border-radius:2px;font:600 16px var(--f-body);cursor:pointer}
+.btn-primary:hover{filter:brightness(1.08)}
+.ch3-load{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;color:var(--star);background:rgba(5,6,12,.8);padding:10px 16px;border:1px solid var(--line-hi)}
+.ch3-hud{position:absolute;left:12px;top:12px;z-index:2;width:min(330px,calc(100% - 24px));background:rgba(6,8,16,.78);border:1px solid var(--line-hi);border-left:3px solid var(--corona);padding:12px 14px;pointer-events:none}
+.ch3-ph{font-family:var(--f-display);font-weight:800;font-size:24px;line-height:1.05;text-transform:uppercase;color:var(--star)}
+.ch3-x{font-size:13px;color:var(--dust);margin-top:6px;line-height:1.45}
+.ch3-hud dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:10px 0 0}
+.ch3-hud dt{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding-top:3px}
+.ch3-hud dd{margin:0;font-family:var(--f-mono);font-size:14px;color:var(--star);font-variant-numeric:tabular-nums}
+.ch3-wrap{position:relative}
+@media (max-width:620px){.ch3-hud{position:static;width:auto;margin-top:8px;padding:10px 12px}.ch3-ph{font-size:20px}.ch3-hud dl{grid-template-columns:auto 1fr auto 1fr;gap:3px 10px}}
+.ch3-pip{position:absolute;right:12px;top:12px;z-index:2;width:min(300px,42%);background:#000;border:1px solid var(--line-hi)}
+.ch3-pip video{display:block;width:100%}
+.ch3-pip p{font-family:var(--f-mono);font-size:10.5px;color:var(--dust);padding:5px 8px;letter-spacing:.04em}
+.ch3-pipx{position:absolute;right:4px;top:4px;width:30px;height:30px;border:0;background:rgba(0,0,0,.7);color:#fff;cursor:pointer}
+.ch3-tip{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:2;background:rgba(6,8,16,.86);border:1px solid var(--line-hi);padding:7px 12px;font-size:13px;color:var(--star);max-width:90%;pointer-events:none}
+.ch3-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:12px 0}
+.ch3-play{width:46px;height:42px;border:1px solid var(--line-hi);background:var(--panel);color:var(--star);font-size:16px;cursor:pointer;border-radius:2px}
+.ch3-tl{position:relative;flex:1 1 260px;min-width:200px}
+.ch3-tl input{width:100%;accent-color:var(--corona);height:28px}
+.ch3-ticks{position:absolute;left:8px;right:8px;top:0;height:6px;pointer-events:none}
+.ch3-ticks span{position:absolute;top:0;width:2px;height:6px;background:var(--ice);opacity:.8}
+.ch3-vid{min-height:40px;padding:8px 14px;border:1px solid var(--corona);background:none;color:var(--corona);font:500 13px var(--f-body);cursor:pointer;border-radius:2px}
+.ch3-vid:hover{background:rgba(255,179,71,.1)}
+.ch3-phases{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.ch3-phases button{min-height:36px;padding:6px 11px;border:1px solid var(--line);background:var(--deep);color:var(--dust);font-size:13px;border-radius:999px;cursor:pointer}
+.ch3-phases button[aria-current="true"]{border-color:var(--corona);color:var(--star);background:rgba(255,179,71,.1)}
+.ch3-cr{margin-top:12px;font-size:12.5px;color:var(--faint);max-width:110ch}
+.ch3-st{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px 28px;margin-top:30px;align-items:start}
+@media (max-width:860px){.ch3-st{grid-template-columns:1fr}}
+.ch3-st-text p{color:var(--dust);margin-top:8px}
+.ch3-st-text .h3{margin-top:6px}
+.ch3-stm{flex-wrap:wrap;margin-top:14px}
+.ch3-stn{font-size:13.5px}
+.ch3-st-view{position:relative;background:#000;border:1px solid var(--line);aspect-ratio:1/1}
+.ch3-st-view img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.ch3-st-view.m-pair,.ch3-st-view.m-box{aspect-ratio:2/1}
+.ch3-st-view.m-pair img,.ch3-st-view.m-box img{width:50%}
+.ch3-st-view.m-pair #ch3R,.ch3-st-view.m-box #ch3R{left:50%}
+.ch3-st-view.m-box:fullscreen{width:100vw;height:100vh;aspect-ratio:auto;border:0}
+.ch3-st-view.m-wobble #ch3R{opacity:0}
+.ch3-link{display:inline-block;margin-top:4px;color:var(--corona);font-weight:600}
+.ch3-stx{position:absolute;right:10px;top:10px;z-index:2;min-height:40px;padding:6px 12px;background:rgba(0,0,0,.7);color:#fff;border:1px solid #444;cursor:pointer}
 @media (max-width:960px){.ld-media{grid-template-columns:1fr}}
 .ld-player video{display:block;width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line)}
 .ld-novid{aspect-ratio:16/9;display:grid;place-items:center;padding:24px;border:1px dashed var(--line-hi);color:var(--dust);text-align:center;font-size:14px}
@@ -3282,7 +3337,7 @@ function initCraft(){
   function pick(id){const c=CRAFT.find(x=>x.id===id)||CRAFT[0];cur=c.id;
     document.querySelectorAll("#craftList [data-c]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.c===c.id)));
     const L=photosOf(c);
-    $("#craftInfo").innerHTML=`<p class="label" style="color:var(--corona)">${esc(c.ag)} · launched ${esc(c.yr)}</p><h2 class="h3">${esc(c.name)}</h2><dl class="specs"><dt>Where it is</dt><dd>${esc(c.where)}</dd>${c.size?`<dt>Real size</dt><dd>${esc(c.size)}</dd>`:""}</dl><p>${esc(c.fact)}</p>`+
+    $("#craftInfo").innerHTML=`<p class="label" style="color:var(--corona)">${esc(c.ag)} · launched ${esc(c.yr)}</p><h2 class="h3">${esc(c.name)}</h2><dl class="specs"><dt>Where it is</dt><dd>${esc(c.where)}</dd>${c.size?`<dt>Real size</dt><dd>${esc(c.size)}</dd>`:""}</dl><p>${esc(c.fact)}</p>${c.id==="chandrayaan-3"?`<p><a class="ch3-link" href="#land-chandrayaan3-3d">See Vikram's real descent in 3D and Pragyan's real 3D photo →</a></p>`:""}`+
       (L.length?`<p class="label" style="margin-top:14px">Real photos of the actual spacecraft</p><div class="craftph">${gridHTML(L,"craft-"+c.id)}</div>`:"")+
       `<p class="cr">${c.nomodel?"ISRO has not released a 3D model of Vikram or Pragyan, so only ISRO's real photos are shown. ":"3D model: NASA (Eyes on the Solar System / NASA 3D Resources). "}${L.length?"Photos: "+esc([...new Set(L.map(p=>p.credit))].join("; "))+".":""}</p>`;
     while(holder.children.length)holder.remove(holder.children[0]);ctl.reset();
@@ -3359,6 +3414,7 @@ const FL=[["rotors","Rotors"],["power","Power"],["first_flight","First flight"],
 function specGrid(o,keys){return `<dl class="ld-spec">${keys.filter(([k])=>o[k]).map(([k,l])=>`<dt>${l}</dt><dd>${esc(o[k])}</dd>`).join("")}</dl>`}
 function renderMission(id,scroll){
   const m=LBY[id];if(!m)return;LAND.cur=id;LAND.world=m.world;LAND.vi=0;
+  ch3Destroy();
   renderLandList();
   const v0=m.videos[0];
   $("#landDetail").style.setProperty("--wc",WC[m.world]);
@@ -3370,6 +3426,7 @@ function renderMission(id,scroll){
     <div class="ld-player" id="ldPlayer">${v0?playerHTML(v0):`<div class="ld-novid"><p><b>No real video exists.</b> ${m.id==="luna17"?"Lunokhod 1's cameras sent one still TV frame every few seconds, and every film of the whole rover on the Moon is a model shot, so we show only real photos.":m.id==="phoenix"?"Phoenix had no descent camera, so its landing was never filmed.":m.id==="dragonfly"?"Dragonfly has not launched yet. Only real photos of its test hardware are shown.":m.id==="chandrayaan2"?"ISRO's live broadcast shows mission control, but no footage of the crash itself exists.":"No camera filmed this landing, so only real photos are shown."}</p></div>`}</div>
     ${m.videos.length?`<div class="ld-vlist" role="list">${m.videos.map((v,i)=>`<button type="button" class="ld-v" data-vi="${i}" aria-pressed="${i===0}"><b>${esc(v.title)}</b><span>${v.src?"Real footage · plays from this site":"Real footage · YouTube · "+esc(v.channel)}${v.dur?" · "+esc(v.dur):""}</span>${v.note?`<small>${esc(v.note)}</small>`:""}</button>`).join("")}</div>`:""}
    </div>
+   ${m.id==="chandrayaan3"?ch3HTML():""}
    ${m.photos.length?`<div class="ld-phwrap"><p class="label">Real photos · tap to enlarge</p><div class="grid ld-ph">${gridHTML(photosL(m),"land-"+m.id)}</div></div>`:""}
    <div class="ld-cols">
     <section><h3 class="h3">How it landed</h3><p class="ld-how">${esc(m.how)}</p>
@@ -3382,7 +3439,9 @@ function renderMission(id,scroll){
     </section>
    </div>
    <p class="ld-src">Sources: ${m.sources.map(u=>{let h=u;try{h=new URL(u).hostname.replace(/^www\./,"")}catch(e){}return `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(h)}</a>`}).join(" · ")}</p>`;
-  if(scroll)$("#landDetail").scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
+  if(id==="chandrayaan3")ch3Mount();
+  if(scroll)$(scroll==="3d"&&$("#ch3x")?"#ch3x":"#landDetail").scrollIntoView({behavior:reduced?"auto":"smooth",block:"start"});
+  if(scroll==="3d")setTimeout(()=>{const x=$("#ch3x");if(x&&location.hash.endsWith("-3d"))x.scrollIntoView({block:"start"})},900);
 }
 function pickVideo(i){const m=LBY[LAND.cur];if(!m||!m.videos[i])return;LAND.vi=i;$("#ldPlayer").innerHTML=playerHTML(m.videos[i],true);
   document.querySelectorAll("#landDetail .ld-v").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.vi===i)))}
@@ -3402,8 +3461,9 @@ function renderLandStatic(){
 }
 function openLand(sub){
   renderLandStatic();
+  let three=false;if(sub&&sub.endsWith("-3d")){sub=sub.slice(0,-3);three=true}
   const id=sub&&LBY[sub]?sub:(LAND.cur||"chandrayaan3");
-  renderMission(id,!!sub);
+  renderMission(id,three?"3d":!!sub);
   if(HAS3D&&!PANO.on)initPano();
   landSaveInit();
 }
@@ -3498,15 +3558,16 @@ function initPano(){
   PANO.on=true;
 }
 function landStep(d){const L=LANDINGS.filter(m=>m.world===LAND.world),i=L.findIndex(m=>m.id===LAND.cur);const m=L[(i+d+L.length)%L.length];if(m){location.hash="land-"+m.id;PAD.say(m.short,1500)}}
+const ch3Pad=()=>CH3.on&&CH3.pad&&CH3.stage&&isVisible(CH3.stage)?CH3.pad:null;
 PADCTX.land={look3d:true,
-  look:(x,y,dt)=>{if(PANO.on&&isVisible($("#panoStage")))PANO.look(x,y,dt);else if(y)scrollBy(0,y*900*dt)},
-  zoom:(z,dt)=>{if(PANO.on)PANO.zoom(z,dt)},
-  prev:()=>landStep(-1),next:()=>landStep(1),
-  a:()=>{const b=document.querySelector("#ldPlayer .ytf");const v=document.querySelector("#ldPlayer video");if(b)ytPlay(b);else if(v){v.paused?v.play():v.pause()}},
-  x:()=>{if(PANO.on){PANO.next()}},
+  look:(x,y,dt)=>{const c=ch3Pad();if(c){c.look(x,y,dt);return}if(PANO.on&&isVisible($("#panoStage")))PANO.look(x,y,dt);else if(y)scrollBy(0,y*900*dt)},
+  zoom:(z,dt)=>{const c=ch3Pad();if(c){c.zoom(z,dt);return}if(PANO.on)PANO.zoom(z,dt)},
+  prev:()=>{const c=ch3Pad();if(c)c.prev();else landStep(-1)},next:()=>{const c=ch3Pad();if(c)c.next();else landStep(1)},
+  a:()=>{const c=ch3Pad();if(c){c.a();return}const b=document.querySelector("#ldPlayer .ytf");const v=document.querySelector("#ldPlayer video");if(b)ytPlay(b);else if(v){v.paused?v.play():v.pause()}},
+  x:()=>{const c=ch3Pad();if(c){c.x();return}if(PANO.on){PANO.next()}},
   y:()=>{const m=LBY[LAND.cur];if(m&&m.videos.length)pickVideo((LAND.vi+1)%m.videos.length)},
   b:()=>{if(PANO.on&&PANO.box()){PANO.boxOff();return true}return false},
-  help:[["Left stick","look around the 360° view (or scroll)"],["Right stick ↕ · LT / RT","zoom the 360° view"],["LB / RB","previous / next landing"],["A / ✕","play or pause the video"],["Y / △","next video of this landing"],["X / □","next 360° place"]]};
+  help:[["In the Chandrayaan-3 3D replay","stick: look · A: play/pause · X: camera · LB/RB: phase"],["Left stick","look around the 360° view (or scroll)"],["Right stick ↕ · LT / RT","zoom the 360° view"],["LB / RB","previous / next landing"],["A / ✕","play or pause the video"],["Y / △","next video of this landing"],["X / □","next 360° place"]]};
 
 /* save the big files (panoramas + self-hosted videos) for offline use */
 function landSaveInit(){
@@ -3519,6 +3580,334 @@ function landSaveInit(){
     for(const u of urls){try{if(!(await c.match(u)))await c.add(u)}catch(e){}n++;st.textContent=`Saving for offline… ${n} / ${urls.length} files · keep this page open`}
     st.textContent="Saved on this device: the landing videos and 360° views work offline.";try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}}
     catch(e){st.textContent="This browser could not save the files."}b.disabled=false};
+}
+
+
+/* ================= CHANDRAYAAN-3 IN 3D =================
+   1. The real descent: Vikram's path from NASA/JPL Horizons (lander -158, trajectory CHANDRAYAAN-3_LANDER_MER),
+      flown over the real Moon: LOLA elevation (NASA SVS CGI Moon Kit) + LRO WAC photo mosaic (NASA/GSFC/ASU, via Moon Trek)
+      + the LRO NAC photo of the landing site taken four days later (M1447750764LR). Sun, Earth and stars sit where
+      they really were at touchdown. Nothing about the lander is animated: a marker shows where it really was.
+   2. Pragyan's real stereo photo of Vikram (ISRO NavCam pair, 30 Aug 2023), viewable in true 3D. */
+const CH3={R:null,on:false};
+const CH3VID=true;   // the Claude preview build has no self-hosted video files
+const CH3_PH=[
+ ["orbit","In orbit, 30 km up","Vikram coasts toward the low point of its 25 × 134 km orbit at about 1.7 km/s (6,000 km/h). The Moon's south pole region is ahead."],
+ ["pdi","Rough braking","All four 800 N engines fire against the direction of travel. In about 11 minutes they take away most of the speed while Vikram drops from 30 km to 7.4 km."],
+ ["ah","Attitude hold","For 10 seconds Vikram holds a fixed tilt so its cameras can match the ground below to stored maps and fix its exact position."],
+ ["fb","Fine braking","The engines slow Vikram almost to a stop above the landing zone and swing it upright."],
+ ["hv1","First hover, about 800 m up","Two engines switch off. Vikram hangs in the air for a few seconds, looking straight down."],
+ ["vd","Vertical descent","It drops straight down toward 150 m."],
+ ["hz","Hazard check at 150 m","Vikram hovers while its hazard camera searches the ground for a flat spot without rocks or craters."],
+ ["rt","Moving to the safe spot","It glides a few metres sideways to the spot it chose and sinks to about 60 m."],
+ ["fd","Final descent","It sinks slowly, the last 10 m at about 1 m/s, until sensors on the footpads touch the ground."],
+ ["td","Touchdown","Engines off. India becomes the first country to land near the Moon's south pole."]
+];
+function ch3HTML(){
+  const vr=navigator.xr?'<button type="button" data-cv="vr" hidden>VR headset</button>':"";
+  return `<section class="ch3" id="ch3x" aria-labelledby="ch3t">
+  <div class="ch3-head"><div><p class="label" style="color:var(--corona)">In 3D · real data only</p><h3 class="h2" id="ch3t">Vikram's real descent in 3D</h3></div>
+   <p class="lede">Vikram's real path, second by second, from NASA/JPL's tracking of the lander, flown over the real Moon: NASA's elevation map and LRO photos of this exact area. The glowing dot is where Vikram really was. The Sun, Earth and stars are where they really were at touchdown.</p></div>
+  <div class="ch3-wrap"><div class="ch3-stage" id="ch3Stage">
+   <canvas id="ch3Canvas" aria-label="3D replay of Chandrayaan-3's descent over the real lunar surface. Drag to look around." role="img"></canvas>
+   <div class="ch3-start" id="ch3Start"><img src="ch3/loc_wac.jpg" alt=""><div><button type="button" class="btn-primary" id="ch3Go">▶ Start the 3D replay</button><small>About 9 MB of real NASA data · drag to look around · works with a Bluetooth controller</small></div></div>
+   <p class="ch3-load" id="ch3Load" hidden>Loading the real Moon surface…</p>
+   <div class="ch3-pip" id="ch3Pip" hidden><video playsinline muted preload="none" src="video/ch3-descent-rollout.mp4"></video><p>Vikram's real camera (ISRO) · sped up, roughly in step</p><button type="button" class="ch3-pipx" aria-label="Close video">✕</button></div>
+   <p class="ch3-tip" id="ch3Tip" hidden></p>
+  </div>
+   <div class="ch3-hud" id="ch3Hud" hidden><p class="ch3-ph" id="ch3Ph"></p><p class="ch3-x" id="ch3X"></p>
+    <dl><dt>Time (IST)</dt><dd id="ch3Tm"></dd><dt>Height</dt><dd id="ch3Al"></dd><dt>Speed</dt><dd id="ch3Sp"></dd><dt>To landing point</dt><dd id="ch3Ds"></dd></dl></div></div>
+  <div class="ch3-bar" id="ch3Bar" hidden>
+   <button type="button" class="ch3-play" id="ch3Play" aria-label="Pause">❚❚</button>
+   <div class="ch3-tl"><input type="range" id="ch3T" min="40" max="1290" step="0.5" value="40" aria-label="Time in the descent"><div class="ch3-ticks" id="ch3Ticks"></div></div>
+   <div class="seg" role="group" aria-label="Replay speed" id="ch3Spd"><button type="button" data-s="1">1×</button><button type="button" data-s="7">7×</button><button type="button" data-s="30" aria-pressed="true">30×</button></div>
+   <div class="seg" role="group" aria-label="Camera" id="ch3View"><button type="button" data-cv="chase" aria-pressed="true">Follow</button><button type="button" data-cv="vikram">Vikram's view</button><button type="button" data-cv="site">Landing site</button><button type="button" data-cv="overview">Whole path</button>${vr}</div>
+   <button type="button" class="ch3-vid" id="ch3Vid">Watch with Vikram's real camera</button>
+  </div>
+  <ol class="ch3-phases" id="ch3Phases"></ol>
+  <p class="cr ch3-cr">Path: NASA/JPL Horizons, Chandrayaan-3 lander trajectory (reconstructed by ISRO and JPL), moved 0.4 km to ISRO's official landing point. Elevation: NASA LRO LOLA (SVS CGI Moon Kit). Surface photos: NASA/GSFC/Arizona State University: the LRO wide-angle mosaic, plus a 69 km strip of LRO narrow-angle photos (M1447750764LR, 27 Aug 2023, about 1.6 m per pixel) along the last 30 km of the path, where the real lander sits at the centre of a bright blast zone. Heights are not exaggerated. The photos were taken under a different Sun angle than on landing day.</p>
+  <div class="ch3-st" id="ch3St">
+   <div class="ch3-st-text"><p class="label" style="color:var(--corona)">Real 3D photo</p><h3 class="h3">Vikram, seen by Pragyan's two eyes</h3>
+    <p>Pragyan's two navigation cameras sit side by side, like your eyes. On 30 Aug 2023 they photographed Vikram from about 15 m away. Because each camera saw the scene from a slightly different place, the pair holds real depth.</p>
+    <div class="seg ch3-stm" role="group" aria-label="How to view the 3D photo" id="ch3StMode"><button type="button" data-sm="wobble" aria-pressed="true">3D wobble</button><button type="button" data-sm="ana">Red-cyan glasses</button><button type="button" data-sm="pair">Left | right</button><button type="button" data-sm="box">Phone VR box</button><button type="button" data-sm="vr" hidden>VR headset</button></div>
+    <p class="ch3-stn" id="ch3StNote">The picture switches between Pragyan's left and right camera, so you see the depth without glasses.</p>
+    <p class="cr">Credit: ISRO. NavCam developed by LEOS/ISRO; anaglyph processed by SAC/ISRO. Left and right images separated from ISRO's red-cyan picture.</p></div>
+   <div class="ch3-st-view" id="ch3StView"><img id="ch3L" src="ch3/vikram_L.jpg" alt="Vikram lander on the Moon, left camera of Pragyan's stereo pair" loading="lazy"><img id="ch3R" src="ch3/vikram_R.jpg" alt="" loading="lazy"><img id="ch3A" src="ch3/vikram_anaglyph.jpg" alt="Red-cyan 3D picture of Vikram from ISRO" loading="lazy" hidden><button type="button" class="ch3-stx" id="ch3StX" hidden>✕ Close</button></div>
+  </div>
+ </section>`;
+}
+
+/* ---------- mount / unmount (the mission page is re-rendered on every visit) ---------- */
+function ch3Mount(){
+  ch3Destroy();
+  const go=$("#ch3Go");if(!go)return;
+  if(!HAS3D){$("#ch3Start").innerHTML=`<img src="ch3/loc_wac.jpg" alt=""><div><p>The 3D replay needs WebGL, which is off in this browser.</p></div>`}
+  else go.onclick=()=>ch3Start();
+  ch3Stereo();
+  $("#ch3Phases").innerHTML=CH3_PH.map(([k,n],i)=>`<li><button type="button" data-ph="${k}">${esc(n)}</button></li>`).join("");
+  $("#ch3Phases").onclick=e=>{const b=e.target.closest("[data-ph]");if(!b)return;if(!CH3.on){ch3Start(b.dataset.ph)}else CH3.jump(b.dataset.ph)};
+}
+function ch3Destroy(){
+  if(CH3.st&&CH3.st.stop)CH3.st.stop();CH3.st=null;
+  if(CH3.R){try{CH3.R.setAnimationLoop(null);const s=CH3.R.xr.getSession();if(s)s.end()}catch(e){}try{CH3.R.dispose();CH3.R.forceContextLoss()}catch(e){}}
+  CH3.R=null;CH3.on=false;CH3.frame=null;
+}
+
+/* ---------- the 3D replay ---------- */
+async function ch3Start(firstPhase){
+  if(CH3.on||CH3.loading)return;CH3.loading=true;
+  $("#ch3Start").hidden=true;$("#ch3Load").hidden=false;
+  let data;
+  try{
+    const j=u=>fetch(u).then(r=>{if(!r.ok)throw 0;return r.json()}),b=u=>fetch(u).then(r=>{if(!r.ok)throw 0;return r.arrayBuffer()});
+    const [ter,trk,sky,tiles,rh,lh]=await Promise.all([j("ch3/terrain.json"),j("ch3/track.json"),j("ch3/sky.json"),j("ch3/tiles.json"),b("ch3/reg_h.bin"),b("ch3/loc_h.bin")]);
+    data={ter,trk,sky,tiles,rh:new Int16Array(rh),lh:new Int16Array(lh)};
+  }catch(e){CH3.loading=false;$("#ch3Load").textContent="The 3D data could not be loaded. Check your connection and try again.";$("#ch3Start").hidden=false;return}
+  if(!document.getElementById("ch3Canvas")){CH3.loading=false;return}
+  ch3Build(data,firstPhase);CH3.loading=false;
+}
+function ch3Build(D,firstPhase){
+  const T=THREE,cv=$("#ch3Canvas"),stage=$("#ch3Stage");
+  const R=new T.WebGLRenderer({canvas:cv,antialias:true,logarithmicDepthBuffer:true});CH3.R=R;
+  R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=T.sRGBEncoding;R.xr.enabled=true;R.setClearColor(0x000000,1);
+  const S=new T.Scene();const cam=new T.PerspectiveCamera(60,1,1,4e6);
+  const rig=new T.Group();rig.add(cam);S.add(rig);
+  const RAD=Math.PI/180,R0=1737400,TL=new T.TextureLoader(),aniso=Math.min(8,R.capabilities.getMaxAnisotropy());
+  const tx=(u,cb)=>{const t=TL.load(u,cb);t.encoding=T.sRGBEncoding;t.anisotropy=aniso;return t};
+  // local frame at the official landing point: x = east, y = up, z = south (three.js: -z is north)
+  const SL=-69.373560,SO=32.319750,sla=SL*RAD,slo=SO*RAD;
+  const U=[Math.cos(sla)*Math.cos(slo),Math.cos(sla)*Math.sin(slo),Math.sin(sla)],E=[-Math.sin(slo),Math.cos(slo),0];
+  const N=[U[1]*E[2]-U[2]*E[1],U[2]*E[0]-U[0]*E[2],U[0]*E[1]-U[1]*E[0]];
+  const L=D.ter.loc,G=D.ter.reg;
+  function hLoc(lat,lon){const fy=(lat-L.lat0)/L.dlat,fx=(lon-L.lon0)/L.dlon;if(fy<0||fx<0||fy>L.rows-1||fx>L.cols-1)return null;
+    const y0=Math.min(L.rows-2,Math.floor(fy)),x0=Math.min(L.cols-2,Math.floor(fx)),a=fy-y0,b=fx-x0,i=y0*L.cols+x0,h=D.lh;
+    return h[i]*(1-a)*(1-b)+h[i+1]*(1-a)*b+h[i+L.cols]*a*(1-b)+h[i+L.cols+1]*a*b}
+  function hReg(lat,lon){const fy=(G.lat0-lat)/G.step,fx=(lon-G.lon0)/G.step;if(fy<0||fx<0||fy>G.rows-1||fx>G.cols-1)return 0;
+    const y0=Math.min(G.rows-2,Math.floor(fy)),x0=Math.min(G.cols-2,Math.floor(fx)),a=fy-y0,b=fx-x0,i=y0*G.cols+x0,h=D.rh;
+    return h[i]*(1-a)*(1-b)+h[i+1]*(1-a)*b+h[i+G.cols]*a*(1-b)+h[i+G.cols+1]*a*b}
+  const hAt=(lat,lon)=>{const v=hLoc(lat,lon);return v==null?hReg(lat,lon):v};
+  const hSite=hLoc(SL,SO),RS=R0+hSite,O=[RS*U[0],RS*U[1],RS*U[2]];
+  const C=new T.Vector3(0,-RS,0);  // Moon's centre in the local frame
+  function ll(lat,lon,hm,out,k){const la=lat*RAD,lo=lon*RAD,r=R0+hm,px=r*Math.cos(la)*Math.cos(lo)-O[0],py=r*Math.cos(la)*Math.sin(lo)-O[1],pz=r*Math.sin(la)-O[2];
+    out[k]=px*E[0]+py*E[1]+pz*E[2];out[k+1]=px*U[0]+py*U[1]+pz*U[2];out[k+2]=-(px*N[0]+py*N[1]+pz*N[2])}
+  function toLL(v){const p=v.clone().sub(C),r=p.length();const x=p.x/r,y=p.y/r,z=p.z/r; // local unit -> ME
+    const mx=x*E[0]+y*U[0]-z*N[0],my=x*E[1]+y*U[1]-z*N[1],mz=x*E[2]+y*U[2]-z*N[2];return [Math.asin(mz)/RAD,Math.atan2(my,mx)/RAD,r]}
+  function grid(rows,cols,latf,lonf,hf,skip,sink){
+    const n=rows*cols,pos=new Float32Array(n*3),uv=new Float32Array(n*2);
+    for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const k=i*cols+j,la=latf(i),lo=lonf(j);ll(la,lo,hf(i,j)-(sink?sink(la,lo):0),pos,k*3);uv[k*2]=j/(cols-1);uv[k*2+1]=1-i/(rows-1)}
+    const idx=[];for(let i=0;i<rows-1;i++)for(let j=0;j<cols-1;j++){if(skip&&skip(latf(i),lonf(j),latf(i+1),lonf(j+1)))continue;const a=i*cols+j;idx.push(a,a+cols,a+1,a+1,a+cols,a+cols+1)}
+    const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(pos,3));g.setAttribute("uv",new T.BufferAttribute(uv,2));g.setIndex(idx);return g}
+  // regional terrain (hole under the detailed local terrain, edges sunk so the local skirt hides any seam)
+  const inLoc=(la,lo,m)=>la<=L.lat0-m&&la>=L.lat1+m&&lo>=L.lon0+m&&lo<=L.lon1-m;
+  const regG=grid(G.rows,G.cols,i=>G.lat0-i*G.step,j=>G.lon0+j*G.step,(i,j)=>D.rh[i*G.cols+j],(a,b,c,d)=>inLoc(a,b,0.02)&&inLoc(c,d,0.02),(la,lo)=>inLoc(la,lo,-0.1)?250:0);
+  const regM=new T.Mesh(regG,new T.MeshBasicMaterial({map:tx("ch3/reg_wac.jpg")}));S.add(regM);
+  const inTile=(i,j)=>D.tiles.some(t=>i>=t.k0&&i<t.k1&&j>=t.j0&&j<t.j1);
+  const locG=grid(L.rows,L.cols,i=>L.lat0+i*L.dlat,j=>L.lon0+j*L.dlon,(i,j)=>D.lh[i*L.cols+j]);
+  {const idx=[];for(let i=0;i<L.rows-1;i++)for(let j=0;j<L.cols-1;j++){if(inTile(i,j))continue;const a=i*L.cols+j;idx.push(a,a+L.cols,a+1,a+1,a+L.cols,a+L.cols+1)}locG.setIndex(idx)}
+  // detail tiles: LRO narrow-angle photos along the last 30 km (each local cell subdivided, edges match exactly)
+  const hLocCell=(k,j)=>D.lh[k*L.cols+j];
+  D.tiles.forEach(t=>{const n=t.sub,rows=(t.k1-t.k0)*n+1,cols=(t.j1-t.j0)*n+1,pos=new Float32Array(rows*cols*3),uv=new Float32Array(rows*cols*2),idx=[];
+    for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const fk=t.k0+r/n,fj=t.j0+c/n,k0=Math.min(L.rows-2,Math.floor(fk)),j0=Math.min(L.cols-2,Math.floor(fj)),a=fk-k0,b=fj-j0;
+      const h=hLocCell(k0,j0)*(1-a)*(1-b)+hLocCell(k0,j0+1)*(1-a)*b+hLocCell(k0+1,j0)*a*(1-b)+hLocCell(k0+1,j0+1)*a*b,i=r*cols+c;
+      ll(L.lat0+fk*L.dlat,L.lon0+fj*L.dlon,h,pos,i*3);uv[i*2]=c/(cols-1);uv[i*2+1]=1-r/(rows-1)}
+    for(let r=0;r<rows-1;r++)for(let c=0;c<cols-1;c++){const a=r*cols+c;idx.push(a,a+cols,a+1,a+1,a+cols,a+cols+1)}
+    const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(pos,3));g.setAttribute("uv",new T.BufferAttribute(uv,2));g.setIndex(idx);
+    S.add(new T.Mesh(g,new T.MeshBasicMaterial({map:tx(t.tex)})))});
+  // the rest of the Moon (low detail) so the horizon and the whole-path view show a real globe
+  {const st=3,rows=180/st+1,cols=360/st+1,pos=new Float32Array(rows*cols*3),uv=new Float32Array(rows*cols*2),idx=[];
+   for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const la=90-i*st,lo=-180+j*st,k=i*cols+j;ll(la,lo,-6500,pos,k*3);uv[k*2]=j/(cols-1);uv[k*2+1]=1-i/(rows-1)}
+   for(let i=0;i<rows-1;i++)for(let j=0;j<cols-1;j++){const a=i*cols+j;idx.push(a,a+cols,a+1,a+1,a+cols,a+cols+1)}
+   const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(pos,3));g.setAttribute("uv",new T.BufferAttribute(uv,2));g.setIndex(idx);
+   const m=new T.Mesh(g,new T.MeshBasicMaterial({map:tx("tex/moon.jpg")}));m.material.color.setScalar(.66);S.add(m)}
+  // skirt around the regional terrain, down to the globe
+  {const ring=[];for(let j=0;j<G.cols;j++)ring.push([0,j]);for(let i=1;i<G.rows;i++)ring.push([i,G.cols-1]);for(let j=G.cols-2;j>=0;j--)ring.push([G.rows-1,j]);for(let i=G.rows-2;i>0;i--)ring.push([i,0]);ring.push([0,0]);
+   const pos=new Float32Array(ring.length*6),uv=new Float32Array(ring.length*4),idx=[];
+   ring.forEach(([i,j],k)=>{const la=G.lat0-i*G.step,lo=G.lon0+j*G.step,h=D.rh[i*G.cols+j];ll(la,lo,h,pos,k*6);ll(la,lo,-7000,pos,k*6+3);const u=j/(G.cols-1),v=1-i/(G.rows-1);uv.set([u,v,u,v],k*4);if(k)idx.push((k-1)*2,(k-1)*2+1,k*2,k*2,(k-1)*2+1,k*2+1)});
+   const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(pos,3));g.setAttribute("uv",new T.BufferAttribute(uv,2));g.setIndex(idx);
+   const m=new T.Mesh(g,new T.MeshBasicMaterial({map:regM.material.map,side:T.DoubleSide}));m.material.color.setScalar(.7);S.add(m)}
+  const locM=new T.Mesh(locG,new T.MeshBasicMaterial({map:tx("ch3/loc_wac.jpg")}));S.add(locM);
+  // skirt around the local terrain
+  {const ring=[];for(let j=0;j<L.cols;j++)ring.push([0,j]);for(let i=1;i<L.rows;i++)ring.push([i,L.cols-1]);for(let j=L.cols-2;j>=0;j--)ring.push([L.rows-1,j]);for(let i=L.rows-2;i>0;i--)ring.push([i,0]);ring.push([0,0]);
+   const pos=new Float32Array(ring.length*6),uv=new Float32Array(ring.length*4),idx=[];
+   ring.forEach(([i,j],k)=>{const la=L.lat0+i*L.dlat,lo=L.lon0+j*L.dlon,h=D.lh[i*L.cols+j];ll(la,lo,h,pos,k*6);ll(la,lo,h-400,pos,k*6+3);const u=j/(L.cols-1),v=1-i/(L.rows-1);uv.set([u,v,u,v],k*4);if(k)idx.push((k-1)*2,(k-1)*2+1,k*2,k*2,(k-1)*2+1,k*2+1)});
+   const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(pos,3));g.setAttribute("uv",new T.BufferAttribute(uv,2));g.setIndex(idx);
+   S.add(new T.Mesh(g,new T.MeshBasicMaterial({map:locM.material.map,side:T.DoubleSide})))}
+  // real sky at touchdown: stars, Sun, Earth (they follow the viewer, like the real sky)
+  const skyG=new T.Group();S.add(skyG);
+  {const holder=new T.Group();holder.matrixAutoUpdate=false;const m=D.sky.skyM;holder.matrix.set(m[0],m[1],m[2],0,m[3],m[4],m[5],0,m[6],m[7],m[8],0,0,0,0,1);skyG.add(holder);
+   const sk=skyMesh(2.5e6,skyURL(R),"equatorial");sk.material.color.setScalar(.8);sk.renderOrder=-2;holder.add(sk);
+   const sd=new T.Vector3().fromArray(D.sky.sunThree).normalize(),ed=new T.Vector3().fromArray(D.sky.earthThreeDir).normalize();
+   const gc=document.createElement("canvas");gc.width=gc.height=128;{const g=gc.getContext("2d"),gr=g.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,"rgba(255,255,250,1)");gr.addColorStop(.12,"rgba(255,250,235,1)");gr.addColorStop(.3,"rgba(255,230,190,.35)");gr.addColorStop(1,"rgba(0,0,0,0)");g.fillStyle=gr;g.fillRect(0,0,128,128)}
+   const sun=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(gc),depthWrite:false,blending:T.AdditiveBlending,transparent:true}));sun.scale.setScalar(2e6*Math.tan(2.2*RAD));sun.position.copy(sd).multiplyScalar(2e6);sun.renderOrder=-1;skyG.add(sun);
+   const er=2e6*Math.tan(0.9407*RAD),earth=new T.Mesh(new T.SphereGeometry(er,64,48),new T.MeshLambertMaterial({map:tx("tex/earth.jpg")}));earth.position.copy(ed).multiplyScalar(2e6);
+   // orient: the point under the Moon (Indian Ocean) faces us, north pole along Earth's real axis
+   const bodyVec=(lat,lon)=>new T.Vector3(Math.cos(lat*RAD)*Math.cos(lon*RAD),Math.sin(lat*RAD),-Math.cos(lat*RAD)*Math.sin(lon*RAD));
+   const triad=(a,b)=>{const t1=a.clone().normalize(),t2=a.clone().cross(b).normalize(),t3=t1.clone().cross(t2);return new T.Matrix4().makeBasis(t1,t2,t3)};
+   const A=triad(bodyVec(D.sky.subMoonOnEarth[0],D.sky.subMoonOnEarth[1]),new T.Vector3(0,1,0)),B=triad(ed.clone().negate(),new T.Vector3().fromArray(D.sky.earthPoleThree));
+   earth.quaternion.setFromRotationMatrix(B.multiply(A.transpose()));skyG.add(earth);
+   const dl=new T.DirectionalLight(0xffffff,1.25);dl.position.copy(sd);dl.target=earth;skyG.add(dl);S.add(new T.AmbientLight(0x10141c,1))}
+  // the real path
+  const P=D.trk.pts,EV=D.trk.ev,t0=P[0][0],t1=P[P.length-1][0];
+  const PT=P.map(p=>new T.Vector3(p[1]*1000,p[3]*1000,-p[2]*1000));
+  const seg=t=>{const f=Math.max(0,Math.min(P.length-1.0001,(t-t0)/5));return [Math.floor(f),f-Math.floor(f)]};
+  function posAt(t,out){const [i,f]=seg(t),p0=PT[Math.max(0,i-1)],p1=PT[i],p2=PT[Math.min(PT.length-1,i+1)],p3=PT[Math.min(PT.length-1,i+2)],f2=f*f,f3=f2*f;
+    return out.set(.5*((2*p1.x)+(-p0.x+p2.x)*f+(2*p0.x-5*p1.x+4*p2.x-p3.x)*f2+(-p0.x+3*p1.x-3*p2.x+p3.x)*f3),.5*((2*p1.y)+(-p0.y+p2.y)*f+(2*p0.y-5*p1.y+4*p2.y-p3.y)*f2+(-p0.y+3*p1.y-3*p2.y+p3.y)*f3),.5*((2*p1.z)+(-p0.z+p2.z)*f+(2*p0.z-5*p1.z+4*p2.z-p3.z)*f2+(-p0.z+3*p1.z-3*p2.z+p3.z)*f3))}
+  const altAt=t=>{const [i,f]=seg(t);return (P[i][4]+(P[Math.min(P.length-1,i+1)][4]-P[i][4])*f)*1000};
+  const PH={orbit:t0,pdi:EV.pdi,ah:EV.ah,fb:EV.fb,hv1:EV.hv1,vd:1008,hz:EV.hz,rt:1152,fd:1205,td:EV.td};
+  const phaseAt=t=>{let k=0;CH3_PH.forEach((p,i)=>{if(t>=PH[p[0]]-.01)k=i});return k};
+  const N1=Math.round(t1-t0)+1,pathPos=new Float32Array(N1*3),tmp=new T.Vector3();
+  for(let i=0;i<N1;i++){posAt(t0+i,tmp);pathPos.set([tmp.x,tmp.y,tmp.z],i*3)}
+  const pg=new T.BufferGeometry();pg.setAttribute("position",new T.BufferAttribute(pathPos,3));
+  const past=new T.Line(pg,new T.LineBasicMaterial({color:0xffb347})),fut=new T.Line(pg.clone(),new T.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.35}));S.add(past,fut);
+  const spriteTex=(draw,w,h)=>{const c=document.createElement("canvas");c.width=w;c.height=h;draw(c.getContext("2d"));const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;return t};
+  const dotTex=spriteTex(g=>{const gr=g.createRadialGradient(32,32,0,32,32,32);gr.addColorStop(0,"#fff");gr.addColorStop(.28,"#fff8e8");gr.addColorStop(.45,"rgba(255,179,71,.85)");gr.addColorStop(1,"rgba(255,140,40,0)");g.fillStyle=gr;g.fillRect(0,0,64,64)},64,64);
+  const dot=new T.Sprite(new T.SpriteMaterial({map:dotTex,sizeAttenuation:false,depthTest:false,transparent:true}));dot.scale.setScalar(.045);dot.renderOrder=10;S.add(dot);
+  const label=(text,col)=>{const t=spriteTex(g=>{g.font='600 30px "IBM Plex Mono", ui-monospace, monospace';const w=g.measureText(text).width+28;g.fillStyle="rgba(5,6,12,.78)";g.fillRect(0,8,w,44);g.strokeStyle=col;g.lineWidth=2;g.strokeRect(1,9,w-2,42);g.fillStyle="#ece7da";g.textBaseline="middle";g.fillText(text,14,31)},512,60);
+    const s=new T.Sprite(new T.SpriteMaterial({map:t,sizeAttenuation:false,depthTest:false,transparent:true}));s.center.set(0,-.35);s.scale.set(.28,.033,1);s.renderOrder=11;return s};
+  const vLab=label("VIKRAM · real position","#ffb347");S.add(vLab);
+  const marks=[["pdi","17:43:53 · engines start · 30 km"],["ah","7.4 km · attitude hold"],["hv1","~800 m · first hover"],["td","Touchdown · 18:02:44 IST"]].map(([k,s])=>{const m=label(s,"#8ec5ff");posAt(PH[k],m.position);m.scale.multiplyScalar(.8);m.userData.k=k;S.add(m);return m});
+  const drop=new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(),new T.Vector3()]),new T.LineBasicMaterial({color:0xffb347,transparent:true,opacity:.55}));S.add(drop);
+  // state + controls
+  const st={t:firstPhase?PH[firstPhase]:t0,play:true,speed:30,view:"chase",yaw:0,pitch:0,zoom:1,heading:new T.Vector3(0,0,1)};
+  const lp=new T.Vector3(),lv=new T.Vector3(),up=new T.Vector3(),hd=new T.Vector3(),cp=new T.Vector3(),look=new T.Vector3(),q=new T.Quaternion();
+  const hudEls={ph:$("#ch3Ph"),x:$("#ch3X"),tm:$("#ch3Tm"),al:$("#ch3Al"),sp:$("#ch3Sp"),ds:$("#ch3Ds"),t:$("#ch3T")};
+  const fmt=(x,d)=>Number(x).toLocaleString("en-IN",{maximumFractionDigits:d||0});
+  const ist=t=>{const s=Math.round((12*3600+12*60+t+19800)%86400);return `${String(Math.floor(s/3600)).padStart(2,"0")}:${String(Math.floor(s/60)%60).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`};
+  const XR={panel:null};
+  let lastPh=-1,hudT=0;
+  function hud(force){const now=performance.now();if(!force&&now-hudT<120)return;hudT=now;
+    const k=phaseAt(st.t);if(k!==lastPh){lastPh=k;hudEls.ph.textContent=CH3_PH[k][1];hudEls.x.textContent=CH3_PH[k][2];document.querySelectorAll("#ch3Phases [data-ph]").forEach(b=>b.setAttribute("aria-current",String(b.dataset.ph===CH3_PH[k][0])))}
+    const a=altAt(st.t),sp=lv.length();hudEls.tm.textContent=ist(st.t);hudEls.al.textContent=a>=1000?fmt(a/1000,1)+" km":fmt(Math.max(0,a))+" m";
+    hudEls.sp.textContent=sp>=20?`${fmt(sp)} m/s · ${fmt(sp*3.6)} km/h`:`${fmt(sp,1)} m/s`;
+    const ang=lp.clone().sub(C).angleTo(tmp.set(0,0,0).sub(C)),dist=RS*ang;hudEls.ds.textContent=dist>=1000?fmt(dist/1000,dist<10000?1:0)+" km":fmt(dist)+" m";
+    if(document.activeElement!==hudEls.t)hudEls.t.value=st.t;
+    if(XR.panel)XR.draw(CH3_PH[k][1],[["Time",ist(st.t)+" IST"],["Height",hudEls.al.textContent],["Speed",hudEls.sp.textContent],["To landing point",hudEls.ds.textContent]])}
+  $("#ch3Ticks").innerHTML=CH3_PH.slice(1).map(([k,n])=>`<span style="left:${(PH[k]-40)/(1290-40)*100}%" title="${esc(n)}"></span>`).join("");
+  const setView=v=>{st.view=v;st.yaw=0;st.pitch=0;st.zoom=1;document.querySelectorAll("#ch3View [data-cv]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.cv===v)));
+    tip(v==="vikram"?"You are riding on Vikram. Drag to look around; the ground is below you.":v==="site"?"Near the real landing point, looking north-west: Vikram comes down from the north, and Earth hangs low in the sky.":v==="overview"?"The whole 750 km approach over the south polar region. Drag to turn.":"")};
+  const setSpeed=s=>{st.speed=s;document.querySelectorAll("#ch3Spd [data-s]").forEach(b=>b.setAttribute("aria-pressed",String(+b.dataset.s===s)))};
+  const setPlay=p=>{st.play=p;if(st.t>=t1-1&&p)st.t=t0;$("#ch3Play").textContent=p?"❚❚":"▶";$("#ch3Play").setAttribute("aria-label",p?"Pause":"Play");const v=$("#ch3Pip video");if(v&&!$("#ch3Pip").hidden){p?v.play().catch(()=>{}):v.pause()}};
+  const jump=k=>{st.t=PH[k]!=null?PH[k]:st.t;hud(true);if(!st.play)render()};
+  let tipT=0;function tip(s){const el=$("#ch3Tip");if(!el)return;el.textContent=s;el.hidden=!s;clearTimeout(tipT);if(s)tipT=setTimeout(()=>{el.hidden=true},5000)}
+  $("#ch3Play").onclick=()=>setPlay(!st.play);
+  $("#ch3Spd").onclick=e=>{const b=e.target.closest("[data-s]");if(b)setSpeed(+b.dataset.s)};
+  $("#ch3View").onclick=e=>{const b=e.target.closest("[data-cv]");if(!b)return;if(b.dataset.cv==="vr")xrStart();else setView(b.dataset.cv)};
+  hudEls.t.oninput=()=>{st.t=+hudEls.t.value;hud(true);if(!st.play)render()};
+  // real ISRO camera video, roughly in step (ISRO's clip is sped up about 6.6×)
+  const pip=$("#ch3Pip"),pv=pip.querySelector("video"),V0=10.5,VK=(EV.td-EV.pdi)/(183-V0);
+  $("#ch3Vid").onclick=()=>{pip.hidden=false;pv.preload="auto";if(pv.readyState<1)pv.addEventListener("loadedmetadata",()=>{pv.currentTime=V0},{once:true});else pv.currentTime=V0;st.t=EV.pdi;setSpeed(7);st.speed=VK;setView("chase");setPlay(true);pv.play().catch(()=>{})};
+  pip.querySelector(".ch3-pipx").onclick=()=>{pip.hidden=true;pv.pause();if(st.speed!==1&&st.speed!==7&&st.speed!==30)setSpeed(30)};
+  pv.addEventListener("timeupdate",()=>{if(pip.hidden||!st.play)return;const want=EV.pdi+(pv.currentTime-V0)*VK;if(pv.currentTime>V0&&pv.currentTime<183&&Math.abs(want-st.t)>12)st.t=want;if(pv.currentTime>=205)pv.pause()});
+  // pointer: drag to look / orbit, wheel + pinch to zoom
+  const ptr=new Map();
+  cv.addEventListener("pointerdown",e=>{try{cv.setPointerCapture(e.pointerId)}catch(_){}ptr.set(e.pointerId,{x:e.clientX,y:e.clientY})});
+  cv.addEventListener("pointermove",e=>{const p=ptr.get(e.pointerId);if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;
+    if(ptr.size===2){const [a,b]=[...ptr.values()];const d0=Math.hypot(a.x-b.x,a.y-b.y);p.x=e.clientX;p.y=e.clientY;const [c,d]=[...ptr.values()];const d1=Math.hypot(c.x-d.x,c.y-d.y);if(d0>0)st.zoom=Math.max(.15,Math.min(6,st.zoom*d0/d1))}
+    else{st.yaw-=dx*.005;st.pitch=Math.max(-1.3,Math.min(1.3,st.pitch+dy*.004))}p.x=e.clientX;p.y=e.clientY;if(!st.play)render()});
+  const pend=e=>ptr.delete(e.pointerId);cv.addEventListener("pointerup",pend);cv.addEventListener("pointercancel",pend);
+  cv.addEventListener("wheel",e=>{e.preventDefault();st.zoom=Math.max(.15,Math.min(6,st.zoom*Math.exp(e.deltaY*.0012)));if(!st.play)render()},{passive:false});
+  // camera placement for each view
+  const ovT=new T.Vector3();posAt((EV.pdi+EV.td)/2,ovT);ovT.multiplyScalar(.6);
+  function place(dt){
+    posAt(st.t,lp);posAt(Math.min(t1,st.t+1),lv);lv.sub(posAt(Math.max(t0,st.t-1),tmp)).multiplyScalar(st.t>t0+1&&st.t<t1-1?.5:1);
+    up.copy(lp).sub(C).normalize();
+    hd.copy(lv).addScaledVector(up,-lv.dot(up));if(hd.length()>2)st.heading.copy(hd.normalize());
+    hd.copy(st.heading).addScaledVector(up,-st.heading.dot(up)).normalize();
+    const a=Math.max(0,altAt(st.t));
+    dot.position.copy(lp);vLab.position.copy(lp);
+    // drop line to the real ground under Vikram
+    const [la,lo]=toLL(lp),g=new T.Vector3();
+    {const arr=[0,0,0];ll(la,lo,hAt(la,lo),arr,0);g.fromArray(arr);const pa=drop.geometry.attributes.position;pa.setXYZ(0,lp.x,lp.y,lp.z);pa.setXYZ(1,g.x,g.y,g.z);pa.needsUpdate=true;drop.visible=lp.distanceTo(g)>3}
+    const k=Math.max(1,Math.min(N1,Math.round(st.t-t0)+1));past.geometry.setDrawRange(0,k);fut.geometry.setDrawRange(k-1,N1-k+1);
+    marks.forEach(m=>{m.visible=st.view==="overview"});
+    vLab.visible=st.view!=="vikram";dot.visible=st.view!=="vikram";
+    let near=1;
+    if(st.view==="chase"){const d=Math.max(260,Math.min(42000,a*1.15+240))*st.zoom;
+      q.setFromAxisAngle(up,st.yaw);cp.copy(hd).applyQuaternion(q).multiplyScalar(-d).addScaledVector(up,d*(.38+st.pitch*.5));cam.position.copy(lp).add(cp);
+      look.copy(lp).addScaledVector(hd,d*.12);cam.up.copy(up);cam.lookAt(look);cam.fov=55;near=Math.max(1,d*.01)}
+    else if(st.view==="vikram"){cam.position.copy(lp).addScaledVector(up,4);q.setFromAxisAngle(up,st.yaw);look.copy(hd).applyQuaternion(q);
+      const side=tmp.copy(look).cross(up).normalize(),pit=(a>5000?-.45:-.6)+st.pitch;look.applyAxisAngle(side,pit).add(cam.position);cam.up.copy(up);cam.lookAt(look);cam.fov=70/Math.max(.5,Math.min(2,st.zoom));near=1}
+    else if(st.view==="site"){const tgt=tmp.set(0,60,0),d=1500*st.zoom,sUp=new T.Vector3(0,1,0);
+      const yaw=.6435+st.yaw,pit=Math.max(.02,Math.min(1.4,.1+st.pitch));cam.position.set(Math.sin(yaw)*Math.cos(pit)*d,Math.sin(pit)*d+tgt.y,Math.cos(yaw)*Math.cos(pit)*d);cam.up.copy(sUp);cam.lookAt(tgt.lerp(lp,.3*Math.max(0,Math.min(1,1-lp.length()/20000))));cam.fov=50;near=2}
+    else{const d=900000*st.zoom,oUp=ovT.clone().sub(C).normalize(),yaw=-Math.PI*.55+st.yaw,pit=Math.max(.05,Math.min(1.5,.75+st.pitch));
+      const east=new T.Vector3(1,0,0),north=new T.Vector3().crossVectors(oUp,east).normalize();
+      cam.position.copy(ovT).addScaledVector(east,Math.cos(yaw)*Math.cos(pit)*d).addScaledVector(north,Math.sin(yaw)*Math.cos(pit)*d).addScaledVector(oUp,Math.sin(pit)*d);cam.up.copy(oUp);cam.lookAt(ovT);cam.fov=50;near=200}
+    cam.near=near;cam.updateProjectionMatrix();
+    skyG.position.copy(cam.position);
+  }
+  function render(){place(0);R.render(S,cam)}
+  // WebXR: ride with Vikram or stand at the landing site, real scale
+  {const c=document.createElement("canvas");c.width=1024;c.height=420;const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;
+   XR.mesh=new T.Mesh(new T.PlaneGeometry(.9,.37),new T.MeshBasicMaterial({map:t,transparent:true,depthTest:false}));XR.mesh.renderOrder=20;XR.mesh.visible=false;
+   XR.draw=(title,rows)=>{const g=c.getContext("2d");g.clearRect(0,0,1024,420);g.fillStyle="rgba(8,10,20,.86)";g.fillRect(0,0,1024,420);g.strokeStyle="#ffb347";g.lineWidth=4;g.strokeRect(2,2,1020,416);
+     g.fillStyle="#ffb347";g.font='900 58px "Big Shoulders Display", "Arial Narrow", Impact, sans-serif';g.fillText(title.toUpperCase(),36,80);
+     rows.forEach(([k,v],i)=>{g.fillStyle="#8a8ea6";g.font='500 26px "IBM Plex Mono", ui-monospace, monospace';g.fillText(k.toUpperCase(),36,150+i*62);g.fillStyle="#ece7da";g.font='500 36px "IBM Plex Sans", system-ui, sans-serif';g.fillText(v,380,150+i*62)});
+     g.fillStyle="#8a8ea6";g.font='500 22px "IBM Plex Mono", ui-monospace, monospace';g.fillText("TRIGGER play/pause · GRIP change view · STICK skip",36,400);t.needsUpdate=true}}
+  async function xrStart(){
+    try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);
+      XR.panel=true;rig.add(XR.mesh);XR.mesh.position.set(0,-.35,-1.1);XR.mesh.rotation.x=-.35;XR.mesh.visible=true;XR.view=st.view==="site"?"site":"vikram";hud(true);
+      s.addEventListener("end",()=>{XR.panel=null;XR.mesh.visible=false;rig.position.set(0,0,0);rig.quaternion.identity();resize()})}
+    catch(e){PAD.say("VR could not start here. Open the site in the Meta Quest Browser.",4000)}}
+  const xc=[0,1].map(i=>{const c=R.xr.getController(i);c.addEventListener("select",()=>setPlay(!st.play));c.addEventListener("squeezestart",()=>{XR.view=XR.view==="vikram"?"site":XR.view==="site"?"chase":"vikram"});S.add(c);return c});
+  let snap={};
+  function xrPlace(dt){
+    place(0);const ses=R.xr.getSession();
+    if(ses)for(const src of ses.inputSources){const g=src.gamepad;if(!g)continue;const ax=g.axes.length>2?g.axes[2]:0,k=src.handedness;if(Math.abs(ax)>.7&&snap[k]!==false){st.t=Math.max(t0,Math.min(t1,st.t+Math.sign(ax)*20));snap[k]=false}else if(Math.abs(ax)<.3)snap[k]=true}
+    if(XR.view==="vikram"){rig.position.copy(lp).addScaledVector(up,4)}
+    else if(XR.view==="site"){rig.position.set(110,hAt(SL-.0072,SO+.0103)-hSite+30,220)}
+    else{const d=Math.max(260,Math.min(42000,altAt(st.t)*1.15+240));rig.position.copy(lp).addScaledVector(hd,-d).addScaledVector(up,d*.38)}
+    const rup=XR.view==="site"?new T.Vector3(0,1,0):up.clone(),fw=XR.view==="site"?new T.Vector3(-.34,0,-.94).normalize():hd.clone();
+    rig.quaternion.setFromRotationMatrix(new T.Matrix4().lookAt(new T.Vector3(),fw,rup).setPosition(0,0,0));
+    skyG.position.copy(rig.position)}
+  // main loop hooks
+  let last=0;
+  function step(dt){if(st.play){st.t+=dt*st.speed;if(st.t>=t1){st.t=t1;setPlay(false)}}}
+  const resize=()=>{if(R.xr.isPresenting)return;const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()};
+  new ResizeObserver(resize).observe(stage);resize();
+  R.setAnimationLoop((t)=>{const dt=last?Math.min(.05,(t-last)/1000):0;last=t;
+    if(R.xr.isPresenting){PAD.poll(dt,PADX_VR);step(dt);xrPlace(dt);hud();R.render(S,cam);return}
+    if(!isVisible(stage)||document.hidden)return;step(dt);place(dt);hud();R.render(S,cam)});
+  const PADX_VR={immersive:true,a:()=>setPlay(!st.play),x:()=>{XR.view=XR.view==="vikram"?"site":"vikram"},next:()=>{const k=Math.min(CH3_PH.length-1,phaseAt(st.t)+1);jump(CH3_PH[k][0])},prev:()=>{const k=Math.max(0,phaseAt(st.t)-1);jump(CH3_PH[k][0])},helpXR:()=>{}};
+  CH3.pad={look:(x,y,dt)=>{st.yaw-=x*1.8*dt;st.pitch=Math.max(-1.3,Math.min(1.3,st.pitch-y*1.2*dt))},zoom:(z,dt)=>{st.zoom=Math.max(.15,Math.min(6,st.zoom*Math.exp(-z*1.4*dt)))},
+    a:()=>setPlay(!st.play),x:()=>{const vs=["chase","vikram","site","overview"];setView(vs[(vs.indexOf(st.view)+1)%vs.length])},
+    next:()=>{const k=Math.min(CH3_PH.length-1,phaseAt(st.t)+1);jump(CH3_PH[k][0])},prev:()=>{const k=Math.max(0,phaseAt(st.t)-1);jump(CH3_PH[k][0])}};
+  CH3.jump=k=>{jump(k);setPlay(true)};
+  CH3.state=st;CH3.on=true;CH3.stage=stage;
+  if(navigator.xr&&navigator.xr.isSessionSupported)navigator.xr.isSessionSupported("immersive-vr").then(ok=>{const b=document.querySelector('#ch3View [data-cv="vr"]');if(b)b.hidden=!ok}).catch(()=>{});
+  if(!CH3VID)$("#ch3Vid").hidden=true;
+  $("#ch3Load").hidden=true;$("#ch3Hud").hidden=false;$("#ch3Bar").hidden=false;setSpeed(30);setView("chase");hud(true);
+  if(reduced)setPlay(false);
+  CH3.frame=null;
+}
+
+/* ---------- Pragyan's real stereo photo ---------- */
+function ch3Stereo(){
+  const box=$("#ch3StView");if(!box)return;const L=$("#ch3L"),Rt=$("#ch3R"),A=$("#ch3A"),note=$("#ch3StNote");
+  let timer=0,mode="";const stopW=()=>{clearInterval(timer);timer=0};
+  const notes={wobble:"The picture switches between Pragyan's left and right camera, so you see the depth without glasses.",ana:"ISRO's own red-cyan picture. Look through red-cyan 3D glasses (red over the left eye).",pair:"Left camera on the left, right camera on the right. Relax your eyes and look through the screen to merge them.",box:"Turn the phone sideways and put it in a Cardboard-style VR box: each eye sees its own camera.",vr:"Each eye sees its own camera, so the picture has real depth. Press the Meta button to leave."};
+  function set(m){if(m==="vr"){vrStereo();return}
+    mode=m;stopW();box.className="ch3-st-view m-"+m;A.hidden=m!=="ana";Rt.hidden=m==="ana";L.hidden=m==="ana";L.style.opacity="";Rt.style.opacity="";
+    document.querySelectorAll("#ch3StMode [data-sm]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.sm===m)));note.textContent=notes[m];
+    $("#ch3StX").hidden=m!=="box";
+    if(m==="wobble"){let f=0;timer=setInterval(()=>{if(!isVisible(box))return;f^=1;Rt.style.opacity=f?"1":"0"},reduced?600:150)}
+    if(m==="box"){try{box.requestFullscreen&&box.requestFullscreen().catch(()=>{})}catch(e){}try{screen.orientation.lock("landscape").catch(()=>{})}catch(e){}}
+    else if(document.fullscreenElement===box){document.exitFullscreen().catch(()=>{})}}
+  $("#ch3StMode").onclick=e=>{const b=e.target.closest("[data-sm]");if(b)set(b.dataset.sm)};
+  $("#ch3StX").onclick=()=>set("wobble");
+  document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&mode==="box")set("wobble")});
+  if(navigator.xr&&navigator.xr.isSessionSupported)navigator.xr.isSessionSupported("immersive-vr").then(ok=>{const b=document.querySelector('#ch3StMode [data-sm="vr"]');if(b)b.hidden=!ok}).catch(()=>{});
+  set(reduced?"pair":"wobble");
+  CH3.st={stop:stopW};
+  async function vrStereo(){
+    if(!navigator.xr||!HAS3D)return;
+    const T=THREE,c=document.createElement("canvas"),R=new T.WebGLRenderer({canvas:c,antialias:true});R.xr.enabled=true;R.outputEncoding=T.sRGBEncoding;
+    const S=new T.Scene(),cam=new T.PerspectiveCamera(70,1,.05,100),TL=new T.TextureLoader();
+    const plane=(u,layer)=>{const t=TL.load(u);t.encoding=T.sRGBEncoding;const m=new T.Mesh(new T.PlaneGeometry(2.4,2.4),new T.MeshBasicMaterial({map:t}));m.position.set(0,0,-2.4);m.layers.set(layer);S.add(m);return m};
+    plane("ch3/vikram_L.jpg",1);plane("ch3/vikram_R.jpg",2);cam.layers.enable(1);
+    try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);
+      R.setAnimationLoop(()=>R.render(S,cam));const ctl=R.xr.getController(0);ctl.addEventListener("select",()=>s.end());S.add(ctl);
+      s.addEventListener("end",()=>{R.setAnimationLoop(null);R.dispose();try{R.forceContextLoss()}catch(e){}})}
+    catch(e){R.dispose();PAD.say("VR could not start here. Open the site in the Meta Quest Browser.",4000)}}
 }
 
 
@@ -3581,6 +3970,7 @@ function loop(t){
   if(view==="sky"){if(SKY.on&&isVisible($("#skyStage")))SKY.frame(dt);if(NEAR.on&&isVisible($("#nearStage")))NEAR.frame(dt)}
   if(view==="craft"&&CRAFTV.on&&isVisible($("#craftStage")))CRAFTV.frame(dt);
   if(view==="land"&&PANO.on&&isVisible($("#panoStage")))PANO.frame(dt);
+  if(view!=="land"&&CH3.on)ch3Destroy();
   requestAnimationFrame(loop);
 }
 function isVisible(el){const r=el.getBoundingClientRect();return r.bottom>0&&r.top<innerHeight}
