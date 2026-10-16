@@ -2997,7 +2997,77 @@ function SaurXR(stage,menuEl,opt){
   };
 }
 
-const NARR_IDS=["callisto","charon","craft-apollo-lm","craft-cassini","craft-chandrayaan-3","craft-curiosity","craft-dawn","craft-galileo","craft-hubble","craft-ingenuity","craft-iss","craft-juno","craft-jwst","craft-maven","craft-mro","craft-osiris-rex","craft-parker-solar-probe","craft-perseverance","craft-voyager","deimos","earth","enceladus","europa","ganymede","io","jupiter","mars","mercury","moon","mu-europe_ariane5","mu-india_chandrayaan3_lander","mu-india_gslv_mk2","mu-india_lvm3","mu-india_nisar","mu-india_pragyan_rover","mu-india_pslv","mu-india_pslv_g","mu-intl_apollo_soyuz","mu-intl_iss","mu-nz_electron","mu-usa_apollo11_cm","mu-usa_apollo_lm","mu-usa_atlas_mercury","mu-usa_atlas_v_551","mu-usa_crew_dragon","mu-usa_curiosity","mu-usa_delta_ii","mu-usa_gemini","mu-usa_hubble","mu-usa_jupiter_c_explorer1","mu-usa_jwst","mu-usa_mercury_redstone","mu-usa_orion_artemis2","mu-usa_perseverance","mu-usa_shuttle_discovery","mu-usa_sls","mu-usa_space_shuttle_stack","mu-ussr_sputnik1","neptune","oberon","orb-geo","orb-gto","orb-l1","orb-leo","orb-moon","orb-sso","pano-apollo11_tranquility_base","pano-artemis1_rollout_360","pano-delta4_parker_launch_360","pano-isro_gslv_f11_rollout","pano-isro_pslv_c42_launchpad","pano-isro_pslv_c44_launchpad","pano-mars_curiosity_sand_dune","pano-nasa_mission_control","pano-orion_artemis1_cabin","pano-shuttle_discovery_flightdeck","pano-shuttle_discovery_middeck","phobos","pluto","rhea","rk-ariane6","rk-aslv","rk-falcon9","rk-gslv","rk-h3","rk-hlvm3","rk-lm5","rk-lvm3","rk-newglenn","rk-pslv","rk-saturnv","rk-sls","rk-slv3","rk-soyuz","rk-sslv","saturn","sun","titan","titania","triton","ui-compare","ui-countdown","ui-rocket","ui-solar","ui-stars","ui-welcome","uranus","venus"];
+const NARR_IDS=["callisto","charon","craft-aditya-l1","craft-apollo-lm","craft-aryabhata","craft-astrosat","craft-cartosat-3","craft-cassini","craft-chandrayaan-1","craft-chandrayaan-2","craft-chandrayaan-3","craft-curiosity","craft-dawn","craft-galileo","craft-hubble","craft-ingenuity","craft-insat-3ds","craft-iss","craft-juno","craft-jwst","craft-mangalyaan","craft-maven","craft-mro","craft-navic","craft-nisar","craft-osiris-rex","craft-parker-solar-probe","craft-perseverance","craft-pragyan","craft-spadex","craft-voyager","craft-xposat","deimos","earth","enceladus","europa","ganymede","io","jupiter","mars","mercury","moon","mu-europe_ariane5","mu-india_chandrayaan3_lander","mu-india_gslv_mk2","mu-india_lvm3","mu-india_nisar","mu-india_pragyan_rover","mu-india_pslv","mu-india_pslv_g","mu-intl_apollo_soyuz","mu-intl_iss","mu-nz_electron","mu-usa_apollo11_cm","mu-usa_apollo_lm","mu-usa_atlas_mercury","mu-usa_atlas_v_551","mu-usa_crew_dragon","mu-usa_curiosity","mu-usa_delta_ii","mu-usa_gemini","mu-usa_hubble","mu-usa_jupiter_c_explorer1","mu-usa_jwst","mu-usa_mercury_redstone","mu-usa_orion_artemis2","mu-usa_perseverance","mu-usa_shuttle_discovery","mu-usa_sls","mu-usa_space_shuttle_stack","mu-ussr_sputnik1","neptune","oberon","orb-geo","orb-gto","orb-l1","orb-leo","orb-moon","orb-sso","pano-apollo11_tranquility_base","pano-artemis1_rollout_360","pano-delta4_parker_launch_360","pano-isro_gslv_f11_rollout","pano-isro_pslv_c42_launchpad","pano-isro_pslv_c44_launchpad","pano-mars_curiosity_sand_dune","pano-nasa_mission_control","pano-orion_artemis1_cabin","pano-shuttle_discovery_flightdeck","pano-shuttle_discovery_middeck","phobos","pluto","rhea","rk-ariane6","rk-aslv","rk-falcon9","rk-gslv","rk-h3","rk-hlvm3","rk-lm5","rk-lvm3","rk-newglenn","rk-pslv","rk-saturnv","rk-sls","rk-slv3","rk-soyuz","rk-sslv","saturn","sun","titan","titania","triton","ui-compare","ui-countdown","ui-game-rocket","ui-game-solar","ui-good","ui-grab","ui-rocket","ui-solar","ui-stars","ui-try","ui-welcome","ui-win-rocket","ui-win-solar","uranus","venus"];
+const PLANET_SND=["earth", "enceladus", "jupiter", "mars", "mercury", "moon", "neptune", "pluto", "saturn", "sun", "uranus", "venus"];
+const SND_CREDIT={
+ "earth": {"what": "Chorus radio waves in Earth's magnetic field, recorded by NASA's Van Allen Probes (EMFISIS) and turned into sound", "credit": "NASA / University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Chorus_Radio_Waves_within_Earth%27s_Atmosphere.mp3", "real": true},
+ "jupiter": {"what": "Waves in the charged gas near Jupiter, detected by NASA's Cassini as it flew past in 2001, turned into sound", "credit": "NASA/JPL/University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Cassini_RPWS_Jupiter_010104.ogg", "real": true},
+ "saturn": {"what": "Saturn's radio emissions linked to its auroras, recorded by Cassini and turned into sound", "credit": "NASA/JPL/University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Eerie_Sounds_of_Saturn%E2%80%99s_Radio_Emissions_(PIA07966).wav", "real": true},
+ "mars": {"what": "Real wind on Mars, recorded by the microphone on NASA's Perseverance rover on 20 Feb 2021", "credit": "NASA/JPL-Caltech", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:NASA%27s_Perseverance_Rover_Microphone_Captures_Sounds_from_Mars_without_rover_noise.ogg", "real": true},
+ "moon": {"what": "Apollo 11, 20 July 1969: \"Houston, Tranquility Base here. The Eagle has landed.\"", "credit": "NASA", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Apollo_11_Eagle_Has_Landed.mp3", "real": true},
+ "enceladus": {"what": "Radio and plasma waves near Enceladus recorded by NASA's Cassini, turned into sound", "credit": "NASA", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Cassini_-_Enceladus_Sound.mp3", "real": true},
+ "launch": {"what": "NASA's SLS rocket launching Artemis II, 1 April 2026, recorded at Pad Camera Site 4", "credit": "NASA Kennedy Space Center", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Artemis_II_Live_Launch_Coverage_-_Pad_Camera_Site_4_(KSC-20260401-AU-LMM01-0001-Artemis_II_Live_Launch_Coverage_Pad_Camera_Site_4).wav", "real": true},
+ "sun": {"what": "An artist's sound for the Sun, made for this app from its deep slow oscillations (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
+ "mercury": {"what": "An artist's sound for Mercury: solar-wind crackle on a world with almost no air (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
+ "venus": {"what": "An artist's sound for Venus: thick air and lightning whistlers (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
+ "uranus": {"what": "An artist's sound for Uranus, the icy tilted giant (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
+ "neptune": {"what": "An artist's sound for Neptune, home of the fastest winds in the Solar System (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
+ "pluto": {"what": "An artist's sound for faraway, frozen Pluto (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false}
+};
+/* ================= ISRO SPACECRAFT for the VR museum and the space walk =================
+   Real models where a free one exists (Vikram, Pragyan, NISAR from Rocket Shala); the rest are
+   built here from boxes, panels, dishes and foil at their real proportions (illustrative). */
+const ISRO_CRAFT=[
+ {id:"aryabhata",name:"Aryabhata",hi:"आर्यभट",ag:"ISRO",yr:"1975",where:"India's first satellite (Earth orbit, 1975–1992)",size:"1.4 m across · 360 kg",m:1.6,fact:"26 flat sides, most covered in solar cells. Named after the great Indian astronomer."},
+ {id:"chandrayaan-1",name:"Chandrayaan-1",hi:"चंद्रयान-1",ag:"ISRO",yr:"2008",where:"Moon orbit, 2008–2009",size:"1.5 m cube + 2.2 m solar panel",m:3.4,fact:"India's first Moon mission. Its NASA instrument helped find water on the Moon; its probe carried the Indian flag to the surface."},
+ {id:"mangalyaan",name:"Mangalyaan (Mars Orbiter Mission)",hi:"मंगलयान",ag:"ISRO",yr:"2013",where:"Mars orbit, 2014–2022",size:"1.5 m body · 2.2 m dish",m:4.2,fact:"First Asian country to reach Mars, and the first country to do it on the first try."},
+ {id:"astrosat",name:"AstroSat",hi:"एस्ट्रोसैट",ag:"ISRO",yr:"2015",where:"Earth orbit, about 650 km up",size:"About 2 m tall · 1,515 kg",m:6.5,fact:"India's first space observatory: it sees ultraviolet, visible light and X-rays at the same time."},
+ {id:"navic",name:"NavIC (navigation satellites)",hi:"नाविक",ag:"ISRO",yr:"2013 onwards",where:"About 36,000 km up, over India",size:"1.6 m body · 2 solar wings",m:7,fact:"India's own GPS. It helps phones, vehicles and fishing boats know where they are, and sends cyclone warnings to fishermen."},
+ {id:"cartosat-3",name:"Cartosat-3",hi:"कार्टोसैट-3",ag:"ISRO",yr:"2019",where:"Earth orbit, about 500 km up",size:"About 2 m tall · 1,625 kg",m:5,fact:"Its camera can see things about 25 cm across from space, about the size of a football."},
+ {id:"chandrayaan-2",name:"Chandrayaan-2 Orbiter",hi:"चंद्रयान-2",ag:"ISRO",yr:"2019",where:"Still orbiting the Moon",size:"About 2.2 m body · 2,379 kg",m:5.5,fact:"The sharpest camera ever to orbit the Moon. Lessons from its lander helped Chandrayaan-3 land safely."},
+ {id:"chandrayaan-3",name:"Chandrayaan-3: Vikram lander",hi:"चंद्रयान-3 · विक्रम",ag:"ISRO",yr:"2023",where:"Near the Moon's south pole",size:"About 2 m tall · 1,752 kg",m:2.97,rs:"india_chandrayaan3_lander",fact:"India's first soft landing on the Moon, on 23 August 2023, the first ever near the lunar south pole."},
+ {id:"pragyan",name:"Pragyan rover",hi:"प्रज्ञान रोवर",ag:"ISRO",yr:"2023",where:"On the Moon, near the south pole",size:"About 0.9 m long · 26 kg",m:.92,rs:"india_pragyan_rover",fact:"Six wheels, solar power, 100 m on the Moon. It confirmed sulphur in the lunar soil."},
+ {id:"aditya-l1",name:"Aditya-L1",hi:"आदित्य-एल1",ag:"ISRO",yr:"2023",where:"Sun–Earth L1, 1.5 million km away",size:"About 2 m body · 1,475 kg",m:5,fact:"India's first solar observatory. From L1 it watches the Sun all day, every day, with no eclipses."},
+ {id:"xposat",name:"XPoSat",hi:"एक्सपोसैट",ag:"ISRO",yr:"2024",where:"Earth orbit, about 650 km up",size:"About 1.6 m tall · 469 kg",m:4,fact:"Measures X-ray polarisation to study black holes and neutron stars; only the world's second such mission."},
+ {id:"insat-3ds",name:"INSAT-3DS",hi:"इनसैट-3डीएस",ag:"ISRO",yr:"2024",where:"Geostationary orbit, over India",size:"2.4 m body · 2,274 kg",m:9,fact:"Weather satellite: watches clouds, cyclones and the monsoon day and night."},
+ {id:"spadex",name:"SpaDeX (Chaser + Target)",hi:"स्पेडेक्स",ag:"ISRO",yr:"2024",where:"Earth orbit; docked on 16 Jan 2025",size:"Two satellites, about 220 kg each",m:4,fact:"Made India the fourth country to dock spacecraft in space, practice for Gaganyaan and the Bharatiya Antariksh Station."},
+ {id:"nisar",name:"NISAR",hi:"निसार",ag:"NASA · ISRO",yr:"2025",where:"Earth orbit, about 750 km up",size:"12 m gold-mesh antenna",m:14,rs:"india_nisar",fact:"Radar that sees through clouds, day and night, mapping land, ice, earthquakes, landslides, forests and crops."}
+];
+function makeIsroSat(id){
+  const T=THREE,g=new T.Group();
+  const fn=typeof foilNormal==="function"?foilNormal():null;
+  const gold=new T.MeshStandardMaterial({color:new T.Color(.95,.68,.26),metalness:.9,roughness:.34,normalMap:fn||null});
+  const white=new T.MeshStandardMaterial({color:0xe2e2e2,roughness:.55,metalness:.1}),grey=new T.MeshStandardMaterial({color:0x5b5e66,roughness:.5,metalness:.6}),black=new T.MeshStandardMaterial({color:0x1d1f24,roughness:.6});
+  if(!makeIsroSat.cells){const c=document.createElement("canvas");c.width=256;c.height=256;const x=c.getContext("2d");x.fillStyle="#0d1d4a";x.fillRect(0,0,256,256);
+    for(let i=0;i<8;i++)for(let j=0;j<8;j++){x.fillStyle=(i+j)%2?"#132a66":"#10245a";x.fillRect(i*32+2,j*32+2,28,28)}x.strokeStyle="#9aa3b5";x.lineWidth=3;x.strokeRect(1,1,254,254);
+    const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.wrapS=t.wrapT=T.RepeatWrapping;makeIsroSat.cells=t}
+  const cell=(rx,ry)=>{const t=makeIsroSat.cells.clone();t.needsUpdate=true;t.repeat.set(rx,ry);return new T.MeshStandardMaterial({map:t,metalness:.35,roughness:.32,side:T.DoubleSide})};
+  const box=(w,h,d,m,x,y,z)=>{const o=new T.Mesh(new T.BoxGeometry(w,h,d),m);o.position.set(x||0,y||0,z||0);g.add(o);return o};
+  const cyl=(r1,r2,h,m,x,y,z,rx,rz)=>{const o=new T.Mesh(new T.CylinderGeometry(r1,r2,h,32),m);o.position.set(x||0,y||0,z||0);o.rotation.set(rx||0,0,rz||0);g.add(o);return o};
+  const dish=(r,x,y,z,rx,rz)=>{const pts=[];for(let i=0;i<=16;i++){const t=i/16;pts.push(new T.Vector2(r*t,r*.35*t*t))}const o=new T.Mesh(new T.LatheGeometry(pts,40),new T.MeshStandardMaterial({color:0xf0f0f0,roughness:.5,side:T.DoubleSide}));o.position.set(x||0,y||0,z||0);o.rotation.set(rx||0,0,rz||0);g.add(o);
+    const f=new T.Mesh(new T.CylinderGeometry(.02,.02,r*.6,8),grey);f.position.y=r*.3;o.add(f);return o};
+  // a solar wing along +x (side=1) or -x (side=-1), n panels of w×h, starting at x0, at height y
+  const wing=(side,n,w,h,x0,y,z)=>{const yoke=new T.Mesh(new T.CylinderGeometry(.03,.03,.5,8),grey);yoke.rotation.z=Math.PI/2;yoke.position.set(side*(x0+.25),y||0,z||0);g.add(yoke);
+    const p=new T.Mesh(new T.BoxGeometry(n*w+(n-1)*.04,h,.035),cell(n*1.5,h/w*1.5));p.position.set(side*(x0+.5+(n*w)/2),y||0,z||0);g.add(p);return p};
+  switch(id){
+    case "aryabhata":{const s=new T.Mesh(new T.SphereGeometry(.7,8,4),cell(3,1.5));s.material.flatShading=true;s.material.side=T.FrontSide;g.add(s);
+      [[1,1],[-1,1],[1,-1],[-1,-1]].forEach(([a,b])=>{const r=new T.Mesh(new T.CylinderGeometry(.008,.008,.6,6),grey);r.position.set(a*.45,-.75,b*.45);r.rotation.set(b*.5,0,-a*.5);g.add(r)});break}
+    case "chandrayaan-1":box(1.5,1.5,1.5,gold);wing(1,1,1.8,2.15,.75,0,0);dish(.35,-1.15,.2,0,0,Math.PI/2);cyl(.03,.03,.5,grey,-.95,.2,0,0,Math.PI/2);box(.4,.3,.3,white,0,.9,.3);box(.25,.25,.25,grey,.3,.85,-.4);break;
+    case "mangalyaan":box(1.5,1.5,1.5,gold);wing(1,3,.75,1.8,.75,0,0);dish(1.1,0,.85,0);box(.35,.3,.35,white,.45,.9,.5);cyl(.12,.12,.3,grey,0,-.9,0);break;
+    case "astrosat":box(1.96,1.6,1.75,gold);[[-.45,.45],[.45,.45]].forEach(([x,z])=>cyl(.22,.22,1.5,white,x,1.55,z));cyl(.25,.25,2,white,0,1.8,-.45);box(.8,.6,.6,grey,.5,1.1,-.5);wing(1,2,.9,1.4,.98,0,0);wing(-1,2,.9,1.4,.98,0,0);break;
+    case "navic":box(1.58,1.5,1.5,gold);wing(1,2,1.4,1.6,.79,0,0);wing(-1,2,1.4,1.6,.79,0,0);box(.9,.9,.08,white,0,0,.79);cyl(.18,.18,.4,white,0,.2,.98,Math.PI/2);dish(.3,0,-.95,0,Math.PI);break;
+    case "cartosat-3":{const b=new T.Mesh(new T.CylinderGeometry(.75,.75,1.6,6),gold);g.add(b);cyl(.55,.6,1.3,white,0,1.45,0);cyl(.5,.5,.06,black,0,2.1,0);wing(1,2,1.1,1.3,.65,0,0);wing(-1,2,1.1,1.3,.65,0,0);break}
+    case "chandrayaan-2":box(2.2,2.0,2.2,gold);wing(1,3,1.1,2.4,1.1,0,0);dish(.45,-1.6,.3,0,0,Math.PI/2);cyl(.03,.03,.6,grey,-1.35,.3,0,0,Math.PI/2);box(.5,.4,.5,white,0,1.2,.5);cyl(.2,.2,.4,black,-.5,1.2,-.5);break;
+    case "aditya-l1":box(1.6,1.9,1.6,gold);wing(1,1,1.3,1.5,.8,0,0);wing(-1,1,1.3,1.5,.8,0,0);cyl(.28,.28,1.2,white,0,1.55,.2);box(.4,.4,.5,grey,.4,1.1,-.4);cyl(.1,.1,.5,white,-.5,1.2,-.3);break;
+    case "xposat":box(1.2,1.6,1.2,gold);box(1.21,.4,1.21,white,0,.5,0);wing(1,2,.8,1.2,.6,0,0);wing(-1,2,.8,1.2,.6,0,0);cyl(.18,.18,.8,white,.25,1.2,.25);cyl(.18,.18,.8,white,-.25,1.2,.25);box(.4,.3,.4,grey,0,1,-.35);break;
+    case "insat-3ds":box(2.4,1.6,1.5,gold);wing(1,4,1.2,1.8,1.2,0,0);cyl(.04,.04,2.2,grey,-2.3,0,0,0,Math.PI/2);{const sail=new T.Mesh(new T.ConeGeometry(.9,1.4,24,1,true),new T.MeshStandardMaterial({color:0xc8ccd6,metalness:.6,roughness:.3,side:T.DoubleSide}));sail.rotation.z=-Math.PI/2;sail.position.set(-3.6,0,0);g.add(sail)}
+      box(.7,.6,.5,white,.4,.1,.95);box(.6,.5,.5,white,-.5,.1,.95);cyl(.25,.25,.3,black,.4,.1,1.25,Math.PI/2);break;
+    case "spadex":[-1,1].forEach(s=>{box(.9,.9,.9,gold,s*.55,0,0);const p=new T.Mesh(new T.BoxGeometry(1.4,.8,.03),cell(2,1.2));p.position.set(s*.55,0,s*.6+(s>0?.15:-.15));p.rotation.y=0;g.add(p)});cyl(.25,.25,.2,grey,0,0,0,0,Math.PI/2);break;
+    default:box(1,1,1,gold);wing(1,2,.8,1,.5,0,0);wing(-1,2,.8,1,.5,0,0);
+  }
+  return g;
+}
+
 /* ================= DUET STEM SPACE LAB · VR HUB =================
    One immersive session, many places. A lobby (DUET STEM logo, Solar System, Rocket Shala),
    and scenes that each fill the whole headset: no web pages to scroll.
@@ -3026,10 +3096,30 @@ function VRHub(o){
     try{NAR.a.pause();NAR.a.src="audio/"+m+"/"+id+".mp3";NAR.a.currentTime=0;NAR.blocked=null;const p=NAR.a.play();if(p&&p.catch)p.catch(err=>{if(err&&err.name==="NotAllowedError")NAR.blocked=id})}catch(e){}return true};
   H.onAudioEnd=null;NAR.a.addEventListener("ended",()=>{if(H.onAudioEnd)H.onAudioEnd(NAR.last)});
   H.hush=()=>{try{NAR.a.pause()}catch(e){}};
-  H.narrLabel=()=>NAR.mode==="en"?"ENGLISH":NAR.mode==="hi"?"हिंदी":"OFF";
+  H.narrLabel=()=>NAR.mode==="en"?"ENGLISH":NAR.mode==="hi"?"हिंदी":NAR.mode==="hg"?"HINGLISH":"OFF";
   H.setNarr=m=>{NAR.mode=m;store.set("ss360-narr",m);if(m==="off")H.hush();else if(NAR.last)H.say(NAR.last);refreshUI()};
-  H.cycleNarr=()=>H.setNarr(NAR.mode==="en"?"hi":NAR.mode==="hi"?"off":"en");
+  H.cycleNarr=()=>H.setNarr(NAR.mode==="en"?"hi":NAR.mode==="hi"?"hg":NAR.mode==="hg"?"off":"en");
   H.narrMode=()=>NAR.mode;
+  NAR.a.addEventListener("play",()=>duck(true));NAR.a.addEventListener("pause",()=>duck(false));NAR.a.addEventListener("ended",()=>duck(false));
+
+  /* ---------- sounds: space ambience, planet recordings, rocket roar, game effects (on/off) ---------- */
+  const PSND=new Set(typeof PLANET_SND!=="undefined"?PLANET_SND:[]);
+  const SND={on:store.get("ss360-snd","on")!=="off",amb:new Audio(),fx:{},planet:new Audio(),ambWant:null,ambVol:.32,ducked:false,blocked:false};
+  SND.amb.loop=true;SND.amb.preload="auto";SND.planet.preload="auto";
+  function duck(on){SND.ducked=on;SND.amb.volume=SND.ambVol*(on?.35:1)}
+  function tryPlay(a){try{const p=a.play();if(p&&p.catch)p.catch(err=>{if(err&&err.name==="NotAllowedError")SND.blocked=true})}catch(e){}}
+  H.soundOn=()=>SND.on;
+  H.setSound=on=>{SND.on=on;store.set("ss360-snd",on?"on":"off");if(!on){try{SND.amb.pause();SND.planet.pause();Object.values(SND.fx).forEach(a=>a.pause())}catch(e){}}else H.ambient(SND.ambWant,true);refreshUI()};
+  H.ambient=(kind,force)=>{if(kind===SND.ambWant&&!force)return;SND.ambWant=kind;try{if(!kind||!SND.on){SND.amb.pause();return}const src="sfx/"+kind+".mp3";if(!SND.amb.src.endsWith(src))SND.amb.src=src;duck(SND.ducked);tryPlay(SND.amb)}catch(e){}};
+  H.sfx=(name,vol)=>{if(!SND.on)return null;try{let a=SND.fx[name];if(!a||!a.paused&&!a.ended){a=new Audio("sfx/"+name+".mp3");SND.fx[name]=a}a.volume=vol==null?.8:vol;a.currentTime=0;tryPlay(a);return a}catch(e){return null}};
+  H.stopSfx=name=>{const a=SND.fx[name];if(a)try{a.pause()}catch(e){}};
+  H.hasPlanetSound=id=>PSND.has(id);
+  // a world's real recorded sound first, then its narration
+  H.planetThenSay=(id,sayId)=>{H.hush();try{SND.planet.pause()}catch(e){}
+    if(SND.on&&PSND.has(id)){SND.planet.src="sfx/planet/"+id+".mp3";SND.planet.volume=.9;SND.planet.currentTime=0;tryPlay(SND.planet);
+      const t0=performance.now(),done=()=>{SND.planet.removeEventListener("ended",done);if(sayId&&NAR.mode!=="off"&&performance.now()-t0<20000&&H.cardData()&&H.cardData().say===sayId)H.say(sayId)};SND.planet.addEventListener("ended",done);return true}
+    if(sayId)H.say(sayId);return false};
+  H.stopPlanet=()=>{try{SND.planet.pause()}catch(e){}};
 
   /* ---------- panels: canvas UI with buttons that light up when pointed at ---------- */
   const panels=new Set();
@@ -3085,14 +3175,14 @@ function VRHub(o){
   function haptic(c){try{const ses=R.xr.getSession();if(!ses)return;const src=[...ses.inputSources].find(s=>s.handedness===c.userData.hand);const h=src&&src.gamepad&&src.gamepad.hapticActuators&&src.gamepad.hapticActuators[0];if(h&&h.pulse)h.pulse(.35,35)}catch(e){}}
 
   /* ---------- menu on the left hand ---------- */
-  const MENU_W=640,MENU_H=1180;
-  const menu=H.panel(.24,.4425,MENU_W,MENU_H,(g,p)=>{
+  const MENU_W=640,MENU_H=1290;
+  const menu=H.panel(.24,.4838,MENU_W,MENU_H,(g,p)=>{
     rr(g,6,6,MENU_W-12,MENU_H-12,30);g.fillStyle=PANEL;g.fill();g.lineWidth=4;g.strokeStyle=ORANGE;g.stroke();
     g.fillStyle=ORANGE;g.font="900 60px "+F.disp;g.fillText("MENU",40,82);g.fillStyle=DUST;g.font="500 21px "+F.mono;g.textAlign="right";g.fillText((H.scene&&H.scene.title||"").toUpperCase(),600,80);g.textAlign="left";
     let y=112;const row=(id,label,st)=>{p.btn(g,id,30,y,580,96,label,Object.assign({align:"left",fs:38},st||{}));y+=106};
-    row("lobby","⌂  Lobby");row("narr","Narration",{val:H.narrLabel(),on:NAR.mode!=="off"});
+    row("lobby","⌂  Lobby");row("narr","Narration",{val:H.narrLabel(),on:NAR.mode!=="off"});row("snd","Sounds",{val:SND.on?"ON":"OFF",on:SND.on});
     const sc=H.scene;if(sc&&sc.menu)sc.menu().forEach(m=>row(m.id,m.label,{val:m.val,on:m.on,disabled:m.disabled}));
-  },{order:2,onPress:(id)=>{if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
+  },{order:2,onPress:(id)=>{if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(id==="snd")H.setSound(!SND.on);else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
   S.add(menu.mesh);let menuOn=true;H.menu=menu;
   function placeMenu(){const c=ctrls.find(c=>c.userData.hand==="left"&&pointing(c));cam.getWorldPosition(v3);
     if(c){c.updateMatrixWorld();v1.setFromMatrixPosition(c.matrixWorld);
@@ -3114,13 +3204,15 @@ function VRHub(o){
     rows.slice(0,cols*2).forEach(([k,v],i)=>{const x=48+(i%cols)*cw,y=244+Math.floor(i/cols)*100;g.fillStyle=DUST;g.font="600 22px "+F.mono;g.fillText(String(k).toUpperCase(),x,y);
       g.fillStyle=INK;H.fit(g,String(v),"500 $px "+F.sans,38,cw-22,20);g.fillText(String(v),x,y+46)});
     if(b.text){g.font="400 30px "+F.sans;g.fillStyle="#cfd2e2";H.wrap(g,b.text,920).slice(0,b.rows&&b.rows.length?3:7).forEach((ln,i)=>g.fillText(ln,48,(b.rows&&b.rows.length?462:250)+i*40))}
-    const bts=(b.buttons||[]).slice();if(b.say&&H.has(b.say))bts.push({id:"__say",label:NAR.mode==="off"?"🔊  LISTEN":"🔊  AGAIN"});bts.push({id:"__close",label:"✕  CLOSE"});
+    const cr=b.sound&&PSND.has(b.sound)&&typeof SND_CREDIT!=="undefined"&&SND_CREDIT[b.sound];if(cr){g.fillStyle=cr.real?"#7ee2a8":"#a4a7ba";g.font="500 21px "+F.sans;H.wrap(g,"🎵 "+(cr.real?"Real sound: ":"")+cr.what+(cr.real?" · "+cr.credit:""),920).slice(0,2).forEach((ln,i)=>g.fillText(ln,48,586+i*26))}
+    const bts=(b.buttons||[]).slice();if(b.sound&&PSND.has(b.sound))bts.push({id:"__snd",label:"🎵  ITS SOUND"});if(b.say&&H.has(b.say))bts.push({id:"__say",label:NAR.mode==="off"?"🔊  LISTEN":"🔊  AGAIN"});bts.push({id:"__close",label:"✕  CLOSE"});
     const n=bts.length,bw=(928-(n-1)*16)/n;bts.forEach((bt,i)=>p.btn(g,bt.id,48+i*(bw+16),640,bw,88,bt.label,{primary:!!bt.primary,on:!!bt.on,fs:32}));
-  },{order:1,onPress:(id)=>{if(id==="__close")H.hideCard();else if(id==="__say"){H.say(cardData&&cardData.say,true)}else if(cardData&&cardData.onPress)cardData.onPress(id)}});
+  },{order:1,onPress:(id)=>{if(id==="__close")H.hideCard();else if(id==="__say"){H.stopPlanet();H.say(cardData&&cardData.say,true)}else if(id==="__snd"){const was=SND.on;SND.on=true;H.planetThenSay(cardData.sound,null);SND.on=was}else if(cardData&&cardData.onPress)cardData.onPress(id)}});
   S.add(card.mesh);card.mesh.visible=false;H.card=card;
   let cardAnchor=null;
-  H.showCard=(data,anchor)=>{cardData=data;cardAnchor=anchor||null;card.redraw();placeCard();card.mesh.visible=true;if(data.say&&!data.silent)H.say(data.say)};
-  H.hideCard=keepVoice=>{if(card.mesh.visible&&!keepVoice&&cardData&&cardData.say===NAR.last)H.hush();card.mesh.visible=false;cardData=null;cardAnchor=null};
+  H.showCard=(data,anchor)=>{cardData=data;cardAnchor=anchor||null;card.redraw();placeCard();card.mesh.visible=true;
+    if(data.sound&&PSND.has(data.sound)&&!data.silent)H.planetThenSay(data.sound,data.say);else if(data.say&&!data.silent)H.say(data.say)};
+  H.hideCard=keepVoice=>{if(card.mesh.visible&&!keepVoice&&cardData&&cardData.say===NAR.last)H.hush();if(!keepVoice)H.stopPlanet();card.mesh.visible=false;cardData=null;cardAnchor=null};
   H.showCardAt=(data,pos,look)=>{H.showCard(data);cardAnchor=null;card.mesh.position.copy(pos);card.mesh.lookAt(look)};
   H.cardData=()=>cardData;
   function placeCard(){cam.getWorldPosition(v1);
@@ -3173,15 +3265,46 @@ function VRHub(o){
   function go(id,arg){const next=H.scenes[id];if(!next)return;
     if(H.scene&&H.scene.exit)H.scene.exit();H.hush();H.hideCard();H.hideHint();
     H.scene=next;rig.position.set(0,0,0);rig.rotation.set(0,0,0);rig.scale.setScalar(1);rig.updateMatrixWorld(true);
-    H.setSky(next.sky||"milky");next.enter(arg);menu.redraw()}
+    H.setSky(next.sky||"milky");H.ambient(next.ambient===undefined?(next.sky==="none"?null:"ambient"):next.ambient);endGrab(null);next.enter(arg);menu.redraw()}
   H.go=go;
+
+  /* ---------- grab: hold on an object to turn it any way, carry it (games) or zoom it ---------- */
+  let G=null;const qa=new T.Quaternion(),qb=new T.Quaternion(),qc=new T.Quaternion(),va=new T.Vector3();
+  const ctrlQ=(c,q)=>{c.updateMatrixWorld();return c.getWorldQuaternion(q)};
+  const ctrlPos=(c,v)=>{c.updateMatrixWorld();return v.setFromMatrixPosition(c.matrixWorld)};
+  function startGrab(c,spec,hit){const o=spec.obj;if(!o)return false;
+    if(G&&G.obj===o&&G.c1!==c&&spec.mode!=="carry"){G.c2=c;G.d0=ctrlPos(G.c1,new T.Vector3()).distanceTo(ctrlPos(c,va));G.s0=o.scale.x;haptic(c);return true}
+    endGrab(null);o.updateMatrixWorld();rayFrom(c);
+    G={obj:o,spec,mode:spec.mode||"free",c1:c,c2:null,t0:performance.now(),moved:0,q0:ctrlQ(c,new T.Quaternion()),oq0:o.getWorldQuaternion(new T.Quaternion()),
+      dir0:ray.ray.direction.clone(),ry0:o.rotation.y,s0:o.scale.x,dist:hit?hit.dist:1,off:null};
+    if(G.mode==="carry"){const wp=o.getWorldPosition(new T.Vector3());G.dist=ray.ray.origin.distanceTo(wp);G.off=wp.sub(ray.ray.origin.clone().addScaledVector(ray.ray.direction,G.dist))}
+    c.userData.grabbing=true;haptic(c);H.sfx("grab",.35);if(spec.onStart)spec.onStart();return true}
+  function endGrab(c){if(!G)return;if(c&&c===G.c2){G.c2=null;return}if(c&&c!==G.c1)return;
+    const g=G;G=null;g.c1.userData.grabbing=false;g.c1.userData.justGrabbed=performance.now()-g.t0>350||g.moved>.08;
+    if(g.mode==="carry"&&g.spec.onDrop){g.obj.updateMatrixWorld();g.spec.onDrop(g.obj.getWorldPosition(new T.Vector3()))}else if(g.spec.onEnd)g.spec.onEnd()}
+  H.grabbing=()=>G&&G.obj;H.endGrab=()=>endGrab(null);
+  function setWorldQuat(o,q){if(o.parent){o.parent.getWorldQuaternion(qc);o.quaternion.copy(qc.invert().multiply(q))}else o.quaternion.copy(q)}
+  function updGrab(dt,zoomAxis){if(!G)return;const o=G.obj,sp=G.spec;if(!o.parent||!visibleChain(o)){endGrab(null);return}
+    rayFrom(G.c1);
+    if(G.mode==="carry"){const wp=ray.ray.origin.clone().addScaledVector(ray.ray.direction,G.dist).add(G.off);if(o.parent){o.parent.updateMatrixWorld();o.position.copy(o.parent.worldToLocal(wp))}else o.position.copy(wp);
+      G.moved=Math.max(G.moved,ray.ray.direction.angleTo(G.dir0));if(sp.onMove)sp.onMove(wp);
+      if(zoomAxis)G.dist=Math.max(.25,Math.min(6,G.dist*Math.exp(-zoomAxis*1.4*dt)));return}
+    if(G.mode==="yaw"){const a0=Math.atan2(G.dir0.x,G.dir0.z),a1=Math.atan2(ray.ray.direction.x,ray.ray.direction.z);let d=a1-a0;while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;o.rotation.y=G.ry0+d*(sp.gain||4);G.moved=Math.max(G.moved,Math.abs(d))}
+    else{ctrlQ(G.c1,qa);qb.copy(G.q0).invert();qa.multiply(qb);   // how much the hand turned since the grab
+      let ang=2*Math.acos(Math.min(1,Math.abs(qa.w)));if(qa.w<0){qa.x=-qa.x;qa.y=-qa.y;qa.z=-qa.z;qa.w=-qa.w}
+      if(ang>1e-4){va.set(qa.x,qa.y,qa.z).normalize();qa.setFromAxisAngle(va,ang*(sp.gain||2.4))}else qa.identity();
+      setWorldQuat(o,qa.multiply(G.oq0));G.moved=Math.max(G.moved,ang)}
+    let s=o.scale.x;if(G.c2){const d=ctrlPos(G.c1,new T.Vector3()).distanceTo(ctrlPos(G.c2,va));if(G.d0>.02)s=G.s0*d/G.d0}
+    if(zoomAxis&&sp.minS!==sp.maxS)s*=Math.exp(-zoomAxis*1.5*dt);
+    if(sp.minS!=null)s=Math.max(sp.minS,Math.min(sp.maxS,s));if(s!==o.scale.x){o.scale.setScalar(s);if(sp.onScale)sp.onScale(s)}}
 
   /* ---------- per-frame input ---------- */
   const prevBtn={};
   function input(dt){
-    const ses=R.xr.getSession();if(!ses)return;let mx=0,my=0,tx=0,ty=0,boost=false;
+    const ses=R.xr.getSession();if(!ses)return;let mx=0,my=0,tx=0,ty=0,boost=false,zoomAx=0;
     for(const src of ses.inputSources){const gp=src.gamepad;if(!gp)continue;const hnd=src.handedness||"none";
       const ax=gp.axes.length>3?gp.axes[2]:0,ay=gp.axes.length>3?gp.axes[3]:0;
+      if(G&&G.c1.userData.hand===hnd){zoomAx=Math.abs(ay)>.2?ay:0;continue}
       if(hnd==="left"){mx=ax;my=ay}else{tx=ax;ty=ay}
       if(gp.buttons[1]&&gp.buttons[1].pressed)boost=true;
       const a=!!(gp.buttons[4]&&gp.buttons[4].pressed),b=!!(gp.buttons[5]&&gp.buttons[5].pressed),pv=prevBtn[hnd]||{};
@@ -3191,7 +3314,19 @@ function VRHub(o){
       prevBtn[hnd]={a,b}}
     // holding the trigger / pinch on empty space flies you that way (works with bare hands)
     const nowT=performance.now();holds.forEach((t0,c)=>{if(!t0||nowT-t0<280||!H.scene||H.scene.noFly)return;rayFrom(c);const spd=(H.scene.flySpeed||1.6);rig.position.addScaledVector(ray.ray.direction,spd*dt);if(H.scene.onMove)H.scene.onMove()});
+    updGrab(dt,zoomAx);
     const sc=H.scene;if(sc&&sc.sticks)sc.sticks(mx,my,tx,ty,boost,dt);else H.move(mx,my,tx,ty,boost,dt,{speed:sc&&sc.flySpeed,noFly:sc&&sc.noFly,onMove:sc&&sc.onMove})}
+
+  /* ---------- leaving VR, offline status ---------- */
+  H.exitVR=()=>{H.hush();H.ambient(null);try{const s=R.xr.getSession();if(s)s.end()}catch(e){}
+    setTimeout(()=>{try{window.close()}catch(e){}},500);
+    setTimeout(()=>{if(document.visibilityState==="visible"&&/OculusBrowser|Quest/i.test(navigator.userAgent)&&/[?&]app=/.test(location.search))location.href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.HOME;end"},1300)};
+  H.offline={text:"",ok:false};
+  function offlineText(d){if(!d)return;if(d.type==="ready"||(d.type==="state"&&d.have>=d.total)){H.offline={text:"✓ Saved on this headset · works without internet",ok:true}}
+    else if(d.type==="progress"||d.type==="state"){const k=d.total?Math.floor((d.done!=null?d.done:d.have)/d.total*100):0;H.offline={text:"Saving for offline use… "+k+"% (keep Wi-Fi on the first time)",ok:false}}
+    if(H.scene&&H.scene.refresh)H.scene.refresh()}
+  try{if(navigator.serviceWorker){navigator.serviceWorker.addEventListener("message",e=>offlineText(e.data));H.askOffline=()=>{try{const c=navigator.serviceWorker.controller;if(c)c.postMessage("status");else H.offline={text:"Open once with internet to save it for offline use",ok:false}}catch(e){}}}}catch(e){}
+  if(!H.askOffline)H.askOffline=()=>{};
 
   /* ---------- lobby ---------- */
   H.scenes.lobby=LobbyScene(H);
@@ -3205,7 +3340,7 @@ function VRHub(o){
     enter(arg){saved.near=cam.near;saved.far=cam.far;cam.near=.05;cam.far=3000;cam.updateProjectionMatrix();
       rig.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();ctrls.forEach(c=>rig.add(c));frames=0;H.pending=arg||"lobby";menuOn=true;
       if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{for(const p of panels)p.redraw();if(H.scene&&H.scene.fontsReady)H.scene.fontsReady()})},
-    exit(){if(H.scene&&H.scene.exit)H.scene.exit();H.scene=null;H.hush();S.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();cam.near=saved.near||.01;cam.far=saved.far||200;cam.updateProjectionMatrix();
+    exit(){endGrab(null);if(H.scene&&H.scene.exit)H.scene.exit();H.scene=null;H.hush();H.ambient(null);H.stopPlanet();S.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();cam.near=saved.near||.01;cam.far=saved.far||200;cam.updateProjectionMatrix();
       ctrls.forEach(c=>{S.add(c);if(c.userData.ln)c.userData.ln.scale.z=4;c.userData.dot.visible=false});sky.visible=false;card.mesh.visible=false;menu.mesh.visible=false;board.mesh.visible=false;rig.position.set(0,0,0);rig.rotation.set(0,0,0)},
     frame(dt){frames++;
       if(frames===3)go(H.scenes[H.pending]?H.pending:"lobby");
@@ -3217,8 +3352,12 @@ function VRHub(o){
       if(card.mesh.visible&&cardAnchor)placeCard();
       if(board.mesh.visible&&performance.now()>boardUntil)board.mesh.visible=false;
       updPointers()},
-    select(c){if(NAR.blocked){const b=NAR.blocked;NAR.blocked=null;H.say(b,true)}if(board.mesh.visible&&performance.now()<boardUntil-1000)boardUntil=performance.now()+600;const a=c.userData.aim||H.aimFrom(c);if(!press(a,c)&&H.scene&&H.scene.empty)H.scene.empty(c)},
-    hold(c,on){if(on){const a=c.userData.aim||H.aimFrom(c);if(a)return;holds.set(c,performance.now())}else holds.delete(c)},
+    select(c){if(c.userData.justGrabbed){c.userData.justGrabbed=false;return}
+      if(SND.blocked){SND.blocked=false;if(SND.ambWant)H.ambient(SND.ambWant,true)}
+      if(NAR.blocked){const b=NAR.blocked;NAR.blocked=null;H.say(b,true)}if(board.mesh.visible&&performance.now()<boardUntil-1000)boardUntil=performance.now()+600;const a=c.userData.aim||H.aimFrom(c);if(!press(a,c)&&H.scene&&H.scene.empty)H.scene.empty(c)},
+    hold(c,on){if(on){c.userData.justGrabbed=false;const a=c.userData.aim||H.aimFrom(c);
+        if(a&&a.pick&&H.scene&&H.scene.grab){const spec=H.scene.grab(a.pick.userData.pick||a.pick,a);if(spec&&startGrab(c,spec,a))return}
+        if(a)return;holds.set(c,performance.now())}else{endGrab(c);holds.delete(c)}},
     pad:{immersive:true,look3d:true,
       look:(x,y,dt)=>H.move(x,y,0,0,false,dt,{speed:H.scene&&H.scene.flySpeed,noFly:H.scene&&H.scene.noFly}),
       zoom:(z,dt)=>H.move(0,0,0,-z,false,dt,{speed:H.scene&&H.scene.flySpeed,noFly:H.scene&&H.scene.noFly}),
@@ -3236,8 +3375,8 @@ function VRHub(o){
 function LobbyScene(H){
   const T=H.T,F=H.F;let built=false;const root=new T.Group();root.visible=false;H.S.add(root);
   let earth=null,clouds=null,logoImg=null,panels=[];
-  const SOLAR=[["space","Space walk","अंतरिक्ष की सैर"],["planets","Planets & moons","ग्रह और चंद्रमा"],["compare","Compare sizes","आकार की तुलना"],["stars","Stars & Milky Way","तारे और आकाशगंगा"],["craft","Spacecraft","अंतरिक्ष यान"],["land360","Landing sites 360°","लैंडिंग स्थल 360°"],["tools","Tools: weight, age","उपकरण: वज़न, उम्र"]];
-  const ROCKET=[["pad","Launch pad","लॉन्च पैड"],["rsizes","Rocket sizes","रॉकेटों की तुलना"],["museum","3D museum","थ्री-डी संग्रहालय"],["tours","360° tours","360° सैर"],["orbits","Orbits","कक्षाएँ"],["imissions","India's missions","भारत के मिशन"]];
+  const SOLAR=[["space","Space walk","अंतरिक्ष की सैर"],["planets","Planets & moons","ग्रह और चंद्रमा"],["compare","Compare sizes","आकार की तुलना"],["stars","Stars & Milky Way","तारे और आकाशगंगा"],["craft","Spacecraft + India","अंतरिक्ष यान · भारत"],["land360","Landing sites 360°","लैंडिंग स्थल 360°"],["tools","Tools: weight, age","उपकरण: वज़न, उम्र"],["sgame","🎮 Planet puzzle","खेल: ग्रह सजाओ"]];
+  const ROCKET=[["pad","Launch pad","लॉन्च पैड"],["rgame","🎮 Build a rocket","खेल: रॉकेट बनाओ"],["rsizes","Rocket sizes","रॉकेटों की तुलना"],["museum","3D museum","थ्री-डी संग्रहालय"],["tours","360° tours","360° सैर"],["orbits","Orbits","कक्षाएँ"],["imissions","India's missions","भारत के मिशन"]];
   function build(){built=true;
     // Earth below you, as if from orbit
     const sun=new T.DirectionalLight(0xfff4e6,1.6);sun.position.set(-6,3,-2);root.add(sun);root.add(new T.AmbientLight(0x2a3046,.6));
@@ -3262,14 +3401,19 @@ function LobbyScene(H){
     solar.mesh.position.set(-.98,1.38,-2.25);solar.mesh.rotation.y=.42;root.add(solar.mesh);panels.push(solar);
     const rocket=seg("ROCKET SHALA","रॉकेट शाला","India's rockets at Sriharikota and the world's rockets, at real size.",ROCKET,"#8ec5ff",id=>!!H.scenes[id]);
     rocket.mesh.position.set(.98,1.38,-2.25);rocket.mesh.rotation.y=-.42;root.add(rocket.mesh);panels.push(rocket);
-    const narr=H.panel(1.3,.27,1300,270,(g,p)=>{H.rr(g,6,6,1288,258,26);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,255,255,.25)";g.stroke();
-      g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("NARRATION · आवाज़",44,66);const m=H.narrMode();
-      [["en","English"],["hi","हिंदी"],["off","Off"]].forEach(([id,l],i)=>p.btn(g,id,44+i*410,96,390,140,l,{on:m===id,fs:52,font:id==="hi"?"600 $px "+F.hi:"600 $px "+F.sans}))},
-      {onPress:id=>{H.setNarr(id);narr.redraw()}});
-    narr.mesh.position.set(0,.66,-1.55);narr.mesh.rotation.x=-.55;root.add(narr.mesh);panels.push(narr);
+    const narr=H.panel(1.5,.5,1500,500,(g,p)=>{H.rr(g,6,6,1488,488,26);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,255,255,.25)";g.stroke();
+      g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("NARRATION · आवाज़ · LANGUAGE",40,60);const m=H.narrMode();
+      [["en","English"],["hi","हिंदी"],["hg","Hinglish"],["off","Off"]].forEach(([id,l],i)=>p.btn(g,id,40+i*360,82,340,120,l,{on:m===id,fs:48,font:id==="hi"?"600 $px "+F.hi:"600 $px "+F.sans}));
+      g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("SOUNDS · SPACE, PLANETS, ROCKETS",40,262);
+      p.btn(g,"snd",40,284,520,110,H.soundOn()?"🔊  Sounds ON":"🔇  Sounds OFF",{on:H.soundOn(),fs:42});
+      p.btn(g,"exit",1100,284,360,110,"⏻  EXIT",{fs:44});
+      g.fillStyle=H.offline.ok?"#7ee2a8":"#ffd08a";g.font="500 28px "+F.sans;H.wrap(g,H.offline.text,500).slice(0,2).forEach((l,i)=>g.fillText(l,585,328+i*36));
+      g.fillStyle="#8a8ea6";g.font="400 24px "+F.sans;g.fillText("Tip: hold the trigger (or pinch) on any planet, spacecraft or rocket to turn it. Thumbstick or two hands: zoom.",40,460)},
+      {onPress:id=>{if(id==="snd")H.setSound(!H.soundOn());else if(id==="exit")H.exitVR();else H.setNarr(id);narr.redraw()}});
+    narr.mesh.position.set(0,.62,-1.5);narr.mesh.rotation.x=-.6;root.add(narr.mesh);panels.push(narr);
   }
   return {id:"lobby",title:"Lobby",sky:"milky",noFly:true,noMenu:true,btnB(){},
-    enter(){if(!built)build();root.visible=true;panels.forEach(p=>p.redraw());H.placeHead(new T.Vector3(0,1.6,0),new T.Vector3(0,1.6,-1));H.say("ui-welcome")},
+    enter(){if(!built)build();root.visible=true;H.askOffline();panels.forEach(p=>p.redraw());H.placeHead(new T.Vector3(0,1.6,0),new T.Vector3(0,1.6,-1));H.say("ui-welcome")},
     exit(){root.visible=false},
     frame(dt){if(earth){earth.rotation.y+=.01*dt;clouds.rotation.y+=.004*dt}},
     refresh(){panels.forEach(p=>p.redraw())},
@@ -3343,7 +3487,7 @@ function SpaceScene(H){
       const pv=new T.Group();h.add(pv);const mm=new T.Mesh(new T.SphereGeometry(.07,40,28),new T.MeshPhongMaterial({map:tex("moon.jpg"),shininess:2}));mm.position.x=.75;pv.add(mm);
       const mpts=[];for(let i=0;i<=96;i++){const t=i/96*Math.PI*2;mpts.push(new T.Vector3(.75*Math.cos(t),0,.75*Math.sin(t)))}const ml=new T.Line(new T.BufferGeometry().setFromPoints(mpts),new T.LineBasicMaterial({color:0xcfd2d8,transparent:true,opacity:.3}));h.add(ml);orbitLines.push(ml);
       const mlab=makeLabel("Moon",XR_MOON.hi,"#cfd2d8",true);mlab.position.set(.75,.16,0);pv.add(mlab);p.moonLab=mlab;
-      addPick(mm,Object.assign({},XR_MOON,{r:.07}),.07,"world").host=h;p.moonPv=pv}
+      addPick(mm,Object.assign({},XR_MOON,{r:.07}),.07,"world").host=h;p.moonPv=pv;p.moonMesh=mm}
     if(b.mo)b.mo.forEach((mo,i)=>{const [mid,mname,md,ma,mp,mt]=mo;
       const orbR=b.id==="pluto"?R0*2.8:R0*((b.ring?2.7:1.8)+.42*i),ms=b.id==="pluto"?R0*.5:b.id==="mars"?.035:Math.max(.045,R0*.1);
       const pv=new T.Group();pv.rotation.y=i*1.9+.4;tg.add(pv);
@@ -3371,11 +3515,12 @@ function SpaceScene(H){
 
   /* ---------- real spacecraft (NASA 3D models) ---------- */
   const CRAFTS=[];
-  const crInfo=id=>CR.find(c=>c.id===id)||{id,name:id,ag:"",yr:"",where:"",size:"",fact:""};
+  const IS=typeof ISRO_CRAFT!=="undefined"?ISRO_CRAFT:[];
+  const crInfo=id=>{const i=IS.find(c=>c.id===id);if(i)return Object.assign({india:true},i);return CR.find(c=>c.id===id)||{id,name:id,ag:"",yr:"",where:"",size:"",fact:""}};
   function eclDir(raH,decD){const a=raH*15*D2R,d=decD*D2R,e=23.44*D2R,x=Math.cos(d)*Math.cos(a),y=Math.cos(d)*Math.sin(a),z=Math.sin(d);const ye=y*Math.cos(e)+z*Math.sin(e),ze=-y*Math.sin(e)+z*Math.cos(e),lon=Math.atan2(ye,x),lat=Math.asin(ze);return new T.Vector3(Math.cos(lat)*Math.cos(lon),Math.sin(lat),-Math.cos(lat)*Math.sin(lon))}
   function addCraft(id,label,size,where,extra){
-    const g=new T.Group();U.add(g);const info=Object.assign({},crInfo(id),extra||{});info.name=label;info.kind="craft";info.c="#8ec5ff";info.r=size*.5;
-    const lab=makeLabel(label,"","#8ec5ff",true);lab.position.y=size*.75+.08;g.add(lab);
+    const g=new T.Group();U.add(g);const info=Object.assign({},crInfo(id),extra||{});info.name=label;info.kind="craft";info.c=info.india?"#ff9933":"#8ec5ff";info.r=size*.5;
+    const lab=makeLabel(label,"",info.c,true);lab.position.y=size*.75+.08;g.add(lab);
     const pk=addPick(g,info,size*.5,"craft");
     const c={id,g,lab,pk,size,where,loaded:false,t0:Math.random()*100};CRAFTS.push(c);return c}
   addCraft("iss","ISS",.13,"earth",{orbitR:.42,per:9,inc:51.6});
@@ -3386,9 +3531,19 @@ function SpaceScene(H){
   addCraft("juno","Juno",.2,"jupiter",{orbitR:1.75,per:22,inc:90});
   addCraft("parker-solar-probe","Parker Solar Probe",.22,"parker");
   addCraft("voyager","Voyager 1",.35,"far",{dir:eclDir(17.22,12.0),au:171,where:"Interstellar space, about 25.6 billion km away (2026)",fact:"Launched in 1977, it passed Jupiter and Saturn and left the Sun's bubble in 2012. Its radio signal takes about 23 hours to reach Earth."});
+  // India's spacecraft
+  addCraft("chandrayaan-2","Chandrayaan-2",.07,"moon",{orbitR:.15,per:7,inc:90});
+  addCraft("aditya-l1","Aditya-L1",.12,"l1");
+  addCraft("mangalyaan","Mangalyaan (2014–22)",.08,"mars",{orbitR:.55,per:16,inc:150});
+  addCraft("astrosat","AstroSat",.08,"earth",{orbitR:.62,per:12,inc:6});
+  addCraft("nisar","NISAR",.12,"earth",{orbitR:.7,per:14,inc:98});
+  addCraft("insat-3ds","INSAT-3DS",.08,"earth",{orbitR:.98,per:40,inc:0});
   addCraft("voyager","Voyager 2",.35,"far",{dir:eclDir(20.1,-60.2),au:144,where:"Interstellar space, about 21.5 billion km away (2026)",fact:"The only spacecraft to visit Uranus (1986) and Neptune (1989)."});
-  CRAFTS.forEach(c=>{const hostId=c.where==="l2"?"earth":c.where;const hp=PL.find(p=>p.b.id===hostId);if(hp)c.pk.host=hp.h});
-  function loadCrafts(){if(typeof loadModel!=="function")return;CRAFTS.forEach(c=>{if(c.loaded)return;c.loaded=true;loadModel("models/craft/"+c.id+"."+EXT,c.size,m=>{if(m)c.g.add(m)})})}
+  CRAFTS.forEach(c=>{const hostId=c.where==="l2"||c.where==="l1"||c.where==="moon"?"earth":c.where;const hp=PL.find(p=>p.b.id===hostId);if(hp)c.pk.host=hp.h});
+  function fitTo(o,fit){const box=new T.Box3().setFromObject(o),sz=new T.Vector3(),ct=new T.Vector3();box.getSize(sz);box.getCenter(ct);const k=fit/Math.max(sz.x,sz.y,sz.z,1e-6);o.position.copy(ct).multiplyScalar(-k);o.scale.setScalar(k);const w=new T.Group();w.add(o);return w}
+  function loadCrafts(){if(typeof loadModel!=="function")return;CRAFTS.forEach(c=>{if(c.loaded)return;c.loaded=true;const ii=c.pk.info;
+    if(ii.india&&!ii.rs){try{c.g.add(fitTo(makeIsroSat(c.id),c.size))}catch(e){}return}
+    loadModel(ii.india?"rs/models/"+ii.rs+".glb":"models/craft/"+c.id+"."+EXT,c.size,m=>{if(m){if(ii.india&&typeof RS!=="undefined")try{RS.ENHANCE(ii.rs,m)}catch(e){}c.g.add(m)}})})}
 
   /* ---------- cards ---------- */
   function statsFor(b){
@@ -3400,7 +3555,7 @@ function SpaceScene(H){
   function factFor(b){if(b.kind==="craft")return b.fact||"";const f=BYD[b.id]&&BYD[b.id].facts;if(f&&f.length)return f[Math.floor(Math.random()*Math.min(3,f.length))];return ""}
   function sayId(b){return b.kind==="craft"?"craft-"+b.id:b.id}
   function showCard(p){st.card=p;const b=p.info;
-    H.showCard({kicker:b.kind==="craft"?"Spacecraft":b.type,title:b.name,hi:b.hi,color:b.c,rows:statsFor(b),cols:b.kind==="craft"?2:3,text:factFor(b),say:sayId(b),
+    H.showCard({kicker:b.kind==="craft"?(b.india?"Spacecraft · ISRO":"Spacecraft"):b.type,title:b.name,hi:b.hi,color:b.c,rows:statsFor(b),cols:b.kind==="craft"?2:3,text:factFor(b),say:sayId(b),sound:b.kind==="craft"?null:b.id,
       buttons:[{id:"fly",label:"✈  FLY THERE",primary:true}],onPress:id=>{if(id==="fly")flyTo(p)}},p.obj)}
   function hideCard(keepVoice){st.card=null;H.hideCard(keepVoice)}
 
@@ -3420,6 +3575,8 @@ function SpaceScene(H){
       if(c.where==="earth"||c.where==="mars"||c.where==="jupiter"){const host=PL.find(p=>p.b.id===c.where);host.h.getWorldPosition(tmpW);const e=c.pk.info,a=(tt+c.t0)/e.per*Math.PI*2,i=e.inc*D2R;
         c.g.position.set(tmpW.x+e.orbitR*Math.cos(a),tmpW.y+e.orbitR*Math.sin(a)*Math.sin(i),tmpW.z-e.orbitR*Math.sin(a)*Math.cos(i));c.g.rotation.y=a}
       else if(c.where==="l2"){v1.copy(earthW).normalize();c.g.position.copy(earthW).addScaledVector(v1,1.1);c.g.lookAt(0,0,0)}
+      else if(c.where==="l1"){v1.copy(earthW).normalize();c.g.position.copy(earthW).addScaledVector(v1,-1.1);c.g.lookAt(0,0,0)}
+      else if(c.where==="moon"){const em=PL.find(p=>p.b.id==="earth");if(em&&em.moonMesh){em.moonMesh.getWorldPosition(tmpW);const e=c.pk.info,a=(tt+c.t0)/e.per*Math.PI*2;c.g.position.set(tmpW.x+e.orbitR*Math.cos(a),tmpW.y+e.orbitR*Math.sin(a),tmpW.z);c.g.rotation.y=a}}
       else if(c.where==="parker"){const P=88,tp=(Date.UTC(2024,11,24)-Date.UTC(2000,0,1,12))/864e5,M=((sim-tp)/P%1+1)%1*Math.PI*2,e=.881,aa=.388;let E=M;for(let k=0;k<6;k++)E=E-(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));
         const nu=2*Math.atan2(Math.sqrt(1+e)*Math.sin(E/2),Math.sqrt(1-e)*Math.cos(E/2)),rau=aa*(1-e*Math.cos(E)),ang=nu+40*D2R,r=rOf(rau);c.g.position.set(r*Math.cos(ang),0,-r*Math.sin(ang));c.g.lookAt(0,0,0)}
       else if(c.where==="far"){const e=c.pk.info;c.g.position.copy(e.dir).multiplyScalar(rOf(e.au));c.g.lookAt(0,0,0)}});
@@ -3475,7 +3632,12 @@ function SpaceScene(H){
     sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:baseSpeed(),onMove:stopTravel})},
     onMove:stopTravel,
     picks:()=>picks.filter(p=>p.kind!=="craft"||st.craft).map(p=>p.hit),
-    pick(p){if(st.card===p&&H.cardData()){hideCard()}else showCard(p)},
+    pick(p){if(st.card===p&&H.cardData()){if(H.hasPlanetSound(p.info.id))H.planetThenSay(p.info.id,null);else hideCard()}else showCard(p)},
+    grab(p){const pl=PL.find(x=>x.pk===p);
+      if(pl)return {obj:pl.tg,mode:"free",minS:.6,maxS:4};
+      if(p===sunPick)return {obj:sunM,mode:"free",minS:.6,maxS:2};
+      if(p.kind==="craft"){const c=CRAFTS.find(c=>c.pk===p);return c?{obj:c.g,mode:"free",minS:.5,maxS:8}:null}
+      return {obj:p.obj,mode:"free",minS:.5,maxS:5}},
     empty(){hideCard()},
     menu:()=>[{id:"orbits",label:"Orbits",val:st.orbits?"ON":"OFF",on:st.orbits},{id:"names",label:"Names",val:st.names?"ON":"OFF",on:st.names},
       {id:"craft",label:"Spacecraft",val:st.craft?"ON":"OFF",on:st.craft},{id:"real",label:"Spacing",val:st.real?"REAL":"SQUEEZED",on:st.real},
@@ -3555,7 +3717,7 @@ function SolarScenes(H){
       const hit=O(new T.Mesh(new T.SphereGeometry(R0*(w.ring?2.2:1.1),16,12),new T.MeshBasicMaterial({visible:false})));hit.userData.pick="world";g.add(hit);g.userData.hit=hit;
       g.userData.base=w.ring?.62:1;g.scale.setScalar(zoom*g.userData.base);if(listP)listP.redraw();
       const scale=w.d?"Real size: "+fmt(w.d)+" km across":"";
-      H.showCardAt({kicker:w.kicker,title:w.name,hi:w.hi,color:w.color,rows:w.rows,cols:w.cols||3,text:w.text||scale,say:id,
+      H.showCardAt({kicker:w.kicker,title:w.name,hi:w.hi,color:w.color,rows:w.rows,cols:w.cols||3,text:w.text||scale,say:id,sound:id,
         buttons:[{id:"prev",label:"◀  BACK"},{id:"next",label:"NEXT  ▶",primary:true}],onPress:b=>show(cur+(b==="next"?1:-1))},new T.Vector3(1.34,1.42,-1.4),HEAD)}
     return {id:"planets",title:"Planets & moons",sky:"milky",noFly:true,
       enter(){if(!built)build();root.visible=true;zoom=1;H.placeHead(HEAD,AHEAD);show(cur);H.hint("Planets & moons",[["Trigger / pinch","choose a world on the list"],["Right stick","spin it"],["Left stick ↕","bigger · smaller"],["A · X","next · previous world"],["Card","listen again, back, next"]],7)},
@@ -3563,7 +3725,8 @@ function SolarScenes(H){
       frame(dt){if(!world)return;const b=world.userData.body,w=worldInfo(ITEMS[cur]);b.rotation.y+=(spin||Math.sign(w.day||1)*.15)*dt;spin*=.94;if(Math.abs(spin)<.02)spin=0},
       sticks(mx,my,tx,ty,boost,dt){if(Math.abs(tx)>.15)spin=tx*2.4;if(Math.abs(my)>.2&&world){zoom=Math.min(2.2,Math.max(.45,zoom*Math.exp(-my*1.2*dt)));world.scale.setScalar(zoom*world.userData.base)}},
       picks:()=>world&&world.userData.hit?[world.userData.hit]:[],
-      pick(){spin=(spin?0:2.4)},
+      pick(){const id=ITEMS[cur];if(H.hasPlanetSound(id))H.planetThenSay(id,null);else spin=(spin?0:2.4)},
+      grab(){return world?{obj:world,mode:"free",minS:.3,maxS:3.2,onScale:s=>{zoom=s/(world.userData.base||1)}}:null},
       menu:()=>[{id:"next",label:"Next world  ▶"},{id:"prev",label:"◀  Previous world"},{id:"card",label:"Show the card"}],
       menuPress(id){if(id==="next")show(cur+1);else if(id==="prev")show(cur-1);else show(cur)},
       btnA:()=>show(cur+1),btnX:()=>show(cur-1),btnB:()=>H.go("lobby"),prev:()=>show(cur-1),next:()=>show(cur+1),
@@ -3601,8 +3764,9 @@ function SolarScenes(H){
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:2.4})},
       picks:()=>hits.filter(h=>h.parent.visible),
       pick(o){const w=o.w,times=w.d/EKM;H.showCard({kicker:w.kicker,title:w.name,hi:w.hi,color:w.color,
-        rows:[["Diameter",fmt(w.d)+" km"],["Compared with Earth",(times>=1?fmt(times,1):fmt(times,2))+" ×"],[times>=1?"Earths across it":"Fit across Earth",times>=1?fmt(times,0):fmt(1/times,1)],["Here it is",fmt(km2m(w.d)*100,0)+" cm wide"]],cols:2,text:w.text,say:o.id},H.lastHit&&H.lastHit.point?H.lastHit.point.clone():null)},
+        rows:[["Diameter",fmt(w.d)+" km"],["Compared with Earth",(times>=1?fmt(times,1):fmt(times,2))+" ×"],[times>=1?"Earths across it":"Fit across Earth",times>=1?fmt(times,0):fmt(1/times,1)],["Here it is",fmt(km2m(w.d)*100,0)+" cm wide"]],cols:2,text:w.text,say:o.id,sound:o.id},H.lastHit&&H.lastHit.point?H.lastHit.point.clone():null)},
       empty(){H.hideCard()},
+      grab(o){const h=hits.find(h=>h.userData.pick===o);if(!h)return null;const g=o.id==="sun"?sun:h.parent;return {obj:g.userData.spin&&o.id!=="sun"?g.children[0]:g,mode:"free",minS:.3,maxS:o.id==="sun"?1.5:3}},
       menu:()=>[{id:"sun",label:"The Sun",val:sunOn?"ON":"OFF",on:sunOn},{id:"start",label:"Back to the start"}],
       menuPress(id){if(id==="sun"){sunOn=!sunOn;sun.visible=sunOn}else H.placeHead(HEAD,new T.Vector3(.6,1.5,-3.2))},
       btnB:()=>{if(H.cardData())H.hideCard();else H.go("lobby")}}})();
@@ -3653,36 +3817,43 @@ function SolarScenes(H){
     const root=new T.Group();root.visible=false;S.add(root);let built=false,env=null,real=null;const items=[];
     const REALM={jwst:21.2,hubble:13.2,iss:109,voyager:13,"parker-solar-probe":3,juno:20.1,cassini:6.8,galileo:9,perseverance:3,ingenuity:1.2,curiosity:3,mro:13.6,maven:11.4,dawn:19.7,"osiris-rex":6.2,"apollo-lm":9.4};
     const LIST=(typeof CRAFT!=="undefined"?CRAFT:[]).filter(c=>!c.nomodel);
-    const RING=4.6,FIT=1.3;
+    const RING=4.6,RING2=7.4,FIT=1.3;const ILIST=typeof ISRO_CRAFT!=="undefined"?ISRO_CRAFT:[];
     function build(){built=true;
       root.add(new T.HemisphereLight(0xdfe6ff,0x20232c,.7));const d=new T.DirectionalLight(0xffffff,1.3);d.position.set(3,8,4);root.add(d);
       const fc=H.cnv(512,512),fg=fc.getContext("2d"),gr=fg.createRadialGradient(256,256,0,256,256,256);gr.addColorStop(0,"#1a2030");gr.addColorStop(.7,"#0b0e16");gr.addColorStop(1,"rgba(5,6,10,0)");fg.fillStyle=gr;fg.fillRect(0,0,512,512);
       const floor=new T.Mesh(new T.CircleGeometry(9,96),new T.MeshBasicMaterial({map:H.ctex(fc),transparent:true,depthWrite:false}));floor.rotation.x=-Math.PI/2;root.add(floor);
       const lines=new T.Mesh(new T.RingGeometry(RING-.03,RING+.03,128),new T.MeshBasicMaterial({color:0xffb347,transparent:true,opacity:.35}));lines.rotation.x=-Math.PI/2;lines.position.y=.005;root.add(lines);
-      LIST.forEach((c,i)=>{const a=-Math.PI/2+(i+.5)/LIST.length*Math.PI*2,pos=new T.Vector3(RING*Math.cos(a),0,RING*Math.sin(a));
+      const lines2=new T.Mesh(new T.RingGeometry(RING2-.04,RING2+.04,160),new T.MeshBasicMaterial({color:0xff9933,transparent:true,opacity:.55}));lines2.rotation.x=-Math.PI/2;lines2.position.y=.006;root.add(lines2);
+      const ib=label("India · ISRO","भारत के अंतरिक्ष यान","#ff9933",.2);ib.position.set(0,3.6,-RING2);root.add(ib);
+      LIST.forEach((c,i)=>addItem(c,i,LIST.length,RING,false));ILIST.forEach((c,i)=>addItem(c,i,ILIST.length,RING2,true))}
+    function addItem(c,i,n,RR,india){{const a=-Math.PI/2+(i+.5)/n*Math.PI*2,pos=new T.Vector3(RR*Math.cos(a),0,RR*Math.sin(a));
         const g=new T.Group();g.position.copy(pos);root.add(g);
         const ped=new T.Mesh(new T.CylinderGeometry(.5,.56,.55,48),new T.MeshStandardMaterial({color:0x1a1e2a,roughness:.4,metalness:.5}));ped.position.y=.275;g.add(ped);
-        const top=new T.Mesh(new T.RingGeometry(.44,.5,48),new T.MeshBasicMaterial({color:0x8ec5ff,transparent:true,opacity:.6}));top.rotation.x=-Math.PI/2;top.position.y=.552;g.add(top);
+        const top=new T.Mesh(new T.RingGeometry(.44,.5,48),new T.MeshBasicMaterial({color:india?0xff9933:0x8ec5ff,transparent:true,opacity:.6}));top.rotation.x=-Math.PI/2;top.position.y=.552;g.add(top);
         const holder=new T.Group();holder.position.y=.55+FIT/2+.08;g.add(holder);
-        const lab=label(c.name.replace(/ \/ .*/,""),c.yr+" · "+c.ag.split(" · ")[0],"#8ec5ff",.17);lab.position.y=.55+FIT+.42;g.add(lab);
+        const lab=label(c.name.replace(/ \/ .*/,"").replace(/ \(.*\)/,""),c.yr+" · "+c.ag.split(" · ")[0],india?"#ff9933":"#8ec5ff",.17);lab.position.y=.55+FIT+.42;g.add(lab);
         const hit=new T.Mesh(new T.BoxGeometry(FIT,FIT+.6,FIT),new T.MeshBasicMaterial({visible:false}));hit.position.y=.55+FIT/2;g.add(hit);
-        const it={c,g,holder,hit,lab,ped,top,a,pos,model:null,loaded:false};hit.userData.pick=it;items.push(it);g.lookAt(0,0,0)})}
-    function loadAll(){if(typeof loadModel!=="function")return;items.forEach(it=>{if(it.loaded)return;it.loaded=true;loadModel("models/craft/"+it.c.id+"."+EXT,FIT,m=>{if(!m)return;it.model=m;it.holder.add(m);
+        const it={c,g,holder,hit,lab,ped,top,a,pos,model:null,loaded:false,india,RR};hit.userData.pick=it;items.push(it);g.lookAt(0,0,0)}}
+    function fitTo(o,fit){const box=new T.Box3().setFromObject(o),sz=new T.Vector3(),ct=new T.Vector3();box.getSize(sz);box.getCenter(ct);const k=fit/Math.max(sz.x,sz.y,sz.z,1e-6);o.position.copy(ct).multiplyScalar(-k);o.scale.setScalar(k);const w=new T.Group();w.add(o);return w}
+    function loadAll(){if(typeof loadModel!=="function")return;items.forEach(it=>{if(it.loaded)return;it.loaded=true;
+      if(it.india&&!it.c.rs){try{const m=fitTo(makeIsroSat(it.c.id),FIT);it.model=m;it.holder.add(m)}catch(e){}return}
+      loadModel(it.india?"rs/models/"+it.c.rs+".glb":"models/craft/"+it.c.id+"."+EXT,FIT,m=>{if(!m)return;if(it.india&&typeof RS!=="undefined")try{RS.ENHANCE(it.c.rs,m)}catch(e){}it.model=m;it.holder.add(m);
       if(env)m.traverse(n=>{if(n.isMesh)(Array.isArray(n.material)?n.material:[n.material]).forEach(mt=>{if("envMap" in mt&&!mt.envMap){mt.envMap=env;mt.needsUpdate=true}})})})})}
     function setReal(it){if(real){const r=real;r.holder.scale.setScalar(1);r.holder.position.set(0,.55+FIT/2+.08,0);items.forEach(x=>{x.g.visible=true});real=null;if(r===it){card(it);return}}
-      if(!it)return;real=it;const m=REALM[it.c.id]||FIT,k=m/FIT;items.forEach(x=>{if(x!==it)x.g.visible=false});
-      it.holder.scale.setScalar(k);it.holder.position.set(0,Math.max(.55+FIT/2,m*.32),-(Math.max(0,m*.55-RING+1.8)));card(it)}
+      if(!it)return;real=it;const m=REALM[it.c.id]||it.c.m||FIT,k=m/FIT;items.forEach(x=>{if(x!==it)x.g.visible=false});
+      it.holder.scale.setScalar(k);it.holder.position.set(0,Math.max(.55+FIT/2,m*.32),-(Math.max(0,m*.55-it.RR+1.8)));card(it)}
     function card(it){const c=it.c,isReal=real===it;
-      H.showCard({kicker:"Spacecraft",title:c.name,color:"#8ec5ff",rows:[["Agency",c.ag],["Launched",c.yr],["Where now",c.where],["Size",c.size||((REALM[c.id]||"")+" m")]],cols:2,text:c.fact,say:"craft-"+c.id,
+      H.showCard({kicker:it.india?"Spacecraft · India":"Spacecraft",title:c.name,hi:c.hi||"",color:it.india?"#ff9933":"#8ec5ff",rows:[["Agency",c.ag],["Launched",c.yr],["Where now",c.where],["Size",c.size||((REALM[c.id]||"")+" m")]],cols:2,text:c.fact+(it.india&&!c.rs?" (Model built to its real shape and proportions.)":""),say:"craft-"+c.id,
         buttons:[{id:"real",label:isReal?"⤓  MUSEUM SIZE":"⤢  REAL SIZE",primary:!isReal}],onPress:b=>{if(b==="real")setReal(it)}},it.hit)}
     return {id:"craft",title:"Spacecraft",sky:"dim",flySpeed:1.6,
       enter(){if(!built)build();root.visible=true;if(!env&&typeof studioEnv==="function"){try{env=studioEnv(R)}catch(e){}}loadAll();H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2));
-        H.hint("Spacecraft museum",[["Around you","real NASA spacecraft, as 3D models"],["Trigger / pinch","its card · Real size"],["Left stick","walk"],["Right stick","turn"]],7)},
+        H.hint("Spacecraft museum",[["Inner ring","NASA spacecraft, real 3D models"],["Outer ring","India's satellites and Moon missions"],["Trigger / pinch","its card · Real size"],["Hold trigger","turn it · thumbstick: zoom"]],8)},
       exit(){root.visible=false;if(real)setReal(null)},
-      frame(dt){items.forEach(it=>{if(it!==real)it.holder.rotation.y+=.25*dt})},
+      frame(dt){items.forEach(it=>{if(it!==real&&!it.spinStop&&H.grabbing()!==it.holder)it.holder.rotation.y+=.25*dt})},
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:1.6,flat:true,noUp:true})},
       picks:()=>items.filter(it=>it.g.visible).map(it=>it.hit),
       pick(it){card(it)},empty(){H.hideCard()},
+      grab(it){return {obj:it.holder,mode:"free",minS:it===real?it.holder.scale.x*.3:.3,maxS:it===real?it.holder.scale.x*2:4,onStart:()=>{it.spinStop=true}}},
       menu:()=>[{id:"normal",label:"All back to museum size",disabled:!real},{id:"centre",label:"Back to the middle"}],
       menuPress(id){if(id==="normal"&&real)setReal(real);else H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2))},
       btnB:()=>{if(real)setReal(real);else if(H.cardData())H.hideCard();else H.go("lobby")},
@@ -3725,6 +3896,65 @@ function SolarScenes(H){
       menu:()=>[{id:"weight",label:"Your weight"},{id:"age",label:"Your age"},{id:"jump",label:"How high you jump"},{id:"journey",label:"Journey times"}],
       menuPress(id){tab=id;board.redraw()},
       btnA(){const L=["weight","age","jump","journey"];tab=L[(L.indexOf(tab)+1)%4];board.redraw()}}})();
+
+  /* ======================= GAME: PLANET PUZZLE (drag and drop) ======================= */
+  H.confetti=(parent,at,n)=>{const N=n||260,pos=new Float32Array(N*3),col=new Float32Array(N*3),vel=[],c=new T.Color(),P=["#ff9933","#ffffff","#138808","#ffb347","#8ec5ff","#ff6b6b"];
+    for(let i=0;i<N;i++){pos.set([at.x,at.y,at.z],i*3);vel.push(new T.Vector3((Math.random()-.5)*2.4,Math.random()*2.6+.8,(Math.random()-.5)*2.4));c.set(P[i%P.length]);col.set([c.r,c.g,c.b],i*3)}
+    const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(pos,3));g.setAttribute("color",new T.BufferAttribute(col,3));
+    const pts=new T.Points(g,new T.PointsMaterial({size:.035,vertexColors:true,transparent:true,depthWrite:false}));pts.frustumCulled=false;parent.add(pts);
+    let t=0;pts.userData.tick=dt=>{t+=dt;for(let i=0;i<N;i++){const v=vel[i];v.y-=2.2*dt;pos[i*3]+=v.x*dt;pos[i*3+1]+=v.y*dt;pos[i*3+2]+=v.z*dt}g.attributes.position.needsUpdate=true;pts.material.opacity=Math.max(0,1-t/3);if(t>3){parent.remove(pts);g.dispose();return false}return true};
+    (H._fx=H._fx||[]).push(pts.userData.tick)};
+  H.tickFx=dt=>{if(H._fx)H._fx=H._fx.filter(f=>f(dt))};
+  H.scenes.sgame=(()=>{
+    const root=new T.Group();root.visible=false;S.add(root);let built=false,panel=null,moves=0,t0=0,tEnd=0,placed=0,won=false,hlRing=-1;
+    const IDS=["mercury","venus","earth","mars","jupiter","saturn","uranus","neptune"],SZ=[.035,.05,.052,.042,.1,.085,.066,.064];
+    const C=new T.Vector3(0,.92,-1.38),RAD=i=>.2+i*.112;const pl=[],rings=[];
+    function build(){built=true;
+      const L=new T.PointLight(0xfff2dc,1.6,0,0);L.position.copy(C).setY(C.y+.15);root.add(L);root.add(new T.AmbientLight(0x3a4058,.7));const D=new T.DirectionalLight(0xffffff,.6);D.position.set(0,3,1);root.add(D);
+      const tab=new T.Mesh(new T.CircleGeometry(1.08,96),new T.MeshBasicMaterial({color:0x0b1020,transparent:true,opacity:.72,depthWrite:false}));tab.rotation.x=-Math.PI/2;tab.position.copy(C).setY(C.y-.012);root.add(tab);
+      const sun=new T.Mesh(new T.SphereGeometry(.11,48,32),new T.MeshBasicMaterial({map:loadTex("tex/sun.jpg"),color:0xffe2b0}));sun.position.copy(C);root.add(sun);
+      const gl=new T.Sprite(new T.SpriteMaterial({map:glow([[0,"rgba(255,236,190,.9)"],[.3,"rgba(255,200,110,.5)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));gl.scale.set(.6,.6,1);gl.position.copy(C);root.add(gl);
+      IDS.forEach((id,i)=>{const r=new T.Mesh(new T.RingGeometry(RAD(i)-.007,RAD(i)+.007,160),new T.MeshBasicMaterial({color:0xaab4d0,transparent:true,opacity:.35,side:T.DoubleSide,depthWrite:false}));r.rotation.x=-Math.PI/2;r.position.copy(C);root.add(r);rings.push(r)});
+      IDS.forEach((id,i)=>{const b=BYD[id]||{},g=new T.Group();root.add(g);const tg=new T.Group();tg.rotation.z=((XB[id]||{}).tilt||0)*D2R;g.add(tg);
+        const m=new T.Mesh(new T.SphereGeometry(SZ[i],40,28),new T.MeshPhongMaterial({map:loadTex("tex/"+((XB[id]||{}).tex||id+".jpg")),shininess:4}));tg.add(m);
+        if(id==="saturn"){const rm=new T.Mesh(ringGeo(SZ[i]*1.2,SZ[i]*2.2),new T.MeshLambertMaterial({map:H.tex("saturn_ring.png"),side:T.DoubleSide,transparent:true,depthWrite:false}));rm.rotation.x=-Math.PI/2;tg.add(rm)}
+        const lab=label(b.name||id,b.hi||"",b.c||"#ffffff",.085);lab.position.y=-SZ[i]-.06;g.add(lab);
+        const hit=new T.Mesh(new T.SphereGeometry(Math.max(.07,SZ[i]*1.5),12,8),new T.MeshBasicMaterial({visible:false}));g.add(hit);
+        const P={id,i,g,m,hit,lab,placed:false,ang:0,shelf:new T.Vector3(),back:null};hit.userData.pick=P;pl.push(P)});
+      panel=H.panel(.9,.62,900,620,(g,p)=>{H.rr(g,6,6,888,608,26);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,179,71,.75)";g.stroke();
+        g.fillStyle="#ffb347";g.font="900 58px "+F.disp;g.fillText("PLANET PUZZLE",34,74);g.fillStyle="#a4a7ba";g.font="500 32px "+F.hi;g.fillText("ग्रहों को उनकी कक्षा में रखो",36,118);
+        const sec=Math.round(((won?tEnd:performance.now())-t0)/1000);g.fillStyle="#ece7da";g.font="700 40px "+F.sans;g.fillText(placed+" / 8 placed",36,192);g.fillStyle="#a4a7ba";g.font="500 30px "+F.mono;g.fillText("MOVES "+moves+"   ·   TIME "+sec+" s",36,240);
+        g.fillStyle="#cfd2e2";g.font="400 27px "+F.sans;H.wrap(g,won?"Solved! My Very Educated Mother Just Served Us Noodles: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune.":"Hold the trigger (or pinch) on a planet, carry it to its own orbit around the Sun and let go.",830).slice(0,3).forEach((l,i)=>g.fillText(l,36,296+i*36));
+        p.btn(g,"again",30,430,410,100,won?"▶  PLAY AGAIN":"↻  SHUFFLE",{primary:won,fs:34});p.btn(g,"hint",458,430,412,100,"💡  HINT",{fs:34});
+        g.fillStyle="#8a8ea6";g.font="400 22px "+F.sans;g.fillText("Closest to the Sun first. The biggest is Jupiter.",36,580)},
+        {onPress:id=>{if(id==="again")reset();else{H.hint("Hint",[["Order","My Very Educated Mother"],["","Just Served Us Noodles"],["M V E M","Mercury · Venus · Earth · Mars"],["J S U N","Jupiter · Saturn · Uranus · Neptune"]],6)}}});
+      panel.mesh.position.set(-1.3,1.5,-.55);panel.mesh.lookAt(0,1.5,0);root.add(panel.mesh)}
+    function shelfPos(k){const a=-.72+k*(1.44/7);return new T.Vector3(Math.sin(a)*.82,1.42+Math.cos(k*1.7)*.03,-Math.cos(a)*.82)}
+    function reset(){const ord=IDS.map((_,i)=>i).sort(()=>Math.random()-.5);pl.forEach(P=>{P.placed=false;P.back=null;P.shelf.copy(shelfPos(ord.indexOf(P.i)));P.g.position.copy(P.shelf);P.lab.visible=true});
+      rings.forEach(r=>{r.material.color.set(0xaab4d0);r.material.opacity=.35});moves=0;placed=0;won=false;t0=performance.now();panel.redraw()}
+    function nearRing(p){const dx=p.x-C.x,dz=p.z-C.z,d=Math.hypot(dx,dz);let k=-1,best=.075;IDS.forEach((_,i)=>{const e=Math.abs(d-RAD(i));if(e<best){best=e;k=i}});return Math.abs(p.y-C.y)<.4?k:-1}
+    function drop(P,p){const k=nearRing(p);hl(-1);if(k<0){P.back=P.g.position.clone();return}moves++;
+      if(k===P.i){P.placed=true;P.ang=Math.atan2(-(p.z-C.z),p.x-C.x);rings[k].material.color.set((BYD[P.id]||{}).c||"#ffb347");rings[k].material.opacity=.85;placed++;H.sfx("good",.7);
+        if(placed===8){won=true;tEnd=performance.now();H.sfx("win",.9);H.say("ui-win-solar");H.confetti(root,C.clone().setY(C.y+.3),320)}else H.say("ui-good")}
+      else{H.sfx("bad",.6);H.say("ui-try");P.back=P.g.position.clone()}
+      panel.redraw()}
+    function hl(k){if(k===hlRing)return;if(hlRing>=0&&!pl.find(P=>P.placed&&P.i===hlRing))rings[hlRing].material.opacity=.35;hlRing=k;if(k>=0&&!pl.find(P=>P.placed&&P.i===k))rings[k].material.opacity=.75}
+    let lastSec=-1;
+    return {id:"sgame",title:"Planet puzzle",sky:"milky",noFly:true,
+      enter(){if(!built)build();root.visible=true;H.placeHead(new T.Vector3(0,1.6,0),new T.Vector3(0,1.6,-1));reset();H.say("ui-game-solar")},
+      exit(){root.visible=false},
+      frame(dt){H.tickFx(dt);const g=H.grabbing();
+        pl.forEach(P=>{P.m.rotation.y+=.4*dt;
+          if(P.placed&&g!==P.g){P.ang+=.55*Math.pow(RAD(0)/RAD(P.i),1.5)*dt;P.g.position.set(C.x+RAD(P.i)*Math.cos(P.ang),C.y,C.z-RAD(P.i)*Math.sin(P.ang))}
+          else if(P.back&&g!==P.g){P.back.lerp(P.shelf,1-Math.exp(-dt*6));P.g.position.copy(P.back);if(P.back.distanceTo(P.shelf)<.003)P.back=null}});
+        const sec=Math.floor((performance.now()-t0)/1000);if(!won&&sec!==lastSec){lastSec=sec;panel.redraw()}},
+      sticks(mx,my,tx,ty,boost,dt){H.move(0,0,tx,0,false,dt,{noFly:true})},
+      picks:()=>pl.map(P=>P.hit),
+      pick(P){const b=BYD[P.id]||{};H.hint(b.name||P.id,[["Its turn from the Sun",P.placed?"number "+(P.i+1):"? — where does it go?"]],3)},
+      grab(P){if(won)return null;if(P.placed){P.placed=false;placed--;rings[P.i].material.color.set(0xaab4d0);rings[P.i].material.opacity=.35;panel.redraw()}
+        return {obj:P.g,mode:"carry",onMove:w=>hl(nearRing(w)),onDrop:w=>drop(P,w)}},
+      menu:()=>[{id:"again",label:"Shuffle and restart"}],menuPress(){reset()},
+      btnA(){reset()}}})();
 
   /* ======================= LANDING SITES 360° ======================= */
   if(typeof PANOS!=="undefined"&&PANOS.length)H.scenes.land360=(()=>{
@@ -6022,7 +6252,7 @@ function RocketScenes(H){
   /* ======================= LAUNCH PAD ======================= */
   H.scenes.pad=(()=>{
     const padG=new T.Group();padG.visible=false;S.add(padG);
-    const pk={o:null,n:0,L:[]};let view=null,ri=ROCKETS.findIndex(r=>r.id==="pslv"),panel=null,hud=null,cd=null,ride=true,real=false,ended=false,start=null,hudText={big:"",line:"",clock:""},lastHud="";
+    const pk={o:null,n:0,L:[]};let view=null,ri=ROCKETS.findIndex(r=>r.id==="pslv"),panel=null,hud=null,cd=null,ride=true,real=false,ended=false,start=null,hudText={big:"",line:"",clock:""},lastHud="",namesOn=true,auto=null;
     function make(){const host=document.createElement("div");host.style.cssText="position:fixed;left:-99px;top:0;width:8px;height:8px;overflow:hidden;opacity:0;pointer-events:none";document.body.appendChild(host);
       view=new RS.R3.RocketView(host,{mode:"explore",onEvent:e=>{if(e.idx>=0){hudText.line=e.label;drawHud()}},onClock:t=>{const s=Math.round(t);const c=(s<0?"T−":"T+")+Math.abs(s)+" s";if(c!==hudText.clock){hudText.clock=c;drawHud()}},onEnd:()=>{ended=true;hudText.big="";hudText.line="Mission complete! Press AGAIN or pick another rocket.";drawHud();panel.redraw()}});
       RS.R3.RocketView.all.length=0;Object.defineProperty(view,"visible",{get:()=>true,set(){}});
@@ -6034,10 +6264,11 @@ function RocketScenes(H){
         p.btn(g,"launch",30,390,420,120,fl?"■  STOP":ended?"↻  AGAIN":"🚀  LAUNCH",{primary:!fl,fs:46});
         p.btn(g,"view",466,390,420,120,ride?"Ride along":"Watch from ground",{fs:32,val:"VIEW"});
         p.btn(g,"real",902,390,428,120,real?"Real model":"Parts model",{fs:32,val:"LOOK",disabled:!REAL[ROCKETS[ri].id]||fl,on:real});
-        p.btn(g,"explode",30,526,420,100,"Open it up",{fs:32,on:view&&view.exploded,disabled:fl||real});
-        p.btn(g,"fuel",466,526,420,100,"See the fuel",{fs:32,on:view&&view.fuel,disabled:fl||real});
-        p.btn(g,"info",902,526,428,100,"About this rocket",{fs:32});
-        g.fillStyle="#a4a7ba";g.font="400 26px "+F.sans;g.fillText("Point at any part of the rocket to learn what it does. Left stick: walk · right stick ↕: fly up beside it.",34,680);
+        p.btn(g,"explode",30,526,312,100,"Open it up",{fs:30,on:view&&view.exploded,disabled:fl||real});
+        p.btn(g,"fuel",354,526,312,100,"See the fuel",{fs:30,on:view&&view.fuel,disabled:fl||real});
+        p.btn(g,"names",678,526,312,100,"Part names",{fs:30,on:namesOn,val:namesOn?"ON":"OFF"});
+        p.btn(g,"info",1002,526,328,100,"About it",{fs:30});
+        g.fillStyle="#a4a7ba";g.font="400 26px "+F.sans;g.fillText("Point at a part to learn what it does · hold the trigger on the rocket to turn it · thumbstick: smaller / bigger.",34,680);
         g.fillText("Every rocket is at its real size. "+ROCKETS[ri].name+" is "+fmt(ROCKETS[ri].height,1)+" m tall — about "+Math.round(ROCKETS[ri].height/3)+" floors of a building.",34,722)},
         {onPress:id=>press(id)});rig.add(panel.mesh);
       hud=H.panel(1.1,.36,1100,360,(g)=>{if(!hudText.big&&!hudText.line)return;H.rr(g,6,6,1088,348,26);g.fillStyle="rgba(8,10,20,.72)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,153,51,.8)";g.stroke();
@@ -6045,20 +6276,24 @@ function RocketScenes(H){
         else{g.fillStyle="#ece7da";H.fit(g,hudText.line,"700 $px "+F.sans,46,1020,24);const ls=H.wrap(g,hudText.line,1020).slice(0,3);ls.forEach((l,i)=>g.fillText(l,550,120+i*58-(ls.length-1)*20))}
         if(hudText.clock&&!hudText.big){g.fillStyle="#ff9933";g.font="700 44px "+F.mono;g.fillText(hudText.clock,550,310)}g.textAlign="left"},{order:4});
       hud.mesh.visible=false;rig.add(hud.mesh)}
+    // a name tag on every stage, booster and fairing (they ride along when it flies apart)
+    function addNames(){if(!view.parts)return;Object.values(view.parts).forEach(m=>{const p=m.p;if(m.nameTag)return;const nm=String(p.name||"").split(" — ");
+      const l=label(nm[0],nm[1]||"",p.kind==="booster"?"#ffd08a":p.kind==="fairing"||p.kind==="payload"?"#8ec5ff":"#ff9933",.1);l.position.set(m.r+.8+view.H*.012,p.len*(p.kind==="booster"?.55:.5),0);l.visible=namesOn&&!real;m.group.add(l);m.nameTag=l})}
+    function showNames(){if(!view.parts)return;Object.values(view.parts).forEach(m=>{if(m.nameTag)m.nameTag.visible=namesOn&&!real})}
     function drawHud(){const k=hudText.big+"|"+hudText.line+"|"+hudText.clock;if(k!==lastHud){lastHud=k;hud.redraw()}}
     function place(){const r=ROCKETS[ri],D=Math.max(14,r.height*.45+8);start={pos:new T.Vector3(D*.28,1.6,D),look:new T.Vector3(0,1.6,0)};H.placeHead(start.pos,start.look);
       H.front(panel.mesh,.95,-.66,0,-.62);H.front(hud.mesh,2.2,.55,0,0)}
     function setRocket(i,say){ri=(i+ROCKETS.length)%ROCKETS.length;cd=null;ended=false;hudText.big=hudText.line=hudText.clock="";hud.mesh.visible=false;padG.position.y=0;
       if(view.flight)view.stopLaunch(true);view.setRocket(ROCKETS[ri]);view.world.position.y=0;setSkyK(0);
       if(SKY.fog){SKY.fog.near=Math.max(150,view.H*4);SKY.fog.far=SKY.fog.near+1400}
-      real=real&&!!REAL[ROCKETS[ri].id];if(real)setReal(true);
+      real=real&&!!REAL[ROCKETS[ri].id];if(real)setReal(true);addNames();showNames();
       place();panel.redraw();if(say!==false)info()}
-    function setReal(on){real=on&&!!REAL[ROCKETS[ri].id];if(real){const m=REAL[ROCKETS[ri].id].model;view.setReal({url:RP+"models/"+m+".glb",id:m}).then(()=>panel.redraw())}else view.setReal(null);panel.redraw()}
+    function setReal(on){real=on&&!!REAL[ROCKETS[ri].id];showNames();if(real){const m=REAL[ROCKETS[ri].id].model;view.setReal({url:RP+"models/"+m+".glb",id:m}).then(()=>panel.redraw())}else view.setReal(null);panel.redraw()}
     function info(){H.showCardAt(rocketCard(ROCKETS[ri],{buttons:[{id:"launch",label:"🚀  LAUNCH",primary:true}],onPress:b=>{if(b==="launch")press("launch")}}),H.frontPos(1.25,-.05,.85),H.headPos())}
-    function launch(){if(view.flight||cd)return;H.hideCard();if(real){real=false;view.setReal(null)}if(view.exploded)view.setExploded(false);
+    function launch(){if(view.flight||cd)return;H.endGrab();H.hideCard();if(real){real=false;view.setReal(null);showNames()}if(view.exploded)view.setExploded(false);view.rocket.scale.setScalar(1);view.rocket.rotation.set(0,0,0);
       ended=false;cd={t0:performance.now(),launched:false};hud.mesh.visible=true;H.front(hud.mesh,2.2,.55,0,0);hudText.line="";hudText.clock="";
       if(!H.say("ui-countdown"))cd.silent=true;panel.redraw()}
-    function stop(){cd=null;if(view.flight)view.stopLaunch(false);else view.setRocket(ROCKETS[ri]);padG.position.y=0;view.world.position.y=0;setSkyK(0);H.hush();ended=false;hud.mesh.visible=false;place();panel.redraw()}
+    function stop(){cd=null;H.stopSfx("launch");if(view.flight)view.stopLaunch(false);else view.setRocket(ROCKETS[ri]);addNames();showNames();padG.position.y=0;view.world.position.y=0;setSkyK(0);H.hush();ended=false;hud.mesh.visible=false;place();panel.redraw()}
     function press(id){
       if(id[0]==="r"&&/^r\d+$/.test(id))setRocket(+id.slice(1));
       else if(id==="launch"){if(view.flight||cd)stop();else if(ended)stop();else launch()}
@@ -6066,20 +6301,23 @@ function RocketScenes(H){
       else if(id==="real")setReal(!real);
       else if(id==="explode"){view.setExploded(!view.exploded);setTimeout(()=>panel.redraw(),50)}
       else if(id==="fuel"){view.setFuel(!view.fuel);panel.redraw()}
+      else if(id==="names"){namesOn=!namesOn;showNames();panel.redraw()}
       else if(id==="info")info()}
     function partCard(pid){const m=view.parts&&view.parts[pid];if(!m)return;const p=m.p,pr=RS.PROP[p.prop];
       H.showCard({kicker:ROCKETS[ri].name+" · "+(p.kind==="booster"?"strap-on booster":p.kind),title:p.name,hi:p.hi,color:"#ff9933",
         rows:[["Length",fmt(p.len,1)+" m"],["Width",fmt(p.dia,1)+" m"],["Fuel",pr?pr.en:(p.prop||"—")],["How many",p.kind==="booster"?String(p.count||1):"1"]].filter(r=>r[1]&&r[1]!=="undefined"),cols:2,
         text:(p.role||"")+(p.fact?" "+p.fact:"")},H.lastHit&&H.lastHit.point?H.lastHit.point.clone():null)}
-    return {id:"pad",title:"Launch pad",sky:"milky",
+    return {id:"pad",title:"Launch pad",sky:"milky",ambient:null,
       get flySpeed(){return 4},
-      enter(){if(!view)make();padG.visible=true;outdoor(true);panel.mesh.visible=true;setRocket(ri,false);H.say("ui-rocket");
+      enter(){if(!view)make();padG.visible=true;outdoor(true);panel.mesh.visible=true;
+        if(auto){const i=ROCKETS.findIndex(r=>r.id===auto);auto=null;if(i>=0){setRocket(i,false);launch();return}}
+        setRocket(ri,false);H.say("ui-rocket");
         H.hint("Rocket Shala · launch pad",[["Real size","walk around it and look up"],["Panel","pick a rocket · LAUNCH"],["Point","at a part to learn what it does"],["Right stick ↕","fly up along the rocket"]],8)},
-      exit(){padG.visible=false;panel.mesh.visible=false;hud.mesh.visible=false;cd=null;if(view.flight)view.stopLaunch(true);padG.position.y=0;view.world.position.y=0;outdoor(false)},
+      exit(){H.stopSfx("launch");padG.visible=false;panel.mesh.visible=false;hud.mesh.visible=false;cd=null;if(view.flight)view.stopLaunch(true);padG.position.y=0;view.world.position.y=0;outdoor(false)},
       frame(dt){const now=performance.now();
         if(cd){const el=(now-cd.t0)/1000;
-          if(el<11.4){const n=el<.15?10:clamp(10-Math.floor(el-.15),0,10);hudText.big=String(n);drawHud()}else if(!view.flight&&!cd.launched){}
-          if(el>=9.8&&!cd.launched){cd.launched=true;view.launch()}
+          if(el<11.4){const n=el<.15?10:clamp(10-Math.floor(el-.15),0,10);if(n!==cd.n){cd.n=n;if(cd.silent)H.sfx("beep",.45)}hudText.big=String(n);drawHud()}
+          if(el>=9.8&&!cd.launched){cd.launched=true;view.launch();H.sfx("launch",1)}
           if(el>=11.4){hudText.big="";if(!hudText.line)hudText.line="Liftoff!";drawHud();cd=null;panel.redraw()}}
         view.frame(now);
         const drop=-view.world.position.y;
@@ -6091,12 +6329,13 @@ function RocketScenes(H){
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:4,flat:true})},
       picks:()=>{if(view.flight)return [];const o=real&&view.real?view.real:view.rocket;if(!o)return [];if(pk.o!==o||pk.n!==o.children.length){pk.o=o;pk.n=o.children.length;pk.L=[];o.traverse(m=>{if(m.isMesh)pk.L.push(m)})}return pk.L},
       pick(o){if(real)info();else{let x=o;while(x&&!x.userData.pid)x=x.parent;if(x)partCard(x.userData.pid);else info()}},
+      grab(){if(view.flight||cd)return null;const o=real&&view.real?view.real:view.rocket;return o?{obj:o,mode:"yaw",minS:.04,maxS:1.4,gain:4}:null},
       empty(){H.hideCard()},
       menu:()=>[{id:"launch",label:view&&(view.flight||cd)?"Stop the launch":"Launch  🚀"},{id:"view",label:"View",val:ride?"RIDE ALONG":"FROM GROUND",on:ride},{id:"next",label:"Next rocket  ▶"},{id:"start",label:"Back to the start"}],
       menuPress(id){if(id==="next")setRocket(ri+1);else if(id==="start"){if(view.flight)stop();else place()}else press(id)},
       btnA(){press("launch")},btnX(){setRocket(ri+1)},prev(){setRocket(ri-1)},next(){setRocket(ri+1)},
       refresh(){if(panel)panel.redraw()},
-      _:{get view(){return view},setRocket,launch,press,get ri(){return ri}}}})();
+      _:{get view(){return view},setRocket,launch,press,get ri(){return ri},set auto(v){auto=v}}}})();
 
   /* ======================= ROCKET SIZES ======================= */
   H.scenes.rsizes=(()=>{
@@ -6113,7 +6352,7 @@ function RocketScenes(H){
         if(it.kind==="rocket"){g=buildRocket(it.r).g;const b=new T.Box3().setFromObject(g);w=Math.max(b.max.x-b.min.x,b.max.z-b.min.z)}else{g=qutub();w=16}
         x+=w/2;g.position.set(x,0,0);root.add(g);
         const lab=label(it.kind==="rocket"?it.r.name:"Qutub Minar",fmt(it.h,1)+" m",it.kind==="rocket"?(it.r.country==="india"?"#ff9933":"#8ec5ff"):"#e8c27a",.15);lab.position.set(x,it.h+6,0);root.add(lab);
-        const hit=new T.Mesh(new T.BoxGeometry(Math.max(w,4),it.h,Math.max(w,4)),new T.MeshBasicMaterial({visible:false}));hit.position.set(x,it.h/2,0);hit.userData.pick=it;root.add(hit);hits.push(hit);
+        const hit=new T.Mesh(new T.BoxGeometry(Math.max(w,4),it.h,Math.max(w,4)),new T.MeshBasicMaterial({visible:false}));hit.position.set(0,it.h/2,0);hit.userData.pick=it;g.add(hit);hits.push(hit);it.g=g;
         x+=w/2+7});
       const pp=person();pp.position.set(-6,0,4);root.add(pp);const pl=label("You","1.7 m","#ff9933",.11);pl.position.set(-6,2.6,4);root.add(pl);
       startX=-10;
@@ -6123,7 +6362,7 @@ function RocketScenes(H){
       for(let h=20;h<=120;h+=20){const l=label(h+" m","","#ffffff",.09);l.position.set(-12,h,-14);grid.add(l);const l2=label(h+" m","","#ffffff",.09);l2.position.set(x+6,h,-14);grid.add(l2)}
       root.add(grid)}
     const home=()=>H.placeHead(new T.Vector3(startX,1.6,38),new T.Vector3(startX+30,1.6,0));
-    return {id:"rsizes",title:"Rocket sizes",sky:"milky",flySpeed:8,
+    return {id:"rsizes",title:"Rocket sizes",sky:"milky",ambient:null,flySpeed:8,
       enter(){if(!built)build();root.visible=true;outdoor(true,260,1500);home();
         H.hint("Rocket sizes",[["Row","every rocket at its real height"],["Qutub Minar","72.5 m, for comparison"],["Left stick","fly along the row → to the giants"],["Right stick ↕","fly up to the tops"]],8)},
       exit(){root.visible=false;outdoor(false)},
@@ -6134,6 +6373,7 @@ function RocketScenes(H){
         if(it.kind==="qutub")H.showCard({kicker:"Delhi, India · built 1199 to about 1220",title:"Qutub Minar",hi:"क़ुतुब मीनार",color:"#e8c27a",rows:[["Height","72.5 m"],["Base","14.3 m wide"],["Storeys","5"],["Steps","379"]],cols:2,text:"India's tallest brick minaret, a UNESCO World Heritage Site. Compare: a PSLV is about 60% of its height, and Saturn V is one and a half times taller."},pt);
         else{const r=it.r;H.showCard(rocketCard(r,{rows:[["Height",fmt(r.height,1)+" m"],["Qutub Minars",fmt(r.height/72.5,2)+" ×"],["Building floors","about "+Math.round(r.height/3)],["Weight",r.mass]],cols:2}),pt)}},
       empty(){H.hideCard()},
+      grab(it){return it.g?{obj:it.g,mode:"yaw",minS:.05,maxS:1.5}:null},
       menu:()=>[{id:"grid",label:"Height lines",val:grid&&grid.visible?"ON":"OFF",on:grid&&grid.visible},{id:"start",label:"Back to the start"}],
       menuPress(id){if(id==="grid")grid.visible=!grid.visible;else home()},
       btnB(){if(H.cardData())H.hideCard();else H.go("lobby")}}})();
@@ -6156,12 +6396,13 @@ function RocketScenes(H){
       const it={m,g,pos,h,floating,overhead,lab,loaded:false,hit:null};items.push(it);if(!overhead)g.lookAt(0,pos.y,0)}
     function pump(){while(loading<2&&queue.length){const it=queue.shift();loading++;loadGLB(it.m.id,o=>{loading--;if(o){
         const b=new T.Box3().setFromObject(o),c=b.getCenter(new T.Vector3()),sz=b.getSize(new T.Vector3());
-        if(it.floating||it.overhead){o.position.sub(c);o.position.y+=it.floating?sz.y/2+1.6:0}else{o.position.x-=c.x;o.position.z-=c.z;o.position.y-=b.min.y}
-        it.g.add(o);const hb=new T.Mesh(new T.BoxGeometry(Math.max(sz.x,1.5),Math.max(sz.y,1.5),Math.max(sz.z,1.5)),new T.MeshBasicMaterial({visible:false}));hb.position.y=it.overhead?0:(it.floating?sz.y/2+1.6:sz.y/2);hb.userData.pick=it;it.g.add(hb);it.hit=hb;
+        const pv=new T.Group();it.pv=pv;
+        if(it.floating||it.overhead){o.position.sub(c);pv.position.y=it.floating?sz.y/2+1.6:0}else{o.position.x-=c.x;o.position.z-=c.z;o.position.y-=b.min.y}
+        pv.add(o);it.g.add(pv);const hb=new T.Mesh(new T.BoxGeometry(Math.max(sz.x,1.5),Math.max(sz.y,1.5),Math.max(sz.z,1.5)),new T.MeshBasicMaterial({visible:false}));hb.position.y=it.overhead?0:(it.floating?sz.y/2+1.6:sz.y/2);hb.userData.pick=it;it.g.add(hb);it.hit=hb;
         it.lab.position.y=(it.overhead?sz.y/2+4:(it.floating?sz.y+2.6:sz.y+2))}
         it.loaded=true;pump()})}}
     const home=()=>H.placeHead(new T.Vector3(0,1.6,6),new T.Vector3(0,1.6,-10));
-    return {id:"museum",title:"3D museum",sky:"milky",flySpeed:5,
+    return {id:"museum",title:"3D museum",sky:"milky",ambient:null,flySpeed:5,
       enter(){if(!built)build();root.visible=true;outdoor(true,300,1500);home();
         H.hint("3D museum · real size",[["Near you","landers, rovers and capsules"],["Further out","rockets, Hubble, JWST, the Shuttle"],["Look up","the Space Station overhead"],["Trigger / pinch","its story"]],8)},
       exit(){root.visible=false;outdoor(false)},
@@ -6170,6 +6411,7 @@ function RocketScenes(H){
       picks:()=>items.filter(it=>it.hit).map(it=>it.hit),
       pick(it){const m=it.m;H.showCard({kicker:(CN[m.country]||{}).en+" · "+(m.group||""),title:m.name,hi:m.hi,color:m.country==="india"?"#ff9933":"#8ec5ff",rows:[["Size",m.size||"—"],["Where it worked",m.ground==="pad"?"Launch pad":m.ground==="space"?"Space":m.ground==="moon"?"The Moon":"Mars"]],cols:2,text:m.about+(m.note?" "+m.note:""),say:"mu-"+m.id},H.lastHit&&H.lastHit.point?H.lastHit.point.clone():null)},
       empty(){H.hideCard()},
+      grab(it){return {obj:(it.floating||it.overhead)&&it.pv?it.pv:it.g,mode:it.floating||it.overhead?"free":"yaw",minS:.1,maxS:2}},
       menu:()=>[{id:"start",label:"Back to the middle"}],menuPress(){home()},
       btnB(){if(H.cardData())H.hideCard();else H.go("lobby")}}})();
 
@@ -6201,7 +6443,7 @@ function RocketScenes(H){
         {onPress:id=>{if(id==="prev")show(cur-1);else if(id==="next")show(cur+1);else if(id==="list"){mode="list";panel.redraw()}else if(id==="back"){mode="info";panel.redraw()}else if(id==="hide")panel.mesh.visible=false;
           else if(id==="play"&&video){if(video.paused)video.play().catch(()=>{});else video.pause();setTimeout(()=>panel.redraw(),60)}else if(id[0]==="p")show(+id.slice(1))}});
       rig.add(panel.mesh)}
-    return {id:"tours",title:"360° tours",sky:"none",noFly:true,
+    return {id:"tours",title:"360° tours",sky:"none",ambient:null,noFly:true,
       enter(){if(!built)build();root.visible=true;H.placeHead(new T.Vector3(0,1.6,0),new T.Vector3(0,1.6,-1));H.front(panel.mesh,1.05,-.6,0,-.5);panel.mesh.visible=true;show(cur)},
       exit(){root.visible=false;panel.mesh.visible=false;tok++;clear()},
       frame(){H.headPos(v1);root.position.copy(v1)},
@@ -6213,7 +6455,7 @@ function RocketScenes(H){
 
   /* ======================= ORBITS ======================= */
   H.scenes.orbits=(()=>{
-    const root=new T.Group();root.visible=false;S.add(root);let built=false,earth=null,clouds=null,sel=null,panel=null;const orbs={},sats=[];
+    const root=new T.Group();root.visible=false;S.add(root);let built=false,earth=null,clouds=null,sel=null,panel=null,EG=null;const orbs={},sats=[];
     const E=new T.Vector3(0,1.3,-5.2),RE=1.4,k=RE/6371,rr=km=>RE+km*k;const SUN=new T.Vector3(-1,.15,.35).normalize();
     function ring(r,inc,col,dash){const pts=[];for(let i=0;i<=256;i++){const a=i/256*Math.PI*2;pts.push(new T.Vector3(r*Math.cos(a),0,-r*Math.sin(a)))}
       const g=new T.BufferGeometry().setFromPoints(pts),m=new T.Line(g,new T.LineBasicMaterial({color:col,transparent:true,opacity:.85,depthWrite:false}));m.rotation.x=inc;return m}
@@ -6223,7 +6465,7 @@ function RocketScenes(H){
       const sp=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(c),transparent:true,depthWrite:false,blending:T.AdditiveBlending}));sp.scale.setScalar(s||.12);return sp}
     function build(){built=true;
       const L=new T.DirectionalLight(0xfff4e6,1.6);L.position.copy(SUN).multiplyScalar(50);root.add(L);root.add(new T.AmbientLight(0x2a3046,.5));
-      const eg=new T.Group();eg.position.copy(E);root.add(eg);
+      const eg=new T.Group();eg.position.copy(E);root.add(eg);EG=eg;
       earth=new T.Mesh(new T.SphereGeometry(RE,96,64),new T.MeshPhongMaterial({map:H.tex("earth.jpg"),shininess:14}));eg.add(earth);
       clouds=new T.Mesh(new T.SphereGeometry(RE*1.012,96,64),new T.MeshPhongMaterial({color:0xffffff,alphaMap:H.tex("earth_clouds.jpg"),transparent:true,depthWrite:false}));eg.add(clouds);
       const atm=new T.Sprite(new T.SpriteMaterial({map:H.glowTex([[0,"rgba(0,0,0,0)"],[.43,"rgba(0,0,0,0)"],[.47,"rgba(110,170,255,.45)"],[.6,"rgba(80,140,255,.08)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));atm.scale.setScalar(RE*2.3);eg.add(atm);
@@ -6263,10 +6505,72 @@ function RocketScenes(H){
       frame(dt){t+=dt;earth.rotation.y=t*2*Math.PI/60;clouds.rotation.y=earth.rotation.y*1.05;sats.forEach(s=>s.d.position.copy(s.f(t)));
         if(orbs.moon&&orbs.moon.body){const a=t*2*Math.PI/240,md=rr(384400);orbs.moon.body.position.set(md*Math.cos(a),0,-md*Math.sin(a)).applyAxisAngle(new T.Vector3(1,0,0),5*D2R)}},
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:3})},
-      menu:()=>[{id:"all",label:"Show all orbits"},{id:"panel",label:"Orbit panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"start",label:"Back to the start"}],
-      menuPress(id){if(id==="all")choose(null);else if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,.95,-.62,0,-.6)}else H.placeHead(new T.Vector3(0,1.6,0),E.clone().setY(1.6))},
+      picks:()=>earth?[earth]:[],
+      pick(){H.planetThenSay("earth",null)},
+      grab(){return EG?{obj:EG,mode:"free",minS:.4,maxS:2.5}:null},
+      menu:()=>[{id:"all",label:"Show all orbits"},{id:"reset",label:"Straighten Earth"},{id:"panel",label:"Orbit panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"start",label:"Back to the start"}],
+      menuPress(id){if(id==="reset"){EG.quaternion.identity();EG.scale.setScalar(1)}else if(id==="all")choose(null);else if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,.95,-.62,0,-.6)}else H.placeHead(new T.Vector3(0,1.6,0),E.clone().setY(1.6))},
       btnA(){const i=sel?ORBITS.findIndex(o=>o.id===sel):-1;choose(ORBITS[(i+1)%ORBITS.length].id)},
       btnB(){if(H.cardData())H.hideCard();else H.go("lobby")}}})();
+
+  /* ======================= GAME: BUILD A ROCKET (drag and drop) ======================= */
+  H.scenes.rgame=(()=>{
+    const root=new T.Group();root.visible=false;S.add(root);let built=false,panel=null,rid="pslv",parts=[],ghost=null,step=0,mistakes=0,won=false,k=1;
+    const CHOICES=["slv3","pslv","gslv","lvm3","saturnv"],PAD=new T.Vector3(0,.82,-1.3),TALL=1.45;const set=new T.Group();root.add(set);
+    function build(){built=true;root.add(ground(600,90));root.add(new T.HemisphereLight(0xc8d8ff,0x2a2420,.75));const key=new T.DirectionalLight(0xfff1de,1.15);key.position.set(-3,6,4);root.add(key);
+      const tab=new T.Mesh(new T.CylinderGeometry(.16,.22,PAD.y-.04,32),new T.MeshStandardMaterial({color:0x6b6e76,roughness:.6,metalness:.4}));tab.position.set(PAD.x,(PAD.y-.04)/2,PAD.z);root.add(tab);
+      const slab=new T.Mesh(new T.CylinderGeometry(.42,.42,.04,48),new T.MeshStandardMaterial({color:0x9c9a95,roughness:.9}));slab.position.copy(PAD).setY(PAD.y-.02);root.add(slab);
+      const top=new T.Mesh(new T.CircleGeometry(.42,40),new T.MeshStandardMaterial({map:RS.R3.groundTex(RP+"env/concrete_floor_worn_001_1k.jpg",1),roughness:.95}));top.rotation.x=-Math.PI/2;top.position.copy(PAD).setY(PAD.y+.002);root.add(top);
+      [-1,1].forEach(sd=>{const sh=new T.Mesh(new T.TorusGeometry(.95,.025,8,48,.95),new T.MeshStandardMaterial({color:0x5b5e66,metalness:.5,roughness:.5}));sh.rotation.set(Math.PI/2,0,sd<0?Math.PI*.5+.38:Math.PI*.5-.38-.95);sh.position.set(0,.99,0);root.add(sh)});
+      panel=H.panel(1.0,.66,1000,660,(g,p)=>{H.rr(g,6,6,988,648,26);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,153,51,.8)";g.stroke();
+        g.fillStyle="#ff9933";g.font="900 56px "+F.disp;g.fillText("BUILD A ROCKET",32,70);g.fillStyle="#a4a7ba";g.font="500 30px "+F.hi;g.fillText("रॉकेट बनाओ — नीचे से ऊपर तक",380,66);
+        CHOICES.forEach((id,i)=>p.btn(g,"c"+id,28+i*190,92,178,70,ROCK[id].name,{on:id===rid,fs:26}));
+        const r=ROCK[rid],next=r.order[step],np=next&&r.parts.find(q=>q.id===next);
+        g.fillStyle="#ece7da";g.font="700 38px "+F.sans;g.fillText(won?"Rocket complete! 🎉":"Next part: "+(np?np.name.split(" — ")[0]:""),32,222);
+        g.fillStyle="#cfd2e2";g.font="400 27px "+F.sans;H.wrap(g,won?"Every stage is in its place. Launch it at real size on the Sriharikota pad!":(np?np.role||"":""),930).slice(0,3).forEach((l,i)=>g.fillText(l,32,268+i*36));
+        g.fillStyle="#a4a7ba";g.font="500 28px "+F.mono;g.fillText("PLACED "+step+" / "+r.order.length+"   ·   MISTAKES "+mistakes,32,410);
+        if(won)p.btn(g,"launch",28,440,620,110,"🚀  LAUNCH AT REAL SIZE",{primary:true,fs:38});else p.btn(g,"hint",28,440,620,110,"💡  Show me where",{fs:34});
+        p.btn(g,"again",664,440,306,110,"↻  RESTART",{fs:32});
+        g.fillStyle="#8a8ea6";g.font="400 22px "+F.sans;g.fillText("Hold the trigger (or pinch) on a part, carry it to the glowing outline and let go.",32,610)},
+        {onPress:id=>{if(id[0]==="c"&&ROCK[id.slice(1)]){rid=id.slice(1);setup()}else if(id==="again")setup();else if(id==="launch"){H.scenes.pad._.auto=rid;H.go("pad")}else if(id==="hint"&&ghost){ghost.userData.flash=2.5}}});
+      panel.mesh.position.set(-1.0,1.8,-1.25);panel.mesh.lookAt(0,1.6,0);root.add(panel.mesh)}
+    const ghostMat=new T.MeshBasicMaterial({color:0x8ec5ff,transparent:true,opacity:.28,depthWrite:false});
+    // outline of the next part: same shapes, see-through (no deep clone: parts carry materials in userData)
+    function ghostOf(m){const root=new T.Group();m.group.updateMatrixWorld(true);const inv=new T.Matrix4().copy(m.group.matrixWorld).invert();
+      m.group.traverse(o=>{if(o.isMesh){const g=new T.Mesh(o.geometry,ghostMat);g.matrixAutoUpdate=false;g.matrix.multiplyMatrices(inv,o.matrixWorld);root.add(g)}});return root}
+    function setup(){while(set.children.length)set.remove(set.children[0]);parts=[];step=0;mistakes=0;won=false;
+      const r=ROCK[rid];k=TALL/r.height;const lay=RS.R3.layout(r),n=r.order.length,perm=[...Array(n).keys()].sort(()=>Math.random()-.5);
+      r.order.forEach((pid,j0)=>{const j=perm[j0];const p=r.parts.find(q=>q.id===pid),L=lay[pid];const m=RS.R3.buildPart(p,{coreR:L.coreR,belowR:L.belowR});
+        const w=new T.Group();w.scale.setScalar(k);w.add(m.group);m.group.position.set(0,-p.len/2,0);set.add(w);
+        const home=PAD.clone().setY(PAD.y+L.y*k+p.len*k/2);
+        const per=Math.ceil(n/2),sd=j%2?1:-1,ix=Math.floor(j/2),a=sd*(.42+ix*(.9/Math.max(1,per-1))),shelf=new T.Vector3(Math.sin(a)*.95,1.0+p.len*k/2+.02,-Math.cos(a)*.95);w.position.copy(shelf);
+        const b=new T.Box3().setFromObject(w),sz=b.getSize(new T.Vector3());
+        const hit=new T.Mesh(new T.BoxGeometry(Math.max(sz.x,.12)/k,Math.max(sz.y,.12)/k,Math.max(sz.z,.12)/k),new T.MeshBasicMaterial({visible:false}));w.add(hit);
+        const lab=label(p.name.split(" — ")[0],"",p.kind==="booster"?"#ffd08a":"#ff9933",.085);lab.position.y=(p.len/2)+.12/k;lab.scale.multiplyScalar(1);w.add(lab);
+        const P={pid,p,m,w,home,shelf,placed:false,back:null,lab,hit};hit.userData.pick=P;parts.push(P)});
+      showGhost();panel.redraw()}
+    function showGhost(){if(ghost){set.remove(ghost);ghost=null}const r=ROCK[rid],pid=r.order[step];if(!pid)return;const P=parts.find(q=>q.pid===pid);
+      ghost=new T.Group();ghost.scale.setScalar(k);const gm=ghostOf(P.m);gm.position.set(0,-P.p.len/2,0);ghost.add(gm);ghost.position.copy(P.home);ghost.userData.t=0;set.add(ghost)}
+    function drop(P,wp){const r=ROCK[rid],next=r.order[step];const near=Math.hypot(wp.x-P.home.x,wp.z-P.home.z)<.28&&Math.abs(wp.y-P.home.y)<.4;
+      if(!near){P.back=P.w.position.clone();return}
+      if(P.pid===next){P.placed=true;P.back=null;P.snap=P.w.position.clone();P.lab.visible=false;step++;H.sfx("good",.7);
+        if(step===r.order.length){won=true;if(ghost){set.remove(ghost);ghost=null}H.sfx("win",.9);H.say("ui-win-rocket");H.confetti(root,PAD.clone().setY(PAD.y+TALL+.2),320)}else{H.say("ui-good");showGhost()}}
+      else{mistakes++;H.sfx("bad",.6);const np=r.parts.find(q=>q.id===next);H.hint("Not yet!",[["That is",P.p.name.split(" — ")[0]],["First we need",np?np.name.split(" — ")[0]:""],["Tip","rockets are built from the bottom up"]],4);H.say("ui-try");P.back=P.w.position.clone()}
+      panel.redraw()}
+    return {id:"rgame",title:"Build a rocket",sky:"milky",ambient:null,noFly:true,
+      enter(){if(!built)build();root.visible=true;outdoor(true,200,1400);H.placeHead(new T.Vector3(0,1.6,0),new T.Vector3(0,1.6,-1));setup();H.say("ui-game-rocket")},
+      exit(){root.visible=false;outdoor(false)},
+      frame(dt){H.tickFx(dt);followSky();const g=H.grabbing();
+        parts.forEach(P=>{if(g===P.w)return;if(P.placed&&P.snap){P.snap.lerp(P.home,1-Math.exp(-dt*10));P.w.position.copy(P.snap);P.w.rotation.set(0,0,0);if(P.snap.distanceTo(P.home)<.001)P.snap=null}
+          else if(P.back){P.back.lerp(P.shelf,1-Math.exp(-dt*6));P.w.position.copy(P.back);if(P.back.distanceTo(P.shelf)<.003)P.back=null}});
+        if(ghost){ghost.userData.t+=dt;ghostMat.opacity=ghost.userData.flash>0?(ghost.userData.flash-=dt,.75):.18+.12*Math.sin(ghost.userData.t*4)}},
+      sticks(mx,my,tx,ty,boost,dt){H.move(0,0,tx,0,false,dt,{noFly:true})},
+      picks:()=>parts.filter(P=>!P.placed).map(P=>P.hit),
+      pick(P){H.showCard({kicker:ROCK[rid].name+" · part",title:P.p.name.split(" — ")[0],hi:P.p.hi,color:"#ff9933",rows:[["Length",fmt(P.p.len,1)+" m"],["Fuel",RS.PROP[P.p.prop]?RS.PROP[P.p.prop].en:"—"]],cols:2,text:(P.p.role||"")+(P.p.fact?" "+P.p.fact:"")},H.lastHit&&H.lastHit.point?H.lastHit.point.clone():null)},
+      grab(P){if(won||P.placed)return null;H.hideCard();return {obj:P.w,mode:"carry",onDrop:w=>drop(P,w)}},
+      menu:()=>[{id:"again",label:"Restart"},{id:"next",label:"Another rocket  ▶"}],
+      menuPress(id){if(id==="next"){rid=CHOICES[(CHOICES.indexOf(rid)+1)%CHOICES.length]}setup()},
+      btnA(){setup()},_:{get rid(){return rid},get step(){return step}}}})();
 
   /* ======================= INDIA'S MISSIONS ======================= */
   H.scenes.imissions=(()=>{
@@ -7321,7 +7625,8 @@ if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting())XR.e
   if(!secure){show("Offline saving needs https:// or localhost");return}
   function done(){show("Saved on this device · works offline",true);try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}}
   navigator.serviceWorker.addEventListener("message",function(e){var d=e.data||{};if(d.type==="progress")show("Saving for offline… "+Math.floor(d.done/d.total*100)+"% · keep this page open");else if(d.type==="ready")done()});
-  navigator.serviceWorker.register("sw.js").then(function(reg){
+  try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+  navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(reg){
     if(reg.active&&!reg.installing&&!reg.waiting)done();else show("Saving for offline… keep this page open");
   }).catch(function(){show("Offline saving could not start in this browser")});
 })();
