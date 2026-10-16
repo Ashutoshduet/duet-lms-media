@@ -3236,7 +3236,7 @@ function VRHub(o){
 function LobbyScene(H){
   const T=H.T,F=H.F;let built=false;const root=new T.Group();root.visible=false;H.S.add(root);
   let earth=null,clouds=null,logoImg=null,panels=[];
-  const SOLAR=[["space","Space walk","अंतरिक्ष की सैर"],["planets","Planets & moons","ग्रह और चंद्रमा"],["compare","Compare sizes","आकार की तुलना"],["stars","Stars & Milky Way","तारे और आकाशगंगा"],["craft","Spacecraft","अंतरिक्ष यान"],["land360","Landing sites 360°","लैंडिंग स्थल 360°"]];
+  const SOLAR=[["space","Space walk","अंतरिक्ष की सैर"],["planets","Planets & moons","ग्रह और चंद्रमा"],["compare","Compare sizes","आकार की तुलना"],["stars","Stars & Milky Way","तारे और आकाशगंगा"],["craft","Spacecraft","अंतरिक्ष यान"],["land360","Landing sites 360°","लैंडिंग स्थल 360°"],["tools","Tools: weight, age","उपकरण: वज़न, उम्र"]];
   const ROCKET=[["pad","Launch pad","लॉन्च पैड"],["rsizes","Rocket sizes","रॉकेटों की तुलना"],["museum","3D museum","थ्री-डी संग्रहालय"],["tours","360° tours","360° सैर"],["orbits","Orbits","कक्षाएँ"],["imissions","India's missions","भारत के मिशन"]];
   function build(){built=true;
     // Earth below you, as if from orbit
@@ -3252,10 +3252,11 @@ function LobbyScene(H){
       H.rr(g,6,6,988,1028,34);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=5;g.strokeStyle=color;g.stroke();
       g.fillStyle=color;g.font="900 92px "+F.disp;g.fillText(title,48,118);g.fillStyle="#a4a7ba";g.font="500 44px "+F.hi;g.fillText(hi,52,176);
       g.fillStyle="#cfd2e2";g.font="400 30px "+F.sans;H.wrap(g,sub,900).slice(0,2).forEach((l,i)=>g.fillText(l,52,232+i*40));
-      list.forEach(([id,en,hiL],i)=>{const x=48+(i%2)*460,y=330+Math.floor(i/2)*226;const ok=ready(id);
-        p.btn(g,id,x,y,444,206,"",{disabled:!ok});
-        g.fillStyle=ok?"#ece7da":"#5c6075";H.fit(g,en,"700 $px "+F.sans,40,400,22);g.fillText(en,x+24,y+86);g.fillStyle=ok?"#a4a7ba":"#4a4e60";H.fit(g,hiL,"500 $px "+F.hi,34,400,20);g.fillText(hiL,x+24,y+142);
-        if(!ok){g.fillStyle="#5c6075";g.font="600 22px "+F.mono;g.fillText("COMING NEXT",x+24,y+184)}})
+      const rows=Math.ceil(list.length/2),bh=Math.min(206,Math.floor(690/rows)-12);
+      list.forEach(([id,en,hiL],i)=>{const x=48+(i%2)*460,y=320+Math.floor(i/2)*(bh+12);const ok=ready(id);
+        p.btn(g,id,x,y,444,bh,"",{disabled:!ok});
+        g.fillStyle=ok?"#ece7da":"#5c6075";H.fit(g,en,"700 $px "+F.sans,38,400,22);g.fillText(en,x+24,y+bh*.43);g.fillStyle=ok?"#a4a7ba":"#4a4e60";H.fit(g,hiL,"500 $px "+F.hi,32,400,20);g.fillText(hiL,x+24,y+bh*.75);
+        if(!ok){g.fillStyle="#5c6075";g.font="600 22px "+F.mono;g.fillText("COMING NEXT",x+24,y+bh-14)}})
     },{onPress:id=>H.go(id)});
     const solar=seg("SOLAR SYSTEM","सौरमंडल","Float among the planets, moons, stars and real spacecraft.",SOLAR,"#ffb347",id=>!!H.scenes[id]);
     solar.mesh.position.set(-.98,1.38,-2.25);solar.mesh.rotation.y=.42;root.add(solar.mesh);panels.push(solar);
@@ -3686,6 +3687,44 @@ function SolarScenes(H){
       menuPress(id){if(id==="normal"&&real)setReal(real);else H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2))},
       btnB:()=>{if(real)setReal(real);else if(H.cardData())H.hideCard();else H.go("lobby")},
       _:{items,setReal}}})();
+
+  /* ======================= TOOLS: weight, age, journey, jump ======================= */
+  H.scenes.tools=(()=>{
+    const root=new T.Group();root.visible=false;S.add(root);let built=false,board=null,tab="weight",kg=30,year=new Date().getFullYear()-10;const balls=[];
+    const W=["sun","mercury","venus","earth","moon","mars","jupiter","saturn","uranus","neptune","pluto"].filter(id=>BYD[id]&&BYD[id].n);
+    const rowsFor=()=>{const L=tab==="age"||tab==="journey"?W.filter(id=>id!=="sun"&&id!=="moon"):W;
+      if(tab==="weight")return L.map(id=>{const v=kg*BYD[id].n.g/9.8;return [id,v,fmt(v,v<10?1:0)+" kg"]});
+      if(tab==="jump")return L.map(id=>{const v=.5*9.8/BYD[id].n.g;return [id,v,v>=100?fmt(v,0)+" m":fmt(v,v<10?2:1)+" m"]});
+      if(tab==="age"){const days=(Date.now()-Date.UTC(year,6,1))/864e5;return L.map(id=>{const y=days/BYD[id].n.year;return [id,y,y>=10?fmt(y,0)+" years":fmt(y,y<1?2:1)+" years"]})}
+      return L.map(id=>{const km=BYD[id].n.dist*1e6,s=km/299792.458,h=km/900;const lt=s<3600?Math.floor(s/60)+" min":Math.floor(s/3600)+" h "+Math.round(s%3600/60)+" min";return [id,km,lt+" · plane "+(h/8766>=1?fmt(h/8766,0)+" yrs":fmt(h/24,0)+" days")]})};
+    function build(){built=true;
+      const L=new T.DirectionalLight(0xfff4e6,1.4);L.position.set(-3,4,4);root.add(L);root.add(new T.AmbientLight(0x2c3248,.6));
+      W.forEach((id,i)=>{const a=(i-(W.length-1)/2)*.17,r=id==="sun"?.16:id==="jupiter"?.15:id==="saturn"?.13:id==="moon"?.06:.09;
+        const m=new T.Mesh(new T.SphereGeometry(r,40,28),id==="sun"?new T.MeshBasicMaterial({map:loadTex("tex/sun.jpg")}):new T.MeshPhongMaterial({map:loadTex("tex/"+(XB[id]?XB[id].tex:id+".jpg")),shininess:4}));
+        m.position.set(3.1*Math.sin(a),2.35,-3.1*Math.cos(a));root.add(m);balls.push(m);const l=label(BYD[id].name,"",BYD[id].c||"#8ec5ff",.1);l.position.set(m.position.x,m.position.y-r-.12,m.position.z);root.add(l)});
+      board=H.panel(1.9,1.05,1900,1050,(g,p)=>{H.rr(g,6,6,1888,1038,32);g.fillStyle="rgba(8,10,20,.92)";g.fill();g.lineWidth=4;g.strokeStyle="rgba(255,179,71,.75)";g.stroke();
+        [["weight","Your weight","आपका वज़न"],["age","Your age","आपकी उम्र"],["jump","How high you jump","कूद"],["journey","Journey times","यात्रा का समय"]].forEach(([id,l,hi],i)=>p.btn(g,id,30+i*462,28,448,96,l+" · "+hi,{on:tab===id,fs:30}));
+        let y=150;g.fillStyle="#cfd2e2";g.font="400 30px "+F.sans;
+        const intro={weight:"Gravity changes what a scale shows. Your body (mass) stays the same.",age:"A year is one trip around the Sun, so every planet has a different year.",jump:"If you jump 0.5 m on Earth, here is how high the same jump goes elsewhere.",journey:"Time to travel from the Sun: by light (299,792 km every second) and by airliner (900 km/h)."}[tab];
+        g.fillText(intro,40,y+12);
+        if(tab==="weight"||tab==="age"){const val=tab==="weight"?kg+" kg on Earth":"Born in "+year;[["m10","−10"],["m1","−1"]].forEach(([id,l],i)=>p.btn(g,id,40+i*150,y+40,136,84,l,{fs:38}));
+          g.fillStyle="#ffd08a";g.font="800 54px "+F.sans;g.textAlign="center";g.fillText(val,620,y+100);g.textAlign="left";[["p1","+1"],["p10","+10"]].forEach(([id,l],i)=>p.btn(g,id,900+i*150,y+40,136,84,l,{fs:38}));y+=150}
+        else y+=40;
+        const rows=rowsFor(),mx=Math.max(...rows.map(r=>r[1])),bw=tab==="journey"?700:1000;
+        rows.forEach(([id,v,txt],i)=>{const yy=y+i*(tab==="weight"||tab==="jump"?62:70);const b=BYD[id];g.fillStyle=b.c||"#ece7da";g.beginPath();g.arc(56,yy-12,12,0,7);g.fill();
+          g.fillStyle="#ece7da";g.font="600 32px "+F.sans;g.fillText(b.name,84,yy);const w=Math.max(4,(tab==="journey"?Math.log1p(v)/Math.log1p(mx):Math.log1p(v)/Math.log1p(mx))*bw);
+          g.fillStyle=(b.c||"#ffb347");g.globalAlpha=.85;H.rr(g,300,yy-26,w,30,8);g.fill();g.globalAlpha=1;g.fillStyle="#ffd08a";g.font="700 32px "+F.mono;g.fillText(txt,310+w+16>1840-420?1460:310+w+16,yy)});
+        if(tab==="jump"){g.fillStyle="#8a8ea6";g.font="400 24px "+F.sans;g.fillText("On the Moon your jump goes 6 times higher. On Pluto, almost 8 metres!",40,1020)}},
+        {onPress:id=>{if(["weight","age","jump","journey"].includes(id))tab=id;else{const d={m10:-10,m1:-1,p1:1,p10:10}[id]||0;if(tab==="weight")kg=Math.max(5,Math.min(200,kg+d));else year=Math.max(1930,Math.min(new Date().getFullYear(),year+d))}board.redraw()}});
+      board.mesh.position.set(0,1.3,-1.75);board.mesh.rotation.x=-.18;root.add(board.mesh)}
+    return {id:"tools",title:"Tools",sky:"milky",noFly:true,
+      enter(){if(!built)build();root.visible=true;H.placeHead(HEAD,AHEAD);board.redraw()},
+      exit(){root.visible=false},
+      frame(dt){balls.forEach(b=>b.rotation.y+=.2*dt)},
+      sticks(mx,my,tx,ty,boost,dt){H.move(0,0,tx,0,false,dt,{noFly:true})},
+      menu:()=>[{id:"weight",label:"Your weight"},{id:"age",label:"Your age"},{id:"jump",label:"How high you jump"},{id:"journey",label:"Journey times"}],
+      menuPress(id){tab=id;board.redraw()},
+      btnA(){const L=["weight","age","jump","journey"];tab=L[(L.indexOf(tab)+1)%4];board.redraw()}}})();
 
   /* ======================= LANDING SITES 360° ======================= */
   if(typeof PANOS!=="undefined"&&PANOS.length)H.scenes.land360=(()=>{
