@@ -490,3 +490,23 @@ The panoramas are real mosaics with uneven edges. To use them in a 360° viewer 
 | Vikram and Pragyan photos | [ISRO](https://www.isro.gov.in/chandrayaan3_gallery.html) | Free reuse with credit to ISRO; ISRO has not published a 3D model |
 
 The models were compressed (meshoptimizer geometry, WebP textures) so they load quickly on a headset; shapes and textures are NASA's own.
+
+## Sounds in the VR app
+
+Real recordings and sonifications of real spacecraft data are marked as real in the app; the others are clearly labelled as artist's sounds made for this app.
+
+| Sound | What it is | Credit | Licence | Source |
+|---|---|---|---|---|
+| earth | Chorus radio waves in Earth's magnetic field, recorded by NASA's Van Allen Probes (EMFISIS) and turned into sound | NASA / University of Iowa | Public domain | https://commons.wikimedia.org/wiki/File:Chorus_Radio_Waves_within_Earth%27s_Atmosphere.mp3 |
+| jupiter | Waves in the charged gas near Jupiter, detected by NASA's Cassini as it flew past in 2001, turned into sound | NASA/JPL/University of Iowa | Public domain | https://commons.wikimedia.org/wiki/File:Cassini_RPWS_Jupiter_010104.ogg |
+| saturn | Saturn's radio emissions linked to its auroras, recorded by Cassini and turned into sound | NASA/JPL/University of Iowa | Public domain | https://commons.wikimedia.org/wiki/File:Eerie_Sounds_of_Saturn%E2%80%99s_Radio_Emissions_(PIA07966).wav |
+| mars | Real wind on Mars, recorded by the microphone on NASA's Perseverance rover on 20 Feb 2021 | NASA/JPL-Caltech | Public domain | https://commons.wikimedia.org/wiki/File:NASA%27s_Perseverance_Rover_Microphone_Captures_Sounds_from_Mars_without_rover_noise.ogg |
+| moon | Apollo 11, 20 July 1969: "Houston, Tranquility Base here. The Eagle has landed." | NASA | Public domain | https://commons.wikimedia.org/wiki/File:Apollo_11_Eagle_Has_Landed.mp3 |
+| enceladus | Radio and plasma waves near Enceladus recorded by NASA's Cassini, turned into sound | NASA | Public domain | https://commons.wikimedia.org/wiki/File:Cassini_-_Enceladus_Sound.mp3 |
+| launch | NASA's SLS rocket launching Artemis II, 1 April 2026, recorded at Pad Camera Site 4 | NASA Kennedy Space Center | Public domain | https://commons.wikimedia.org/wiki/File:Artemis_II_Live_Launch_Coverage_-_Pad_Camera_Site_4_(KSC-20260401-AU-LMM01-0001-Artemis_II_Live_Launch_Coverage_Pad_Camera_Site_4).wav |
+| sun | The Sun's real vibrations: 40 days of SOHO's Michelson Doppler Imager data, sped up 42,000 times so we can hear them | ESA/NASA SOHO · A. Kosovichev, Stanford Experimental Physics Lab · NASA | NASA media (educational use) | https://www.nasa.gov/wp-content/uploads/2018/07/sun_sonification.wav |
+| mercury | An artist's sound for Mercury: solar-wind crackle on a world with almost no air (not a recording) | DUET STEM Space Lab | — | — |
+| venus | A natural radio signal from Venus' upper atmosphere, picked up by NASA's Parker Solar Probe flying past Venus on 11 July 2020, turned into sound | NASA/GSFC Scientific Visualization Studio · Glyn Collinson | Public domain (NASA) | https://svs.gsfc.nasa.gov/13847/ |
+| uranus | Plasma waves around Uranus, recorded by Voyager 2 on 24 January 1986, the only spacecraft ever to visit Uranus | NASA Voyager 2 Plasma Wave Science · The University of Iowa | Courtesy of NASA and The University of Iowa (space-audio.org, CC BY 4.0) | https://space.physics.uiowa.edu/plasma-wave/voyager/audio/ |
+| neptune | An artist's sound for Neptune, home of the fastest winds in the Solar System (not a recording) | DUET STEM Space Lab | — | — |
+| pluto | An artist's sound for faraway, frozen Pluto (not a recording) | DUET STEM Space Lab | — | — |

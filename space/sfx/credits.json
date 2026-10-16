@@ -1,15 +1,93 @@
 {
- "earth": {"what": "Chorus radio waves in Earth's magnetic field, recorded by NASA's Van Allen Probes (EMFISIS) and turned into sound", "credit": "NASA / University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Chorus_Radio_Waves_within_Earth%27s_Atmosphere.mp3", "real": true},
- "jupiter": {"what": "Waves in the charged gas near Jupiter, detected by NASA's Cassini as it flew past in 2001, turned into sound", "credit": "NASA/JPL/University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Cassini_RPWS_Jupiter_010104.ogg", "real": true},
- "saturn": {"what": "Saturn's radio emissions linked to its auroras, recorded by Cassini and turned into sound", "credit": "NASA/JPL/University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Eerie_Sounds_of_Saturn%E2%80%99s_Radio_Emissions_(PIA07966).wav", "real": true},
- "mars": {"what": "Real wind on Mars, recorded by the microphone on NASA's Perseverance rover on 20 Feb 2021", "credit": "NASA/JPL-Caltech", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:NASA%27s_Perseverance_Rover_Microphone_Captures_Sounds_from_Mars_without_rover_noise.ogg", "real": true},
- "moon": {"what": "Apollo 11, 20 July 1969: \"Houston, Tranquility Base here. The Eagle has landed.\"", "credit": "NASA", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Apollo_11_Eagle_Has_Landed.mp3", "real": true},
- "enceladus": {"what": "Radio and plasma waves near Enceladus recorded by NASA's Cassini, turned into sound", "credit": "NASA", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Cassini_-_Enceladus_Sound.mp3", "real": true},
- "launch": {"what": "NASA's SLS rocket launching Artemis II, 1 April 2026, recorded at Pad Camera Site 4", "credit": "NASA Kennedy Space Center", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Artemis_II_Live_Launch_Coverage_-_Pad_Camera_Site_4_(KSC-20260401-AU-LMM01-0001-Artemis_II_Live_Launch_Coverage_Pad_Camera_Site_4).wav", "real": true},
- "sun": {"what": "An artist's sound for the Sun, made for this app from its deep slow oscillations (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "mercury": {"what": "An artist's sound for Mercury: solar-wind crackle on a world with almost no air (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "venus": {"what": "An artist's sound for Venus: thick air and lightning whistlers (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "uranus": {"what": "An artist's sound for Uranus, the icy tilted giant (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "neptune": {"what": "An artist's sound for Neptune, home of the fastest winds in the Solar System (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "pluto": {"what": "An artist's sound for faraway, frozen Pluto (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false}
+ "earth": {
+  "what": "Chorus radio waves in Earth's magnetic field, recorded by NASA's Van Allen Probes (EMFISIS) and turned into sound",
+  "credit": "NASA / University of Iowa",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Chorus_Radio_Waves_within_Earth%27s_Atmosphere.mp3",
+  "real": true
+ },
+ "jupiter": {
+  "what": "Waves in the charged gas near Jupiter, detected by NASA's Cassini as it flew past in 2001, turned into sound",
+  "credit": "NASA/JPL/University of Iowa",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Cassini_RPWS_Jupiter_010104.ogg",
+  "real": true
+ },
+ "saturn": {
+  "what": "Saturn's radio emissions linked to its auroras, recorded by Cassini and turned into sound",
+  "credit": "NASA/JPL/University of Iowa",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Eerie_Sounds_of_Saturn%E2%80%99s_Radio_Emissions_(PIA07966).wav",
+  "real": true
+ },
+ "mars": {
+  "what": "Real wind on Mars, recorded by the microphone on NASA's Perseverance rover on 20 Feb 2021",
+  "credit": "NASA/JPL-Caltech",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:NASA%27s_Perseverance_Rover_Microphone_Captures_Sounds_from_Mars_without_rover_noise.ogg",
+  "real": true
+ },
+ "moon": {
+  "what": "Apollo 11, 20 July 1969: \"Houston, Tranquility Base here. The Eagle has landed.\"",
+  "credit": "NASA",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Apollo_11_Eagle_Has_Landed.mp3",
+  "real": true
+ },
+ "enceladus": {
+  "what": "Radio and plasma waves near Enceladus recorded by NASA's Cassini, turned into sound",
+  "credit": "NASA",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Cassini_-_Enceladus_Sound.mp3",
+  "real": true
+ },
+ "launch": {
+  "what": "NASA's SLS rocket launching Artemis II, 1 April 2026, recorded at Pad Camera Site 4",
+  "credit": "NASA Kennedy Space Center",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Artemis_II_Live_Launch_Coverage_-_Pad_Camera_Site_4_(KSC-20260401-AU-LMM01-0001-Artemis_II_Live_Launch_Coverage_Pad_Camera_Site_4).wav",
+  "real": true
+ },
+ "sun": {
+  "what": "The Sun's real vibrations: 40 days of SOHO's Michelson Doppler Imager data, sped up 42,000 times so we can hear them",
+  "credit": "ESA/NASA SOHO · A. Kosovichev, Stanford Experimental Physics Lab · NASA",
+  "license": "NASA media (educational use)",
+  "source": "https://www.nasa.gov/wp-content/uploads/2018/07/sun_sonification.wav",
+  "real": true
+ },
+ "mercury": {
+  "what": "An artist's sound for Mercury: solar-wind crackle on a world with almost no air (not a recording)",
+  "credit": "DUET STEM Space Lab",
+  "license": "",
+  "source": "",
+  "real": false
+ },
+ "venus": {
+  "what": "A natural radio signal from Venus' upper atmosphere, picked up by NASA's Parker Solar Probe flying past Venus on 11 July 2020, turned into sound",
+  "credit": "NASA/GSFC Scientific Visualization Studio · Glyn Collinson",
+  "license": "Public domain (NASA)",
+  "source": "https://svs.gsfc.nasa.gov/13847/",
+  "real": true
+ },
+ "uranus": {
+  "what": "Plasma waves around Uranus, recorded by Voyager 2 on 24 January 1986, the only spacecraft ever to visit Uranus",
+  "credit": "NASA Voyager 2 Plasma Wave Science · The University of Iowa",
+  "license": "Courtesy of NASA and The University of Iowa (space-audio.org, CC BY 4.0)",
+  "source": "https://space.physics.uiowa.edu/plasma-wave/voyager/audio/",
+  "real": true
+ },
+ "neptune": {
+  "what": "An artist's sound for Neptune, home of the fastest winds in the Solar System (not a recording)",
+  "credit": "DUET STEM Space Lab",
+  "license": "",
+  "source": "",
+  "real": false
+ },
+ "pluto": {
+  "what": "An artist's sound for faraway, frozen Pluto (not a recording)",
+  "credit": "DUET STEM Space Lab",
+  "license": "",
+  "source": "",
+  "real": false
+ }
 }

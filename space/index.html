@@ -1821,7 +1821,113 @@ body:has(.xr-full) .padchip{display:none}
 </tr>
 </tbody>
 </table>
-<p>The models were compressed (meshoptimizer geometry, WebP textures) so they load quickly on a headset; shapes and textures are NASA's own.</p></article></div></div>
+<p>The models were compressed (meshoptimizer geometry, WebP textures) so they load quickly on a headset; shapes and textures are NASA's own.</p>
+<h2>Sounds in the VR app</h2>
+<p>Real recordings and sonifications of real spacecraft data are marked as real in the app; the others are clearly labelled as artist's sounds made for this app.</p>
+<table>
+<thead>
+<tr>
+<th>Sound</th>
+<th>What it is</th>
+<th>Credit</th>
+<th>Licence</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>earth</td>
+<td>Chorus radio waves in Earth's magnetic field, recorded by NASA's Van Allen Probes (EMFISIS) and turned into sound</td>
+<td>NASA / University of Iowa</td>
+<td>Public domain</td>
+<td>https://commons.wikimedia.org/wiki/File:Chorus_Radio_Waves_within_Earth%27s_Atmosphere.mp3</td>
+</tr>
+<tr>
+<td>jupiter</td>
+<td>Waves in the charged gas near Jupiter, detected by NASA's Cassini as it flew past in 2001, turned into sound</td>
+<td>NASA/JPL/University of Iowa</td>
+<td>Public domain</td>
+<td>https://commons.wikimedia.org/wiki/File:Cassini_RPWS_Jupiter_010104.ogg</td>
+</tr>
+<tr>
+<td>saturn</td>
+<td>Saturn's radio emissions linked to its auroras, recorded by Cassini and turned into sound</td>
+<td>NASA/JPL/University of Iowa</td>
+<td>Public domain</td>
+<td>https://commons.wikimedia.org/wiki/File:Eerie_Sounds_of_Saturn%E2%80%99s_Radio_Emissions_(PIA07966).wav</td>
+</tr>
+<tr>
+<td>mars</td>
+<td>Real wind on Mars, recorded by the microphone on NASA's Perseverance rover on 20 Feb 2021</td>
+<td>NASA/JPL-Caltech</td>
+<td>Public domain</td>
+<td>https://commons.wikimedia.org/wiki/File:NASA%27s_Perseverance_Rover_Microphone_Captures_Sounds_from_Mars_without_rover_noise.ogg</td>
+</tr>
+<tr>
+<td>moon</td>
+<td>Apollo 11, 20 July 1969: "Houston, Tranquility Base here. The Eagle has landed."</td>
+<td>NASA</td>
+<td>Public domain</td>
+<td>https://commons.wikimedia.org/wiki/File:Apollo_11_Eagle_Has_Landed.mp3</td>
+</tr>
+<tr>
+<td>enceladus</td>
+<td>Radio and plasma waves near Enceladus recorded by NASA's Cassini, turned into sound</td>
+<td>NASA</td>
+<td>Public domain</td>
+<td>https://commons.wikimedia.org/wiki/File:Cassini_-_Enceladus_Sound.mp3</td>
+</tr>
+<tr>
+<td>launch</td>
+<td>NASA's SLS rocket launching Artemis II, 1 April 2026, recorded at Pad Camera Site 4</td>
+<td>NASA Kennedy Space Center</td>
+<td>Public domain</td>
+<td>https://commons.wikimedia.org/wiki/File:Artemis_II_Live_Launch_Coverage_-<em>Pad_Camera_Site_4</em>(KSC-20260401-AU-LMM01-0001-Artemis_II_Live_Launch_Coverage_Pad_Camera_Site_4).wav</td>
+</tr>
+<tr>
+<td>sun</td>
+<td>The Sun's real vibrations: 40 days of SOHO's Michelson Doppler Imager data, sped up 42,000 times so we can hear them</td>
+<td>ESA/NASA SOHO · A. Kosovichev, Stanford Experimental Physics Lab · NASA</td>
+<td>NASA media (educational use)</td>
+<td>https://www.nasa.gov/wp-content/uploads/2018/07/sun_sonification.wav</td>
+</tr>
+<tr>
+<td>mercury</td>
+<td>An artist's sound for Mercury: solar-wind crackle on a world with almost no air (not a recording)</td>
+<td>DUET STEM Space Lab</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>venus</td>
+<td>A natural radio signal from Venus' upper atmosphere, picked up by NASA's Parker Solar Probe flying past Venus on 11 July 2020, turned into sound</td>
+<td>NASA/GSFC Scientific Visualization Studio · Glyn Collinson</td>
+<td>Public domain (NASA)</td>
+<td>https://svs.gsfc.nasa.gov/13847/</td>
+</tr>
+<tr>
+<td>uranus</td>
+<td>Plasma waves around Uranus, recorded by Voyager 2 on 24 January 1986, the only spacecraft ever to visit Uranus</td>
+<td>NASA Voyager 2 Plasma Wave Science · The University of Iowa</td>
+<td>Courtesy of NASA and The University of Iowa (space-audio.org, CC BY 4.0)</td>
+<td>https://space.physics.uiowa.edu/plasma-wave/voyager/audio/</td>
+</tr>
+<tr>
+<td>neptune</td>
+<td>An artist's sound for Neptune, home of the fastest winds in the Solar System (not a recording)</td>
+<td>DUET STEM Space Lab</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>pluto</td>
+<td>An artist's sound for faraway, frozen Pluto (not a recording)</td>
+<td>DUET STEM Space Lab</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></article></div></div>
   </section>
 
   <!-- AR / VR -->
@@ -2997,22 +3103,100 @@ function SaurXR(stage,menuEl,opt){
   };
 }
 
-const NARR_IDS=["callisto","charon","craft-aditya-l1","craft-apollo-lm","craft-aryabhata","craft-astrosat","craft-cartosat-3","craft-cassini","craft-chandrayaan-1","craft-chandrayaan-2","craft-chandrayaan-3","craft-curiosity","craft-dawn","craft-galileo","craft-hubble","craft-ingenuity","craft-insat-3ds","craft-iss","craft-juno","craft-jwst","craft-mangalyaan","craft-maven","craft-mro","craft-navic","craft-nisar","craft-osiris-rex","craft-parker-solar-probe","craft-perseverance","craft-pragyan","craft-spadex","craft-voyager","craft-xposat","deimos","earth","enceladus","europa","ganymede","io","jupiter","mars","mercury","moon","mu-europe_ariane5","mu-india_chandrayaan3_lander","mu-india_gslv_mk2","mu-india_lvm3","mu-india_nisar","mu-india_pragyan_rover","mu-india_pslv","mu-india_pslv_g","mu-intl_apollo_soyuz","mu-intl_iss","mu-nz_electron","mu-usa_apollo11_cm","mu-usa_apollo_lm","mu-usa_atlas_mercury","mu-usa_atlas_v_551","mu-usa_crew_dragon","mu-usa_curiosity","mu-usa_delta_ii","mu-usa_gemini","mu-usa_hubble","mu-usa_jupiter_c_explorer1","mu-usa_jwst","mu-usa_mercury_redstone","mu-usa_orion_artemis2","mu-usa_perseverance","mu-usa_shuttle_discovery","mu-usa_sls","mu-usa_space_shuttle_stack","mu-ussr_sputnik1","neptune","oberon","orb-geo","orb-gto","orb-l1","orb-leo","orb-moon","orb-sso","pano-apollo11_tranquility_base","pano-artemis1_rollout_360","pano-delta4_parker_launch_360","pano-isro_gslv_f11_rollout","pano-isro_pslv_c42_launchpad","pano-isro_pslv_c44_launchpad","pano-mars_curiosity_sand_dune","pano-nasa_mission_control","pano-orion_artemis1_cabin","pano-shuttle_discovery_flightdeck","pano-shuttle_discovery_middeck","phobos","pluto","rhea","rk-ariane6","rk-aslv","rk-falcon9","rk-gslv","rk-h3","rk-hlvm3","rk-lm5","rk-lvm3","rk-newglenn","rk-pslv","rk-saturnv","rk-sls","rk-slv3","rk-soyuz","rk-sslv","saturn","sun","titan","titania","triton","ui-compare","ui-countdown","ui-game-rocket","ui-game-solar","ui-good","ui-grab","ui-rocket","ui-solar","ui-stars","ui-try","ui-welcome","ui-win-rocket","ui-win-solar","uranus","venus"];
+const NARR_IDS=["callisto","ch3-chaste","ch3-crater","ch3-drive","ch3-hop","ch3-intro","ch3-land","ch3-night","ch3-photo","ch3-ramp","ch3-ride","ch3-sulphur","ch3-videos","charon","craft-aditya-l1","craft-apollo-lm","craft-aryabhata","craft-astrosat","craft-cartosat-3","craft-cassini","craft-chandrayaan-1","craft-chandrayaan-2","craft-chandrayaan-3","craft-curiosity","craft-dawn","craft-galileo","craft-hubble","craft-ingenuity","craft-insat-3ds","craft-iss","craft-juno","craft-jwst","craft-mangalyaan","craft-maven","craft-mro","craft-navic","craft-nisar","craft-osiris-rex","craft-parker-solar-probe","craft-perseverance","craft-pragyan","craft-spadex","craft-voyager","craft-xposat","deimos","earth","enceladus","europa","ganymede","io","jupiter","mars","mercury","moon","mu-europe_ariane5","mu-india_chandrayaan3_lander","mu-india_gslv_mk2","mu-india_lvm3","mu-india_nisar","mu-india_pragyan_rover","mu-india_pslv","mu-india_pslv_g","mu-intl_apollo_soyuz","mu-intl_iss","mu-nz_electron","mu-usa_apollo11_cm","mu-usa_apollo_lm","mu-usa_atlas_mercury","mu-usa_atlas_v_551","mu-usa_crew_dragon","mu-usa_curiosity","mu-usa_delta_ii","mu-usa_gemini","mu-usa_hubble","mu-usa_jupiter_c_explorer1","mu-usa_jwst","mu-usa_mercury_redstone","mu-usa_orion_artemis2","mu-usa_perseverance","mu-usa_shuttle_discovery","mu-usa_sls","mu-usa_space_shuttle_stack","mu-ussr_sputnik1","neptune","oberon","orb-geo","orb-gto","orb-l1","orb-leo","orb-moon","orb-sso","pano-apollo11_tranquility_base","pano-artemis1_rollout_360","pano-delta4_parker_launch_360","pano-isro_gslv_f11_rollout","pano-isro_pslv_c42_launchpad","pano-isro_pslv_c44_launchpad","pano-mars_curiosity_sand_dune","pano-nasa_mission_control","pano-orion_artemis1_cabin","pano-shuttle_discovery_flightdeck","pano-shuttle_discovery_middeck","phobos","pluto","rhea","rk-ariane6","rk-aslv","rk-falcon9","rk-gslv","rk-h3","rk-hlvm3","rk-lm5","rk-lvm3","rk-newglenn","rk-pslv","rk-saturnv","rk-sls","rk-slv3","rk-soyuz","rk-sslv","saturn","sun","titan","titania","triton","ui-compare","ui-countdown","ui-game-rocket","ui-game-solar","ui-good","ui-grab","ui-rocket","ui-separate","ui-solar","ui-stars","ui-try","ui-welcome","ui-win-rocket","ui-win-solar","uranus","venus"];
 const PLANET_SND=["earth", "enceladus", "jupiter", "mars", "mercury", "moon", "neptune", "pluto", "saturn", "sun", "uranus", "venus"];
 const SND_CREDIT={
- "earth": {"what": "Chorus radio waves in Earth's magnetic field, recorded by NASA's Van Allen Probes (EMFISIS) and turned into sound", "credit": "NASA / University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Chorus_Radio_Waves_within_Earth%27s_Atmosphere.mp3", "real": true},
- "jupiter": {"what": "Waves in the charged gas near Jupiter, detected by NASA's Cassini as it flew past in 2001, turned into sound", "credit": "NASA/JPL/University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Cassini_RPWS_Jupiter_010104.ogg", "real": true},
- "saturn": {"what": "Saturn's radio emissions linked to its auroras, recorded by Cassini and turned into sound", "credit": "NASA/JPL/University of Iowa", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Eerie_Sounds_of_Saturn%E2%80%99s_Radio_Emissions_(PIA07966).wav", "real": true},
- "mars": {"what": "Real wind on Mars, recorded by the microphone on NASA's Perseverance rover on 20 Feb 2021", "credit": "NASA/JPL-Caltech", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:NASA%27s_Perseverance_Rover_Microphone_Captures_Sounds_from_Mars_without_rover_noise.ogg", "real": true},
- "moon": {"what": "Apollo 11, 20 July 1969: \"Houston, Tranquility Base here. The Eagle has landed.\"", "credit": "NASA", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Apollo_11_Eagle_Has_Landed.mp3", "real": true},
- "enceladus": {"what": "Radio and plasma waves near Enceladus recorded by NASA's Cassini, turned into sound", "credit": "NASA", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Cassini_-_Enceladus_Sound.mp3", "real": true},
- "launch": {"what": "NASA's SLS rocket launching Artemis II, 1 April 2026, recorded at Pad Camera Site 4", "credit": "NASA Kennedy Space Center", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Artemis_II_Live_Launch_Coverage_-_Pad_Camera_Site_4_(KSC-20260401-AU-LMM01-0001-Artemis_II_Live_Launch_Coverage_Pad_Camera_Site_4).wav", "real": true},
- "sun": {"what": "An artist's sound for the Sun, made for this app from its deep slow oscillations (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "mercury": {"what": "An artist's sound for Mercury: solar-wind crackle on a world with almost no air (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "venus": {"what": "An artist's sound for Venus: thick air and lightning whistlers (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "uranus": {"what": "An artist's sound for Uranus, the icy tilted giant (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "neptune": {"what": "An artist's sound for Neptune, home of the fastest winds in the Solar System (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false},
- "pluto": {"what": "An artist's sound for faraway, frozen Pluto (not a recording)", "credit": "DUET STEM Space Lab", "license": "", "source": "", "real": false}
+ "earth": {
+  "what": "Chorus radio waves in Earth's magnetic field, recorded by NASA's Van Allen Probes (EMFISIS) and turned into sound",
+  "credit": "NASA / University of Iowa",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Chorus_Radio_Waves_within_Earth%27s_Atmosphere.mp3",
+  "real": true
+ },
+ "jupiter": {
+  "what": "Waves in the charged gas near Jupiter, detected by NASA's Cassini as it flew past in 2001, turned into sound",
+  "credit": "NASA/JPL/University of Iowa",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Cassini_RPWS_Jupiter_010104.ogg",
+  "real": true
+ },
+ "saturn": {
+  "what": "Saturn's radio emissions linked to its auroras, recorded by Cassini and turned into sound",
+  "credit": "NASA/JPL/University of Iowa",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Eerie_Sounds_of_Saturn%E2%80%99s_Radio_Emissions_(PIA07966).wav",
+  "real": true
+ },
+ "mars": {
+  "what": "Real wind on Mars, recorded by the microphone on NASA's Perseverance rover on 20 Feb 2021",
+  "credit": "NASA/JPL-Caltech",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:NASA%27s_Perseverance_Rover_Microphone_Captures_Sounds_from_Mars_without_rover_noise.ogg",
+  "real": true
+ },
+ "moon": {
+  "what": "Apollo 11, 20 July 1969: \"Houston, Tranquility Base here. The Eagle has landed.\"",
+  "credit": "NASA",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Apollo_11_Eagle_Has_Landed.mp3",
+  "real": true
+ },
+ "enceladus": {
+  "what": "Radio and plasma waves near Enceladus recorded by NASA's Cassini, turned into sound",
+  "credit": "NASA",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Cassini_-_Enceladus_Sound.mp3",
+  "real": true
+ },
+ "launch": {
+  "what": "NASA's SLS rocket launching Artemis II, 1 April 2026, recorded at Pad Camera Site 4",
+  "credit": "NASA Kennedy Space Center",
+  "license": "Public domain",
+  "source": "https://commons.wikimedia.org/wiki/File:Artemis_II_Live_Launch_Coverage_-_Pad_Camera_Site_4_(KSC-20260401-AU-LMM01-0001-Artemis_II_Live_Launch_Coverage_Pad_Camera_Site_4).wav",
+  "real": true
+ },
+ "sun": {
+  "what": "The Sun's real vibrations: 40 days of SOHO's Michelson Doppler Imager data, sped up 42,000 times so we can hear them",
+  "credit": "ESA/NASA SOHO · A. Kosovichev, Stanford Experimental Physics Lab · NASA",
+  "license": "NASA media (educational use)",
+  "source": "https://www.nasa.gov/wp-content/uploads/2018/07/sun_sonification.wav",
+  "real": true
+ },
+ "mercury": {
+  "what": "An artist's sound for Mercury: solar-wind crackle on a world with almost no air (not a recording)",
+  "credit": "DUET STEM Space Lab",
+  "license": "",
+  "source": "",
+  "real": false
+ },
+ "venus": {
+  "what": "A natural radio signal from Venus' upper atmosphere, picked up by NASA's Parker Solar Probe flying past Venus on 11 July 2020, turned into sound",
+  "credit": "NASA/GSFC Scientific Visualization Studio · Glyn Collinson",
+  "license": "Public domain (NASA)",
+  "source": "https://svs.gsfc.nasa.gov/13847/",
+  "real": true
+ },
+ "uranus": {
+  "what": "Plasma waves around Uranus, recorded by Voyager 2 on 24 January 1986, the only spacecraft ever to visit Uranus",
+  "credit": "NASA Voyager 2 Plasma Wave Science · The University of Iowa",
+  "license": "Courtesy of NASA and The University of Iowa (space-audio.org, CC BY 4.0)",
+  "source": "https://space.physics.uiowa.edu/plasma-wave/voyager/audio/",
+  "real": true
+ },
+ "neptune": {
+  "what": "An artist's sound for Neptune, home of the fastest winds in the Solar System (not a recording)",
+  "credit": "DUET STEM Space Lab",
+  "license": "",
+  "source": "",
+  "real": false
+ },
+ "pluto": {
+  "what": "An artist's sound for faraway, frozen Pluto (not a recording)",
+  "credit": "DUET STEM Space Lab",
+  "license": "",
+  "source": "",
+  "real": false
+ }
 };
 /* ================= ISRO SPACECRAFT for the VR museum and the space walk =================
    Real models where a free one exists (Vikram, Pragyan, NISAR from Rocket Shala); the rest are
@@ -3096,30 +3280,36 @@ function VRHub(o){
     try{NAR.a.pause();NAR.a.src="audio/"+m+"/"+id+".mp3";NAR.a.currentTime=0;NAR.blocked=null;const p=NAR.a.play();if(p&&p.catch)p.catch(err=>{if(err&&err.name==="NotAllowedError")NAR.blocked=id})}catch(e){}return true};
   H.onAudioEnd=null;NAR.a.addEventListener("ended",()=>{if(H.onAudioEnd)H.onAudioEnd(NAR.last)});
   H.hush=()=>{try{NAR.a.pause()}catch(e){}};
+  H.narrating=()=>!NAR.a.paused&&!NAR.a.ended;
   H.narrLabel=()=>NAR.mode==="en"?"ENGLISH":NAR.mode==="hi"?"हिंदी":NAR.mode==="hg"?"HINGLISH":"OFF";
-  H.setNarr=m=>{NAR.mode=m;store.set("ss360-narr",m);if(m==="off")H.hush();else if(NAR.last)H.say(NAR.last);refreshUI()};
+  H.setNarr=m=>{NAR.mode=m;store.set("ss360-narr",m);if(m==="off")H.hush();else H.say(NAR.last||"ui-welcome",true);refreshUI()};
   H.cycleNarr=()=>H.setNarr(NAR.mode==="en"?"hi":NAR.mode==="hi"?"hg":NAR.mode==="hg"?"off":"en");
   H.narrMode=()=>NAR.mode;
   NAR.a.addEventListener("play",()=>duck(true));NAR.a.addEventListener("pause",()=>duck(false));NAR.a.addEventListener("ended",()=>duck(false));
 
   /* ---------- sounds: space ambience, planet recordings, rocket roar, game effects (on/off) ---------- */
   const PSND=new Set(typeof PLANET_SND!=="undefined"?PLANET_SND:[]);
-  const SND={on:store.get("ss360-snd","on")!=="off",amb:new Audio(),fx:{},planet:new Audio(),ambWant:null,ambVol:.32,ducked:false,blocked:false};
+  // three switches: space sound (background), planet sounds (play when you open a world), effects (clicks, rocket roar, games)
+  const SND={amb_on:store.get("ss360-amb","on")!=="off",pl_on:store.get("ss360-psnd","on")!=="off",on:store.get("ss360-snd","on")!=="off",amb:new Audio(),fx:{},planet:new Audio(),ambWant:null,ambVol:.32,ducked:false,blocked:false};
   SND.amb.loop=true;SND.amb.preload="auto";SND.planet.preload="auto";
   function duck(on){SND.ducked=on;SND.amb.volume=SND.ambVol*(on?.35:1)}
   function tryPlay(a){try{const p=a.play();if(p&&p.catch)p.catch(err=>{if(err&&err.name==="NotAllowedError")SND.blocked=true})}catch(e){}}
-  H.soundOn=()=>SND.on;
-  H.setSound=on=>{SND.on=on;store.set("ss360-snd",on?"on":"off");if(!on){try{SND.amb.pause();SND.planet.pause();Object.values(SND.fx).forEach(a=>a.pause())}catch(e){}}else H.ambient(SND.ambWant,true);refreshUI()};
-  H.ambient=(kind,force)=>{if(kind===SND.ambWant&&!force)return;SND.ambWant=kind;try{if(!kind||!SND.on){SND.amb.pause();return}const src="sfx/"+kind+".mp3";if(!SND.amb.src.endsWith(src))SND.amb.src=src;duck(SND.ducked);tryPlay(SND.amb)}catch(e){}};
+  H.soundOn=()=>SND.on;H.spaceOn=()=>SND.amb_on;H.planetSndOn=()=>SND.pl_on;
+  H.setSound=on=>{SND.on=on;store.set("ss360-snd",on?"on":"off");if(!on){try{Object.values(SND.fx).forEach(a=>a.pause())}catch(e){}}refreshUI()};
+  H.setSpace=on=>{SND.amb_on=on;store.set("ss360-amb",on?"on":"off");if(!on){try{SND.amb.pause()}catch(e){}}else H.ambient(SND.ambWant,true);refreshUI()};
+  H.setPlanetSnd=on=>{SND.pl_on=on;store.set("ss360-psnd",on?"on":"off");if(!on){try{SND.planet.pause()}catch(e){}}refreshUI()};
+  H.ambient=(kind,force)=>{if(kind===SND.ambWant&&!force)return;SND.ambWant=kind;try{if(!kind||!SND.amb_on){SND.amb.pause();return}const src="sfx/"+kind+".mp3";if(!SND.amb.src.endsWith(src))SND.amb.src=src;duck(SND.ducked);tryPlay(SND.amb)}catch(e){}};
   H.sfx=(name,vol)=>{if(!SND.on)return null;try{let a=SND.fx[name];if(!a||!a.paused&&!a.ended){a=new Audio("sfx/"+name+".mp3");SND.fx[name]=a}a.volume=vol==null?.8:vol;a.currentTime=0;tryPlay(a);return a}catch(e){return null}};
   H.stopSfx=name=>{const a=SND.fx[name];if(a)try{a.pause()}catch(e){}};
   H.hasPlanetSound=id=>PSND.has(id);
   // a world's real recorded sound first, then its narration
-  H.planetThenSay=(id,sayId)=>{H.hush();try{SND.planet.pause()}catch(e){}
-    if(SND.on&&PSND.has(id)){SND.planet.src="sfx/planet/"+id+".mp3";SND.planet.volume=.9;SND.planet.currentTime=0;tryPlay(SND.planet);
+  H.planetThenSay=(id,sayId,force)=>{H.hush();try{SND.planet.pause()}catch(e){}
+    if((SND.pl_on||force)&&PSND.has(id)){SND.planet.src="sfx/planet/"+id+".mp3";SND.planet.volume=.9;SND.planet.currentTime=0;tryPlay(SND.planet);
       const t0=performance.now(),done=()=>{SND.planet.removeEventListener("ended",done);if(sayId&&NAR.mode!=="off"&&performance.now()-t0<20000&&H.cardData()&&H.cardData().say===sayId)H.say(sayId)};SND.planet.addEventListener("ended",done);return true}
     if(sayId)H.say(sayId);return false};
   H.stopPlanet=()=>{try{SND.planet.pause()}catch(e){}};
+  H.planetPlaying=id=>!SND.planet.paused&&!SND.planet.ended&&SND.planet.src.endsWith("/"+id+".mp3");
+  ["play","pause","ended"].forEach(ev=>SND.planet.addEventListener(ev,()=>{if(card.mesh.visible&&cardData&&cardData.sound)card.redraw()}));
 
   /* ---------- panels: canvas UI with buttons that light up when pointed at ---------- */
   const panels=new Set();
@@ -3179,10 +3369,11 @@ function VRHub(o){
   const menu=H.panel(.24,.4838,MENU_W,MENU_H,(g,p)=>{
     rr(g,6,6,MENU_W-12,MENU_H-12,30);g.fillStyle=PANEL;g.fill();g.lineWidth=4;g.strokeStyle=ORANGE;g.stroke();
     g.fillStyle=ORANGE;g.font="900 60px "+F.disp;g.fillText("MENU",40,82);g.fillStyle=DUST;g.font="500 21px "+F.mono;g.textAlign="right";g.fillText((H.scene&&H.scene.title||"").toUpperCase(),600,80);g.textAlign="left";
-    let y=112;const row=(id,label,st)=>{p.btn(g,id,30,y,580,96,label,Object.assign({align:"left",fs:38},st||{}));y+=106};
-    row("lobby","⌂  Lobby");row("narr","Narration",{val:H.narrLabel(),on:NAR.mode!=="off"});row("snd","Sounds",{val:SND.on?"ON":"OFF",on:SND.on});
+    let y=110;const row=(id,label,st)=>{p.btn(g,id,30,y,580,84,label,Object.assign({align:"left",fs:35},st||{}));y+=93};
+    row("lobby","⌂  Lobby");row("narr","Narration",{val:H.narrLabel(),on:NAR.mode!=="off"});
+    row("amb","Space sound",{val:SND.amb_on?"ON":"OFF",on:SND.amb_on});row("psnd","Planet sounds",{val:SND.pl_on?"ON":"OFF",on:SND.pl_on});row("snd","Effects",{val:SND.on?"ON":"OFF",on:SND.on});
     const sc=H.scene;if(sc&&sc.menu)sc.menu().forEach(m=>row(m.id,m.label,{val:m.val,on:m.on,disabled:m.disabled}));
-  },{order:2,onPress:(id)=>{if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(id==="snd")H.setSound(!SND.on);else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
+  },{order:2,onPress:(id)=>{if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(id==="snd")H.setSound(!SND.on);else if(id==="amb")H.setSpace(!SND.amb_on);else if(id==="psnd")H.setPlanetSnd(!SND.pl_on);else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
   S.add(menu.mesh);let menuOn=true;H.menu=menu;
   function placeMenu(){const c=ctrls.find(c=>c.userData.hand==="left"&&pointing(c));cam.getWorldPosition(v3);
     if(c){c.updateMatrixWorld();v1.setFromMatrixPosition(c.matrixWorld);
@@ -3205,9 +3396,9 @@ function VRHub(o){
       g.fillStyle=INK;H.fit(g,String(v),"500 $px "+F.sans,38,cw-22,20);g.fillText(String(v),x,y+46)});
     if(b.text){g.font="400 30px "+F.sans;g.fillStyle="#cfd2e2";H.wrap(g,b.text,920).slice(0,b.rows&&b.rows.length?3:7).forEach((ln,i)=>g.fillText(ln,48,(b.rows&&b.rows.length?462:250)+i*40))}
     const cr=b.sound&&PSND.has(b.sound)&&typeof SND_CREDIT!=="undefined"&&SND_CREDIT[b.sound];if(cr){g.fillStyle=cr.real?"#7ee2a8":"#a4a7ba";g.font="500 21px "+F.sans;H.wrap(g,"🎵 "+(cr.real?"Real sound: ":"")+cr.what+(cr.real?" · "+cr.credit:""),920).slice(0,2).forEach((ln,i)=>g.fillText(ln,48,586+i*26))}
-    const bts=(b.buttons||[]).slice();if(b.sound&&PSND.has(b.sound))bts.push({id:"__snd",label:"🎵  ITS SOUND"});if(b.say&&H.has(b.say))bts.push({id:"__say",label:NAR.mode==="off"?"🔊  LISTEN":"🔊  AGAIN"});bts.push({id:"__close",label:"✕  CLOSE"});
+    const bts=(b.buttons||[]).slice();if(b.sound&&PSND.has(b.sound)){const pl=H.planetPlaying(b.sound);bts.push({id:"__snd",label:pl?"🔊  SOUND ON":"🔇  SOUND OFF",on:pl})}if(b.say&&H.has(b.say))bts.push({id:"__say",label:NAR.mode==="off"?"🔊  LISTEN":"🔊  AGAIN"});bts.push({id:"__close",label:"✕  CLOSE"});
     const n=bts.length,bw=(928-(n-1)*16)/n;bts.forEach((bt,i)=>p.btn(g,bt.id,48+i*(bw+16),640,bw,88,bt.label,{primary:!!bt.primary,on:!!bt.on,fs:32}));
-  },{order:1,onPress:(id)=>{if(id==="__close")H.hideCard();else if(id==="__say"){H.stopPlanet();H.say(cardData&&cardData.say,true)}else if(id==="__snd"){const was=SND.on;SND.on=true;H.planetThenSay(cardData.sound,null);SND.on=was}else if(cardData&&cardData.onPress)cardData.onPress(id)}});
+  },{order:1,onPress:(id)=>{if(id==="__close")H.hideCard();else if(id==="__say"){H.stopPlanet();H.say(cardData&&cardData.say,true)}else if(id==="__snd"){if(H.planetPlaying(cardData.sound))H.stopPlanet();else H.planetThenSay(cardData.sound,null,true)}else if(cardData&&cardData.onPress)cardData.onPress(id)}});
   S.add(card.mesh);card.mesh.visible=false;H.card=card;
   let cardAnchor=null;
   H.showCard=(data,anchor)=>{cardData=data;cardAnchor=anchor||null;card.redraw();placeCard();card.mesh.visible=true;
@@ -3239,7 +3430,9 @@ function VRHub(o){
   const sky=new T.Mesh(skyGeo,new T.MeshBasicMaterial({map:milky,depthWrite:false,color:0xb8bccb}));sky.matrixAutoUpdate=false;sky.renderOrder=-10;sky.frustumCulled=false;S.add(sky);sky.visible=false;
   let skyFrame=SKYM;
   H.setSky=kind=>{sky.visible=kind!=="none";skyFrame=kind==="equatorial"?SKYEQ:SKYM;sky.material.color.set(kind==="dim"?0x6a6e7c:0xb8bccb)};
-  H.skyMesh=sky;
+  H.skyMesh=sky;H.SKYEQ=SKYEQ;
+  // a scene can set its own star frame (e.g. the real sky over the Moon); the next scene change resets it
+  H.setSkyFrame=m=>{skyFrame=m};
 
   /* ---------- moving the viewer ---------- */
   H.placeHead=(pos,lookAt)=>{cam.getWorldDirection(v2);v2.y=0;if(v2.lengthSq()<1e-6)v2.set(0,0,-1);v2.normalize();
@@ -3322,10 +3515,10 @@ function VRHub(o){
     setTimeout(()=>{try{window.close()}catch(e){}},500);
     setTimeout(()=>{if(document.visibilityState==="visible"&&/OculusBrowser|Quest/i.test(navigator.userAgent)&&/[?&]app=/.test(location.search))location.href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.HOME;end"},1300)};
   H.offline={text:"",ok:false};
-  function offlineText(d){if(!d)return;if(d.type==="ready"||(d.type==="state"&&d.have>=d.total)){H.offline={text:"✓ Saved on this headset · works without internet",ok:true}}
+  function offlineText(d){if(!d)return;if(d.type==="ready"||(d.type==="state"&&d.have>=d.total)){H.offline={text:"",ok:true}}
     else if(d.type==="progress"||d.type==="state"){const k=d.total?Math.floor((d.done!=null?d.done:d.have)/d.total*100):0;H.offline={text:"Saving for offline use… "+k+"% (keep Wi-Fi on the first time)",ok:false}}
     if(H.scene&&H.scene.refresh)H.scene.refresh()}
-  try{if(navigator.serviceWorker){navigator.serviceWorker.addEventListener("message",e=>offlineText(e.data));H.askOffline=()=>{try{const c=navigator.serviceWorker.controller;if(c)c.postMessage("status");else H.offline={text:"Open once with internet to save it for offline use",ok:false}}catch(e){}}}}catch(e){}
+  try{if(navigator.serviceWorker){navigator.serviceWorker.addEventListener("message",e=>offlineText(e.data));H.askOffline=()=>{try{const c=navigator.serviceWorker.controller;if(c)c.postMessage("status")}catch(e){}}}}catch(e){}
   if(!H.askOffline)H.askOffline=()=>{};
 
   /* ---------- lobby ---------- */
@@ -3333,6 +3526,7 @@ function VRHub(o){
   if(typeof SolarScenes==="function")SolarScenes(H);
   if(typeof SpaceScene==="function")H.scenes.space=SpaceScene(H);
   if(typeof RocketScenes==="function")RocketScenes(H);
+  if(typeof Ch3Scene==="function")H.scenes.ch3=Ch3Scene(H);
 
   /* ---------- public ---------- */
   let frames=0;const saved={};
@@ -3375,8 +3569,8 @@ function VRHub(o){
 function LobbyScene(H){
   const T=H.T,F=H.F;let built=false;const root=new T.Group();root.visible=false;H.S.add(root);
   let earth=null,clouds=null,logoImg=null,panels=[];
-  const SOLAR=[["space","Space walk","अंतरिक्ष की सैर"],["planets","Planets & moons","ग्रह और चंद्रमा"],["compare","Compare sizes","आकार की तुलना"],["stars","Stars & Milky Way","तारे और आकाशगंगा"],["craft","Spacecraft + India","अंतरिक्ष यान · भारत"],["land360","Landing sites 360°","लैंडिंग स्थल 360°"],["tools","Tools: weight, age","उपकरण: वज़न, उम्र"],["sgame","🎮 Planet puzzle","खेल: ग्रह सजाओ"]];
-  const ROCKET=[["pad","Launch pad","लॉन्च पैड"],["rgame","🎮 Build a rocket","खेल: रॉकेट बनाओ"],["rsizes","Rocket sizes","रॉकेटों की तुलना"],["museum","3D museum","थ्री-डी संग्रहालय"],["tours","360° tours","360° सैर"],["orbits","Orbits","कक्षाएँ"],["imissions","India's missions","भारत के मिशन"]];
+  const SOLAR=[["space","Space walk","अंतरिक्ष की सैर"],["planets","Planets & moons","ग्रह और चंद्रमा"],["compare","Compare sizes","आकार की तुलना"],["stars","Stars & Milky Way","तारे और आकाशगंगा"],["craft","Spacecraft + India","अंतरिक्ष यान · भारत"],["land360","Landing sites 360°","लैंडिंग स्थल 360°"],["tools","Tools: weight, age","उपकरण: वज़न, उम्र"],["sgame","🎮 Planet puzzle","खेल: ग्रह सजाओ"],["ch3","🇮🇳 Chandrayaan-3 · 360°","चंद्रयान-3 · असली आकार"]];
+  const ROCKET=[["pad","Launch pad","लॉन्च पैड"],["rgame","🎮 Build a rocket","खेल: रॉकेट बनाओ"],["rsizes","Rocket sizes","रॉकेटों की तुलना"],["museum","3D museum","थ्री-डी संग्रहालय"],["tours","360° tours","360° सैर"],["orbits","Orbits","कक्षाएँ"],["imissions","India's missions","भारत के मिशन"],["ch3","🇮🇳 Chandrayaan-3 · 360°","चंद्रयान-3 · असली आकार"]];
   function build(){built=true;
     // Earth below you, as if from orbit
     const sun=new T.DirectionalLight(0xfff4e6,1.6);sun.position.set(-6,3,-2);root.add(sun);root.add(new T.AmbientLight(0x2a3046,.6));
@@ -3404,12 +3598,14 @@ function LobbyScene(H){
     const narr=H.panel(1.5,.5,1500,500,(g,p)=>{H.rr(g,6,6,1488,488,26);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,255,255,.25)";g.stroke();
       g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("NARRATION · आवाज़ · LANGUAGE",40,60);const m=H.narrMode();
       [["en","English"],["hi","हिंदी"],["hg","Hinglish"],["off","Off"]].forEach(([id,l],i)=>p.btn(g,id,40+i*360,82,340,120,l,{on:m===id,fs:48,font:id==="hi"?"600 $px "+F.hi:"600 $px "+F.sans}));
-      g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("SOUNDS · SPACE, PLANETS, ROCKETS",40,262);
-      p.btn(g,"snd",40,284,520,110,H.soundOn()?"🔊  Sounds ON":"🔇  Sounds OFF",{on:H.soundOn(),fs:42});
-      p.btn(g,"exit",1100,284,360,110,"⏻  EXIT",{fs:44});
-      g.fillStyle=H.offline.ok?"#7ee2a8":"#ffd08a";g.font="500 28px "+F.sans;H.wrap(g,H.offline.text,500).slice(0,2).forEach((l,i)=>g.fillText(l,585,328+i*36));
-      g.fillStyle="#8a8ea6";g.font="400 24px "+F.sans;g.fillText("Tip: hold the trigger (or pinch) on any planet, spacecraft or rocket to turn it. Thumbstick or two hands: zoom.",40,460)},
-      {onPress:id=>{if(id==="snd")H.setSound(!H.soundOn());else if(id==="exit")H.exitVR();else H.setNarr(id);narr.redraw()}});
+      g.fillStyle="#a4a7ba";g.font="600 30px "+F.mono;g.fillText("SOUNDS · ध्वनि",40,262);
+      p.btn(g,"amb",40,284,340,110,"🌌 Space",{on:H.spaceOn(),fs:36,val:H.spaceOn()?"ON":"OFF"});
+      p.btn(g,"psnd",400,284,340,110,"🪐 Planets",{on:H.planetSndOn(),fs:36,val:H.planetSndOn()?"ON":"OFF"});
+      p.btn(g,"snd",760,284,340,110,"🚀 Effects",{on:H.soundOn(),fs:36,val:H.soundOn()?"ON":"OFF"});
+      p.btn(g,"exit",1120,284,340,110,"⏻  EXIT",{fs:44});
+      if(H.offline.text){g.fillStyle="#ffd08a";g.font="500 24px "+F.sans;g.fillText(H.offline.text,40,432)}
+      g.fillStyle="#8a8ea6";g.font="400 24px "+F.sans;g.fillText("Tip: hold the trigger (or pinch) on any planet, spacecraft or rocket to turn it. Thumbstick or two hands: zoom.",40,470)},
+      {onPress:id=>{if(id==="snd")H.setSound(!H.soundOn());else if(id==="amb")H.setSpace(!H.spaceOn());else if(id==="psnd")H.setPlanetSnd(!H.planetSndOn());else if(id==="exit")H.exitVR();else H.setNarr(id);narr.redraw()}});
     narr.mesh.position.set(0,.62,-1.5);narr.mesh.rotation.x=-.6;root.add(narr.mesh);panels.push(narr);
   }
   return {id:"lobby",title:"Lobby",sky:"milky",noFly:true,noMenu:true,btnB(){},
@@ -3632,7 +3828,7 @@ function SpaceScene(H){
     sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:baseSpeed(),onMove:stopTravel})},
     onMove:stopTravel,
     picks:()=>picks.filter(p=>p.kind!=="craft"||st.craft).map(p=>p.hit),
-    pick(p){if(st.card===p&&H.cardData()){if(H.hasPlanetSound(p.info.id))H.planetThenSay(p.info.id,null);else hideCard()}else showCard(p)},
+    pick(p){if(st.card===p&&H.cardData()){if(H.hasPlanetSound(p.info.id)){if(H.planetPlaying(p.info.id))H.stopPlanet();else H.planetThenSay(p.info.id,null,true)}else hideCard()}else showCard(p)},
     grab(p){const pl=PL.find(x=>x.pk===p);
       if(pl)return {obj:pl.tg,mode:"free",minS:.6,maxS:4};
       if(p===sunPick)return {obj:sunM,mode:"free",minS:.6,maxS:2};
@@ -3725,7 +3921,7 @@ function SolarScenes(H){
       frame(dt){if(!world)return;const b=world.userData.body,w=worldInfo(ITEMS[cur]);b.rotation.y+=(spin||Math.sign(w.day||1)*.15)*dt;spin*=.94;if(Math.abs(spin)<.02)spin=0},
       sticks(mx,my,tx,ty,boost,dt){if(Math.abs(tx)>.15)spin=tx*2.4;if(Math.abs(my)>.2&&world){zoom=Math.min(2.2,Math.max(.45,zoom*Math.exp(-my*1.2*dt)));world.scale.setScalar(zoom*world.userData.base)}},
       picks:()=>world&&world.userData.hit?[world.userData.hit]:[],
-      pick(){const id=ITEMS[cur];if(H.hasPlanetSound(id))H.planetThenSay(id,null);else spin=(spin?0:2.4)},
+      pick(){const id=ITEMS[cur];if(H.hasPlanetSound(id)){if(H.planetPlaying(id))H.stopPlanet();else H.planetThenSay(id,null,true)}else spin=(spin?0:2.4)},
       grab(){return world?{obj:world,mode:"free",minS:.3,maxS:3.2,onScale:s=>{zoom=s/(world.userData.base||1)}}:null},
       menu:()=>[{id:"next",label:"Next world  ▶"},{id:"prev",label:"◀  Previous world"},{id:"card",label:"Show the card"}],
       menuPress(id){if(id==="next")show(cur+1);else if(id==="prev")show(cur-1);else show(cur)},
@@ -3844,7 +4040,7 @@ function SolarScenes(H){
       it.holder.scale.setScalar(k);it.holder.position.set(0,Math.max(.55+FIT/2,m*.32),-(Math.max(0,m*.55-it.RR+1.8)));card(it)}
     function card(it){const c=it.c,isReal=real===it;
       H.showCard({kicker:it.india?"Spacecraft · India":"Spacecraft",title:c.name,hi:c.hi||"",color:it.india?"#ff9933":"#8ec5ff",rows:[["Agency",c.ag],["Launched",c.yr],["Where now",c.where],["Size",c.size||((REALM[c.id]||"")+" m")]],cols:2,text:c.fact+(it.india&&!c.rs?" (Model built to its real shape and proportions.)":""),say:"craft-"+c.id,
-        buttons:[{id:"real",label:isReal?"⤓  MUSEUM SIZE":"⤢  REAL SIZE",primary:!isReal}],onPress:b=>{if(b==="real")setReal(it)}},it.hit)}
+        buttons:[{id:"real",label:isReal?"⤓  MUSEUM SIZE":"⤢  REAL SIZE",primary:!isReal}].concat(/^(chandrayaan-3|pragyan)$/.test(c.id)&&H.scenes.ch3?[{id:"ch3",label:"🇮🇳  ON THE MOON"}]:[]),onPress:b=>{if(b==="real")setReal(it);else if(b==="ch3")H.go("ch3")}},it.hit)}
     return {id:"craft",title:"Spacecraft",sky:"dim",flySpeed:1.6,
       enter(){if(!built)build();root.visible=true;if(!env&&typeof studioEnv==="function"){try{env=studioEnv(R)}catch(e){}}loadAll();H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2));
         H.hint("Spacecraft museum",[["Inner ring","NASA spacecraft, real 3D models"],["Outer ring","India's satellites and Moon missions"],["Trigger / pinch","its card · Real size"],["Hold trigger","turn it · thumbstick: zoom"]],8)},
@@ -6253,6 +6449,7 @@ function RocketScenes(H){
   H.scenes.pad=(()=>{
     const padG=new T.Group();padG.visible=false;S.add(padG);
     const pk={o:null,n:0,L:[]};let view=null,ri=ROCKETS.findIndex(r=>r.id==="pslv"),panel=null,hud=null,cd=null,ride=true,real=false,ended=false,start=null,hudText={big:"",line:"",clock:""},lastHud="",namesOn=true,auto=null;
+    const sep={on:false,t:0,from:0,to:0,start:null,items:null};
     function make(){const host=document.createElement("div");host.style.cssText="position:fixed;left:-99px;top:0;width:8px;height:8px;overflow:hidden;opacity:0;pointer-events:none";document.body.appendChild(host);
       view=new RS.R3.RocketView(host,{mode:"explore",onEvent:e=>{if(e.idx>=0){hudText.line=e.label;drawHud()}},onClock:t=>{const s=Math.round(t);const c=(s<0?"T−":"T+")+Math.abs(s)+" s";if(c!==hudText.clock){hudText.clock=c;drawHud()}},onEnd:()=>{ended=true;hudText.big="";hudText.line="Mission complete! Press AGAIN or pick another rocket.";drawHud();panel.redraw()}});
       RS.R3.RocketView.all.length=0;Object.defineProperty(view,"visible",{get:()=>true,set(){}});
@@ -6264,7 +6461,7 @@ function RocketScenes(H){
         p.btn(g,"launch",30,390,420,120,fl?"■  STOP":ended?"↻  AGAIN":"🚀  LAUNCH",{primary:!fl,fs:46});
         p.btn(g,"view",466,390,420,120,ride?"Ride along":"Watch from ground",{fs:32,val:"VIEW"});
         p.btn(g,"real",902,390,428,120,real?"Real model":"Parts model",{fs:32,val:"LOOK",disabled:!REAL[ROCKETS[ri].id]||fl,on:real});
-        p.btn(g,"explode",30,526,312,100,"Open it up",{fs:30,on:view&&view.exploded,disabled:fl||real});
+        p.btn(g,"sep",30,526,312,100,sep.on?"Join parts":"Separate parts",{fs:30,on:sep.on,disabled:fl||real});
         p.btn(g,"fuel",354,526,312,100,"See the fuel",{fs:30,on:view&&view.fuel,disabled:fl||real});
         p.btn(g,"names",678,526,312,100,"Part names",{fs:30,on:namesOn,val:namesOn?"ON":"OFF"});
         p.btn(g,"info",1002,526,328,100,"About it",{fs:30});
@@ -6280,17 +6477,38 @@ function RocketScenes(H){
     function addNames(){if(!view.parts)return;Object.values(view.parts).forEach(m=>{const p=m.p;if(m.nameTag)return;const nm=String(p.name||"").split(" — ");
       const l=label(nm[0],nm[1]||"",p.kind==="booster"?"#ffd08a":p.kind==="fairing"||p.kind==="payload"?"#8ec5ff":"#ff9933",.1);l.position.set(m.r+.8+view.H*.012,p.len*(p.kind==="booster"?.55:.5),0);l.visible=namesOn&&!real;m.group.add(l);m.nameTag=l})}
     function showNames(){if(!view.parts)return;Object.values(view.parts).forEach(m=>{if(m.nameTag)m.nameTag.visible=namesOn&&!real})}
+    /* ---------- separate parts: every stage, booster and fairing stands on the ground side by side, at real size ---------- */
+    function sepItems(){const L=Object.values(view.parts||{}).filter(m=>!m.detached).sort((a,b)=>a.home.y-b.home.y);
+      const W=m=>Math.max(1.6,(m.r||m.p.dia/2)*2+1.8);let x=-L.reduce((a,m)=>a+W(m),0)/2;
+      return L.map(m=>{const w=W(m),rr=(m.r||m.p.dia/2),it={m,w,home:m.home.clone(),tgt:new T.Vector3(x+w/2,0,0),ry:0,subs:m.subs.map(o=>({s:o,pos:o.position.clone(),vis:o.visible}))};x+=w;
+        if(m.nameTag)it.tag={home:m.nameTag.position.clone(),tgt:new T.Vector3(0,Math.min(m.p.len+.55,2.15),rr+.5),s0:m.nameTag.scale.clone()};return it})}
+    function applySep(t){if(!sep.items)return;const e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+      sep.items.forEach(it=>{const m=it.m;m.group.position.lerpVectors(it.home,it.tgt,e);if(!sep.on)m.group.rotation.y=it.ry*e;
+        if(m.p.kind==="booster")it.subs.forEach((o,i)=>{if(i===0)o.s.position.set(o.pos.x*(1-e),o.pos.y,o.pos.z*(1-e));else o.s.visible=e<.35?o.vis:false});
+        if(m.p.kind==="fairing")it.subs.forEach(o=>{o.s.position.x=(o.s.userData.half||0)*e*m.p.dia*.42});
+        if(it.tag&&m.nameTag){m.nameTag.position.lerpVectors(it.tag.home,it.tag.tgt,e);m.nameTag.scale.copy(it.tag.s0).multiplyScalar(1+1.6*e)}})}
+    function sepReset(){if(sep.items){sep.on=false;sep.items.forEach(it=>{it.ry=0;it.m.group.rotation.y=0});applySep(0);sep.items.forEach(it=>it.subs.forEach(o=>{o.s.position.copy(o.pos);o.s.visible=o.vis}))}
+      sep.on=false;sep.t=0;sep.start=null;sep.items=null}
+    function setSep(on){if(!view||view.flight||cd||real||on===sep.on)return;H.endGrab();
+      if(on){if(view.exploded){view.exploded=false;view.explodeStart=null;view.explodeT=0;view.applyExplode(0)}view.rocket.rotation.set(0,0,0);view.rocket.scale.setScalar(1);
+        sep.items=sepItems();if(!namesOn){namesOn=true;showNames()}}
+      else sep.items&&sep.items.forEach(it=>{it.ry=it.m.group.rotation.y});
+      sep.on=on;sep.from=sep.t;sep.to=on?1:0;sep.start=performance.now();
+      if(on){const span=sep.items.reduce((a,it)=>a+it.w,0);H.placeHead(new T.Vector3(0,1.6,Math.max(7,span*.6)),new T.Vector3(0,1.6,0));H.front(panel.mesh,.95,-.66,0,-.62);H.say("ui-separate");
+        H.hint(ROCKETS[ri].name+" · parts side by side",[["Real size","each part stands on the ground"],["Point","at a part: what it does"],["Hold","the trigger on a part to turn it"],["Join","press JOIN PARTS to rebuild it"]],8)}
+      else place();
+      panel.redraw()}
     function drawHud(){const k=hudText.big+"|"+hudText.line+"|"+hudText.clock;if(k!==lastHud){lastHud=k;hud.redraw()}}
     function place(){const r=ROCKETS[ri],D=Math.max(14,r.height*.45+8);start={pos:new T.Vector3(D*.28,1.6,D),look:new T.Vector3(0,1.6,0)};H.placeHead(start.pos,start.look);
       H.front(panel.mesh,.95,-.66,0,-.62);H.front(hud.mesh,2.2,.55,0,0)}
-    function setRocket(i,say){ri=(i+ROCKETS.length)%ROCKETS.length;cd=null;ended=false;hudText.big=hudText.line=hudText.clock="";hud.mesh.visible=false;padG.position.y=0;
+    function setRocket(i,say){sepReset();ri=(i+ROCKETS.length)%ROCKETS.length;cd=null;ended=false;hudText.big=hudText.line=hudText.clock="";hud.mesh.visible=false;padG.position.y=0;
       if(view.flight)view.stopLaunch(true);view.setRocket(ROCKETS[ri]);view.world.position.y=0;setSkyK(0);
       if(SKY.fog){SKY.fog.near=Math.max(150,view.H*4);SKY.fog.far=SKY.fog.near+1400}
       real=real&&!!REAL[ROCKETS[ri].id];if(real)setReal(true);addNames();showNames();
       place();panel.redraw();if(say!==false)info()}
-    function setReal(on){real=on&&!!REAL[ROCKETS[ri].id];showNames();if(real){const m=REAL[ROCKETS[ri].id].model;view.setReal({url:RP+"models/"+m+".glb",id:m}).then(()=>panel.redraw())}else view.setReal(null);panel.redraw()}
+    function setReal(on){if(on)sepReset();real=on&&!!REAL[ROCKETS[ri].id];showNames();if(real){const m=REAL[ROCKETS[ri].id].model;view.setReal({url:RP+"models/"+m+".glb",id:m}).then(()=>panel.redraw())}else view.setReal(null);panel.redraw()}
     function info(){H.showCardAt(rocketCard(ROCKETS[ri],{buttons:[{id:"launch",label:"🚀  LAUNCH",primary:true}],onPress:b=>{if(b==="launch")press("launch")}}),H.frontPos(1.25,-.05,.85),H.headPos())}
-    function launch(){if(view.flight||cd)return;H.endGrab();H.hideCard();if(real){real=false;view.setReal(null);showNames()}if(view.exploded)view.setExploded(false);view.rocket.scale.setScalar(1);view.rocket.rotation.set(0,0,0);
+    function launch(){if(view.flight||cd)return;H.endGrab();H.hideCard();sepReset();if(real){real=false;view.setReal(null);showNames()}if(view.exploded)view.setExploded(false);view.rocket.scale.setScalar(1);view.rocket.rotation.set(0,0,0);
       ended=false;cd={t0:performance.now(),launched:false};hud.mesh.visible=true;H.front(hud.mesh,2.2,.55,0,0);hudText.line="";hudText.clock="";
       if(!H.say("ui-countdown"))cd.silent=true;panel.redraw()}
     function stop(){cd=null;H.stopSfx("launch");if(view.flight)view.stopLaunch(false);else view.setRocket(ROCKETS[ri]);addNames();showNames();padG.position.y=0;view.world.position.y=0;setSkyK(0);H.hush();ended=false;hud.mesh.visible=false;place();panel.redraw()}
@@ -6299,7 +6517,7 @@ function RocketScenes(H){
       else if(id==="launch"){if(view.flight||cd)stop();else if(ended)stop();else launch()}
       else if(id==="view"){ride=!ride;panel.redraw()}
       else if(id==="real")setReal(!real);
-      else if(id==="explode"){view.setExploded(!view.exploded);setTimeout(()=>panel.redraw(),50)}
+      else if(id==="sep")setSep(!sep.on);
       else if(id==="fuel"){view.setFuel(!view.fuel);panel.redraw()}
       else if(id==="names"){namesOn=!namesOn;showNames();panel.redraw()}
       else if(id==="info")info()}
@@ -6313,13 +6531,14 @@ function RocketScenes(H){
         if(auto){const i=ROCKETS.findIndex(r=>r.id===auto);auto=null;if(i>=0){setRocket(i,false);launch();return}}
         setRocket(ri,false);H.say("ui-rocket");
         H.hint("Rocket Shala · launch pad",[["Real size","walk around it and look up"],["Panel","pick a rocket · LAUNCH"],["Point","at a part to learn what it does"],["Right stick ↕","fly up along the rocket"]],8)},
-      exit(){H.stopSfx("launch");padG.visible=false;panel.mesh.visible=false;hud.mesh.visible=false;cd=null;if(view.flight)view.stopLaunch(true);padG.position.y=0;view.world.position.y=0;outdoor(false)},
+      exit(){sepReset();H.stopSfx("launch");padG.visible=false;panel.mesh.visible=false;hud.mesh.visible=false;cd=null;if(view.flight)view.stopLaunch(true);padG.position.y=0;view.world.position.y=0;outdoor(false)},
       frame(dt){const now=performance.now();
         if(cd){const el=(now-cd.t0)/1000;
           if(el<11.4){const n=el<.15?10:clamp(10-Math.floor(el-.15),0,10);if(n!==cd.n){cd.n=n;if(cd.silent)H.sfx("beep",.45)}hudText.big=String(n);drawHud()}
           if(el>=9.8&&!cd.launched){cd.launched=true;view.launch();H.sfx("launch",1)}
           if(el>=11.4){hudText.big="";if(!hudText.line)hudText.line="Liftoff!";drawHud();cd=null;panel.redraw()}}
         view.frame(now);
+        if(sep.start!=null){const k=clamp((now-sep.start)/1500,0,1);sep.t=lerp(sep.from,sep.to,k);applySep(sep.t);if(k>=1){sep.start=null;if(!sep.on)sepReset()}}
         const drop=-view.world.position.y;
         if(view.flight){
           if(ride){padG.position.y=0;const F=view.flight;if(F.box&&drop>.01){const cy=(F.box.y0+F.box.y1)/2,ty=cy-cam.position.y;rig.position.y+=(ty-rig.position.y)*(1-Math.exp(-dt*1.1))}}
@@ -6329,13 +6548,15 @@ function RocketScenes(H){
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:4,flat:true})},
       picks:()=>{if(view.flight)return [];const o=real&&view.real?view.real:view.rocket;if(!o)return [];if(pk.o!==o||pk.n!==o.children.length){pk.o=o;pk.n=o.children.length;pk.L=[];o.traverse(m=>{if(m.isMesh)pk.L.push(m)})}return pk.L},
       pick(o){if(real)info();else{let x=o;while(x&&!x.userData.pid)x=x.parent;if(x)partCard(x.userData.pid);else info()}},
-      grab(){if(view.flight||cd)return null;const o=real&&view.real?view.real:view.rocket;return o?{obj:o,mode:"yaw",minS:.04,maxS:1.4,gain:4}:null},
+      grab(o){if(view.flight||cd)return null;
+        if(sep.on){let x=o;while(x&&!x.userData.pid)x=x.parent;const m=x&&view.parts[x.userData.pid];return m?{obj:m.group,mode:"yaw",gain:4}:null}
+        o=real&&view.real?view.real:view.rocket;return o?{obj:o,mode:"yaw",minS:.04,maxS:1.4,gain:4}:null},
       empty(){H.hideCard()},
-      menu:()=>[{id:"launch",label:view&&(view.flight||cd)?"Stop the launch":"Launch  🚀"},{id:"view",label:"View",val:ride?"RIDE ALONG":"FROM GROUND",on:ride},{id:"next",label:"Next rocket  ▶"},{id:"start",label:"Back to the start"}],
+      menu:()=>[{id:"launch",label:view&&(view.flight||cd)?"Stop the launch":"Launch  🚀"},{id:"view",label:"View",val:ride?"RIDE ALONG":"FROM GROUND",on:ride},{id:"sep",label:"Separate parts",val:sep.on?"ON":"OFF",on:sep.on,disabled:!!(view&&view.flight)||!!cd||real},{id:"next",label:"Next rocket  ▶"},{id:"start",label:"Back to the start"}],
       menuPress(id){if(id==="next")setRocket(ri+1);else if(id==="start"){if(view.flight)stop();else place()}else press(id)},
       btnA(){press("launch")},btnX(){setRocket(ri+1)},prev(){setRocket(ri-1)},next(){setRocket(ri+1)},
       refresh(){if(panel)panel.redraw()},
-      _:{get view(){return view},setRocket,launch,press,get ri(){return ri},set auto(v){auto=v}}}})();
+      _:{get view(){return view},setRocket,launch,press,setSep,get sep(){return sep},get ri(){return ri},set auto(v){auto=v}}}})();
 
   /* ======================= ROCKET SIZES ======================= */
   H.scenes.rsizes=(()=>{
@@ -6506,7 +6727,7 @@ function RocketScenes(H){
         if(orbs.moon&&orbs.moon.body){const a=t*2*Math.PI/240,md=rr(384400);orbs.moon.body.position.set(md*Math.cos(a),0,-md*Math.sin(a)).applyAxisAngle(new T.Vector3(1,0,0),5*D2R)}},
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:3})},
       picks:()=>earth?[earth]:[],
-      pick(){H.planetThenSay("earth",null)},
+      pick(){if(H.planetPlaying("earth"))H.stopPlanet();else H.planetThenSay("earth",null,true)},
       grab(){return EG?{obj:EG,mode:"free",minS:.4,maxS:2.5}:null},
       menu:()=>[{id:"all",label:"Show all orbits"},{id:"reset",label:"Straighten Earth"},{id:"panel",label:"Orbit panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"start",label:"Back to the start"}],
       menuPress(id){if(id==="reset"){EG.quaternion.identity();EG.scale.setScalar(1)}else if(id==="all")choose(null);else if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,.95,-.62,0,-.6)}else H.placeHead(new T.Vector3(0,1.6,0),E.clone().setY(1.6))},
@@ -6589,8 +6810,8 @@ function RocketScenes(H){
       strip=H.panel(1.6,.42,1600,420,(g,p)=>{H.rr(g,6,6,1588,408,26);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(255,153,51,.6)";g.stroke();
         g.fillStyle="#ff9933";g.font="600 26px "+F.mono;g.fillText("INDIA IN SPACE · भारत के अंतरिक्ष मिशन — pick a year",30,46);
         MISSIONS.forEach((m,i)=>p.btn(g,"m"+i,24+(i%11)*142,66+Math.floor(i/11)*110,132,98,String(m.y),{on:i===cur,fs:32}));
-        p.btn(g,"prev",24,296,400,96,"◀  EARLIER",{fs:32});p.btn(g,"next",440,296,400,96,"LATER  ▶",{fs:32,primary:true});p.btn(g,"pad",856,296,716,96,"🚀  Go to the launch pad",{fs:30})},
-        {onPress:id=>{if(id==="prev")show(cur-1);else if(id==="next")show(cur+1);else if(id==="pad")H.go("pad");else show(+id.slice(1))}});
+        p.btn(g,"prev",24,296,400,96,"◀  EARLIER",{fs:32});p.btn(g,"next",440,296,400,96,"LATER  ▶",{fs:32,primary:true});p.btn(g,"pad",856,296,340,96,"🚀  Launch pad",{fs:28});p.btn(g,"ch3",1206,296,366,96,"🇮🇳  Chandrayaan-3 · 360°",{fs:26,primary:/Chandrayaan-3/.test(MISSIONS[cur].title)})},
+        {onPress:id=>{if(id==="prev")show(cur-1);else if(id==="next")show(cur+1);else if(id==="pad")H.go("pad");else if(id==="ch3")H.go("ch3");else show(+id.slice(1))}});
       strip.mesh.position.set(0,.9,-1.15);strip.mesh.rotation.set(-.62,0,0,"YXZ");
       const root=new T.Group();root.add(board.mesh,strip.mesh);root.visible=false;S.add(root);this.root=root}
     function show(i){cur=(i+MISSIONS.length)%MISSIONS.length;board.redraw();strip.redraw()}
@@ -6600,6 +6821,468 @@ function RocketScenes(H){
       sticks(mx,my,tx,ty,boost,dt){if(Math.abs(mx)>.7&&!this._s){this._s=1;show(cur+(mx>0?1:-1))}else if(Math.abs(mx)<.3)this._s=0;H.move(0,0,tx,0,false,dt,{noFly:true})},
       menu:()=>[{id:"next",label:"Later  ▶"},{id:"prev",label:"◀  Earlier"}],menuPress(id){show(cur+(id==="next"?1:-1))},
       btnA(){show(cur+1)},btnX(){show(cur-1)},prev(){show(cur-1)},next(){show(cur+1)}}})();
+}
+
+/* ================= CHANDRAYAAN-3 · 360° IN VR =================
+   Stand at Shiv Shakti Point at real size, on the real Moon:
+   · ground: NASA LRO LOLA heights + LRO photos of this exact spot (the same data as the 2D "Vikram's real descent")
+   · Sun, Earth and stars where they really were at touchdown (sky.json)
+   · Vikram and Pragyan at real size, the mission as a story: landing, ramp, drive, ChaSTE, the 4 m crater,
+     sulphur, Pragyan's 3D photo, the hop, good night
+   · Pragyan's real stereo photo (each eye sees its own camera), ISRO's real videos
+   · ride on Vikram along its real descent path (NASA/JPL Horizons) */
+function Ch3Scene(H){
+  const T=H.T,S=H.S,cam=H.cam,F=H.F,rig=H.rig,R=H.R,D2R=Math.PI/180;
+  const W=new T.Group();W.visible=false;S.add(W);           // the Moon, in a local frame at the landing point: x east, y up, z south
+  const v1=new T.Vector3(),v2=new T.Vector3(),v3=new T.Vector3(),q1=new T.Quaternion(),m1=new T.Matrix4();
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t,ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2,sm=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t)};
+  const tex=(u,cb)=>{const t=H.LD.load(u,cb);t.encoding=T.sRGBEncoding;t.anisotropy=Math.min(8,R.capabilities.getMaxAnisotropy());return t};
+  const SL=-69.373560,SO=32.319750,R0=1737400;
+  const VIEW={pos:new T.Vector3(4.2,1.6,3.6),look:new T.Vector3(0,1.1,0)};
+  const groundMats=[];let D=null,loading=null,built=false,rideBuilt=false,mode="story",saved={},failed=false;
+
+  /* ---------------- the story (real dates and facts from ISRO) ---------------- */
+  const STEPS=[
+    {id:"intro",t:0,title:"Shiv Shakti Point",hi:"शिव शक्ति पॉइंट",when:"23 Aug 2023 · Moon's south pole region",say:"ch3-intro",
+     text:"You are on the Moon at real size, where Vikram landed. Earth hangs low in the sky; the Sun is just above the horizon, so shadows are very long."},
+    {id:"land",t:20,title:"Touchdown",hi:"लैंडिंग",when:"23 Aug 2023 · 6:03 pm IST",say:"ch3-land",
+     text:"Vikram hovers, picks a safe flat spot and comes down, the last metres at about 1 m/s. The engines blew away about 2 tonnes of Moon dust, leaving a bright halo that orbiters can see."},
+    {id:"ramp",t:55,title:"Pragyan rolls out",hi:"प्रज्ञान बाहर आया",when:"23–24 Aug 2023",say:"ch3-ramp",
+     text:"A ramp opens on Vikram's side and the 26 kg Pragyan rover rolls down onto the Moon. Six wheels, solar power, about 0.9 m long."},
+    {id:"drive",t:85,title:"Driving on the Moon",hi:"चाँद पर सैर",when:"24–26 Aug 2023",say:"ch3-drive",
+     text:"Pragyan drives at about 1 cm per second. Its two NavCams, side by side like eyes, look for rocks and craters. In 10 days it drove about 100 m."},
+    {id:"chaste",t:112,title:"Moon thermometer",hi:"चाँद का थर्मामीटर",when:"26–27 Aug 2023",say:"ch3-chaste",
+     text:"Vikram's ChaSTE probe went 10 cm into the soil: about +70 °C at the sunlit surface, but about −10 °C just 8 cm below."},
+    {id:"crater",t:137,title:"A crater in the way",hi:"रास्ते में गड्ढा",when:"27 Aug 2023",say:"ch3-crater",
+     text:"Pragyan spotted a 4 m wide crater 3 m ahead. Commanded from Earth, it backed up along its own tracks and took a new path."},
+    {id:"sulphur",t:167,title:"Sulphur found",hi:"सल्फ़र मिला",when:"29 Aug 2023",say:"ch3-sulphur",
+     text:"Pragyan's LIBS laser confirmed sulphur (S) near the south pole, plus Al, Ca, Fe, Cr, Ti, Mn, Si and O."},
+    {id:"photo",t:197,title:"Pragyan's 3D photo",hi:"प्रज्ञान की थ्री-डी फ़ोटो",when:"30 Aug 2023",say:"ch3-photo",
+     text:"Pragyan's two NavCams photographed Vikram from about 15 m away. This is the real picture: in the headset each eye sees its own camera."},
+    {id:"hop",t:225,title:"Vikram hops",hi:"विक्रम की छलाँग",when:"3 Sep 2023",say:"ch3-hop",
+     text:"Vikram folded its ramp and instruments, fired its engines, rose about 40 cm and landed 30–40 cm away. A test for bringing samples home one day."},
+    {id:"night",t:260,title:"Good night",hi:"शुभ रात्रि",when:"2–4 Sep 2023",say:"ch3-night",
+     text:"Pragyan parked facing the next sunrise; Vikram slept on 4 Sep. Neither woke after the lunar night, but every task was done. 23 Aug is National Space Day."}];
+  const TEND=296;
+  const st={tau:0,play:true,step:0,wait:0,saidStep:-1};
+  const stepAt=t=>{let k=0;STEPS.forEach((s,i)=>{if(t>=s.t-.001)k=i});return k};
+
+  // Pragyan's moves: [time, x, z, yaw(deg, forward = (sin, cos)), reverse?]
+  const C3={x:8.0,z:-7.4,r:2.0};   // the 4 m crater of 27 Aug
+  const RV=[[78,3.4,0,90],[80,3.4,0,116.6],[89,5.4,-1.0,116.6],[90,5.4,-1.0,138.4],[96,6.2,-1.9,138.4],
+    [139,6.2,-1.9,144.5],[145,6.7,-2.6,144.5],[150,6.7,-2.6,144.5],[156,5.9,-1.5,144.5],[159,5.9,-1.5,209],[166,4.4,-4.2,209],
+    [169,4.4,-4.2,218],[180,3.0,-6.0,218],[199,3.0,-6.0,218],[204,3.0,-6.0,333.4],[262,3.0,-6.0,333.4],[267,3.0,-6.0,450]];
+  function roverAt(t,o){if(t<RV[0][0]){o.x=RV[0][1];o.z=RV[0][2];o.yaw=RV[0][3];return o}
+    for(let i=0;i<RV.length-1;i++){const a=RV[i],b=RV[i+1];if(t<=b[0]){const k=ease(clamp((t-a[0])/(b[0]-a[0]),0,1));o.x=lerp(a[1],b[1],k);o.z=lerp(a[2],b[2],k);o.yaw=lerp(a[3],b[3],k);return o}}
+    const z=RV[RV.length-1];o.x=z[1];o.z=z[2];o.yaw=z[3];return o}
+
+  /* ---------------- data ---------------- */
+  function load(){if(loading)return loading;
+    const j=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(u);return r.json()});
+    const i16=o=>{const s=atob(o.i16le),u=new Uint8Array(s.length);for(let k=0;k<s.length;k++)u[k]=s.charCodeAt(k);return new Int16Array(u.buffer)};
+    loading=Promise.all([j("ch3/terrain.json"),j("ch3/sky.json"),j("ch3/tiles.json"),j("ch3/loc_h.json")]).then(([ter,sky,tiles,lh])=>{D={ter,sky,tiles,lh:i16(lh)};return D});
+    loading.i16=i16;return loading}
+
+  /* ---------------- frame + height helpers (same maths as the 2D replay) ---------------- */
+  let L,G,hSite,RS_,O,U,E,N,C;
+  function frames(){const sla=SL*D2R,slo=SO*D2R;L=D.ter.loc;G=D.ter.reg;
+    U=[Math.cos(sla)*Math.cos(slo),Math.cos(sla)*Math.sin(slo),Math.sin(sla)];E=[-Math.sin(slo),Math.cos(slo),0];
+    N=[U[1]*E[2]-U[2]*E[1],U[2]*E[0]-U[0]*E[2],U[0]*E[1]-U[1]*E[0]];
+    hSite=hLoc(SL,SO);RS_=R0+hSite;O=[RS_*U[0],RS_*U[1],RS_*U[2]];C=new T.Vector3(0,-RS_,0)}
+  function hLoc(lat,lon){const fy=(lat-L.lat0)/L.dlat,fx=(lon-L.lon0)/L.dlon;if(fy<0||fx<0||fy>L.rows-1||fx>L.cols-1)return null;
+    const y0=Math.min(L.rows-2,Math.floor(fy)),x0=Math.min(L.cols-2,Math.floor(fx)),a=fy-y0,b=fx-x0,i=y0*L.cols+x0,h=D.lh;
+    return h[i]*(1-a)*(1-b)+h[i+1]*(1-a)*b+h[i+L.cols]*a*(1-b)+h[i+L.cols+1]*a*b}
+  function hReg(lat,lon){if(!D.rh)return 0;const fy=(G.lat0-lat)/G.step,fx=(lon-G.lon0)/G.step;if(fy<0||fx<0||fy>G.rows-1||fx>G.cols-1)return 0;
+    const y0=Math.min(G.rows-2,Math.floor(fy)),x0=Math.min(G.cols-2,Math.floor(fx)),a=fy-y0,b=fx-x0,i=y0*G.cols+x0,h=D.rh;
+    return h[i]*(1-a)*(1-b)+h[i+1]*(1-a)*b+h[i+G.cols]*a*(1-b)+h[i+G.cols+1]*a*b}
+  const hAt=(lat,lon)=>{const v=hLoc(lat,lon);return v==null?hReg(lat,lon):v};
+  function ll(lat,lon,hm,out,k){const la=lat*D2R,lo=lon*D2R,r=R0+hm,px=r*Math.cos(la)*Math.cos(lo)-O[0],py=r*Math.cos(la)*Math.sin(lo)-O[1],pz=r*Math.sin(la)-O[2];
+    out[k]=px*E[0]+py*E[1]+pz*E[2];out[k+1]=px*U[0]+py*U[1]+pz*U[2];out[k+2]=-(px*N[0]+py*N[1]+pz*N[2])}
+  // ground height (local y) right around the landing point
+  const M_LAT=1/(R0*D2R);let M_LON=0;
+  function gY(x,z){const v=hLoc(SL-z*M_LAT,SO+x*M_LON);return (v==null?hSite:v)-hSite-(x*x+z*z)/(2*R0)}
+  function geo(pos,uv,idx){const g=new T.BufferGeometry();g.setAttribute("position",new T.BufferAttribute(pos,3));g.setAttribute("uv",new T.BufferAttribute(uv,2));g.setIndex(idx);g.computeBoundingSphere();return g}
+  function grid(rows,cols,latf,lonf,hf,skip,sink){
+    const n=rows*cols,pos=new Float32Array(n*3),uv=new Float32Array(n*2);
+    for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const k=i*cols+j,la=latf(i),lo=lonf(j);ll(la,lo,hf(i,j)-(sink?sink(la,lo):0),pos,k*3);uv[k*2]=j/(cols-1);uv[k*2+1]=1-i/(rows-1)}
+    const idx=[];for(let i=0;i<rows-1;i++)for(let j=0;j<cols-1;j++){if(skip&&skip(latf(i),lonf(j),latf(i+1),lonf(j+1),i,j))continue;const a=i*cols+j;idx.push(a,a+cols,a+1,a+1,a+cols,a+cols+1)}
+    return geo(pos,uv,idx)}
+  // photo terrain is cut away right around the site, where the detailed ground takes over
+  const HOLE=40;
+  function holeMat(map,col){const m=new T.MeshBasicMaterial({map});if(col)m.color.setScalar(col);groundMats.push(m);
+    m.onBeforeCompile=sh=>{sh.vertexShader=sh.vertexShader.replace("#include <common>","#include <common>\nvarying vec2 vXZ;").replace("#include <begin_vertex>","#include <begin_vertex>\nvXZ=position.xz;");
+      sh.fragmentShader=sh.fragmentShader.replace("#include <common>","#include <common>\nvarying vec2 vXZ;").replace("void main() {","void main() {\nif(dot(vXZ,vXZ)<"+(HOLE*HOLE).toFixed(1)+")discard;")};
+    m.customProgramCacheKey=()=>"ch3hole";return m}
+
+  /* ---------------- build the site ---------------- */
+  const lander={holder:new T.Group(),turn:new T.Group(),model:null,h:2,half:1,ramp:null,chaste:null,glow:null,cone:null},
+        rover={holder:new T.Group(),turn:new T.Group(),model:null,len:.92,cams:null};
+  let sunDir,earthDir,skyG,sun,earth,dlight,amb,dust,tracks,laser,shadowMat,shadows=[],board,info,temp,elems,photo,screen,vlist,sunEl0,shadowM=new T.Matrix4(),groundN=new T.Vector3(0,1,0);
+  function build(){built=true;M_LON=1/(R0*Math.cos(SL*D2R)*D2R);frames();
+    // local terrain (≈ 470 × 330 m cells) with LRO narrow-angle photo tiles around the path and the site
+    const inTile=(i,j)=>D.tiles.some(t=>i>=t.k0&&i<t.k1&&j>=t.j0&&j<t.j1);
+    const locG=grid(L.rows,L.cols,i=>L.lat0+i*L.dlat,j=>L.lon0+j*L.dlon,(i,j)=>D.lh[i*L.cols+j],(a,b,c,d,i,j)=>inTile(i,j));
+    W.add(new T.Mesh(locG,holeMat(tex("ch3/loc_wac.jpg"))));
+    const hc=(k,j)=>D.lh[k*L.cols+j];
+    D.tiles.forEach(t=>{const n=t.sub,rows=(t.k1-t.k0)*n+1,cols=(t.j1-t.j0)*n+1,pos=new Float32Array(rows*cols*3),uv=new Float32Array(rows*cols*2),idx=[];
+      for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const fk=t.k0+r/n,fj=t.j0+c/n,k0=Math.min(L.rows-2,Math.floor(fk)),j0=Math.min(L.cols-2,Math.floor(fj)),a=fk-k0,b=fj-j0;
+        const h=hc(k0,j0)*(1-a)*(1-b)+hc(k0,j0+1)*(1-a)*b+hc(k0+1,j0)*a*(1-b)+hc(k0+1,j0+1)*a*b,i=r*cols+c;
+        ll(L.lat0+fk*L.dlat,L.lon0+fj*L.dlon,h,pos,i*3);uv[i*2]=c/(cols-1);uv[i*2+1]=1-r/(rows-1)}
+      for(let r=0;r<rows-1;r++)for(let c=0;c<cols-1;c++){const a=r*cols+c;idx.push(a,a+cols,a+1,a+1,a+cols,a+cols+1)}
+      W.add(new T.Mesh(geo(pos,uv,idx),holeMat(tex(t.tex))))});
+    // skirt so the edge of the local map never shows a gap
+    {const ring=[];for(let j=0;j<L.cols;j++)ring.push([0,j]);for(let i=1;i<L.rows;i++)ring.push([i,L.cols-1]);for(let j=L.cols-2;j>=0;j--)ring.push([L.rows-1,j]);for(let i=L.rows-2;i>0;i--)ring.push([i,0]);ring.push([0,0]);
+     const pos=new Float32Array(ring.length*6),uv=new Float32Array(ring.length*4),idx=[];
+     ring.forEach(([i,j],k)=>{const la=L.lat0+i*L.dlat,lo=L.lon0+j*L.dlon,h=D.lh[i*L.cols+j];ll(la,lo,h,pos,k*6);ll(la,lo,h-400,pos,k*6+3);const u=j/(L.cols-1),v=1-i/(L.rows-1);uv.set([u,v,u,v],k*4);if(k)idx.push((k-1)*2,(k-1)*2+1,k*2,k*2,(k-1)*2+1,k*2+1)});
+     const m=new T.Mesh(geo(pos,uv,idx),new T.MeshBasicMaterial({color:0x2a2a2a,side:T.DoubleSide}));W.add(m)}
+    groundN.set(-(gY(1,0)-gY(-1,0))/2,1,-(gY(0,1)-gY(0,-1))/2).normalize();
+    sky();nearGround();models();fx();panels();
+  }
+  // the ground you stand on: real height + a fine regolith texture, the real 4 m crater, rocks
+  function crater(x,z){const d=Math.hypot(x-C3.x,z-C3.z)/C3.r;if(d>=1.6)return 0;return d<1?-.55*(1-d*d)+.05:.12*Math.exp(-Math.pow((d-1)/.22,2))}
+  function nearGround(){
+    const tx=tex("ch3/regolith.jpg");tx.wrapS=tx.wrapT=T.RepeatWrapping;const TS=5.2;   // one texture tile = 5.2 m
+    // inner disc (opaque) out to the hole edge, then a ring that fades into the photo terrain
+    const ring=(r0,r1,nr,na,alpha)=>{const pos=[],uv=[],col=[],idx=[];
+      for(let i=0;i<=nr;i++){const rr=r0+(r1-r0)*Math.pow(i/nr,1.6);for(let k=0;k<=na;k++){const a=k/na*Math.PI*2,x=Math.cos(a)*rr,z=Math.sin(a)*rr;
+        pos.push(x,gY(x,z)+.03+crater(x,z),z);uv.push(x/TS,-z/TS);col.push(1,1,1,alpha?clamp(1-(rr-r0)/(r1-r0),0,1):1)}}
+      for(let i=0;i<nr;i++)for(let k=0;k<na;k++){const a=i*(na+1)+k;idx.push(a,a+1,a+na+1,a+1,a+na+2,a+na+1)}
+      const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));g.setAttribute("uv",new T.Float32BufferAttribute(uv,2));g.setAttribute("color",new T.Float32BufferAttribute(col,4));g.setIndex(idx);g.computeBoundingSphere();return g};
+    // fine square grid near you (0.26 m) so the real 4 m crater and small bumps look right; slopes are shaded by the real low Sun
+    {const n=200,half=26,pos=[],uv=[],col=[],idx=[];const hgt=(x,z)=>gY(x,z)+.035+crater(x,z);
+      const sd=sunDir.clone(),flat=Math.max(.05,sd.y);
+      for(let i=0;i<=n;i++)for(let k=0;k<=n;k++){const x=-half+2*half*k/n,z=-half+2*half*i/n,y=hgt(x,z);pos.push(x,y,z);uv.push(x/TS,-z/TS);
+        let c=1;if(Math.hypot(x-C3.x,z-C3.z)<C3.r*1.7){const e=.05,nx=-(hgt(x+e,z)-hgt(x-e,z))/(2*e),nz=-(hgt(x,z+e)-hgt(x,z-e))/(2*e),nl=Math.hypot(nx,1,nz);
+          c=clamp((nx*sd.x+sd.y+nz*sd.z)/nl/flat,0,2.2);
+          // the rim's shadow: walk toward the Sun and see if the ground rises above the sun ray
+          for(let d=.08;d<4.5&&c>0;d+=.08){const qx=x+sd.x/Math.hypot(sd.x,sd.z)*d,qz=z+sd.z/Math.hypot(sd.x,sd.z)*d;if(hgt(qx,qz)>y+d*Math.tan(Math.asin(sd.y))+.005){c=0;break}}
+          c=.12+.88*c}
+        col.push(c,c,c)}
+      for(let i=0;i<n;i++)for(let k=0;k<n;k++){const a=i*(n+1)+k;idx.push(a,a+n+1,a+1,a+1,a+n+1,a+n+2)}
+      const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));g.setAttribute("uv",new T.Float32BufferAttribute(uv,2));g.setAttribute("color",new T.Float32BufferAttribute(col,3));g.setIndex(idx);g.computeBoundingSphere();
+      const mt=new T.MeshBasicMaterial({map:tx,vertexColors:true,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});groundMats.push(mt);const m=new T.Mesh(g,mt);m.renderOrder=1;W.add(m)}
+    {const mt=new T.MeshBasicMaterial({map:tx});groundMats.push(mt);W.add(new T.Mesh(ring(25,HOLE+.8,30,120,false),mt))}
+    {const mt=new T.MeshBasicMaterial({map:tx,vertexColors:true,transparent:true,depthWrite:false});groundMats.push(mt);const m=new T.Mesh(ring(HOLE+.8,64,16,120,true),mt);m.renderOrder=2;W.add(m)}
+    // rocks, kept away from the lander, the ramp, the rover path and the crater
+    let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+    const rockM=new T.MeshLambertMaterial({color:0x55524d}),RG=[0,1,2,3,4,5].map(()=>{const g=new T.SphereGeometry(1,10,8),p=g.attributes.position;const f=new Map();
+      for(let i=0;i<p.count;i++){const key=p.getX(i).toFixed(3)+p.getY(i).toFixed(3)+p.getZ(i).toFixed(3);if(!f.has(key))f.set(key,.72+rnd()*.5);const k=f.get(key);p.setXYZ(i,p.getX(i)*k,p.getY(i)*k*(p.getY(i)<0?.4:1),p.getZ(i)*k)}g.computeVertexNormals();return g});
+    for(let i=0;i<140;i++){const a=rnd()*Math.PI*2,r=2.5+Math.pow(rnd(),.7)*24,x=Math.cos(a)*r,z=Math.sin(a)*r;
+      if(Math.hypot(x-VIEW.pos.x,z-VIEW.pos.z)<2.6||Math.hypot(x-C3.x,z-C3.z)<2.6||(x>0&&x<7.5&&z>-7&&z<1)||(x>2&&x<5&&z>-7&&z<-3))continue;
+      const s=.04+Math.pow(rnd(),3)*.32,m=new T.Mesh(RG[i%6],rockM);m.scale.set(s*(1+rnd()*.5),s*(.5+rnd()*.5),s*(1+rnd()*.4));m.rotation.set(rnd()*3,rnd()*3,rnd()*3);m.position.set(x,gY(x,z)+.03+crater(x,z)+s*.25,z);W.add(m)}
+  }
+  // real sky at touchdown: stars, Sun, Earth
+  function sky(){
+    sunDir=new T.Vector3().fromArray(D.sky.sunThree).normalize();earthDir=new T.Vector3().fromArray(D.sky.earthThreeDir).normalize();sunEl0=Math.asin(sunDir.y);
+    skyG=new T.Group();W.add(skyG);
+    const gc=H.cnv(128,128),g=gc.getContext("2d"),gr=g.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,"rgba(255,255,250,1)");gr.addColorStop(.12,"rgba(255,250,235,1)");gr.addColorStop(.3,"rgba(255,230,190,.35)");gr.addColorStop(1,"rgba(0,0,0,0)");g.fillStyle=gr;g.fillRect(0,0,128,128);
+    sun=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(gc),depthWrite:false,blending:T.AdditiveBlending,transparent:true,fog:false}));sun.scale.setScalar(1700*Math.tan(2.6*D2R));sun.renderOrder=-1;skyG.add(sun);
+    const er=1700*Math.tan(.9407*D2R);earth=new T.Mesh(new T.SphereGeometry(er,64,48),new T.MeshLambertMaterial({map:H.tex("earth.jpg")}));earth.position.copy(earthDir).multiplyScalar(1700);
+    const bodyVec=(lat,lon)=>new T.Vector3(Math.cos(lat*D2R)*Math.cos(lon*D2R),Math.sin(lat*D2R),-Math.cos(lat*D2R)*Math.sin(lon*D2R));
+    const triad=(a,b)=>{const t1=a.clone().normalize(),t2=a.clone().cross(b).normalize(),t3=t1.clone().cross(t2);return new T.Matrix4().makeBasis(t1,t2,t3)};
+    const A=triad(bodyVec(D.sky.subMoonOnEarth[0],D.sky.subMoonOnEarth[1]),new T.Vector3(0,1,0)),B=triad(earthDir.clone().negate(),new T.Vector3().fromArray(D.sky.earthPoleThree));
+    earth.quaternion.setFromRotationMatrix(B.multiply(A.transpose()));skyG.add(earth);
+    earth.userData.pick="earth";
+    dlight=new T.DirectionalLight(0xfff6ea,2.2);dlight.target=new T.Object3D();W.add(dlight,dlight.target);
+    amb=new T.HemisphereLight(0x0a0c12,0x4a4844,.55);W.add(amb);
+    setSun(sunEl0);
+    // the stars' real directions over the landing point
+    const m=D.sky.skyM;saved.skyF=new T.Matrix4().set(m[0],m[1],m[2],0,m[3],m[4],m[5],0,m[6],m[7],m[8],0,0,0,0,1).multiply(H.SKYEQ||new T.Matrix4().makeRotationY(Math.PI));
+    // a matching environment for the shiny foil: black sky, grey ground, the low Sun
+    try{const c=H.cnv(512,256),g2=c.getContext("2d");const gg=g2.createLinearGradient(0,0,0,256);gg.addColorStop(0,"#000");gg.addColorStop(.49,"#050505");gg.addColorStop(.51,"#6b6964");gg.addColorStop(1,"#3a3936");g2.fillStyle=gg;g2.fillRect(0,0,512,256);
+      const az=Math.atan2(sunDir.x,-sunDir.z),u=((az/(2*Math.PI))+.5)*512,v=(.5-sunEl0/Math.PI)*256;const sg=g2.createRadialGradient(u,v,0,u,v,26);sg.addColorStop(0,"#fff");sg.addColorStop(1,"rgba(255,255,255,0)");g2.fillStyle=sg;g2.fillRect(u-30,v-30,60,60);
+      const t=new T.CanvasTexture(c);t.mapping=T.EquirectangularReflectionMapping;t.encoding=T.sRGBEncoding;const pm=new T.PMREMGenerator(R);saved.env=pm.fromEquirectangular(t).texture;pm.dispose()}catch(e){}
+  }
+  function setSun(el){const az=Math.atan2(sunDir.x,sunDir.z),c=Math.cos(el);v1.set(Math.sin(az)*c,Math.sin(el),Math.cos(az)*c);
+    sun.position.copy(v1).multiplyScalar(1700);dlight.position.copy(v1).multiplyScalar(100);dlight.intensity=2.2*sm(-.02,.03,el);sun.visible=el>-.012;
+    // shadows fall away from the Sun onto the ground plane under the lander
+    const Lx=v1.x,Ly=Math.max(.02,v1.y),Lz=v1.z,n=groundN,d=-.06*n.y;   // plane n·p + d = 0 (just above the ground)
+    const dot=n.x*Lx+n.y*Ly+n.z*Lz;
+    shadowM.set(dot-Lx*n.x,-Lx*n.y,-Lx*n.z,-Lx*d, -Ly*n.x,dot-Ly*n.y,-Ly*n.z,-Ly*d, -Lz*n.x,-Lz*n.y,dot-Lz*n.z,-Lz*d, 0,0,0,dot);
+    shadows.forEach(s=>s.visible=el>.01);st.sunEl=el;
+    // after sunset only faint earthshine lights the ground
+    const day=.05+.95*sm(-.03,.04,el);groundMats.forEach(m=>m.color.setScalar(day));if(amb)amb.intensity=.25+.3*day}
+  /* ---------------- Vikram and Pragyan ---------------- */
+  function loadModel(id,cb){H.gltf().load("rs/models/"+id+".glb",gl=>{const o=gl.scene;o.traverse(m=>{if(m.isMesh&&m.material){const ms=Array.isArray(m.material)?m.material:[m.material];ms.forEach(mt=>{if(mt.map)mt.map.encoding=T.sRGBEncoding})}});try{if(typeof RS!=="undefined")RS.ENHANCE(id,o)}catch(e){}cb(o)},undefined,()=>cb(null))}
+  function fitModel(o,size,byLen){o.updateMatrixWorld(true);const b=new T.Box3().setFromObject(o),sz=b.getSize(new T.Vector3());
+    if(byLen&&sz.x>sz.z){o.rotation.y=Math.PI/2;o.updateMatrixWorld(true);b.setFromObject(o);b.getSize(sz)}
+    const k=size/(byLen?Math.max(sz.x,sz.z):sz.y);o.scale.multiplyScalar(k);o.updateMatrixWorld(true);b.setFromObject(o);const c=b.getCenter(new T.Vector3());
+    o.position.x-=c.x;o.position.z-=c.z;o.position.y-=b.min.y;o.updateMatrixWorld(true);b.setFromObject(o);return b.getSize(new T.Vector3())}
+  function addShadow(src){const list=[];src.traverse(m=>{if(m.isMesh){const s=new T.Mesh(m.geometry,shadowMat);s.matrixAutoUpdate=false;s.userData.src=m;s.renderOrder=3;list.push(s);W.add(s)}});shadows.push(...list)}
+  function models(){
+    shadowMat=new T.MeshBasicMaterial({color:0x050506,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-6,depthWrite:false});
+    lander.holder.add(lander.turn);W.add(lander.holder);rover.holder.add(rover.turn);W.add(rover.holder);
+    loadModel("india_chandrayaan3_lander",o=>{if(!o){lander.turn.add(new T.Mesh(new T.BoxGeometry(2,1.2,2),new T.MeshStandardMaterial({color:0xc9a227})));return}
+      const sz=fitModel(o,2.0);lander.model=o;lander.h=sz.y;lander.half=Math.max(sz.x,sz.z)/2;lander.turn.add(o);o.traverse(m=>{if(m.isMesh)m.userData.pick="lander"});addShadow(o);rampBuild();chasteBuild();applyState(true)});
+    loadModel("india_pragyan_rover",o=>{if(!o){rover.turn.add(new T.Mesh(new T.BoxGeometry(.9,.4,.75),new T.MeshStandardMaterial({color:0x8a8a8a})));return}
+      fitModel(o,.92,true);rover.model=o;rover.turn.add(o);o.traverse(m=>{if(m.isMesh)m.userData.pick="rover"});addShadow(o);applyState(true)});
+    // fallback ramp/chaste if the lander model is slow, rebuilt once it loads
+  }
+  function rampBuild(){if(lander.ramp)lander.turn.remove(lander.ramp);
+    const g=new T.Group(),mat=new T.MeshStandardMaterial({color:0xb9b2a0,metalness:.6,roughness:.45}),gold=new T.MeshStandardMaterial({color:0xd4a62a,metalness:.8,roughness:.35});
+    const hy=Math.min(1.0,lander.h*.48),hx=lander.half*.86,len=Math.hypot(3.4-.45-hx,hy)+.1;
+    [-.22,.22].forEach(z=>{const r=new T.Mesh(new T.BoxGeometry(len,.035,.12),mat);r.position.set(len/2,0,z);g.add(r)});
+    for(let i=1;i<6;i++){const b=new T.Mesh(new T.BoxGeometry(.03,.02,.44),gold);b.position.set(len*i/6,.01,0);g.add(b)}
+    g.position.set(hx,hy,0);g.userData={len,hy,hx,down:-Math.atan2(hy,len),up:-Math.PI/2+.12};lander.ramp=g;lander.turn.add(g)}
+  function chasteBuild(){if(lander.chaste)lander.turn.remove(lander.chaste);
+    const g=new T.Group(),mat=new T.MeshStandardMaterial({color:0xd8d4cc,metalness:.5,roughness:.5});
+    const arm=new T.Mesh(new T.CylinderGeometry(.018,.018,.9,8),mat);arm.position.y=-.45;const pivot=new T.Group();pivot.add(arm);
+    const probe=new T.Mesh(new T.CylinderGeometry(.012,.006,.6,8),new T.MeshStandardMaterial({color:0x8a8f99,metalness:.7,roughness:.3}));probe.position.y=-.9-.3;pivot.add(probe);
+    g.add(pivot);g.position.set(.25,Math.min(.95,lander.h*.46),lander.half*.85);g.userData={pivot,probe};lander.chaste=g;lander.turn.add(g)}
+  // engine glow, dust, wheel tracks, LIBS laser
+  function fx(){
+    const gl=H.cnv(128,128),g=gl.getContext("2d"),gr=g.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,"rgba(255,240,210,1)");gr.addColorStop(.25,"rgba(255,170,80,.75)");gr.addColorStop(1,"rgba(255,90,20,0)");g.fillStyle=gr;g.fillRect(0,0,128,128);
+    lander.glow=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(gl),blending:T.AdditiveBlending,transparent:true,depthWrite:false}));lander.glow.scale.setScalar(1.6);lander.glow.position.y=.15;lander.holder.add(lander.glow);
+    lander.cone=new T.Mesh(new T.ConeGeometry(.55,2.4,24,1,true),new T.MeshBasicMaterial({color:0xffa95a,transparent:true,opacity:.18,blending:T.AdditiveBlending,depthWrite:false,side:T.DoubleSide}));lander.cone.rotation.x=Math.PI;lander.cone.position.y=-1.0;lander.holder.add(lander.cone);
+    // dust: no air, so every grain flies in a straight line and falls back quickly
+    const n=900,pos=new Float32Array(n*3),vel=new Float32Array(n*3),life=new Float32Array(n);const dg=new T.BufferGeometry();dg.setAttribute("position",new T.BufferAttribute(pos,3));
+    dust={pts:new T.Points(dg,new T.PointsMaterial({color:0xb8b2a6,size:.07,transparent:true,opacity:.8,depthWrite:false})),pos,vel,life,n,next:0};dust.pts.frustumCulled=false;W.add(dust.pts);for(let i=0;i<n;i++)pos[i*3+1]=-99;
+    // wheel tracks: precomputed along Pragyan's whole drive, shown up to the story time
+    const tc=H.cnv(64,256),tg=tc.getContext("2d");tg.fillStyle="#5a5753";tg.fillRect(0,0,64,256);tg.fillStyle="#3b3936";for(let y=0;y<256;y+=16)tg.fillRect(5,y,54,8);tg.fillStyle="#76726c";tg.fillRect(0,0,4,256);tg.fillRect(60,0,4,256);
+    const ttex=new T.CanvasTexture(tc);ttex.wrapT=T.RepeatWrapping;ttex.encoding=T.sRGBEncoding;
+    const pts=[],o={};for(let t=78;t<=267;t+=.25){roverAt(t,o);const p=pts[pts.length-1];if(!p||Math.hypot(o.x-p.x,o.z-p.z)>.06)pts.push({t,x:o.x,z:o.z,yaw:o.yaw})}
+    const pos2=[],uv2=[],idx=[];let acc=0;const half=.31,w=.07;
+    pts.forEach((p,i)=>{const a=p.yaw*D2R,fx_=Math.sin(a),fz=Math.cos(a),sx=fz,sz=-fx_;if(i)acc+=Math.hypot(p.x-pts[i-1].x,p.z-pts[i-1].z);
+      [-1,1].forEach(side=>{const cx=p.x+sx*half*side,cz=p.z+sz*half*side;[-1,1].forEach(e=>{const x=cx+sx*w*e,z=cz+sz*w*e;pos2.push(x,gY(x,z)+.045+crater(x,z),z);uv2.push(e<0?0:1,acc/.4)})})});
+    for(let i=0;i<pts.length-1;i++)for(let s=0;s<2;s++){const a=i*4+s*2,b=a+4;idx.push(a,b,a+1,a+1,b,b+1)}
+    const tgm=new T.BufferGeometry();tgm.setAttribute("position",new T.Float32BufferAttribute(pos2,3));tgm.setAttribute("uv",new T.Float32BufferAttribute(uv2,2));tgm.setIndex(idx);tgm.computeBoundingSphere();
+    const tmat=new T.MeshBasicMaterial({map:ttex,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-4});groundMats.push(tmat);tracks={mesh:new T.Mesh(tgm,tmat),pts};tracks.mesh.renderOrder=2;W.add(tracks.mesh);
+    laser=new T.Mesh(new T.CylinderGeometry(.006,.006,1,6),new T.MeshBasicMaterial({color:0xff4fd8,transparent:true,blending:T.AdditiveBlending,depthWrite:false}));laser.visible=false;W.add(laser);
+    const sp=H.cnv(64,64),sg=sp.getContext("2d"),sgr=sg.createRadialGradient(32,32,0,32,32,32);sgr.addColorStop(0,"#fff");sgr.addColorStop(.3,"rgba(255,120,230,.9)");sgr.addColorStop(1,"rgba(255,80,200,0)");sg.fillStyle=sgr;sg.fillRect(0,0,64,64);
+    laser.spark=new T.Sprite(new T.SpriteMaterial({map:new T.CanvasTexture(sp),blending:T.AdditiveBlending,transparent:true,depthWrite:false}));laser.spark.scale.setScalar(.14);laser.spark.visible=false;W.add(laser.spark);
+  }
+  /* ---------------- the story state at any moment ---------------- */
+  const ro={};
+  function applyState(force){const t=st.tau;roverAt(t,ro);
+    // Vikram: hovering high, coming down, then the hop on 3 Sep
+    let ly=0,lx=0;if(t<20)ly=60;else if(t<48){const k=(t-20)/28;ly=60*Math.pow(1-k,1.6)}else ly=0;
+    const hop=clamp((t-236)/6,0,1);if(hop>0&&hop<1){ly=.4*Math.sin(Math.PI*hop);}lx=-.35*ease(hop);
+    const engines=(t<48.2&&t>=0)||(hop>0&&hop<1);
+    lander.holder.position.set(lx,gY(lx,0)+ly,0);
+    lander.glow.visible=lander.cone.visible=engines;if(engines){const f=.85+Math.random()*.3;lander.glow.scale.setScalar(1.4*f);lander.cone.scale.set(f,ly<3?.6:1,f)}
+    // ramp: folded until after touchdown, down for Pragyan, folded for the hop, then down again
+    if(lander.ramp){const u=lander.ramp.userData,k=t>243?sm(244,249,t):sm(57,63,t)*(1-sm(228,233,t));lander.ramp.rotation.z=lerp(u.up,u.down,k);lander.ramp.scale.x=lerp(.42,1,sm(.25,1,k))}
+    // ChaSTE: swings out, pushes the probe 10 cm into the soil, folds for the hop, back afterwards
+    if(lander.chaste){const u=lander.chaste.userData,out=t>243?sm(247,251,t):sm(114,119,t)*(1-sm(227,231,t)),dn=t>243?sm(251,254,t):sm(120,125,t)*(1-sm(226,228,t));
+      u.pivot.rotation.x=lerp(Math.PI*.95,.55,out);u.probe.position.y=-1.2-dn*.38}
+    // Pragyan: on Vikram's side, down the ramp, then along its real-story path
+    if(lander.ramp){const u=lander.ramp.userData;
+      if(t<66){rover.holder.position.set(u.hx+.15,u.hy+.02,0);rover.holder.rotation.set(0,Math.PI/2,0);rover.holder.visible=t>=48}
+      else if(t<78){const k=ease((t-66)/12),x=lerp(u.hx+.25,3.4,k),y=lerp(u.hy+.02,gY(3.4,0)+.03,k);rover.holder.position.set(x,y,0);rover.holder.rotation.set(0,Math.PI/2,0);rover.holder.rotateX(-u.down*(k<.98?1:0));rover.holder.visible=true}
+      else{rover.holder.position.set(ro.x,gY(ro.x,ro.z)+.035+crater(ro.x,ro.z),ro.z);rover.holder.rotation.set(0,ro.yaw*D2R,0);rover.holder.visible=true}}
+    else rover.holder.visible=false;
+    // wheel tracks up to now
+    if(tracks){let n=0;while(n<tracks.pts.length&&tracks.pts[n].t<=t)n++;tracks.mesh.geometry.setDrawRange(0,Math.max(0,n-1)*12)}
+    // LIBS flashes
+    const las=t>182&&t<193&&(Math.floor(t*3)%2===0);laser.visible=laser.spark.visible=las;
+    if(las){v1.set(0,0,.5).applyAxisAngle(new T.Vector3(0,1,0),ro.yaw*D2R);const fx_=ro.x+v1.x,fz=ro.z+v1.z,gy=gY(fx_,fz)+.04;laser.position.set(fx_,gy+.15,fz);laser.scale.set(1,.3,1);laser.spark.position.set(fx_,gy+.01,fz)}
+    // night falls
+    setSun(t<268?sunEl0:lerp(sunEl0,-.07,sm(268,292,t)));
+    // floating panels for the science moments
+    temp.mesh.visible=mode==="story"&&t>=121&&t<137;elems.mesh.visible=mode==="story"&&t>=184&&t<197;
+    photo.root.visible=mode==="photo"||(mode==="story"&&t>=206&&t<225);
+    if(photo.root.visible&&mode==="story"&&!photo.placedStory){photo.placedStory=true;placePhoto(true)}if(t<206)photo.placedStory=false;
+  }
+  function updDust(dt){const t=st.tau,lyy=lander.holder.position.y-gY(lander.holder.position.x,0),emit=lander.glow.visible&&lyy<14?Math.round((1-lyy/14)*240*dt*60/60):0;
+    const P=dust.pos,V=dust.vel,Lf=dust.life;
+    for(let e=0;e<emit;e++){const i=dust.next;dust.next=(dust.next+1)%dust.n;const a=Math.random()*Math.PI*2,sp=3+Math.random()*9,up=.04+Math.random()*.16;
+      P[i*3]=lander.holder.position.x+Math.cos(a)*.6;P[i*3+1]=gY(0,0)+.05;P[i*3+2]=Math.sin(a)*.6;V[i*3]=Math.cos(a)*sp;V[i*3+1]=sp*up;V[i*3+2]=Math.sin(a)*sp;Lf[i]=1}
+    let any=false;for(let i=0;i<dust.n;i++){if(P[i*3+1]<-50)continue;any=true;V[i*3+1]-=1.62*dt;P[i*3]+=V[i*3]*dt;P[i*3+1]+=V[i*3+1]*dt;P[i*3+2]+=V[i*3+2]*dt;if(P[i*3+1]<gY(P[i*3],P[i*3+2]))P[i*3+1]=-99}
+    if(any||emit)dust.pts.geometry.attributes.position.needsUpdate=true}
+  function updShadows(){W.updateMatrixWorld(true);m1.copy(W.matrixWorld).invert();shadows.forEach(s=>{const src=s.userData.src;s.matrix.multiplyMatrices(m1,src.matrixWorld).premultiply(shadowM);s.matrixWorldNeedsUpdate=true;s.visible=src.parent&&src.parent.visible!==false&&st.sunEl>.01&&mode!=="ride"&&vis(src)})}
+  const vis=o=>{for(let x=o;x&&x!==W;x=x.parent)if(!x.visible)return false;return true};
+
+  /* ---------------- panels ---------------- */
+  const ORANGE="#ff9933",INK="#ece7da",DUST="#8a8ea6";
+  function panels(){
+    board=H.panel(1.2,.6,1200,600,(g,p)=>{const s=STEPS[st.step];H.rr(g,6,6,1188,588,26);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=4;g.strokeStyle=ORANGE;g.stroke();
+      if(mode==="ride"){drawRide(g,p);return}
+      g.fillStyle=ORANGE;g.font="600 24px "+F.mono;g.fillText("CHANDRAYAAN-3 · "+(mode==="story"?"STEP "+(st.step+1)+" / "+STEPS.length:mode==="photo"?"REAL 3D PHOTO":"REAL VIDEOS FROM THE MOON"),36,52);
+      if(mode==="story"){g.fillStyle=INK;H.fit(g,s.title.toUpperCase(),"900 $px "+F.disp,64,640,36);g.fillText(s.title.toUpperCase(),34,118);g.fillStyle="#a4a7ba";g.font="500 34px "+F.hi;g.fillText(s.hi,690,114);
+        g.fillStyle="#ffd08a";g.font="600 26px "+F.mono;g.fillText(s.when,36,160);g.fillStyle="#cfd2e2";g.font="400 27px "+F.sans;H.wrap(g,s.text,1120).slice(0,4).forEach((l,i)=>g.fillText(l,36,204+i*36));
+        STEPS.forEach((x,i)=>{g.fillStyle=i===st.step?ORANGE:i<st.step?"#8a6a40":"#3a3e50";g.beginPath();g.arc(40+i*28,362,8,0,7);g.fill()});
+        p.btn(g,"prev",30,390,200,86,"◀",{fs:40});p.btn(g,"play",240,390,240,86,st.play?"❚❚  PAUSE":"▶  PLAY",{fs:32,primary:!st.play});p.btn(g,"next",490,390,200,86,"NEXT ▶",{fs:32});p.btn(g,"restart",700,390,220,86,"↺  START",{fs:30});p.btn(g,"view",930,390,240,86,"👀  BEST VIEW",{fs:26})}
+      else if(mode==="photo"){g.fillStyle=INK;g.font="900 56px "+F.disp;g.fillText("VIKRAM, SEEN BY PRAGYAN",34,118);g.fillStyle="#cfd2e2";g.font="400 27px "+F.sans;
+        H.wrap(g,"Pragyan's two NavCams sit side by side like your eyes. On 30 Aug 2023 they photographed Vikram from about 15 m away. In the headset your left eye sees the left camera and your right eye the right camera: real depth from the Moon. Credit: ISRO (NavCam by LEOS/ISRO, processing SAC/ISRO).",1120).slice(0,6).forEach((l,i)=>g.fillText(l,36,166+i*36));
+        p.btn(g,"photoSwap",30,390,380,86,photo.swap?"Eyes: swapped":"Eyes: normal",{fs:28});}
+      else{g.fillStyle=INK;g.font="900 50px "+F.disp;g.fillText("ISRO'S REAL VIDEOS",34,112);g.fillStyle="#cfd2e2";g.font="400 25px "+F.sans;g.fillText(VIDS[vid.i][2],36,152);
+        VIDS.forEach((v,i)=>p.btn(g,"v"+i,30+(i%2)*570,180+Math.floor(i/2)*96,560,86,v[1],{on:i===vid.i,fs:26}));
+        p.btn(g,"vplay",30,390,260,86,vid.el&&!vid.el.paused?"❚❚  PAUSE":"▶  PLAY",{fs:30,primary:!(vid.el&&!vid.el.paused)})}
+      // mode row
+      const M=[["story","▶ Story"],["photo","📷 3D photo"],["videos","🎬 Videos"],["ride","🚀 Ride descent"]];
+      M.forEach(([id,l],i)=>p.btn(g,"m-"+id,30+i*285,494,275,80,l,{on:mode===id,fs:28}))},
+      {onPress:id=>press(id)});
+    rig.add(board.mesh);
+    temp=H.panel(1.3,.93,700,500,(g)=>{H.rr(g,4,4,692,492,20);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="#ff6a3d";g.stroke();
+      g.fillStyle="#ffb347";g.font="900 44px "+F.disp;g.fillText("ChaSTE · SOIL TEMPERATURE",28,62);
+      const gr=g.createLinearGradient(0,100,0,440);gr.addColorStop(0,"#ff4a1c");gr.addColorStop(.25,"#ffb347");gr.addColorStop(.55,"#7fb8ff");gr.addColorStop(1,"#3a6bff");g.fillStyle=gr;g.fillRect(40,100,70,340);
+      [["Surface (sunlit)","about +70 °C",108],["2 cm down","much cooler",190],["8 cm down","about −10 °C",400]].forEach(([a,b,y])=>{g.fillStyle=INK;g.font="600 30px "+F.sans;g.fillText(a,140,y+18);g.fillStyle="#ffd08a";g.font="700 32px "+F.mono;g.fillText(b,140,y+56)});
+      g.fillStyle=DUST;g.font="400 22px "+F.sans;g.fillText("Measured by Vikram, 26–27 Aug 2023 (ISRO)",28,478)},{depth:false});
+    temp.mesh.position.set(1.55,1.75,3.0);temp.mesh.rotation.y=Math.atan2(VIEW.pos.x-1.55,VIEW.pos.z-3.0);W.add(temp.mesh);temp.mesh.visible=false;
+    elems=H.panel(1.3,.9,700,480,(g)=>{H.rr(g,4,4,692,472,20);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="#ff4fd8";g.stroke();
+      g.fillStyle="#ff9ff0";g.font="900 46px "+F.disp;g.fillText("LIBS FOUND",28,64);
+      [["S","Sulphur","#ffe14a"],["Al","Aluminium"],["Ca","Calcium"],["Fe","Iron"],["Cr","Chromium"],["Ti","Titanium"],["Mn","Manganese"],["Si","Silicon"],["O","Oxygen"]].forEach(([s,n,c],i)=>{const x=28+(i%3)*218,y=96+Math.floor(i/3)*112;
+        H.rr(g,x,y,206,98,14);g.fillStyle=c?"rgba(255,225,74,.25)":"rgba(255,255,255,.08)";g.fill();g.strokeStyle=c||"rgba(255,255,255,.3)";g.lineWidth=c?4:2;g.stroke();g.fillStyle=c||INK;g.font="800 44px "+F.sans;g.fillText(s,x+16,y+56);g.fillStyle="#cfd2e2";g.font="500 22px "+F.sans;g.fillText(n,x+16,y+86)});
+      g.fillStyle=DUST;g.font="400 22px "+F.sans;g.fillText("Pragyan, 29 Aug 2023 (ISRO)",28,460)},{depth:false});
+    elems.mesh.position.set(2.9,1.75,1.15);elems.mesh.rotation.y=Math.atan2(VIEW.pos.x-2.9,VIEW.pos.z-1.15);W.add(elems.mesh);elems.mesh.visible=false;
+    // Pragyan's real stereo photo: left camera to the left eye, right camera to the right eye
+    photo={root:new T.Group(),swap:false};const ph=(u,layer)=>{const m=new T.Mesh(new T.PlaneGeometry(2.4,2.4),new T.MeshBasicMaterial({map:tex(u),depthTest:false,depthWrite:false,transparent:true}));m.renderOrder=31;m.layers.set(layer);photo.root.add(m);return m};
+    photo.L=ph("ch3/vikram_L.jpg",1);photo.R=ph("ch3/vikram_R.jpg",2);photo.mono=ph("ch3/vikram_L.jpg",0);
+    const fr=new T.Mesh(new T.PlaneGeometry(2.52,2.52),new T.MeshBasicMaterial({color:0xff9933,depthTest:false,depthWrite:false,transparent:true}));fr.position.z=-.01;fr.renderOrder=30;photo.root.add(fr);
+    photo.root.visible=false;rig.add(photo.root);
+    // a big screen for ISRO's videos
+    screen=new T.Mesh(new T.PlaneGeometry(3.2,1.8),new T.MeshBasicMaterial({color:0x000000,depthTest:false,depthWrite:false,transparent:true}));screen.renderOrder=31;screen.visible=false;rig.add(screen);
+  }
+  function placePhoto(){H.front(photo.root,2.6,.15,-.2,0)}
+  function drawRide(g,p){const r=RIDE;g.fillStyle=ORANGE;g.font="600 24px "+F.mono;g.fillText("CHANDRAYAAN-3 · RIDE THE REAL DESCENT",36,52);
+    if(!r.ready){g.fillStyle=INK;g.font="700 44px "+F.sans;g.fillText(r.err?"Could not load the path data":"Loading the real path and the Moon…",36,140);}
+    else{const k=r.phase;g.fillStyle=INK;H.fit(g,RPH[k][1].toUpperCase(),"900 $px "+F.disp,60,1120,32);g.fillText(RPH[k][1].toUpperCase(),34,116);
+      g.fillStyle="#cfd2e2";g.font="400 26px "+F.sans;H.wrap(g,RPH[k][2],1120).slice(0,2).forEach((l,i)=>g.fillText(l,36,158+i*34));
+      [["TIME (IST)",r.clock],["HEIGHT",r.alt],["SPEED",r.spd],["TO LANDING POINT",r.dist]].forEach(([a,b],i)=>{const x=36+(i%2)*560,y=250+Math.floor(i/2)*64;g.fillStyle=DUST;g.font="600 22px "+F.mono;g.fillText(a,x,y);g.fillStyle=INK;g.font="600 32px "+F.mono;g.fillText(b,x+240,y+2)})}
+    p.btn(g,"rprev",30,390,200,86,"◀",{fs:40});p.btn(g,"rplay",240,390,240,86,RIDE.play?"❚❚  PAUSE":"▶  PLAY",{fs:32,primary:!RIDE.play});p.btn(g,"rnext",490,390,200,86,"NEXT ▶",{fs:32});p.btn(g,"rfast",700,390,240,86,"SPEED "+RIDE.mul+"×",{fs:28});p.btn(g,"m-story",950,390,220,86,"⌂ SITE",{fs:28});
+    const M=[["story","▶ Story"],["photo","📷 3D photo"],["videos","🎬 Videos"],["ride","🚀 Ride descent"]];
+    M.forEach(([id,l],i)=>p.btn(g,"m-"+id,30+i*285,494,275,80,l,{on:mode===id,fs:28}))}
+
+  /* ---------------- ISRO videos ---------------- */
+  const VIDS=[["video/ch3-descent-rollout.mp4","Landing + rollout (Vikram's camera)","Vikram's own cameras: the final descent, then Pragyan rolling down the ramp. Credit: ISRO"],
+    ["video/ch3-pragyan-turn.mp4","Pragyan turns (seen by Vikram)","Pragyan rotating to find a safe route, filmed by Vikram's Lander Imager, 31 Aug 2023. Credit: ISRO"],
+    ["video/ch3-apxs.mp4","APXS arm at work","Pragyan's APXS instrument swinging down to read the soil, 26 Aug 2023. Credit: ISRO"],
+    ["video/ch3-vikram-hop.mp4","Vikram's hop","Vikram hops about 40 cm, 3 Sep 2023, seen by its own cameras. Credit: ISRO"]];
+  const vid={i:0,el:null,tx:null};
+  function vidOpen(i){vid.i=i;if(!vid.el){vid.el=document.createElement("video");vid.el.crossOrigin="anonymous";vid.el.playsInline=true;vid.el.preload="auto";
+      vid.tx=new T.VideoTexture(vid.el);vid.tx.encoding=T.sRGBEncoding;screen.material.map=vid.tx;screen.material.color.set(0xffffff);screen.material.needsUpdate=true;
+      ["play","pause","ended"].forEach(e=>vid.el.addEventListener(e,()=>{board.redraw();if(e==="play")H.hush()}))}
+    vid.el.src=VIDS[i][0];vid.el.currentTime=0;const p=vid.el.play();if(p&&p.catch)p.catch(()=>{});board.redraw()}
+  function vidStop(){if(vid.el){try{vid.el.pause()}catch(e){}}}
+
+  /* ---------------- ride the real descent (NASA/JPL Horizons path) ---------------- */
+  const RPH=[["orbit","In orbit, 30 km up","Vikram coasts toward the low point of its orbit at about 1.7 km/s (6,000 km/h)."],
+    ["pdi","Rough braking","All four 800 N engines fire against the motion; in about 11 minutes they take away most of the speed."],
+    ["ah","Attitude hold, 7.4 km","Vikram holds still for 10 seconds so its cameras can match the ground to maps."],
+    ["fb","Fine braking","The engines slow Vikram almost to a stop above the landing zone."],
+    ["hv1","First hover, about 800 m","Two engines switch off. Vikram hangs in the sky, looking down."],
+    ["vd","Vertical descent","It drops straight down toward 150 m."],["hz","Hazard check at 150 m","Its hazard camera searches for a flat spot without rocks or craters."],
+    ["rt","Moving to the safe spot","It glides sideways to the spot it chose."],["fd","Final descent","The last 10 m at about 1 m/s."],["td","Touchdown!","23 Aug 2023, 6:03 pm IST. India lands near the Moon's south pole."]];
+  const RIDE={ready:false,loading:false,err:false,play:true,t:0,mul:1,phase:0,clock:"",alt:"",spd:"",dist:"",PT:null,P:null,EV:null,t0:0,t1:0,PH:null,heading:new T.Vector3(0,0,1),hudT:0,R:new T.Matrix4()};
+  function rideLoad(){if(RIDE.ready||RIDE.loading)return;RIDE.loading=true;board.redraw();
+    const j=u=>fetch(u).then(r=>{if(!r.ok)throw new Error(u);return r.json()});
+    Promise.all([j("ch3/reg_h.json"),j("ch3/track.json")]).then(([rh,trk])=>{D.rh=loading.i16(rh);rideBuild(trk);RIDE.ready=true;RIDE.loading=false;RIDE.t=RIDE.t0;board.redraw();H.say("ch3-ride")}).catch(()=>{RIDE.err=true;RIDE.loading=false;board.redraw()})}
+  function rideBuild(trk){
+    // regional terrain (with a hole under the local map) and the rest of the Moon, low detail
+    const inLoc=(la,lo,m)=>la<=L.lat0-m&&la>=L.lat1+m&&lo>=L.lon0+m&&lo<=L.lon1-m;
+    const regG=grid(G.rows,G.cols,i=>G.lat0-i*G.step,j=>G.lon0+j*G.step,(i,j)=>D.rh[i*G.cols+j],(a,b,c,d)=>inLoc(a,b,.02)&&inLoc(c,d,.02),(la,lo)=>inLoc(la,lo,-.1)?250:0);
+    const regM=new T.Mesh(regG,new T.MeshBasicMaterial({map:tex("ch3/reg_wac.jpg")}));W.add(regM);RIDE.extra=[regM];
+    {const s2=3,rows=180/s2+1,cols=360/s2+1,pos=new Float32Array(rows*cols*3),uv=new Float32Array(rows*cols*2),idx=[];
+     for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const la=90-i*s2,lo=-180+j*s2,k=i*cols+j;ll(la,lo,-6500,pos,k*3);uv[k*2]=j/(cols-1);uv[k*2+1]=1-i/(rows-1)}
+     for(let i=0;i<rows-1;i++)for(let j=0;j<cols-1;j++){const a=i*cols+j;idx.push(a,a+cols,a+1,a+1,a+cols,a+cols+1)}
+     const m=new T.Mesh(geo(pos,uv,idx),new T.MeshBasicMaterial({map:H.tex("moon.jpg")}));m.material.color.setScalar(.66);W.add(m);RIDE.extra.push(m)}
+    const P=trk.pts;RIDE.P=P;RIDE.EV=trk.ev;RIDE.t0=P[0][0];RIDE.t1=P[P.length-1][0];RIDE.PT=P.map(p=>new T.Vector3(p[1]*1000,p[3]*1000,-p[2]*1000));
+    const EV=trk.ev;RIDE.PH={orbit:RIDE.t0,pdi:EV.pdi,ah:EV.ah,fb:EV.fb,hv1:EV.hv1,vd:1008,hz:EV.hz,rt:1152,fd:1205,td:EV.td};
+    // the path as a glowing line
+    const n=Math.round(RIDE.t1-RIDE.t0)+1,pp=new Float32Array(n*3);for(let i=0;i<n;i++){posAt(RIDE.t0+i,v1);pp.set([v1.x,v1.y,v1.z],i*3)}
+    const lg=new T.BufferGeometry();lg.setAttribute("position",new T.BufferAttribute(pp,3));const line=new T.Line(lg,new T.LineBasicMaterial({color:0xffb347,transparent:true,opacity:.6}));W.add(line);RIDE.extra.push(line);RIDE.line=line}
+  function seg(t){const f=Math.max(0,Math.min(RIDE.P.length-1.0001,(t-RIDE.t0)/5));return [Math.floor(f),f-Math.floor(f)]}
+  function posAt(t,out){const PT=RIDE.PT,[i,f]=seg(t),p0=PT[Math.max(0,i-1)],p1=PT[i],p2=PT[Math.min(PT.length-1,i+1)],p3=PT[Math.min(PT.length-1,i+2)],f2=f*f,f3=f2*f;
+    const cr=(a,b,c,d)=>.5*((2*b)+(-a+c)*f+(2*a-5*b+4*c-d)*f2+(-a+3*b-3*c+d)*f3);return out.set(cr(p0.x,p1.x,p2.x,p3.x),cr(p0.y,p1.y,p2.y,p3.y),cr(p0.z,p1.z,p2.z,p3.z))}
+  const altAt=t=>{const [i,f]=seg(t),P=RIDE.P;return (P[i][4]+(P[Math.min(P.length-1,i+1)][4]-P[i][4])*f)*1000};
+  const rphaseAt=t=>{let k=0;RPH.forEach((p,i)=>{if(t>=RIDE.PH[p[0]]-.01)k=i});return k};
+  const ist=t=>{const s=Math.round((12*3600+12*60+t+19800)%86400);return `${String(Math.floor(s/3600)).padStart(2,"0")}:${String(Math.floor(s/60)%60).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`};
+  const lp=new T.Vector3(),lv=new T.Vector3(),up=new T.Vector3(),hd=new T.Vector3();
+  function rideFrame(dt){const r=RIDE;if(!r.ready)return;
+    posAt(r.t,lp);posAt(Math.min(r.t1,r.t+1),lv);lv.sub(posAt(Math.max(r.t0,r.t-1),v2)).multiplyScalar(.5);up.copy(lp).sub(C).normalize();
+    const spd=lv.length(),alt=Math.max(1,altAt(r.t));if(r.line)r.line.material.opacity=.6*sm(300,3000,alt);
+    // comfortable pace: the ground never sweeps by faster than about 8° a second
+    if(r.play){const rate=clamp(.14*alt/Math.max(1,spd),1,40)*r.mul;r.t=Math.min(r.t1,r.t+dt*rate);if(r.t>=r.t1){r.play=false;rideLanded()}}
+    hd.copy(lv).addScaledVector(up,-lv.dot(up));if(hd.length()>2)r.heading.copy(hd.normalize());hd.copy(r.heading).addScaledVector(up,-r.heading.dot(up)).normalize();
+    // Vikram follows the real path; you stand on its top deck
+    lander.holder.position.copy(lp);q1.setFromRotationMatrix(m1.lookAt(v1.set(0,0,0),hd,up));lander.holder.quaternion.copy(q1);
+    lander.glow.visible=lander.cone.visible=r.t<r.PH.td-.5&&r.t>r.PH.pdi;
+    v2.copy(lp).addScaledVector(up,lander.h+.02);
+    r.R.lookAt(v1.set(0,0,0),hd,up);m1.copy(r.R).setPosition(v2);W.matrix.copy(m1).invert();W.matrixWorldNeedsUpdate=true;H.headPos(v3);skyG.position.copy(v3.applyMatrix4(m1));
+    H.setSkyFrame(new T.Matrix4().extractRotation(W.matrix).multiply(saved.skyF));
+    const now=performance.now();if(now-r.hudT>150){r.hudT=now;const k=rphaseAt(r.t);if(k!==r.phase){r.phase=k}
+      r.clock=ist(r.t);r.alt=alt>=1000?H.fmt(alt/1000,1)+" km":H.fmt(Math.max(0,alt))+" m";r.spd=spd>=20?H.fmt(spd)+" m/s":H.fmt(spd,1)+" m/s";
+      const ang=lp.clone().sub(C).angleTo(v3.set(0,0,0).sub(C)),dd=RS_*ang;r.dist=dd>=1000?H.fmt(dd/1000,dd<1e4?1:0)+" km":H.fmt(dd)+" m";board.redraw()}}
+  function rideLanded(){H.hint("Touchdown!",[["Time","6:03 pm IST, 23 Aug 2023"],["Next","press ⌂ SITE to step off onto the Moon"]],7)}
+  function rideStart(){mode="ride";H.hideCard();vidStop();screen.visible=false;photo.root.visible=false;
+    W.matrixAutoUpdate=false;cam.near=.3;cam.far=9e5;cam.updateProjectionMatrix();RIDE.play=true;RIDE.mul=1;
+    rig.position.set(0,0,0);rig.rotation.set(0,0,0);rig.updateMatrixWorld(true);
+    if(!RIDE.ready){rideLoad()}else{RIDE.t=RIDE.t0;H.say("ch3-ride")}
+    st.tau=19;st.play=false;applyState(true);rover.holder.visible=false;if(RIDE.extra)RIDE.extra.forEach(m=>m.visible=true);H.front(board.mesh,1.05,-.55,-.1,-.6);board.redraw()}
+  function rideEnd(){W.matrixAutoUpdate=true;W.matrix.identity();W.position.set(0,0,0);W.quaternion.identity();W.updateMatrixWorld(true);
+    lander.holder.quaternion.identity();if(RIDE.extra)RIDE.extra.forEach(m=>m.visible=false);cam.near=.05;cam.far=6e4;cam.updateProjectionMatrix();H.setSkyFrame(saved.skyF)}
+
+  /* ---------------- modes, buttons ---------------- */
+  function setMode(m){if(m===mode&&m!=="story")return;const was=mode;if(was==="ride")rideEnd();if(was==="videos"&&m!=="videos")vidStop();
+    mode=m;H.hideCard();screen.visible=m==="videos";
+    if(m==="story"){if(was==="ride"){st.tau=STEPS[2].t-.01;st.saidStep=-1;goStep(2,false)}placeView();}
+    else if(m==="photo"){st.play=false;placePhoto();H.say("ch3-photo",true)}
+    else if(m==="videos"){st.play=false;H.front(screen,3.4,.35,0,0);H.say("ch3-videos",true)}
+    else if(m==="ride"){rideStart();return}
+    H.front(board.mesh,1.05,-.55,-.62,-.55);applyState(true);board.redraw();H.menu.redraw()}
+  function placeView(){st.gPrev=null;H.placeHead(new T.Vector3(VIEW.pos.x,gY(VIEW.pos.x,VIEW.pos.z)+1.6,VIEW.pos.z),VIEW.look);H.front(board.mesh,1.05,-.55,-.62,-.55)}
+  function goStep(k,say){st.step=clamp(k,0,STEPS.length-1);st.tau=STEPS[st.step].t;st.play=true;st.wait=0;st.saidStep=say===false?st.step:-1;
+    // the dust settles instantly when you jump
+    for(let i=0;i<dust.n;i++)dust.pos[i*3+1]=-99;dust.pts.geometry.attributes.position.needsUpdate=true;applyState(true);board.redraw()}
+  function press(id){
+    if(id.startsWith("m-")){setMode(id.slice(2));return}
+    if(id==="prev")goStep(st.step-1);else if(id==="next")goStep(st.step+1);else if(id==="restart")goStep(0);
+    else if(id==="play"){st.play=!st.play;if(st.play&&st.tau>=TEND-.1)goStep(0)}
+    else if(id==="view")placeView();
+    else if(id==="photoSwap"){photo.swap=!photo.swap;photo.L.layers.set(photo.swap?2:1);photo.R.layers.set(photo.swap?1:2)}
+    else if(id[0]==="v"&&/^v\d$/.test(id))vidOpen(+id.slice(1));
+    else if(id==="vplay"){if(!vid.el)vidOpen(vid.i);else if(vid.el.paused){const p=vid.el.play();if(p&&p.catch)p.catch(()=>{})}else vid.el.pause()}
+    else if(id==="rplay"){RIDE.play=!RIDE.play;if(RIDE.play&&RIDE.t>=RIDE.t1)RIDE.t=RIDE.t0}
+    else if(id==="rnext"&&RIDE.ready){const k=Math.min(RPH.length-1,rphaseAt(RIDE.t)+1);RIDE.t=RIDE.PH[RPH[k][0]];RIDE.play=true}
+    else if(id==="rprev"&&RIDE.ready){const k=Math.max(0,rphaseAt(RIDE.t)-(RIDE.t-RIDE.PH[RPH[rphaseAt(RIDE.t)][0]]<3?1:0));RIDE.t=RIDE.PH[RPH[k][0]];RIDE.play=true}
+    else if(id==="rfast"){RIDE.mul=RIDE.mul===1?3:RIDE.mul===3?10:1}
+    board.redraw()}
+  function infoCard(which){const L_=which==="lander";
+    H.showCard(L_?{kicker:"ISRO · CHANDRAYAAN-3 · LANDER",title:"Vikram",hi:"विक्रम लैंडर",color:"#ff9933",cols:3,
+        rows:[["Mass","1,749 kg (with rover)"],["Height","about 2 m"],["Engines","4 × 800 N"],["Power","738 W"],["Landed","23 Aug 2023"],["Instruments","ChaSTE · ILSA · RAMBHA · NASA LRA"]],
+        text:"Named after Vikram Sarabhai, father of India's space programme. Hold the trigger on it to turn it.",say:"craft-chandrayaan-3"}
+      :{kicker:"ISRO · CHANDRAYAAN-3 · ROVER",title:"Pragyan",hi:"प्रज्ञान रोवर",color:"#ff9933",cols:3,
+        rows:[["Mass","26 kg"],["Size","0.92 × 0.75 × 0.40 m"],["Wheels","6"],["Power","50 W, solar"],["Speed","about 1 cm/s"],["Instruments","APXS · LIBS · 2 NavCams"]],
+        text:"Pragyan means wisdom. It drove about 100 m in 10 days near the south pole.",say:"craft-pragyan"},H.lastHit&&H.lastHit.point?H.lastHit.point.clone():null)}
+
+  /* ---------------- the scene ---------------- */
+  return {id:"ch3",title:"Chandrayaan-3",sky:"dim",ambient:"ambient",noFly:true,
+    get flySpeed(){return 1.5},
+    enter(){saved.near=cam.near;saved.far=cam.far;cam.near=.05;cam.far=6e4;cam.updateProjectionMatrix();saved.envPrev=S.environment;W.visible=true;mode="story";
+      H.placeHead(VIEW.pos.clone(),VIEW.look);
+      if(!built){if(!this._wait){this._wait=H.panel(1.2,.3,1200,300,g=>{H.rr(g,6,6,1188,288,24);g.fillStyle="rgba(8,10,20,.9)";g.fill();g.lineWidth=4;g.strokeStyle=ORANGE;g.stroke();g.fillStyle=INK;g.font="700 46px "+F.sans;g.fillText(failed?"Could not load the Moon data.":"Building the real Moon at Shiv Shakti Point…",40,120);g.fillStyle=DUST;g.font="400 28px "+F.sans;g.fillText(failed?"Open once with internet so it can be saved.":"NASA LRO heights and photos · Vikram · Pragyan",40,190)});rig.add(this._wait.mesh)}
+        H.front(this._wait.mesh,1.6,0,0,0);this._wait.mesh.visible=true;
+        load().then(()=>{build();this._wait.mesh.visible=false;if(H.scene!==this)return;if(saved.env)S.environment=saved.env;H.setSkyFrame(saved.skyF);placeView();goStep(0)}).catch(()=>{failed=true;this._wait.redraw()});return}
+      board.mesh.visible=true;if(saved.env)S.environment=saved.env;H.setSkyFrame(saved.skyF);placeView();goStep(0)},
+    exit(){if(mode==="ride")rideEnd();mode="story";vidStop();if(screen)screen.visible=false;if(photo)photo.root.visible=false;if(board)board.mesh.visible=false;W.visible=false;S.environment=saved.envPrev||null;cam.near=saved.near||.05;cam.far=saved.far||3000;cam.updateProjectionMatrix();if(this._wait)this._wait.mesh.visible=false},
+    frame(dt){if(!built)return;
+      if(mode==="ride"){rideFrame(dt);updShadows();return}
+      if(mode==="story"&&st.play){
+        const nxt=STEPS[st.step+1],end=nxt?nxt.t:TEND;
+        if(st.saidStep!==st.step){st.saidStep=st.step;H.say(STEPS[st.step].say);board.redraw();if(STEPS[st.step].id==="land")H.hint("Look up!",[["Vikram","is coming down above you"],["Watch","the dust fly in straight lines"]],6)}
+        if(st.tau<end-.01)st.tau=Math.min(end-.01,st.tau+dt);
+        else{const busy=H.narrating&&H.narrating();if(!busy){st.wait+=dt;if(st.wait>1.2){st.wait=0;if(nxt){st.step++;st.tau=nxt.t;board.redraw()}else{st.play=false;board.redraw()}}}}
+        const k=stepAt(st.tau);if(k!==st.step){st.step=k;board.redraw()}}
+      applyState(false);updDust(dt);updShadows();
+      // the sky (Sun, Earth) stays around your head, like the real sky
+      H.headPos(v1);skyG.position.copy(v1);
+      // the stereo photo: each eye its own camera inside the headset, the left one on a flat screen
+      if(photo.root.visible){const xr=R.xr.isPresenting;photo.mono.visible=!xr;photo.L.visible=photo.R.visible=xr}
+      if(mode==="videos"&&vid.tx&&vid.el&&!vid.el.paused)vid.tx.needsUpdate=true;
+      // stand on the ground when walking
+      if(mode==="story"||mode==="photo"||mode==="videos"){H.headPos(v1);const gy=gY(v1.x,v1.z)+crater(v1.x,v1.z);if(st.gPrev!=null)rig.position.y+=gy-st.gPrev;st.gPrev=gy}},
+    sticks(mx,my,tx,ty,boost,dt){if(mode==="ride"){H.move(0,0,tx,0,false,dt,{noFly:true});return}H.move(mx,my,tx,0,boost,dt,{speed:1.5,flat:true,noUp:true})},
+    picks:()=>{const L2=[];if(mode==="ride"||!built)return L2;[lander.model,rover.model].forEach(o=>o&&o.traverse(m=>{if(m.isMesh)L2.push(m)}));if(earth)L2.push(earth);return L2},
+    pick(o){if(o==="earth"){H.showCard({kicker:"SEEN FROM THE MOON",title:"Earth",hi:"पृथ्वी",color:"#8ec5ff",text:"From the Moon's south pole region Earth hangs low over the horizon and hardly moves across the sky, because the Moon always shows Earth the same face. The bright part is daytime on Earth.",sound:"earth",say:"earth"});return}
+      if(o==="lander"||o==="rover")infoCard(o)},
+    grab(o){if(mode==="ride")return null;if(o==="lander")return {obj:lander.turn,mode:"yaw",gain:3};if(o==="rover")return {obj:rover.turn,mode:"yaw",gain:3};return null},
+    empty(){H.hideCard()},
+    menu:()=>[{id:"m-story",label:"Story",on:mode==="story"},{id:"m-photo",label:"Real 3D photo",on:mode==="photo"},{id:"m-videos",label:"ISRO videos",on:mode==="videos"},{id:"m-ride",label:"Ride the descent",on:mode==="ride"},{id:"next",label:"Next step  ▶",disabled:mode!=="story"},{id:"view",label:"Best view",disabled:mode==="ride"}],
+    menuPress(id){press(id)},
+    btnA(){if(mode==="story")goStep(st.step+1);else if(mode==="ride")press("rplay")},btnX(){if(mode==="story")goStep(st.step-1)},
+    prev(){if(mode==="story")goStep(st.step-1)},next(){if(mode==="story")goStep(st.step+1)},
+    refresh(){if(board)board.redraw()},
+    _:{get st(){return st},get mode(){return mode},setMode,goStep,press,get RIDE(){return RIDE},get lander(){return lander},get rover(){return rover},gY,W}};
 }
 
 
@@ -7623,7 +8306,7 @@ if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting())XR.e
   if(!("serviceWorker" in navigator)){show("This browser cannot save the site for offline use");return}
   var secure=location.protocol==="https:"||/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
   if(!secure){show("Offline saving needs https:// or localhost");return}
-  function done(){show("Saved on this device · works offline",true);try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}}
+  function done(){els.forEach(function(el){el.hidden=true});try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}}
   navigator.serviceWorker.addEventListener("message",function(e){var d=e.data||{};if(d.type==="progress")show("Saving for offline… "+Math.floor(d.done/d.total*100)+"% · keep this page open");else if(d.type==="ready")done()});
   try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
   navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(reg){
