@@ -26,7 +26,11 @@ self.addEventListener("fetch",e=>{
   const r=e.request;if(r.method!=="GET")return;
   const u=new URL(r.url);if(u.origin!==self.location.origin)return;
   if(r.headers.has("range")){e.respondWith(ranged(r));return}
-  if(r.mode==="navigate"){e.respondWith(caches.match("index.html").then(m=>m||fetch(r)).catch(()=>fetch(r)));return}
+  if(r.mode==="navigate"){e.respondWith((async()=>{
+    // online: newest page (4 s limit); offline or slow: the saved copy
+    try{const res=await Promise.race([fetch(r,{cache:"no-cache"}),new Promise((_,no)=>setTimeout(()=>no(0),4000))]);if(res&&res.ok)return res}catch(err){}
+    return (await caches.match("index.html"))||fetch(r);
+  })());return}
   const big=/\/video\//.test(u.pathname);
   e.respondWith(caches.match(r,{ignoreSearch:true}).then(m=>m||fetch(r).then(res=>{if(res.status===200&&!big){const cp=res.clone();caches.open(VERSION).then(c=>c.put(r,cp)).catch(()=>{})}return res})));
 });
