@@ -1,0 +1,8 @@
+<!doctype html><meta charset="utf-8"><title>APK hand-over</title><body style="font:16px system-ui;padding:20px">Preparing…
+<script>
+(async()=>{const f=new URLSearchParams(location.search).get("f");
+  try{const r=await fetch(f,{cache:"no-store"});const buf=await r.arrayBuffer();
+    const send=()=>{if(window.opener){window.opener.postMessage({duetApk:f,buf},"*");document.body.textContent="Sent "+f+" ("+buf.byteLength+" bytes). You can close this tab."}else document.body.textContent="No opener window."};
+    send();window.addEventListener("message",e=>{if(e.data==="again")send()});
+  }catch(e){document.body.textContent="Error: "+e}})();
+</script>
