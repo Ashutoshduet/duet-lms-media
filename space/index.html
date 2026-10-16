@@ -3276,13 +3276,14 @@ function VRHub(o){
   const NIDS=new Set(typeof NARR_IDS!=="undefined"?NARR_IDS:[]);
   const NAR={mode:store.get("ss360-narr","en"),a:new Audio(),last:null};NAR.a.preload="auto";
   H.has=id=>NIDS.has(id);
-  H.say=(id,force)=>{if(!id||!NIDS.has(id))return false;if(!force&&NAR.last===id&&!NAR.a.paused&&!NAR.a.ended)return true;NAR.last=id;if(NAR.mode==="off"&&!force)return false;const m=NAR.mode==="off"?"en":NAR.mode;
-    try{NAR.a.pause();NAR.a.src="audio/"+m+"/"+id+".mp3";NAR.a.currentTime=0;NAR.blocked=null;const p=NAR.a.play();if(p&&p.catch)p.catch(err=>{if(err&&err.name==="NotAllowedError")NAR.blocked=id})}catch(e){}return true};
+  H.say=(id,force,at)=>{if(!id||!NIDS.has(id))return false;if(!force&&NAR.last===id&&!NAR.a.paused&&!NAR.a.ended)return true;NAR.last=id;if(NAR.mode==="off"&&!force)return false;const m=NAR.mode==="off"?"en":NAR.mode;
+    try{NAR.a.pause();NAR.a.src="audio/"+m+"/"+id+".mp3";NAR.a.currentTime=at>0?at:0;NAR.blocked=null;const p=NAR.a.play();if(p&&p.catch)p.catch(err=>{if(err&&err.name==="NotAllowedError")NAR.blocked=id})}catch(e){}return true};
   H.onAudioEnd=null;NAR.a.addEventListener("ended",()=>{if(H.onAudioEnd)H.onAudioEnd(NAR.last)});
   H.hush=()=>{try{NAR.a.pause()}catch(e){}};
   H.narrating=()=>!NAR.a.paused&&!NAR.a.ended;
   H.narrLabel=()=>NAR.mode==="en"?"ENGLISH":NAR.mode==="hi"?"हिंदी":NAR.mode==="hg"?"HINGLISH":"OFF";
-  H.setNarr=m=>{NAR.mode=m;store.set("ss360-narr",m);if(m==="off")H.hush();else H.say(NAR.last||"ui-welcome",true);refreshUI()};
+  H.setNarr=m=>{NAR.mode=m;store.set("ss360-narr",m);if(m==="off")H.hush();
+    else{const sc=H.scene,sy=sc&&sc.narrSync?sc.narrSync(NAR.last):undefined;if(sy===null)H.hush();else if(sy&&sy.id)H.say(sy.id,true,sy.at);else H.say(NAR.last||"ui-welcome",true)}refreshUI()};
   H.cycleNarr=()=>H.setNarr(NAR.mode==="en"?"hi":NAR.mode==="hi"?"hg":NAR.mode==="hg"?"off":"en");
   H.narrMode=()=>NAR.mode;
   NAR.a.addEventListener("play",()=>duck(true));NAR.a.addEventListener("pause",()=>duck(false));NAR.a.addEventListener("ended",()=>duck(false));
@@ -3290,16 +3291,16 @@ function VRHub(o){
   /* ---------- sounds: space ambience, planet recordings, rocket roar, game effects (on/off) ---------- */
   const PSND=new Set(typeof PLANET_SND!=="undefined"?PLANET_SND:[]);
   // three switches: space sound (background), planet sounds (play when you open a world), effects (clicks, rocket roar, games)
-  const SND={amb_on:store.get("ss360-amb","on")!=="off",pl_on:store.get("ss360-psnd","on")!=="off",on:store.get("ss360-snd","on")!=="off",amb:new Audio(),fx:{},planet:new Audio(),ambWant:null,ambVol:.32,ducked:false,blocked:false};
+  const SND={amb_on:store.get("ss360-amb","on")!=="off",pl_on:store.get("ss360-psnd","on")!=="off",on:store.get("ss360-fx","on")!=="off",amb:new Audio(),fx:{},planet:new Audio(),ambWant:null,ambVol:.32,ducked:false,blocked:false};
   SND.amb.loop=true;SND.amb.preload="auto";SND.planet.preload="auto";
   function duck(on){SND.ducked=on;SND.amb.volume=SND.ambVol*(on?.35:1)}
   function tryPlay(a){try{const p=a.play();if(p&&p.catch)p.catch(err=>{if(err&&err.name==="NotAllowedError")SND.blocked=true})}catch(e){}}
   H.soundOn=()=>SND.on;H.spaceOn=()=>SND.amb_on;H.planetSndOn=()=>SND.pl_on;
-  H.setSound=on=>{SND.on=on;store.set("ss360-snd",on?"on":"off");if(!on){try{Object.values(SND.fx).forEach(a=>a.pause())}catch(e){}}refreshUI()};
+  H.setSound=on=>{SND.on=on;store.set("ss360-fx",on?"on":"off");if(!on){try{Object.values(SND.fx).forEach(a=>a.pause())}catch(e){}}else if(H.scene&&H.scene.fxSync)H.scene.fxSync();refreshUI()};
   H.setSpace=on=>{SND.amb_on=on;store.set("ss360-amb",on?"on":"off");if(!on){try{SND.amb.pause()}catch(e){}}else H.ambient(SND.ambWant,true);refreshUI()};
   H.setPlanetSnd=on=>{SND.pl_on=on;store.set("ss360-psnd",on?"on":"off");if(!on){try{SND.planet.pause()}catch(e){}}refreshUI()};
   H.ambient=(kind,force)=>{if(kind===SND.ambWant&&!force)return;SND.ambWant=kind;try{if(!kind||!SND.amb_on){SND.amb.pause();return}const src="sfx/"+kind+".mp3";if(!SND.amb.src.endsWith(src))SND.amb.src=src;duck(SND.ducked);tryPlay(SND.amb)}catch(e){}};
-  H.sfx=(name,vol)=>{if(!SND.on)return null;try{let a=SND.fx[name];if(!a||!a.paused&&!a.ended){a=new Audio("sfx/"+name+".mp3");SND.fx[name]=a}a.volume=vol==null?.8:vol;a.currentTime=0;tryPlay(a);return a}catch(e){return null}};
+  H.sfx=(name,vol,at)=>{if(!SND.on)return null;try{let a=SND.fx[name];if(!a||!a.paused&&!a.ended){a=new Audio("sfx/"+name+".mp3");SND.fx[name]=a}a.volume=vol==null?.8:vol;a.currentTime=at>0?at:0;tryPlay(a);return a}catch(e){return null}};
   H.stopSfx=name=>{const a=SND.fx[name];if(a)try{a.pause()}catch(e){}};
   H.hasPlanetSound=id=>PSND.has(id);
   // a world's real recorded sound first, then its narration
@@ -3471,7 +3472,7 @@ function VRHub(o){
     G={obj:o,spec,mode:spec.mode||"free",c1:c,c2:null,t0:performance.now(),moved:0,q0:ctrlQ(c,new T.Quaternion()),oq0:o.getWorldQuaternion(new T.Quaternion()),
       dir0:ray.ray.direction.clone(),ry0:o.rotation.y,s0:o.scale.x,dist:hit?hit.dist:1,off:null};
     if(G.mode==="carry"){const wp=o.getWorldPosition(new T.Vector3());G.dist=ray.ray.origin.distanceTo(wp);G.off=wp.sub(ray.ray.origin.clone().addScaledVector(ray.ray.direction,G.dist))}
-    c.userData.grabbing=true;haptic(c);H.sfx("grab",.35);if(spec.onStart)spec.onStart();return true}
+    c.userData.grabbing=true;haptic(c);if(spec.onStart)spec.onStart();return true}
   function endGrab(c){if(!G)return;if(c&&c===G.c2){G.c2=null;return}if(c&&c!==G.c1)return;
     const g=G;G=null;g.c1.userData.grabbing=false;g.c1.userData.justGrabbed=performance.now()-g.t0>350||g.moved>.08;
     if(g.mode==="carry"&&g.spec.onDrop){g.obj.updateMatrixWorld();g.spec.onDrop(g.obj.getWorldPosition(new T.Vector3()))}else if(g.spec.onEnd)g.spec.onEnd()}
@@ -3828,7 +3829,7 @@ function SpaceScene(H){
     sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:baseSpeed(),onMove:stopTravel})},
     onMove:stopTravel,
     picks:()=>picks.filter(p=>p.kind!=="craft"||st.craft).map(p=>p.hit),
-    pick(p){if(st.card===p&&H.cardData()){if(H.hasPlanetSound(p.info.id)){if(H.planetPlaying(p.info.id))H.stopPlanet();else H.planetThenSay(p.info.id,null,true)}else hideCard()}else showCard(p)},
+    pick(p){if(st.card===p&&H.cardData()){if(H.planetPlaying(p.info.id))H.stopPlanet();else if(H.hasPlanetSound(p.info.id)&&H.planetSndOn())H.planetThenSay(p.info.id,null);else hideCard()}else showCard(p)},
     grab(p){const pl=PL.find(x=>x.pk===p);
       if(pl)return {obj:pl.tg,mode:"free",minS:.6,maxS:4};
       if(p===sunPick)return {obj:sunM,mode:"free",minS:.6,maxS:2};
@@ -3921,7 +3922,7 @@ function SolarScenes(H){
       frame(dt){if(!world)return;const b=world.userData.body,w=worldInfo(ITEMS[cur]);b.rotation.y+=(spin||Math.sign(w.day||1)*.15)*dt;spin*=.94;if(Math.abs(spin)<.02)spin=0},
       sticks(mx,my,tx,ty,boost,dt){if(Math.abs(tx)>.15)spin=tx*2.4;if(Math.abs(my)>.2&&world){zoom=Math.min(2.2,Math.max(.45,zoom*Math.exp(-my*1.2*dt)));world.scale.setScalar(zoom*world.userData.base)}},
       picks:()=>world&&world.userData.hit?[world.userData.hit]:[],
-      pick(){const id=ITEMS[cur];if(H.hasPlanetSound(id)){if(H.planetPlaying(id))H.stopPlanet();else H.planetThenSay(id,null,true)}else spin=(spin?0:2.4)},
+      pick(){const id=ITEMS[cur];if(H.planetPlaying(id))H.stopPlanet();else if(H.hasPlanetSound(id)&&H.planetSndOn())H.planetThenSay(id,null);else spin=(spin?0:2.4)},
       grab(){return world?{obj:world,mode:"free",minS:.3,maxS:3.2,onScale:s=>{zoom=s/(world.userData.base||1)}}:null},
       menu:()=>[{id:"next",label:"Next world  ▶"},{id:"prev",label:"◀  Previous world"},{id:"card",label:"Show the card"}],
       menuPress(id){if(id==="next")show(cur+1);else if(id==="prev")show(cur-1);else show(cur)},
@@ -6448,7 +6449,7 @@ function RocketScenes(H){
   /* ======================= LAUNCH PAD ======================= */
   H.scenes.pad=(()=>{
     const padG=new T.Group();padG.visible=false;S.add(padG);
-    const pk={o:null,n:0,L:[]};let view=null,ri=ROCKETS.findIndex(r=>r.id==="pslv"),panel=null,hud=null,cd=null,ride=true,real=false,ended=false,start=null,hudText={big:"",line:"",clock:""},lastHud="",namesOn=true,auto=null;
+    const pk={o:null,n:0,L:[]};let view=null,ri=ROCKETS.findIndex(r=>r.id==="pslv"),panel=null,hud=null,cd=null,ride=true,real=false,ended=false,start=null,hudText={big:"",line:"",clock:""},lastHud="",namesOn=true,auto=null,liftAt=0;
     const sep={on:false,t:0,from:0,to:0,start:null,items:null};
     function make(){const host=document.createElement("div");host.style.cssText="position:fixed;left:-99px;top:0;width:8px;height:8px;overflow:hidden;opacity:0;pointer-events:none";document.body.appendChild(host);
       view=new RS.R3.RocketView(host,{mode:"explore",onEvent:e=>{if(e.idx>=0){hudText.line=e.label;drawHud()}},onClock:t=>{const s=Math.round(t);const c=(s<0?"T−":"T+")+Math.abs(s)+" s";if(c!==hudText.clock){hudText.clock=c;drawHud()}},onEnd:()=>{ended=true;hudText.big="";hudText.line="Mission complete! Press AGAIN or pick another rocket.";drawHud();panel.redraw()}});
@@ -6501,7 +6502,7 @@ function RocketScenes(H){
     function drawHud(){const k=hudText.big+"|"+hudText.line+"|"+hudText.clock;if(k!==lastHud){lastHud=k;hud.redraw()}}
     function place(){const r=ROCKETS[ri],D=Math.max(14,r.height*.45+8);start={pos:new T.Vector3(D*.28,1.6,D),look:new T.Vector3(0,1.6,0)};H.placeHead(start.pos,start.look);
       H.front(panel.mesh,.95,-.66,0,-.62);H.front(hud.mesh,2.2,.55,0,0)}
-    function setRocket(i,say){sepReset();ri=(i+ROCKETS.length)%ROCKETS.length;cd=null;ended=false;hudText.big=hudText.line=hudText.clock="";hud.mesh.visible=false;padG.position.y=0;
+    function setRocket(i,say){sepReset();liftAt=0;ri=(i+ROCKETS.length)%ROCKETS.length;cd=null;ended=false;hudText.big=hudText.line=hudText.clock="";hud.mesh.visible=false;padG.position.y=0;
       if(view.flight)view.stopLaunch(true);view.setRocket(ROCKETS[ri]);view.world.position.y=0;setSkyK(0);
       if(SKY.fog){SKY.fog.near=Math.max(150,view.H*4);SKY.fog.far=SKY.fog.near+1400}
       real=real&&!!REAL[ROCKETS[ri].id];if(real)setReal(true);addNames();showNames();
@@ -6511,7 +6512,7 @@ function RocketScenes(H){
     function launch(){if(view.flight||cd)return;H.endGrab();H.hideCard();sepReset();if(real){real=false;view.setReal(null);showNames()}if(view.exploded)view.setExploded(false);view.rocket.scale.setScalar(1);view.rocket.rotation.set(0,0,0);
       ended=false;cd={t0:performance.now(),launched:false};hud.mesh.visible=true;H.front(hud.mesh,2.2,.55,0,0);hudText.line="";hudText.clock="";
       if(!H.say("ui-countdown"))cd.silent=true;panel.redraw()}
-    function stop(){cd=null;H.stopSfx("launch");if(view.flight)view.stopLaunch(false);else view.setRocket(ROCKETS[ri]);addNames();showNames();padG.position.y=0;view.world.position.y=0;setSkyK(0);H.hush();ended=false;hud.mesh.visible=false;place();panel.redraw()}
+    function stop(){cd=null;liftAt=0;H.stopSfx("launch");if(view.flight)view.stopLaunch(false);else view.setRocket(ROCKETS[ri]);addNames();showNames();padG.position.y=0;view.world.position.y=0;setSkyK(0);H.hush();ended=false;hud.mesh.visible=false;place();panel.redraw()}
     function press(id){
       if(id[0]==="r"&&/^r\d+$/.test(id))setRocket(+id.slice(1));
       else if(id==="launch"){if(view.flight||cd)stop();else if(ended)stop();else launch()}
@@ -6535,7 +6536,7 @@ function RocketScenes(H){
       frame(dt){const now=performance.now();
         if(cd){const el=(now-cd.t0)/1000;
           if(el<11.4){const n=el<.15?10:clamp(10-Math.floor(el-.15),0,10);if(n!==cd.n){cd.n=n;if(cd.silent)H.sfx("beep",.45)}hudText.big=String(n);drawHud()}
-          if(el>=9.8&&!cd.launched){cd.launched=true;view.launch();H.sfx("launch",1)}
+          if(el>=9.8&&!cd.launched){cd.launched=true;liftAt=now;view.launch();H.sfx("launch",1)}
           if(el>=11.4){hudText.big="";if(!hudText.line)hudText.line="Liftoff!";drawHud();cd=null;panel.redraw()}}
         view.frame(now);
         if(sep.start!=null){const k=clamp((now-sep.start)/1500,0,1);sep.t=lerp(sep.from,sep.to,k);applySep(sep.t);if(k>=1){sep.start=null;if(!sep.on)sepReset()}}
@@ -6546,6 +6547,9 @@ function RocketScenes(H){
           setSkyK(clamp(view.skyK||0,0,1))}
         followSky()},
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:4,flat:true})},
+      // sound switched on part-way: the countdown voice and the roar join in where the launch is now, not from the start
+      narrSync(last){if(cd&&!cd.launched){cd.silent=false;return {id:"ui-countdown",at:(performance.now()-cd.t0)/1000}}if(liftAt||(view&&view.flight))return null;return undefined},
+      fxSync(){if(liftAt&&view&&view.flight){const t=(performance.now()-liftAt)/1000;if(t<19.5)H.sfx("launch",1,t)}},
       picks:()=>{if(view.flight)return [];const o=real&&view.real?view.real:view.rocket;if(!o)return [];if(pk.o!==o||pk.n!==o.children.length){pk.o=o;pk.n=o.children.length;pk.L=[];o.traverse(m=>{if(m.isMesh)pk.L.push(m)})}return pk.L},
       pick(o){if(real)info();else{let x=o;while(x&&!x.userData.pid)x=x.parent;if(x)partCard(x.userData.pid);else info()}},
       grab(o){if(view.flight||cd)return null;
@@ -6727,7 +6731,7 @@ function RocketScenes(H){
         if(orbs.moon&&orbs.moon.body){const a=t*2*Math.PI/240,md=rr(384400);orbs.moon.body.position.set(md*Math.cos(a),0,-md*Math.sin(a)).applyAxisAngle(new T.Vector3(1,0,0),5*D2R)}},
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:3})},
       picks:()=>earth?[earth]:[],
-      pick(){if(H.planetPlaying("earth"))H.stopPlanet();else H.planetThenSay("earth",null,true)},
+      pick(){if(H.planetPlaying("earth"))H.stopPlanet();else if(H.planetSndOn())H.planetThenSay("earth",null)},
       grab(){return EG?{obj:EG,mode:"free",minS:.4,maxS:2.5}:null},
       menu:()=>[{id:"all",label:"Show all orbits"},{id:"reset",label:"Straighten Earth"},{id:"panel",label:"Orbit panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"start",label:"Back to the start"}],
       menuPress(id){if(id==="reset"){EG.quaternion.identity();EG.scale.setScalar(1)}else if(id==="all")choose(null);else if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,.95,-.62,0,-.6)}else H.placeHead(new T.Vector3(0,1.6,0),E.clone().setY(1.6))},
@@ -7877,7 +7881,8 @@ function landSaveInit(){
   if(EMB||!("caches" in window)||!("serviceWorker" in navigator)||location.protocol==="file:"){b.parentNode.hidden=true;return}
   const big=PANO8K&&(/OculusBrowser|Quest/i.test(navigator.userAgent)||!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
   const urls=[...PANOS.flatMap(p=>big?[`pano/${p.id}-4k.jpg`,`pano/${p.id}-8k.jpg`]:[`pano/${p.id}-4k.jpg`]),...LANDINGS.flatMap(m=>m.videos.filter(v=>v.src).flatMap(v=>[v.src,v.poster]))];
-  const check=async()=>{try{const c=await caches.open("ss360-extra");let n=0;for(const u of urls)if(await c.match(u))n++;if(n===urls.length)st.textContent="Saved on this device: the landing videos and 360° views work offline."}catch(e){}};check();
+  // the app saves all of these by itself now; the button only shows while something is still missing
+  const check=async()=>{try{let n=0;for(const u of urls)if(await caches.match(u,{ignoreSearch:true}))n++;if(n===urls.length)b.parentNode.hidden=true}catch(e){}};check();setTimeout(check,60000);
   b.onclick=async()=>{b.disabled=true;try{const c=await caches.open("ss360-extra");let n=0;
     for(const u of urls){try{if(!(await c.match(u)))await c.add(u)}catch(e){}n++;st.textContent=`Saving for offline… ${n} / ${urls.length} files · keep this page open`}
     st.textContent="Saved on this device: the landing videos and 360° views work offline.";try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}}
