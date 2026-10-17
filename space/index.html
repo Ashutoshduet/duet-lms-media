@@ -647,6 +647,18 @@ body:has(.xr-full) .padchip{display:none}
 .foot a:hover{color:var(--corona)}
 .foot p{color:var(--faint);font-size:13px;max-width:52ch}
 .foot p+p{margin-top:10px}
+.app-exit{flex:none;margin-left:6px;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--void);background:var(--corona);border:0;border-radius:2px;padding:8px 12px;cursor:pointer}
+.app-exit:hover{filter:brightness(1.1)}
+.boxstart{position:fixed;inset:0;z-index:200;background:radial-gradient(ellipse at 70% 30%,#14204a,#05060c 70%);display:grid;place-items:center;padding:20px;overflow:auto}
+.boxcard{max-width:640px;width:100%;color:var(--star);text-align:left}
+.boxcard img{width:min(320px,70%);display:block}
+.boxcard h1{font-family:var(--f-display);font-weight:900;font-size:clamp(40px,9vw,68px);line-height:.95;margin:14px 0 4px;letter-spacing:.01em}
+.boxcard h1 span{color:var(--corona)}
+.boxcard .hi{font-family:"IBM Plex Sans Devanagari","Nirmala UI",sans-serif;color:var(--dust);margin:0 0 14px;font-size:17px}
+.boxcard ol{margin:0 0 18px;padding-left:22px;display:grid;gap:9px;font-size:15px;line-height:1.45}
+.boxcard ol small{display:block;color:var(--dust);font-family:"IBM Plex Sans Devanagari","Nirmala UI",sans-serif;font-size:13.5px}
+.boxgo{display:block;width:100%;font-family:var(--f-display);font-weight:900;font-size:34px;letter-spacing:.04em;color:#14100a;background:var(--corona);border:0;border-radius:6px;padding:16px;cursor:pointer}
+.boxcard .boxnote{font-family:var(--f-mono);font-size:12px;color:var(--dust);margin-top:12px}
 .foot-base{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-family:var(--f-mono);font-size:11px;color:var(--faint)}
 </style>
 </head>
@@ -669,6 +681,7 @@ body:has(.xr-full) .padchip{display:none}
       <a href="#tools" data-nav="tools">Tools</a>
       <a href="#xr" data-nav="xr">AR / VR</a>
     </nav>
+    <button type="button" class="app-exit" id="appExit" hidden aria-label="Close the app">⏻ Exit</button>
   </div>
 </header>
 <div class="worlds"><nav class="wrap worlds-in" id="worlds" aria-label="Worlds"></nav></div>
@@ -1930,6 +1943,23 @@ body:has(.xr-full) .padchip{display:none}
 </table></article></div></div>
   </section>
 
+  <!-- PHONE VR BOX APP (?app=box): start screen -->
+  <div class="boxstart" id="boxStart" hidden>
+    <div class="boxcard">
+      <img src="brand/duet-stem-logo-light.png" alt="DUET STEM">
+      <h1>SPACE LAB <span>VR BOX</span></h1>
+      <p class="hi">अंतरिक्ष प्रयोगशाला · फ़ोन VR बॉक्स</p>
+      <ol>
+        <li>Tap <b>START</b>. The phone turns sideways and fills the screen.<small>START दबाएँ। फ़ोन आड़ा होकर पूरी स्क्रीन भर देगा।</small></li>
+        <li>Put the phone in the VR box, screen towards the lenses, the middle of the screen on the box's centre line.<small>फ़ोन को VR बॉक्स में लगाएँ, स्क्रीन लेंस की ओर।</small></li>
+        <li>Look around. Look at a button: its ring fills and it presses itself. A tap on the screen or the box's button presses at once.<small>किसी बटन को देखते रहें, गोला भरते ही वह दब जाएगा। या स्क्रीन / बॉक्स का बटन दबाएँ।</small></li>
+        <li>Hold a tap on empty space to fly. A Bluetooth gamepad also works. The menu is down on your left.<small>उड़ने के लिए खाली जगह पर टैप दबाए रखें। मेन्यू नीचे बाईं ओर है।</small></li>
+      </ol>
+      <button type="button" class="boxgo" id="boxGo">START ▶</button>
+      <p class="boxnote" data-off hidden></p>
+    </div>
+  </div>
+
   <!-- AR / VR -->
   <section data-view="xr" hidden>
     <div class="xr-wrap">
@@ -1949,7 +1979,7 @@ body:has(.xr-full) .padchip{display:none}
       <div class="howto">
         <article><span class="dev">Android phone</span><h3>AR on your floor</h3><ol><li>Open the site in Chrome on a phone with Google Play Services for AR.</li><li>Tap "AR · Place on your floor".</li><li>Sweep the phone slowly over the floor until the ring appears, then tap to place.</li><li>Walk around the model and tap a planet for its facts.</li></ol></article>
         <article><span class="dev">Meta Quest &amp; headsets</span><h3>VR headset</h3><ol><li>Open the site in the headset's browser.</li><li>Choose "VR headset" and allow the immersive view.</li><li>Point a controller at a planet and pull the trigger to open its card.</li><li>Grip moves the model, the thumbstick resizes it, A / X changes the speed of time.</li></ol></article>
-        <article><span class="dev">Any phone + VR box</span><h3>Phone VR box</h3><ol><li>Tap "Phone VR box" and turn the phone sideways.</li><li>Slide it into a Cardboard-style viewer.</li><li>Look at a planet: the centre ring fills and opens its card.</li><li>If the view drifts, look ahead and tap "Re-centre".</li></ol></article>
+        <article><span class="dev">Any phone + VR box</span><h3>Phone VR box · Space Lab</h3><ol><li>Tap "Phone VR box · Space Lab". The phone turns sideways and the DUET Space Lab opens.</li><li>Slide it into a Cardboard-style viewer.</li><li>Look at a button: the centre ring fills and presses it. A tap on the screen (or the box's button) presses at once; hold a tap on empty space to fly.</li><li>The menu sits down on your left. If the view drifts, look ahead and tap "Re-centre" before you put the phone in.</li></ol></article>
         <article><span class="dev">iPhone &amp; Android</span><h3>Camera AR</h3><ol><li>Tap "Camera AR" and allow the camera and motion sensors.</li><li>Hold the phone up: the planets float in front of you.</li><li>Turn around to find the outer planets.</li><li>Tap a planet for its facts.</li></ol></article>
         <article class="wide"><span class="dev">Gamepad · keyboard · VR-box remote</span><h3>Bluetooth controller</h3><ol><li>Pair the controller in the Bluetooth settings of your Quest, phone or computer.</li><li>Open this site and press any button: a "controller connected" note appears.</li><li>Left stick turns the view, right stick or LT / RT zoom, LB / RB pick the previous or next planet.</li><li>A opens or selects, B goes back, X changes the speed of time, Y resets the view.</li><li>The D-pad moves an orange highlight between buttons and links, so you can use the whole site without touching the screen.</li><li>In Phone VR box mode the A button opens the planet in the centre ring. Press View / Select (or H on a keyboard) for the guide.</li></ol></article>
       </div>
@@ -2794,6 +2824,10 @@ function SaurXR(stage,menuEl,opt){
   const gzFill=new T.Mesh(new T.CircleGeometry(.0105,40),new T.MeshBasicMaterial({color:0xffb347,transparent:true,opacity:.9,depthTest:false}));
   const gz=new T.Group();gz.add(gzRing,gzFill);gz.position.z=-1;gz.renderOrder=999;gzRing.renderOrder=gzFill.renderOrder=999;gz.visible=false;cam.add(gz);
   const gaze={obj:null,t:0,done:false};
+  const gctrl=new T.Object3D();gctrl.userData={mode:"gaze",hand:"none",on:true};   // the phone VR box's "controller": where you look
+  const PHONE=!QUEST&&/Android|iPhone|iPad|Mobi/i.test(navigator.userAgent),EYE=1.6;
+  let wake=null;const wakeOn=on=>{try{if(on&&navigator.wakeLock&&!wake)navigator.wakeLock.request("screen").then(l=>{wake=l}).catch(()=>{});else if(!on&&wake){wake.release().catch(()=>{});wake=null}}catch(e){}};
+  const hubOn=()=>mode==="cardboard"&&SPACE&&SPACE.active();
 
   /* ---------- AR reticle + controllers ---------- */
   const reticle=new T.Mesh(new T.RingGeometry(.06,.078,40).rotateX(-Math.PI/2),new T.MeshBasicMaterial({color:0xffb347}));reticle.matrixAutoUpdate=false;reticle.visible=false;S.add(reticle);
@@ -2809,6 +2843,7 @@ function SaurXR(stage,menuEl,opt){
     c.addEventListener("disconnected",()=>{ln.visible=false;if(grab.c===c)grab.c=null});S.add(c);return c});
   function onXRSelect(c){
     if(mode==="vr"&&SPACE){SPACE.select(c);return}
+    if(bar.visible){const id=barHit(ctrlRay(c));if(id){barPress(id);return}}
     if(mode==="ar"&&!placed){if(reticle.visible)placeAt(reticle.matrix);return}
     hideHint();
     tm.identity().extractRotation(c.matrixWorld);ray.ray.origin.setFromMatrixPosition(c.matrixWorld);ray.ray.direction.set(0,0,-1).applyMatrix4(tm);
@@ -2836,11 +2871,35 @@ function SaurXR(stage,menuEl,opt){
     hint3.position.copy(v1).addScaledVector(v2,dist||.85);hint3.position.y-=.12;hint3.lookAt(v1);hint3.visible=true;hintUntil=performance.now()+secs*1000}
   function hideHint(){if(hintUntil-performance.now()>3000)hintUntil=performance.now()+1500}
   const HELP=[["Trigger","open or close a planet card"],["Grip","grab and move the model"],["Thumbstick","make it bigger or smaller"],["A / X","change the speed of time"],["B / Y","bring the model back"]];
+  const HELP_MR=[["Trigger","open a planet card · press a button"],["Grip","grab and move the model"],["Thumbstick","make it bigger or smaller"],["Panel below","speed · bring back · exit"],["A/X · B/Y","speed · bring it back"]];
+
+  /* ---------- leaving: end the immersive view; in the Quest apps (?app=) also go back to the home screen ---------- */
+  function exitApp(){const s=R.xr.getSession();if(s){try{s.end()}catch(e){}}else if(mode!=="preview")exitLook();
+    if(/[?&]app=/.test(location.search)&&QUEST){setTimeout(()=>{try{window.close()}catch(e){}},400);
+      setTimeout(()=>{if(document.visibilityState==="visible")location.href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.HOME;end"},1200)}}
+
+  /* ---------- mixed reality control bar (web pages are not visible inside the headset) ---------- */
+  const BAR=[["speed",""],["back","↺  BRING BACK"],["exit","⏻  EXIT"]],BW=1200,BH=200;
+  const bc=document.createElement("canvas");bc.width=BW;bc.height=BH;const btex=new T.CanvasTexture(bc);btex.encoding=T.sRGBEncoding;
+  const bar=new T.Mesh(new T.PlaneGeometry(.6,.1),new T.MeshBasicMaterial({map:btex,transparent:true,depthWrite:false,side:T.DoubleSide}));bar.visible=false;bar.renderOrder=30;S.add(bar);
+  let barHover=null;
+  function drawBar(){const g=bc.getContext("2d");g.clearRect(0,0,BW,BH);rr(g,4,4,BW-8,BH-8,40);g.fillStyle="rgba(8,10,20,.86)";g.fill();g.lineWidth=4;g.strokeStyle="#ffb347";g.stroke();
+    BAR.forEach(([id,l],i)=>{const x=24+i*392,w=368,hv=barHover===id,ex=id==="exit";rr(g,x,24,w,152,30);
+      g.fillStyle=ex?(hv?"#ffd08a":"#ffb347"):(hv?"rgba(255,255,255,.24)":"rgba(255,255,255,.08)");g.fill();g.lineWidth=hv?6:2;g.strokeStyle=hv?"#ffffff":"rgba(255,255,255,.3)";g.stroke();
+      g.fillStyle=ex?"#14100a":"#ece7da";g.textAlign="center";g.textBaseline="middle";
+      if(id==="speed"){g.font='600 30px "IBM Plex Mono", ui-monospace, monospace';g.fillStyle="#a4a7ba";g.fillText("SPEED OF TIME",x+w/2,66);g.fillStyle="#ece7da";g.font='700 46px "IBM Plex Sans", system-ui, sans-serif';g.fillText(SPEEDS[sp][1].toUpperCase(),x+w/2,122)}
+      else{g.font='700 50px "IBM Plex Sans", system-ui, sans-serif';g.fillText(l,x+w/2,102)}});
+    g.textAlign="left";g.textBaseline="alphabetic";btex.needsUpdate=true}
+  function barHit(rc){if(!bar.visible)return null;bar.updateMatrixWorld();const h=rc.intersectObject(bar,false)[0];if(!h)return null;const x=h.uv.x*BW,i=Math.floor((x-24)/392);return i>=0&&i<BAR.length&&(x-24-i*392)<=368?BAR[i][0]:null}
+  function placeBar(){cam.getWorldPosition(v1);cam.getWorldDirection(v2);v2.y=0;if(v2.lengthSq()<1e-4)v2.set(0,0,-1);v2.normalize();
+    bar.position.copy(v1).addScaledVector(v2,.62);bar.position.y=v1.y-.38;bar.lookAt(v1);bar.visible=true;drawBar()}
+  function barPress(id){if(id==="speed")cycleSpeed();else if(id==="back"){frontPlacement();placeBar()}else if(id==="exit"){exitApp();return}drawBar()}
+  function ctrlRay(c){tm.identity().extractRotation(c.matrixWorld);ray.ray.origin.setFromMatrixPosition(c.matrixWorld);ray.ray.direction.set(0,0,-1).applyMatrix4(tm);return ray}
 
   /* ---------- speed ---------- */
   const SPEEDS=[[0,"Paused"],[1,"1 day/s"],[7,"1 week/s"],[30,"1 month/s"]];
   let sp=RM?0:2,sim=(Date.now()-Date.UTC(2000,0,1,12))/864e5;
-  function cycleSpeed(){sp=(sp+1)%SPEEDS.length;bSpeed.textContent="Speed: "+SPEEDS[sp][1];if(R.xr.isPresenting)showHint("Speed of time",[["Now",SPEEDS[sp][1]]],2.2,1.0)}
+  function cycleSpeed(){sp=(sp+1)%SPEEDS.length;bSpeed.textContent="Speed: "+SPEEDS[sp][1];if(R.xr.isPresenting)showHint("Speed of time",[["Now",SPEEDS[sp][1]]],2.2,1.0);if(bar.visible)drawBar()}
   bSpeed.textContent="Speed: "+SPEEDS[sp][1];
 
   /* ---------- look controls (gyro or drag) ---------- */
@@ -2851,7 +2910,7 @@ function SaurXR(stage,menuEl,opt){
     const orient=((screen.orientation&&screen.orientation.angle)||window.orientation||0)*D2R;
     eul.set((e.beta||0)*D2R,(e.alpha||0)*D2R,-(e.gamma||0)*D2R,"YXZ");look.q.setFromEuler(eul);look.q.multiply(q1);look.q.multiply(q0.setFromAxisAngle(zee,-orient));
     if(look.needCal){const f=new T.Vector3(0,0,-1).applyQuaternion(look.q);look.cal.setFromAxisAngle(Y,-Math.atan2(-f.x,-f.z));look.needCal=false}
-    if(!look.gyro){look.gyro=true;if(mode==="cardboard")setTip("Turn your head to look around. Hold the centre ring on a planet to open its card.")}
+    if(!look.gyro){look.gyro=true;if(mode==="cardboard"&&!hubOn())setTip("Turn your head to look around. Hold the centre ring on a planet to open its card.")}
   }
   async function askGyro(){
     try{if(typeof DeviceOrientationEvent!=="undefined"&&typeof DeviceOrientationEvent.requestPermission==="function"){const r=await DeviceOrientationEvent.requestPermission();if(r!=="granted")return false}}catch(e){return false}
@@ -2861,16 +2920,19 @@ function SaurXR(stage,menuEl,opt){
   /* ---------- preview orbit + pointer ---------- */
   const orb={th:.5,ph:1.08,r:2.3,rT:2.3,vt:0,vp:0,last:0};
   const ptrs=new Map();let moved=0;const ndc=new T.Vector2();
-  cv.addEventListener("pointerdown",e=>{try{cv.setPointerCapture(e.pointerId)}catch(_){}ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=0;orb.last=performance.now()});
+  cv.addEventListener("pointerdown",e=>{try{cv.setPointerCapture(e.pointerId)}catch(_){}ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=0;orb.last=performance.now();
+    if(hubOn()&&ptrs.size===1){unlockAudio();gctrl.userData.busy=true;if(look.gyro)SPACE.hold(gctrl,true)}});
   cv.addEventListener("pointermove",e=>{const p=ptrs.get(e.pointerId);if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;moved+=Math.abs(dx)+Math.abs(dy);
     if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d0=Math.hypot(a.x-b.x,a.y-b.y);p.x=e.clientX;p.y=e.clientY;const [c,d]=[...ptrs.values()];const d1=Math.hypot(c.x-d.x,c.y-d.y);if(d0>0&&mode==="preview")orb.rT=Math.min(6,Math.max(.6,orb.rT*d0/d1))}
     else if(mode==="preview"){orb.vt=-dx*.006;orb.vp=-dy*.006;orb.th+=orb.vt;orb.ph+=orb.vp}
     else if((mode==="cardboard"||mode==="camar")&&!look.gyro){look.yaw+=dx*.005;look.pitch=Math.max(-1.4,Math.min(1.4,look.pitch+dy*.005))}
     p.x=e.clientX;p.y=e.clientY;orb.last=performance.now()});
-  const up=e=>{const wasTap=ptrs.size===1&&moved<7;ptrs.delete(e.pointerId);if(!wasTap)return;
+  const up=e=>{const wasTap=ptrs.size===1&&moved<7;ptrs.delete(e.pointerId);
+    if(hubOn()){gctrl.userData.busy=ptrs.size>0;SPACE.hold(gctrl,false);if(wasTap)SPACE.select(gctrl);return}
+    if(!wasTap)return;
     if(mode==="cardboard"){if(gaze.obj)select(gaze.obj);return}
     if(mode==="preview"||mode==="camar"){const rc=cv.getBoundingClientRect();ndc.set((e.clientX-rc.left)/rc.width*2-1,-(e.clientY-rc.top)/rc.height*2+1);ray.setFromCamera(ndc,cam);const h=ray.intersectObjects(hits,false)[0];select(h?h.object:null)}};
-  cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",e=>ptrs.delete(e.pointerId));
+  cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",e=>{ptrs.delete(e.pointerId);gctrl.userData.busy=ptrs.size>0;if(hubOn())SPACE.hold(gctrl,false)});
   cv.addEventListener("wheel",e=>{if(mode!=="preview")return;e.preventDefault();orb.rT=Math.min(6,Math.max(.6,orb.rT*Math.exp(e.deltaY*.0012)));orb.last=performance.now()},{passive:false});
 
   /* ---------- modes ---------- */
@@ -2888,19 +2950,23 @@ function SaurXR(stage,menuEl,opt){
   let floorless=false,SPACE=null;
   const VRGO=(()=>{try{return new URLSearchParams(location.search).get("go")||""}catch(e){return ""}})();
   function setMode(m){
-    if(mode==="vr"&&m!=="vr"&&SPACE)SPACE.exit();
+    if((mode==="vr"||mode==="cardboard")&&m!==mode&&SPACE)SPACE.exit();
     mode=m;place(m);select(null);
     stars.visible=m==="preview"||m==="cardboard"||m==="vr";
-    if(m==="vr"&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD});W.visible=false;stars.visible=false;SPACE.enter(VRGO)}catch(e){console.error(e);SPACE=null;W.visible=true}}
+    let hub=false;
+    if((m==="vr"||(m==="cardboard"&&!opt.basicBox))&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD,gaze:gctrl,lite:PHONE,onExit:()=>exitLook(),onRecenter:()=>{look.needCal=true;look.yaw=0;look.pitch=0}});W.visible=false;stars.visible=false;SPACE.enter(VRGO,{gaze:m==="cardboard"});hub=true}catch(e){console.error(e);SPACE=null;W.visible=true}}
+    R.setPixelRatio(m==="cardboard"&&hub?Math.min(devicePixelRatio,PHONE?1.6:1.25):Math.min(devicePixelRatio,2));
     R.setClearColor(0x000000,(m==="camar"||m==="ar")?0:1);
-    hint3.visible=false;grab.c=null;xrFrames=0;arT0=performance.now();padHelpXR=false;
+    hint3.visible=false;bar.visible=false;barHover=null;grab.c=null;xrFrames=0;arT0=performance.now();padHelpXR=false;
     stage.classList.toggle("xr-full",m==="cardboard"||m==="camar");
     stage.classList.toggle("xr-immersive",m!=="preview");
     hud.hidden=m==="preview";hint.hidden=m!=="preview";
-    bCenter.hidden=!(m==="cardboard"||m==="camar");bMove.hidden=true;
-    gz.visible=m==="cardboard";gaze.obj=null;gaze.t=0;
+    bCenter.hidden=!(m==="cardboard"||m==="camar");bMove.hidden=true;bSpeed.hidden=m==="cardboard"&&hub;
+    clearTimeout(setMode.hudT);if(m==="cardboard"&&hub)setMode.hudT=setTimeout(()=>{if(mode==="cardboard")hud.hidden=true},7000);
+    gz.visible=m==="cardboard"&&!hub;gaze.obj=null;gaze.t=0;
     ctrls.forEach(c=>c.userData.ln.visible=showRay(c));
     if(m==="preview")setTip("");
+    else if(m==="cardboard"&&hub)setTip("");
     else if(m==="cardboard")setTip(EMB?"Motion sensors are off in this preview: drag to look. Hold the centre ring on a planet to open its card.":"Turn your head to look around. Hold the centre ring on a planet to open its card.");
     else if(m==="camar")setTip("Move your phone to find the planets. Tap one for its facts.");
     else if(m==="vr")setTip("");
@@ -2918,14 +2984,14 @@ function SaurXR(stage,menuEl,opt){
         toast(EMB?"The camera is blocked inside this preview. Open the site from your own web address to use Camera AR.":"Camera access was refused. Allow the camera for this site in your browser settings, then try again.");return}
       vid.srcObject=stream;vid.hidden=false;vid.play().catch(()=>{});
     }
-    if(m==="cardboard"){try{screen.orientation.lock("landscape").catch(()=>{})}catch(e){}}
+    if(m==="cardboard"){try{screen.orientation.lock("landscape").catch(()=>{})}catch(e){}wakeOn(true);unlockAudio()}
     look.gyro=false;look.needCal=true;look.yaw=0;look.pitch=0;
     setMode(m);
     gyroP.then(ok=>{if(!ok&&m==="camar")setTip("Motion sensors are off, so drag to look around. Tap a planet for its facts.")});
   }
   function exitLook(){
     if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}vid.srcObject=null;vid.hidden=true;
-    window.removeEventListener("deviceorientation",onOri);
+    window.removeEventListener("deviceorientation",onOri);wakeOn(false);
     try{if(document.fullscreenElement)document.exitFullscreen().catch(()=>{})}catch(e){}
     try{screen.orientation.unlock()}catch(e){}
     setMode("preview");
@@ -2961,7 +3027,7 @@ function SaurXR(stage,menuEl,opt){
   ]:[
    {id:"ar",t:"AR · Place on your floor",d:"Android phone in Chrome with Google Play Services for AR, or a Meta Quest. The model sits in your room and you walk around it."},
    {id:"vr",t:"VR headset",d:"Meta Quest and other WebXR headsets, in the headset's browser. Point and pull the trigger to open a planet's card."},
-   {id:"cardboard",t:"Phone VR box",d:"Split-screen 3D for any phone in a Cardboard-style viewer. Turn your head to look around."},
+   {id:"cardboard",t:"Phone VR box · Space Lab",d:"The whole DUET Space Lab in split-screen 3D for any phone in a Cardboard-style VR box: Solar System, Rocket Shala, Chandrayaan-3. Look at a button to press it, or tap the screen."},
    {id:"camar",t:"Camera AR · any phone",d:"Planets float in your room through the phone camera. Works on iPhone and Android."}
   ];
   const st={ar:"wait",vr:"wait",cardboard:"ok",camar:"wait"};
@@ -3018,7 +3084,7 @@ function SaurXR(stage,menuEl,opt){
   };
   function padPoll(dt){
     if(typeof PAD==="undefined")return;
-    const ctx=R.xr.isPresenting?(mode==="vr"&&SPACE?SPACE.pad:PADX.imm):(mode==="cardboard"||mode==="camar")?PADX.look:PADX.preview;
+    const ctx=R.xr.isPresenting?(mode==="vr"&&SPACE?SPACE.pad:PADX.imm):hubOn()?SPACE.pad:(mode==="cardboard"||mode==="camar")?PADX.look:PADX.preview;
     const st=PAD.poll(dt,ctx);padOn=!!(st&&st.pad);
     if(R.xr.isPresenting&&padOn&&!padHelpXR&&xrFrames>20){padHelpXR=true;(ctx.helpXR||PADX.imm.helpXR)()}
   }
@@ -3028,16 +3094,25 @@ function SaurXR(stage,menuEl,opt){
   function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h||R.xr.isPresenting)return;R.setSize(w,h,false);cam.aspect=mode==="cardboard"?(w/2)/h:w/h;cam.fov=mode==="camar"?55:mode==="cardboard"?80:50;cam.updateProjectionMatrix();
     if(!fitted&&mode==="preview"){fitted=true;orb.r=orb.rT=Math.min(4.6,Math.max(2.3,1.02/(Math.tan(25*D2R)*cam.aspect)))}}
   new ResizeObserver(resize).observe(stage);
-  const stereo=new T.StereoCamera();stereo.eyeSep=.064;const sz=new T.Vector2();
+  const stereo=new T.StereoCamera();stereo.eyeSep=.064;stereo.cameraL.layers.enable(1);stereo.cameraR.layers.enable(2);const sz=new T.Vector2();
+  // phones block sound until a touch: play and pause a silent clip on the first tap
+  let audioOK=false;function unlockAudio(){if(audioOK)return;audioOK=true;try{const a=new Audio();a.muted=true;const p=a.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
+  // a VR box's lenses sit about 64 mm apart, closer than the two halves of a phone screen: move each eye's
+  // picture in towards the middle so it is centred on its lens (1 CSS px ≈ 1/160 inch on phones)
+  const LENS_PX=64/25.4*160;
   function renderStereo(){cam.updateMatrixWorld();stereo.update(cam);R.getSize(sz);const w=sz.x,h=sz.y;R.setScissorTest(true);
-    R.setScissor(0,0,w/2,h);R.setViewport(0,0,w/2,h);R.render(S,stereo.cameraL);
-    R.setScissor(w/2,0,w/2,h);R.setViewport(w/2,0,w/2,h);R.render(S,stereo.cameraR);
+    const dx=PHONE&&w>h?Math.max(0,Math.min(w*.12,(w/2-LENS_PX)/2)):0;
+    R.setScissor(0,0,w/2,h);R.setViewport(dx,0,w/2,h);R.render(S,stereo.cameraL);
+    R.setScissor(w/2,0,w/2,h);R.setViewport(w/2-dx,0,w/2,h);R.render(S,stereo.cameraR);
     R.setScissorTest(false);R.setViewport(0,0,w,h)}
   let last=0;const camW=new T.Vector3(),qd=new T.Quaternion(),eulL=new T.Euler(0,0,0,"YXZ"),btnPrev={};
   if(R.xr.setFoveation)R.xr.setFoveation(.5);
   function frame(t,xf){
     const dt=last?Math.min(.05,(t-last)/1000):0;last=t;
     if(mode==="vr"&&SPACE&&R.xr.isPresenting){xrFrames++;padPoll(dt);SPACE.frame(dt);R.render(S,cam);return}
+    if(hubOn()){padPoll(dt);cam.position.set(0,EYE,0);
+      if(look.gyro){cam.quaternion.copy(look.cal).multiply(look.q)}else{eulL.set(look.pitch,look.yaw,0,"YXZ");cam.quaternion.setFromEuler(eulL)}
+      SPACE.frame(dt);renderStereo();return}
     padPoll(dt);
     sim+=SPEEDS[sp][0]*dt;
     for(const p of P){const L=(p.b.L0+p.b.n*sim)*D2R;p.h.position.set(p.r*Math.cos(L),0,-p.r*Math.sin(L));const h=Math.abs(p.b.day);p.m.rotation.y+=Math.sign(p.b.day)*Math.min(.9,Math.max(.05,4/Math.sqrt(h)))*dt*(SPEEDS[sp][0]?1:.3)}
@@ -3056,7 +3131,8 @@ function SaurXR(stage,menuEl,opt){
       xrFrames++;
       if(xrFrames===3){
         if(mode==="vr"||(mode==="ar"&&QUEST))frontPlacement();
-        if(QUEST||ctrls.some(c=>c.userData.mode==="tracked-pointer"))showHint("Controls",HELP,14,.9);
+        if(mode==="ar"&&QUEST)placeBar();
+        if(QUEST||ctrls.some(c=>c.userData.mode==="tracked-pointer"))showHint("Controls",mode==="ar"?HELP_MR:HELP,14,.9);
       }
       if(mode==="ar"&&!QUEST&&!placed&&!hitSrc&&performance.now()-arT0>3500)frontPlacement();
       if(grab.c){gm.multiplyMatrices(grab.c.matrixWorld,grab.off);gm.decompose(gp,gq,gs);W.position.copy(gp);ge.setFromQuaternion(gq,"YXZ");W.rotation.set(0,ge.y,0)}
@@ -3066,10 +3142,11 @@ function SaurXR(stage,menuEl,opt){
         if(Math.abs(ay)>.25&&W.visible)W.scale.setScalar(Math.min(baseScale*4,Math.max(baseScale*.25,W.scale.x*Math.exp(-ay*dt*1.3))));
         const a=!!(gpd.buttons[4]&&gpd.buttons[4].pressed),b=!!(gpd.buttons[5]&&gpd.buttons[5].pressed),pv=btnPrev[key]||{};
         if(a&&!pv.a)cycleSpeed();
-        if(b&&!pv.b){frontPlacement();showHint("Model moved",[["Grip","grab to move it again"]],2,1.0)}
+        if(b&&!pv.b){frontPlacement();if(bar.visible)placeBar();showHint("Model moved",[["Grip","grab to move it again"]],2,1.0)}
         btnPrev[key]={a,b};
       }
       if(hint3.visible&&performance.now()>hintUntil)hint3.visible=false;
+      if(bar.visible){let hv=null;for(const c of ctrls){if(c.userData.mode!=="tracked-pointer")continue;c.updateMatrixWorld();const id=barHit(ctrlRay(c));if(id){hv=id;break}}if(hv!==barHover){barHover=hv;drawBar()}}
     }
     if(mode==="ar"&&xf&&!QUEST){
       const ses=R.xr.getSession(),ref=R.xr.getReferenceSpace();
@@ -3098,6 +3175,7 @@ function SaurXR(stage,menuEl,opt){
     stop(){if(R.xr.isPresenting)return;running=false;R.setAnimationLoop(null);if(mode!=="preview")exitLook()},
     status:()=>({...st}),
     enter:kind=>startXR(kind==="mr"?"ar":kind,true),
+    look:kind=>enterLook(kind),mode:()=>mode,exitApp,
     presenting:()=>R.xr.isPresenting,
     space:()=>SPACE
   };
@@ -3363,6 +3441,22 @@ function VRHub(o){
     if(a.panel){if(a.btn&&a.panel.onPress){a.panel.onPress(a.btn.id,c);haptic(c)}return true}
     if(a.pick&&H.scene&&H.scene.pick){H.scene.pick(a.pick.userData.pick||a.pick,c);haptic(c);return true}
     return false}
+  /* ---------- phone VR box: the gaze is the pointer. Look at a button and it fills and presses itself;
+     a tap on the screen (or the box's button) presses at once; holding a tap on empty space flies that way. ---------- */
+  const gz=o.gaze||null;H.gazeMode=false;
+  const ret=new T.Group(),retRing=new T.Mesh(new T.RingGeometry(.011,.016,40),new T.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.9,depthTest:false,depthWrite:false})),
+    retFill=new T.Mesh(new T.CircleGeometry(.0105,40),new T.MeshBasicMaterial({color:0xffb347,transparent:true,opacity:.95,depthTest:false,depthWrite:false}));
+  ret.add(retRing,retFill);ret.renderOrder=retRing.renderOrder=retFill.renderOrder=999;ret.visible=false;
+  const GZ={key:null,t:0,fired:false},DWELL_BTN=1.3,DWELL_PICK=1.8;
+  const gazeKey=a=>!a?null:a.panel?(a.btn?"b:"+a.panel.mesh.id+":"+a.btn.id:null):a.pick?"p:"+a.pick.id:null;
+  function updGaze(dt){if(!gz)return;const a=H.aimFrom(gz);gz.userData.aim=a;
+    for(const p of panels){const h=a&&a.panel===p&&a.btn?a.btn.id:null;if(p.hover!==h){p.hover=h;p.redraw()}}
+    const key=gazeKey(a),need=a&&a.btn?DWELL_BTN:DWELL_PICK;
+    const now=performance.now();
+    if(key!==GZ.key||G||holds.get(gz)||gz.userData.busy){GZ.key=key;GZ.t0=now;GZ.t=0;GZ.fired=false}
+    else if(key&&!GZ.fired){GZ.t=(now-GZ.t0)/1000;if(GZ.t>=need){GZ.fired=true;press(a,gz)}}
+    const d=a?Math.max(.3,Math.min(40,a.dist)):4;ret.position.set(0,0,-d);ret.scale.setScalar(d);
+    retFill.scale.setScalar(Math.max(.001,key&&!GZ.fired?Math.min(1,GZ.t/need):0));retRing.material.color.set(key?0xffb347:0xffffff)}
   function haptic(c){try{const ses=R.xr.getSession();if(!ses)return;const src=[...ses.inputSources].find(s=>s.handedness===c.userData.hand);const h=src&&src.gamepad&&src.gamepad.hapticActuators&&src.gamepad.hapticActuators[0];if(h&&h.pulse)h.pulse(.35,35)}catch(e){}}
 
   /* ---------- menu on the left hand ---------- */
@@ -3374,9 +3468,15 @@ function VRHub(o){
     row("lobby","⌂  Lobby");row("narr","Narration",{val:H.narrLabel(),on:NAR.mode!=="off"});
     row("amb","Space sound",{val:SND.amb_on?"ON":"OFF",on:SND.amb_on});row("snd","Effects",{val:SND.on?"ON":"OFF",on:SND.on});
     const sc=H.scene;if(sc&&sc.menu)sc.menu().forEach(m=>row(m.id,m.label,{val:m.val,on:m.on,disabled:m.disabled}));
-  },{order:2,onPress:(id)=>{if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(id==="snd")H.setSound(!SND.on);else if(id==="amb")H.setSpace(!SND.amb_on);else if(id==="psnd")H.setPlanetSnd(!SND.pl_on);else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
+    if(H.gazeMode&&o.onRecenter&&y<MENU_H-190)row("recenter","↻  Re-centre view");
+    if(H.gazeMode&&y<MENU_H-100)row("exitbox","⏻  Exit VR box");
+  },{order:2,onPress:(id)=>{if(id==="exitbox"){H.exitVR();return}if(id==="recenter"){o.onRecenter();menuYaw=null;return}if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(id==="snd")H.setSound(!SND.on);else if(id==="amb")H.setSpace(!SND.amb_on);else if(id==="psnd")H.setPlanetSnd(!SND.pl_on);else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
   S.add(menu.mesh);let menuOn=true;H.menu=menu;
-  function placeMenu(){const c=ctrls.find(c=>c.userData.hand==="left"&&pointing(c));cam.getWorldPosition(v3);
+  let menuYaw=null;
+  function placeMenu(){cam.getWorldPosition(v3);
+    if(H.gazeMode){cam.getWorldDirection(v2);const yaw=Math.atan2(-v2.x,-v2.z);let d=yaw-(menuYaw==null?yaw:menuYaw);while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;
+      if(menuYaw==null||Math.abs(d)>1.05)menuYaw=yaw;const a=menuYaw+.6;menu.mesh.position.set(v3.x-Math.sin(a)*.78,v3.y-.3,v3.z-Math.cos(a)*.78);menu.mesh.lookAt(v3);return true}
+    const c=ctrls.find(c=>c.userData.hand==="left"&&pointing(c));
     if(c){c.updateMatrixWorld();v1.setFromMatrixPosition(c.matrixWorld);
       // bare hands have no Y button: the menu shows while you look at your left hand
       if(c.userData.isHand){cam.getWorldDirection(v2);const d=v1.clone().sub(v3).normalize();if(d.dot(v2)<.8)return false}
@@ -3425,7 +3525,7 @@ function VRHub(o){
   /* ---------- sky ---------- */
   const SKYM=new T.Matrix4().set(-1,0,0,0, 0,0.9174820621,-0.3977771558,0, 0,-0.3977771558,-0.9174820621,0, 0,0,0,1);
   const SKYEQ=new T.Matrix4().makeRotationY(Math.PI);
-  const big=R.capabilities.maxTextureSize>=8192;
+  const big=R.capabilities.maxTextureSize>=8192&&!o.lite;
   const milky=o.LD.load(big?"sky/milkyway_8k.jpg":"sky/milkyway_4k.jpg");milky.encoding=T.sRGBEncoding;
   const skyGeo=new T.SphereGeometry(2400,64,32);skyGeo.scale(-1,1,1);
   const sky=new T.Mesh(skyGeo,new T.MeshBasicMaterial({map:milky,depthWrite:false,color:0xb8bccb}));sky.matrixAutoUpdate=false;sky.renderOrder=-10;sky.frustumCulled=false;S.add(sky);sky.visible=false;
@@ -3455,6 +3555,28 @@ function VRHub(o){
     return new T.Vector3(v1.x+v2.x*dist-v2.z*(side||0),v1.y+(dy||0),v1.z+v2.z*dist+v2.x*(side||0))};
   // shared glTF loader (meshopt-compressed models)
   H.gltf=()=>{if(!H._gl){H._gl=new T.GLTFLoader();if(window.MeshoptDecoder&&H._gl.setMeshoptDecoder)H._gl.setMeshoptDecoder(MeshoptDecoder)}return H._gl};
+  /* ---------- Earth: shine only on the oceans, clouds hugging the ground and turning with it, and a thin
+     blue atmosphere at the edge (lit side only). Replaces the old glassy cloud shell. sun: world point or ()=>point */
+  const ATM_VS="varying vec3 vN;varying vec3 vP;varying vec3 vWN;varying vec3 vW;void main(){vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;vWN=normalize(mat3(modelMatrix)*normal);vec4 mv=viewMatrix*w;vP=mv.xyz;vN=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}";
+  const ATM_LIT="uniform vec3 uSun;uniform float uK;uniform float uFade;varying vec3 vN;varying vec3 vP;varying vec3 vWN;varying vec3 vW;float lit(){return smoothstep(-.22,.38,dot(normalize(vWN),normalize(uSun-vW)));}";
+  H.earthDress=(earth,R0,sun,opt)=>{opt=opt||{};
+    const m=earth.material;m.specularMap=H.tex("earth_specular.jpg");m.specular=new T.Color(0x2e2e2e);m.shininess=24;m.needsUpdate=true;
+    const cl=new T.Mesh(new T.SphereGeometry(R0*1.004,96,64),new T.MeshLambertMaterial({color:0xffffff,alphaMap:H.tex("earth_clouds.jpg"),transparent:true,depthWrite:false,opacity:opt.clouds==null?.92:opt.clouds}));
+    cl.renderOrder=1;earth.add(cl);
+    const SP=new T.Vector3(),getSun=typeof sun==="function"?sun:()=>SP.copy(sun);
+    const RH=1.03,uni={uSun:{value:new T.Vector3()},uK:{value:Math.sqrt(1-1/(RH*RH))},uFade:{value:1}};
+    const halo=new T.Mesh(new T.SphereGeometry(R0*RH,96,64),new T.ShaderMaterial({uniforms:uni,vertexShader:ATM_VS,side:T.BackSide,transparent:true,blending:T.AdditiveBlending,depthWrite:false,
+      fragmentShader:ATM_LIT+"void main(){float d=dot(normalize(vN),normalize(-vP));float a=clamp(-d/uK,0.,1.);a=a*a*(3.-2.*a);gl_FragColor=vec4(vec3(.30,.56,1.)*a*.9*lit()*uFade,1.);}"}));
+    const rim=new T.Mesh(new T.SphereGeometry(R0*1.007,96,64),new T.ShaderMaterial({uniforms:uni,vertexShader:ATM_VS,transparent:true,blending:T.AdditiveBlending,depthWrite:false,
+      fragmentShader:ATM_LIT+"void main(){float d=clamp(dot(normalize(vN),normalize(-vP)),0.,1.);float a=pow(1.-d,2.6);gl_FragColor=vec4(vec3(.34,.6,1.)*a*.55*lit(),1.);}"}));
+    halo.renderOrder=rim.renderOrder=2;const par=earth.parent;halo.position.copy(earth.position);rim.position.copy(earth.position);par.add(halo,rim);
+    const cw=new T.Vector3(),hw=new T.Vector3();
+    // read matrices directly: getWorldPosition() on a render camera would reset its view mid-frame
+    halo.onBeforeRender=(r,s,camera)=>{uni.uSun.value.copy(getSun());cw.setFromMatrixPosition(camera.matrixWorld);hw.setFromMatrixPosition(halo.matrixWorld);const rad=R0*RH*halo.matrixWorld.getMaxScaleOnAxis();
+      // inside the atmosphere the back faces would tint the whole view: fade the halo out as you fly in
+      uni.uFade.value=Math.max(0,Math.min(1,(cw.distanceTo(hw)-rad)/(rad*.15)))};
+    rim.onBeforeRender=()=>uni.uSun.value.copy(getSun());
+    return {clouds:cl,halo,rim,parts:[cl,halo,rim]}};
   /* ---------- scenes ---------- */
   function go(id,arg){const next=H.scenes[id];if(!next)return;
     if(H.scene&&H.scene.exit)H.scene.exit();H.hush();H.hideCard();H.hideHint();
@@ -3469,7 +3591,7 @@ function VRHub(o){
   function startGrab(c,spec,hit){const o=spec.obj;if(!o)return false;
     if(G&&G.obj===o&&G.c1!==c&&spec.mode!=="carry"){G.c2=c;G.d0=ctrlPos(G.c1,new T.Vector3()).distanceTo(ctrlPos(c,va));G.s0=o.scale.x;haptic(c);return true}
     endGrab(null);o.updateMatrixWorld();rayFrom(c);
-    G={obj:o,spec,mode:spec.mode||"free",c1:c,c2:null,t0:performance.now(),moved:0,q0:ctrlQ(c,new T.Quaternion()),oq0:o.getWorldQuaternion(new T.Quaternion()),
+    G={obj:o,spec,mode:(c===gz&&(spec.mode||"free")==="free")?"yaw":(spec.mode||"free"),c1:c,c2:null,t0:performance.now(),moved:0,q0:ctrlQ(c,new T.Quaternion()),oq0:o.getWorldQuaternion(new T.Quaternion()),
       dir0:ray.ray.direction.clone(),ry0:o.rotation.y,s0:o.scale.x,dist:hit?hit.dist:1,off:null};
     if(G.mode==="carry"){const wp=o.getWorldPosition(new T.Vector3());G.dist=ray.ray.origin.distanceTo(wp);G.off=wp.sub(ray.ray.origin.clone().addScaledVector(ray.ray.direction,G.dist))}
     c.userData.grabbing=true;haptic(c);if(spec.onStart)spec.onStart();return true}
@@ -3495,8 +3617,8 @@ function VRHub(o){
   /* ---------- per-frame input ---------- */
   const prevBtn={};
   function input(dt){
-    const ses=R.xr.getSession();if(!ses)return;let mx=0,my=0,tx=0,ty=0,boost=false,zoomAx=0;
-    for(const src of ses.inputSources){const gp=src.gamepad;if(!gp)continue;const hnd=src.handedness||"none";
+    const ses=R.xr.getSession();let mx=0,my=0,tx=0,ty=0,boost=false,zoomAx=0;
+    if(ses)for(const src of ses.inputSources){const gp=src.gamepad;if(!gp)continue;const hnd=src.handedness||"none";
       const ax=gp.axes.length>3?gp.axes[2]:0,ay=gp.axes.length>3?gp.axes[3]:0;
       if(G&&G.c1.userData.hand===hnd){zoomAx=Math.abs(ay)>.2?ay:0;continue}
       if(hnd==="left"){mx=ax;my=ay}else{tx=ax;ty=ay}
@@ -3512,7 +3634,7 @@ function VRHub(o){
     const sc=H.scene;if(sc&&sc.sticks)sc.sticks(mx,my,tx,ty,boost,dt);else H.move(mx,my,tx,ty,boost,dt,{speed:sc&&sc.flySpeed,noFly:sc&&sc.noFly,onMove:sc&&sc.onMove})}
 
   /* ---------- leaving VR, offline status ---------- */
-  H.exitVR=()=>{H.hush();H.ambient(null);try{const s=R.xr.getSession();if(s)s.end()}catch(e){}
+  H.exitVR=()=>{H.hush();H.ambient(null);if(H.gazeMode&&o.onExit){o.onExit();return}try{const s=R.xr.getSession();if(s)s.end()}catch(e){}
     setTimeout(()=>{try{window.close()}catch(e){}},500);
     setTimeout(()=>{if(document.visibilityState==="visible"&&/OculusBrowser|Quest/i.test(navigator.userAgent)&&/[?&]app=/.test(location.search))location.href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.HOME;end"},1300)};
   H.offline={text:"",ok:false};
@@ -3532,10 +3654,11 @@ function VRHub(o){
   /* ---------- public ---------- */
   let frames=0;const saved={};
   return {
-    enter(arg){saved.near=cam.near;saved.far=cam.far;cam.near=.05;cam.far=3000;cam.updateProjectionMatrix();
+    enter(arg,eo){saved.near=cam.near;saved.far=cam.far;cam.near=.05;cam.far=3000;cam.updateProjectionMatrix();
       rig.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();ctrls.forEach(c=>rig.add(c));frames=0;H.pending=arg||"lobby";menuOn=true;
+      H.gazeMode=!!(eo&&eo.gaze&&gz);menuYaw=null;GZ.key=null;if(H.gazeMode){cam.add(gz);gz.position.set(0,0,0);gz.quaternion.identity();cam.add(ret);ret.visible=true}
       if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{for(const p of panels)p.redraw();if(H.scene&&H.scene.fontsReady)H.scene.fontsReady()})},
-    exit(){endGrab(null);if(H.scene&&H.scene.exit)H.scene.exit();H.scene=null;H.hush();H.ambient(null);H.stopPlanet();S.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();cam.near=saved.near||.01;cam.far=saved.far||200;cam.updateProjectionMatrix();
+    exit(){endGrab(null);if(gz){holds.delete(gz);if(gz.parent)gz.parent.remove(gz)}if(ret.parent)ret.parent.remove(ret);ret.visible=false;H.gazeMode=false;if(H.scene&&H.scene.exit)H.scene.exit();H.scene=null;H.hush();H.ambient(null);H.stopPlanet();S.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();cam.near=saved.near||.01;cam.far=saved.far||200;cam.updateProjectionMatrix();
       ctrls.forEach(c=>{S.add(c);if(c.userData.ln)c.userData.ln.scale.z=4;c.userData.dot.visible=false});sky.visible=false;card.mesh.visible=false;menu.mesh.visible=false;board.mesh.visible=false;rig.position.set(0,0,0);rig.rotation.set(0,0,0)},
     frame(dt){frames++;
       if(frames===3)go(H.scenes[H.pending]?H.pending:"lobby");
@@ -3546,7 +3669,8 @@ function VRHub(o){
       menu.mesh.visible=menuOn&&!(H.scene&&H.scene.noMenu)&&placeMenu();
       if(card.mesh.visible&&cardAnchor)placeCard();
       if(board.mesh.visible&&performance.now()>boardUntil)board.mesh.visible=false;
-      updPointers()},
+      if(H.gazeMode)updGaze(dt);else updPointers()},
+    active:()=>!!H.scene||frames<3,
     select(c){if(c.userData.justGrabbed){c.userData.justGrabbed=false;return}
       if(SND.blocked){SND.blocked=false;if(SND.ambWant)H.ambient(SND.ambWant,true)}
       if(NAR.blocked){const b=NAR.blocked;NAR.blocked=null;H.say(b,true)}if(board.mesh.visible&&performance.now()<boardUntil-1000)boardUntil=performance.now()+600;const a=c.userData.aim||H.aimFrom(c);if(!press(a,c)&&H.scene&&H.scene.empty)H.scene.empty(c)},
@@ -3575,8 +3699,8 @@ function LobbyScene(H){
   function build(){built=true;
     // Earth below you, as if from orbit
     const sun=new T.DirectionalLight(0xfff4e6,1.6);sun.position.set(-6,3,-2);root.add(sun);root.add(new T.AmbientLight(0x2a3046,.6));
-    earth=new T.Mesh(new T.SphereGeometry(7,96,64),new T.MeshPhongMaterial({map:H.tex("earth.jpg"),shininess:14}));earth.position.set(2,-8.5,-13);earth.rotation.z=.4;root.add(earth);
-    clouds=new T.Mesh(new T.SphereGeometry(7.08,96,64),new T.MeshPhongMaterial({color:0xffffff,alphaMap:H.tex("earth_clouds.jpg"),transparent:true,depthWrite:false}));earth.add(clouds);
+    earth=new T.Mesh(new T.SphereGeometry(7,96,64),new T.MeshPhongMaterial({map:H.tex("earth.jpg")}));earth.position.set(2,-8.5,-13);earth.rotation.z=.4;root.add(earth);
+    clouds=H.earthDress(earth,7,new T.Vector3(-6,3,-2).multiplyScalar(1e4)).clouds;
     // DUET STEM logo
     logoImg=new Image();logoImg.src="brand/duet-stem-logo-light.png";
     const logo=H.panel(1.9,.62,1400,456,(g)=>{if(logoImg.complete&&logoImg.naturalWidth){const w=1300,h=w*logoImg.naturalHeight/logoImg.naturalWidth;g.drawImage(logoImg,50,20,w,h)}
@@ -3611,7 +3735,7 @@ function LobbyScene(H){
   return {id:"lobby",title:"Lobby",sky:"milky",noFly:true,noMenu:true,btnB(){},
     enter(){if(!built)build();root.visible=true;H.askOffline();panels.forEach(p=>p.redraw());H.placeHead(new T.Vector3(0,1.6,0),new T.Vector3(0,1.6,-1));H.say("ui-welcome")},
     exit(){root.visible=false},
-    frame(dt){if(earth){earth.rotation.y+=.01*dt;clouds.rotation.y+=.004*dt}},
+    frame(dt){if(earth){earth.rotation.y+=.01*dt;clouds.rotation.y+=.0012*dt}},
     refresh(){panels.forEach(p=>p.redraw())},
     menu:()=>[]
   };
@@ -3672,8 +3796,7 @@ function SpaceScene(H){
     const line=new T.Line(new T.BufferGeometry().setFromPoints(pts),new T.LineBasicMaterial({color:new T.Color(b.c),transparent:true,opacity:.42}));og.add(line);orbitLines.push(line);
     const h=new T.Group();og.add(h);const tg=new T.Group();tg.rotation.z=b.tilt*D2R;h.add(tg);
     const m=new T.Mesh(new T.SphereGeometry(R0,64,40),new T.MeshPhongMaterial({map:tex(b.tex),shininess:b.id==="earth"?18:4}));tg.add(m);
-    if(b.id==="earth"){const cl=new T.Mesh(new T.SphereGeometry(R0*1.012,64,40),new T.MeshPhongMaterial({color:0xffffff,alphaMap:tex("earth_clouds.jpg"),transparent:true,depthWrite:false,opacity:.9}));tg.add(cl);m.userData.clouds=cl;
-      const atm=new T.Sprite(new T.SpriteMaterial({map:glowTex([[0,"rgba(0,0,0,0)"],[.43,"rgba(0,0,0,0)"],[.47,"rgba(110,170,255,.45)"],[.6,"rgba(80,140,255,.08)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));atm.scale.set(R0*2.3,R0*2.3,1);h.add(atm)}
+    if(b.id==="earth"){const sw=new T.Vector3();m.userData.clouds=H.earthDress(m,R0,()=>sunM.getWorldPosition(sw)).clouds}
     if(b.ring){const rm=new T.Mesh(ringGeo(R0*1.2,R0*2.35),new T.MeshLambertMaterial({map:tex("saturn_ring.png"),side:T.DoubleSide,transparent:true,depthWrite:false}));rm.rotation.x=-Math.PI/2;tg.add(rm)}
     if(b.thin){const rm=new T.Mesh(ringGeo(R0*1.6,R0*1.75),new T.MeshBasicMaterial({color:0x9be3e6,side:T.DoubleSide,transparent:true,opacity:.28,depthWrite:false}));rm.rotation.x=-Math.PI/2;tg.add(rm)}
     const lab=makeLabel(b.name,b.hi,b.c);lab.position.y=R0*(b.ring?1.3:1)+.22;h.add(lab);
@@ -3761,7 +3884,7 @@ function SpaceScene(H){
     if(st.k!==lastK){lastK=st.k;PL.forEach(p=>p.line.scale.setScalar(rOf(p.b.a)));ast.upd();kui.upd()}
     for(const p of PL){const L=(p.b.L0+p.b.n*sim)*D2R,r=rOf(p.b.a);p.h.position.set(r*Math.cos(L),0,-r*Math.sin(L));
       const hd=Math.abs(p.b.day);p.m.rotation.y+=Math.sign(p.b.day)*Math.min(.9,Math.max(.05,4/Math.sqrt(hd)))*dt*(SPEEDS[st.sp][0]?1:.3);
-      if(p.m.userData.clouds)p.m.userData.clouds.rotation.y+=.01*dt;
+      if(p.m.userData.clouds)p.m.userData.clouds.rotation.y+=.002*dt;
       if(p.moonPv)p.moonPv.rotation.y=-(sim/27.32)*Math.PI*2*(SPEEDS[st.sp][0]>7?.25:1)}
     moonSpin.forEach(m=>{const w=Math.min(2*Math.PI/Math.max(.1,m.P)*SPEEDS[st.sp][0],2*Math.PI/3);m.pv.rotation.y+=m.dir*w*dt});
     sunM.rotation.y+=.02*dt;
@@ -3906,8 +4029,7 @@ function SolarScenes(H){
         const gl=new T.Sprite(new T.SpriteMaterial({map:glow([[0,"rgba(255,236,190,.9)"],[.3,"rgba(255,200,110,.6)"],[.55,"rgba(255,140,40,.18)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));gl.scale.set(R0*4,R0*4,1);g.add(gl)}
       else if(w.model&&typeof loadModel==="function"){loadModel(w.model,R0*2,m=>{if(m&&world===g)body.add(m);else if(world===g)body.add(O(new T.Mesh(new T.SphereGeometry(R0,48,32),new T.MeshPhongMaterial({map:loadTex(w.tex),shininess:2}))))})}
       else{const m=O(new T.Mesh(new T.SphereGeometry(R0,96,64),new T.MeshPhongMaterial({map:loadTex(w.tex),shininess:id==="earth"?18:3})));body.add(m);
-        if(id==="earth"){body.add(O(new T.Mesh(new T.SphereGeometry(R0*1.012,96,64),new T.MeshPhongMaterial({color:0xffffff,alphaMap:loadTex("tex/earth_clouds.jpg"),transparent:true,depthWrite:false,opacity:.9}))));
-          const atm=new T.Sprite(new T.SpriteMaterial({map:glow([[0,"rgba(0,0,0,0)"],[.43,"rgba(0,0,0,0)"],[.47,"rgba(110,170,255,.45)"],[.6,"rgba(80,140,255,.08)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));atm.scale.set(R0*2.3,R0*2.3,1);g.add(atm)}}
+        if(id==="earth"){const sw=new T.Vector3();H.earthDress(m,R0,()=>sunL.getWorldPosition(sw).multiplyScalar(1e4)).parts.forEach(O)}}
       if(w.ring){const rm=O(new T.Mesh(ringGeo(R0*1.2,R0*2.35),new T.MeshLambertMaterial({map:H.tex("saturn_ring.png"),side:T.DoubleSide,transparent:true,depthWrite:false})));rm.rotation.x=-Math.PI/2;tg.add(rm)}
       if(w.thin){const rm=O(new T.Mesh(ringGeo(R0*1.6,R0*1.75),new T.MeshBasicMaterial({color:0x9be3e6,side:T.DoubleSide,transparent:true,opacity:.3,depthWrite:false})));rm.rotation.x=-Math.PI/2;tg.add(rm)}
       const hit=O(new T.Mesh(new T.SphereGeometry(R0*(w.ring?2.2:1.1),16,12),new T.MeshBasicMaterial({visible:false})));hit.userData.pick="world";g.add(hit);g.userData.hit=hit;
@@ -6681,6 +6803,11 @@ function RocketScenes(H){
   /* ======================= ORBITS ======================= */
   H.scenes.orbits=(()=>{
     const root=new T.Group();root.visible=false;S.add(root);let built=false,earth=null,clouds=null,sel=null,panel=null,EG=null;const orbs={},sats=[];
+    // how fast the satellites go round (and Earth turns with them): slow enough to follow, or paused
+    const SPD=[[0,"PAUSE","रोकें"],[.25,"¼×"],[.5,"½×"],[1,"1×"],[2,"2×"]];let spi=2;
+    const spdText=()=>{const k=SPD[spi][0];return k?"Here one lap of the ISS orbit (LEO) takes "+Math.round(18/k)+" seconds. Really it takes 92 minutes.":"Paused: everything stops so you can look closely. Pick a speed to start again."};
+    function setSpd(i,say){spi=(i+SPD.length)%SPD.length;if(panel)panel.redraw();H.refreshUI();if(say)H.hint("Satellite speed",[["Now",SPD[spi][0]?SPD[spi][1]+" speed":"Paused"],["ISS orbit",SPD[spi][0]?Math.round(18/SPD[spi][0])+" s per lap here":"stopped"],["Real",LEO_REAL]],3)}
+    const LEO_REAL="92 minutes per lap";
     const E=new T.Vector3(0,1.3,-5.2),RE=1.4,k=RE/6371,rr=km=>RE+km*k;const SUN=new T.Vector3(-1,.15,.35).normalize();
     function ring(r,inc,col,dash){const pts=[];for(let i=0;i<=256;i++){const a=i/256*Math.PI*2;pts.push(new T.Vector3(r*Math.cos(a),0,-r*Math.sin(a)))}
       const g=new T.BufferGeometry().setFromPoints(pts),m=new T.Line(g,new T.LineBasicMaterial({color:col,transparent:true,opacity:.85,depthWrite:false}));m.rotation.x=inc;return m}
@@ -6691,9 +6818,8 @@ function RocketScenes(H){
     function build(){built=true;
       const L=new T.DirectionalLight(0xfff4e6,1.6);L.position.copy(SUN).multiplyScalar(50);root.add(L);root.add(new T.AmbientLight(0x2a3046,.5));
       const eg=new T.Group();eg.position.copy(E);root.add(eg);EG=eg;
-      earth=new T.Mesh(new T.SphereGeometry(RE,96,64),new T.MeshPhongMaterial({map:H.tex("earth.jpg"),shininess:14}));eg.add(earth);
-      clouds=new T.Mesh(new T.SphereGeometry(RE*1.012,96,64),new T.MeshPhongMaterial({color:0xffffff,alphaMap:H.tex("earth_clouds.jpg"),transparent:true,depthWrite:false}));eg.add(clouds);
-      const atm=new T.Sprite(new T.SpriteMaterial({map:H.glowTex([[0,"rgba(0,0,0,0)"],[.43,"rgba(0,0,0,0)"],[.47,"rgba(110,170,255,.45)"],[.6,"rgba(80,140,255,.08)"],[1,"rgba(0,0,0,0)"]]),blending:T.AdditiveBlending,depthWrite:false,transparent:true}));atm.scale.setScalar(RE*2.3);eg.add(atm);
+      earth=new T.Mesh(new T.SphereGeometry(RE,96,64),new T.MeshPhongMaterial({map:H.tex("earth.jpg")}));eg.add(earth);
+      clouds=H.earthDress(earth,RE,SUN.clone().multiplyScalar(1e4)).clouds;
       const by=Object.fromEntries(ORBITS.map(o=>[o.id,o]));
       const mk=(id,obj)=>{eg.add(obj);orbs[id]={obj,o:by[id]};const lab=label(by[id].name,by[id].alt,by[id].color,.12);eg.add(lab);orbs[id].lab=lab;return obj};
       mk("leo",ring(rr(400),51.6*D2R,by.leo.color));orbs.leo.lab.position.set(0,rr(400)*.8+.25,rr(400)*.6);
@@ -6714,29 +6840,33 @@ function RocketScenes(H){
       addSat("gto",by.gto.color,t=>{const rp=rr(200),ra=rr(35786),a=(rp+ra)/2,e=(ra-rp)/(ra+rp),M=(t/24%1)*Math.PI*2;let Ea=M;for(let i=0;i<8;i++)Ea=Ea-(Ea-e*Math.sin(Ea)-M)/(1-e*Math.cos(Ea));const nu=2*Math.atan2(Math.sqrt(1+e)*Math.sin(Ea/2),Math.sqrt(1-e)*Math.cos(Ea/2)),r=a*(1-e*e)/(1+e*Math.cos(nu));return new T.Vector3(r*Math.cos(nu),0,-r*Math.sin(nu)).applyAxisAngle(new T.Vector3(0,1,0),.4)},.2);
       [0,1.6,3.3,5].forEach(p=>addSat("geo",by.geo.color,t=>{const a=t*2*Math.PI/60+p;return new T.Vector3(rr(35786)*Math.cos(a),0,-rr(35786)*Math.sin(a))},.22));
       addSat("moon","#ffffff",t=>{const a=t*2*Math.PI/40;return new T.Vector3(rr(1000)*Math.cos(a),rr(1000)*.3*Math.sin(a),-rr(1000)*Math.sin(a))},.1);
-      panel=H.panel(1.2,.5,1200,500,(g,p)=>{H.rr(g,6,6,1188,488,28);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(124,200,255,.7)";g.stroke();
+      panel=H.panel(1.2,.62,1200,620,(g,p)=>{H.rr(g,6,6,1188,608,28);g.fillStyle="rgba(8,10,20,.88)";g.fill();g.lineWidth=3;g.strokeStyle="rgba(124,200,255,.7)";g.stroke();
         g.fillStyle="#7cc8ff";g.font="600 28px "+F.mono;g.fillText("ORBITS · कक्षाएँ — where India's rockets take satellites",36,56);
         ORBITS.forEach((o,i)=>p.btn(g,o.id,30+(i%3)*382,84+Math.floor(i/3)*112,368,98,o.name,{on:sel===o.id,fs:26}));
         p.btn(g,"all",30,320,1140,80,"SHOW ALL ORBITS",{on:!sel,fs:30});
-        g.fillStyle="#a4a7ba";g.font="400 24px "+F.sans;g.fillText("Earth is 2.8 m wide here. The round orbit around you is 36,000 km high (GEO). The Moon is 84 m away.",36,450)},
-        {onPress:id=>choose(id==="all"?null:id)});rig.add(panel.mesh)}
+        g.fillStyle="#7cc8ff";g.font="600 26px "+F.mono;g.fillText("SPEED",36,488);g.fillStyle="#a4a7ba";g.font="500 26px "+F.hi;g.fillText("गति",36,522);
+        SPD.forEach(([k,l],i)=>p.btn(g,"spd"+i,190+i*198,452,186,86,l,{on:spi===i,fs:i?40:30}));
+        g.fillStyle="#cfd2e2";g.font="400 24px "+F.sans;g.fillText(spdText(),36,576);
+        g.fillStyle="#8a8ea6";g.font="400 21px "+F.sans;g.fillText("Earth is 2.8 m wide here. The round orbit around you is 36,000 km high (GEO). The Moon is 84 m away.",36,604)},
+        {onPress:id=>{if(id.startsWith("spd"))setSpd(+id.slice(3),true);else choose(id==="all"?null:id)}});rig.add(panel.mesh)}
     function choose(id){sel=id;for(const k in orbs){const on=!id||k===id;orbs[k].obj.material.opacity=on?.9:.12;orbs[k].lab.visible=on}sats.forEach(s=>s.d.visible=!id||s.id===id||(id==="moon"&&s.id==="moon"));panel.redraw();
       if(id){const o=orbs[id].o;H.showCardAt({kicker:"Orbit",title:o.name,hi:o.hi,color:o.color,rows:[["Height",o.alt],["One lap",o.period],["Rockets",o.rockets.map(r=>ROCK[r]?ROCK[r].name:r).join(", ")],["Satellites",o.sats]],cols:2,text:o.text,say:"orb-"+id},H.frontPos(1.2,0,.8),H.headPos())}else H.hideCard()}
     let t=0;
     return {id:"orbits",title:"Orbits",sky:"milky",flySpeed:3,
       enter(){if(!built)build();root.visible=true;H.placeHead(new T.Vector3(0,1.6,0),E.clone().setY(1.6));H.front(panel.mesh,.95,-.62,0,-.6);panel.mesh.visible=true;choose(null);
-        H.hint("Orbits",[["Ahead","Earth, 2.8 m wide"],["Panel","pick an orbit to light it up"],["Around you","the geostationary ring, 36,000 km up"],["Left stick","fly around Earth"]],8)},
+        H.hint("Orbits",[["Ahead","Earth, 2.8 m wide"],["Panel","pick an orbit to light it up"],["Speed","slow the satellites down or pause them"],["Around you","the geostationary ring, 36,000 km up"],["Left stick","fly around Earth"]],8)},
       exit(){root.visible=false;panel.mesh.visible=false},
-      frame(dt){t+=dt;earth.rotation.y=t*2*Math.PI/60;clouds.rotation.y=earth.rotation.y*1.05;sats.forEach(s=>s.d.position.copy(s.f(t)));
+      frame(dt){t+=dt*SPD[spi][0];earth.rotation.y=t*2*Math.PI/60;clouds.rotation.y=t*.004;sats.forEach(s=>s.d.position.copy(s.f(t)));
         if(orbs.moon&&orbs.moon.body){const a=t*2*Math.PI/240,md=rr(384400);orbs.moon.body.position.set(md*Math.cos(a),0,-md*Math.sin(a)).applyAxisAngle(new T.Vector3(1,0,0),5*D2R)}},
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:3})},
       picks:()=>earth?[earth]:[],
       pick(){if(H.planetPlaying("earth"))H.stopPlanet()},
       grab(){return EG?{obj:EG,mode:"free",minS:.4,maxS:2.5}:null},
-      menu:()=>[{id:"all",label:"Show all orbits"},{id:"reset",label:"Straighten Earth"},{id:"panel",label:"Orbit panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"start",label:"Back to the start"}],
-      menuPress(id){if(id==="reset"){EG.quaternion.identity();EG.scale.setScalar(1)}else if(id==="all")choose(null);else if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,.95,-.62,0,-.6)}else H.placeHead(new T.Vector3(0,1.6,0),E.clone().setY(1.6))},
+      menu:()=>[{id:"speed",label:"Satellite speed",val:SPD[spi][0]?SPD[spi][1]:"PAUSED",on:SPD[spi][0]!==1},{id:"all",label:"Show all orbits"},{id:"reset",label:"Straighten Earth"},{id:"panel",label:"Orbit panel",val:panel&&panel.mesh.visible?"ON":"OFF",on:panel&&panel.mesh.visible},{id:"start",label:"Back to the start"}],
+      menuPress(id){if(id==="speed"){setSpd(spi+1,true);return}if(id==="reset"){EG.quaternion.identity();EG.scale.setScalar(1)}else if(id==="all")choose(null);else if(id==="panel"){panel.mesh.visible=!panel.mesh.visible;if(panel.mesh.visible)H.front(panel.mesh,.95,-.62,0,-.6)}else H.placeHead(new T.Vector3(0,1.6,0),E.clone().setY(1.6))},
       btnA(){const i=sel?ORBITS.findIndex(o=>o.id===sel):-1;choose(ORBITS[(i+1)%ORBITS.length].id)},
-      btnB(){if(H.cardData())H.hideCard();else H.go("lobby")}}})();
+      btnX(){setSpd(spi+1,true)},
+      btnB(){if(H.cardData())H.hideCard();else H.go("lobby")},_:{setSpd,spd:()=>spi}}})();
 
   /* ======================= GAME: BUILD A ROCKET (drag and drop) ======================= */
   H.scenes.rgame=(()=>{
@@ -7271,7 +7401,7 @@ function Ch3Scene(H){
       // the sky (Sun, Earth) stays around your head, like the real sky
       H.headPos(v1);skyG.position.copy(v1);
       // the stereo photo: each eye its own camera inside the headset, the left one on a flat screen
-      if(photo.root.visible){const xr=R.xr.isPresenting;photo.mono.visible=!xr;photo.L.visible=photo.R.visible=xr}
+      if(photo.root.visible){const xr=R.xr.isPresenting||H.gazeMode;photo.mono.visible=!xr;photo.L.visible=photo.R.visible=xr}
       if(mode==="videos"&&vid.tx&&vid.el&&!vid.el.paused)vid.tx.needsUpdate=true;
       // stand on the ground when walking
       if(mode==="story"||mode==="photo"||mode==="videos"){H.headPos(v1);const gy=gY(v1.x,v1.z)+crater(v1.x,v1.z);if(st.gPrev!=null)rig.position.y+=gy-st.gPrev;st.gPrev=gy}},
@@ -8236,7 +8366,7 @@ function openXR(){
   if(!HAS3D){$("#xrStage").innerHTML=`<div class="xr" style="display:grid;place-items:center;padding:24px;text-align:center;color:var(--dust)">The 3D view needs WebGL, which is turned off in this browser.</div>`;return}
   if(!XR){
     $("#xrNote").textContent=EMB?"You're viewing the preview. Modes marked “Needs your website” switch on once the site runs from your own https:// address (see below).":"Modes marked “Not on this device” need other hardware: floor AR needs an ARCore Android phone in Chrome, and VR needs a WebXR headset.";
-    XR=SaurXR($("#xrStage"),$("#xrModes"),{embedded:EMB,exitOnFsLeave:true});
+    XR=SaurXR($("#xrStage"),$("#xrModes"),{embedded:EMB,exitOnFsLeave:true,onMode:m=>{if(APPXR==="box")$("#boxStart").hidden=m!=="preview"}});
   }
   XR.start();
 }
@@ -8247,7 +8377,11 @@ function setNav(key){
   document.querySelectorAll(".nav a").forEach(a=>{if(a.dataset.nav===key)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
 }
 // Quest VR / MR apps open with ?app=vr or ?app=mr: go straight into the immersive view
-const APPXR=(()=>{try{const a=new URLSearchParams(location.search).get("app");return a==="vr"||a==="mr"?a:""}catch(e){return ""}})();
+const APPXR=(()=>{try{const a=new URLSearchParams(location.search).get("app");return a==="vr"||a==="mr"||a==="box"?a:""}catch(e){return ""}})();
+// the installed Quest window app has no close button of its own: offer one
+(()=>{const q=/OculusBrowser|Quest/i.test(navigator.userAgent),app=matchMedia("(display-mode: standalone)").matches||/^android-app:/.test(document.referrer)||/[?&]app=/.test(location.search);
+  const b=$("#appExit");if(!b||!q||!app)return;b.hidden=false;
+  b.onclick=()=>{try{window.close()}catch(e){}setTimeout(()=>{if(document.visibilityState==="visible")location.href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.HOME;end"},500)}})();
 function route(){
   if(APPXR&&!location.hash)history.replaceState(null,"","#xr");
   if(!location.hash&&/OculusBrowser|Quest/i.test(navigator.userAgent)&&matchMedia("(display-mode: standalone)").matches){history.replaceState(null,"","#xr")}
@@ -8300,7 +8434,8 @@ buildShell();initCompare();
 if(HAS3D){loader=new THREE.TextureLoader()}
 else{const st=$("#orrery");st.querySelector("canvas").hidden=true;$("#labels").hidden=true;st.querySelector(".deck").hidden=true;const f=document.createElement("div");f.className="stage-fallback";f.innerHTML=`<img src="img/sun/sdo-aia-171-2023.jpg" alt="The Sun">`;st.prepend(f)}
 route();requestAnimationFrame(loop);
-if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting())XR.enter(APPXR)},2500)}
+if(APPXR==="box"){const bs=$("#boxStart");bs.hidden=false;$("#boxGo").onclick=()=>{if(!XR)openXR();if(XR&&XR.look){bs.hidden=true;XR.look("cardboard")}}}
+else if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting())XR.enter(APPXR)},2500)}
 </script>
 
 <script>
