@@ -8446,11 +8446,16 @@ else if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting()
   if(!("serviceWorker" in navigator)){show("This browser cannot save the site for offline use");return}
   var secure=location.protocol==="https:"||/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
   if(!secure){show("Offline saving needs https:// or localhost");return}
-  function done(){els.forEach(function(el){el.hidden=true});try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}}
-  navigator.serviceWorker.addEventListener("message",function(e){var d=e.data||{};if(d.type==="progress")show("Saving for offline… "+Math.floor(d.done/d.total*100)+"% · keep this page open");else if(d.type==="ready")done()});
+  var SW=navigator.serviceWorker,ready=false,had=!!SW.controller,reloaded=false;
+  function done(){ready=true;els.forEach(function(el){el.hidden=true});try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}}
+  function sync(){if(ready)return;try{if(SW.controller)SW.controller.postMessage("sync")}catch(e){}}
+  SW.addEventListener("message",function(e){var d=e.data||{};if(d.type==="progress"){if(!ready)show("Saving for offline… "+Math.floor(d.done/d.total*100)+"% · keep this page open")}else if(d.type==="ready")done()});
+  // a newer version of the site just took over: show it straight away (only when an older one was running)
+  SW.addEventListener("controllerchange",function(){if(had&&!reloaded){reloaded=true;location.reload()}else sync()});
   try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-  navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(reg){
-    if(reg.active&&!reg.installing&&!reg.waiting)done();else show("Saving for offline… keep this page open");
+  SW.register("sw.js",{updateViaCache:"none"}).then(function(reg){
+    try{reg.update()}catch(e){}   // look for a newer version every time the app opens
+    SW.ready.then(function(){sync();setInterval(sync,120000)});
   }).catch(function(){show("Offline saving could not start in this browser")});
 })();
 </script>
