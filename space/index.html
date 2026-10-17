@@ -2969,7 +2969,8 @@ function SaurXR(stage,menuEl,opt){
     stars.visible=m==="preview"||m==="cardboard"||m==="vr";
     let hub=false;
     if((m==="vr"||(m==="cardboard"&&!opt.basicBox))&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD,gaze:gctrl,lite:PHONE,onExit:()=>exitLook(),onRecenter:()=>{look.needCal=true;look.yaw=0;look.pitch=0}});W.visible=false;stars.visible=false;SPACE.enter(VRGO,{gaze:m==="cardboard"});hub=true}catch(e){console.error(e);SPACE=null;W.visible=true}}
-    R.setPixelRatio(m==="cardboard"&&hub?Math.min(devicePixelRatio,PHONE?1.6:1.25):Math.min(devicePixelRatio,2));
+    if(m==="cardboard"&&hub&&PHONE){bq=0;bqWin={n:0,slow:0,t:0};bqBad=0;bqGood=0;bqLast=0}
+    R.setPixelRatio(m==="cardboard"&&hub?(PHONE?BQ[bq]:Math.min(devicePixelRatio,1.25)):Math.min(devicePixelRatio,2));
     R.setClearColor(0x000000,(m==="camar"||m==="ar")?0:1);
     hint3.visible=false;bar.visible=false;barHover=null;grab.c=null;xrFrames=0;arT0=performance.now();padHelpXR=false;
     stage.classList.toggle("xr-full",m==="cardboard"||m==="camar");
@@ -3105,7 +3106,7 @@ function SaurXR(stage,menuEl,opt){
 
   /* ---------- sizing + loop ---------- */
   let fitted=false;
-  function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h||R.xr.isPresenting)return;R.setSize(w,h,false);cam.aspect=mode==="cardboard"?(w/2)/h:w/h;cam.fov=mode==="camar"?55:mode==="cardboard"?80:50;cam.updateProjectionMatrix();
+  function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h||R.xr.isPresenting)return;R.setSize(w,h,false);cam.aspect=mode==="cardboard"?(w/2)/h:w/h;cam.fov=mode==="camar"?55:mode==="cardboard"?(PHONE?72:80):50;cam.updateProjectionMatrix();
     if(!fitted&&mode==="preview"){fitted=true;orb.r=orb.rT=Math.min(4.6,Math.max(2.3,1.02/(Math.tan(25*D2R)*cam.aspect)))}}
   new ResizeObserver(resize).observe(stage);
   const stereo=new T.StereoCamera();stereo.eyeSep=.064;stereo.cameraL.layers.enable(1);stereo.cameraR.layers.enable(2);const sz=new T.Vector2();
@@ -3114,6 +3115,16 @@ function SaurXR(stage,menuEl,opt){
   // a VR box's lenses sit about 64 mm apart, closer than the two halves of a phone screen: move each eye's
   // picture in towards the middle so it is centred on its lens (1 CSS px ≈ 1/160 inch on phones)
   const LENS_PX=64/25.4*160;
+  /* VR box sharpness: draw at the phone's full screen resolution (HD). If the phone keeps dropping frames
+     (more than half the frames slow for 5 s) step down one notch; after 20 smooth seconds try one notch up,
+     never back to a level that failed twice. */
+  const DPR=Math.min(3,Math.max(1,devicePixelRatio||1)),BQ=[1,.85,.72,.6].map(f=>+Math.max(1.4,DPR*f).toFixed(2));
+  let bq=0,bqWin={n:0,slow:0,t:0},bqBad=0,bqGood=0;const bqFail=[0,0,0,0];
+  let bqLast=0;
+  function boxAdapt(){const now=performance.now(),dt=bqLast?(now-bqLast)/1000:0;bqLast=now;if(!dt||dt>1)return;const w=bqWin;w.n++;w.t+=dt;if(dt>.024)w.slow++;if(w.t<2.5)return;
+    const r=w.slow/w.n;bqWin={n:0,slow:0,t:0};
+    if(r>.5){bqGood=0;if(++bqBad>=2&&bq<BQ.length-1){bqFail[bq]++;bq++;bqBad=0;R.setPixelRatio(BQ[bq])}}
+    else{bqBad=0;if(r<.08&&++bqGood>=8&&bq>0&&bqFail[bq-1]<2){bq--;bqGood=0;R.setPixelRatio(BQ[bq])}}}
   function renderStereo(){cam.updateMatrixWorld();stereo.update(cam);R.getSize(sz);const w=sz.x,h=sz.y;R.setScissorTest(true);
     const dx=PHONE&&w>h?Math.max(0,Math.min(w*.12,(w/2-LENS_PX)/2)):0;
     R.setScissor(0,0,w/2,h);R.setViewport(dx,0,w/2,h);R.render(S,stereo.cameraL);
@@ -3126,7 +3137,7 @@ function SaurXR(stage,menuEl,opt){
     if(mode==="vr"&&SPACE&&R.xr.isPresenting){xrFrames++;padPoll(dt);SPACE.frame(dt);R.render(S,cam);return}
     if(hubOn()){xrFrames++;padPoll(dt);cam.position.set(0,EYE,0);
       if(look.gyro){cam.quaternion.copy(look.cal).multiply(look.q)}else{eulL.set(look.pitch,look.yaw,0,"YXZ");cam.quaternion.setFromEuler(eulL)}
-      SPACE.frame(dt);renderStereo();return}
+      SPACE.frame(dt);renderStereo();if(PHONE)boxAdapt();return}
     padPoll(dt);
     sim+=SPEEDS[sp][0]*dt;
     for(const p of P){const L=(p.b.L0+p.b.n*sim)*D2R;p.h.position.set(p.r*Math.cos(L),0,-p.r*Math.sin(L));const h=Math.abs(p.b.day);p.m.rotation.y+=Math.sign(p.b.day)*Math.min(.9,Math.max(.05,4/Math.sqrt(h)))*dt*(SPEEDS[sp][0]?1:.3)}
@@ -3189,7 +3200,7 @@ function SaurXR(stage,menuEl,opt){
     stop(){if(R.xr.isPresenting)return;running=false;R.setAnimationLoop(null);if(mode!=="preview")exitLook()},
     status:()=>({...st}),
     enter:kind=>startXR(kind==="mr"?"ar":kind,true),
-    look:kind=>enterLook(kind),mode:()=>mode,exitApp,
+    look:kind=>enterLook(kind),mode:()=>mode,exitApp,quality:()=>({pr:R.getPixelRatio(),level:bq,levels:BQ,fail:bqFail.slice()}),
     presenting:()=>R.xr.isPresenting,
     space:()=>SPACE
   };
@@ -3357,7 +3368,8 @@ function VRHub(o){
   const F={mono:'"IBM Plex Mono", ui-monospace, monospace',sans:'"IBM Plex Sans", system-ui, sans-serif',hi:'"IBM Plex Sans Devanagari", "Nirmala UI", sans-serif',disp:'"Big Shoulders Display", "Arial Narrow", Impact, sans-serif'};H.F=F;
   const ORANGE="#ffb347",INK="#ece7da",DUST="#8a8ea6",PANEL="rgba(8,10,20,.92)";
   H.cnv=(w,h)=>{const c=document.createElement("canvas");c.width=w;c.height=h;return c};
-  H.ctex=c=>{const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=4;return t};
+  const ANISO=Math.min(16,R.capabilities.getMaxAnisotropy()||1);
+  H.ctex=c=>{const t=new T.CanvasTexture(c);t.encoding=T.sRGBEncoding;t.anisotropy=ANISO;return t};
   const rr=H.rr=(g,x,y,w,h,r)=>{g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()};
   H.wrap=(g,text,maxW)=>{const out=[];let line="";for(const w of String(text||"").split(/\s+/)){const t=line?line+" "+w:w;if(g.measureText(t).width>maxW&&line){out.push(line);line=w}else line=t}if(line)out.push(line);return out};
   H.fmt=(x,d)=>Number(x).toLocaleString("en-IN",{maximumFractionDigits:d||0});
@@ -3539,7 +3551,7 @@ function VRHub(o){
   /* ---------- sky ---------- */
   const SKYM=new T.Matrix4().set(-1,0,0,0, 0,0.9174820621,-0.3977771558,0, 0,-0.3977771558,-0.9174820621,0, 0,0,0,1);
   const SKYEQ=new T.Matrix4().makeRotationY(Math.PI);
-  const big=R.capabilities.maxTextureSize>=8192&&!o.lite;
+  const big=R.capabilities.maxTextureSize>=8192&&(!o.lite||(navigator.deviceMemory||0)>=8);   // phones with 8 GB get the sharp 8k sky too
   const milky=o.LD.load(big?"sky/milkyway_8k.jpg":"sky/milkyway_4k.jpg");milky.encoding=T.sRGBEncoding;
   const skyGeo=new T.SphereGeometry(2400,64,32);skyGeo.scale(-1,1,1);
   const sky=new T.Mesh(skyGeo,new T.MeshBasicMaterial({map:milky,depthWrite:false,color:0xb8bccb}));sky.matrixAutoUpdate=false;sky.renderOrder=-10;sky.frustumCulled=false;S.add(sky);sky.visible=false;
