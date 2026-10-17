@@ -649,7 +649,8 @@ body:has(.xr-full) .padchip{display:none}
 .foot p+p{margin-top:10px}
 .app-exit{flex:none;margin-left:6px;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--void);background:var(--corona);border:0;border-radius:2px;padding:8px 12px;cursor:pointer}
 .app-exit:hover{filter:brightness(1.1)}
-.boxstart{position:fixed;inset:0;z-index:200;background:radial-gradient(ellipse at 70% 30%,#14204a,#05060c 70%);display:grid;place-items:center;padding:20px;overflow:auto}
+.boxstart{position:fixed;inset:0;z-index:200;background:radial-gradient(ellipse at 70% 30%,#14204a,#05060c 70%);display:flex;padding:20px;overflow:auto}
+.boxstart .boxcard{margin:auto}
 .boxcard{max-width:640px;width:100%;color:var(--star);text-align:left}
 .boxcard img{width:min(320px,70%);display:block}
 .boxcard h1{font-family:var(--f-display);font-weight:900;font-size:clamp(40px,9vw,68px);line-height:.95;margin:14px 0 4px;letter-spacing:.01em}
@@ -659,6 +660,18 @@ body:has(.xr-full) .padchip{display:none}
 .boxcard ol small{display:block;color:var(--dust);font-family:"IBM Plex Sans Devanagari","Nirmala UI",sans-serif;font-size:13.5px}
 .boxgo{display:block;width:100%;font-family:var(--f-display);font-weight:900;font-size:34px;letter-spacing:.04em;color:#14100a;background:var(--corona);border:0;border-radius:6px;padding:16px;cursor:pointer}
 .boxcard .boxnote{font-family:var(--f-mono);font-size:12px;color:var(--dust);margin-top:12px}
+/* phone held sideways: title + START on the left, steps on the right, START always on screen */
+@media (orientation:landscape) and (max-height:560px){
+  .boxstart{padding:14px 20px}
+  .boxcard{max-width:980px;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);grid-template-rows:auto auto auto 1fr;column-gap:30px;align-items:start}
+  .boxcard img{grid-column:1;width:min(240px,80%)}
+  .boxcard h1{grid-column:1;font-size:clamp(32px,6vw,52px);margin-top:10px}
+  .boxcard .hi{grid-column:1;font-size:15px;margin-bottom:12px}
+  .boxcard ol{grid-column:2;grid-row:1/span 5;margin:0;gap:7px;font-size:14px;line-height:1.4}
+  .boxcard ol small{font-size:12.5px}
+  .boxgo{grid-column:1;font-size:28px;padding:12px}
+  .boxcard .boxnote{grid-column:1}
+}
 .foot-base{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-family:var(--f-mono);font-size:11px;color:var(--faint)}
 </style>
 </head>
@@ -1953,7 +1966,8 @@ body:has(.xr-full) .padchip{display:none}
         <li>Tap <b>START</b>. The phone turns sideways and fills the screen.<small>START दबाएँ। फ़ोन आड़ा होकर पूरी स्क्रीन भर देगा।</small></li>
         <li>Put the phone in the VR box, screen towards the lenses, the middle of the screen on the box's centre line.<small>फ़ोन को VR बॉक्स में लगाएँ, स्क्रीन लेंस की ओर।</small></li>
         <li>Look around. Look at a button: its ring fills and it presses itself. A tap on the screen or the box's button presses at once.<small>किसी बटन को देखते रहें, गोला भरते ही वह दब जाएगा। या स्क्रीन / बॉक्स का बटन दबाएँ।</small></li>
-        <li>Hold a tap on empty space to fly. A Bluetooth gamepad also works. The menu is down on your left.<small>उड़ने के लिए खाली जगह पर टैप दबाए रखें। मेन्यू नीचे बाईं ओर है।</small></li>
+        <li>Hold a tap on empty space to fly. The menu is down on your left.<small>उड़ने के लिए खाली जगह पर टैप दबाए रखें। मेन्यू नीचे बाईं ओर है।</small></li>
+        <li><b>Bluetooth controller:</b> pair it with the phone first. Stick = move, <b>A / OK</b> = press what you look at, <b>B</b> = back, <b>Y</b> = menu. Press A to start.<small>ब्लूटूथ कंट्रोलर: पहले फ़ोन से जोड़ें। स्टिक से चलें, A / OK से दबाएँ, B से वापस, Y से मेन्यू। शुरू करने के लिए A दबाएँ।</small></li>
       </ol>
       <button type="button" class="boxgo" id="boxGo">START ▶</button>
       <p class="boxnote" data-off hidden></p>
@@ -2636,7 +2650,7 @@ const PAD=(function(){
     if(helpOpen){const g=pads()[0];u.dev.textContent=g?"Connected: "+short(g.id):"Keyboard or Bluetooth remote";
       u.rows.innerHTML=[...(ctx.help||[]),...GLOBAL].map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("");u.help.querySelector("#padClose").focus({preventScroll:true})}
   }
-  addEventListener("gamepadconnected",e=>{const g=e.gamepad;if(!g||g.mapping==="xr-standard"||SKIP.test(g.id||""))return;padSeen=true;const u=mkUI();u.chip.hidden=false;say(short(g.id)+" connected. Press View / Select (or H) for the button guide.",5200)});
+  addEventListener("gamepadconnected",e=>{const g=e.gamepad;if(!g||g.mapping==="xr-standard"||SKIP.test(g.id||""))return;padSeen=true;const u=mkUI();u.chip.hidden=false;if(!fullLook())say(short(g.id)+" connected. Press View / Select (or H) for the button guide.",5200)});
   addEventListener("gamepaddisconnected",e=>{const g=e.gamepad;if(!g||g.mapping==="xr-standard"||SKIP.test(g.id||""))return;prev.delete(g.index);if(!pads().filter(x=>x.index!==g.index).length&&ui){ui.chip.hidden=true;say("Controller disconnected",2400)}});
 
   /* ---------- D-pad: move a highlight between buttons and links ---------- */
@@ -3086,7 +3100,7 @@ function SaurXR(stage,menuEl,opt){
     if(typeof PAD==="undefined")return;
     const ctx=R.xr.isPresenting?(mode==="vr"&&SPACE?SPACE.pad:PADX.imm):hubOn()?SPACE.pad:(mode==="cardboard"||mode==="camar")?PADX.look:PADX.preview;
     const st=PAD.poll(dt,ctx);padOn=!!(st&&st.pad);
-    if(R.xr.isPresenting&&padOn&&!padHelpXR&&xrFrames>20){padHelpXR=true;(ctx.helpXR||PADX.imm.helpXR)()}
+    if((R.xr.isPresenting||hubOn())&&padOn&&!padHelpXR&&xrFrames>20){padHelpXR=true;(ctx.helpXR||PADX.imm.helpXR)()}
   }
 
   /* ---------- sizing + loop ---------- */
@@ -3110,7 +3124,7 @@ function SaurXR(stage,menuEl,opt){
   function frame(t,xf){
     const dt=last?Math.min(.05,(t-last)/1000):0;last=t;
     if(mode==="vr"&&SPACE&&R.xr.isPresenting){xrFrames++;padPoll(dt);SPACE.frame(dt);R.render(S,cam);return}
-    if(hubOn()){padPoll(dt);cam.position.set(0,EYE,0);
+    if(hubOn()){xrFrames++;padPoll(dt);cam.position.set(0,EYE,0);
       if(look.gyro){cam.quaternion.copy(look.cal).multiply(look.q)}else{eulL.set(look.pitch,look.yaw,0,"YXZ");cam.quaternion.setFromEuler(eulL)}
       SPACE.frame(dt);renderStereo();return}
     padPoll(dt);
@@ -3680,12 +3694,12 @@ function VRHub(o){
     pad:{immersive:true,look3d:true,
       look:(x,y,dt)=>H.move(x,y,0,0,false,dt,{speed:H.scene&&H.scene.flySpeed,noFly:H.scene&&H.scene.noFly}),
       zoom:(z,dt)=>H.move(0,0,0,-z,false,dt,{speed:H.scene&&H.scene.flySpeed,noFly:H.scene&&H.scene.noFly}),
-      a:()=>{const a=H.aimGaze();if(!press(a,null)&&H.scene&&H.scene.btnA)H.scene.btnA()},
+      a:()=>{if(SND.blocked){SND.blocked=false;if(SND.ambWant)H.ambient(SND.ambWant,true)}if(NAR.blocked){const b=NAR.blocked;NAR.blocked=null;H.say(b,true)}const a=H.aimGaze();if(!press(a,null)&&H.scene&&H.scene.btnA)H.scene.btnA()},
       b:()=>{if(card.mesh.visible)H.hideCard();else if(H.scene&&H.scene.btnB)H.scene.btnB();else go("lobby");return true},
       x:()=>{if(H.scene&&H.scene.btnX)H.scene.btnX()},y:()=>{menuOn=!menuOn},
       prev:()=>{if(H.scene&&H.scene.prev)H.scene.prev()},next:()=>{if(H.scene&&H.scene.next)H.scene.next();else if(H.scene&&H.scene.btnA)H.scene.btnA()},
       dpad:d=>{if(d==="left"&&H.scene&&H.scene.prev)H.scene.prev();else if(d==="right"&&H.scene&&H.scene.next)H.scene.next();return true},
-      helpXR:()=>H.hint("Gamepad",[["Left stick","move"],["A","press what you look at"],["B","back"],["LB / RB","previous / next"],["Y","menu"]],8)},
+      helpXR:()=>H.hint(H.gazeMode?"Bluetooth controller":"Gamepad",[["Left stick","move"],["A / OK","press what you look at"],["B","back"],["LB / RB","previous / next"],["X","scene button (speed)"],["Y","menu"]],9)},
     go,H
   };
 }
@@ -8434,7 +8448,13 @@ buildShell();initCompare();
 if(HAS3D){loader=new THREE.TextureLoader()}
 else{const st=$("#orrery");st.querySelector("canvas").hidden=true;$("#labels").hidden=true;st.querySelector(".deck").hidden=true;const f=document.createElement("div");f.className="stage-fallback";f.innerHTML=`<img src="img/sun/sdo-aia-171-2023.jpg" alt="The Sun">`;st.prepend(f)}
 route();requestAnimationFrame(loop);
-if(APPXR==="box"){const bs=$("#boxStart");bs.hidden=false;$("#boxGo").onclick=()=>{if(!XR)openXR();if(XR&&XR.look){bs.hidden=true;XR.look("cardboard")}}}
+if(APPXR==="box"){const bs=$("#boxStart");bs.hidden=false;
+  const go=()=>{if(bs.hidden)return;if(!XR)openXR();if(XR&&XR.look){bs.hidden=true;const f=document.activeElement;if(f&&f.blur)f.blur();XR.look("cardboard")}};
+  $("#boxGo").onclick=go;
+  /* a Bluetooth controller or remote can start too: OK / Enter / Space / play, or A on a gamepad */
+  addEventListener("keydown",e=>{if(bs.hidden||e.repeat)return;const c=e.code||e.key;if(c==="Enter"||c==="NumpadEnter"||c==="Space"||c==="MediaPlayPause"||c==="Select"){e.preventDefault();go()}},true);
+  const was=new Map();setInterval(()=>{const ps=navigator.getGamepads?[...navigator.getGamepads()].filter(g=>g&&g.mapping!=="xr-standard"&&!/oculus|quest|meta/i.test(g.id||"")):[];
+    for(const g of ps){const on=[0,1,9].some(i=>g.buttons[i]&&g.buttons[i].pressed);if(on&&was.get(g.index)===false&&!bs.hidden)go();was.set(g.index,on)}},90)}
 else if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting())XR.enter(APPXR)},2500)}
 </script>
 
