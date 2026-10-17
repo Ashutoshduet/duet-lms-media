@@ -1964,7 +1964,7 @@ body:has(.xr-full) .padchip{display:none}
       <p class="hi">अंतरिक्ष प्रयोगशाला · फ़ोन VR बॉक्स</p>
       <ol>
         <li>Tap <b>START</b>. The phone turns sideways and fills the screen.<small>START दबाएँ। फ़ोन आड़ा होकर पूरी स्क्रीन भर देगा।</small></li>
-        <li>Put the phone in the VR box, screen towards the lenses, the middle of the screen on the box's centre line.<small>फ़ोन को VR बॉक्स में लगाएँ, स्क्रीन लेंस की ओर।</small></li>
+        <li>Put the phone in the VR box, screen towards the lenses, the middle of the screen on the box's centre line. Then look straight ahead and hold still for a second: the view centres itself (menu ▸ Re-centre view does it again).<small>फ़ोन को VR बॉक्स में लगाएँ, स्क्रीन लेंस की ओर। फिर सीधे सामने देखें और एक पल स्थिर रहें, व्यू अपने-आप बीच में आ जाएगा।</small></li>
         <li>Look around. Look at a button: its ring fills and it presses itself. A tap on the screen or the box's button presses at once.<small>किसी बटन को देखते रहें, गोला भरते ही वह दब जाएगा। या स्क्रीन / बॉक्स का बटन दबाएँ।</small></li>
         <li>Hold a tap on empty space to fly. The menu is down on your left.<small>उड़ने के लिए खाली जगह पर टैप दबाए रखें। मेन्यू नीचे बाईं ओर है।</small></li>
         <li><b>Bluetooth controller:</b> pair it with the phone first. Stick = move, <b>A / OK</b> = press what you look at, <b>B</b> = back, <b>Y</b> = menu. Press A to start.<small>ब्लूटूथ कंट्रोलर: पहले फ़ोन से जोड़ें। स्टिक से चलें, A / OK से दबाएँ, B से वापस, Y से मेन्यू। शुरू करने के लिए A दबाएँ।</small></li>
@@ -2696,6 +2696,7 @@ const PAD=(function(){
     }
     if(!P.size)return s;
     if(P.has("back"))toggleHelp(ctx);
+    if(P.has("start")&&ctx.immersive&&ctx.start)ctx.start();
     if(P.has("start")&&!ctx.immersive&&!lb){toggleHelp(ctx,false);if(location.hash!=="#xr")location.hash="xr"}
     if(P.has("a")){
       const el=document.activeElement;
@@ -2840,7 +2841,8 @@ function SaurXR(stage,menuEl,opt){
   const gaze={obj:null,t:0,done:false};
   const gctrl=new T.Object3D();gctrl.userData={mode:"gaze",hand:"none",on:true};   // the phone VR box's "controller": where you look
   const PHONE=!QUEST&&/Android|iPhone|iPad|Mobi/i.test(navigator.userAgent),EYE=1.6;
-  let wake=null;const wakeOn=on=>{try{if(on&&navigator.wakeLock&&!wake)navigator.wakeLock.request("screen").then(l=>{wake=l}).catch(()=>{});else if(!on&&wake){wake.release().catch(()=>{});wake=null}}catch(e){}};
+  let wake=null,wakeWant=false;const wakeOn=on=>{wakeWant=on;try{if(on&&navigator.wakeLock&&!wake)navigator.wakeLock.request("screen").then(l=>{wake=l;l.addEventListener("release",()=>{if(wake===l)wake=null})}).catch(()=>{});else if(!on&&wake){wake.release().catch(()=>{});wake=null}}catch(e){}};
+  document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&wakeWant&&!wake)wakeOn(true)});
   const hubOn=()=>mode==="cardboard"&&SPACE&&SPACE.active();
 
   /* ---------- AR reticle + controllers ---------- */
@@ -2917,7 +2919,34 @@ function SaurXR(stage,menuEl,opt){
   bSpeed.textContent="Speed: "+SPEEDS[sp][1];
 
   /* ---------- look controls (gyro or drag) ---------- */
-  const look={yaw:0,pitch:0,q:new T.Quaternion(),cal:new T.Quaternion(),gyro:false,needCal:true};
+  const look={yaw:0,pitch:0,q:new T.Quaternion(),cal:new T.Quaternion(),gyro:false,needCal:true,tilt:0};
+  /* VR box centring. The motion sensor gives the true horizon, but in a VR box people rarely hold their head level
+     (a heavy box, sitting at a desk) and the lenses don't always sit on the screen's middle. So "straight ahead" is
+     wherever the person looks when they hold still for a moment: once after START (when the phone is in the box)
+     and again on "Re-centre". It sets the heading and a gentle up/down tilt (at most 30°), kept for next time. */
+  try{look.tilt=Math.max(-.52,Math.min(.52,+localStorage.getItem("duetBoxTilt")||0))}catch(e){}
+  const AC={on:false,t0:0,until:0,still:0,last:new T.Quaternion(),cb:null};
+  const acF=new T.Vector3(),acU=new T.Vector3(),acA=new T.Vector3(),acQ=new T.Quaternion(),acR=new T.Quaternion();
+  function heading(q){acF.set(0,0,-1).applyQuaternion(q);acU.set(0,1,0).applyQuaternion(q);   // stays steady even looking straight up or down
+    return Math.atan2(-(acF.x-acF.y*acU.x),-(acF.z-acF.y*acU.z))}
+  function applyTilt(q,t){if(!t)return;const y=heading(q);acA.set(Math.cos(y),0,-Math.sin(y));q.premultiply(acQ.setFromAxisAngle(acA,t))}
+  function autoCentre(wait,cb){AC.on=true;AC.t0=performance.now()+wait;AC.until=AC.t0+20000;AC.still=0;AC.last.copy(look.q);AC.cb=cb||null}
+  let acT=0;
+  function acStep(){const now=performance.now(),dt=acT?Math.min(.25,(now-acT)/1000):0;acT=now;const sp=dt>0?AC.last.angleTo(look.q)/dt:0;AC.last.copy(look.q);
+    if(now>AC.until){AC.on=false;return}if(now<AC.t0){AC.still=0;return}
+    acR.copy(look.cal).multiply(look.q);acF.set(0,0,-1).applyQuaternion(acR);acU.set(0,1,0).applyQuaternion(acR);
+    const pitch=Math.asin(Math.max(-1,Math.min(1,acF.y)));
+    AC.still=(sp<.35&&Math.abs(pitch)<.7&&acU.y>.5)?AC.still+dt:0;
+    if(AC.still<1.1)return;
+    look.cal.premultiply(acQ.setFromAxisAngle(Y,-heading(acR)));
+    look.tilt=Math.max(-.52,Math.min(.52,-pitch));if(Math.abs(look.tilt)<.05)look.tilt=0;
+    try{localStorage.setItem("duetBoxTilt",look.tilt.toFixed(3))}catch(e){}
+    AC.on=false;const cb=AC.cb;AC.cb=null;if(cb)cb()}
+  function boxCentre(first){
+    const H=SPACE&&SPACE.H;if(!look.gyro&&!first){look.yaw=0;look.pitch=0;return}
+    if(H&&H.hint)H.hint(first?"Put the phone in the box":"Re-centre",[["Look","straight ahead"],["Hold still","1 second"],["Then","the view centres itself"]],first?9:6);
+    autoCentre(first?2500:1300,()=>{if(H&&H.hint)H.hint("Centred ✓",[["Straight ahead","set"],["Again","menu ▸ Re-centre view"]],3)});
+  }
   const zee=new T.Vector3(0,0,1),Y=new T.Vector3(0,1,0),eul=new T.Euler(),q0=new T.Quaternion(),q1=new T.Quaternion(-Math.sqrt(.5),0,0,Math.sqrt(.5));
   function onOri(e){
     if(e.alpha==null&&e.beta==null)return;
@@ -2968,7 +2997,7 @@ function SaurXR(stage,menuEl,opt){
     mode=m;place(m);select(null);
     stars.visible=m==="preview"||m==="cardboard"||m==="vr";
     let hub=false;
-    if((m==="vr"||(m==="cardboard"&&!opt.basicBox))&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD,gaze:gctrl,lite:PHONE,onExit:()=>exitLook(),onRecenter:()=>{look.needCal=true;look.yaw=0;look.pitch=0}});W.visible=false;stars.visible=false;SPACE.enter(VRGO,{gaze:m==="cardboard"});hub=true}catch(e){console.error(e);SPACE=null;W.visible=true}}
+    if((m==="vr"||(m==="cardboard"&&!opt.basicBox))&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD,gaze:gctrl,lite:PHONE,onExit:()=>exitLook(),onRecenter:()=>boxCentre(false)});W.visible=false;stars.visible=false;SPACE.enter(VRGO,{gaze:m==="cardboard"});hub=true}catch(e){console.error(e);SPACE=null;W.visible=true}}
     if(m==="cardboard"&&hub&&PHONE){bq=0;bqWin={n:0,slow:0,t:0};bqBad=0;bqGood=0;bqLast=0}
     R.setPixelRatio(m==="cardboard"&&hub?(PHONE?BQ[bq]:Math.min(devicePixelRatio,1.25)):Math.min(devicePixelRatio,2));
     R.setClearColor(0x000000,(m==="camar"||m==="ar")?0:1);
@@ -3002,6 +3031,7 @@ function SaurXR(stage,menuEl,opt){
     if(m==="cardboard"){try{screen.orientation.lock("landscape").catch(()=>{})}catch(e){}wakeOn(true);unlockAudio()}
     look.gyro=false;look.needCal=true;look.yaw=0;look.pitch=0;
     setMode(m);
+    if(m==="cardboard"&&hubOn()&&PHONE)boxCentre(true);
     gyroP.then(ok=>{if(!ok&&m==="camar")setTip("Motion sensors are off, so drag to look around. Tap a planet for its facts.")});
   }
   function exitLook(){
@@ -3032,7 +3062,7 @@ function SaurXR(stage,menuEl,opt){
   ov.addEventListener("beforexrselect",e=>{if(e.target.closest&&e.target.closest("button"))e.preventDefault()});
   q('[data-x="exit"]').onclick=()=>{const s=R.xr.getSession();if(s)s.end();else exitLook()};
   bSpeed.onclick=cycleSpeed;
-  bCenter.onclick=()=>{look.needCal=true;look.yaw=0;look.pitch=0};
+  bCenter.onclick=()=>{if(hubOn()&&PHONE){boxCentre(false);return}look.needCal=true;look.yaw=0;look.pitch=0};
   bMove.onclick=()=>{placed=false;W.visible=false;bMove.hidden=true;select(null);setTip("Move your phone over the floor and tap to place the model again.")};
 
   /* ---------- menu ---------- */
@@ -3136,7 +3166,7 @@ function SaurXR(stage,menuEl,opt){
     const dt=last?Math.min(.05,(t-last)/1000):0;last=t;
     if(mode==="vr"&&SPACE&&R.xr.isPresenting){xrFrames++;padPoll(dt);SPACE.frame(dt);R.render(S,cam);return}
     if(hubOn()){xrFrames++;padPoll(dt);cam.position.set(0,EYE,0);
-      if(look.gyro){cam.quaternion.copy(look.cal).multiply(look.q)}else{eulL.set(look.pitch,look.yaw,0,"YXZ");cam.quaternion.setFromEuler(eulL)}
+      if(look.gyro){if(AC.on)acStep();cam.quaternion.copy(look.cal).multiply(look.q);applyTilt(cam.quaternion,look.tilt)}else{eulL.set(look.pitch,look.yaw,0,"YXZ");cam.quaternion.setFromEuler(eulL)}
       SPACE.frame(dt);renderStereo();if(PHONE)boxAdapt();return}
     padPoll(dt);
     sim+=SPEEDS[sp][0]*dt;
@@ -3708,10 +3738,10 @@ function VRHub(o){
       zoom:(z,dt)=>H.move(0,0,0,-z,false,dt,{speed:H.scene&&H.scene.flySpeed,noFly:H.scene&&H.scene.noFly}),
       a:()=>{if(SND.blocked){SND.blocked=false;if(SND.ambWant)H.ambient(SND.ambWant,true)}if(NAR.blocked){const b=NAR.blocked;NAR.blocked=null;H.say(b,true)}const a=H.aimGaze();if(!press(a,null)&&H.scene&&H.scene.btnA)H.scene.btnA()},
       b:()=>{if(card.mesh.visible)H.hideCard();else if(H.scene&&H.scene.btnB)H.scene.btnB();else go("lobby");return true},
-      x:()=>{if(H.scene&&H.scene.btnX)H.scene.btnX()},y:()=>{menuOn=!menuOn},
+      x:()=>{if(H.scene&&H.scene.btnX)H.scene.btnX()},y:()=>{menuOn=!menuOn},start:()=>{if(H.gazeMode&&o.onRecenter)o.onRecenter()},
       prev:()=>{if(H.scene&&H.scene.prev)H.scene.prev()},next:()=>{if(H.scene&&H.scene.next)H.scene.next();else if(H.scene&&H.scene.btnA)H.scene.btnA()},
       dpad:d=>{if(d==="left"&&H.scene&&H.scene.prev)H.scene.prev();else if(d==="right"&&H.scene&&H.scene.next)H.scene.next();return true},
-      helpXR:()=>H.hint(H.gazeMode?"Bluetooth controller":"Gamepad",[["Left stick","move"],["A / OK","press what you look at"],["B","back"],["LB / RB","previous / next"],["X","scene button (speed)"],["Y","menu"]],9)},
+      helpXR:()=>H.hint(H.gazeMode?"Bluetooth controller":"Gamepad",[["Left stick","move"],["A / OK","press what you look at"],["B","back"],["LB / RB","previous / next"],["X","scene button (speed)"],["Y  ·  ☰","menu  ·  re-centre"]],9)},
     go,H
   };
 }
