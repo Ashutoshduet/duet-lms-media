@@ -1964,7 +1964,7 @@ body:has(.xr-full) .padchip{display:none}
       <p class="hi">अंतरिक्ष प्रयोगशाला · फ़ोन VR बॉक्स</p>
       <ol>
         <li>Tap <b>START</b>. The phone turns sideways and fills the screen.<small>START दबाएँ। फ़ोन आड़ा होकर पूरी स्क्रीन भर देगा।</small></li>
-        <li>Put the phone in the VR box, screen towards the lenses, the middle of the screen on the box's centre line. Then look straight ahead and hold still for a second: the view centres itself (menu ▸ Re-centre view does it again).<small>फ़ोन को VR बॉक्स में लगाएँ, स्क्रीन लेंस की ओर। फिर सीधे सामने देखें और एक पल स्थिर रहें, व्यू अपने-आप बीच में आ जाएगा।</small></li>
+        <li>Put the phone in the VR box, screen towards the lenses, the middle of the screen on the box's centre line. Then look straight ahead and hold still for a second: the view centres itself. Menu ▸ Re-centre view does it again; ▲ / ▼ Picture up / down fine-tunes it.<small>फ़ोन को VR बॉक्स में लगाएँ, स्क्रीन लेंस की ओर। फिर सीधे सामने देखें और एक पल स्थिर रहें, व्यू अपने-आप बीच में आ जाएगा। ऊपर/नीचे ठीक करने के लिए मेन्यू ▸ Picture up / down।</small></li>
         <li>Look around. Look at a button: its ring fills and it presses itself. A tap on the screen or the box's button presses at once.<small>किसी बटन को देखते रहें, गोला भरते ही वह दब जाएगा। या स्क्रीन / बॉक्स का बटन दबाएँ।</small></li>
         <li>Hold a tap on empty space to fly. The menu is down on your left.<small>उड़ने के लिए खाली जगह पर टैप दबाए रखें। मेन्यू नीचे बाईं ओर है।</small></li>
         <li><b>Bluetooth controller:</b> pair it with the phone first. Stick = move, <b>A / OK</b> = press what you look at, <b>B</b> = back, <b>Y</b> = menu. Press A to start.<small>ब्लूटूथ कंट्रोलर: पहले फ़ोन से जोड़ें। स्टिक से चलें, A / OK से दबाएँ, B से वापस, Y से मेन्यू। शुरू करने के लिए A दबाएँ।</small></li>
@@ -2945,7 +2945,7 @@ function SaurXR(stage,menuEl,opt){
   function boxCentre(first){
     const H=SPACE&&SPACE.H;if(!look.gyro&&!first){look.yaw=0;look.pitch=0;return}
     if(H&&H.hint)H.hint(first?"Put the phone in the box":"Re-centre",[["Look","straight ahead"],["Hold still","1 second"],["Then","the view centres itself"]],first?9:6);
-    autoCentre(first?2500:1300,()=>{if(H&&H.hint)H.hint("Centred ✓",[["Straight ahead","set"],["Again","menu ▸ Re-centre view"]],3)});
+    autoCentre(first?2500:1300,()=>{if(H&&H.hint)H.hint("Centred ✓",[["Straight ahead","set"],["Again","menu ▸ Re-centre view"],["Too high / low","menu ▸ Picture up / down"]],4)});
   }
   const zee=new T.Vector3(0,0,1),Y=new T.Vector3(0,1,0),eul=new T.Euler(),q0=new T.Quaternion(),q1=new T.Quaternion(-Math.sqrt(.5),0,0,Math.sqrt(.5));
   function onOri(e){
@@ -2997,7 +2997,7 @@ function SaurXR(stage,menuEl,opt){
     mode=m;place(m);select(null);
     stars.visible=m==="preview"||m==="cardboard"||m==="vr";
     let hub=false;
-    if((m==="vr"||(m==="cardboard"&&!opt.basicBox))&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD,gaze:gctrl,lite:PHONE,onExit:()=>exitLook(),onRecenter:()=>boxCentre(false)});W.visible=false;stars.visible=false;SPACE.enter(VRGO,{gaze:m==="cardboard"});hub=true}catch(e){console.error(e);SPACE=null;W.visible=true}}
+    if((m==="vr"||(m==="cardboard"&&!opt.basicBox))&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD,gaze:gctrl,lite:PHONE,onExit:()=>exitLook(),onRecenter:()=>boxCentre(false),onTilt:d=>{look.tilt=Math.max(-.6,Math.min(.6,look.tilt+d));try{localStorage.setItem("duetBoxTilt",look.tilt.toFixed(3))}catch(e){}}});W.visible=false;stars.visible=false;SPACE.enter(VRGO,{gaze:m==="cardboard"});hub=true}catch(e){console.error(e);SPACE=null;W.visible=true}}
     if(m==="cardboard"&&hub&&PHONE){bq=0;bqWin={n:0,slow:0,t:0};bqBad=0;bqGood=0;bqLast=0}
     R.setPixelRatio(m==="cardboard"&&hub?(PHONE?BQ[bq]:Math.min(devicePixelRatio,1.25)):Math.min(devicePixelRatio,2));
     R.setClearColor(0x000000,(m==="camar"||m==="ar")?0:1);
@@ -3524,9 +3524,10 @@ function VRHub(o){
     row("lobby","⌂  Lobby");row("narr","Narration",{val:H.narrLabel(),on:NAR.mode!=="off"});
     row("amb","Space sound",{val:SND.amb_on?"ON":"OFF",on:SND.amb_on});row("snd","Effects",{val:SND.on?"ON":"OFF",on:SND.on});
     const sc=H.scene;if(sc&&sc.menu)sc.menu().forEach(m=>row(m.id,m.label,{val:m.val,on:m.on,disabled:m.disabled}));
-    if(H.gazeMode&&o.onRecenter&&y<MENU_H-190)row("recenter","↻  Re-centre view");
+    if(H.gazeMode&&o.onRecenter&&y<MENU_H-283)row("recenter","↻  Re-centre view");
+    if(H.gazeMode&&o.onTilt&&y<MENU_H-190){p.btn(g,"tiltup",30,y,285,84,"▲ Picture up",{fs:29});p.btn(g,"tiltdn",325,y,285,84,"▼ Picture down",{fs:29});y+=93}
     if(H.gazeMode&&y<MENU_H-100)row("exitbox","⏻  Exit VR box");
-  },{order:2,onPress:(id)=>{if(id==="exitbox"){H.exitVR();return}if(id==="recenter"){o.onRecenter();menuYaw=null;return}if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(id==="snd")H.setSound(!SND.on);else if(id==="amb")H.setSpace(!SND.amb_on);else if(id==="psnd")H.setPlanetSnd(!SND.pl_on);else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
+  },{order:2,onPress:(id)=>{if(id==="exitbox"){H.exitVR();return}if(id==="recenter"){o.onRecenter();menuYaw=null;return}if(id==="tiltup"||id==="tiltdn"){o.onTilt(id==="tiltup"?-.07:.07);return}if(id==="lobby")go("lobby");else if(id==="narr")H.cycleNarr();else if(id==="snd")H.setSound(!SND.on);else if(id==="amb")H.setSpace(!SND.amb_on);else if(id==="psnd")H.setPlanetSnd(!SND.pl_on);else if(H.scene&&H.scene.menuPress)H.scene.menuPress(id);menu.redraw()}});
   S.add(menu.mesh);let menuOn=true;H.menu=menu;
   let menuYaw=null;
   function placeMenu(){cam.getWorldPosition(v3);
@@ -3740,8 +3741,8 @@ function VRHub(o){
       b:()=>{if(card.mesh.visible)H.hideCard();else if(H.scene&&H.scene.btnB)H.scene.btnB();else go("lobby");return true},
       x:()=>{if(H.scene&&H.scene.btnX)H.scene.btnX()},y:()=>{menuOn=!menuOn},start:()=>{if(H.gazeMode&&o.onRecenter)o.onRecenter()},
       prev:()=>{if(H.scene&&H.scene.prev)H.scene.prev()},next:()=>{if(H.scene&&H.scene.next)H.scene.next();else if(H.scene&&H.scene.btnA)H.scene.btnA()},
-      dpad:d=>{if(d==="left"&&H.scene&&H.scene.prev)H.scene.prev();else if(d==="right"&&H.scene&&H.scene.next)H.scene.next();return true},
-      helpXR:()=>H.hint(H.gazeMode?"Bluetooth controller":"Gamepad",[["Left stick","move"],["A / OK","press what you look at"],["B","back"],["LB / RB","previous / next"],["X","scene button (speed)"],["Y  ·  ☰","menu  ·  re-centre"]],9)},
+      dpad:d=>{if(d==="left"&&H.scene&&H.scene.prev)H.scene.prev();else if(d==="right"&&H.scene&&H.scene.next)H.scene.next();else if(H.gazeMode&&o.onTilt&&(d==="up"||d==="down"))o.onTilt(d==="up"?-.07:.07);return true},
+      helpXR:()=>H.hint(H.gazeMode?"Bluetooth controller":"Gamepad",[["Left stick","move"],["A / OK","press what you look at"],["B","back"],["LB / RB","previous / next"],["X","scene button (speed)"],["Y  ·  ☰","menu  ·  re-centre"],["D-pad ▲▼","picture up / down"]],9)},
     go,H
   };
 }
