@@ -1,0 +1,15 @@
+{
+  "name": "Human Body 360 · DUET STEM",
+  "short_name": "Body 360",
+  "description": "See-through 3D human body for VR and AR: bones, organs and how every system works, in English and Hindi.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0d13",
+  "theme_color": "#0a0d13",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

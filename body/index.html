@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Human Body 360 · DUET STEM</title>
+<meta name="description" content="Explore a see-through human body in 3D, VR and AR: bones, organs, and how breathing, digestion, blood flow, the heart, kidneys and nerves work.">
+<meta name="theme-color" content="#0a0d13">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<style>
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/nsd-latin-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/nsd-latin-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/nsd-latin-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/nsd-deva-400.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/nsd-deva-600.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/nsd-deva-700.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+:root{color-scheme:dark;--bg:#0a0d13;--panel:rgba(13,17,25,.74);--line:rgba(255,255,255,.09);--ink:#f2ede4;--mute:#a49d90;--c:#d9d2c3;--r:16px}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari",system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+#stage{position:fixed;inset:0}
+#stage canvas{display:block;touch-action:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+/* top bar */
+#top{position:fixed;top:max(12px,env(safe-area-inset-top));left:14px;right:14px;display:flex;align-items:center;gap:12px;pointer-events:none;z-index:5}
+#brand{pointer-events:auto;padding:8px 16px 9px}
+#brand small{display:block;font-size:11px;letter-spacing:.16em;color:var(--mute);font-weight:600}
+#title{font-size:20px;font-weight:700;letter-spacing:.01em;line-height:1.15}
+#top .sp{flex:1}
+#tools{pointer-events:auto;display:flex;align-items:center;gap:6px;padding:6px}
+.seg{display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px}
+.seg button{padding:6px 11px;border-radius:8px;font-size:14px;font-weight:600;color:var(--mute)}
+.seg button.on{background:var(--ink);color:#12100c}
+.ib{width:38px;height:38px;border-radius:10px;font-size:17px;display:grid;place-items:center}
+.ib:hover{background:rgba(255,255,255,.08)}
+.ib.off{color:var(--mute)}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.xr{padding:9px 15px;border-radius:10px;font-weight:700;font-size:14px;background:var(--ink);color:#12100c}
+.xr.ar{background:rgba(255,255,255,.1);color:var(--ink)}
+.xr.dim{opacity:.55}
+/* side rails */
+.rail{position:fixed;top:86px;z-index:4;width:236px;max-height:calc(100% - 300px);overflow:auto;padding:12px}
+#left{left:14px}#right{right:14px;width:214px}
+.rail h3{margin:2px 6px 8px;font-size:11px;letter-spacing:.16em;color:var(--mute);font-weight:600;text-transform:uppercase}
+.jbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:11px;font-size:15px;font-weight:600;line-height:1.25;position:relative}
+.jbtn:hover{background:rgba(255,255,255,.06)}
+.jbtn .ji{width:12px;height:12px;border-radius:50%;background:var(--c);flex:none;margin:0 4px 0 6px;box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 22%,transparent)}
+.jbtn.on{background:color-mix(in srgb,var(--c) 18%,transparent)}
+.jbtn.on::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--c)}
+.lbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:8px 10px;border-radius:10px;font-size:14px;color:var(--mute);font-weight:600}
+.lbtn i{width:14px;height:14px;border-radius:50%;border:2px solid var(--c);flex:none}
+.lbtn.on{color:var(--ink)}
+.lbtn.on i{background:var(--c)}
+.lbtn:hover{background:rgba(255,255,255,.06)}
+/* story card */
+#story{position:fixed;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));width:min(760px,calc(100% - 28px));padding:16px 20px 14px;z-index:4;border-top:3px solid var(--c)}
+#s-kicker{font-size:13px;font-weight:700;color:var(--c);letter-spacing:.02em;display:flex;align-items:center;gap:8px}
+#s-kicker::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
+#s-title{font-size:23px;font-weight:700;margin:4px 0 6px;line-height:1.2}
+#s-text{font-size:16.5px;line-height:1.6;color:#e2dccf;max-height:30vh;overflow:auto}
+html[lang=hi] #s-text{font-size:17.5px;line-height:1.75}
+#s-controls{display:flex;align-items:center;gap:10px;margin-top:12px}
+#s-dots{display:flex;gap:5px;flex:1}
+#s-dots i{flex:1;max-width:46px;height:5px;border-radius:3px;background:rgba(255,255,255,.14);cursor:pointer}
+#s-dots i.on{background:var(--c)}
+.cbtn{padding:9px 14px;border-radius:10px;font-weight:700;font-size:14px;background:rgba(255,255,255,.08)}
+.cbtn:hover{background:rgba(255,255,255,.14)}
+#btn-play{background:var(--c);color:#12100c;min-width:104px}
+#story.explore #s-title{font-size:21px}
+/* loader */
+#loader{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:var(--bg);transition:opacity .6s}
+#loader.done{opacity:0;pointer-events:none}
+#loader .box{width:min(420px,84vw);text-align:center}
+#loader h1{font-size:30px;margin:0 0 4px}
+#loader p{color:var(--mute);margin:0 0 22px;font-size:15px}
+#loader .bar{height:4px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+#loadbar{height:100%;background:var(--ink);transform-origin:left;transform:scaleX(0);transition:transform .2s}
+#loader .msg{margin-top:14px;font-size:13px;color:var(--mute)}
+#toast{position:fixed;top:84px;left:50%;transform:translate(-50%,-10px);opacity:0;transition:.3s;z-index:30;padding:10px 16px;max-width:90%;font-size:14px;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#credits{position:fixed;inset:0;z-index:25;display:none;place-items:center;background:rgba(0,0,0,.55)}
+#credits.show{display:grid}
+#credits .panel{width:min(560px,90vw);padding:22px 24px;font-size:14px;line-height:1.6;color:#ddd6c9}
+#credits h2{margin:0 0 10px;font-size:18px;color:var(--ink)}
+#credits a{color:#9fd0ff}
+#btn-panels{display:none}
+body.in-xr #top,body.in-xr .rail,body.in-xr #story{display:none}
+@media (max-width:900px){
+  #btn-panels{display:grid}
+  .rail{display:none;top:72px;max-height:calc(100% - 330px)}
+  body.panels-open .rail{display:block}
+  #left{width:calc(55% - 21px)}#right{width:calc(45% - 21px)}
+  #title{font-size:15px;white-space:nowrap}#brand{padding:7px 12px}#brand small{display:none}
+  .xr{white-space:nowrap;padding:8px 11px}#tools{gap:2px}#btn-info{display:none}.ib{width:34px;height:34px}
+  #tools .xr.ar,#btn-reset{display:none}
+  #s-title{font-size:19px}#s-text{font-size:15px;max-height:24vh}
+  html[lang=hi] #s-text{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/addons/"}}</script>
+</head>
+<body>
+<div id="stage"></div>
+<div id="top">
+  <div id="brand" class="panel"><small>DUET STEM</small><div id="title">Human Body 360</div></div>
+  <div class="sp"></div>
+  <div id="tools" class="panel">
+    <button id="btn-panels" class="ib" title="Menu" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <div class="seg"><button id="lang-en">EN</button><button id="lang-hi">हिं</button></div>
+    <button id="btn-voice" class="ib" title="Voice" aria-label="Voice"></button>
+    <button id="btn-reset" class="ib" title="Reset view" aria-label="Reset view"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
+    <button id="btn-info" class="ib" title="Credits" aria-label="Credits"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
+    <button id="btn-ar" class="xr ar">Enter AR</button>
+    <button id="btn-vr" class="xr">Enter VR</button>
+  </div>
+</div>
+<div id="left" class="rail panel"><h3 id="jlabel">Journeys</h3><div id="journeys"></div></div>
+<div id="right" class="rail panel"><h3 id="llabel">Layers</h3><div id="layers"></div></div>
+<div id="story" class="panel explore">
+  <div id="s-kicker"></div>
+  <div id="s-title"></div>
+  <div id="s-text"></div>
+  <div id="s-controls"><div id="s-dots"></div><button id="btn-prev" class="cbtn">‹ Back</button><button id="btn-play" class="cbtn">Play</button><button id="btn-next" class="cbtn">Next ›</button></div>
+</div>
+<div id="toast" class="panel"></div>
+<div id="credits"><div class="panel">
+  <h2>Credits</h2>
+  <p><b>3D anatomy:</b> <a href="https://www.z-anatomy.com" target="_blank" rel="noopener">Z-Anatomy</a> by Gauthier Kervyn and Marcin Zielinski, based on BodyParts3D (DBCLS) — CC BY-SA 4.0. Meshes were merged, simplified and recoloured for this app.</p>
+  <p><b>Kidney close-up:</b> NIH Human Reference Atlas (HuBMAP), 3D Reference Organs — CC BY 4.0.</p>
+  <p><b>3D engine:</b> three.js (MIT). <b>Font:</b> Noto Sans Devanagari (SIL Open Font License).</p>
+  <p>Animations, micro-scenes, narration and app by DUET STEM. This adapted 3D model is shared under CC BY-SA 4.0.</p>
+  <p style="text-align:right;margin:14px 0 0"><button class="cbtn" onclick="document.getElementById('credits').classList.remove('show')">OK</button></p>
+</div></div>
+<div id="loader"><div class="box">
+  <h1>Human Body 360</h1>
+  <p>मानव शरीर 360 · DUET STEM</p>
+  <div class="bar"><div id="loadbar"></div></div>
+  <div class="msg">Building the body · शरीर तैयार हो रहा है</div>
+</div></div>
+<script>document.getElementById('btn-info').onclick=()=>document.getElementById('credits').classList.add('show');</script>
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
