@@ -1,5 +1,5 @@
 // Offline cache: the whole app (about 8 MB) is stored on first visit, then served from the device.
-const VERSION = 'hb360-v1';
+const VERSION = 'hb360-v2';
 const FILES = [
   './', './index.html', './manifest.webmanifest',
   './js/main.js', './js/body.js', './js/flows.js', './js/anim.js', './js/micro.js', './js/labels.js', './js/audio.js', './js/vrui.js', './js/data.js',

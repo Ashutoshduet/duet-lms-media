@@ -99,6 +99,9 @@ class App {
     const j = Q.get('j');
     if (j) this.startJourney(j, +(Q.get('s') || 0), false);
     else this.explore();
+    // Quest app (immersive mode, start URL ?app=vr|ar): go straight into the headset view
+    this.appMode = Q.get('app');
+    if (this.appMode === 'vr' || this.appMode === 'ar') this.autoXR();
     // muscles load in the background
     this.body.loadMuscles(asset('./models/muscles.glb')).then(() => { this.musclesReady = true; this.applyLayers(); this.applyStepLook(); });
   }
@@ -533,15 +536,23 @@ class App {
     r.xr.addEventListener('sessionstart', () => this.onXRStart());
     r.xr.addEventListener('sessionend', () => this.onXREnd());
   }
-  async enterXR(mode) {
+  async autoXR() {
+    document.body.classList.add('app-xr');
+    const mode = this.appMode === 'ar' ? 'immersive-ar' : 'immersive-vr';
+    const ok = await this.enterXR(mode, true);
+    if (!ok) document.body.classList.add('app-xr-wait');
+  }
+  async enterXR(mode, quiet) {
     this.audio.unlock();
-    if (!navigator.xr) { this.toast(T.noXR[this.lang]); return; }
+    document.body.classList.remove('app-xr-wait');
+    if (!navigator.xr) { if (!quiet) this.toast(T.noXR[this.lang]); return false; }
     const ok = await navigator.xr.isSessionSupported(mode).catch(() => false);
-    if (!ok) { this.toast(T.noXR[this.lang]); return; }
-    const session = await navigator.xr.requestSession(mode, { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking', 'layers'] }).catch((e) => { this.toast(String(e.message || e)); return null; });
-    if (!session) return;
+    if (!ok) { if (!quiet) this.toast(T.noXR[this.lang]); return false; }
+    const session = await navigator.xr.requestSession(mode, { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking', 'layers'] }).catch((e) => { if (!quiet) this.toast(String(e.message || e)); return null; });
+    if (!session) return false;
     this.xrMode = mode;
     await this.renderer.xr.setSession(session);
+    return true;
   }
   onXRStart() {
     const ar = this.xrMode === 'immersive-ar';
@@ -556,6 +567,7 @@ class App {
     }, 300);
   }
   onXREnd() {
+    if (this.appMode === 'vr' || this.appMode === 'ar') document.body.classList.add('app-xr-wait');
     this.scene.background = this.bg; this.sky.visible = true; this.floor.visible = true;
     this.vrui.group.visible = false;
     this.bodyRoot.position.set(0, 0, 0); this.bodyRoot.rotation.set(0, 0, 0); this.bodyRoot.scale.setScalar(1);
@@ -728,6 +740,7 @@ class App {
     $('#lang-en').onclick = () => this.setLang('en');
     $('#lang-hi').onclick = () => this.setLang('hi');
     $('#btn-vr').onclick = () => this.enterXR('immersive-vr');
+    $('#xr-go').onclick = () => this.enterXR(this.appMode === 'ar' ? 'immersive-ar' : 'immersive-vr');
     $('#btn-ar').onclick = () => this.enterXR('immersive-ar');
     $('#btn-voice').onclick = () => { this.audio.unlock(); this.action('voice'); };
     $('#btn-next').onclick = () => { this.audio.unlock(); this.next(); };
