@@ -4,24 +4,28 @@ A see-through 3D human body for Meta Quest (VR and passthrough AR), laptops and 
 English, Hindi and Hinglish, with a teacher voice in all three. Works offline after the first visit.
 
 WHAT IS INSIDE
-  Explore            Point at any bone or organ: its name (EN + HI), its job and how it works,
-                     read aloud by the teacher voice.
-  Organs             A library of 70 organs and bones grouped by system (heart and blood,
-                     breathing, digestion, kidneys, brain and nerves, skeleton, muscles).
-                     Pick one: it comes close, glows, animates, and the teacher explains it.
-  How we breathe     15 steps: nose -> throat -> voice box -> windpipe -> bronchi -> lungs and
-                     diaphragm -> alveoli (O2 into blood, CO2 out) -> oxygen-rich blood to the
-                     heart -> pumped to the brain, muscles and every cell -> cells burn food
-                     with O2 and make CO2 -> CO2 back to the lungs -> breathed out.
-  From food to energy 19 steps: teeth and saliva, tongue, swallowing, food pipe squeezing,
-                     stomach acid and pepsin, churning to chyme, duodenum, bile breaking fat,
-                     pancreatic juice, villi absorbing, liver, cells making energy (ATP),
-                     large intestine taking back water, waste out.
-  Blood circulation  7 steps: follow one red blood cell heart -> lungs -> heart -> leg -> back.
-  Inside the heart   6 steps: four chambers, valves (lub-dub), coronary arteries.
-  Kidneys and urine  6 steps: blood in, kidney cut open, nephron filter, ureters, bladder.
-  Brain and nerves   5 steps: brain parts, spinal cord signals, vision, reflex arc.
-  Bones and muscles  4 steps.
+  Explore            Point at any of 2,400 pieces (every bone, muscle, organ, vessel, nerve, gland):
+                     it glows gold, shows its name (EN + HI) and job, and the teacher explains
+                     how it works. "Show alone" isolates it, "Close-up" opens a magnified window
+                     (in VR the body itself never moves or changes size).
+  Body parts         350 parts grouped by system with search, each with name, job and detail in
+                     English, Hindi and Hinglish.
+  Organ Lab          8 big, detailed models on a pedestal with guided tours (61 steps):
+                     Heart (cut-away, 4 chambers, blood flow, valves lub-dub, SA/AV node and
+                     Purkinje electric spark with ECG, coronary arteries), Eye (light rays,
+                     pupil, lens focusing, retina, blind spot, optic nerve), Ear (sound waves,
+                     eardrum and ossicles vibrating, cochlea, balance, Eustachian tube), Brain
+                     (lobes, hemispheres, motor/sensory strips, brainstem, deep parts, neurons),
+                     Lungs (bronchial tree, breathing muscles, alveoli, blood), Kidney (cut open,
+                     nephron, urine path, blood in/out), Tooth (enamel, dentine, pulp, roots,
+                     cavities), Skin (layers, sweat, touch, goosebumps).
+  Journeys           Breathing (15 steps, oxygen carried to every part of the body), Food to
+                     energy (19), Blood circulation (7), Inside the heart (6), Kidneys (6),
+                     Brain and nerves (5), Bones and muscles (4).
+  Take apart         Organs or bones float out of the body, labelled; point at any piece.
+  Put back game      Drag (or grab in VR) each organ or bone back to its place in the body.
+  Teacher voice      Recorded offline narration in English, Hindi and Hinglish; voice and
+                     sound effects can each be switched on/off.
 
 PUT IT ON THE QUEST
   The page must be opened from an https:// address (WebXR does not work from a file).

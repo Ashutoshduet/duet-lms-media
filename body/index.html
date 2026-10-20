@@ -41,7 +41,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .xr.ar{background:rgba(255,255,255,.1);color:var(--ink)}
 .xr.dim{opacity:.55}
 /* side rails */
-.rail{position:fixed;top:86px;z-index:4;width:236px;max-height:calc(100% - 300px);overflow:auto;padding:12px}
+.rail{position:fixed;top:86px;z-index:4;width:250px;max-height:calc(100% - 290px);overflow:auto;padding:12px}
 #left{left:14px}#right{right:14px;width:214px}
 .orgbtn{width:100%;margin-top:10px;background:rgba(240,166,90,.16);color:var(--ink)}
 #organ-drawer{position:fixed;top:86px;right:240px;z-index:6;width:280px;max-height:calc(100% - 300px);overflow:auto;padding:12px;display:none}
@@ -69,13 +69,23 @@ body.organs-open #organ-drawer{display:block}
 #s-title{font-size:23px;font-weight:700;margin:4px 0 6px;line-height:1.2}
 #s-text{font-size:16.5px;line-height:1.6;color:#e2dccf;max-height:30vh;overflow:auto}
 html[lang=hi] #s-text{font-size:17.5px;line-height:1.75}
-#s-controls{display:flex;align-items:center;gap:10px;margin-top:12px}
-#s-dots{display:flex;gap:5px;flex:1}
 #s-dots i{flex:1;max-width:46px;height:5px;border-radius:3px;background:rgba(255,255,255,.14);cursor:pointer}
 #s-dots i.on{background:var(--c)}
 .cbtn{padding:9px 14px;border-radius:10px;font-weight:700;font-size:14px;background:rgba(255,255,255,.08)}
 .cbtn:hover{background:rgba(255,255,255,.14)}
-#btn-play{background:var(--c);color:#12100c;min-width:104px}
+.cbtn.primary{background:var(--c);color:#12100c}
+#s-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+#s-dots{display:flex;gap:5px;margin-top:10px}
+#story.explore #s-dots{display:none}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.tbtn{display:flex;align-items:center;gap:8px;text-align:left;padding:8px 8px;border-radius:10px;font-size:14px;font-weight:600;line-height:1.2}
+.tbtn:hover{background:rgba(255,255,255,.06)}
+.tbtn .ji{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.tbtn.on{background:color-mix(in srgb,var(--c) 22%,transparent)}
+.rail h3.sub{margin-top:14px}
+#psearch{width:100%;margin:2px 0 6px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--ink);font:inherit;font-size:15px}
+#offline{font-size:12px;color:#9fd17a;margin:8px 6px 0;min-height:16px}
+.savebtn{width:100%;margin-top:8px;background:rgba(159,209,122,.16);color:var(--ink);font-size:13px}
 #story.explore #s-title{font-size:21px}
 /* loader */
 #loader{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:var(--bg);transition:opacity .6s}
@@ -131,21 +141,25 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
     <button id="btn-vr" class="xr">Enter VR</button>
   </div>
 </div>
-<div id="left" class="rail panel"><h3 id="jlabel">Journeys</h3><div id="journeys"></div></div>
-<div id="right" class="rail panel"><h3 id="llabel">Layers</h3><div id="layers"></div><button id="btn-organs" class="cbtn orgbtn">Organs</button></div>
-<div id="organ-drawer" class="panel"><h3 id="olabel">Organs</h3><div id="organs"></div></div>
+<div id="left" class="rail panel"><h3 id="jlabel">Journeys</h3><div id="journeys"></div>
+  <h3 id="lablabel" class="sub">Organ Lab</h3><div id="labs" class="tgrid"></div>
+  <h3 id="dislabel" class="sub">Take apart</h3><div id="dis" class="tgrid"></div>
+  <h3 id="gamelabel" class="sub">Put back game</h3><div id="game" class="tgrid"></div></div>
+<div id="right" class="rail panel"><h3 id="llabel">Layers</h3><div id="layers"></div><button id="btn-organs" class="cbtn orgbtn">Organs</button><button id="btn-save" class="cbtn savebtn">Save</button><div id="offline"></div></div>
+<div id="organ-drawer" class="panel"><h3 id="olabel">Organs</h3><input id="psearch" type="search" autocomplete="off"><div id="organs"></div></div>
 <div id="story" class="panel explore">
   <div id="s-kicker"></div>
   <div id="s-title"></div>
   <div id="s-text"></div>
-  <div id="s-controls"><div id="s-dots"></div><button id="btn-prev" class="cbtn">‹ Back</button><button id="btn-play" class="cbtn">Play</button><button id="btn-next" class="cbtn">Next ›</button></div>
+  <div id="s-dots"></div>
+  <div id="s-buttons"></div>
 </div>
 <div id="toast" class="panel"></div>
 <div id="xr-wait"><button id="xr-go" class="xr">Enter VR · VR में जाएँ</button></div>
 <div id="credits"><div class="panel">
   <h2>Credits</h2>
   <p><b>3D anatomy:</b> <a href="https://www.z-anatomy.com" target="_blank" rel="noopener">Z-Anatomy</a> by Gauthier Kervyn and Marcin Zielinski, based on BodyParts3D (DBCLS) — CC BY-SA 4.0. Meshes were merged, simplified and recoloured for this app.</p>
-  <p><b>Kidney close-up:</b> NIH Human Reference Atlas (HuBMAP), 3D Reference Organs — CC BY 4.0.</p>
+  <p><b>Organ Lab heart, eye and kidney:</b> NIH Human Reference Atlas (HuBMAP), 3D Reference Organs — CC BY 4.0. <b>Brain, ear and lungs:</b> Z-Anatomy (CC BY-SA 4.0). Tooth and skin models are made by DUET STEM.</p>
   <p><b>3D engine:</b> three.js (MIT). <b>Font:</b> Noto Sans Devanagari (SIL Open Font License).</p>
   <p><b>Teacher voices:</b> recorded offline with <a href="https://github.com/rhasspy/piper" target="_blank" rel="noopener">Piper TTS</a> (MIT). English: LJSpeech voice (public domain). Hindi and Hinglish: Priyamvada voice by PravalX, trained on AI4Bharat data — CC BY-NC-SA 4.0 (free, non-commercial educational use).</p>
   <p>Animations, micro-scenes, narration and app by DUET STEM. This adapted 3D model is shared under CC BY-SA 4.0.</p>

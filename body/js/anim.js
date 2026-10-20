@@ -18,7 +18,9 @@ function scaleAbout(mesh, pivot, sx, sy = sx, sz = sx) {
 // add a travelling-wave vertex displacement to a standard material
 function addWave(mat, opts) {
   const u = { uTime: { value: 0 }, uAmp: { value: 0 }, uK: { value: opts.k }, uW: { value: opts.w }, uDir: { value: opts.dir || new THREE.Vector3(0.3, 1, 0.5).normalize() } };
-  mat.onBeforeCompile = (sh) => {
+  const prev = mat.onBeforeCompile; const prevKey = mat.customProgramCacheKey ? mat.customProgramCacheKey() : '';
+  mat.onBeforeCompile = (sh, r) => {
+    prev && prev(sh, r);
     Object.assign(sh.uniforms, u);
     sh.vertexShader = sh.vertexShader
       .replace('#include <common>', '#include <common>\nuniform float uTime; uniform float uAmp; uniform float uK; uniform float uW; uniform vec3 uDir;')
@@ -27,7 +29,7 @@ function addWave(mat, opts) {
         float wv = sin(ph) * 0.5 + 0.5;
         transformed += normal * uAmp * (wv * wv * wv - 0.35);`);
   };
-  mat.customProgramCacheKey = () => 'wave' + opts.k + '_' + opts.w;
+  mat.customProgramCacheKey = () => prevKey + 'wave' + opts.k + '_' + opts.w;
   mat.needsUpdate = true;
   return u;
 }

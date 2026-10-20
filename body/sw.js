@@ -1,13 +1,14 @@
 // Offline support. Code and text: network first (so updates show at once), cache when offline.
-// Models, fonts, images and narration audio: cache first. Narration is saved in the background after the first visit.
-const VERSION = 'hb360-v4';
+// Models, fonts, images and narration audio: cache first. Narration and Organ Lab models are saved in the
+// background after the first visit, with progress sent back to the page.
+const VERSION = 'hb360-v5';
 const CORE = [
   './', './index.html', './manifest.webmanifest',
   './js/main.js', './js/body.js', './js/flows.js', './js/anim.js', './js/micro.js', './js/labels.js', './js/audio.js', './js/vrui.js',
-  './js/data.js', './js/content.js', './js/journeys_bd.js',
+  './js/data.js', './js/content.js', './js/journeys_bd.js', './js/zoom.js', './js/lab.js', './js/proc.js', './js/dismantle.js',
   './lib/three.module.js', './lib/addons/loaders/GLTFLoader.js', './lib/addons/utils/BufferGeometryUtils.js', './lib/addons/controls/OrbitControls.js',
   './lib/addons/environments/RoomEnvironment.js', './lib/addons/libs/meshopt_decoder.module.js',
-  './models/body.glb', './models/muscles.glb', './models/kidney.glb', './models/paths.json', './models/meta.json', './models/content.json',
+  './models/body.glb', './models/paths.json', './models/meta3.json', './models/objects.json', './models/content.json', './models/kidney.glb',
   './fonts/nsd-latin-400.woff2', './fonts/nsd-latin-600.woff2', './fonts/nsd-latin-700.woff2',
   './fonts/nsd-deva-400.woff2', './fonts/nsd-deva-600.woff2', './fonts/nsd-deva-700.woff2',
   './icons/icon-192.png', './icons/icon-512.png', './brand/duet-stem-logo-light.png',
@@ -18,32 +19,36 @@ self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
-  // keep narration audio from older versions (it rarely changes); drop everything else old
+  // narration was re-recorded in v5, so old caches are dropped completely
   e.waitUntil((async () => {
-    const keys = await caches.keys();
-    const cur = await caches.open(VERSION);
-    for (const k of keys) {
-      if (k === VERSION) continue;
-      const old = await caches.open(k);
-      for (const req of await old.keys()) if (req.url.includes('/audio/')) { const r = await old.match(req); if (r) await cur.put(req, r); }
-      await caches.delete(k);
-    }
+    for (const k of await caches.keys()) if (k !== VERSION) await caches.delete(k);
     await self.clients.claim();
   })());
 });
+let running = null;
 self.addEventListener('message', (e) => {
   if (!e.data || e.data.type !== 'prefetch') return;
-  e.waitUntil((async () => {
+  const urls = [...new Set(e.data.urls)];
+  const job = (async () => {
+    if (running) await running.catch(() => {});
     const c = await caches.open(VERSION);
-    for (const u of e.data.urls) {
-      try { if (!(await c.match(u))) { const r = await fetch(u); if (r.ok) await c.put(u, r); } } catch (err) { /* offline: try next time */ }
+    const all = await self.clients.matchAll();
+    const tell = (have) => all.forEach((cl) => cl.postMessage({ type: 'progress', have, total: urls.length }));
+    let have = 0, i = 0;
+    for (const u of urls) {
+      try { if (!(await c.match(u))) { const r = await fetch(u); if (r.ok) await c.put(u, r); } have++; } catch (err) { /* offline: try next time */ }
+      if (++i % 10 === 0) tell(have);
     }
-  })());
+    tell(have);
+  })();
+  running = job;
+  e.waitUntil(job);
 });
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
   const url = new URL(e.request.url);
   if (url.origin !== location.origin) return;
+  if (url.pathname.includes('/models/labs/')) { cacheFirst(e); return; }
   if (NETWORK_FIRST.test(url.pathname)) {
     e.respondWith(fetch(e.request).then((res) => {
       if (res.ok) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(e.request, copy)); }
@@ -51,8 +56,11 @@ self.addEventListener('fetch', (e) => {
     }).catch(() => caches.match(e.request, { ignoreSearch: true })));
     return;
   }
+  cacheFirst(e);
+});
+function cacheFirst(e) {
   e.respondWith(caches.match(e.request, { ignoreSearch: true }).then((hit) => hit || fetch(e.request).then((res) => {
     if (res.ok && res.status === 200) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(e.request, copy)); }
     return res;
   })));
-});
+}

@@ -127,7 +127,8 @@ class Stream {
     const sys = this.sys, pos = sys.pos, col = sys.col, size = sys.size, alpha = sys.alpha;
     const v = new THREE.Vector3(), t = new THREE.Vector3(), n1 = new THREE.Vector3(), n2 = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
     this.alpha += (this.target - this.alpha) * Math.min(1, dt * 2.5);
-    const sp = this.speed * mult;
+    const drv = this.def.drive && sys.drivers ? (sys.drivers[this.def.drive] ?? 1) : 1;
+    const sp = this.speed * mult * drv;
     for (let i = 0; i < this.count; i++) {
       const it = this.items[i];
       const c = this.curves[it.c];
