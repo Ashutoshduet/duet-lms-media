@@ -1,3 +1,4 @@
+import { BREATHING, DIGESTION } from './journeys_bd.js';
 // Content: part names and functions (English / Hindi) and the guided journeys.
 
 export const SYSTEMS = {
@@ -130,74 +131,8 @@ export const T = {
 // A step: view {at: anchor name or [x,y,z], z: zoom}, focus: parts kept solid, show: extra layers,
 // flows: flow ids, anim: organ animations, micro: magnifier scene, tracer: hero particle route, labels: parts to tag.
 export const JOURNEYS = [
-  {
-    id: 'breathing', sys: 'respiratory', icon: '🫁',
-    title: { en: 'How we breathe', hi: 'हम सांस कैसे लेते हैं' },
-    steps: [
-      { view: { at: [0, 1.36, 0.02], z: 2.0 }, focus: ['nasal_cavity', 'pharynx', 'larynx', 'trachea', 'bronchi', 'lung_r', 'lung_l', 'diaphragm'], anim: ['breathe'], flows: ['air_in'],
-        labels: ['nasal_cavity', 'trachea', 'lung_r', 'lung_l', 'diaphragm'],
-        title: { en: 'Meet the breathing team', hi: 'सांस लेने वाली टीम' },
-        text: { en: 'Every few seconds you breathe in fresh air and breathe out used air. The nose, the windpipe and two lungs do this job together with a big muscle called the diaphragm.', hi: 'हम हर कुछ सेकंड में ताज़ी हवा अंदर लेते हैं और इस्तेमाल हुई हवा बाहर छोड़ते हैं। नाक, श्वास नली और दो फेफड़े, डायाफ्राम नाम की एक बड़ी मांसपेशी के साथ मिलकर यह काम करते हैं।' } },
-      { view: { at: 'nasal_cavity', z: 5.5, side: 0.9 }, focus: ['nasal_cavity', 'pharynx', 'larynx', 'skull', 'mandible'], ghostSkull: true, flows: ['air_nose'], labels: ['nasal_cavity', 'pharynx'],
-        title: { en: 'Air enters the nose', hi: 'हवा नाक में आती है' },
-        text: { en: 'Air enters through the nostrils. Tiny hairs and sticky mucus inside the nose trap dust and germs, and the air is warmed and moistened before it goes further.', hi: 'हवा नथुनों से अंदर आती है। नाक के अंदर के छोटे बाल और चिपचिपा म्यूकस धूल और कीटाणुओं को रोक लेते हैं, और आगे जाने से पहले हवा गर्म व नम हो जाती है।' } },
-      { view: { at: [0, 1.46, 0.02], z: 4.0, side: 0.6 }, focus: ['pharynx', 'larynx', 'trachea', 'nasal_cavity'], flows: ['air_in'], labels: ['pharynx', 'larynx', 'trachea'],
-        title: { en: 'Down the windpipe', hi: 'श्वास नली से नीचे' },
-        text: { en: 'From the throat the air passes the voice box (larynx) and goes down the windpipe (trachea). Rings of cartilage keep the windpipe open. A small flap, the epiglottis, stops food from going this way.', hi: 'गले से हवा स्वर-यंत्र (लैरिंक्स) से होकर श्वास नली (ट्रेकिया) में जाती है। उपास्थि के छल्ले श्वास नली को खुला रखते हैं। एपिग्लॉटिस नाम का एक छोटा ढक्कन खाने को इस रास्ते में जाने से रोकता है।' } },
-      { view: { at: [0, 1.3, 0.0], z: 3.0 }, focus: ['trachea', 'bronchi', 'lung_r', 'lung_l'], ghost: ['lung_r', 'lung_l'], flows: ['air_in', 'air_bronchi'], labels: ['bronchi', 'lung_r', 'lung_l'],
-        title: { en: 'Branching into the lungs', hi: 'फेफड़ों में शाखाएँ' },
-        text: { en: 'The windpipe splits into two bronchi, one for each lung. They branch again and again, like an upside-down tree, into thousands of tiny tubes called bronchioles.', hi: 'श्वास नली दो ब्रोंकाई में बँट जाती है — हर फेफड़े के लिए एक। ये उल्टे पेड़ की तरह बार-बार बँटकर हज़ारों छोटी नलियाँ (ब्रोंकिओल) बना लेती हैं।' } },
-      { view: { at: [0, 1.27, 0.02], z: 2.2 }, focus: ['lung_r', 'lung_l', 'diaphragm', 'ribs', 'sternum', 'trachea', 'bronchi'], anim: ['breathe_deep'], flows: ['air_in', 'air_bronchi'], labels: ['diaphragm', 'ribs', 'lung_r'],
-        title: { en: 'Breathe in, breathe out', hi: 'सांस अंदर, सांस बाहर' },
-        text: { en: 'To breathe in, the diaphragm pulls down and the ribs lift up and out. The chest gets bigger and air rushes in. To breathe out, the diaphragm relaxes upwards and the air is pushed out.', hi: 'सांस अंदर लेते समय डायाफ्राम नीचे खिंचता है और पसलियाँ ऊपर व बाहर उठती हैं। छाती बड़ी होती है और हवा तेज़ी से अंदर आती है। सांस छोड़ते समय डायाफ्राम ढीला होकर ऊपर जाता है और हवा बाहर धकेली जाती है।' } },
-      { view: { at: 'lung_r', z: 3.0 }, focus: ['lung_r', 'bronchi', 'pulm_arteries', 'pulm_veins'], ghost: ['lung_r'], micro: 'alveoli', anim: ['breathe'],
-        title: { en: 'Inside the alveoli', hi: 'एल्वियोली के अंदर' },
-        text: { en: 'The smallest tubes end in tiny air sacs called alveoli — about 30 crore of them! Each is wrapped in thin blood capillaries. Oxygen passes from the air into the blood, and carbon dioxide passes from the blood into the air.', hi: 'सबसे छोटी नलियाँ एल्वियोली नाम की छोटी हवा की थैलियों पर ख़त्म होती हैं — लगभग 30 करोड़! हर एक पतली रक्त केशिकाओं से लिपटी है। ऑक्सीजन हवा से खून में जाती है और कार्बन डाइऑक्साइड खून से हवा में आती है।' } },
-      { view: { at: [0.01, 1.3, 0.02], z: 2.6 }, focus: ['pulm_veins', 'pulm_arteries', 'heart_la', 'heart_lv', 'heart_ra', 'heart_rv', 'arteries', 'lung_r', 'lung_l'], ghost: ['lung_r', 'lung_l'], anim: ['heartbeat'], flows: ['blood_pulm', 'heart_flow', 'blood_arteries'], labels: ['pulm_veins', 'heart_lv', 'arteries'],
-        title: { en: 'Oxygen rides the blood', hi: 'ऑक्सीजन खून की सवारी करती है' },
-        text: { en: 'Red blood cells, now full of oxygen, travel through the pulmonary veins to the heart. The heart pumps this bright red blood to every part of the body.', hi: 'ऑक्सीजन से भरी लाल रक्त कोशिकाएँ फुफ्फुसीय शिराओं से दिल तक जाती हैं। दिल इस चमकीले लाल खून को शरीर के हर हिस्से में पंप करता है।' } },
-      { view: { at: [0, 1.35, 0.02], z: 2.0 }, focus: ['veins', 'heart_ra', 'heart_rv', 'pulm_arteries', 'lung_r', 'lung_l', 'trachea', 'bronchi', 'nasal_cavity', 'pharynx', 'larynx'], ghost: ['lung_r', 'lung_l'], anim: ['breathe', 'heartbeat'], flows: ['blood_veins', 'blood_pulm', 'air_out'], labels: ['veins', 'pulm_arteries'],
-        title: { en: 'Carbon dioxide goes out', hi: 'कार्बन डाइऑक्साइड बाहर जाती है' },
-        text: { en: 'Body cells use oxygen to get energy from food, and make carbon dioxide as waste. Veins bring it back to the heart and lungs, and we breathe it out. We breathe about 20,000 times every day!', hi: 'शरीर की कोशिकाएँ भोजन से ऊर्जा पाने के लिए ऑक्सीजन इस्तेमाल करती हैं और अपशिष्ट के रूप में कार्बन डाइऑक्साइड बनाती हैं। शिराएँ इसे दिल और फेफड़ों तक लाती हैं और हम इसे बाहर छोड़ देते हैं। हम रोज़ लगभग 20,000 बार सांस लेते हैं!' } },
-    ],
-  },
-  {
-    id: 'digestion', sys: 'digestive', icon: '🍎',
-    title: { en: 'From food to energy', hi: 'भोजन से ऊर्जा तक' },
-    steps: [
-      { view: { at: [0, 1.22, 0.03], z: 1.4 }, focus: ['mouth', 'tongue', 'teeth', 'teeth_lower', 'salivary', 'pharynx', 'esophagus', 'stomach', 'duodenum', 'small_intestine', 'large_intestine', 'liver', 'gallbladder', 'pancreas', 'bile_ducts'],
-        labels: ['esophagus', 'stomach', 'liver', 'small_intestine', 'large_intestine'],
-        title: { en: 'The food tube', hi: 'भोजन की लंबी नली' },
-        text: { en: 'Digestion breaks the food we eat into pieces so tiny that they can pass into our blood. The path from the mouth to the end is about 9 metres long!', hi: 'पाचन हमारे भोजन को इतने छोटे टुकड़ों में तोड़ता है कि वे खून में जा सकें। मुँह से अंत तक यह रास्ता लगभग 9 मीटर लंबा है!' } },
-      { view: { at: 'mouth', z: 4.2, side: 0.55 }, focus: ['mouth', 'tongue', 'teeth', 'teeth_lower', 'mandible', 'salivary', 'skull'], ghostSkull: true, anim: ['chew'], flows: ['saliva'], tracer: { seq: ['food_mouth'], until: 0.35, food: true }, labels: ['teeth_lower', 'tongue', 'salivary'],
-        title: { en: 'Chewing in the mouth', hi: 'मुँह में चबाना' },
-        text: { en: 'Teeth cut and grind the food. Saliva from three pairs of salivary glands makes it wet and starts turning starch into sugar. The tongue rolls it into a soft ball called a bolus.', hi: 'दाँत भोजन को काटते और पीसते हैं। तीन जोड़ी लार ग्रंथियों की लार इसे गीला करती है और स्टार्च को शुगर में बदलना शुरू करती है। जीभ इसे एक नरम गोले (बोलस) में बदल देती है।' } },
-      { view: { at: [0, 1.36, 0.0], z: 2.4, side: 0.7 }, focus: ['pharynx', 'larynx', 'esophagus', 'stomach', 'trachea'], anim: ['peristalsis'], tracer: { seq: ['food_mouth', 'esophagus'], food: true, speed: 0.045 }, labels: ['esophagus', 'trachea'],
-        title: { en: 'Swallowing', hi: 'निगलना' },
-        text: { en: 'When we swallow, the epiglottis covers the windpipe. The muscles of the food pipe squeeze in waves, called peristalsis, and push the food down to the stomach in about 7 seconds.', hi: 'निगलते समय एपिग्लॉटिस श्वास नली को ढक लेता है। भोजन नली की मांसपेशियाँ लहरों में सिकुड़ती हैं — इसे क्रमाकुंचन (पेरिस्टाल्सिस) कहते हैं — और भोजन लगभग 7 सेकंड में पेट तक पहुँच जाता है।' } },
-      { view: { at: 'stomach', z: 4.5 }, focus: ['stomach', 'esophagus', 'duodenum'], ghost: ['stomach'], anim: ['churn'], flows: ['chyme'], tracer: { seq: ['stomach'], food: true, speed: 0.012, dissolve: true }, labels: ['stomach'],
-        title: { en: 'Churning in the stomach', hi: 'पेट में मथना' },
-        text: { en: 'The stomach is a strong muscular bag. For 2 to 4 hours it churns the food with acid and enzymes, making a thick soup called chyme. The acid also kills germs.', hi: 'पेट मांसपेशियों की मज़बूत थैली है। यह 2 से 4 घंटे तक भोजन को अम्ल और एंजाइमों के साथ मथता है और काइम नाम का गाढ़ा घोल बनाता है। अम्ल कीटाणुओं को भी मारता है।' } },
-      { view: { at: 'duodenum', z: 4.0 }, focus: ['duodenum', 'liver', 'gallbladder', 'pancreas', 'bile_ducts', 'stomach'], ghost: ['liver'], flows: ['bile', 'pancreatic', 'chyme_duo'], labels: ['gallbladder', 'pancreas', 'duodenum', 'liver'],
-        title: { en: 'Juices join in', hi: 'पाचक रस मिलते हैं' },
-        text: { en: 'Chyme enters the duodenum. Bile made by the liver and stored in the gallbladder breaks fat into tiny drops. The pancreas adds juices that digest proteins, fats and carbohydrates.', hi: 'काइम ग्रहणी में आता है। यकृत का बनाया और पित्ताशय में रखा पित्त वसा को छोटी बूँदों में तोड़ता है। अग्न्याशय ऐसे रस मिलाता है जो प्रोटीन, वसा और कार्बोहाइड्रेट को पचाते हैं।' } },
-      { view: { at: 'small_intestine', z: 3.0 }, focus: ['small_intestine', 'duodenum', 'veins'], micro: 'villi', anim: ['peristalsis'], flows: ['chyme_si', 'nutrients'], labels: ['small_intestine'],
-        title: { en: 'Absorbing in the small intestine', hi: 'छोटी आँत में अवशोषण' },
-        text: { en: 'The small intestine is about 6 metres long, folded inside the belly. Its wall has millions of finger-like villi. Digested food — glucose, amino acids and fats — passes through the villi into the blood.', hi: 'छोटी आँत लगभग 6 मीटर लंबी है और पेट के अंदर मुड़ी हुई है। इसकी दीवार पर लाखों उँगली जैसे रसांकुर (विलाई) होते हैं। पचा हुआ भोजन — ग्लूकोज़, अमीनो अम्ल और वसा — इनसे होकर खून में चला जाता है।' } },
-      { view: { at: 'liver', z: 3.2 }, focus: ['liver', 'veins', 'small_intestine', 'stomach', 'heart_ra'], ghost: ['liver'], flows: ['nutrients', 'portal'], labels: ['liver', 'veins'],
-        title: { en: 'The liver, our factory', hi: 'यकृत — हमारा कारखाना' },
-        text: { en: 'Blood full of nutrients first goes to the liver through the portal vein. The liver stores extra glucose, removes harmful substances and then sends the nutrients on to the heart and the whole body.', hi: 'पोषक तत्वों से भरा खून पहले पोर्टल शिरा से यकृत में जाता है। यकृत अतिरिक्त ग्लूकोज़ जमा करता है, हानिकारक पदार्थ हटाता है और फिर पोषक तत्वों को दिल और पूरे शरीर में भेजता है।' } },
-      { view: { at: [0.02, 1.0, 0.02], z: 1.1 }, focus: ['arteries', 'heart_lv', 'heart_la', 'heart_ra', 'heart_rv', 'muscles', 'cerebrum'], show: ['muscles'], micro: 'cell', anim: ['heartbeat'], flows: ['glucose_body', 'blood_arteries'],
-        title: { en: 'Burning food for energy', hi: 'ऊर्जा के लिए भोजन का जलना' },
-        text: { en: 'Every cell takes in glucose and oxygen. Inside tiny power-houses called mitochondria, glucose is slowly "burned": glucose + oxygen → energy (ATP) + carbon dioxide + water. This energy moves our muscles, keeps us warm and runs the brain.', hi: 'हर कोशिका ग्लूकोज़ और ऑक्सीजन लेती है। माइटोकॉन्ड्रिया नाम के छोटे पावर-हाउस में ग्लूकोज़ धीरे-धीरे "जलता" है: ग्लूकोज़ + ऑक्सीजन → ऊर्जा (ATP) + कार्बन डाइऑक्साइड + पानी। यही ऊर्जा मांसपेशियों को चलाती है, हमें गर्म रखती है और मस्तिष्क को काम करवाती है।' } },
-      { view: { at: 'large_intestine', z: 2.6 }, focus: ['large_intestine', 'small_intestine'], ghost: ['large_intestine'], flows: ['water_out'], tracer: { seq: ['ileocecal', 'colon'], food: true, waste: true, speed: 0.05 }, labels: ['large_intestine'],
-        title: { en: 'Water taken back', hi: 'पानी वापस सोखा जाता है' },
-        text: { en: 'What the body cannot digest, like fibre, moves into the large intestine. Here water and salts are absorbed back into the body, and the rest slowly becomes solid waste.', hi: 'जो शरीर नहीं पचा पाता, जैसे रेशा (फ़ाइबर), वह बड़ी आँत में जाता है। यहाँ पानी और लवण वापस शरीर में सोख लिए जाते हैं और बाकी धीरे-धीरे ठोस अपशिष्ट बन जाता है।' } },
-      { view: { at: [0, 0.9, -0.02], z: 3.0, side: 0.8 }, focus: ['large_intestine', 'rectum'], ghost: ['large_intestine'], tracer: { seq: ['colon', 'rectum'], from: 0.75, food: true, waste: true, speed: 0.04 }, flows: [], labels: ['rectum', 'large_intestine'],
-        title: { en: 'Waste leaves the body', hi: 'अपशिष्ट शरीर से बाहर' },
-        text: { en: 'Waste is stored in the rectum and leaves the body through the anus when we go to the toilet. The carbon dioxide from burning food is breathed out, and extra water leaves as urine and sweat.', hi: 'अपशिष्ट मलाशय में जमा होता है और शौच जाने पर गुदा से बाहर निकलता है। भोजन जलने से बनी कार्बन डाइऑक्साइड सांस से बाहर जाती है, और अतिरिक्त पानी मूत्र व पसीने से निकलता है।' } },
-    ],
-  },
+  BREATHING,
+  DIGESTION,
   {
     id: 'circulation', sys: 'circulatory', icon: '❤️',
     title: { en: 'Blood circulation', hi: 'रक्त संचार' },
@@ -264,7 +199,7 @@ export const JOURNEYS = [
         text: { en: 'Cut open, a kidney has an outer cortex, an inner medulla made of cone-shaped pyramids, and a funnel called the renal pelvis that collects the urine.', hi: 'काटने पर गुर्दे में बाहरी कॉर्टेक्स, शंकु जैसे पिरामिडों से बना भीतरी मेडुला, और मूत्र इकट्ठा करने वाली कीप (वृक्क श्रोणि) दिखती है।' } },
       { view: { at: 'kidney_l', z: 4.0, side: 0.3 }, focus: ['kidney_l', 'renal_pelvis'], micro: 'nephron', ghost: ['kidney_l'],
         title: { en: 'Nephrons: tiny filters', hi: 'नेफ्रॉन — छोटी छलनियाँ' },
-        text: { en: 'Each kidney has about 10 lakh nephrons. In the glomerulus, a ball of capillaries, water, salts, glucose and waste (urea) are filtered out. The tubule takes back the useful things, and what is left becomes urine.', hi: 'हर गुर्दे में लगभग 10 लाख नेफ्रॉन होते हैं। केशिकाओं के गुच्छे ग्लोमेरुलस में पानी, लवण, ग्लूकोज़ और अपशिष्ट (यूरिया) छन जाते हैं। नलिका उपयोगी चीज़ें वापस ले लेती है और जो बचता है वह मूत्र बन जाता है।' } },
+        text: { en: 'Each kidney has about 10 lakh nephrons. In the glomerulus, a ball of capillaries, water, salts, glucose and waste (urea) are filtered out. The tubule takes back the useful things, and what is left becomes urine. Every day the kidneys filter about 180 litres of fluid but make only about 1 to 1.5 litres of urine.', hi: 'हर गुर्दे में लगभग 10 लाख नेफ्रॉन होते हैं। केशिकाओं के गुच्छे ग्लोमेरुलस में पानी, लवण, ग्लूकोज़ और अपशिष्ट (यूरिया) छन जाते हैं। नलिका उपयोगी चीज़ें वापस ले लेती है और जो बचता है वह मूत्र बन जाता है।' } },
       { view: { at: [0, 0.97, 0.0], z: 2.0, side: 0.3 }, focus: ['kidney_l', 'kidney_r', 'renal_pelvis', 'ureters', 'bladder'], anim: ['bladder', 'peristalsis'], flows: ['urine'], labels: ['ureters', 'bladder'],
         title: { en: 'Ureters and bladder', hi: 'मूत्रवाहिनी और मूत्राशय' },
         text: { en: 'Urine trickles from the kidneys down two thin tubes called ureters into the urinary bladder. The bladder stretches like a balloon and can hold about 400 to 500 ml.', hi: 'मूत्र गुर्दों से दो पतली नलियों — मूत्रवाहिनियों — से होकर मूत्राशय में आता है। मूत्राशय गुब्बारे की तरह फैलता है और लगभग 400 से 500 मिली मूत्र रख सकता है।' } },
@@ -313,3 +248,6 @@ export const JOURNEYS = [
     ],
   },
 ];
+
+// give every step a stable id: <journey>-<n>
+for (const j of JOURNEYS) j.steps.forEach((s, i) => { s.id = `${j.id}-${i + 1}`; });

@@ -1,11 +1,15 @@
-// Synthesised body sounds (heartbeat, breathing) and spoken narration.
+// Body sounds (heartbeat, breathing) and the teacher narration (recorded mp3, with the device voice as a fallback).
+const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+
 export class Audio {
   constructor() {
     this.ctx = null;
     this.sfx = true;
     this.voice = true;
-    this.lang = 'en';
     this.voices = [];
+    this.na = new window.Audio();
+    this.na.preload = 'auto';
+    this.naToken = 0;
     if ('speechSynthesis' in window) {
       const load = () => { this.voices = speechSynthesis.getVoices(); };
       load(); speechSynthesis.onvoiceschanged = load;
@@ -14,16 +18,20 @@ export class Audio {
   unlock() {
     if (!this.ctx) {
       const C = window.AudioContext || window.webkitAudioContext;
-      if (!C) return;
-      this.ctx = new C();
-      this.master = this.ctx.createGain(); this.master.gain.value = 0.55; this.master.connect(this.ctx.destination);
-      // shared noise buffer
-      const len = this.ctx.sampleRate * 2; const b = this.ctx.createBuffer(1, len, this.ctx.sampleRate); const d = b.getChannelData(0);
-      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-      this.noise = b;
+      if (C) {
+        this.ctx = new C();
+        this.master = this.ctx.createGain(); this.master.gain.value = 0.55; this.master.connect(this.ctx.destination);
+        const len = this.ctx.sampleRate * 2; const b = this.ctx.createBuffer(1, len, this.ctx.sampleRate); const d = b.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        this.noise = b;
+      }
+      // unlock the narration element inside this user gesture
+      if (!this.na.src || this.na.src === location.href) { try { this.na.src = SILENT; this.na.play().catch(() => {}); } catch (e) {} }
+      this.unlocked = true;
     }
-    if (this.ctx.state === 'suspended') this.ctx.resume();
+    if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
   }
+  duck(on) { if (this.master) this.master.gain.value = on ? 0.25 : 0.55; }
   thump(freq, gain, dur) {
     if (!this.ctx || !this.sfx) return;
     const t = this.ctx.currentTime;
@@ -55,25 +63,44 @@ export class Audio {
       o.connect(g).connect(this.master); o.start(t + i * 0.07); o.stop(t + i * 0.07 + 0.4);
     });
   }
-  // narration; resolves when finished (or immediately if unavailable)
+  // teacher narration: play the recorded file; if it is missing or fails, use the device voice.
+  // resolves true when the narration finished playing, false when it could not play.
+  narrate(url, text, lang) {
+    this.stopSpeech();
+    if (!this.voice) return Promise.resolve(false);
+    const token = ++this.naToken;
+    return new Promise((res) => {
+      if (!url) { this.say(text, lang).then(res); return; }
+      const a = this.na;
+      let done = false;
+      const finish = (ok) => { if (done) return; done = true; a.onended = a.onerror = null; this.duck(false); res(ok); };
+      a.onended = () => finish(true);
+      a.onerror = () => { if (token !== this.naToken) return finish(false); done = true; this.duck(false); this.say(text, lang).then(res); };
+      a.src = url;
+      a.currentTime = 0;
+      this.duck(true);
+      const p = a.play();
+      if (p && p.catch) p.catch(() => { if (token !== this.naToken) return finish(false); done = true; this.duck(false); this.say(text, lang).then(res); });
+    });
+  }
   say(text, lang) {
     return new Promise((res) => {
       if (!this.voice || !('speechSynthesis' in window) || !text) return res(false);
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      const want = lang === 'hi' ? ['hi-IN', 'hi'] : ['en-IN', 'en-GB', 'en-US', 'en'];
+      const want = lang === 'en' ? ['en-IN', 'en-GB', 'en-US', 'en'] : ['hi-IN', 'hi'];
       const v = want.map((w) => this.voices.find((x) => x.lang && x.lang.replace('_', '-').startsWith(w))).find(Boolean);
-      if (v) u.voice = v;
-      u.lang = v ? v.lang : (lang === 'hi' ? 'hi-IN' : 'en-IN');
-      u.rate = lang === 'hi' ? 0.92 : 0.95;
+      if (!v) return res(false);
+      u.voice = v; u.lang = v.lang;
+      u.rate = lang === 'en' ? 0.95 : 0.92;
       u.onend = () => res(true); u.onerror = () => res(false);
-      this.speaking = u;
       speechSynthesis.speak(u);
     });
   }
-  hasVoice(lang) {
-    const want = lang === 'hi' ? 'hi' : 'en';
-    return this.voices.some((v) => v.lang && v.lang.startsWith(want));
+  stopSpeech() {
+    this.naToken++;
+    try { this.na.onended = this.na.onerror = null; this.na.pause(); } catch (e) {}
+    this.duck(false);
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
   }
-  stopSpeech() { if ('speechSynthesis' in window) speechSynthesis.cancel(); }
 }

@@ -25,7 +25,8 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 /* top bar */
 #top{position:fixed;top:max(12px,env(safe-area-inset-top));left:14px;right:14px;display:flex;align-items:center;gap:12px;pointer-events:none;z-index:5}
 #brand{pointer-events:auto;padding:8px 16px 9px}
-#brand small{display:block;font-size:11px;letter-spacing:.16em;color:var(--mute);font-weight:600}
+#brand{display:flex;flex-direction:column;gap:4px}
+#logo{display:block;height:17px;width:auto}
 #title{font-size:20px;font-weight:700;letter-spacing:.01em;line-height:1.15}
 #top .sp{flex:1}
 #tools{pointer-events:auto;display:flex;align-items:center;gap:6px;padding:6px}
@@ -42,6 +43,14 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 /* side rails */
 .rail{position:fixed;top:86px;z-index:4;width:236px;max-height:calc(100% - 300px);overflow:auto;padding:12px}
 #left{left:14px}#right{right:14px;width:214px}
+.orgbtn{width:100%;margin-top:10px;background:rgba(240,166,90,.16);color:var(--ink)}
+#organ-drawer{position:fixed;top:86px;right:240px;z-index:6;width:280px;max-height:calc(100% - 300px);overflow:auto;padding:12px;display:none}
+body.organs-open #organ-drawer{display:block}
+#organ-drawer h3{margin:2px 6px 6px;font-size:11px;letter-spacing:.16em;color:var(--mute);font-weight:600;text-transform:uppercase}
+#organ-drawer h4{margin:12px 6px 4px;font-size:12px;color:var(--c);font-weight:700;letter-spacing:.04em}
+.obtn{display:block;width:100%;text-align:left;padding:7px 10px;border-radius:9px;font-size:14px;font-weight:600;color:#e2dccf}
+.obtn:hover{background:rgba(255,255,255,.06)}
+.obtn.on{background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--ink)}
 .rail h3{margin:2px 6px 8px;font-size:11px;letter-spacing:.16em;color:var(--mute);font-weight:600;text-transform:uppercase}
 .jbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 10px;border-radius:11px;font-size:15px;font-weight:600;line-height:1.25;position:relative}
 .jbtn:hover{background:rgba(255,255,255,.06)}
@@ -92,9 +101,11 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
 @media (max-width:900px){
   #btn-panels{display:grid}
   .rail{display:none;top:72px;max-height:calc(100% - 330px)}
+  #organ-drawer{right:14px;left:14px;width:auto;top:72px}
+  .seg button{padding:6px 8px;font-size:13px}
   body.panels-open .rail{display:block}
   #left{width:calc(55% - 21px)}#right{width:calc(45% - 21px)}
-  #title{font-size:15px;white-space:nowrap}#brand{padding:7px 12px}#brand small{display:none}
+  #title{font-size:15px;white-space:nowrap}#brand{padding:7px 12px}#logo{height:12px}
   .xr{white-space:nowrap;padding:8px 11px}#tools{gap:2px}#btn-info{display:none}.ib{width:34px;height:34px}
   #tools .xr.ar,#btn-reset{display:none}
   #s-title{font-size:19px}#s-text{font-size:15px;max-height:24vh}
@@ -107,12 +118,13 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
 <body>
 <div id="stage"></div>
 <div id="top">
-  <div id="brand" class="panel"><small>DUET STEM</small><div id="title">Human Body 360</div></div>
+  <div id="brand" class="panel"><img id="logo" src="brand/duet-stem-logo-light.png" alt="DUET STEM" width="132" height="21"><div id="title">Human Body 360</div></div>
   <div class="sp"></div>
   <div id="tools" class="panel">
     <button id="btn-panels" class="ib" title="Menu" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <div class="seg"><button id="lang-en">EN</button><button id="lang-hi">हिं</button></div>
-    <button id="btn-voice" class="ib" title="Voice" aria-label="Voice"></button>
+    <div class="seg"><button id="lang-en">EN</button><button id="lang-hi">हिंदी</button><button id="lang-hg">Hinglish</button></div>
+    <button id="btn-voice" class="ib" title="Voice" aria-label="Teacher voice"></button>
+    <button id="btn-sfx" class="ib" title="Sounds" aria-label="Sound effects"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h3l3-7 4 14 3-7h5"/></svg></button>
     <button id="btn-reset" class="ib" title="Reset view" aria-label="Reset view"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
     <button id="btn-info" class="ib" title="Credits" aria-label="Credits"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
     <button id="btn-ar" class="xr ar">Enter AR</button>
@@ -120,7 +132,8 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
   </div>
 </div>
 <div id="left" class="rail panel"><h3 id="jlabel">Journeys</h3><div id="journeys"></div></div>
-<div id="right" class="rail panel"><h3 id="llabel">Layers</h3><div id="layers"></div></div>
+<div id="right" class="rail panel"><h3 id="llabel">Layers</h3><div id="layers"></div><button id="btn-organs" class="cbtn orgbtn">Organs</button></div>
+<div id="organ-drawer" class="panel"><h3 id="olabel">Organs</h3><div id="organs"></div></div>
 <div id="story" class="panel explore">
   <div id="s-kicker"></div>
   <div id="s-title"></div>
@@ -134,10 +147,12 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
   <p><b>3D anatomy:</b> <a href="https://www.z-anatomy.com" target="_blank" rel="noopener">Z-Anatomy</a> by Gauthier Kervyn and Marcin Zielinski, based on BodyParts3D (DBCLS) — CC BY-SA 4.0. Meshes were merged, simplified and recoloured for this app.</p>
   <p><b>Kidney close-up:</b> NIH Human Reference Atlas (HuBMAP), 3D Reference Organs — CC BY 4.0.</p>
   <p><b>3D engine:</b> three.js (MIT). <b>Font:</b> Noto Sans Devanagari (SIL Open Font License).</p>
+  <p><b>Teacher voices:</b> recorded offline with <a href="https://github.com/rhasspy/piper" target="_blank" rel="noopener">Piper TTS</a> (MIT). English: LJSpeech voice (public domain). Hindi and Hinglish: Priyamvada voice by PravalX, trained on AI4Bharat data — CC BY-NC-SA 4.0 (free, non-commercial educational use).</p>
   <p>Animations, micro-scenes, narration and app by DUET STEM. This adapted 3D model is shared under CC BY-SA 4.0.</p>
   <p style="text-align:right;margin:14px 0 0"><button class="cbtn" onclick="document.getElementById('credits').classList.remove('show')">OK</button></p>
 </div></div>
 <div id="loader"><div class="box">
+  <img src="brand/duet-stem-logo-light.png" alt="DUET STEM" style="height:30px;width:auto;margin:0 auto 18px;display:block">
   <h1>Human Body 360</h1>
   <p>मानव शरीर 360 · DUET STEM</p>
   <div class="bar"><div id="loadbar"></div></div>

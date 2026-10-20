@@ -8,13 +8,13 @@ import { Magnifier } from './micro.js';
 import { Label } from './labels.js';
 import { Audio } from './audio.js';
 import { VRUI } from './vrui.js';
-import { JOURNEYS, PARTS, SYSTEMS, T } from './data.js';
+import { JOURNEYS, SYSTEMS, T } from './data.js';
+import { LANGS, LANG_SHORT, ORGANS, C, tx, partInfo, hasAudio, loadContent } from './content.js';
 
 const Q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);
 const clock = new THREE.Clock();
 
-PARTS.rectum = ['Rectum & anus', 'मलाशय और गुदा', 'Stores solid waste until we go to the toilet, then it leaves through the anus.', 'शौच जाने तक ठोस अपशिष्ट को रोककर रखता है, फिर यह गुदा से बाहर निकलता है।'];
 LAYERS.digestive.push('rectum');
 LAYERS.circulatory.push('arteries_minor', 'veins_minor');
 LAYERS.nervous.push('nerves_minor');
@@ -22,16 +22,19 @@ const FINE = ['arteries_minor', 'veins_minor', 'nerves_minor'];
 const SV = (d) => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const VOICE_ON = SV('<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/>');
 const VOICE_OFF = SV('<path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/>');
-export const store = { get(k) { try { return store.get(k); } catch (e) { return null; } }, set(k, v) { try { store.set(k, v); } catch (e) {} } };
+export const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
 
 class App {
   constructor() {
     this.lang = store.get('hb_lang') || ((navigator.language || '').startsWith('hi') ? 'hi' : 'en');
     if (Q.get('lang')) this.lang = Q.get('lang');
+    if (!LANGS.includes(this.lang)) this.lang = 'en';
     this.journey = null; this.stepIdx = 0; this.playing = false; this.fine = false;
     this.picked = null; this.vrScale = 1; this.mode = 'desktop';
     this.audio = new Audio();
     this.audio.voice = store.get('hb_voice') !== '0';
+    this.audio.sfx = store.get('hb_sfx') !== '0';
+    this.organ = null;
   }
 
   async init() {
@@ -73,6 +76,7 @@ class App {
     this.tracer = new Tracer(); this.bodyRoot.add(this.tracer.group);
     this.mag = new Magnifier(); this.bodyRoot.add(this.mag.group);
     this.labelGroup = new THREE.Group(); this.bodyRoot.add(this.labelGroup);
+    this.bodyRoot.add(this.bodyFloor);
     this.pickLabel = null;
 
     this.setLoading(0.02);
@@ -80,6 +84,7 @@ class App {
       this.body.load(asset('./models/body.glb'), (f) => this.setLoading(0.05 + 0.85 * f)),
       fetch('./models/paths.json').then((x) => x.json()),
       fetch('./models/meta.json').then((x) => x.json()),
+      loadContent('./models/content.json'),
     ]);
     this.meta = meta;
     this.setupPaths(paths);
@@ -96,8 +101,10 @@ class App {
     this.setLoading(1);
     $('#loader').classList.add('done');
     r.setAnimationLoop(() => this.frame());
+    setTimeout(() => this.prefetchAudio(), 8000);
     const j = Q.get('j');
     if (j) this.startJourney(j, +(Q.get('s') || 0), false);
+    else if (Q.get('organ')) this.showOrgan(Q.get('organ'));
     else this.explore();
     // Quest app (immersive mode, start URL ?app=vr|ar): go straight into the headset view
     this.appMode = Q.get('app');
@@ -106,6 +113,13 @@ class App {
     this.body.loadMuscles(asset('./models/muscles.glb')).then(() => { this.musclesReady = true; this.applyLayers(); this.applyStepLook(); });
   }
 
+  // save this language's narration for offline use, in the background
+  prefetchAudio() {
+    const sw = navigator.serviceWorker && navigator.serviceWorker.controller; if (!sw) return;
+    const l = this.lang;
+    const urls = Object.entries(C.audio).filter(([, ls]) => ls.includes(l)).map(([id]) => `./audio/${l}/${id}.mp3`);
+    sw.postMessage({ type: 'prefetch', urls });
+  }
   setLoading(f) { const b = $('#loadbar'); if (b) b.style.transform = `scaleX(${f})`; }
 
   buildRoom() {
@@ -130,6 +144,11 @@ class App {
     sky.renderOrder = -2;
     room.add(sky);
     this.sky = sky; this.floor = floor;
+    // DUET STEM logo on the floor in front of the body
+    const logo = new THREE.TextureLoader().load('./brand/duet-stem-logo-light.png'); logo.colorSpace = THREE.SRGBColorSpace; logo.anisotropy = 8;
+    const plaque = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.9 * 165 / 1024), new THREE.MeshBasicMaterial({ map: logo, transparent: true, opacity: 0.85, depthWrite: false }));
+    plaque.rotation.x = -Math.PI / 2; plaque.position.set(0, 0.003, 0.62); plaque.renderOrder = 0;
+    this.bodyFloor = new THREE.Group(); this.bodyFloor.add(plaque); this.logoPlaque = plaque;
     this.scene.add(room);
   }
 
@@ -231,7 +250,7 @@ class App {
 
   // ------------------------------------------------------------ journeys
   explore() {
-    this.journey = null; this.playing = false; this.audio.stopSpeech();
+    this.journey = null; this.organ = null; this.playing = false; this.audio.stopSpeech(); this.musclesStep = false; this.fineStep = false;
     this.flows.set([]); this.anim.set(['heartbeat', 'breathe']); this.tracer.stop(); this.mag.show(null);
     this.stepView = { at: new THREE.Vector3(0, 0.92, 0), z: 1, side: 0 };
     this.layerOverride = null; this.applyLayers();
@@ -244,7 +263,7 @@ class App {
 
   startJourney(id, idx = 0, play = true) {
     const j = JOURNEYS.find((x) => x.id === id); if (!j) return;
-    this.journey = j; this.playing = play;
+    this.journey = j; this.organ = null; this.playing = play;
     this.showStep(idx);
   }
 
@@ -264,11 +283,11 @@ class App {
     this.mag.show(s.micro || null, this.lang);
     // hero tracer
     if (s.tracer) {
-      const curves = s.tracer.seq.map((k) => this.routes[k]).filter(Boolean);
+      const curves = s.tracer.seq.map((k) => this.routeSlice(k)).filter(Boolean);
       const curve = curves.length > 1 ? PathCurve.smoothJoin(curves) : curves[0];
       let oxyAtD = null;
-      if (s.tracer.oxyAt) { let d = 0; for (const k of s.tracer.seq) { if (k === s.tracer.oxyAt) { oxyAtD = d + this.routes[k].length * 0.5; break; } d += this.routes[k].length; } }
-      this.tracer.start(curve, { ...s.tracer, oxyAtD });
+      if (s.tracer.oxyAt) { let d = 0; s.tracer.seq.forEach((k, i) => { if (oxyAtD != null) return; if (k === s.tracer.oxyAt) oxyAtD = d + curves[i].length * 0.5; else d += curves[i].length; }); }
+      this.tracer.start(curve, { ...s.tracer, from: 0, until: 1, oxyAtD });
     } else this.tracer.stop();
     const v = s.view;
     const at = typeof v.at === 'string' ? (this.anchors[v.at] || new THREE.Vector3(0, 1, 0)).clone() : new THREE.Vector3(...v.at);
@@ -280,13 +299,71 @@ class App {
     this.refreshUI();
   }
 
-  speakStep() {
-    this.audio.stopSpeech();
-    const s = this.step; if (!s) return;
+  routeSlice(k) {
+    if (typeof k === 'string') return this.routes[k];
+    const c = this.routes[k.r]; if (!c) return null;
+    let a = k.a ?? 0; const b = k.b ?? 1;
+    if (k.fromAnchor && this.anchors[k.fromAnchor]) {
+      const t = this.anchors[k.fromAnchor]; let bi = 0, bd = 1e9;
+      for (let i = 0; i < c.n; i++) { const d = Math.hypot(c.p[i * 3] - t.x, c.p[i * 3 + 1] - t.y, c.p[i * 3 + 2] - t.z); if (d < bd) { bd = d; bi = i; } }
+      a = c.s[bi] / c.length;
+    }
+    return a > 0 || b < 1 ? c.slice(a, b) : c;
+  }
+
+  // narration: recorded teacher voice for this id in the current language, else the device voice
+  narrate(id, text) {
+    const l = this.lang;
+    const url = hasAudio(id, l) ? `./audio/${l}/${id}.mp3` : null;
     const token = (this.speakToken = (this.speakToken || 0) + 1);
     this.spoken = false; this.spokenAt = null; this.spokeOK = false;
-    const text = s.title[this.lang] + '. ' + s.text[this.lang];
-    this.audio.say(text, this.lang).then((ok) => { if (token === this.speakToken) { this.spoken = true; this.spokeOK = ok; } });
+    this.audio.narrate(url, text, l).then((ok) => { if (token === this.speakToken) { this.spoken = true; this.spokeOK = ok; } });
+  }
+
+  speakStep() {
+    const s = this.step; if (!s) return;
+    this.narrate(s.id, tx(s.title, this.lang) + '. ' + tx(s.text, this.lang));
+  }
+
+  speakPart(id) {
+    const p = partInfo(id, this.lang); if (!p) return;
+    this.narrate('part-' + id, p.name + '. ' + p.detail);
+  }
+
+  // organ library: show one organ alone, explain it
+  showOrgan(id) {
+    const p = partInfo(id, this.lang); if (!p) return;
+    this.journey = null; this.playing = false; this.organ = id; this.step = null;
+    this.picked = p; this.pickedId = id; this.removePickLabel();
+    const sys = this.body.layerOf(id);
+    this.musclesStep = id === 'muscles'; this.fineStep = false;
+    this.layerOverride = null; this.applyLayers();
+    const mesh = this.body.parts[id]; if (mesh) mesh.visible = true;
+    this.body.focus([id], 0.06);
+    this.setSkin(id === 'skin' ? 1 : 0.35);
+    const A = { heart_ra: 'heartbeat', heart_rv: 'heartbeat', heart_la: 'heartbeat', heart_lv: 'heartbeat', valve_tricuspid: 'valves', valve_mitral: 'valves', valve_pulmonary: 'valves', valve_aortic: 'valves', coronary: 'heartbeat',
+      lung_r: 'breathe', lung_l: 'breathe', diaphragm: 'breathe_deep', ribs: 'breathe', stomach: 'churn', esophagus: 'peristalsis', small_intestine: 'peristalsis', large_intestine: 'peristalsis', duodenum: 'peristalsis', bladder: 'bladder', mandible: 'chew', muscles: 'muscle_pulse' };
+    this.anim.reset(); this.anim.set(A[id] ? [A[id]] : []);
+    const F = { heart_ra: 'heart_flow', heart_rv: 'heart_flow', heart_la: 'heart_flow', heart_lv: 'heart_flow', valve_tricuspid: 'heart_flow', valve_mitral: 'heart_flow', valve_pulmonary: 'heart_flow', valve_aortic: 'heart_flow', coronary: 'coronary_flow',
+      arteries: 'blood_arteries', veins: 'blood_veins', pulm_arteries: 'blood_pulm', pulm_veins: 'blood_pulm', trachea: 'air_in', bronchi: 'air_bronchi', nasal_cavity: 'air_nose', lung_r: 'air_bronchi', lung_l: 'air_bronchi',
+      stomach: 'chyme', duodenum: 'chyme_duo', small_intestine: 'chyme_si', gallbladder: 'bile', bile_ducts: 'bile', pancreas: 'pancreatic', liver: 'portal', ureters: 'urine', urethra: 'urine_out', kidney_l: 'renal_blood', kidney_r: 'renal_blood', salivary: 'saliva',
+      spinal_cord: 'spinal_signals', nerves: 'nerve_signals', cerebrum: 'brain_spark', eyes: 'vision' };
+    this.flows.set(F[id] ? [F[id]] : []);
+    for (const g of ['arteries', 'veins', 'pulm_arteries', 'pulm_veins', 'trachea', 'bronchi', 'stomach', 'duodenum', 'small_intestine', 'ureters', 'heart_ra', 'heart_rv', 'heart_la', 'heart_lv']) {
+      if (g !== id || !F[id]) continue;
+      const m = this.body.parts[g].material; m.transparent = true; m.opacity = g.startsWith('heart') ? 0.45 : 0.4; m.depthWrite = false; this.body.parts[g].renderOrder = 6; m.needsUpdate = true;
+    }
+    this.tracer.stop(); this.mag.show(id === 'kidney_l' || id === 'kidney_r' ? 'kidney' : id === 'lung_r' || id === 'lung_l' ? 'alveoli' : id === 'small_intestine' ? 'villi' : id === 'stomach' ? 'stomach' : null, this.lang);
+    const m = this.meta[id];
+    const at = m ? new THREE.Vector3(...m.center) : this.anchorFor(id);
+    const size = m ? Math.max(m.max[0] - m.min[0], m.max[1] - m.min[1], m.max[2] - m.min[2]) : 0.2;
+    const z = THREE.MathUtils.clamp(0.6 / size, 1, 9);
+    this.stepView = { at, z, side: id.endsWith('_l') || id === 'spleen' ? 0.5 : id.endsWith('_r') ? -0.5 : 0, organ: true };
+    this.goView(false);
+    this.clearLabels(); this.buildStepLabels([id]);
+    this.audio.chime();
+    this.speakPart(id);
+    this.refreshUI();
   }
 
   next() { if (!this.journey) return; if (this.stepIdx < this.journey.steps.length - 1) this.showStep(this.stepIdx + 1); else { this.playing = false; this.refreshUI(); } }
@@ -294,6 +371,7 @@ class App {
   togglePlay() { if (!this.journey) return; this.playing = !this.playing; this.stepT = 0; this.refreshUI(); }
 
   applyStepLook() {
+    if (this.organ) return;
     const s = this.journey ? this.step : null;
     const focus = s ? s.focus || [] : [];
     this.body.focus(focus, 0.07);
@@ -342,7 +420,7 @@ class App {
   goView(instant) {
     const v = this.stepView;
     if (this.inXR()) { this.vrFrame(v, instant); return; }
-    const showMag = !!(this.step && this.step.micro && this.journey);
+    const showMag = this.magOn();
     const aspect = innerWidth / innerHeight;
     let dist = 3.0 / v.z * (aspect < 1 ? 1.25 / Math.max(aspect, 0.5) : 1);
     // leave room for the top bar and the story card
@@ -353,10 +431,10 @@ class App {
     const dir = new THREE.Vector3(Math.sin(v.side), 0.1, Math.cos(v.side)).normalize();
     const target = v.at.clone();
     const right = new THREE.Vector3(Math.cos(v.side), 0, -Math.sin(v.side));
-    const magR = (aspect < 1 ? 0.085 : 0.13) * dist, magOff = (aspect < 1 ? 0.15 : 0.3) * dist;
+    const magR = (aspect < 1 ? 0.085 : 0.115) * dist, magOff = (aspect < 1 ? 0.15 : 0.3) * dist;
     if (showMag) {
       const up = aspect < 1;
-      const mp = up ? v.at.clone().add(new THREE.Vector3(0, magOff, 0)) : v.at.clone().addScaledVector(right, magOff);
+      const mp = up ? v.at.clone().add(new THREE.Vector3(0, magOff, 0)) : v.at.clone().addScaledVector(right, magOff).add(new THREE.Vector3(0, -0.3 * magR, 0));
       this.placeMag(mp, magR, v.at);
       target.lerp(mp, 0.48);
     }
@@ -367,6 +445,7 @@ class App {
     else this.camTween = { p0: this.camera.position.clone(), t0: this.controls.target.clone(), p1: pos, t1: target, t: 0 };
   }
 
+  magOn() { return !!((this.journey && this.step && this.step.micro) || (this.organ && this.mag.scene)); }
   placeMag(p, radius, organ) {
     this.mag.group.position.copy(p);
     this.mag.group.scale.setScalar(radius / 1.28);
@@ -374,33 +453,39 @@ class App {
   }
 
   // VR: move/scale the body so the focus sits comfortably in front of the user
-  vrFrame(v, instant) {
+  // the stage is fixed where the user looked when VR started (or at Recenter); clicks never move it
+  captureStage() {
     const head = this.headPose();
-    const exploring = !this.journey;
-    let M = exploring ? this.vrScale : THREE.MathUtils.clamp(v.z * 0.5, 1, 5) * this.vrScale;
+    this.stage = { pos: head.pos.clone(), fwd: head.dir.clone(), yaw: Math.atan2(head.dir.x, head.dir.z) + Math.PI };
+    this.vrui.place(head);
+  }
+  vrFrame(v, instant) {
+    if (!this.stage) this.captureStage();
+    const st = this.stage;
+    const exploring = !this.journey && !this.organ;
+    const M = exploring ? this.vrScale : THREE.MathUtils.clamp(v.z * 0.5, 1, 5) * this.vrScale;
     const standing = exploring || v.z <= 1.3;
-    const yaw = Math.atan2(head.dir.x, head.dir.z) + Math.PI; // face the user
-    const fwd = new THREE.Vector3(head.dir.x, 0, head.dir.z).normalize();
+    const yaw = st.yaw;
+    const fwd = st.fwd;
     let anchorBody, anchorWorld;
     if (standing) {
       anchorBody = new THREE.Vector3(v.at.x, 0, v.at.z);
-      anchorWorld = head.pos.clone().setY(0).addScaledVector(fwd, 1.25 + 0.25 * M);
+      anchorWorld = st.pos.clone().setY(0).addScaledVector(fwd, 1.25 + 0.25 * M);
     } else {
       anchorBody = v.at.clone();
-      anchorWorld = head.pos.clone().addScaledVector(fwd, 0.72); anchorWorld.y = Math.max(0.9, head.pos.y - 0.15);
+      anchorWorld = st.pos.clone().addScaledVector(fwd, 0.75); anchorWorld.y = Math.max(0.9, st.pos.y - 0.12);
     }
     const target = { anchorBody, anchorWorld, M, yaw: yaw + (v.side || 0) };
     if (instant || !this.vr) this.vr = { ...target, anchorBody: anchorBody.clone(), anchorWorld: anchorWorld.clone() };
     this.vrTarget = target;
     this.floor.visible = this.sky.visible && standing;
     // magnifier beside the focus, constant world size
-    const showMag = !!(this.step && this.step.micro && this.journey);
+    const showMag = this.magOn();
     if (showMag) {
-      const right = new THREE.Vector3(Math.cos(target.yaw - (v.side || 0)), 0, -Math.sin(target.yaw - (v.side || 0)));
-      // right vector in body space (body yaw cancels)
+      // above and to the right of the focus, constant size in the world (body yaw cancels)
       const rb = new THREE.Vector3(1, 0, 0).applyAxisAngle(new THREE.Vector3(0, 1, 0), -(v.side || 0));
-      const mp = v.at.clone().addScaledVector(rb, 0.3 / M).add(new THREE.Vector3(0, 0.2 / M, 0));
-      this.placeMag(mp, 0.16 / M, v.at);
+      const mp = v.at.clone().addScaledVector(rb, 0.2 / M).add(new THREE.Vector3(0, 0.24 / M, 0));
+      this.placeMag(mp, 0.15 / M, v.at);
     }
     this.labelK = 1.35 / M;
     this.relabel();
@@ -437,11 +522,11 @@ class App {
     this.clearLabels();
     const L = this.lang;
     parts.forEach((p, i) => {
-      const info = PARTS[p]; if (!info) return;
+      const info = partInfo(p, L); if (!info) return;
       const a = this.anchorFor(p);
       const side = a.x >= 0.004 ? 1 : a.x <= -0.004 ? -1 : (i % 2 ? 1 : -1);
       const off = new THREE.Vector3(side * 0.05, 0.035 + (i % 2) * 0.015, 0.02);
-      const lb = new Label(L === 'hi' ? [info[1], info[0]] : [info[0], info[1]], { height: 0.03, offset: off, cx: side > 0 ? 0 : 1, cy: 0.5, small: 22 });
+      const lb = new Label([info.name, info.alt], { height: 0.03, offset: off, cx: side > 0 ? 0 : 1, cy: 0.5, small: 22 });
       lb.position.copy(a); lb.userData.part = p; lb.baseOffY = off.y;
       this.labelGroup.add(lb); this.stepLabels.push(lb);
     });
@@ -496,15 +581,21 @@ class App {
     this.removePickLabel();
     if (!hit) { this.picked = null; this.refreshUI(); return; }
     const p = hit.object.userData.part;
-    const info = PARTS[p]; if (!info) return;
+    const info = partInfo(p, this.lang); if (!info) return;
     this.picked = info; this.pickedId = p;
     const local = this.bodyRoot.worldToLocal(hit.point.clone());
-    const L = this.lang;
-    const lb = new Label(L === 'hi' ? [info[1], info[0]] : [info[0], info[1]], { height: 0.034, offset: new THREE.Vector3(0.04, 0.05, 0.02), cx: 0, cy: 0.5, small: 22, border: 'rgba(255,214,140,0.8)' });
-    lb.position.copy(local); lb.setScale(this.labelK || 1);
-    this.bodyRoot.add(lb); this.pickLabel = lb;
+    this.pickPos = local;
+    this.makePickLabel();
     this.flash = { mesh: hit.object, t: 0 };
+    if (!this.journey) this.speakPart(p);
     this.refreshUI();
+  }
+  makePickLabel() {
+    this.removePickLabel();
+    const info = partInfo(this.pickedId, this.lang); if (!info || !this.pickPos) return;
+    const lb = new Label([info.name, info.alt], { height: 0.034, offset: new THREE.Vector3(0.04, 0.05, 0.02), cx: 0, cy: 0.5, small: 22, border: 'rgba(255,214,140,0.8)' });
+    lb.position.copy(this.pickPos); lb.setScale(this.labelK || 1);
+    this.bodyRoot.add(lb); this.pickLabel = lb;
   }
   removePickLabel() { if (this.pickLabel) { this.bodyRoot.remove(this.pickLabel); this.pickLabel.dispose(); this.pickLabel = null; } }
 
@@ -545,9 +636,9 @@ class App {
   async enterXR(mode, quiet) {
     this.audio.unlock();
     document.body.classList.remove('app-xr-wait');
-    if (!navigator.xr) { if (!quiet) this.toast(T.noXR[this.lang]); return false; }
+    if (!navigator.xr) { if (!quiet) this.toast(tx(T.noXR, this.lang)); return false; }
     const ok = await navigator.xr.isSessionSupported(mode).catch(() => false);
-    if (!ok) { if (!quiet) this.toast(T.noXR[this.lang]); return false; }
+    if (!ok) { if (!quiet) this.toast(tx(T.noXR, this.lang)); return false; }
     const session = await navigator.xr.requestSession(mode, { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking', 'layers'] }).catch((e) => { if (!quiet) this.toast(String(e.message || e)); return null; });
     if (!session) return false;
     this.xrMode = mode;
@@ -561,7 +652,7 @@ class App {
     document.body.classList.add('in-xr');
     setTimeout(() => {
       this.vr = null;
-      this.vrui.place(this.headPose());
+      this.captureStage();
       this.vrui.group.visible = true; this.vrui.dirty = true;
       this.goView(true);
     }, 300);
@@ -571,7 +662,7 @@ class App {
     this.scene.background = this.bg; this.sky.visible = true; this.floor.visible = true;
     this.vrui.group.visible = false;
     this.bodyRoot.position.set(0, 0, 0); this.bodyRoot.rotation.set(0, 0, 0); this.bodyRoot.scale.setScalar(1);
-    this.vr = null;
+    this.vr = null; this.stage = null;
     document.body.classList.remove('in-xr');
     this.goView(true);
   }
@@ -586,6 +677,7 @@ class App {
     const rc = this.rayFrom(c);
     const ph = rc.intersectObjects(this.vrui.panels(), false)[0];
     if (ph) { const panel = ph.object.userData.panel; const id = panel.hitUV(ph.uv); if (id) this.action(id); return; }
+    if (this.organ) return;
     this.showPick(this.pickAt(rc));
   }
   grabStart(c) {
@@ -601,7 +693,7 @@ class App {
       const rc = this.rayFrom(c);
       const ph = rc.intersectObjects(this.vrui.panels(), false)[0];
       const ray = c.getObjectByName('ray'), tip = c.getObjectByName('tip');
-      for (const P of [this.vrui.menu, this.vrui.story]) {
+      for (const P of this.vrui.allPanels()) {
         const id = ph && ph.object.userData.panel === P ? P.hitUV(ph.uv) : null;
         if (ph && ph.object.userData.panel === P) { this.vrui.setHover(P, id); hoverAny = true; } else this.vrui.setHover(P, null);
       }
@@ -640,12 +732,19 @@ class App {
   // ------------------------------------------------------------ actions (shared by HTML and VR)
   action(id) {
     if (id.startsWith('j_')) { const j = id.slice(2); if (j === 'explore') this.explore(); else this.startJourney(j, 0, true); }
+    else if (id.startsWith('o_')) this.showOrgan(id.slice(2));
+    else if (id.startsWith('os_')) { this.vrui.organSys = id.slice(3); }
+    else if (id === 'page_organs') { this.vrui.page = 'organs'; }
+    else if (id === 'page_menu') { this.vrui.page = 'menu'; }
+    else if (id === 'recenter') { this.captureStage(); this.goView(false); }
+    else if (id === 'sfx') { this.audio.sfx = !this.audio.sfx; store.set('hb_sfx', this.audio.sfx ? '1' : '0'); }
+    else if (id === 'replay') { if (this.journey) this.speakStep(); else if (this.pickedId) this.speakPart(this.pickedId); }
     else if (id.startsWith('l_')) { const k = id.slice(2); if (k === 'fine') this.toggleFine(); else this.toggleLayer(k); }
-    else if (id === 'lang_en' || id === 'lang_hi') this.setLang(id.slice(5));
+    else if (id.startsWith('lang_')) this.setLang(id.slice(5));
     else if (id === 'next') this.next();
     else if (id === 'prev') this.prev();
     else if (id === 'play') this.togglePlay();
-    else if (id === 'voice') { this.audio.voice = !this.audio.voice; store.set('hb_voice', this.audio.voice ? '1' : '0'); if (!this.audio.voice) this.audio.stopSpeech(); else this.speakStep(); }
+    else if (id === 'voice') { this.audio.voice = !this.audio.voice; store.set('hb_voice', this.audio.voice ? '1' : '0'); if (!this.audio.voice) this.audio.stopSpeech(); else if (this.journey) this.speakStep(); else if (this.pickedId) this.speakPart(this.pickedId); }
     else if (id === 'reset') { this.vrScale = 1; this.goView(true); }
     else if (id === 'size_up') { this.vrScale = Math.min(6, this.vrScale * 1.4); this.goView(false); }
     else if (id === 'size_dn') { this.vrScale = Math.max(0.4, this.vrScale / 1.4); this.goView(false); }
@@ -654,10 +753,12 @@ class App {
   }
   setLang(l) {
     this.lang = l; store.set('hb_lang', l);
+    setTimeout(() => this.prefetchAudio(), 3000);
     document.documentElement.lang = l;
     this.mag.setLang(l);
     if (this.journey) { this.buildStepLabels(this.step.labels || []); this.speakStep(); }
-    if (this.pickLabel && this.pickedId) { const info = PARTS[this.pickedId]; const pos = this.pickLabel.position.clone(); this.removePickLabel(); const lb = new Label(l === 'hi' ? [info[1], info[0]] : [info[0], info[1]], { height: 0.034, offset: new THREE.Vector3(0.04, 0.05, 0.02), cx: 0, cy: 0.5, small: 22, border: 'rgba(255,214,140,0.8)' }); lb.position.copy(pos); lb.setScale(this.labelK || 1); this.bodyRoot.add(lb); this.pickLabel = lb; }
+    else if (this.organ) { this.picked = partInfo(this.organ, l); this.buildStepLabels([this.organ]); this.speakPart(this.organ); }
+    else if (this.pickedId) { this.picked = partInfo(this.pickedId, l); if (this.pickLabel) this.makePickLabel(); this.speakPart(this.pickedId); }
     this.buildHTML();
     this.refreshUI();
   }
@@ -666,10 +767,10 @@ class App {
   buildHTML() {
     const L = this.lang;
     document.documentElement.lang = L;
-    $('#title').textContent = T.title[L];
-    $('#lang-en').classList.toggle('on', L === 'en'); $('#lang-hi').classList.toggle('on', L === 'hi');
-    const narrow = innerWidth < 520; $('#btn-vr').textContent = narrow ? 'VR' : T.enterVR[L]; $('#btn-ar').textContent = narrow ? 'AR' : T.enterAR[L];
-    $('#jlabel').textContent = T.journeys[L]; $('#llabel').textContent = T.layers[L];
+    $('#title').textContent = tx(T.title, L);
+    for (const l of LANGS) $('#lang-' + l).classList.toggle('on', L === l);
+    const narrow = innerWidth < 520; $('#btn-vr').textContent = narrow ? 'VR' : tx(T.enterVR, L); $('#btn-ar').textContent = narrow ? 'AR' : tx(T.enterAR, L);
+    $('#jlabel').textContent = tx(T.journeys, L); $('#llabel').textContent = tx(T.layers, L);
     const jl = $('#journeys'); jl.innerHTML = '';
     const mk = (id, icon, title, color) => {
       const b = document.createElement('button'); b.className = 'jbtn'; b.dataset.id = id; b.style.setProperty('--c', color);
@@ -677,44 +778,59 @@ class App {
       b.onclick = () => { this.audio.unlock(); this.action('j_' + id); };
       jl.appendChild(b);
     };
-    mk('explore', '', T.explore[L], '#d9d2c3');
-    for (const j of JOURNEYS) mk(j.id, j.icon, j.title[L], SYSTEMS[j.sys].color);
+    mk('explore', '', tx(T.explore, L), '#d9d2c3');
+    for (const j of JOURNEYS) mk(j.id, j.icon, tx(j.title, L), SYSTEMS[j.sys].color);
     const ll = $('#layers'); ll.innerHTML = '';
     for (const k of ['skin', 'skeleton', 'muscles', 'circulatory', 'respiratory', 'digestive', 'urinary', 'nervous', 'fine']) {
       const b = document.createElement('button'); b.className = 'lbtn'; b.dataset.id = k;
       const col = k === 'fine' ? '#e0414b' : SYSTEMS[k].color;
       b.style.setProperty('--c', col);
-      b.innerHTML = `<i></i><span>${k === 'fine' ? T.fine[L] : SYSTEMS[k][L]}</span>`;
+      b.innerHTML = `<i></i><span>${k === 'fine' ? tx(T.fine, L) : tx(SYSTEMS[k], L)}</span>`;
       b.onclick = () => this.action('l_' + k);
       ll.appendChild(b);
     }
-    $('#btn-prev').textContent = '‹ ' + T.back[L]; $('#btn-next').textContent = T.next[L] + ' ›';
+    $('#btn-prev').textContent = '‹ ' + tx(T.back, L); $('#btn-next').textContent = tx(T.next, L) + ' ›';
+    $('#olabel').textContent = tx(T.organs, L); $('#btn-organs').textContent = tx(T.organs, L);
+    const ol = $('#organs'); ol.innerHTML = '';
+    for (const [sys, list] of Object.entries(ORGANS)) {
+      const h = document.createElement('h4'); h.textContent = tx(SYSTEMS[sys], L); h.style.setProperty('--c', SYSTEMS[sys].color); ol.appendChild(h);
+      for (const id of list) {
+        const info = partInfo(id, L); if (!info) continue;
+        const b = document.createElement('button'); b.className = 'obtn'; b.dataset.id = id; b.style.setProperty('--c', SYSTEMS[sys].color);
+        b.textContent = info.name;
+        b.onclick = () => { this.audio.unlock(); document.body.classList.remove('organs-open'); this.showOrgan(id); };
+        ol.appendChild(b);
+      }
+    }
   }
   refreshUI() {
     const L = this.lang;
-    document.querySelectorAll('.jbtn').forEach((b) => b.classList.toggle('on', (this.journey ? this.journey.id : 'explore') === b.dataset.id));
+    document.querySelectorAll('.jbtn').forEach((b) => b.classList.toggle('on', (this.journey ? this.journey.id : this.organ ? '' : 'explore') === b.dataset.id));
     document.querySelectorAll('.lbtn').forEach((b) => { const k = b.dataset.id; b.classList.toggle('on', k === 'fine' ? this.fine : !!this.body.layerOn[k]); });
     $('#btn-voice').classList.toggle('on', this.audio.voice);
     $('#btn-voice').innerHTML = this.audio.voice ? VOICE_ON : VOICE_OFF; $('#btn-voice').classList.toggle('off', !this.audio.voice);
+    $('#btn-sfx').classList.toggle('off', !this.audio.sfx); $('#btn-sfx').title = tx(T.sfx, L) + ': ' + tx(this.audio.sfx ? T.on : T.off, L);
+    document.querySelectorAll('.obtn').forEach((b) => b.classList.toggle('on', b.dataset.id === this.organ));
     const card = $('#story');
     if (this.journey) {
       const j = this.journey, s = this.step;
       card.classList.remove('explore');
       card.style.setProperty('--c', SYSTEMS[j.sys].color);
-      $('#s-kicker').textContent = `${j.title[L]} · ${T.step[L]} ${this.stepIdx + 1} ${T.of[L]} ${j.steps.length}`;
-      $('#s-title').textContent = s.title[L];
-      $('#s-text').textContent = s.text[L];
+      $('#s-kicker').textContent = `${tx(j.title, L)} · ${tx(T.step, L)} ${this.stepIdx + 1} ${tx(T.of, L)} ${j.steps.length}`;
+      $('#s-title').textContent = tx(s.title, L);
+      $('#s-text').textContent = tx(s.text, L);
       $('#s-dots').innerHTML = j.steps.map((_, i) => `<i class="${i <= this.stepIdx ? 'on' : ''}" data-i="${i}"></i>`).join('');
       $('#s-dots').querySelectorAll('i').forEach((d) => (d.onclick = () => this.showStep(+d.dataset.i)));
-      $('#btn-play').textContent = this.playing ? T.pause[L] : T.play[L];
+      $('#btn-play').textContent = this.playing ? tx(T.pause, L) : tx(T.play, L);
       $('#s-controls').style.display = '';
     } else {
       card.classList.add('explore');
       card.style.setProperty('--c', '#d9d2c3');
-      $('#s-kicker').textContent = T.explore[L];
+      $('#s-kicker').textContent = tx(T.explore, L);
       const p = this.picked;
-      $('#s-title').textContent = p ? (L === 'hi' ? p[1] : p[0]) : T.title[L];
-      $('#s-text').textContent = p ? `${L === 'hi' ? p[0] : p[1]} — ${L === 'hi' ? p[3] : p[2]}` : T.exploreHint[L];
+      if (this.organ) $('#s-kicker').textContent = tx(T.organs, L) + ' · ' + tx(SYSTEMS[this.body.layerOf(this.organ)] || {}, L);
+      $('#s-title').textContent = p ? p.name : tx(T.title, L);
+      $('#s-text').textContent = p ? `${p.alt} — ${p.detail}` : tx(T.exploreHint, L);
       $('#s-dots').innerHTML = '';
       $('#s-controls').style.display = 'none';
     }
@@ -737,8 +853,9 @@ class App {
       }
       down = null;
     });
-    $('#lang-en').onclick = () => this.setLang('en');
-    $('#lang-hi').onclick = () => this.setLang('hi');
+    for (const l of LANGS) $('#lang-' + l).onclick = () => { this.audio.unlock(); this.setLang(l); };
+    $('#btn-sfx').onclick = () => { this.audio.unlock(); this.action('sfx'); };
+    $('#btn-organs').onclick = () => document.body.classList.toggle('organs-open');
     $('#btn-vr').onclick = () => this.enterXR('immersive-vr');
     $('#xr-go').onclick = () => this.enterXR(this.appMode === 'ar' ? 'immersive-ar' : 'immersive-vr');
     $('#btn-ar').onclick = () => this.enterXR('immersive-ar');
@@ -819,7 +936,7 @@ class App {
     // autoplay: advance after narration (or reading time) plus a pause to watch
     if (this.journey && this.playing) {
       this.stepT += dt;
-      const s = this.step; const words = s.text[this.lang].split(' ').length;
+      const s = this.step; const words = tx(s.text, this.lang).split(' ').length;
       if (this.spoken && this.spokenAt == null) this.spokenAt = this.stepT;
       const readT = Math.max(12, words * 0.42 + 5);
       const due = this.spokeOK && this.spokenAt != null ? Math.max(8, this.spokenAt + 4) : readT;

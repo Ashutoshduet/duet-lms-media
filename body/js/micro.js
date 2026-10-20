@@ -139,8 +139,8 @@ function alveoli() {
     movers.push(new Mover(o, () => { const c = caps[(Math.random() * caps.length) | 0]; return new THREE.CatmullRomCurve3([c.getPointAt(rand(0.2, 0.45)), sacPoint(), V(-0.4, 0.38, 0.05), V(-0.95, 0.9, 0.05)]); }, rand(3.5, 5)));
   }
   return { group: g, update: (dt) => { updRBC(dt); movers.forEach((m) => m.update(dt)); },
-    labels: [[['Alveoli', 'एल्वियोली (वायु कोष)'], V(0.15, 0.62, 0.3)], [['Capillary', 'केशिका'], V(0.62, -0.45, 0.3)], [['Oxygen → blood', 'ऑक्सीजन → खून'], V(-0.6, -0.15, 0.5), '#9fe3ff'], [['CO₂ → air', 'CO₂ → हवा'], V(-0.75, 0.78, 0.2), '#c9ced6']],
-    title: ['Alveoli × 500', 'एल्वियोली × 500'] };
+    labels: [[['Alveoli', 'एल्वियोली (वायु कोष)', 'Alveoli (air sacs)'], V(0.15, 0.62, 0.3)], [['Capillary', 'केशिका', 'Capillary (patli blood vessel)'], V(0.62, -0.45, 0.3)], [['Oxygen → blood', 'ऑक्सीजन → खून', 'Oxygen → blood mein'], V(-0.6, -0.15, 0.5), '#9fe3ff'], [['CO₂ → air', 'CO₂ → हवा', 'CO₂ → hawa mein'], V(-0.75, 0.78, 0.2), '#c9ced6']],
+    title: ['Alveoli × 500', 'एल्वियोली × 500', 'Alveoli × 500'] };
 }
 
 function villi() {
@@ -183,8 +183,8 @@ function villi() {
     movers.push(new Mover(o, () => { const y = rand(0.55, 0.95), z = rand(-0.4, 0.4); return new THREE.CatmullRomCurve3([V(-1.1, y, z), V(0, y - 0.05, z), V(1.1, y, z)]); }, rand(5, 8), { alpha: 0.7 }));
   }
   return { group: g, update: (dt) => movers.forEach((m) => m.update(dt)),
-    labels: [[['Villus', 'रसांकुर (विलस)'], V(-0.36, 0.7, 0.4)], [['Blood capillary', 'रक्त केशिका'], V(0.6, -0.15, 0.4)], [['Glucose', 'ग्लूकोज़'], V(-0.85, 0.85, 0.2), '#ffd34d'], [['Amino acid', 'अमीनो अम्ल'], V(0.75, 0.85, 0.2), '#8fd96a']],
-    title: ['Villi × 300', 'रसांकुर × 300'] };
+    labels: [[['Villus', 'रसांकुर (विलस)', 'Villus'], V(-0.36, 0.7, 0.4)], [['Blood capillary', 'रक्त केशिका', 'Blood capillary'], V(0.6, -0.15, 0.4)], [['Glucose', 'ग्लूकोज़', 'Glucose'], V(-0.85, 0.85, 0.2), '#ffd34d'], [['Amino acid', 'अमीनो अम्ल', 'Amino acid'], V(0.75, 0.85, 0.2), '#8fd96a']],
+    title: ['Villi × 300', 'रसांकुर × 300', 'Villi × 300'] };
 }
 
 function cell() {
@@ -241,9 +241,9 @@ function cell() {
     mitos.forEach((m) => { m.userData.flash = Math.max(0, m.userData.flash - dt * 1.4); const f = m.userData.flash; m.userData.glow.material.opacity = 0.25 + 0.75 * f; m.userData.glow.scale.setScalar(0.4 + 0.35 * f); m.children[1].material.emissive.setRGB(0.35 + 0.8 * f, 0.14 + 0.35 * f, 0.0); });
     movers.forEach((m) => m.update(dt));
   },
-    labels: [[['Mitochondria (power-house)', 'माइटोकॉन्ड्रिया (पावर-हाउस)'], V(0.45, 0.75, 0.3), '#ffb36b'], [['Nucleus', 'केंद्रक'], V(-0.45, 0.68, 0.1)], [['Capillary', 'केशिका'], V(-0.7, -0.98, 0.3)],
-      [['Glucose + O₂ → Energy (ATP) + CO₂ + H₂O', 'ग्लूकोज़ + O₂ → ऊर्जा (ATP) + CO₂ + H₂O'], V(0, -1.22, 0.2), '#ffcf3d', true]],
-    title: ['Body cell × 2000', 'शरीर की कोशिका × 2000'] };
+    labels: [[['Mitochondria (power-house)', 'माइटोकॉन्ड्रिया (पावर-हाउस)', 'Mitochondria (power-house)'], V(0.45, 0.75, 0.3), '#ffb36b'], [['Nucleus', 'केंद्रक', 'Nucleus'], V(-0.45, 0.68, 0.1)], [['Capillary', 'केशिका', 'Capillary (patli blood vessel)'], V(-0.7, -0.98, 0.3)],
+      [['Glucose + O₂ → Energy (ATP) + CO₂ + H₂O', 'ग्लूकोज़ + O₂ → ऊर्जा (ATP) + CO₂ + H₂O', 'Glucose + O₂ → Energy (ATP) + CO₂ + H₂O'], V(0, -1.22, 0.2), '#ffcf3d', true]],
+    title: ['Body cell × 2000', 'शरीर की कोशिका × 2000', 'Body cell × 2000'] };
 }
 
 function capillary() {
@@ -275,8 +275,8 @@ function capillary() {
     rbc.instanceMatrix.needsUpdate = true; if (rbc.instanceColor) rbc.instanceColor.needsUpdate = true;
     movers.forEach((m) => m.update(dt));
   },
-    labels: [[['Capillary', 'केशिका'], V(-0.8, 0.1, 0.35)], [['Body cells', 'शरीर की कोशिकाएँ'], V(0.55, 0.72, 0.2)], [['O₂ to cells', 'O₂ कोशिकाओं को'], V(-0.3, -0.75, 0.3), '#9fe3ff'], [['CO₂ to blood', 'CO₂ खून में'], V(0.6, -0.75, 0.3), '#c9ced6']],
-    title: ['Capillary × 1000', 'केशिका × 1000'] };
+    labels: [[['Capillary', 'केशिका', 'Capillary (patli blood vessel)'], V(-0.8, 0.1, 0.35)], [['Body cells', 'शरीर की कोशिकाएँ', 'Body ke cells'], V(0.55, 0.72, 0.2)], [['O₂ to cells', 'O₂ कोशिकाओं को', 'O₂ cells ko'], V(-0.3, -0.75, 0.3), '#9fe3ff'], [['CO₂ to blood', 'CO₂ खून में', 'CO₂ blood mein'], V(0.6, -0.75, 0.3), '#c9ced6']],
+    title: ['Capillary × 1000', 'केशिका × 1000', 'Capillary × 1000'] };
 }
 
 function nephron() {
@@ -318,8 +318,8 @@ function nephron() {
     }, rand(6, 8)));
   }
   return { group: g, update: (dt) => movers.forEach((m) => m.update(dt)),
-    labels: [[['Glomerulus', 'ग्लोमेरुलस (केशिका गुच्छ)'], V(-0.75, 0.15, 0.3)], [['Tubule takes back useful things', 'नलिका काम की चीज़ें वापस लेती है'], V(-0.1, -0.35, 0.35)], [['Loop of Henle', 'हेनले लूप'], V(0.25, -1.08, 0.2)], [['Urine', 'मूत्र'], V(0.95, -0.7, 0.2), '#ffd34d'], [['U = urea (waste)', 'U = यूरिया (अपशिष्ट)'], V(0.5, 1.02, 0.1), '#ffd34d']],
-    title: ['Nephron × 200', 'नेफ्रॉन × 200'] };
+    labels: [[['Glomerulus', 'ग्लोमेरुलस (केशिका गुच्छ)', 'Glomerulus (capillary ka guchha)'], V(-0.75, 0.15, 0.3)], [['Tubule takes back useful things', 'नलिका काम की चीज़ें वापस लेती है', 'Tubule kaam ki cheezein wapas leti hai'], V(-0.1, -0.35, 0.35)], [['Loop of Henle', 'हेनले लूप', 'Loop of Henle'], V(0.25, -1.08, 0.2)], [['Urine', 'मूत्र', 'Urine'], V(0.95, -0.7, 0.2), '#ffd34d'], [['U = urea (waste)', 'U = यूरिया (अपशिष्ट)', 'U = urea (waste)'], V(0.5, 1.02, 0.1), '#ffd34d']],
+    title: ['Nephron × 200', 'नेफ्रॉन × 200', 'Nephron × 200'] };
 }
 
 let kidneyGLB = null;
@@ -367,8 +367,8 @@ function kidney() {
     }
   });
   return { group: g, update: (dt) => { inner.updateMatrixWorld(true); clip[0].copy(localPlane).applyMatrix4(inner.matrixWorld); movers.forEach((m) => m.update(dt)); }, clip: true,
-    labels: [[['Cortex', 'कॉर्टेक्स (वल्कुट)'], V(0.45, 0.62, 0.25)], [['Pyramids (medulla)', 'पिरामिड (मेडुला)'], V(0.52, -0.1, 0.3)], [['Renal pelvis', 'वृक्क श्रोणि'], V(-0.5, 0.25, 0.4), '#f0d27c'], [['Ureter', 'मूत्रवाहिनी'], V(-0.55, -0.95, 0.3), '#f0d27c'], [['Renal vein', 'वृक्क शिरा'], V(-0.95, 0.4, 0.2), '#7f9bff']],
-    title: ['Kidney cut open × 4', 'गुर्दे का भीतरी भाग × 4'] };
+    labels: [[['Cortex', 'कॉर्टेक्स (वल्कुट)', 'Cortex'], V(0.45, 0.62, 0.25)], [['Pyramids (medulla)', 'पिरामिड (मेडुला)', 'Pyramids (medulla)'], V(0.52, -0.1, 0.3)], [['Renal pelvis', 'वृक्क श्रोणि', 'Renal pelvis'], V(-0.5, 0.25, 0.4), '#f0d27c'], [['Ureter', 'मूत्रवाहिनी', 'Ureter'], V(-0.55, -0.95, 0.3), '#f0d27c'], [['Renal vein', 'वृक्क शिरा', 'Renal vein'], V(-0.95, 0.4, 0.2), '#7f9bff']],
+    title: ['Kidney cut open × 4', 'गुर्दे का भीतरी भाग × 4', 'Kidney andar se × 4'] };
 }
 
 function neuron() {
@@ -390,11 +390,122 @@ function neuron() {
     movers.push(new Mover(o, () => new THREE.CatmullRomCurve3([soma.position.clone(), ...axPts.slice(1)]), 1.6, { t0: i / 3 }));
   }
   return { group: g, update: (dt) => movers.forEach((m) => m.update(dt)),
-    labels: [[['Neuron', 'तंत्रिका कोशिका (न्यूरॉन)'], V(-0.75, 0.88, 0.2)], [['Electric signal', 'विद्युत संकेत'], V(0.1, 0.25, 0.3), '#fff3a0'], [['Muscle', 'मांसपेशी'], V(0.8, -0.35, 0.2)]],
-    title: ['Nerve cell × 1000', 'तंत्रिका कोशिका × 1000'] };
+    labels: [[['Neuron', 'तंत्रिका कोशिका (न्यूरॉन)', 'Neuron (nerve cell)'], V(-0.75, 0.88, 0.2)], [['Electric signal', 'विद्युत संकेत', 'Electric signal'], V(0.1, 0.25, 0.3), '#fff3a0'], [['Muscle', 'मांसपेशी', 'Muscle'], V(0.8, -0.35, 0.2)]],
+    title: ['Nerve cell × 1000', 'तंत्रिका कोशिका × 1000', 'Nerve cell × 1000'] };
 }
 
-const BUILDERS = { alveoli, villi, cell, capillary, nephron, kidney, neuron };
+
+// stomach wall: gastric pits release acid (HCl) and pepsin; pepsin cuts protein chains; mucus protects the wall
+function stomach() {
+  const g = new THREE.Group(); const movers = [];
+  // wall with folds
+  const wallG = new THREE.BoxGeometry(2.2, 0.35, 1.3, 40, 2, 16);
+  const wp = wallG.attributes.position;
+  for (let i = 0; i < wp.count; i++) { const x = wp.getX(i), z = wp.getZ(i), y = wp.getY(i); if (y > 0) wp.setY(i, y + 0.09 * Math.sin(x * 4.2) * Math.cos(z * 2.2)); }
+  wallG.computeVertexNormals();
+  const wall = new THREE.Mesh(wallG, std('#c95f69', 0.6)); wall.position.y = -0.9; g.add(wall);
+  const mucus = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.16, 1.3), glass('#eef7e6', 0.22, 0.6)); mucus.position.y = -0.62; g.add(mucus);
+  const pits = [-0.7, -0.05, 0.6].map((x) => {
+    const pit = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.06, 0.42, 20, 1, true), std('#8f2f3c', 0.6, '#200008', { side: THREE.DoubleSide }));
+    pit.position.set(x, -0.88, 0.1); g.add(pit); return new THREE.Vector3(x, -0.66, 0.1);
+  });
+  // protein chains (beads) that get cut into pieces
+  const chains = [];
+  const beadG = new THREE.SphereGeometry(0.045, 14, 10);
+  const cols = ['#e7b05a', '#d98b3a', '#f2cf7e', '#c97c3e'];
+  for (let c = 0; c < 3; c++) {
+    const grp = new THREE.Group(); const beads = [];
+    for (let i = 0; i < 10; i++) { const m = new THREE.Mesh(beadG, std(cols[i % 4], 0.5)); grp.add(m); beads.push(m); }
+    grp.position.set(-0.55 + c * 0.55, 0.15 + c * 0.22, -0.1 + c * 0.1);
+    g.add(grp); chains.push({ grp, beads, t: c * 0.33, cut: [3, 6] });
+  }
+  for (let i = 0; i < 14; i++) {
+    const o = icon('H⁺', '#ff6b6b', '#2a0606'); o.scale.setScalar(0.09); g.add(o);
+    movers.push(new Mover(o, () => { const p = pits[(Math.random() * pits.length) | 0]; return new THREE.CatmullRomCurve3([p.clone(), p.clone().add(V(rand(-0.2, 0.2), 0.5, rand(-0.2, 0.2))), V(rand(-0.9, 0.9), rand(0.2, 0.9), rand(-0.4, 0.4))]); }, rand(2.5, 4)));
+  }
+  const pepsin = [];
+  for (let i = 0; i < 3; i++) {
+    const o = icon('P', '#7fe0a0', '#06200f', 'star'); o.scale.setScalar(0.13); g.add(o); pepsin.push(o);
+  }
+  // a germ that the acid kills
+  const germ = new THREE.Mesh(new THREE.CapsuleGeometry(0.06, 0.12, 6, 12), std('#7a5ec9', 0.5, '#100830')); germ.position.set(0.75, 0.75, 0.2); g.add(germ);
+  let gt = 0;
+  return { group: g, update: (dt, t) => {
+    movers.forEach((m) => m.update(dt));
+    chains.forEach((ch, ci) => {
+      ch.t = (ch.t + dt / 7) % 1;
+      const split = THREE.MathUtils.smoothstep(ch.t, 0.45, 0.7) * (1 - THREE.MathUtils.smoothstep(ch.t, 0.93, 1));
+      ch.beads.forEach((b, i) => {
+        const piece = i < ch.cut[0] ? -1 : i < ch.cut[1] ? 0 : 1;
+        b.position.set((i - 4.5) * 0.085 + piece * split * 0.18, Math.sin(i * 0.9 + t * 1.5 + ci) * 0.035 + piece * split * 0.08 * (ci % 2 ? 1 : -1), Math.cos(i * 0.7) * 0.03);
+      });
+      // pepsin sits on the cut points while cutting
+      const p = pepsin[ci];
+      const cutX = (ch.cut[ch.t < 0.55 ? 0 : 1] - 5) * 0.085;
+      p.position.copy(ch.grp.position).add(V(cutX, 0.11, 0.04));
+      p.material.opacity = THREE.MathUtils.smoothstep(ch.t, 0.25, 0.4) * (1 - THREE.MathUtils.smoothstep(ch.t, 0.75, 0.85));
+    });
+    gt = (gt + dt / 5) % 1;
+    const k = THREE.MathUtils.smoothstep(gt, 0.5, 0.9);
+    germ.scale.setScalar(1 - 0.85 * k); germ.material.opacity = 1 - k; germ.material.transparent = true; germ.rotation.z += dt;
+  },
+    labels: [[['Acid (HCl) kills germs', 'अम्ल (एच सी एल) कीटाणु मारता है', 'Acid (HCl) germs ko maarta hai'], V(0.55, 1.0, 0.3), '#ff8b8b'], [['Pepsin cuts proteins', 'पेप्सिन प्रोटीन को काटता है', 'Pepsin protein ko kaat-ta hai'], V(-0.55, 0.85, 0.3), '#7fe0a0'],
+      [['Mucus protects the wall', 'म्यूकस दीवार की रक्षा करता है', 'Mucus wall ko bachata hai'], V(0, -0.45, 0.6)], [['Gastric pit', 'गैस्ट्रिक गड्ढा', 'Gastric pit'], V(-0.7, -1.18, 0.5)]],
+    title: ['Stomach wall × 500', 'पेट की दीवार × 500', 'Stomach wall × 500'] };
+}
+
+// bile breaks a big fat drop into tiny droplets; lipase digests them
+function bile() {
+  const g = new THREE.Group(); const movers = [];
+  const fatMat = std('#f6d36b', 0.25, '#3a2a00', { transparent: true });
+  const big = new THREE.Mesh(new THREE.SphereGeometry(0.45, 40, 28), fatMat); g.add(big);
+  const N = 26; const drops = [];
+  const dropG = new THREE.SphereGeometry(0.09, 20, 14);
+  for (let i = 0; i < N; i++) {
+    const m = new THREE.Mesh(dropG, std('#f6d36b', 0.25, '#3a2a00', { transparent: true }));
+    const dir = new THREE.Vector3().randomDirection(); m.userData.dir = dir; m.userData.r = rand(0.55, 1.0); m.userData.s = rand(0.6, 1.2);
+    g.add(m); drops.push(m);
+  }
+  const biles = [];
+  for (let i = 0; i < 12; i++) { const o = icon('B', '#7ad957', '#082006'); o.scale.setScalar(0.1); g.add(o); biles.push({ o, dir: new THREE.Vector3().randomDirection(), ph: Math.random() }); }
+  const lipase = [];
+  for (let i = 0; i < 4; i++) { const o = icon('L', '#ffb347', '#2a1500', 'star'); o.scale.setScalar(0.12); g.add(o); lipase.push(o); }
+  for (let i = 0; i < 10; i++) {
+    const o = icon('FA', '#fff1c4', '#3a2a00', 'circle'); o.scale.setScalar(0.08); g.add(o);
+    movers.push(new Mover(o, () => { const d = drops[(Math.random() * N) | 0]; const p = d.position.clone(); return new THREE.CatmullRomCurve3([p, p.clone().add(new THREE.Vector3().randomDirection().multiplyScalar(0.4))]); }, rand(2, 3)));
+  }
+  let t = 0;
+  return { group: g, update: (dt) => {
+    t = (t + dt / 9) % 1;
+    const come = THREE.MathUtils.smoothstep(t, 0.0, 0.25);
+    const split = THREE.MathUtils.smoothstep(t, 0.25, 0.55);
+    const digest = THREE.MathUtils.smoothstep(t, 0.6, 0.92);
+    big.scale.setScalar(Math.max(0.001, 1 - split)); big.material.opacity = 1 - split * 0.9;
+    drops.forEach((d, i) => {
+      const r = 0.25 + d.userData.r * split * 0.75;
+      d.position.copy(d.userData.dir).multiplyScalar(r * 0.95);
+      d.scale.setScalar(Math.max(0.001, split * d.userData.s * (1 - digest * 0.75)));
+      d.material.opacity = 0.95;
+    });
+    biles.forEach((b) => {
+      const far = 1.15, near = 0.5 + split * 0.45;
+      const r = far + (near - far) * come;
+      b.o.position.copy(b.dir).multiplyScalar(r).add(V(0, Math.sin((t + b.ph) * 12) * 0.02, 0));
+      b.o.material.opacity = 1 - digest * 0.6;
+    });
+    lipase.forEach((o, i) => {
+      const d = drops[(i * 6) % N];
+      o.position.copy(d.position).add(V(0.08, 0.08, 0.05));
+      o.material.opacity = digest > 0 ? Math.min(1, digest * 3) : 0;
+    });
+    movers.forEach((m) => { m.update(dt); m.obj.material.opacity *= digest; });
+  },
+    labels: [[['Big fat drop', 'वसा की बड़ी बूँद', 'Fat ki badi boond'], V(-0.75, 0.75, 0.3), '#f6d36b'], [['Bile (B) breaks it up', 'पित्त (बी) इसे तोड़ता है', 'Bile (B) ise todta hai'], V(0.7, 0.8, 0.3), '#7ad957'],
+      [['Lipase (L) digests fat', 'लाइपेज़ (एल) वसा पचाता है', 'Lipase (L) fat pachata hai'], V(0.65, -0.85, 0.3), '#ffb347'], [['FA = fatty acids', 'एफ ए = फैटी एसिड', 'FA = fatty acids'], V(-0.7, -0.9, 0.3), '#fff1c4']],
+    title: ['Fat and bile × 1000', 'वसा और पित्त × 1000', 'Fat aur bile × 1000'] };
+}
+
+const BUILDERS = { alveoli, villi, cell, capillary, nephron, kidney, neuron, stomach, bile };
 
 // The bubble frame that hosts a scene
 export class Magnifier {
@@ -430,11 +541,12 @@ export class Magnifier {
     this.labels.clear();
     if (!this.scene) return;
     const L = this.lang;
-    const tl = new Label([L === 'hi' ? this.scene.title[1] : this.scene.title[0]], { height: 0.16, leader: false, big: 30, cy: 0, color: '#ffffff', bg: 'rgba(20,32,48,0.9)', border: 'rgba(191,227,255,0.6)' });
+    const li = L === 'hi' ? 1 : L === 'hg' ? 2 : 0;
+    const tl = new Label([this.scene.title[li] || this.scene.title[0]], { height: 0.2, leader: false, big: 30, cy: 0, color: '#ffffff', bg: 'rgba(20,32,48,0.9)', border: 'rgba(191,227,255,0.6)' });
     tl.position.set(0, 1.32, 0); tl.layout(); this.labels.add(tl);
     for (const [txt, p, col, wide] of this.scene.labels) {
-      const lines = L === 'hi' ? [txt[1]] : [txt[0]];
-      const lb = new Label(lines, { height: wide ? 0.12 : 0.11, leader: false, color: col ?? '#f5f1ea', big: 26, cy: 0.5 });
+      const lines = [txt[li] || txt[0]];
+      const lb = new Label(lines, { height: wide ? 0.16 : 0.15, leader: false, color: col ?? '#f5f1ea', big: 26, cy: 0.5 });
       lb.position.copy(p); lb.layout(); this.labels.add(lb);
     }
   }
