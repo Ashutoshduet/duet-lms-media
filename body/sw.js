@@ -1,7 +1,7 @@
 // Offline support. Code and text: network first (so updates show at once), cache when offline.
 // Models, fonts, images and narration audio: cache first. Narration and Organ Lab models are saved in the
 // background after the first visit, with progress sent back to the page.
-const VERSION = 'hb360-v5';
+const VERSION = 'hb360-v6';
 const CORE = [
   './', './index.html', './manifest.webmanifest',
   './js/main.js', './js/body.js', './js/flows.js', './js/anim.js', './js/micro.js', './js/labels.js', './js/audio.js', './js/vrui.js',
@@ -19,7 +19,7 @@ self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', (e) => {
-  // narration was re-recorded in v5, so old caches are dropped completely
+  // narration was re-recorded in v6 (information style), so old caches are dropped completely
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (k !== VERSION) await caches.delete(k);
     await self.clients.claim();
