@@ -372,7 +372,7 @@ class App {
     this.audio.narrate(url, text, l).then((ok) => { if (token === this.speakToken) { this.spoken = true; this.spokeOK = ok; } });
   }
   speakPart(pid) { const p = partInfo(pid, this.lang); if (p) this.narrate('part-' + p.id, `${p.name}. ${tx(T.fnLabel, this.lang)}: ${p.job} ${tx(T.howLabel, this.lang)}: ${p.process}`); }
-  infoText(p) { return `${p.alt}\n${tx(T.fnLabel, this.lang)}: ${p.job}\n${tx(T.howLabel, this.lang)}: ${p.hasProcess ? p.process : p.detail}`; }
+  infoText(p) { return `${p.alt && p.alt !== p.name ? p.alt + '\n' : ''}${tx(T.fnLabel, this.lang)}: ${p.job}\n${tx(T.howLabel, this.lang)}: ${p.hasProcess ? p.process : p.detail}`; }
   replay() {
     if (this.mode === 'journey' && this.step) this.narrate(this.step.id, tx(this.step.title, this.lang) + '. ' + tx(this.step.text, this.lang));
     else if (this.mode === 'lab') { if (this.labSel) this.speakPart(this.labSel); else this.speakLabStep(); }
@@ -1033,7 +1033,7 @@ class App {
   // shared description of the story card (HTML and VR)
   storyModel() {
     const L = this.lang, t = (k) => tx(T[k], L) || k;
-    const nav = [{ id: 'prev', label: '‹ ' + t('back') }, { id: 'play', label: this.playing ? '❚❚ ' + t('pause') : '▶ ' + t('play'), primary: true, active: this.playing }, { id: 'next', label: t('next') + ' ›' }, { id: 'speed', label: `${this.speed}×` }];
+    const nav = [{ id: 'prev', label: '‹ ' + t('back') }, { id: 'play', label: this.playing ? '❚❚ ' + t('pause') : '▶ ' + t('play'), primary: true, active: this.playing }, { id: 'next', label: t('next') + ' ›' }, { id: 'speed', label: `${t('speed')} ${this.speed}×` }];
     if (this.mode === 'journey' && this.step) {
       const j = this.journey, s = this.step;
       return { kicker: `${tx(j.title, L)} · ${t('step')} ${this.stepIdx + 1} ${t('of')} ${j.steps.length}`, color: SYSTEMS[j.sys].color, title: tx(s.title, L), text: tx(s.text, L),

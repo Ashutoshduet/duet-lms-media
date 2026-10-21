@@ -104,7 +104,8 @@ export function partKey(id) { return C.parts[id] ? id : GROUP_ALIAS[id] && C.par
 // name / second name / job / detail of a part in the current language
 export function partInfo(id, l) {
   const key = partKey(id); const p = C.parts[key]; if (!p) return null;
-  const alt = l === 'en' ? pick(p.name, 'hi') : pick(p.name, 'en');
+  // second name: Hindi under English and Hinglish, English under Hindi
+  const alt = l === 'hi' ? pick(p.name, 'en') : pick(p.name, 'hi');
   return { id: key, name: pick(p.name, l), alt, job: pick(p.job, l), detail: pick(p.detail || p.job, l), process: pick(p.process || p.detail || p.job, l), hasProcess: !!p.process };
 }
 
