@@ -47,7 +47,8 @@ class App {
     this.audio = new Audio();
     this.audio.voice = store.get('hb_voice') !== '0';
     this.audio.sfx = store.get('hb_sfx') !== '0';
-    this.vrBody = { yaw: 0, scale: 1, pos: new THREE.Vector3(0, 0, BODY_Z) };
+    this.speed = +(store.get('hb_speed') || 1); if (![1, 2, 3, 5, 10].includes(this.speed)) this.speed = 1; this.audio.rate = Math.min(this.speed, 2);
+    this.vrBody = { yaw: 0, scale: 1, pos: new THREE.Vector3(0, 0, BODY_Z), off: new THREE.Vector3() };
     this.vrLabScale = 1; this.eye = 1.55; this.museum = false;
     this.offline = { have: 0, total: 0, busy: false };
     this.feedback = '';
@@ -60,7 +61,7 @@ class App {
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.05;
     r.outputColorSpace = THREE.SRGBColorSpace;
     r.localClippingEnabled = true;
-    r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(0.6);
+    r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(0.1); r.xr.setFramebufferScaleFactor(1.35);
     $('#stage').appendChild(r.domElement);
 
     const scene = this.scene = new THREE.Scene();
@@ -370,7 +371,8 @@ class App {
     this.spoken = false; this.spokenAt = null; this.spokeOK = false;
     this.audio.narrate(url, text, l).then((ok) => { if (token === this.speakToken) { this.spoken = true; this.spokeOK = ok; } });
   }
-  speakPart(pid) { const p = partInfo(pid, this.lang); if (p) this.narrate('part-' + p.id, p.name + '. ' + p.detail); }
+  speakPart(pid) { const p = partInfo(pid, this.lang); if (p) this.narrate('part-' + p.id, `${p.name}. ${tx(T.fnLabel, this.lang)}: ${p.job} ${tx(T.howLabel, this.lang)}: ${p.process}`); }
+  infoText(p) { return `${p.alt}\n${tx(T.fnLabel, this.lang)}: ${p.job}\n${tx(T.howLabel, this.lang)}: ${p.hasProcess ? p.process : p.detail}`; }
   replay() {
     if (this.mode === 'journey' && this.step) this.narrate(this.step.id, tx(this.step.title, this.lang) + '. ' + tx(this.step.text, this.lang));
     else if (this.mode === 'lab') { if (this.labSel) this.speakPart(this.labSel); else this.speakLabStep(); }
@@ -660,10 +662,29 @@ class App {
     this.applyVRBody();
     if (this.mode === 'lab') this.placeLab();
   }
+  // zoom in / out: VR scales the model about what is being looked at; desktop moves the camera
+  zoomBy(f) {
+    if (!this.inXR()) {
+      const c = this.controls, off = this.camera.position.clone().sub(c.target);
+      const d = THREE.MathUtils.clamp(off.length() / f, c.minDistance, c.maxDistance);
+      this.camTween = null; this.camera.position.copy(c.target).add(off.setLength(d)); return;
+    }
+    if (this.mode === 'lab') { this.vrLabScale = THREE.MathUtils.clamp(this.vrLabScale * f, 0.4, 4); this.placeLab(); return; }
+    this.scaleBody(this.vrBody.scale * f);
+  }
+  scaleBody(s) {
+    const b = this.vrBody; s = THREE.MathUtils.clamp(s, 0.4, 5);
+    b.off.addScaledVector(this.zoomPivot(), b.scale - s); b.scale = s;
+    if (Math.abs(s - 1) < 0.02) { b.scale = 1; b.off.set(0, 0, 0); }
+    this.applyVRBody();
+  }
+  zoomPivot() { return this.sel ? this.sel.center.clone() : this.stepView && this.mode === 'journey' ? this.stepView.at.clone() : new THREE.Vector3(0, 1.15, 0); }
   exhibitPos() { return this.inXR() && this.museum ? new THREE.Vector3(0, 0, -1.8) : this.inXR() ? new THREE.Vector3(0, 0, BODY_Z) : new THREE.Vector3(); }
   applyVRBody() {
     const b = this.vrBody;
-    this.bodyRoot.position.copy(this.museum ? this.exhibitPos() : b.pos); this.bodyRoot.rotation.set(0, b.yaw, 0); this.bodyRoot.scale.setScalar(b.scale);
+    // b.off keeps the zoomed point in place (it only changes when zooming, never on a click)
+    const piv = b.off.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), b.yaw);
+    this.bodyRoot.position.copy(this.museum ? this.exhibitPos() : b.pos).add(piv); this.bodyRoot.rotation.set(0, b.yaw, 0); this.bodyRoot.scale.setScalar(b.scale);
     this.labelK = 1.5 / b.scale; this.relabel();
     this.placeFloor();
   }
@@ -852,7 +873,7 @@ class App {
     this.sky.visible = !ar; this.floor.visible = !ar;
     document.body.classList.add('in-xr');
     this.vrui.group.add(this.mag.group, this.zoom.group);
-    this.vrBody = { yaw: 0, scale: 1, pos: new THREE.Vector3(0, 0, BODY_Z) }; this.uiFollow = null;
+    this.vrBody = { yaw: 0, scale: 1, pos: new THREE.Vector3(0, 0, BODY_Z), off: new THREE.Vector3() }; this.uiFollow = null;
     setTimeout(() => {
       this.captureStage();
       this.vrui.group.visible = true; this.vrui.dirty = true;
@@ -932,6 +953,11 @@ class App {
         else if (this.museum) {
           if (Math.abs(ax) > 0.6 && Math.abs(ax) > Math.abs(ay) && !c.userData.snap) { this.orbit(ax > 0 ? -1 : 1); c.userData.snap = true; }
           if (Math.abs(ax) < 0.3) c.userData.snap = false;
+        } else if (Math.abs(ay) > 0.7 && Math.abs(ax) < 0.3) {
+          // clearly up = zoom in, clearly down = zoom out
+          const f = Math.exp(-ay * dt * 0.8);
+          if (this.mode === 'lab') { this.vrLabScale = THREE.MathUtils.clamp(this.vrLabScale * f, 0.4, 4); this.placeLab(); }
+          else this.scaleBody(this.vrBody.scale * f);
         } else if (Math.abs(ax) > 0.3 && Math.abs(ax) > Math.abs(ay) * 1.5) {
           // left/right turns the model; up/down does nothing (size changes only with the Size buttons)
           if (this.mode === 'lab') this.lab.userYaw += ax * dt * 1.6;
@@ -963,6 +989,9 @@ class App {
     else if (id === 'dis_toggle') { this.dis.setApart(!this.dis.apart); this.selPiece = null; }
     else if (id === 'apart_lab') { this.lab.setExploded(!this.lab.exploded); this.labSel = null; this.lab.pickLabel(null); this.playing = false; }
     else if (id === 'museum') this.toggleMuseum();
+    else if (id === 'speed') { const S = [1, 2, 3, 5, 10]; this.speed = S[(S.indexOf(this.speed) + 1) % S.length]; this.audio.rate = Math.min(this.speed, 2); store.set('hb_speed', String(this.speed)); try { this.audio.na.playbackRate = this.audio.rate; } catch (e) {} }
+    else if (id === 'zoom_in') this.zoomBy(1.25);
+    else if (id === 'zoom_out') this.zoomBy(0.8);
     else if (id === 'spin') { this.controls.autoRotate = !this.controls.autoRotate; this.controls.autoRotateSpeed = 1.6; }
     else if (id === 'game_organs' || id === 'game_bones') this.startGame(id.slice(5));
     else if (id === 'restart') this.startGame(this.dis.set || 'organs');
@@ -982,8 +1011,8 @@ class App {
     else if (id === 'prev') this.prev();
     else if (id === 'play') this.togglePlay();
     else if (id === 'voice') { this.audio.voice = !this.audio.voice; store.set('hb_voice', this.audio.voice ? '1' : '0'); if (!this.audio.voice) this.audio.stopSpeech(); else this.replay(); }
-    else if (id === 'size_up') { if (this.mode === 'lab') { this.vrLabScale = Math.min(3, this.vrLabScale * 1.25); this.lab.group.scale.setScalar(this.vrLabScale); } else { this.vrBody.scale = Math.min(4, this.vrBody.scale * 1.25); this.applyVRBody(); } }
-    else if (id === 'size_dn') { if (this.mode === 'lab') { this.vrLabScale = Math.max(0.5, this.vrLabScale / 1.25); this.lab.group.scale.setScalar(this.vrLabScale); } else { this.vrBody.scale = Math.max(0.4, this.vrBody.scale / 1.25); this.applyVRBody(); } }
+    else if (id === 'size_up') this.zoomBy(1.25);
+    else if (id === 'size_dn') this.zoomBy(0.8);
     else if (id === 'save_all') this.saveAll();
     else if (id === 'exit') { const s = this.renderer.xr.getSession(); s && s.end(); }
     this.refreshUI();
@@ -1004,7 +1033,7 @@ class App {
   // shared description of the story card (HTML and VR)
   storyModel() {
     const L = this.lang, t = (k) => tx(T[k], L) || k;
-    const nav = [{ id: 'prev', label: '‹ ' + t('back') }, { id: 'play', label: this.playing ? '❚❚ ' + t('pause') : '▶ ' + t('play'), primary: true, active: this.playing }, { id: 'next', label: t('next') + ' ›' }];
+    const nav = [{ id: 'prev', label: '‹ ' + t('back') }, { id: 'play', label: this.playing ? '❚❚ ' + t('pause') : '▶ ' + t('play'), primary: true, active: this.playing }, { id: 'next', label: t('next') + ' ›' }, { id: 'speed', label: `${this.speed}×` }];
     if (this.mode === 'journey' && this.step) {
       const j = this.journey, s = this.step;
       return { kicker: `${tx(j.title, L)} · ${t('step')} ${this.stepIdx + 1} ${t('of')} ${j.steps.length}`, color: SYSTEMS[j.sys].color, title: tx(s.title, L), text: tx(s.text, L),
@@ -1014,7 +1043,7 @@ class App {
       const d = LABS[this.labId]; const head = `${t('labs')} · ${tx(d.title, L)}`;
       if (!this.lab.L) return { kicker: head, color: d.color, title: tx(d.title, L), text: '…' };
       const apart = { id: 'apart_lab', label: this.lab.exploded ? t('together') : t('dismantle'), active: this.lab.exploded };
-      if (this.labSel) { const p = partInfo(this.labSel, L); return { kicker: head, color: d.color, title: p.name, text: `${p.alt} — ${p.detail}`, dots: { n: d.n, i: this.lab.step }, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, apart, { id: 'tour', label: t('tour') }, { id: 'explore', label: t('home') }] }; }
+      if (this.labSel) { const p = partInfo(this.labSel, L); return { kicker: head, color: d.color, title: p.name, text: this.infoText(p), dots: { n: d.n, i: this.lab.step }, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, apart, { id: 'tour', label: t('tour') }, { id: 'explore', label: t('home') }] }; }
       if (this.lab.exploded) return { kicker: `${head} · ${t('dismantle')}`, color: d.color, title: tx(d.title, L), text: t('labApartHint'), buttons: nav, buttons2: [apart, { id: 'explore', label: t('home') }] };
       const s = this.labStepText();
       return { kicker: `${head} · ${t('step')} ${this.lab.step + 1} ${t('of')} ${d.n}`, color: d.color, title: s.title, text: s.text, dots: { n: d.n, i: this.lab.step }, progress: this.playing ? this.autoFrac || 0 : null, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, apart, { id: 'explore', label: t('home') }] };
@@ -1032,7 +1061,7 @@ class App {
       const p = partInfo(this.sel.pid, L); const sys = C.parts[p.id] && C.parts[p.id].sys; const lab = this.labFor(this.sel.pid);
       const b = [{ id: 'replay', label: t('listen') }, this.isolated ? { id: 'showall', label: t('showAll') } : { id: 'isolate', label: t('isolate') }, { id: 'zoom', label: t('zoomIn') }];
       const b2 = []; if (lab) b2.push({ id: 'openlab', label: t('openLab'), primary: true }); b2.push({ id: 'deselect', label: '✕' });
-      return { kicker: `${t('organs')}${sys && SYSTEMS[sys] ? ' · ' + tx(SYSTEMS[sys], L) : ''}`, color: sys && SYSTEMS[sys] ? SYSTEMS[sys].color : '#d9d2c3', title: p.name, text: `${p.alt} — ${p.detail}`, buttons: b, buttons2: b2 };
+      return { kicker: `${t('organs')}${sys && SYSTEMS[sys] ? ' · ' + tx(SYSTEMS[sys], L) : ''}`, color: sys && SYSTEMS[sys] ? SYSTEMS[sys].color : '#d9d2c3', title: p.name, text: this.infoText(p), buttons: b, buttons2: b2 };
     }
     return { kicker: t('explore'), color: '#d9d2c3', title: t('title'), text: t('exploreHint') + ' ' + t('pickOrgan'), buttons: [] };
   }
@@ -1105,7 +1134,8 @@ class App {
     card.classList.toggle('explore', !m.dots);
     $('#s-kicker').textContent = m.kicker || '';
     $('#s-title').textContent = m.title || '';
-    $('#s-text').textContent = m.text || '';
+    { const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])), heads = [tx(T.fnLabel, L) + ':', tx(T.howLabel, L) + ':'];
+      $('#s-text').innerHTML = String(m.text || '').split('\n').map((l) => { const h = heads.find((x) => l.startsWith(x)); return `<p>${h ? `<b>${esc(h)}</b>${esc(l.slice(h.length))}` : esc(l)}</p>`; }).join(''); }
     $('#s-dots').innerHTML = m.dots ? Array.from({ length: m.dots.n }, (_, i) => `<i class="${i <= m.dots.i ? 'on' : ''}" data-i="${i}"></i>`).join('') : '';
     $('#s-dots').querySelectorAll('i').forEach((d) => (d.onclick = () => { this.audio.unlock(); if (this.mode === 'lab') this.labStep(+d.dataset.i); else this.showStep(+d.dataset.i); }));
     const bs = $('#s-buttons'); bs.innerHTML = '';
@@ -1159,6 +1189,7 @@ class App {
     $('#btn-ar').onclick = () => this.enterXR('immersive-ar');
     $('#btn-voice').onclick = () => { this.audio.unlock(); this.action('voice'); };
     $('#btn-reset').onclick = () => { this.controls.autoRotate = false; $('#btn-spin').classList.remove('on'); this.goView(false); };
+    $('#btn-zin').onclick = () => this.zoomBy(1.25); $('#btn-zout').onclick = () => this.zoomBy(0.8);
     $('#btn-spin').onclick = () => { this.action('spin'); $('#btn-spin').classList.toggle('on', this.controls.autoRotate); };
     $('#btn-panels').onclick = () => document.body.classList.toggle('panels-open');
     $('#btn-save').onclick = () => this.saveAll();
@@ -1213,15 +1244,16 @@ class App {
     const dt = Math.min(clock.getDelta(), 0.05);
     const t = clock.elapsedTime;
     const xr = this.inXR();
-    this.anim.update(dt);
+    const dtA = (this.mode === 'journey' || this.mode === 'lab') ? dt * Math.min(this.speed, 3) : dt;
+    this.anim.update(dtA);
     const D = this.flows.drivers;
     D.beat = 0.35 + 1.6 * this.anim.beat;
     const breathing = this.anim.on.has('breathe') || this.anim.on.has('breathe_deep');
     D.in = breathing ? (this.anim.inhaling ? 1.7 : 0.08) : 1;
     D.out = breathing ? (this.anim.inhaling ? 0.08 : 1.6) : 1;
     this.flows.beat = this.anim.beat;
-    this.flows.update(dt);
-    this.tracer.update(dt, t, 0.4 + 1.5 * this.anim.beat);
+    this.flows.update(dtA);
+    this.tracer.update(dtA, t, 0.4 + 1.5 * this.anim.beat);
     this.body.state.u.uPTime.value = t; this.body.state.commit();
     let scale;
     if (xr) {
@@ -1239,7 +1271,7 @@ class App {
     const cam = this.viewCamera();
     this.mag.update(dt, t, cam);
     this.zoom.update(cam, scale);
-    this.lab.update(dt, t, scale, 1);
+    this.lab.update(dtA, t, scale, 1);
     this.dis.update(dt, t);
     if (this.confPts) {
       this.confT += dt; const a = this.confPts.geometry.attributes.position;
@@ -1259,8 +1291,10 @@ class App {
       this.stepT += dt;
       const text = this.mode === 'journey' ? tx(this.step.text, this.lang) : this.labStepText().text;
       if (this.spoken && this.spokenAt == null) this.spokenAt = this.stepT;
-      const readT = Math.max(10, text.split(' ').length * 0.4 + 3);
-      const due = this.spokeOK && this.spokenAt != null ? Math.max(6, this.spokenAt + 2.5) : (this.spoken || !this.audio.voice ? readT : Math.max(readT, this.stepT + 1));
+      const readT = Math.max(10, text.split(' ').length * 0.4 + 3), sp = this.speed;
+      // 1x-2x: wait for the voice to finish; faster: move on after the reading time divided by the speed
+      const due = sp > 2 ? Math.max(2.5, readT / sp)
+        : this.spokeOK && this.spokenAt != null ? Math.max(6 / sp, this.spokenAt + 2.5 / sp) : (this.spoken || !this.audio.voice ? readT / sp : Math.max(readT / sp, this.stepT + 1));
       this.autoFrac = Math.min(1, this.stepT / due);
       if (this.stepT > due) this.next();
     } else this.autoFrac = 0;

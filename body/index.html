@@ -69,6 +69,7 @@ body.organs-open #organ-drawer{display:block}
 #s-kicker::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--c)}
 #s-title{font-size:23px;font-weight:700;margin:4px 0 6px;line-height:1.2}
 #s-text{font-size:16.5px;line-height:1.6;color:#e2dccf;max-height:30vh;overflow:auto}
+#s-text p{margin:0 0 6px}#s-text b{color:var(--c,#d9d2c3);font-weight:700}
 html[lang=hi] #s-text{font-size:17.5px;line-height:1.75}
 #s-dots i{flex:1;max-width:46px;height:5px;border-radius:3px;background:rgba(255,255,255,.14);cursor:pointer}
 #s-dots i.on{background:var(--c)}
@@ -136,8 +137,10 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
   <div id="tools" class="panel">
     <button id="btn-panels" class="ib" title="Menu" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
     <div class="seg"><button id="lang-en">EN</button><button id="lang-hi">हिंदी</button><button id="lang-hg">Hinglish</button></div>
-    <button id="btn-voice" class="ib" title="Voice" aria-label="Teacher voice"></button>
+    <button id="btn-voice" class="ib" title="Voice" aria-label="Voice"></button>
     <button id="btn-sfx" class="ib" title="Sounds" aria-label="Sound effects"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h3l3-7 4 14 3-7h5"/></svg></button>
+    <button id="btn-zout" class="ib" title="Zoom out" aria-label="Zoom out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6"/></svg></button>
+    <button id="btn-zin" class="ib" title="Zoom in" aria-label="Zoom in"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6M10.5 7.5v6"/></svg></button>
     <button id="btn-spin" class="ib" title="360°" aria-label="Turn around 360 degrees"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="4"/><path d="M17 7.5l2.5 0.8-0.6 2.6"/><path d="M12 3v18"/></svg></button>
     <button id="btn-reset" class="ib" title="Reset view" aria-label="Reset view"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
     <button id="btn-info" class="ib" title="Credits" aria-label="Credits"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>

@@ -6,6 +6,7 @@ export class Audio {
     this.ctx = null;
     this.sfx = true;
     this.voice = true;
+    this.rate = 1;
     this.voices = [];
     this.na = new window.Audio();
     this.na.preload = 'auto';
@@ -77,6 +78,7 @@ export class Audio {
       a.onended = () => finish(true);
       a.onerror = () => { if (token !== this.naToken) return finish(false); done = true; this.duck(false); this.say(text, lang).then(res); };
       a.src = url;
+      a.playbackRate = this.rate; a.defaultPlaybackRate = this.rate; try { a.preservesPitch = true; } catch (e) {}
       a.currentTime = 0;
       this.duck(true);
       const p = a.play();
@@ -92,7 +94,7 @@ export class Audio {
       const v = want.map((w) => this.voices.find((x) => x.lang && x.lang.replace('_', '-').startsWith(w))).find(Boolean);
       if (!v) return res(false);
       u.voice = v; u.lang = v.lang;
-      u.rate = lang === 'en' ? 0.95 : 0.92;
+      u.rate = (lang === 'en' ? 0.95 : 0.92) * this.rate;
       u.onend = () => res(true); u.onerror = () => res(false);
       speechSynthesis.speak(u);
     });

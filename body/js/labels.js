@@ -4,7 +4,7 @@ import * as THREE from 'three';
 export const FONT = '"Noto Sans Devanagari", "Noto Sans", system-ui, sans-serif';
 
 export function drawLabel(lines, opts = {}) {
-  const scale = 2;
+  const scale = 3;
   const pad = 14 * scale, gap = 4 * scale;
   const sizes = lines.map((l, i) => (i === 0 ? (opts.big ?? 30) : (opts.small ?? 24)) * scale);
   const c = document.createElement('canvas');

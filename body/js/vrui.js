@@ -24,9 +24,11 @@ function wrap(x, text, maxW) {
 
 class Panel {
   constructor(wPx, hPx, wM) {
-    this.c = document.createElement('canvas'); this.c.width = wPx; this.c.height = hPx;
+    this.w = wPx; this.h = hPx; this.S = 1.6; // drawn at 1.6x for sharp text in the headset
+    this.c = document.createElement('canvas'); this.c.width = Math.round(wPx * this.S); this.c.height = Math.round(hPx * this.S);
     this.x = this.c.getContext('2d');
     this.tex = new THREE.CanvasTexture(this.c); this.tex.colorSpace = THREE.SRGBColorSpace; this.tex.anisotropy = 8;
+    this.tex.generateMipmaps = true; this.tex.minFilter = THREE.LinearMipmapLinearFilter;
     this.mesh = new THREE.Mesh(new THREE.PlaneGeometry(wM, wM * hPx / wPx), new THREE.MeshBasicMaterial({ map: this.tex, transparent: true, depthWrite: false }));
     this.mesh.renderOrder = 40; this.mesh.userData.panel = this;
     this.buttons = []; this.hover = null;
@@ -47,10 +49,10 @@ class Panel {
     this.buttons.push({ id, x, y, w, h });
   }
   bg(accent) {
-    const X = this.x; X.clearRect(0, 0, this.c.width, this.c.height);
-    X.fillStyle = 'rgba(12,15,22,0.93)'; X.beginPath(); X.roundRect(4, 4, this.c.width - 8, this.c.height - 8, 34); X.fill();
+    const X = this.x; X.setTransform(1, 0, 0, 1, 0, 0); X.clearRect(0, 0, this.c.width, this.c.height); X.setTransform(this.S, 0, 0, this.S, 0, 0);
+    X.fillStyle = 'rgba(12,15,22,0.93)'; X.beginPath(); X.roundRect(4, 4, this.w - 8, this.h - 8, 34); X.fill();
     X.strokeStyle = 'rgba(255,255,255,0.14)'; X.lineWidth = 3; X.stroke();
-    if (accent) { X.fillStyle = accent; X.beginPath(); X.roundRect(4, 4, this.c.width - 8, 10, [34, 34, 0, 0]); X.fill(); }
+    if (accent) { X.fillStyle = accent; X.beginPath(); X.roundRect(4, 4, this.w - 8, 10, [34, 34, 0, 0]); X.fill(); }
     this.buttons = [];
   }
   text(s, x, y, size, color = '#f3eee6', weight = 600) { const X = this.x; X.font = `${weight} ${size}px ${FONT}`; X.fillStyle = color; X.textBaseline = 'top'; X.fillText(s, x, y); }
@@ -59,7 +61,7 @@ class Panel {
     else this.text('DUET STEM', x, y, h * 0.8, '#e9e1cf', 700);
   }
   hitUV(uv) {
-    const px = uv.x * this.c.width, py = (1 - uv.y) * this.c.height;
+    const px = uv.x * this.w, py = (1 - uv.y) * this.h;
     return this.buttons.find((b) => px >= b.x && px <= b.x + b.w && py >= b.y && py <= b.y + b.h)?.id ?? null;
   }
   commit() { this.tex.needsUpdate = true; }
@@ -205,6 +207,7 @@ export class VRUI {
       X.beginPath(); X.moveTo(cx - 24, cy - 9); X.lineTo(cx - 14, cy - 9); X.lineTo(cx - 2, cy - 20); X.lineTo(cx - 2, cy + 20); X.lineTo(cx - 14, cy + 9); X.lineTo(cx - 24, cy + 9); X.closePath(); X.fill();
       X.beginPath(); if (this.app.audio.voice) { X.arc(cx + 2, cy, 12, -0.9, 0.9); X.moveTo(cx + 10, cy - 18); X.arc(cx + 2, cy, 22, -0.9, 0.9); } else { X.moveTo(cx + 8, cy - 10); X.lineTo(cx + 26, cy + 10); X.moveTo(cx + 26, cy - 10); X.lineTo(cx + 8, cy + 10); } X.stroke(); }
     LANGS.forEach((l, i) => P.btn('lang_' + l, 1100 - 160 - (3 - i) * 152, 26, 142, 64, LANG_LABEL[l], { size: 24, align: 'center', active: L === l, color: '#f3eee6' }));
+    P.btn('zoom_out', 250, 26, 96, 64, '−', { size: 44, align: 'center' }); P.btn('zoom_in', 354, 26, 96, 64, '+', { size: 44, align: 'center' });
     X.font = `700 28px ${FONT}`; X.fillStyle = m.color || '#d9d2c3'; X.textBaseline = 'top';
     X.fillText(m.kicker || '', 40, 112);
     X.font = `700 48px ${FONT}`; X.fillStyle = '#f3eee6';
@@ -213,7 +216,13 @@ export class VRUI {
     X.font = `500 ${L === 'en' ? 32 : 33}px ${FONT}`; X.fillStyle = '#e2dccf';
     const lines = wrap(X, m.text || '', 1020);
     const lh = L === 'en' ? 46 : 52; const maxL = Math.floor((1150 - 260 - y) / lh);
-    lines.slice(0, maxL).forEach((l, i) => X.fillText(l, 40, y + i * lh));
+    const heads = [tx(T.fnLabel, L) + ':', tx(T.howLabel, L) + ':'];
+    lines.slice(0, maxL).forEach((l, i) => {
+      const h = heads.find((x) => l.startsWith(x));
+      if (!h) { X.fillText(l, 40, y + i * lh); return; }
+      X.fillStyle = m.color || '#f0a65a'; X.fillText(h, 40, y + i * lh); const w = X.measureText(h).width;
+      X.fillStyle = '#e2dccf'; X.fillText(l.slice(h.length), 40 + w, y + i * lh);
+    });
     if (lines.length > maxL) { X.fillText('…', 40, y + maxL * lh - 10); }
     // auto-play progress (like a video)
     if (m.progress != null) { X.fillStyle = 'rgba(255,255,255,0.12)'; X.fillRect(40, 1150 - 252, 1020, 6); X.fillStyle = m.color || '#f0a65a'; X.fillRect(40, 1150 - 252, 1020 * m.progress, 6); }

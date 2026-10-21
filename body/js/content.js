@@ -34,10 +34,12 @@ Object.assign(T, {
   right: { en: 'right', hi: 'दायाँ', hg: 'right' },
   recenter: { en: 'Recenter', hi: 'सामने लाएँ', hg: 'Saamne laao' },
   sfx: { en: 'Sounds', hi: 'ध्वनियाँ', hg: 'Sounds' },
-  voice: { en: 'Teacher voice', hi: 'शिक्षक की आवाज़', hg: 'Teacher voice' },
+  voice: { en: 'Voice', hi: 'आवाज़', hg: 'Voice' },
+  fnLabel: { en: 'Function', hi: 'काम', hg: 'Kaam' },
+  howLabel: { en: 'How it works', hi: 'प्रक्रिया', hg: 'Process' },
+  speed: { en: 'Speed', hi: 'गति', hg: 'Speed' },
   menuBack: { en: 'Back', hi: 'वापस', hg: 'Back' },
   home: { en: 'Home', hi: 'होम', hg: 'Home' },
-  teacher: { en: 'DUET STEM Teacher', hi: 'DUET STEM शिक्षक', hg: 'DUET STEM Teacher' },
   on: { en: 'on', hi: 'चालू', hg: 'on' },
   off: { en: 'off', hi: 'बंद', hg: 'off' },
   offline: { en: 'Saved for offline', hi: 'ऑफ़लाइन के लिए सेव', hg: 'Offline ke liye saved' },
@@ -103,7 +105,7 @@ export function partKey(id) { return C.parts[id] ? id : GROUP_ALIAS[id] && C.par
 export function partInfo(id, l) {
   const key = partKey(id); const p = C.parts[key]; if (!p) return null;
   const alt = l === 'en' ? pick(p.name, 'hi') : pick(p.name, 'en');
-  return { id: key, name: pick(p.name, l), alt, job: pick(p.job, l), detail: pick(p.detail || p.job, l) };
+  return { id: key, name: pick(p.name, l), alt, job: pick(p.job, l), detail: pick(p.detail || p.job, l), process: pick(p.process || p.detail || p.job, l), hasProcess: !!p.process };
 }
 
 // is there a recorded narration file for this id in this language?
