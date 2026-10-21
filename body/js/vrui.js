@@ -82,7 +82,7 @@ export class VRUI {
   // panels sit either side of the body, turned to face the user (stage space: user at origin looking down -z)
   layout(eye) {
     const y = Math.max(0.95, eye - 0.32);
-    for (const [m, x, z] of [[this.menu.mesh, -0.78, -0.72], [this.story.mesh, 0.8, -0.74]]) {
+    for (const [m, x, z] of [[this.menu.mesh, -0.82, -0.7], [this.story.mesh, 0.86, -0.7]]) {
       m.position.set(x, y, z);
       m.rotation.set(-0.14, Math.atan2(-x, -z), 0, 'YXZ');
     }

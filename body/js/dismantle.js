@@ -158,7 +158,7 @@ export class Dismantle {
     }
     this.relabel();
   }
-  relabel(k = this.app.labelScale()) {
+  relabel(k = this.app.labelScale() * (this.app.inXR() ? 1.6 : 1)) {
     for (const lb of this.labels.children) { const p = lb.userData.piece; lb.position.copy(p.position); lb.position.y -= p.userData.box * 0.5; lb.setScale(k); }
   }
 

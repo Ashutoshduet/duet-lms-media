@@ -273,7 +273,7 @@ class App {
     this.audio.stopSpeech();
     this.playing = false; this.journey = null; this.step = null;
     this.flows.set([]); this.tracer.stop(); this.mag.show(null); this.zoom.hide();
-    this.clearSel(); this.showAll(true);
+    this.clearSel(); this.showAll(true); this.clearLabels();
     if (this.mode === 'lab') { this.lab.close(); this.labId = null; this.labSel = null; }
     if (this.mode === 'dismantle' || this.mode === 'game') { this.dis.clear(); this.selPiece = null; this.restoreGroups(); }
     this.bodyRoot.visible = true;
@@ -376,7 +376,7 @@ class App {
   selectPart(pid, opts = {}) {
     const oids = this.body.partObjs[pid];
     if (!oids || !partInfo(pid, this.lang)) return;
-    if (this.mode !== 'explore' && this.mode !== 'part' && this.mode !== 'journey') this.explore();
+    if (this.mode !== 'explore' && this.mode !== 'part' && (this.mode !== 'journey' || opts.from === 'list')) this.explore();
     if (this.mode === 'explore') this.mode = 'part';
     this.body.state.clearBit(8); this.body.state.clearBit(4);
     const tint = new THREE.Color('#ffc65c');
@@ -476,7 +476,7 @@ class App {
     if (set === 'organs') { this.layerOverride = new Set(['skeleton', 'skin']); } else this.layerOverride = new Set(['skin']);
     this.applyLayers(); this.hideGroups(this.dis.groupsOf(set));
     this.ghostSkeleton(set === 'organs');
-    this.stepView = { at: new THREE.Vector3(0, set === 'bones' ? 0.92 : 1.2, 0.15), z: set === 'bones' ? 0.82 : 1.25, side: 0 };
+    this.stepView = { at: new THREE.Vector3(0, set === 'bones' ? 0.92 : 1.2, 0.15), z: set === 'bones' ? 0.82 : 1.08, side: 0 };
     this.goView(false);
     this.audio.chime();
     this.narrate('ui-dismantle', tx(T.dismantleHint, this.lang));
@@ -643,8 +643,8 @@ class App {
     this.world.rotation.set(0, Math.atan2(-head.dir.x, -head.dir.z), 0);
     this.eye = THREE.MathUtils.clamp(head.pos.y, 1.0, 1.9);
     this.vrui.layout(this.eye);
-    this.zoom.group.position.set(0.4, Math.max(0.9, this.eye - 0.08), -0.92);
-    this.zoom.group.rotation.set(0, Math.atan2(-0.4, 0.92), 0);
+    this.zoom.group.position.set(0.3, this.eye + 0.1, -1.05);
+    this.zoom.group.rotation.set(-0.08, Math.atan2(-0.3, 1.05), 0, 'YXZ');
     this.applyVRBody();
     if (this.mode === 'lab') this.placeLab();
   }
