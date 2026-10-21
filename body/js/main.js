@@ -1050,7 +1050,7 @@ class App {
     }
     if (this.mode === 'dismantle') {
       const p = this.selPiece && partInfo(this.selPiece.userData.cid, L);
-      return { kicker: `${t(this.dis.apart ? 'dismantle' : 'allOrgans')} · ${t(this.dis.set === 'bones' ? 'bonesSet' : 'organsSet')}`, color: '#f0a65a', title: p ? p.name : t(this.dis.apart ? 'dismantle' : 'allOrgans'), text: p ? `${p.alt} — ${p.detail}` : t(this.dis.apart ? 'dismantleHint' : 'togetherHint'),
+      return { kicker: `${t(this.dis.apart ? 'dismantle' : 'allOrgans')} · ${t(this.dis.set === 'bones' ? 'bonesSet' : 'organsSet')}`, color: '#f0a65a', title: p ? p.name : t(this.dis.apart ? 'dismantle' : 'allOrgans'), text: p ? this.infoText(p) : t(this.dis.apart ? 'dismantleHint' : 'togetherHint'),
         buttons: [{ id: 'dis_toggle', label: this.dis.apart ? t('together') : t('dismantle'), primary: true }, { id: 'game_' + this.dis.set, label: t('assemble') }, { id: 'explore', label: t('home') }], buttons2: p ? [{ id: 'replay', label: t('listen') }] : [] };
     }
     if (this.mode === 'game') {
