@@ -678,6 +678,11 @@ class App {
     if (Math.abs(s - 1) < 0.02) { b.scale = 1; b.off.set(0, 0, 0); }
     this.applyVRBody();
   }
+  zoomReset() {
+    if (!this.inXR()) { this.goView(false); return; }
+    if (this.mode === 'lab') { this.vrLabScale = 1; this.placeLab(); return; }
+    this.vrBody.scale = 1; this.vrBody.off.set(0, 0, 0); this.applyVRBody();
+  }
   zoomPivot() { return this.sel ? this.sel.center.clone() : this.stepView && this.mode === 'journey' ? this.stepView.at.clone() : new THREE.Vector3(0, 1.15, 0); }
   exhibitPos() { return this.inXR() && this.museum ? new THREE.Vector3(0, 0, -1.8) : this.inXR() ? new THREE.Vector3(0, 0, BODY_Z) : new THREE.Vector3(); }
   applyVRBody() {
@@ -922,6 +927,18 @@ class App {
   grabEnd(c) { if (c.userData.drag) this.onSelectEnd(c); c.userData.grab = null; }
   ctrlYaw(c) { const d = new THREE.Vector3(0, 0, -1).applyQuaternion(c.getWorldQuaternion(new THREE.Quaternion())); return Math.atan2(d.x, d.z); }
   xrInput(dt) {
+    // both grips held: pull the hands apart to zoom in, bring them together to zoom out
+    const [c0, c1] = this.controllers;
+    const both = !!(c0 && c1 && c0.userData.grab && c1.userData.grab);
+    if (both) {
+      const d = new THREE.Vector3().setFromMatrixPosition(c0.matrixWorld).distanceTo(new THREE.Vector3().setFromMatrixPosition(c1.matrixWorld));
+      if (!this.pinch) this.pinch = { d0: Math.max(d, 0.05), s0: this.mode === 'lab' ? this.vrLabScale : this.vrBody.scale, lab: this.mode === 'lab' };
+      const s = this.pinch.s0 * d / this.pinch.d0;
+      if (this.pinch.lab) { this.vrLabScale = THREE.MathUtils.clamp(s, 0.4, 4); this.placeLab(); } else this.scaleBody(s);
+    } else if (this.pinch) {
+      this.pinch = null;
+      for (const c of this.controllers) if (c.userData.grab) this.grabStart(c); // keep the other hand's grab from jumping
+    }
     for (const c of this.controllers) {
       if (!c.userData.src) continue;
       const rc = this.rayFrom(c);
@@ -937,7 +954,7 @@ class App {
       if (c.userData.drag) { const p = rc.ray.origin.clone().addScaledVector(rc.ray.direction, c.userData.drag.dist); this.dis.moveTo(p); }
       // grip: move / turn the body or the lab model (the user's own action)
       const g = c.userData.grab;
-      if (g) {
+      if (g && !both) {
         const dy = this.ctrlYaw(c) - g.cyaw;
         if (this.mode === 'lab') this.lab.userYaw = g.labYaw - dy * 2;
         else {
@@ -950,14 +967,14 @@ class App {
       if (gp && gp.axes) {
         const ax = gp.axes.length >= 4 ? gp.axes[2] : gp.axes[0], ay = gp.axes.length >= 4 ? gp.axes[3] : gp.axes[1];
         if (c.userData.drag) { if (Math.abs(ay) > 0.35) c.userData.drag.dist = THREE.MathUtils.clamp(c.userData.drag.dist - ay * dt * 0.8, 0.2, 3); }
-        else if (this.museum) {
-          if (Math.abs(ax) > 0.6 && Math.abs(ax) > Math.abs(ay) && !c.userData.snap) { this.orbit(ax > 0 ? -1 : 1); c.userData.snap = true; }
-          if (Math.abs(ax) < 0.3) c.userData.snap = false;
-        } else if (Math.abs(ay) > 0.7 && Math.abs(ax) < 0.3) {
-          // clearly up = zoom in, clearly down = zoom out
-          const f = Math.exp(-ay * dt * 0.8);
+        else if (Math.abs(ay) > 0.6 && Math.abs(ay) > Math.abs(ax) * 1.5) {
+          // thumbstick up = zoom in, down = zoom out (every mode, museum too)
+          const f = Math.exp(-ay * dt * 0.9);
           if (this.mode === 'lab') { this.vrLabScale = THREE.MathUtils.clamp(this.vrLabScale * f, 0.4, 4); this.placeLab(); }
           else this.scaleBody(this.vrBody.scale * f);
+        } else if (this.museum) {
+          if (Math.abs(ax) > 0.6 && Math.abs(ax) > Math.abs(ay) && !c.userData.snap) { this.orbit(ax > 0 ? -1 : 1); c.userData.snap = true; }
+          if (Math.abs(ax) < 0.3) c.userData.snap = false;
         } else if (Math.abs(ax) > 0.3 && Math.abs(ax) > Math.abs(ay) * 1.5) {
           // left/right turns the model; up/down does nothing (size changes only with the Size buttons)
           if (this.mode === 'lab') this.lab.userYaw += ax * dt * 1.6;
@@ -992,6 +1009,7 @@ class App {
     else if (id === 'speed') { const S = [1, 2, 3, 5, 10]; this.speed = S[(S.indexOf(this.speed) + 1) % S.length]; this.audio.rate = Math.min(this.speed, 2); store.set('hb_speed', String(this.speed)); try { this.audio.na.playbackRate = this.audio.rate; } catch (e) {} }
     else if (id === 'zoom_in') this.zoomBy(1.25);
     else if (id === 'zoom_out') this.zoomBy(0.8);
+    else if (id === 'zoom_reset') this.zoomReset();
     else if (id === 'spin') { this.controls.autoRotate = !this.controls.autoRotate; this.controls.autoRotateSpeed = 1.6; }
     else if (id === 'game_organs' || id === 'game_bones') this.startGame(id.slice(5));
     else if (id === 'restart') this.startGame(this.dis.set || 'organs');

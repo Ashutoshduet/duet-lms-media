@@ -126,7 +126,13 @@ export class VRUI {
     P.btn('museum', 40, y, 920, 96, '◎ ' + this.t('museum'), { size: 32, active: a.museum, color: '#7fd1ff' }); y += 112;
     // language + settings row
     LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, y, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
-    P.btn('page_settings', 748, y, 212, 84, '⚙ ' + this.t('settings'), { size: 26, align: 'center' });
+    P.btn('page_settings', 748, y, 212, 84, '⚙ ' + this.t('settings'), { size: 26, align: 'center' }); y += 104;
+    // zoom row (also: thumbstick up/down, or hold both grips and pull hands apart)
+    P.text(this.t('zoomRow'), 44, y + 6, 26, '#a49d90', 600); y += 44;
+    P.btn('zoom_out', 40, y, 296, 96, '−  ' + this.t('zoomOut'), { size: 30, align: 'center' });
+    P.btn('zoom_in', 352, y, 296, 96, '+  ' + this.t('zoomIn2'), { size: 30, align: 'center' });
+    P.btn('zoom_reset', 664, y, 296, 96, '↺ ' + this.t('zoomReset'), { size: 28, align: 'center' }); y += 112;
+    P.x.font = `500 24px ${FONT}`; wrap(P.x, this.t('zoomHint'), 900).slice(0, 2).forEach((l, i) => P.text(l, 44, y + i * 32, 24, '#a49d90', 500));
   }
   drawJourneys() {
     const P = this.menu, a = this.app, L = this.L(); P.bg('#f0a65a');
