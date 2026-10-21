@@ -574,7 +574,7 @@ export class Lab {
     const cfg = EXPLODE[this.id] || { mode: 'radial', k: 1 }; const out = {};
     const pids = Object.keys(L.parts);
     if (cfg.mode === 'radial') {
-      for (const pid of pids) { const c = this.anchor(pid); if (c) out[pid] = c.sub(L.mid).multiplyScalar(cfg.k); }
+      for (const pid of pids) { const c = this.anchor(pid); if (c) out[pid] = c.sub(L.mid).multiplyScalar(cfg.k).clampLength(0, L.size * 0.6); }
     } else if (cfg.mode === 'axis') {
       const ax = new THREE.Vector3(...cfg.axis).normalize(); const n = cfg.order.length;
       cfg.order.forEach((grp, i) => { for (const pid of grp) out[pid] = ax.clone().multiplyScalar((i - (n - 1) / 2) * cfg.u * L.size); });
