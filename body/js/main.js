@@ -48,7 +48,7 @@ class App {
     this.audio.voice = store.get('hb_voice') !== '0';
     this.audio.sfx = store.get('hb_sfx') !== '0';
     this.vrBody = { yaw: 0, scale: 1, pos: new THREE.Vector3(0, 0, BODY_Z) };
-    this.vrLabScale = 1; this.eye = 1.55;
+    this.vrLabScale = 1; this.eye = 1.55; this.museum = false;
     this.offline = { have: 0, total: 0, busy: false };
     this.feedback = '';
   }
@@ -88,7 +88,7 @@ class App {
     this.tracer = new Tracer(); this.bodyRoot.add(this.tracer.group);
     this.mag = new Magnifier(); this.bodyRoot.add(this.mag.group);
     this.labelGroup = new THREE.Group(); this.bodyRoot.add(this.labelGroup);
-    this.bodyRoot.add(this.bodyFloor);
+    this.world.add(this.bodyFloor);
     this.zoom = new ZoomStand(this); this.world.add(this.zoom.group);
     this.lab = new Lab(this); this.world.add(this.lab.group); this.lab.group.position.set(0, 1.12, 0);
     this.dis = new Dismantle(this); this.bodyRoot.add(this.dis.group);
@@ -157,7 +157,18 @@ class App {
     const plaque = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.9 * 165 / 1024), new THREE.MeshBasicMaterial({ map: logo, transparent: true, opacity: 0.85, depthWrite: false }));
     plaque.rotation.x = -Math.PI / 2; plaque.position.set(0, 0.003, 0.62);
     this.bodyFloor = new THREE.Group(); this.bodyFloor.add(plaque);
-    this.world.add(room);
+    // museum mode: a platform under the exhibit and a walking circle around it
+    const mu = this.museumSet = new THREE.Group(); mu.visible = false;
+    const plat = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.56, 0.04, 64), new THREE.MeshStandardMaterial({ color: '#1b2433', roughness: 0.4, metalness: 0.3 }));
+    plat.position.y = 0.02;
+    const edge = new THREE.Mesh(new THREE.TorusGeometry(0.505, 0.006, 8, 96), new THREE.MeshBasicMaterial({ color: '#7fd1ff' })); edge.rotation.x = Math.PI / 2; edge.position.y = 0.041;
+    const path = new THREE.Mesh(new THREE.RingGeometry(1.0, 1.06, 96), new THREE.MeshBasicMaterial({ color: '#7fd1ff', transparent: true, opacity: 0.45, depthWrite: false, side: THREE.DoubleSide })); path.rotation.x = -Math.PI / 2; path.position.y = 0.004;
+    mu.add(plat, edge, path);
+    for (let i = 0; i < 12; i++) {
+      const a = (i / 12) * Math.PI * 2; const tri = new THREE.Mesh(new THREE.CircleGeometry(0.05, 3), new THREE.MeshBasicMaterial({ color: '#7fd1ff', transparent: true, opacity: 0.7, side: THREE.DoubleSide }));
+      tri.rotation.set(-Math.PI / 2, 0, -a); tri.position.set(Math.sin(a) * 1.03, 0.006, Math.cos(a) * 1.03); mu.add(tri);
+    }
+    this.world.add(room, this.museumSet);
   }
 
   // ------------------------------------------------------------ paths & flows (body)
@@ -445,9 +456,10 @@ class App {
     if (this.vrui) { this.vrui.page = 'labparts'; this.vrui.pp = 0; }
   }
   placeLab() {
-    if (this.inXR()) { this.lab.group.position.set(0, Math.max(0.95, this.eye - 0.2), -0.8); this.lab.group.rotation.set(0, 0, 0); this.lab.group.scale.setScalar(this.vrLabScale); }
+    if (this.inXR() && this.museum) { const p = this.exhibitPos(); this.lab.group.position.set(p.x, 1.15, p.z); this.lab.group.rotation.set(0, 0, 0); this.lab.group.scale.setScalar(this.vrLabScale * 2); }
+    else if (this.inXR()) { this.lab.group.position.set(0, Math.max(0.95, this.eye - 0.2), -0.8); this.lab.group.rotation.set(0, 0, 0); this.lab.group.scale.setScalar(this.vrLabScale); }
     else { this.lab.group.position.set(0, 1.12, 0); this.lab.group.scale.setScalar(1); this.stepView = { at: new THREE.Vector3(0, 1.14, 0), z: 1.55, side: 0, lab: true }; this.goView(false); }
-    this.lab.labelMul = this.inXR() ? 1.15 : 2.1; this.lab.buildLabels();
+    this.lab.labelMul = this.inXR() ? (this.museum ? 0.9 : 1.15) : 2.1; this.lab.buildLabels(); this.placeFloor();
   }
   labStep(i) {
     if (this.mode !== 'lab' || !this.lab.L) return;
@@ -467,19 +479,19 @@ class App {
   }
 
   // ---- take apart / put back
-  startDismantle(set) {
+  startDismantle(set, apart = true) {
     this.leave(); this.mode = 'dismantle';
-    this.dis.explode(set);
+    this.dis.explode(set, apart);
     this.hideGroups(this.dis.groupsOf(set));
     this.anim.reset(); this.anim.set([]);
     this.setSkin(set === 'bones' ? 0.25 : 0.18);
     if (set === 'organs') { this.layerOverride = new Set(['skeleton', 'skin']); } else this.layerOverride = new Set(['skin']);
     this.applyLayers(); this.hideGroups(this.dis.groupsOf(set));
     this.ghostSkeleton(set === 'organs');
-    this.stepView = { at: new THREE.Vector3(0, set === 'bones' ? 0.92 : 1.2, 0.15), z: set === 'bones' ? 0.82 : 1.08, side: 0 };
+    this.stepView = apart ? { at: new THREE.Vector3(0, set === 'bones' ? 0.92 : 1.2, 0.15), z: set === 'bones' ? 0.82 : 1.08, side: 0 } : { at: new THREE.Vector3(0, set === 'bones' ? 0.95 : 1.2, 0.05), z: set === 'bones' ? 0.95 : 1.45, side: 0 };
     this.goView(false);
     this.audio.chime();
-    this.narrate('ui-dismantle', tx(T.dismantleHint, this.lang));
+    if (apart) this.narrate('ui-dismantle', tx(T.dismantleHint, this.lang)); else this.narrate('ui-together', tx(T.togetherHint, this.lang));
     this.refreshUI();
   }
   startGame(set) {
@@ -648,10 +660,45 @@ class App {
     this.applyVRBody();
     if (this.mode === 'lab') this.placeLab();
   }
+  exhibitPos() { return this.inXR() && this.museum ? new THREE.Vector3(0, 0, -1.8) : this.inXR() ? new THREE.Vector3(0, 0, BODY_Z) : new THREE.Vector3(); }
   applyVRBody() {
     const b = this.vrBody;
-    this.bodyRoot.position.copy(b.pos); this.bodyRoot.rotation.set(0, b.yaw, 0); this.bodyRoot.scale.setScalar(b.scale);
+    this.bodyRoot.position.copy(this.museum ? this.exhibitPos() : b.pos); this.bodyRoot.rotation.set(0, b.yaw, 0); this.bodyRoot.scale.setScalar(b.scale);
     this.labelK = 1.5 / b.scale; this.relabel();
+    this.placeFloor();
+  }
+  // DUET STEM floor logo and museum platform stay fixed in the room
+  placeFloor() {
+    const p = this.exhibitPos();
+    this.bodyFloor.position.set(p.x, 0, p.z);
+    this.museumSet.position.set(p.x, 0, p.z); this.museumSet.visible = this.inXR() && this.museum;
+    this.bodyFloor.visible = !(this.mode === 'lab' && !this.inXR());
+  }
+  toggleMuseum() {
+    this.museum = !this.museum; this.uiFollow = null;
+    if (!this.museum) { this.vrui.group.position.set(0, 0, 0); this.vrui.group.rotation.set(0, 0, 0); }
+    if (this.inXR()) { this.applyVRBody(); if (this.mode === 'lab') this.placeLab(); }
+    if (this.museum) this.narrate('ui-museum', tx(T.museumHint, this.lang));
+    this.refreshUI();
+  }
+  // museum: step around the exhibit (for users who cannot walk)
+  orbit(dir) {
+    const P = this.world.localToWorld(this.exhibitPos().setY(0));
+    const d = dir * Math.PI / 6;
+    this.world.position.sub(P).applyAxisAngle(new THREE.Vector3(0, 1, 0), d).add(P);
+    this.world.rotation.y += d;
+  }
+  // museum: the menu panels follow the user as they walk around
+  followUI(dt) {
+    const hp = this.headPose(); const lp = this.world.worldToLocal(hp.pos.clone()); lp.y = 0;
+    const yaw = Math.atan2(-hp.dir.x, -hp.dir.z) - this.world.rotation.y;
+    const g = this.vrui.group;
+    if (!this.uiFollow) { this.uiFollow = { pos: lp.clone(), yaw }; g.position.copy(lp); g.rotation.set(0, yaw, 0); return; }
+    const f = this.uiFollow; let dy = Math.atan2(Math.sin(yaw - f.yaw), Math.cos(yaw - f.yaw));
+    if (lp.distanceTo(f.pos) > 0.45 || Math.abs(dy) > 0.75) { f.pos.copy(lp); f.yaw = yaw; }
+    const k = Math.min(1, dt * 2.2);
+    g.position.lerp(f.pos, k);
+    dy = Math.atan2(Math.sin(f.yaw - g.rotation.y), Math.cos(f.yaw - g.rotation.y)); g.rotation.y += dy * k;
   }
   headPose() {
     const cam = this.renderer.xr.getCamera();
@@ -804,8 +851,8 @@ class App {
     this.scene.background = ar ? null : this.bg;
     this.sky.visible = !ar; this.floor.visible = !ar;
     document.body.classList.add('in-xr');
-    this.world.add(this.mag.group);
-    this.vrBody = { yaw: 0, scale: 1, pos: new THREE.Vector3(0, 0, BODY_Z) };
+    this.vrui.group.add(this.mag.group, this.zoom.group);
+    this.vrBody = { yaw: 0, scale: 1, pos: new THREE.Vector3(0, 0, BODY_Z) }; this.uiFollow = null;
     setTimeout(() => {
       this.captureStage();
       this.vrui.group.visible = true; this.vrui.dirty = true;
@@ -820,7 +867,8 @@ class App {
     this.vrui.group.visible = false; this.zoom.hide();
     this.world.position.set(0, 0, 0); this.world.rotation.set(0, 0, 0);
     this.bodyRoot.position.set(0, 0, 0); this.bodyRoot.rotation.set(0, 0, 0); this.bodyRoot.scale.setScalar(1);
-    this.bodyRoot.add(this.mag.group);
+    this.bodyRoot.add(this.mag.group); this.world.add(this.zoom.group);
+    this.vrui.group.position.set(0, 0, 0); this.vrui.group.rotation.set(0, 0, 0); this.placeFloor();
     document.body.classList.remove('in-xr');
     if (this.mode === 'lab') this.placeLab(); else this.goView(true);
     if (this.sel) this.makePickLabel();
@@ -881,12 +929,13 @@ class App {
       if (gp && gp.axes) {
         const ax = gp.axes.length >= 4 ? gp.axes[2] : gp.axes[0], ay = gp.axes.length >= 4 ? gp.axes[3] : gp.axes[1];
         if (c.userData.drag) { if (Math.abs(ay) > 0.35) c.userData.drag.dist = THREE.MathUtils.clamp(c.userData.drag.dist - ay * dt * 0.8, 0.2, 3); }
-        else if (this.mode === 'lab') {
-          if (Math.abs(ax) > 0.25) this.lab.userYaw += ax * dt * 1.6;
-          if (Math.abs(ay) > 0.35) { this.vrLabScale = THREE.MathUtils.clamp(this.vrLabScale * Math.exp(-ay * dt * 0.9), 0.5, 3); this.lab.group.scale.setScalar(this.vrLabScale); }
-        } else {
-          if (Math.abs(ax) > 0.25) { this.vrBody.yaw += ax * dt * 1.6; this.applyVRBody(); }
-          if (Math.abs(ay) > 0.35) { this.vrBody.scale = THREE.MathUtils.clamp(this.vrBody.scale * Math.exp(-ay * dt * 0.9), 0.4, 4); this.applyVRBody(); }
+        else if (this.museum) {
+          if (Math.abs(ax) > 0.6 && Math.abs(ax) > Math.abs(ay) && !c.userData.snap) { this.orbit(ax > 0 ? -1 : 1); c.userData.snap = true; }
+          if (Math.abs(ax) < 0.3) c.userData.snap = false;
+        } else if (Math.abs(ax) > 0.3 && Math.abs(ax) > Math.abs(ay) * 1.5) {
+          // left/right turns the model; up/down does nothing (size changes only with the Size buttons)
+          if (this.mode === 'lab') this.lab.userYaw += ax * dt * 1.6;
+          else { this.vrBody.yaw += ax * dt * 1.6; this.applyVRBody(); }
         }
         const bA = gp.buttons[4] && gp.buttons[4].pressed, bB = gp.buttons[5] && gp.buttons[5].pressed;
         if (bA && !c.userData.bA) this.next();
@@ -910,6 +959,11 @@ class App {
     else if (id === 'pp_prev') V.pp = Math.max(0, V.pp - 1);
     else if (id.startsWith('page_')) { V.page = id.slice(5); V.pp = 0; }
     else if (id === 'dis_organs' || id === 'dis_bones') this.startDismantle(id.slice(4));
+    else if (id === 'all_organs') this.startDismantle('organs', false);
+    else if (id === 'dis_toggle') { this.dis.setApart(!this.dis.apart); this.selPiece = null; }
+    else if (id === 'apart_lab') { this.lab.setExploded(!this.lab.exploded); this.labSel = null; this.lab.pickLabel(null); this.playing = false; }
+    else if (id === 'museum') this.toggleMuseum();
+    else if (id === 'spin') { this.controls.autoRotate = !this.controls.autoRotate; this.controls.autoRotateSpeed = 1.6; }
     else if (id === 'game_organs' || id === 'game_bones') this.startGame(id.slice(5));
     else if (id === 'restart') this.startGame(this.dis.set || 'organs');
     else if (id === 'hint') { const p = this.dis.hint(); if (p) { const info = partInfo(p.userData.cid, this.lang); this.feedback = `${tx(T.hint, this.lang)}: ${info ? info.name : ''}`; } }
@@ -950,23 +1004,25 @@ class App {
   // shared description of the story card (HTML and VR)
   storyModel() {
     const L = this.lang, t = (k) => tx(T[k], L) || k;
-    const nav = [{ id: 'prev', label: '‹ ' + t('back') }, { id: 'play', label: this.playing ? t('pause') : t('play'), primary: true }, { id: 'next', label: t('next') + ' ›' }];
+    const nav = [{ id: 'prev', label: '‹ ' + t('back') }, { id: 'play', label: this.playing ? '❚❚ ' + t('pause') : '▶ ' + t('play'), primary: true, active: this.playing }, { id: 'next', label: t('next') + ' ›' }];
     if (this.mode === 'journey' && this.step) {
       const j = this.journey, s = this.step;
       return { kicker: `${tx(j.title, L)} · ${t('step')} ${this.stepIdx + 1} ${t('of')} ${j.steps.length}`, color: SYSTEMS[j.sys].color, title: tx(s.title, L), text: tx(s.text, L),
-        dots: { n: j.steps.length, i: this.stepIdx }, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, { id: 'explore', label: t('explore') }] };
+        dots: { n: j.steps.length, i: this.stepIdx }, progress: this.playing ? this.autoFrac || 0 : null, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, { id: 'explore', label: t('explore') }] };
     }
     if (this.mode === 'lab') {
       const d = LABS[this.labId]; const head = `${t('labs')} · ${tx(d.title, L)}`;
       if (!this.lab.L) return { kicker: head, color: d.color, title: tx(d.title, L), text: '…' };
-      if (this.labSel) { const p = partInfo(this.labSel, L); return { kicker: head, color: d.color, title: p.name, text: `${p.alt} — ${p.detail}`, dots: { n: d.n, i: this.lab.step }, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, { id: 'tour', label: t('tour') }, { id: 'explore', label: t('home') }] }; }
+      const apart = { id: 'apart_lab', label: this.lab.exploded ? t('together') : t('dismantle'), active: this.lab.exploded };
+      if (this.labSel) { const p = partInfo(this.labSel, L); return { kicker: head, color: d.color, title: p.name, text: `${p.alt} — ${p.detail}`, dots: { n: d.n, i: this.lab.step }, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, apart, { id: 'tour', label: t('tour') }, { id: 'explore', label: t('home') }] }; }
+      if (this.lab.exploded) return { kicker: `${head} · ${t('dismantle')}`, color: d.color, title: tx(d.title, L), text: t('labApartHint'), buttons: nav, buttons2: [apart, { id: 'explore', label: t('home') }] };
       const s = this.labStepText();
-      return { kicker: `${head} · ${t('step')} ${this.lab.step + 1} ${t('of')} ${d.n}`, color: d.color, title: s.title, text: s.text, dots: { n: d.n, i: this.lab.step }, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, { id: 'explore', label: t('home') }] };
+      return { kicker: `${head} · ${t('step')} ${this.lab.step + 1} ${t('of')} ${d.n}`, color: d.color, title: s.title, text: s.text, dots: { n: d.n, i: this.lab.step }, progress: this.playing ? this.autoFrac || 0 : null, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, apart, { id: 'explore', label: t('home') }] };
     }
     if (this.mode === 'dismantle') {
       const p = this.selPiece && partInfo(this.selPiece.userData.cid, L);
-      return { kicker: `${t('dismantle')} · ${t(this.dis.set === 'bones' ? 'bonesSet' : 'organsSet')}`, color: '#f0a65a', title: p ? p.name : t('dismantle'), text: p ? `${p.alt} — ${p.detail}` : t('dismantleHint'),
-        buttons: [{ id: 'game_' + this.dis.set, label: t('assemble'), primary: true }, { id: 'explore', label: t('home') }], buttons2: p ? [{ id: 'replay', label: t('listen') }] : [] };
+      return { kicker: `${t(this.dis.apart ? 'dismantle' : 'allOrgans')} · ${t(this.dis.set === 'bones' ? 'bonesSet' : 'organsSet')}`, color: '#f0a65a', title: p ? p.name : t(this.dis.apart ? 'dismantle' : 'allOrgans'), text: p ? `${p.alt} — ${p.detail}` : t(this.dis.apart ? 'dismantleHint' : 'togetherHint'),
+        buttons: [{ id: 'dis_toggle', label: this.dis.apart ? t('together') : t('dismantle'), primary: true }, { id: 'game_' + this.dis.set, label: t('assemble') }, { id: 'explore', label: t('home') }], buttons2: p ? [{ id: 'replay', label: t('listen') }] : [] };
     }
     if (this.mode === 'game') {
       return { kicker: `${t('assemble')} · ${t(this.dis.set === 'bones' ? 'bonesSet' : 'organsSet')}`, color: '#9fd17a', title: `${this.dis.placed} / ${this.dis.total()} ${t('placed')}`, text: this.feedback || t('assembleHint'),
@@ -1003,6 +1059,7 @@ class App {
     for (const id of LAB_IDS) mk(lg, 'tbtn', 'lab_' + id, tx(LABS[id].title, L), LABS[id].color);
     const dg = $('#dis'); dg.innerHTML = '';
     mk(dg, 'tbtn', 'dis_organs', tx(T.organsSet, L), '#f0a65a'); mk(dg, 'tbtn', 'dis_bones', tx(T.bonesSet, L), '#e9dfc9');
+    const ao = mk(dg, 'tbtn', 'all_organs', tx(T.allOrgans, L), '#7fd1c7'); ao.style.gridColumn = '1 / span 2';
     const gg = $('#game'); gg.innerHTML = '';
     mk(gg, 'tbtn', 'game_organs', tx(T.organsSet, L), '#9fd17a'); mk(gg, 'tbtn', 'game_bones', tx(T.bonesSet, L), '#e9dfc9');
     const ll = $('#layers'); ll.innerHTML = '';
@@ -1035,7 +1092,7 @@ class App {
   }
   refreshUI() {
     const L = this.lang;
-    const active = this.mode === 'journey' ? 'j_' + this.journey.id : this.mode === 'lab' ? 'lab_' + this.labId : this.mode === 'dismantle' ? 'dis_' + this.dis.set : this.mode === 'game' ? 'game_' + this.dis.set : this.mode === 'explore' ? 'explore' : '';
+    const active = this.mode === 'journey' ? 'j_' + this.journey.id : this.mode === 'lab' ? 'lab_' + this.labId : this.mode === 'dismantle' ? (this.dis.apart ? 'dis_' + this.dis.set : 'all_organs') : this.mode === 'game' ? 'game_' + this.dis.set : this.mode === 'explore' ? 'explore' : '';
     document.querySelectorAll('.jbtn,.tbtn').forEach((b) => b.classList.toggle('on', b.dataset.id === active));
     document.querySelectorAll('.lbtn').forEach((b) => { const k = b.dataset.id; b.classList.toggle('on', k === 'fine' ? this.fine : !!this.body.layerOn[k]); });
     $('#btn-voice').innerHTML = this.audio.voice ? VOICE_ON : VOICE_OFF; $('#btn-voice').classList.toggle('off', !this.audio.voice);
@@ -1101,7 +1158,8 @@ class App {
     $('#xr-go').onclick = () => this.enterXR(this.appMode === 'ar' ? 'immersive-ar' : 'immersive-vr');
     $('#btn-ar').onclick = () => this.enterXR('immersive-ar');
     $('#btn-voice').onclick = () => { this.audio.unlock(); this.action('voice'); };
-    $('#btn-reset').onclick = () => this.goView(false);
+    $('#btn-reset').onclick = () => { this.controls.autoRotate = false; $('#btn-spin').classList.remove('on'); this.goView(false); };
+    $('#btn-spin').onclick = () => { this.action('spin'); $('#btn-spin').classList.toggle('on', this.controls.autoRotate); };
     $('#btn-panels').onclick = () => document.body.classList.toggle('panels-open');
     $('#btn-save').onclick = () => this.saveAll();
     addEventListener('keydown', (e) => {
@@ -1188,7 +1246,7 @@ class App {
       this.conf.forEach((c, i) => { c.v.y -= 2.2 * dt; c.p.addScaledVector(c.v, dt); a.setXYZ(i, c.p.x, c.p.y, c.p.z); }); a.needsUpdate = true;
       this.confPts.material.opacity = Math.max(0, 1 - this.confT / 4); if (this.confT > 4) { this.bodyRoot.remove(this.confPts); this.confPts = null; }
     }
-    if (xr) this.xrInput(dt);
+    if (xr) { if (this.museum) this.followUI(dt); this.xrInput(dt); }
     else if (this.camTween) {
       const tw = this.camTween; tw.t = Math.min(1, tw.t + dt / 1.4);
       const e = tw.t < 0.5 ? 4 * tw.t ** 3 : 1 - Math.pow(-2 * tw.t + 2, 3) / 2;
@@ -1201,10 +1259,12 @@ class App {
       this.stepT += dt;
       const text = this.mode === 'journey' ? tx(this.step.text, this.lang) : this.labStepText().text;
       if (this.spoken && this.spokenAt == null) this.spokenAt = this.stepT;
-      const readT = Math.max(12, text.split(' ').length * 0.42 + 5);
-      const due = this.spokeOK && this.spokenAt != null ? Math.max(8, this.spokenAt + 4) : readT;
+      const readT = Math.max(10, text.split(' ').length * 0.4 + 3);
+      const due = this.spokeOK && this.spokenAt != null ? Math.max(6, this.spokenAt + 2.5) : (this.spoken || !this.audio.voice ? readT : Math.max(readT, this.stepT + 1));
+      this.autoFrac = Math.min(1, this.stepT / due);
       if (this.stepT > due) this.next();
-    }
+    } else this.autoFrac = 0;
+    if ((this._pf = (this._pf || 0) + dt) > 0.25) { this._pf = 0; const e = document.getElementById('s-prog'); if (e) e.style.transform = `scaleX(${this.autoFrac || 0})`; if (xr && this.playing) this.vrui.dirty = true; }
     this.renderer.render(this.scene, this.camera);
     if (Q.has('shot') && !this._shotDone) {
       this._frames = (this._frames || 0) + 1;

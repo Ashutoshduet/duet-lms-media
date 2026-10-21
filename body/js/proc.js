@@ -164,7 +164,7 @@ export function buildTooth() {
     step(i, lab) {
       const on = lab.extrasOn; kinds.visible = on.has('kinds'); cav.visible = on.has('cavity'); bact.visible = on.has('cavity'); this.cavT = 0;
       for (const c of kinds.children) if (c.userData.names) { const lb = new Label([c.userData.names[lab.app.lang] || c.userData.names.en], { height: 0.026, leader: false, cy: 0, big: 26 }); lb.position.copy(c.position); lb.setScale(1 / lab.k); kinds.remove(c); kinds.add(lb); lb.userData.names = c.userData.names; }
-      for (const m of toothParts) m.position.set(0, 0, 0);
+      for (const m of toothParts) { m.position.set(0, 0, 0); if (m.userData.exA) m.position.add(m.userData.exA); }
     },
     update(dt, t, lab) {
       const on = lab.extrasOn;

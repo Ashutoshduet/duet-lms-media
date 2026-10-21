@@ -115,11 +115,13 @@ export class VRUI {
     big('page_labs', this.t('labs') + '  ›', '', '#e0414b', a.mode === 'lab');
     big('page_parts', this.t('organs') + '  ›', '', '#7fd1c7', a.mode === 'part');
     P.text(this.t('dismantle'), 44, y + 6, 26, '#a49d90', 600); y += 44;
-    P.btn('dis_organs', 40, y, 450, 90, this.t('organsSet'), { size: 32, active: a.mode === 'dismantle' && a.dis.set === 'organs' });
-    P.btn('dis_bones', 510, y, 450, 90, this.t('bonesSet'), { size: 32, active: a.mode === 'dismantle' && a.dis.set === 'bones' }); y += 112;
+    P.btn('dis_organs', 40, y, 296, 90, this.t('organsSet'), { size: 30, active: a.mode === 'dismantle' && a.dis.apart && a.dis.set === 'organs' });
+    P.btn('dis_bones', 352, y, 296, 90, this.t('bonesSet'), { size: 30, active: a.mode === 'dismantle' && a.dis.apart && a.dis.set === 'bones' });
+    P.btn('all_organs', 664, y, 296, 90, this.t('allOrgans'), { size: 24, active: a.mode === 'dismantle' && !a.dis.apart }); y += 112;
     P.text(this.t('assemble'), 44, y + 6, 26, '#a49d90', 600); y += 44;
     P.btn('game_organs', 40, y, 450, 90, this.t('organsSet'), { size: 32, active: a.mode === 'game' && a.dis.set === 'organs' });
     P.btn('game_bones', 510, y, 450, 90, this.t('bonesSet'), { size: 32, active: a.mode === 'game' && a.dis.set === 'bones' }); y += 116;
+    P.btn('museum', 40, y, 920, 96, '◎ ' + this.t('museum'), { size: 32, active: a.museum, color: '#7fd1ff' }); y += 112;
     // language + settings row
     LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, y, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
     P.btn('page_settings', 748, y, 212, 84, '⚙ ' + this.t('settings'), { size: 26, align: 'center' });
@@ -213,6 +215,8 @@ export class VRUI {
     const lh = L === 'en' ? 46 : 52; const maxL = Math.floor((1150 - 260 - y) / lh);
     lines.slice(0, maxL).forEach((l, i) => X.fillText(l, 40, y + i * lh));
     if (lines.length > maxL) { X.fillText('…', 40, y + maxL * lh - 10); }
+    // auto-play progress (like a video)
+    if (m.progress != null) { X.fillStyle = 'rgba(255,255,255,0.12)'; X.fillRect(40, 1150 - 252, 1020, 6); X.fillStyle = m.color || '#f0a65a'; X.fillRect(40, 1150 - 252, 1020 * m.progress, 6); }
     // dots
     if (m.dots) {
       const n = m.dots.n, w = Math.min(60, (1020 - (n - 1) * 8) / n);

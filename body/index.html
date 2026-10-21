@@ -36,6 +36,7 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 .ib{width:38px;height:38px;border-radius:10px;font-size:17px;display:grid;place-items:center}
 .ib:hover{background:rgba(255,255,255,.08)}
 .ib.off{color:var(--mute)}
+.ib.on{background:rgba(127,209,255,.2);color:#7fd1ff}
 button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .xr{padding:9px 15px;border-radius:10px;font-weight:700;font-size:14px;background:var(--ink);color:#12100c}
 .xr.ar{background:rgba(255,255,255,.1);color:var(--ink)}
@@ -76,7 +77,9 @@ html[lang=hi] #s-text{font-size:17.5px;line-height:1.75}
 .cbtn.primary{background:var(--c);color:#12100c}
 #s-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 #s-dots{display:flex;gap:5px;margin-top:10px}
-#story.explore #s-dots{display:none}
+#story.explore #s-dots,#story.explore #s-progwrap{display:none}
+#s-progwrap{height:3px;margin-top:8px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+#s-prog{height:100%;background:var(--c);transform-origin:left;transform:scaleX(0);transition:transform .25s linear}
 .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
 .tbtn{display:flex;align-items:center;gap:8px;text-align:left;padding:8px 8px;border-radius:10px;font-size:14px;font-weight:600;line-height:1.2}
 .tbtn:hover{background:rgba(255,255,255,.06)}
@@ -135,6 +138,7 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
     <div class="seg"><button id="lang-en">EN</button><button id="lang-hi">हिंदी</button><button id="lang-hg">Hinglish</button></div>
     <button id="btn-voice" class="ib" title="Voice" aria-label="Teacher voice"></button>
     <button id="btn-sfx" class="ib" title="Sounds" aria-label="Sound effects"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h3l3-7 4 14 3-7h5"/></svg></button>
+    <button id="btn-spin" class="ib" title="360°" aria-label="Turn around 360 degrees"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="4"/><path d="M17 7.5l2.5 0.8-0.6 2.6"/><path d="M12 3v18"/></svg></button>
     <button id="btn-reset" class="ib" title="Reset view" aria-label="Reset view"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>
     <button id="btn-info" class="ib" title="Credits" aria-label="Credits"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
     <button id="btn-ar" class="xr ar">Enter AR</button>
@@ -152,6 +156,7 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
   <div id="s-title"></div>
   <div id="s-text"></div>
   <div id="s-dots"></div>
+  <div id="s-progwrap"><div id="s-prog"></div></div>
   <div id="s-buttons"></div>
 </div>
 <div id="toast" class="panel"></div>

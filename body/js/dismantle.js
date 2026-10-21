@@ -84,9 +84,9 @@ export class Dismantle {
   groupsOf(set) { return [...new Set(SETS[set].flatMap((p) => p[1]))]; }
 
   // ------------------------------------------------------------ exploded view
-  explode(set) {
+  explode(set, apart = true) {
     this.clear();
-    this.set = set; this.mode = 'explode';
+    this.set = set; this.mode = 'explode'; this.apart = apart;
     const list = this.build(set);
     const c = new THREE.Vector3(0, set === 'bones' ? 0.9 : 1.2, 0);
     for (const p of list) {
@@ -99,10 +99,18 @@ export class Dismantle {
         const extra = { ulna: 0.07, patella: 0.09, fibula: 0.06, scapula: 0.05 }[p.userData.cid] || 0;
         to = h.clone().add(new THREE.Vector3(d.x * 1.6 + Math.sign(d.x || 1) * extra, d.y * 0.35, 0.18 + Math.abs(d.x) * 0.2 + (p.userData.cid === 'patella' ? 0.12 : 0)));
       }
-      p.userData.from = h.clone(); p.userData.to = to;
+      p.userData.spot = to; p.userData.from = h.clone(); p.userData.to = apart ? to : h.clone();
       p.position.copy(h); p.rotation.set(0, 0, 0); p.userData.placed = true;
     }
     this.t = 0; this.dur = 1.8; this.settled = false;
+    this.makeLabels();
+  }
+  // all organs together inside the body <-> floating apart
+  setApart(on) {
+    if (this.mode !== 'explode') return;
+    this.apart = on;
+    for (const p of this.pieces[this.set]) { p.userData.from = p.position.clone(); p.userData.to = on ? p.userData.spot.clone() : p.userData.home.clone(); }
+    this.t = 0; this.dur = 1.6; this.settled = false;
     this.makeLabels();
   }
 
@@ -150,16 +158,36 @@ export class Dismantle {
 
   makeLabels() {
     this.labels.clear();
-    const L = this.app.lang;
+    const L = this.app.lang, seen = new Set();
     for (const p of this.pieces[this.set] || []) {
       const info = partInfo(p.userData.cid, L); if (!info) continue;
-      const lb = new Label([info.name], { height: 0.015, offset: new THREE.Vector3(0, -0.01, 0.03), cx: 0.5, cy: 1, big: 26, leader: false });
-      lb.userData.piece = p; this.labels.add(lb);
+      // together: one tag per organ, in two neat columns with a line to the organ
+      if (!this.apart && seen.has(p.userData.cid)) continue; seen.add(p.userData.cid);
+      const side = p.userData.home.x > 0.004 ? 1 : p.userData.home.x < -0.004 ? -1 : (seen.size % 2 ? 1 : -1);
+      const lb = this.apart
+        ? new Label([info.name], { height: 0.015, offset: new THREE.Vector3(0, -0.01, 0.03), cx: 0.5, cy: 1, big: 26, leader: false })
+        : new Label([info.name, info.alt], { height: 0.019, offset: new THREE.Vector3(side * 0.1, 0, 0.05), cx: side > 0 ? 0 : 1, cy: 0.5, big: 26, small: 20 });
+      lb.userData.piece = p; lb.userData.side = side; this.labels.add(lb);
     }
     this.relabel();
   }
   relabel(k = this.app.labelScale() * (this.app.inXR() ? 1.6 : 1)) {
-    for (const lb of this.labels.children) { const p = lb.userData.piece; lb.position.copy(p.position); lb.position.y -= p.userData.box * 0.5; lb.setScale(k); }
+    if (this.apart) {
+      for (const lb of this.labels.children) { const p = lb.userData.piece; lb.position.copy(p.position); lb.position.y -= p.userData.box * 0.5; lb.setScale(k); }
+      return;
+    }
+    // columns beside the body, stacked from the top so tags never overlap
+    const colX = this.set === 'bones' ? 0.42 : 0.3, gap = 0.016 * k * 1.9;
+    for (const side of [1, -1]) {
+      const list = this.labels.children.filter((l) => l.userData.side === side).sort((a, b) => b.userData.piece.position.y - a.userData.piece.position.y);
+      let lastY = Infinity;
+      for (const lb of list) {
+        const p = lb.userData.piece.position; lb.position.copy(p);
+        let y = p.y; if (y > lastY - gap) y = lastY - gap; lastY = y;
+        lb.offset.set((side * colX - p.x) / k, (y - p.y) / k, 0.12 / k);
+        lb.setScale(k);
+      }
+    }
   }
 
   // ------------------------------------------------------------ picking and moving

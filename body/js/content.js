@@ -46,6 +46,13 @@ Object.assign(T, {
   pickOrgan: { en: 'Pick a part to see how it works.', hi: 'कोई अंग चुनें और देखें वह कैसे काम करता है।', hg: 'Koi part choose karo aur dekho woh kaise kaam karta hai.' },
   settings: { en: 'Settings', hi: 'सेटिंग्स', hg: 'Settings' },
   explode: { en: 'Explode', hi: 'फैलाएँ', hg: 'Explode' },
+  labApartHint: { en: 'The organ comes apart into its parts. Point at any part to hear its name and what it does.', hi: 'अंग अपने हिस्सों में अलग हो गया है। किसी भी हिस्से पर इशारा करके उसका नाम और काम सुनें।', hg: 'Organ apne parts mein alag ho gaya hai. Kisi bhi part par point karke uska naam aur kaam suno.' },
+  together: { en: 'Put together', hi: 'वापस जोड़ें', hg: 'Wapas jodo' },
+  allOrgans: { en: 'All organs together', hi: 'सारे अंग एक साथ', hg: 'Saare organs ek saath' },
+  togetherHint: { en: 'Here are all the organs in their places inside the body. Point at any one to learn about it, or take them apart.', hi: 'यहाँ शरीर के अंदर सारे अंग अपनी जगह पर हैं। किसी भी अंग पर इशारा करके उसके बारे में जानें, या उन्हें अलग करें।', hg: 'Yahan body ke andar saare organs apni jagah par hain. Kisi bhi organ par point karke uske baare mein jaano, ya unhe alag karo.' },
+  museum: { en: 'Walk around (museum)', hi: 'चारों ओर घूमें (संग्रहालय)', hg: 'Chaaron taraf ghumo (museum)' },
+  museumHint: { en: 'The model now stands in the middle of the room, like in a museum. Walk around it to see it from every side. You can also push the thumbstick left or right to step around it.', hi: 'अब मॉडल कमरे के बीच में है, जैसे किसी संग्रहालय में। इसके चारों ओर चलकर इसे हर तरफ से देखें। थंबस्टिक को बाएँ या दाएँ करके भी इसके चारों ओर घूम सकते हैं।', hg: 'Ab model room ke beech mein hai, jaise kisi museum mein. Iske chaaron taraf chalkar ise har side se dekho. Thumbstick left ya right karke bhi iske chaaron taraf ghoom sakte ho.' },
+  spin: { en: '360° turn', hi: '360° घुमाएँ', hg: '360° ghumao' },
 });
 for (const [k, v] of Object.entries({
   senses: { en: 'Eyes & ears', hi: 'आँखें और कान', hg: 'Eyes & ears', color: '#7fd1c7' },

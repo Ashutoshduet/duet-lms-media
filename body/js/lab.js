@@ -142,6 +142,17 @@ const CUT = {
   eye: { n: [1, 0, 0], c: null, parts: '*' },
   kidney: { n: [0, 0, 1], c: 0.004, parts: ['renal_capsule', 'renal_cortex', 'renal_columns', 'renal_medulla', 'renal_papillae', 'renal_calyces', 'renal_pelvis'] },
 };
+// how each organ comes apart in the lab: radial (parts move out from the middle), axis (layers in a row) or custom offsets (in organ sizes)
+const EXPLODE = {
+  heart: { mode: 'radial', k: 1.25 },
+  brain: { mode: 'radial', k: 1.1 },
+  lungs: { mode: 'radial', k: 0.75 },
+  ear: { mode: 'radial', k: 1.4 },
+  eye: { mode: 'axis', axis: [0, 0, 1], u: 0.33, yaw: -1.45, order: [['sclera', 'optic_nerve', 'eye_muscles', 'retinal_vessels'], ['choroid'], ['retina', 'macula', 'fovea', 'optic_disc'], ['vitreous'], ['ciliary_body', 'ciliary_zonules', 'lens'], ['iris', 'pupil', 'eye_drainage'], ['aqueous'], ['cornea'], ['conjunctiva']] },
+  kidney: { mode: 'grid', yaw: 0, cells: [[['renal_capsule'], [-0.75, 0.55]], [['renal_cortex'], [0, 0.55]], [['renal_columns'], [0.75, 0.55]], [['renal_medulla'], [-0.75, -0.25]], [['renal_papillae', 'renal_calyces', 'nephron'], [0, -0.25]], [['renal_pelvis', 'ureters', 'renal_artery', 'renal_vein'], [0.75, -0.25]]] },
+  tooth: { mode: 'custom', yaw: 0.5, off: { enamel: [0, 0.32, 0.12], dentin: [0, 0.08, 0.32], pulp: [0, 0, 0.62], tooth_nerves_vessels: [0, 0, 0.78], cementum: [0.42, -0.08, 0.22], periodontal_ligament: [0.7, -0.15, 0.12], tooth_socket: [0, -0.32, -0.3], gums: [0, -0.05, -0.55] } },
+  skin: { mode: 'custom', yaw: 0.5, off: { epidermis: [0, 0.42, 0], melanocytes: [0, 0.42, 0], sweat_pore: [0, 0.42, 0], hypodermis: [0, -0.42, 0], touch_receptors: [0.25, 0, 0.25], skin_blood_vessels: [0, 0, 0.3], skin_nerve_fibres: [0, -0.1, 0.4], sweat_gland: [0.15, 0, 0.2] } },
+};
 const CORTEX = ['frontal_lobe', 'parietal_lobe', 'temporal_lobe', 'occipital_lobe', 'motor_cortex', 'sensory_cortex', 'insula', 'limbic_lobe'];
 const LOBES = ['right_upper_lobe', 'right_middle_lobe', 'right_lower_lobe', 'left_upper_lobe', 'left_lower_lobe'];
 
@@ -192,6 +203,7 @@ export class Lab {
     this.selected = null; this.hovered = null;
     this.yaw = 0; this.pitch = 0; this.yawT = 0; this.pitchT = 0; this.userYaw = 0;
     this.labelMul = 1;
+    this.exploded = false; this.exE = 0;
   }
 
   buildPedestal() {
@@ -499,6 +511,7 @@ export class Lab {
   showStep(i) {
     const L = this.L; if (!L) return;
     this.step = THREE.MathUtils.clamp(i, 0, this.def.n - 1);
+    this.exploded = false;
     const st = this.st = L.steps[this.step] || {};
     this.t = 0; this.selected = null;
     this.focus = new Set(st.focus || []);
@@ -555,18 +568,63 @@ export class Lab {
     m.userData.glow = inFocus;
   }
 
+  // where every part goes when the organ comes apart (model units)
+  explodeOffsets() {
+    const L = this.L; if (L.exOff) return L.exOff;
+    const cfg = EXPLODE[this.id] || { mode: 'radial', k: 1 }; const out = {};
+    const pids = Object.keys(L.parts);
+    if (cfg.mode === 'radial') {
+      for (const pid of pids) { const c = this.anchor(pid); if (c) out[pid] = c.sub(L.mid).multiplyScalar(cfg.k); }
+    } else if (cfg.mode === 'axis') {
+      const ax = new THREE.Vector3(...cfg.axis).normalize(); const n = cfg.order.length;
+      cfg.order.forEach((grp, i) => { for (const pid of grp) out[pid] = ax.clone().multiplyScalar((i - (n - 1) / 2) * cfg.u * L.size); });
+    } else if (cfg.mode === 'grid') {
+      for (const [grp, [x, y]] of cfg.cells) for (const pid of grp) out[pid] = new THREE.Vector3(x, y, 0).multiplyScalar(L.size);
+    } else for (const [pid, o] of Object.entries(cfg.off)) out[pid] = new THREE.Vector3(...o).multiplyScalar(L.size);
+    return (L.exOff = out);
+  }
+  setExploded(on) {
+    const L = this.L; if (!L) return;
+    this.exploded = on;
+    const cfg = EXPLODE[this.id] || {};
+    if (on) {
+      this.explodeOffsets();
+      this.flows.set([]); this.cutTarget = 0; this.focus = new Set(); this.hide = new Set(); this.extrasOn = new Set();
+      const groups = cfg.mode === 'axis' ? cfg.order : cfg.mode === 'grid' ? cfg.cells.map((c) => c[0]) : null;
+      const first = groups ? groups.map((g) => g.find((p) => L.parts[p] && partInfo(p, this.app.lang))).filter(Boolean) : null;
+      this.st = { ...(this.st || {}), dim: false, ghostCortex: false, ghostLobes: false, cut: false, labels: first || this.partList().filter((p) => partInfo(p, this.app.lang)), under: !!first };
+      for (const [pid, list] of Object.entries(L.parts)) for (const m of list) this.look(pid, m);
+      const X = L.fx; for (const k of ['chords', 'chordMesh', 'conduction', 'rays', 'image', 'iris', 'sun', 'cortex']) if (X[k]) (X[k].mesh || X[k]).visible = false;
+      if (X.ecg) X.ecg.mesh.visible = false; if (X.phase) X.phase.sprite.visible = false; if (X.rings) for (const r of X.rings) r.visible = false;
+      if (L.splitU) L.splitU.uSplit.value = 0;
+      if (X.proc && X.proc.step) X.proc.step(-1, this);
+      if (cfg.yaw != null) { this.yawT = cfg.yaw; this.pitchT = 0.1; }
+      this.mag.show(null);
+      this.labels.clear(); this.relabelAt = this.t + 1.3;
+    } else this.showStep(this.step);
+  }
+
   buildLabels() {
     this.labels.clear();
     const L = this.L, st = this.st; if (!L || !st) return;
     const lang = this.app.lang;
     const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(this.pitchT, this.yawT, 0, 'YXZ'));
     const qi = q.clone().invert();
+    const exo = this.exploded ? this.explodeOffsets() : {};
     const items = (st.labels || []).map((pid) => ({ pid, info: partInfo(pid, lang), at: this.anchor(pid) })).filter((x) => x.info && x.at);
+    for (const x of items) if (exo[x.pid]) x.at.add(exo[x.pid]);
     // left/right in view space, stacked so tags never overlap
     const vs = items.map((x) => ({ ...x, v: x.at.clone().sub(L.mid).applyQuaternion(q) }));
     const sides = { 1: [], [-1]: [] };
     vs.forEach((x, i) => { let s = Math.sign(x.v.x) || (i % 2 ? 1 : -1); if (Math.abs(x.v.x) < 0.04 * L.size) s = sides[1].length <= sides[-1].length ? 1 : -1; sides[s].push(x); });
     const k = 1 / this.k, H = 0.026, M = this.labelMul;
+    if (st.under) { // apart in layers: a tag under each layer
+      items.forEach((x, i) => {
+        const lb = new Label([x.info.name, x.info.alt], { height: H * M, offset: new THREE.Vector3(0, -(L.size * 0.32) * this.k - 0.01 - (i % 2) * H * M * 1.6, 0.03).applyQuaternion(qi), cx: 0.5, cy: 1, small: 22, leader: false });
+        lb.position.copy(x.at); lb.setScale(k); lb.userData.pid = x.pid; this.labels.add(lb);
+      });
+      return;
+    }
     for (const s of [1, -1]) {
       const list = sides[s].sort((a, b) => b.v.y - a.v.y);
       let lastY = Infinity;
@@ -616,6 +674,7 @@ export class Lab {
     if (!this.L || !this.group.visible) return;
     this.t += dt;
     const L = this.L, X = L.fx, st = this.st || {};
+    for (const m of L.meshes) if (m.userData.exA) m.position.sub(m.userData.exA);
     // view: smooth turn to the step's angle (+ user's own turn)
     const kk = 1 - Math.exp(-dt * 2.5);
     this.yaw += (this.yawT + this.userYaw - this.yaw) * kk; this.pitch += (this.pitchT - this.pitch) * kk;
@@ -650,6 +709,13 @@ export class Lab {
     if (L.splitU) L.splitU.uGap.value += ((this.extrasOn.has('split') ? L.size * 0.06 : 0) - L.splitU.uGap.value) * Math.min(1, dt * 1.5);
     if (this.id === 'kidney') { D.beat = 0.4 + 1.4 * Math.max(0, Math.sin(t * 7.6)); }
     if (X.proc && X.proc.update) X.proc.update(dt, t, this);
+    // parts move apart / back together smoothly
+    this.exE += ((this.exploded ? 1 : 0) - this.exE) * Math.min(1, dt * 2.2);
+    if (this.exE > 0.001 || L.exOff) {
+      const exo = this.explodeOffsets(); const e = this.exE * this.exE * (3 - 2 * this.exE);
+      for (const m of L.meshes) { const o = exo[m.userData.pid]; if (!o) continue; const a = (m.userData.exA ||= new THREE.Vector3()).copy(o).multiplyScalar(e); m.position.add(a); }
+    }
+    if (this.relabelAt && this.t > this.relabelAt) { this.relabelAt = 0; this.buildLabels(); }
     this.flows.update(dt);
     this.flows.mat.uniforms.uScale.value = pointScale;
     this.flows.mat.uniforms.uModel.value = this.root.getWorldScale(new THREE.Vector3()).x * boost;
