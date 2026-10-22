@@ -1240,7 +1240,8 @@ class App {
       const d = e.data || {};
       if (d.type === 'progress') { this.offline = { have: d.have, total: d.total, busy: d.have < d.total }; this.showOffline(); }
     });
-    navigator.serviceWorker.ready.then(() => setTimeout(() => this.prefetchAudio([this.lang]), 6000)).catch(() => {});
+    // schools often have no internet: save the narration in every language, not only the one in use
+    navigator.serviceWorker.ready.then(() => setTimeout(() => this.prefetchAudio(LANGS), 6000)).catch(() => {});
   }
   audioUrls(langs) { return Object.entries(C.audio).flatMap(([id, ls]) => ls.filter((l) => langs.includes(l)).map((l) => `./audio/${l}/${id}.mp3`)); }
   prefetchAudio(langs) {

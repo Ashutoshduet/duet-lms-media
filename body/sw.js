@@ -51,10 +51,18 @@ self.addEventListener('fetch', (e) => {
   if (url.origin !== location.origin) return;
   if (url.pathname.includes('/models/labs/')) { cacheFirst(e); return; }
   if (NETWORK_FIRST.test(url.pathname)) {
-    e.respondWith(fetch(e.request).then((res) => {
-      if (res.ok) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(e.request, copy)); }
-      return res;
-    }).catch(() => caches.match(e.request, { ignoreSearch: true })));
+    // network first, but never wait more than 2.5 s: school Wi-Fi often has no internet, and a saved copy must open at once
+    e.respondWith((async () => {
+      const saved = caches.match(e.request, { ignoreSearch: true });
+      const net = fetch(e.request).then((res) => {
+        if (res.ok) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(e.request, copy)); }
+        return res;
+      });
+      const timeout = new Promise((r) => setTimeout(r, 2500));
+      const first = await Promise.race([net.catch(() => null), timeout.then(() => null)]);
+      if (first) return first;
+      return (await saved) || net;
+    })());
     return;
   }
   cacheFirst(e);
