@@ -21,7 +21,8 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   // narration was re-recorded in v6 (information style), so old caches are dropped completely
   e.waitUntil((async () => {
-    for (const k of await caches.keys()) if (k !== VERSION) await caches.delete(k);
+    // only this app's own older caches: the Solar System / Space Lab apps share this web address and its cache store
+    for (const k of await caches.keys()) if (k !== VERSION && k.startsWith('hb360-')) await caches.delete(k);
     await self.clients.claim();
   })());
 });

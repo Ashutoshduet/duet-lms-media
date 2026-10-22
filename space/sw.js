@@ -10,16 +10,19 @@ async function olderCaches(){const out=[];for(const k of await caches.keys()){if
 self.addEventListener("install",e=>{e.waitUntil((async()=>{const cache=await caches.open(VERSION);await cache.addAll(CORE);await self.skipWaiting()})())});
 self.addEventListener("activate",e=>{e.waitUntil(self.clients.claim())});
 let syncing=null;
+/* Every file is checked each time the app opens online, the app's own files too: the browser keeps one shared
+   store for all apps on this web address, so another app (or the browser) may have removed some of ours. */
+const ALL=CORE.concat(MEDIA);
 async function syncMedia(){
-  const cache=await caches.open(VERSION),total=CORE.length+MEDIA.length,old=await olderCaches();let i=0,done=CORE.length;
-  async function worker(){while(i<MEDIA.length){const u=MEDIA[i++];try{
+  const cache=await caches.open(VERSION),total=ALL.length,old=await olderCaches();let i=0,done=0;
+  async function worker(){while(i<ALL.length){const u=ALL[i++];try{
       if(!(await cache.match(u))){let ok=false;
         // unchanged since the older version: move it across (copy, then drop the old copy, so storage never holds two)
         for(const o of old){if(o.hash&&o.hash[u]&&o.hash[u]===HASH[u]){const m=await o.cache.match(u);if(m){await cache.put(u,m);ok=true;try{await o.cache.delete(u)}catch(e){}break}}}
         if(!ok)await cache.add(u)}}catch(err){}
     done++;if(done%10===0||done===total)tell({type:"progress",done,total})}}
   await Promise.all([worker(),worker(),worker(),worker(),worker(),worker()]);
-  let missing=0;for(const u of MEDIA)if(!(await cache.match(u)))missing++;
+  let missing=0;for(const u of ALL)if(!(await cache.match(u)))missing++;
   if(missing){tell({type:"progress",done:total-missing,total});return}
   await cache.put("__hash.json",new Response(JSON.stringify(HASH),{headers:{"Content-Type":"application/json"}}));
   for(const k of await caches.keys())if(k!==VERSION&&k.startsWith("solarsystem-"))await caches.delete(k);
@@ -42,8 +45,8 @@ self.addEventListener("fetch",e=>{
   if(r.headers.has("range")){e.respondWith(ranged(r));return}
   if(r.mode==="navigate"){e.respondWith((async()=>{
     // always open from the device first: no waiting for (or breaking on) Wi-Fi
-    const saved=await fromCache("index.html");if(saved)return saved;
-    try{return await fetch(r)}catch(err){return new Response("<h1>Open once with internet to save the app on this device.</h1>",{headers:{"Content-Type":"text/html"}})}
+    const saved=(await fromCache("index.html"))||(await fromCache("./"));if(saved)return saved;
+    try{return await fetch(r)}catch(err){return new Response('<!doctype html><meta name="viewport" content="width=device-width"><body style="background:#05060c;color:#ece7da;font:20px system-ui;display:grid;place-items:center;height:100vh;margin:0;text-align:center"><div><h1 style="color:#ffb347">No internet</h1><p>Connect once to Wi-Fi and open the app: it saves itself on this device and then works offline.</p></div></body>',{headers:{"Content-Type":"text/html"}})}
   })());return}
   const big=/\/video\//.test(u.pathname);
   e.respondWith((async()=>{const m=await fromCache(r);if(m)return m;
