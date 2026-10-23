@@ -216,7 +216,12 @@ kbd{font-family:var(--f-mono);font-size:.72em;padding:1px 5px;border:1px solid v
 (function () { try {
   var app = matchMedia('(display-mode: standalone)').matches || /^android-app:/.test(document.referrer);
   if (!app || !/OculusBrowser|Quest/i.test(navigator.userAgent) || !navigator.xr) return;
-  window.__earlyXR = navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] })
+  var o = { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] };
+  // a passthrough session when the headset has one: it shows the field (VR) or your room (AR) without restarting
+  window.__earlyXR = navigator.xr.isSessionSupported('immersive-ar').catch(function () { return false; }).then(function (ar) {
+    var vr = function () { return navigator.xr.requestSession('immersive-vr', o).then(function (s) { s.__mode = 'immersive-vr'; return s; }); };
+    return ar ? navigator.xr.requestSession('immersive-ar', o).then(function (s) { s.__mode = 'immersive-ar'; return s; }, vr) : vr();
+  })
     .then(function (s) { s.addEventListener('end', function () { s.__ended = true; }); return s; })
     .catch(function (e) { window.__earlyXRErr = String(e && e.message || e); return null; });
 } catch (e) { } })();
@@ -3835,7 +3840,7 @@ const vrHud = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.199), new THREE.Mesh
 vrHud.position.set(0, -0.3, -0.85); vrHud.rotation.x = -0.35; vrHud.renderOrder = 999; vrHud.visible = false; camera.add(vrHud);
 let vrHudT = 0;
 function updateVRHud(dt) {
-  vrHud.visible = renderer.xr.isPresenting; if (!vrHud.visible) return;
+  vrHud.visible = renderer.xr.isPresenting && !XRM.menuOpen; if (!vrHud.visible) return;
   vrHudT += dt; if (vrHudT < 0.12) return; vrHudT = 0;
   const c = vrCanvas.getContext('2d'), d = drone, P = d.P;
   c.clearRect(0, 0, 512, 204); c.fillStyle = 'rgba(8,13,19,.72)'; c.beginPath(); c.roundRect(4, 4, 504, 196, 16); c.fill();
@@ -4310,34 +4315,42 @@ function updateRadioUI(dt) {
    ========================================================= */
 const IS_APP = (() => { try { return matchMedia('(display-mode: standalone)').matches || /^android-app:/.test(document.referrer); } catch (e) { return false; } })();
 const XRM = { mode: '', support: { vr: false, ar: false }, menuOpen: false, focus: -1, placeMenu: false, frames: 0, prevView: null, switching: null, starting: false, exiting: false,
-  hidden: [], fog: null, pauseWas: false, hover: -1, buttons: [], msg: '', msgT: 0, floorRef: true, turn: 0 };
+  hidden: [], peekList: [], peek: false, arSession: false, home: null, fog: null, pauseWas: false, hover: -1, buttons: [], msg: '', msgT: 0, floorRef: true, turn: 0 };
 
 /* messages also show in the headset HUD */
 const toast2D = toast;
 toast = function (msg, tone) { XRM.msg = String(msg); XRM.msgT = renderer.xr.isPresenting ? 3 : 0; return toast2D(msg, tone); };
 
-/* ---------- session start / switch / end ---------- */
+/* ---------- session start / switch / end ----------
+   On a headset with passthrough one mixed-reality session serves both places: the field is drawn solid over the room (VR)
+   or hidden so the room shows (AR). Switching is instant and never ends the session (ending it closes the Quest app). */
+const XR_OPTS = { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] };
 async function startXR(mode) {
   if (XRM.starting) return false; XRM.starting = true;
   try {
     let s = null;
-    if (mode === 'vr' && window.__earlyXR) { s = await window.__earlyXR; window.__earlyXR = null; if (s && s.__ended) s = null; }   // the app's launch session
-    if (!s) s = await navigator.xr.requestSession(mode === 'ar' ? 'immersive-ar' : 'immersive-vr',
-      mode === 'ar' ? { optionalFeatures: ['local-floor', 'hand-tracking'] } : { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] });
+    if (window.__earlyXR) { s = await window.__earlyXR; window.__earlyXR = null; if (s && s.__ended) s = null; }   // the app's launch session
+    if (!s) {
+      const wantAR = XRM.support.ar || mode === 'ar';
+      if (wantAR) { try { s = await navigator.xr.requestSession('immersive-ar', XR_OPTS); s.__mode = 'immersive-ar'; } catch (e) { if (mode === 'ar') throw e; } }
+      if (!s) { s = await navigator.xr.requestSession('immersive-vr', XR_OPTS); s.__mode = 'immersive-vr'; }
+    }
+    XRM.arSession = s.__mode ? s.__mode === 'immersive-ar' : (s.environmentBlendMode && s.environmentBlendMode !== 'opaque');
     let ref = 'local';
     try { await s.requestReferenceSpace('local-floor'); ref = 'local-floor'; } catch (e) { }
     renderer.xr.setReferenceSpaceType(ref); XRM.floorRef = ref === 'local-floor';
     await renderer.xr.setSession(s); renderer.xr.setFoveation(IS_QUEST ? 1 : 0.5);
     s.addEventListener('end', onXREnd);
-    XRM.mode = mode; XRM.frames = 0; sound.init();
+    XRM.frames = 0; XRM.home = null; sound.init();
     if (XRM.prevView === null) XRM.prevView = S.view;
     XRM.turn = 0;
     let first = false; try { first = !localStorage.getItem('duet-drone-sim-xr'); localStorage.setItem('duet-drone-sim-xr', '1'); } catch (e) { }
     if (first && S.drone !== 'camera') selectDrone('camera');   // first time in the headset: the GPS camera drone holds its position by itself, the easiest to learn
     setInput('xr');
     if (!$('#menu').hidden) startFlight();
-    if (mode === 'ar') arOn(); else if (!['los', 'fpv', 'chase'].includes(S.view) || !XRM.switching) S.view = 'los';
-    uiChips(); toast(mode === 'ar' ? 'Mixed reality: the drone is on the floor in front of you' : 'You are standing in the field. A = arm');
+    S.view = 'los';
+    setPlace(mode === 'ar' && XRM.arSession ? 'ar' : 'vr');
+    uiChips();
     return true;
   } catch (e) {
     XRM.lastError = String(e && e.message || e); console.warn('XR start failed', e);
@@ -4345,24 +4358,24 @@ async function startXR(mode) {
     return false;
   } finally { XRM.starting = false; }
 }
+/** Field (VR) or my room (AR) inside the running session. */
+function setPlace(mode) {
+  if (mode === 'ar' && !XRM.arSession) return;
+  setPeek(false);
+  XRM.mode = mode;
+  if (mode === 'ar') arOn(); else arOff();
+  XRM.home = null; uiChips();
+  toast(mode === 'ar' ? 'Your room: the drone is on the floor in front of you' : 'Pilot on the ground. A = arm, left stick up = take off');
+}
 function onXREnd() {
-  closeXRMenu(); arOff(); renderer.xr.setReferenceSpaceType('local');
+  closeXRMenu(); setPeek(false); arOff(); renderer.xr.setReferenceSpaceType('local');
   rig.position.set(0, 0, 0); rig.quaternion.identity();
-  XRM.mode = '';
-  if (XRM.switching) return;                 // VR <-> AR: the next session starts right away
+  XRM.mode = ''; XRM.arSession = false;
   setInput(isTouch ? 'touch' : 'keyboard');
   if (XRM.prevView !== null) { S.view = XRM.prevView; XRM.prevView = null; save(); }
   uiChips(); toggleMenu(true);
 }
-async function switchXR(mode) {
-  const s = renderer.xr.getSession(); if (!s || XRM.mode === mode || XRM.switching) return;
-  const from = XRM.mode; XRM.switching = mode;
-  try { await s.end(); } catch (e) { }
-  let ok = await startXR(mode);
-  if (!ok) ok = await startXR(from);
-  XRM.switching = null;
-  if (!ok) onXREnd(); else openXRMenu();
-}
+function switchXR(mode) { if (!renderer.xr.isPresenting || XRM.mode === mode) return; setPlace(mode); openXRMenu(); }
 function exitXR() {
   const s = renderer.xr.getSession();
   if (!IS_APP) { if (s) s.end(); return; }   // in the browser: back to the page's own menu
@@ -4390,19 +4403,38 @@ function xrFaceDrone() {
   XRM.turn = Math.atan2(-dx, -dz) - _xrE.y;
 }
 const AR_KEEP = new Set([rig, droneRoot, blob, hemi, sun, sun.target, xrMark]);
+function hideWorld(list) {
+  for (const o of scene.children) if (!AR_KEEP.has(o) && o.visible) { o.visible = false; list.push(o); }
+  if (scene.fog) { XRM.fog = scene.fog; scene.fog = null; }
+  renderer.setClearColor(0x000000, 0);
+}
+function showWorld(list) {
+  for (const o of list) o.visible = true; list.length = 0;
+  if (XRM.fog && !XRM.hidden.length && !XRM.peekList.length) { scene.fog = XRM.fog; XRM.fog = null; }
+  if (!XRM.hidden.length && !XRM.peekList.length) renderer.setClearColor(0x000000, 1);
+}
 function arOn() {
   if (ARF.on) return;
   ARF.floor = terrainH(HOME.x, HOME.z); ARF.on = true;
-  XRM.hidden = []; for (const o of scene.children) if (!AR_KEEP.has(o) && o.visible) { o.visible = false; XRM.hidden.push(o); }
-  XRM.fog = scene.fog; scene.fog = null;
-  renderer.setClearColor(0x000000, 0);
+  hideWorld(XRM.hidden);
   mission.start('free'); drone.reset(); prevPos.copy(drone.pos); recorder.clear();
 }
 function arOff() {
   if (!ARF.on) return;
-  ARF.on = false; for (const o of XRM.hidden) o.visible = true; XRM.hidden = [];
-  if (XRM.fog) scene.fog = XRM.fog; renderer.setClearColor(0x000000, 1);
+  ARF.on = false; showWorld(XRM.hidden);
   drone.reset(); mission.start(S.mission); prevPos.copy(drone.pos); recorder.clear();
+}
+/* safety: in VR inside a passthrough session there is no boundary, so if you walk more than about a metre and a half
+   the field fades out and your room shows until you step back */
+function setPeek(on) {
+  if (on === XRM.peek) return; XRM.peek = on;
+  if (on) { hideWorld(XRM.peekList); toast('You moved away from your spot: the room is showing. Step back.'); } else showWorld(XRM.peekList);
+}
+function checkPlayArea() {
+  if (!XRM.arSession || XRM.mode !== 'vr' || XRM.frames < 6) return;
+  const p = camera.position; if (!XRM.home) { XRM.home = { x: p.x, z: p.z }; return; }
+  const d = Math.hypot(p.x - XRM.home.x, p.z - XRM.home.z);
+  if (!XRM.peek && d > 1.5) setPeek(true); else if (XRM.peek && d < 1.0) setPeek(false);
 }
 
 /* ---------- headset menu panel ---------- */
@@ -4436,7 +4468,7 @@ function openXRMenu() {
 }
 function closeXRMenu() {
   if (!XRM.menuOpen) return;
-  XRM.menuOpen = false; xrMenu.visible = false; sim.userPause = XRM.pauseWas;
+  XRM.menuOpen = false; xrMenu.visible = false; sim.userPause = XRM.pauseWas; XRM.home = null;
   for (const c of xrCtl) c.userData.line.visible = false;
 }
 function placeXRMenu() {
@@ -4447,7 +4479,7 @@ function placeXRMenu() {
 }
 function updateXRMenu(dt) {
   XRM.frames++; if (XRM.msgT > 0) XRM.msgT -= dt;
-  updateXRMark();
+  updateXRMark(); checkPlayArea();
   if (!XRM.menuOpen) return;
   if (XRM.placeMenu && XRM.frames > 3) placeXRMenu();
   let hov = -1;
@@ -4522,7 +4554,7 @@ function drawXRMenu() {
   };
   row('WHERE TO FLY', 150, [
     ['where:vr', 'Field  ·  VR 360°', { on: XRM.mode === 'vr', off: !XRM.support.vr }],
-    ['where:ar', 'My room  ·  Mixed reality', { on: ar, off: !XRM.support.ar }]]);
+    ['where:ar', 'My room  ·  Mixed reality', { on: ar, off: renderer.xr.isPresenting ? !XRM.arSession : !XRM.support.ar }]]);
   row(ar ? 'MAP (only in VR)' : 'MAP', 270, Object.keys(MAPS).map(k => ['map:' + k, MAPS[k].short, { on: S.map === k && !ar, off: ar }]));
   row('AIRCRAFT', 390, Object.keys(PRESETS).map(k => ['drone:' + k, PRESETS[k].short, { on: S.drone === k }]));
   row(ar ? 'VIEW (only in VR)' : 'VIEW', 510, [
