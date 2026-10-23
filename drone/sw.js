@@ -1,6 +1,6 @@
 // DUET Drone Simulator offline support. Page and code: network first, but never wait more than 2.5 s
 // (school Wi-Fi often has no internet). Libraries, fonts and icons: cache first.
-const VERSION = 'dsim-v2';
+const VERSION = 'dsim-v3';
 const CORE = [
   './', './index.html', './manifest.webmanifest',
   './lib/three.module.js', './lib/addons/objects/Sky.js', './lib/addons/controls/OrbitControls.js', './lib/addons/utils/BufferGeometryUtils.js',

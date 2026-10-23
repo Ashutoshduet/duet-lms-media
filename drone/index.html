@@ -278,6 +278,7 @@ kbd{font-family:var(--f-mono);font-size:.72em;padding:1px 5px;border:1px solid v
         <button class="btn big" id="bFlyVR" hidden>Fly in VR</button>
         <button class="btn" id="bHelp">Controls</button>
         <button class="btn" id="bSet2">Settings</button>
+        <button class="btn" id="bDji" hidden>Connect DJI remote</button>
       </div>
       <p class="status" id="padStatus">Keyboard ready.</p>
     </div>
@@ -313,19 +314,22 @@ kbd{font-family:var(--f-mono);font-size:.72em;padding:1px 5px;border:1px solid v
       <p class="note">On an FPV radio the throttle stick has no spring: it stays where you leave it and the bottom means motors at idle. That is the default here (Settings → Controls → Throttle). On the camera drone the left stick springs back to the middle and the drone holds its height, like a DJI remote.</p>
       <h2>Flying far away with the camera</h2>
       <p class="note">Switch to the camera view (C) and fly using only the screen, like a real pilot 1 km away: watch the map, the home arrow, the distance (D), height (H) and the signal bars. Hills, buildings and trees between you and the drone weaken the signal. When the video breaks up, turn back or climb. If the link is lost, the camera drone flies home by itself; an FPV quad drops (failsafe).</p>
-      <h2>Gamepad</h2>
+      <h2>PS5 / Xbox controller</h2>
+      <p class="note">Connect by USB or Bluetooth and press any button. Left stick = throttle and yaw, right stick = pitch and roll. The sticks spring back, so the camera drone flies like a DJI remote; for FPV drones the default is centre = hover (Settings → Controls).</p>
       <div class="keys">
-        <div><span>Sticks</span><span>Mode 2 layout</span></div>
-        <div><span>Arm · reset · view · mode</span><span>A · B · Y · X</span></div>
-        <div><span>Camera tilt</span><span>LB / RB</span></div>
-        <div><span>Photo · record</span><span>RT · LT</span></div>
+        <div><span>Arm · reset · view · mode</span><span>✕ · ○ · △ · □ (A · B · Y · X)</span></div>
+        <div><span>Camera tilt</span><span>L1 / R1</span></div>
+        <div><span>Photo · record</span><span>R2 · L2</span></div>
         <div><span>Take-off · land · brake · home</span><span>D-pad ↑ ↓ ← →</span></div>
-        <div><span>Replay · beeper / turtle · zoom</span><span>Back · L3 · R3</span></div>
+        <div><span>Replay · beeper / turtle · zoom</span><span>Create · L3 · R3</span></div>
+        <div><span>Menu</span><span>Options</span></div>
       </div>
+      <h2>DJI remote (RC-N1, RC-N2, RC-N3)</h2>
+      <p class="note">Works in Chrome or Edge on a Windows or Mac computer, opened from the simulator's own address (ashutoshduet.github.io/duet-lms-media/drone). Switch the remote on with the drone off, connect its bottom USB-C port, press <b>Connect DJI remote</b> and pick <b>DJI USB VCOM For Protocol</b>. Sticks and the gimbal dial work; start or stop the motors with both sticks down and in, like on the real remote. On Windows, if no DJI port appears, install DJI Assistant 2 once. Screen remotes (DJI RC Pro, Smart Controller) do not send stick data over USB.</p>
       <h2>RC transmitter (most realistic)</h2>
       <p class="note">Connect a Radiomaster, FrSky, Jumper or similar radio by USB and choose <b>USB Joystick (HID)</b> on the radio. Open Settings → Radio to map each stick, the arm switch (SA), the flight-mode switch (SB), the beeper (SC) and turtle mode (SD).</p>
       <h2>Meta Quest</h2>
-      <p class="note">Open the page in the Quest Browser and press VR. Left thumbstick = throttle and yaw, right thumbstick = pitch and roll. A = arm, B = reset, X = view, Y = flight mode, right trigger = photo, left trigger = home / turtle. Line-of-sight view is the most comfortable.</p>
+      <p class="note">Open the page in the Quest Browser and press VR. Left thumbstick = throttle and yaw, right thumbstick = pitch and roll. A = arm, B = reset, X = view, Y = flight mode, right trigger = photo, left trigger = home / turtle. Line-of-sight view is the most comfortable. A PS5 or Xbox controller paired with the Quest (Settings → Bluetooth) can be used instead: press a button on it and it takes over. A DJI remote cannot be used on the Quest.</p>
       <div class="actions"><button class="btn big" id="bHelpClose">Got it</button></div>
     </div>
   </section>
@@ -396,7 +400,7 @@ const PER_DEF = {
   whoop: { mode: 'angle', tilt: 12, fov: 120, rc: 200, rm: 800, re: 0.5, maxA: 50, video: 'analog' },
 };
 const DEF = {
-  map: 'village', drone: 'racer', mission: 'free', view: 'chase', stickMode: 2, throttleStyle: 'real', deadzone: 0.05,
+  map: 'village', drone: 'racer', mission: 'free', view: 'chase', stickMode: 2, throttleStyle: 'real', padThrottle: 'easy', deadzone: 0.05,
   rcMap: null, crash: 'real', infBattery: false, wind: 3, windDir: 300, gust: 0.4, tod: 'morning',
   quality: IS_QUEST ? 'quest' : isTouch ? 'low' : 'high', osd: true, remote: true, minimap: true, volume: 0.55, losZoom: true, vrComfort: true,
   pip: !IS_QUEST, oa: true, rthAlt: 60, altLimit: true, linkSim: true, ghost: true, mp: true,
@@ -2481,7 +2485,7 @@ class Drone {
     if (this.auto && (Math.abs(sp) > 0.35 || Math.abs(sr) > 0.35 || Math.abs(sy) > 0.5 || Math.abs(s) > 0.55)) { this.auto = null; toast('Auto flight cancelled'); }
     if (this.grounded && !this.auto && s < 0.2) {
       this.iz = 0; this.iR.set(0, 0, 0); this.ih.set(0, 0, 0); this.hold = null; this.altHold = null; wd.set(0, 0, 0);
-      if (s < -0.6) { this.lowStick += dt; if (this.lowStick > 1.0) { this.lowStick = 0; this.disarm('Motors stopped'); } } else this.lowStick = 0;
+      if (s < -0.6 && csc.t === 0) { this.lowStick += dt; if (this.lowStick > 1.0) { this.lowStick = 0; this.disarm('Motors stopped'); } } else this.lowStick = 0;
       return Tm * P.idle * P.idle;
     }
     this.lowStick = 0;
@@ -2693,12 +2697,76 @@ const sound = {
 };
 
 /* =========================================================
+   DJI RC-N1 / RC-N2 / RC-N3 remote over USB (Web Serial: Chrome or Edge on a computer).
+   The remote does not show up as a joystick; it talks DJI's DUML protocol on a USB serial port
+   ("DJI USB VCOM For Protocol"). We ask for the channel values and read the sticks and the gimbal dial.
+   ========================================================= */
+const DJIRC = { on: false, port: null, reader: null, writer: null, axes: { lx: 0, ly: 0, rx: 0, ry: 0, wheel: 0 }, frames: 0, lastRx: 0, timer: 0, label: 'DJI remote' };
+const hexBytes = h => new Uint8Array(h.match(/../g).map(b => parseInt(b, 16)));
+const DJI_PING = hexBytes('550d04330a06eb344006017424');        // read channel values (cmd set 0x06, id 0x01)
+const DJI_SIMMODE = hexBytes('550e04660a06eb3440062401d9ec');    // simulator mode: stick values at full rate
+const djiSerialOk = () => 'serial' in navigator;
+function djiSerialAllowed() { try { return djiSerialOk() && (!document.featurePolicy || document.featurePolicy.allowsFeature('serial')); } catch (e) { return djiSerialOk(); } }
+async function connectDjiRc(allPorts = false) {
+  if (DJIRC.on) { disconnectDjiRc(); return; }
+  if (!djiSerialOk()) { toast('A DJI remote needs Chrome or Edge on a computer (USB cable)', 'bad'); return; }
+  if (!djiSerialAllowed()) { toast('Open the simulator from its own web address to connect a DJI remote (see Controls)', 'bad'); return; }
+  let port;
+  try { port = await navigator.serial.requestPort(allPorts ? {} : { filters: [{ usbVendorId: 0x2ca3 }] }); }
+  catch (e) { if (e && e.name === 'SecurityError') toast('This page is not allowed to use USB serial here. Open the simulator from its own web address', 'bad'); return; }
+  try { await port.open({ baudRate: 115200, bufferSize: 4096 }); }
+  catch (e) { toast('Could not open the remote. Close DJI Assistant or other apps using it, then try again', 'bad'); return; }
+  DJIRC.port = port; DJIRC.on = true; DJIRC.frames = 0; DJIRC.lastRx = performance.now();
+  DJIRC.writer = port.writable.getWriter(); DJIRC.reader = port.readable.getReader();
+  const send = (b) => DJIRC.writer && DJIRC.writer.write(b).catch(() => { });
+  send(DJI_SIMMODE); send(DJI_PING);
+  clearInterval(DJIRC.timer);
+  DJIRC.timer = setInterval(() => { if (performance.now() - DJIRC.lastRx > 60) send(DJI_PING); }, 40);   // keep asking if a reply was lost
+  toast('DJI remote connected. Move the sticks', 'ok'); setInput('dji'); padStatus();
+  setTimeout(() => { if (DJIRC.on && DJIRC.frames === 0) toast('No stick data. Choose "DJI USB VCOM For Protocol" (the other DJI port), and keep the drone switched off', 'bad'); }, 2500);
+  let buf = new Uint8Array(0);
+  try {
+    for (;;) {
+      const { value, done } = await DJIRC.reader.read(); if (done) break; if (!value) continue;
+      const nb = new Uint8Array(buf.length + value.length); nb.set(buf); nb.set(value, buf.length); buf = nb;
+      for (;;) {
+        const h = buf.indexOf(0x55); if (h < 0) { buf = new Uint8Array(0); break; }
+        if (h > 0) buf = buf.slice(h);
+        if (buf.length < 3) break;
+        const len = (buf[1] | buf[2] << 8) & 0x3ff;
+        if (len < 6 || len > 120) { buf = buf.slice(1); continue; }
+        if (buf.length < len) break;
+        const pkt = buf.slice(0, len); buf = buf.slice(len);
+        DJIRC.lastRx = performance.now();
+        if (len === 38) {
+          const v = o => clamp(((pkt[o] | pkt[o + 1] << 8) - 1024) / 660, -1, 1), A = DJIRC.axes;
+          A.rx = v(13); A.ry = v(16); A.ly = v(19); A.lx = v(22); A.wheel = v(25); DJIRC.frames++;
+          if (activeInput !== 'dji' && (Math.abs(A.rx) > 0.3 || Math.abs(A.ry) > 0.3 || Math.abs(A.lx) > 0.3 || Math.abs(A.ly) > 0.3)) setInput('dji');
+        }
+        send(DJI_PING);
+      }
+    }
+  } catch (e) { }
+  disconnectDjiRc(true);
+}
+function disconnectDjiRc(lost = false) {
+  if (!DJIRC.port) return;
+  clearInterval(DJIRC.timer); const { reader, writer, port } = DJIRC;
+  DJIRC.on = false; DJIRC.port = DJIRC.reader = DJIRC.writer = null; Object.assign(DJIRC.axes, { lx: 0, ly: 0, rx: 0, ry: 0, wheel: 0 });
+  (async () => { try { if (reader) { await reader.cancel().catch(() => { }); reader.releaseLock(); } } catch (e) { } try { if (writer) writer.releaseLock(); } catch (e) { } try { await port.close(); } catch (e) { } })();
+  if (activeInput === 'dji') setInput(isTouch ? 'touch' : 'keyboard');
+  toast(lost ? 'DJI remote disconnected' : 'DJI remote released'); padStatus();
+}
+if (djiSerialOk()) navigator.serial.addEventListener('disconnect', (e) => { if (DJIRC.port && e.target === DJIRC.port) disconnectDjiRc(true); });
+
+/* =========================================================
    Inputs: keyboard, gamepad / RC radio, touch, VR controllers
    ========================================================= */
 const keys = new Set();
 const kb = { thr: 0, yaw: 0, pitch: 0, roll: 0, hold: 0 };
 const touch = { L: { x: 0, y: 0, id: null }, R: { x: 0, y: 0, id: null } };
-const RADIO_RE = /edgetx|opentx|frsky|radiomaster|jumper|taranis|tx16|boxer|zorro|pocket|betafpv|literadio|flysky|spektrum|joystick/i;
+const RADIO_RE = /edgetx|opentx|frsky|radiomaster|jumper|taranis|tx16|boxer|zorro|pocket|betafpv|literadio|flysky|spektrum|joystick|dji|2ca3/i;
+const PAD_NAME = id => /dualsense|0ce6|0df2/i.test(id) ? 'PS5 controller' : /dualshock|054c/i.test(id) ? 'PlayStation controller' : /xbox|xinput|045e/i.test(id) ? 'Xbox controller' : /pro controller|057e/i.test(id) ? 'Switch Pro controller' : 'Gamepad';
 const RC_DEFAULT = { thr: { a: 2, inv: false }, yaw: { a: 3, inv: false }, pitch: { a: 1, inv: false }, roll: { a: 0, inv: false }, arm: { a: -1, inv: false }, mode: { a: -1, inv: false }, beep: { a: -1, inv: false }, turtle: { a: -1, inv: false } };
 const radioSw = { arm: null, mode: null, beep: null, turtle: null };
 const beeper = { on: false, t: 0 };
@@ -2713,6 +2781,9 @@ function getPads() { try { return navigator.getGamepads ? [...navigator.getGamep
 function setInput(src) { if (activeInput !== src) { activeInput = src; uiChips(); } }
 function manualMode() { return isManual(drone.mode); }
 const realThrottle = () => S.throttleStyle === 'real' && manualMode();
+/** Spring-loaded sticks (gamepad, VR controllers, DJI remotes): their own throttle setting. */
+const padRealThrottle = () => S.padThrottle === 'real' && manualMode();
+const csc = { t: 0 };
 
 function readInputs(dt) {
   let thr = 0, yaw = 0, pitch = 0, roll = 0, absolute = false;
@@ -2757,11 +2828,19 @@ function readInputs(dt) {
     if (realThrottle()) absolute = true;
   } else if (activeInput === 'xr') {
     thr = xrState.thr; yaw = xrState.yaw; pitch = xrState.pitch; roll = xrState.roll;
+  } else if (activeInput === 'dji' && DJIRC.on) {
+    const A = DJIRC.axes, lx = dz(A.lx), ly = A.ly, rx = dz(A.rx), ry = A.ry;
+    if (m1) { thr = ry; pitch = dz(ly); } else { thr = ly; pitch = dz(ry); } yaw = lx; roll = rx;
+    if (Math.abs(thr) < S.deadzone) thr = 0;
+    if (Math.abs(A.wheel) > 0.08) tiltCam(-A.wheel * 70 * dt);       // left dial = gimbal tilt, like on the real remote
+    // DJI combination stick command: both sticks down and in (or out) for a moment starts / stops the motors
+    const down = ly < -0.85 && ry < -0.85, cross = (lx > 0.75 && rx < -0.75) || (lx < -0.75 && rx > 0.75);
+    if (down && cross) { csc.t += dt; if (csc.t > 0.5 && csc.t - dt <= 0.5) { if (!drone.armed) { const ii = { thr: -1, thr01: 0, yaw: 0, pitch: 0, roll: 0, spring: true }; drone.arm(ii); } else if (drone.grounded) drone.disarm('Motors stopped'); } } else csc.t = 0;
   } else {
     yaw = kb.yaw; pitch = kb.pitch; roll = kb.roll;
     if (realThrottle()) { thr = kb.hold * 2 - 1; absolute = true; } else thr = kb.thr;
   }
-  if (!absolute && realThrottle() && (activeInput === 'gamepad' || activeInput === 'xr')) absolute = true;
+  if (activeInput === 'gamepad' || activeInput === 'xr' || activeInput === 'dji') absolute = padRealThrottle();
   if (LINK.rcLost || replay.on) { yaw = 0; pitch = 0; roll = 0; if (!absolute) thr = 0; else thr = inp.thr; }
   inp.yaw = clamp(yaw, -1, 1); inp.pitch = clamp(pitch, -1, 1); inp.roll = clamp(roll, -1, 1); inp.thr = clamp(thr, -1, 1);
   inp.spring = !absolute;
@@ -2878,7 +2957,9 @@ function resetTouchThrottle() { const side = S.stickMode === 1 ? 'R' : 'L', st =
 const xrState = { thr: 0, yaw: 0, pitch: 0, roll: 0 };
 function pollXR() {
   const s = renderer.xr.getSession(); if (!s) return;
-  setInput('xr');
+  let claim = activeInput === 'keyboard' || activeInput === 'touch';   // a gamepad or DJI remote keeps control in VR until the Quest controllers are used
+  for (const src of s.inputSources) { const gp = src.gamepad; if (!gp) continue; if (gp.axes.some(v => Math.abs(v) > 0.3) || gp.buttons.some((b, i) => i !== 1 && b.pressed)) claim = true; }
+  if (claim) setInput('xr');
   for (const src of s.inputSources) {
     const gp = src.gamepad; if (!gp) continue;
     const ax = gp.axes, x = dz(ax[2] ?? ax[0] ?? 0), y = -dz(ax[3] ?? ax[1] ?? 0), hand = src.handedness;
@@ -3905,7 +3986,8 @@ let toastT = 0;
 function toast(msg, tone = '') { const t = $('#toast'); t.textContent = msg; t.className = 'show ' + tone; clearTimeout(toastT); toastT = setTimeout(() => t.className = tone, 2000); }
 function uiChips() {
   $('#cMap').textContent = MAP.short; $('#cDrone').textContent = drone.P.short; $('#cMode').textContent = (GPS_MODES[drone.mode] ? MODE_SHORT[drone.mode] + ' · ' : '') + MODE_NAMES[drone.mode]; $('#cView').textContent = viewName(S.view);
-  $('#cInput').textContent = { keyboard: 'Keyboard', gamepad: 'Gamepad', radio: 'RC radio', touch: 'Touch', xr: 'VR' }[activeInput];
+  const gpn = activePad >= 0 && getPads()[activePad] ? PAD_NAME(getPads()[activePad].id) : 'Gamepad';
+  $('#cInput').textContent = { keyboard: 'Keyboard', gamepad: gpn, radio: 'RC radio', touch: 'Touch', xr: 'Quest controllers', dji: 'DJI remote' }[activeInput];
   const m1 = S.stickMode === 1; $('#lblL').textContent = m1 ? 'PITCH · YAW' : 'THROTTLE · YAW'; $('#lblR').textContent = m1 ? 'THROTTLE · ROLL' : 'PITCH · ROLL';
   renderTouchButtons();
 }
@@ -3984,7 +4066,10 @@ function renderMenuNet() {
 function padStatus() {
   const pads = getPads().filter(Boolean);
   const el = $('#padStatus');
-  if (pads.length) el.innerHTML = `<b>●</b> ${pads.map(p => (isRadio(p) ? 'RC transmitter: ' : 'Gamepad: ') + p.id.replace(/\(.*?\)/g, '').trim().slice(0, 40)).join(' · ')}`;
+  const bd = $('#bDji'); if (bd) bd.textContent = DJIRC.on ? 'Disconnect DJI remote' : 'Connect DJI remote';
+  const dj = DJIRC.on ? `<b>●</b> DJI remote (USB) ${DJIRC.frames ? 'sending sticks' : 'waiting for data'}` : '';
+  if (pads.length) el.innerHTML = [dj, ...pads.map(p => `<b>●</b> ` + (isRadio(p) ? 'RC transmitter: ' : PAD_NAME(p.id) + ': ') + p.id.replace(/\(.*?\)/g, '').trim().slice(0, 40))].filter(Boolean).join(' · ');
+  else if (dj) el.innerHTML = dj;
   else el.textContent = isTouch ? 'Touch sticks ready. A USB gamepad or RC transmitter can be plugged in any time.' : 'Keyboard ready. Plug in a gamepad or a USB RC transmitter any time (press a button so the browser sees it).';
 }
 function selectDrone(k) {
@@ -4020,6 +4105,7 @@ $('#bReset').addEventListener('click', doReset);
 $('#bReplay').addEventListener('click', toggleReplay);
 $('#bGal').addEventListener('click', openGallery); $('#bGalClose').addEventListener('click', closeGallery);
 $('#bFull').addEventListener('click', fullscreen);
+$('#bDji').hidden = !djiSerialOk(); $('#bDji').addEventListener('click', async () => { await connectDjiRc(false); padStatus(); });
 $('#bSet').addEventListener('click', openSettings); $('#bSet2').addEventListener('click', openSettings); $('#bSetClose').addEventListener('click', closeSettings);
 $('#rpPlay').addEventListener('click', () => { if (replay.t >= replay.t1) replay.t = replay.t0; replay.playing = !replay.playing; renderReplayBar(); });
 $('#rpExit').addEventListener('click', exitReplay);
@@ -4049,7 +4135,8 @@ const FIELDS = () => {
     { id: 'fLink', label: 'Radio and video signal loss', type: 'check', get: () => S.linkSim, set: v => { S.linkSim = v; LINK.reset(); } },
     { sec: 'Controls' },
     { id: 'cStick', label: 'Stick mode', type: 'select', opts: [['2', 'Mode 2 (throttle left)'], ['1', 'Mode 1 (throttle right)']], get: () => String(S.stickMode), set: v => { S.stickMode = +v; uiChips(); resetTouchThrottle(); } },
-    { id: 'cThr', label: 'FPV throttle (keyboard, gamepad, touch)', type: 'select', opts: [['real', 'Real radio: stays where you leave it'], ['easy', 'Easy: centre = hover']], get: () => S.throttleStyle, set: v => { S.throttleStyle = v; resetTouchThrottle(); } },
+    { id: 'cThr', label: 'FPV throttle on keyboard and touch', type: 'select', opts: [['real', 'Real radio: stays where you leave it'], ['easy', 'Easy: centre = hover']], get: () => S.throttleStyle, set: v => { S.throttleStyle = v; resetTouchThrottle(); } },
+    { id: 'cPadThr', label: 'FPV throttle on PS5 / Xbox pads, Quest controllers and DJI remotes (their sticks spring back)', type: 'select', opts: [['easy', 'Centre = hover (recommended)'], ['real', 'Full stick: centre = 50 %, bottom = idle']], get: () => S.padThrottle, set: v => S.padThrottle = v },
     { id: 'cDz', label: 'Stick deadzone', type: 'range', min: 0, max: 0.2, step: 0.01, get: () => S.deadzone, set: v => S.deadzone = v },
     { id: 'cRemote', label: 'Show the remote controller on screen', type: 'check', get: () => S.remote, set: v => { S.remote = v; remoteUI.dirty = true; } },
     { radio: true },
@@ -4075,7 +4162,10 @@ function openSettings() {
   const body = $('#setBody'); body.innerHTML = '';
   for (const f of FIELDS()) {
     if (f.sec) { body.insertAdjacentHTML('beforeend', `<div class="sec">${f.sec}</div>`); continue; }
-    if (f.radio) { body.insertAdjacentHTML('beforeend', `<div class="sec">Radio / joystick mapping</div><div class="radio" id="radioBox"></div>`); continue; }
+    if (f.radio) {
+      body.insertAdjacentHTML('beforeend', `<div class="sec">DJI remote (RC-N1, RC-N2, RC-N3)</div><div class="radio" id="djiBox"></div><div class="sec">Radio / joystick mapping</div><div class="radio" id="radioBox"></div>`);
+      renderDjiBox(); continue;
+    }
     const v = f.get(); let html = `<div class="fld"><label for="${f.id}">${f.label}</label>`;
     if (f.type === 'range') html += `<output id="${f.id}o">${fmtVal(f, v)}</output><input type="range" id="${f.id}" min="${f.min}" max="${f.max}" step="${f.step}" value="${v}">`;
     else if (f.type === 'select') html += `<select id="${f.id}">${f.opts.map(([k, n]) => `<option value="${k}" ${String(v) === String(k) ? 'selected' : ''}>${n}</option>`).join('')}</select>`;
@@ -4088,6 +4178,16 @@ function openSettings() {
   $('#settings').hidden = false;
 }
 function closeSettings() { $('#settings').hidden = true; detect = null; }
+function renderDjiBox() {
+  const box = $('#djiBox'); if (!box) return;
+  if (!djiSerialOk()) { box.innerHTML = '<p class="hint">Needs Chrome or Edge on a Windows or Mac computer, with the remote connected by its bottom USB-C port. Phones, tablets and the Quest cannot read a DJI remote.</p>'; return; }
+  if (!djiSerialAllowed()) { box.innerHTML = '<p class="hint">This copy of the page is not allowed to use USB. Open the simulator from its own web address in Chrome or Edge: https://ashutoshduet.github.io/duet-lms-media/drone/</p>'; return; }
+  box.innerHTML = `<p class="hint">Switch the remote on (drone off), connect its bottom USB-C port to the computer, then press Connect and pick <b>DJI USB VCOM For Protocol</b>. On Windows, if nothing appears, install DJI Assistant 2 once (it adds the driver) and close it before connecting. Start or stop motors like on the real remote: both sticks down and in (or out).</p>
+    <div class="actions" style="margin-top:6px"><button class="btn" id="djiConn">${DJIRC.on ? 'Disconnect DJI remote' : 'Connect DJI remote'}</button><button class="btn" id="djiAll">Show all serial ports</button></div>
+    <div class="axes" id="djiAxes">${['lx', 'ly', 'rx', 'ry', 'wheel'].map(k => `<div class="ax"><span>${{ lx: 'Yaw', ly: 'Thr', rx: 'Roll', ry: 'Pitch', wheel: 'Dial' }[k]}</span><span class="tr"><i id="dj_${k}"></i></span><span id="djv_${k}">0.00</span></div>`).join('')}</div>`;
+  $('#djiConn').addEventListener('click', async () => { await connectDjiRc(false); renderDjiBox(); });
+  $('#djiAll').addEventListener('click', async () => { await connectDjiRc(true); renderDjiBox(); });
+}
 let detect = null;
 const RADIO_ROWS = [['thr', 'Throttle', 'Move throttle from bottom to top'], ['yaw', 'Yaw', 'Push yaw fully right'], ['pitch', 'Pitch', 'Push pitch fully up'], ['roll', 'Roll', 'Push roll fully right'], ['arm', 'Arm (SA)', 'Flip the switch to ARMED'], ['mode', 'Mode (SB)', 'Move the 3-position switch'], ['beep', 'Beeper (SC)', 'Flip the beeper switch'], ['turtle', 'Turtle (SD)', 'Flip the turtle switch']];
 function renderRadio() {
@@ -4112,6 +4212,7 @@ function renderRadio() {
 }
 function updateRadioUI(dt) {
   if ($('#settings').hidden) return;
+  if (DJIRC.on) for (const k of ['lx', 'ly', 'rx', 'ry', 'wheel']) { const b = $('#dj_' + k), t = $('#djv_' + k), v = DJIRC.axes[k]; if (!b) break; b.style.left = (v < 0 ? 50 + v * 50 : 50) + '%'; b.style.width = Math.abs(v) * 50 + '%'; t.textContent = v.toFixed(2); }
   const gp = activePad >= 0 ? getPads()[activePad] : null; if (!gp) return;
   gp.axes.forEach((v, i) => { const b = $('#axb' + i), t = $('#axv' + i); if (!b) return; b.style.left = (v < 0 ? 50 + v * 50 : 50) + '%'; b.style.width = Math.abs(v) * 50 + '%'; t.textContent = v.toFixed(2); });
   if (detect) {
@@ -4189,7 +4290,7 @@ renderer.setAnimationLoop(() => {
   if (renderer.xr.isPresenting) updateVRHud(dt); else { vrHud.visible = false; drawOSD(dt); }
   drawMinimap(); updateRemote(); if (!$('#touch').hidden) renderTouchButtons();
 });
-window.DUET_SIM = { drone, S, sim, inp, mission, terrainH, GATES, PRESETS_REF: PRESETS, renderer, camera, controls, loadMap, LINK, recorder, replay, ghost, net, TARGETS, capture, MAPS, world, startFlight, takePhoto, VAL, toggleReplay, updateSensing, updateLink, smartRth, selectDrone };
+window.DUET_SIM = { drone, S, sim, inp, mission, terrainH, GATES, PRESETS_REF: PRESETS, renderer, camera, controls, loadMap, LINK, recorder, replay, ghost, net, TARGETS, capture, MAPS, world, startFlight, takePhoto, VAL, toggleReplay, updateSensing, updateLink, smartRth, selectDrone, DJIRC, connectDjiRc, readInputs };
 </script>
 
 </body>

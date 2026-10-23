@@ -35,10 +35,14 @@ CONTROLS
   Keyboard    W/S throttle, A/D yaw, arrows pitch/roll, Enter arm, T/L/H take-off/land/home,
               Space brake, C view, R reset, 1-4 flight mode, [ ] camera tilt, Z zoom,
               K photo, J video, Y gallery, V replay, B beeper, X turtle mode.
-  Gamepad     Mode 2 sticks, A arm, B reset, Y view, X flight mode.
+  Gamepad     PS5 / Xbox by USB or Bluetooth: Mode 2 sticks, Cross/A arm, Circle/B reset,
+              Triangle/Y view, Square/X flight mode, R2 photo, L2 video, D-pad take-off/land/home.
+  DJI remote  RC-N1 / RC-N2 / RC-N3 by USB in Chrome or Edge on a computer: menu > Connect DJI
+              remote > pick "DJI USB VCOM For Protocol". Both sticks down-and-in starts the motors.
   RC radio    USB joystick (HID) mode on the radio; Settings > Radio to map sticks and the
               SA arm, SB mode, SC beeper and SD turtle switches.
   Quest       Left stick throttle/yaw, right stick pitch/roll, A arm, B reset, X view, Y flight mode.
+              A PS5 / Xbox controller paired with the Quest by Bluetooth also works.
   Phone       On-screen sticks.
 
 GRAPHICS
