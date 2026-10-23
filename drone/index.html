@@ -240,6 +240,7 @@ kbd{font-family:var(--f-mono);font-size:.72em;padding:1px 5px;border:1px solid v
       <button id="bReplay" title="Watch a replay of this flight (V)">Replay<kbd>V</kbd></button>
       <button id="bGal" title="Photos and videos (Y)">Gallery</button>
       <button id="bReset" title="Put the drone back on the pad (R)">Reset<kbd>R</kbd></button>
+      <button id="bSound" title="Drone sound on / off (M)">Sound<kbd>M</kbd></button>
       <button id="bSet" title="Settings">Settings</button>
       <button id="bVR" hidden title="Fly in a VR headset">VR</button>
       <button id="bFull" title="Full screen (F)">Full</button>
@@ -2921,6 +2922,8 @@ function gamepadButtons(gp) {
   if (gp.buttons[4] && gp.buttons[4].pressed) tiltCam(-40 * 0.016);
   if (gp.buttons[5] && gp.buttons[5].pressed) tiltCam(40 * 0.016);
 }
+/** Drone sound on / off, remembering the volume it had. */
+function toggleSound() { if (S.volume > 0) { S.soundVol = S.volume; S.volume = 0; } else S.volume = S.soundVol || 0.55; save(); toast(S.volume ? 'Sound on' : 'Sound off'); }
 function toggleArm() { if (drone.armed) drone.disarm(); else drone.arm(inp); }
 function autoCmd(type, why = '') {
   if (manualMode()) { toast('Auto take-off, land and return home need GPS. Use the camera drone (C / N / S modes)'); return; }
@@ -2976,7 +2979,7 @@ addEventListener('keydown', (e) => {
     case 'KeyI': S.pip = !S.pip; save(); toast(S.pip ? 'Camera picture-in-picture on' : 'Picture-in-picture off'); break;
     case 'KeyG': S.remote = !S.remote; save(); remoteUI.dirty = true; break;
     case 'KeyY': openGallery(); break;
-    case 'KeyM': S.volume = S.volume > 0 ? 0 : 0.55; save(); toast(S.volume ? 'Sound on' : 'Sound off'); break;
+    case 'KeyM': toggleSound(); break;
     case 'KeyN': S.minimap = !S.minimap; save(); break;
     case 'KeyO': S.osd = !S.osd; save(); break;
     case 'KeyF': fullscreen(); break;
@@ -4544,6 +4547,7 @@ function xrAction(id) {
   if (k === 'drone') { if (v !== S.drone) { selectDrone(v); drone.reset(); prevPos.copy(drone.pos); } drawXRMenu(); return; }
   if (k === 'view') { if (XRM.mode !== 'ar') { S.view = v; save(); uiChips(); } drawXRMenu(); return; }
   if (k === 'mode') { cycleMode(); drawXRMenu(); return; }
+  if (k === 'sound') { toggleSound(); drawXRMenu(); return; }
   if (k === 'speed') { const ks = Object.keys(XR_SPEED); S.xrSpeed = ks[(ks.indexOf(S.xrSpeed || 'normal') + 1) % ks.length]; save(); toast('Speed: ' + XR_SPEED[S.xrSpeed].name); drawXRMenu(); return; }
   if (k === 'fly') { closeXRMenu(); if (XRM.mode === 'vr' && S.view === 'los') xrFaceDrone(); return; }   // the pad straight ahead of where you look
   if (k === 'reset') { doReset(); if (XRM.mode === 'ar') XRM.arAnchor = null; closeXRMenu(); return; }
@@ -4594,6 +4598,7 @@ function drawXRMenu() {
   row('FLYING', 630, [
     ['mode', 'Mode: ' + MODE_NAMES[drone.mode]],
     ['speed', 'Speed: ' + XR_SPEED[S.xrSpeed || 'normal'].name],
+    ['sound', S.volume > 0 ? 'Sound: On' : 'Sound: Off', { on: S.volume > 0 }],
     ['reset', 'Reset drone']]);
   const y = 752, h = 100, gap = 18;
   button('fly', '▶  Fly', 40, y, 600, h, { tone: 'go', size: 36 });
@@ -4607,6 +4612,9 @@ function drawXRMenu() {
 }
 
 /* ---------- page buttons and the installed app ---------- */
+function soundLabel() { const b = $('#bSound'); if (b) { b.firstChild.nodeValue = S.volume > 0 ? 'Sound' : 'Muted'; b.setAttribute('aria-pressed', String(S.volume > 0)); } }
+$('#bSound').addEventListener('click', () => { toggleSound(); soundLabel(); }); soundLabel();
+{ const t2 = toggleSound; toggleSound = function () { t2(); soundLabel(); }; }
 $('#bFlyVR').addEventListener('click', () => startXR('vr').then(ok => ok && openXRMenu()));
 $('#bFlyAR').addEventListener('click', () => startXR('ar').then(ok => ok && openXRMenu()));
 $('#bVR').addEventListener('click', () => { if (renderer.xr.isPresenting) { renderer.xr.getSession().end(); return; } startXR('vr').then(ok => ok && openXRMenu()); });
