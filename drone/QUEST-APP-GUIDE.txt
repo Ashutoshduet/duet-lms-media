@@ -1,0 +1,16 @@
+DUET DRONE SIMULATOR AS A META QUEST APP (APK)
+==============================================
+Same method as DUET Solar System 360 and DUET Human Body 360.
+
+  1. The folder must be online at https (README.txt, route A).
+  2. Wrap it with Meta's Bubblewrap (@meta-quest/bubblewrap-core) using a NEW package name,
+     for example in.duetpower.dronesim, and a NEW keystore (keep it and its passwords safe;
+     every update must be signed with the same key).
+       App name ............. DUET Drone Simulator
+       Start URL ............ /duet-lms-media/drone/index.html
+       Display .............. standalone      Orientation ... landscape
+  3. Digital Asset Links: APPEND the new SHA-256 fingerprint entry to
+     .well-known/assetlinks.json in ashutoshduet.github.io (do not remove the existing entries).
+  4. Install: adb install -r app-release-signed.apk  (or the ALPHA release channel in the
+     Meta Horizon developer dashboard for a proper Library tile).
+  5. In the headset: open the app once with Wi-Fi, then press "Fly in VR".
