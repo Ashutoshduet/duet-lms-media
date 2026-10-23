@@ -1,6 +1,6 @@
 // DUET Drone Simulator offline support. Page and code: network first, but never wait more than 2.5 s
 // (school Wi-Fi often has no internet). Libraries, fonts and icons: cache first.
-const VERSION = 'dsim-v3';
+const VERSION = 'dsim-v4';
 const CORE = [
   './', './index.html', './manifest.webmanifest',
   './lib/three.module.js', './lib/addons/objects/Sky.js', './lib/addons/controls/OrbitControls.js', './lib/addons/utils/BufferGeometryUtils.js',
@@ -10,7 +10,8 @@ const CORE = [
   './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png', './brand/duet-stem-logo-light.png',
 ];
 const NETWORK_FIRST = /\.(html|webmanifest)$|\/$/;
-self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting())); });
+// cache: 'reload' so a new version never copies stale files out of the browser's own HTTP cache
+self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => {
   e.waitUntil((async () => {
     // only this app's own older caches: the other DUET apps share this web address and its cache store
@@ -25,7 +26,8 @@ self.addEventListener('fetch', (e) => {
   if (NETWORK_FIRST.test(url.pathname)) {
     e.respondWith((async () => {
       const saved = caches.match(e.request, { ignoreSearch: true });
-      const net = fetch(e.request).then((res) => { if (res.ok) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(e.request, copy)); } return res; });
+      // always ask the server: GitHub keeps pages 10 min in the browser's HTTP cache
+      const net = fetch(url.href, { cache: 'no-cache', credentials: 'same-origin' }).then((res) => { if (res.ok) { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(e.request, copy)); } return res; });
       const first = await Promise.race([net.catch(() => null), new Promise((r) => setTimeout(() => r(null), 2500))]);
       if (first) return first;
       return (await saved) || net;
