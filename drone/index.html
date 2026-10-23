@@ -210,6 +210,17 @@ kbd{font-family:var(--f-mono);font-size:.72em;padding:1px 5px;border:1px solid v
 <body>
 
 
+<script>
+/* Quest app: ask for the headset session straight away, while the launch still counts as the user's tap.
+   The 3D world loads afterwards and takes over this session. */
+(function () { try {
+  var app = matchMedia('(display-mode: standalone)').matches || /^android-app:/.test(document.referrer);
+  if (!app || !/OculusBrowser|Quest/i.test(navigator.userAgent) || !navigator.xr) return;
+  window.__earlyXR = navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] })
+    .then(function (s) { s.addEventListener('end', function () { s.__ended = true; }); return s; })
+    .catch(function (e) { window.__earlyXRErr = String(e && e.message || e); return null; });
+} catch (e) { } })();
+</script>
 <div id="app">
   <div id="view"></div>
   <div id="vig" hidden></div>
@@ -331,11 +342,12 @@ kbd{font-family:var(--f-mono);font-size:.72em;padding:1px 5px;border:1px solid v
       <h2>RC transmitter (most realistic)</h2>
       <p class="note">Connect a Radiomaster, FrSky, Jumper or similar radio by USB and choose <b>USB Joystick (HID)</b> on the radio. Open Settings → Radio to map each stick, the arm switch (SA), the flight-mode switch (SB), the beeper (SC) and turtle mode (SD).</p>
       <h2>Meta Quest</h2>
-      <p class="note">The DUET Drone Simulator app opens straight into the headset. In the Quest Browser press <b>Fly in VR</b> or <b>Fly in AR</b>. <b>VR</b>: you stand in the field behind the pad and look all around. <b>AR (mixed reality)</b>: the drone takes off from your floor and flies in your own room; the Tiny Whoop is the best size indoors. The <b>grip button</b> opens the headset menu: VR or AR, map, aircraft, view, flight mode, reset and <b>Exit</b>. Point at a button and pull the trigger.</p>
+      <p class="note">The DUET Drone Simulator app opens straight into the headset. In the Quest Browser press <b>Fly in VR</b> or <b>Fly in AR</b>. <b>VR</b>: you stand on the ground behind the pad like a real pilot and look all around (360°); the drone camera and chase views are in the menu. With the sticks in the middle the drone holds its height. <b>AR (mixed reality)</b>: the drone takes off from your floor and flies in your own room; the Tiny Whoop is the best size indoors. The <b>grip button</b> opens the headset menu: VR or AR, map, aircraft, view, flight mode, reset and <b>Exit</b>. Point at a button and pull the trigger.</p>
       <div class="keys">
         <div><span>Throttle + yaw · pitch + roll</span><span>left stick · right stick</span></div>
         <div><span>Arm / disarm · reset</span><span>A · B</span></div>
-        <div><span>View (field, drone camera, chase) · flight mode</span><span>X · Y</span></div>
+        <div><span>View (pilot on ground, drone camera, chase) · flight mode</span><span>X · Y</span></div>
+        <div><span>Turn to face the drone (pilot on ground)</span><span>thumbstick press</span></div>
         <div><span>Photo · return home / turtle</span><span>right trigger · left trigger</span></div>
         <div><span>Menu and Exit</span><span>grip button</span></div>
       </div>
@@ -2483,8 +2495,17 @@ class Drone {
       let t01 = inp.thr01;
       if (inp.spring) {
         if (!this.sprung) { if (inp.thr > 0.25) this.sprung = true; else t01 = 0; }
-        if (this.grounded && inp.thr < -0.6) { this.lowStick += dt; if (this.lowStick > 1.2) this.sprung = false; } else this.lowStick = 0;
-        if (this.sprung && mode !== 'acro') t01 = clamp(t01 + (1 - Math.abs(inp.thr)) * clamp(-this.vel.y * 0.035, -0.12, 0.12), 0, 1);
+        if (this.grounded && inp.thr < -0.6) { this.lowStick += dt; if (this.lowStick > 1.2) { this.sprung = false; this.altHold = null; } } else this.lowStick = 0;
+        if (this.sprung && mode !== 'acro') {
+          // spring-loaded sticks (gamepad, Quest controllers, touch, easy keyboard): the stick sets the climb rate, the centre holds the height
+          const s = inp.thr, vy = this.vel.y; let vzDes;
+          if (Math.abs(s) > 0.08) { vzDes = s > 0 ? s * 4 : s * 3; this.altHold = null; }
+          else { if (this.altHold === null) this.altHold = this.pos.y + vy * 0.25; vzDes = clamp((this.altHold - this.pos.y) * 1.6, -2, 2); }
+          this.iz = clamp(this.iz + (vzDes - vy) * dt * 0.8, -0.4, 0.4);
+          const q = this.q, upY = 1 - 2 * (q.x * q.x + q.z * q.z);
+          const ratio = clamp((1 + 3.2 * (vzDes - vy) / G + this.iz) / Math.max(upY, 0.55), 0, 3);
+          t01 = clamp(this.hoverThrottle() * Math.sqrt(ratio), 0, 1);
+        }
       }
       const Tc = Tm * t01 * t01;
       const acro = _va.set(-this.rate(inp.pitch), -this.rate(inp.yaw), -this.rate(inp.roll));
@@ -2979,6 +3000,8 @@ function resetTouchThrottle() { const side = S.stickMode === 1 ? 'R' : 'L', st =
 
 /* XR controllers (Meta Quest Touch): sticks fly, A arm, B reset, X view, Y mode, triggers photo / home, grip = headset menu */
 const xrState = { thr: 0, yaw: 0, pitch: 0, roll: 0 };
+/** Quest thumbsticks rest a little off centre and are short: a wider dead zone and a gentle curve near the centre. */
+function xrStick(v) { const a = Math.abs(v), d = Math.max(0.12, S.deadzone); if (a < d) return 0; const t = Math.min(1, (a - d) / (1 - d)); return Math.sign(v) * (0.55 * t + 0.45 * t * t * t); }
 function pollXR() {
   const s = renderer.xr.getSession(); if (!s) return;
   let grip = false;
@@ -2998,12 +3021,13 @@ function pollXR() {
   if (claim) setInput('xr');
   for (const src of s.inputSources) {
     const gp = src.gamepad; if (!gp) continue;
-    const ax = gp.axes, x = dz(ax[2] ?? ax[0] ?? 0), y = -dz(ax[3] ?? ax[1] ?? 0), hand = src.handedness;
+    const ax = gp.axes, x = xrStick(ax[2] ?? ax[0] ?? 0), y = -xrStick(ax[3] ?? ax[1] ?? 0), hand = src.handedness;
     const left = hand === 'left', m1 = S.stickMode === 1;
     if (left) { xrState.yaw = x; if (m1) xrState.pitch = y; else xrState.thr = y; }
     else if (hand === 'right') { xrState.roll = x; if (m1) xrState.thr = y; else xrState.pitch = y; }
     const prev = xrPrev[hand] || (xrPrev[hand] = []);
     const pressed = i => gp.buttons[i] && gp.buttons[i].pressed && !prev[i];
+    if (pressed(3)) xrFaceDrone();
     if (hand === 'right') { if (pressed(4)) toggleArm(); if (pressed(5)) doReset(); if (pressed(0)) takePhoto(); }
     if (left) { if (pressed(4)) cycleView(); if (pressed(5)) cycleMode(); if (pressed(0)) { if (manualMode()) drone.turtle(); else autoCmd('rth'); } }
     gp.buttons.forEach((b, i) => prev[i] = b.pressed);
@@ -3416,7 +3440,7 @@ function renderGallery() {
    ========================================================= */
 const VIEWS = ['fpv', 'chase', 'los', 'orbit'];
 const VIEW_NAMES = { fpv: 'FPV', chase: 'Chase', los: 'Line of sight', orbit: 'Free orbit' };
-const viewName = v => v === 'fpv' ? (drone.P.key === 'camera' ? 'Camera screen' : 'FPV goggles') : v === 'los' && XRM.mode ? (XRM.mode === 'ar' ? 'Your room' : 'Stand in the field') : VIEW_NAMES[v];
+const viewName = v => v === 'fpv' ? (drone.P.key === 'camera' ? 'Camera screen' : 'FPV goggles') : v === 'los' && XRM.mode ? (XRM.mode === 'ar' ? 'Your room' : 'Pilot on ground') : VIEW_NAMES[v];
 const cam = { hd: 0, pos: new V3(0, 3, 10), q: new Q(), fov: 70, attract: 0, lastDrone: new V3() };
 const _m4 = new THREE.Matrix4(), _camOff = new V3(), _tilt = new Q(), _yq = new Q();
 function cycleView() {
@@ -3444,7 +3468,9 @@ function updateCamera(dt) {
       rig.position.sub(_v5.copy(camera.position).applyQuaternion(rig.quaternion));   // the eyes sit exactly at the drone camera / chase point
       return;
     }
-    rig.position.set(PILOT.x, terrainH(PILOT.x, PILOT.z) + eye, PILOT.z - 0.4); rig.quaternion.identity();   // standing in the field behind the pad
+    // pilot standing on the ground behind the pad, close enough to see a small drone; thumbstick press turns you to face it
+    const pd = P.key === 'whoop' ? 2.2 : P.key === 'racer' ? 3.5 : 4, pz = HOME.z + pd;
+    rig.position.set(HOME.x, terrainH(HOME.x, pz) + eye, pz); rig.quaternion.setFromAxisAngle(_v6.set(0, 1, 0), XRM.turn);
     return;
   }
   rig.position.set(0, 0, 0); rig.quaternion.identity();
@@ -4284,7 +4310,7 @@ function updateRadioUI(dt) {
    ========================================================= */
 const IS_APP = (() => { try { return matchMedia('(display-mode: standalone)').matches || /^android-app:/.test(document.referrer); } catch (e) { return false; } })();
 const XRM = { mode: '', support: { vr: false, ar: false }, menuOpen: false, focus: -1, placeMenu: false, frames: 0, prevView: null, switching: null, starting: false, exiting: false,
-  hidden: [], fog: null, pauseWas: false, hover: -1, buttons: [], msg: '', msgT: 0, floorRef: true };
+  hidden: [], fog: null, pauseWas: false, hover: -1, buttons: [], msg: '', msgT: 0, floorRef: true, turn: 0 };
 
 /* messages also show in the headset HUD */
 const toast2D = toast;
@@ -4294,8 +4320,10 @@ toast = function (msg, tone) { XRM.msg = String(msg); XRM.msgT = renderer.xr.isP
 async function startXR(mode) {
   if (XRM.starting) return false; XRM.starting = true;
   try {
-    const s = await navigator.xr.requestSession(mode === 'ar' ? 'immersive-ar' : 'immersive-vr',
-      mode === 'ar' ? { requiredFeatures: ['local-floor'], optionalFeatures: ['hand-tracking'] } : { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] });
+    let s = null;
+    if (mode === 'vr' && window.__earlyXR) { s = await window.__earlyXR; window.__earlyXR = null; if (s && s.__ended) s = null; }   // the app's launch session
+    if (!s) s = await navigator.xr.requestSession(mode === 'ar' ? 'immersive-ar' : 'immersive-vr',
+      mode === 'ar' ? { optionalFeatures: ['local-floor', 'hand-tracking'] } : { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] });
     let ref = 'local';
     try { await s.requestReferenceSpace('local-floor'); ref = 'local-floor'; } catch (e) { }
     renderer.xr.setReferenceSpaceType(ref); XRM.floorRef = ref === 'local-floor';
@@ -4303,6 +4331,9 @@ async function startXR(mode) {
     s.addEventListener('end', onXREnd);
     XRM.mode = mode; XRM.frames = 0; sound.init();
     if (XRM.prevView === null) XRM.prevView = S.view;
+    XRM.turn = 0;
+    let first = false; try { first = !localStorage.getItem('duet-drone-sim-xr'); localStorage.setItem('duet-drone-sim-xr', '1'); } catch (e) { }
+    if (first && S.drone !== 'camera') selectDrone('camera');   // first time in the headset: the GPS camera drone holds its position by itself, the easiest to learn
     setInput('xr');
     if (!$('#menu').hidden) startFlight();
     if (mode === 'ar') arOn(); else if (!['los', 'fpv', 'chase'].includes(S.view) || !XRM.switching) S.view = 'los';
@@ -4342,7 +4373,23 @@ function exitXR() {
 }
 
 /* ---------- mixed reality: hide the map, flat floor, no wind ---------- */
-const AR_KEEP = new Set([rig, droneRoot, blob, hemi, sun, sun.target]);
+/* a small orange marker above the drone when it is far away (pilot view and mixed reality) */
+const xrMark = new THREE.Sprite(new THREE.SpriteMaterial({ map: canvasTex(64, 64, (g) => { g.fillStyle = '#ffad1f'; g.strokeStyle = 'rgba(0,0,0,.6)'; g.lineWidth = 4; g.beginPath(); g.moveTo(8, 14); g.lineTo(56, 14); g.lineTo(32, 52); g.closePath(); g.fill(); g.stroke(); }), transparent: true, depthTest: false, sizeAttenuation: false }));
+xrMark.scale.set(0.03, 0.03, 1); xrMark.renderOrder = 1003; xrMark.visible = false; scene.add(xrMark);
+const _xrCw = new V3();
+function updateXRMark() {
+  const d = drone.pos, dist = camera.getWorldPosition(_xrCw).distanceTo(d);
+  xrMark.visible = renderer.xr.isPresenting && !XRM.menuOpen && (XRM.mode === 'ar' || S.view === 'los') && dist > 6;
+  if (xrMark.visible) xrMark.position.set(d.x, d.y + 0.25 + dist * 0.012, d.z);
+}
+/* face the drone: turn the standing pilot so the drone is straight ahead */
+function xrFaceDrone() {
+  if (XRM.mode !== 'vr' || S.view !== 'los') return;
+  _xrE.setFromQuaternion(camera.quaternion, 'YXZ');
+  const dx = drone.pos.x - rig.position.x, dz = drone.pos.z - rig.position.z;
+  XRM.turn = Math.atan2(-dx, -dz) - _xrE.y;
+}
+const AR_KEEP = new Set([rig, droneRoot, blob, hemi, sun, sun.target, xrMark]);
 function arOn() {
   if (ARF.on) return;
   ARF.floor = terrainH(HOME.x, HOME.z); ARF.on = true;
@@ -4400,6 +4447,7 @@ function placeXRMenu() {
 }
 function updateXRMenu(dt) {
   XRM.frames++; if (XRM.msgT > 0) XRM.msgT -= dt;
+  updateXRMark();
   if (!XRM.menuOpen) return;
   if (XRM.placeMenu && XRM.frames > 3) placeXRMenu();
   let hov = -1;
@@ -4478,8 +4526,8 @@ function drawXRMenu() {
   row(ar ? 'MAP (only in VR)' : 'MAP', 270, Object.keys(MAPS).map(k => ['map:' + k, MAPS[k].short, { on: S.map === k && !ar, off: ar }]));
   row('AIRCRAFT', 390, Object.keys(PRESETS).map(k => ['drone:' + k, PRESETS[k].short, { on: S.drone === k }]));
   row(ar ? 'VIEW (only in VR)' : 'VIEW', 510, [
-    ['view:los', 'Stand in field', { on: S.view === 'los' && !ar, off: ar }],
-    ['view:fpv', drone.P.key === 'camera' ? 'Camera screen' : 'FPV goggles', { on: S.view === 'fpv' && !ar, off: ar }],
+    ['view:los', 'Pilot on ground', { on: S.view === 'los' && !ar, off: ar }],
+    ['view:fpv', 'Drone camera', { on: S.view === 'fpv' && !ar, off: ar }],
     ['view:chase', 'Chase', { on: S.view === 'chase' && !ar, off: ar }]]);
   const y = 640, h = 104, gap = 18;
   button('fly', '▶  Fly', 40, y, 290, h, { tone: 'go', size: 34 });
@@ -4489,7 +4537,7 @@ function drawXRMenu() {
   c.textAlign = 'left'; c.fillStyle = 'rgba(255,255,255,0.72)'; c.font = `500 23px ${SANS}`;
   const m1 = S.stickMode === 1;
   c.fillText(m1 ? 'Left stick: pitch + yaw    Right stick: throttle + roll' : 'Left stick: throttle + yaw    Right stick: pitch + roll', 40, 800);
-  c.fillText('A arm · B reset · X view · Y flight mode · Right trigger photo · Left trigger home', 40, 838);
+  c.fillText('A arm · B reset · X view · Y mode · Right trigger photo · Stick press: face the drone', 40, 838);
   c.fillStyle = '#ffad1f'; c.fillText('Grip button or PS5 Options: open / close this menu  ·  PS5 D-pad + ✕ to choose', 40, 876);
   xrMenuTex.needsUpdate = true;
 }
