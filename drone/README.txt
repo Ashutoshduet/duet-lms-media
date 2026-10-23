@@ -23,13 +23,22 @@ WHAT IS INSIDE
   Multiplayer and shared leaderboards work in the claude.ai version only.
 
 PUT IT ON THE QUEST
-  Route A (any time, no cable): the folder must be on an https:// address.
-    1. Upload this folder, e.g. https://ashutoshduet.github.io/duet-lms-media/drone/
-    2. Open that address once in the Quest Browser with internet. It saves itself.
-    3. Press "Fly in VR".
+  The app: "DUET Drone Simulator" in the Meta Store, private Alpha channel (package
+    in.duetpower.dronesim). It sits in the main Library and opens straight into the headset.
+    Open it once with Wi-Fi; after that it works offline.
+  In the Quest Browser: open https://ashutoshduet.github.io/duet-lms-media/drone/ and press
+    "Fly in VR" (stand in the field) or "Fly in AR" (the drone flies in your own room).
   Route B (USB cable, no upload): on the Mac double-click tools/quest-usb.command,
     then open http://localhost:8080 in the Quest Browser and press "Fly in VR".
-  App with its own icon (APK): see QUEST-APP-GUIDE.txt.
+  Building the app yourself: see QUEST-APP-GUIDE.txt.
+
+IN THE HEADSET
+  Grip button (or Options on a PS5 controller) opens the menu in front of you:
+    Field (VR 360°) or My room (mixed reality), map, aircraft, view (stand in the field,
+    drone camera, chase), flight mode, Fly, Reset and Exit.
+  Point at a button and pull the trigger. With a PS5 controller: D-pad to move, Cross to choose.
+  Mixed reality: the map is hidden, the drone takes off from your floor, there is no wind and
+    nothing to crash into except the floor. The Tiny Whoop is the right size for a room.
 
 CONTROLS
   Keyboard    W/S throttle, A/D yaw, arrows pitch/roll, Enter arm, T/L/H take-off/land/home,
@@ -41,8 +50,10 @@ CONTROLS
               remote > pick "DJI USB VCOM For Protocol". Both sticks down-and-in starts the motors.
   RC radio    USB joystick (HID) mode on the radio; Settings > Radio to map sticks and the
               SA arm, SB mode, SC beeper and SD turtle switches.
-  Quest       Left stick throttle/yaw, right stick pitch/roll, A arm, B reset, X view, Y flight mode.
-              A PS5 / Xbox controller paired with the Quest by Bluetooth also works.
+  Quest       Left stick throttle/yaw, right stick pitch/roll, A arm, B reset, X view, Y flight mode,
+              right trigger photo, left trigger home (turtle when crashed), grip = menu / exit.
+              A PS5 / Xbox controller paired with the Quest by Bluetooth also works: press a
+              button on it and it takes over; Options opens the headset menu.
   Phone       On-screen sticks.
 
 GRAPHICS

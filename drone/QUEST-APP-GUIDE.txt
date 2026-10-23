@@ -2,15 +2,25 @@ DUET DRONE SIMULATOR AS A META QUEST APP (APK)
 ==============================================
 Same method as DUET Solar System 360 and DUET Human Body 360.
 
-  1. The folder must be online at https (README.txt, route A).
-  2. Wrap it with Meta's Bubblewrap (@meta-quest/bubblewrap-core) using a NEW package name,
-     for example in.duetpower.dronesim, and a NEW keystore (keep it and its passwords safe;
-     every update must be signed with the same key).
-       App name ............. DUET Drone Simulator
-       Start URL ............ /duet-lms-media/drone/index.html
-       Display .............. standalone      Orientation ... landscape
-  3. Digital Asset Links: APPEND the new SHA-256 fingerprint entry to
-     .well-known/assetlinks.json in ashutoshduet.github.io (do not remove the existing entries).
-  4. Install: adb install -r app-release-signed.apk  (or the ALPHA release channel in the
-     Meta Horizon developer dashboard for a proper Library tile).
-  5. In the headset: open the app once with Wi-Fi, then press "Fly in VR".
+Current app
+  Name ................. DUET Drone Simulator
+  Package .............. in.duetpower.dronesim   (keystore: SolarSystem360-Quest/keys/dronesim.keystore)
+  Meta Store app ID .... 1317971344741849, private Alpha release channel
+  Invite link .......... https://www.meta.com/s/7B77e5s2v  (automatic approval)
+  App mode ............. immersive (opens straight into the headset menu)
+  Start URL ............ https://ashutoshduet.github.io/duet-lms-media/drone/
+
+How it was made
+  1. The folder is online at https (GitHub Pages) with an offline service worker (sw.js).
+  2. Meta's Bubblewrap (@meta-quest/bubblewrap-core): isMetaQuest true, horizonOSAppMode
+     "immersive", minSdkVersion 23, display standalone. Signed with zipalign + apksigner
+     using the keystore above. Every update must use the same key and a higher versionCode.
+  3. Digital Asset Links: the SHA-256 fingerprint is APPENDED to .well-known/assetlinks.json
+     in ashutoshduet.github.io (the Solar System and Human Body entries stay).
+  4. Upload: ovr-platform-util upload-quest-build --app-id 1317971344741849 --channel ALPHA
+     (app secret from the dashboard's API page). Then "Install on device" from the invite page,
+     or install it from the Store in the headset.
+
+Updating the simulator
+  Changes to the web files reach the app the next time it opens with internet.
+  A new APK is only needed for a new name, icon, package or app mode.
