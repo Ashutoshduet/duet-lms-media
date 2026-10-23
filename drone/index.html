@@ -3447,6 +3447,7 @@ const VIEWS = ['fpv', 'chase', 'los', 'orbit'];
 const VIEW_NAMES = { fpv: 'FPV', chase: 'Chase', los: 'Line of sight', orbit: 'Free orbit' };
 const viewName = v => v === 'fpv' ? (drone.P.key === 'camera' ? 'Camera screen' : 'FPV goggles') : v === 'los' && XRM.mode ? (XRM.mode === 'ar' ? 'Your room' : 'Pilot on ground') : VIEW_NAMES[v];
 const cam = { hd: 0, pos: new V3(0, 3, 10), q: new Q(), fov: 70, attract: 0, lastDrone: new V3() };
+const _xrE2 = new THREE.Euler();
 const _m4 = new THREE.Matrix4(), _camOff = new V3(), _tilt = new Q(), _yq = new Q();
 function cycleView() {
   if (XRM.mode === 'ar') { toast('Mixed reality: you watch the drone in your room'); return; }
@@ -3466,7 +3467,11 @@ function updateCamera(dt) {
     controls.enabled = false;
     if (XRM.menuOpen) return;                    // keep still while the headset menu is open
     const eye = XRM.floorRef ? 0 : 1.65;          // floor-level reference: the headset adds the user's real eye height
-    if (XRM.mode === 'ar') { rig.position.set(HOME.x, ARF.floor + (XRM.floorRef ? 0 : 1.5), HOME.z + 1.8); rig.quaternion.identity(); return; }
+    if (XRM.mode === 'ar') {   // the pad (and the drone) sits on your floor 1.6 m in front of where you were looking
+      if (!XRM.arAnchor && XRM.frames > 3) { _xrE2.setFromQuaternion(camera.quaternion, 'YXZ'); const p = camera.position, y = _xrE2.y; XRM.arAnchor = { x: HOME.x - (p.x - Math.sin(y) * 1.6), z: HOME.z - (p.z - Math.cos(y) * 1.6) }; }
+      const a = XRM.arAnchor || { x: HOME.x, z: HOME.z + 1.6 };
+      rig.position.set(a.x, ARF.floor + (XRM.floorRef ? 0 : 1.5), a.z); rig.quaternion.identity(); return;
+    }
     if (view === 'fpv' || view === 'chase') {
       if (view === 'fpv') { fpvPose(rig.position, rig.quaternion); if (S.vrComfort) rig.quaternion.setFromAxisAngle(_v6.set(0, 1, 0), drone.heading); }
       else { _yq.setFromAxisAngle(_v6.set(0, 1, 0), cam.hd); rig.position.set(0, P.chase[0], P.chase[1]).applyQuaternion(_yq).add(drone.pos); rig.quaternion.copy(_yq); }
@@ -4346,6 +4351,7 @@ async function startXR(mode) {
     XRM.turn = 0;
     let first = false; try { first = !localStorage.getItem('duet-drone-sim-xr'); localStorage.setItem('duet-drone-sim-xr', '1'); } catch (e) { }
     if (first && S.drone !== 'camera') selectDrone('camera');   // first time in the headset: the GPS camera drone holds its position by itself, the easiest to learn
+    if (S.drone === 'camera' && drone.mode === 'atti') setFlightMode('normal');   // GPS hold in the headset; ATTI stays one Y press away
     setInput('xr');
     if (!$('#menu').hidden) startFlight();
     S.view = 'los';
@@ -4363,7 +4369,7 @@ function setPlace(mode) {
   if (mode === 'ar' && !XRM.arSession) return;
   setPeek(false);
   XRM.mode = mode;
-  if (mode === 'ar') arOn(); else arOff();
+  if (mode === 'ar') { XRM.arAnchor = null; arOn(); } else arOff();
   XRM.home = null; uiChips();
   toast(mode === 'ar' ? 'Your room: the drone is on the floor in front of you' : 'Pilot on the ground. A = arm, left stick up = take off');
 }
@@ -4516,7 +4522,7 @@ function xrAction(id) {
   if (k === 'view') { if (XRM.mode !== 'ar') { S.view = v; save(); uiChips(); } drawXRMenu(); return; }
   if (k === 'mode') { cycleMode(); drawXRMenu(); return; }
   if (k === 'fly') { closeXRMenu(); return; }
-  if (k === 'reset') { doReset(); closeXRMenu(); return; }
+  if (k === 'reset') { doReset(); if (XRM.mode === 'ar') XRM.arAnchor = null; closeXRMenu(); return; }
   if (k === 'exit') { closeXRMenu(); exitXR(); }
 }
 function drawXRMenu() {
