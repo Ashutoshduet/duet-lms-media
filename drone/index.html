@@ -4590,7 +4590,7 @@ function autoStartXR() {
   // the Quest app opens straight into the headset: VR field with the menu in front of you
   const go = () => { if (renderer.xr.isPresenting || XRM.starting || XRM.exiting) return; startXR(XRM.support.vr ? 'vr' : 'ar').then(ok => { if (ok) openXRMenu(); }); };
   const wait = () => window.__duetReady ? go() : setTimeout(wait, 150);
-  wait(); setTimeout(go, 2500); setTimeout(go, 6000);
+  wait(); for (let t = 2500; t <= 30000; t += 2500) setTimeout(go, t);   // a previous session may still be closing
 }
 if (navigator.xr && navigator.xr.isSessionSupported) {
   Promise.all([navigator.xr.isSessionSupported('immersive-vr').catch(() => false), navigator.xr.isSessionSupported('immersive-ar').catch(() => false)]).then(([vr, ar]) => {
