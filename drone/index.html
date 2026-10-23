@@ -4336,6 +4336,12 @@ function xrPulse(strength, ms, hand) {
   const s = renderer.xr.getSession(); if (!s) return;
   for (const src of s.inputSources) { if (hand && src.handedness !== hand) continue; const h = src.gamepad && src.gamepad.hapticActuators && src.gamepad.hapticActuators[0]; try { if (h && h.pulse) h.pulse(strength, ms); } catch (e) { } }
 }
+/* three.js does not pass the camera's layers on to the headset's eye cameras: the drone lives on its own layer
+   (hidden in its own camera view), so switch that layer on for the eyes, except in the drone-camera view */
+function xrLayers() {
+  const xc = renderer.xr.getCamera(), on = !(S.view === 'fpv' && XRM.mode === 'vr');
+  for (const c of [xc, ...(xc.cameras || [])]) { if (on) c.layers.enable(DRONE_LAYER); else c.layers.disable(DRONE_LAYER); }
+}
 let _xrWasCrashed = false, _xrWasArmed = false;
 function xrHaptics() {
   if (drone.crashed && !_xrWasCrashed) xrPulse(1, 220);
@@ -4502,7 +4508,7 @@ function placeXRMenu() {
 }
 function updateXRMenu(dt) {
   XRM.frames++; if (XRM.msgT > 0) XRM.msgT -= dt;
-  updateXRMark(); checkPlayArea(); xrHaptics();
+  xrLayers(); updateXRMark(); checkPlayArea(); xrHaptics();
   if (!XRM.menuOpen) return;
   if (XRM.placeMenu && XRM.frames > 3) placeXRMenu();
   let hov = -1;
@@ -4539,7 +4545,7 @@ function xrAction(id) {
   if (k === 'view') { if (XRM.mode !== 'ar') { S.view = v; save(); uiChips(); } drawXRMenu(); return; }
   if (k === 'mode') { cycleMode(); drawXRMenu(); return; }
   if (k === 'speed') { const ks = Object.keys(XR_SPEED); S.xrSpeed = ks[(ks.indexOf(S.xrSpeed || 'normal') + 1) % ks.length]; save(); toast('Speed: ' + XR_SPEED[S.xrSpeed].name); drawXRMenu(); return; }
-  if (k === 'fly') { closeXRMenu(); return; }
+  if (k === 'fly') { closeXRMenu(); if (XRM.mode === 'vr' && S.view === 'los') xrFaceDrone(); return; }   // the pad straight ahead of where you look
   if (k === 'reset') { doReset(); if (XRM.mode === 'ar') XRM.arAnchor = null; closeXRMenu(); return; }
   if (k === 'exit') { closeXRMenu(); exitXR(); }
 }
