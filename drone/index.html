@@ -2884,6 +2884,9 @@ function readInputs(dt) {
   }
   if (activeInput === 'gamepad' || activeInput === 'xr' || activeInput === 'dji') absolute = padRealThrottle();
   if (LINK.rcLost || replay.on) { yaw = 0; pitch = 0; roll = 0; if (!absolute) thr = 0; else thr = inp.thr; }
+  if ((activeInput === 'xr' || activeInput === 'gamepad') && renderer.xr.isPresenting) {   // headset: Slow / Normal / Fast from the menu
+    const f = XR_SPEED[S.xrSpeed || 'normal'].f; yaw *= Math.min(1, f + 0.15); pitch *= f; roll *= f; if (!absolute && thr > 0) thr *= Math.min(1, f + 0.2);
+  }
   inp.yaw = clamp(yaw, -1, 1); inp.pitch = clamp(pitch, -1, 1); inp.roll = clamp(roll, -1, 1); inp.thr = clamp(thr, -1, 1);
   inp.spring = !absolute;
   if (absolute) inp.thr01 = (inp.thr + 1) / 2;
@@ -4326,6 +4329,20 @@ const XRM = { mode: '', support: { vr: false, ar: false }, menuOpen: false, focu
 const toast2D = toast;
 toast = function (msg, tone) { XRM.msg = String(msg); XRM.msgT = renderer.xr.isPresenting ? 3 : 0; return toast2D(msg, tone); };
 
+/* stick speed for the Quest controllers and gamepads (pitch, roll and yaw are scaled; climb rate too) */
+const XR_SPEED = { slow: { name: 'Slow', f: 0.45 }, normal: { name: 'Normal', f: 0.7 }, fast: { name: 'Fast', f: 1 } };
+/** A short buzz in the Quest controllers (arming, crashes, menu clicks). */
+function xrPulse(strength, ms, hand) {
+  const s = renderer.xr.getSession(); if (!s) return;
+  for (const src of s.inputSources) { if (hand && src.handedness !== hand) continue; const h = src.gamepad && src.gamepad.hapticActuators && src.gamepad.hapticActuators[0]; try { if (h && h.pulse) h.pulse(strength, ms); } catch (e) { } }
+}
+let _xrWasCrashed = false, _xrWasArmed = false;
+function xrHaptics() {
+  if (drone.crashed && !_xrWasCrashed) xrPulse(1, 220);
+  if (drone.armed !== _xrWasArmed && !drone.crashed) xrPulse(0.5, 70, 'right');
+  _xrWasCrashed = drone.crashed; _xrWasArmed = drone.armed;
+}
+
 /* ---------- session start / switch / end ----------
    On a headset with passthrough one mixed-reality session serves both places: the field is drawn solid over the room (VR)
    or hidden so the room shows (AR). Switching is instant and never ends the session (ending it closes the Quest app). */
@@ -4444,7 +4461,7 @@ function checkPlayArea() {
 }
 
 /* ---------- headset menu panel ---------- */
-const XM_W = 1024, XM_H = 900;
+const XM_W = 1024, XM_H = 990;
 const xrMenuCv = document.createElement('canvas'); xrMenuCv.width = XM_W; xrMenuCv.height = XM_H;
 const xrMenuTex = new THREE.CanvasTexture(xrMenuCv); xrMenuTex.colorSpace = THREE.SRGBColorSpace; xrMenuTex.anisotropy = 4;
 const xrMenu = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 1.0 * XM_H / XM_W), new THREE.MeshBasicMaterial({ map: xrMenuTex, transparent: true, depthTest: false, depthWrite: false }));
@@ -4455,7 +4472,7 @@ const xrCtl = [0, 1].map(i => {
   const c = renderer.xr.getController(i); rig.add(c);
   const line = new THREE.Line(xrRayGeo, new THREE.LineBasicMaterial({ color: 0xffad1f, transparent: true, opacity: 0.95, depthTest: false }));
   line.renderOrder = 1002; line.visible = false; line.frustumCulled = false; c.add(line); c.userData.line = line;
-  c.addEventListener('select', () => onXRSelect(c));
+  c.addEventListener('select', (ev) => { if (onXRSelect(c)) { const g = ev.data && ev.data.gamepad, a = g && g.hapticActuators && g.hapticActuators[0]; try { if (a && a.pulse) a.pulse(0.3, 25); } catch (e) { } } });
   return c;
 });
 const _xrRc = new THREE.Raycaster(), _xrRot = new THREE.Matrix4(), _xrE = new THREE.Euler();
@@ -4485,7 +4502,7 @@ function placeXRMenu() {
 }
 function updateXRMenu(dt) {
   XRM.frames++; if (XRM.msgT > 0) XRM.msgT -= dt;
-  updateXRMark(); checkPlayArea();
+  updateXRMark(); checkPlayArea(); xrHaptics();
   if (!XRM.menuOpen) return;
   if (XRM.placeMenu && XRM.frames > 3) placeXRMenu();
   let hov = -1;
@@ -4510,9 +4527,9 @@ function xrPadNav(dir) {
 }
 function xrPadPress() { const b = XRM.buttons[XRM.focus]; if (b && !b.off) xrAction(b.id); else xrPadFocus(); }
 function onXRSelect(c) {
-  if (!XRM.menuOpen) return;
-  const h = menuHit(c); if (!h || h.i < 0) return;
-  xrAction(XRM.buttons[h.i].id);
+  if (!XRM.menuOpen) return false;
+  const h = menuHit(c); if (!h || h.i < 0) return false;
+  xrAction(XRM.buttons[h.i].id); return true;
 }
 function xrAction(id) {
   const [k, v] = id.split(':');
@@ -4521,6 +4538,7 @@ function xrAction(id) {
   if (k === 'drone') { if (v !== S.drone) { selectDrone(v); drone.reset(); prevPos.copy(drone.pos); } drawXRMenu(); return; }
   if (k === 'view') { if (XRM.mode !== 'ar') { S.view = v; save(); uiChips(); } drawXRMenu(); return; }
   if (k === 'mode') { cycleMode(); drawXRMenu(); return; }
+  if (k === 'speed') { const ks = Object.keys(XR_SPEED); S.xrSpeed = ks[(ks.indexOf(S.xrSpeed || 'normal') + 1) % ks.length]; save(); toast('Speed: ' + XR_SPEED[S.xrSpeed].name); drawXRMenu(); return; }
   if (k === 'fly') { closeXRMenu(); return; }
   if (k === 'reset') { doReset(); if (XRM.mode === 'ar') XRM.arAnchor = null; closeXRMenu(); return; }
   if (k === 'exit') { closeXRMenu(); exitXR(); }
@@ -4567,16 +4585,18 @@ function drawXRMenu() {
     ['view:los', 'Pilot on ground', { on: S.view === 'los' && !ar, off: ar }],
     ['view:fpv', 'Drone camera', { on: S.view === 'fpv' && !ar, off: ar }],
     ['view:chase', 'Chase', { on: S.view === 'chase' && !ar, off: ar }]]);
-  const y = 640, h = 104, gap = 18;
-  button('fly', '▶  Fly', 40, y, 290, h, { tone: 'go', size: 34 });
-  button('mode', 'Mode: ' + MODE_NAMES[drone.mode], 40 + 290 + gap, y, 214, h, { size: 26 });
-  button('reset', 'Reset', 40 + 290 + 214 + gap * 2, y, 176, h);
-  button('exit', IS_APP ? 'Exit app' : 'Exit VR', 40 + 290 + 214 + 176 + gap * 3, y, W - 80 - (290 + 214 + 176 + gap * 3), h, { tone: 'bad' });
+  row('FLYING', 630, [
+    ['mode', 'Mode: ' + MODE_NAMES[drone.mode]],
+    ['speed', 'Speed: ' + XR_SPEED[S.xrSpeed || 'normal'].name],
+    ['reset', 'Reset drone']]);
+  const y = 752, h = 100, gap = 18;
+  button('fly', '▶  Fly', 40, y, 600, h, { tone: 'go', size: 36 });
+  button('exit', IS_APP ? 'Exit app' : 'Exit VR', 40 + 600 + gap, y, W - 80 - 600 - gap, h, { tone: 'bad', size: 30 });
   c.textAlign = 'left'; c.fillStyle = 'rgba(255,255,255,0.72)'; c.font = `500 23px ${SANS}`;
   const m1 = S.stickMode === 1;
-  c.fillText(m1 ? 'Left stick: pitch + yaw    Right stick: throttle + roll' : 'Left stick: throttle + yaw    Right stick: pitch + roll', 40, 800);
-  c.fillText('A arm · B reset · X view · Y mode · Right trigger photo · Stick press: face the drone', 40, 838);
-  c.fillStyle = '#ffad1f'; c.fillText('Grip button or PS5 Options: open / close this menu  ·  PS5 D-pad + ✕ to choose', 40, 876);
+  c.fillText(m1 ? 'Left stick: pitch + yaw    Right stick: throttle + roll' : 'Left stick: throttle + yaw (middle = hold height)    Right stick: pitch + roll', 40, 898);
+  c.fillText('A arm · B reset · X view · Y mode · Right trigger photo · Stick press: face the drone', 40, 934);
+  c.fillStyle = '#ffad1f'; c.fillText('Grip button or PS5 Options: open / close this menu  ·  PS5 D-pad + ✕ to choose', 40, 970);
   xrMenuTex.needsUpdate = true;
 }
 
