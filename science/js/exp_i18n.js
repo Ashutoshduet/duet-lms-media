@@ -2375,6 +2375,390 @@ export const DICT = {
 "Beaker C — chalk in water": {
 "hi": "बीकर C — पानी में चॉक",
 "hg": "Beaker C — paani mein chalk"
+},
+"Which metal is more reactive? (displacement)": {
+"hi": "कौन-सी धातु अधिक अभिक्रियाशील है? (विस्थापन)",
+"hg": "Kaun sa metal zyada reactive hai? (displacement)"
+},
+"To find the order of reactivity of zinc, iron and copper by putting each metal in solutions of the others' salts.": {
+"hi": "हर धातु को दूसरी धातुओं के लवणों के विलयन में डालकर जिंक, लोहे और कॉपर की अभिक्रियाशीलता का क्रम पता करना।",
+"hg": "Har metal ko baaki metals ke salt solutions mein daalkar zinc, iron aur copper ki reactivity ka order pata karna."
+},
+"Displacement reactions": {
+"hi": "विस्थापन अभिक्रियाएँ",
+"hg": "Displacement reactions"
+},
+"Test tube A — copper sulphate": {
+"hi": "परखनली A — कॉपर सल्फेट",
+"hg": "Test tube A — copper sulphate"
+},
+"Test tube B — ferrous sulphate": {
+"hi": "परखनली B — फेरस सल्फेट",
+"hg": "Test tube B — ferrous sulphate"
+},
+"Test tube C — ferrous sulphate": {
+"hi": "परखनली C — फेरस सल्फेट",
+"hg": "Test tube C — ferrous sulphate"
+},
+"Test tube D — zinc sulphate": {
+"hi": "परखनली D — जिंक सल्फेट",
+"hg": "Test tube D — zinc sulphate"
+},
+"Test tube E — zinc sulphate": {
+"hi": "परखनली E — जिंक सल्फेट",
+"hg": "Test tube E — zinc sulphate"
+},
+"Put a zinc granule in tube A (copper sulphate).": {
+"hi": "परखनली A (कॉपर सल्फेट) में जिंक का एक दाना डालें।",
+"hg": "Test tube A (copper sulphate) mein ek zinc granule daalo."
+},
+"Zinc is now in the blue solution.": {
+"hi": "जिंक अब नीले विलयन में है।",
+"hg": "Zinc ab blue solution mein hai."
+},
+"Put copper turnings in tube B (ferrous sulphate).": {
+"hi": "परखनली B (फेरस सल्फेट) में कॉपर की छीलन डालें।",
+"hg": "Test tube B (ferrous sulphate) mein copper turnings daalo."
+},
+"Put a zinc granule in tube C (ferrous sulphate).": {
+"hi": "परखनली C (फेरस सल्फेट) में जिंक का एक दाना डालें।",
+"hg": "Test tube C (ferrous sulphate) mein ek zinc granule daalo."
+},
+"Put an iron nail in tube D (zinc sulphate).": {
+"hi": "परखनली D (जिंक सल्फेट) में लोहे की एक कील डालें।",
+"hg": "Test tube D (zinc sulphate) mein ek iron ki keel daalo."
+},
+"Put copper turnings in tube E (zinc sulphate).": {
+"hi": "परखनली E (जिंक सल्फेट) में कॉपर की छीलन डालें।",
+"hg": "Test tube E (zinc sulphate) mein copper turnings daalo."
+},
+"Leave the tubes for about 20 minutes and compare (time-lapse).": {
+"hi": "परखनलियों को लगभग 20 मिनट के लिए छोड़ दें और फिर तुलना करें (टाइम-लैप्स)।",
+"hg": "Tubes ko lagbhag 20 minute ke liye chhod do aur phir compare karo (time-lapse)."
+},
+"A: the blue colour fades and a reddish-brown layer of copper covers the zinc. C: the pale green colour fades and the zinc gets a dark grey coat. B, D and E: no change.": {
+"hi": "A: नीला रंग फीका पड़ जाता है और जिंक पर कॉपर की लाल-भूरी परत चढ़ जाती है। C: हल्का हरा रंग फीका पड़ जाता है और जिंक पर गहरे धूसर रंग की परत चढ़ जाती है। B, D और E: कोई बदलाव नहीं।",
+"hg": "A: blue rang halka ho jaata hai aur zinc par copper ki reddish-brown layer chadh jaati hai. C: pale green rang halka ho jaata hai aur zinc par dark grey coating chadh jaati hai. B, D aur E: koi change nahi."
+},
+"A more reactive metal pushes a less reactive metal out of its salt solution. Zinc displaces copper and iron; iron cannot displace zinc; copper cannot displace iron or zinc.": {
+"hi": "अधिक अभिक्रियाशील धातु, कम अभिक्रियाशील धातु को उसके लवण के विलयन से बाहर निकाल देती है। जिंक, कॉपर और लोहे को विस्थापित करता है; लोहा जिंक को विस्थापित नहीं कर सकता; कॉपर लोहे या जिंक को विस्थापित नहीं कर सकता।",
+"hg": "Zyada reactive metal, kam reactive metal ko uske salt solution se bahar nikaal deta hai. Zinc, copper aur iron ko displace karta hai; iron, zinc ko displace nahi kar sakta; copper, iron ya zinc ko displace nahi kar sakta."
+},
+"Changes only in A (blue fades, copper deposit) and C (green fades, grey deposit); no change in B, D and E.": {
+"hi": "बदलाव केवल A (नीला रंग फीका, कॉपर जमा) और C (हरा रंग फीका, धूसर परत जमी) में; B, D और E में कोई बदलाव नहीं।",
+"hg": "Change sirf A (blue rang halka, copper jama) aur C (green rang halka, grey layer jami) mein; B, D aur E mein koi change nahi."
+},
+"Order of reactivity: zinc > iron > copper. A more reactive metal displaces a less reactive one from its salt solution.": {
+"hi": "अभिक्रियाशीलता का क्रम: जिंक > लोहा > कॉपर। अधिक अभिक्रियाशील धातु, कम अभिक्रियाशील धातु को उसके लवण के विलयन से विस्थापित कर देती है।",
+"hg": "Reactivity ka order: zinc > iron > copper. Zyada reactive metal, kam reactive metal ko uske salt solution se displace kar deta hai."
+},
+"Clean the metals with sandpaper first so that the reaction can be seen clearly.": {
+"hi": "पहले धातुओं को रेगमाल से साफ़ करें, ताकि अभिक्रिया साफ़ दिखाई दे।",
+"hg": "Pehle metals ko sandpaper se saaf karo, taaki reaction saaf dikhe."
+},
+"Why does the blue colour fade in tube A?": {
+"hi": "परखनली A में नीला रंग फीका क्यों पड़ता है?",
+"hg": "Test tube A mein blue rang halka kyun ho jaata hai?"
+},
+"Copper sulphate is used up as zinc displaces copper; zinc sulphate is colourless.": {
+"hi": "जिंक कॉपर को विस्थापित करता है, इसलिए कॉपर सल्फेट खर्च हो जाता है; जिंक सल्फेट रंगहीन होता है।",
+"hg": "Zinc copper ko displace karta hai, isliye copper sulphate khatam hota jaata hai; zinc sulphate colourless hota hai."
+},
+"Why is there no change in tube D?": {
+"hi": "परखनली D में कोई बदलाव क्यों नहीं होता?",
+"hg": "Test tube D mein koi change kyun nahi hota?"
+},
+"Iron is less reactive than zinc, so it cannot displace zinc.": {
+"hi": "लोहा जिंक से कम अभिक्रियाशील है, इसलिए वह जिंक को विस्थापित नहीं कर सकता।",
+"hg": "Iron, zinc se kam reactive hai, isliye woh zinc ko displace nahi kar sakta."
+},
+"Arrange Zn, Fe and Cu by reactivity.": {
+"hi": "Zn, Fe और Cu को अभिक्रियाशीलता के क्रम में लगाएँ।",
+"hg": "Zn, Fe aur Cu ko reactivity ke order mein lagao."
+},
+"Zn > Fe > Cu.": {
+"hi": "Zn > Fe > Cu।",
+"hg": "Zn > Fe > Cu."
+},
+"pH of salt solutions": {
+"hi": "लवणों के विलयनों का pH",
+"hg": "Salt solutions ka pH"
+},
+"To find out whether solutions of some salts are acidic, basic or neutral.": {
+"hi": "यह पता करना कि कुछ लवणों के विलयन अम्लीय हैं, क्षारकीय हैं या उदासीन।",
+"hg": "Pata karna ki kuch salts ke solutions acidic hain, basic hain ya neutral."
+},
+"pH of salts": {
+"hi": "लवणों का pH",
+"hg": "Salts ka pH"
+},
+"Test sodium chloride solution with pH paper.": {
+"hi": "pH पेपर से सोडियम क्लोराइड विलयन की जाँच करें।",
+"hg": "pH paper se sodium chloride solution test karo."
+},
+"Salt of a strong acid (HCl) and a strong base (NaOH) is neutral.": {
+"hi": "प्रबल अम्ल (HCl) और प्रबल क्षारक (NaOH) से बना लवण उदासीन होता है।",
+"hg": "Strong acid (HCl) aur strong base (NaOH) se bana salt neutral hota hai."
+},
+"Test potassium nitrate solution.": {
+"hi": "पोटैशियम नाइट्रेट विलयन की जाँच करें।",
+"hg": "Potassium nitrate solution test karo."
+},
+"Test zinc sulphate solution.": {
+"hi": "जिंक सल्फेट विलयन की जाँच करें।",
+"hg": "Zinc sulphate solution test karo."
+},
+"Orange-yellow — pH about 5. Acidic.": {
+"hi": "नारंगी-पीला — pH लगभग 5। अम्लीय।",
+"hg": "Orange-yellow — pH lagbhag 5. Acidic."
+},
+"Salt of a strong acid (H₂SO₄) and a weak base gives an acidic solution.": {
+"hi": "प्रबल अम्ल (H₂SO₄) और दुर्बल क्षारक से बना लवण अम्लीय विलयन देता है।",
+"hg": "Strong acid (H₂SO₄) aur weak base se bana salt acidic solution deta hai."
+},
+"Test copper sulphate solution.": {
+"hi": "कॉपर सल्फेट विलयन की जाँच करें।",
+"hg": "Copper sulphate solution test karo."
+},
+"Orange — pH about 4. Acidic.": {
+"hi": "नारंगी — pH लगभग 4। अम्लीय।",
+"hg": "Orange — pH lagbhag 4. Acidic."
+},
+"Test sodium carbonate solution.": {
+"hi": "सोडियम कार्बोनेट विलयन की जाँच करें।",
+"hg": "Sodium carbonate solution test karo."
+},
+"Blue to violet — pH about 11. Basic.": {
+"hi": "नीले से बैंगनी — pH लगभग 11। क्षारकीय।",
+"hg": "Blue se violet — pH lagbhag 11. Basic."
+},
+"Salt of a strong base (NaOH) and a weak acid (carbonic acid) gives a basic solution.": {
+"hi": "प्रबल क्षारक (NaOH) और दुर्बल अम्ल (कार्बोनिक अम्ल) से बना लवण क्षारकीय विलयन देता है।",
+"hg": "Strong base (NaOH) aur weak acid (carbonic acid) se bana salt basic solution deta hai."
+},
+"Test sodium hydrogencarbonate solution.": {
+"hi": "सोडियम हाइड्रोजनकार्बोनेट विलयन की जाँच करें।",
+"hg": "Sodium hydrogencarbonate solution test karo."
+},
+"NaCl and KNO₃ gave pH 7; ZnSO₄ and CuSO₄ gave pH below 7; Na₂CO₃ and NaHCO₃ gave pH above 7.": {
+"hi": "NaCl और KNO₃ का pH 7 आया; ZnSO₄ और CuSO₄ का pH 7 से कम आया; Na₂CO₃ और NaHCO₃ का pH 7 से अधिक आया।",
+"hg": "NaCl aur KNO₃ ka pH 7 aaya; ZnSO₄ aur CuSO₄ ka pH 7 se kam aaya; Na₂CO₃ aur NaHCO₃ ka pH 7 se zyada aaya."
+},
+"Salt solutions can be neutral, acidic or basic, depending on the strength of the acid and base they come from.": {
+"hi": "लवणों के विलयन उदासीन, अम्लीय या क्षारकीय हो सकते हैं। यह उस अम्ल और क्षारक की प्रबलता पर निर्भर करता है, जिनसे लवण बना है।",
+"hg": "Salt solutions neutral, acidic ya basic ho sakte hain — yeh us acid aur base ki strength par depend karta hai jinse salt bana hai."
+},
+"Use a fresh pH paper strip for each solution.": {
+"hi": "हर विलयन के लिए pH पेपर की नई पट्टी का उपयोग करें।",
+"hg": "Har solution ke liye nayi pH paper strip use karo."
+},
+"Why is NaCl solution neutral?": {
+"hi": "NaCl विलयन उदासीन क्यों होता है?",
+"hg": "NaCl solution neutral kyun hota hai?"
+},
+"It comes from a strong acid and a strong base.": {
+"hi": "यह एक प्रबल अम्ल और एक प्रबल क्षारक से बनता है।",
+"hg": "Yeh ek strong acid aur ek strong base se banta hai."
+},
+"Is sodium carbonate solution acidic or basic?": {
+"hi": "सोडियम कार्बोनेट विलयन अम्लीय है या क्षारकीय?",
+"hg": "Sodium carbonate solution acidic hai ya basic?"
+},
+"Give a salt whose solution is acidic.": {
+"hi": "ऐसे एक लवण का नाम बताएँ जिसका विलयन अम्लीय हो।",
+"hg": "Ek aisa salt batao jiska solution acidic ho."
+},
+"Copper sulphate or zinc sulphate (or ammonium chloride).": {
+"hi": "कॉपर सल्फेट या जिंक सल्फेट (या अमोनियम क्लोराइड)।",
+"hg": "Copper sulphate ya zinc sulphate (ya ammonium chloride)."
+},
+"Zinc with sodium hydroxide": {
+"hi": "सोडियम हाइड्रॉक्साइड के साथ जिंक",
+"hg": "Sodium hydroxide ke saath zinc"
+},
+"To show that zinc reacts with sodium hydroxide solution on warming to give hydrogen gas.": {
+"hi": "यह दिखाना कि गरम करने पर जिंक सोडियम हाइड्रॉक्साइड विलयन से अभिक्रिया करके हाइड्रोजन गैस देता है।",
+"hg": "Dikhana ki garam karne par zinc, sodium hydroxide solution ke saath react karke hydrogen gas deta hai."
+},
+"Metal + base": {
+"hi": "धातु + क्षारक",
+"hg": "Metal + base"
+},
+"Put a few zinc granules in sodium hydroxide solution in a boiling tube.": {
+"hi": "क्वथन नली में रखे सोडियम हाइड्रॉक्साइड विलयन में जिंक के कुछ दाने डालें।",
+"hg": "Boiling tube mein rakhe sodium hydroxide solution mein kuch zinc granules daalo."
+},
+"Only a few tiny bubbles — the reaction is very slow in the cold.": {
+"hi": "केवल कुछ बहुत छोटे बुलबुले — ठंडे विलयन में अभिक्रिया बहुत धीमी होती है।",
+"hg": "Sirf kuch chhote-chhote bulbule — thande mein reaction bahut slow hota hai."
+},
+"Light the lamp and warm the tube gently.": {
+"hi": "लैंप जलाएँ और नली को धीरे-धीरे गरम करें।",
+"hg": "Lamp jalao aur tube ko dhire-dhire garam karo."
+},
+"Bubbles of gas form steadily on the zinc.": {
+"hi": "जिंक पर लगातार गैस के बुलबुले बनते हैं।",
+"hg": "Zinc par lagaataar gas ke bulbule bante hain."
+},
+"Warm sodium hydroxide reacts with zinc to form sodium zincate, and hydrogen gas is released.": {
+"hi": "गरम सोडियम हाइड्रॉक्साइड जिंक से अभिक्रिया करके सोडियम ज़िंकेट बनाता है, और हाइड्रोजन गैस निकलती है।",
+"hg": "Garam sodium hydroxide zinc ke saath react karke sodium zincate banata hai, aur hydrogen gas nikalti hai."
+},
+"Bring a burning splint near the mouth of the tube.": {
+"hi": "जलती हुई तीली को नली के मुँह के पास लाएँ।",
+"hg": "Jalti hui splint ko tube ke munh ke paas lao."
+},
+"The gas is hydrogen.": {
+"hi": "यह गैस हाइड्रोजन है।",
+"hg": "Yeh gas hydrogen hai."
+},
+"On warming, gas bubbles formed on zinc; the gas burned with a pop.": {
+"hi": "गरम करने पर जिंक पर गैस के बुलबुले बने; गैस पॉप की आवाज़ के साथ जली।",
+"hg": "Garam karne par zinc par gas ke bulbule bane; gas pop ki awaaz ke saath jali."
+},
+"Some metals like zinc react with bases such as sodium hydroxide to give hydrogen gas.": {
+"hi": "जिंक जैसी कुछ धातुएँ सोडियम हाइड्रॉक्साइड जैसे क्षारकों से अभिक्रिया करके हाइड्रोजन गैस देती हैं।",
+"hg": "Zinc jaise kuch metals sodium hydroxide jaise bases ke saath react karke hydrogen gas dete hain."
+},
+"Sodium hydroxide is caustic; warm gently and keep the tube pointed away from people.": {
+"hi": "सोडियम हाइड्रॉक्साइड दाहक होता है; धीरे-धीरे गरम करें और नली का मुँह लोगों से दूर रखें।",
+"hg": "Sodium hydroxide caustic hota hai; dhire-dhire garam karo aur tube ka munh logon se door rakho."
+},
+"Name the salt formed.": {
+"hi": "बनने वाले लवण का नाम बताएँ।",
+"hg": "Jo salt banta hai, uska naam batao."
+},
+"Sodium zincate (Na₂ZnO₂).": {
+"hi": "सोडियम ज़िंकेट (Na₂ZnO₂)।",
+"hg": "Sodium zincate (Na₂ZnO₂)."
+},
+"Do all metals react with NaOH?": {
+"hi": "क्या सभी धातुएँ NaOH से अभिक्रिया करती हैं?",
+"hg": "Kya saare metals NaOH ke saath react karte hain?"
+},
+"No — only a few, such as zinc and aluminium.": {
+"hi": "नहीं — केवल कुछ ही, जैसे जिंक और ऐलुमिनियम।",
+"hg": "Nahi — sirf kuch hi, jaise zinc aur aluminium."
+},
+"What makes iron rust?": {
+"hi": "लोहे पर जंग लगने का कारण क्या है?",
+"hg": "Iron ko rust kyun lagta hai?"
+},
+"To show that iron needs both air and water to rust.": {
+"hi": "यह दिखाना कि लोहे पर जंग लगने के लिए हवा और पानी दोनों ज़रूरी हैं।",
+"hg": "Dikhana ki iron ko rust lagne ke liye hawa aur paani dono zaroori hain."
+},
+"Rusting (slow chemical change)": {
+"hi": "जंग लगना (धीमा रासायनिक परिवर्तन)",
+"hg": "Rusting (slow chemical change)"
+},
+"Test tube A — tap water": {
+"hi": "परखनली A — नल का पानी",
+"hg": "Test tube A — nal ka paani"
+},
+"Test tube B — boiled water and oil": {
+"hi": "परखनली B — उबला हुआ पानी और तेल",
+"hg": "Test tube B — ubla hua paani aur tel"
+},
+"Test tube C — dry air": {
+"hi": "परखनली C — सूखी हवा",
+"hg": "Test tube C — sookhi hawa"
+},
+"Put a clean iron nail in tube A with some tap water, so that the nail is partly in water and partly in air.": {
+"hi": "परखनली A में थोड़ा नल का पानी लेकर उसमें लोहे की एक साफ़ कील डालें, ताकि कील का कुछ भाग पानी में और कुछ भाग हवा में रहे।",
+"hg": "Test tube A mein thoda nal ka paani lekar usme ek saaf iron ki keel daalo, taaki keel ka kuch hissa paani mein aur kuch hissa hawa mein rahe."
+},
+"The nail touches both water and air.": {
+"hi": "कील पानी और हवा दोनों के संपर्क में है।",
+"hg": "Keel paani aur hawa dono ko chhoo rahi hai."
+},
+"Put a nail in tube B filled with boiled water, and pour a little oil on top.": {
+"hi": "उबले हुए पानी से भरी परखनली B में एक कील डालें, और ऊपर से थोड़ा तेल डालें।",
+"hg": "Uble hue paani se bhari test tube B mein ek keel daalo, aur upar se thoda tel daalo."
+},
+"The oil floats as a layer on the water.": {
+"hi": "तेल पानी के ऊपर एक परत के रूप में तैरता है।",
+"hg": "Tel paani ke upar ek layer ki tarah tairta hai."
+},
+"Boiling removes the dissolved air, and the oil stops air from dissolving again.": {
+"hi": "उबालने से पानी में घुली हवा निकल जाती है, और तेल हवा को फिर से घुलने नहीं देता।",
+"hg": "Ubaalne se paani mein ghuli hawa nikal jaati hai, aur tel hawa ko dobara ghulne nahi deta."
+},
+"Put a nail in tube C with some anhydrous calcium chloride, and close it with a cork.": {
+"hi": "परखनली C में थोड़ा निर्जल कैल्शियम क्लोराइड डालकर उसमें एक कील डालें, और उसे कॉर्क से बंद करें।",
+"hg": "Test tube C mein thoda anhydrous calcium chloride daalkar usme ek keel daalo, aur use cork se band karo."
+},
+"The nail is in dry air.": {
+"hi": "कील सूखी हवा में है।",
+"hg": "Keel sookhi hawa mein hai."
+},
+"Calcium chloride soaks up moisture, so the air in the tube is dry.": {
+"hi": "कैल्शियम क्लोराइड नमी को सोख लेता है, इसलिए परखनली की हवा सूखी रहती है।",
+"hg": "Calcium chloride nami ko sokh leta hai, isliye tube ki hawa sookhi rehti hai."
+},
+"Leave the tubes for a few days (time-lapse).": {
+"hi": "परखनलियों को कुछ दिनों के लिए छोड़ दें (टाइम-लैप्स)।",
+"hg": "Tubes ko kuch dinon ke liye chhod do (time-lapse)."
+},
+"Only the nail in tube A is covered with brown rust. The nails in B and C stay shiny.": {
+"hi": "केवल परखनली A की कील भूरी जंग से ढक जाती है। B और C की कीलें चमकदार बनी रहती हैं।",
+"hg": "Sirf test tube A ki keel brown rust se dhak jaati hai. B aur C ki keelein chamakdaar rehti hain."
+},
+"Rusting needs both air (oxygen) and water. Tube B has no air and tube C has no water.": {
+"hi": "जंग लगने के लिए हवा (ऑक्सीजन) और पानी दोनों ज़रूरी हैं। परखनली B में हवा नहीं है और परखनली C में पानी नहीं है।",
+"hg": "Rust lagne ke liye hawa (oxygen) aur paani dono zaroori hain. Tube B mein hawa nahi hai aur tube C mein paani nahi hai."
+},
+"Rust formed only on the nail with both air and water (tube A).": {
+"hi": "जंग केवल उसी कील पर लगी जिसे हवा और पानी दोनों मिले (परखनली A)।",
+"hg": "Rust sirf usi keel par laga jise hawa aur paani dono mile (test tube A)."
+},
+"Iron rusts only when both air (oxygen) and water are present. Rusting is a chemical change.": {
+"hi": "लोहे पर जंग तभी लगती है जब हवा (ऑक्सीजन) और पानी दोनों मौजूद हों। जंग लगना एक रासायनिक परिवर्तन है।",
+"hg": "Iron ko rust tabhi lagta hai jab hawa (oxygen) aur paani dono maujood hon. Rusting ek chemical change hai."
+},
+"Clean the nails with sandpaper before starting.": {
+"hi": "शुरू करने से पहले कीलों को रेगमाल से साफ़ करें।",
+"hg": "Shuru karne se pehle keelon ko sandpaper se saaf karo."
+},
+"What two things are needed for rusting?": {
+"hi": "जंग लगने के लिए कौन-सी दो चीज़ें ज़रूरी हैं?",
+"hg": "Rust lagne ke liye kaun si do cheezein zaroori hain?"
+},
+"Air (oxygen) and water (moisture).": {
+"hi": "हवा (ऑक्सीजन) और पानी (नमी)।",
+"hg": "Hawa (oxygen) aur paani (nami)."
+},
+"Why is boiled water used in tube B?": {
+"hi": "परखनली B में उबला हुआ पानी क्यों लिया जाता है?",
+"hg": "Test tube B mein ubla hua paani kyun use kiya jaata hai?"
+},
+"Boiling removes dissolved air.": {
+"hi": "उबालने से पानी में घुली हवा निकल जाती है।",
+"hg": "Ubaalne se ghuli hui hawa nikal jaati hai."
+},
+"How can rusting be prevented?": {
+"hi": "जंग लगने से कैसे बचाया जा सकता है?",
+"hg": "Rust lagne se kaise bachaya ja sakta hai?"
+},
+"By painting, oiling, greasing or galvanising (coating with zinc).": {
+"hi": "पेंट करके, तेल लगाकर, ग्रीस लगाकर या यशदलेपन करके (जिंक की परत चढ़ाकर)।",
+"hg": "Paint karke, tel lagakar, grease lagakar ya galvanising karke (zinc ki layer chadhakar)."
+},
+"Zinc + Copper sulphate → Zinc sulphate + Copper · Zinc + Ferrous sulphate → Zinc sulphate + Iron": {
+"hi": "जिंक + कॉपर सल्फेट → जिंक सल्फेट + कॉपर · जिंक + फेरस सल्फेट → जिंक सल्फेट + आयरन",
+"hg": "Zinc + Copper sulphate → Zinc sulphate + Copper · Zinc + Ferrous sulphate → Zinc sulphate + Iron"
+},
+"Strong acid + strong base → neutral salt · strong acid + weak base → acidic · weak acid + strong base → basic": {
+"hi": "प्रबल अम्ल + प्रबल क्षारक → उदासीन लवण · प्रबल अम्ल + दुर्बल क्षारक → अम्लीय · दुर्बल अम्ल + प्रबल क्षारक → क्षारकीय",
+"hg": "Strong acid + strong base → neutral salt · strong acid + weak base → acidic · weak acid + strong base → basic"
+},
+"Zinc + Sodium hydroxide → Sodium zincate + Hydrogen": {
+"hi": "जिंक + सोडियम हाइड्रॉक्साइड → सोडियम ज़िंकेट + हाइड्रोजन",
+"hg": "Zinc + Sodium hydroxide → Sodium zincate + Hydrogen"
+},
+"Iron + Oxygen + Water → Rust (hydrated iron oxide)": {
+"hi": "आयरन + ऑक्सीजन + जल → जंग (जलयोजित आयरन ऑक्साइड)",
+"hg": "Iron + Oxygen + Water → Rust (hydrated iron oxide)"
 }
 };
 export const I18N = {};
