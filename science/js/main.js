@@ -220,20 +220,23 @@ export class App {
     if (Q.get('app') === 'vr') {
       const go = document.getElementById('xr-go'); go.textContent = tx(T.enterVR, 'en') + ' · ' + tx(T.enterVR, 'hi');
       go.onclick = () => this.startVR(true);
-      this.startVR(false);
+      const t0 = performance.now(); const tryVR = () => { if (this.renderer.xr.isPresenting || this._vrEnded) return; this.startVR(false); if (performance.now() - t0 < 30000) setTimeout(tryVR, 2500); };
+      tryVR(); // the headset may need a moment (a previous session can still be closing)
     }
   }
   async startVR(user) {
+    if (this._starting || this.renderer.xr.isPresenting) return; this._starting = true;
     this.audio.unlock(); document.body.classList.remove('xr-wait');
     try {
       const s = await navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'hand-tracking'] });
       await this.renderer.xr.setSession(s); this.enterVR(s);
     } catch (e) { document.body.classList.add('xr-wait'); if (user) this.ui.toast('VR: ' + e.message); }
+    this._starting = false;
   }
   enterVR(s) {
     document.body.classList.add('in-vr'); this.ui.vr.visible = true; this.ui.layoutVR(); this.ui.dirty = true;
     this._cam = { p: this.camera.position.clone(), t: this.controls.target.clone() };
-    s.addEventListener('end', () => { document.body.classList.remove('in-vr'); this.ui.vr.visible = false; if (Q.get('app') === 'vr') document.body.classList.add('xr-wait'); if (this._cam) { this.camera.position.copy(this._cam.p); this.controls.target.copy(this._cam.t); } });
+    s.addEventListener('end', () => { document.body.classList.remove('in-vr'); this.ui.vr.visible = false; if (Q.get('app') === 'vr') { this._vrEnded = true; document.body.classList.add('xr-wait'); } if (this._cam) { this.camera.position.copy(this._cam.p); this.controls.target.copy(this._cam.t); } });
   }
   // ------------------------------------------------------------ the loop
   frame() {

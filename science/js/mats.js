@@ -49,10 +49,12 @@ export function liquidMat() {
       diffuseColor.a = mix(uAlpha, 0.96, uCloud);
       if (!gl_FrontFacing) { diffuseColor.rgb = mix(diffuseColor.rgb, uSurf, 0.35); }
       if (isSed) { diffuseColor.rgb = uSedCol; diffuseColor.a = 1.0; }`)
+      .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
+      roughnessFactor = mix(roughnessFactor, 0.8, uCloud); if (isSed) roughnessFactor = 0.95; // powders and precipitates are matte`)
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
       if (!gl_FrontFacing && !isSed) normal = normalize((viewMatrix * vec4(0.0, 1.0, 0.0, 0.0)).xyz);`);
   };
-  m.customProgramCacheKey = () => 'liquid1';
+  m.customProgramCacheKey = () => 'liquid2';
   return m;
 }
 
