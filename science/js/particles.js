@@ -65,9 +65,9 @@ export class ParticleView {
     const glow = new THREE.Mesh(new THREE.CircleGeometry(0.29, 64), new THREE.MeshBasicMaterial({ color: 0xff8a3a, transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending })); glow.position.z = -0.044; this.g.add(glow); this.glow = glow;
     this.box = new THREE.Group(); this.g.add(this.box);
     const lc = document.createElement('canvas'); lc.width = 1024; lc.height = 300; this.capC = lc; this.capT = new THREE.CanvasTexture(lc); this.capT.colorSpace = THREE.SRGBColorSpace;
-    const cap = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.18), new THREE.MeshBasicMaterial({ map: this.capT, transparent: true, depthWrite: false })); cap.position.set(0, -0.39, -0.03); this.g.add(cap);
+    const cap = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.18), new THREE.MeshBasicMaterial({ map: this.capT, transparent: true, depthWrite: false, depthTest: false })); cap.position.set(0, -0.385, -0.03); cap.renderOrder = 25; this.g.add(cap); // always readable, even with apparatus in front
     const tc = document.createElement('canvas'); tc.width = 1024; tc.height = 90; this.titC = tc; this.titT = new THREE.CanvasTexture(tc); this.titT.colorSpace = THREE.SRGBColorSpace;
-    const tit = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.055), new THREE.MeshBasicMaterial({ map: this.titT, transparent: true, depthWrite: false })); tit.position.set(0, 0.345, -0.03); this.g.add(tit);
+    const tit = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.055), new THREE.MeshBasicMaterial({ map: this.titT, transparent: true, depthWrite: false, depthTest: false })); tit.position.set(0, 0.345, -0.03); tit.renderOrder = 25; this.g.add(tit);
     const amb = new THREE.PointLight(0xffffff, 0.35, 1.2, 2); amb.position.set(0.1, 0.2, 0.4); this.g.add(amb);
     // the light beam (Tyndall) and the paper strip (chromatography) are made when needed
   }
@@ -78,7 +78,7 @@ export class ParticleView {
     const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
     const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true })); sp.scale.set(0.05, 0.0156, 1); sp.renderOrder = 30; return sp;
   }
-  title(t) { const x = this.titC.getContext('2d'); x.clearRect(0, 0, 1024, 90); x.font = `700 46px ${FONT}`; x.fillStyle = '#f0a65a'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('🔬 ' + t, 512, 46, 1000); this.titT.needsUpdate = true; }
+  title(t) { const x = this.titC.getContext('2d'); x.clearRect(0, 0, 1024, 90); x.font = `700 46px ${FONT}`; const tw = Math.min(1000, x.measureText('🔬 ' + t).width) + 60; x.fillStyle = 'rgba(11,16,24,0.85)'; x.beginPath(); x.roundRect(512 - tw / 2, 6, tw, 80, 40); x.fill(); x.fillStyle = '#f0a65a'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('🔬 ' + t, 512, 46, 1000); this.titT.needsUpdate = true; }
   caption(o) {
     const t = tx(o, this.L()); const x = this.capC.getContext('2d'); x.clearRect(0, 0, 1024, 300);
     x.fillStyle = 'rgba(11,16,24,0.88)'; x.beginPath(); x.roundRect(4, 4, 1016, 292, 26); x.fill();

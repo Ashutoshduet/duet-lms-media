@@ -14,6 +14,7 @@ import { UI } from './ui.js';
 import { XRInput } from './xr.js';
 import { loadModels, loadLabHDR, furnish } from './models.js';
 import { ParticleView, HAS_PARTICLES } from './particles.js';
+import { PHOTOS, photoImage } from './photos.js';
 import { T, tx, LANGS } from './strings.js';
 
 const Q = new URLSearchParams(location.search);
@@ -88,7 +89,7 @@ export class App {
   onParticles(open, done) {
     this.hideMarker = open || this.particles.g.visible;
     document.body.classList.toggle('pv-open', this.particles.g.visible);
-    if (open && !this.renderer.xr.isPresenting) { const c = this.particles.g.position; const far = innerWidth / innerHeight < 1 ? 1.9 : 1.08; this.userCam = false; this.camGoal = { p: new THREE.Vector3(c.x, c.y - 0.06, c.z + far), t: new THREE.Vector3(c.x, c.y - 0.06, c.z) }; }
+    if (open && !this.renderer.xr.isPresenting) { const c = this.particles.g.position; const far = innerWidth / innerHeight < 1 ? 2.05 : 1.22; this.userCam = false; this.camGoal = { p: new THREE.Vector3(c.x, c.y - 0.041, c.z + far), t: new THREE.Vector3(c.x, c.y - 0.041, c.z) }; } // framed so the title above and the caption below are both in view
     if (!open && !done) { this.hideMarker = false; this.focusBench(); }
     this.ui.renderStory(); this.ui.dirty = true;
   }
@@ -96,7 +97,10 @@ export class App {
     const draw = this.roomInfo.drawBoard;
     if (!e) { draw('DUET STEM · ' + tx(T.chemistry, this.lang), [{ t: tx(T.appTitle, this.lang), size: 54, c: 'rgba(240,166,90,0.95)' }, { t: tx(T.pickExp, this.lang), size: 44 }]); return; }
     const word = (DICT[e.eq.word] && DICT[e.eq.word][this.lang]) || e.eq.word;
-    draw(this.expText(e, 'title'), [{ t: e.eq.sym, size: 64, w: 700 }, { t: word, size: 44, c: 'rgba(240,166,90,0.95)' }, { t: this.expText(e, 'kind'), size: 40, c: 'rgba(200,220,210,0.85)' }]);
+    const lines = [{ t: e.eq.sym, size: 64, w: 700 }, { t: word, size: 44, c: 'rgba(240,166,90,0.95)' }, { t: this.expText(e, 'kind'), size: 40, c: 'rgba(200,220,210,0.85)' }];
+    const ph = PHOTOS[e.id] && PHOTOS[e.id][0]; const L = this.lang;
+    draw(this.expText(e, 'title'), lines);
+    if (ph) photoImage(ph.f).then((img) => { if (img && this.runner.exp === e && this.lang === L) draw(this.expText(e, 'title'), lines, { img, cap: ph.cap[L] || ph.cap.en }); });
   }
   // ------------------------------------------------------------ narration
   async loadVoice() {
