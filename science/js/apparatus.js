@@ -396,7 +396,7 @@ export function crystals(color, o = {}) { // crystals (e.g. blue copper sulphate
 }
 export function ribbon(o = {}) { // magnesium ribbon
   const it = new Item('ribbon', { ...o, name: { en: 'Magnesium ribbon', hi: 'मैग्नीशियम रिबन', hg: 'Magnesium ribbon' } });
-  const m = new THREE.Mesh(new THREE.BoxGeometry(0.003, 0.07, 0.0004), new THREE.MeshStandardMaterial({ color: 0xc9ccd0, metalness: 0.9, roughness: 0.25 }));
+  const mt = realTex('mg'); const m = new THREE.Mesh(new THREE.BoxGeometry(0.003, 0.07, 0.0004), new THREE.MeshStandardMaterial({ color: 0xc9ccd0, metalness: 0.9, roughness: 0.25, map: mt, bumpMap: mt, bumpScale: mt ? 0.3 : 0 }));
   m.position.y = 0.035; it.g.add(m); it.mat = m.material; it.height = 0.07; it.radius = 0.003; it.grabY = 0.005; return it;
 }
 export function thermometer(o = {}) {
