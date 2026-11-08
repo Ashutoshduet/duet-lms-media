@@ -40,6 +40,7 @@ export const PRODUCT = {
   candle: N('Wax candle', 'मोमबत्ती', 'Mombatti (wax candle)'),
   filings: N('Iron filings (Fe)', 'लोहे का बुरादा (Fe)', 'Iron ka buraada (Fe)'),
   cuwire: N('Copper wire (Cu)', 'ताँबे का तार (Cu)', 'Copper wire (Cu)'),
+  naph: N('Naphthalene balls (C₁₀H₈)', 'नैफ़्थलीन की गोलियाँ (C₁₀H₈)', 'Naphthalene ki goliyan (C₁₀H₈)'),
 };
 // which real chemicals each experiment uses or makes (reactants first, then products)
 const USE = {
@@ -51,6 +52,8 @@ const USE = {
   reactivity: ['zngran', 'cuso4'], sedimentation: ['soil'], filtration: ['soil'], magnet_sep: ['filings', 'sand'], litmus_home: ['litmus', 'soap', 'nahco3', 'sugar'], rose: ['rose', 'litmus'],
   lemon_lime: ['litmus', 'caoh2'], sulphur_burn: ['sulphur', 'litmus'], candle_o2: ['candle', 'caoh2'], ignition: ['candle'], candle_zones: ['candle', 'cuwire'], phys_change: ['salt'], metal_nonmetal: ['cuwire', 'alfoil', 'nail', 'sulphur'],
   saturated: ['salt', 'nahco3'], limewater_air: ['cao', 'caoh2'], ph_salts: ['phpaper', 'salt'], zn_naoh: ['zngran', 'naoh'], rusting: ['nail', 'cacl2'], chromatography: ['chroma'],
+  tester_solids: ['nail', 'cuwire', 'alfoil', 'sulphur'], conduct_liquids: ['salt', 'naoh'], electroplating: ['cuso4b', 'cuso4'], electrolysis9v: ['candle'], ionic_covalent: ['salt', 'cuso4', 'sugar', 'naph'],
+  electrolysis10: ['candle'], acid_conduct: ['nail'], flame_ionic: ['salt', 'ki', 'bacl2'],
 };
 export const PHOTOS = Object.fromEntries(Object.entries(USE).map(([id, ks]) => [id, ks.map((k) => ({ k, f: `products/${k}.webp`, cap: PRODUCT[k] }))]));
 

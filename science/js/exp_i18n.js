@@ -4414,3 +4414,1019 @@ Object.assign(DICT, {
 "hg": "Quick lime + paani → slaked lime (+ garmi) · slaked lime + carbon dioxide → calcium carbonate + paani"
 }
 });
+
+// batch 4: electricity in chemistry
+Object.assign(DICT, {
+"Materials: Metals and Non-metals (older NCERT, Class 8)": {
+"hi": "पदार्थ: धातु एवं अधातु (पुरानी NCERT, कक्षा 8)",
+"hg": "Materials: Metals aur Non-metals (purani NCERT, Class 8)"
+},
+"Which materials conduct electricity?": {
+"hi": "कौन-से पदार्थ विद्युत का चालन करते हैं?",
+"hg": "Kaun se materials electricity conduct karte hain?"
+},
+"To test whether metals and non-metals let electricity pass through them, using a tester made of cells, a bulb and wires.": {
+"hi": "सेल, बल्ब और तारों से बने टेस्टर की मदद से यह जाँचना कि धातुएँ और अधातुएँ अपने में से विद्युत धारा को गुज़रने देती हैं या नहीं।",
+"hg": "Cells, bulb aur wires se bane tester ki madad se check karna ki metals aur non-metals apne andar se electricity guzarne dete hain ya nahi."
+},
+"Electrical conductivity of metals and non-metals": {
+"hi": "धातुओं और अधातुओं की विद्युत चालकता",
+"hg": "Metals aur non-metals ki electrical conductivity"
+},
+"First check the tester: touch its two free ends together.": {
+"hi": "पहले टेस्टर की जाँच करें: उसके दोनों खुले सिरों को आपस में छुआएँ।",
+"hg": "Pehle tester check karo: uske dono khule ends ko aapas mein touch karo."
+},
+"The bulb lights up.": {
+"hi": "बल्ब जल उठता है।",
+"hg": "Bulb jal uthta hai."
+},
+"Touching the ends closes the circuit, so current flows from the cells through the bulb and back. The tester works.": {
+"hi": "सिरों को छुआने से परिपथ पूरा हो जाता है, इसलिए विद्युत धारा सेलों से बल्ब में होकर वापस लौटती है। टेस्टर ठीक काम कर रहा है।",
+"hg": "Ends ko touch karne se circuit poora ho jaata hai, isliye current cells se bulb mein hokar wapas aata hai. Tester sahi kaam kar raha hai."
+},
+"Touch both free ends to the iron nail, a little apart.": {
+"hi": "दोनों खुले सिरों को लोहे की कील से, थोड़ी दूरी पर, छुआएँ।",
+"hg": "Dono khule ends ko iron ki keel se, thodi doori par, touch karo."
+},
+"The bulb glows.": {
+"hi": "बल्ब जलता है।",
+"hg": "Bulb jalta hai."
+},
+"Iron lets the current pass through it: it is a good conductor of electricity.": {
+"hi": "लोहा अपने में से विद्युत धारा को गुज़रने देता है: यह विद्युत का सुचालक है।",
+"hg": "Iron apne andar se current ko guzarne deta hai: yeh electricity ka achha conductor hai."
+},
+"Now touch the ends to the copper wire.": {
+"hi": "अब सिरों को कॉपर के तार से छुआएँ।",
+"hg": "Ab ends ko copper wire se touch karo."
+},
+"The bulb glows brightly.": {
+"hi": "बल्ब तेज़ रोशनी से जलता है।",
+"hg": "Bulb tez roshni se jalta hai."
+},
+"Copper is one of the best conductors. That is why electric wires are made of copper.": {
+"hi": "कॉपर (ताँबा) सबसे अच्छे चालकों में से एक है। इसीलिए बिजली के तार कॉपर के बनाए जाते हैं।",
+"hg": "Copper sabse achhe conductors mein se ek hai. Isiliye electric wires copper ke banaye jaate hain."
+},
+"Test the aluminium foil.": {
+"hi": "ऐलुमिनियम पन्नी की जाँच करें।",
+"hg": "Aluminium foil ko test karo."
+},
+"Aluminium is a metal; it conducts electricity too.": {
+"hi": "ऐलुमिनियम एक धातु है; यह भी विद्युत का चालन करता है।",
+"hg": "Aluminium ek metal hai; yeh bhi electricity conduct karta hai."
+},
+"Test the piece of sulphur.": {
+"hi": "सल्फ़र के टुकड़े की जाँच करें।",
+"hg": "Sulphur ke tukde ko test karo."
+},
+"The bulb does not glow at all.": {
+"hi": "बल्ब बिल्कुल नहीं जलता।",
+"hg": "Bulb bilkul nahi jalta."
+},
+"Sulphur is a non-metal. It does not let electricity pass: it is an insulator.": {
+"hi": "सल्फ़र एक अधातु है। यह विद्युत धारा को गुज़रने नहीं देता: यह विद्युतरोधी है।",
+"hg": "Sulphur ek non-metal hai. Yeh electricity ko guzarne nahi deta: yeh insulator hai."
+},
+"Test the piece of coal.": {
+"hi": "कोयले के टुकड़े की जाँच करें।",
+"hg": "Koyle ke tukde ko test karo."
+},
+"The bulb does not glow.": {
+"hi": "बल्ब नहीं जलता।",
+"hg": "Bulb nahi jalta."
+},
+"Coal is mostly carbon, a non-metal; this coal does not conduct.": {
+"hi": "कोयला मुख्य रूप से कार्बन है, जो एक अधातु है; यह कोयला विद्युत का चालन नहीं करता।",
+"hg": "Koyla zyaadatar carbon hai, jo ek non-metal hai; yeh koyla conduct nahi karta."
+},
+"Last, test the pencil lead (graphite).": {
+"hi": "अंत में पेंसिल की लीड (ग्रेफ़ाइट) की जाँच करें।",
+"hg": "Last mein pencil lead (graphite) ko test karo."
+},
+"The bulb glows, a little less brightly than with the metals.": {
+"hi": "बल्ब जलता है, पर धातुओं की तुलना में थोड़ा कम तेज़।",
+"hg": "Bulb jalta hai, par metals ke mukaable thoda kam tez."
+},
+"Graphite is a form of carbon, a non-metal, but it is the exception: it conducts electricity. It is used for electrodes.": {
+"hi": "ग्रेफ़ाइट कार्बन का एक रूप है, जो एक अधातु है, पर यह अपवाद है: यह विद्युत का चालन करता है। इसका उपयोग इलेक्ट्रोड बनाने में होता है।",
+"hg": "Graphite carbon ka ek form hai, jo ek non-metal hai, par yeh exception hai: yeh electricity conduct karta hai. Iska use electrodes banane mein hota hai."
+},
+"The bulb glowed with iron, copper, aluminium and pencil lead; it did not glow with sulphur or coal.": {
+"hi": "लोहे, कॉपर, ऐलुमिनियम और पेंसिल की लीड के साथ बल्ब जला; सल्फ़र या कोयले के साथ नहीं जला।",
+"hg": "Iron, copper, aluminium aur pencil lead ke saath bulb jala; sulphur ya koyle ke saath nahi jala."
+},
+"Metals are good conductors of electricity; most non-metals are poor conductors (insulators). Graphite is a non-metal that conducts.": {
+"hi": "धातुएँ विद्युत की सुचालक होती हैं; अधिकतर अधातुएँ कुचालक (विद्युतरोधी) होती हैं। ग्रेफ़ाइट एक ऐसी अधातु है जो विद्युत का चालन करती है।",
+"hg": "Metals electricity ke achhe conductors hote hain; zyaadatar non-metals poor conductors (insulators) hote hain. Graphite ek aisa non-metal hai jo conduct karta hai."
+},
+"Use only dry cells. Never test anything with the electricity from a wall socket.": {
+"hi": "केवल शुष्क सेल का उपयोग करें। दीवार के सॉकेट की बिजली से कभी भी कुछ न जाँचें।",
+"hg": "Sirf dry cells use karo. Wall socket ki bijli se kabhi bhi kuch test mat karo."
+},
+"Why are electric wires made of copper or aluminium?": {
+"hi": "बिजली के तार कॉपर या ऐलुमिनियम के क्यों बनाए जाते हैं?",
+"hg": "Electric wires copper ya aluminium ke kyun banaye jaate hain?"
+},
+"They are metals and conduct electricity very well.": {
+"hi": "ये धातुएँ हैं और विद्युत का चालन बहुत अच्छी तरह करती हैं।",
+"hg": "Yeh metals hain aur electricity ko bahut achhe se conduct karte hain."
+},
+"Why are the handles of electricians' tools covered with plastic or rubber?": {
+"hi": "बिजली मिस्त्री के औज़ारों के हत्थों पर प्लास्टिक या रबर क्यों चढ़ा होता है?",
+"hg": "Electrician ke tools ke handles par plastic ya rubber kyun chadha hota hai?"
+},
+"Plastic and rubber do not conduct electricity, so they protect the hand from a shock.": {
+"hi": "प्लास्टिक और रबर विद्युत का चालन नहीं करते, इसलिए ये हाथ को बिजली के झटके से बचाते हैं।",
+"hg": "Plastic aur rubber electricity conduct nahi karte, isliye yeh haath ko shock se bachaate hain."
+},
+"Metals (iron, copper, aluminium) conduct electricity · non-metals (sulphur, coal) do not · graphite is the exception": {
+"hi": "धातुएँ (लोहा, कॉपर, ऐलुमिनियम) विद्युत का चालन करती हैं · अधातुएँ (सल्फ़र, कोयला) नहीं करतीं · ग्रेफ़ाइट अपवाद है",
+"hg": "Metals (iron, copper, aluminium) electricity conduct karte hain · non-metals (sulphur, koyla) nahi karte · graphite exception hai"
+},
+"Chemical Effects of Electric Current (older NCERT, Class 8)": {
+"hi": "विद्युत धारा के रासायनिक प्रभाव (पुरानी NCERT, कक्षा 8)",
+"hg": "Electric Current ke Chemical Effects (purani NCERT, Class 8)"
+},
+"Do liquids conduct electricity?": {
+"hi": "क्या द्रव विद्युत का चालन करते हैं?",
+"hg": "Kya liquids electricity conduct karte hain?"
+},
+"To find out which liquids conduct electricity, using a tester with an LED.": {
+"hi": "LED वाले टेस्टर की मदद से यह पता करना कि कौन-से द्रव विद्युत का चालन करते हैं।",
+"hg": "LED wale tester ki madad se pata karna ki kaun se liquids electricity conduct karte hain."
+},
+"Conduction of electricity through liquids": {
+"hi": "द्रवों में विद्युत चालन",
+"hg": "Liquids mein electricity ka conduction"
+},
+"Check the tester: touch its two free ends together.": {
+"hi": "टेस्टर की जाँच करें: उसके दोनों खुले सिरों को आपस में छुआएँ।",
+"hg": "Tester check karo: uske dono khule ends ko aapas mein touch karo."
+},
+"The LED glows.": {
+"hi": "LED जलता है।",
+"hg": "LED jalta hai."
+},
+"An LED glows even with a very small current, so it is better than a bulb for testing liquids.": {
+"hi": "LED बहुत कम विद्युत धारा से भी जल जाता है, इसलिए द्रवों की जाँच के लिए यह बल्ब से बेहतर है।",
+"hg": "LED bahut kam current se bhi jal jaata hai, isliye liquids test karne ke liye yeh bulb se better hai."
+},
+"Dip the two ends into the lemon juice (cap 1), about 1 cm apart. They must not touch each other.": {
+"hi": "दोनों सिरों को नींबू के रस (ढक्कन 1) में लगभग 1 cm की दूरी पर डुबोएँ। उन्हें एक-दूसरे को छूना नहीं चाहिए।",
+"hg": "Dono ends ko nimbu ke ras (cap 1) mein lagbhag 1 cm ki doori par dubao. Unhe aapas mein touch nahi hona chahiye."
+},
+"Lemon juice conducts electricity. The current is weak, so a bulb might not glow, but the LED does.": {
+"hi": "नींबू का रस विद्युत का चालन करता है। विद्युत धारा कमज़ोर होती है, इसलिए बल्ब शायद न जले, पर LED जल जाता है।",
+"hg": "Nimbu ka ras electricity conduct karta hai. Current kamzor hota hai, isliye bulb shayad na jale, par LED jal jaata hai."
+},
+"Wipe the ends dry, then test the vinegar (cap 2).": {
+"hi": "सिरों को पोंछकर सुखा लें, फिर सिरके (ढक्कन 2) की जाँच करें।",
+"hg": "Ends ko ponchkar sukha lo, phir vinegar (cap 2) ko test karo."
+},
+"Vinegar, an acid, conducts electricity too.": {
+"hi": "सिरका, जो एक अम्ल है, वह भी विद्युत का चालन करता है।",
+"hg": "Vinegar, jo ek acid hai, woh bhi electricity conduct karta hai."
+},
+"Test the distilled water (cap 3).": {
+"hi": "आसुत जल (ढक्कन 3) की जाँच करें।",
+"hg": "Distilled water (cap 3) ko test karo."
+},
+"The LED does not glow.": {
+"hi": "LED नहीं जलता।",
+"hg": "LED nahi jalta."
+},
+"Pure (distilled) water is a very poor conductor: it has almost no ions.": {
+"hi": "शुद्ध (आसुत) जल बहुत कमज़ोर चालक है: इसमें लगभग कोई आयन नहीं होते।",
+"hg": "Pure (distilled) water bahut hi poor conductor hai: ismein lagbhag koi ions nahi hote."
+},
+"Add a pinch of common salt to cap 3 and stir until it dissolves.": {
+"hi": "ढक्कन 3 में एक चुटकी साधारण नमक डालें और घुलने तक हिलाएँ।",
+"hg": "Cap 3 mein ek chutki namak daalo aur ghulne tak hilao."
+},
+"The salt dissolves; the water looks the same.": {
+"hi": "नमक घुल जाता है; पानी पहले जैसा ही दिखता है।",
+"hg": "Namak ghul jaata hai; paani pehle jaisa hi dikhta hai."
+},
+"Test the salt water (cap 3) again.": {
+"hi": "नमक वाले पानी (ढक्कन 3) की फिर से जाँच करें।",
+"hg": "Namak wale paani (cap 3) ko phir se test karo."
+},
+"Now the LED glows. Look closely: tiny gas bubbles form on the ends.": {
+"hi": "अब LED जलता है। ध्यान से देखें: सिरों पर गैस के नन्हे बुलबुले बनते हैं।",
+"hg": "Ab LED jalta hai. Dhyaan se dekho: ends par gas ke chhote-chhote bubbles bante hain."
+},
+"Salt dissolves to give ions (Na⁺ and Cl⁻) that carry the current. Tap water has some salts in it, so it conducts a little.": {
+"hi": "नमक घुलकर आयन (Na⁺ और Cl⁻) देता है, जो विद्युत धारा ले जाते हैं। नल के पानी में कुछ लवण घुले होते हैं, इसलिए वह थोड़ा चालन करता है।",
+"hg": "Namak ghul kar ions (Na⁺ aur Cl⁻) deta hai jo current le jaate hain. Nal ke paani mein kuch salts hote hain, isliye woh thoda conduct karta hai."
+},
+"Add a few drops of dilute hydrochloric acid to cap 4, then test it.": {
+"hi": "ढक्कन 4 में तनु हाइड्रोक्लोरिक अम्ल की कुछ बूँदें डालें, फिर उसकी जाँच करें।",
+"hg": "Cap 4 mein dilute hydrochloric acid ki kuch boondein daalo, phir use test karo."
+},
+"Acid solutions conduct electricity.": {
+"hi": "अम्लों के विलयन विद्युत का चालन करते हैं।",
+"hg": "Acid solutions electricity conduct karte hain."
+},
+"Add a few drops of sodium hydroxide solution to cap 5, then test it.": {
+"hi": "ढक्कन 5 में सोडियम हाइड्रॉक्साइड विलयन की कुछ बूँदें डालें, फिर उसकी जाँच करें।",
+"hg": "Cap 5 mein sodium hydroxide solution ki kuch boondein daalo, phir use test karo."
+},
+"Solutions of bases conduct electricity too.": {
+"hi": "क्षारकों के विलयन भी विद्युत का चालन करते हैं।",
+"hg": "Bases ke solutions bhi electricity conduct karte hain."
+},
+"Finally test the sugar solution (cap 6).": {
+"hi": "अंत में चीनी के विलयन (ढक्कन 6) की जाँच करें।",
+"hg": "Aakhir mein sugar solution (cap 6) ko test karo."
+},
+"Sugar dissolves as whole molecules, not ions, so its solution does not conduct.": {
+"hi": "चीनी पूरे अणुओं के रूप में घुलती है, आयनों के रूप में नहीं, इसलिए उसका विलयन विद्युत का चालन नहीं करता।",
+"hg": "Sugar poore molecules ke roop mein ghulti hai, ions ke roop mein nahi, isliye uska solution conduct nahi karta."
+},
+"The LED glowed for lemon juice, vinegar, salt water, the acid and the base. It did not glow for distilled water or sugar solution.": {
+"hi": "नींबू के रस, सिरके, नमक वाले पानी, अम्ल और क्षारक के साथ LED जला। आसुत जल या चीनी के विलयन के साथ नहीं जला।",
+"hg": "Nimbu ke ras, vinegar, namak wale paani, acid aur base ke saath LED jala. Distilled water ya sugar solution ke saath nahi jala."
+},
+"Liquids that contain ions (solutions of acids, bases and salts) conduct electricity; distilled water and sugar solution do not.": {
+"hi": "जिन द्रवों में आयन होते हैं (अम्लों, क्षारकों और लवणों के विलयन), वे विद्युत का चालन करते हैं; आसुत जल और चीनी का विलयन नहीं करते।",
+"hg": "Jin liquids mein ions hote hain (acids, bases aur salts ke solutions), woh electricity conduct karte hain; distilled water aur sugar solution nahi karte."
+},
+"Use only cells, never the mains. Wipe the ends dry between tests. Handle the acid and the base carefully.": {
+"hi": "केवल सेल का उपयोग करें, घर की मेन बिजली का कभी नहीं। हर जाँच के बीच सिरों को पोंछकर सुखाएँ। अम्ल और क्षारक को सावधानी से इस्तेमाल करें।",
+"hg": "Sirf cells use karo, ghar ki main bijli kabhi nahi. Har test ke beech ends ko ponchkar sukhao. Acid aur base ko dhyaan se handle karo."
+},
+"Why is an LED used instead of a bulb to test liquids?": {
+"hi": "द्रवों की जाँच के लिए बल्ब की जगह LED का उपयोग क्यों किया जाता है?",
+"hg": "Liquids test karne ke liye bulb ki jagah LED kyun use kiya jaata hai?"
+},
+"The current through a liquid can be very weak; an LED glows even with a weak current.": {
+"hi": "द्रव में से गुज़रने वाली विद्युत धारा बहुत कमज़ोर हो सकती है; LED कमज़ोर धारा से भी जल जाता है।",
+"hg": "Liquid se guzarne wala current bahut kamzor ho sakta hai; LED kamzor current se bhi jal jaata hai."
+},
+"Does distilled water conduct electricity?": {
+"hi": "क्या आसुत जल विद्युत का चालन करता है?",
+"hg": "Kya distilled water electricity conduct karta hai?"
+},
+"Hardly at all: it has almost no ions.": {
+"hi": "न के बराबर: इसमें लगभग कोई आयन नहीं होते।",
+"hg": "Na ke barabar: ismein lagbhag koi ions nahi hote."
+},
+"Why should we not touch electric switches with wet hands?": {
+"hi": "हमें गीले हाथों से बिजली के स्विच क्यों नहीं छूने चाहिए?",
+"hg": "Humein geele haathon se electric switches kyun nahi chhoone chahiye?"
+},
+"Ordinary water has salts in it and conducts electricity, so we could get a shock.": {
+"hi": "साधारण पानी में लवण घुले होते हैं और वह विद्युत का चालन करता है, इसलिए हमें बिजली का झटका लग सकता है।",
+"hg": "Normal paani mein salts hote hain aur woh electricity conduct karta hai, isliye humein shock lag sakta hai."
+},
+"Solutions of acids, bases and salts conduct electricity · distilled water and sugar solution do not": {
+"hi": "अम्लों, क्षारकों और लवणों के विलयन विद्युत का चालन करते हैं · आसुत जल और चीनी का विलयन नहीं करते",
+"hg": "Acids, bases aur salts ke solutions electricity conduct karte hain · distilled water aur sugar solution nahi karte"
+},
+"Coating copper with electricity": {
+"hi": "विद्युत से कॉपर की परत चढ़ाना",
+"hg": "Electricity se copper ki coating chadhana"
+},
+"To pass a current through copper sulphate solution between two copper plates and see copper move from one plate to the other (electroplating).": {
+"hi": "कॉपर की दो प्लेटों के बीच कॉपर सल्फ़ेट विलयन में से विद्युत धारा प्रवाहित करना और कॉपर को एक प्लेट से दूसरी प्लेट पर जाते हुए देखना (विद्युत लेपन)।",
+"hg": "Do copper plates ke beech copper sulphate solution mein se current guzaarna aur copper ko ek plate se doosri plate par jaate hue dekhna (electroplating)."
+},
+"Electroplating": {
+"hi": "विद्युत लेपन",
+"hg": "Electroplating"
+},
+"Dissolve two spoonfuls of copper sulphate crystals in the water and stir.": {
+"hi": "पानी में दो चम्मच कॉपर सल्फ़ेट के क्रिस्टल डालें और हिलाकर घोलें।",
+"hg": "Paani mein do chammach copper sulphate crystals daalo aur hila kar ghol do."
+},
+"The crystals dissolve and the water turns clear blue.": {
+"hi": "क्रिस्टल घुल जाते हैं और पानी साफ़ नीला हो जाता है।",
+"hg": "Crystals ghul jaate hain aur paani saaf blue ho jaata hai."
+},
+"Add a few drops of dilute sulphuric acid.": {
+"hi": "तनु सल्फ़्यूरिक अम्ल की कुछ बूँदें डालें।",
+"hg": "Dilute sulphuric acid ki kuch boondein daalo."
+},
+"The solution stays blue.": {
+"hi": "विलयन नीला ही रहता है।",
+"hg": "Solution blue hi rehta hai."
+},
+"The acid helps the solution conduct electricity better.": {
+"hi": "अम्ल की वजह से विलयन विद्युत का चालन और अच्छी तरह करता है।",
+"hg": "Acid ki wajah se solution electricity ko aur achhe se conduct karta hai."
+},
+"Rub both copper plates with sandpaper until they shine.": {
+"hi": "कॉपर की दोनों प्लेटों को रेगमाल से तब तक रगड़ें जब तक वे चमकने न लगें।",
+"hg": "Dono copper plates ko sandpaper se tab tak ragdo jab tak woh chamakne na lagein."
+},
+"The dull plates become bright and shiny.": {
+"hi": "फीकी प्लेटें चमकदार हो जाती हैं।",
+"hg": "Dull plates bright aur shiny ho jaati hain."
+},
+"Sandpaper removes the dull layer on the copper, so the metal is clean.": {
+"hi": "रेगमाल कॉपर पर जमी फीकी परत को हटा देता है, जिससे धातु साफ़ हो जाती है।",
+"hg": "Sandpaper copper par jami dull layer hata deta hai, isse metal saaf ho jaata hai."
+},
+"Put the cardboard lid on the beaker and hang the two plates in the solution through its slits. They must not touch each other.": {
+"hi": "बीकर पर गत्ते का ढक्कन रखें और उसकी झिरियों से दोनों प्लेटों को विलयन में लटकाएँ। उन्हें एक-दूसरे को छूना नहीं चाहिए।",
+"hg": "Beaker par cardboard ka dhakkan rakho aur uske slits se dono plates ko solution mein latkao. Unhe aapas mein touch nahi hona chahiye."
+},
+"Plate 1 is joined to the + terminal and plate 2 to the − terminal of the battery, through the switch.": {
+"hi": "स्विच के ज़रिए प्लेट 1 बैटरी के + टर्मिनल से और प्लेट 2 − टर्मिनल से जुड़ी है।",
+"hg": "Switch ke through plate 1 battery ke + terminal se aur plate 2 − terminal se judi hai."
+},
+"Switch on the current.": {
+"hi": "विद्युत धारा चालू करें।",
+"hg": "Current on karo."
+},
+"Nothing seems to happen at first, but a current is flowing through the solution.": {
+"hi": "पहले कुछ होता हुआ नहीं दिखता, पर विलयन में से विद्युत धारा बह रही है।",
+"hg": "Pehle kuch hota hua nahi dikhta, par solution mein se current beh raha hai."
+},
+"Let the current flow for about 15 minutes (time-lapse).": {
+"hi": "विद्युत धारा को लगभग 15 मिनट तक बहने दें (टाइम-लैप्स)।",
+"hg": "Current ko lagbhag 15 minute tak behne do (time-lapse)."
+},
+"Plate 2 (joined to −) gets a reddish-brown coating of fresh copper. Plate 1 (joined to +) looks rough and thinner. The solution stays blue.": {
+"hi": "प्लेट 2 (− से जुड़ी) पर ताज़े कॉपर की लाल-भूरी परत चढ़ जाती है। प्लेट 1 (+ से जुड़ी) खुरदरी और पतली दिखती है। विलयन नीला ही रहता है।",
+"hg": "Plate 2 (− se judi) par fresh copper ki reddish-brown coating chadh jaati hai. Plate 1 (+ se judi) khurdari aur patli dikhti hai. Solution blue hi rehta hai."
+},
+"Copper ions (Cu²⁺) in the solution move to the − plate and become copper metal on it. At the + plate, copper metal goes into the solution as ions, so the colour does not fade.": {
+"hi": "विलयन में मौजूद कॉपर आयन (Cu²⁺) − प्लेट की ओर जाते हैं और उस पर कॉपर धातु बन जाते हैं। + प्लेट पर कॉपर धातु आयन बनकर विलयन में चली जाती है, इसलिए रंग फीका नहीं पड़ता।",
+"hg": "Solution ke copper ions (Cu²⁺) − plate ki taraf jaate hain aur us par copper metal ban jaate hain. + plate par copper metal ions ban kar solution mein chala jaata hai, isliye colour fade nahi hota."
+},
+"Switch off and take both plates out. Compare them.": {
+"hi": "स्विच बंद करें और दोनों प्लेटें बाहर निकालें। उनकी तुलना करें।",
+"hg": "Switch off karo aur dono plates bahar nikaalo. Unki tulna karo."
+},
+"Plate 2 is coated with new copper; plate 1 has lost some copper.": {
+"hi": "प्लेट 2 पर नए कॉपर की परत चढ़ गई है; प्लेट 1 का कुछ कॉपर कम हो गया है।",
+"hg": "Plate 2 par naye copper ki coating chadh gayi hai; plate 1 ka thoda copper kam ho gaya hai."
+},
+"This is electroplating: a coat of one metal laid on another by electricity. It is used for chrome on taps and cycle parts, silver and gold on jewellery, and tin on iron cans.": {
+"hi": "यही विद्युत लेपन है: विद्युत की मदद से एक धातु पर दूसरी धातु की परत चढ़ाना। इसका उपयोग नलों और साइकिल के पुर्ज़ों पर क्रोमियम, गहनों पर चाँदी और सोना, और लोहे के डिब्बों पर टिन चढ़ाने में होता है।",
+"hg": "Yahi electroplating hai: electricity ki madad se ek metal par doosre metal ki coating chadhana. Iska use taps aur cycle parts par chrome, jewellery par silver aur gold, aur iron ke dibbon par tin chadhane mein hota hai."
+},
+"After 15 minutes a layer of copper had formed on the plate joined to the − terminal; the plate joined to + had become thinner. The solution stayed blue.": {
+"hi": "15 मिनट बाद − टर्मिनल से जुड़ी प्लेट पर कॉपर की परत बन गई थी; + से जुड़ी प्लेट पतली हो गई थी। विलयन नीला ही रहा।",
+"hg": "15 minute baad − terminal se judi plate par copper ki layer ban gayi thi; + se judi plate patli ho gayi thi. Solution blue hi raha."
+},
+"When electricity passes through copper sulphate solution, copper is taken from the + plate and laid on the − plate. Depositing a metal by electricity is called electroplating.": {
+"hi": "जब कॉपर सल्फ़ेट विलयन में से विद्युत धारा गुज़रती है, तो + प्लेट से कॉपर निकलकर − प्लेट पर जम जाता है। विद्युत द्वारा किसी धातु की परत जमाने को विद्युत लेपन कहते हैं।",
+"hg": "Jab copper sulphate solution mein se electricity guzarti hai, toh + plate se copper nikal kar − plate par jam jaata hai. Electricity se metal ki layer jamaane ko electroplating kehte hain."
+},
+"Copper sulphate is harmful if swallowed and irritates the eyes; wash your hands. Use only a low-voltage battery.": {
+"hi": "कॉपर सल्फ़ेट निगलने पर हानिकारक है और आँखों में जलन करता है; हाथ धोएँ। केवल कम वोल्टेज वाली बैटरी का उपयोग करें।",
+"hg": "Copper sulphate nigalne par nuksaandeh hai aur aankhon mein jalan karta hai; haath dho lo. Sirf low-voltage battery use karo."
+},
+"On which plate does copper get deposited?": {
+"hi": "कॉपर किस प्लेट पर जमता है?",
+"hg": "Copper kis plate par jamta hai?"
+},
+"On the plate joined to the negative (−) terminal.": {
+"hi": "ऋणात्मक (−) टर्मिनल से जुड़ी प्लेट पर।",
+"hg": "Negative (−) terminal se judi plate par."
+},
+"Why does the colour of the solution not fade?": {
+"hi": "विलयन का रंग फीका क्यों नहीं पड़ता?",
+"hg": "Solution ka colour fade kyun nahi hota?"
+},
+"The + plate dissolves and puts back as much copper into the solution as is taken out.": {
+"hi": "+ प्लेट घुलती है और विलयन में उतना ही कॉपर वापस डाल देती है जितना उसमें से निकलता है।",
+"hg": "+ plate ghulti hai aur solution mein utna hi copper wapas daal deti hai jitna usmein se nikalta hai."
+},
+"Why are iron cans for food coated with tin?": {
+"hi": "खाने के सामान के लिए लोहे के डिब्बों पर टिन की परत क्यों चढ़ाई जाती है?",
+"hg": "Khaane ke liye iron ke dibbon par tin ki coating kyun chadhaayi jaati hai?"
+},
+"Tin is less reactive than iron and keeps the food from touching the iron.": {
+"hi": "टिन लोहे से कम अभिक्रियाशील है और भोजन को लोहे के संपर्क में आने से बचाता है।",
+"hg": "Tin iron se kam reactive hai aur khaane ko iron ke contact mein aane se bachaata hai."
+},
+"At the − plate: copper ions take electrons and become copper metal · At the + plate: copper metal gives electrons and goes into the solution": {
+"hi": "− प्लेट पर: कॉपर आयन इलेक्ट्रॉन लेकर कॉपर धातु बन जाते हैं · + प्लेट पर: कॉपर धातु इलेक्ट्रॉन देकर विलयन में चली जाती है",
+"hg": "− plate par: copper ions electrons lekar copper metal ban jaate hain · + plate par: copper metal electrons dekar solution mein chala jaata hai"
+},
+"Splitting water with a 9 V battery": {
+"hi": "9 V बैटरी से पानी को तोड़ना",
+"hg": "9 V battery se paani ko todna"
+},
+"To break water into two gases by passing electricity through it, and to test the gases.": {
+"hi": "पानी में से विद्युत धारा प्रवाहित करके उसे दो गैसों में तोड़ना, और उन गैसों की जाँच करना।",
+"hg": "Paani mein se electricity guzaar kar use do gases mein todna, aur un gases ko test karna."
+},
+"Electrolysis of water (a compound breaks into its elements)": {
+"hi": "जल का विद्युत अपघटन (एक यौगिक अपने तत्वों में टूट जाता है)",
+"hg": "Paani ka electrolysis (ek compound apne elements mein toot jaata hai)"
+},
+"Fill the beaker about two-thirds with water.": {
+"hi": "बीकर को लगभग दो-तिहाई पानी से भरें।",
+"hg": "Beaker ko lagbhag do-tihaai paani se bharo."
+},
+"The beaker is two-thirds full of water.": {
+"hi": "बीकर दो-तिहाई पानी से भरा है।",
+"hg": "Beaker do-tihaai paani se bhara hai."
+},
+"Add a few drops of dilute sulphuric acid to the water.": {
+"hi": "पानी में तनु सल्फ़्यूरिक अम्ल की कुछ बूँदें डालें।",
+"hg": "Paani mein dilute sulphuric acid ki kuch boondein daalo."
+},
+"Nothing changes that you can see.": {
+"hi": "ऐसा कोई बदलाव नहीं होता जो दिखाई दे।",
+"hg": "Koi aisa change nahi hota jo dikhe."
+},
+"Pure water hardly conducts electricity; a little acid gives ions so that the current can flow.": {
+"hi": "शुद्ध पानी विद्युत का चालन लगभग नहीं करता; थोड़ा-सा अम्ल आयन देता है, ताकि विद्युत धारा बह सके।",
+"hg": "Pure paani electricity lagbhag conduct nahi karta; thoda sa acid ions deta hai taaki current beh sake."
+},
+"Stand the 9 V battery in the beaker with its terminals upward.": {
+"hi": "9 V बैटरी को बीकर में इस तरह खड़ा करें कि उसके टर्मिनल ऊपर की ओर हों।",
+"hg": "9 V battery ko beaker mein aise khada karo ki uske terminals upar ki taraf hon."
+},
+"Tiny bubbles start rising from both terminals.": {
+"hi": "दोनों टर्मिनलों से नन्हे बुलबुले उठने लगते हैं।",
+"hg": "Dono terminals se chhote-chhote bubbles uthne lagte hain."
+},
+"Fill test tube 1 with this water, close it with your thumb, turn it upside down and stand it over the − terminal (the bigger, six-sided one).": {
+"hi": "परखनली 1 को इस पानी से भरें, अँगूठे से उसका मुँह बंद करें, उसे उलटा करें और − टर्मिनल (बड़ा, छह कोनों वाला) के ऊपर खड़ा करें।",
+"hg": "Test tube 1 ko is paani se bharo, angoothe se uska munh band karo, use ulta karo aur − terminal (bada, chhe kono wala) ke upar khada karo."
+},
+"The tube stays full of water; bubbles from the − terminal now go up inside it.": {
+"hi": "परखनली पानी से भरी रहती है; अब − टर्मिनल के बुलबुले उसके अंदर ऊपर जाते हैं।",
+"hg": "Tube paani se bhari rehti hai; ab − terminal ke bubbles uske andar upar jaate hain."
+},
+"Do the same with test tube 2 over the + terminal.": {
+"hi": "परखनली 2 के साथ भी यही करें और उसे + टर्मिनल के ऊपर खड़ा करें।",
+"hg": "Test tube 2 ke saath bhi yahi karo aur use + terminal ke upar khada karo."
+},
+"Both tubes stand full of water over the terminals.": {
+"hi": "दोनों परखनलियाँ पानी से भरी हुई टर्मिनलों के ऊपर खड़ी हैं।",
+"hg": "Dono tubes paani se bhari hui terminals ke upar khadi hain."
+},
+"Leave it for 10 to 15 minutes and compare the two tubes (time-lapse).": {
+"hi": "इसे 10 से 15 मिनट के लिए छोड़ दें और दोनों परखनलियों की तुलना करें (टाइम-लैप्स)।",
+"hg": "Ise 10 se 15 minute ke liye chhod do aur dono tubes ki tulna karo (time-lapse)."
+},
+"Gas collects at the top of both tubes and pushes the water down. Tube 1 (over −) has about twice as much gas as tube 2 (over +). The + terminal slowly gets dull.": {
+"hi": "दोनों परखनलियों में ऊपर गैस इकट्ठा होती है और पानी को नीचे धकेलती है। परखनली 1 (− के ऊपर) में परखनली 2 (+ के ऊपर) से लगभग दोगुनी गैस है। + टर्मिनल धीरे-धीरे फीका पड़ जाता है।",
+"hg": "Dono tubes mein upar gas jama hoti hai aur paani ko neeche dhakelti hai. Tube 1 (− ke upar) mein tube 2 (+ ke upar) se lagbhag double gas hai. + terminal dheere-dheere dull ho jaata hai."
+},
+"Electricity breaks water into hydrogen and oxygen. Water has two hydrogen atoms for every oxygen atom, so twice as much hydrogen is made.": {
+"hi": "विद्युत पानी को हाइड्रोजन और ऑक्सीजन में तोड़ देती है। पानी में हर ऑक्सीजन परमाणु के साथ दो हाइड्रोजन परमाणु होते हैं, इसलिए हाइड्रोजन दोगुनी बनती है।",
+"hg": "Electricity paani ko hydrogen aur oxygen mein tod deti hai. Paani mein har oxygen atom ke saath do hydrogen atoms hote hain, isliye hydrogen double banti hai."
+},
+"The candle burns with a steady flame.": {
+"hi": "मोमबत्ती स्थिर ज्वाला के साथ जलती है।",
+"hg": "Candle steady flame ke saath jalti hai."
+},
+"Lift tube 1 out, keeping its mouth down, and bring its mouth to the candle flame.": {
+"hi": "परखनली 1 को उसका मुँह नीचे रखते हुए बाहर निकालें, और उसके मुँह को मोमबत्ती की ज्वाला के पास लाएँ।",
+"hg": "Tube 1 ko uska munh neeche rakhte hue bahar nikaalo, aur uska munh candle ki flame ke paas laao."
+},
+"Only hydrogen burns with a pop. So the gas at the − terminal is hydrogen.": {
+"hi": "केवल हाइड्रोजन ही पॉप की आवाज़ के साथ जलती है। इसलिए − टर्मिनल पर बनी गैस हाइड्रोजन है।",
+"hg": "Sirf hydrogen hi pop ki awaaz ke saath jalti hai. Isliye − terminal wali gas hydrogen hai."
+},
+"Now bring tube 2 to the flame in the same way.": {
+"hi": "अब इसी तरह परखनली 2 को ज्वाला के पास लाएँ।",
+"hg": "Ab isi tarah tube 2 ko flame ke paas laao."
+},
+"The candle flame flares up and burns more brightly.": {
+"hi": "मोमबत्ती की ज्वाला भभक उठती है और पहले से तेज़ जलती है।",
+"hg": "Candle ki flame bhabhak uthti hai aur pehle se tez jalti hai."
+},
+"Oxygen helps burning. So the gas at the + terminal is oxygen.": {
+"hi": "ऑक्सीजन जलने में मदद करती है। इसलिए + टर्मिनल पर बनी गैस ऑक्सीजन है।",
+"hg": "Oxygen jalne mein madad karti hai. Isliye + terminal wali gas oxygen hai."
+},
+"Bubbles formed at both terminals. The gas over the − terminal was about twice the gas over +. It burnt with a pop (hydrogen); the other gas made the flame brighter (oxygen).": {
+"hi": "दोनों टर्मिनलों पर बुलबुले बने। − टर्मिनल के ऊपर की गैस, + के ऊपर की गैस से लगभग दोगुनी थी। वह पॉप की आवाज़ के साथ जली (हाइड्रोजन); दूसरी गैस ने ज्वाला को और तेज़ कर दिया (ऑक्सीजन)।",
+"hg": "Dono terminals par bubbles bane. − terminal ke upar ki gas, + ke upar ki gas se lagbhag double thi. Woh pop ki awaaz ke saath jali (hydrogen); doosri gas ne flame ko aur tez kar diya (oxygen)."
+},
+"Water is a compound of hydrogen and oxygen. Electricity breaks it into these two elements, with twice as much hydrogen as oxygen by volume.": {
+"hi": "जल हाइड्रोजन और ऑक्सीजन का यौगिक है। विद्युत इसे इन दो तत्वों में तोड़ देती है, और आयतन में हाइड्रोजन, ऑक्सीजन से दोगुनी होती है।",
+"hg": "Paani hydrogen aur oxygen ka compound hai. Electricity ise in do elements mein tod deti hai, aur volume mein hydrogen, oxygen se double hoti hai."
+},
+"This is a teacher demonstration. Use only an ordinary 9 V battery, never a lithium battery. Keep flames away from the hydrogen until you test it. Handle the acid carefully.": {
+"hi": "यह शिक्षक द्वारा प्रदर्शन है। केवल साधारण 9 V बैटरी का उपयोग करें, लिथियम बैटरी का कभी नहीं। जाँच करने तक हाइड्रोजन को ज्वाला से दूर रखें। अम्ल को सावधानी से इस्तेमाल करें।",
+"hg": "Yeh teacher demonstration hai. Sirf normal 9 V battery use karo, lithium battery kabhi nahi. Test karne tak hydrogen ko flame se door rakho. Acid ko dhyaan se handle karo."
+},
+"Which gas collects at the negative terminal?": {
+"hi": "ऋणात्मक टर्मिनल पर कौन-सी गैस इकट्ठा होती है?",
+"hg": "Negative terminal par kaun si gas jama hoti hai?"
+},
+"Hydrogen; it burns with a pop.": {
+"hi": "हाइड्रोजन; यह पॉप की आवाज़ के साथ जलती है।",
+"hg": "Hydrogen; yeh pop ki awaaz ke saath jalti hai."
+},
+"Why is the volume of hydrogen double that of oxygen?": {
+"hi": "हाइड्रोजन का आयतन ऑक्सीजन से दोगुना क्यों होता है?",
+"hg": "Hydrogen ka volume oxygen se double kyun hota hai?"
+},
+"Each water molecule (H₂O) has two hydrogen atoms for one oxygen atom.": {
+"hi": "पानी के हर अणु (H₂O) में एक ऑक्सीजन परमाणु के साथ दो हाइड्रोजन परमाणु होते हैं।",
+"hg": "Paani ke har molecule (H₂O) mein ek oxygen atom ke saath do hydrogen atoms hote hain."
+},
+"Why are a few drops of acid added?": {
+"hi": "अम्ल की कुछ बूँदें क्यों डाली जाती हैं?",
+"hg": "Acid ki kuch boondein kyun daali jaati hain?"
+},
+"Pure water hardly conducts; the acid gives ions so that the current can flow.": {
+"hi": "शुद्ध पानी लगभग चालन नहीं करता; अम्ल आयन देता है, ताकि विद्युत धारा बह सके।",
+"hg": "Pure paani lagbhag conduct nahi karta; acid ions deta hai taaki current beh sake."
+},
+"Water → hydrogen + oxygen (by electricity)": {
+"hi": "जल → हाइड्रोजन + ऑक्सीजन (विद्युत द्वारा)",
+"hg": "Paani → hydrogen + oxygen (electricity se)"
+},
+"Ch 9 · Atomic Foundations of Matter": {
+"hi": "अध्याय 9 · पदार्थ की परमाणु नींव",
+"hg": "Ch 9 · Matter ki Atomic Foundations"
+},
+"Ionic and covalent compounds: dissolving and conducting": {
+"hi": "आयनिक और सहसंयोजक यौगिक: घुलना और चालन",
+"hg": "Ionic aur covalent compounds: ghulna aur conduct karna"
+},
+"To compare how salt and copper sulphate (ionic) and sugar, camphor and naphthalene (covalent) dissolve in water and kerosene, and whether they conduct electricity.": {
+"hi": "नमक और कॉपर सल्फ़ेट (आयनिक) तथा चीनी, कपूर और नैफ़्थलीन (सहसंयोजक) की तुलना करना कि वे पानी और केरोसिन में कैसे घुलते हैं, और क्या वे विद्युत का चालन करते हैं।",
+"hg": "Namak aur copper sulphate (ionic) aur sugar, camphor aur naphthalene (covalent) ki tulna karna ki woh paani aur kerosene mein kaise ghulte hain, aur kya woh electricity conduct karte hain."
+},
+"Properties of ionic and covalent compounds": {
+"hi": "आयनिक और सहसंयोजक यौगिकों के गुण",
+"hg": "Ionic aur covalent compounds ki properties"
+},
+"Put a pinch of each solid into its beaker of water (salt in 1, copper sulphate in 2, sugar in 3, camphor in 4, naphthalene in 5) and stir.": {
+"hi": "हर ठोस की एक चुटकी उसके पानी वाले बीकर में डालें (नमक 1 में, कॉपर सल्फ़ेट 2 में, चीनी 3 में, कपूर 4 में, नैफ़्थलीन 5 में) और हिलाएँ।",
+"hg": "Har solid ki ek chutki uske paani wale beaker mein daalo (namak 1 mein, copper sulphate 2 mein, sugar 3 mein, camphor 4 mein, naphthalene 5 mein) aur hilao."
+},
+"Salt and sugar disappear; copper sulphate dissolves to a blue solution. Camphor floats on the water and naphthalene stays as a solid: they do not dissolve.": {
+"hi": "नमक और चीनी गायब हो जाते हैं; कॉपर सल्फ़ेट घुलकर नीला विलयन बनाता है। कपूर पानी पर तैरता है और नैफ़्थलीन ठोस ही रहता है: ये नहीं घुलते।",
+"hg": "Namak aur sugar gayab ho jaate hain; copper sulphate ghul kar blue solution banata hai. Camphor paani par tairta hai aur naphthalene solid hi rehta hai: yeh nahi ghulte."
+},
+"Now put a pinch of each into its tube of kerosene and shake.": {
+"hi": "अब हर एक की एक चुटकी उसकी केरोसिन वाली परखनली में डालें और हिलाएँ।",
+"hg": "Ab har ek ki ek chutki uski kerosene wali tube mein daalo aur hilao."
+},
+"Salt, copper sulphate and sugar stay at the bottom, undissolved. Camphor and naphthalene dissolve in the kerosene.": {
+"hi": "नमक, कॉपर सल्फ़ेट और चीनी बिना घुले तली में पड़े रहते हैं। कपूर और नैफ़्थलीन केरोसिन में घुल जाते हैं।",
+"hg": "Namak, copper sulphate aur sugar bina ghule neeche pade rehte hain. Camphor aur naphthalene kerosene mein ghul jaate hain."
+},
+"Ionic compounds dissolve in water but not in kerosene or petrol; many covalent compounds do the opposite.": {
+"hi": "आयनिक यौगिक पानी में घुलते हैं, पर केरोसिन या पेट्रोल में नहीं; कई सहसंयोजक यौगिक इसका उल्टा करते हैं।",
+"hg": "Ionic compounds paani mein ghulte hain, par kerosene ya petrol mein nahi; kai covalent compounds iska ulta karte hain."
+},
+"Press the two electrodes on the solid salt, then on the solid sugar.": {
+"hi": "दोनों इलेक्ट्रोडों को पहले ठोस नमक पर, फिर ठोस चीनी पर दबाएँ।",
+"hg": "Dono electrodes ko pehle solid namak par, phir solid sugar par dabao."
+},
+"The bulb does not glow for either solid.": {
+"hi": "किसी भी ठोस के साथ बल्ब नहीं जलता।",
+"hg": "Kisi bhi solid ke saath bulb nahi jalta."
+},
+"In a solid the ions of salt are locked in place, so they cannot carry the current.": {
+"hi": "ठोस में नमक के आयन अपनी जगह पर जकड़े रहते हैं, इसलिए वे विद्युत धारा नहीं ले जा सकते।",
+"hg": "Solid mein namak ke ions apni jagah par jakde rehte hain, isliye woh current nahi le ja sakte."
+},
+"Dip the electrodes into beaker 1 (salt solution).": {
+"hi": "इलेक्ट्रोडों को बीकर 1 (नमक का विलयन) में डुबोएँ।",
+"hg": "Electrodes ko beaker 1 (namak ka solution) mein dubao."
+},
+"In water, salt breaks into free Na⁺ and Cl⁻ ions, which move and carry the current.": {
+"hi": "पानी में नमक मुक्त Na⁺ और Cl⁻ आयनों में टूट जाता है, जो चलकर विद्युत धारा ले जाते हैं।",
+"hg": "Paani mein namak free Na⁺ aur Cl⁻ ions mein toot jaata hai, jo move karke current le jaate hain."
+},
+"Rinse the electrodes and dip them into beaker 2 (copper sulphate solution).": {
+"hi": "इलेक्ट्रोडों को धोएँ और उन्हें बीकर 2 (कॉपर सल्फ़ेट विलयन) में डुबोएँ।",
+"hg": "Electrodes ko dho lo aur unhe beaker 2 (copper sulphate solution) mein dubao."
+},
+"Copper sulphate is ionic too: Cu²⁺ and SO₄²⁻ ions carry the current.": {
+"hi": "कॉपर सल्फ़ेट भी आयनिक है: Cu²⁺ और SO₄²⁻ आयन विद्युत धारा ले जाते हैं।",
+"hg": "Copper sulphate bhi ionic hai: Cu²⁺ aur SO₄²⁻ ions current le jaate hain."
+},
+"Rinse and test beaker 3 (sugar solution).": {
+"hi": "इलेक्ट्रोड धोएँ और बीकर 3 (चीनी का विलयन) की जाँच करें।",
+"hg": "Electrodes dho kar beaker 3 (sugar solution) ko test karo."
+},
+"Sugar is covalent: it dissolves as whole molecules with no charge, so there is nothing to carry the current.": {
+"hi": "चीनी सहसंयोजक है: यह बिना आवेश वाले पूरे अणुओं के रूप में घुलती है, इसलिए विद्युत धारा ले जाने के लिए कुछ नहीं होता।",
+"hg": "Sugar covalent hai: yeh bina charge wale poore molecules ke roop mein ghulti hai, isliye current le jaane ke liye kuch nahi hota."
+},
+"Test beakers 4 and 5 (camphor and naphthalene in water).": {
+"hi": "बीकर 4 और 5 (पानी में कपूर और नैफ़्थलीन) की जाँच करें।",
+"hg": "Beaker 4 aur 5 (paani mein camphor aur naphthalene) ko test karo."
+},
+"The bulb does not glow in either.": {
+"hi": "दोनों में से किसी में भी बल्ब नहीं जलता।",
+"hg": "Dono mein se kisi mein bhi bulb nahi jalta."
+},
+"Camphor and naphthalene are covalent and did not even dissolve, so the water has no ions.": {
+"hi": "कपूर और नैफ़्थलीन सहसंयोजक हैं और घुले भी नहीं, इसलिए पानी में कोई आयन नहीं हैं।",
+"hg": "Camphor aur naphthalene covalent hain aur ghule bhi nahi, isliye paani mein koi ions nahi hain."
+},
+"Salt and copper sulphate dissolved in water and their solutions lit the bulb; neither solid did. Sugar dissolved but did not conduct. Camphor and naphthalene did not dissolve in water but dissolved in kerosene, and did not conduct.": {
+"hi": "नमक और कॉपर सल्फ़ेट पानी में घुल गए और उनके विलयनों से बल्ब जला; उनके ठोस रूप से नहीं जला। चीनी घुल गई पर उसने चालन नहीं किया। कपूर और नैफ़्थलीन पानी में नहीं घुले पर केरोसिन में घुल गए, और उन्होंने चालन नहीं किया।",
+"hg": "Namak aur copper sulphate paani mein ghul gaye aur unke solutions se bulb jala; solid se nahi jala. Sugar ghul gayi par conduct nahi kiya. Camphor aur naphthalene paani mein nahi ghule par kerosene mein ghul gaye, aur conduct nahi kiya."
+},
+"Ionic compounds dissolve in water (not in kerosene) and conduct electricity when dissolved, because their ions become free to move. Covalent compounds do not conduct electricity.": {
+"hi": "आयनिक यौगिक पानी में घुलते हैं (केरोसिन में नहीं) और घुलने पर विद्युत का चालन करते हैं, क्योंकि उनके आयन चलने के लिए मुक्त हो जाते हैं। सहसंयोजक यौगिक विद्युत का चालन नहीं करते।",
+"hg": "Ionic compounds paani mein ghulte hain (kerosene mein nahi) aur ghulne par electricity conduct karte hain, kyunki unke ions move karne ke liye free ho jaate hain. Covalent compounds electricity conduct nahi karte."
+},
+"Kerosene and petrol catch fire easily: keep all flames away. Naphthalene and copper sulphate are harmful if swallowed; wash your hands.": {
+"hi": "केरोसिन और पेट्रोल आसानी से आग पकड़ लेते हैं: हर तरह की ज्वाला दूर रखें। नैफ़्थलीन और कॉपर सल्फ़ेट निगलने पर हानिकारक हैं; हाथ धोएँ।",
+"hg": "Kerosene aur petrol aasaani se aag pakad lete hain: saari flames door rakho. Naphthalene aur copper sulphate nigalne par nuksaandeh hain; haath dho lo."
+},
+"Why does solid salt not conduct, though its solution does?": {
+"hi": "नमक का विलयन चालन करता है, फिर भी ठोस नमक चालन क्यों नहीं करता?",
+"hg": "Namak ka solution conduct karta hai, phir bhi solid namak conduct kyun nahi karta?"
+},
+"In the solid the ions are fixed; in water they are free to move.": {
+"hi": "ठोस में आयन अपनी जगह पर स्थिर रहते हैं; पानी में वे चलने के लिए मुक्त होते हैं।",
+"hg": "Solid mein ions fixed rehte hain; paani mein woh move karne ke liye free hote hain."
+},
+"Does sugar solution conduct electricity?": {
+"hi": "क्या चीनी का विलयन विद्युत का चालन करता है?",
+"hg": "Kya sugar solution electricity conduct karta hai?"
+},
+"No. Sugar dissolves as molecules, not ions.": {
+"hi": "नहीं। चीनी अणुओं के रूप में घुलती है, आयनों के रूप में नहीं।",
+"hg": "Nahi. Sugar molecules ke roop mein ghulti hai, ions ke roop mein nahi."
+},
+"In which solvent does camphor dissolve?": {
+"hi": "कपूर किस विलायक में घुलता है?",
+"hg": "Camphor kis solvent mein ghulta hai?"
+},
+"In kerosene or petrol, not in water.": {
+"hi": "केरोसिन या पेट्रोल में, पानी में नहीं।",
+"hg": "Kerosene ya petrol mein, paani mein nahi."
+},
+"Ionic compounds (salt, copper sulphate): dissolve in water; solutions conduct · covalent compounds (sugar, camphor, naphthalene): no ions, do not conduct": {
+"hi": "आयनिक यौगिक (नमक, कॉपर सल्फ़ेट): पानी में घुलते हैं; विलयन चालन करते हैं · सहसंयोजक यौगिक (चीनी, कपूर, नैफ़्थलीन): आयन नहीं, चालन नहीं करते",
+"hg": "Ionic compounds (namak, copper sulphate): paani mein ghulte hain; solutions conduct karte hain · covalent compounds (sugar, camphor, naphthalene): ions nahi, conduct nahi karte"
+},
+"Electrolysis of water": {
+"hi": "जल का विद्युत अपघटन",
+"hg": "Paani ka electrolysis"
+},
+"To break water down by an electric current, collect the two gases and compare their volumes.": {
+"hi": "विद्युत धारा से जल का अपघटन करना, दोनों गैसों को इकट्ठा करना और उनके आयतनों की तुलना करना।",
+"hg": "Electric current se paani ko todna, dono gases ko collect karna aur unke volumes ki tulna karna."
+},
+"Decomposition reaction (by electricity)": {
+"hi": "वियोजन अभिक्रिया (विद्युत द्वारा)",
+"hg": "Decomposition reaction (electricity se)"
+},
+"Pour water into the mug until the carbon electrodes are well covered.": {
+"hi": "मग में तब तक पानी डालें जब तक कार्बन इलेक्ट्रोड अच्छी तरह डूब न जाएँ।",
+"hg": "Mug mein tab tak paani daalo jab tak carbon electrodes achhe se doob na jaayein."
+},
+"The two carbon rods stand under the water. The left one is joined to + and the right one to − through the switch.": {
+"hi": "कार्बन की दोनों छड़ें पानी में डूबी खड़ी हैं। स्विच के ज़रिए बाईं छड़ + से और दाईं छड़ − से जुड़ी है।",
+"hg": "Dono carbon rods paani mein doobi khadi hain. Switch ke through left wali + se aur right wali − se judi hai."
+},
+"The acid gives ions, so that the water can conduct electricity.": {
+"hi": "अम्ल आयन देता है, ताकि पानी विद्युत का चालन कर सके।",
+"hg": "Acid ions deta hai, taaki paani electricity conduct kar sake."
+},
+"Fill test tube 1 with water and turn it upside down over the electrode joined to − (the cathode).": {
+"hi": "परखनली 1 को पानी से भरें और उसे − से जुड़े इलेक्ट्रोड (कैथोड) के ऊपर उलटा रखें।",
+"hg": "Test tube 1 ko paani se bharo aur use − se jude electrode (cathode) ke upar ulta rakho."
+},
+"The tube stands full of water over the right electrode.": {
+"hi": "परखनली पानी से भरी हुई दाएँ इलेक्ट्रोड के ऊपर खड़ी है।",
+"hg": "Tube paani se bhari hui right electrode ke upar khadi hai."
+},
+"Fill test tube 2 and turn it over the electrode joined to + (the anode).": {
+"hi": "परखनली 2 को भरें और उसे + से जुड़े इलेक्ट्रोड (ऐनोड) के ऊपर उलटा रखें।",
+"hg": "Test tube 2 ko bharo aur use + se jude electrode (anode) ke upar ulta rakho."
+},
+"Both tubes stand full of water over the electrodes.": {
+"hi": "दोनों परखनलियाँ पानी से भरी हुई इलेक्ट्रोडों के ऊपर खड़ी हैं।",
+"hg": "Dono tubes paani se bhari hui electrodes ke upar khadi hain."
+},
+"Gas bubbles form on both electrodes and rise into the test tubes.": {
+"hi": "दोनों इलेक्ट्रोडों पर गैस के बुलबुले बनते हैं और परखनलियों में ऊपर उठते हैं।",
+"hg": "Dono electrodes par gas ke bubbles bante hain aur test tubes mein upar uthte hain."
+},
+"Leave the apparatus undisturbed for some time (time-lapse).": {
+"hi": "उपकरण को कुछ समय तक बिना छेड़े छोड़ दें (टाइम-लैप्स)।",
+"hg": "Apparatus ko kuch der tak bina chhede chhod do (time-lapse)."
+},
+"The gases push the water down in both tubes. The gas over the cathode (−) is about double the gas over the anode (+).": {
+"hi": "गैसें दोनों परखनलियों में पानी को नीचे धकेलती हैं। कैथोड (−) के ऊपर की गैस, ऐनोड (+) के ऊपर की गैस से लगभग दोगुनी है।",
+"hg": "Gases dono tubes mein paani ko neeche dhakelti hain. Cathode (−) ke upar ki gas, anode (+) ke upar ki gas se lagbhag double hai."
+},
+"Water breaks into hydrogen (at the cathode) and oxygen (at the anode) in the ratio 2 : 1 by volume.": {
+"hi": "जल, आयतन के अनुसार 2 : 1 के अनुपात में हाइड्रोजन (कैथोड पर) और ऑक्सीजन (ऐनोड पर) में टूट जाता है।",
+"hg": "Paani volume ke hisaab se 2 : 1 ratio mein hydrogen (cathode par) aur oxygen (anode par) mein toot jaata hai."
+},
+"Switch off and light the candle.": {
+"hi": "स्विच बंद करें और मोमबत्ती जलाएँ।",
+"hg": "Switch off karo aur candle jalao."
+},
+"Take test tube 1 out, mouth down, and bring a burning candle close to its mouth.": {
+"hi": "परखनली 1 को मुँह नीचे रखते हुए बाहर निकालें, और जलती मोमबत्ती को उसके मुँह के पास लाएँ।",
+"hg": "Test tube 1 ko munh neeche rakhte hue bahar nikaalo, aur jalti candle ko uske munh ke paas laao."
+},
+"This is hydrogen.": {
+"hi": "यह हाइड्रोजन है।",
+"hg": "Yeh hydrogen hai."
+},
+"Do the same with test tube 2.": {
+"hi": "परखनली 2 के साथ भी ऐसा ही करें।",
+"hg": "Test tube 2 ke saath bhi aisa hi karo."
+},
+"The candle burns more brightly.": {
+"hi": "मोमबत्ती और तेज़ जलती है।",
+"hg": "Candle aur tez jalti hai."
+},
+"This is oxygen, which supports burning.": {
+"hi": "यह ऑक्सीजन है, जो जलने में सहायक है।",
+"hg": "Yeh oxygen hai, jo jalne mein madad karti hai."
+},
+"Bubbles formed on both electrodes. The volume of gas at the cathode was about twice that at the anode. The cathode gas burnt with a pop; the anode gas made the candle burn brighter.": {
+"hi": "दोनों इलेक्ट्रोडों पर बुलबुले बने। कैथोड पर गैस का आयतन, ऐनोड पर गैस के आयतन से लगभग दोगुना था। कैथोड की गैस पॉप की आवाज़ के साथ जली; ऐनोड की गैस से मोमबत्ती और तेज़ जली।",
+"hg": "Dono electrodes par bubbles bane. Cathode par gas ka volume, anode wali gas se lagbhag double tha. Cathode wali gas pop ki awaaz ke saath jali; anode wali gas se candle aur tez jali."
+},
+"Electricity decomposes water into hydrogen and oxygen in the ratio 2 : 1 by volume. This is a decomposition reaction caused by electricity (electrolysis).": {
+"hi": "विद्युत जल को आयतन के अनुसार 2 : 1 के अनुपात में हाइड्रोजन और ऑक्सीजन में वियोजित कर देती है। यह विद्युत से होने वाली वियोजन अभिक्रिया (विद्युत अपघटन) है।",
+"hg": "Electricity paani ko volume ke hisaab se 2 : 1 ratio mein hydrogen aur oxygen mein decompose kar deti hai. Yeh electricity se hone wala decomposition reaction (electrolysis) hai."
+},
+"Use only a low-voltage battery. The gas tests should be done by the teacher. Handle the acid carefully.": {
+"hi": "केवल कम वोल्टेज वाली बैटरी का उपयोग करें। गैसों की जाँच शिक्षक को ही करनी चाहिए। अम्ल को सावधानी से इस्तेमाल करें।",
+"hg": "Sirf low-voltage battery use karo. Gas tests teacher ko hi karne chahiye. Acid ko dhyaan se handle karo."
+},
+"Name the gas collected at the cathode.": {
+"hi": "कैथोड पर इकट्ठा होने वाली गैस का नाम बताएँ।",
+"hg": "Cathode par collect hone wali gas ka naam batao."
+},
+"Why is the gas at the cathode double that at the anode?": {
+"hi": "कैथोड पर गैस, ऐनोड की गैस से दोगुनी क्यों होती है?",
+"hg": "Cathode par gas, anode wali gas se double kyun hoti hai?"
+},
+"Water has two hydrogen atoms for every oxygen atom, so twice the volume of hydrogen is formed.": {
+"hi": "जल में हर ऑक्सीजन परमाणु के साथ दो हाइड्रोजन परमाणु होते हैं, इसलिए हाइड्रोजन का दोगुना आयतन बनता है।",
+"hg": "Paani mein har oxygen atom ke saath do hydrogen atoms hote hain, isliye hydrogen ka volume double banta hai."
+},
+"A decomposition reaction (electrolytic decomposition).": {
+"hi": "वियोजन अभिक्रिया (विद्युत द्वारा वियोजन)।",
+"hg": "Decomposition reaction (electrolytic decomposition)."
+},
+"Water → hydrogen + oxygen (electrolytic decomposition)": {
+"hi": "जल → हाइड्रोजन + ऑक्सीजन (विद्युत द्वारा वियोजन)",
+"hg": "Paani → hydrogen + oxygen (electrolytic decomposition)"
+},
+"Do acid solutions conduct electricity?": {
+"hi": "क्या अम्लों के विलयन विद्युत का चालन करते हैं?",
+"hg": "Kya acid solutions electricity conduct karte hain?"
+},
+"To show that solutions of acids conduct electricity, while glucose and alcohol solutions do not.": {
+"hi": "यह दिखाना कि अम्लों के विलयन विद्युत का चालन करते हैं, जबकि ग्लूकोज़ और ऐल्कोहॉल के विलयन नहीं करते।",
+"hg": "Dikhana ki acids ke solutions electricity conduct karte hain, jabki glucose aur alcohol ke solutions nahi karte."
+},
+"Acids give ions in water": {
+"hi": "अम्ल पानी में आयन देते हैं",
+"hg": "Acids paani mein ions dete hain"
+},
+"Pour dilute hydrochloric acid into the beaker so that the nails are well covered.": {
+"hi": "बीकर में इतना तनु हाइड्रोक्लोरिक अम्ल डालें कि कीलें अच्छी तरह डूब जाएँ।",
+"hg": "Beaker mein itna dilute hydrochloric acid daalo ki keelein achhe se doob jaayein."
+},
+"The two iron nails on the cork stand in the acid. They are joined to the battery through a bulb and a switch.": {
+"hi": "कॉर्क पर लगी लोहे की दोनों कीलें अम्ल में खड़ी हैं। ये एक बल्ब और एक स्विच के ज़रिए बैटरी से जुड़ी हैं।",
+"hg": "Cork par lagi iron ki dono keelein acid mein khadi hain. Yeh ek bulb aur ek switch ke through battery se judi hain."
+},
+"The bulb glows. Gas bubbles form on the nails.": {
+"hi": "बल्ब जलता है। कीलों पर गैस के बुलबुले बनते हैं।",
+"hg": "Bulb jalta hai. Keelon par gas ke bubbles bante hain."
+},
+"HCl in water gives H⁺ and Cl⁻ ions. These moving ions carry the current.": {
+"hi": "पानी में HCl, H⁺ और Cl⁻ आयन देता है। ये चलते हुए आयन विद्युत धारा ले जाते हैं।",
+"hg": "Paani mein HCl, H⁺ aur Cl⁻ ions deta hai. Yeh move karte hue ions current le jaate hain."
+},
+"Switch off, pour the acid into the waste beaker and rinse the beaker with water.": {
+"hi": "स्विच बंद करें, अम्ल को कचरा बीकर में डालें और बीकर को पानी से धो लें।",
+"hg": "Switch off karo, acid ko waste beaker mein daalo aur beaker ko paani se dho lo."
+},
+"The bulb goes off; the beaker is empty and clean.": {
+"hi": "बल्ब बुझ जाता है; बीकर खाली और साफ़ है।",
+"hg": "Bulb bujh jaata hai; beaker khaali aur saaf hai."
+},
+"Pour in dilute sulphuric acid and switch on.": {
+"hi": "तनु सल्फ़्यूरिक अम्ल डालें और स्विच चालू करें।",
+"hg": "Dilute sulphuric acid daalo aur switch on karo."
+},
+"The bulb glows again.": {
+"hi": "बल्ब फिर से जलता है।",
+"hg": "Bulb phir se jalta hai."
+},
+"Sulphuric acid also gives H⁺ ions (and SO₄²⁻ ions) in water.": {
+"hi": "सल्फ़्यूरिक अम्ल भी पानी में H⁺ आयन (और SO₄²⁻ आयन) देता है।",
+"hg": "Sulphuric acid bhi paani mein H⁺ ions (aur SO₄²⁻ ions) deta hai."
+},
+"Switch off, empty and rinse the beaker. Pour in glucose solution and switch on.": {
+"hi": "स्विच बंद करें, बीकर खाली करके धो लें। ग्लूकोज़ का विलयन डालें और स्विच चालू करें।",
+"hg": "Switch off karo, beaker khaali karke dho lo. Glucose solution daalo aur switch on karo."
+},
+"Glucose contains hydrogen but does not give H⁺ ions (or any ions) in water.": {
+"hi": "ग्लूकोज़ में हाइड्रोजन होता है, पर यह पानी में H⁺ आयन (या कोई भी आयन) नहीं देता।",
+"hg": "Glucose mein hydrogen hota hai, par yeh paani mein H⁺ ions (ya koi bhi ions) nahi deta."
+},
+"Switch off, empty and rinse the beaker. Pour in alcohol solution and switch on.": {
+"hi": "स्विच बंद करें, बीकर खाली करके धो लें। ऐल्कोहॉल का विलयन डालें और स्विच चालू करें।",
+"hg": "Switch off karo, beaker khaali karke dho lo. Alcohol solution daalo aur switch on karo."
+},
+"Alcohol also contains hydrogen, but it does not form ions in water. So not every compound with hydrogen is an acid.": {
+"hi": "ऐल्कोहॉल में भी हाइड्रोजन होता है, पर यह पानी में आयन नहीं बनाता। इसलिए हाइड्रोजन वाला हर यौगिक अम्ल नहीं होता।",
+"hg": "Alcohol mein bhi hydrogen hota hai, par yeh paani mein ions nahi banata. Isliye hydrogen wala har compound acid nahi hota."
+},
+"The bulb glowed with dilute hydrochloric acid and dilute sulphuric acid, but not with glucose or alcohol solution.": {
+"hi": "तनु हाइड्रोक्लोरिक अम्ल और तनु सल्फ़्यूरिक अम्ल के साथ बल्ब जला, पर ग्लूकोज़ या ऐल्कोहॉल के विलयन के साथ नहीं।",
+"hg": "Dilute hydrochloric acid aur dilute sulphuric acid ke saath bulb jala, par glucose ya alcohol solution ke saath nahi."
+},
+"Acids produce H⁺ ions in water, and these ions conduct electricity. Glucose and alcohol contain hydrogen but are not acids, because they do not give H⁺ ions.": {
+"hi": "अम्ल पानी में H⁺ आयन बनाते हैं, और ये आयन विद्युत का चालन करते हैं। ग्लूकोज़ और ऐल्कोहॉल में हाइड्रोजन होता है, पर वे अम्ल नहीं हैं, क्योंकि वे H⁺ आयन नहीं देते।",
+"hg": "Acids paani mein H⁺ ions banate hain, aur yeh ions electricity conduct karte hain. Glucose aur alcohol mein hydrogen hota hai par woh acids nahi hain, kyunki woh H⁺ ions nahi dete."
+},
+"Use only a 6 V battery. Do not touch the nails while the switch is on. Handle the acids carefully.": {
+"hi": "केवल 6 V बैटरी का उपयोग करें। स्विच चालू रहते हुए कीलों को न छुएँ। अम्लों को सावधानी से इस्तेमाल करें।",
+"hg": "Sirf 6 V battery use karo. Switch on rehte hue keelon ko mat chhuo. Acids ko dhyaan se handle karo."
+},
+"Why does dilute HCl conduct electricity?": {
+"hi": "तनु HCl विद्युत का चालन क्यों करता है?",
+"hg": "Dilute HCl electricity conduct kyun karta hai?"
+},
+"It gives H⁺ and Cl⁻ ions in water, which carry the current.": {
+"hi": "यह पानी में H⁺ और Cl⁻ आयन देता है, जो विद्युत धारा ले जाते हैं।",
+"hg": "Yeh paani mein H⁺ aur Cl⁻ ions deta hai, jo current le jaate hain."
+},
+"Glucose has hydrogen. Why is it not an acid?": {
+"hi": "ग्लूकोज़ में हाइड्रोजन है। फिर यह अम्ल क्यों नहीं है?",
+"hg": "Glucose mein hydrogen hai. Phir yeh acid kyun nahi hai?"
+},
+"It does not give H⁺ ions in water.": {
+"hi": "यह पानी में H⁺ आयन नहीं देता।",
+"hg": "Yeh paani mein H⁺ ions nahi deta."
+},
+"Hardly; it has almost no ions.": {
+"hi": "न के बराबर; इसमें लगभग कोई आयन नहीं होते।",
+"hg": "Na ke barabar; ismein lagbhag koi ions nahi hote."
+},
+"Acids give hydrogen ions in water; the ions carry the current": {
+"hi": "अम्ल पानी में हाइड्रोजन आयन देते हैं; ये आयन विद्युत धारा ले जाते हैं",
+"hg": "Acids paani mein hydrogen ions dete hain; yeh ions current le jaate hain"
+},
+"Properties of ionic compounds: flame colour, solubility, conduction": {
+"hi": "आयनिक यौगिकों के गुण: ज्वाला का रंग, विलेयता, चालन",
+"hg": "Ionic compounds ki properties: flame colour, solubility, conduction"
+},
+"To study the physical state, flame colour, solubility and electrical conduction of the ionic compounds sodium chloride, potassium iodide and barium chloride.": {
+"hi": "आयनिक यौगिकों सोडियम क्लोराइड, पोटैशियम आयोडाइड और बेरियम क्लोराइड की भौतिक अवस्था, ज्वाला का रंग, विलेयता और विद्युत चालन का अध्ययन करना।",
+"hg": "Ionic compounds sodium chloride, potassium iodide aur barium chloride ki physical state, flame colour, solubility aur electrical conduction ko study karna."
+},
+"Properties of ionic compounds": {
+"hi": "आयनिक यौगिकों के गुण",
+"hg": "Ionic compounds ki properties"
+},
+"Look at the three salts: sodium chloride, potassium iodide and barium chloride.": {
+"hi": "तीनों लवणों को देखें: सोडियम क्लोराइड, पोटैशियम आयोडाइड और बेरियम क्लोराइड।",
+"hg": "Teeno salts ko dekho: sodium chloride, potassium iodide aur barium chloride."
+},
+"All three are hard, white, crystalline solids.": {
+"hi": "तीनों कठोर, सफ़ेद, क्रिस्टलीय ठोस हैं।",
+"hg": "Teeno hard, white, crystalline solids hain."
+},
+"Ionic compounds are solids: their ions are held together by strong forces.": {
+"hi": "आयनिक यौगिक ठोस होते हैं: उनके आयन मज़बूत बलों से आपस में बँधे रहते हैं।",
+"hg": "Ionic compounds solid hote hain: unke ions strong forces se aapas mein bandhe rehte hain."
+},
+"Light the Bunsen burner.": {
+"hi": "बुन्सेन बर्नर जलाएँ।",
+"hg": "Bunsen burner jalao."
+},
+"A blue, almost invisible flame burns.": {
+"hi": "एक नीली, लगभग न दिखने वाली ज्वाला जलती है।",
+"hg": "Ek blue, lagbhag na dikhne wali flame jalti hai."
+},
+"Take a little sodium chloride on the metal spatula and hold it in the hot flame.": {
+"hi": "धातु के स्पैचुला पर थोड़ा सोडियम क्लोराइड लें और उसे गरम ज्वाला में पकड़ें।",
+"hg": "Metal spatula par thoda sodium chloride lo aur use garam flame mein pakdo."
+},
+"The crystals crackle and the flame turns a bright golden yellow.": {
+"hi": "क्रिस्टल चटकते हैं और ज्वाला चमकीली सुनहरी पीली हो जाती है।",
+"hg": "Crystals chatakte hain aur flame bright golden yellow ho jaati hai."
+},
+"Every metal gives its own flame colour. Sodium gives golden yellow.": {
+"hi": "हर धातु ज्वाला को अपना अलग रंग देती है। सोडियम सुनहरा पीला रंग देता है।",
+"hg": "Har metal flame ko apna alag colour deta hai. Sodium golden yellow deta hai."
+},
+"Clean the spatula, then repeat with potassium iodide.": {
+"hi": "स्पैचुला साफ़ करें, फिर पोटैशियम आयोडाइड के साथ यही दोहराएँ।",
+"hg": "Spatula saaf karo, phir potassium iodide ke saath yahi repeat karo."
+},
+"The flame turns lilac (pale violet). The solid melts into a clear drop.": {
+"hi": "ज्वाला हल्की बैंगनी (लाइलैक) हो जाती है। ठोस पिघलकर एक साफ़ बूँद बन जाता है।",
+"hg": "Flame lilac (halki violet) ho jaati hai. Solid pighal kar ek saaf boond ban jaata hai."
+},
+"Potassium gives a lilac flame. Potassium iodide melts at about 680 °C, which this flame can reach.": {
+"hi": "पोटैशियम हल्की बैंगनी (लाइलैक) ज्वाला देता है। पोटैशियम आयोडाइड लगभग 680 °C पर पिघलता है, और यह ज्वाला इतने ताप तक पहुँच सकती है।",
+"hg": "Potassium lilac flame deta hai. Potassium iodide lagbhag 680 °C par pighalta hai, aur yeh flame itne temperature tak pahunch sakti hai."
+},
+"Clean the spatula and repeat with barium chloride.": {
+"hi": "स्पैचुला साफ़ करें और बेरियम क्लोराइड के साथ यही दोहराएँ।",
+"hg": "Spatula saaf karo aur barium chloride ke saath yahi repeat karo."
+},
+"The flame turns apple-green.": {
+"hi": "ज्वाला सेब जैसी हरी हो जाती है।",
+"hg": "Flame apple-green ho jaati hai."
+},
+"Barium gives an apple-green flame. Ionic compounds have high melting points: sodium chloride melts at 801 °C and barium chloride at 962 °C.": {
+"hi": "बेरियम सेब जैसी हरी ज्वाला देता है। आयनिक यौगिकों के गलनांक उच्च होते हैं: सोडियम क्लोराइड 801 °C पर और बेरियम क्लोराइड 962 °C पर पिघलता है।",
+"hg": "Barium apple-green flame deta hai. Ionic compounds ke melting points high hote hain: sodium chloride 801 °C par aur barium chloride 962 °C par pighalta hai."
+},
+"Put a little sodium chloride into the water and into the kerosene, and shake.": {
+"hi": "थोड़ा सोडियम क्लोराइड पानी में और थोड़ा केरोसिन में डालें, और हिलाएँ।",
+"hg": "Thoda sodium chloride paani mein aur thoda kerosene mein daalo, aur hilao."
+},
+"It dissolves in the water but stays as a solid at the bottom of the kerosene.": {
+"hi": "यह पानी में घुल जाता है, पर केरोसिन में ठोस के रूप में तली में पड़ा रहता है।",
+"hg": "Yeh paani mein ghul jaata hai, par kerosene mein solid ke roop mein neeche pada rehta hai."
+},
+"Ionic compounds dissolve in water but not in kerosene or petrol.": {
+"hi": "आयनिक यौगिक पानी में घुलते हैं, पर केरोसिन या पेट्रोल में नहीं।",
+"hg": "Ionic compounds paani mein ghulte hain, par kerosene ya petrol mein nahi."
+},
+"Touch the two ends of the tester to the solid sodium chloride.": {
+"hi": "टेस्टर के दोनों सिरों को ठोस सोडियम क्लोराइड से छुआएँ।",
+"hg": "Tester ke dono ends ko solid sodium chloride se touch karo."
+},
+"In the solid crystal the ions are fixed in place and cannot move.": {
+"hi": "ठोस क्रिस्टल में आयन अपनी जगह पर स्थिर रहते हैं और चल नहीं सकते।",
+"hg": "Solid crystal mein ions apni jagah par fixed rehte hain aur move nahi kar sakte."
+},
+"Now dip the two ends into the salt solution in test tube 1.": {
+"hi": "अब दोनों सिरों को परखनली 1 के नमक के विलयन में डुबोएँ।",
+"hg": "Ab dono ends ko test tube 1 ke namak ke solution mein dubao."
+},
+"In water the ions are free to move and carry the current. Molten ionic compounds conduct for the same reason.": {
+"hi": "पानी में आयन चलने के लिए मुक्त होते हैं और विद्युत धारा ले जाते हैं। पिघले हुए आयनिक यौगिक भी इसी कारण चालन करते हैं।",
+"hg": "Paani mein ions move karne ke liye free hote hain aur current le jaate hain. Pighle hue ionic compounds bhi isi wajah se conduct karte hain."
+},
+"The salts were hard crystalline solids. They gave golden-yellow (Na), lilac (K) and apple-green (Ba) flames. Sodium chloride dissolved in water but not in kerosene. The solid did not conduct; its solution did.": {
+"hi": "लवण कठोर क्रिस्टलीय ठोस थे। इनसे सुनहरी पीली (Na), हल्की बैंगनी (K) और सेब जैसी हरी (Ba) ज्वालाएँ मिलीं। सोडियम क्लोराइड पानी में घुला, पर केरोसिन में नहीं। ठोस ने चालन नहीं किया; उसके विलयन ने किया।",
+"hg": "Salts hard crystalline solids the. Inse golden-yellow (Na), lilac (K) aur apple-green (Ba) flames mili. Sodium chloride paani mein ghula, par kerosene mein nahi. Solid ne conduct nahi kiya; uske solution ne kiya."
+},
+"Ionic compounds are hard solids with high melting points. They dissolve in water but not in kerosene, and they conduct electricity in solution (or when molten), not as solids.": {
+"hi": "आयनिक यौगिक उच्च गलनांक वाले कठोर ठोस होते हैं। ये पानी में घुलते हैं, पर केरोसिन में नहीं, और विलयन में (या पिघली अवस्था में) विद्युत का चालन करते हैं, ठोस अवस्था में नहीं।",
+"hg": "Ionic compounds high melting point wale hard solids hote hain. Yeh paani mein ghulte hain, par kerosene mein nahi, aur solution mein (ya pighli haalat mein) electricity conduct karte hain, solid haalat mein nahi."
+},
+"Barium chloride is poisonous: wash your hands after use. Keep kerosene far away from the burner. Hold the spatula by its handle.": {
+"hi": "बेरियम क्लोराइड ज़हरीला है: इस्तेमाल के बाद हाथ धोएँ। केरोसिन को बर्नर से बहुत दूर रखें। स्पैचुला को उसके हत्थे से पकड़ें।",
+"hg": "Barium chloride zehreela hai: use karne ke baad haath dho lo. Kerosene ko burner se bahut door rakho. Spatula ko uske handle se pakdo."
+},
+"What colour does sodium give to a flame?": {
+"hi": "सोडियम ज्वाला को कौन-सा रंग देता है?",
+"hg": "Sodium flame ko kaun sa colour deta hai?"
+},
+"Golden yellow.": {
+"hi": "सुनहरा पीला।",
+"hg": "Golden yellow."
+},
+"Why does solid sodium chloride not conduct electricity?": {
+"hi": "ठोस सोडियम क्लोराइड विद्युत का चालन क्यों नहीं करता?",
+"hg": "Solid sodium chloride electricity conduct kyun nahi karta?"
+},
+"Its ions are fixed in the crystal and cannot move.": {
+"hi": "इसके आयन क्रिस्टल में स्थिर रहते हैं और चल नहीं सकते।",
+"hg": "Iske ions crystal mein fixed rehte hain aur move nahi kar sakte."
+},
+"Why do ionic compounds have high melting points?": {
+"hi": "आयनिक यौगिकों के गलनांक उच्च क्यों होते हैं?",
+"hg": "Ionic compounds ke melting points high kyun hote hain?"
+},
+"A lot of energy is needed to break the strong forces between the ions.": {
+"hi": "आयनों के बीच के मज़बूत बलों को तोड़ने के लिए बहुत ऊर्जा चाहिए।",
+"hg": "Ions ke beech ki strong forces ko todne ke liye bahut energy chahiye."
+},
+"Ionic solids: ions fixed in the crystal (no current) · in water: ions free to move (current flows)": {
+"hi": "आयनिक ठोस: आयन क्रिस्टल में स्थिर (विद्युत धारा नहीं) · पानी में: आयन चलने के लिए मुक्त (विद्युत धारा बहती है)",
+"hg": "Ionic solids: ions crystal mein fixed (current nahi) · paani mein: ions move karne ke liye free (current behta hai)"
+},
+"Beaker with distilled water": {
+"hi": "आसुत जल वाला बीकर",
+"hg": "Distilled water wala beaker"
+},
+"Beaker": {
+"hi": "बीकर",
+"hg": "Beaker"
+},
+"Beaker with the nails": {
+"hi": "कीलों वाला बीकर",
+"hg": "Keelon wala beaker"
+},
+"Waste beaker": {
+"hi": "कचरा बीकर",
+"hg": "Waste beaker"
+}
+});

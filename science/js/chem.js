@@ -16,7 +16,7 @@ export const SUBS = {
   washingsoda: { f: 'Na₂CO₃', n: { en: 'Washing soda solution', hi: 'धोने के सोडे का घोल', hg: 'Washing soda solution' }, c: '#f2f6fa', a: 0.2, h: -0.3, pH: 11.5, weak: true },
   milkmag: { f: 'Mg(OH)₂', n: { en: 'Milk of magnesia', hi: 'मिल्क ऑफ़ मैग्नेशिया', hg: 'Milk of magnesia' }, c: '#f7f7f4', a: 0.6, h: -0.2, pH: 10.5, weak: true, cloud: 0.85, cloudC: '#f8f8f5' },
   limewater: { f: 'Ca(OH)₂', n: { en: 'Lime water', hi: 'चूने का पानी', hg: 'Lime water' }, c: '#f2f6fa', a: 0.18, h: -0.04, pH: 12.4, weak: true },
-  cuso4: { f: 'CuSO₄', n: { en: 'Copper sulphate solution', hi: 'कॉपर सल्फेट विलयन', hg: 'Copper sulphate solution' }, c: '#1f7fe0', a: 0.62, pH: 4.2, weak: true, h: 0.002 },
+  cuso4: { f: 'CuSO₄', n: { en: 'Copper sulphate solution', hi: 'कॉपर सल्फेट विलयन', hg: 'Copper sulphate solution' }, c: '#1f7fe0', a: 0.62, pH: 4.2, weak: true, h: 0.002, tint: 4 },
   feso4: { f: 'FeSO₄', n: { en: 'Ferrous sulphate solution', hi: 'फेरस सल्फेट विलयन', hg: 'Ferrous sulphate solution' }, c: '#a8d29a', a: 0.38, pH: 4, weak: true, h: 0.002 },
   znso4: { f: 'ZnSO₄', n: { en: 'Zinc sulphate solution', hi: 'जिंक सल्फेट विलयन', hg: 'Zinc sulphate solution' }, c: '#eef4fa', a: 0.18, pH: 5, weak: true, h: 0.001 },
   zncl2: { f: 'ZnCl₂', n: { en: 'Zinc chloride solution', hi: 'जिंक क्लोराइड विलयन', hg: 'Zinc chloride solution' }, c: '#eef4fa', a: 0.18, pH: 5, weak: true },
@@ -41,6 +41,10 @@ export const SUBS = {
   tapwater: { f: 'Tap water', n: { en: 'Tap water', hi: 'नल का पानी', hg: 'Nal ka paani' }, c: '#dceeff', a: 0.16, pH: 7.1 },
   spirit: { f: 'C₂H₅OH', n: { en: 'Spirit (alcohol)', hi: 'स्पिरिट (अल्कोहल)', hg: 'Spirit (alcohol)' }, c: '#e8f4ff', a: 0.14, pH: 7, volatile: 8 },
   so2aq: { f: 'H₂SO₃', n: { en: 'Sulphurous acid (sulphur dioxide in water)', hi: 'सल्फ्यूरस अम्ल (पानी में सल्फर डाइऑक्साइड)', hg: 'Sulphurous acid (paani mein SO₂)' }, c: '#eef3f8', a: 0.17, h: 0.2, pH: 2.2, weak: true },
+  // batch 4: non-electrolytes and a non-polar solvent
+  glucose: { f: 'C₆H₁₂O₆', n: { en: 'Glucose solution', hi: 'ग्लूकोज़ विलयन', hg: 'Glucose solution' }, c: '#f2f6f8', a: 0.17, pH: 7 },
+  alcohol: { f: 'C₂H₅OH', n: { en: 'Alcohol solution', hi: 'ऐल्कोहॉल विलयन', hg: 'Alcohol solution' }, c: '#eef6ff', a: 0.15, pH: 7 },
+  kerosene: { f: 'Kerosene', n: { en: 'Kerosene', hi: 'मिट्टी का तेल (केरोसिन)', hg: 'Kerosene (mitti ka tel)' }, c: '#efe3b8', a: 0.22, pH: 7 },
   // indicators (strong colour, small amounts)
   phenol: { f: 'Phenolphthalein', n: { en: 'Phenolphthalein', hi: 'फीनॉलफ्थेलिन', hg: 'Phenolphthalein' }, c: '#f8f8f8', a: 0.12, ind: 'phenol' },
   methylorange: { f: 'Methyl orange', n: { en: 'Methyl orange', hi: 'मेथिल ऑरेंज', hg: 'Methyl orange' }, c: '#f08a24', a: 0.8, ind: 'mo' },
@@ -51,6 +55,12 @@ export const SUBS = {
   chinarose: { f: 'China rose', n: { en: 'China rose indicator', hi: 'गुड़हल सूचक', hg: 'China rose (gudhal) indicator' }, c: '#c8507a', a: 0.7, ind: 'chinarose' },
   rose: { f: 'Red rose extract', n: { en: 'Red rose extract (indicator)', hi: 'लाल गुलाब का अर्क (सूचक)', hg: 'Lal gulab ka ark (indicator)' }, c: '#b3446c', a: 0.72, ind: 'rose' },
 };
+// how well each liquid carries an electric current (ions per volume, relative): pure water, sugar, glucose, alcohol and kerosene have
+// no ions; weak acids (lemon, vinegar) only a few; strong acids, bases and salts many. Tap water has a few dissolved salts.
+const ION = { hcl: 2.5, h2so4: 3, h2so4c: 0.6, naoh: 2.2, nacl: 3, kno3: 1.8, ki: 1.8, bacl2: 1.8, na2so4: 1.8, agno3: 1.5, pbno3: 1.5, cuso4: 1.6, feso4: 1.2, znso4: 1.2,
+  zncl2: 1.4, fecl2: 1.2, mgcl2: 1.5, washingsoda: 1.2, bakingsoda: 0.5, limewater: 0.35, soap: 0.15, milkmag: 0.05, vinegar: 0.05, lemon: 0.07, amla: 0.04, tamarind: 0.05,
+  so2aq: 0.08, tapwater: 0.012, milk: 0.04 };
+export function conductance(mix) { const tot = mix.ml(); if (tot <= 0.05) return 0; let g = 0; for (const k in mix.liq) g += (ION[k] || 0) * mix.liq[k]; return g / tot; }
 // precipitates
 export const PPT = {
   baso4: { f: 'BaSO₄', c: '#f6f6f2', n: { en: 'white precipitate of barium sulphate', hi: 'बेरियम सल्फेट का सफ़ेद अवक्षेप', hg: 'barium sulphate ka white precipitate' } },
@@ -86,6 +96,12 @@ export const SOLIDS = {
   cacl2: { f: 'CaCl₂', n: { en: 'Anhydrous calcium chloride', hi: 'निर्जल कैल्शियम क्लोराइड', hg: 'Anhydrous calcium chloride' }, color: 0xf6f5f0, tex: 'cacl2' },
   soil: { f: 'Soil', n: { en: 'Soil', hi: 'मिट्टी', hg: 'Mitti' }, color: 0x6b4a2a, tex: 'soil', insol: 'soil' },
   alum: { f: 'KAl(SO₄)₂·12H₂O', n: { en: 'Potash alum (fitkari)', hi: 'फिटकरी', hg: 'Fitkari (alum)' }, color: 0xf2f1ec, tex: 'salt', alum: true },
+  // batch 4
+  cuso4d: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x1f8fd0, tex: 'cuso4', dis: 'cuso4', disK: 2.2, disMl: 12 },
+  kis: { f: 'KI', n: { en: 'Potassium iodide', hi: 'पोटैशियम आयोडाइड', hg: 'Potassium iodide' }, color: 0xf8f8f4, tex: 'ki', dis: 'ki', disK: 2 },
+  bacl2s: { f: 'BaCl₂', n: { en: 'Barium chloride', hi: 'बेरियम क्लोराइड', hg: 'Barium chloride' }, color: 0xf6f6f2, tex: 'bacl2', dis: 'bacl2', disK: 1.6 },
+  camphor: { f: 'C₁₀H₁₆O', n: { en: 'Camphor', hi: 'कपूर', hg: 'Kapoor (camphor)' }, color: 0xf7f7f2, tex: 'nh4cl', kero: 'kerosene', floats: true },
+  naph: { f: 'C₁₀H₈', n: { en: 'Naphthalene', hi: 'नैफ़्थलीन', hg: 'Naphthalene (goli)' }, color: 0xf6f6f4, tex: 'naph', kero: 'kerosene' },
   pbno3s: { f: 'Pb(NO₃)₂', n: { en: 'Lead nitrate powder', hi: 'लेड नाइट्रेट पाउडर', hg: 'Lead nitrate powder' }, color: 0xf5f5f2, tex: 'pbno3' },
 };
 
@@ -165,7 +181,7 @@ export class Mix {
       const s = SUBS[k]; if (!s) continue; const v = this.liq[k];
       if (s.ind) { ind = s.ind; indMl += v; continue; }
       if (s.dye) { dye = dye || []; dye.push([s, v]); continue; }
-      const strength = v * (0.25 + s.a * 2.5); const c = C(s.c); r += c.r * strength; g += c.g * strength; b += c.b * strength; w += strength; a += s.a * v;
+      const strength = v * (0.25 + s.a * 2.5) * (s.tint || 1); const c = C(s.c); r += c.r * strength; g += c.g * strength; b += c.b * strength; w += strength; a += s.a * v; // tint: strongly coloured salts (copper sulphate) colour more water
       if (s.cloud) { cl += s.cloud * v; clC = C(s.cloudC); }
     }
     if (w > 0) { out.color.setRGB(r / w, g / w, b / w); out.alpha = a / tot; }
@@ -282,7 +298,7 @@ export const RULES = [
           d = Math.min(d, room); v.disG[s.chem] = (v.disG[s.chem] || 0) + d * (S.spoonG || 5); v.saturated = null;
         }
         s.amount -= d; s.onAmount && s.onAmount();
-        v.mix.add(S.dis, d * (S.dye ? 0.15 : 0.8));
+        v.mix.add(S.dis, d * (S.dye ? 0.15 : S.disMl ?? 0.8)); // disMl: how much of the stock solution one spoonful makes (copper sulphate colours water strongly)
         if (s.chem === 'kmno4') { E.fx.flakes_(v, 10 * Math.min(4, E.lapse), dt, '#b02fbf'); }
         E.note(v, 'dissolve', { chem: s.chem, left: s.amount });
       }
@@ -388,6 +404,16 @@ export const RULES = [
   // carbon dioxide trapped in a jar or tumbler meets lime water when it is swirled
   { id: 'jar_co2', test: (v) => (v.gas.CO2 || 0) > 0.01 && v.mix.has('limewater', 0.3) && (v.shaking || v.stirT > 0),
     run(v) { v.gasIn.CO2 = (v.gasIn.CO2 || 0) + v.gas.CO2 * 3; v.gas.CO2 = 0; } },
+  // ---------------------------------------------------------- batch 4
+  // camphor and naphthalene (covalent) dissolve in kerosene, not in water; camphor floats on water
+  { id: 'kero', test: (v) => v.solids.some((s) => SOLIDS[s.chem]?.kero && s.amount > 0) && v.ml > 0.3,
+    run(v, dt, E) {
+      for (const s of v.solids) {
+        const S = SOLIDS[s.chem]; if (!S?.kero || s.amount <= 0) continue;
+        if (v.mix.has('kerosene', 0.5) && s.under) { const d = Math.min(s.amount, dt * (v.shaking || v.stirT > 0 ? 0.9 : 0.02)); s.amount -= d; s.onAmount && s.onAmount(); v.mix.add('kerosene', d * 0.05); E.note(v, 'dissolve', { chem: s.chem, left: s.amount }); }
+        else if (S.floats && v.mix.has('water', 0.5) && s.g.parent === v.g) { const top = v.heightFor(v.ml) - 0.0025; s.g.position.y += (top - s.g.position.y) * Math.min(1, dt * 2); s.localY = 0; }
+      }
+    } },
 ];
 
 // heating rules: called when a vessel is above a flame

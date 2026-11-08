@@ -169,7 +169,7 @@ export function reagentBottle(label, o = {}) {
     glass: { color: amber ? 0x9a5a1e : 0xffffff, opacity: amber ? 0.45 : 0.12, edge: amber ? 0.92 : 0.8 }, cap: 125 });
   const tex = labelTex([{ t: label.formula, size: 92 }, { t: label.name, size: 42, w: 600 }, ...(label.extra ? [{ t: label.extra, size: 32, w: 400, c: '#6b5a40' }] : [])], { band: label.band ?? '#2c5d8a', hazard: label.hazard });
   const lab = new THREE.Mesh(new THREE.CylinderGeometry(0.0284, 0.0284, 0.038, 32, 1, true, -1.15, 2.3), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 }));
-  lab.position.y = 0.038; // label faces the student (+z) v.g.add(lab);
+  lab.position.y = 0.038; v.g.add(lab); // label faces the student (+z)
   // ground-glass stopper
   const st = new THREE.Group();
   const s1 = new THREE.Mesh(new THREE.CylinderGeometry(0.0108, 0.0095, 0.016, 24), glassMat({ opacity: 0.35, color: amber ? 0x9a5a1e : 0xffffff }));

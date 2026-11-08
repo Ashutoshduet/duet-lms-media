@@ -61,6 +61,7 @@ export class XRInput {
     if (!hit || !hit.item) return;
     const r = this.app.runner; const it = hit.item;
     if (r.state === 'todo' && r.target() === it) { this.pulse(h, 0.5, 40); r.doStep(); return; }
+    if (it.kind === 'key' && it.setOn) { it.setOn(!it.on); this.app.lab.emit('key', { v: it.id, on: it.on }); this.app.audio.tone(it.on ? 1500 : 900, 0.04, 0.06, 'square'); this.pulse(h, 0.4, 30); return; } // a switch: press it
     if (it.setLit) { // light or put out a lamp yourself
       it.setLit(!it.lit); this.app.lab.emit(it.lit ? 'lit' : 'unlit', { obj: it.id }); if (it.lit) this.app.audio.whoosh(); this.pulse(h, 0.4, 40);
     }
@@ -70,7 +71,7 @@ export class XRInput {
   nearest(h, maxD) {
     const p = this.handPos(h, tmp); let best = null, bd = maxD;
     for (const it of this.app.lab.items) {
-      if (it.kind === 'rack' || it.kind === 'tripod' || this.hands.some((o) => o.held === it)) continue;
+      if (it.kind === 'rack' || it.kind === 'tripod' || it.kind === 'circuit' || this.hands.some((o) => o.held === it)) continue;
       const g = it.g.localToWorld(tmp2.set(0, it.grabY ?? 0.04, 0)); const d = g.distanceTo(p);
       if (d < bd) { bd = d; best = it; }
     }

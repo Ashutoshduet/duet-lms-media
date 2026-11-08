@@ -122,8 +122,9 @@ export function candle(o = {}) {
     const lab = it.lab; const jar = it.coveredBy;
     if (jar) { const vol = Math.max(100, jar.maxMl || 250); it.o2 = Math.max(0, it.o2 - dt * (lab?.chem?.lapse ?? 1) * 12 / vol); jar.gas.CO2 = (jar.gas.CO2 || 0) + dt * 0.05; jar.setMistIn && jar.setMistIn(Math.min(0.6, (jar.mistIn || 0) + dt * 0.04)); }
     const k = it.o2 > 0.7 ? 1 : Math.max(0, (it.o2 - 0.45) / 0.25);
-    it.size += ((0.25 + 0.75 * k) - it.size) * Math.min(1, dt * 3);
-    f.userData.tick(t, it.size, jar ? 1 + (1 - k) * 4 : 1);
+    if (it.boost > 0) it.boost -= dt; if (it.flick > 0) it.flick -= dt; // oxygen makes it flare up; a pop makes it flutter
+    it.size += ((0.25 + 0.75 * k) * (it.boost > 0 ? 1.7 : 1) - it.size) * Math.min(1, dt * 3);
+    f.userData.tick(t, it.size, jar ? 1 + (1 - k) * 4 : it.flick > 0 ? 6 : 1);
     if (it.o2 < 0.46) { it.setLit(false); it.out = true; if (lab) { const p = it.g.localToWorld(tmp.set(0, it.wickTop, 0)); for (let i = 0; i < 4; i++) lab.fx.puff(p, '#d8d4cc', { alpha: 0.35, size: 0.003, grow: 0.02, life: 2.5, up: 0.03 }); lab.emit('candle_out', { obj: it.id }); } }
   };
   return it;

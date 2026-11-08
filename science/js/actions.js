@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import * as A from './apparatus.js';
 import * as A3 from './apparatus3.js';
+import * as A4 from './apparatus4.js';
 import { asChem } from './lab.js';
 import { SUBS, SOLIDS, stripColor } from './chem.js';
 import { BENCH_Y } from './room.js';
@@ -11,7 +12,7 @@ const ease = (k) => (k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
 const tmp = new THREE.Vector3();
 
 export class Kit {
-  constructor(app) { this.app = app; this.lab = app.lab; this.fx = app.fx; this.tweens = []; this.speed = 1; this.busy = 0; this.A = A; this.A3 = A3; this.THREE = THREE; this.extras = []; }
+  constructor(app) { this.app = app; this.lab = app.lab; this.fx = app.fx; this.tweens = []; this.speed = 1; this.busy = 0; this.A = A; this.A3 = A3; this.A4 = A4; this.THREE = THREE; this.extras = []; }
   dispose() { for (const o of this.extras) o.parent && o.parent.remove(o); this.extras = []; this.tweens = []; }
   // ---------------------------------------------------------- tween engine (driven by the app loop)
   tween(dur, fn) { return new Promise((res) => { this.tweens.push({ t: 0, dur: Math.max(0.001, dur), fn, res }); }); }
@@ -61,11 +62,13 @@ export class Kit {
     const S = SOLIDS[chem]; let it; const tex = S.tex;
     if (chem === 'fe') it = A.nail();
     else if (chem === 'mg') it = A.ribbon();
-    else if (chem === 'cuso4x' || chem === 'feso4x') it = A.crystals(S.color, { n: 12, tex });
+    else if (chem === 'cuso4x' || chem === 'feso4x' || chem === 'cuso4d') it = A.crystals(S.color, { n: 12, tex });
     else if (chem === 'kmno4') it = A.crystals(S.color, { n: 3, tex });
-    else if (['sugar', 'salt', 'na2co3', 'nahco3', 'pbno3s', 'nh4cl', 'chalk'].includes(chem)) it = A.heap(S.color, { tex }); // powders: a small heap with the real grain
+    else if (['sugar', 'salt', 'na2co3', 'nahco3', 'pbno3s', 'nh4cl', 'chalk', 'kis', 'bacl2s'].includes(chem)) it = A.heap(S.color, { tex }); // powders: a small heap with the real grain
     else if (chem === 'sand') it = A.heap(S.color, { tex, loose: 16 });
     else if (chem === 'cao') it = A.granules(S.color, { n: 5, metal: 0, rough: 0.95, tex });
+    else if (chem === 'naph') it = A.granules(S.color, { n: 3, metal: 0, rough: 0.85, tex, shape: 'pellet' });
+    else if (chem === 'camphor') it = A.granules(S.color, { n: 4, metal: 0, rough: 0.6, tex, shape: 'chip' });
     else if (chem === 'cacl2') it = A.granules(S.color, { n: 10, metal: 0, rough: 0.85, tex, shape: 'pellet' });
     else if (chem === 'cu') it = A.granules(S.color, { n: 7, metal: 0.85, rough: 0.35 });
     else if (chem === 'caco3') it = A.granules(S.color, { metal: 0, rough: 0.8, tex, shape: 'chip' });
@@ -475,6 +478,107 @@ export class Kit {
     const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([at, sp.position.clone().add(new THREE.Vector3(off.x > 0 ? -0.05 : 0.05, 0, 0))]), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8, depthTest: false })); ln.renderOrder = 30;
     this.app.scene.add(sp, ln); this.extras.push(sp, ln); return [sp, ln];
   }
+
+  // ---------------------------------------------------------- batch 4 (electricity)
+  // join parts with wires; links: [[item, terminal], [item, terminal], colour]
+  circuit(spec, links = []) {
+    const c = new A4.Circuit(spec); this.lab.add(c, 0, -0.6); this.lab.items.splice(this.lab.items.indexOf(c), 1); this.lab.items.push(c); // updated after the parts have moved
+    for (const [[ia, ka], [ib, kb], col] of links) { const w = new A4.Wire(this.app.scene, col, ia.terms[ka], ib.terms[kb]); c.wires.push(w); this.extras.push(w.mesh, ...w.clips); }
+    return c;
+  }
+  lay(it, x, z, ry = 0) { const a = this.add(it, x, z); a.g.rotation.set(-Math.PI / 2, 0, ry); a.g.position.y = BENCH_Y + (it.layH ?? (it.radius ?? 0.002) * 0.4) + 0.0012; a.home = { p: a.g.position.clone(), q: a.g.quaternion.clone() }; return a; }
+  async keyOn(k, on) { k.setOn(on); this.app.audio && this.app.audio.tone && this.app.audio.tone(on ? 1500 : 900, 0.04, 0.06, 'square'); this.lab.emit('key', { v: k.id, on }); await this.sleep(0.5); }
+  // touch the two free ends of the tester together
+  async touchEnds(c, sec = 1.8) {
+    this.busy++; const [A, B] = c.ends.map((e) => e.item); const mid = A.home.p.clone().lerp(B.home.p, 0.5); mid.y = BENCH_Y + 0.07; mid.z += 0.03;
+    const qa = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0.7)), qb = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, -0.7));
+    await Promise.all([this.moveTo(A, mid.clone().add(new THREE.Vector3(-0.0012, 0, 0)), qa, 0.9), this.moveTo(B, mid.clone().add(new THREE.Vector3(0.0012, 0, 0)), qb, 0.9)]);
+    await this.sleep(sec); await Promise.all([this.home(A, 0.8), this.home(B, 0.8)]); this.busy--;
+  }
+  // dip the two ends into a liquid, about 1 cm apart, not touching
+  async dipEnds(c, v, o = {}) {
+    this.busy++; const [A, B] = c.ends.map((e) => e.item); const m = v.mouthWorld(new THREE.Vector3());
+    const bot = v.g.localToWorld(new THREE.Vector3(0, v.inner[0].y, 0)).y; const y = Math.max(bot + 0.003, v.levelWorld() - (o.depth ?? 0.009));
+    const dx = Math.min(0.006, v.rInner(Math.max(v.inner[0].y + 0.002, y - v.g.position.y)) * 0.5); const tl = Math.min(0.25, Math.max(0, (v.rimR - dx - 0.002) / 0.07)); // narrow tube: hold the ends nearly upright
+    const qa = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, tl)), qb = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, -tl));
+    const pa = new THREE.Vector3(m.x - dx, y, m.z), pb = new THREE.Vector3(m.x + dx, y, m.z);
+    await Promise.all([this.moveTo(A, pa.clone().setY(m.y + 0.05), qa, 0.9), this.moveTo(B, pb.clone().setY(m.y + 0.05), qb, 0.9)]);
+    const a0 = A.g.position.clone(), b0 = B.g.position.clone(); await this.tween(0.6, (k) => { A.g.position.lerpVectors(a0, pa, ease(k)); B.g.position.lerpVectors(b0, pb, ease(k)); });
+    await this.sleep(o.sec ?? 2.6); if (o.stay) { this.busy--; return; }
+    await this.tween(0.5, (k) => { A.g.position.lerpVectors(pa, a0, ease(k)); B.g.position.lerpVectors(pb, b0, ease(k)); });
+    await Promise.all([this.home(A, 0.8), this.home(B, 0.8)]); this.busy--;
+  }
+  // press the two ends on a solid, a little apart
+  async touchSample(c, s, o = {}) {
+    this.busy++; const [A, B] = c.ends.map((e) => e.item); const cc = s.touchAt ? s.g.localToWorld(s.touchAt.clone()) : s.g.getWorldPosition(new THREE.Vector3()); const top = cc.y + (s.height ?? 0.008) + 0.0004; const dx = s.touchDx ?? Math.max(0.0035, Math.min(0.006, (s.radius ?? 0.01) * 0.5));
+    const qa = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0.35)), qb = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, -0.35));
+    const pa = new THREE.Vector3(cc.x - dx, top, cc.z), pb = new THREE.Vector3(cc.x + dx, top, cc.z);
+    await Promise.all([this.moveTo(A, pa.clone().setY(top + 0.04), qa, 0.9), this.moveTo(B, pb.clone().setY(top + 0.04), qb, 0.9)]);
+    const a0 = A.g.position.clone(), b0 = B.g.position.clone(); await this.tween(0.5, (k) => { A.g.position.lerpVectors(a0, pa, ease(k)); B.g.position.lerpVectors(b0, pb, ease(k)); });
+    await this.sleep(o.sec ?? 2.2);
+    await this.tween(0.4, (k) => { A.g.position.lerpVectors(pa, a0, ease(k)); B.g.position.lerpVectors(pb, b0, ease(k)); });
+    await Promise.all([this.home(A, 0.8), this.home(B, 0.8)]); this.busy--;
+  }
+  // the card with two carbon electrodes: rest it on a beaker (rods in the liquid) or press it on a solid
+  async pairInto(p, v, o = {}) {
+    this.busy++; const m = v.mouthWorld(new THREE.Vector3()); const to = new THREE.Vector3(m.x, m.y - p.cardY - 0.001, m.z);
+    await this.moveTo(p, to.clone().setY(to.y + 0.07), new THREE.Quaternion(), 0.9); const p0 = p.g.position.clone(); await this.tween(0.6, (k) => p.g.position.lerpVectors(p0, to, ease(k)));
+    await this.sleep(o.sec ?? 2.4); if (o.stay) { this.busy--; return; } await this.tween(0.5, (k) => p.g.position.lerpVectors(to, p0, ease(k))); await this.home(p, 0.8); this.busy--;
+  }
+  async pairOn(p, s, o = {}) {
+    this.busy++; const c = s.g.getWorldPosition(new THREE.Vector3()); const to = new THREE.Vector3(c.x, c.y + (s.height ?? 0.006) + 0.0003, c.z);
+    await this.moveTo(p, to.clone().setY(to.y + 0.06), new THREE.Quaternion(), 0.9); const p0 = p.g.position.clone(); await this.tween(0.5, (k) => p.g.position.lerpVectors(p0, to, ease(k)));
+    await this.sleep(o.sec ?? 2.2); await this.tween(0.4, (k) => p.g.position.lerpVectors(to, p0, ease(k))); await this.home(p, 0.8); this.busy--;
+  }
+  // stand an item inside a vessel (the 9 V battery in the beaker)
+  async standIn(it, v) { this.busy++; const b = v.g.localToWorld(new THREE.Vector3(0, v.inner[0].y + 0.0005, 0)); await this.moveTo(it, b.clone().setY(b.y + 0.12), new THREE.Quaternion(), 0.9); await this.tween(0.8, (k) => { it.g.position.y = b.y + 0.12 * (1 - ease(k)); }); it.home = { p: it.g.position.clone(), q: it.g.quaternion.clone() }; this.lab.emit('stand_in', { v: v.id, obj: it.id }); this.busy--; }
+  // fill a test tube with the water of a vessel, close it with the thumb, turn it upside down and stand it (mouth under water) over a point
+  async fillInvert(t, v, over, o = {}) {
+    this.busy++; const V = (x, y, z) => new THREE.Vector3(x, y, z); const m = v.mouthWorld(V(0, 0, 0)); const lvl = v.levelWorld(); const Z = V(0, 0, 1);
+    const qUp = new THREE.Quaternion().setFromAxisAngle(Z, Math.PI), qDip = new THREE.Quaternion().setFromAxisAngle(Z, Math.PI + (o.tilt ?? 1.0));
+    const org = (c, q) => c.clone().sub(V(0, 1, 0).applyQuaternion(q).multiplyScalar(t.h / 2)); // tube origin (its mouth) from its centre
+    const c0 = V(m.x + (o.dx ?? 0), m.y + t.h * 0.5 + 0.04, m.z + (o.dz ?? 0.018)); const c1 = V(m.x + (o.dx ?? 0), lvl - (o.depth ?? 0.02), m.z + (o.dz ?? 0.018));
+    await this.moveTo(t, org(c0, qUp), qUp, 0.9); // mouth up above the water
+    await this.moveTo(t, org(c1, qDip), qDip, 1.0); t.fill(); this.app.audio && this.app.audio.pour && this.app.audio.pour(0.3); await this.sleep(0.6); // tilted under the water: it fills
+    await this.moveTo(t, org(c0, qUp), qUp, 0.8); // out again, the thumb on its mouth
+    const target = typeof over === 'function' ? over() : over.clone(); const hi = target.clone().setY(Math.max(target.y, m.y) + 0.05);
+    await this.moveTo(t, hi, new THREE.Quaternion(), 0.8); // turned over: mouth down
+    const h0 = t.g.position.clone(); await this.tween(0.9, (k) => t.g.position.lerpVectors(h0, target, ease(k)));
+    t.home = { p: t.g.position.clone(), q: t.g.quaternion.clone() }; this.lab.emit('tube_over', { v: t.id }); this.busy--;
+  }
+  // lift a gas tube out (mouth down) and bring it over a burning candle
+  async gasTest(t, cd, o = {}) {
+    this.busy++; t.lifted = true; const p0 = t.g.position.clone(); const rim = o.rimY ?? p0.y + 0.06;
+    const lift = Math.max(0.03, rim - p0.y + 0.015); await this.tween(0.9, (k) => { t.g.position.y = p0.y + lift * ease(k); }); await this.sleep(0.5);
+    const ft = cd.g.localToWorld(new THREE.Vector3(0, (cd.flameTop ?? cd.height + 0.046) - 0.006, 0));
+    await this.moveTo(t, ft.clone().setY(ft.y + 0.05), new THREE.Quaternion(), 1); const a = t.g.position.clone(); await this.tween(0.6, (k) => t.g.position.lerpVectors(a, ft, ease(k)));
+    const g = t.mainGas(); const m = t.mouthWorld(new THREE.Vector3());
+    if (g === 'H2' && (t.gas.H2 || 0) > 0.2) { this.fx.flashAt(m, 3, 0.22, 0xffd27a, 0.09); this.app.audio && this.app.audio.pop && this.app.audio.pop(); t.gas = {}; cd.flick = 0.6; this.lab.emit('pop', { v: t.id }); }
+    else if (g === 'O2' && (t.gas.O2 || 0) > 0.2) { cd.boost = 3; this.lab.emit('brighter', { v: t.id }); }
+    await this.sleep(o.sec ?? 2.2); const b = t.g.position.clone(); await this.tween(0.5, (k) => { t.g.position.y = b.y + 0.05 * ease(k); });
+    if (o.rest) await this.moveTo(t, o.rest, t.g.quaternion.clone(), 0.9); this.busy--;
+  }
+  // flame test: take a little salt on the spatula, hold it in the flame
+  async loadSpat(sp, stock) {
+    this.busy++; const c = stock.g.getWorldPosition(new THREE.Vector3()); const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, 0.9)); const tl = sp.tipLocal.clone().applyQuaternion(q);
+    const to = c.clone().add(new THREE.Vector3(0, (stock.height ?? 0.006) * 0.6, 0)).sub(tl); await this.moveTo(sp, to.clone().setY(to.y + 0.04), q, 0.8); const p0 = sp.g.position.clone();
+    await this.tween(0.4, (k) => sp.g.position.lerpVectors(p0, to, ease(k))); sp.load(stock.chem); stock.amount = Math.max(0.3, (stock.amount ?? 1) - 0.08); stock.g.scale.setScalar(Math.cbrt(stock.amount));
+    await this.tween(0.4, (k) => sp.g.position.lerpVectors(to, p0, ease(k))); this.busy--;
+  }
+  async flameTest(sp, burner, stock, sec = 5) { await this.loadSpat(sp, stock); await this.holdIn(sp, burner, burner.heatPoint.clone().add(new THREE.Vector3(0, -0.022, 0)), sec, { tilt: 0.9 }); }
+  async cleanSpat(sp) { this.busy++; const p = sp.g.position.clone(); await this.up(sp, 0.03, 0.3); sp.clean(); await this.home(sp, 0.5); void p; this.busy--; }
+  // a spoonful of a solid into a vessel, then swirl so it can dissolve
+  async dissolveIn(stock, v, o = {}) { await this.spoonful(stock, v); v.stirT = o.stir ?? 4; await this.swirl(v, 1.2); }
+  // put a lid on a vessel / hang a plate through a slit of the lid
+  async lidOn(lid, v) { this.busy++; const m = v.mouthWorld(new THREE.Vector3()); await this.moveTo(lid, m.clone().setY(m.y + 0.0004), new THREE.Quaternion(), 0.9); lid.home = { p: lid.g.position.clone(), q: lid.g.quaternion.clone() }; this.busy--; }
+  async hangPlate(p, v, lid, side) {
+    this.busy++; const m = v.mouthWorld(new THREE.Vector3()); const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
+    const to = new THREE.Vector3(m.x + side * lid.slitX, m.y + 0.006 - p.height, m.z); await this.moveTo(p, to.clone().setY(to.y + 0.1), q, 0.9); const p0 = p.g.position.clone();
+    await this.tween(0.8, (k) => p.g.position.lerpVectors(p0, to, ease(k))); p.home = { p: p.g.position.clone(), q: p.g.quaternion.clone() }; this.lab.emit('hang', { obj: p.id, v: v.id }); this.busy--;
+  }
+  async liftOut(it, to, flat = true) { this.busy++; const p0 = it.g.position.clone(); await this.tween(0.8, (k) => { it.g.position.y = p0.y + 0.1 * ease(k); }); await this.moveTo(it, to, flat ? new THREE.Quaternion().setFromEuler(new THREE.Euler(-Math.PI / 2, 0, 0)) : null, 0.9); it.home = { p: it.g.position.clone(), q: it.g.quaternion.clone() }; this.busy--; }
+  // pour everything out into a waste beaker and rinse with a little water
+  async rinse(v, waste) { await this.pour(v, waste, v.ml + 1); this.lab.fill(v, 'water', 12); await this.swirl(v, 0.8); await this.pour(v, waste, v.ml + 1); for (const k in v.mix.liq) delete v.mix.liq[k]; v.ml = 0; }
   // swirl a vessel gently on the bench
   async swirl(v, sec = 1.6) { this.busy++; const p = v.g.position.clone(); v.shaking = true; await this.tween(sec, (k) => { v.g.position.x = p.x + Math.cos(k * 40) * 0.004; v.g.position.z = p.z + Math.sin(k * 40) * 0.004; }); v.shaking = false; v.g.position.copy(p); this.lab.emit('swirl', { v: v.id }); this.busy--; }
 }

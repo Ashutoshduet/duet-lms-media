@@ -35,6 +35,9 @@ const SP = {
   paper: { a: [['C', -s, 0], ['O', 0, s * 0.7], ['C', s, 0], ['C', 0, -s * 0.7], ['H', -s * 1.8, s * 0.4], ['O', s * 1.9, s * 0.3]], l: 'cellulose' },
   mud: { a: [['X', 0, 0]], l: '', big: 3.6, col: '#7a5a35' }, clay: { a: [['X', 0, 0]], l: '', big: 1.3, col: '#a07f55' }, 'Al3+': { a: [['Al', 0, 0]], l: 'Al³⁺' },
   cit: { a: [['C', -s, 0], ['C', 0, s * 0.6], ['C', s, 0], ['O', -s * 1.8, s * 0.5], ['O', s * 1.8, s * 0.5], ['O', 0, -s * 0.9]], l: 'citrate' },
+  'e-': { a: [['X', 0, 0]], l: 'e⁻', big: 0.42, col: '#ffe14a' }, photon: { a: [['X', 0, 0]], l: '', big: 0.75, col: '#ffd23a' },
+  glu: { a: [['C', -s, 0], ['C', 0, s * 0.8], ['C', s, 0], ['O', 0, -s * 0.8], ['H', -s * 1.8, s * 0.4], ['O', s * 1.9, s * 0.3]], l: 'C₆H₁₂O₆' },
+  alc: { a: [['C', -s * 0.6, 0], ['C', s * 0.6, 0], ['O', s * 1.6, s * 0.6], ['H', s * 2.3, s * 0.2], ['H', -s * 1.4, s * 0.7], ['H', -s * 1.2, -s * 0.8]], l: 'C₂H₅OH' },
   CH3COO: { a: [['C', -s * 0.6, 0], ['C', s * 0.6, 0], ['O', s * 1.4, s * 0.8], ['O', s * 1.4, -s * 0.8]], l: 'CH₃COO⁻' }, 'HCO3-': { a: [['C', 0, 0], ['O', 0, s * 1.2], ['O', -s, -s * 0.7], ['O', s, -s * 0.7], ['H', s * 1.8, -s * 1.1]], l: 'HCO₃⁻' },
 };
 const C3 = (h) => new THREE.Color(h);
@@ -576,5 +579,96 @@ SCRIPTS.limewater_air = async (V) => {
   for (let k = 0; k < cao.length; k++) { const c = cao[k], h = w[k]; h.mode = 'held'; h.go(c.g.position.x, c.g.position.y + 0.02, 0.15); await W2(V, 0.8); const p = c.g.position.clone(); c.labelIt(null); V.remove(c); V.remove(h); V.add('Ca2+', p.x, p.y + 0.01, { label: k === 0 }); V.add('OH-', p.x - 0.02, p.y + 0.03, { label: k === 0 }); V.add('OH-', p.x + 0.02, p.y + 0.03, {}); }
   V.heat(0); await W2(V, 1);
   V.clear(); await co2Lime(V, { start: 'breath', c1: L3('Left open, the lime water meets carbon dioxide (CO₂) from the air.', 'खुला छोड़ने पर चूने का पानी हवा की कार्बन डाइऑक्साइड (CO₂) से मिलता है।', 'Khula chhodne par lime water hawa ki carbon dioxide (CO₂) se milta hai.'), c2: limeC2, c3: limeC3 });
+};
+
+// ======================================================================================== batch 4 (electricity)
+const pole = (V, x, plus, col) => { const w = wall(V, x, 0.012, 2 * BY - 0.02, col); const t = V.sprite(plus ? '+' : '−'); t.scale.set(0.07, 0.022, 1); t.position.set(x, BY - 0.005, 0.02); V.box.add(t); V.extra.push(t); return w; };
+SCRIPTS.tester_solids = async (V) => {
+  wall(V, 0, 2 * BX, 0.003, '#6a7480', -0.005);
+  const cu = []; for (let r = 0; r < 2; r++) for (let i = 0; i < 9; i++) cu.push(V.add('Cu', -BX + 0.03 + i * 0.047 + (r % 2) * 0.02, 0.05 + r * 0.055, { mode: 'fixed', label: r === 0 && i === 4 }));
+  const el = []; for (let k = 0; k < 10; k++) el.push(V.add('e-', rnd(-BX + 0.02, BX - 0.02), rnd(0.03, BY - 0.02), { mode: 'fixed', label: k === 0 }));
+  const S = []; for (let i = 0; i < 7; i++) { const p = V.add('S', -BX + 0.04 + i * 0.058, -0.09, { mode: 'fixed', label: i === 3 }); S.push(p); const e1 = V.add('e-', p.g.position.x + 0.022, -0.09, { mode: 'fixed' }); void e1; }
+  V.caption(L3('Top: copper, a metal. Its atoms sit in rows, and some electrons (yellow) are free to wander between them. Bottom: sulphur, a non-metal. Its electrons are held tightly in bonds.', 'ऊपर: ताँबा, एक धातु। इसके परमाणु पंक्तियों में होते हैं, और कुछ इलेक्ट्रॉन (पीले) उनके बीच आज़ादी से घूमते हैं। नीचे: सल्फर, एक अधातु। इसके इलेक्ट्रॉन बंधों में कसकर बँधे रहते हैं।', 'Upar: copper, ek metal. Iske atoms rows mein hote hain, aur kuch electrons (yellow) unke beech free ghoomte hain. Neeche: sulphur, ek non-metal. Iske electrons bonds mein kaske bandhe rehte hain.'));
+  for (let k = 0; k < 6; k++) { el.forEach((e) => e.go(rnd(-BX + 0.02, BX - 0.02), rnd(0.03, BY - 0.02), 0.05)); await W2(V, 0.9); }
+  V.caption(L3('With the tester joined, the free electrons in the metal all drift one way, towards the + end. This steady flow of electrons is the electric current, so the bulb glows.', 'टेस्टर जोड़ने पर धातु के मुक्त इलेक्ट्रॉन एक ही दिशा में, + सिरे की ओर बहने लगते हैं। इलेक्ट्रॉनों का यही लगातार बहाव विद्युत धारा है, इसलिए बल्ब जलता है।', 'Tester jodne par metal ke free electrons ek hi taraf, + end ki taraf behne lagte hain. Electrons ka yahi lagataar flow electric current hai, isliye bulb jalta hai.'));
+  for (let k = 0; k < 14; k++) { el.forEach((e) => { const P = e.g.position; if (P.x < -BX + 0.04) { P.x = BX - 0.02; } e.go(P.x - 0.04, Math.min(BY - 0.02, Math.max(0.03, P.y + rnd(-0.01, 0.01))), 0.09); }); await W2(V, 0.45); }
+  V.caption(L3('In sulphur no electron is free to move, so no current flows: the bulb stays dark. Graphite is the exception among non-metals: some of its electrons are free, so it conducts.', 'सल्फर में कोई इलेक्ट्रॉन घूमने के लिए मुक्त नहीं है, इसलिए धारा नहीं बहती: बल्ब नहीं जलता। अधातुओं में ग्रेफ़ाइट अपवाद है: इसके कुछ इलेक्ट्रॉन मुक्त होते हैं, इसलिए यह चालक है।', 'Sulphur mein koi electron ghoomne ke liye free nahi hai, isliye current nahi behta: bulb nahi jalta. Non-metals mein graphite exception hai: iske kuch electrons free hote hain, isliye yeh conduct karta hai.'));
+  await W2(V, 6);
+};
+async function ionsMove(V, o) { // ions drift to the opposite electrodes
+  for (let k = 0; k < (o.rounds || 8); k++) {
+    for (const p of o.pos) { const P = p.g.position; if (P.x < BX - 0.05) p.go(Math.min(BX - 0.04, P.x + 0.035), P.y + rnd(-0.015, 0.015), 0.06); }
+    for (const p of o.neg) { const P = p.g.position; if (P.x > -BX + 0.05) p.go(Math.max(-BX + 0.04, P.x - 0.035), P.y + rnd(-0.015, 0.015), 0.06); }
+    await W2(V, 0.6);
+  }
+}
+SCRIPTS.conduct_liquids = async (V) => {
+  pole(V, -BX + 0.006, true, '#c0392b'); pole(V, BX - 0.006, false, '#3a3f46');
+  const w = V.spawn('H2O', 10, -BX + 0.03, BX - 0.03, -BY, BY, { label: true });
+  V.caption(L3('Distilled water between the two ends of the tester: only water molecules, with no charge. Nothing moves towards the ends, so no current flows and the LED stays dark.', 'टेस्टर के दोनों सिरों के बीच आसुत जल: केवल पानी के अणु, जिन पर कोई आवेश नहीं। कुछ भी सिरों की ओर नहीं बढ़ता, इसलिए धारा नहीं बहती और LED नहीं जलती।', 'Tester ke dono ends ke beech distilled water: sirf paani ke molecules, jin par koi charge nahi. Kuch bhi ends ki taraf nahi badhta, isliye current nahi behta aur LED nahi jalti.')); await W2(V, 5);
+  const na = V.spawn('Na+', 5, -0.1, 0.1, -BY + 0.02, BY - 0.02, { label: true }); const cl = V.spawn('Cl-', 5, -0.1, 0.1, -BY + 0.02, BY - 0.02, { label: true });
+  V.caption(L3('A pinch of salt breaks up into Na⁺ and Cl⁻ ions. The + end pulls the Cl⁻ ions and the − end pulls the Na⁺ ions. These moving ions carry the current through the liquid: the LED glows.', 'एक चुटकी नमक Na⁺ और Cl⁻ आयनों में टूट जाता है। + सिरा Cl⁻ आयनों को और − सिरा Na⁺ आयनों को खींचता है। यही चलते हुए आयन द्रव में धारा ले जाते हैं: LED जलती है।', 'Ek chutki namak Na⁺ aur Cl⁻ ions mein toot jaata hai. + end Cl⁻ ions ko aur − end Na⁺ ions ko kheenchta hai. Yahi chalte hue ions liquid mein current le jaate hain: LED jalti hai.'));
+  await ionsMove(V, { pos: na, neg: cl, rounds: 9 });
+  V.caption(L3('Acids and bases also give ions, so they conduct. Sugar dissolves as whole molecules without any charge, so sugar solution does not conduct.', 'अम्ल और क्षारक भी आयन देते हैं, इसलिए वे भी चालक हैं। चीनी बिना आवेश वाले पूरे अणुओं के रूप में घुलती है, इसलिए चीनी का घोल चालक नहीं है।', 'Acids aur bases bhi ions dete hain, isliye woh bhi conduct karte hain. Cheeni bina charge wale poore molecules ke roop mein ghulti hai, isliye cheeni ka ghol conduct nahi karta.'));
+  void w; await W2(V, 6);
+};
+SCRIPTS.electroplating = async (V) => {
+  const A = [], B = []; for (let i = 0; i < 6; i++) { A.push(V.add('Cu', -BX + 0.015, -0.13 + i * 0.05, { mode: 'fixed', label: i === 2 })); B.push(V.add('Cu', BX - 0.015, -0.13 + i * 0.05, { mode: 'fixed' })); }
+  const t1 = V.sprite('+'); t1.position.set(-BX + 0.015, BY + 0.005, 0.02); const t2 = V.sprite('−'); t2.position.set(BX - 0.015, BY + 0.005, 0.02); V.box.add(t1, t2); V.extra.push(t1, t2);
+  const cu = V.spawn('Cu2+', 7, -0.12, 0.12, -BY + 0.02, BY - 0.02, { label: true }); V.spawn('SO42-', 6, -0.12, 0.12, -BY + 0.02, BY - 0.02, { label: true });
+  V.caption(L3('Left: the copper plate joined to +. Right: the plate joined to −. In between: copper sulphate solution, with blue Cu²⁺ ions and SO₄²⁻ ions.', 'बाएँ: + से जुड़ी ताँबे की प्लेट। दाएँ: − से जुड़ी प्लेट। बीच में: कॉपर सल्फेट विलयन, नीले Cu²⁺ आयन और SO₄²⁻ आयन।', 'Left: + se judi copper plate. Right: − se judi plate. Beech mein: copper sulphate solution, blue Cu²⁺ ions aur SO₄²⁻ ions.')); await W2(V, 5);
+  V.caption(L3('Cu²⁺ ions drift to the − plate. There each one takes two electrons and becomes a copper atom stuck to the plate: a new layer of copper grows.', 'Cu²⁺ आयन − प्लेट की ओर बहते हैं। वहाँ हर आयन दो इलेक्ट्रॉन लेकर ताँबे का परमाणु बन जाता है और प्लेट से चिपक जाता है: ताँबे की नई परत बनती है।', 'Cu²⁺ ions − plate ki taraf behte hain. Wahan har ion do electrons lekar copper atom ban jaata hai aur plate se chipak jaata hai: copper ki nayi layer banti hai.'));
+  for (let k = 0; k < 6; k++) { const c = cu[k]; c.mode = 'held'; const y = -0.13 + k * 0.05; c.go(BX - 0.04, y, 0.12); await W2(V, 1.1); const P = c.g.position.clone(); V.remove(c); V.add('Cu', P.x, P.y, { mode: 'fixed', col: '#e0874a', label: k === 0 }); }
+  V.caption(L3('At the + plate, copper atoms give away two electrons each and go into the solution as Cu²⁺ ions. So copper moves from the + plate to the − plate, and the solution stays blue.', '+ प्लेट पर ताँबे के परमाणु दो-दो इलेक्ट्रॉन देकर Cu²⁺ आयन बनकर विलयन में चले जाते हैं। इस तरह ताँबा + प्लेट से − प्लेट पर पहुँचता है, और विलयन नीला बना रहता है।', '+ plate par copper atoms do-do electrons dekar Cu²⁺ ions bankar solution mein chale jaate hain. Is tarah copper + plate se − plate par pahunchta hai, aur solution blue hi rehta hai.'));
+  for (let k = 0; k < 5; k++) { const a = A[5 - k]; const P = a.g.position.clone(); a.labelIt(null); V.remove(a); const ion = V.add('Cu2+', P.x + 0.02, P.y, { label: k === 0 }); ion.vel.set(0.03, rnd(-0.01, 0.01), 0); await W2(V, 0.9); }
+  await W2(V, 5);
+};
+async function waterSplit(V, o) {
+  pole(V, -BX + 0.006, true, '#c0392b'); pole(V, BX - 0.006, false, '#3a3f46');
+  const w = V.spawn('H2O', 10, -BX + 0.04, BX - 0.04, -BY, BY, { label: true }); const h = V.spawn('H+', 8, -BX + 0.04, BX - 0.04, -BY, BY, { label: true }); V.spawn('SO42-', 3, -BX + 0.04, BX - 0.04, -BY, BY, { label: true });
+  V.caption(o.c1); await W2(V, 5);
+  V.caption(L3('At the − electrode, H⁺ ions take electrons. Two hydrogen atoms pair up as a molecule of hydrogen gas, H₂, which bubbles up.', '− इलेक्ट्रोड पर H⁺ आयन इलेक्ट्रॉन लेते हैं। दो हाइड्रोजन परमाणु जुड़कर हाइड्रोजन गैस का अणु H₂ बनाते हैं, जो बुलबुले बनकर ऊपर उठता है।', '− electrode par H⁺ ions electrons lete hain. Do hydrogen atoms judkar hydrogen gas ka molecule H₂ banate hain, jo bubble bankar upar uthta hai.'));
+  for (let k = 0; k < 4; k++) { const a = h[2 * k], b = h[2 * k + 1]; if (!a || !b) break; a.mode = 'held'; b.mode = 'held'; const y = -0.1 + k * 0.05; a.go(BX - 0.035, y - 0.008, 0.14); b.go(BX - 0.035, y + 0.008, 0.14); await W2(V, 1.2); V.remove(a); V.remove(b); const g = V.add('H2', BX - 0.04, y, { label: k === 0 }); g.mode = 'rise'; g.riseV = 0.05; await W2(V, 0.3); }
+  V.caption(L3('At the + electrode, water molecules give away electrons and release oxygen gas, O₂. Only one O₂ is made for every two H₂.', '+ इलेक्ट्रोड पर पानी के अणु इलेक्ट्रॉन देकर ऑक्सीजन गैस O₂ छोड़ते हैं। हर दो H₂ के लिए केवल एक O₂ बनता है।', '+ electrode par paani ke molecules electrons dekar oxygen gas O₂ chhodte hain. Har do H₂ ke liye sirf ek O₂ banta hai.'));
+  for (let k = 0; k < 2; k++) { const a = w[2 * k], b = w[2 * k + 1]; a.mode = 'held'; b.mode = 'held'; a.labelIt(null); b.labelIt(null); const y = -0.06 + k * 0.08; a.go(-BX + 0.035, y - 0.01, 0.14); b.go(-BX + 0.035, y + 0.01, 0.14); await W2(V, 1.3); V.remove(a); V.remove(b); const g = V.add('O2', -BX + 0.045, y, { label: k === 0 }); g.mode = 'rise'; g.riseV = 0.05; for (let j = 0; j < 2; j++) V.add('H+', -BX + 0.06, y + rnd(-0.02, 0.02), {}); await W2(V, 0.4); }
+  V.caption(L3('So the tube over − collects twice as much gas (hydrogen) as the tube over + (oxygen): 2H₂O → 2H₂ + O₂.', 'इसलिए − के ऊपर की नली में + के ऊपर की नली (ऑक्सीजन) से दोगुनी गैस (हाइड्रोजन) जमा होती है: 2H₂O → 2H₂ + O₂।', 'Isliye − ke upar wali tube mein + ke upar wali tube (oxygen) se double gas (hydrogen) jama hoti hai: 2H₂O → 2H₂ + O₂.'));
+  await W2(V, 6);
+}
+SCRIPTS.electrolysis9v = (V) => waterSplit(V, { c1: L3('Water with a little acid around the two terminals of the battery: water molecules, H⁺ ions and SO₄²⁻ ions. Left: the + terminal. Right: the − terminal.', 'बैटरी के दोनों टर्मिनलों के चारों ओर थोड़े अम्ल वाला पानी: पानी के अणु, H⁺ आयन और SO₄²⁻ आयन। बाएँ: + टर्मिनल। दाएँ: − टर्मिनल।', 'Battery ke dono terminals ke aas-paas thode acid wala paani: paani ke molecules, H⁺ ions aur SO₄²⁻ ions. Left: + terminal. Right: − terminal.') });
+SCRIPTS.electrolysis10 = (V) => waterSplit(V, { c1: L3('Acidified water between the two carbon electrodes: water molecules with H⁺ and SO₄²⁻ ions from the acid. Left: the anode (+). Right: the cathode (−).', 'दो कार्बन इलेक्ट्रोडों के बीच अम्लीय पानी: पानी के अणु और अम्ल से आए H⁺ व SO₄²⁻ आयन। बाएँ: ऐनोड (+)। दाएँ: कैथोड (−)।', 'Do carbon electrodes ke beech acidified paani: paani ke molecules aur acid se aaye H⁺ aur SO₄²⁻ ions. Left: anode (+). Right: cathode (−).') });
+SCRIPTS.ionic_covalent = async (V) => {
+  wall(V, 0, 0.003, 2 * BY, '#6a7480');
+  const x = []; for (let i = 0; i < 12; i++) x.push(V.add(i % 2 ? 'Cl-' : 'Na+', -0.17 + (i % 4) * 0.026, -BY + 0.02 + Math.floor(i / 4) * 0.026, { mode: 'fixed', label: i < 2 }));
+  const su = []; for (let i = 0; i < 4; i++) su.push(V.add('sugar', 0.07 + (i % 2) * 0.07, -BY + 0.03 + Math.floor(i / 2) * 0.045, { mode: 'fixed', label: i === 0 }));
+  V.caption(L3('Left: salt, an ionic compound — a crystal of Na⁺ and Cl⁻ ions. Right: sugar, a covalent compound — made of whole molecules with no charge.', 'बाएँ: नमक, एक आयनिक यौगिक — Na⁺ और Cl⁻ आयनों का क्रिस्टल। दाएँ: चीनी, एक सहसंयोजक यौगिक — बिना आवेश वाले पूरे अणुओं से बनी।', 'Left: namak, ek ionic compound — Na⁺ aur Cl⁻ ions ka crystal. Right: cheeni, ek covalent compound — bina charge wale poore molecules se bani.')); await W2(V, 5);
+  V.caption(L3('In water both dissolve. The salt crystal comes apart into free ions; the sugar comes apart into separate molecules, which still have no charge.', 'पानी में दोनों घुल जाते हैं। नमक का क्रिस्टल मुक्त आयनों में बिखर जाता है; चीनी अलग-अलग अणुओं में बिखरती है, जिन पर अब भी कोई आवेश नहीं होता।', 'Paani mein dono ghul jaate hain. Namak ka crystal free ions mein bikhar jaata hai; cheeni alag-alag molecules mein bikharti hai, jin par ab bhi koi charge nahi hota.'));
+  for (const p of x) { p.mode = 'free'; p.side = -1; } for (const p of su) { p.mode = 'free'; p.side = 1; } V.temp = 1.6; await W2(V, 4);
+  V.caption(L3('With electrodes in the solutions, the ions move towards them and carry the current: the bulb glows. The sugar molecules just wander about, so there is no current. Camphor and naphthalene do not even dissolve in water.', 'विलयनों में इलेक्ट्रोड डालने पर आयन उनकी ओर बढ़ते हैं और धारा ले जाते हैं: बल्ब जलता है। चीनी के अणु बस इधर-उधर घूमते हैं, इसलिए धारा नहीं बहती। कपूर और नैफ़्थलीन तो पानी में घुलते भी नहीं।', 'Solutions mein electrodes daalne par ions unki taraf badhte hain aur current le jaate hain: bulb jalta hai. Cheeni ke molecules bas idhar-udhar ghoomte hain, isliye current nahi behta. Kapoor aur naphthalene to paani mein ghulte bhi nahi.'));
+  for (let k = 0; k < 6; k++) { for (const p of x) { if (p.mode !== 'free' && p.mode !== 'go') continue; const P = p.g.position; const left = p.sp === 'Cl-'; p.go(left ? Math.max(-BX + 0.02, P.x - 0.03) : Math.min(-0.03, P.x + 0.03), P.y + rnd(-0.01, 0.01), 0.06); } await W2(V, 0.7); }
+  await W2(V, 4);
+};
+SCRIPTS.acid_conduct = async (V) => {
+  pole(V, -BX + 0.006, true, '#8d9196'); pole(V, BX - 0.006, false, '#8d9196');
+  const hcl = V.spawn('HCl', 6, -0.15, 0.15, -BY + 0.03, BY - 0.03, { label: true }); V.spawn('H2O', 6, -0.15, 0.15, -BY, BY, {});
+  V.caption(L3('Dilute hydrochloric acid: in water each HCl molecule splits into an H⁺ ion and a Cl⁻ ion.', 'तनु हाइड्रोक्लोरिक अम्ल: पानी में हर HCl अणु एक H⁺ आयन और एक Cl⁻ आयन में टूट जाता है।', 'Dilute hydrochloric acid: paani mein har HCl molecule ek H⁺ ion aur ek Cl⁻ ion mein toot jaata hai.')); await W2(V, 3);
+  const H = [], Cl = []; for (const [i, m] of hcl.entries()) { const P = m.g.position.clone(); m.labelIt(null); V.remove(m); H.push(V.add('H+', P.x - 0.012, P.y, { label: i === 0 })); Cl.push(V.add('Cl-', P.x + 0.012, P.y, { label: i === 0 })); await W2(V, 0.3); }
+  V.caption(L3('Switch on: H⁺ ions move to the − nail and Cl⁻ ions to the + nail. The moving ions carry the current, so the bulb glows. At the − nail H⁺ ions turn into hydrogen gas: the bubbles.', 'स्विच चालू: H⁺ आयन − कील की ओर और Cl⁻ आयन + कील की ओर चलते हैं। चलते हुए आयन धारा ले जाते हैं, इसलिए बल्ब जलता है। − कील पर H⁺ आयन हाइड्रोजन गैस बनते हैं: यही बुलबुले हैं।', 'Switch on: H⁺ ions − keel ki taraf aur Cl⁻ ions + keel ki taraf chalte hain. Chalte hue ions current le jaate hain, isliye bulb jalta hai. − keel par H⁺ ions hydrogen gas bante hain: yahi bubbles hain.'));
+  await ionsMove(V, { pos: H, neg: Cl, rounds: 8 });
+  V.clear(); pole(V, -BX + 0.006, true, '#8d9196'); pole(V, BX - 0.006, false, '#8d9196'); V.spawn('glu', 5, -0.15, 0.15, -BY + 0.03, BY - 0.03, { label: true }); V.spawn('alc', 4, -0.15, 0.15, -BY + 0.03, BY - 0.03, { label: true });
+  V.caption(L3('Glucose (C₆H₁₂O₆) and alcohol (C₂H₅OH) also contain hydrogen, but their molecules stay whole in water: no H⁺ ions, no current, no glow. Only substances that give H⁺ ions in water are acids.', 'ग्लूकोज़ (C₆H₁₂O₆) और ऐल्कोहॉल (C₂H₅OH) में भी हाइड्रोजन है, पर इनके अणु पानी में पूरे ही रहते हैं: न H⁺ आयन, न धारा, न रोशनी। केवल वे पदार्थ अम्ल हैं जो पानी में H⁺ आयन देते हैं।', 'Glucose (C₆H₁₂O₆) aur alcohol (C₂H₅OH) mein bhi hydrogen hai, par inke molecules paani mein poore hi rehte hain: na H⁺ ions, na current, na roshni. Sirf wahi substances acid hain jo paani mein H⁺ ions dete hain.'));
+  await W2(V, 8);
+};
+SCRIPTS.flame_ionic = async (V) => {
+  const ring = (r) => { const m = new THREE.Mesh(new THREE.TorusGeometry(r, 0.0012, 6, 64), new THREE.MeshBasicMaterial({ color: 0x5f7387 })); V.box.add(m); V.extra.push(m); return m; };
+  ring(0.055); ring(0.1); const ion = V.add('Na+', 0, 0, { mode: 'fixed', label: true, size: 1.4 }); const e = V.add('e-', 0.055, 0, { mode: 'fixed', label: true });
+  let ang = 0; const spin = async (sec, r) => { const n = Math.round(sec / 0.1); for (let i = 0; i < n; i++) { ang += 0.35; e.go(Math.cos(ang) * r, Math.sin(ang) * r, 0.6); await W2(V, 0.1); } };
+  V.caption(L3('A sodium ion in the flame. Its outer electron moves in a fixed energy level around it.', 'ज्वाला में एक सोडियम आयन। उसका बाहरी इलेक्ट्रॉन उसके चारों ओर एक निश्चित ऊर्जा स्तर में घूमता है।', 'Flame mein ek sodium ion. Uska bahari electron uske chaaron or ek fixed energy level mein ghoomta hai.')); await spin(4, 0.055);
+  const flash = async (col) => { V.heat(0.8); await spin(1.2, 0.1); await spin(0.6, 0.055); const ph = V.add('photon', Math.cos(ang) * 0.06, Math.sin(ang) * 0.06, { col, mode: 'fixed' }); ph.go(Math.cos(ang) * 0.28, Math.sin(ang) * 0.28, 0.25); setTimeout(() => V.remove(ph), 1300); V.heat(0.2); };
+  V.caption(L3('The heat pushes the electron up to a higher level. It cannot stay there: it falls back and gives out the extra energy as a flash of light.', 'ऊष्मा इलेक्ट्रॉन को ऊँचे स्तर पर धकेल देती है। वह वहाँ टिक नहीं पाता: वापस गिरता है और अतिरिक्त ऊर्जा को प्रकाश की चमक के रूप में छोड़ देता है।', 'Garmi electron ko ooncha level par dhakel deti hai. Woh wahan tik nahi paata: wapas girta hai aur extra energy ko roshni ki chamak ke roop mein chhod deta hai.'));
+  for (let k = 0; k < 4; k++) await flash('#ffc21a');
+  V.caption(L3('For sodium this light is golden yellow. Potassium gives lilac and barium apple-green, because their energy levels are different. That is why each metal has its own flame colour — and why fireworks have so many colours.', 'सोडियम के लिए यह प्रकाश सुनहरा पीला होता है। पोटैशियम बैंगनी (लाइलैक) और बेरियम सेब-हरा रंग देता है, क्योंकि उनके ऊर्जा स्तर अलग होते हैं। इसीलिए हर धातु की ज्वाला का अपना रंग होता है — और आतिशबाज़ी में इतने रंग होते हैं।', 'Sodium ke liye yeh roshni golden yellow hoti hai. Potassium lilac aur barium apple-green deta hai, kyunki unke energy levels alag hote hain. Isiliye har metal ki flame ka apna rang hota hai — aur fireworks mein itne rang hote hain.'));
+  ion.labelIt('K⁺'); ion.recolor('#8a55d4'); for (let k = 0; k < 2; k++) await flash('#b88cff');
+  ion.labelIt('Ba²⁺'); ion.recolor('#2db3a4'); for (let k = 0; k < 2; k++) await flash('#8fe85a');
+  V.heat(0); await W2(V, 4);
 };
 export const HAS_PARTICLES = (id) => !!SCRIPTS[id];
