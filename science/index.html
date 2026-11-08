@@ -72,6 +72,7 @@ body.nb-open #story{right:calc(var(--nbw) + 24px)}
 #s-text .fin{color:var(--green);font-weight:700;font-size:17px}
 #s-text .eq{font-size:18px;font-weight:700;color:var(--acc)}
 html[lang=hi] #s-text{font-size:17px;line-height:1.7}
+html[lang=hi] #list h3,html[lang=hi] #notebook h4,html[lang=hi] #s-text .stepn{letter-spacing:0;text-transform:none}
 #story.intro #s-text{font-size:16.5px}
 #s-dots{display:flex;gap:5px;margin-top:8px}
 #s-dots i{flex:1;max-width:46px;height:5px;border-radius:3px;background:rgba(255,255,255,.14)}
@@ -131,6 +132,13 @@ body.in-vr #top,body.in-vr #list,body.in-vr #story,body.in-vr #notebook{display:
   .cbtn{padding:8px 10px;font-size:13px}.cbtn.primary{min-width:0;flex:1}
   #notebook{left:8px;right:8px;width:auto;top:68px;bottom:8px;z-index:8}
   #top{left:8px;right:8px;gap:6px}
+}
+.ls{display:none}
+@media (max-width:520px){
+  .lf{display:none}.ls{display:inline}
+  #logo{height:14px}
+  #s-buttons #b-do{order:-1;flex:1 1 100%}
+  #s-buttons .sp{display:none}
   #brand{padding:8px 10px}
   .seg button{padding:6px 7px;font-size:12.5px}
 }

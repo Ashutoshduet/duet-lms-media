@@ -114,23 +114,26 @@ export class Mix {
   has(sub, min = 0.05) { return (this.liq[sub] || 0) > min; }
   pH() {
     const tot = this.ml(); if (tot <= 0) return 7;
-    let net = 0, strong = 0, wAcid = 0, wBase = 0, wNeut = 0, pHw = 0;
+    let net = 0, strong = 0, wAcid = 0, wBase = 0, wNeut = 0, pHw = 0, pHnn = 0;
     for (const k in this.liq) {
       const s = SUBS[k]; if (!s || s.ind) continue; const v = this.liq[k];
       if (s.h) { const eq = s.h * v / 1000; net += eq; if (!s.weak) strong += Math.abs(eq); }
-      if (s.pH != null) { if (s.pH < 6.5) wAcid += v; else if (s.pH > 7.5) wBase += v; else wNeut += v; pHw += s.pH * v; }
+      if (s.pH != null) { if (s.pH < 6.5) wAcid += v; else if (s.pH > 7.5) wBase += v; else wNeut += v; pHw += s.pH * v; if (s.pH < 6.5 || s.pH > 7.5) pHnn += s.pH * v; }
     }
     const L = tot / 1000;
     if (strong > 1e-6 || Math.abs(net) > 1e-4) {
       // strong acid / base dominates: use the excess
       const c = Math.abs(net) / L;
       if (c < 1e-7) return 7;
-      if (strong < 1e-6) { // only weak species: log-mix pH of the components
-        return pHw / Math.max(1e-6, wAcid + wBase + wNeut);
-      }
+      if (strong < 1e-6) return weakMix();
       const p = -Math.log10(Math.max(c, 1e-7)); return net > 0 ? Math.max(0, p) : Math.min(14, 14 - p);
     }
-    return pHw / Math.max(1e-6, wAcid + wBase + wNeut);
+    return weakMix();
+    // only weak acids/bases and neutral water: dilution moves the pH towards 7, but a base stays basic
+    function weakMix() {
+      const nn = wAcid + wBase; if (nn <= 0) return pHw / Math.max(1e-6, wNeut);
+      const avg = pHnn / nn; const f = 0.6 + 0.4 * nn / (nn + wNeut); return 7 + (avg - 7) * f;
+    }
   }
   // visual colour of the liquid
   look() {

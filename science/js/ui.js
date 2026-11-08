@@ -23,7 +23,7 @@ export class UI {
     const a = this.app;
     $('#subjects').innerHTML = SUBJECTS.map((s) => `<button data-sub="${s}" class="${s === 'chemistry' ? 'on' : 'off'}" ${s === 'chemistry' ? '' : 'aria-disabled="true"'}>${esc(this.t(s))}</button>`).join('');
     $('#subjects').onclick = (e) => { const b = e.target.closest('button'); if (b && b.dataset.sub !== 'chemistry') this.toast(`${this.t(b.dataset.sub)} — ${this.t('soon')}`); };
-    $('#langs').innerHTML = LANGS.map((l) => `<button data-l="${l}">${LANG_LABEL[l]}</button>`).join('');
+    $('#langs').innerHTML = LANGS.map((l) => `<button data-l="${l}"><span class="lf">${LANG_LABEL[l]}</span><span class="ls">${{ en: 'EN', hi: 'हि', hg: 'HG' }[l]}</span></button>`).join('');
     $('#langs').onclick = (e) => { const b = e.target.closest('button'); if (b) a.setLang(b.dataset.l); };
     $('#classes').onclick = (e) => { const b = e.target.closest('button'); if (b) { this.cls = +b.dataset.c; this.renderList(); } };
     $('#explist').onclick = (e) => { const b = e.target.closest('button'); if (b) a.openExp(b.dataset.id); };

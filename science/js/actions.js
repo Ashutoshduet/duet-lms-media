@@ -97,9 +97,9 @@ export class Kit {
     const dir = new THREE.Vector3(dm.x - src.g.position.x, 0, dm.z - src.g.position.z); if (dir.lengthSq() < 1e-6) dir.set(1, 0, 0); dir.normalize();
     const axis = new THREE.Vector3(0, 1, 0).cross(dir).normalize(); // tilt towards the target
     const place = (ang) => {
-      const q = new THREE.Quaternion().setFromAxisAngle(axis, -ang);
-      const lipLocal = new THREE.Vector3(0, src.rimY, 0).add(dir.clone().applyQuaternion(q.clone().invert()).setY(0).normalize().multiplyScalar(src.rimR));
-      const lipW = lipLocal.clone().applyQuaternion(q);
+      const q = new THREE.Quaternion().setFromAxisAngle(axis, ang); // the mouth tips towards the target
+      let lipW = null; // the rim point that is lowest after tilting is where the liquid leaves
+      for (let i = 0; i < 32; i++) { const a = (i / 32) * Math.PI * 2; const pt = new THREE.Vector3(Math.cos(a) * src.rimR, src.rimY, Math.sin(a) * src.rimR).applyQuaternion(q); if (!lipW || pt.y < lipW.y) lipW = pt; }
       const p = dm.clone().add(new THREE.Vector3(0, (o.above ?? 0.03) + 0.004, 0)).sub(lipW).sub(dir.clone().multiplyScalar(0.003));
       return { p, q };
     };
