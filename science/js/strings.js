@@ -16,7 +16,7 @@ export const T = {
   autoplay: { en: 'Auto play', hi: 'अपने-आप चलाएँ', hg: 'Auto play' }, pause: { en: 'Pause', hi: 'रोकें', hg: 'Pause' }, reset: { en: 'Start again', hi: 'फिर से शुरू', hg: 'Phir se shuru' },
   speed: { en: 'Speed', hi: 'गति', hg: 'Speed' }, notebook: { en: 'Lab notebook', hi: 'लैब नोटबुक', hg: 'Lab notebook' },
   aim: { en: 'Aim', hi: 'उद्देश्य', hg: 'Aim' }, needs: { en: 'You need', hi: 'सामग्री', hg: 'Saamaan' }, obs: { en: 'Observation', hi: 'प्रेक्षण', hg: 'Observation' },
-  eq: { en: 'Equation', hi: 'समीकरण', hg: 'Equation' }, concl: { en: 'Conclusion', hi: 'निष्कर्ष', hg: 'Conclusion' }, realPhoto: { en: 'Real photo', hi: 'असली फ़ोटो', hg: 'Asli photo' }, safety: { en: 'Safety', hi: 'सावधानियाँ', hg: 'Safety' },
+  eq: { en: 'Equation', hi: 'समीकरण', hg: 'Equation' }, concl: { en: 'Conclusion', hi: 'निष्कर्ष', hg: 'Conclusion' }, realPhoto: { en: 'The real chemicals', hi: 'असली रसायन', hg: 'Asli chemicals' }, safety: { en: 'Safety', hi: 'सावधानियाँ', hg: 'Safety' },
   viva: { en: 'Viva questions', hi: 'मौखिक प्रश्न', hg: 'Viva questions' }, showAns: { en: 'Show answer', hi: 'उत्तर देखें', hg: 'Answer dekho' },
   finished: { en: 'Experiment complete', hi: 'प्रयोग पूरा हुआ', hg: 'Experiment complete' },
   tapHint: { en: 'Tap the glowing item, or press “Do it”.', hi: 'चमकती चीज़ पर टैप करें, या “करके दिखाएँ” दबाएँ।', hg: 'Chamakti cheez par tap karo, ya “Karke dikhao” dabao.' },

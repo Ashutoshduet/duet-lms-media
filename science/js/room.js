@@ -95,12 +95,12 @@ export function buildRoom(scene) {
   const boardFace = new THREE.Mesh(new THREE.PlaneGeometry(3.15, 1.26), new THREE.MeshStandardMaterial({ map: btex, roughness: 0.9 }));
   boardFace.position.z = 0.03; board.add(boardFace);
   box(board, 3.2, 0.03, 0.08, 0, -0.66, 0.04, new THREE.MeshStandardMaterial({ color: 0x7a5a3a, roughness: 0.7 }), { recv: false });
-  // photo: optional { img, cap } — a real photo pinned on the right of the board with a caption under it
-  const drawBoard = (title, lines = [], photo = null) => {
+  // photos: optional [{ img, cap }] — the real chemicals (cut-out photos) standing on the right of the board, each named under it
+  const drawBoard = (title, lines = [], photos = null) => {
     const x = bc.getContext('2d'); const w = bc.width, h = bc.height;
     x.fillStyle = '#20402f'; x.fillRect(0, 0, w, h);
     for (let i = 0; i < 2500; i++) { x.fillStyle = `rgba(255,255,255,${Math.random() * 0.035})`; x.fillRect(Math.random() * w, Math.random() * h, 3 + Math.random() * 40, 2 + Math.random() * 10); }
-    const tw = photo ? w - 820 : w - 140; // text width
+    const ph = (photos || []).filter((p) => p && p.img); const tw = ph.length ? w - 860 : w - 140; // text width
     x.fillStyle = 'rgba(244,240,226,0.95)'; x.textBaseline = 'top';
     x.font = '700 78px "Noto Sans Devanagari", sans-serif'; x.fillText(title, 70, 46, tw);
     x.fillRect(70, 150, Math.min(tw, x.measureText(title).width), 4);
@@ -109,22 +109,22 @@ export function buildRoom(scene) {
       const sz = ln.size ?? 60; x.font = `${ln.w ?? 600} ${sz}px "Noto Sans Devanagari", sans-serif`; x.fillStyle = ln.c ?? 'rgba(244,240,226,0.92)';
       x.fillText(ln.t, 80, y, tw - 20); y += sz * 1.35;
     }
-    if (photo && photo.img) {
-      const im = photo.img, bw = 640, bh = 560; const s = Math.min(bw / im.width, bh / im.height); const pw = im.width * s, ph = im.height * s;
-      const cx = w - 60 - bw / 2, cy = 40 + bh / 2 + 10;
-      x.save(); x.translate(cx, cy); x.rotate(-0.025);
-      x.fillStyle = 'rgba(0,0,0,0.35)'; x.fillRect(-pw / 2 - 14 + 10, -ph / 2 - 14 + 12, pw + 28, ph + 28); // shadow
-      x.fillStyle = '#f5f2ea'; x.fillRect(-pw / 2 - 14, -ph / 2 - 14, pw + 28, ph + 28); // white photo border
-      x.drawImage(im, -pw / 2, -ph / 2, pw, ph);
-      x.fillStyle = 'rgba(230,214,160,0.85)'; x.fillRect(-60, -ph / 2 - 34, 120, 40); // tape
-      x.restore();
-      if (photo.cap) {
-        x.fillStyle = 'rgba(244,240,226,0.9)'; x.font = '600 34px "Noto Sans Devanagari", sans-serif'; x.textAlign = 'center';
-        const words = photo.cap.split(' '); let line = '', ly = cy + ph / 2 + 34; const out = [];
-        for (const wd of words) { const t = line ? line + ' ' + wd : wd; if (x.measureText(t).width > bw + 20 && line) { out.push(line); line = wd; } else line = t; }
-        out.push(line); out.slice(0, 3).forEach((l, i) => x.fillText(l, cx, ly + i * 42));
-        x.textAlign = 'left';
-      }
+    if (ph.length) {
+      const X0 = w - 820, AW = 790, n = ph.length, cols = n === 1 ? 1 : 2, rows = Math.ceil(n / cols), cw = AW / cols, rh = (h - 50) / rows, ih = rh - (rows === 1 ? 150 : 112);
+      ph.forEach((p, i) => {
+        const r = Math.floor(i / cols), inRow = Math.min(cols, n - r * cols), c = i - r * cols; const base = 30 + r * rh + ih; // ground line of this row
+        const im = p.img, s = Math.min((cw - 40) / im.width, ih / im.height); const pw = im.width * s, phh = im.height * s; const cx = X0 + (AW - inRow * cw) / 2 + cw * c + cw / 2;
+        const sh = x.createRadialGradient(cx, base, 4, cx, base, pw * 0.55); sh.addColorStop(0, 'rgba(0,0,0,0.45)'); sh.addColorStop(1, 'rgba(0,0,0,0)');
+        x.save(); x.translate(cx, base); x.scale(1, 0.16); x.translate(-cx, -base); x.fillStyle = sh; x.beginPath(); x.arc(cx, base, pw * 0.55, 0, 7); x.fill(); x.restore(); // soft shadow
+        x.drawImage(im, cx - pw / 2, base - phh, pw, phh);
+        if (p.cap) {
+          x.fillStyle = 'rgba(244,240,226,0.92)'; x.font = `600 ${rows > 1 ? 28 : 32}px "Noto Sans Devanagari", sans-serif`; x.textAlign = 'center';
+          const words = p.cap.split(' '); let line = ''; const out = [];
+          for (const wd of words) { const t = line ? line + ' ' + wd : wd; if (x.measureText(t).width > cw - 24 && line) { out.push(line); line = wd; } else line = t; }
+          out.push(line); out.slice(0, rows > 1 ? 2 : 3).forEach((l, j) => x.fillText(l, cx, base + 22 + j * 36, cw - 10));
+          x.textAlign = 'left';
+        }
+      });
     }
     btex.needsUpdate = true;
   };

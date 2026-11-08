@@ -38,6 +38,7 @@ export class Lab {
     else if (s.kind === 'ribbon') { s.g.position.set(0, y0, 0); s.g.rotation.set(0, 0, 0.12); s.localY = 0.006; }
     else { s.g.position.set(0, y0, 0); s.g.rotation.set(0, 0, 0); s.localY = 0.004; }
     s.amount = s.amount ?? 1;
+    if (s.kind !== 'nail' && s.kind !== 'ribbon' && v.rInner) { s.fit = Math.min(1, (v.rInner(y0 + 0.004) * 0.92) / (s.radius || 0.008)); s.g.scale.setScalar(s.fit * Math.max(0.05, Math.cbrt(s.amount))); } // shrink to fit a narrow tube
     s.surfacePoint = () => {
       if (s.kind === 'nail') return new THREE.Vector3(0.0022 + (Math.random() - 0.5) * 0.002, y0 + 0.004 + Math.random() * 0.04, (Math.random() - 0.5) * 0.002);
       if (s.kind === 'ribbon') return new THREE.Vector3((Math.random() - 0.5) * 0.002, y0 + Math.random() * 0.06 * Math.max(0.1, s.amount), (Math.random() - 0.5) * 0.001);
@@ -48,11 +49,11 @@ export class Lab {
       const c0 = s.mat.color.clone();
       s.onCoat = (k, col) => { s.mat.color.copy(c0).lerp(new THREE.Color(col), Math.min(1, k * 1.15)); s.mat.metalness = 0.9 - 0.6 * k; s.mat.roughness = 0.35 + 0.45 * k; };
       if (s.chem === 'cuso4x') { const blue = c0.clone(); s.onWhite = (w) => { s.mat.color.copy(blue).lerp(new THREE.Color(0xf2f2ee), w); }; }
-      if (s.chem === 'feso4x') { s.onStage = (st) => { const g = new THREE.Color(0x9fcf8a), w = new THREE.Color(0xf1f0e8), b = new THREE.Color(0x8b3a1a); s.mat.color.copy(st < 1 ? g.lerp(w, st) : w.lerp(b, st - 1)); }; }
+      if (s.chem === 'feso4x') { s.onStage = (st) => { const g = c0.clone(), w = new THREE.Color(0xf1f0e8), b = new THREE.Color(0x8b3a1a); s.mat.color.copy(st < 1 ? g.lerp(w, st) : w.lerp(b, st - 1)); }; }
       const ST = SOLIDS[s.chem]?.stages; if (ST) { const cs = ST.map((h) => new THREE.Color(h)); s.onStage = (st) => { const i = Math.min(cs.length - 2, Math.floor(st)); s.mat.color.copy(cs[i]).lerp(cs[i + 1], Math.min(1, st - i)); s.mat.roughness = st > 0.7 && st < 2 ? 0.25 : 0.9; }; }
       if (s.chem === 'pbno3s') { s.onStage = (st) => { s.mat.color.copy(new THREE.Color(0xf5f5f2).lerp(new THREE.Color(0xe8c437), st)); }; }
     }
-    s.onAmount = () => { const k = Math.max(0, s.amount); if (s.kind === 'ribbon') { s.g.scale.y = Math.max(0.02, k); s.g.visible = k > 0.02; } else s.g.scale.setScalar(Math.max(0.05, Math.cbrt(k))); if (s.heap) s.heap.scale.y = 0.35 * k; };
+    s.onAmount = () => { const k = Math.max(0, s.amount); if (s.kind === 'ribbon') { s.g.scale.y = Math.max(0.02, k); s.g.visible = k > 0.02; } else s.g.scale.setScalar((s.fit ?? 1) * Math.max(0.05, Math.cbrt(k))); if (s.heap) s.heap.scale.y = 0.35 * k; };
     this.emit('add', { obj: s.id, chem: s.chem, to: v.id });
     if (this.audio) this.audio.clink && this.audio.clink();
   }

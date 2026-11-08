@@ -325,15 +325,55 @@ export function nail(o = {}) {
   const hd = new THREE.Mesh(new THREE.CylinderGeometry(0.0042, 0.0042, 0.0015, 16), mat); hd.position.y = 0.0505; it.g.add(hd);
   it.mat = mat; it.height = 0.05; it.radius = 0.004; it.grabY = 0.045; return it;
 }
-export function granules(color = 0x9ea3a8, o = {}) { // a few lumps of metal or solid
+// real surface detail taken from photographs of each chemical (tex/<name>.jpg, a grey detail map; the colour comes from mat.color)
+const TEXL = new THREE.TextureLoader(); const TEXC = new Map();
+export function realTex(name) {
+  if (!name) return null;
+  if (!TEXC.has(name)) { const t = TEXL.load(`tex/${name}.jpg`); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 4; TEXC.set(name, t); }
+  return TEXC.get(name);
+}
+// an irregular lump: an icosphere pushed in and out by smooth noise (same noise for shared corners, so no cracks)
+const LUMPS = [];
+function lumpGeo(k, shape) {
+  const key = shape + k; if (LUMPS[key]) return LUMPS[key];
+  let g;
+  if (shape === 'pellet') { g = new THREE.SphereGeometry(0.0032, 14, 10); g.scale(1, 0.62, 1); }
+  else {
+    g = new THREE.IcosahedronGeometry(0.0032, shape === 'chip' ? 1 : 2); const p = g.attributes.position; const v = new THREE.Vector3();
+    const a = 1.7 + k * 0.37, b = 2.3 + k * 0.53, c = 1.3 + k * 0.71;
+    for (let i = 0; i < p.count; i++) {
+      v.fromBufferAttribute(p, i); const n = Math.sin(v.x * 900 * a + k) * Math.cos(v.y * 800 * b) + Math.sin(v.z * 1000 * c + v.x * 400);
+      const f = 1 + (shape === 'chip' ? 0.32 : 0.2) * n; v.multiplyScalar(f); if (shape === 'chip') v.y *= 0.6; p.setXYZ(i, v.x, v.y, v.z);
+    }
+    g.computeVertexNormals();
+  }
+  LUMPS[key] = g; return g;
+}
+export function granules(color = 0x9ea3a8, o = {}) { // a few lumps of metal or solid (o.tex: real photo detail; o.shape: lump / pellet / chip)
   const it = new Item('granules', o);
-  const mat = new THREE.MeshStandardMaterial({ color, metalness: o.metal ?? 0.7, roughness: o.rough ?? 0.45 });
-  const geo = new THREE.IcosahedronGeometry(0.0032, 0);
+  const map = realTex(o.tex);
+  const mat = new THREE.MeshStandardMaterial({ color, metalness: o.metal ?? 0.7, roughness: o.rough ?? 0.45, map, bumpMap: map, bumpScale: map ? 0.6 : 0 });
   for (let i = 0; i < (o.n ?? 6); i++) {
-    const m = new THREE.Mesh(geo, mat); m.position.set((Math.random() - 0.5) * 0.008, 0.003 + Math.random() * 0.004, (Math.random() - 0.5) * 0.008);
-    m.rotation.set(Math.random() * 3, Math.random() * 3, 0); m.scale.setScalar(0.7 + Math.random() * 0.6); it.g.add(m);
+    const m = new THREE.Mesh(lumpGeo(i % 5, o.shape || 'lump'), mat); m.position.set((Math.random() - 0.5) * 0.008, 0.003 + Math.random() * 0.004, (Math.random() - 0.5) * 0.008);
+    m.rotation.set(o.shape === 'pellet' ? 0 : Math.random() * 3, Math.random() * 3, 0); m.scale.setScalar(0.7 + Math.random() * 0.6); m.castShadow = true; it.g.add(m);
   }
   it.mat = mat; it.height = 0.01; it.radius = 0.008; it.grabY = 0.005; return it;
+}
+// a small heap of powder (salt, sugar, baking soda …) with the grain of the real powder, plus a few loose grains
+export function heap(color, o = {}) {
+  const it = new Item('heap', o);
+  const map = realTex(o.tex);
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: o.rough ?? 0.92, metalness: 0, map, bumpMap: map, bumpScale: map ? 0.8 : 0 });
+  const R = o.r ?? 0.011, Hh = o.h ?? 0.0068; const pts = [];
+  for (let i = 0; i <= 12; i++) { const t = i / 12; pts.push(V2(Math.max(0.00001, R * (1 - t)), Hh * Math.pow(1 - (1 - t) * (1 - t), 0.75))); } // dome: from the rim up to the top
+  const g = new THREE.LatheGeometry(pts, 36); const p = g.attributes.position; const v = new THREE.Vector3();
+  for (let i = 0; i < p.count; i++) { v.fromBufferAttribute(p, i); const ang = Math.atan2(v.z, v.x); const k = 1 + 0.12 * Math.sin(ang * 3 + 1) + 0.07 * Math.sin(ang * 7); v.x *= k; v.z *= k; v.y *= 1 + 0.15 * Math.sin(ang * 2 + 2); p.setXYZ(i, v.x, v.y, v.z); }
+  g.computeVertexNormals();
+  const uv = g.attributes.uv; for (let i = 0; i < p.count; i++) { v.fromBufferAttribute(p, i); uv.setXY(i, 0.5 + v.x / (R * 2.4), 0.5 + v.z / (R * 2.4)); } // photo seen from above
+  const m = new THREE.Mesh(g, mat); m.position.y = 0.0006; m.castShadow = true; m.receiveShadow = true; it.g.add(m);
+  const gg = new THREE.IcosahedronGeometry(0.0007, 0);
+  for (let i = 0; i < (o.loose ?? 10); i++) { const a = Math.random() * 6.28, r = R * (0.9 + Math.random() * 0.45); const q = new THREE.Mesh(gg, mat); q.position.set(Math.cos(a) * r, 0.0007, Math.sin(a) * r); q.rotation.set(Math.random() * 3, Math.random() * 3, 0); it.g.add(q); }
+  it.mat = mat; it.height = Hh + 0.001; it.radius = R; it.grabY = 0.003; return it;
 }
 export function powderHeap(color, o = {}) { // powder in a petri dish with a spatula
   const it = new Item('powder', o);
@@ -345,10 +385,10 @@ export function powderHeap(color, o = {}) { // powder in a petri dish with a spa
 }
 export function crystals(color, o = {}) { // crystals (e.g. blue copper sulphate) on a watch glass
   const it = new Item('crystals', o);
-  const mat = new THREE.MeshPhysicalMaterial({ color, roughness: 0.15, transmission: 0, transparent: true, opacity: 0.92, clearcoat: 1 });
-  const geo = new THREE.OctahedronGeometry(0.004, 0);
-  for (let i = 0; i < (o.n ?? 14); i++) {
-    const m = new THREE.Mesh(geo, mat); const a = Math.random() * 6.28, r = Math.random() * 0.012;
+  const map = realTex(o.tex);
+  const mat = new THREE.MeshPhysicalMaterial({ color, roughness: 0.22, transmission: 0, transparent: true, opacity: 0.95, clearcoat: 1, clearcoatRoughness: 0.15, flatShading: true, map, bumpMap: map, bumpScale: map ? 0.5 : 0 });
+  for (let i = 0; i < (o.n ?? 14); i++) { // broken crystal pieces with flat faces, like the real crystals
+    const m = new THREE.Mesh(lumpGeo(i % 5, 'chip'), mat); m.castShadow = true; const a = Math.random() * 6.28, r = Math.random() * 0.012;
     m.position.set(Math.cos(a) * r, 0.003 + Math.random() * 0.004, Math.sin(a) * r); m.rotation.set(Math.random() * 3, Math.random() * 3, 0);
     m.scale.set(0.8 + Math.random() * 0.6, 0.5 + Math.random() * 0.5, 0.8 + Math.random() * 0.5); it.g.add(m);
   }

@@ -57,17 +57,18 @@ export class Kit {
     s.stripKind = kind; s.g.rotation.set(-Math.PI / 2, 0, 0.3); s.g.position.y = BENCH_Y + 0.001; s.home = { p: s.g.position.clone(), q: s.g.quaternion.clone() }; return s;
   }
   solid(chem, x, z, o = {}) {
-    const S = SOLIDS[chem]; let it;
+    const S = SOLIDS[chem]; let it; const tex = S.tex;
     if (chem === 'fe') it = A.nail();
     else if (chem === 'mg') it = A.ribbon();
-    else if (chem === 'cuso4x' || chem === 'feso4x') it = A.crystals(S.color, { n: 12 });
-    else if (['na2co3', 'nahco3', 'cao', 'pbno3s'].includes(chem)) it = A.granules(S.color, { n: chem === 'cao' ? 5 : 9, metal: 0, rough: 0.95 });
-    else if (chem === 'sugar' || chem === 'salt') it = A.crystals(S.color, { n: 22 });
-    else if (chem === 'kmno4') it = A.crystals(S.color, { n: 3 });
-    else if (['chalk', 'sand', 'nh4cl'].includes(chem)) { it = A.granules(S.color, { n: 26, metal: 0, rough: 1 }); it.g.children.forEach((m) => m.scale.multiplyScalar(0.55)); }
+    else if (chem === 'cuso4x' || chem === 'feso4x') it = A.crystals(S.color, { n: 12, tex });
+    else if (chem === 'kmno4') it = A.crystals(S.color, { n: 3, tex });
+    else if (['sugar', 'salt', 'na2co3', 'nahco3', 'pbno3s', 'nh4cl', 'chalk'].includes(chem)) it = A.heap(S.color, { tex }); // powders: a small heap with the real grain
+    else if (chem === 'sand') it = A.heap(S.color, { tex, loose: 16 });
+    else if (chem === 'cao') it = A.granules(S.color, { n: 5, metal: 0, rough: 0.95, tex });
+    else if (chem === 'cacl2') it = A.granules(S.color, { n: 10, metal: 0, rough: 0.85, tex, shape: 'pellet' });
     else if (chem === 'cu') it = A.granules(S.color, { n: 7, metal: 0.85, rough: 0.35 });
-    else if (chem === 'cacl2') it = A.granules(S.color, { n: 10, metal: 0, rough: 0.9 });
-    else it = A.granules(S.color, { metal: chem === 'caco3' ? 0 : 0.75, rough: chem === 'caco3' ? 0.8 : 0.4 });
+    else if (chem === 'caco3') it = A.granules(S.color, { metal: 0, rough: 0.8, tex, shape: 'chip' });
+    else it = A.granules(S.color, { metal: 0.75, rough: 0.4, tex });
     asChem(it, chem, o.amount ?? 1); it.name = S.n;
     // the solid starts on a watch glass so it is easy to see on the black bench
     const tile = new THREE.Mesh(new THREE.BoxGeometry(0.075, 0.004, 0.075), new THREE.MeshStandardMaterial({ color: 0xf4f2ec, roughness: 0.35 })); // white tile: the solid is easy to see

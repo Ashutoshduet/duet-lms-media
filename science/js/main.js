@@ -98,9 +98,9 @@ export class App {
     if (!e) { draw('DUET STEM · ' + tx(T.chemistry, this.lang), [{ t: tx(T.appTitle, this.lang), size: 54, c: 'rgba(240,166,90,0.95)' }, { t: tx(T.pickExp, this.lang), size: 44 }]); return; }
     const word = (DICT[e.eq.word] && DICT[e.eq.word][this.lang]) || e.eq.word;
     const lines = [{ t: e.eq.sym, size: 64, w: 700 }, { t: word, size: 44, c: 'rgba(240,166,90,0.95)' }, { t: this.expText(e, 'kind'), size: 40, c: 'rgba(200,220,210,0.85)' }];
-    const ph = PHOTOS[e.id] && PHOTOS[e.id][0]; const L = this.lang;
+    const ph = PHOTOS[e.id] || []; const L = this.lang;
     draw(this.expText(e, 'title'), lines);
-    if (ph) photoImage(ph.f).then((img) => { if (img && this.runner.exp === e && this.lang === L) draw(this.expText(e, 'title'), lines, { img, cap: ph.cap[L] || ph.cap.en }); });
+    if (ph.length) Promise.all(ph.map((p) => photoImage(p.f))).then((imgs) => { if (this.runner.exp === e && this.lang === L) draw(this.expText(e, 'title'), lines, ph.map((p, i) => ({ img: imgs[i], cap: p.cap[L] || p.cap.en }))); });
   }
   // ------------------------------------------------------------ narration
   async loadVoice() {

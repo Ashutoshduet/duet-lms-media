@@ -47,7 +47,7 @@ export const EXPERIMENTS2 = [
       { do: X('Pour some salt water into a china dish and place it on the wire gauze of the tripod stand.'), target: 'dish', act: (K, o) => K.onTripod(o.dish, o.tp, o.bn),
         see: X('The clear salt water sits in the dish over the burner.'), why: X('The salt is dissolved, so we cannot see it.') },
       { do: X('Light the burner and heat the dish.'), target: 'bn', act: (K, o) => K.light(o.bn), ev: { type: 'lit' }, see: X('A blue flame burns under the gauze.') },
-      { do: X('Keep heating until the water boils away (watch in time-lapse).'), target: 'dish', act: (K, o) => { o.dish.onDry = () => { const c = K.add(K.A.crystals(0xffffff, { n: 40 }), 0, 0); K.lab.putSolid(c, o.dish); c.g.scale.set(2.2, 0.35, 2.2); c.name = X('Salt crust'); }; return K.wait(14, 30); },
+      { do: X('Keep heating until the water boils away (watch in time-lapse).'), target: 'dish', act: (K, o) => { o.dish.onDry = () => { const c = K.add(K.A.crystals(0xffffff, { tex: 'salt', n: 40 }), 0, 0); K.lab.putSolid(c, o.dish); c.g.scale.set(2.2, 0.35, 2.2); c.name = X('Salt crust'); }; return K.wait(14, 30); },
         see: X('The water boils and steam rises; the liquid becomes less and less. Near the end the salt crackles, and a white crust is left in the dish.'),
         why: X('On heating, water turns into vapour and goes into the air, but salt does not evaporate — it stays behind.') },
       { do: X('Turn off the burner and look at the dish.'), target: 'bn', act: (K, o) => K.extinguish(o.bn),
@@ -225,7 +225,7 @@ export const EXPERIMENTS2 = [
     setup(K) {
       const tp = K.tripod(0.1, -0.66); const bn = K.burner(0.34, -0.62);
       const dish = K.add(K.A.chinaDish(), -0.18, -0.64); const fn = K.add(K.A.funnel(), -0.4, -0.66);
-      const sand = K.lab.add(K.A.granules(0xc2a878, { n: 18, metal: 0, rough: 1 }), 0, 0); sand.chem = 'sand'; sand.amount = 1; K.lab.putSolid(sand, dish); sand.g.scale.set(1.6, 0.6, 1.6);
+      const sand = K.lab.add(K.A.granules(0xd2b080, { n: 18, metal: 0, rough: 1, tex: 'sand' }), 0, 0); sand.chem = 'sand'; sand.amount = 1; K.lab.putSolid(sand, dish); sand.g.scale.set(1.6, 0.6, 1.6);
       const ac = K.solid('nh4cl', -0.18, -0.48);
       return { tp, bn, dish, fn, ac, sand };
     },

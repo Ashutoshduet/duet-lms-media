@@ -45,7 +45,7 @@ export const SUBS = {
 // precipitates
 export const PPT = {
   baso4: { f: 'BaSO₄', c: '#f6f6f2', n: { en: 'white precipitate of barium sulphate', hi: 'बेरियम सल्फेट का सफ़ेद अवक्षेप', hg: 'barium sulphate ka white precipitate' } },
-  pbi2: { f: 'PbI₂', c: '#f3cf24', n: { en: 'yellow precipitate of lead iodide', hi: 'लेड आयोडाइड का पीला अवक्षेप', hg: 'lead iodide ka yellow precipitate' } },
+  pbi2: { f: 'PbI₂', c: '#f2cd20', n: { en: 'yellow precipitate of lead iodide', hi: 'लेड आयोडाइड का पीला अवक्षेप', hg: 'lead iodide ka yellow precipitate' } },
   caco3: { f: 'CaCO₃', c: '#f7f7f4', n: { en: 'white calcium carbonate (milkiness)', hi: 'कैल्शियम कार्बोनेट (दूधियापन)', hg: 'calcium carbonate (milkiness)' } },
   agcl: { f: 'AgCl', c: '#f2f2ee', n: { en: 'white curdy precipitate of silver chloride', hi: 'सिल्वर क्लोराइड का सफ़ेद दही जैसा अवक्षेप', hg: 'silver chloride ka white curdy precipitate' } },
   cuoh2: { f: 'Cu(OH)₂', c: '#79b4ea', n: { en: 'pale blue precipitate of copper hydroxide', hi: 'कॉपर हाइड्रॉक्साइड का हल्का नीला अवक्षेप', hg: 'copper hydroxide ka light blue precipitate' } },
@@ -55,25 +55,25 @@ export const PPT = {
 };
 // solids that can be put into vessels
 export const SOLIDS = {
-  zn: { f: 'Zn', n: { en: 'Zinc granules', hi: 'ज़िंक के दाने', hg: 'Zinc granules' }, color: 0x9ea3a8, metal: 0.75, react: 1 },
+  zn: { f: 'Zn', n: { en: 'Zinc granules', hi: 'ज़िंक के दाने', hg: 'Zinc granules' }, color: 0xb4b6b2, tex: 'zngran', metal: 0.75, react: 1 },
   mg: { f: 'Mg', n: { en: 'Magnesium ribbon', hi: 'मैग्नीशियम रिबन', hg: 'Magnesium ribbon' }, color: 0xc9ccd0, react: 3 },
   fe: { f: 'Fe', n: { en: 'Iron', hi: 'लोहा', hg: 'Iron (loha)' }, color: 0x8d9196, react: 0.35 },
   al: { f: 'Al', n: { en: 'Aluminium', hi: 'एल्युमिनियम', hg: 'Aluminium' }, color: 0xd5d8dc, react: 1.4 },
   cu: { f: 'Cu', n: { en: 'Copper turnings', hi: 'ताँबे के टुकड़े', hg: 'Copper turnings' }, color: 0xb86a3c, react: 0 },
-  na2co3: { f: 'Na₂CO₃', n: { en: 'Sodium carbonate', hi: 'सोडियम कार्बोनेट', hg: 'Sodium carbonate' }, color: 0xf7f7f3, carb: 2.4 },
-  nahco3: { f: 'NaHCO₃', n: { en: 'Sodium hydrogencarbonate (baking soda)', hi: 'सोडियम हाइड्रोजन कार्बोनेट (खाने का सोडा)', hg: 'Baking soda (NaHCO₃)' }, color: 0xfafaf7, carb: 3 },
-  caco3: { f: 'CaCO₃', n: { en: 'Marble chips', hi: 'संगमरमर के टुकड़े', hg: 'Marble chips' }, color: 0xeeebe4, carb: 0.8 },
-  cao: { f: 'CaO', n: { en: 'Quick lime', hi: 'बिना बुझा चूना', hg: 'Quick lime (chuna)' }, color: 0xf2f0ea },
-  cuso4x: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x2a7ad8 },
-  feso4x: { f: 'FeSO₄·7H₂O', n: { en: 'Ferrous sulphate crystals', hi: 'फेरस सल्फेट के क्रिस्टल', hg: 'Ferrous sulphate crystals' }, color: 0x9fcf8a },
-  sugar: { f: 'C₁₂H₂₂O₁₁', n: { en: 'Sugar', hi: 'चीनी', hg: 'Cheeni' }, color: 0xfbfbf8, dis: 'sugar', disK: 1.6, stages: ['#fbfbf8', '#f1d58a', '#8b5a2b', '#1a1a1a'] },
-  salt: { f: 'NaCl', n: { en: 'Common salt', hi: 'नमक', hg: 'Namak' }, color: 0xfafafa, dis: 'nacl', disK: 1.8 },
-  chalk: { f: 'CaCO₃', n: { en: 'Chalk powder', hi: 'चॉक पाउडर', hg: 'Chalk powder' }, color: 0xf3f1ea, insol: 'chalk' },
-  sand: { f: 'SiO₂', n: { en: 'Sand', hi: 'रेत', hg: 'Ret (sand)' }, color: 0xc2a878, insol: 'sand' },
-  kmno4: { f: 'KMnO₄', n: { en: 'Potassium permanganate crystal', hi: 'पोटैशियम परमैंगनेट का क्रिस्टल', hg: 'Potassium permanganate crystal' }, color: 0x3a0f3e, dis: 'kmno4', disK: 0.3, still: true },
-  nh4cl: { f: 'NH₄Cl', n: { en: 'Ammonium chloride', hi: 'अमोनियम क्लोराइड', hg: 'Ammonium chloride' }, color: 0xf7f7f4, sub: true },
-  cacl2: { f: 'CaCl₂', n: { en: 'Anhydrous calcium chloride', hi: 'निर्जल कैल्शियम क्लोराइड', hg: 'Anhydrous calcium chloride' }, color: 0xf6f5f0 },
-  pbno3s: { f: 'Pb(NO₃)₂', n: { en: 'Lead nitrate powder', hi: 'लेड नाइट्रेट पाउडर', hg: 'Lead nitrate powder' }, color: 0xf5f5f2 },
+  na2co3: { f: 'Na₂CO₃', n: { en: 'Sodium carbonate', hi: 'सोडियम कार्बोनेट', hg: 'Sodium carbonate' }, color: 0xf7f7f3, carb: 2.4, tex: 'nahco3' },
+  nahco3: { f: 'NaHCO₃', n: { en: 'Sodium hydrogencarbonate (baking soda)', hi: 'सोडियम हाइड्रोजन कार्बोनेट (खाने का सोडा)', hg: 'Baking soda (NaHCO₃)' }, tex: 'nahco3', color: 0xfafaf7, carb: 3 },
+  caco3: { f: 'CaCO₃', n: { en: 'Marble chips', hi: 'संगमरमर के टुकड़े', hg: 'Marble chips' }, color: 0xeeebe4, carb: 0.8, tex: 'marble' },
+  cao: { f: 'CaO', n: { en: 'Quick lime', hi: 'बिना बुझा चूना', hg: 'Quick lime (chuna)' }, color: 0xf2efe6, tex: 'cao' },
+  cuso4x: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x1f8fd0, tex: 'cuso4' },
+  feso4x: { f: 'FeSO₄·7H₂O', n: { en: 'Ferrous sulphate crystals', hi: 'फेरस सल्फेट के क्रिस्टल', hg: 'Ferrous sulphate crystals' }, color: 0x78bfa4, tex: 'feso4' },
+  sugar: { f: 'C₁₂H₂₂O₁₁', n: { en: 'Sugar', hi: 'चीनी', hg: 'Cheeni' }, color: 0xfbfbf8, tex: 'sugar', dis: 'sugar', disK: 1.6, stages: ['#fbfbf8', '#f1d58a', '#8b5a2b', '#1a1a1a'] },
+  salt: { f: 'NaCl', n: { en: 'Common salt', hi: 'नमक', hg: 'Namak' }, color: 0xfafafa, tex: 'salt', dis: 'nacl', disK: 1.8 },
+  chalk: { f: 'CaCO₃', n: { en: 'Chalk powder', hi: 'चॉक पाउडर', hg: 'Chalk powder' }, color: 0xf3f1ea, tex: 'chalk', insol: 'chalk' },
+  sand: { f: 'SiO₂', n: { en: 'Sand', hi: 'रेत', hg: 'Ret (sand)' }, color: 0xd2b080, tex: 'sand', insol: 'sand' },
+  kmno4: { f: 'KMnO₄', n: { en: 'Potassium permanganate crystal', hi: 'पोटैशियम परमैंगनेट का क्रिस्टल', hg: 'Potassium permanganate crystal' }, color: 0x2a1f3a, tex: 'kmno4', dis: 'kmno4', disK: 0.3, still: true },
+  nh4cl: { f: 'NH₄Cl', n: { en: 'Ammonium chloride', hi: 'अमोनियम क्लोराइड', hg: 'Ammonium chloride' }, color: 0xf7f7f4, tex: 'nh4cl', sub: true },
+  cacl2: { f: 'CaCl₂', n: { en: 'Anhydrous calcium chloride', hi: 'निर्जल कैल्शियम क्लोराइड', hg: 'Anhydrous calcium chloride' }, color: 0xf6f5f0, tex: 'cacl2' },
+  pbno3s: { f: 'Pb(NO₃)₂', n: { en: 'Lead nitrate powder', hi: 'लेड नाइट्रेट पाउडर', hg: 'Lead nitrate powder' }, color: 0xf5f5f2, tex: 'pbno3' },
 };
 
 // ------------------------------------------------------------------ indicator colours by pH

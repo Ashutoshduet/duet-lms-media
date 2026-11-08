@@ -1,6 +1,6 @@
 // Offline support. Code and text: network first (updates show at once), cache when offline.
 // Fonts, images and narration: cache first. Narration for the chosen language is saved in the background.
-const VERSION = 'sl360-v3';
+const VERSION = 'sl360-v4';
 const CORE = [
   './', './index.html', './manifest.webmanifest', './voice/manifest.json',
   './js/main.js', './js/ui.js', './js/xr.js', './js/runner.js', './js/actions.js', './js/lab.js', './js/chem.js', './js/fx.js', './js/apparatus.js',
@@ -11,7 +11,8 @@ const CORE = [
   './icons/icon-192.png', './icons/icon-512.png', './brand/duet-stem-logo-light.png',
   './js/models.js', './js/particles.js', './js/photos.js', './lib/addons/loaders/GLTFLoader.js', './lib/addons/libs/meshopt_decoder.module.js', './lib/addons/loaders/RGBELoader.js', './lib/addons/utils/BufferGeometryUtils.js', './env/lab_1k.hdr',
   ...['bunsen_burner', 'chemistry_set', 'metal_stool_02', 'mounted_fluorescent_lights', 'korean_fire_extinguisher_01', 'medical_box', 'vintage_microscope', 'plastic_bottle_gallon'].map((n) => `./models/${n}.glb`),
-  ...['ba_so4_1', 'breath_lime_0', 'cao_water_2', 'chinarose_0', 'chromatography_1', 'chromatography_3', 'cuso4_heat_0', 'evaporate_salt_2', 'fe_cuso4_2', 'feso4_heat_0', 'kmno4_diffuse_1', 'litmus_0', 'mg_burn_0', 'neutral_0', 'pb_ki_0', 'pbno3_heat_0', 'ph_paper_0', 'ph_salts_0', 'rusting_0', 'salt_0', 'sublimation_2', 'sugar_0', 'turmeric_0', 'tyndall_2', 'vinegar_soda_3', 'zn_acid_0', 'zn_acid_3', 'zn_naoh_1', 'zn_naoh_2'].map((n) => `./photos/${n}.jpg`),
+  ...['bacl2', 'barite', 'cacl2', 'cao', 'caoh2', 'chalk', 'cuso4', 'cuso4b', 'feso4', 'hibiscus', 'ki', 'kmno4', 'litmus', 'marble', 'mgo', 'na2so4', 'nahco3', 'nail', 'naoh', 'nh4cl', 'pbi2', 'pbno3', 'phenol', 'phpaper', 'salt', 'sand', 'sugar', 'turmeric', 'zngran'].map((n) => `./products/${n}.webp`),
+  ...['bacl2', 'barite', 'cacl2', 'cao', 'caoh2', 'chalk', 'cuso4', 'cuso4b', 'feso4', 'hibiscus', 'ki', 'kmno4', 'litmus', 'marble', 'mgo', 'na2so4', 'nahco3', 'nail', 'naoh', 'nh4cl', 'pbi2', 'pbno3', 'phenol', 'phpaper', 'salt', 'sand', 'sugar', 'turmeric', 'zngran'].map((n) => `./tex/${n}.jpg`),
 ];
 const NETWORK_FIRST = /\.(js|json|html|webmanifest)$|\/$/;
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting())); });

@@ -93,7 +93,7 @@ export class UI {
     nb.innerHTML = `<h3>${esc(this.t('notebook'))}</h3>
       <h4>${esc(this.t('aim'))}</h4><p>${esc(r.text('aim', L))}</p>
       <h4>${esc(this.t('needs'))}</h4><p>${esc(uniq.join(' · '))}</p>
-      ${(PHOTOS[e.id] || []).length ? `<h4>📷 ${esc(this.t('realPhoto'))}</h4>${PHOTOS[e.id].map((p) => `<figure class="ph"><img src="${p.f}" alt="" loading="lazy"><figcaption>${esc(p.cap[L] || p.cap.en)}</figcaption></figure>`).join('')}` : ''}
+      ${(PHOTOS[e.id] || []).length ? `<h4>${esc(this.t('realPhoto'))}</h4><div class="prods">${PHOTOS[e.id].map((p) => `<figure class="ph"><img src="${p.f}" alt="" loading="lazy"><figcaption>${esc(p.cap[L] || p.cap.en)}</figcaption></figure>`).join('')}</div>` : ''}
       <h4>${esc(this.t('obs'))}</h4><table><tbody>${rows || `<tr><td colspan="3" class="mute">—</td></tr>`}</tbody></table>
       <h4>${esc(this.t('eq'))}</h4><p>${esc(r.text('eq.word', L) || e.eq.word)}</p><p class="eq">${esc(e.eq.sym)}</p>
       ${r.state === 'finished' ? `<h4>${esc(this.t('concl'))}</h4><p>${esc(r.text('result.concl', L))}</p>` : ''}
