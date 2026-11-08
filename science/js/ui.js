@@ -27,7 +27,7 @@ export class UI {
     $('#langs').onclick = (e) => { const b = e.target.closest('button'); if (b) a.setLang(b.dataset.l); };
     $('#classes').onclick = (e) => { const b = e.target.closest('button'); if (b) { this.cls = +b.dataset.c; this.renderList(); } };
     $('#explist').onclick = (e) => { const b = e.target.closest('button'); if (b) a.openExp(b.dataset.id); };
-    $('#b-do').onclick = () => a.runner.doStep(); $('#b-next').onclick = () => a.runner.next(); $('#b-back').onclick = () => a.runner.prev();
+    $('#b-do').onclick = () => a.primary(); $('#b-next').onclick = () => a.runner.next(); $('#b-back').onclick = () => a.runner.prev();
     $('#b-auto').onclick = () => (a.runner.auto ? a.runner.pause() : a.runner.play()); $('#b-reset').onclick = () => a.runner.reset();
     $('#b-speed').onclick = () => a.cycleSpeed(); $('#b-nb').onclick = () => { this.nbOpen = !this.nbOpen; document.body.classList.toggle('nb-open', this.nbOpen); this.renderNotebook(); };
     $('#b-voice').onclick = () => a.toggleVoice(); $('#b-menu').onclick = () => document.body.classList.toggle('list-open');
@@ -63,7 +63,7 @@ export class UI {
     $('#s-title').textContent = this.app.expText(e, 'title');
     let h = '';
     if (r.state === 'finished') {
-      h = `<p class="fin">✓ ${esc(this.t('finished'))}</p><p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p><p class="eq">${esc(e.eq.sym)}</p>`;
+      h = `<p class="fin">✓ ${esc(this.t('finished'))}</p>${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p><p class="eq">${esc(e.eq.sym)}</p>`;
     } else if (s) {
       h = `<p class="stepn">${esc(this.t('step'))} ${r.i + 1} ${esc(this.t('of'))} ${n}</p><p><b>${esc(this.t('doLabel'))}:</b> ${esc(r.text(`steps.${r.i}.do`, L))}</p>`;
       if (r.state === 'done' || r.state === 'finished') {
@@ -74,8 +74,9 @@ export class UI {
     }
     if (this.app.lapseShown) h += `<p class="lapse">⏩ ${esc(this.t('timelapse'))} ×${this.app.lapseShown}</p>`;
     $('#s-text').innerHTML = h;
-    $('#b-do').textContent = r.state === 'done' ? this.t('next') + ' ›' : '▶ ' + this.t('doIt');
-    $('#b-do').disabled = r.state === 'doing' || r.state === 'finished';
+    const inside = r.state === 'finished' && this.app.hasParticles(e.id); const pv = this.app.particles && this.app.particles.g.visible;
+    $('#b-do').textContent = inside ? (pv ? '✕ ' + this.t('closeView') : '🔬 ' + this.t('inside')) : r.state === 'done' ? this.t('next') + ' ›' : '▶ ' + this.t('doIt');
+    $('#b-do').disabled = r.state === 'doing' || (r.state === 'finished' && !inside);
     $('#b-next').textContent = this.t('next') + ' ›'; $('#b-back').textContent = '‹ ' + this.t('back');
     $('#b-auto').textContent = r.auto ? '❚❚ ' + this.t('pause') : '▶▶ ' + this.t('autoplay'); $('#b-auto').classList.toggle('on', r.auto);
     $('#b-reset').textContent = '↺'; $('#b-reset').title = this.t('reset'); $('#b-speed').textContent = `${this.app.speed}×`; $('#b-speed').title = this.t('speed'); $('#b-nb').textContent = '📒 ' + this.t('notebook');
@@ -132,7 +133,8 @@ export class UI {
     if (a.lapseShown) S.text(`⏩ ${this.t('timelapse')} ×${a.lapseShown}`, 40, 860, 30, '#f0a65a', 700);
     const by = 920, n = e.steps.length; for (let i = 0; i < n; i++) { X.fillStyle = i < r.i || r.done.has(i) ? '#7fd1ff' : 'rgba(255,255,255,0.15)'; X.fillRect(40 + i * (1020 / n), 900, 1020 / n - 8, 8); }
     S.btn('back', 40, by, 250, 90, '‹ ' + this.t('back'), { size: 30, align: 'center' });
-    S.btn('do', 305, by, 490, 90, r.state === 'done' ? this.t('next') + ' ›' : r.state === 'doing' ? this.t('doing') : '▶ ' + this.t('doIt'), { size: 34, align: 'center', primary: true });
+    const inside = r.state === 'finished' && a.hasParticles(e.id); const pv = a.particles && a.particles.g.visible;
+    S.btn('do', 305, by, 490, 90, inside ? (pv ? '✕ ' + this.t('closeView') : '🔬 ' + this.t('inside')) : r.state === 'done' ? this.t('next') + ' ›' : r.state === 'doing' ? this.t('doing') : '▶ ' + this.t('doIt'), { size: 34, align: 'center', primary: true });
     S.btn('next', 810, by, 250, 90, this.t('next') + ' ›', { size: 30, align: 'center' });
     S.btn('auto', 40, by + 110, 330, 80, r.auto ? '❚❚ ' + this.t('pause') : '▶▶ ' + this.t('autoplay'), { size: 28, align: 'center', active: r.auto });
     S.btn('speed', 385, by + 110, 280, 80, `${this.t('speed')} ${a.speed}×`, { size: 28, align: 'center' });
@@ -145,7 +147,7 @@ export class UI {
     else if (id.startsWith('exp_')) a.openExp(id.slice(4));
     else if (id === 'pg_prev') this.page = Math.max(0, this.page - 1); else if (id === 'pg_next') this.page++;
     else if (id.startsWith('lang_')) a.setLang(id.slice(5)); else if (id === 'voice') a.toggleVoice();
-    else if (id === 'do') r.doStep(); else if (id === 'next') r.next(); else if (id === 'back') r.prev();
+    else if (id === 'do') a.primary(); else if (id === 'next') r.next(); else if (id === 'back') r.prev();
     else if (id === 'auto') (r.auto ? r.pause() : r.play()); else if (id === 'speed') a.cycleSpeed(); else if (id === 'reset') r.reset();
     this.dirty = true;
   }

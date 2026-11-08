@@ -1,0 +1,83 @@
+[
+ {
+  "name": "Bunsen Burner",
+  "authors": {
+   "BKS": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/bunsen_burner",
+  "id": "bunsen_burner"
+ },
+ {
+  "name": "Chemistry Set",
+  "authors": {
+   "Jiří Ptáček": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/chemistry_set",
+  "id": "chemistry_set"
+ },
+ {
+  "name": "Korean Fire Extinguisher 01",
+  "authors": {
+   "UM JOORIN": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/korean_fire_extinguisher_01",
+  "id": "korean_fire_extinguisher_01"
+ },
+ {
+  "name": "Medical Box",
+  "authors": {
+   "Ulan Cabanilla": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/medical_box",
+  "id": "medical_box"
+ },
+ {
+  "name": "Metal Stool 02",
+  "authors": {
+   "Ulan Cabanilla": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/metal_stool_02",
+  "id": "metal_stool_02"
+ },
+ {
+  "name": "Mounted Fluorescent Lights",
+  "authors": {
+   "Ulan Cabanilla": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/mounted_fluorescent_lights",
+  "id": "mounted_fluorescent_lights"
+ },
+ {
+  "name": "Plastic Bottle Gallon",
+  "authors": {
+   "Rahul Chaudhary": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/plastic_bottle_gallon",
+  "id": "plastic_bottle_gallon"
+ },
+ {
+  "name": "Vintage Measuring Lab",
+  "authors": {
+   "Oliksiy Yakovlyev": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/vintage_measuring_lab",
+  "id": "vintage_measuring_lab"
+ },
+ {
+  "name": "Vintage Microscope",
+  "authors": {
+   "Luis José Fernández Rodríguez": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/vintage_microscope",
+  "id": "vintage_microscope"
+ }
+]

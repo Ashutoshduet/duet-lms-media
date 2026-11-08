@@ -49,8 +49,8 @@ export function buildRoom(scene) {
   // ceiling tube lights
   const tubeM = new THREE.MeshBasicMaterial({ color: 0xffffff });
   for (const x of [-1.6, 1.6]) for (const z of [-2, 0, 2]) {
-    box(room, 1.25, 0.05, 0.16, x, H - 0.03, z, new THREE.MeshStandardMaterial({ color: 0xdedede, roughness: 0.5 }), { recv: false });
-    box(room, 1.2, 0.03, 0.06, x, H - 0.065, z, tubeM, { recv: false });
+    box(room, 1.25, 0.05, 0.16, x, H - 0.03, z, new THREE.MeshStandardMaterial({ color: 0xdedede, roughness: 0.5 }), { recv: false }).userData.tubeLight = true;
+    box(room, 1.2, 0.03, 0.06, x, H - 0.065, z, tubeM, { recv: false }).userData.tubeLight = true;
   }
 
   // ---------------- main work bench (in front of the student)
@@ -167,7 +167,7 @@ export function buildRoom(scene) {
   }
   // fire extinguisher + first aid
   const ext = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.08, 0.5, 20), new THREE.MeshStandardMaterial({ color: 0xc0181f, roughness: 0.35, metalness: 0.2 }));
-  ext.position.set(W / 2 - 0.15, 0.95, 1.2); room.add(ext);
+  ext.position.set(W / 2 - 0.15, 0.95, 1.2); ext.userData.extinguisher = true; room.add(ext);
   const fa = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.1), new THREE.MeshStandardMaterial({ map: labelTex([{ t: '✚', size: 120, c: '#c0181f' }, { t: 'FIRST AID', size: 40 }], { bg: '#ffffff', border: '#c0181f' }), roughness: 0.6 }));
   fa.position.set(W / 2 - 0.06, 1.7, 0.5); fa.rotation.y = -Math.PI / 2; room.add(fa);
   void wl;
@@ -180,5 +180,5 @@ export function buildRoom(scene) {
   scene.add(sun, sun.target);
   const fill = new THREE.DirectionalLight(0xe8f0ff, 0.45); fill.position.set(2, 3, 2); scene.add(fill);
 
-  return { room, drawBoard, sinkPos: new THREE.Vector3(sinkX, BENCH_Y, cz + 0.05), tapPos: new THREE.Vector3(sinkX, BENCH_Y + 0.24, B.z0 + 0.28), shelfY: [BENCH_Y + 0.239, BENCH_Y + 0.469], shelfZ: sz, sun };
+  return { room, W, H, drawBoard, sinkPos: new THREE.Vector3(sinkX, BENCH_Y, cz + 0.05), tapPos: new THREE.Vector3(sinkX, BENCH_Y + 0.24, B.z0 + 0.28), shelfY: [BENCH_Y + 0.239, BENCH_Y + 0.469], shelfZ: sz, sun };
 }

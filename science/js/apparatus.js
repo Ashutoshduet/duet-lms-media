@@ -1,6 +1,7 @@
 // Lab apparatus built from real dimensions (metres). Vessels know their inside shape, so a volume of liquid
 // gives the right height, the surface stays level when tilted, and liquid pours out over the lowest point of the rim.
 import * as THREE from 'three';
+import { model } from './models.js';
 import { glassMat, liquidMat, labelTex, woodTex, canvasTex, shade } from './mats.js';
 
 const V2 = (r, y) => new THREE.Vector2(r, y);
@@ -224,8 +225,8 @@ export function flame(kind = 'spirit') {
   const mats = kind === 'bunsen'
     ? [mk(0.07, 0.011, 0x2a52ff, 0x5a7cff, 0.55), mk(0.028, 0.006, 0x5fc8ff, 0x9fe4ff, 0.9)]
     : [mk(0.05, 0.0075, 0x3a5cff, 0xffb347, 0.75), mk(0.022, 0.004, 0x7fb8ff, 0xffe9a8, 0.8)];
-  const light = new THREE.PointLight(kind === 'bunsen' ? 0x8aa8ff : 0xffb060, 0.03, 0.9, 2); light.position.y = 0.03; g.add(light);
-  g.userData.tick = (t) => { mats.forEach((m) => { m.uniforms.t.value = t; }); light.intensity = 0.028 + Math.sin(t * 23) * 0.004; };
+  const light = new THREE.PointLight(kind === 'bunsen' ? 0x8aa8ff : 0xffb060, 0.016, 0.5, 2); light.position.y = 0.03; g.add(light);
+  g.userData.tick = (t) => { mats.forEach((m) => { m.uniforms.t.value = t; }); light.intensity = 0.015 + Math.sin(t * 23) * 0.002; };
   g.userData.light = light;
   return g;
 }
@@ -247,14 +248,18 @@ export function spiritLamp(o = {}) {
 }
 export function bunsen(o = {}) {
   const it = new Item('bunsen', { ...o, name: { en: 'Bunsen burner', hi: 'बुनसेन बर्नर', hg: 'Bunsen burner' } });
-  const metal = new THREE.MeshStandardMaterial({ color: 0x9aa0a6, metalness: 0.85, roughness: 0.32 });
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.045, 0.012, 32), new THREE.MeshStandardMaterial({ color: 0x1f2a36, metalness: 0.3, roughness: 0.6 }));
-  base.position.y = 0.006; it.g.add(base);
-  const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.0062, 0.0062, 0.12, 20), metal); tube.position.y = 0.072; it.g.add(tube);
-  const col = new THREE.Mesh(new THREE.CylinderGeometry(0.0082, 0.0082, 0.018, 20), metal); col.position.y = 0.03; it.g.add(col);
-  const inlet = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0035, 0.04, 12), metal); inlet.rotation.z = Math.PI / 2; inlet.position.set(0.026, 0.02, 0); it.g.add(inlet);
-  const f = flame('bunsen'); f.position.y = 0.132; f.visible = false; it.g.add(f); it.flame = f;
-  it.heatPoint = new THREE.Vector3(0, 0.132 + 0.045, 0); it.height = 0.13; it.radius = 0.045; it.grabY = 0.07;
+  let top = 0.132; const real = model('bunsen_burner'); // the real scanned-style model when it has loaded
+  if (real) { real.traverse((o) => { if (o.name === 'burner_stand') o.visible = false; }); it.g.add(real); top = 0.172; } // our own tripod is used instead of the model's ring stand
+  else {
+    const metal = new THREE.MeshStandardMaterial({ color: 0x9aa0a6, metalness: 0.85, roughness: 0.32 });
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.045, 0.012, 32), new THREE.MeshStandardMaterial({ color: 0x1f2a36, metalness: 0.3, roughness: 0.6 }));
+    base.position.y = 0.006; it.g.add(base);
+    const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.0062, 0.0062, 0.12, 20), metal); tube.position.y = 0.072; it.g.add(tube);
+    const col = new THREE.Mesh(new THREE.CylinderGeometry(0.0082, 0.0082, 0.018, 20), metal); col.position.y = 0.03; it.g.add(col);
+    const inlet = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0035, 0.04, 12), metal); inlet.rotation.z = Math.PI / 2; inlet.position.set(0.026, 0.02, 0); it.g.add(inlet);
+  }
+  const f = flame('bunsen'); f.position.y = top; f.visible = false; it.g.add(f); it.flame = f;
+  it.heatPoint = new THREE.Vector3(0, top + 0.045, 0); it.height = top; it.radius = real ? 0.07 : 0.045; it.grabY = 0.08;
   it.lit = false; it.setLit = (on) => { it.lit = on; f.visible = on; };
   it.update = (dt, t) => { if (f.visible) f.userData.tick(t); };
   return it;

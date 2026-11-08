@@ -12,6 +12,8 @@ import { I18N, DICT } from './exp_i18n.js';
 import { Audio } from './audio.js';
 import { UI } from './ui.js';
 import { XRInput } from './xr.js';
+import { loadModels, loadLabHDR, furnish } from './models.js';
+import { ParticleView, HAS_PARTICLES } from './particles.js';
 import { T, tx, LANGS } from './strings.js';
 
 const Q = new URLSearchParams(location.search);
@@ -50,15 +52,22 @@ export class App {
     this.recent = new Map(); // item id -> time it last took part in something (the camera keeps those in view)
     this.lab.listeners.push((e) => { for (const k of ['to', 'from', 'v', 'in', 'obj', 'by']) if (e[k]) this.recent.set(e[k], this.t); });
     this.xr = new XRInput(this);
+    this.particles = new ParticleView(this); this.hasParticles = HAS_PARTICLES;
     this.clock = new THREE.Clock();
     this.initPointer(); this.initXRButton(); this.initKeys();
     addEventListener('resize', () => { this.camera.aspect = innerWidth / innerHeight; this.camera.updateProjectionMatrix(); r.setSize(innerWidth, innerHeight); });
     this.loadVoice();
     document.fonts && document.fonts.ready.then(() => { this.boardFor(this.runner.exp); this.ui.dirty = true; });
-    const first = Q.get('exp');
-    if (first && BY_ID[first]) this.openExp(first, { auto: Q.has('auto') });
     r.setAnimationLoop(() => this.frame());
     window.app = this;
+    this.boot();
+  }
+  async boot() { // real models and the 360° lab light load first (the loader screen shows progress)
+    const bar = document.querySelector('#loader .bar i');
+    await Promise.all([loadModels((k) => { if (bar) { bar.style.animation = 'none'; bar.style.width = Math.round(k * 100) + '%'; bar.style.transform = 'none'; } }), loadLabHDR(this.renderer, this.scene)]);
+    furnish(this.roomInfo.room, this.roomInfo);
+    const first = Q.get('exp');
+    if (first && BY_ID[first]) this.openExp(first, { auto: Q.has('auto') });
     requestAnimationFrame(() => requestAnimationFrame(() => { document.body.classList.add('ready'); document.title = Q.has('test') ? 'READY' : document.title; }));
   }
   // ------------------------------------------------------------ text helpers
@@ -68,7 +77,20 @@ export class App {
   cycleSpeed() { this.speed = SPEEDS[(SPEEDS.indexOf(this.speed) + 1) % SPEEDS.length] || 1; this.runner.K.speed = this.speed; this.audio.rate = Math.min(1.5, 0.75 + this.speed * 0.25); this.ui.renderStory(); }
   openExp(id, o = {}) {
     this.audio.unlock(); document.body.classList.remove('list-open');
+    if (this.particles.g.visible) this.particles.close();
     this.userCam = false; this.recent.clear(); this.runner.load(id, o); this.focusBench();
+  }
+  primary() { // the big button: do the step, or after the experiment open/close the particle view
+    const r = this.runner;
+    if (r.state === 'finished' && r.exp && HAS_PARTICLES(r.exp.id)) { if (this.particles.g.visible) this.particles.close(); else this.particles.play(r.exp); this.ui.renderStory(); return; }
+    r.doStep();
+  }
+  onParticles(open, done) {
+    this.hideMarker = open || this.particles.g.visible;
+    document.body.classList.toggle('pv-open', this.particles.g.visible);
+    if (open && !this.renderer.xr.isPresenting) { const c = this.particles.g.position; const far = innerWidth / innerHeight < 1 ? 1.9 : 1.08; this.userCam = false; this.camGoal = { p: new THREE.Vector3(c.x, c.y - 0.06, c.z + far), t: new THREE.Vector3(c.x, c.y - 0.06, c.z) }; }
+    if (!open && !done) { this.hideMarker = false; this.focusBench(); }
+    this.ui.renderStory(); this.ui.dirty = true;
   }
   boardFor(e) {
     const draw = this.roomInfo.drawBoard;
@@ -112,7 +134,10 @@ export class App {
     else if (r.state === 'todo') this.narrate(this.stepUnits(r, r.i, 'do'));
     this.ui.dirty = true;
   }
-  onFinished(r) { const L = this.voiceLang(); this.narrate([tx(T.finished, L) + '.', r.text('result.concl', L)], true); this.ui.toast('✓ ' + tx(T.finished, this.lang)); }
+  onFinished(r) {
+    const L = this.voiceLang(); this.narrate([tx(T.finished, L) + '.', r.text('result.concl', L)], true); this.ui.toast('✓ ' + tx(T.finished, this.lang));
+    if (this._wasAuto && HAS_PARTICLES(r.exp.id)) { const id = r.exp.id; this.waitNarration().then(() => { if (r.exp && r.exp.id === id && r.state === 'finished' && !this.particles.g.visible) this.particles.play(r.exp); }); }
+  }
   // ------------------------------------------------------------ camera
   focusBench() {
     const b = new THREE.Box3();
@@ -127,7 +152,7 @@ export class App {
   }
   // follow the action: frame the item to use next and everything that is moving, pouring or being heated
   director() {
-    const r = this.runner; if (!r.exp || this.userCam || this.renderer.xr.isPresenting) return;
+    const r = this.runner; if (!r.exp || this.userCam || this.renderer.xr.isPresenting || this.particles.g.visible) return;
     if (r.state === 'todo' && r.i === 0 && !r.done.size) return; // the first view shows the whole kit
     const set = new Set(); const tg = r.state === 'todo' ? r.target() : null; if (tg) set.add(tg);
     for (const it of this.lab.items) {
@@ -198,7 +223,7 @@ export class App {
   initKeys() {
     addEventListener('keydown', (e) => {
       if (e.target.closest && e.target.closest('input,textarea')) return; const r = this.runner;
-      if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); r.doStep(); }
+      if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); this.primary(); }
       else if (e.code === 'ArrowRight') r.next(); else if (e.code === 'ArrowLeft') r.prev();
     });
   }
@@ -252,7 +277,7 @@ export class App {
     const K = this.runner.K; let rem = dt * (K.speed || 1), n = 0;
     this.audio.sfx = !this.muted;
     while (rem > 1e-6 && n++ < 40) { const sd = Math.min(rem, 1 / 30); K.update(sd); this.simT += sd; this.lab.update(sd, this.simT); this.follow(); rem -= sd; }
-    this.runner.update(dt, this.t);
+    this.runner.update(dt, this.t); this.particles.update(dt); if (this.runner.auto) this._wasAuto = true; else if (this.runner.state !== 'finished') this._wasAuto = false;
     this.xr.update(dt);
     this.audio.frame(this.audio.pourT > 0, this.fx.bubbles.length); this.audio.pourT = Math.max(0, this.audio.pourT - dt);
     if (this.lapseShown !== this._lapse) { this._lapse = this.lapseShown; this.ui.renderStory(); }

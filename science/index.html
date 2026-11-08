@@ -118,6 +118,8 @@ body.ready #loader{opacity:0;pointer-events:none}
 #xr-wait{position:fixed;inset:0;z-index:35;display:none;place-items:center;background:rgba(10,13,19,.7)}
 body.xr-wait #xr-wait{display:grid}
 #xr-go{font-size:26px;padding:22px 40px;border-radius:16px}
+body.pv-open #s-text,body.pv-open #s-dots{display:none}
+body.pv-open #story{border-top-color:var(--acc)}
 body.in-vr #top,body.in-vr #list,body.in-vr #story,body.in-vr #notebook{display:none}
 /* narrow screens */
 @media (max-width:1100px){:root{--listw:270px}#title{display:none}}

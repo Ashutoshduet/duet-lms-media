@@ -29,5 +29,7 @@ export const T = {
   pickExp: { en: 'Choose an experiment', hi: 'एक प्रयोग चुनें', hg: 'Ek experiment chuno' },
   welcome: { en: 'Welcome to the DUET STEM chemistry lab. Choose an experiment to begin.', hi: 'DUET STEM रसायन प्रयोगशाला में आपका स्वागत है। शुरू करने के लिए एक प्रयोग चुनें।', hg: 'DUET STEM chemistry lab mein welcome. Shuru karne ke liye ek experiment chuno.' },
   more: { en: 'More', hi: 'और', hg: 'Aur' },
+  inside: { en: 'See it inside', hi: 'अंदर से देखें', hg: 'Andar se dekho' }, closeView: { en: 'Close', hi: 'बंद करें', hg: 'Band karo' },
+  insideHint: { en: 'Watch what the atoms and ions are doing.', hi: 'देखें कि परमाणु और आयन क्या कर रहे हैं।', hg: 'Dekho atoms aur ions kya kar rahe hain.' },
 };
 export const tx = (o, L) => (o ? (o[L] || o.en || '') : '');
