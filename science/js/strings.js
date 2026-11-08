@@ -30,6 +30,16 @@ export const T = {
   welcome: { en: 'Welcome to the DUET STEM chemistry lab. Choose an experiment to begin.', hi: 'DUET STEM रसायन प्रयोगशाला में आपका स्वागत है। शुरू करने के लिए एक प्रयोग चुनें।', hg: 'DUET STEM chemistry lab mein welcome. Shuru karne ke liye ek experiment chuno.' },
   more: { en: 'More', hi: 'और', hg: 'Aur' },
   inside: { en: 'See it inside', hi: 'अंदर से देखें', hg: 'Andar se dekho' }, closeView: { en: 'Close', hi: 'बंद करें', hg: 'Band karo' },
+  pickClass: { en: 'Which class are you in?', hi: 'आप किस कक्षा में हैं?', hg: 'Aap kis class mein ho?' },
+  pickClassSub: { en: 'You will see the chemistry experiments of your book, chapter by chapter.', hi: 'आपको अपनी किताब के रसायन विज्ञान के प्रयोग, अध्याय के क्रम में दिखेंगे।', hg: 'Aapko apni book ke chemistry experiments, chapter-wise dikhenge.' },
+  allClasses: { en: 'Teacher: all classes', hi: 'शिक्षक: सभी कक्षाएँ', hg: 'Teacher: sabhi classes' },
+  changeClass: { en: 'Change class', hi: 'कक्षा बदलें', hg: 'Class badlo' },
+  doneW: { en: 'done', hi: 'पूरे', hg: 'done' },
+  nextExp: { en: 'Next experiment', hi: 'अगला प्रयोग', hg: 'Agla experiment' },
+  startW: { en: 'Start', hi: 'शुरू करें', hg: 'Shuru karo' },
+  otherClasses: { en: 'From other classes', hi: 'दूसरी कक्षाओं से', hg: 'Doosri classes se' },
+  classWelcome: { en: 'Class {c} · Chemistry: {n} experiments from your book. Start with the first one, or choose any experiment from the list.', hi: 'कक्षा {c} · रसायन विज्ञान: आपकी किताब के {n} प्रयोग। पहले प्रयोग से शुरू करें, या सूची से कोई भी प्रयोग चुनें।', hg: 'Class {c} · Chemistry: aapki book ke {n} experiments. Pehle experiment se shuru karo, ya list se koi bhi experiment chuno.' },
+  classDone: { en: 'Well done! You have finished every chemistry experiment of Class {c}. Next subject: Physics (coming soon).', hi: 'शाबाश! आपने कक्षा {c} के सभी रसायन विज्ञान प्रयोग पूरे कर लिए। अगला विषय: भौतिकी (जल्द आ रहा है)।', hg: 'Shabaash! Aapne Class {c} ke saare chemistry experiments poore kar liye. Agla subject: Physics (jaldi aa raha hai).' },
   insideHint: { en: 'Watch what the atoms and ions are doing.', hi: 'देखें कि परमाणु और आयन क्या कर रहे हैं।', hg: 'Dekho atoms aur ions kya kar rahe hain.' },
 };
 export const tx = (o, L) => (o ? (o[L] || o.en || '') : '');

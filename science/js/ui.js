@@ -2,16 +2,18 @@
 import * as THREE from 'three';
 import { T, tx, LANGS, LANG_LABEL, FONT } from './strings.js';
 import { Panel, wrap } from './vrpanels.js';
-import { EXPERIMENTS } from './experiments.js';
+import { EXPERIMENTS, classGroups, classOrder } from './experiments.js';
 import { PHOTOS } from './photos.js';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
 const SUBJECTS = ['chemistry', 'physics', 'maths', 'biology', 'astronomy', 'robotics', 'nature'];
+const store = { get(k) { try { return localStorage.getItem('sl360.' + k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem('sl360.' + k, v); } catch (e) {} } };
+const CLASSES = [6, 7, 8, 9, 10];
 
 export class UI {
   constructor(app) {
-    this.app = app; this.cls = 0; this.nbOpen = false;
+    this.app = app; this.cls = +(store.get('cls') || 0) || 0; this.nbOpen = false; this.done = new Set((store.get('done') || '').split(',').filter(Boolean));
     this.buildDOM();
     // headset panels
     this.menu = new Panel(1000, 1400, 0.46); this.story = new Panel(1100, 1150, 0.52);
@@ -26,9 +28,12 @@ export class UI {
     $('#subjects').onclick = (e) => { const b = e.target.closest('button'); if (b && b.dataset.sub !== 'chemistry') this.toast(`${this.t(b.dataset.sub)} — ${this.t('soon')}`); };
     $('#langs').innerHTML = LANGS.map((l) => `<button data-l="${l}"><span class="lf">${LANG_LABEL[l]}</span><span class="ls">${{ en: 'EN', hi: 'हि', hg: 'HG' }[l]}</span></button>`).join('');
     $('#langs').onclick = (e) => { const b = e.target.closest('button'); if (b) a.setLang(b.dataset.l); };
-    $('#classes').onclick = (e) => { const b = e.target.closest('button'); if (b) { this.cls = +b.dataset.c; this.renderList(); } };
+    $('#classes').onclick = (e) => { const b = e.target.closest('button'); if (b) this.setClass(+b.dataset.c); };
+    $('#cp-btns').onclick = (e) => { const b = e.target.closest('button'); if (b) this.setClass(+b.dataset.c); }; $('#cp-all').onclick = () => this.setClass(0);
+    $('#prog').onclick = (e) => { if (e.target.closest('button')) this.showPicker(true); };
+    $('#story').addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b) return; if (b.dataset.act === 'start') this.startClass(); else if (b.dataset.act === 'nextexp') this.nextExp(); });
     $('#explist').onclick = (e) => { const b = e.target.closest('button'); if (b) a.openExp(b.dataset.id); };
-    $('#b-do').onclick = () => a.primary(); $('#b-next').onclick = () => a.runner.next(); $('#b-back').onclick = () => a.runner.prev();
+    $('#b-do').onclick = () => a.primary(); $('#b-next').onclick = () => (a.runner.state === 'finished' ? this.nextExp() : a.runner.next()); $('#b-back').onclick = () => a.runner.prev();
     $('#b-auto').onclick = () => (a.runner.auto ? a.runner.pause() : a.runner.play()); $('#b-reset').onclick = () => a.runner.reset();
     $('#b-speed').onclick = () => a.cycleSpeed(); $('#b-nb').onclick = () => { this.nbOpen = !this.nbOpen; document.body.classList.toggle('nb-open', this.nbOpen); this.renderNotebook(); };
     $('#b-voice').onclick = () => a.toggleVoice(); $('#b-menu').onclick = () => document.body.classList.toggle('list-open');
@@ -36,7 +41,23 @@ export class UI {
     this.renderAll();
   }
   toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => t.classList.remove('show'), 2600); }
-  renderAll() { this.renderTop(); this.renderList(); this.renderStory(); this.renderNotebook(); this.dirty = true; }
+  renderAll() { this.renderTop(); this.renderPicker(); this.renderList(); this.renderStory(); this.renderNotebook(); this.dirty = true; }
+  // ------------------------------------------------------------ class-wise flow: pick your class, do its experiments in book order
+  showPicker(on) { document.body.classList.toggle('pick', on); if (on) this.renderPicker(); }
+  setClass(c) { this.cls = c; store.set('cls', String(c)); this.page = 0; this.showPicker(false); this.renderList(); this.renderStory(); this.dirty = true; }
+  markDone(id) { if (this.done.has(id)) return; this.done.add(id); store.set('done', [...this.done].join(',')); this.renderList(); }
+  classLeft(c) { return classOrder(c).filter((e) => !this.done.has(e.id)); }
+  startClass() { const o = classOrder(this.cls); const e = this.classLeft(this.cls)[0] || o[0]; if (e) this.app.openExp(e.id); }
+  nextExp() {
+    const a = this.app, cur = a.runner.exp; const c = this.cls || (cur && cur.cls) || 0; const o = classOrder(c); const i = cur ? o.indexOf(cur) : -1;
+    const nx = o.slice(i + 1).find((e) => !this.done.has(e.id)) || o.find((e) => !this.done.has(e.id) && e !== cur) || o[i + 1];
+    if (nx) a.openExp(nx.id); else this.toast(this.fill('classDone', c));
+  }
+  fill(k, c, n) { return this.t(k).replace('{c}', c).replace('{n}', n ?? ''); }
+  renderPicker() {
+    $('#cp-h').textContent = this.t('pickClass'); $('#cp-sub').textContent = this.t('pickClassSub'); $('#cp-all').textContent = this.t('allClasses');
+    $('#cp-btns').innerHTML = CLASSES.map((c) => { const n = classOrder(c).length, d = n - this.classLeft(c).length; return `<button data-c="${c}">${c}<small>${esc(this.t('cls'))} ${c} · ${d ? `${d}/${n} ✓` : `${n}`}</small></button>`; }).join('');
+  }
   renderTop() {
     const L = this.L(); document.documentElement.lang = L === 'hi' ? 'hi' : 'en';
     $('#title').textContent = this.t('appTitle');
@@ -46,18 +67,20 @@ export class UI {
     $('#xr-btn').textContent = this.t('enterVR');
   }
   renderList() {
-    const L = this.L(); const cs = [0, 6, 7, 8, 9, 10];
-    $('#classes').innerHTML = cs.map((c) => `<button data-c="${c}" class="${c === this.cls ? 'on' : ''}">${c ? c : this.t('all')}</button>`).join('');
-    $('#list-h').textContent = this.t('experiments');
-    const cur = this.app.runner.exp?.id;
-    const list = EXPERIMENTS.filter((e) => !this.cls || e.cls === this.cls || (e.also && e.also.includes(this.cls)));
-    $('#explist').innerHTML = list.map((e) => `<button data-id="${e.id}" class="ebtn ${e.id === cur ? 'on' : ''}"><span class="cl">${e.cls}</span><span>${esc(this.app.expText(e, 'title'))}<small>${esc(this.app.expText(e, 'kind'))}</small></span></button>`).join('')
+    const cs = [0, ...CLASSES]; const c = this.cls;
+    $('#classes').innerHTML = cs.map((k) => `<button data-c="${k}" class="${k === c ? 'on' : ''}">${k ? k : this.t('all')}</button>`).join('');
+    $('#list-h').textContent = c ? `${this.t('cls')} ${c} · ${this.t('chemistry')}` : this.t('experiments');
+    const cur = this.app.runner.exp?.id; const order = classOrder(c); const d = order.filter((e) => this.done.has(e.id)).length;
+    $('#prog').innerHTML = `<span>${d}/${order.length} ${esc(this.t('doneW'))}</span><span class="bar"><i style="width:${order.length ? Math.round((100 * d) / order.length) : 0}%"></i></span><button>${esc(this.t('changeClass'))}</button>`;
+    const btn = (e) => `<button data-id="${e.id}" class="ebtn ${e.id === cur ? 'on' : ''}"><span class="cl ${this.done.has(e.id) ? 'ok' : ''}">${this.done.has(e.id) ? '✓' : e.cls}</span><span>${esc(this.app.expText(e, 'title'))}<small>${esc(this.app.expText(e, 'kind'))}</small></span></button>`;
+    $('#explist').innerHTML = (c ? classGroups(c).map((g) => `<h5 class="chh">${esc(g.key ? this.app.expText(g.items[0], 'ch') : this.t('otherClasses'))}</h5>${g.items.map(btn).join('')}`).join('') : order.map(btn).join(''))
       || `<p class="empty">${esc(this.t('soon'))}</p>`;
+    this.dirty = true;
   }
   renderStory() {
     const r = this.app.runner, L = this.L(), e = r.exp;
     const card = $('#story');
-    if (!e) { card.classList.add('intro'); $('#s-kicker').textContent = 'DUET STEM'; $('#s-title').textContent = this.t('appTitle') + ' · ' + this.t('chemistry'); $('#s-text').innerHTML = `<p>${esc(this.t('welcome'))}</p>`; $('#s-buttons').style.display = 'none'; $('#s-dots').innerHTML = ''; return; }
+    if (!e) { card.classList.add('intro'); $('#s-kicker').textContent = 'DUET STEM'; $('#s-title').textContent = this.t('appTitle') + ' · ' + this.t('chemistry') + (this.cls ? ` · ${this.t('cls')} ${this.cls}` : ''); $('#s-text').innerHTML = this.cls ? `<p>${esc(this.fill('classWelcome', this.cls, classOrder(this.cls).length))}</p><button class="cbtn primary" data-act="start">▶ ${esc(this.t('startW'))}</button>` : `<p>${esc(this.t('welcome'))}</p>`; $('#s-buttons').style.display = 'none'; $('#s-dots').innerHTML = ''; return; }
     card.classList.remove('intro'); $('#s-buttons').style.display = '';
     const s = r.step(); const n = e.steps.length;
     $('#s-kicker').textContent = `${this.t('cls')} ${e.cls} · ${this.app.expText(e, 'ch')}`;
@@ -65,6 +88,7 @@ export class UI {
     let h = '';
     if (r.state === 'finished') {
       h = `<p class="fin">✓ ${esc(this.t('finished'))}</p>${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p><p class="eq">${esc(e.eq.sym)}</p>`;
+      const c = this.cls || e.cls; if (!this.classLeft(c).length) h += `<p class="fin">🎉 ${esc(this.fill('classDone', c))}</p>`;
     } else if (s) {
       h = `<p class="stepn">${esc(this.t('step'))} ${r.i + 1} ${esc(this.t('of'))} ${n}</p><p><b>${esc(this.t('doLabel'))}:</b> ${esc(r.text(`steps.${r.i}.do`, L))}</p>`;
       if (r.state === 'done' || r.state === 'finished') {
@@ -78,7 +102,7 @@ export class UI {
     const inside = r.state === 'finished' && this.app.hasParticles(e.id); const pv = this.app.particles && this.app.particles.g.visible;
     $('#b-do').textContent = inside ? (pv ? '✕ ' + this.t('closeView') : '🔬 ' + this.t('inside')) : r.state === 'done' ? this.t('next') + ' ›' : '▶ ' + this.t('doIt');
     $('#b-do').disabled = r.state === 'doing' || (r.state === 'finished' && !inside);
-    $('#b-next').textContent = this.t('next') + ' ›'; $('#b-back').textContent = '‹ ' + this.t('back');
+    $('#b-next').textContent = (r.state === 'finished' ? this.t('nextExp') : this.t('next')) + ' ›'; $('#b-next').classList.toggle('primary', r.state === 'finished' && !inside); $('#b-back').textContent = '‹ ' + this.t('back');
     $('#b-auto').textContent = r.auto ? '❚❚ ' + this.t('pause') : '▶▶ ' + this.t('autoplay'); $('#b-auto').classList.toggle('on', r.auto);
     $('#b-reset').textContent = '↺'; $('#b-reset').title = this.t('reset'); $('#b-speed').textContent = `${this.app.speed}×`; $('#b-speed').title = this.t('speed'); $('#b-nb').textContent = '📒 ' + this.t('notebook');
     $('#s-dots').innerHTML = e.steps.map((_, i) => `<i class="${i < r.i || r.done.has(i) ? 'on' : ''} ${i === r.i ? 'cur' : ''}"></i>`).join('');
@@ -109,10 +133,10 @@ export class UI {
   drawVR() {
     const a = this.app, r = a.runner, L = this.L();
     // menu
-    const P = this.menu; P.bg('#f0a65a'); P.logo(40, 34, 40); P.text(this.t('appTitle') + ' · ' + this.t('chemistry'), 40, 92, 40, '#f3eee6', 700);
+    const P = this.menu; P.bg('#f0a65a'); P.logo(40, 34, 40); P.text(this.t('appTitle') + ' · ' + this.t('chemistry') + (this.cls ? ` · ${this.t('cls')} ${this.cls}` : ''), 40, 92, 40, '#f3eee6', 700);
     const cs = [0, 6, 7, 8, 9, 10]; cs.forEach((c, i) => P.btn('cls_' + c, 40 + i * 152, 160, 140, 70, c ? `${c}` : this.t('all'), { size: 30, align: 'center', active: this.cls === c }));
-    const list = EXPERIMENTS.filter((e) => !this.cls || e.cls === this.cls || (e.also && e.also.includes(this.cls))); const per = 8; const pages = Math.max(1, Math.ceil(list.length / per)); this.page = Math.min(this.page, pages - 1);
-    list.slice(this.page * per, this.page * per + per).forEach((e, i) => P.btn('exp_' + e.id, 40, 256 + i * 112, 920, 100, `${e.cls} · ${a.expText(e, 'title')}`, { size: 30, active: r.exp?.id === e.id }));
+    const list = classOrder(this.cls); const per = 8; const dn = list.filter((e) => this.done.has(e.id)).length; P.text(`${dn}/${list.length} ${this.t('doneW')}`, 760, 92, 30, '#9fd17a', 700); const pages = Math.max(1, Math.ceil(list.length / per)); this.page = Math.min(this.page, pages - 1);
+    list.slice(this.page * per, this.page * per + per).forEach((e, i) => P.btn('exp_' + e.id, 40, 256 + i * 112, 920, 100, `${this.done.has(e.id) ? '✓' : e.cls} · ${a.expText(e, 'title')}`, { size: 30, active: r.exp?.id === e.id }));
     if (pages > 1) { P.btn('pg_prev', 40, 1160, 300, 80, '‹', { size: 40, align: 'center' }); P.text(`${this.page + 1} / ${pages}`, 440, 1178, 34, '#a49d90', 600); P.btn('pg_next', 660, 1160, 300, 80, '›', { size: 40, align: 'center' }); }
     LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, 1270, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
     P.btn('voice', 748, 1270, 212, 84, (a.audio.voice ? '🔊 ' : '🔇 ') + this.t('voice'), { size: 26, align: 'center' });
@@ -120,7 +144,7 @@ export class UI {
     // story
     const S = this.story; S.bg('#7fd1ff'); S.logo(40, 34, 40);
     const e = r.exp; const X = S.x;
-    if (!e) { S.text(this.t('pickExp'), 40, 110, 46, '#f3eee6', 700); X.font = `500 32px ${FONT}`; wrap(X, this.t('welcome'), 1000).forEach((l, i) => S.text(l, 40, 190 + i * 46, 32, '#e2dccf', 500)); S.commit(); return; }
+    if (!e) { S.text(this.t('pickExp'), 40, 110, 46, '#f3eee6', 700); X.font = `500 32px ${FONT}`; const wl = wrap(X, this.cls ? this.fill('classWelcome', this.cls, classOrder(this.cls).length) : this.t('welcome'), 1000); wl.forEach((l, i) => S.text(l, 40, 190 + i * 46, 32, '#e2dccf', 500)); if (this.cls) S.btn('start', 40, 220 + wl.length * 46, 400, 90, '▶ ' + this.t('startW'), { size: 34, align: 'center', primary: true }); S.commit(); return; }
     S.text(`${this.t('cls')} ${e.cls} · ${a.expText(e, 'kind')}`, 40, 96, 28, '#7fd1ff', 700);
     X.font = `700 44px ${FONT}`; const tl = wrap(X, a.expText(e, 'title'), 1020).slice(0, 2); tl.forEach((l, i) => S.text(l, 40, 140 + i * 54, 44, '#f3eee6', 700));
     let y = 150 + tl.length * 54 + 10; const s = r.step();
@@ -137,7 +161,7 @@ export class UI {
     S.btn('back', 40, by, 250, 90, '‹ ' + this.t('back'), { size: 30, align: 'center' });
     const inside = r.state === 'finished' && a.hasParticles(e.id); const pv = a.particles && a.particles.g.visible;
     S.btn('do', 305, by, 490, 90, inside ? (pv ? '✕ ' + this.t('closeView') : '🔬 ' + this.t('inside')) : r.state === 'done' ? this.t('next') + ' ›' : r.state === 'doing' ? this.t('doing') : '▶ ' + this.t('doIt'), { size: 34, align: 'center', primary: true });
-    S.btn('next', 810, by, 250, 90, this.t('next') + ' ›', { size: 30, align: 'center' });
+    S.btn('next', 810, by, 250, 90, (r.state === 'finished' ? this.t('nextExp') : this.t('next')) + ' ›', { size: r.state === 'finished' ? 24 : 30, align: 'center', primary: r.state === 'finished' && !inside });
     S.btn('auto', 40, by + 110, 330, 80, r.auto ? '❚❚ ' + this.t('pause') : '▶▶ ' + this.t('autoplay'), { size: 28, align: 'center', active: r.auto });
     S.btn('speed', 385, by + 110, 280, 80, `${this.t('speed')} ${a.speed}×`, { size: 28, align: 'center' });
     S.btn('reset', 680, by + 110, 380, 80, '↺ ' + this.t('reset'), { size: 28, align: 'center' });
@@ -145,11 +169,12 @@ export class UI {
   }
   vrClick(id) {
     const a = this.app, r = a.runner;
-    if (id.startsWith('cls_')) { this.cls = +id.slice(4); this.page = 0; }
+    if (id.startsWith('cls_')) { this.setClass(+id.slice(4)); }
+    else if (id === 'start') this.startClass();
     else if (id.startsWith('exp_')) a.openExp(id.slice(4));
     else if (id === 'pg_prev') this.page = Math.max(0, this.page - 1); else if (id === 'pg_next') this.page++;
     else if (id.startsWith('lang_')) a.setLang(id.slice(5)); else if (id === 'voice') a.toggleVoice();
-    else if (id === 'do') a.primary(); else if (id === 'next') r.next(); else if (id === 'back') r.prev();
+    else if (id === 'do') a.primary(); else if (id === 'next') (r.state === 'finished' ? this.nextExp() : r.next()); else if (id === 'back') r.prev();
     else if (id === 'auto') (r.auto ? r.pause() : r.play()); else if (id === 'speed') a.cycleSpeed(); else if (id === 'reset') r.reset();
     this.dirty = true;
   }

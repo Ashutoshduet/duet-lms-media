@@ -68,7 +68,9 @@ export class App {
     await Promise.all([loadModels((k) => { if (bar) { bar.style.animation = 'none'; bar.style.width = Math.round(k * 100) + '%'; bar.style.transform = 'none'; } }), loadLabHDR(this.renderer, this.scene)]);
     furnish(this.roomInfo.room, this.roomInfo);
     const first = Q.get('exp');
+    if (Q.get('cls')) this.ui.setClass(+Q.get('cls') || 0);
     if (first && BY_ID[first]) this.openExp(first, { auto: Q.has('auto') });
+    else if (!Q.has('test') && !Q.get('cls') && !store.get('cls')) this.ui.showPicker(true); // first visit: which class are you in?
     requestAnimationFrame(() => requestAnimationFrame(() => { document.body.classList.add('ready'); document.title = Q.has('test') ? 'READY' : document.title; }));
   }
   // ------------------------------------------------------------ text helpers
@@ -139,6 +141,7 @@ export class App {
     this.ui.dirty = true;
   }
   onFinished(r) {
+    this.ui.markDone(r.exp.id); this.ui.renderStory();
     const L = this.voiceLang(); this.narrate([tx(T.finished, L) + '.', r.text('result.concl', L)], true); this.ui.toast('✓ ' + tx(T.finished, this.lang));
     if (this._wasAuto && HAS_PARTICLES(r.exp.id)) { const id = r.exp.id; this.waitNarration().then(() => { if (r.exp && r.exp.id === id && r.state === 'finished' && !this.particles.g.visible) this.particles.play(r.exp); }); }
   }

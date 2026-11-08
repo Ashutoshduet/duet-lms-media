@@ -325,3 +325,13 @@ export const EXPERIMENTS = [
 EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4);
 EXPERIMENTS.sort((a, b) => a.cls - b.cls); // stable: keeps the book order inside each class
 export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));
+// a class's experiments in book order: chapter by chapter (older-NCERT chapters after the current book), then any from other classes
+const chNum = (e) => { const m = /^Ch (\d+)/.exec(e.ch.en); return m ? +m[1] : 100; };
+export function classGroups(cls) {
+  const own = EXPERIMENTS.filter((e) => e.cls === cls).map((e, i) => ({ e, i, n: chNum(e), c: e.ch.en }));
+  own.sort((a, b) => a.n - b.n || (a.c < b.c ? -1 : a.c > b.c ? 1 : 0) || a.i - b.i);
+  const groups = []; for (const o of own) { const g = groups[groups.length - 1]; if (g && g.key === o.c) g.items.push(o.e); else groups.push({ key: o.c, items: [o.e] }); }
+  const also = EXPERIMENTS.filter((e) => e.cls !== cls && e.also && e.also.includes(cls)); if (also.length) groups.push({ key: null, items: also });
+  return groups;
+}
+export const classOrder = (cls) => (cls ? classGroups(cls).flatMap((g) => g.items) : EXPERIMENTS);
