@@ -30,6 +30,11 @@ const SP = {
   C: { a: [['C', 0, 0]], l: 'C' }, NH3: { a: [['N', 0, 0], ['H', -s, s * 0.5], ['H', s, s * 0.5], ['H', 0, -s]], l: 'NH₃' }, HCl: { a: [['H', -s * 0.5, 0], ['Cl', s * 0.5, 0]], l: 'HCl' },
   NH4Cl: { a: [['N', -s * 0.7, 0], ['Cl', s * 0.8, 0], ['H', -s * 1.5, s * 0.6]], l: 'NH₄Cl' }, sand: { a: [['X', 0, 0]], l: '', big: 3.2, col: '#c2a878' },
   milk: { a: [['X', 0, 0]], l: '', big: 2.2, col: '#f4f1e8' }, dye: { a: [['X', 0, 0]], l: '' }, ind: { a: [['X', 0, 0]], l: '', big: 1.3 },
+  S: { a: [['S', 0, 0]], l: 'S' }, H2SO3: { a: [['S', 0, 0], ['O', -s * 1.2, s * 0.5], ['O', s * 1.2, s * 0.5], ['O', 0, -s * 1.2], ['H', -s * 2, s * 1.1], ['H', s * 2, s * 1.1]], l: 'H₂SO₃' },
+  wax: { a: [['C', -s * 2, 0], ['C', -s, s * 0.5], ['C', 0, 0], ['C', s, s * 0.5], ['C', s * 2, 0], ['H', -s * 2.6, s * 0.8], ['H', s * 2.6, s * 0.8], ['H', 0, -s * 0.9]], l: 'wax' },
+  paper: { a: [['C', -s, 0], ['O', 0, s * 0.7], ['C', s, 0], ['C', 0, -s * 0.7], ['H', -s * 1.8, s * 0.4], ['O', s * 1.9, s * 0.3]], l: 'cellulose' },
+  mud: { a: [['X', 0, 0]], l: '', big: 3.6, col: '#7a5a35' }, clay: { a: [['X', 0, 0]], l: '', big: 1.3, col: '#a07f55' }, 'Al3+': { a: [['Al', 0, 0]], l: 'Al³⁺' },
+  cit: { a: [['C', -s, 0], ['C', 0, s * 0.6], ['C', s, 0], ['O', -s * 1.8, s * 0.5], ['O', s * 1.8, s * 0.5], ['O', 0, -s * 0.9]], l: 'citrate' },
   CH3COO: { a: [['C', -s * 0.6, 0], ['C', s * 0.6, 0], ['O', s * 1.4, s * 0.8], ['O', s * 1.4, -s * 0.8]], l: 'CH₃COO⁻' }, 'HCO3-': { a: [['C', 0, 0], ['O', 0, s * 1.2], ['O', -s, -s * 0.7], ['O', s, -s * 0.7], ['H', s * 1.8, -s * 1.1]], l: 'HCO₃⁻' },
 };
 const C3 = (h) => new THREE.Color(h);
@@ -440,5 +445,136 @@ SCRIPTS.rusting = async (V) => {
   const top = fe.slice(9);
   for (let k = 0; k < 6; k++) { const m = top[k + 1]; const o = V.nearestFree(o2, m.g.position), w = V.nearestFree(ws, m.g.position); if (!o || !w) break; o.mode = 'held'; w.mode = 'held'; o.go(m.g.position.x - 0.01, m.g.position.y + 0.022, 0.1); w.go(m.g.position.x + 0.012, m.g.position.y + 0.024, 0.1); await W2(V, 1.3); V.remove(o); V.remove(w); m.recolor('#8a3f1c'); if (k === 2) m.labelIt(tx(N('rust', 'जंग', 'rust'), V.L())); }
   V.caption(L3('The brown, flaky product is rust (hydrated iron oxide, Fe₂O₃·xH₂O). Without air (boiled water + oil) or without water (dry air), it cannot form.', 'भूरा, परतदार उत्पाद जंग है (जलयुक्त आयरन ऑक्साइड Fe₂O₃·xH₂O)। हवा के बिना (उबला पानी + तेल) या पानी के बिना (सूखी हवा) यह नहीं बन सकता।', 'Brown, flaky product rust hai (hydrated iron oxide Fe₂O₃·xH₂O). Hawa ke bina (boiled water + oil) ya paani ke bina (dry air) ye nahi ban sakta.')); await W2(V, 7);
+};
+
+// ======================================================================================== batch 3 (Class 6–8)
+const wall = (V, x, w, h, col, y = 0) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: 0.85 })); m.position.set(x, y, -0.01); V.box.add(m); V.extra.push(m); return m; };
+SCRIPTS.evaporation = async (V) => {
+  V.walls = { x0: -BX, x1: BX, y0: -BY, y1: -0.04 }; const w = V.spawn('H2O', 18, -BX, BX, -BY, -0.05, { label: true }); wall(V, 0, 2 * BX, 0.002, '#7fb2e0', -0.04);
+  V.caption(L3('Water molecules in the liquid keep moving. Some at the surface move fast enough to escape into the air.', 'द्रव में पानी के अणु लगातार गति करते रहते हैं। सतह पर कुछ अणु इतनी तेज़ी से चलते हैं कि हवा में निकल जाते हैं।', 'Liquid mein paani ke molecules hamesha move karte rehte hain. Surface par kuch itni tezi se chalte hain ki hawa mein nikal jaate hain.'));
+  for (let k = 0; k < 3; k++) { const p = w[k]; p.mode = 'rise'; p.riseV = 0.04; await W2(V, 1.6); }
+  V.caption(L3('In sunlight the molecules get more energy and move faster, so many more escape: the water evaporates faster. A wider surface lets more escape at the same time.', 'धूप में अणुओं को अधिक ऊर्जा मिलती है और वे तेज़ चलते हैं, इसलिए बहुत अधिक अणु निकल जाते हैं: पानी जल्दी वाष्पित होता है। चौड़ी सतह से एक साथ अधिक अणु निकलते हैं।', 'Dhoop mein molecules ko zyada energy milti hai aur woh tez chalte hain, isliye bahut zyada nikal jaate hain: paani jaldi evaporate hota hai. Chaudi surface se ek saath zyada molecules nikalte hain.'));
+  V.heat(0.7); V.temp = 2.4; for (let k = 3; k < 12; k++) { const p = w[k]; p.mode = 'rise'; p.riseV = 0.07; await W2(V, 0.6); }
+  await W2(V, 5);
+};
+SCRIPTS.condensation = async (V) => {
+  const cold = wall(V, BX - 0.01, 0.02, 2 * BY, '#9fd0ff'); void cold;
+  const vap = V.spawn('H2O', 12, -BX, BX - 0.06, -BY, BY, { label: true, tempK: 1.6 });
+  V.caption(L3('Air contains water vapour: single water molecules flying about. On the right is the cold glass.', 'हवा में जलवाष्प होती है: पानी के अकेले अणु इधर-उधर उड़ते रहते हैं। दाईं ओर ठंडा गिलास है।', 'Hawa mein water vapour hoti hai: paani ke akele molecules idhar-udhar udte rehte hain. Right side mein thanda glass hai.')); await W2(V, 4.5);
+  V.caption(L3('When a molecule hits the cold glass it loses energy and slows down. Slow molecules stick together and form a tiny liquid drop.', 'जब कोई अणु ठंडे गिलास से टकराता है तो उसकी ऊर्जा कम हो जाती है और वह धीमा हो जाता है। धीमे अणु आपस में चिपककर पानी की छोटी बूँद बनाते हैं।', 'Jab koi molecule thande glass se takrata hai to uski energy kam ho jaati hai aur woh slow ho jaata hai. Slow molecules aapas mein chipak kar paani ki chhoti boond banate hain.'));
+  for (let k = 0; k < vap.length; k++) { const p = vap[k]; p.mode = 'held'; p.labelIt(null); p.go(BX - 0.035 - (k % 3) * 0.016, -0.06 + Math.floor(k / 3) * 0.022 - (k % 2) * 0.008, 0.1); await W2(V, 0.45); }
+  await W2(V, 2); V.caption(L3('This is condensation: water vapour turning back into liquid water on a cold surface.', 'यही संघनन है: ठंडी सतह पर जलवाष्प का फिर से द्रव पानी बन जाना।', 'Yahi condensation hai: thandi surface par water vapour ka phir se liquid paani ban jaana.')); await W2(V, 6);
+};
+SCRIPTS.sedimentation = async (V) => {
+  V.spawn('H2O', 10, -BX, BX, -BY, BY, {}); const mud = V.spawn('mud', 5, -BX, BX, -0.05, BY, {}); const clay = V.spawn('clay', 16, -BX, BX, -BY, BY, {});
+  V.caption(L3('Muddy water: big heavy mud and sand grains (brown) and very small clay particles (light brown) among the water molecules.', 'मटमैला पानी: पानी के अणुओं के बीच बड़े भारी मिट्टी और रेत के कण (भूरे) और बहुत छोटे चिकनी मिट्टी के कण (हल्के भूरे)।', 'Muddy paani: paani ke molecules ke beech bade bhaari mitti aur ret ke kan (brown) aur bahut chhote clay particles (light brown).')); await W2(V, 4.5);
+  mud.forEach((p, i) => p.go(-0.15 + i * 0.075, -BY + 0.02, 0.08));
+  V.caption(L3('The heavy grains sink quickly and settle at the bottom: sedimentation. The tiny clay particles keep floating.', 'भारी कण जल्दी डूबकर तली पर बैठ जाते हैं: यही अवसादन है। बहुत छोटे कण तैरते रहते हैं।', 'Bhaari kan jaldi doob kar neeche baith jaate hain: yahi sedimentation hai. Chhote clay particles tairte rehte hain.')); await W2(V, 5);
+  const al = V.spawn('Al3+', 4, -BX, BX, 0.05, BY, { label: true });
+  V.caption(L3('Alum gives Al³⁺ ions. They pull the tiny clay particles together into bigger flakes, which are heavy enough to sink.', 'फिटकरी Al³⁺ आयन देती है। ये छोटे कणों को आपस में जोड़कर बड़े गुच्छे बना देते हैं, जो इतने भारी होते हैं कि डूब जाते हैं।', 'Fitkari Al³⁺ ions deti hai. Ye chhote clay particles ko jod kar bade flakes bana dete hain, jo itne bhaari hote hain ki doob jaate hain.'));
+  for (let g = 0; g < 4; g++) { const a = al[g]; a.mode = 'held'; const cx = -0.15 + g * 0.1; a.go(cx, 0.02, 0.1); for (let k = 0; k < 4; k++) { const c = clay[g * 4 + k]; if (!c) continue; c.mode = 'held'; c.go(cx + (k % 2 ? 0.012 : -0.012), 0.02 + (k > 1 ? 0.012 : -0.012), 0.1); } }
+  await W2(V, 2.5); for (let g = 0; g < 4; g++) { const cx = -0.15 + g * 0.1; [al[g], ...clay.slice(g * 4, g * 4 + 4)].forEach((p, k) => p && p.go(cx + (k % 3 - 1) * 0.012, -BY + 0.045 + (k > 2 ? 0.012 : 0), 0.06)); }
+  await W2(V, 5);
+};
+SCRIPTS.filtration = async (V) => {
+  for (let i = 0; i < 9; i++) wall(V, -BX + 0.03 + i * 0.05, 0.034, 0.012, '#d9d6cc', 0); // filter paper with tiny pores between its fibres
+  V.walls = { x0: -BX, x1: BX, y0: 0.012, y1: BY }; const w = V.spawn('H2O', 12, -BX, BX, 0.02, BY, { label: true }); const mud = V.spawn('mud', 5, -BX, BX, 0.05, BY, {}); V.spawn('clay', 8, -BX, BX, 0.03, BY, {});
+  V.caption(L3('The filter paper is a mat of fibres with tiny holes (pores) between them.', 'फ़िल्टर पेपर रेशों की एक चटाई जैसा है, जिनके बीच बहुत छोटे छेद होते हैं।', 'Filter paper fibres ki ek mat jaisa hai, jinke beech bahut chhote ched (pores) hote hain.')); await W2(V, 4.5);
+  V.caption(L3('Water molecules are tiny and pass through the pores into the flask: the clear filtrate. The mud particles are too big and stay on top: the residue.', 'पानी के अणु बहुत छोटे होते हैं और छेदों से निकलकर फ़्लास्क में चले जाते हैं: यही साफ़ निस्यंद है। मिट्टी के कण बहुत बड़े हैं, इसलिए ऊपर रह जाते हैं: यही अवशेष है।', 'Paani ke molecules bahut chhote hote hain aur pores se nikal kar flask mein chale jaate hain: yahi clear filtrate hai. Mud particles bahut bade hain aur upar reh jaate hain: yahi residue hai.'));
+  for (let k = 0; k < w.length; k++) { const p = w[k]; p.mode = 'held'; const gx = -BX + 0.055 + (k % 8) * 0.05; p.go(gx, 0.03, 0.12); p.onArrive = () => { p.go(gx, -0.09 - (k % 3) * 0.03, 0.08); p.after = 'fixed'; }; await W2(V, 0.4); }
+  mud.forEach((p, i) => p.go(-0.15 + i * 0.075, 0.035, 0.06)); await W2(V, 6);
+};
+SCRIPTS.magnet_sep = async (V) => {
+  const bar = wall(V, 0, 0.3, 0.03, '#c62f2f', BY - 0.005); void bar; const fe = V.spawn('Fe', 10, -BX, BX, -BY, -0.02, { label: true }); V.spawn('sand', 6, -BX, BX, -BY, -0.02, {});
+  V.caption(L3('Iron filings are made of iron atoms; sand is silicon dioxide. A magnet is held above them.', 'लोहे का बुरादा लोहे के परमाणुओं से बना है; रेत सिलिकॉन डाइऑक्साइड है। ऊपर चुंबक रखा है।', 'Iron filings iron atoms se bane hain; ret silicon dioxide hai. Upar magnet rakha hai.')); await W2(V, 4.5);
+  V.caption(L3('The magnet pulls on iron but not on sand. The iron bits fly up and cling to it; the sand grains stay where they are.', 'चुंबक लोहे को खींचता है, रेत को नहीं। लोहे के टुकड़े उड़कर उससे चिपक जाते हैं; रेत के कण वहीं रहते हैं।', 'Magnet iron ko kheenchta hai, ret ko nahi. Iron ke tukde ud kar usse chipak jaate hain; ret ke kan wahin rehte hain.'));
+  fe.forEach((p, i) => { p.mode = 'held'; p.go(-0.13 + i * 0.028, BY - 0.03, 0.14); }); await W2(V, 6);
+};
+const roseCap = indCap(N('red rose', 'लाल गुलाब', 'lal gulab'), N('red-pink', 'लाल-गुलाबी', 'red-pink'), N('green', 'हरा', 'green'));
+SCRIPTS.rose = indicator('#d62d5a', '#4f8a2e', ...roseCap);
+SCRIPTS.litmus_home = indicator('#d23a3a', '#3f6fd1', ...indCap(N('litmus', 'लिटमस', 'litmus'), N('red', 'लाल', 'red'), N('blue', 'नीला', 'blue')));
+SCRIPTS.lemon_lime = async (V) => {
+  const h = V.spawn('H+', 8, -BX, BX, -BY, BY, { label: true }); V.spawn('cit', 3, -BX, BX, -BY, BY, { label: true }); const ind = V.spawn('ind', 4, -BX, BX, -BY, BY, { col: '#d23a3a' });
+  V.caption(L3('Lemon juice contains citric acid: it gives H⁺ ions, so the litmus molecules are red.', 'नींबू के रस में सिट्रिक अम्ल होता है: वह H⁺ आयन देता है, इसलिए लिटमस के अणु लाल हैं।', 'Nimbu ke ras mein citric acid hota hai: woh H⁺ ions deta hai, isliye litmus molecules laal hain.')); await W2(V, 4.5);
+  V.caption(L3('Each drop of lime water brings Ca²⁺ and OH⁻ ions. An OH⁻ joins an H⁺ to make a water molecule.', 'चूने के पानी की हर बूँद Ca²⁺ और OH⁻ आयन लाती है। एक OH⁻ एक H⁺ से मिलकर पानी का अणु बनाता है।', 'Lime water ki har boond Ca²⁺ aur OH⁻ ions laati hai. Ek OH⁻ ek H⁺ se milkar paani ka molecule banata hai.'));
+  for (let k = 0; k < h.length; k++) { const o = V.add('OH-', rnd(-0.1, 0.1), BY, { label: k === 0 }); if (k % 2 === 0) V.add('Ca2+', rnd(-0.1, 0.1), BY, { label: k === 0 }); const t = h[k]; t.mode = 'held'; o.mode = 'held'; o.go(t.g.position.x, t.g.position.y, 0.16); await W2(V, 0.9); const p = t.g.position.clone(); V.remove(o); V.remove(t); V.add('H2O', p.x, p.y, { label: k === 0 }); }
+  const extra = V.add('OH-', 0, BY, { label: true }); void extra; ind.forEach((i) => i.recolor('#3f6fd1'));
+  V.caption(L3('When all H⁺ is used up the acid is neutralised; the next OH⁻ makes it slightly basic and the litmus turns blue. Acid + base → salt + water.', 'जब सारे H⁺ खत्म हो जाते हैं तो अम्ल उदासीन हो जाता है; अगला OH⁻ इसे थोड़ा क्षारकीय बना देता है और लिटमस नीला हो जाता है। अम्ल + क्षारक → लवण + पानी।', 'Jab saare H⁺ khatam ho jaate hain to acid neutralise ho jaata hai; agla OH⁻ ise thoda basic bana deta hai aur litmus blue ho jaata hai. Acid + base → salt + paani.')); await W2(V, 7);
+};
+SCRIPTS.sulphur_burn = async (V) => {
+  const S = []; for (let i = 0; i < 6; i++) S.push(V.add('S', -0.12 + (i % 3) * 0.05, -BY + 0.02 + Math.floor(i / 3) * 0.03, { mode: 'fixed', label: i === 4 }));
+  const o2 = V.spawn('O2', 6, -BX, BX, 0.0, BY, { label: true });
+  V.caption(L3('Sulphur atoms (yellow) in the spoon, and oxygen molecules (O₂) in the air.', 'चम्मच में सल्फर के परमाणु (पीले), और हवा में ऑक्सीजन के अणु (O₂)।', 'Spoon mein sulphur atoms (yellow), aur hawa mein oxygen molecules (O₂).')); await W2(V, 4.5);
+  V.heat(0.6); V.caption(L3('In the flame each sulphur atom joins one O₂ molecule: sulphur dioxide (SO₂), a gas.', 'ज्वाला में हर सल्फर परमाणु एक O₂ अणु से जुड़ता है: सल्फर डाइऑक्साइड (SO₂) गैस बनती है।', 'Flame mein har sulphur atom ek O₂ molecule se judta hai: sulphur dioxide (SO₂) gas banti hai.'));
+  const gas = []; for (let k = 0; k < 6; k++) { const a = S[k], b = o2[k]; b.mode = 'held'; b.labelIt(null); b.go(a.g.position.x, a.g.position.y + 0.02, 0.14); await W2(V, 0.8); const p = a.g.position.clone(); a.labelIt(null); V.remove(a); V.remove(b); const g = V.add('SO2', p.x, p.y + 0.01, { label: k === 0 }); g.vel.set(rnd(-0.02, 0.02), 0.03, 0); gas.push(g); }
+  V.heat(0); await W2(V, 1.5); V.spawn('H2O', 6, -BX, BX, -BY, -0.05, { label: true });
+  V.caption(L3('With water, SO₂ forms sulphurous acid (H₂SO₃), which gives H⁺ ions: the solution is acidic and turns blue litmus red.', 'पानी के साथ SO₂ सल्फ्यूरस अम्ल (H₂SO₃) बनाती है, जो H⁺ आयन देता है: विलयन अम्लीय है और नीले लिटमस को लाल कर देता है।', 'Paani ke saath SO₂ sulphurous acid (H₂SO₃) banati hai, jo H⁺ ions deta hai: solution acidic hai aur blue litmus ko red kar deta hai.'));
+  for (let k = 0; k < 3; k++) { const g = gas[k]; const p = g.g.position.clone(); V.remove(g); const a = V.add('H2SO3', p.x, Math.min(p.y, 0), { label: k === 0 }); void a; V.add('H+', p.x + 0.02, Math.min(p.y, 0) - 0.02, { label: k === 0 }); await W2(V, 0.8); }
+  await W2(V, 6);
+};
+async function burnWax(V, o) {
+  const wax = V.spawn('wax', o.nw || 3, -0.12, 0.12, -BY, -0.06, { label: true }); const o2 = V.spawn('O2', o.no || 9, -BX, BX, -0.02, BY, { label: true });
+  V.caption(o.c1); await W2(V, 4.5); V.heat(0.9); V.caption(o.c2);
+  for (let k = 0; k < Math.min(o.no || 9, 9); k++) { const w = wax[k % wax.length]; const ox = o2[k]; if (!ox) break; ox.mode = 'held'; ox.labelIt(null); ox.go(w.g.position.x + rnd(-0.02, 0.02), w.g.position.y + 0.02, 0.15); await W2(V, 0.6); const p = ox.g.position.clone(); V.remove(ox);
+    const c = V.add('CO2', p.x, p.y + 0.01, { label: k === 0 }); c.vel.set(rnd(-0.02, 0.02), 0.03, 0); const h = V.add('H2O', p.x + 0.02, p.y + 0.01, { label: k === 0 }); h.vel.set(rnd(-0.02, 0.02), 0.03, 0); }
+  wax.forEach((w) => { w.labelIt(null); V.remove(w); });
+}
+SCRIPTS.candle_o2 = async (V) => {
+  wall(V, 0, 2 * BX + 0.01, 0.004, '#9fb8cc', BY + 0.005);
+  await burnWax(V, { no: 6, c1: L3('Inside the tumbler: wax vapour from the candle, and only a few oxygen molecules in the trapped air.', 'गिलास के अंदर: मोमबत्ती की मोम की वाष्प, और फँसी हुई हवा में ऑक्सीजन के थोड़े से अणु।', 'Tumbler ke andar: candle ki wax vapour, aur trapped hawa mein oxygen ke thode se molecules.'),
+    c2: L3('Burning: wax joins oxygen to make carbon dioxide and water. Every O₂ that is used up is not replaced.', 'जलना: मोम ऑक्सीजन से मिलकर कार्बन डाइऑक्साइड और पानी बनाती है। जो O₂ खर्च हो जाता है, उसकी जगह नई नहीं आती।', 'Jalna: wax oxygen ke saath milkar carbon dioxide aur paani banati hai. Jo O₂ use ho jaati hai, uski jagah nayi nahi aati.') });
+  V.heat(0); await W2(V, 1);
+  V.caption(L3('No oxygen is left, so the flame goes out. The water vapour becomes mist on the glass; the CO₂ turns lime water milky.', 'ऑक्सीजन नहीं बची, इसलिए लौ बुझ जाती है। जलवाष्प गिलास पर धुंध बन जाती है; CO₂ चूने के पानी को दूधिया कर देती है।', 'Oxygen nahi bachi, isliye flame bujh jaati hai. Water vapour glass par mist ban jaati hai; CO₂ lime water ko milky kar deti hai.')); await W2(V, 7);
+};
+SCRIPTS.candle_zones = async (V) => {
+  await burnWax(V, { nw: 4, no: 6, c1: L3('Near the wick the wax is only vapour: there is no oxygen there yet, so it cannot burn. This is the dark zone.', 'बत्ती के पास मोम केवल वाष्प है: वहाँ अभी ऑक्सीजन नहीं पहुँची, इसलिए वह जल नहीं सकती। यही काला क्षेत्र है।', 'Wick ke paas wax sirf vapour hai: wahan abhi oxygen nahi pahunchi, isliye woh jal nahi sakti. Yahi dark zone hai.'),
+    c2: L3('In the outer zone there is plenty of oxygen: the wax burns completely to carbon dioxide and water. This zone is the hottest.', 'बाहरी क्षेत्र में बहुत ऑक्सीजन है: मोम पूरी तरह जलकर कार्बन डाइऑक्साइड और पानी बनाती है। यह क्षेत्र सबसे गरम है।', 'Outer zone mein bahut oxygen hai: wax poori tarah jal kar carbon dioxide aur paani banati hai. Yeh zone sabse garam hai.') });
+  const c = []; for (let i = 0; i < 6; i++) c.push(V.add('C', -0.1 + i * 0.04, 0.02 + (i % 2) * 0.02, { label: i === 2, col: '#ffb43a' }));
+  V.caption(L3('In the middle zone there is not enough oxygen: some carbon is left unburnt. These hot carbon particles glow yellow and give light; on cold glass they show up as black soot.', 'बीच के क्षेत्र में ऑक्सीजन पूरी नहीं है: कुछ कार्बन बिना जले बच जाता है। ये गरम कार्बन कण पीले चमकते हैं और प्रकाश देते हैं; ठंडे काँच पर ये काली कालिख बनकर दिखते हैं।', 'Middle zone mein oxygen poori nahi hai: kuch carbon bina jale bach jaata hai. Ye garam carbon particles yellow chamakte hain aur light dete hain; thande glass par ye kaali soot ban kar dikhte hain.'));
+  await W2(V, 3); c.forEach((p) => p.recolor('#1a1a1a')); V.heat(0); await W2(V, 5);
+};
+SCRIPTS.ignition = async (V) => {
+  const wl = wall(V, 0, 0.004, 2 * BY + 0.02, '#8892a0'); void wl;
+  const pl = []; const pr = []; for (let i = 0; i < 4; i++) { pl.push(V.add('paper', -0.17 + i * 0.045, -BY + 0.02, { mode: 'fixed', label: i === 1 })); pr.push(V.add('paper', 0.05 + i * 0.045, -BY + 0.02, { mode: 'fixed' })); }
+  const w = V.spawn('H2O', 10, 0.03, BX, -BY + 0.04, 0.02, { side: 1, label: true }); const o2 = V.spawn('O2', 5, -BX, -0.03, 0, BY, { side: -1, label: true });
+  V.caption(L3('Left: the empty paper cup. Right: the cup with water. The flame heats both from below.', 'बाएँ: खाली कागज़ का कप। दाएँ: पानी वाला कप। लौ दोनों को नीचे से गरम करती है।', 'Left: khaali paper cup. Right: paani wala cup. Flame dono ko neeche se garam karti hai.')); await W2(V, 4.5);
+  V.caption(L3('In the empty cup the paper soon gets hot enough (its ignition temperature) to react with oxygen: it burns.', 'खाली कप में कागज़ जल्दी इतना गरम हो जाता है (अपने ज्वलन ताप तक) कि ऑक्सीजन से अभिक्रिया करने लगता है: वह जल उठता है।', 'Khaali cup mein paper jaldi itna garam ho jaata hai (apne ignition temperature tak) ki oxygen se react karne lagta hai: woh jal uthta hai.'));
+  pl.forEach((p) => p.recolor('#ff8a2a')); for (let k = 0; k < 4; k++) { const ox = o2[k]; ox.mode = 'held'; ox.go(pl[k].g.position.x, pl[k].g.position.y + 0.02, 0.14); await W2(V, 0.7); const p = pl[k].g.position.clone(); V.remove(ox); pl[k].labelIt(null); V.remove(pl[k]); const c = V.add('CO2', p.x, p.y + 0.02, { label: k === 0 }); c.mode = 'rise'; }
+  V.caption(L3('In the other cup the heat goes into the water molecules: they move faster and the water boils, but the paper stays below its ignition temperature and does not burn.', 'दूसरे कप में ऊष्मा पानी के अणुओं में चली जाती है: वे तेज़ चलते हैं और पानी उबलता है, पर कागज़ अपने ज्वलन ताप से नीचे रहता है और नहीं जलता।', 'Doosre cup mein heat paani ke molecules mein chali jaati hai: woh tez chalte hain aur paani ubalta hai, par paper apne ignition temperature se neeche rehta hai aur nahi jalta.'));
+  w.forEach((p) => { p.tempK = 2.5; }); for (let k = 0; k < 3; k++) { w[k].mode = 'rise'; await W2(V, 1); } await W2(V, 5);
+};
+SCRIPTS.phys_change = async (V) => {
+  const ice = []; for (let i = 0; i < 12; i++) ice.push(V.add('H2O', -0.12 + (i % 4) * 0.08, -0.08 + Math.floor(i / 4) * 0.07, { mode: 'fixed', label: i === 5 }));
+  V.caption(L3('In ice the water molecules are held in fixed places in a pattern; they can only shake.', 'बर्फ़ में पानी के अणु एक नमूने में अपनी जगहों पर बँधे रहते हैं; वे केवल काँप सकते हैं।', 'Ice mein paani ke molecules ek pattern mein apni jagah par bandhe rehte hain; woh sirf kaanp sakte hain.')); await W2(V, 4.5);
+  V.caption(L3('Heat makes them shake harder until they break free and move about: the ice melts into water. They are still the same H₂O molecules.', 'ऊष्मा से वे ज़ोर से काँपते हैं और छूटकर घूमने लगते हैं: बर्फ़ पिघलकर पानी बन जाती है। अणु फिर भी वही H₂O हैं।', 'Heat se woh zor se kaanpte hain aur chhoot kar ghoomne lagte hain: ice pighal kar paani ban jaati hai. Molecules phir bhi wahi H₂O hain.'));
+  ice.forEach((p) => { p.mode = 'free'; }); V.heat(0.4); await W2(V, 4); V.heat(0);
+  V.caption(L3('In the freezing mixture they lose energy and lock into place again: water freezes. No new substance is made, so this is a physical change.', 'हिमकारी मिश्रण में उनकी ऊर्जा कम होती है और वे फिर अपनी जगह पर बँध जाते हैं: पानी जम जाता है। कोई नया पदार्थ नहीं बनता, इसलिए यह भौतिक परिवर्तन है।', 'Freezing mixture mein unki energy kam hoti hai aur woh phir apni jagah bandh jaate hain: paani jam jaata hai. Koi naya substance nahi banta, isliye yeh physical change hai.'));
+  V.lattice(ice, 0, -0.08, 4, 0.08, 0.07); await W2(V, 6);
+};
+SCRIPTS.metal_nonmetal = async (V) => {
+  const m = []; for (let r = 0; r < 3; r++) for (let i = 0; i < 6; i++) m.push(V.add('Al', -0.19 + i * 0.03 + (r % 2) * 0.015, -0.06 + r * 0.028, { mode: 'fixed', label: r === 1 && i === 2 }));
+  const c = []; for (let i = 0; i < 9; i++) c.push(V.add('C', 0.06 + (i % 3) * 0.035, -0.06 + Math.floor(i / 3) * 0.032, { mode: 'fixed', label: i === 4 }));
+  V.caption(L3('Left: aluminium atoms in neat layers, held by a sea of free electrons. Right: carbon atoms in coal, locked to each other by strong fixed bonds.', 'बाएँ: एल्युमिनियम के परमाणु सुंदर परतों में, मुक्त इलेक्ट्रॉनों के सागर से बँधे हुए। दाएँ: कोयले में कार्बन परमाणु, मज़बूत स्थिर बंधों से एक-दूसरे से जुड़े।', 'Left: aluminium atoms neat layers mein, free electrons ke samundar se bandhe hue. Right: coal mein carbon atoms, strong fixed bonds se ek-doosre se jude.')); await W2(V, 5);
+  V.caption(L3('A hammer blow makes the metal layers slide over each other without breaking: the metal flattens (malleable). The free electrons also carry heat and electricity.', 'हथौड़े की चोट से धातु की परतें बिना टूटे एक-दूसरे पर खिसक जाती हैं: धातु चपटी हो जाती है (आघातवर्ध्य)। मुक्त इलेक्ट्रॉन ऊष्मा और विद्युत भी ले जाते हैं।', 'Hammer ki chot se metal ki layers bina toote ek-doosre par khisak jaati hain: metal flat ho jaata hai (malleable). Free electrons heat aur electricity bhi le jaate hain.'));
+  m.forEach((p, i) => p.go(-0.2 + (i % 9) * 0.022, -0.06 + Math.floor(i / 9) * 0.022, 0.05)); await W2(V, 3);
+  V.caption(L3('In coal the fixed bonds cannot slide; they snap, and the piece breaks into powder (brittle).', 'कोयले के स्थिर बंध खिसक नहीं सकते; वे टूट जाते हैं, और टुकड़ा चूर-चूर हो जाता है (भंगुर)।', 'Coal ke fixed bonds khisak nahi sakte; woh toot jaate hain, aur tukda powder ban jaata hai (brittle).'));
+  c.forEach((p) => { p.mode = 'free'; p.vel.set(rnd(0.01, 0.04), rnd(-0.03, 0.03), 0); }); await W2(V, 6);
+};
+SCRIPTS.saturated = async (V) => {
+  const xtal = []; for (let i = 0; i < 12; i++) xtal.push(V.add(i % 2 ? 'Cl-' : 'Na+', -0.1 + (i % 4) * 0.022, -BY + 0.015 + Math.floor(i / 4) * 0.022, { mode: 'fixed', label: i < 2 }));
+  V.spawn('H2O', 12, -BX, BX, -BY, BY, {});
+  V.caption(L3('Water molecules pull Na⁺ and Cl⁻ ions out of the salt crystal one by one: the salt dissolves.', 'पानी के अणु नमक के क्रिस्टल से Na⁺ और Cl⁻ आयनों को एक-एक करके बाहर खींच लेते हैं: नमक घुल जाता है।', 'Paani ke molecules salt crystal se Na⁺ aur Cl⁻ ions ko ek-ek karke bahar kheench lete hain: salt ghul jaata hai.'));
+  for (let k = 0; k < 6; k++) { xtal[11 - k].mode = 'free'; await W2(V, 0.7); }
+  V.caption(L3('When the water is full of ions, some ions go back onto the crystal as fast as others leave: no more dissolves. The solution is saturated.', 'जब पानी आयनों से भर जाता है, तो जितने आयन निकलते हैं उतने ही वापस क्रिस्टल पर लौट आते हैं: और नहीं घुलता। विलयन संतृप्त है।', 'Jab paani ions se bhar jaata hai, to jitne ions nikalte hain utne hi wapas crystal par laut aate hain: aur nahi ghulta. Solution saturated hai.')); await W2(V, 5);
+  V.heat(0.6); V.temp = 2.2; V.caption(L3('Heating makes the water molecules move faster and pull harder, so more solid can dissolve.', 'गरम करने पर पानी के अणु तेज़ चलते हैं और ज़ोर से खींचते हैं, इसलिए अधिक ठोस घुल सकता है।', 'Garam karne par paani ke molecules tez chalte hain aur zor se kheenchte hain, isliye zyada solid ghul sakta hai.'));
+  for (let k = 6; k < 12; k++) { xtal[11 - k].mode = 'free'; await W2(V, 0.6); } await W2(V, 4); V.heat(0);
+};
+SCRIPTS.limewater_air = async (V) => {
+  const cao = []; for (let i = 0; i < 4; i++) cao.push(V.add('CaO', -0.15 + i * 0.05, -BY + 0.02, { mode: 'fixed', label: i === 1 })); const w = V.spawn('H2O', 8, -BX, BX, -0.06, BY, { label: true });
+  V.caption(L3('Quick lime is calcium oxide (CaO). Water molecules attack it.', 'बिना बुझा चूना कैल्शियम ऑक्साइड (CaO) है। पानी के अणु उस पर अभिक्रिया करते हैं।', 'Quick lime calcium oxide (CaO) hai. Paani ke molecules us par react karte hain.')); await W2(V, 4);
+  V.heat(0.9); V.caption(L3('CaO + H₂O → Ca²⁺ and two OH⁻ ions (calcium hydroxide). A lot of heat is given out.', 'CaO + H₂O → Ca²⁺ और दो OH⁻ आयन (कैल्शियम हाइड्रॉक्साइड)। बहुत ऊष्मा निकलती है।', 'CaO + H₂O → Ca²⁺ aur do OH⁻ ions (calcium hydroxide). Bahut heat nikalti hai.'));
+  for (let k = 0; k < cao.length; k++) { const c = cao[k], h = w[k]; h.mode = 'held'; h.go(c.g.position.x, c.g.position.y + 0.02, 0.15); await W2(V, 0.8); const p = c.g.position.clone(); c.labelIt(null); V.remove(c); V.remove(h); V.add('Ca2+', p.x, p.y + 0.01, { label: k === 0 }); V.add('OH-', p.x - 0.02, p.y + 0.03, { label: k === 0 }); V.add('OH-', p.x + 0.02, p.y + 0.03, {}); }
+  V.heat(0); await W2(V, 1);
+  V.clear(); await co2Lime(V, { start: 'breath', c1: L3('Left open, the lime water meets carbon dioxide (CO₂) from the air.', 'खुला छोड़ने पर चूने का पानी हवा की कार्बन डाइऑक्साइड (CO₂) से मिलता है।', 'Khula chhodne par lime water hawa ki carbon dioxide (CO₂) se milta hai.'), c2: limeC2, c3: limeC3 });
 };
 export const HAS_PARTICLES = (id) => !!SCRIPTS[id];

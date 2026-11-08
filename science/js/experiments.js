@@ -3,6 +3,7 @@
 // Text is English here; Hindi and Hinglish come from exp_i18n.js.
 
 import { EXPERIMENTS2 } from './experiments2.js';
+import { EXPERIMENTS3 } from './experiments3.js';
 import { DICT } from './exp_i18n.js';
 const X = (en) => ({ en, ...(DICT[en] || {}) });
 
@@ -320,6 +321,6 @@ export const EXPERIMENTS = [
   },
 ];
 
-EXPERIMENTS.push(...EXPERIMENTS2);
+EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3);
 EXPERIMENTS.sort((a, b) => a.cls - b.cls); // stable: keeps the book order inside each class
 export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));

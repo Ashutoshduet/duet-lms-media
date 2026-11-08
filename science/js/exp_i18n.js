@@ -2762,3 +2762,1655 @@ export const DICT = {
 }
 };
 export const I18N = {};
+
+// batch 3 (Class 6–8 book experiments)
+Object.assign(DICT, {
+"What makes water evaporate faster?": {
+"hi": "किन बातों से पानी का वाष्पन तेज़ होता है?",
+"hg": "Paani kis wajah se jaldi evaporate hota hai?"
+},
+"To show that water evaporates, and that it evaporates faster from a bigger surface, in sunlight, and that spirit evaporates faster than water.": {
+"hi": "यह दिखाना कि पानी का वाष्पन होता है, और बड़ी सतह से तथा धूप में यह तेज़ी से होता है, और स्पिरिट का वाष्पन पानी से भी तेज़ी से होता है।",
+"hg": "Dikhana ki paani evaporate hota hai, aur badi surface se aur dhoop mein jaldi evaporate hota hai, aur spirit paani se bhi jaldi evaporate hoti hai."
+},
+"Evaporation": {
+"hi": "वाष्पन",
+"hg": "Evaporation"
+},
+"Watch glass with spirit": {
+"hi": "स्पिरिट वाला वॉच ग्लास",
+"hg": "Spirit wala watch glass"
+},
+"5 mL of water has been put in a steel plate and 5 mL in a bottle cap. Leave them side by side and watch (time-lapse).": {
+"hi": "एक स्टील की प्लेट में 5 mL पानी और एक बोतल के ढक्कन में 5 mL पानी रखा गया है। दोनों को पास-पास रहने दें और देखें (टाइम-लैप्स)।",
+"hg": "Ek steel plate mein 5 mL paani aur ek bottle cap mein 5 mL paani rakha gaya hai. Dono ko paas-paas rehne do aur dekho (time-lapse)."
+},
+"The water in the plate disappears first. The bottle cap still has most of its water.": {
+"hi": "प्लेट का पानी पहले गायब हो जाता है। बोतल के ढक्कन में अभी भी ज़्यादातर पानी बचा है।",
+"hg": "Plate ka paani pehle gayab ho jaata hai. Bottle cap mein abhi bhi zyaadatar paani bacha hai."
+},
+"Water evaporates only from its surface. The plate spreads the water over a much bigger surface, so it evaporates faster.": {
+"hi": "पानी का वाष्पन केवल उसकी सतह से होता है। प्लेट में पानी बहुत बड़ी सतह पर फैल जाता है, इसलिए उसका वाष्पन तेज़ी से होता है।",
+"hg": "Paani sirf apni surface se evaporate hota hai. Plate mein paani bahut badi surface par fail jaata hai, isliye woh jaldi evaporate hota hai."
+},
+"Switch on the lamp over bottle cap 3. Bottle cap 2 stays in the shade.": {
+"hi": "बोतल के ढक्कन 3 के ऊपर वाला लैंप चालू करें। बोतल का ढक्कन 2 छाया में ही रहता है।",
+"hg": "Bottle cap 3 ke upar wala lamp on karo. Bottle cap 2 chhaaon mein hi rehta hai."
+},
+"The lamp shines warm light on cap 3, like sunlight.": {
+"hi": "लैंप ढक्कन 3 पर गरम रोशनी डालता है, बिल्कुल धूप की तरह।",
+"hg": "Lamp cap 3 par garam roshni daalta hai, bilkul dhoop ki tarah."
+},
+"Watch the two caps (time-lapse).": {
+"hi": "दोनों ढक्कनों को देखें (टाइम-लैप्स)।",
+"hg": "Dono caps ko dekho (time-lapse)."
+},
+"The cap in the light dries up much sooner; the cap in the shade still has water.": {
+"hi": "रोशनी वाला ढक्कन बहुत जल्दी सूख जाता है; छाया वाले ढक्कन में अभी भी पानी है।",
+"hg": "Roshni wala cap bahut jaldi sookh jaata hai; chhaaon wale cap mein abhi bhi paani hai."
+},
+"Heat makes the water particles move faster, so more of them escape into the air. Clothes dry faster in the sun for the same reason.": {
+"hi": "ऊष्मा से पानी के कण तेज़ी से गति करने लगते हैं, इसलिए उनमें से अधिक कण हवा में निकल जाते हैं। इसी कारण कपड़े धूप में जल्दी सूखते हैं।",
+"hg": "Garmi se paani ke particles tez move karne lagte hain, isliye unmein se zyada particles hawa mein nikal jaate hain. Isi wajah se kapde dhoop mein jaldi sookhte hain."
+},
+"Look at the spirit on the watch glass.": {
+"hi": "वॉच ग्लास पर रखी स्पिरिट को देखें।",
+"hg": "Watch glass par rakhi spirit ko dekho."
+},
+"The spirit disappears within minutes, much faster than water, and leaves nothing behind.": {
+"hi": "स्पिरिट कुछ ही मिनटों में, पानी से बहुत जल्दी, गायब हो जाती है और पीछे कुछ भी नहीं छोड़ती।",
+"hg": "Spirit kuch hi minute mein, paani se bahut jaldi, gayab ho jaati hai aur peeche kuch bhi nahi chhodti."
+},
+"Spirit evaporates much more easily than water. When it evaporates from your skin, it takes heat away, so it feels cold.": {
+"hi": "स्पिरिट का वाष्पन पानी की तुलना में बहुत आसानी से होता है। जब यह आपकी त्वचा से वाष्पित होती है, तो ऊष्मा साथ ले जाती है, इसलिए ठंडक महसूस होती है।",
+"hg": "Spirit paani se bahut aasaani se evaporate hoti hai. Jab yeh aapki skin se evaporate hoti hai, toh garmi saath le jaati hai, isliye thanda lagta hai."
+},
+"The plate dried before the cap; the cap in the light dried before the one in the shade; spirit evaporated fastest.": {
+"hi": "प्लेट, ढक्कन से पहले सूख गई; रोशनी वाला ढक्कन, छाया वाले ढक्कन से पहले सूख गया; स्पिरिट का वाष्पन सबसे तेज़ी से हुआ।",
+"hg": "Plate cap se pehle sookh gayi; roshni wala cap chhaaon wale se pehle sookh gaya; spirit sabse jaldi evaporate hui."
+},
+"Evaporation happens from the surface of a liquid at all temperatures. It is faster with a bigger surface, more heat, and for liquids like spirit.": {
+"hi": "वाष्पन हर ताप पर द्रव की सतह से होता है। बड़ी सतह, अधिक ऊष्मा और स्पिरिट जैसे द्रवों में यह तेज़ी से होता है।",
+"hg": "Evaporation har temperature par liquid ki surface se hota hai. Badi surface, zyada garmi, aur spirit jaise liquids mein yeh jaldi hota hai."
+},
+"Keep spirit away from flames. Do not touch the hot lamp.": {
+"hi": "स्पिरिट को ज्वाला से दूर रखें। गरम लैंप को न छुएँ।",
+"hg": "Spirit ko flames se door rakho. Garam lamp ko mat chhuo."
+},
+"Why do wet clothes dry faster when spread out?": {
+"hi": "गीले कपड़े फैलाने पर जल्दी क्यों सूखते हैं?",
+"hg": "Geele kapde failaane par jaldi kyun sookhte hain?"
+},
+"A bigger surface lets more water evaporate at the same time.": {
+"hi": "बड़ी सतह होने से एक ही समय में अधिक पानी का वाष्पन हो पाता है।",
+"hg": "Badi surface se ek hi time mein zyada paani evaporate ho paata hai."
+},
+"Why does water in the sun evaporate faster?": {
+"hi": "धूप में रखे पानी का वाष्पन तेज़ी से क्यों होता है?",
+"hg": "Dhoop mein rakha paani jaldi evaporate kyun hota hai?"
+},
+"The heat makes water particles move faster, so more of them escape.": {
+"hi": "ऊष्मा से पानी के कण तेज़ी से गति करते हैं, इसलिए उनमें से अधिक कण बाहर निकल जाते हैं।",
+"hg": "Garmi se paani ke particles tez move karte hain, isliye unmein se zyada bahar nikal jaate hain."
+},
+"Why does spirit feel cold on the skin?": {
+"hi": "त्वचा पर स्पिरिट ठंडी क्यों लगती है?",
+"hg": "Skin par spirit thandi kyun lagti hai?"
+},
+"It evaporates quickly and takes heat from the skin.": {
+"hi": "यह जल्दी वाष्पित होती है और त्वचा से ऊष्मा ले लेती है।",
+"hg": "Yeh jaldi evaporate hoti hai aur skin se garmi le leti hai."
+},
+"Water drops on a cold glass": {
+"hi": "ठंडे गिलास पर पानी की बूँदें",
+"hg": "Thande glass par paani ki boondein"
+},
+"To show that air contains water vapour, which condenses into drops on a cold surface.": {
+"hi": "यह दिखाना कि हवा में जलवाष्प होती है, जो ठंडी सतह पर संघनित होकर बूँदें बन जाती है।",
+"hg": "Dikhana ki hawa mein water vapour hoti hai, jo thandi surface par condense hokar boondein ban jaati hai."
+},
+"Condensation": {
+"hi": "संघनन",
+"hg": "Condensation"
+},
+"Cold water": {
+"hi": "ठंडा पानी",
+"hg": "Thanda paani"
+},
+"Wipe the outside of the empty tumbler completely dry.": {
+"hi": "खाली गिलास को बाहर से पोंछकर पूरी तरह सुखा लें।",
+"hg": "Khaali glass ko bahar se ponchkar poori tarah sukha lo."
+},
+"The tumbler is dry and clear outside.": {
+"hi": "गिलास बाहर से सूखा और साफ़ है।",
+"hg": "Glass bahar se sookha aur saaf hai."
+},
+"Pour cold water into the tumbler until it is about three-quarters full.": {
+"hi": "गिलास में ठंडा पानी तब तक डालें जब तक वह लगभग तीन-चौथाई न भर जाए।",
+"hg": "Glass mein thanda paani tab tak daalo jab tak woh lagbhag teen-chauthai na bhar jaaye."
+},
+"The tumbler now holds cold water.": {
+"hi": "अब गिलास में ठंडा पानी है।",
+"hg": "Ab glass mein thanda paani hai."
+},
+"Add a few ice cubes.": {
+"hi": "बर्फ़ के कुछ टुकड़े डालें।",
+"hg": "Kuch ice cubes daalo."
+},
+"The ice cubes float and the water becomes colder still.": {
+"hi": "बर्फ़ के टुकड़े तैरते हैं और पानी और भी ठंडा हो जाता है।",
+"hg": "Ice cubes tairte hain aur paani aur bhi thanda ho jaata hai."
+},
+"Leave it for five minutes and look at the outside of both tumblers (time-lapse).": {
+"hi": "इसे पाँच मिनट के लिए छोड़ दें और दोनों गिलासों को बाहर से देखें (टाइम-लैप्स)।",
+"hg": "Ise paanch minute ke liye chhod do aur dono glasses ko bahar se dekho (time-lapse)."
+},
+"First the outside of the cold tumbler becomes misty, then tiny drops of water cover it and trickle down. The tumbler of tap water stays dry. The water inside does not go down.": {
+"hi": "पहले ठंडे गिलास का बाहरी भाग धुंधला हो जाता है, फिर पानी की नन्ही बूँदें उस पर छा जाती हैं और नीचे बहने लगती हैं। नल के पानी वाला गिलास सूखा रहता है। अंदर का पानी कम नहीं होता।",
+"hg": "Pehle thande glass ka bahar ka hissa dhundhla ho jaata hai, phir paani ki chhoti-chhoti boondein us par chha jaati hain aur neeche behne lagti hain. Nal ke paani wala glass sookha rehta hai. Andar ka paani kam nahi hota."
+},
+"The drops did not come from inside. Air contains water vapour; when it touches the cold glass it cools and condenses into liquid water.": {
+"hi": "ये बूँदें अंदर से नहीं आईं। हवा में जलवाष्प होती है; जब वह ठंडे गिलास को छूती है, तो ठंडी होकर संघनित हो जाती है और द्रव पानी बन जाती है।",
+"hg": "Yeh boondein andar se nahi aayin. Hawa mein water vapour hoti hai; jab woh thande glass ko chhooti hai, toh thandi hokar condense ho jaati hai aur liquid paani ban jaati hai."
+},
+"Water drops formed on the outside of the cold tumbler but not on the tumbler of tap water.": {
+"hi": "ठंडे गिलास के बाहर पानी की बूँदें बनीं, पर नल के पानी वाले गिलास पर नहीं।",
+"hg": "Thande glass ke bahar paani ki boondein bani, par nal ke paani wale glass par nahi."
+},
+"Air contains water vapour, which condenses into liquid water on a cold surface.": {
+"hi": "हवा में जलवाष्प होती है, जो ठंडी सतह पर संघनित होकर द्रव पानी बन जाती है।",
+"hg": "Hawa mein water vapour hoti hai, jo thandi surface par condense hokar liquid paani ban jaati hai."
+},
+"Handle glass carefully; a wet glass is slippery.": {
+"hi": "काँच की चीज़ों को सावधानी से पकड़ें; गीला गिलास फिसलता है।",
+"hg": "Glass ko dhyaan se pakdo; geela glass slippery hota hai."
+},
+"Where did the drops on the cold glass come from?": {
+"hi": "ठंडे गिलास पर बूँदें कहाँ से आईं?",
+"hg": "Thande glass par boondein kahan se aayin?"
+},
+"From water vapour in the air around it.": {
+"hi": "उसके आस-पास की हवा में मौजूद जलवाष्प से।",
+"hg": "Uske aas-paas ki hawa mein maujood water vapour se."
+},
+"What is this change called?": {
+"hi": "इस परिवर्तन को क्या कहते हैं?",
+"hg": "Is change ko kya kehte hain?"
+},
+"Condensation: water vapour turning into liquid water.": {
+"hi": "संघनन: जलवाष्प का द्रव पानी में बदलना।",
+"hg": "Condensation: water vapour ka liquid paani mein badalna."
+},
+"Name one place where you see condensation at home.": {
+"hi": "घर में कोई एक जगह बताएँ जहाँ आप संघनन देखते हैं।",
+"hg": "Ghar mein ek jagah batao jahan tum condensation dekhte ho."
+},
+"On a cold water bottle taken out of the fridge, or on a bathroom mirror.": {
+"hi": "फ्रिज से निकाली गई ठंडे पानी की बोतल पर, या बाथरूम के शीशे पर।",
+"hg": "Fridge se nikaali gayi thande paani ki bottle par, ya bathroom ke mirror par."
+},
+"Sedimentation and decantation of muddy water": {
+"hi": "मटमैले पानी का अवसादन और निस्तारण",
+"hg": "Matmaile paani ka sedimentation aur decantation"
+},
+"To separate mud from water by letting it settle (sedimentation) and pouring off the water (decantation), and to see how alum helps.": {
+"hi": "मिट्टी को नीचे बैठने देकर (अवसादन) और पानी को ऊपर से उड़ेलकर (निस्तारण) पानी से मिट्टी को अलग करना, और यह देखना कि फिटकरी इसमें कैसे मदद करती है।",
+"hg": "Mitti ko neeche baithne dekar (sedimentation) aur paani ko upar se undel kar (decantation) mitti ko paani se alag karna, aur dekhna ki alum kaise madad karti hai."
+},
+"Separation by sedimentation and decantation": {
+"hi": "अवसादन और निस्तारण द्वारा पृथक्करण",
+"hg": "Sedimentation aur decantation se separation"
+},
+"Beaker A": {
+"hi": "बीकर A",
+"hg": "Beaker A"
+},
+"Beaker B": {
+"hi": "बीकर B",
+"hg": "Beaker B"
+},
+"Beaker C (empty)": {
+"hi": "बीकर C (खाली)",
+"hg": "Beaker C (khaali)"
+},
+"Add a spatula of soil to the water in beaker A and stir.": {
+"hi": "बीकर A के पानी में एक स्पैचुला मिट्टी डालें और हिलाएँ।",
+"hg": "Beaker A ke paani mein ek spatula mitti daalo aur hilao."
+},
+"The water turns muddy brown.": {
+"hi": "पानी मटमैला भूरा हो जाता है।",
+"hg": "Paani matmaila brown ho jaata hai."
+},
+"Pour half of the muddy water into beaker B.": {
+"hi": "मटमैले पानी का आधा भाग बीकर B में डालें।",
+"hg": "Matmaile paani ka aadha hissa beaker B mein daalo."
+},
+"Both beakers now hold muddy water.": {
+"hi": "अब दोनों बीकरों में मटमैला पानी है।",
+"hg": "Ab dono beakers mein matmaila paani hai."
+},
+"Add a pinch of powdered alum (fitkari) to beaker B and stir gently.": {
+"hi": "बीकर B में एक चुटकी पिसी हुई फिटकरी डालें और धीरे से हिलाएँ।",
+"hg": "Beaker B mein ek chutki pisi hui alum (fitkari) daalo aur dheere se hilao."
+},
+"Small brown flakes begin to form in beaker B.": {
+"hi": "बीकर B में छोटे-छोटे भूरे गुच्छे बनने लगते हैं।",
+"hg": "Beaker B mein chhote-chhote brown flakes banne lagte hain."
+},
+"In both beakers the sand and heavy mud settle at the bottom within a minute. Beaker A stays cloudy for a long time; beaker B becomes clear much faster.": {
+"hi": "दोनों बीकरों में रेत और भारी मिट्टी एक मिनट के अंदर तली में बैठ जाती है। बीकर A देर तक गंदला रहता है; बीकर B बहुत जल्दी साफ़ हो जाता है।",
+"hg": "Dono beakers mein ret aur bhaari mitti ek minute ke andar neeche baith jaati hai. Beaker A der tak dhundhla rehta hai; beaker B bahut jaldi saaf ho jaata hai."
+},
+"Heavy particles sink to the bottom: this is sedimentation. Alum makes the tiny clay particles stick together into bigger flakes, which settle quickly.": {
+"hi": "भारी कण नीचे तली में बैठ जाते हैं: यही अवसादन है। फिटकरी चिकनी मिट्टी के बहुत छोटे कणों को आपस में चिपकाकर बड़े गुच्छे बना देती है, जो जल्दी नीचे बैठ जाते हैं।",
+"hg": "Bhaari particles neeche baith jaate hain: yahi sedimentation hai. Alum chikni mitti ke bahut chhote particles ko aapas mein chipka kar bade flakes bana deti hai, jo jaldi neeche baith jaate hain."
+},
+"Tilt beaker B gently and pour the clear water into beaker C without disturbing the mud.": {
+"hi": "बीकर B को धीरे से झुकाएँ और नीचे बैठी मिट्टी को हिलाए बिना साफ़ पानी बीकर C में डालें।",
+"hg": "Beaker B ko dheere se jhukao aur mitti ko hilaaye bina saaf paani beaker C mein daalo."
+},
+"Clear water goes into beaker C; the mud stays at the bottom of beaker B.": {
+"hi": "साफ़ पानी बीकर C में चला जाता है; मिट्टी बीकर B की तली में रह जाती है।",
+"hg": "Saaf paani beaker C mein chala jaata hai; mitti beaker B ke neeche reh jaati hai."
+},
+"Pouring off the liquid and leaving the settled solid behind is called decantation.": {
+"hi": "नीचे बैठे ठोस को छोड़कर ऊपर का द्रव उड़ेल लेने को निस्तारण कहते हैं।",
+"hg": "Neeche baithe solid ko chhodkar upar ka liquid undel lene ko decantation kehte hain."
+},
+"The mud settled at the bottom and the clear water could be poured off. With alum the water cleared much faster.": {
+"hi": "मिट्टी तली में बैठ गई और साफ़ पानी को ऊपर से उड़ेलकर अलग किया जा सका। फिटकरी डालने पर पानी बहुत जल्दी साफ़ हुआ।",
+"hg": "Mitti neeche baith gayi aur saaf paani upar se undel kar alag kiya ja saka. Alum daalne par paani bahut jaldi saaf hua."
+},
+"Insoluble heavy particles can be separated from a liquid by sedimentation and decantation; alum helps the fine particles settle.": {
+"hi": "अविलेय भारी कणों को अवसादन और निस्तारण द्वारा द्रव से अलग किया जा सकता है; फिटकरी बारीक कणों को नीचे बैठने में मदद करती है।",
+"hg": "Insoluble bhaari particles ko sedimentation aur decantation se liquid se alag kiya ja sakta hai; alum baarik particles ko neeche baithne mein madad karti hai."
+},
+"Do not drink the decanted water; it is not yet safe to drink.": {
+"hi": "निस्तारित पानी को न पिएँ; यह अभी पीने के लिए सुरक्षित नहीं है।",
+"hg": "Decant kiya hua paani mat piyo; yeh abhi peene ke liye safe nahi hai."
+},
+"What is sedimentation?": {
+"hi": "अवसादन क्या है?",
+"hg": "Sedimentation kya hai?"
+},
+"The settling of heavier insoluble particles at the bottom of a liquid.": {
+"hi": "किसी द्रव में भारी अविलेय कणों का तली में बैठ जाना।",
+"hg": "Liquid mein bhaari insoluble particles ka neeche baith jaana."
+},
+"What is decantation?": {
+"hi": "निस्तारण क्या है?",
+"hg": "Decantation kya hai?"
+},
+"Gently pouring off the liquid without disturbing the settled solid.": {
+"hi": "नीचे बैठे ठोस को हिलाए बिना ऊपर के द्रव को धीरे से उड़ेलकर अलग करना।",
+"hg": "Neeche baithe solid ko hilaaye bina liquid ko dheere se undel kar alag karna."
+},
+"Why is alum added to muddy water?": {
+"hi": "मटमैले पानी में फिटकरी क्यों डाली जाती है?",
+"hg": "Matmaile paani mein alum kyun daali jaati hai?"
+},
+"It makes fine particles clump together so that they settle faster.": {
+"hi": "यह बारीक कणों को आपस में जोड़कर गुच्छे बना देती है, ताकि वे जल्दी नीचे बैठ जाएँ।",
+"hg": "Yeh baarik particles ko aapas mein jod kar gucche bana deti hai, taaki woh jaldi neeche baith jaayein."
+},
+"Filtering muddy water": {
+"hi": "मटमैले पानी को छानना",
+"hg": "Matmaile paani ko filter karna"
+},
+"To separate insoluble solid particles from a liquid by filtration.": {
+"hi": "निस्यंदन द्वारा अविलेय ठोस कणों को द्रव से अलग करना।",
+"hg": "Filtration se insoluble solid particles ko liquid se alag karna."
+},
+"Separation by filtration": {
+"hi": "निस्यंदन द्वारा पृथक्करण",
+"hg": "Filtration se separation"
+},
+"Muddy water": {
+"hi": "मटमैला पानी",
+"hg": "Matmaila paani"
+},
+"Clean water": {
+"hi": "साफ़ पानी",
+"hg": "Saaf paani"
+},
+"Conical flask": {
+"hi": "शंक्वाकार फ्लास्क",
+"hg": "Conical flask"
+},
+"Fold a filter paper in half and then in half again, open it into a cone and fit it into the funnel.": {
+"hi": "फ़िल्टर पेपर को आधा मोड़ें, फिर दोबारा आधा मोड़ें, उसे खोलकर शंकु बनाएँ और कीप में लगा दें।",
+"hg": "Filter paper ko aadha modo, phir dobara aadha modo, use kholkar cone banao aur funnel mein fit kar do."
+},
+"The paper cone sits neatly inside the funnel.": {
+"hi": "कागज़ का शंकु कीप के अंदर ठीक से बैठ जाता है।",
+"hg": "Paper cone funnel ke andar theek se baith jaata hai."
+},
+"Wet the paper with a little clean water so that it sticks to the glass.": {
+"hi": "थोड़े-से साफ़ पानी से पेपर को गीला करें, ताकि वह काँच से चिपक जाए।",
+"hg": "Thode saaf paani se paper ko geela karo, taaki woh glass se chipak jaaye."
+},
+"The wet paper sticks to the funnel; a few clear drops fall into the flask.": {
+"hi": "गीला पेपर कीप से चिपक जाता है; कुछ साफ़ बूँदें फ्लास्क में गिरती हैं।",
+"hg": "Geela paper funnel se chipak jaata hai; kuch saaf boondein flask mein girti hain."
+},
+"Pour the muddy water slowly into the cone, keeping the level below the edge of the paper.": {
+"hi": "मटमैले पानी को धीरे-धीरे शंकु में डालें, और ध्यान रखें कि पानी का स्तर पेपर के किनारे से नीचे रहे।",
+"hg": "Matmaile paani ko dheere-dheere cone mein daalo, aur dhyaan rakho ki paani ka level paper ke kinaare se neeche rahe."
+},
+"The cone fills with muddy water.": {
+"hi": "शंकु मटमैले पानी से भर जाता है।",
+"hg": "Cone matmaile paani se bhar jaata hai."
+},
+"Wait and watch the liquid that drips into the flask (time-lapse).": {
+"hi": "प्रतीक्षा करें और फ्लास्क में टपकने वाले द्रव को देखें (टाइम-लैप्स)।",
+"hg": "Thoda ruko aur flask mein tapakne wale liquid ko dekho (time-lapse)."
+},
+"Clear water drips from the funnel into the flask. This clear liquid is called the filtrate.": {
+"hi": "कीप से साफ़ पानी टपककर फ्लास्क में आता है। इस साफ़ द्रव को निस्यंद कहते हैं।",
+"hg": "Funnel se saaf paani tapak kar flask mein aata hai. Is saaf liquid ko filtrate kehte hain."
+},
+"Water passes through the tiny holes in the filter paper, but the mud particles are too big to get through.": {
+"hi": "पानी फ़िल्टर पेपर के नन्हे छिद्रों से निकल जाता है, पर मिट्टी के कण इतने बड़े होते हैं कि उनसे नहीं निकल पाते।",
+"hg": "Paani filter paper ke chhote-chhote chhedon se nikal jaata hai, par mitti ke particles itne bade hote hain ki nikal nahi paate."
+},
+"Look at the filter paper.": {
+"hi": "फ़िल्टर पेपर को देखें।",
+"hg": "Filter paper ko dekho."
+},
+"A wet layer of brown mud is left on the paper. This is called the residue.": {
+"hi": "पेपर पर भूरी मिट्टी की एक गीली परत बच जाती है। इसे अवशेष कहते हैं।",
+"hg": "Paper par brown mitti ki ek geeli layer bach jaati hai. Ise residue kehte hain."
+},
+"Filtration separates an insoluble solid (residue) from a liquid (filtrate).": {
+"hi": "निस्यंदन से अविलेय ठोस (अवशेष) द्रव (निस्यंद) से अलग हो जाता है।",
+"hg": "Filtration insoluble solid (residue) ko liquid (filtrate) se alag karta hai."
+},
+"Clear filtrate collected in the flask; brown mud remained on the filter paper.": {
+"hi": "फ्लास्क में साफ़ निस्यंद इकट्ठा हुआ; भूरी मिट्टी फ़िल्टर पेपर पर रह गई।",
+"hg": "Flask mein saaf filtrate ikattha hua; brown mitti filter paper par reh gayi."
+},
+"Filtration separates insoluble solids from liquids.": {
+"hi": "निस्यंदन से अविलेय ठोस द्रवों से अलग हो जाते हैं।",
+"hg": "Filtration insoluble solids ko liquids se alag karta hai."
+},
+"Never let the liquid rise above the edge of the filter paper.": {
+"hi": "द्रव को कभी भी फ़िल्टर पेपर के किनारे से ऊपर न जाने दें।",
+"hg": "Liquid ko kabhi bhi filter paper ke kinaare se upar mat jaane do."
+},
+"What is the filtrate?": {
+"hi": "निस्यंद क्या है?",
+"hg": "Filtrate kya hai?"
+},
+"The clear liquid that passes through the filter paper.": {
+"hi": "वह साफ़ द्रव जो फ़िल्टर पेपर से छनकर निकल जाता है।",
+"hg": "Woh saaf liquid jo filter paper se chhan kar nikal jaata hai."
+},
+"What is the residue?": {
+"hi": "अवशेष क्या है?",
+"hg": "Residue kya hai?"
+},
+"The solid left on the filter paper.": {
+"hi": "फ़िल्टर पेपर पर बचा हुआ ठोस।",
+"hg": "Filter paper par bacha hua solid."
+},
+"Can filtration remove salt from salt water?": {
+"hi": "क्या निस्यंदन से नमक के पानी में से नमक अलग किया जा सकता है?",
+"hg": "Kya filtration se namak wale paani se namak alag ho sakta hai?"
+},
+"No. Dissolved salt passes through the paper; we need evaporation for that.": {
+"hi": "नहीं। घुला हुआ नमक पेपर से निकल जाता है; इसके लिए हमें वाष्पन की ज़रूरत होती है।",
+"hg": "Nahi. Ghula hua namak paper se nikal jaata hai; uske liye humein evaporation chahiye."
+},
+"Separating iron filings with a magnet": {
+"hi": "चुंबक से लोहे का बुरादा अलग करना",
+"hg": "Magnet se iron filings alag karna"
+},
+"To separate iron filings from sand using a magnet.": {
+"hi": "चुंबक की मदद से रेत में से लोहे का बुरादा अलग करना।",
+"hg": "Magnet ki madad se ret se iron filings alag karna."
+},
+"Separation by a magnet": {
+"hi": "चुंबक द्वारा पृथक्करण",
+"hg": "Magnet se separation"
+},
+"Look at the mixture of iron filings and sand. Try to imagine picking out every bit of iron by hand.": {
+"hi": "लोहे के बुरादे और रेत के मिश्रण को देखें। सोचकर देखें कि लोहे का हर एक कण हाथ से चुनकर निकालना कैसा होगा।",
+"hg": "Iron filings aur ret ke mixture ko dekho. Socho ki iron ka har ek tukda haath se chun kar nikaalna kaisa hoga."
+},
+"The dark grey iron filings are mixed all through the sand. Picking them out by hand is almost impossible.": {
+"hi": "गहरे स्लेटी रंग का लोहे का बुरादा पूरी रेत में मिला हुआ है। इसे हाथ से चुनकर निकालना लगभग असंभव है।",
+"hg": "Dark grey iron filings poori ret mein mili hui hain. Inhe haath se chun kar nikaalna lagbhag impossible hai."
+},
+"Wrap the magnet in thin plastic and move it slowly just above the mixture.": {
+"hi": "चुंबक को पतली प्लास्टिक में लपेटें और उसे मिश्रण के ठीक ऊपर धीरे-धीरे घुमाएँ।",
+"hg": "Magnet ko patli plastic mein lapeto aur use mixture ke theek upar dheere-dheere ghumao."
+},
+"The iron filings jump up and cling to the ends of the magnet in bristly bunches. The sand stays behind.": {
+"hi": "लोहे का बुरादा उछलकर चुंबक के सिरों पर काँटेदार गुच्छों के रूप में चिपक जाता है। रेत नीचे ही रह जाती है।",
+"hg": "Iron filings uchhal kar magnet ke siron par kaantedaar gucchon mein chipak jaati hain. Ret peeche reh jaati hai."
+},
+"Iron is attracted by a magnet; sand is not.": {
+"hi": "लोहा चुंबक की ओर आकर्षित होता है; रेत नहीं।",
+"hg": "Iron magnet ki taraf attract hota hai; ret nahi."
+},
+"Hold the magnet over the clean paper and pull off the plastic.": {
+"hi": "चुंबक को साफ़ कागज़ के ऊपर पकड़ें और प्लास्टिक को खींचकर हटा दें।",
+"hg": "Magnet ko saaf paper ke upar pakdo aur plastic kheench kar hata do."
+},
+"The filings drop off and make a small grey heap on the clean paper.": {
+"hi": "बुरादा नीचे गिर जाता है और साफ़ कागज़ पर एक छोटी स्लेटी ढेरी बना देता है।",
+"hg": "Filings neeche gir jaati hain aur saaf paper par ek chhota grey dher bana deti hain."
+},
+"Repeat until the magnet picks up no more filings.": {
+"hi": "यही तब तक दोहराएँ जब तक चुंबक और बुरादा उठाना बंद न कर दे।",
+"hg": "Yeh tab tak repeat karo jab tak magnet aur filings uthana band na kar de."
+},
+"Now there are two heaps: grey iron filings and yellow sand.": {
+"hi": "अब दो ढेरियाँ हैं: स्लेटी लोहे का बुरादा और पीली रेत।",
+"hg": "Ab do dher hain: grey iron filings aur yellow ret."
+},
+"No new substance is formed: the iron and the sand are just separated.": {
+"hi": "कोई नया पदार्थ नहीं बनता: लोहा और रेत बस अलग-अलग हो जाते हैं।",
+"hg": "Koi naya substance nahi banta: iron aur ret bas alag ho jaate hain."
+},
+"The magnet picked up all the iron filings; the sand was left behind.": {
+"hi": "चुंबक ने सारा लोहे का बुरादा उठा लिया; रेत पीछे रह गई।",
+"hg": "Magnet ne saari iron filings utha li; ret peeche reh gayi."
+},
+"A magnet separates a magnetic substance like iron from a non-magnetic one.": {
+"hi": "चुंबक, लोहे जैसे चुंबकीय पदार्थ को अचुंबकीय पदार्थ से अलग कर देता है।",
+"hg": "Magnet iron jaise magnetic substance ko non-magnetic substance se alag kar deta hai."
+},
+"Keep magnets away from phones, cards and computers.": {
+"hi": "चुंबक को फ़ोन, कार्ड और कंप्यूटर से दूर रखें।",
+"hg": "Magnets ko phone, cards aur computer se door rakho."
+},
+"Why is the magnet wrapped in plastic?": {
+"hi": "चुंबक को प्लास्टिक में क्यों लपेटा जाता है?",
+"hg": "Magnet ko plastic mein kyun lapeta jaata hai?"
+},
+"So that the filings can be removed easily by pulling off the plastic.": {
+"hi": "ताकि प्लास्टिक खींचकर बुरादे को आसानी से हटाया जा सके।",
+"hg": "Taaki plastic kheench kar filings ko aasaani se hataya ja sake."
+},
+"Can a magnet separate salt from sand?": {
+"hi": "क्या चुंबक रेत से नमक को अलग कर सकता है?",
+"hg": "Kya magnet ret se namak ko alag kar sakta hai?"
+},
+"No, neither salt nor sand is attracted by a magnet.": {
+"hi": "नहीं, न तो नमक और न ही रेत चुंबक की ओर आकर्षित होते हैं।",
+"hg": "Nahi, na namak aur na hi ret magnet ki taraf attract hote hain."
+},
+"Where is magnetic separation used?": {
+"hi": "चुंबकीय पृथक्करण का उपयोग कहाँ होता है?",
+"hg": "Magnetic separation kahan use hota hai?"
+},
+"In scrap yards and factories to separate iron from other waste.": {
+"hi": "कबाड़खानों और कारखानों में, लोहे को दूसरे कचरे से अलग करने के लिए।",
+"hg": "Scrap yards aur factories mein, iron ko baaki kachre se alag karne ke liye."
+},
+"Testing household substances with litmus": {
+"hi": "घरेलू पदार्थों की लिटमस से जाँच",
+"hg": "Ghar ke substances ko litmus se test karna"
+},
+"To find out which household substances are acidic, basic or neutral using red and blue litmus paper.": {
+"hi": "लाल और नीले लिटमस पेपर की मदद से यह पता करना कि कौन-से घरेलू पदार्थ अम्लीय, क्षारकीय या उदासीन हैं।",
+"hg": "Red aur blue litmus paper se pata karna ki ghar ke kaun se substances acidic, basic ya neutral hain."
+},
+"Acids, bases and neutral substances": {
+"hi": "अम्ल, क्षारक और उदासीन पदार्थ",
+"hg": "Acids, bases aur neutral substances"
+},
+"Lemon juice and vinegar turned blue litmus red; soap, baking soda and lime water turned red litmus blue; sugar solution changed neither.": {
+"hi": "नींबू के रस और सिरके ने नीले लिटमस को लाल कर दिया; साबुन, बेकिंग सोडा और चूने के पानी ने लाल लिटमस को नीला कर दिया; चीनी के विलयन ने किसी का भी रंग नहीं बदला।",
+"hg": "Nimbu ke ras aur vinegar ne blue litmus ko red kar diya; sabun, baking soda aur lime water ne red litmus ko blue kar diya; sugar solution ne kisi ka bhi colour nahi badla."
+},
+"Litmus shows whether a substance is acidic, basic or neutral.": {
+"hi": "लिटमस बताता है कि कोई पदार्थ अम्लीय है, क्षारकीय है या उदासीन।",
+"hg": "Litmus batata hai ki koi substance acidic hai, basic hai ya neutral."
+},
+"Use a separate dropper for each sample and never taste them.": {
+"hi": "हर नमूने के लिए अलग ड्रॉपर का उपयोग करें और उन्हें कभी न चखें।",
+"hg": "Har sample ke liye alag dropper use karo aur unhe kabhi mat chakho."
+},
+"It turns it red.": {
+"hi": "यह उसे लाल कर देता है।",
+"hg": "Yeh use red kar deta hai."
+},
+"What does a base do to red litmus?": {
+"hi": "क्षारक लाल लिटमस के साथ क्या करता है?",
+"hg": "Base red litmus ke saath kya karta hai?"
+},
+"It turns it blue.": {
+"hi": "यह उसे नीला कर देता है।",
+"hg": "Yeh use blue kar deta hai."
+},
+"Where does litmus come from?": {
+"hi": "लिटमस कहाँ से मिलता है?",
+"hg": "Litmus kahan se milta hai?"
+},
+"From lichens, a kind of plant.": {
+"hi": "लाइकेन से, जो एक प्रकार का पौधा है।",
+"hg": "Lichens se, jo ek tarah ke plant hain."
+},
+"Red rose indicator": {
+"hi": "लाल गुलाब का सूचक",
+"hg": "Red rose indicator"
+},
+"To make an indicator from red rose petals and use it to find acids and bases.": {
+"hi": "लाल गुलाब की पंखुड़ियों से सूचक बनाना और उससे अम्लों और क्षारकों की पहचान करना।",
+"hg": "Red rose ki pankhudiyon se indicator banana aur usse acids aur bases ko pehchaanna."
+},
+"Rose petals soaked in hot water": {
+"hi": "गरम पानी में भिगोई गई गुलाब की पंखुड़ियाँ",
+"hg": "Garam paani mein bhigoi gayi gulab ki pankhudiyan"
+},
+"Look at the indicator: red rose petals were crushed, soaked in hot water for ten minutes and filtered.": {
+"hi": "सूचक को देखें: लाल गुलाब की पंखुड़ियों को कुचलकर दस मिनट तक गरम पानी में भिगोया गया और फिर छान लिया गया।",
+"hg": "Indicator ko dekho: red rose ki pankhudiyon ko kuchal kar das minute tak garam paani mein bhigoya gaya aur phir filter kiya gaya."
+},
+"The filtered extract is a pinkish-red liquid.": {
+"hi": "छना हुआ अर्क गुलाबी-लाल रंग का द्रव है।",
+"hg": "Filter kiya hua extract ek pinkish-red liquid hai."
+},
+"Add rose extract to test tube A (lemon juice).": {
+"hi": "परखनली A (नींबू का रस) में गुलाब का अर्क डालें।",
+"hg": "Test tube A (nimbu ka ras) mein rose extract daalo."
+},
+"It turns bright red-pink.": {
+"hi": "यह चटक लाल-गुलाबी हो जाता है।",
+"hg": "Yeh bright red-pink ho jaata hai."
+},
+"Rose extract turns red in acids.": {
+"hi": "गुलाब का अर्क अम्लों में लाल हो जाता है।",
+"hg": "Rose extract acids mein red ho jaata hai."
+},
+"Add rose extract to test tube B (soap solution).": {
+"hi": "परखनली B (साबुन का विलयन) में गुलाब का अर्क डालें।",
+"hg": "Test tube B (soap solution) mein rose extract daalo."
+},
+"Rose extract turns green in bases.": {
+"hi": "गुलाब का अर्क क्षारकों में हरा हो जाता है।",
+"hg": "Rose extract bases mein green ho jaata hai."
+},
+"Add it to test tube C (vinegar).": {
+"hi": "इसे परखनली C (सिरका) में डालें।",
+"hg": "Ise test tube C (vinegar) mein daalo."
+},
+"Red-pink.": {
+"hi": "लाल-गुलाबी।",
+"hg": "Red-pink."
+},
+"Vinegar is acidic.": {
+"hi": "सिरका अम्लीय है।",
+"hg": "Vinegar acidic hai."
+},
+"Add it to test tube D (baking soda solution).": {
+"hi": "इसे परखनली D (बेकिंग सोडा का विलयन) में डालें।",
+"hg": "Ise test tube D (baking soda solution) mein daalo."
+},
+"Acids turned the rose extract red-pink; bases turned it green.": {
+"hi": "अम्लों ने गुलाब के अर्क को लाल-गुलाबी कर दिया; क्षारकों ने उसे हरा कर दिया।",
+"hg": "Acids ne rose extract ko red-pink kar diya; bases ne use green kar diya."
+},
+"Red rose petals give a natural indicator for acids and bases.": {
+"hi": "लाल गुलाब की पंखुड़ियों से अम्लों और क्षारकों के लिए एक प्राकृतिक सूचक मिलता है।",
+"hg": "Red rose ki pankhudiyon se acids aur bases ke liye ek natural indicator milta hai."
+},
+"Use fallen petals; ask an adult to help with the hot water.": {
+"hi": "गिरी हुई पंखुड़ियों का उपयोग करें; गरम पानी के लिए किसी बड़े की मदद लें।",
+"hg": "Giri hui pankhudiyan use karo; garam paani ke liye kisi bade ki madad lo."
+},
+"Colour of rose extract in an acid?": {
+"hi": "अम्ल में गुलाब के अर्क का रंग क्या होता है?",
+"hg": "Acid mein rose extract ka colour kya hota hai?"
+},
+"Name two other natural indicators.": {
+"hi": "दो अन्य प्राकृतिक सूचकों के नाम बताएँ।",
+"hg": "Do aur natural indicators ke naam batao."
+},
+"Turmeric and china rose (gudhal).": {
+"hi": "हल्दी और गुड़हल (चाइना रोज़)।",
+"hg": "Haldi aur china rose (gudhal)."
+},
+"Neutralising lemon juice with lime water": {
+"hi": "चूने के पानी से नींबू के रस का उदासीनीकरण",
+"hg": "Lime water se nimbu ke ras ko neutralise karna"
+},
+"To show that an acid (lemon juice) is neutralised by a base (lime water), using litmus solution.": {
+"hi": "लिटमस विलयन की मदद से यह दिखाना कि अम्ल (नींबू का रस) क्षारक (चूने का पानी) द्वारा उदासीन हो जाता है।",
+"hg": "Litmus solution ki madad se dikhana ki acid (nimbu ka ras) base (lime water) se neutralise ho jaata hai."
+},
+"Neutralisation": {
+"hi": "उदासीनीकरण",
+"hg": "Neutralisation"
+},
+"Test tube with 20 drops of water": {
+"hi": "20 बूँद पानी वाली परखनली",
+"hg": "20 boond paani wali test tube"
+},
+"Add one drop of lemon juice to the test tube of water.": {
+"hi": "पानी वाली परखनली में नींबू के रस की एक बूँद डालें।",
+"hg": "Paani wali test tube mein nimbu ke ras ki ek boond daalo."
+},
+"The solution looks almost colourless.": {
+"hi": "विलयन लगभग रंगहीन दिखता है।",
+"hg": "Solution lagbhag colourless dikhta hai."
+},
+"Add one drop of blue litmus solution.": {
+"hi": "नीले लिटमस विलयन की एक बूँद डालें।",
+"hg": "Blue litmus solution ki ek boond daalo."
+},
+"It turns red.": {
+"hi": "यह लाल हो जाता है।",
+"hg": "Yeh red ho jaata hai."
+},
+"The lemon juice is acidic, so the litmus turns red.": {
+"hi": "नींबू का रस अम्लीय है, इसलिए लिटमस लाल हो जाता है।",
+"hg": "Nimbu ka ras acidic hai, isliye litmus red ho jaata hai."
+},
+"Add lime water drop by drop, swirling after each drop, until the colour changes.": {
+"hi": "चूने का पानी बूँद-बूँद करके डालें, हर बूँद के बाद घुमाकर हिलाएँ, जब तक रंग न बदल जाए।",
+"hg": "Lime water boond-boond karke daalo, har boond ke baad ghuma kar hilao, jab tak colour na badal jaaye."
+},
+"The solution stays red for many drops, then turns purple and suddenly blue.": {
+"hi": "कई बूँदों तक विलयन लाल ही रहता है, फिर बैंगनी होता है और अचानक नीला हो जाता है।",
+"hg": "Kai boondon tak solution red hi rehta hai, phir purple hota hai aur achaanak blue ho jaata hai."
+},
+"Each drop of lime water (a base) uses up some of the acid. When all the acid is used up, the solution becomes neutral and then slightly basic.": {
+"hi": "चूने के पानी (एक क्षारक) की हर बूँद कुछ अम्ल को खत्म कर देती है। जब सारा अम्ल खत्म हो जाता है, तो विलयन उदासीन हो जाता है और फिर हल्का क्षारकीय।",
+"hg": "Lime water (ek base) ki har boond thoda acid khatam kar deti hai. Jab saara acid khatam ho jaata hai, toh solution neutral ho jaata hai aur phir thoda basic."
+},
+"Now add one more drop of lemon juice.": {
+"hi": "अब नींबू के रस की एक और बूँद डालें।",
+"hg": "Ab nimbu ke ras ki ek aur boond daalo."
+},
+"The colour turns back towards red.": {
+"hi": "रंग फिर से लाल की ओर लौटने लगता है।",
+"hg": "Colour wapas red ki taraf jaane lagta hai."
+},
+"The new acid is no longer neutralised.": {
+"hi": "नया डाला गया अम्ल अब उदासीन नहीं हो पाता।",
+"hg": "Naya daala gaya acid ab neutralise nahi hota."
+},
+"Litmus turned red with lemon juice, then blue after enough lime water was added, and red again with one more drop of lemon juice.": {
+"hi": "नींबू के रस से लिटमस लाल हुआ, पर्याप्त चूने का पानी डालने पर नीला हुआ, और नींबू के रस की एक और बूँद से फिर लाल हो गया।",
+"hg": "Nimbu ke ras se litmus red hua, kaafi lime water daalne ke baad blue hua, aur nimbu ke ras ki ek aur boond se phir red ho gaya."
+},
+"A base neutralises an acid; the indicator shows when this happens.": {
+"hi": "क्षारक अम्ल को उदासीन कर देता है; सूचक बताता है कि ऐसा कब होता है।",
+"hg": "Base acid ko neutralise karta hai; indicator batata hai ki yeh kab hota hai."
+},
+"Do not taste anything. Add the lime water one drop at a time.": {
+"hi": "कुछ भी न चखें। चूने का पानी एक बार में एक ही बूँद डालें।",
+"hg": "Kuch bhi mat chakho. Lime water ek baar mein ek hi boond daalo."
+},
+"Why is a drop of base added at a time?": {
+"hi": "क्षारक की एक बार में एक ही बूँद क्यों डाली जाती है?",
+"hg": "Base ki ek baar mein ek hi boond kyun daali jaati hai?"
+},
+"To see exactly when the colour changes.": {
+"hi": "यह ठीक-ठीक देखने के लिए कि रंग कब बदलता है।",
+"hg": "Yeh theek-theek dekhne ke liye ki colour kab badalta hai."
+},
+"Why do we take an antacid for acidity?": {
+"hi": "अम्लता होने पर हम प्रतिअम्ल (ऐंटैसिड) क्यों लेते हैं?",
+"hg": "Acidity hone par hum antacid kyun lete hain?"
+},
+"It is a mild base that neutralises extra acid in the stomach.": {
+"hi": "यह एक हल्का क्षारक है जो पेट के अतिरिक्त अम्ल को उदासीन कर देता है।",
+"hg": "Yeh ek mild base hai jo pet ke extra acid ko neutralise kar deta hai."
+},
+"Burning sulphur (teacher demonstration)": {
+"hi": "सल्फ़र को जलाना (शिक्षक द्वारा प्रदर्शन)",
+"hg": "Sulphur ko jalana (teacher demonstration)"
+},
+"To burn sulphur in air and test the nature of its oxide.": {
+"hi": "हवा में सल्फ़र को जलाना और उसके ऑक्साइड की प्रकृति की जाँच करना।",
+"hg": "Hawa mein sulphur ko jalana aur uske oxide ka nature test karna."
+},
+"Non-metal + oxygen → acidic oxide": {
+"hi": "अधातु + ऑक्सीजन → अम्लीय ऑक्साइड",
+"hg": "Non-metal + oxygen → acidic oxide"
+},
+"Water": {
+"hi": "पानी",
+"hg": "Paani"
+},
+"Light the burner.": {
+"hi": "बर्नर जलाएँ।",
+"hg": "Burner jalao."
+},
+"A blue flame burns.": {
+"hi": "नीली ज्वाला जलती है।",
+"hg": "Blue flame jalti hai."
+},
+"Hold the deflagrating spoon with a little powdered sulphur in the flame.": {
+"hi": "थोड़े-से सल्फ़र चूर्ण वाले दहन चम्मच को ज्वाला में पकड़ें।",
+"hg": "Thode sulphur powder wale deflagrating spoon ko flame mein pakdo."
+},
+"The yellow sulphur melts into an orange-brown liquid and then catches fire with a small, pale blue flame.": {
+"hi": "पीला सल्फ़र पिघलकर नारंगी-भूरा द्रव बन जाता है और फिर छोटी, हल्की नीली ज्वाला के साथ जलने लगता है।",
+"hg": "Yellow sulphur pighal kar orange-brown liquid ban jaata hai aur phir chhoti, halki blue flame ke saath jalne lagta hai."
+},
+"As soon as it burns, lower the spoon into the gas jar.": {
+"hi": "जैसे ही यह जलने लगे, चम्मच को गैस जार में नीचे उतारें।",
+"hg": "Jaise hi yeh jalne lage, spoon ko gas jar mein neeche utaaro."
+},
+"The blue flame keeps burning inside the jar, which fills with a colourless gas with a sharp, choking smell.": {
+"hi": "नीली ज्वाला जार के अंदर जलती रहती है, और जार तीखी, दम घोंटने वाली गंध की रंगहीन गैस से भर जाता है।",
+"hg": "Blue flame jar ke andar jalti rehti hai, aur jar tez, dam ghontne wali smell ki colourless gas se bhar jaata hai."
+},
+"Sulphur combines with oxygen to form sulphur dioxide gas.": {
+"hi": "सल्फ़र ऑक्सीजन से मिलकर सल्फ़र डाइऑक्साइड गैस बनाता है।",
+"hg": "Sulphur oxygen ke saath milkar sulphur dioxide gas banata hai."
+},
+"After some time, take out the spoon and cover the jar with its lid.": {
+"hi": "कुछ देर बाद चम्मच बाहर निकालें और जार को उसके ढक्कन से ढक दें।",
+"hg": "Kuch der baad spoon bahar nikaalo aur jar ko uske lid se dhak do."
+},
+"The gas stays trapped in the jar.": {
+"hi": "गैस जार में बंद रहती है।",
+"hg": "Gas jar mein band rehti hai."
+},
+"Lift the lid, pour in a little water, cover again and shake well.": {
+"hi": "ढक्कन उठाएँ, थोड़ा पानी डालें, फिर से ढकें और अच्छी तरह हिलाएँ।",
+"hg": "Lid uthao, thoda paani daalo, phir se dhako aur achhe se hilao."
+},
+"The gas dissolves in the water.": {
+"hi": "गैस पानी में घुल जाती है।",
+"hg": "Gas paani mein ghul jaati hai."
+},
+"Sulphur dioxide dissolves in water to form sulphurous acid.": {
+"hi": "सल्फ़र डाइऑक्साइड पानी में घुलकर सल्फ़्यूरस अम्ल बनाती है।",
+"hg": "Sulphur dioxide paani mein ghul kar sulphurous acid banati hai."
+},
+"Dip blue litmus paper into the solution.": {
+"hi": "विलयन में नीला लिटमस पेपर डुबोएँ।",
+"hg": "Solution mein blue litmus paper dubao."
+},
+"The solution is acidic.": {
+"hi": "विलयन अम्लीय है।",
+"hg": "Solution acidic hai."
+},
+"Dip red litmus paper into it.": {
+"hi": "इसमें लाल लिटमस पेपर डुबोएँ।",
+"hg": "Ismein red litmus paper dubao."
+},
+"No change; it stays red.": {
+"hi": "कोई बदलाव नहीं; यह लाल ही रहता है।",
+"hg": "Koi change nahi; yeh red hi rehta hai."
+},
+"Sulphur burnt with a pale blue flame; the gas dissolved in water and turned blue litmus red.": {
+"hi": "सल्फ़र हल्की नीली ज्वाला के साथ जला; गैस पानी में घुल गई और उसने नीले लिटमस को लाल कर दिया।",
+"hg": "Sulphur halki blue flame ke saath jala; gas paani mein ghul gayi aur usne blue litmus ko red kar diya."
+},
+"Non-metals like sulphur form acidic oxides.": {
+"hi": "सल्फ़र जैसी अधातुएँ अम्लीय ऑक्साइड बनाती हैं।",
+"hg": "Sulphur jaise non-metals acidic oxides banate hain."
+},
+"Teacher demonstration only, in a fume cupboard: sulphur dioxide is poisonous. Do not breathe it.": {
+"hi": "केवल शिक्षक द्वारा प्रदर्शन, फ्यूम कपबोर्ड में: सल्फ़र डाइऑक्साइड ज़हरीली है। इसे साँस के साथ अंदर न लें।",
+"hg": "Sirf teacher demonstration, fume cupboard mein: sulphur dioxide zehreeli hai. Ise saans ke saath andar mat lo."
+},
+"What is formed when sulphur burns?": {
+"hi": "सल्फ़र के जलने पर क्या बनता है?",
+"hg": "Sulphur jalne par kya banta hai?"
+},
+"Sulphur dioxide gas.": {
+"hi": "सल्फ़र डाइऑक्साइड गैस।",
+"hg": "Sulphur dioxide gas."
+},
+"Is the solution acidic or basic?": {
+"hi": "विलयन अम्लीय है या क्षारकीय?",
+"hg": "Solution acidic hai ya basic?"
+},
+"Acidic: it turns blue litmus red.": {
+"hi": "अम्लीय: यह नीले लिटमस को लाल कर देता है।",
+"hg": "Acidic: yeh blue litmus ko red kar deta hai."
+},
+"Metal oxides are usually basic. What about non-metal oxides?": {
+"hi": "धातुओं के ऑक्साइड प्रायः क्षारकीय होते हैं। अधातुओं के ऑक्साइड कैसे होते हैं?",
+"hg": "Metal oxides aksar basic hote hain. Non-metal oxides kaise hote hain?"
+},
+"They are usually acidic.": {
+"hi": "वे प्रायः अम्लीय होते हैं।",
+"hg": "Woh aksar acidic hote hain."
+},
+"A candle needs air to burn": {
+"hi": "मोमबत्ती को जलने के लिए हवा चाहिए",
+"hg": "Candle ko jalne ke liye hawa chahiye"
+},
+"To show that air (oxygen) is needed for burning, and that a burning candle gives carbon dioxide and water.": {
+"hi": "यह दिखाना कि जलने के लिए हवा (ऑक्सीजन) आवश्यक है, और जलती मोमबत्ती से कार्बन डाइऑक्साइड और पानी बनते हैं।",
+"hg": "Dikhana ki jalne ke liye hawa (oxygen) zaroori hai, aur jalti candle se carbon dioxide aur paani bante hain."
+},
+"Combustion needs oxygen": {
+"hi": "दहन के लिए ऑक्सीजन आवश्यक है",
+"hg": "Combustion ke liye oxygen zaroori hai"
+},
+"Light both candles.": {
+"hi": "दोनों मोमबत्तियाँ जलाएँ।",
+"hg": "Dono candles jalao."
+},
+"Both candles burn with a steady flame.": {
+"hi": "दोनों मोमबत्तियाँ स्थिर ज्वाला के साथ जलती हैं।",
+"hg": "Dono candles steady flame ke saath jalti hain."
+},
+"Cover candle A with an upside-down glass tumbler.": {
+"hi": "मोमबत्ती A को काँच के एक उलटे गिलास से ढक दें।",
+"hg": "Candle A ko ek ulte glass tumbler se dhak do."
+},
+"Candle A is now inside the tumbler with only the air in it.": {
+"hi": "मोमबत्ती A अब गिलास के अंदर है, और उसके पास केवल गिलास के अंदर की हवा है।",
+"hg": "Candle A ab glass ke andar hai, aur uske paas sirf glass ke andar wali hawa hai."
+},
+"Watch both flames.": {
+"hi": "दोनों ज्वालाओं को देखें।",
+"hg": "Dono flames ko dekho."
+},
+"The covered flame grows smaller, flickers and goes out within a few seconds; mist forms inside the tumbler. Candle B keeps burning.": {
+"hi": "ढकी हुई ज्वाला छोटी होती जाती है, टिमटिमाती है और कुछ ही सेकंड में बुझ जाती है; गिलास के अंदर धुंध बन जाती है। मोमबत्ती B जलती रहती है।",
+"hg": "Dhaki hui flame chhoti hoti jaati hai, timtimaati hai aur kuch hi second mein bujh jaati hai; glass ke andar dhundh ban jaati hai. Candle B jalti rehti hai."
+},
+"Burning uses up the oxygen in the air. When the oxygen inside the tumbler is used up, the flame goes out.": {
+"hi": "जलने में हवा की ऑक्सीजन खर्च होती है। जब गिलास के अंदर की ऑक्सीजन खत्म हो जाती है, तो ज्वाला बुझ जाती है।",
+"hg": "Jalne mein hawa ki oxygen kharch hoti hai. Jab glass ke andar ki oxygen khatam ho jaati hai, toh flame bujh jaati hai."
+},
+"Lift the tumbler, quickly turn it upright, pour in a little lime water and swirl it.": {
+"hi": "गिलास उठाएँ, जल्दी से उसे सीधा करें, उसमें थोड़ा चूने का पानी डालें और घुमाकर हिलाएँ।",
+"hg": "Glass uthao, jaldi se use seedha karo, thoda lime water daalo aur ghuma kar hilao."
+},
+"The candle made carbon dioxide gas, which turns lime water milky. The mist was water: wax burns to carbon dioxide and water.": {
+"hi": "मोमबत्ती से कार्बन डाइऑक्साइड गैस बनी, जो चूने के पानी को दूधिया कर देती है। धुंध पानी थी: मोम जलकर कार्बन डाइऑक्साइड और पानी बनाता है।",
+"hg": "Candle se carbon dioxide gas bani, jo lime water ko doodhiya kar deti hai. Dhundh paani thi: wax jal kar carbon dioxide aur paani banata hai."
+},
+"The covered candle went out; the other kept burning. Lime water in the tumbler turned milky.": {
+"hi": "ढकी हुई मोमबत्ती बुझ गई; दूसरी जलती रही। गिलास में चूने का पानी दूधिया हो गया।",
+"hg": "Dhaki hui candle bujh gayi; doosri jalti rahi. Glass mein lime water doodhiya ho gaya."
+},
+"Burning needs oxygen; a candle burns to give carbon dioxide and water.": {
+"hi": "जलने के लिए ऑक्सीजन आवश्यक है; मोमबत्ती जलकर कार्बन डाइऑक्साइड और पानी देती है।",
+"hg": "Jalne ke liye oxygen zaroori hai; candle jal kar carbon dioxide aur paani deti hai."
+},
+"Keep hair, paper and sleeves away from the flames.": {
+"hi": "बाल, कागज़ और आस्तीनें ज्वालाओं से दूर रखें।",
+"hg": "Baal, paper aur sleeves ko flames se door rakho."
+},
+"Why did the covered candle go out?": {
+"hi": "ढकी हुई मोमबत्ती क्यों बुझ गई?",
+"hg": "Dhaki hui candle kyun bujh gayi?"
+},
+"The oxygen inside the tumbler was used up.": {
+"hi": "गिलास के अंदर की ऑक्सीजन खत्म हो गई थी।",
+"hg": "Glass ke andar ki oxygen khatam ho gayi thi."
+},
+"Which gas turned the lime water milky?": {
+"hi": "किस गैस ने चूने के पानी को दूधिया किया?",
+"hg": "Kis gas ne lime water ko doodhiya kiya?"
+},
+"Why do we cover a small fire with a blanket?": {
+"hi": "छोटी आग को हम कंबल से क्यों ढकते हैं?",
+"hg": "Chhoti aag ko hum kambal se kyun dhakte hain?"
+},
+"To cut off its supply of air (oxygen).": {
+"hi": "उसे मिलने वाली हवा (ऑक्सीजन) को रोकने के लिए।",
+"hg": "Use milne wali hawa (oxygen) ki supply rokne ke liye."
+},
+"Paper cup with water does not burn": {
+"hi": "पानी भरा कागज़ का कप नहीं जलता",
+"hg": "Paani wala paper cup nahi jalta"
+},
+"To show that a substance burns only when it reaches its ignition temperature.": {
+"hi": "यह दिखाना कि कोई पदार्थ तभी जलता है जब वह अपने ज्वलन ताप तक पहुँच जाता है।",
+"hg": "Dikhana ki koi substance tabhi jalta hai jab woh apne ignition temperature tak pahunch jaata hai."
+},
+"Ignition temperature": {
+"hi": "ज्वलन ताप",
+"hg": "Ignition temperature"
+},
+"Light the candle.": {
+"hi": "मोमबत्ती जलाएँ।",
+"hg": "Candle jalao."
+},
+"The candle burns steadily.": {
+"hi": "मोमबत्ती स्थिर ज्वाला से जलती है।",
+"hg": "Candle steady flame se jalti hai."
+},
+"Hold the empty paper cup over the flame.": {
+"hi": "खाली कागज़ के कप को ज्वाला के ऊपर पकड़ें।",
+"hg": "Khaali paper cup ko flame ke upar pakdo."
+},
+"The bottom turns brown, then black, and the cup catches fire.": {
+"hi": "कप की तली पहले भूरी, फिर काली हो जाती है, और कप में आग लग जाती है।",
+"hg": "Cup ka neeche ka hissa pehle brown, phir black ho jaata hai, aur cup mein aag lag jaati hai."
+},
+"Paper heats up quickly and soon reaches its ignition temperature.": {
+"hi": "कागज़ जल्दी गरम हो जाता है और जल्द ही अपने ज्वलन ताप तक पहुँच जाता है।",
+"hg": "Paper jaldi garam ho jaata hai aur jaldi hi apne ignition temperature tak pahunch jaata hai."
+},
+"Now hold the paper cup with water over the flame (time-lapse).": {
+"hi": "अब पानी भरे कागज़ के कप को ज्वाला के ऊपर पकड़ें (टाइम-लैप्स)।",
+"hg": "Ab paani wale paper cup ko flame ke upar pakdo (time-lapse)."
+},
+"The cup does not burn. The water gets hot and even starts to boil.": {
+"hi": "कप नहीं जलता। पानी गरम हो जाता है और उबलने भी लगता है।",
+"hg": "Cup nahi jalta. Paani garam ho jaata hai aur ubalne bhi lagta hai."
+},
+"The water takes the heat away from the paper, so the paper never reaches its ignition temperature.": {
+"hi": "पानी कागज़ से ऊष्मा ले लेता है, इसलिए कागज़ कभी अपने ज्वलन ताप तक नहीं पहुँचता।",
+"hg": "Paani paper se garmi le leta hai, isliye paper kabhi apne ignition temperature tak nahi pahunchta."
+},
+"The empty cup caught fire; the cup with water did not burn, though the water became hot.": {
+"hi": "खाली कप में आग लग गई; पानी वाला कप नहीं जला, हालाँकि पानी गरम हो गया।",
+"hg": "Khaali cup mein aag lag gayi; paani wala cup nahi jala, halaanki paani garam ho gaya."
+},
+"A substance catches fire only when it is heated to its ignition temperature.": {
+"hi": "कोई पदार्थ तभी आग पकड़ता है जब उसे उसके ज्वलन ताप तक गरम किया जाए।",
+"hg": "Koi substance tabhi aag pakadta hai jab use uske ignition temperature tak garam kiya jaaye."
+},
+"Hold the cup with tongs and keep a tray of sand nearby.": {
+"hi": "कप को चिमटे से पकड़ें और पास में रेत से भरी एक ट्रे रखें।",
+"hg": "Cup ko tongs se pakdo aur paas mein ret wali ek tray rakho."
+},
+"What is ignition temperature?": {
+"hi": "ज्वलन ताप क्या है?",
+"hg": "Ignition temperature kya hai?"
+},
+"The lowest temperature at which a substance catches fire.": {
+"hi": "वह न्यूनतम ताप जिस पर कोई पदार्थ आग पकड़ लेता है।",
+"hg": "Woh sabse kam temperature jis par koi substance aag pakad leta hai."
+},
+"Why did the cup with water not burn?": {
+"hi": "पानी वाला कप क्यों नहीं जला?",
+"hg": "Paani wala cup kyun nahi jala?"
+},
+"The water absorbed the heat and kept the paper below its ignition temperature.": {
+"hi": "पानी ने ऊष्मा सोख ली और कागज़ का ताप उसके ज्वलन ताप से नीचे रखा।",
+"hg": "Paani ne garmi sokh li aur paper ko uske ignition temperature se neeche rakha."
+},
+"Why is water used to put out fires?": {
+"hi": "आग बुझाने के लिए पानी का उपयोग क्यों किया जाता है?",
+"hg": "Aag bujhane ke liye paani kyun use kiya jaata hai?"
+},
+"It cools the burning material below its ignition temperature.": {
+"hi": "यह जलते हुए पदार्थ को उसके ज्वलन ताप से नीचे तक ठंडा कर देता है।",
+"hg": "Yeh jalte hue material ko uske ignition temperature se neeche tak thanda kar deta hai."
+},
+"Physical and Chemical Changes (older NCERT, Class 7)": {
+"hi": "भौतिक एवं रासायनिक परिवर्तन (पुरानी NCERT, कक्षा 7)",
+"hg": "Physical aur Chemical Changes (purani NCERT, Class 7)"
+},
+"Physical changes: ice and a hot blade": {
+"hi": "भौतिक परिवर्तन: बर्फ़ और गरम ब्लेड",
+"hg": "Physical changes: barf aur garam blade"
+},
+"To observe physical changes, in which no new substance is formed and the change can usually be reversed.": {
+"hi": "भौतिक परिवर्तनों को देखना, जिनमें कोई नया पदार्थ नहीं बनता और परिवर्तन को प्रायः उलटा जा सकता है।",
+"hg": "Physical changes ko dekhna, jinmein koi naya substance nahi banta aur change ko aksar ulta kiya ja sakta hai."
+},
+"Physical change": {
+"hi": "भौतिक परिवर्तन",
+"hg": "Physical change"
+},
+"Test tube of ice": {
+"hi": "बर्फ़ वाली परखनली",
+"hg": "Barf wali test tube"
+},
+"Freezing mixture (ice and salt)": {
+"hi": "हिम मिश्रण (बर्फ़ और नमक)",
+"hg": "Freezing mixture (barf aur namak)"
+},
+"Leave the test tube of ice on the bench and watch (time-lapse).": {
+"hi": "बर्फ़ वाली परखनली को मेज़ पर छोड़ दें और देखें (टाइम-लैप्स)।",
+"hg": "Barf wali test tube ko bench par chhod do aur dekho (time-lapse)."
+},
+"The ice melts into water.": {
+"hi": "बर्फ़ पिघलकर पानी बन जाती है।",
+"hg": "Barf pighal kar paani ban jaati hai."
+},
+"Heat from the room melts the ice. It is still the same substance: water.": {
+"hi": "कमरे की ऊष्मा से बर्फ़ पिघल जाती है। यह अब भी वही पदार्थ है: पानी।",
+"hg": "Kamre ki garmi se barf pighal jaati hai. Yeh ab bhi wahi substance hai: paani."
+},
+"Now stand the tube in the freezing mixture of ice and salt and watch (time-lapse).": {
+"hi": "अब परखनली को बर्फ़ और नमक के हिम मिश्रण में खड़ा करें और देखें (टाइम-लैप्स)।",
+"hg": "Ab tube ko barf aur namak ke freezing mixture mein khada karo aur dekho (time-lapse)."
+},
+"The water in the tube freezes into ice again.": {
+"hi": "परखनली का पानी फिर से जमकर बर्फ़ बन जाता है।",
+"hg": "Tube ka paani phir se jam kar barf ban jaata hai."
+},
+"Ice with salt is far colder than ice alone. Melting and freezing are physical changes that can be reversed.": {
+"hi": "नमक मिली बर्फ़ अकेली बर्फ़ से कहीं ज़्यादा ठंडी होती है। पिघलना और जमना भौतिक परिवर्तन हैं, जिन्हें उलटा जा सकता है।",
+"hg": "Namak mili barf akeli barf se kahin zyada thandi hoti hai. Pighalna aur jamna physical changes hain, jinhe ulta kiya ja sakta hai."
+},
+"Hold the tip of the hacksaw blade in the flame with tongs.": {
+"hi": "हैक्सॉ ब्लेड के सिरे को चिमटे से पकड़कर ज्वाला में रखें।",
+"hg": "Hacksaw blade ke sire ko tongs se pakad kar flame mein rakho."
+},
+"The tip of the blade glows red, then orange.": {
+"hi": "ब्लेड का सिरा पहले लाल, फिर नारंगी चमकने लगता है।",
+"hg": "Blade ka sira pehle red, phir orange chamakne lagta hai."
+},
+"Take it out and let it cool.": {
+"hi": "इसे बाहर निकालें और ठंडा होने दें।",
+"hg": "Ise bahar nikaalo aur thanda hone do."
+},
+"The glow fades and the blade becomes grey again, just as before.": {
+"hi": "चमक धीरे-धीरे खत्म हो जाती है और ब्लेड फिर से पहले जैसा स्लेटी हो जाता है।",
+"hg": "Chamak dheere-dheere khatam ho jaati hai aur blade phir se pehle jaisa grey ho jaata hai."
+},
+"Only its temperature changed; no new substance was formed. This is a physical change.": {
+"hi": "केवल इसका ताप बदला; कोई नया पदार्थ नहीं बना। यह भौतिक परिवर्तन है।",
+"hg": "Sirf iska temperature badla; koi naya substance nahi bana. Yeh physical change hai."
+},
+"Ice melted and froze again; the blade glowed in the flame and became grey again on cooling.": {
+"hi": "बर्फ़ पिघली और फिर से जम गई; ब्लेड ज्वाला में चमका और ठंडा होने पर फिर स्लेटी हो गया।",
+"hg": "Barf pighli aur phir se jam gayi; blade flame mein chamka aur thanda hone par phir grey ho gaya."
+},
+"In a physical change no new substance is formed; such changes can often be reversed.": {
+"hi": "भौतिक परिवर्तन में कोई नया पदार्थ नहीं बनता; ऐसे परिवर्तनों को प्रायः उलटा जा सकता है।",
+"hg": "Physical change mein koi naya substance nahi banta; aise changes ko aksar ulta kiya ja sakta hai."
+},
+"Hold the blade with tongs; it stays hot long after the glow has gone.": {
+"hi": "ब्लेड को चिमटे से पकड़ें; चमक खत्म होने के बाद भी यह देर तक गरम रहता है।",
+"hg": "Blade ko tongs se pakdo; chamak jaane ke baad bhi yeh der tak garam rehta hai."
+},
+"Is melting of ice a physical or a chemical change?": {
+"hi": "बर्फ़ का पिघलना भौतिक परिवर्तन है या रासायनिक?",
+"hg": "Barf ka pighalna physical change hai ya chemical?"
+},
+"A physical change.": {
+"hi": "भौतिक परिवर्तन।",
+"hg": "Physical change."
+},
+"Why is salt added to the ice?": {
+"hi": "बर्फ़ में नमक क्यों मिलाया जाता है?",
+"hg": "Barf mein namak kyun milaya jaata hai?"
+},
+"Ice with salt becomes much colder than 0 °C, so it can freeze water.": {
+"hi": "नमक मिली बर्फ़ 0 °C से बहुत ज़्यादा ठंडी हो जाती है, इसलिए यह पानी को जमा सकती है।",
+"hg": "Namak mili barf 0 °C se bahut zyada thandi ho jaati hai, isliye yeh paani ko jama sakti hai."
+},
+"Did the blade change into a new substance?": {
+"hi": "क्या ब्लेड किसी नए पदार्थ में बदल गया?",
+"hg": "Kya blade kisi naye substance mein badal gaya?"
+},
+"No, it became the same grey blade after cooling.": {
+"hi": "नहीं, ठंडा होने पर यह फिर वही स्लेटी ब्लेड बन गया।",
+"hg": "Nahi, thanda hone par yeh phir wahi grey blade ban gaya."
+},
+"Metals and non-metals: shine, hammer, sound, heat": {
+"hi": "धातु और अधातु: चमक, हथौड़ा, ध्वनि, ऊष्मा",
+"hg": "Metals aur non-metals: chamak, hathauda, awaaz, garmi"
+},
+"To compare metals and non-metals for lustre, malleability, sonority and conduction of heat.": {
+"hi": "धातुओं और अधातुओं की चमक, आघातवर्धनीयता, ध्वानिकता और ऊष्मा चालन की तुलना करना।",
+"hg": "Metals aur non-metals ki lustre, malleability, sonority aur heat conduction ki tulna karna."
+},
+"Physical properties of metals and non-metals": {
+"hi": "धातुओं और अधातुओं के भौतिक गुण",
+"hg": "Metals aur non-metals ki physical properties"
+},
+"Hot water": {
+"hi": "गरम पानी",
+"hg": "Garam paani"
+},
+"Rub copper, aluminium and coal with sandpaper and look at their surfaces.": {
+"hi": "कॉपर, ऐलुमिनियम और कोयले को रेगमाल से रगड़ें और उनकी सतहों को देखें।",
+"hg": "Copper, aluminium aur koyle ko sandpaper se ragdo aur unki surfaces ko dekho."
+},
+"Copper shines reddish-brown and aluminium shines silvery; coal stays dull black.": {
+"hi": "कॉपर लाल-भूरे रंग में चमकता है और ऐलुमिनियम चाँदी जैसा चमकता है; कोयला फीका काला ही रहता है।",
+"hg": "Copper reddish-brown chamakta hai aur aluminium silver jaisa chamakta hai; koyla dull black hi rehta hai."
+},
+"Metals have lustre: a fresh metal surface shines.": {
+"hi": "धातुओं में चमक होती है: धातु की ताज़ी सतह चमकती है।",
+"hg": "Metals mein lustre hota hai: metal ki fresh surface chamakti hai."
+},
+"Beat the aluminium foil on the iron block with a hammer.": {
+"hi": "लोहे के गुटके पर रखी ऐलुमिनियम पन्नी को हथौड़े से पीटें।",
+"hg": "Iron block par rakhi aluminium foil ko hammer se peeto."
+},
+"It spreads into a thinner, flatter sheet; it does not break.": {
+"hi": "यह फैलकर और पतली, चपटी चादर बन जाती है; यह टूटती नहीं।",
+"hg": "Yeh fail kar aur patli, flat sheet ban jaati hai; yeh tootti nahi."
+},
+"Metals are malleable: they can be beaten into thin sheets.": {
+"hi": "धातुएँ आघातवर्ध्य होती हैं: उन्हें पीटकर पतली चादरें बनाई जा सकती हैं।",
+"hg": "Metals malleable hote hain: unhe peet kar patli sheets banaayi ja sakti hain."
+},
+"Now beat the piece of coal with the hammer.": {
+"hi": "अब कोयले के टुकड़े को हथौड़े से पीटें।",
+"hg": "Ab koyle ke tukde ko hammer se peeto."
+},
+"The coal breaks into small pieces and powder.": {
+"hi": "कोयला टूटकर छोटे-छोटे टुकड़ों और चूर्ण में बदल जाता है।",
+"hg": "Koyla toot kar chhote-chhote tukdon aur powder mein badal jaata hai."
+},
+"Non-metals like coal and sulphur are brittle.": {
+"hi": "कोयला और सल्फ़र जैसी अधातुएँ भंगुर होती हैं।",
+"hg": "Koyla aur sulphur jaise non-metals brittle hote hain."
+},
+"Drop the iron nail and then the sulphur lump on the bench and listen.": {
+"hi": "लोहे की कील और फिर सल्फ़र के डले को मेज़ पर गिराएँ और आवाज़ सुनें।",
+"hg": "Iron ki keel aur phir sulphur ke tukde ko bench par giraao aur awaaz suno."
+},
+"The iron nail makes a ringing sound; sulphur makes only a dull thud.": {
+"hi": "लोहे की कील खनखनाती आवाज़ करती है; सल्फ़र से केवल धप्प जैसी धीमी आवाज़ आती है।",
+"hg": "Iron ki keel khanakti hui awaaz karti hai; sulphur se sirf dhapp jaisi dull awaaz aati hai."
+},
+"Metals are sonorous: they ring when struck.": {
+"hi": "धातुएँ ध्वानिक होती हैं: टकराने पर वे खनखनाती हैं।",
+"hg": "Metals sonorous hote hain: takraane par woh khanakte hain."
+},
+"Stand the steel spoon and the wooden spoon in hot water. Each has a small bead of wax on its handle. Wait a few minutes (time-lapse).": {
+"hi": "स्टील के चम्मच और लकड़ी के चम्मच को गरम पानी में खड़ा करें। दोनों के हत्थे पर मोम की एक छोटी गोली लगी है। कुछ मिनट प्रतीक्षा करें (टाइम-लैप्स)।",
+"hg": "Steel spoon aur wooden spoon ko garam paani mein khada karo. Dono ke handle par wax ki ek chhoti goli lagi hai. Kuch minute ruko (time-lapse)."
+},
+"The wax on the steel spoon melts and slides down; the wax on the wooden spoon stays solid.": {
+"hi": "स्टील के चम्मच पर लगा मोम पिघलकर नीचे खिसक जाता है; लकड़ी के चम्मच पर लगा मोम ठोस ही रहता है।",
+"hg": "Steel spoon par laga wax pighal kar neeche khisak jaata hai; wooden spoon par laga wax solid hi rehta hai."
+},
+"Metals are good conductors of heat; wood is a poor conductor.": {
+"hi": "धातुएँ ऊष्मा की सुचालक होती हैं; लकड़ी ऊष्मा की कुचालक है।",
+"hg": "Metals heat ke achhe conductors hote hain; lakdi poor conductor hai."
+},
+"Copper and aluminium shone, aluminium flattened, coal broke, the nail rang, and wax melted on the steel spoon only.": {
+"hi": "कॉपर और ऐलुमिनियम चमके, ऐलुमिनियम चपटा हो गया, कोयला टूट गया, कील खनखनाई, और मोम केवल स्टील के चम्मच पर पिघला।",
+"hg": "Copper aur aluminium chamke, aluminium flat ho gaya, koyla toot gaya, keel khanki, aur wax sirf steel spoon par pighla."
+},
+"Metals are lustrous, malleable, sonorous and good conductors of heat; non-metals are not.": {
+"hi": "धातुएँ चमकीली, आघातवर्ध्य, ध्वानिक और ऊष्मा की सुचालक होती हैं; अधातुएँ नहीं।",
+"hg": "Metals lustrous, malleable, sonorous aur heat ke achhe conductors hote hain; non-metals nahi."
+},
+"Use the hammer carefully and keep your fingers away. Do not touch the hot water.": {
+"hi": "हथौड़े का उपयोग सावधानी से करें और उँगलियाँ दूर रखें। गरम पानी को न छुएँ।",
+"hg": "Hammer dhyaan se use karo aur ungliyan door rakho. Garam paani ko mat chhuo."
+},
+"What is malleability?": {
+"hi": "आघातवर्धनीयता क्या है?",
+"hg": "Malleability kya hai?"
+},
+"The property of being beaten into thin sheets.": {
+"hi": "पीटकर पतली चादरों में बदल सकने का गुण।",
+"hg": "Peet kar patli sheets mein badal sakne ki property."
+},
+"Why are cooking pans made of metal?": {
+"hi": "खाना पकाने के बर्तन धातु के क्यों बनाए जाते हैं?",
+"hg": "Khaana pakaane ke bartan metal ke kyun banaaye jaate hain?"
+},
+"Metals conduct heat well.": {
+"hi": "धातुएँ ऊष्मा का चालन अच्छी तरह करती हैं।",
+"hg": "Metals heat ko achhe se conduct karte hain."
+},
+"Name a non-metal that conducts electricity.": {
+"hi": "एक ऐसी अधातु का नाम बताएँ जो विद्युत का चालन करती है।",
+"hg": "Ek aise non-metal ka naam batao jo electricity conduct karta hai."
+},
+"Graphite (a form of carbon).": {
+"hi": "ग्रेफ़ाइट (कार्बन का एक रूप)।",
+"hg": "Graphite (carbon ka ek form)."
+},
+"Ch 9 · The Amazing World of Solutes, Solvents, and Solutions": {
+"hi": "अध्याय 9 · विलेय, विलायक और विलयन की अद्भुत दुनिया",
+"hg": "Ch 9 · Solutes, Solvents aur Solutions ki Amazing Duniya"
+},
+"Saturated solutions and temperature": {
+"hi": "संतृप्त विलयन और ताप",
+"hg": "Saturated solutions aur temperature"
+},
+"To make a saturated solution and show that more solid dissolves in hot water.": {
+"hi": "संतृप्त विलयन बनाना और यह दिखाना कि गरम पानी में ज़्यादा ठोस घुलता है।",
+"hg": "Saturated solution banana aur dikhana ki garam paani mein zyada solid ghulta hai."
+},
+"Saturated solution and solubility": {
+"hi": "संतृप्त विलयन और विलेयता",
+"hg": "Saturated solution aur solubility"
+},
+"Beaker A (salt)": {
+"hi": "बीकर A (नमक)",
+"hg": "Beaker A (namak)"
+},
+"Beaker B (baking soda)": {
+"hi": "बीकर B (बेकिंग सोडा)",
+"hg": "Beaker B (baking soda)"
+},
+"Add one spoonful of salt to the water in beaker A and stir until it dissolves.": {
+"hi": "बीकर A के पानी में एक चम्मच नमक डालें और घुलने तक हिलाएँ।",
+"hg": "Beaker A ke paani mein ek chammach namak daalo aur ghulne tak hilao."
+},
+"The salt dissolves completely.": {
+"hi": "नमक पूरी तरह घुल जाता है।",
+"hg": "Namak poori tarah ghul jaata hai."
+},
+"Keep adding salt one spoonful at a time, stirring each time, until some stays at the bottom.": {
+"hi": "एक-एक चम्मच करके नमक डालते रहें और हर बार हिलाएँ, जब तक कुछ नमक तली में न रह जाए।",
+"hg": "Ek-ek chammach karke namak daalte raho aur har baar hilao, jab tak thoda namak neeche na reh jaaye."
+},
+"Three spoonfuls dissolve; from the fourth some salt stays at the bottom however much you stir.": {
+"hi": "तीन चम्मच घुल जाते हैं; चौथे चम्मच से कुछ नमक तली में ही रह जाता है, चाहे आप कितना भी हिलाएँ।",
+"hg": "Teen chammach ghul jaate hain; chauthe se thoda namak neeche hi reh jaata hai, chahe tum kitna bhi hilao."
+},
+"The solution is now saturated: at this temperature the water cannot dissolve any more salt.": {
+"hi": "अब विलयन संतृप्त है: इस ताप पर पानी और नमक नहीं घोल सकता।",
+"hg": "Ab solution saturated hai: is temperature par paani aur namak nahi ghol sakta."
+},
+"In beaker B add baking soda a little at a time, stirring, until some stays undissolved.": {
+"hi": "बीकर B में थोड़ा-थोड़ा करके बेकिंग सोडा डालें और हिलाते रहें, जब तक कुछ सोडा बिना घुले न रह जाए।",
+"hg": "Beaker B mein thoda-thoda karke baking soda daalo aur hilaate raho, jab tak thoda bina ghule na reh jaaye."
+},
+"After about three small spoonfuls some baking soda stays at the bottom.": {
+"hi": "लगभग तीन छोटे चम्मच के बाद कुछ बेकिंग सोडा तली में रह जाता है।",
+"hg": "Lagbhag teen chhote chammach ke baad thoda baking soda neeche reh jaata hai."
+},
+"Baking soda is much less soluble than salt.": {
+"hi": "बेकिंग सोडा नमक की तुलना में बहुत कम विलेय है।",
+"hg": "Baking soda namak se bahut kam soluble hai."
+},
+"Put beaker B on the tripod, light the burner and warm it to about 50 °C while stirring.": {
+"hi": "बीकर B को तिपाई स्टैंड पर रखें, बर्नर जलाएँ और हिलाते हुए इसे लगभग 50 °C तक गरम करें।",
+"hg": "Beaker B ko tripod par rakho, burner jalao aur hilaate hue ise lagbhag 50 °C tak garam karo."
+},
+"The undissolved baking soda dissolves.": {
+"hi": "बिना घुला बेकिंग सोडा घुल जाता है।",
+"hg": "Bina ghula baking soda ghul jaata hai."
+},
+"Hot water can dissolve more solid than cold water.": {
+"hi": "गरम पानी ठंडे पानी से ज़्यादा ठोस घोल सकता है।",
+"hg": "Garam paani thande paani se zyada solid ghol sakta hai."
+},
+"Add more baking soda until again some stays undissolved.": {
+"hi": "और बेकिंग सोडा डालें, जब तक फिर से कुछ सोडा बिना घुले न रह जाए।",
+"hg": "Aur baking soda daalo, jab tak phir se thoda bina ghule na reh jaaye."
+},
+"More baking soda dissolves before the solution is saturated again.": {
+"hi": "विलयन के फिर से संतृप्त होने से पहले और ज़्यादा बेकिंग सोडा घुल जाता है।",
+"hg": "Solution ke phir se saturated hone se pehle aur zyada baking soda ghul jaata hai."
+},
+"Solubility of most solids increases with temperature.": {
+"hi": "ज़्यादातर ठोसों की विलेयता ताप बढ़ने के साथ बढ़ती है।",
+"hg": "Zyaadatar solids ki solubility temperature ke saath badhti hai."
+},
+"About three and a half spoonfuls of salt saturated 50 mL of water; warming made more baking soda dissolve.": {
+"hi": "लगभग साढ़े तीन चम्मच नमक से 50 mL पानी संतृप्त हो गया; गरम करने पर और बेकिंग सोडा घुल गया।",
+"hg": "Lagbhag saadhe teen chammach namak se 50 mL paani saturated ho gaya; garam karne par aur baking soda ghul gaya."
+},
+"A solution can hold only a limited amount of solute; the limit (solubility) usually rises with temperature.": {
+"hi": "किसी विलयन में विलेय की एक सीमित मात्रा ही घुल सकती है; यह सीमा (विलेयता) प्रायः ताप के साथ बढ़ती है।",
+"hg": "Ek solution mein solute ki ek limited quantity hi ghul sakti hai; yeh limit (solubility) aksar temperature ke saath badhti hai."
+},
+"Do not heat baking soda strongly; stir gently and keep the burner low.": {
+"hi": "बेकिंग सोडा को तेज़ गरम न करें; धीरे से हिलाएँ और बर्नर की आँच धीमी रखें।",
+"hg": "Baking soda ko tez garam mat karo; dheere se hilao aur burner ki aanch dheemi rakho."
+},
+"What is a saturated solution?": {
+"hi": "संतृप्त विलयन क्या है?",
+"hg": "Saturated solution kya hai?"
+},
+"A solution in which no more solute can dissolve at that temperature.": {
+"hi": "वह विलयन जिसमें उस ताप पर और विलेय नहीं घुल सकता।",
+"hg": "Woh solution jismein us temperature par aur solute nahi ghul sakta."
+},
+"How can a saturated solution dissolve more solute?": {
+"hi": "संतृप्त विलयन में और विलेय कैसे घोला जा सकता है?",
+"hg": "Saturated solution mein aur solute kaise ghola ja sakta hai?"
+},
+"By heating it.": {
+"hi": "उसे गरम करके।",
+"hg": "Use garam karke."
+},
+"What happens when a hot saturated solution cools?": {
+"hi": "गरम संतृप्त विलयन ठंडा होने पर क्या होता है?",
+"hg": "Garam saturated solution thanda hone par kya hota hai?"
+},
+"Some of the solid comes out as crystals.": {
+"hi": "कुछ ठोस क्रिस्टल के रूप में बाहर निकल आता है।",
+"hg": "Thoda solid crystals ke roop mein bahar aa jaata hai."
+},
+"Combustion and Flame (older NCERT, Class 8)": {
+"hi": "दहन और ज्वाला (पुरानी NCERT, कक्षा 8)",
+"hg": "Combustion aur Flame (purani NCERT, Class 8)"
+},
+"Zones of a candle flame": {
+"hi": "मोमबत्ती की ज्वाला के क्षेत्र",
+"hg": "Candle flame ke zones"
+},
+"To study the different zones of a candle flame.": {
+"hi": "मोमबत्ती की ज्वाला के विभिन्न क्षेत्रों का अध्ययन करना।",
+"hg": "Candle flame ke alag-alag zones ko study karna."
+},
+"Structure of a flame": {
+"hi": "ज्वाला की संरचना",
+"hg": "Flame ki structure"
+},
+"Light the candle and let the flame become steady.": {
+"hi": "मोमबत्ती जलाएँ और ज्वाला को स्थिर होने दें।",
+"hg": "Candle jalao aur flame ko steady hone do."
+},
+"A steady flame burns.": {
+"hi": "एक स्थिर ज्वाला जल रही है।",
+"hg": "Ek steady flame jal rahi hai."
+},
+"Look closely at the flame and its zones.": {
+"hi": "ज्वाला और उसके क्षेत्रों को ध्यान से देखें।",
+"hg": "Flame aur uske zones ko dhyaan se dekho."
+},
+"Round the wick is a dark zone; around it a bright yellow zone; outside a faint blue zone, and a blue cup at the bottom.": {
+"hi": "बत्ती के चारों ओर एक काला क्षेत्र है; उसके चारों ओर एक चमकीला पीला क्षेत्र; बाहर की ओर एक हल्का नीला क्षेत्र, और नीचे एक नीली प्याली जैसा भाग।",
+"hg": "Wick ke charon taraf ek dark zone hai; uske charon taraf ek bright yellow zone; bahar ek halka blue zone, aur neeche ek blue cup."
+},
+"The dark zone has unburnt wax vapour; the yellow zone burns only partly; the outer zone burns completely and is the hottest.": {
+"hi": "काले क्षेत्र में बिना जली मोम की वाष्प होती है; पीले क्षेत्र में केवल आंशिक दहन होता है; बाहरी क्षेत्र में पूर्ण दहन होता है और यह सबसे गरम होता है।",
+"hg": "Dark zone mein bina jali wax vapour hoti hai; yellow zone mein sirf partial burning hoti hai; outer zone mein complete burning hoti hai aur yeh sabse garam hota hai."
+},
+"Hold a glass slide in the yellow zone for about ten seconds.": {
+"hi": "काँच की एक स्लाइड को लगभग दस सेकंड तक पीले क्षेत्र में पकड़ें।",
+"hg": "Ek glass slide ko lagbhag das second tak yellow zone mein pakdo."
+},
+"A black ring of soot collects on the slide.": {
+"hi": "स्लाइड पर कालिख का एक काला छल्ला जम जाता है।",
+"hg": "Slide par soot ka ek black ring jam jaata hai."
+},
+"The yellow zone has unburnt carbon particles: they glow and give light, and stick to the cold glass as soot.": {
+"hi": "पीले क्षेत्र में बिना जले कार्बन कण होते हैं: वे चमककर प्रकाश देते हैं, और ठंडे काँच पर कालिख के रूप में चिपक जाते हैं।",
+"hg": "Yellow zone mein bina jale carbon particles hote hain: woh chamak kar roshni dete hain, aur thande glass par soot ke roop mein chipak jaate hain."
+},
+"Hold one end of a thin glass tube in the dark zone and bring a lighted match to the other end.": {
+"hi": "काँच की एक पतली नली का एक सिरा काले क्षेत्र में रखें और दूसरे सिरे के पास जलती हुई माचिस की तीली लाएँ।",
+"hg": "Ek patli glass tube ka ek sira dark zone mein rakho aur doosre sire ke paas jalti hui maachis ki teeli lao."
+},
+"A small flame appears at the other end of the tube.": {
+"hi": "नली के दूसरे सिरे पर एक छोटी ज्वाला दिखाई देती है।",
+"hg": "Tube ke doosre sire par ek chhoti flame dikhti hai."
+},
+"Unburnt wax vapour from the dark zone travels through the tube and burns at its end.": {
+"hi": "काले क्षेत्र की बिना जली मोम की वाष्प नली से होकर जाती है और उसके सिरे पर जलती है।",
+"hg": "Dark zone ki bina jali wax vapour tube se hokar jaati hai aur uske sire par jalti hai."
+},
+"Hold a thin copper wire across the outer zone for a few seconds.": {
+"hi": "कॉपर के एक पतले तार को कुछ सेकंड के लिए बाहरी क्षेत्र के आर-पार पकड़ें।",
+"hg": "Ek patle copper wire ko kuch second ke liye outer zone ke aar-paar pakdo."
+},
+"The wire glows red hot where it crosses the outer zone.": {
+"hi": "जहाँ तार बाहरी क्षेत्र से गुज़रता है, वहाँ वह लाल-तप्त होकर चमकने लगता है।",
+"hg": "Jahan wire outer zone se guzarta hai, wahan woh red hot hokar chamakne lagta hai."
+},
+"The outer, non-luminous zone is the hottest part of the flame.": {
+"hi": "बाहरी, अदीप्त क्षेत्र ज्वाला का सबसे गरम भाग है।",
+"hg": "Bahar wala, non-luminous zone flame ka sabse garam hissa hai."
+},
+"Soot collected in the yellow zone, wax vapour from the dark zone burnt at the end of the tube, and the copper wire glowed in the outer zone.": {
+"hi": "पीले क्षेत्र में कालिख जमी, काले क्षेत्र की मोम की वाष्प नली के सिरे पर जली, और कॉपर का तार बाहरी क्षेत्र में चमका।",
+"hg": "Yellow zone mein soot jami, dark zone ki wax vapour tube ke sire par jali, aur copper wire outer zone mein chamka."
+},
+"A candle flame has three zones: dark (unburnt vapour), luminous (partial burning) and non-luminous (complete burning, hottest).": {
+"hi": "मोमबत्ती की ज्वाला के तीन क्षेत्र होते हैं: काला (बिना जली वाष्प), दीप्त (आंशिक दहन) और अदीप्त (पूर्ण दहन, सबसे गरम)।",
+"hg": "Candle flame ke teen zones hote hain: dark (bina jali vapour), luminous (partial burning) aur non-luminous (complete burning, sabse garam)."
+},
+"Use tongs; the slide, tube and wire get very hot.": {
+"hi": "चिमटे का उपयोग करें; स्लाइड, नली और तार बहुत गरम हो जाते हैं।",
+"hg": "Tongs use karo; slide, tube aur wire bahut garam ho jaate hain."
+},
+"Which zone of the flame is the hottest?": {
+"hi": "ज्वाला का कौन-सा क्षेत्र सबसे गरम होता है?",
+"hg": "Flame ka kaun sa zone sabse garam hota hai?"
+},
+"The outer, non-luminous (blue) zone.": {
+"hi": "बाहरी, अदीप्त (नीला) क्षेत्र।",
+"hg": "Bahar wala, non-luminous (blue) zone."
+},
+"Why does the yellow zone give light?": {
+"hi": "पीला क्षेत्र प्रकाश क्यों देता है?",
+"hg": "Yellow zone roshni kyun deta hai?"
+},
+"Unburnt carbon particles in it glow.": {
+"hi": "इसमें मौजूद बिना जले कार्बन कण चमकते हैं।",
+"hg": "Ismein maujood bina jale carbon particles chamakte hain."
+},
+"Why do goldsmiths blow on the outer zone of a flame?": {
+"hi": "सुनार ज्वाला के बाहरी क्षेत्र पर फूँक क्यों मारते हैं?",
+"hg": "Sunaar flame ke outer zone par phoonk kyun maarte hain?"
+},
+"It is the hottest zone, good for melting gold.": {
+"hi": "यह सबसे गरम क्षेत्र है, जो सोना पिघलाने के लिए अच्छा है।",
+"hg": "Yeh sabse garam zone hai, jo sona pighlaane ke liye achha hai."
+},
+"Making lime water from quick lime": {
+"hi": "बिना बुझे चूने से चूने का पानी बनाना",
+"hg": "Quick lime se lime water banana"
+},
+"To prepare lime water from quick lime and show that air contains carbon dioxide.": {
+"hi": "बिना बुझे चूने से चूने का पानी तैयार करना और यह दिखाना कि हवा में कार्बन डाइऑक्साइड होती है।",
+"hg": "Quick lime se lime water taiyaar karna aur dikhana ki hawa mein carbon dioxide hoti hai."
+},
+"Compound formation and a test for carbon dioxide": {
+"hi": "यौगिक का बनना और कार्बन डाइऑक्साइड का परीक्षण",
+"hg": "Compound banna aur carbon dioxide ka test"
+},
+"Tumbler of water": {
+"hi": "पानी का गिलास",
+"hg": "Paani ka glass"
+},
+"Add a little quick lime to the water, slowly.": {
+"hi": "पानी में थोड़ा-सा बिना बुझा चूना धीरे-धीरे डालें।",
+"hg": "Paani mein thoda quick lime dheere-dheere daalo."
+},
+"It hisses and the lumps begin to break up.": {
+"hi": "हिस-हिस की आवाज़ होती है और डले टूटने लगते हैं।",
+"hg": "Hiss-hiss ki awaaz aati hai aur tukde tootne lagte hain."
+},
+"Stir it and feel the outside of the tumbler.": {
+"hi": "इसे हिलाएँ और गिलास को बाहर से छूकर देखें।",
+"hg": "Ise hilao aur glass ko bahar se chhookar dekho."
+},
+"The tumbler becomes hot and a milky white suspension forms.": {
+"hi": "गिलास गरम हो जाता है और दूधिया सफ़ेद निलंबन बन जाता है।",
+"hg": "Glass garam ho jaata hai aur doodhiya white suspension ban jaata hai."
+},
+"Quick lime reacts with water to form slaked lime (calcium hydroxide), giving out heat.": {
+"hi": "बिना बुझा चूना पानी से अभिक्रिया करके बुझा हुआ चूना (कैल्शियम हाइड्रॉक्साइड) बनाता है, और ऊष्मा निकलती है।",
+"hg": "Quick lime paani ke saath react karke slaked lime (calcium hydroxide) banata hai, aur garmi nikalti hai."
+},
+"Filter the mixture into the flask.": {
+"hi": "मिश्रण को छानकर फ्लास्क में इकट्ठा करें।",
+"hg": "Mixture ko filter karke flask mein lo."
+},
+"A clear, colourless liquid collects in the flask. This is lime water.": {
+"hi": "फ्लास्क में एक साफ़, रंगहीन द्रव इकट्ठा होता है। यही चूने का पानी है।",
+"hg": "Flask mein ek saaf, colourless liquid ikattha hota hai. Yahi lime water hai."
+},
+"Undissolved slaked lime stays on the paper; the dissolved part passes through.": {
+"hi": "बिना घुला बुझा हुआ चूना पेपर पर रह जाता है; घुला हुआ भाग छनकर निकल जाता है।",
+"hg": "Bina ghula slaked lime paper par reh jaata hai; ghula hua hissa chhan kar nikal jaata hai."
+},
+"Pour the lime water into an open petri dish and leave it in the air (time-lapse: a few hours).": {
+"hi": "चूने के पानी को एक खुली पेट्री डिश में डालें और उसे हवा में छोड़ दें (टाइम-लैप्स: कुछ घंटे)।",
+"hg": "Lime water ko ek khuli petri dish mein daalo aur use hawa mein chhod do (time-lapse: kuch ghante)."
+},
+"A thin white skin forms on the surface and the lime water turns milky.": {
+"hi": "सतह पर एक पतली सफ़ेद परत बन जाती है और चूने का पानी दूधिया हो जाता है।",
+"hg": "Surface par ek patli white layer ban jaati hai aur lime water doodhiya ho jaata hai."
+},
+"Carbon dioxide from the air reacts with lime water to form insoluble calcium carbonate.": {
+"hi": "हवा की कार्बन डाइऑक्साइड चूने के पानी से अभिक्रिया करके अविलेय कैल्शियम कार्बोनेट बनाती है।",
+"hg": "Hawa ki carbon dioxide lime water ke saath react karke insoluble calcium carbonate banati hai."
+},
+"Quick lime hissed and became hot in water; the filtrate was clear lime water, which turned milky in open air.": {
+"hi": "पानी में बिना बुझे चूने से हिस-हिस की आवाज़ आई और वह गरम हो गया; निस्यंद साफ़ चूने का पानी था, जो खुली हवा में दूधिया हो गया।",
+"hg": "Paani mein quick lime se hiss-hiss ki awaaz aayi aur woh garam ho gaya; filtrate saaf lime water tha, jo khuli hawa mein doodhiya ho gaya."
+},
+"Quick lime forms a new compound with water; air contains carbon dioxide, which turns lime water milky.": {
+"hi": "बिना बुझा चूना पानी के साथ एक नया यौगिक बनाता है; हवा में कार्बन डाइऑक्साइड होती है, जो चूने के पानी को दूधिया कर देती है।",
+"hg": "Quick lime paani ke saath ek naya compound banata hai; hawa mein carbon dioxide hoti hai, jo lime water ko doodhiya kar deti hai."
+},
+"Quick lime burns skin and eyes. Add it in small amounts and do not touch it.": {
+"hi": "बिना बुझा चूना त्वचा और आँखों को जला देता है। इसे थोड़ी-थोड़ी मात्रा में डालें और इसे न छुएँ।",
+"hg": "Quick lime skin aur aankhon ko jala deta hai. Ise thoda-thoda karke daalo aur ise mat chhuo."
+},
+"What is lime water?": {
+"hi": "चूने का पानी क्या है?",
+"hg": "Lime water kya hai?"
+},
+"A clear solution of calcium hydroxide in water.": {
+"hi": "पानी में कैल्शियम हाइड्रॉक्साइड का साफ़ विलयन।",
+"hg": "Paani mein calcium hydroxide ka saaf solution."
+},
+"Why did the lime water turn milky in air?": {
+"hi": "हवा में चूने का पानी दूधिया क्यों हो गया?",
+"hg": "Hawa mein lime water doodhiya kyun ho gaya?"
+},
+"Carbon dioxide in the air formed white calcium carbonate.": {
+"hi": "हवा की कार्बन डाइऑक्साइड से सफ़ेद कैल्शियम कार्बोनेट बना।",
+"hg": "Hawa ki carbon dioxide se white calcium carbonate bana."
+},
+"Is the reaction of quick lime with water exothermic?": {
+"hi": "क्या बिना बुझे चूने की पानी के साथ अभिक्रिया ऊष्माक्षेपी है?",
+"hg": "Kya quick lime ka paani ke saath reaction exothermic hai?"
+},
+"Yes, it gives out a lot of heat.": {
+"hi": "हाँ, इसमें बहुत ऊष्मा निकलती है।",
+"hg": "Haan, ismein bahut garmi nikalti hai."
+},
+"Put a drop of lemon juice on a blue and on a red litmus piece.": {
+"hi": "नीले लिटमस के एक टुकड़े और लाल लिटमस के एक टुकड़े पर नींबू के रस की एक-एक बूँद डालें।",
+"hg": "Ek blue aur ek red litmus ke tukde par nimbu ke ras ki ek-ek boond daalo."
+},
+"Blue litmus turns red; red litmus stays red.": {
+"hi": "नीला लिटमस लाल हो जाता है; लाल लिटमस लाल ही रहता है।",
+"hg": "Blue litmus red ho jaata hai; red litmus red hi rehta hai."
+},
+"Lemon juice is acidic. Acids turn blue litmus red.": {
+"hi": "नींबू का रस अम्लीय है। अम्ल नीले लिटमस को लाल कर देते हैं।",
+"hg": "Nimbu ka ras acidic hai. Acids blue litmus ko red kar dete hain."
+},
+"Now vinegar: one drop on each colour.": {
+"hi": "अब सिरका: हर रंग के टुकड़े पर एक बूँद।",
+"hg": "Ab vinegar: har colour par ek boond."
+},
+"Blue litmus turns red again; red litmus does not change.": {
+"hi": "नीला लिटमस फिर से लाल हो जाता है; लाल लिटमस नहीं बदलता।",
+"hg": "Blue litmus phir se red ho jaata hai; red litmus nahi badalta."
+},
+"Next, soap solution.": {
+"hi": "इसके बाद, साबुन का विलयन।",
+"hg": "Ab, soap solution."
+},
+"Red litmus turns blue; blue litmus stays blue.": {
+"hi": "लाल लिटमस नीला हो जाता है; नीला लिटमस नीला ही रहता है।",
+"hg": "Red litmus blue ho jaata hai; blue litmus blue hi rehta hai."
+},
+"Soap solution is basic. Bases turn red litmus blue.": {
+"hi": "साबुन का विलयन क्षारकीय है। क्षारक लाल लिटमस को नीला कर देते हैं।",
+"hg": "Soap solution basic hai. Bases red litmus ko blue kar dete hain."
+},
+"Next, baking soda solution.": {
+"hi": "इसके बाद, बेकिंग सोडा का विलयन।",
+"hg": "Ab, baking soda solution."
+},
+"Red litmus turns blue (a little slowly); blue stays blue.": {
+"hi": "लाल लिटमस (थोड़ा धीरे) नीला हो जाता है; नीला, नीला ही रहता है।",
+"hg": "Red litmus (thoda dheere) blue ho jaata hai; blue, blue hi rehta hai."
+},
+"Baking soda solution is basic, but weak.": {
+"hi": "बेकिंग सोडा का विलयन क्षारकीय है, पर दुर्बल।",
+"hg": "Baking soda solution basic hai, par weak."
+},
+"Next, lime water.": {
+"hi": "इसके बाद, चूने का पानी।",
+"hg": "Ab, lime water."
+},
+"Red litmus turns blue.": {
+"hi": "लाल लिटमस नीला हो जाता है।",
+"hg": "Red litmus blue ho jaata hai."
+},
+"Lime water is basic.": {
+"hi": "चूने का पानी क्षारकीय है।",
+"hg": "Lime water basic hai."
+},
+"Last, sugar solution.": {
+"hi": "अंत में, चीनी का विलयन।",
+"hg": "Aakhir mein, sugar solution."
+},
+"Neither piece changes colour.": {
+"hi": "किसी भी टुकड़े का रंग नहीं बदलता।",
+"hg": "Kisi bhi tukde ka colour nahi badalta."
+},
+"Sugar solution is neutral: neither acidic nor basic.": {
+"hi": "चीनी का विलयन उदासीन है: न अम्लीय, न क्षारकीय।",
+"hg": "Sugar solution neutral hai: na acidic, na basic."
+},
+"Ch 8 · A Journey through States of Water": {
+"hi": "अध्याय 8 · जल की अवस्थाओं की एक यात्रा",
+"hg": "Ch 8 · Paani ki States ka Safar"
+},
+"Ch 4 · The World of Metals and Non-metals": {
+"hi": "अध्याय 4 · धातुओं और अधातुओं की दुनिया",
+"hg": "Ch 4 · Metals aur Non-metals ki Duniya"
+},
+"Liquid water → water vapour (evaporation): faster with a bigger surface, heat and wind": {
+"hi": "द्रव पानी → जलवाष्प (वाष्पन): बड़ी सतह, ऊष्मा और हवा चलने से तेज़",
+"hg": "Liquid paani → water vapour (evaporation): badi surface, garmi aur hawa chalne se tez"
+},
+"Water vapour in the air → liquid water drops (condensation on a cold surface)": {
+"hi": "हवा में जलवाष्प → द्रव पानी की बूँदें (ठंडी सतह पर संघनन)",
+"hg": "Hawa mein water vapour → liquid paani ki boondein (thandi surface par condensation)"
+},
+"Muddy water → clear water (poured off) + mud (sediment)": {
+"hi": "मटमैला पानी → साफ़ पानी (उड़ेलकर अलग किया गया) + मिट्टी (अवसाद)",
+"hg": "Matmaila paani → saaf paani (undel kar alag kiya) + mitti (sediment)"
+},
+"Muddy water → clear filtrate (passes through) + mud residue (stays on the paper)": {
+"hi": "मटमैला पानी → साफ़ निस्यंद (छनकर निकल जाता है) + मिट्टी का अवशेष (पेपर पर रह जाता है)",
+"hg": "Matmaila paani → saaf filtrate (chhan kar nikal jaata hai) + mitti ka residue (paper par reh jaata hai)"
+},
+"Iron filings + sand → iron filings (on the magnet) + sand (left behind)": {
+"hi": "लोहे का बुरादा + रेत → लोहे का बुरादा (चुंबक पर) + रेत (पीछे बची हुई)",
+"hg": "Iron filings + ret → iron filings (magnet par) + ret (peeche bachi hui)"
+},
+"Acidic: blue → red · Basic: red → blue · Neutral: no change": {
+"hi": "अम्लीय: नीला → लाल · क्षारकीय: लाल → नीला · उदासीन: कोई बदलाव नहीं",
+"hg": "Acidic: blue → red · Basic: red → blue · Neutral: koi change nahi"
+},
+"Red rose extract: red-pink in acids · green in bases": {
+"hi": "लाल गुलाब का अर्क: अम्लों में लाल-गुलाबी · क्षारकों में हरा",
+"hg": "Red rose extract: acids mein red-pink · bases mein green"
+},
+"Acid + base → salt + water (+ heat)": {
+"hi": "अम्ल + क्षारक → लवण + जल (+ ऊष्मा)",
+"hg": "Acid + base → salt + paani (+ garmi)"
+},
+"Sulphur + oxygen → sulphur dioxide · sulphur dioxide + water → sulphurous acid": {
+"hi": "सल्फ़र + ऑक्सीजन → सल्फ़र डाइऑक्साइड · सल्फ़र डाइऑक्साइड + जल → सल्फ़्यूरस अम्ल",
+"hg": "Sulphur + oxygen → sulphur dioxide · sulphur dioxide + paani → sulphurous acid"
+},
+"Wax + oxygen → carbon dioxide + water (+ heat and light)": {
+"hi": "मोम + ऑक्सीजन → कार्बन डाइऑक्साइड + जल (+ ऊष्मा और प्रकाश)",
+"hg": "Wax + oxygen → carbon dioxide + paani (+ garmi aur roshni)"
+},
+"Paper + oxygen → carbon dioxide + water (only above the ignition temperature)": {
+"hi": "कागज़ + ऑक्सीजन → कार्बन डाइऑक्साइड + जल (केवल ज्वलन ताप से ऊपर)",
+"hg": "Paper + oxygen → carbon dioxide + paani (sirf ignition temperature se upar)"
+},
+"Ice ⇌ water (melting and freezing) · cold blade ⇌ hot glowing blade: no new substance": {
+"hi": "बर्फ़ ⇌ पानी (पिघलना और जमना) · ठंडा ब्लेड ⇌ गरम चमकता ब्लेड: कोई नया पदार्थ नहीं",
+"hg": "Barf ⇌ paani (pighalna aur jamna) · thanda blade ⇌ garam chamakta blade: koi naya substance nahi"
+},
+"Metals: shiny, malleable, sonorous, good conductors · non-metals: dull, brittle, not sonorous, poor conductors": {
+"hi": "धातुएँ: चमकीली, आघातवर्ध्य, ध्वानिक, सुचालक · अधातुएँ: चमकहीन, भंगुर, ध्वानिक नहीं, कुचालक",
+"hg": "Metals: shiny, malleable, sonorous, achhe conductors · non-metals: dull, brittle, sonorous nahi, poor conductors"
+},
+"A saturated solution holds the most solute it can at that temperature; hot water dissolves more": {
+"hi": "संतृप्त विलयन में उस ताप पर अधिक-से-अधिक जितना विलेय घुल सकता है, उतना घुला होता है; गरम पानी अधिक घोलता है",
+"hg": "Saturated solution mein us temperature par zyada se zyada jitna solute ghul sakta hai, utna ghula hota hai; garam paani zyada gholta hai"
+},
+"Outer zone: complete burning (hottest) · yellow zone: partial burning, unburnt carbon (soot) · dark zone: wax vapour": {
+"hi": "बाहरी क्षेत्र: पूर्ण दहन (सबसे गरम) · पीला क्षेत्र: आंशिक दहन, बिना जला कार्बन (कालिख) · काला क्षेत्र: मोम की वाष्प",
+"hg": "Outer zone: complete burning (sabse garam) · yellow zone: partial burning, bina jala carbon (soot) · dark zone: wax vapour"
+},
+"Quick lime + water → slaked lime (+ heat) · slaked lime + carbon dioxide → calcium carbonate + water": {
+"hi": "बिना बुझा चूना + जल → बुझा हुआ चूना (+ ऊष्मा) · बुझा हुआ चूना + कार्बन डाइऑक्साइड → कैल्शियम कार्बोनेट + जल",
+"hg": "Quick lime + paani → slaked lime (+ garmi) · slaked lime + carbon dioxide → calcium carbonate + paani"
+}
+});

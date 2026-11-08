@@ -2,15 +2,16 @@
 // the same physics runs whether the student does it by hand in VR or presses "Do it".
 import * as THREE from 'three';
 import * as A from './apparatus.js';
+import * as A3 from './apparatus3.js';
 import { asChem } from './lab.js';
-import { SUBS, SOLIDS } from './chem.js';
+import { SUBS, SOLIDS, stripColor } from './chem.js';
 import { BENCH_Y } from './room.js';
 
 const ease = (k) => (k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
 const tmp = new THREE.Vector3();
 
 export class Kit {
-  constructor(app) { this.app = app; this.lab = app.lab; this.fx = app.fx; this.tweens = []; this.speed = 1; this.busy = 0; this.A = A; this.THREE = THREE; this.extras = []; }
+  constructor(app) { this.app = app; this.lab = app.lab; this.fx = app.fx; this.tweens = []; this.speed = 1; this.busy = 0; this.A = A; this.A3 = A3; this.THREE = THREE; this.extras = []; }
   dispose() { for (const o of this.extras) o.parent && o.parent.remove(o); this.extras = []; this.tweens = []; }
   // ---------------------------------------------------------- tween engine (driven by the app loop)
   tween(dur, fn) { return new Promise((res) => { this.tweens.push({ t: 0, dur: Math.max(0.001, dur), fn, res }); }); }
@@ -321,5 +322,160 @@ export class Kit {
   }
   cork(v) { const c = new THREE.Mesh(new THREE.CylinderGeometry(v.rimR * 1.08, v.rimR * 0.85, 0.016, 16), new THREE.MeshStandardMaterial({ color: 0xb08850, roughness: 0.9 })); c.position.y = v.rimY - 0.004; v.g.add(c); v.closed = true; return c; }
   pick(it) { return it; }
+
+  // ---------------------------------------------------------- batch 3 (Class 6–8)
+  place(it, x, z, o = {}) { return this.add(it, x, z, o); }
+  // a funnel with filter paper on a stand, its stem inside the mouth of `dst`
+  filterOver(dst, o = {}) {
+    const m = dst.mouthWorld(new THREE.Vector3()); const tipY = m.y - 0.02;
+    const st = this.add(A3.funnelStand(tipY + 0.075 - BENCH_Y), dst.g.position.x, dst.g.position.z + 0.0, { ry: o.ry ?? 0 });
+    const f = this.add(A3.filterFunnel(), dst.g.position.x, dst.g.position.z, { y: tipY }); f.drainTo = dst; f.stand = st; return f;
+  }
+  async pourSlow(src, dst, ml, k = 0.35) { const k0 = src.pourK; src.pourK = k; await this.pour(src, dst, ml, { above: 0.02 }); src.pourK = k0; }
+  // sweep a bar magnet slowly just above a mixture
+  async sweepMagnet(mg, mix, passes = 3) {
+    this.busy++; const c = mix.g.getWorldPosition(new THREE.Vector3()); const y = c.y + 0.016; mix.magnet = mg;
+    await this.moveTo(mg, new THREE.Vector3(c.x - 0.03, y + 0.04, c.z), new THREE.Quaternion(), 0.8);
+    for (let i = 0; i < passes; i++) {
+      const z = c.z + (i - (passes - 1) / 2) * 0.016; const a = new THREE.Vector3(c.x - 0.035, y, z), b = new THREE.Vector3(c.x + 0.035, y, z);
+      await this.moveTo(mg, i % 2 ? b : a, null, 0.5); await this.tween(1.4, (k) => { mg.g.position.lerpVectors(i % 2 ? b : a, i % 2 ? a : b, ease(k)); });
+    }
+    await this.tween(0.6, (k) => { mg.g.position.y = y + k * 0.05; }); this.lab.emit('magnet', { obj: mg.id, got: mg.stuck }); this.busy--;
+  }
+  async releaseFilings(mg, mix, sheet) {
+    this.busy++; const c = sheet.g.getWorldPosition(new THREE.Vector3());
+    await this.moveTo(mg, new THREE.Vector3(c.x, c.y + 0.03, c.z), null, 0.9); mix.release(sheet); await this.sleep(1.2);
+    mix.magnet = null; await this.home(mg, 0.8); this.lab.emit('release', { obj: mg.id }); this.busy--;
+  }
+  ice(v, n = 4) { return A3.iceCubes(v, n); }
+  // turn a tumbler upside down over a burning candle
+  async cover(tum, cd) {
+    this.busy++; const base = cd.g.getWorldPosition(new THREE.Vector3()); const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI);
+    tum.closed = true; tum.holdGas = true; tum.gas.CO2 = 0;
+    await this.moveTo(tum, new THREE.Vector3(base.x, base.y + tum.rimY + 0.0025 + 0.16, base.z), q, 0.9);
+    await this.tween(0.8, (k) => { tum.g.position.y = base.y + tum.rimY + 0.0025 + 0.16 * (1 - ease(k)); });
+    cd.coveredBy = tum; this.lab.emit('cover', { obj: tum.id, over: cd.id }); this.busy--;
+  }
+  // lift the tumbler off and turn it the right way up quickly (the gas inside stays)
+  async uncover(tum, cd, x, z) {
+    this.busy++; if (cd) cd.coveredBy = null; const p = tum.g.position.clone(); await this.tween(0.5, (k) => { tum.g.position.y = p.y + 0.1 * ease(k); });
+    await this.moveTo(tum, new THREE.Vector3(x, BENCH_Y + 0.0008, z), new THREE.Quaternion(), 0.9); tum.home = { p: tum.g.position.clone(), q: tum.g.quaternion.clone() }; tum.closed = false; this.busy--;
+  }
+  // hold an item (with tongs) so that its test point sits at a point of a flame
+  async holdIn(it, lamp, pointLocal, sec = 4, o = {}) {
+    this.busy++; const hp = lamp.g.localToWorld((pointLocal || lamp.heatPoint).clone()); const q = o.q || new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, o.tilt ?? 1.2));
+    const tl = (it.tipLocal || it.centerLocal || it.cupLocal || new THREE.Vector3()).clone().applyQuaternion(q);
+    await this.moveTo(it, hp.clone().sub(tl), q, 1); const l0 = this.app.chem.lapse; if (o.lapse) this.app.chem.lapse = o.lapse;
+    await this.tween(sec, () => {}); this.app.chem.lapse = l0;
+    if (!o.stay) await this.home(it, 0.9); this.busy--;
+  }
+  // lower the deflagrating spoon into a gas jar (its disc closes the mouth)
+  async intoJar(sp, jar) {
+    this.busy++; const m = jar.mouthWorld(new THREE.Vector3());
+    await this.moveTo(sp, new THREE.Vector3(m.x, m.y + 0.06, m.z), new THREE.Quaternion(), 0.8);
+    await this.tween(0.8, (k) => { sp.g.position.y = m.y + 0.06 + (-(sp.discY) + 0.002 - 0.06) * ease(k); });
+    sp.inJar = jar; jar.closed = true; jar.holdGas = true; this.lab.emit('into_jar', { obj: sp.id, v: jar.id }); this.busy--;
+  }
+  async outOfJar(sp, jar) { this.busy++; const p = sp.g.position.clone(); await this.tween(0.8, (k) => { sp.g.position.y = p.y + 0.2 * ease(k); }); sp.inJar = null; sp.burning = false; jar.setLid(true); await this.home(sp, 0.8); this.busy--; }
+  async lid(jar, on) { jar.setLid(on); this.app.audio && this.app.audio.clink && this.app.audio.clink(); this.lab.emit('lid', { v: jar.id, on }); }
+  // one drop of a sample on a piece of litmus paper on the tile
+  async dropOn(bot, tile, col, kind) {
+    this.busy++; const d = bot.dropper; const dWorld = new THREE.Vector3(); d.getWorldPosition(dWorld);
+    const drop = d.clone(); this.app.scene.add(drop); this.extras.push(drop); drop.position.copy(dWorld); d.visible = false;
+    const tgt = tile.pieceWorld(col, kind); const above = tgt.clone().add(new THREE.Vector3(0, 0.07, 0)); const p0 = drop.position.clone();
+    await this.tween(0.7, (k) => { const e = ease(k); drop.position.lerpVectors(p0, above, e); drop.position.y += Math.sin(Math.PI * e) * 0.05; });
+    await new Promise((res) => this.fx.drop(above.clone().add(new THREE.Vector3(0, -0.01, 0)), tgt.clone().add(new THREE.Vector3(0, 0.001, 0)), bot.color.clone(), res));
+    const pH = bot.mix.pH(); const pc = tile.pieces.find((q) => q.col === col && q.kind === kind); const c = stripColor(kind, pH); const wet = c.clone().multiplyScalar(0.85);
+    pc.spot = '#' + wet.getHexString(); pc.draw(); this.lab.emit('spot', { tile: tile.id, col, kind, pH });
+    await this.tween(0.7, (k) => { const e = ease(k); drop.position.lerpVectors(above, dWorld, e); });
+    this.app.scene.remove(drop); d.visible = true; this.busy--;
+  }
+  // rub a sample on sandpaper: metals show their shine
+  async rub(sm, sp) {
+    this.busy++; const c = sp.g.getWorldPosition(new THREE.Vector3()); const p = new THREE.Vector3(c.x, c.y + 0.004, c.z);
+    await this.moveTo(sm, p, null, 0.8); await this.tween(1.6, (k) => { sm.g.position.x = p.x + Math.sin(k * 30) * 0.012; });
+    if (sm.metal) { sm.mat.color.setHex(sm.S.shine); sm.mat.metalness = 0.95; sm.mat.roughness = 0.18; }
+    this.lab.emit('rub', { obj: sm.id, metal: sm.metal }); await this.home(sm, 0.8); this.busy--;
+  }
+  // beat a sample on the iron block: metals flatten into a sheet, non-metals break into powder
+  async hammerHit(hm, sm, blk) {
+    this.busy++; const top = blk.g.localToWorld(new THREE.Vector3(0, blk.top + 0.001, 0));
+    await this.moveTo(sm, top.clone(), null, 0.8);
+    const hq = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, -1.2)); const up = top.clone().add(new THREE.Vector3(0.17, 0.06, 0));
+    await this.moveTo(hm, up, hq, 0.8);
+    for (let i = 0; i < 3; i++) {
+      const down = top.clone().add(new THREE.Vector3(0.155, -0.012, 0)); const q2 = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, -1.55));
+      await this.tween(0.22, (k) => { hm.g.position.lerpVectors(up, down, k * k); hm.g.quaternion.slerpQuaternions(hq, q2, k * k); });
+      const au = this.app.audio; if (au) { if (sm.metal) { au.tone(1800, 0.35, 0.12, 'triangle'); au.tone(3400, 0.25, 0.05); } else au.burst(0.12, 400, 0.6, 'lowpass'); }
+      if (sm.metal) { const t = sm.mesh || sm.g; t.scale.y *= 0.55; t.scale.x *= 1.18; t.scale.z *= 1.18; }
+      else if (i === 0) { const mm = sm.mesh; mm.visible = false; for (let j = 0; j < 14; j++) { const fr = new THREE.Mesh(new THREE.IcosahedronGeometry(0.0012 + Math.random() * 0.0022, 0), sm.mat); const a = Math.random() * 6.28, r = Math.random() * 0.012; fr.position.set(Math.cos(a) * r, 0.0012, Math.sin(a) * r); fr.rotation.set(Math.random() * 3, Math.random() * 3, 0); sm.g.add(fr); } const dust = new THREE.Mesh(new THREE.CircleGeometry(0.014, 20), new THREE.MeshStandardMaterial({ color: sm.S.c, roughness: 1, transparent: true, opacity: 0.85 })); dust.rotation.x = -Math.PI / 2; dust.position.y = 0.0004; sm.g.add(dust); }
+      await this.tween(0.25, (k) => { hm.g.position.lerpVectors(down, up, k); hm.g.quaternion.slerpQuaternions(q2, hq, k); });
+    }
+    this.lab.emit('hammer', { obj: sm.id, metal: sm.metal }); await this.home(hm, 0.8); this.busy--;
+  }
+  // drop a sample from a little height: metals ring, non-metals give a dull thud
+  async dropSound(sm) {
+    this.busy++; const p = sm.g.position.clone(); await this.moveTo(sm, p.clone().add(new THREE.Vector3(0, 0.22, 0)), null, 0.7);
+    await this.tween(0.21, (k) => { sm.g.position.y = p.y + 0.22 * (1 - k * k); });
+    const au = this.app.audio; if (au) { if (sm.metal) { au.tone(2400, 1.4, 0.14, 'sine'); au.tone(3650, 1.0, 0.08, 'sine'); au.tone(5200, 0.6, 0.04, 'sine'); } else au.burst(0.15, 300, 0.7, 'lowpass'); }
+    await this.tween(0.15, (k) => { sm.g.position.y = p.y + Math.sin(Math.PI * k) * (sm.metal ? 0.012 : 0.003); });
+    this.lab.emit('drop_sound', { obj: sm.id, metal: sm.metal }); this.busy--;
+  }
+  // stand spoons in a beaker of hot water
+  async spoonsInto(spoons, v) {
+    this.busy++; const m = v.mouthWorld(new THREE.Vector3());
+    for (const [i, sp] of spoons.entries()) { const off = (i - (spoons.length - 1) / 2) * 0.02; const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, off > 0 ? -0.22 : 0.22)); await this.moveTo(sp, new THREE.Vector3(m.x + off * 0.6, v.g.position.y + v.inner[0].y + 0.004, m.z), q, 0.8); sp.inV = v; sp.home = { p: sp.g.position.clone(), q: sp.g.quaternion.clone() }; }
+    this.lab.emit('spoons', { v: v.id }); this.busy--;
+  }
+  // one spoonful (spatula) of a solid from a stock heap into a vessel
+  async spoonful(stock, v, o = {}) {
+    this.busy++; const chem = stock.chem; const S = SOLIDS[chem];
+    const piece = A.heap(S.color, { tex: S.tex, r: 0.006, h: 0.004, loose: 0 }); asChem(piece, chem, 1); piece.name = S.n;
+    const c = stock.g.getWorldPosition(new THREE.Vector3()); this.add(piece, c.x, c.z, { y: c.y + 0.004 });
+    stock.amount = Math.max(0.2, (stock.amount ?? 1) - 0.12); stock.g.scale.setScalar(Math.cbrt(stock.amount));
+    await this.addSolid(piece, v); v.spoons = (v.spoons || 0) + 1; this.lab.emit('spoon', { v: v.id, n: v.spoons, chem }); this.busy--; return piece;
+  }
+  lamp3(x, z) { return this.add(A3.sunLamp(), x, z); }
+  async lampOn(l, on) { l.setOn(on); this.app.audio && this.app.audio.clink && this.app.audio.clink(); this.lab.emit(on ? 'lamp_on' : 'lamp_off', { obj: l.id }); }
+  // hold a vessel (paper cup) just above a candle flame
+  async holdOver(v, cd, sec = 6, o = {}) {
+    this.busy++; const hp = cd.g.localToWorld(cd.heatPoint.clone()); const p = hp.clone().sub(new THREE.Vector3(0, v.inner[0].y - 0.004, 0));
+    await this.moveTo(v, p, new THREE.Quaternion(), 1); const l0 = this.app.chem.lapse; if (o.lapse) { this.app.chem.lapse = o.lapse; this.app.lapseShown = o.lapse; }
+    await this.tween(sec, () => {}); this.app.chem.lapse = l0; this.app.lapseShown = 0;
+    if (!v.burnt) await this.home(v, 0.9); this.lab.emit('held_over', { v: v.id }); this.busy--;
+  }
+  // stand a test tube in a beaker (a bath of hot water or a freezing mixture)
+  async intoBath(t, b) {
+    this.busy++; const m = b.g.position.clone(); const y = BENCH_Y + 0.0008 + b.inner[0].y + 0.004;
+    await this.moveTo(t, new THREE.Vector3(m.x, y + 0.12, m.z), new THREE.Quaternion(), 0.8); await this.tween(0.7, (k) => { t.g.position.y = y + 0.12 * (1 - ease(k)); });
+    t.bath = b; t.home = { p: t.g.position.clone(), q: t.g.quaternion.clone() }; this.lab.emit('bath', { v: t.id, in: b.id }); this.busy--;
+  }
+  async outOfBath(t, x, z) { this.busy++; t.bath = null; await this.moveTo(t, new THREE.Vector3(x, t.g.position.y + 0.14, z), null, 0.8); t.home = null; this.busy--; }
+  // add drops one by one until the test passes (e.g. the colour changes); returns how many drops it took
+  async dropsUntil(bot, dst, test, max = 40) { // the dropper stays over the tube; one drop, a swirl, look, next drop
+    this.busy++; const d = bot.dropper; const dWorld = new THREE.Vector3(); d.getWorldPosition(dWorld);
+    const drop = d.clone(); this.app.scene.add(drop); this.extras.push(drop); drop.position.copy(dWorld); d.visible = false;
+    const m = dst.mouthWorld(new THREE.Vector3()); const above = m.clone().add(new THREE.Vector3(0, 0.08, 0)); const p0 = drop.position.clone();
+    await this.tween(0.8, (k) => { const e = ease(k); drop.position.lerpVectors(p0, above, e); drop.position.y += Math.sin(Math.PI * e) * 0.06; });
+    let n = 0;
+    while (n < max && !test(dst)) {
+      const from = drop.position.clone().add(new THREE.Vector3(0, -0.062, 0)); const to = new THREE.Vector3(m.x, dst.levelWorld() + 0.001, m.z);
+      await new Promise((res) => this.fx.drop(from, to, bot.color.clone(), () => { const p = bot.mix.take(0.05); dst.mix.put(p, 0.05); dst.ml = dst.mix.ml(); this.lab.emit('drop', { from: bot.id, to: dst.id }); res(); }));
+      n++; dst.wobV && dst.wobV.set(0.02, 0.01); await this.sleep(0.12);
+    }
+    await this.tween(0.8, (k) => { const e = ease(k); drop.position.lerpVectors(above, dWorld, e); });
+    this.app.scene.remove(drop); d.visible = true; dst.dropCount = n; this.lab.emit('drops', { from: bot.id, to: dst.id, n }); this.busy--; return n;
+  }
+  // a label floating in the air with a thin line to a point (flame zones etc.)
+  tag3D(text, at, off) {
+    const c = document.createElement('canvas'); c.width = 512; c.height = 96; const x = c.getContext('2d');
+    x.fillStyle = 'rgba(14,20,28,0.85)'; x.beginPath(); x.roundRect(4, 8, 504, 80, 24); x.fill(); x.fillStyle = '#ffffff'; x.font = '600 40px "Noto Sans Devanagari", sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(text, 256, 50, 490);
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true })); sp.scale.set(0.1, 0.019, 1); sp.position.copy(at).add(off); sp.renderOrder = 30;
+    const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([at, sp.position.clone().add(new THREE.Vector3(off.x > 0 ? -0.05 : 0.05, 0, 0))]), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8, depthTest: false })); ln.renderOrder = 30;
+    this.app.scene.add(sp, ln); this.extras.push(sp, ln); return [sp, ln];
+  }
+  // swirl a vessel gently on the bench
+  async swirl(v, sec = 1.6) { this.busy++; const p = v.g.position.clone(); v.shaking = true; await this.tween(sec, (k) => { v.g.position.x = p.x + Math.cos(k * 40) * 0.004; v.g.position.z = p.z + Math.sin(k * 40) * 0.004; }); v.shaking = false; v.g.position.copy(p); this.lab.emit('swirl', { v: v.id }); this.busy--; }
 }
 void tmp;

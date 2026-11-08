@@ -17,7 +17,7 @@ export class Lab {
   add(item, x, z, o = {}) {
     item.g.position.set(x, (o.y ?? BENCH_Y) - item.base + 0.0008, z); item.g.rotation.set(0, o.ry ?? 0, 0); // a hair above the surface: no flicker
     item.home = { p: item.g.position.clone(), q: item.g.quaternion.clone() };
-    this.scene.add(item.g); this.items.push(item); this.byId[item.id] = item;
+    this.scene.add(item.g); this.items.push(item); this.byId[item.id] = item; item.lab = this;
     if (item.inner) { item.mix = item.mix || new Mix(); item.gas = item.gas || {}; item.gasIn = item.gasIn || {}; this.vessels.push(item);
       item.gasOut = (type, amt) => { if (item.pipeTo) { item.pipeTo.gasIn[type] = (item.pipeTo.gasIn[type] || 0) + amt; } else item.gas[type] = (item.gas[type] || 0) + amt; }; }
     item.g.traverse((m) => { if (m.isMesh && !m.material.transparent) { m.castShadow = true; m.receiveShadow = true; } });
@@ -105,10 +105,12 @@ export class Lab {
         const dxz = Math.hypot(b.x - hp.x, b.z - hp.z), dy = b.y - hp.y;
         const onTripod = v.onTripod && v.onTripod.over === f;
         if ((dxz < 0.03 && dy > -0.035 && dy < 0.05) || onTripod) {
-          heatTick(v, dt * (onTripod ? 0.7 : 1) * this.chem.lapse, this.chem); v._heated = (v._heated || 0) + dt;
+          heatTick(v, dt * (onTripod ? 0.7 : 1) * this.chem.lapse, this.chem); v._heated = (v._heated || 0) + dt; v.onHeat && v.onHeat(dt * this.chem.lapse, this.chem);
           this.emit('heating', { v: v.id, by: f.id, sec: v._heated });
         }
       }
+      // items that react to a flame themselves (spoon with sulphur, blade, slide, thin tube …)
+      for (const it of this.items) if (it.flameTest && it !== f) it.flameTest(dt * this.chem.lapse, f, hp);
       // ribbon / other items held in the flame
       for (const it of this.items) {
         if (it.kind !== 'ribbon' || it.burnt) continue;

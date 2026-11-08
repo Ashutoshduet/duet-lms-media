@@ -32,6 +32,14 @@ export const PRODUCT = {
   mg: N('Magnesium (Mg) ribbon pieces', 'मैग्नीशियम (Mg) रिबन के टुकड़े', 'Magnesium (Mg) ribbon ke tukde'),
   chroma: N('Black ink split into its colours on filter paper', 'फ़िल्टर पेपर पर काली स्याही अपने रंगों में बँटी', 'Filter paper par kaali syaahi apne rangon mein bant gayi'),
   sand: N('Sand', 'रेत', 'Ret (sand)'),
+  sulphur: N('Sulphur powder (S)', 'सल्फर पाउडर (S)', 'Sulphur powder (S)'),
+  alfoil: N('Aluminium foil (Al)', 'एल्युमिनियम पन्नी (Al)', 'Aluminium foil (Al)'),
+  soil: N('Soil', 'मिट्टी', 'Mitti (soil)'),
+  rose: N('Red rose', 'लाल गुलाब', 'Laal gulaab'),
+  soap: N('Bar of soap', 'साबुन की टिकिया', 'Saabun ki tikiya'),
+  candle: N('Wax candle', 'मोमबत्ती', 'Mombatti (wax candle)'),
+  filings: N('Iron filings (Fe)', 'लोहे का बुरादा (Fe)', 'Iron ka buraada (Fe)'),
+  cuwire: N('Copper wire (Cu)', 'ताँबे का तार (Cu)', 'Copper wire (Cu)'),
 };
 // which real chemicals each experiment uses or makes (reactants first, then products)
 const USE = {
@@ -40,7 +48,9 @@ const USE = {
   neutral: ['naoh', 'phenol'], carb_lime: ['caoh2', 'chalk'], cuso4_heat: ['cuso4b', 'cuso4'], solubility: ['sugar', 'salt', 'chalk', 'sand'],
   evaporate_salt: ['salt'], turmeric: ['turmeric'], chinarose: ['hibiscus'], vinegar_soda: ['nahco3'], breath_lime: ['caoh2', 'chalk'],
   kmno4_diffuse: ['kmno4'], sugar_heat: ['sugar'], tyndall: ['salt', 'chalk'], sublimation: ['nh4cl', 'sand'], metals_hcl: ['mg', 'zngran'],
-  reactivity: ['zngran', 'cuso4'], ph_salts: ['phpaper', 'salt'], zn_naoh: ['zngran', 'naoh'], rusting: ['nail', 'cacl2'], chromatography: ['chroma'],
+  reactivity: ['zngran', 'cuso4'], sedimentation: ['soil'], filtration: ['soil'], magnet_sep: ['filings', 'sand'], litmus_home: ['litmus', 'soap', 'nahco3', 'sugar'], rose: ['rose', 'litmus'],
+  lemon_lime: ['litmus', 'caoh2'], sulphur_burn: ['sulphur', 'litmus'], candle_o2: ['candle', 'caoh2'], ignition: ['candle'], candle_zones: ['candle', 'cuwire'], phys_change: ['salt'], metal_nonmetal: ['cuwire', 'alfoil', 'nail', 'sulphur'],
+  saturated: ['salt', 'nahco3'], limewater_air: ['cao', 'caoh2'], ph_salts: ['phpaper', 'salt'], zn_naoh: ['zngran', 'naoh'], rusting: ['nail', 'cacl2'], chromatography: ['chroma'],
 };
 export const PHOTOS = Object.fromEntries(Object.entries(USE).map(([id, ks]) => [id, ks.map((k) => ({ k, f: `products/${k}.webp`, cap: PRODUCT[k] }))]));
 
