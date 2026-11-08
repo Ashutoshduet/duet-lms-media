@@ -1,0 +1,15 @@
+{
+  "name": "Science Lab 360 · DUET STEM",
+  "short_name": "Science Lab 360",
+  "description": "A real-feeling chemistry lab in 3D and VR: do NCERT Class 6–10 experiments yourself and see the true results, in English, Hindi and Hinglish.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0a0d13",
+  "theme_color": "#0a0d13",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Science Lab 360 · DUET STEM</title>
+<meta name="description" content="A real-feeling chemistry lab in 3D and VR: do NCERT Class 6–10 experiments yourself and see the true results, in English, Hindi and Hinglish.">
+<meta name="theme-color" content="#0a0d13">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/nsd-latin-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/nsd-latin-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/nsd-latin-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/nsd-deva-400.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/nsd-deva-600.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/nsd-deva-700.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+:root{color-scheme:dark;--bg:#0a0d13;--panel:rgba(13,17,25,.82);--line:rgba(255,255,255,.1);--ink:#f2ede4;--mute:#a49d90;--txt:#e2dccf;--acc:#f0a65a;--blue:#7fd1ff;--green:#9fd17a;--r:16px;--listw:300px;--nbw:380px}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari",system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
+#stage{position:fixed;inset:0}#stage canvas{display:block;touch-action:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 40px rgba(0,0,0,.25)}
+/* top bar */
+#top{position:fixed;top:max(10px,env(safe-area-inset-top));left:12px;right:12px;display:flex;align-items:center;gap:10px;z-index:6;pointer-events:none}
+#top>*{pointer-events:auto}
+#brand{display:flex;align-items:center;gap:12px;padding:8px 14px}
+#logo{height:18px;width:auto;display:block}
+#title{font-size:18px;font-weight:700;white-space:nowrap}
+#subjects{display:flex;gap:4px;padding:5px;overflow-x:auto;scrollbar-width:none;min-width:0}
+#subjects::-webkit-scrollbar{display:none}
+#subjects button{padding:7px 12px;border-radius:9px;font-size:14px;font-weight:600;white-space:nowrap;color:var(--mute)}
+#subjects button.on{background:rgba(240,166,90,.2);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(240,166,90,.5)}
+#subjects button.off:hover{background:rgba(255,255,255,.06)}
+#top .sp{flex:1}
+#tools{display:flex;align-items:center;gap:6px;padding:5px}
+.seg{display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px}
+.seg button{padding:6px 10px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--mute);white-space:nowrap}
+.seg button.on{background:var(--ink);color:#12100c}
+.ib{width:38px;height:38px;border-radius:10px;font-size:17px;display:grid;place-items:center}
+.ib:hover{background:rgba(255,255,255,.08)}
+.ib.off{opacity:.45}
+.xr{padding:9px 15px;border-radius:10px;font-weight:700;font-size:14px;background:var(--ink);color:#12100c;white-space:nowrap}
+#b-menu{display:none}
+/* experiment list */
+#list{position:fixed;left:12px;top:76px;bottom:12px;width:var(--listw);z-index:5;display:flex;flex-direction:column;padding:12px 10px}
+#list h3{margin:2px 8px 8px;font-size:11px;letter-spacing:.16em;color:var(--mute);font-weight:600;text-transform:uppercase}
+#classes{display:flex;gap:4px;margin:0 4px 8px}
+#classes button{flex:1;padding:6px 0;border-radius:8px;font-size:13px;font-weight:700;color:var(--mute);background:rgba(255,255,255,.05)}
+#classes button.on{background:var(--acc);color:#14100a}
+#explist{overflow:auto;flex:1;padding-right:2px}
+.ebtn{display:flex;gap:10px;width:100%;text-align:left;padding:9px 8px;border-radius:11px;font-size:14.5px;font-weight:600;line-height:1.3;position:relative;align-items:flex-start}
+.ebtn:hover{background:rgba(255,255,255,.06)}
+.ebtn .cl{flex:none;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:700;background:rgba(127,209,255,.14);color:var(--blue);margin-top:1px}
+.ebtn small{display:block;font-size:12px;font-weight:500;color:var(--mute);margin-top:2px}
+.ebtn.on{background:rgba(240,166,90,.16)}
+.ebtn.on::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--acc)}
+.empty{color:var(--mute);font-size:14px;margin:12px 8px}
+/* step card */
+#story{position:fixed;bottom:max(12px,env(safe-area-inset-bottom));left:calc(var(--listw) + 24px);right:12px;margin:0 auto;max-width:800px;padding:14px 18px 12px;z-index:5;border-top:3px solid var(--blue)}
+body.nb-open #story{right:calc(var(--nbw) + 24px)}
+#s-kicker{font-size:12.5px;font-weight:700;color:var(--blue);letter-spacing:.02em}
+#s-title{font-size:21px;font-weight:700;margin:3px 0 6px;line-height:1.2}
+#s-text{font-size:16px;line-height:1.55;color:var(--txt);max-height:24vh;overflow:auto}
+#s-text p{margin:0 0 5px}
+#s-text b{color:var(--ink)}
+#s-text .stepn{font-size:12.5px;color:var(--mute);font-weight:600;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+#s-text .see b{color:var(--green)}#s-text .why b{color:var(--blue)}
+#s-text .hint{color:var(--acc);font-size:14.5px}
+#s-text .lapse{color:var(--acc);font-weight:700;font-size:14px}
+#s-text .fin{color:var(--green);font-weight:700;font-size:17px}
+#s-text .eq{font-size:18px;font-weight:700;color:var(--acc)}
+html[lang=hi] #s-text{font-size:17px;line-height:1.7}
+#story.intro #s-text{font-size:16.5px}
+#s-dots{display:flex;gap:5px;margin-top:8px}
+#s-dots i{flex:1;max-width:46px;height:5px;border-radius:3px;background:rgba(255,255,255,.14)}
+#s-dots i.on{background:var(--blue)}#s-dots i.cur{box-shadow:0 0 0 2px rgba(240,166,90,.8)}
+#s-buttons{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.cbtn{padding:9px 13px;border-radius:10px;font-weight:700;font-size:14px;background:rgba(255,255,255,.08);white-space:nowrap}
+.cbtn:hover{background:rgba(255,255,255,.14)}
+.cbtn.primary{background:var(--acc);color:#14100a;min-width:150px}
+.cbtn.primary:disabled{opacity:.55;cursor:default}
+.cbtn.on{background:rgba(127,209,255,.22);color:var(--blue)}
+#s-buttons .sp{flex:1}
+/* notebook */
+#notebook{position:fixed;right:12px;top:76px;bottom:12px;width:var(--nbw);z-index:5;overflow:auto;padding:16px 18px;transform:translateX(calc(100% + 24px));transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+body.nb-open #notebook{transform:none}
+#notebook h3{margin:0 0 6px;font-size:18px}
+#notebook h4{margin:14px 0 4px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+#notebook p{margin:0 0 4px;font-size:14.5px;line-height:1.55;color:var(--txt)}
+#notebook .eq{font-weight:700;color:var(--acc);font-size:16px}
+#notebook table{width:100%;border-collapse:collapse;font-size:13.5px;line-height:1.45}
+#notebook td{border-top:1px solid var(--line);padding:6px 4px;vertical-align:top;color:var(--txt)}
+#notebook td:first-child{color:var(--mute);width:22px}
+#notebook td:last-child{color:var(--green)}
+#notebook .mute{color:var(--mute)}
+#notebook .q p{margin-top:8px}
+.ans{display:block;width:100%;text-align:left;margin-top:4px;padding:8px 10px;border-radius:9px;background:rgba(255,255,255,.06);font-size:13.5px;font-weight:600;color:var(--blue)}
+.ans span{display:none;color:var(--txt);font-weight:500;margin-top:4px}
+.ans.show{color:var(--mute);font-size:12px}.ans.show span{display:block;font-size:14px}
+/* hover label, toast, loader */
+#tip{position:fixed;z-index:9;pointer-events:none;padding:8px 11px;border-radius:10px;font-size:13.5px;line-height:1.45;max-width:230px;opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s}
+#tip.show{opacity:1;transform:none}
+#tip b{display:block;font-size:14px}#tip span{display:block;color:var(--txt);font-size:12.5px}
+#toast{position:fixed;top:84px;left:50%;transform:translate(-50%,-10px);opacity:0;transition:.3s;z-index:30;padding:10px 16px;max-width:90%;font-size:14px;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#loader{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:var(--bg);transition:opacity .7s .2s}
+body.ready #loader{opacity:0;pointer-events:none}
+#loader .box{text-align:center}
+#loader img{height:26px;margin-bottom:16px}
+#loader h1{font-size:28px;margin:0 0 6px}
+#loader p{color:var(--mute);margin:0;font-size:14px}
+#loader .bar{width:200px;height:3px;margin:18px auto 0;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+#loader .bar i{display:block;height:100%;width:40%;background:var(--acc);animation:ld 1.1s ease-in-out infinite}
+@keyframes ld{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+#xr-wait{position:fixed;inset:0;z-index:35;display:none;place-items:center;background:rgba(10,13,19,.7)}
+body.xr-wait #xr-wait{display:grid}
+#xr-go{font-size:26px;padding:22px 40px;border-radius:16px}
+body.in-vr #top,body.in-vr #list,body.in-vr #story,body.in-vr #notebook{display:none}
+/* narrow screens */
+@media (max-width:1100px){:root{--listw:270px}#title{display:none}}
+@media (max-width:860px){
+  #b-menu{display:grid}
+  #subjects{display:none}
+  #list{top:68px;left:8px;right:8px;width:auto;bottom:auto;max-height:calc(100% - 80px);display:none;z-index:8}
+  body.list-open #list{display:flex}
+  #story{left:8px;right:8px;bottom:max(8px,env(safe-area-inset-bottom));padding:12px 14px 10px}
+  body.nb-open #story{right:8px}
+  #s-title{font-size:18px}#s-text{font-size:15px;max-height:22vh}
+  .cbtn{padding:8px 10px;font-size:13px}.cbtn.primary{min-width:0;flex:1}
+  #notebook{left:8px;right:8px;width:auto;top:68px;bottom:8px;z-index:8}
+  #top{left:8px;right:8px;gap:6px}
+  #brand{padding:8px 10px}
+  .seg button{padding:6px 7px;font-size:12.5px}
+}
+</style>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/addons/"}}</script>
+</head>
+<body>
+<div id="stage"></div>
+<header id="top">
+  <div id="brand" class="panel"><button id="b-menu" class="ib" aria-label="Experiments">☰</button><img id="logo" src="brand/duet-stem-logo-light.png" alt="DUET STEM"><span id="title">Science Lab 360</span></div>
+  <nav id="subjects" class="panel" aria-label="Subjects"></nav>
+  <div class="sp"></div>
+  <div id="tools" class="panel"><div id="langs" class="seg" role="group" aria-label="Language"></div><button id="b-voice" class="ib" aria-label="Voice">🔊</button><button id="xr-btn" class="xr" hidden>Enter VR</button></div>
+</header>
+<aside id="list" class="panel"><h3 id="list-h">Experiments</h3><div id="classes"></div><div id="explist"></div></aside>
+<section id="story" class="panel intro" aria-live="polite">
+  <div id="s-kicker"></div><div id="s-title"></div><div id="s-text"></div><div id="s-dots"></div>
+  <div id="s-buttons"><button id="b-back" class="cbtn">‹ Back</button><button id="b-do" class="cbtn primary">Do it</button><button id="b-next" class="cbtn">Next ›</button><span class="sp"></span><button id="b-auto" class="cbtn">Auto</button><button id="b-speed" class="cbtn">1×</button><button id="b-reset" class="cbtn">↺</button><button id="b-nb" class="cbtn">Notebook</button></div>
+</section>
+<aside id="notebook" class="panel"></aside>
+<div id="tip" class="panel"></div>
+<div id="toast" class="panel"></div>
+<div id="xr-wait"><button id="xr-go" class="xr">Enter VR</button></div>
+<div id="loader"><div class="box"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h1>Science Lab 360</h1><p>Chemistry · Class 6–10</p><div class="bar"><i></i></div></div></div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
