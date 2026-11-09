@@ -79,5 +79,121 @@
   "license": "CC0",
   "url": "https://polyhaven.com/a/vintage_microscope",
   "id": "vintage_microscope"
+ },
+ {
+  "name": "Lemon",
+  "authors": {
+   "Kuutti Siitonen": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/lemon",
+  "id": "lemon"
+ },
+ {
+  "name": "Alarm Clock 01",
+  "authors": {
+   "Yann Kervran": "Rigging",
+   "James Ray Cock": "Modeling & Texturing"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/alarm_clock_01",
+  "id": "alarm_clock_01"
+ },
+ {
+  "name": "Magnifying Glass 01",
+  "authors": {
+   "Nazar Borodavka": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/magnifying_glass_01",
+  "id": "magnifying_glass_01"
+ },
+ {
+  "name": "Stone 01",
+  "authors": {
+   "Dario Barresi": "Photography",
+   "Rico Cilliers": "photography, processing"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/stone_01",
+  "id": "stone_01"
+ },
+ {
+  "name": "Small Plastic Torch",
+  "authors": {
+   "Abiyyu Panggalih (Abiyyu_xyz)": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/small_plastic_torch",
+  "id": "small_plastic_torch"
+ },
+ {
+  "name": "Plastic Torch 6V",
+  "authors": {
+   "James Cocks": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/pastic_torch_6v",
+  "id": "pastic_torch_6v"
+ },
+ {
+  "name": "Vintage Stapler",
+  "authors": {
+   "Mateusz Sadek": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/vintage_stapler",
+  "id": "vintage_stapler"
+ },
+ {
+  "name": "Cross Pein Hammer",
+  "authors": {
+   "Tics": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/cross_pein_hammer",
+  "id": "cross_pein_hammer"
+ },
+ {
+  "name": "Rubber Duck Toy",
+  "authors": {
+   "Plat251": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/rubber_duck_toy",
+  "id": "rubber_duck_toy"
+ },
+ {
+  "name": "Lightbulb 01",
+  "authors": {
+   "Josh Dean": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/lightbulb_01",
+  "id": "lightbulb_01"
+ },
+ {
+  "name": "Wood grain (plywood) texture",
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/plywood",
+  "id": "tex_wood_grain"
+ },
+ {
+  "name": "Cardboard 004 texture",
+  "license": "CC0",
+  "url": "https://ambientcg.com/view?id=Cardboard004",
+  "id": "tex_cardboard"
+ },
+ {
+  "name": "Earth (Blue Marble) photograph",
+  "license": "Public domain (NASA)",
+  "url": "https://visibleearth.nasa.gov/",
+  "id": "tex_earth"
+ },
+ {
+  "name": "Rapier physics engine",
+  "license": "Apache-2.0",
+  "url": "https://rapier.rs",
+  "id": "lib_rapier"
  }
 ]

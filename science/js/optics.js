@@ -51,6 +51,13 @@ export function mirrorOnStand(f = -0.15, o = {}) {
   const cap = new THREE.Group(); cap.add(front, back); cap.rotation.z = conc ? -Math.PI / 2 : Math.PI / 2; cap.position.set(conc ? -Rc : Rc, AXIS_Y, 0); it.g.add(cap); // the centre of curvature: in front of a concave mirror, behind a convex one
   it.f = f; it.optic = 'mirror'; it.aperture = R * 0.9; it.height = AXIS_Y + R; it.radius = 0.03; it.grabY = AXIS_Y; return it;
 }
+// ------------------------------------------------------------------ a black card with a pinhole, on a holder
+export function pinholeOnStand(o = {}) {
+  const it = new Item('pinhole', { ...o, name: o.name || { en: 'Black card with a pinhole', hi: 'पिनहोल वाला काला कार्ड', hg: 'Pinhole wala black card' } });
+  rider(it, AXIS_Y - 0.06); const sh = new THREE.Shape(); sh.moveTo(-0.05, -0.04); sh.lineTo(0.05, -0.04); sh.lineTo(0.05, 0.04); sh.lineTo(-0.05, 0.04); sh.closePath(); const h = new THREE.Path(); h.absarc(0, 0, 0.0012, 0, Math.PI * 2, true); sh.holes.push(h);
+  const g = new THREE.ExtrudeGeometry(sh, { depth: 0.002, bevelEnabled: false }); g.rotateY(Math.PI / 2); const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: 0x15171b, roughness: 0.9 })); m.position.y = AXIS_Y; it.g.add(m);
+  it.optic = 'pinhole'; it.aperture = 0.0012; it.height = AXIS_Y + 0.04; it.radius = 0.05; it.grabY = AXIS_Y; return it;
+}
 // ------------------------------------------------------------------ a white screen on a holder: the image is painted on it every frame
 export function screenOnStand(o = {}) {
   const it = new Item('screen', { ...o, name: o.name || { en: 'White screen', hi: 'सफ़ेद पर्दा', hg: 'White screen' } });
@@ -94,6 +101,7 @@ export class Optics {
         const lx = L.g.position.x; if (Math.abs(L.g.position.z - s.g.position.z) > 0.08) continue;
         const ox = obj ? obj.g.position.x : -Infinity; const far = !obj || obj.far; const u = far ? -Infinity : ox - lx; // object on the left of the optic: u < 0
         let v, m, dist;
+        if (L.optic === 'pinhole') { if (sx <= lx || far) continue; dist = sx - lx; v = dist; m = -dist / Math.max(0.01, -u); const hO = obj.objH ?? 0.025, y0 = obj.objY ?? 0; const br = Math.max(0.12, Math.min(0.6, 0.6 * (0.15 / Math.max(0.05, dist)) ** 2)); out = { kind: 'flame', blurM: 0.0015, hi: m * hO, y0: m * y0, size: 0, bright: br, W: s.W, sharp: 1, v, m }; continue; } // a pinhole: always sharp, larger and dimmer farther away
         if (L.optic === 'lens') { if (sx <= lx) continue; ({ v, m } = lensImage(L.f, u)); dist = sx - lx; if (v <= 0) continue; }
         else { if (sx >= lx) continue; ({ v, m } = mirrorImage(L.f, u)); dist = -(sx - lx); v = -v; if (v <= 0) continue; } // a real image of a mirror is in front of it (on the left)
         if (!isFinite(v) || v > 3) continue; // object at the focus: the rays come out parallel, no image anywhere

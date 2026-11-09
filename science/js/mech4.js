@@ -4,6 +4,7 @@
 import * as THREE from 'three';
 import { Item, Vessel } from './apparatus.js';
 import { canvasTex, woodTex, glassMat } from './mats.js';
+import { dress } from './models.js';
 
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 const steel = (c = 0x9aa0a6, r = 0.35) => new THREE.MeshStandardMaterial({ color: c, metalness: 0.85, roughness: r });
@@ -93,7 +94,7 @@ export function notebook(o = {}) {
 export function smallStone(o = {}) {
   const it = new Item('sstone', { ...o, name: o.name || { en: 'Small stone tied to a thread', hi: 'धागे से बँधा छोटा पत्थर', hg: 'Dhaage se bandha chhota patthar' } });
   const g = new THREE.IcosahedronGeometry(0.0115, 1); const p = g.attributes.position; for (let i = 0; i < p.count; i++) p.setXYZ(i, p.getX(i) * 1.15, p.getY(i) * 0.75, p.getZ(i) * 0.95); g.computeVertexNormals();
-  const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: 0x7f7a73, roughness: 0.95, flatShading: true })); m.position.y = 0.0086; it.g.add(m);
+  const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: 0x7f7a73, roughness: 0.95, flatShading: true })); m.position.y = 0.0086; it.g.add(m); dress(it, 'stone_01', { w: 0.028, hide: [m] });
   const tl = o.thread ?? 0.2; const th = new THREE.Mesh(new THREE.CylinderGeometry(0.0004, 0.0004, tl, 5), new THREE.MeshStandardMaterial({ color: 0xf2efe6 })); th.position.y = 0.017 + tl / 2; it.g.add(th);
   it.gram = 16.4; it.mass = 0.0164; it.vol = 5; it.hBot = 0; it.hTop = 0.017; it.height = 0.017; it.radius = 0.013; it.grabY = 0.01; return it;
 }

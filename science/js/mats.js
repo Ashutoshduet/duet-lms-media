@@ -68,7 +68,19 @@ function canvasTex(w, h, draw, o = {}) {
 }
 const rnd = (() => { let s = 1234567; return () => ((s = (s * 16807) % 2147483647) / 2147483647); })();
 
+// real wood: a photographed grain (CC0, Poly Haven, made neutral grey) laid over the wood's colour with an overlay blend
+const GRAIN = typeof Image !== 'undefined' ? new Image() : null; const grainWait = [];
+if (GRAIN) { GRAIN.onload = () => grainWait.splice(0).forEach((f) => f()); GRAIN.src = 'tex/wood_grain.jpg'; }
+function paintGrain(x, w, h, base) { x.globalCompositeOperation = 'source-over'; x.fillStyle = base; x.fillRect(0, 0, w, h); x.globalCompositeOperation = 'overlay'; x.drawImage(GRAIN, 0, 0, w, h); x.globalCompositeOperation = 'source-over'; }
 export function woodTex(base = '#8a5a34', rep = [1, 1]) {
+  if (GRAIN && GRAIN.complete && GRAIN.naturalWidth) return canvasTex(512, 512, (x, w, h) => paintGrain(x, w, h, base), { repeat: rep });
+  const t = woodTexDrawn(base, rep); if (GRAIN) grainWait.push(() => { paintGrain(t.image.getContext('2d'), t.image.width, t.image.height, base); t.needsUpdate = true; }); return t;
+}
+// photographed textures (shared, loaded once)
+const PHOTO = {}; const TL = new THREE.TextureLoader();
+export function photoTex(url, o = {}) { const k = url + (o.repeat ? o.repeat.join('x') : ''); if (PHOTO[k]) return PHOTO[k]; const t = TL.load(url); t.colorSpace = o.data ? THREE.NoColorSpace : THREE.SRGBColorSpace; t.anisotropy = 8; if (o.repeat) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(o.repeat[0], o.repeat[1]); } return (PHOTO[k] = t); }
+export const cardTex = (rep) => photoTex('tex/cardboard.jpg', { repeat: rep || [1, 1] });
+function woodTexDrawn(base, rep) {
   return canvasTex(512, 512, (x, w, h) => {
     x.fillStyle = base; x.fillRect(0, 0, w, h);
     for (let i = 0; i < 160; i++) {

@@ -6,6 +6,7 @@
 import * as THREE from 'three';
 import { Item } from './apparatus.js';
 import { canvasTex, woodTex, glassMat } from './mats.js';
+import { dress } from './models.js';
 import * as RF from './refraction.js';
 
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -96,9 +97,10 @@ export function spoon(o = {}) {
 }
 // a toy (a small doll made of coloured blocks) to look at in the spoon
 export function toyDoll(o = {}) {
-  const it = new Item('toy', { ...o, name: o.name || { en: 'Toy doll', hi: 'खिलौना गुड़िया', hg: 'Khilona gudiya' } });
+  const it = new Item('toy', { ...o, name: o.name || { en: 'Toy (rubber duck)', hi: 'खिलौना (रबर की बत्तख)', hg: 'Khilona (rubber duck)' } });
   const add = (geo, col, x, y, z) => { const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: col, roughness: 0.5 })); m.position.set(x, y, z); it.g.add(m); return m; };
   add(new THREE.CylinderGeometry(0.03, 0.04, 0.08, 20), 0xd62828, 0, 0.04, 0); add(new THREE.SphereGeometry(0.025, 20, 14), 0xf1c27d, 0, 0.105, 0); add(new THREE.ConeGeometry(0.028, 0.04, 20), 0x1d4f9a, 0, 0.145, 0); add(new THREE.SphereGeometry(0.006, 8, 6), 0xffe066, 0, 0.168, 0);
+  dress(it, 'rubber_duck_toy', { h: 0.1, hide: [...it.g.children] });
   it.height = 0.17; it.radius = 0.04; it.grabY = 0.08; return it;
 }
 // ------------------------------------------------------------------ a sheet of paper that a focused spot of sunlight heats: it browns, smokes and burns a hole
@@ -119,6 +121,7 @@ export function handLens(o = {}) {
   const lens = new THREE.Mesh(new THREE.LatheGeometry(pts.map((p) => new THREE.Vector2(p.x, p.y)).concat(pts.slice().reverse().map((p) => new THREE.Vector2(p.x, -p.y))), 40), glassMat({ opacity: 0.3, edge: 0.7 })); lens.renderOrder = 6; it.g.add(lens); void all;
   const rim = new THREE.Mesh(new THREE.TorusGeometry(R + 0.001, 0.0025, 8, 40), new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.5 })); rim.rotation.x = Math.PI / 2; it.g.add(rim);
   const h = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.006, 0.09, 12), new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.5 })); h.rotation.z = Math.PI / 2; h.position.x = R + 0.048; it.g.add(h);
+  dress(it, 'magnifying_glass_01', { rot: [-Math.PI / 2, Math.PI / 2, 0], order: 'YXZ', w: 0.155, pin: [0.243, 0.5, 0.5], hide: [lens, rim, h] });
   it.f = 0.15; it.R = R; it.height = 0.01; it.radius = 0.08; it.grabY = 0; it.noRest = true; return it;
 }
 // ------------------------------------------------------------------ a drop of water on a clear plastic sheet lying on printed text: the letters under it look bigger
@@ -136,8 +139,8 @@ export function printSheet(o = {}) {
 // ------------------------------------------------------------------ the Moon model: a lamp (the Sun) and a white ball on a stick that moves round the observer's head
 export function moonModel(o = {}) {
   const it = new Item('moonrig', { ...o, name: o.name || { en: 'Lamp (Sun) and a white ball on a stick (Moon)', hi: 'लैंप (सूर्य) और छड़ी पर सफ़ेद गेंद (चंद्रमा)', hg: 'Lamp (Sun) aur stick par white ball (Moon)' } });
-  const lampP = V3(-1.1, 0.42, 0.0); const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.04, 20, 14), new THREE.MeshBasicMaterial({ color: 0xfff2c8 })); bulb.position.copy(lampP); it.g.add(bulb);
-  const shade = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.42, 10), steel(0x3a3f46, 0.5)); shade.position.set(lampP.x, 0.21, lampP.z); it.g.add(shade);
+  const lampP = V3(-1.1, 0.42, 0.0); const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.04, 20, 14), new THREE.MeshBasicMaterial({ color: 0xfff2c8 })); bulb.position.copy(lampP); it.g.add(bulb); dress(it, 'lightbulb_01', { h: 0.1, shadow: false, at: [lampP.x, lampP.y - 0.062, lampP.z], done: () => { bulb.scale.setScalar(0.4); bulb.position.y = lampP.y - 0.005; } }); // a real bulb on the stand
+  const shade = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.36, 10), steel(0x3a3f46, 0.5)); shade.position.set(lampP.x, 0.18, lampP.z); it.g.add(shade);
   const L = new THREE.PointLight(0xfff0d0, 0, 6, 1.2); L.position.copy(lampP); it.g.add(L); it.lamp = L;
   const ballG = new THREE.Group(); it.g.add(ballG); const ball = new THREE.Mesh(new THREE.SphereGeometry(0.04, 40, 28), new THREE.MeshLambertMaterial({ color: 0xf2f0ea })); ballG.add(ball); const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.3, 8), new THREE.MeshLambertMaterial({ color: 0x8a5a33 })); stick.position.y = -0.17; ballG.add(stick);
   it.head = V3(0, 0.45, 0.0); it.R = 0.45; it.ang = 0; it.ball = ballG; it.lampP = lampP;

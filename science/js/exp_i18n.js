@@ -9628,3 +9628,2543 @@ Object.assign(DICT, {
 Object.assign(DICT, {"A current in a wire deflects a compass needle": {"hi": "तार में प्रवाहित विद्युत धारा दिक्सूचक (कंपास) सुई को विक्षेपित करती है", "hg": "Wire mein current compass needle ko deflect karta hai"}, "To show that a current-carrying wire produces a magnetic field that deflects a compass needle, and that reversing the current reverses the deflection.": {"hi": "यह दर्शाना कि धारावाही तार एक चुंबकीय क्षेत्र उत्पन्न करता है जो दिक्सूचक सुई को विक्षेपित करता है, तथा विद्युत धारा की दिशा उलटने पर विक्षेप की दिशा भी उलट जाती है।", "hg": "Yeh dikhana ki current-carrying wire ek magnetic field banata hai jo compass needle ko deflect karta hai, aur current ki direction ulatne par deflection bhi ulat jaata hai."}, "Magnetic field of a current (Oersted)": {"hi": "विद्युत धारा का चुंबकीय क्षेत्र (Oersted)", "hg": "Current ka magnetic field (Oersted)"}, "The thick copper wire XY runs north–south, just above a magnetic compass. Look at the needle.": {"hi": "ताँबे का मोटा तार XY उत्तर–दक्षिण दिशा में, चुंबकीय दिक्सूचक के ठीक ऊपर रखा है। सुई को देखिए।", "hg": "Copper ka mota wire XY north–south direction mein, magnetic compass ke theek upar rakha hai. Needle ko dekho."}, "The needle points north, along the wire.": {"hi": "सुई तार के अनुदिश उत्तर दिशा की ओर संकेत करती है।", "hg": "Needle wire ke along north ki taraf point karti hai."}, "Insert the plug in the key to pass a current through the wire.": {"hi": "तार में विद्युत धारा प्रवाहित करने के लिए कुंजी में प्लग लगाइए।", "hg": "Wire mein current bhejne ke liye key mein plug lagao."}, "The needle turns away from north (here towards the west).": {"hi": "सुई उत्तर दिशा से हट जाती है (यहाँ पश्चिम की ओर)।", "hg": "Needle north se hat jaati hai (yahan west ki taraf)."}, "A current in a wire produces a magnetic field around it. Below a wire carrying current northwards, this field points west.": {"hi": "तार में प्रवाहित विद्युत धारा अपने चारों ओर चुंबकीय क्षेत्र उत्पन्न करती है। उत्तर की ओर धारा ले जा रहे तार के नीचे यह क्षेत्र पश्चिम की ओर होता है।", "hg": "Wire mein current apne charon taraf magnetic field banata hai. Jis wire mein current north ki taraf beh raha ho, uske neeche yeh field west ki taraf hota hai."}, "Increase the current with the rheostat and watch the needle.": {"hi": "धारा नियंत्रक (रिओस्टेट) से विद्युत धारा बढ़ाइए और सुई को देखिए।", "hg": "Rheostat se current badhao aur needle ko dekho."}, "The deflection becomes larger.": {"hi": "विक्षेप बढ़ जाता है।", "hg": "Deflection badh jaata hai."}, "A larger current produces a stronger magnetic field.": {"hi": "अधिक विद्युत धारा अधिक प्रबल चुंबकीय क्षेत्र उत्पन्न करती है।", "hg": "Zyada current zyada strong magnetic field banata hai."}, "Take out the plug, reverse the connections at the cells (so the current flows from Y to X) and close the key again.": {"hi": "प्लग निकालिए, सेलों पर संयोजन उलट दीजिए (ताकि धारा Y से X की ओर प्रवाहित हो) और कुंजी को फिर से बंद कीजिए।", "hg": "Plug nikaalo, cells par connections ulat do (taaki current Y se X ki taraf flow kare) aur key ko phir se close karo."}, "The needle now turns the other way (towards the east).": {"hi": "अब सुई विपरीत दिशा में (पूर्व की ओर) घूमती है।", "hg": "Ab needle ulti taraf (east ki taraf) ghoomti hai."}, "Reversing the current reverses the direction of the magnetic field.": {"hi": "विद्युत धारा की दिशा उलटने पर चुंबकीय क्षेत्र की दिशा भी उलट जाती है।", "hg": "Current ki direction ulatne par magnetic field ki direction bhi ulat jaati hai."}, "Hold the compass just above the wire instead of below it.": {"hi": "दिक्सूचक को तार के नीचे के बजाय तार के ठीक ऊपर रखिए।", "hg": "Compass ko wire ke neeche ki jagah wire ke theek upar pakdo."}, "Above the wire the needle turns in the opposite direction to below it.": {"hi": "तार के ऊपर सुई उस दिशा के विपरीत घूमती है जिसमें वह तार के नीचे घूमती थी।", "hg": "Wire ke upar needle us direction ke opposite ghoomti hai jismein woh wire ke neeche ghoomti thi."}, "The field lines are circles around the wire: the field above the wire points opposite to the field below it (right-hand thumb rule).": {"hi": "चुंबकीय क्षेत्र रेखाएँ तार के चारों ओर वृत्त होती हैं: तार के ऊपर क्षेत्र की दिशा तार के नीचे के क्षेत्र की दिशा के विपरीत होती है (दक्षिण-हस्त अंगुष्ठ नियम)।", "hg": "Field lines wire ke charon taraf circles hoti hain: wire ke upar field ki direction wire ke neeche wale field ke opposite hoti hai (right-hand thumb rule)."}, "With current the needle deflected; a larger current gave a larger deflection; reversing the current, or putting the compass above the wire, reversed the deflection.": {"hi": "विद्युत धारा प्रवाहित करने पर सुई विक्षेपित हुई; अधिक धारा से अधिक विक्षेप मिला; धारा की दिशा उलटने पर या दिक्सूचक को तार के ऊपर रखने पर विक्षेप की दिशा उलट गई।", "hg": "Current dene par needle deflect hui; zyada current se zyada deflection mila; current ulatne par ya compass ko wire ke upar rakhne par deflection ulat gaya."}, "An electric current produces a magnetic field around the wire. Its direction depends on the direction of the current and is given by the right-hand thumb rule.": {"hi": "विद्युत धारा तार के चारों ओर चुंबकीय क्षेत्र उत्पन्न करती है। इसकी दिशा विद्युत धारा की दिशा पर निर्भर करती है और दक्षिण-हस्त अंगुष्ठ नियम से ज्ञात की जाती है।", "hg": "Electric current wire ke charon taraf magnetic field banata hai. Iski direction current ki direction par depend karti hai aur right-hand thumb rule se pata chalti hai."}, "Do not keep the key closed for long: a thick wire carrying a large current gets hot and the cells run down.": {"hi": "कुंजी को देर तक बंद न रखिए: अधिक धारा ले जाने वाला मोटा तार गर्म हो जाता है और सेल जल्दी समाप्त हो जाते हैं।", "hg": "Key ko zyada der tak close mat rakho: zyada current le jaane wala mota wire garam ho jaata hai aur cells jaldi khatam ho jaate hain."}, "Who first observed this effect?": {"hi": "इस प्रभाव को सबसे पहले किसने देखा था?", "hg": "Is effect ko sabse pehle kisne observe kiya tha?"}, "Hans Christian Oersted, in 1820.": {"hi": "हैंस क्रिश्चियन ओर्स्टेड (Hans Christian Oersted) ने, 1820 में।", "hg": "Hans Christian Oersted ne, 1820 mein."}, "What happens to the deflection if the current is increased?": {"hi": "विद्युत धारा बढ़ाने पर विक्षेप पर क्या प्रभाव पड़ता है?", "hg": "Current badhane par deflection ka kya hota hai?"}, "It increases.": {"hi": "यह बढ़ जाता है।", "hg": "Yeh badh jaata hai."}, "State the right-hand thumb rule.": {"hi": "दक्षिण-हस्त अंगुष्ठ नियम बताइए।", "hg": "Right-hand thumb rule batao."}, "Hold the wire in the right hand with the thumb along the current; the curled fingers show the direction of the field lines.": {"hi": "तार को दाएँ हाथ में इस प्रकार पकड़िए कि अँगूठा विद्युत धारा की दिशा में हो; मुड़ी हुई अँगुलियाँ चुंबकीय क्षेत्र रेखाओं की दिशा बताती हैं।", "hg": "Wire ko right hand mein aise pakdo ki thumb current ki direction mein ho; mudi hui ungliyan field lines ki direction batati hain."}, "Right-hand thumb rule: thumb along the current, the curled fingers give the direction of the magnetic field": {"hi": "दक्षिण-हस्त अंगुष्ठ नियम: अँगूठा विद्युत धारा की दिशा में, मुड़ी हुई अँगुलियाँ चुंबकीय क्षेत्र की दिशा बताती हैं", "hg": "Right-hand thumb rule: thumb current ki direction mein, mudi hui ungliyan magnetic field ki direction batati hain"}, "Iron filings around a bar magnet": {"hi": "छड़ चुंबक के चारों ओर लोहे का बुरादा", "hg": "Bar magnet ke charon taraf iron filings"}, "To see the pattern of the magnetic field around a bar magnet using iron filings.": {"hi": "लोहे के बुरादे की सहायता से छड़ चुंबक के चारों ओर चुंबकीय क्षेत्र का पैटर्न देखना।", "hg": "Iron filings ki madad se bar magnet ke charon taraf magnetic field ka pattern dekhna."}, "Magnetic field pattern": {"hi": "चुंबकीय क्षेत्र का पैटर्न", "hg": "Magnetic field ka pattern"}, "Place the bar magnet under the middle of the white card.": {"hi": "छड़ चुंबक को सफ़ेद कार्ड के बीच वाले भाग के नीचे रखिए।", "hg": "Bar magnet ko white card ke beech wale hisse ke neeche rakho."}, "The magnet lies under the card; you cannot see it through the card.": {"hi": "चुंबक कार्ड के नीचे रखा है; कार्ड के आर-पार इसे देखा नहीं जा सकता।", "hg": "Magnet card ke neeche rakha hai; card ke through yeh dikhta nahi hai."}, "Sprinkle iron filings evenly over the card.": {"hi": "कार्ड पर लोहे का बुरादा समान रूप से छिड़किए।", "hg": "Card par iron filings barabar se chhidko."}, "The filings lie scattered at random.": {"hi": "बुरादा अव्यवस्थित रूप से बिखरा रहता है।", "hg": "Filings randomly bikhri padi hain."}, "Tap the card gently a few times.": {"hi": "कार्ड को कुछ बार धीरे से थपथपाइए।", "hg": "Card ko kuch baar halke se tap karo."}, "The filings arrange themselves in a pattern of curved lines from one end of the magnet to the other, crowded near the two ends.": {"hi": "बुरादा चुंबक के एक सिरे से दूसरे सिरे तक वक्र रेखाओं के पैटर्न में व्यवस्थित हो जाता है, जो दोनों सिरों के पास घनी होती हैं।", "hg": "Filings magnet ke ek end se doosre end tak curved lines ke pattern mein arrange ho jaati hain, jo dono ends ke paas ghani hoti hain."}, "Each filing becomes a tiny magnet and lines up along the magnetic field. The lines show the field; where they are crowded the field is strongest (at the poles).": {"hi": "बुरादे का प्रत्येक कण एक छोटा चुंबक बन जाता है और चुंबकीय क्षेत्र के अनुदिश पंक्तिबद्ध हो जाता है। ये रेखाएँ क्षेत्र को दर्शाती हैं; जहाँ ये घनी होती हैं वहाँ क्षेत्र सबसे प्रबल होता है (ध्रुवों पर)।", "hg": "Har filing ek chhota magnet ban jaati hai aur magnetic field ke along line up ho jaati hai. Yeh lines field dikhati hain; jahan yeh ghani hoti hain wahan field sabse strong hota hai (poles par)."}, "Bring the compass near one end of the card.": {"hi": "दिक्सूचक को कार्ड के एक सिरे के पास लाइए।", "hg": "Compass ko card ke ek end ke paas lao."}, "The north end of the needle points away from the N pole of the magnet: field lines come out of the N pole and go into the S pole.": {"hi": "सुई का उत्तरी सिरा चुंबक के N ध्रुव से दूर की ओर संकेत करता है: क्षेत्र रेखाएँ N ध्रुव से निकलती हैं और S ध्रुव में प्रवेश करती हैं।", "hg": "Needle ka north end magnet ke N pole se door ki taraf point karta hai: field lines N pole se nikalti hain aur S pole mein jaati hain."}, "The filings formed closed curved lines from one end to the other, crowded at the poles.": {"hi": "बुरादे ने एक सिरे से दूसरे सिरे तक बंद वक्र रेखाएँ बनाईं, जो ध्रुवों पर घनी थीं।", "hg": "Filings ne ek end se doosre end tak closed curved lines banayin, jo poles par ghani thin."}, "A magnet has a magnetic field around it. Field lines go from N to S outside the magnet, are closest where the field is strongest and never cross each other.": {"hi": "चुंबक के चारों ओर चुंबकीय क्षेत्र होता है। चुंबक के बाहर क्षेत्र रेखाएँ N से S की ओर जाती हैं, जहाँ क्षेत्र सबसे प्रबल होता है वहाँ सबसे पास-पास होती हैं और कभी एक-दूसरे को प्रतिच्छेद नहीं करतीं।", "hg": "Magnet ke charon taraf magnetic field hota hai. Magnet ke bahar field lines N se S ki taraf jaati hain, jahan field sabse strong ho wahan sabse paas-paas hoti hain aur kabhi ek-doosre ko cross nahi karti."}, "Do not let the filings touch the magnet directly: they are hard to remove. Keep magnets away from phones and watches.": {"hi": "बुरादे को चुंबक से सीधे छूने न दीजिए: उसे हटाना कठिन होता है। चुंबकों को फ़ोन और घड़ियों से दूर रखिए।", "hg": "Filings ko magnet se seedha chhoone mat do: unhe hatana mushkil hota hai. Magnets ko phone aur watch se door rakho."}, "Why do two field lines never cross?": {"hi": "दो क्षेत्र रेखाएँ कभी एक-दूसरे को प्रतिच्छेद क्यों नहीं करतीं?", "hg": "Do field lines kabhi ek-doosre ko cross kyun nahi karti?"}, "At the crossing point the compass needle would have to point in two directions at once, which is impossible.": {"hi": "प्रतिच्छेद बिंदु पर दिक्सूचक सुई को एक साथ दो दिशाओं में संकेत करना पड़ता, जो असंभव है।", "hg": "Crossing point par compass needle ko ek saath do directions mein point karna padta, jo impossible hai."}, "Where is the field strongest?": {"hi": "क्षेत्र सबसे प्रबल कहाँ होता है?", "hg": "Field sabse strong kahan hota hai?"}, "Near the poles, where the lines are crowded.": {"hi": "ध्रुवों के पास, जहाँ रेखाएँ घनी होती हैं।", "hg": "Poles ke paas, jahan lines ghani hoti hain."}, "What is the direction of field lines inside a magnet?": {"hi": "चुंबक के भीतर क्षेत्र रेखाओं की दिशा क्या होती है?", "hg": "Magnet ke andar field lines ki direction kya hoti hai?"}, "From the S pole to the N pole.": {"hi": "S ध्रुव से N ध्रुव की ओर।", "hg": "S pole se N pole ki taraf."}, "Magnetic field lines leave the north pole and enter the south pole; they never cross": {"hi": "चुंबकीय क्षेत्र रेखाएँ उत्तरी ध्रुव से निकलती हैं और दक्षिणी ध्रुव में प्रवेश करती हैं; ये कभी प्रतिच्छेद नहीं करतीं", "hg": "Magnetic field lines north pole se nikalti hain aur south pole mein enter karti hain; yeh kabhi cross nahi karti"}, "Drawing field lines with a compass": {"hi": "दिक्सूचक की सहायता से क्षेत्र रेखाएँ खींचना", "hg": "Compass se field lines draw karna"}, "To draw the magnetic field lines of a bar magnet using a small compass.": {"hi": "एक छोटे दिक्सूचक की सहायता से छड़ चुंबक की चुंबकीय क्षेत्र रेखाएँ खींचना।", "hg": "Chhote compass ki madad se bar magnet ki magnetic field lines draw karna."}, "Plotting magnetic field lines": {"hi": "चुंबकीय क्षेत्र रेखाएँ आलेखित करना", "hg": "Magnetic field lines plot karna"}, "Fix the sheet on the board, place the bar magnet in the middle and draw its outline.": {"hi": "शीट को बोर्ड पर लगाइए, छड़ चुंबक को बीच में रखिए और उसकी रूपरेखा खींचिए।", "hg": "Sheet ko board par fix karo, bar magnet ko beech mein rakho aur uski outline draw karo."}, "The outline of the magnet with its N and S ends marked.": {"hi": "चुंबक की रूपरेखा, जिस पर उसके N और S सिरे अंकित हैं।", "hg": "Magnet ki outline, jis par uske N aur S ends mark kiye hain."}, "Place the compass near the N pole. Mark the positions of the two ends of its needle; move the compass so that its south end is at the last mark, and repeat until you reach the S pole. Join the marks.": {"hi": "दिक्सूचक को N ध्रुव के पास रखिए। उसकी सुई के दोनों सिरों की स्थितियाँ अंकित कीजिए; दिक्सूचक को इस प्रकार खिसकाइए कि उसका दक्षिणी सिरा अंतिम चिह्न पर आ जाए, और S ध्रुव तक पहुँचने तक यही दोहराइए। चिह्नों को मिलाइए।", "hg": "Compass ko N pole ke paas rakho. Uski needle ke dono ends ki position mark karo; compass ko aise khiskao ki uska south end last mark par aa jaaye, aur S pole tak pahunchne tak yahi repeat karo. Marks ko jod do."}, "A smooth curve from the N pole to the S pole: one magnetic field line.": {"hi": "N ध्रुव से S ध्रुव तक एक चिकना वक्र: एक चुंबकीय क्षेत्र रेखा।", "hg": "N pole se S pole tak ek smooth curve: ek magnetic field line."}, "Repeat from other starting points near the N pole to draw more field lines.": {"hi": "और अधिक क्षेत्र रेखाएँ खींचने के लिए N ध्रुव के पास अन्य प्रारंभिक बिंदुओं से यही प्रक्रिया दोहराइए।", "hg": "Aur field lines draw karne ke liye N pole ke paas doosre starting points se yahi repeat karo."}, "A set of closed curved lines from N to S that never cross; they are crowded near the poles.": {"hi": "N से S तक बंद वक्र रेखाओं का एक समूह, जो कभी प्रतिच्छेद नहीं करतीं; ध्रुवों के पास ये घनी होती हैं।", "hg": "N se S tak closed curved lines ka ek set, jo kabhi cross nahi karti; poles ke paas yeh ghani hoti hain."}, "A compass needle sets itself along the field, so the marks follow the direction of the field. The arrows point from N to S outside the magnet.": {"hi": "दिक्सूचक सुई स्वयं को क्षेत्र के अनुदिश व्यवस्थित कर लेती है, इसलिए चिह्न क्षेत्र की दिशा का अनुसरण करते हैं। चुंबक के बाहर तीर N से S की ओर संकेत करते हैं।", "hg": "Compass needle khud ko field ke along set kar leti hai, isliye marks field ki direction follow karte hain. Magnet ke bahar arrows N se S ki taraf point karte hain."}, "Joining the needle marks gave curved lines from the N pole to the S pole; they did not cross and were closest near the poles.": {"hi": "सुई के चिह्नों को मिलाने पर N ध्रुव से S ध्रुव तक वक्र रेखाएँ प्राप्त हुईं; ये एक-दूसरे को प्रतिच्छेद नहीं करती थीं और ध्रुवों के पास सबसे पास-पास थीं।", "hg": "Needle ke marks jodne par N pole se S pole tak curved lines mili; yeh cross nahi hui aur poles ke paas sabse paas-paas thin."}, "Magnetic field lines can be traced with a compass. They are closed curves that run from N to S outside the magnet.": {"hi": "दिक्सूचक की सहायता से चुंबकीय क्षेत्र रेखाएँ खींची जा सकती हैं। ये बंद वक्र होती हैं जो चुंबक के बाहर N से S की ओर जाती हैं।", "hg": "Compass se magnetic field lines trace ki ja sakti hain. Yeh closed curves hoti hain jo magnet ke bahar N se S ki taraf jaati hain."}, "Keep other magnets and iron objects away from the board; they disturb the compass.": {"hi": "अन्य चुंबकों और लोहे की वस्तुओं को बोर्ड से दूर रखिए; वे दिक्सूचक को प्रभावित करती हैं।", "hg": "Doosre magnets aur iron ki cheezon ko board se door rakho; yeh compass ko disturb karti hain."}, "What is a magnetic field line?": {"hi": "चुंबकीय क्षेत्र रेखा क्या है?", "hg": "Magnetic field line kya hoti hai?"}, "The path along which a free north pole would tend to move.": {"hi": "वह पथ जिसके अनुदिश एक स्वतंत्र उत्तरी ध्रुव गति करने की प्रवृत्ति रखता है।", "hg": "Woh path jiske along ek free north pole move karne ki koshish karega."}, "What does the closeness of field lines show?": {"hi": "क्षेत्र रेखाओं का पास-पास होना क्या दर्शाता है?", "hg": "Field lines ka paas-paas hona kya dikhata hai?"}, "The strength of the field.": {"hi": "क्षेत्र की प्रबलता।", "hg": "Field ki strength."}, "Why is a small compass used?": {"hi": "छोटे दिक्सूचक का उपयोग क्यों किया जाता है?", "hg": "Chhota compass kyun use kiya jaata hai?"}, "So that the needle follows the field at one small region at a time.": {"hi": "ताकि सुई एक समय में केवल एक छोटे से स्थान के चुंबकीय क्षेत्र का अनुसरण करे।", "hg": "Taaki needle ek time par sirf ek chhoti si jagah ke field ko follow kare."}, "The direction of a field line at any point is the direction in which the north pole of a compass points there": {"hi": "किसी बिंदु पर क्षेत्र रेखा की दिशा वह दिशा है जिसमें वहाँ रखे दिक्सूचक का उत्तरी ध्रुव संकेत करता है", "hg": "Kisi point par field line ki direction wahi hai jis direction mein wahan compass ka north pole point karta hai"}, "Magnetic field of a straight current-carrying wire": {"hi": "सीधे धारावाही तार का चुंबकीय क्षेत्र", "hg": "Seedhe current-carrying wire ka magnetic field"}, "To see the pattern of the magnetic field around a straight wire carrying a current.": {"hi": "विद्युत धारा प्रवाहित हो रहे सीधे तार के चारों ओर चुंबकीय क्षेत्र का पैटर्न देखना।", "hg": "Current le ja rahe seedhe wire ke charon taraf magnetic field ka pattern dekhna."}, "Field of a straight conductor": {"hi": "सीधे चालक का क्षेत्र", "hg": "Seedhe conductor ka field"}, "A thick copper wire passes vertically through the centre of the cardboard. Sprinkle iron filings on the cardboard.": {"hi": "ताँबे का एक मोटा तार कार्डबोर्ड के केंद्र से होकर ऊर्ध्वाधर गुज़रता है। कार्डबोर्ड पर लोहे का बुरादा छिड़किए।", "hg": "Ek mota copper wire cardboard ke centre se vertically guzarta hai. Cardboard par iron filings chhidko."}, "The filings lie at random.": {"hi": "बुरादा अव्यवस्थित रूप से पड़ा रहता है।", "hg": "Filings randomly padi hain."}, "Close the key so that a current flows up the wire, and tap the cardboard gently.": {"hi": "कुंजी बंद कीजिए ताकि तार में विद्युत धारा ऊपर की ओर प्रवाहित हो, और कार्डबोर्ड को धीरे से थपथपाइए।", "hg": "Key close karo taaki wire mein current upar ki taraf flow kare, aur cardboard ko halke se tap karo."}, "The filings arrange themselves in concentric circles around the wire.": {"hi": "बुरादा तार के चारों ओर संकेंद्री वृत्तों में व्यवस्थित हो जाता है।", "hg": "Filings wire ke charon taraf concentric circles mein arrange ho jaati hain."}, "The magnetic field lines around a straight wire are concentric circles centred on the wire.": {"hi": "सीधे तार के चारों ओर चुंबकीय क्षेत्र रेखाएँ संकेंद्री वृत्त होती हैं, जिनका केंद्र तार पर होता है।", "hg": "Seedhe wire ke charon taraf magnetic field lines concentric circles hoti hain, jinka centre wire par hota hai."}, "Place the small compass on the cardboard near the wire and note where its N end points.": {"hi": "छोटे दिक्सूचक को कार्डबोर्ड पर तार के पास रखिए और देखिए कि उसका N सिरा किस ओर संकेत करता है।", "hg": "Chhote compass ko cardboard par wire ke paas rakho aur note karo ki uska N end kis taraf point karta hai."}, "The needle lies along a circle; seen from above, its N end points anticlockwise for a current flowing upwards.": {"hi": "सुई एक वृत्त के अनुदिश रहती है; ऊपर से देखने पर, ऊपर की ओर प्रवाहित धारा के लिए इसका N सिरा वामावर्त दिशा में संकेत करता है।", "hg": "Needle ek circle ke along rehti hai; upar se dekhne par, upar ki taraf flow karte current ke liye iska N end anticlockwise point karta hai."}, "Reverse the current and look at the compass again.": {"hi": "विद्युत धारा की दिशा उलटिए और दिक्सूचक को फिर से देखिए।", "hg": "Current reverse karo aur compass ko phir se dekho."}, "The needle turns round: the field now goes clockwise.": {"hi": "सुई घूमकर उलट जाती है: अब क्षेत्र दक्षिणावर्त है।", "hg": "Needle ghoom jaati hai: ab field clockwise hai."}, "By the right-hand thumb rule the direction of the circles depends on the direction of the current.": {"hi": "दक्षिण-हस्त अंगुष्ठ नियम के अनुसार वृत्तों की दिशा विद्युत धारा की दिशा पर निर्भर करती है।", "hg": "Right-hand thumb rule ke hisaab se circles ki direction current ki direction par depend karti hai."}, "The filings formed concentric circles around the wire; the compass followed the circles and reversed when the current was reversed.": {"hi": "बुरादे ने तार के चारों ओर संकेंद्री वृत्त बनाए; दिक्सूचक ने वृत्तों का अनुसरण किया और धारा की दिशा उलटने पर उसकी दिशा भी उलट गई।", "hg": "Filings ne wire ke charon taraf concentric circles banaye; compass ne circles ko follow kiya aur current reverse karne par woh bhi ulat gaya."}, "The magnetic field around a straight current-carrying wire consists of concentric circles; its direction is given by the right-hand thumb rule.": {"hi": "सीधे धारावाही तार के चारों ओर चुंबकीय क्षेत्र संकेंद्री वृत्तों के रूप में होता है; इसकी दिशा दक्षिण-हस्त अंगुष्ठ नियम से ज्ञात होती है।", "hg": "Seedhe current-carrying wire ke charon taraf magnetic field concentric circles ke roop mein hota hai; iski direction right-hand thumb rule se milti hai."}, "Pass the current only for a short time; use a rheostat to keep it safe.": {"hi": "विद्युत धारा केवल थोड़े समय के लिए प्रवाहित कीजिए; इसे सुरक्षित सीमा में रखने के लिए धारा नियंत्रक (रिओस्टेट) का उपयोग कीजिए।", "hg": "Current sirf thodi der ke liye do; ise safe rakhne ke liye rheostat use karo."}, "How does the field change as you move away from the wire?": {"hi": "तार से दूर जाने पर क्षेत्र में क्या परिवर्तन होता है?", "hg": "Wire se door jaane par field kaise badalta hai?"}, "It becomes weaker (the circles are farther apart).": {"hi": "यह दुर्बल हो जाता है (वृत्त एक-दूसरे से अधिक दूर होते हैं)।", "hg": "Yeh weak ho jaata hai (circles ek-doosre se zyada door hote hain)."}, "What is the shape of the field lines?": {"hi": "क्षेत्र रेखाओं की आकृति कैसी होती है?", "hg": "Field lines ka shape kaisa hota hai?"}, "Concentric circles centred on the wire.": {"hi": "तार पर केंद्रित संकेंद्री वृत्त।", "hg": "Wire par centred concentric circles."}, "What happens if the current is increased?": {"hi": "विद्युत धारा बढ़ाने पर क्या होता है?", "hg": "Current badhane par kya hota hai?"}, "The field becomes stronger.": {"hi": "क्षेत्र अधिक प्रबल हो जाता है।", "hg": "Field zyada strong ho jaata hai."}, "Field of a straight wire: concentric circles; stronger near the wire and for a larger current": {"hi": "सीधे तार का क्षेत्र: संकेंद्री वृत्त; तार के पास तथा अधिक धारा के लिए अधिक प्रबल", "hg": "Seedhe wire ka field: concentric circles; wire ke paas aur zyada current par zyada strong"}, "Magnetic field of a circular coil": {"hi": "वृत्ताकार कुंडली का चुंबकीय क्षेत्र", "hg": "Circular coil ka magnetic field"}, "To see the pattern of the magnetic field of a current-carrying circular coil.": {"hi": "धारावाही वृत्ताकार कुंडली के चुंबकीय क्षेत्र का पैटर्न देखना।", "hg": "Current-carrying circular coil ke magnetic field ka pattern dekhna."}, "Field of a circular coil": {"hi": "वृत्ताकार कुंडली का क्षेत्र", "hg": "Circular coil ka field"}, "A coil of many turns stands upright through the cardboard. Sprinkle iron filings on the cardboard.": {"hi": "अनेक फेरों वाली एक कुंडली कार्डबोर्ड से होकर सीधी खड़ी है। कार्डबोर्ड पर लोहे का बुरादा छिड़किए।", "hg": "Kai turns wali ek coil cardboard ke through seedhi khadi hai. Cardboard par iron filings chhidko."}, "Close the key and tap the cardboard gently.": {"hi": "कुंजी बंद कीजिए और कार्डबोर्ड को धीरे से थपथपाइए।", "hg": "Key close karo aur cardboard ko halke se tap karo."}, "Near each side of the coil the filings form small circles around the wire; at the centre of the coil the lines are nearly straight and parallel.": {"hi": "कुंडली की प्रत्येक भुजा के पास बुरादा तार के चारों ओर छोटे वृत्त बनाता है; कुंडली के केंद्र पर रेखाएँ लगभग सीधी और समांतर होती हैं।", "hg": "Coil ke har side ke paas filings wire ke charon taraf chhote circles banati hain; coil ke centre par lines lagbhag seedhi aur parallel hoti hain."}, "Each part of the coil makes circles of field around it. Inside the loop all these fields point the same way, so the field at the centre is strong and nearly uniform.": {"hi": "कुंडली का प्रत्येक भाग अपने चारों ओर क्षेत्र के वृत्त बनाता है। लूप के भीतर ये सभी क्षेत्र एक ही दिशा में होते हैं, इसलिए केंद्र पर क्षेत्र प्रबल और लगभग एकसमान होता है।", "hg": "Coil ka har part apne charon taraf field ke circles banata hai. Loop ke andar yeh saare fields ek hi direction mein hote hain, isliye centre par field strong aur lagbhag uniform hota hai."}, "Circles around each side of the coil, nearly straight parallel lines at its centre.": {"hi": "कुंडली की प्रत्येक भुजा के चारों ओर वृत्त, और उसके केंद्र पर लगभग सीधी समांतर रेखाएँ।", "hg": "Coil ke har side ke charon taraf circles, aur uske centre par lagbhag seedhi parallel lines."}, "The field of a circular coil is strongest at its centre and increases with the number of turns and the current.": {"hi": "वृत्ताकार कुंडली का क्षेत्र उसके केंद्र पर सबसे प्रबल होता है और फेरों की संख्या तथा विद्युत धारा बढ़ने पर बढ़ता है।", "hg": "Circular coil ka field uske centre par sabse strong hota hai aur turns ki sankhya aur current badhne par badhta hai."}, "Pass the current only for a short time.": {"hi": "विद्युत धारा केवल थोड़े समय के लिए प्रवाहित कीजिए।", "hg": "Current sirf thodi der ke liye do."}, "How can the field at the centre be made stronger?": {"hi": "केंद्र पर क्षेत्र को अधिक प्रबल कैसे बनाया जा सकता है?", "hg": "Centre par field ko zyada strong kaise banaya ja sakta hai?"}, "Increase the current or the number of turns.": {"hi": "विद्युत धारा या फेरों की संख्या बढ़ाइए।", "hg": "Current ya turns ki sankhya badhao."}, "What is the field like at the centre?": {"hi": "केंद्र पर क्षेत्र कैसा होता है?", "hg": "Centre par field kaisa hota hai?"}, "Nearly straight and parallel lines (almost uniform).": {"hi": "लगभग सीधी और समांतर रेखाएँ (लगभग एकसमान)।", "hg": "Lagbhag seedhi aur parallel lines (almost uniform)."}, "Field at the centre of a coil: proportional to the current and the number of turns": {"hi": "कुंडली के केंद्र पर क्षेत्र: विद्युत धारा तथा फेरों की संख्या के अनुक्रमानुपाती", "hg": "Coil ke centre par field: current aur turns ki sankhya ke proportional"}, "Magnetic field of a solenoid": {"hi": "परिनालिका का चुंबकीय क्षेत्र", "hg": "Solenoid ka magnetic field"}, "To see the magnetic field of a current-carrying solenoid and compare it with that of a bar magnet.": {"hi": "धारावाही परिनालिका का चुंबकीय क्षेत्र देखना और उसकी तुलना छड़ चुंबक के क्षेत्र से करना।", "hg": "Current-carrying solenoid ka magnetic field dekhna aur use bar magnet ke field se compare karna."}, "Solenoid and electromagnet": {"hi": "परिनालिका और विद्युत चुंबक", "hg": "Solenoid aur electromagnet"}, "Sprinkle iron filings on the card that passes through the solenoid.": {"hi": "परिनालिका के बीच से गुज़रने वाले कार्ड पर लोहे का बुरादा छिड़किए।", "hg": "Solenoid ke beech se guzarne wale card par iron filings chhidko."}, "Close the key and tap the card.": {"hi": "कुंजी बंद कीजिए और कार्ड को थपथपाइए।", "hg": "Key close karo aur card ko tap karo."}, "Inside the solenoid the filings lie in straight parallel lines; outside, the pattern is just like that of a bar magnet.": {"hi": "परिनालिका के भीतर बुरादा सीधी समांतर रेखाओं में व्यवस्थित होता है; बाहर पैटर्न ठीक छड़ चुंबक जैसा होता है।", "hg": "Solenoid ke andar filings seedhi parallel lines mein hoti hain; bahar pattern bilkul bar magnet jaisa hota hai."}, "The fields of all the turns add up: inside a long solenoid the field is strong and uniform; one end behaves as a north pole and the other as a south pole.": {"hi": "सभी फेरों के क्षेत्र जुड़ जाते हैं: लंबी परिनालिका के भीतर क्षेत्र प्रबल और एकसमान होता है; इसका एक सिरा उत्तरी ध्रुव और दूसरा सिरा दक्षिणी ध्रुव की तरह व्यवहार करता है।", "hg": "Saare turns ke fields jud jaate hain: lambe solenoid ke andar field strong aur uniform hota hai; ek end north pole ki tarah aur doosra end south pole ki tarah behave karta hai."}, "Bring the compass near one end of the solenoid.": {"hi": "दिक्सूचक को परिनालिका के एक सिरे के पास लाइए।", "hg": "Compass ko solenoid ke ek end ke paas lao."}, "The compass needle swings round: that end of the solenoid behaves like a magnetic pole.": {"hi": "दिक्सूचक सुई घूम जाती है: परिनालिका का वह सिरा एक चुंबकीय ध्रुव की तरह व्यवहार करता है।", "hg": "Compass needle ghoom jaati hai: solenoid ka woh end ek magnetic pole ki tarah behave karta hai."}, "A solenoid carrying a current is an electromagnet. With a soft iron core inside it becomes a strong electromagnet that works only while the current flows.": {"hi": "धारावाही परिनालिका एक विद्युत चुंबक है। इसके भीतर नर्म लोहे का क्रोड रखने पर यह एक प्रबल विद्युत चुंबक बन जाती है, जो केवल तभी तक कार्य करता है जब तक विद्युत धारा प्रवाहित होती है।", "hg": "Current-carrying solenoid ek electromagnet hai. Iske andar soft iron core rakhne par yeh ek strong electromagnet ban jaata hai jo sirf tab tak kaam karta hai jab tak current flow karta hai."}, "The filings formed straight parallel lines inside and a bar-magnet-like pattern outside; the ends attracted and repelled the compass needle like poles.": {"hi": "बुरादे ने भीतर सीधी समांतर रेखाएँ और बाहर छड़ चुंबक जैसा पैटर्न बनाया; सिरों ने ध्रुवों की तरह दिक्सूचक सुई को आकर्षित और प्रतिकर्षित किया।", "hg": "Filings ne andar seedhi parallel lines aur bahar bar magnet jaisa pattern banaya; ends ne poles ki tarah compass needle ko attract aur repel kiya."}, "A current-carrying solenoid behaves like a bar magnet with a uniform field inside. It is the basis of the electromagnet.": {"hi": "धारावाही परिनालिका छड़ चुंबक की तरह व्यवहार करती है और इसके भीतर क्षेत्र एकसमान होता है। यही विद्युत चुंबक का आधार है।", "hg": "Current-carrying solenoid bar magnet ki tarah behave karta hai aur iske andar field uniform hota hai. Yahi electromagnet ka base hai."}, "Do not keep the current on for long; the coil gets hot.": {"hi": "विद्युत धारा को अधिक समय तक चालू न रखिए; कुंडली गर्म हो जाती है।", "hg": "Current ko zyada der tak on mat rakho; coil garam ho jaati hai."}, "How is a solenoid different from a bar magnet?": {"hi": "परिनालिका छड़ चुंबक से किस प्रकार भिन्न है?", "hg": "Solenoid bar magnet se kaise alag hai?"}, "Its magnetism can be switched on and off and its strength changed with the current.": {"hi": "इसके चुंबकत्व को चालू और बंद किया जा सकता है तथा विद्युत धारा द्वारा इसकी प्रबलता बदली जा सकती है।", "hg": "Iska magnetism on aur off kiya ja sakta hai aur current se iski strength badli ja sakti hai."}, "What is placed inside a solenoid to make an electromagnet?": {"hi": "विद्युत चुंबक बनाने के लिए परिनालिका के भीतर क्या रखा जाता है?", "hg": "Electromagnet banane ke liye solenoid ke andar kya rakha jaata hai?"}, "A soft iron core.": {"hi": "नर्म लोहे का क्रोड।", "hg": "Soft iron core."}, "How can you find which end is N?": {"hi": "आप कैसे पता लगा सकते हैं कि कौन-सा सिरा N है?", "hg": "Kaise pata karoge ki kaun sa end N hai?"}, "With a compass, or by the clockwise/anticlockwise rule of the current seen from that end.": {"hi": "दिक्सूचक से, या उस सिरे से देखने पर धारा के दक्षिणावर्त/वामावर्त नियम से।", "hg": "Compass se, ya us end se dekhne par current ke clockwise/anticlockwise rule se."}, "Field inside a long solenoid: uniform, proportional to the current and to the number of turns per unit length": {"hi": "लंबी परिनालिका के भीतर क्षेत्र: एकसमान, विद्युत धारा तथा प्रति एकांक लंबाई फेरों की संख्या के अनुक्रमानुपाती", "hg": "Lambe solenoid ke andar field: uniform, current aur per unit length turns ki sankhya ke proportional"}, "Force on a current-carrying rod in a magnetic field": {"hi": "चुंबकीय क्षेत्र में धारावाही छड़ पर बल", "hg": "Magnetic field mein current-carrying rod par force"}, "To show that a current-carrying conductor in a magnetic field experiences a force, and that its direction depends on the current and the field.": {"hi": "यह दर्शाना कि चुंबकीय क्षेत्र में रखा धारावाही चालक एक बल का अनुभव करता है, और इस बल की दिशा विद्युत धारा तथा क्षेत्र की दिशा पर निर्भर करती है।", "hg": "Yeh dikhana ki magnetic field mein rakha current-carrying conductor ek force feel karta hai, aur is force ki direction current aur field par depend karti hai."}, "Force on a conductor (Fleming's left-hand rule)": {"hi": "चालक पर बल (फ्लेमिंग का वामहस्त नियम)", "hg": "Conductor par force (Fleming's left-hand rule)"}, "The light aluminium rod AB hangs between the poles of the horseshoe magnet (N below, S above: the field points upwards).": {"hi": "ऐलुमिनियम की हल्की छड़ AB नाल चुंबक के ध्रुवों के बीच लटकी है (N नीचे, S ऊपर: क्षेत्र ऊपर की ओर है)।", "hg": "Aluminium ki halki rod AB horseshoe magnet ke poles ke beech latki hai (N neeche, S upar: field upar ki taraf hai)."}, "The rod hangs straight down at rest.": {"hi": "छड़ विराम अवस्था में सीधी नीचे की ओर लटकी है।", "hg": "Rod rest mein seedhi neeche latki hai."}, "Close the key so that a current flows from A to B.": {"hi": "कुंजी बंद कीजिए ताकि विद्युत धारा A से B की ओर प्रवाहित हो।", "hg": "Key close karo taaki current A se B ki taraf flow kare."}, "The rod is pushed sideways out of the gap and stays displaced while the current flows.": {"hi": "छड़ बगल की ओर धकेली जाकर अंतराल से बाहर आ जाती है और जब तक विद्युत धारा प्रवाहित होती है, विस्थापित रहती है।", "hg": "Rod side ki taraf push hokar gap se bahar aa jaati hai aur jab tak current flow karta hai, displaced rehti hai."}, "A current-carrying conductor in a magnetic field experiences a force. The force is perpendicular to both the current and the field.": {"hi": "चुंबकीय क्षेत्र में रखा धारावाही चालक एक बल का अनुभव करता है। यह बल विद्युत धारा और क्षेत्र दोनों के लंबवत होता है।", "hg": "Magnetic field mein rakha current-carrying conductor ek force feel karta hai. Yeh force current aur field dono ke perpendicular hota hai."}, "Reverse the current (swap the connections at the cells).": {"hi": "विद्युत धारा की दिशा उलटिए (सेलों पर संयोजन आपस में बदल दीजिए)।", "hg": "Current reverse karo (cells par connections aapas mein badal do)."}, "The rod is now pushed the opposite way.": {"hi": "अब छड़ विपरीत दिशा में धकेली जाती है।", "hg": "Ab rod opposite direction mein push hoti hai."}, "Now turn the magnet over (S below, N above) and watch the rod.": {"hi": "अब चुंबक को पलट दीजिए (S नीचे, N ऊपर) और छड़ को देखिए।", "hg": "Ab magnet ko palat do (S neeche, N upar) aur rod ko dekho."}, "The direction of the force reverses again.": {"hi": "बल की दिशा फिर से उलट जाती है।", "hg": "Force ki direction phir se ulat jaati hai."}, "Fleming's left-hand rule: stretch the forefinger along the field, the middle finger along the current; the thumb gives the direction of the force (motion).": {"hi": "फ्लेमिंग का वामहस्त नियम: तर्जनी को क्षेत्र की दिशा में और मध्यमा को विद्युत धारा की दिशा में फैलाइए; अँगूठा बल (गति) की दिशा बताता है।", "hg": "Fleming's left-hand rule: forefinger ko field ki direction mein aur middle finger ko current ki direction mein stretch karo; thumb force (motion) ki direction batata hai."}, "The rod moved sideways when the current flowed; its direction reversed when either the current or the magnetic field was reversed.": {"hi": "विद्युत धारा प्रवाहित होने पर छड़ बगल की ओर खिसकी; धारा या चुंबकीय क्षेत्र में से किसी एक की दिशा उलटने पर इसकी दिशा उलट गई।", "hg": "Current flow hone par rod side ki taraf move hui; current ya magnetic field mein se kisi ek ko reverse karne par uski direction ulat gayi."}, "A current-carrying conductor placed in a magnetic field experiences a force whose direction is given by Fleming's left-hand rule. This is the principle of the electric motor.": {"hi": "चुंबकीय क्षेत्र में रखा धारावाही चालक एक बल का अनुभव करता है, जिसकी दिशा फ्लेमिंग के वामहस्त नियम से ज्ञात होती है। यही विद्युत मोटर का सिद्धांत है।", "hg": "Magnetic field mein rakha current-carrying conductor ek force feel karta hai, jiski direction Fleming's left-hand rule se milti hai. Yahi electric motor ka principle hai."}, "Use a rheostat to limit the current and close the key only for a short time.": {"hi": "विद्युत धारा को सीमित रखने के लिए धारा नियंत्रक (रिओस्टेट) का उपयोग कीजिए और कुंजी को केवल थोड़े समय के लिए बंद कीजिए।", "hg": "Current ko limit karne ke liye rheostat use karo aur key ko sirf thodi der ke liye close karo."}, "State Fleming’s left-hand rule.": {"hi": "फ्लेमिंग का वामहस्त नियम बताइए।", "hg": "Fleming’s left-hand rule batao."}, "Forefinger: field, middle finger: current, thumb: force (motion) — all mutually perpendicular.": {"hi": "तर्जनी: क्षेत्र, मध्यमा: विद्युत धारा, अँगूठा: बल (गति) — तीनों परस्पर लंबवत।", "hg": "Forefinger: field, middle finger: current, thumb: force (motion) — teeno ek-doosre ke perpendicular."}, "When is the force on the conductor largest?": {"hi": "चालक पर बल अधिकतम कब होता है?", "hg": "Conductor par force sabse zyada kab hota hai?"}, "When the current is at right angles to the magnetic field.": {"hi": "जब विद्युत धारा चुंबकीय क्षेत्र के लंबवत होती है।", "hg": "Jab current magnetic field ke right angle par (perpendicular) ho."}, "Name a device that uses this force.": {"hi": "ऐसी एक युक्ति का नाम बताइए जो इस बल का उपयोग करती है।", "hg": "Ek aisi device ka naam batao jo is force ko use karti hai."}, "An electric motor (also loudspeakers).": {"hi": "विद्युत मोटर (लाउडस्पीकर भी)।", "hg": "Electric motor (loudspeaker bhi)."}, "Force on a conductor: F = B I L (largest when the current is perpendicular to the field); direction by Fleming's left-hand rule": {"hi": "चालक पर बल: F = B I L (जब धारा क्षेत्र के लंबवत हो तब अधिकतम); दिशा फ्लेमिंग के वामहस्त नियम से", "hg": "Conductor par force: F = B I L (jab current field ke perpendicular ho tab sabse zyada); direction Fleming's left-hand rule se"}, "The rod is pushed towards you": {"hi": "छड़ आपकी ओर धकेली जाती है", "hg": "Rod aapki taraf push hoti hai"}, "The rod is pushed away from you": {"hi": "छड़ आपसे दूर धकेली जाती है", "hg": "Rod aapse door push hoti hai"}, "Magnetic compass (under the wire)": {"hi": "चुंबकीय दिक्सूचक (तार के नीचे)", "hg": "Magnetic compass (wire ke neeche)"}, "Deflection": {"hi": "विक्षेप", "hg": "Deflection"}, "towards west": {"hi": "पश्चिम की ओर", "hg": "west ki taraf"}, "towards east": {"hi": "पूर्व की ओर", "hg": "east ki taraf"}, "White card on supports": {"hi": "आधारों पर टिका सफ़ेद कार्ड", "hg": "Supports par rakha white card"}, "Small magnetic compass": {"hi": "छोटा चुंबकीय दिक्सूचक", "hg": "Chhota magnetic compass"}, "Cardboard (the wire passes through its centre)": {"hi": "कार्डबोर्ड (तार इसके केंद्र से होकर गुज़रता है)", "hg": "Cardboard (wire iske centre se guzarta hai)"}, "N end: anticlockwise round the wire (seen from above)": {"hi": "N सिरा: तार के चारों ओर वामावर्त (ऊपर से देखने पर)", "hg": "N end: wire ke charon taraf anticlockwise (upar se dekhne par)"}, "Now clockwise": {"hi": "अब दक्षिणावर्त", "hg": "Ab clockwise"}, "Cardboard (the coil passes through it)": {"hi": "कार्डबोर्ड (कुंडली इसमें से होकर गुज़रती है)", "hg": "Cardboard (coil iske through guzarti hai)"}, "Card through the middle of the solenoid": {"hi": "परिनालिका के बीच से गुज़रता कार्ड", "hg": "Solenoid ke beech se guzarta card"}, "Aluminium rod AB hung between the poles": {"hi": "ध्रुवों के बीच लटकी ऐलुमिनियम छड़ AB", "hg": "Poles ke beech latki aluminium rod AB"}});
 // p3 translations
 Object.assign(DICT, {"Images formed by a concave mirror": {"hi": "अवतल दर्पण द्वारा बनने वाले प्रतिबिंब", "hg": "Concave mirror se banne wali images"}, "To study the nature, position and size of the image formed by a concave mirror for different positions of the object.": {"hi": "वस्तु की विभिन्न स्थितियों के लिए अवतल दर्पण द्वारा बने प्रतिबिंब की प्रकृति, स्थिति और आकार का अध्ययन करना।", "hg": "Object ki alag-alag positions ke liye concave mirror se bani image ka nature, position aur size study karna."}, "Image formation by a concave mirror": {"hi": "अवतल दर्पण द्वारा प्रतिबिंब निर्माण", "hg": "Concave mirror se image formation"}, "Light the candle. The concave mirror (f = 15 cm) is at the 90 cm mark and the candle at the 45 cm mark, beyond C (u = 45 cm). The screen stands beside the bench so that it does not block the light.": {"hi": "मोमबत्ती जलाइए। अवतल दर्पण (f = 15 cm) 90 cm के निशान पर है और मोमबत्ती 45 cm के निशान पर, C से परे (u = 45 cm)। पर्दा बेंच के बगल में खड़ा है ताकि वह प्रकाश को न रोके।", "hg": "Candle jalao. Concave mirror (f = 15 cm) 90 cm mark par hai aur candle 45 cm mark par, C ke beyond (u = 45 cm). Screen bench ke bagal mein khadi hai taaki woh light ko block na kare."}, "The candle burns steadily, 45 cm in front of the mirror.": {"hi": "मोमबत्ती दर्पण के सामने 45 cm दूर स्थिर रूप से जल रही है।", "hg": "Candle mirror ke saamne 45 cm door steady jal rahi hai."}, "Move the screen until a sharp image of the flame forms on it.": {"hi": "पर्दे को तब तक खिसकाइए जब तक उस पर ज्वाला का स्पष्ट प्रतिबिंब न बन जाए।", "hg": "Screen ko tab tak khiskao jab tak us par flame ki sharp image na ban jaaye."}, "A small, inverted, real image forms between F and C, about 22.5 cm from the mirror.": {"hi": "F और C के बीच, दर्पण से लगभग 22.5 cm दूर, एक छोटा, उल्टा, वास्तविक प्रतिबिंब बनता है।", "hg": "F aur C ke beech, mirror se lagbhag 22.5 cm door, ek chhoti, inverted, real image banti hai."}, "Move the candle to the 60 cm mark (at C, u = 30 cm) and find the sharp image again.": {"hi": "मोमबत्ती को 60 cm के निशान पर (C पर, u = 30 cm) ले जाइए और फिर से स्पष्ट प्रतिबिंब प्राप्त कीजिए।", "hg": "Candle ko 60 cm mark par (C par, u = 30 cm) le jao aur phir se sharp image dhoondo."}, "The image is also at C, 30 cm from the mirror. It is inverted and the same size as the flame.": {"hi": "प्रतिबिंब भी C पर, दर्पण से 30 cm दूर बनता है। यह उल्टा है और ज्वाला के समान आकार का है।", "hg": "Image bhi C par, mirror se 30 cm door banti hai. Yeh inverted hai aur flame ke same size ki hai."}, "Move the candle to the 67.5 cm mark (between F and C, u = 22.5 cm) and find the image.": {"hi": "मोमबत्ती को 67.5 cm के निशान पर (F और C के बीच, u = 22.5 cm) ले जाइए और प्रतिबिंब प्राप्त कीजिए।", "hg": "Candle ko 67.5 cm mark par (F aur C ke beech, u = 22.5 cm) le jao aur image dhoondo."}, "The image forms beyond C, about 45 cm from the mirror. It is inverted and enlarged.": {"hi": "प्रतिबिंब C से परे, दर्पण से लगभग 45 cm दूर बनता है। यह उल्टा और आवर्धित है।", "hg": "Image C ke beyond, mirror se lagbhag 45 cm door banti hai. Yeh inverted aur enlarged hai."}, "Move the candle to the 75 cm mark (at F) and look for an image with the screen.": {"hi": "मोमबत्ती को 75 cm के निशान पर (F पर) ले जाइए और पर्दे की सहायता से प्रतिबिंब खोजिए।", "hg": "Candle ko 75 cm mark par (F par) le jao aur screen se image dhoondo."}, "No sharp image forms anywhere on the screen.": {"hi": "पर्दे पर कहीं भी स्पष्ट प्रतिबिंब नहीं बनता।", "hg": "Screen par kahin bhi sharp image nahi banti."}, "Rays from an object at the focus are reflected parallel to each other, so the image is at infinity.": {"hi": "फोकस पर रखी वस्तु से आने वाली किरणें परावर्तन के बाद एक-दूसरे के समांतर हो जाती हैं, इसलिए प्रतिबिंब अनंत पर बनता है।", "hg": "Focus par rakhe object se aane wali rays reflect hokar ek-doosre ke parallel ho jaati hain, isliye image infinity par banti hai."}, "Move the candle to the 80 cm mark (between P and F, u = 10 cm) and look into the mirror.": {"hi": "मोमबत्ती को 80 cm के निशान पर (P और F के बीच, u = 10 cm) ले जाइए और दर्पण में देखिए।", "hg": "Candle ko 80 cm mark par (P aur F ke beech, u = 10 cm) le jao aur mirror mein dekho."}, "No image forms on the screen. In the mirror you see an enlarged, upright (virtual) image of the flame, behind the mirror.": {"hi": "पर्दे पर कोई प्रतिबिंब नहीं बनता। दर्पण में आपको दर्पण के पीछे ज्वाला का एक आवर्धित, सीधा (आभासी) प्रतिबिंब दिखाई देता है।", "hg": "Screen par koi image nahi banti. Mirror mein tumhe mirror ke peeche flame ki ek enlarged, upright (virtual) image dikhti hai."}, "This is why a concave mirror is used as a shaving mirror or by dentists.": {"hi": "इसी कारण अवतल दर्पण का उपयोग दाढ़ी बनाने के दर्पण के रूप में या दंत चिकित्सकों द्वारा किया जाता है।", "hg": "Isi wajah se concave mirror ko shaving mirror ki tarah ya dentists dwara use kiya jaata hai."}, "u = 45 cm: v ≈ 22.5 cm, inverted, smaller. u = 30 cm (at C): v ≈ 30 cm, inverted, same size. u = 22.5 cm: v ≈ 45 cm, inverted, larger. At F: no image (at infinity). Between P and F: virtual, upright, enlarged image behind the mirror.": {"hi": "u = 45 cm: v ≈ 22.5 cm, उल्टा, छोटा। u = 30 cm (C पर): v ≈ 30 cm, उल्टा, समान आकार। u = 22.5 cm: v ≈ 45 cm, उल्टा, बड़ा। F पर: कोई प्रतिबिंब नहीं (अनंत पर)। P और F के बीच: दर्पण के पीछे आभासी, सीधा, आवर्धित प्रतिबिंब।", "hg": "u = 45 cm: v ≈ 22.5 cm, inverted, chhoti. u = 30 cm (C par): v ≈ 30 cm, inverted, same size. u = 22.5 cm: v ≈ 45 cm, inverted, badi. F par: koi image nahi (infinity par). P aur F ke beech: mirror ke peeche virtual, upright, enlarged image."}, "A concave mirror forms real, inverted images of objects beyond F; as the object comes closer to F the image moves farther away and grows larger. For an object between P and F the image is virtual, upright and magnified.": {"hi": "अवतल दर्पण F से परे रखी वस्तुओं के वास्तविक, उल्टे प्रतिबिंब बनाता है; जैसे-जैसे वस्तु F के पास आती है, प्रतिबिंब दूर खिसकता जाता है और बड़ा होता जाता है। P और F के बीच रखी वस्तु के लिए प्रतिबिंब आभासी, सीधा और आवर्धित होता है।", "hg": "Concave mirror F ke beyond rakhe objects ki real, inverted images banata hai; jaise-jaise object F ke paas aata hai, image door jaati hai aur badi hoti jaati hai. P aur F ke beech rakhe object ke liye image virtual, upright aur magnified hoti hai."}, "Keep the candle flame away from paper and hair; do not touch the hot wax. Handle the mirror by its edges.": {"hi": "मोमबत्ती की ज्वाला को कागज़ और बालों से दूर रखिए; गरम मोम को न छुइए। दर्पण को उसके किनारों से पकड़िए।", "hg": "Candle ki flame ko paper aur baalon se door rakho; garam wax ko mat chhuo. Mirror ko uske edges se pakdo."}, "At the centre of curvature C.": {"hi": "वक्रता केंद्र C पर।", "hg": "Centre of curvature C par."}, "Where is the image when the object is at the focus?": {"hi": "जब वस्तु फोकस पर हो, तब प्रतिबिंब कहाँ बनता है?", "hg": "Jab object focus par ho, tab image kahan banti hai?"}, "At infinity: the reflected rays are parallel.": {"hi": "अनंत पर: परावर्तित किरणें समांतर होती हैं।", "hg": "Infinity par: reflected rays parallel hoti hain."}, "Why is a concave mirror used in torches and headlights?": {"hi": "टॉर्च और हेडलाइट में अवतल दर्पण का उपयोग क्यों किया जाता है?", "hg": "Torch aur headlights mein concave mirror kyun use kiya jaata hai?"}, "With the bulb at its focus, it sends out a strong parallel beam of light.": {"hi": "बल्ब को इसके फोकस पर रखने पर यह प्रकाश का एक प्रबल समांतर किरण-पुंज भेजता है।", "hg": "Bulb ko iske focus par rakhne par yeh light ka ek strong parallel beam bhejta hai."}, "Mirror formula and magnification": {"hi": "दर्पण सूत्र और आवर्धन", "hg": "Mirror formula aur magnification"}, "Images formed by a concave lens": {"hi": "अवतल लेंस द्वारा बनने वाले प्रतिबिंब", "hg": "Concave lens se banne wali images"}, "To observe the nature, position and size of the image formed by a concave lens.": {"hi": "अवतल लेंस द्वारा बने प्रतिबिंब की प्रकृति, स्थिति और आकार का प्रेक्षण करना।", "hg": "Concave lens se bani image ka nature, position aur size observe karna."}, "Concave lens: virtual image": {"hi": "अवतल लेंस: आभासी प्रतिबिंब", "hg": "Concave lens: virtual image"}, "Light the candle. The concave lens is at the 50 cm mark and the candle at the 20 cm mark (u = 30 cm).": {"hi": "मोमबत्ती जलाइए। अवतल लेंस 50 cm के निशान पर है और मोमबत्ती 20 cm के निशान पर (u = 30 cm)।", "hg": "Candle jalao. Concave lens 50 cm mark par hai aur candle 20 cm mark par (u = 30 cm)."}, "The light from the candle passes through the lens.": {"hi": "मोमबत्ती का प्रकाश लेंस से होकर गुजरता है।", "hg": "Candle ki light lens se hokar guzarti hai."}, "Move the screen slowly on the other side of the lens and try to get an image on it.": {"hi": "लेंस के दूसरी ओर पर्दे को धीरे-धीरे खिसकाइए और उस पर प्रतिबिंब प्राप्त करने का प्रयास कीजिए।", "hg": "Lens ki doosri side screen ko dheere-dheere khiskao aur us par image laane ki koshish karo."}, "No image forms on the screen at any position; the light only spreads out.": {"hi": "किसी भी स्थिति में पर्दे पर कोई प्रतिबिंब नहीं बनता; प्रकाश केवल फैल जाता है।", "hg": "Kisi bhi position par screen par koi image nahi banti; light sirf phail jaati hai."}, "A concave lens spreads out (diverges) the rays. They never meet, so no real image is formed.": {"hi": "अवतल लेंस किरणों को फैला देता है (अपसरित करता है)। वे कभी नहीं मिलतीं, इसलिए कोई वास्तविक प्रतिबिंब नहीं बनता।", "hg": "Concave lens rays ko phaila deta hai (diverge karta hai). Woh kabhi nahi milti, isliye koi real image nahi banti."}, "Look through the lens from the other side.": {"hi": "दूसरी ओर से लेंस में से देखिए।", "hg": "Doosri side se lens ke through dekho."}, "You see a small, upright (virtual) image of the flame on the same side as the candle, between the focus and the lens.": {"hi": "आपको ज्वाला का एक छोटा, सीधा (आभासी) प्रतिबिंब मोमबत्ती वाली ओर ही, फोकस और लेंस के बीच दिखाई देता है।", "hg": "Tumhe flame ki ek chhoti, upright (virtual) image candle wali side par hi, focus aur lens ke beech dikhti hai."}, "Move the candle farther, to the 5 cm mark (u = 45 cm), and look through the lens again.": {"hi": "मोमबत्ती को और दूर, 5 cm के निशान पर (u = 45 cm) ले जाइए, और फिर से लेंस में से देखिए।", "hg": "Candle ko aur door, 5 cm mark par (u = 45 cm) le jao, aur phir se lens ke through dekho."}, "The image becomes still smaller and moves closer to the focus.": {"hi": "प्रतिबिंब और भी छोटा हो जाता है और फोकस के और पास खिसक जाता है।", "hg": "Image aur bhi chhoti ho jaati hai aur focus ke aur paas aa jaati hai."}, "Wherever the object is, a concave lens forms a virtual, upright, diminished image between its focus and the lens.": {"hi": "वस्तु कहीं भी हो, अवतल लेंस अपने फोकस और लेंस के बीच एक आभासी, सीधा, छोटा प्रतिबिंब बनाता है।", "hg": "Object kahin bhi ho, concave lens apne focus aur lens ke beech ek virtual, upright, diminished image banata hai."}, "No image could be obtained on the screen. Through the lens a small upright image was seen: v ≈ −10 cm for u = −30 cm, and v ≈ −11 cm for u = −45 cm.": {"hi": "पर्दे पर कोई प्रतिबिंब प्राप्त नहीं हो सका। लेंस में से एक छोटा सीधा प्रतिबिंब दिखाई दिया: u = −30 cm के लिए v ≈ −10 cm, और u = −45 cm के लिए v ≈ −11 cm।", "hg": "Screen par koi image nahi mil saki. Lens ke through ek chhoti upright image dikhi: u = −30 cm ke liye v ≈ −10 cm, aur u = −45 cm ke liye v ≈ −11 cm."}, "A concave lens always forms a virtual, upright and diminished image between its optical centre and focus, on the same side as the object.": {"hi": "अवतल लेंस सदैव अपने प्रकाशिक केंद्र और फोकस के बीच, वस्तु वाली ओर ही, एक आभासी, सीधा और छोटा प्रतिबिंब बनाता है।", "hg": "Concave lens hamesha apne optical centre aur focus ke beech, object wali side par hi, ek virtual, upright aur diminished image banata hai."}, "Keep the candle flame away from paper and hair; hold the lens by its edge.": {"hi": "मोमबत्ती की ज्वाला को कागज़ और बालों से दूर रखिए; लेंस को उसके किनारे से पकड़िए।", "hg": "Candle ki flame ko paper aur baalon se door rakho; lens ko uske edge se pakdo."}, "Why can a concave lens not form an image on a screen?": {"hi": "अवतल लेंस पर्दे पर प्रतिबिंब क्यों नहीं बना सकता?", "hg": "Concave lens screen par image kyun nahi bana sakta?"}, "Its image is virtual: the refracted rays spread out and never meet.": {"hi": "इसका प्रतिबिंब आभासी होता है: अपवर्तित किरणें फैल जाती हैं और कभी नहीं मिलतीं।", "hg": "Iski image virtual hoti hai: refracted rays phail jaati hain aur kabhi nahi milti."}, "What is the power of this lens?": {"hi": "इस लेंस की क्षमता क्या है?", "hg": "Is lens ki power kya hai?"}, "P = 1/f = 1/(−0.15 m) ≈ −6.7 D.": {"hi": "P = 1/f = 1/(−0.15 m) ≈ −6.7 D।", "hg": "P = 1/f = 1/(−0.15 m) ≈ −6.7 D."}, "Which defect of vision is corrected with a concave lens?": {"hi": "अवतल लेंस से दृष्टि के किस दोष का संशोधन किया जाता है?", "hg": "Concave lens se vision ka kaun sa defect correct kiya jaata hai?"}, "Myopia (short-sightedness).": {"hi": "निकट-दृष्टि दोष (मायोपिया)।", "hg": "Myopia (short-sightedness)."}, "Lens formula for a concave lens": {"hi": "अवतल लेंस के लिए लेंस सूत्र", "hg": "Concave lens ke liye lens formula"}, "Images formed by a convex mirror": {"hi": "उत्तल दर्पण द्वारा बनने वाले प्रतिबिंब", "hg": "Convex mirror se banne wali images"}, "To observe the nature, position and size of the image formed by a convex mirror.": {"hi": "उत्तल दर्पण द्वारा बने प्रतिबिंब की प्रकृति, स्थिति और आकार का प्रेक्षण करना।", "hg": "Convex mirror se bani image ka nature, position aur size observe karna."}, "Convex mirror: virtual image": {"hi": "उत्तल दर्पण: आभासी प्रतिबिंब", "hg": "Convex mirror: virtual image"}, "Light the candle. The convex mirror is at the 90 cm mark and the candle at the 60 cm mark (u = 30 cm).": {"hi": "मोमबत्ती जलाइए। उत्तल दर्पण 90 cm के निशान पर है और मोमबत्ती 60 cm के निशान पर (u = 30 cm)।", "hg": "Candle jalao. Convex mirror 90 cm mark par hai aur candle 60 cm mark par (u = 30 cm)."}, "The light from the candle falls on the mirror.": {"hi": "मोमबत्ती का प्रकाश दर्पण पर पड़ता है।", "hg": "Candle ki light mirror par padti hai."}, "Move the screen in front of the mirror and try to get an image on it.": {"hi": "पर्दे को दर्पण के सामने खिसकाइए और उस पर प्रतिबिंब प्राप्त करने का प्रयास कीजिए।", "hg": "Screen ko mirror ke saamne khiskao aur us par image laane ki koshish karo."}, "No image forms on the screen anywhere.": {"hi": "पर्दे पर कहीं भी कोई प्रतिबिंब नहीं बनता।", "hg": "Screen par kahin bhi koi image nahi banti."}, "A convex mirror reflects the rays so that they spread out. They never meet in front of the mirror.": {"hi": "उत्तल दर्पण किरणों को इस प्रकार परावर्तित करता है कि वे फैल जाती हैं। वे दर्पण के सामने कभी नहीं मिलतीं।", "hg": "Convex mirror rays ko aise reflect karta hai ki woh phail jaati hain. Woh mirror ke saamne kabhi nahi milti."}, "Look into the mirror.": {"hi": "दर्पण में देखिए।", "hg": "Mirror mein dekho."}, "You see a small, upright (virtual) image of the flame behind the mirror.": {"hi": "आपको दर्पण के पीछे ज्वाला का एक छोटा, सीधा (आभासी) प्रतिबिंब दिखाई देता है।", "hg": "Tumhe mirror ke peeche flame ki ek chhoti, upright (virtual) image dikhti hai."}, "Move the candle to the 30 cm mark (u = 60 cm) and look into the mirror again.": {"hi": "मोमबत्ती को 30 cm के निशान पर (u = 60 cm) ले जाइए और फिर से दर्पण में देखिए।", "hg": "Candle ko 30 cm mark par (u = 60 cm) le jao aur phir se mirror mein dekho."}, "The image is still upright and becomes even smaller. It stays behind the mirror, between P and F.": {"hi": "प्रतिबिंब अब भी सीधा है तथा और भी छोटा हो जाता है। यह दर्पण के पीछे, P और F के बीच ही रहता है।", "hg": "Image ab bhi upright hai aur pehle se bhi chhoti ho jaati hai. Yeh mirror ke peeche, P aur F ke beech hi rehti hai."}, "A convex mirror always gives an upright, diminished image and shows a wide view. That is why it is used as a rear-view mirror in vehicles.": {"hi": "उत्तल दर्पण सदैव सीधा, छोटा प्रतिबिंब बनाता है और विस्तृत दृश्य दिखाता है। इसी कारण वाहनों में इसका उपयोग पश्च-दृश्य दर्पण के रूप में किया जाता है।", "hg": "Convex mirror hamesha upright, diminished image deta hai aur wide view dikhata hai. Isiliye vehicles mein ise rear-view mirror ki tarah use kiya jaata hai."}, "No image could be obtained on the screen. In the mirror a small upright image was seen: v ≈ +10 cm for u = −30 cm, and v ≈ +12 cm for u = −60 cm.": {"hi": "पर्दे पर कोई प्रतिबिंब प्राप्त नहीं हो सका। दर्पण में एक छोटा सीधा प्रतिबिंब दिखाई दिया: u = −30 cm के लिए v ≈ +10 cm, और u = −60 cm के लिए v ≈ +12 cm।", "hg": "Screen par koi image nahi mil saki. Mirror mein ek chhoti upright image dikhi: u = −30 cm ke liye v ≈ +10 cm, aur u = −60 cm ke liye v ≈ +12 cm."}, "A convex mirror always forms a virtual, upright and diminished image behind the mirror, between P and F.": {"hi": "उत्तल दर्पण सदैव दर्पण के पीछे, P और F के बीच, एक आभासी, सीधा और छोटा प्रतिबिंब बनाता है।", "hg": "Convex mirror hamesha mirror ke peeche, P aur F ke beech, ek virtual, upright aur diminished image banata hai."}, "Keep the candle flame away from paper and hair; handle the mirror by its edges.": {"hi": "मोमबत्ती की ज्वाला को कागज़ और बालों से दूर रखिए; दर्पण को उसके किनारों से पकड़िए।", "hg": "Candle ki flame ko paper aur baalon se door rakho; mirror ko uske edges se pakdo."}, "Why are convex mirrors used as rear-view mirrors?": {"hi": "उत्तल दर्पणों का उपयोग पश्च-दृश्य दर्पण के रूप में क्यों किया जाता है?", "hg": "Convex mirrors ko rear-view mirrors ki tarah kyun use kiya jaata hai?"}, "They always give an upright image and a much wider field of view.": {"hi": "ये सदैव सीधा प्रतिबिंब बनाते हैं और इनका दृष्टि-क्षेत्र बहुत अधिक विस्तृत होता है।", "hg": "Yeh hamesha upright image dete hain aur inka field of view bahut zyada wide hota hai."}, "Can a convex mirror form a real image?": {"hi": "क्या उत्तल दर्पण वास्तविक प्रतिबिंब बना सकता है?", "hg": "Kya convex mirror real image bana sakta hai?"}, "No, its image is always virtual.": {"hi": "नहीं, इसका प्रतिबिंब सदैव आभासी होता है।", "hg": "Nahi, iski image hamesha virtual hoti hai."}, "Is the focal length of a convex mirror positive or negative?": {"hi": "उत्तल दर्पण की फोकस दूरी धनात्मक होती है या ऋणात्मक?", "hg": "Convex mirror ki focal length positive hoti hai ya negative?"}, "Positive: its focus is behind the mirror.": {"hi": "धनात्मक: इसका फोकस दर्पण के पीछे होता है।", "hg": "Positive: iska focus mirror ke peeche hota hai."}, "Mirror formula for a convex mirror": {"hi": "उत्तल दर्पण के लिए दर्पण सूत्र", "hg": "Convex mirror ke liye mirror formula"}, "Laws of reflection with a plane mirror": {"hi": "समतल दर्पण द्वारा परावर्तन के नियम", "hg": "Plane mirror se laws of reflection"}, "To verify the laws of reflection of light using a plane mirror and pins.": {"hi": "समतल दर्पण और पिनों की सहायता से प्रकाश के परावर्तन के नियमों का सत्यापन करना।", "hg": "Plane mirror aur pins ki madad se light ke laws of reflection verify karna."}, "Laws of reflection (pin method)": {"hi": "परावर्तन के नियम (पिन विधि)", "hg": "Laws of reflection (pin method)"}, "Draw a straight line MM′ across the sheet and a normal ON at its middle point O.": {"hi": "शीट पर एक सरल रेखा MM′ खींचिए और उसके मध्य बिंदु O पर एक अभिलंब ON खींचिए।", "hg": "Sheet par ek straight line MM′ draw karo aur uske middle point O par ek normal ON draw karo."}, "The line MM′ and the normal ON are drawn.": {"hi": "रेखा MM′ और अभिलंब ON खिंच गए हैं।", "hg": "Line MM′ aur normal ON ban gaye hain."}, "Draw a line PO at 30° to the normal (the incident ray). Stand the mirror strip on MM′ with its silvered face exactly on the line.": {"hi": "अभिलंब से 30° पर एक रेखा PO (आपतित किरण) खींचिए। दर्पण की पट्टी को MM′ पर इस प्रकार खड़ा कीजिए कि उसकी परावर्तक (कलई वाली) सतह ठीक रेखा पर हो।", "hg": "Normal se 30° par ek line PO (incident ray) draw karo. Mirror strip ko MM′ par aise khada karo ki uska silvered face bilkul line par ho."}, "The mirror stands upright on MM′; the incident ray PO meets it at O.": {"hi": "दर्पण MM′ पर सीधा खड़ा है; आपतित किरण PO उससे O पर मिलती है।", "hg": "Mirror MM′ par seedha khada hai; incident ray PO use O par milti hai."}, "Fix two pins P and Q upright on the line PO, well apart.": {"hi": "रेखा PO पर दो पिन P और Q एक-दूसरे से पर्याप्त दूरी पर सीधी खड़ी गाड़िए।", "hg": "Line PO par do pins P aur Q ek-doosre se kaafi door seedhi khadi lagao."}, "Pins P and Q stand on the incident ray. Their images can be seen in the mirror.": {"hi": "पिन P और Q आपतित किरण पर खड़ी हैं। दर्पण में उनके प्रतिबिंब देखे जा सकते हैं।", "hg": "Pins P aur Q incident ray par khadi hain. Mirror mein unki images dekhi ja sakti hain."}, "Looking into the mirror from the other side of the normal, fix pins R and S so that they and the images of P and Q all appear in one straight line.": {"hi": "अभिलंब के दूसरी ओर से दर्पण में देखते हुए पिन R और S को इस प्रकार गाड़िए कि वे तथा P और Q के प्रतिबिंब सभी एक सीधी रेखा में दिखाई दें।", "hg": "Normal ki doosri side se mirror mein dekhte hue pins R aur S aise lagao ki woh aur P aur Q ki images sab ek straight line mein dikhein."}, "R and S hide the images of Q and P exactly: all four appear in one line.": {"hi": "R और S, Q और P के प्रतिबिंबों को ठीक-ठीक ढक लेती हैं: चारों एक ही रेखा में दिखाई देती हैं।", "hg": "R aur S, Q aur P ki images ko bilkul chhupa leti hain: chaaron ek hi line mein dikhti hain."}, "Remove the mirror and the pins. Mark the pin positions, join S and R up to O (the reflected ray) and measure the angles of incidence and reflection.": {"hi": "दर्पण और पिनों को हटाइए। पिनों की स्थितियाँ अंकित कीजिए, S और R को मिलाकर O तक बढ़ाइए (परावर्तित किरण) और आपतन कोण तथा परावर्तन कोण मापिए।", "hg": "Mirror aur pins hatao. Pins ki positions mark karo, S aur R ko O tak jodo (reflected ray) aur angle of incidence aur angle of reflection measure karo."}, "∠i = 30° and ∠r = 30°: the angle of reflection is equal to the angle of incidence.": {"hi": "∠i = 30° और ∠r = 30°: परावर्तन कोण आपतन कोण के बराबर है।", "hg": "∠i = 30° aur ∠r = 30°: angle of reflection angle of incidence ke barabar hai."}, "This is the law of reflection. The incident ray, the normal and the reflected ray all lie in the plane of the sheet.": {"hi": "यही परावर्तन का नियम है। आपतित किरण, अभिलंब और परावर्तित किरण, तीनों शीट के तल में स्थित हैं।", "hg": "Yahi law of reflection hai. Incident ray, normal aur reflected ray, teeno sheet ke plane mein hain."}, "Repeat with angles of incidence of 45° and 60°.": {"hi": "45° और 60° के आपतन कोणों के साथ प्रयोग दोहराइए।", "hg": "45° aur 60° ke angles of incidence ke saath repeat karo."}, "Each time the angle of reflection equals the angle of incidence.": {"hi": "हर बार परावर्तन कोण आपतन कोण के बराबर होता है।", "hg": "Har baar angle of reflection angle of incidence ke barabar hota hai."}, "For i = 30°, 45° and 60° the angle of reflection r was 30°, 45° and 60°.": {"hi": "i = 30°, 45° और 60° के लिए परावर्तन कोण r क्रमशः 30°, 45° और 60° प्राप्त हुआ।", "hg": "i = 30°, 45° aur 60° ke liye angle of reflection r bhi 30°, 45° aur 60° aaya."}, "The angle of reflection is always equal to the angle of incidence, and the incident ray, the normal at the point of incidence and the reflected ray lie in the same plane.": {"hi": "परावर्तन कोण सदैव आपतन कोण के बराबर होता है, तथा आपतित किरण, आपतन बिंदु पर अभिलंब और परावर्तित किरण, तीनों एक ही तल में होते हैं।", "hg": "Angle of reflection hamesha angle of incidence ke barabar hota hai, aur incident ray, point of incidence par normal aur reflected ray, teeno ek hi plane mein hote hain."}, "Handle the mirror strip carefully; its edges can be sharp. Keep the pins upright and at least 5 cm apart, and line up the bottoms of the pin images.": {"hi": "दर्पण की पट्टी को सावधानी से पकड़िए; इसके किनारे धारदार हो सकते हैं। पिनों को सीधा और एक-दूसरे से कम से कम 5 cm दूर रखिए, और पिनों के प्रतिबिंबों के निचले सिरों को एक सीध में मिलाइए।", "hg": "Mirror strip ko dhyaan se pakdo; iske edges sharp ho sakte hain. Pins ko seedha aur ek-doosre se kam se kam 5 cm door rakho, aur pin images ke neeche wale hisson ko ek seedh mein milao."}, "What is the angle of reflection when a ray falls along the normal?": {"hi": "जब किरण अभिलंब के अनुदिश पड़ती है, तब परावर्तन कोण कितना होता है?", "hg": "Jab ray normal ke along padti hai, tab angle of reflection kitna hota hai?"}, "Zero: the ray goes back along the same path.": {"hi": "शून्य: किरण उसी पथ पर वापस लौट जाती है।", "hg": "Zero: ray usi path par wapas laut jaati hai."}, "Why should the pins be placed far apart?": {"hi": "पिनों को दूर-दूर क्यों गाड़ना चाहिए?", "hg": "Pins ko door-door kyun lagana chahiye?"}, "It reduces the error in drawing the direction of the ray.": {"hi": "इससे किरण की दिशा खींचने में त्रुटि कम होती है।", "hg": "Isse ray ki direction draw karne mein error kam hota hai."}, "What kind of image does a plane mirror form?": {"hi": "समतल दर्पण किस प्रकार का प्रतिबिंब बनाता है?", "hg": "Plane mirror kis tarah ki image banata hai?"}, "Virtual, upright, of the same size, and as far behind the mirror as the object is in front of it.": {"hi": "आभासी, सीधा, समान आकार का, और दर्पण के पीछे उतनी ही दूरी पर जितनी दूरी पर वस्तु दर्पण के सामने है।", "hg": "Virtual, upright, same size ki, aur mirror ke peeche utni hi door jitna object mirror ke saamne hai."}, "Laws of reflection": {"hi": "परावर्तन के नियम", "hg": "Laws of reflection"}, "Dispersion of white light by a glass prism": {"hi": "काँच के प्रिज़्म द्वारा श्वेत प्रकाश का विक्षेपण", "hg": "Glass prism se white light ka dispersion"}, "To observe the splitting of white light into its colours by a glass prism.": {"hi": "काँच के प्रिज़्म द्वारा श्वेत प्रकाश के उसके अवयवी वर्णों में विभाजन का प्रेक्षण करना।", "hg": "Glass prism se white light ka uske colours mein split hona observe karna."}, "Dispersion of white light": {"hi": "श्वेत प्रकाश का विक्षेपण", "hg": "White light ka dispersion"}, "Switch on the ray box. A narrow beam of white light comes out of its slit and shows as a bright streak on the black paper.": {"hi": "किरण बॉक्स (ray box) का स्विच ऑन कीजिए। इसकी झिरी से श्वेत प्रकाश का एक पतला किरण-पुंज निकलता है और काले कागज़ पर एक चमकीली धारी के रूप में दिखाई देता है।", "hg": "Ray box ka switch on karo. Iski slit se white light ka ek patla beam nikalta hai aur black paper par ek bright streak ki tarah dikhta hai."}, "A thin, straight streak of white light runs across the paper.": {"hi": "श्वेत प्रकाश की एक पतली, सीधी धारी कागज़ के आर-पार दिखाई देती है।", "hg": "White light ki ek patli, seedhi streak paper ke across dikhti hai."}, "Place the glass prism in the path of the beam, with one corner pointing towards you.": {"hi": "काँच के प्रिज़्म को किरण-पुंज के मार्ग में इस प्रकार रखिए कि उसका एक कोना आपकी ओर हो।", "hg": "Glass prism ko beam ke raaste mein aise rakho ki uska ek corner tumhari taraf ho."}, "The beam bends as it passes through the prism, and the light coming out has coloured edges.": {"hi": "प्रिज़्म से गुजरते समय किरण-पुंज मुड़ जाता है, और बाहर निकलने वाले प्रकाश के किनारे रंगीन होते हैं।", "hg": "Prism se guzarte waqt beam bend ho jaata hai, aur bahar nikalne wali light ke edges coloured hote hain."}, "Turn the prism slowly about its upright edge until the light that comes out falls on the white screen.": {"hi": "प्रिज़्म को उसके ऊर्ध्वाधर किनारे के परितः धीरे-धीरे तब तक घुमाइए जब तक बाहर निकलने वाला प्रकाश सफ़ेद पर्दे पर न पड़ने लगे।", "hg": "Prism ko uske upright edge ke around dheere-dheere tab tak ghumao jab tak bahar nikalne wali light white screen par na padne lage."}, "The light leaving the prism spreads out like a fan, and a band of colours appears on the screen.": {"hi": "प्रिज़्म से निकलने वाला प्रकाश पंखे की तरह फैल जाता है, और पर्दे पर रंगों की एक पट्टी दिखाई देती है।", "hg": "Prism se nikalne wali light pankhe ki tarah phail jaati hai, aur screen par colours ki ek band dikhti hai."}, "Look at the band of colours on the screen and note their order.": {"hi": "पर्दे पर रंगों की पट्टी को देखिए और उनका क्रम नोट कीजिए।", "hg": "Screen par colours ki band ko dekho aur unka order note karo."}, "Seven colours: violet, indigo, blue, green, yellow, orange and red. Red is bent the least and violet the most.": {"hi": "सात रंग: बैंगनी, जामुनी, नीला, हरा, पीला, नारंगी और लाल। लाल रंग सबसे कम और बैंगनी सबसे अधिक मुड़ता है।", "hg": "Saat colours: violet, indigo, blue, green, yellow, orange aur red. Red sabse kam aur violet sabse zyada bend hota hai."}, "Each colour travels at a different speed in glass, so the prism bends each colour through a different angle. This splitting of white light into its colours is called dispersion.": {"hi": "काँच में प्रत्येक रंग भिन्न चाल से चलता है, इसलिए प्रिज़्म प्रत्येक रंग को भिन्न कोण से मोड़ता है। श्वेत प्रकाश का इस प्रकार उसके अवयवी वर्णों में विभाजन विक्षेपण कहलाता है।", "hg": "Glass mein har colour alag speed se chalta hai, isliye prism har colour ko alag angle se bend karta hai. White light ka is tarah uske colours mein split hona dispersion kehlata hai."}, "Switch off the ray box.": {"hi": "किरण बॉक्स का स्विच ऑफ़ कीजिए।", "hg": "Ray box ka switch off karo."}, "The beam and the band of colours disappear.": {"hi": "किरण-पुंज और रंगों की पट्टी गायब हो जाते हैं।", "hg": "Beam aur colours ki band gayab ho jaate hain."}, "A narrow beam of white light passing through the prism spread out into a band of seven colours on the screen; red was deviated the least and violet the most.": {"hi": "प्रिज़्म से गुजरने वाला श्वेत प्रकाश का पतला किरण-पुंज पर्दे पर सात रंगों की पट्टी में फैल गया; लाल रंग का विचलन सबसे कम और बैंगनी का सबसे अधिक हुआ।", "hg": "Prism se guzarne wala white light ka patla beam screen par saat colours ki band mein phail gaya; red sabse kam aur violet sabse zyada deviate hua."}, "White light is made up of seven colours. A glass prism splits (disperses) it because the refractive index of glass is different for different colours.": {"hi": "श्वेत प्रकाश सात रंगों से मिलकर बना है। काँच का प्रिज़्म इसे विभाजित (विक्षेपित) कर देता है क्योंकि भिन्न-भिन्न रंगों के लिए काँच का अपवर्तनांक भिन्न होता है।", "hg": "White light saat colours se milkar bani hai. Glass prism ise split (disperse) kar deta hai kyunki alag-alag colours ke liye glass ka refractive index alag hota hai."}, "Do not look straight into the ray box or at the Sun. The lamp gets hot: do not touch it while it is on.": {"hi": "किरण बॉक्स में या सूर्य की ओर सीधे न देखिए। लैंप गरम हो जाता है: जलते समय इसे न छुइए।", "hg": "Ray box mein ya Sun ki taraf seedha mat dekho. Lamp garam ho jaata hai: on hone par ise mat chhuo."}, "What is the band of colours called?": {"hi": "रंगों की इस पट्टी को क्या कहते हैं?", "hg": "Colours ki is band ko kya kehte hain?"}, "The spectrum of white light.": {"hi": "श्वेत प्रकाश का स्पेक्ट्रम।", "hg": "White light ka spectrum."}, "Which colour is bent the most by the prism?": {"hi": "प्रिज़्म द्वारा कौन-सा रंग सबसे अधिक मुड़ता है?", "hg": "Prism se kaun sa colour sabse zyada bend hota hai?"}, "Violet.": {"hi": "बैंगनी।", "hg": "Violet."}, "Which natural phenomenon is caused by dispersion?": {"hi": "विक्षेपण के कारण कौन-सी प्राकृतिक परिघटना होती है?", "hg": "Dispersion ki wajah se kaun sa natural phenomenon hota hai?"}, "The rainbow: sunlight is dispersed by tiny raindrops.": {"hi": "इंद्रधनुष: वर्षा की नन्ही बूँदें सूर्य के प्रकाश का विक्षेपण करती हैं।", "hg": "Rainbow: baarish ki chhoti-chhoti boondein sunlight ko disperse karti hain."}, "Dispersion of white light by a prism": {"hi": "प्रिज़्म द्वारा श्वेत प्रकाश का विक्षेपण", "hg": "Prism se white light ka dispersion"}, "The coin that reappears: refraction at water": {"hi": "फिर से दिखने वाला सिक्का: जल पर अपवर्तन", "hg": "Phir se dikhne wala coin: paani par refraction"}, "To observe that an object under water appears raised because of the refraction of light.": {"hi": "यह प्रेक्षण करना कि प्रकाश के अपवर्तन के कारण जल के भीतर रखी वस्तु ऊपर उठी हुई प्रतीत होती है।", "hg": "Yeh observe karna ki light ke refraction ki wajah se paani ke andar rakha object upar utha hua dikhta hai."}, "Apparent depth (Activity)": {"hi": "आभासी गहराई (क्रियाकलाप)", "hg": "Apparent depth (Activity)"}, "Put the coin in the middle of the empty bowl.": {"hi": "सिक्के को खाली कटोरे के बीच में रखिए।", "hg": "Coin ko khaali bowl ke beech mein rakho."}, "The coin lies flat at the bottom of the bowl. From above you can see it clearly.": {"hi": "सिक्का कटोरे की तली पर सपाट पड़ा है। ऊपर से आप इसे स्पष्ट रूप से देख सकते हैं।", "hg": "Coin bowl ke bottom par flat pada hai. Upar se tum ise saaf dekh sakte ho."}, "Move back and lower your eyes slowly until the coin just disappears behind the rim of the bowl. Keep your eyes there.": {"hi": "पीछे हटिए और अपनी आँखें धीरे-धीरे तब तक नीचे कीजिए जब तक सिक्का कटोरे के किनारे के पीछे ठीक ओझल न हो जाए। अपनी आँखें वहीं रखिए।", "hg": "Peeche hato aur apni aankhein dheere-dheere tab tak neeche karo jab tak coin bowl ke rim ke peeche bas chhup na jaaye. Apni aankhein wahin rakho."}, "The rim of the bowl hides the coin completely.": {"hi": "कटोरे का किनारा सिक्के को पूरी तरह छिपा लेता है।", "hg": "Bowl ka rim coin ko poori tarah chhupa leta hai."}, "Light travels in straight lines: the rim blocks the light going from the coin to your eye.": {"hi": "प्रकाश सरल रेखाओं में चलता है: किनारा सिक्के से आपकी आँख तक जाने वाले प्रकाश को रोक देता है।", "hg": "Light straight lines mein chalti hai: rim coin se tumhari aankh tak jaane wali light ko block kar deta hai."}, "Ask a friend to pour water gently into the bowl without moving the coin. Keep looking from the same place.": {"hi": "अपने किसी मित्र से कहिए कि वह सिक्के को हिलाए बिना कटोरे में धीरे-धीरे पानी डाले। उसी स्थान से देखते रहिए।", "hg": "Kisi dost se kaho ki woh coin ko hilaye bina bowl mein dheere-dheere paani daale. Usi jagah se dekhte raho."}, "As the water rises, the coin comes into view again!": {"hi": "जैसे-जैसे पानी का तल ऊपर उठता है, सिक्का फिर से दिखाई देने लगता है!", "hg": "Jaise-jaise paani upar aata hai, coin phir se dikhne lagta hai!"}, "Light from the coin bends away from the normal as it leaves the water. Your eye follows the bent ray back in a straight line, so the coin appears raised and can be seen over the rim.": {"hi": "सिक्के से आने वाला प्रकाश पानी से बाहर निकलते समय अभिलंब से दूर मुड़ जाता है। आपकी आँख मुड़ी हुई किरण को सरल रेखा में पीछे की ओर देखती है, इसलिए सिक्का ऊपर उठा हुआ प्रतीत होता है और किनारे के ऊपर से दिखाई देने लगता है।", "hg": "Coin se aane wali light paani se bahar nikalte waqt normal se door bend ho jaati hai. Tumhari aankh bend hui ray ko straight line mein peeche ki taraf follow karti hai, isliye coin upar utha hua dikhta hai aur rim ke upar se dikhne lagta hai."}, "Now look at the coin from straight above the bowl.": {"hi": "अब कटोरे के ठीक ऊपर से सिक्के को देखिए।", "hg": "Ab bowl ke theek upar se coin ko dekho."}, "Seen from above, the coin looks nearer than it is: the bottom of the bowl appears raised.": {"hi": "ऊपर से देखने पर सिक्का वास्तविकता से अधिक पास दिखाई देता है: कटोरे की तली ऊपर उठी हुई प्रतीत होती है।", "hg": "Upar se dekhne par coin asal se zyada paas dikhta hai: bowl ka bottom upar utha hua lagta hai."}, "Apparent depth = real depth ÷ refractive index of water (1.33), so water looks shallower than it really is.": {"hi": "आभासी गहराई = वास्तविक गहराई ÷ जल का अपवर्तनांक (1.33), इसलिए पानी वास्तविकता से कम गहरा दिखाई देता है।", "hg": "Apparent depth = real depth ÷ paani ka refractive index (1.33), isliye paani asal se kam gehra dikhta hai."}, "The coin hidden behind the rim became visible again when water was poured into the bowl, and it appeared raised. From above, the bowl looked shallower than it is.": {"hi": "कटोरे में पानी डालने पर किनारे के पीछे छिपा सिक्का फिर से दिखाई देने लगा, और वह ऊपर उठा हुआ प्रतीत हुआ। ऊपर से देखने पर कटोरा वास्तविकता से कम गहरा दिखाई दिया।", "hg": "Bowl mein paani daalne par rim ke peeche chhupa coin phir se dikhne laga, aur woh upar utha hua dikha. Upar se dekhne par bowl asal se kam gehra dikha."}, "Light bends (refracts) when it passes from water into air. Because of refraction, objects under water appear raised, nearer the surface than they really are.": {"hi": "जब प्रकाश जल से वायु में जाता है तो वह मुड़ जाता है (अपवर्तित होता है)। अपवर्तन के कारण जल के भीतर की वस्तुएँ ऊपर उठी हुई, अर्थात वास्तविकता की तुलना में सतह के अधिक पास, प्रतीत होती हैं।", "hg": "Jab light paani se hawa mein jaati hai to woh bend hoti hai (refract hoti hai). Refraction ki wajah se paani ke andar ki cheezein upar uthi hui, yaani asal se zyada surface ke paas, dikhti hain."}, "Pour the water gently so that the coin does not move. Wipe up any spilled water.": {"hi": "पानी धीरे-धीरे डालिए ताकि सिक्का न हिले। गिरा हुआ पानी पोंछ दीजिए।", "hg": "Paani dheere-dheere daalo taaki coin na hile. Gira hua paani pochh do."}, "Why does a swimming pool look shallower than it is?": {"hi": "तरण-ताल (स्विमिंग पूल) वास्तविकता से कम गहरा क्यों दिखाई देता है?", "hg": "Swimming pool asal se kam gehra kyun dikhta hai?"}, "Refraction at the water surface makes its bottom appear raised.": {"hi": "जल की सतह पर होने वाले अपवर्तन के कारण इसकी तली ऊपर उठी हुई प्रतीत होती है।", "hg": "Paani ki surface par refraction ki wajah se iska bottom upar utha hua dikhta hai."}, "Does light bend towards or away from the normal when it goes from water into air?": {"hi": "जल से वायु में जाते समय प्रकाश अभिलंब की ओर मुड़ता है या अभिलंब से दूर?", "hg": "Paani se hawa mein jaate waqt light normal ki taraf bend hoti hai ya normal se door?"}, "Away from the normal.": {"hi": "अभिलंब से दूर।", "hg": "Normal se door."}, "What is the refractive index of water?": {"hi": "जल का अपवर्तनांक कितना है?", "hg": "Paani ka refractive index kitna hai?"}, "About 1.33.": {"hi": "लगभग 1.33।", "hg": "Lagbhag 1.33."}, "Apparent depth of an object under water": {"hi": "जल के भीतर रखी वस्तु की आभासी गहराई", "hg": "Paani ke andar rakhe object ki apparent depth"}, "Current through different components": {"hi": "विभिन्न अवयवों से प्रवाहित विद्युत धारा", "hg": "Alag-alag components se current"}, "To compare the currents through different components connected one by one to the same battery.": {"hi": "एक ही बैटरी से एक-एक करके जोड़े गए विभिन्न अवयवों से प्रवाहित विद्युत धाराओं की तुलना करना।", "hg": "Ek hi battery se ek-ek karke jode gaye alag-alag components se current ki tulna karna."}, "Current and resistance (Activity)": {"hi": "विद्युत धारा और प्रतिरोध (क्रियाकलाप)", "hg": "Current aur resistance (Activity)"}, "The circuit has 4 cells (6 V), a plug key and an ammeter in series, with a gap XY. A nichrome wire is connected in the gap.": {"hi": "परिपथ में 4 सेल (6 V), एक प्लग कुंजी और एक ऐमीटर श्रेणीक्रम में जुड़े हैं, और बीच में एक रिक्त स्थान XY है। इस रिक्त स्थान में एक नाइक्रोम तार जुड़ा है।", "hg": "Circuit mein 4 cells (6 V), ek plug key aur ek ammeter series mein jude hain, aur beech mein ek gap XY hai. Is gap mein ek nichrome wire connect hai."}, "The free ends X and Y are clipped to the two terminals of the nichrome wire.": {"hi": "मुक्त सिरे X और Y नाइक्रोम तार के दोनों टर्मिनलों से क्लिप द्वारा जुड़े हैं।", "hg": "Free ends X aur Y nichrome wire ke dono terminals se clip kiye gaye hain."}, "Insert the key and note the ammeter reading. Then remove the key.": {"hi": "कुंजी लगाइए और ऐमीटर का पाठ्यांक नोट कीजिए। फिर कुंजी निकाल दीजिए।", "hg": "Key lagao aur ammeter ki reading note karo. Phir key nikaal do."}, "The ammeter reads about 1.05 A for the nichrome wire.": {"hi": "नाइक्रोम तार के लिए ऐमीटर लगभग 1.05 A पढ़ता है।", "hg": "Nichrome wire ke liye ammeter lagbhag 1.05 A padhta hai."}, "Replace the nichrome wire with the torch bulb: clip X and Y to its terminals. Insert the key and note the current.": {"hi": "नाइक्रोम तार के स्थान पर टॉर्च बल्ब लगाइए: X और Y को उसके टर्मिनलों से क्लिप कीजिए। कुंजी लगाइए और विद्युत धारा नोट कीजिए।", "hg": "Nichrome wire ki jagah torch bulb lagao: X aur Y ko uske terminals se clip karo. Key lagao aur current note karo."}, "The torch bulb glows brightly and the ammeter reads about 0.3 A.": {"hi": "टॉर्च बल्ब तेज़ चमकता है और ऐमीटर लगभग 0.3 A पढ़ता है।", "hg": "Torch bulb tez chamakta hai aur ammeter lagbhag 0.3 A padhta hai."}, "Now connect the 12 V, 10 W bulb in the gap XY and note the current.": {"hi": "अब रिक्त स्थान XY में 12 V, 10 W का बल्ब जोड़िए और विद्युत धारा नोट कीजिए।", "hg": "Ab gap XY mein 12 V, 10 W ka bulb connect karo aur current note karo."}, "The bigger bulb glows only dimly (it is made for 12 V), and the ammeter reads about 0.5 A.": {"hi": "बड़ा बल्ब केवल मंद चमकता है (यह 12 V के लिए बना है), और ऐमीटर लगभग 0.5 A पढ़ता है।", "hg": "Bada bulb sirf dheema chamakta hai (yeh 12 V ke liye bana hai), aur ammeter lagbhag 0.5 A padhta hai."}, "Compare the three readings.": {"hi": "तीनों पाठ्यांकों की तुलना कीजिए।", "hg": "Teeno readings ki tulna karo."}, "The current is different for each component, although the battery is the same.": {"hi": "बैटरी एक ही होने पर भी प्रत्येक अवयव के लिए विद्युत धारा भिन्न है।", "hg": "Battery same hone par bhi har component ke liye current alag hai."}, "Each component has a different resistance. For the same potential difference, the current is smaller through a component with more resistance (I = V/R).": {"hi": "प्रत्येक अवयव का प्रतिरोध भिन्न होता है। समान विभवांतर के लिए अधिक प्रतिरोध वाले अवयव से कम विद्युत धारा प्रवाहित होती है (I = V/R)।", "hg": "Har component ka resistance alag hota hai. Same potential difference ke liye zyada resistance wale component se kam current flow hota hai (I = V/R)."}, "With the same 6 V battery the current was about 1.05 A through the nichrome wire, 0.3 A through the torch bulb and 0.5 A through the 10 W bulb.": {"hi": "उसी 6 V बैटरी के साथ नाइक्रोम तार से लगभग 1.05 A, टॉर्च बल्ब से 0.3 A और 10 W बल्ब से 0.5 A विद्युत धारा प्रवाहित हुई।", "hg": "Same 6 V battery ke saath nichrome wire se lagbhag 1.05 A, torch bulb se 0.3 A aur 10 W bulb se 0.5 A current flow hua."}, "Different components allow different currents for the same potential difference, because they have different resistances.": {"hi": "समान विभवांतर के लिए विभिन्न अवयवों से भिन्न-भिन्न विद्युत धारा प्रवाहित होती है, क्योंकि उनके प्रतिरोध भिन्न होते हैं।", "hg": "Same potential difference ke liye alag-alag components se alag-alag current flow hota hai, kyunki unke resistances alag hote hain."}, "Insert the key only while taking a reading. Do not touch the bulbs: they get hot.": {"hi": "कुंजी केवल पाठ्यांक लेते समय ही लगाइए। बल्बों को न छुइए: वे गरम हो जाते हैं।", "hg": "Key sirf reading lete waqt hi lagao. Bulbs ko mat chhuo: woh garam ho jaate hain."}, "Which component here has the largest resistance?": {"hi": "यहाँ किस अवयव का प्रतिरोध सबसे अधिक है?", "hg": "Yahan kis component ka resistance sabse zyada hai?"}, "The torch bulb, because the least current flows through it.": {"hi": "टॉर्च बल्ब का, क्योंकि इससे सबसे कम विद्युत धारा प्रवाहित होती है।", "hg": "Torch bulb ka, kyunki isse sabse kam current flow hota hai."}, "The voltage across the nichrome wire is 5.3 V and the current is 1.05 A. What is its resistance?": {"hi": "नाइक्रोम तार के सिरों के बीच विभवांतर 5.3 V है और विद्युत धारा 1.05 A है। इसका प्रतिरोध कितना है?", "hg": "Nichrome wire ke across voltage 5.3 V hai aur current 1.05 A hai. Iska resistance kitna hai?"}, "R = V/I = 5.3/1.05 ≈ 5 Ω.": {"hi": "R = V/I = 5.3/1.05 ≈ 5 Ω।", "hg": "R = V/I = 5.3/1.05 ≈ 5 Ω."}, "Why does the 10 W bulb glow dimly here?": {"hi": "यहाँ 10 W का बल्ब मंद क्यों चमकता है?", "hg": "Yahan 10 W ka bulb dheema kyun chamakta hai?"}, "It is made for 12 V; at 6 V it takes much less power than its rating.": {"hi": "यह 12 V के लिए बना है; 6 V पर यह अपनी निर्धारित (रेटेड) शक्ति से बहुत कम शक्ति लेता है।", "hg": "Yeh 12 V ke liye bana hai; 6 V par yeh apni rating se bahut kam power leta hai."}, "Current through a component": {"hi": "किसी अवयव से प्रवाहित विद्युत धारा", "hg": "Component se current"}, "Factors on which resistance depends": {"hi": "वे कारक जिन पर प्रतिरोध निर्भर करता है", "hg": "Resistance kin factors par depend karta hai"}, "To study how the resistance of a wire depends on its length, its thickness and its material.": {"hi": "किसी तार का प्रतिरोध उसकी लंबाई, मोटाई और पदार्थ पर किस प्रकार निर्भर करता है, इसका अध्ययन करना।", "hg": "Wire ka resistance uski length, thickness aur material par kaise depend karta hai, yeh study karna."}, "Length, thickness and material of a wire": {"hi": "तार की लंबाई, मोटाई और पदार्थ", "hg": "Wire ki length, thickness aur material"}, "The circuit has one cell (1.5 V), a plug key, an ammeter and a gap XY. Wire (1), nichrome of length l, is connected in the gap. Insert the key and note the current.": {"hi": "परिपथ में एक सेल (1.5 V), एक प्लग कुंजी, एक ऐमीटर और एक रिक्त स्थान XY है। रिक्त स्थान में तार (1), अर्थात l लंबाई का नाइक्रोम तार, जुड़ा है। कुंजी लगाइए और विद्युत धारा नोट कीजिए।", "hg": "Circuit mein ek cell (1.5 V), ek plug key, ek ammeter aur ek gap XY hai. Gap mein wire (1), yaani l length ka nichrome wire, connect hai. Key lagao aur current note karo."}, "The ammeter reads about 0.45 A.": {"hi": "ऐमीटर लगभग 0.45 A पढ़ता है।", "hg": "Ammeter lagbhag 0.45 A padhta hai."}, "Replace it with wire (2): the same nichrome wire, but twice as long (2l). Note the current.": {"hi": "इसके स्थान पर तार (2) लगाइए: वैसा ही नाइक्रोम तार, परंतु दोगुनी लंबाई (2l) का। विद्युत धारा नोट कीजिए।", "hg": "Iski jagah wire (2) lagao: waisa hi nichrome wire, lekin double length (2l) ka. Current note karo."}, "The current falls to about 0.25 A, roughly half: doubling the length doubles the resistance.": {"hi": "विद्युत धारा घटकर लगभग 0.25 A, यानी लगभग आधी, रह जाती है: लंबाई दोगुनी करने पर प्रतिरोध दोगुना हो जाता है।", "hg": "Current ghatkar lagbhag 0.25 A, yaani lagbhag aadha, reh jaata hai: length double karne par resistance double ho jaata hai."}, "Now connect wire (3): nichrome of length l, but thicker. Note the current.": {"hi": "अब तार (3) जोड़िए: l लंबाई का नाइक्रोम तार, परंतु अधिक मोटा। विद्युत धारा नोट कीजिए।", "hg": "Ab wire (3) connect karo: l length ka nichrome wire, lekin zyada mota. Current note karo."}, "The current rises to about 1.0 A: the thicker wire, with its larger area of cross-section, has less resistance.": {"hi": "विद्युत धारा बढ़कर लगभग 1.0 A हो जाती है: मोटे तार के अनुप्रस्थ काट का क्षेत्रफल अधिक होता है, इसलिए उसका प्रतिरोध कम होता है।", "hg": "Current badhkar lagbhag 1.0 A ho jaata hai: mote wire ka area of cross-section zyada hota hai, isliye uska resistance kam hota hai."}, "Finally connect wire (4): copper, of the same length and thickness as wire (1). Take the reading quickly and remove the key.": {"hi": "अंत में तार (4) जोड़िए: ताँबे का तार, जिसकी लंबाई और मोटाई तार (1) के समान है। पाठ्यांक शीघ्रता से लीजिए और कुंजी निकाल दीजिए।", "hg": "Last mein wire (4) connect karo: copper ka wire, jiski length aur thickness wire (1) ke barabar hai. Reading jaldi lo aur key nikaal do."}, "The current jumps to about 2.75 A, far more than with the nichrome wire of the same size.": {"hi": "विद्युत धारा अचानक बढ़कर लगभग 2.75 A हो जाती है, जो समान आकार के नाइक्रोम तार की तुलना में कहीं अधिक है।", "hg": "Current achanak badhkar lagbhag 2.75 A ho jaata hai, jo same size ke nichrome wire se kahin zyada hai."}, "Copper has a much smaller resistivity than nichrome (about 65 times smaller), so its resistance is tiny. The cell is nearly short-circuited, so remove the key at once.": {"hi": "ताँबे की प्रतिरोधकता नाइक्रोम से बहुत कम (लगभग 65 गुना कम) होती है, इसलिए इसका प्रतिरोध बहुत ही कम होता है। सेल लगभग लघुपथित (शॉर्ट-सर्किट) हो जाता है, इसलिए कुंजी तुरंत निकाल दीजिए।", "hg": "Copper ki resistivity nichrome se bahut kam (lagbhag 65 guna kam) hoti hai, isliye iska resistance bahut hi kam hota hai. Cell lagbhag short-circuit ho jaata hai, isliye key turant nikaal do."}, "Compare the four readings.": {"hi": "चारों पाठ्यांकों की तुलना कीजिए।", "hg": "Chaaron readings ki tulna karo."}, "Resistance increases with length, decreases with thickness, and depends on the material.": {"hi": "प्रतिरोध लंबाई बढ़ने पर बढ़ता है, मोटाई बढ़ने पर घटता है, और पदार्थ पर निर्भर करता है।", "hg": "Resistance length badhne par badhta hai, thickness badhne par ghatta hai, aur material par depend karta hai."}, "R = ρ l / A: the resistance is proportional to the length, inversely proportional to the area of cross-section, and depends on the resistivity ρ of the material.": {"hi": "R = ρ l / A: प्रतिरोध लंबाई के अनुक्रमानुपाती तथा अनुप्रस्थ काट के क्षेत्रफल के व्युत्क्रमानुपाती होता है, और पदार्थ की प्रतिरोधकता ρ पर निर्भर करता है।", "hg": "R = ρ l / A: resistance length ke proportional aur area of cross-section ke inversely proportional hota hai, aur material ki resistivity ρ par depend karta hai."}, "Wire (1): 0.45 A. Wire (2), twice as long: 0.25 A. Wire (3), thicker: 1.0 A. Wire (4), copper of the same size: 2.75 A.": {"hi": "तार (1): 0.45 A। तार (2), दोगुना लंबा: 0.25 A। तार (3), अधिक मोटा: 1.0 A। तार (4), समान आकार का ताँबे का तार: 2.75 A।", "hg": "Wire (1): 0.45 A. Wire (2), double lamba: 0.25 A. Wire (3), zyada mota: 1.0 A. Wire (4), same size ka copper wire: 2.75 A."}, "The resistance of a conductor is directly proportional to its length, inversely proportional to its area of cross-section, and depends on its material: R = ρ l / A.": {"hi": "किसी चालक का प्रतिरोध उसकी लंबाई के अनुक्रमानुपाती तथा उसके अनुप्रस्थ काट के क्षेत्रफल के व्युत्क्रमानुपाती होता है, और उसके पदार्थ पर निर्भर करता है: R = ρ l / A।", "hg": "Kisi conductor ka resistance uski length ke directly proportional aur uske area of cross-section ke inversely proportional hota hai, aur uske material par depend karta hai: R = ρ l / A."}, "Insert the key only for a moment while reading, especially with the copper wire, which nearly short-circuits the cell.": {"hi": "पाठ्यांक लेते समय कुंजी केवल क्षण भर के लिए लगाइए, विशेषकर ताँबे के तार के साथ, जो सेल को लगभग लघुपथित कर देता है।", "hg": "Reading lete waqt key sirf ek pal ke liye lagao, khaas kar copper wire ke saath, jo cell ko lagbhag short-circuit kar deta hai."}, "How does the resistance change if the length of a wire is doubled?": {"hi": "तार की लंबाई दोगुनी करने पर उसका प्रतिरोध कैसे बदलता है?", "hg": "Wire ki length double karne par uska resistance kaise badalta hai?"}, "It doubles.": {"hi": "यह दोगुना हो जाता है।", "hg": "Yeh double ho jaata hai."}, "Why are heating elements made of nichrome?": {"hi": "तापन अवयव नाइक्रोम के क्यों बनाए जाते हैं?", "hg": "Heating elements nichrome ke kyun banaye jaate hain?"}, "Nichrome has a high resistivity and does not burn (oxidise) easily when red hot.": {"hi": "नाइक्रोम की प्रतिरोधकता अधिक होती है और रक्त-तप्त होने पर भी यह आसानी से नहीं जलता (ऑक्सीकृत नहीं होता)।", "hg": "Nichrome ki resistivity zyada hoti hai aur laal garam hone par bhi yeh aasani se nahi jalta (oxidise nahi hota)."}, "Why are connecting wires made of copper?": {"hi": "संयोजक तार ताँबे के क्यों बनाए जाते हैं?", "hg": "Connecting wires copper ke kyun banaye jaate hain?"}, "Copper has a very low resistivity, so very little energy is wasted in the wires.": {"hi": "ताँबे की प्रतिरोधकता बहुत कम होती है, इसलिए तारों में बहुत कम ऊर्जा व्यर्थ होती है।", "hg": "Copper ki resistivity bahut kam hoti hai, isliye wires mein bahut kam energy waste hoti hai."}, "Resistance of a wire": {"hi": "तार का प्रतिरोध", "hg": "Wire ka resistance"}, "Current and voltage in a series circuit": {"hi": "श्रेणीक्रम परिपथ में विद्युत धारा और विभवांतर", "hg": "Series circuit mein current aur voltage"}, "To show that the current is the same everywhere in a series circuit and that the total potential difference is the sum of the potential differences across the resistors.": {"hi": "यह दर्शाना कि श्रेणीक्रम परिपथ में विद्युत धारा हर जगह समान रहती है और कुल विभवांतर प्रतिरोधकों के सिरों के बीच के विभवांतरों के योग के बराबर होता है।", "hg": "Yeh dikhana ki series circuit mein current har jagah same rehta hai aur total potential difference resistors ke across potential differences ke sum ke barabar hota hai."}, "Series circuit: I and V": {"hi": "श्रेणीक्रम परिपथ: I और V", "hg": "Series circuit: I aur V"}, "Resistors of 1 Ω, 2 Ω and 3 Ω are joined end to end (in series) with the battery (6 V), the key and the ammeter. The voltmeter is across the whole combination XY.": {"hi": "1 Ω, 2 Ω और 3 Ω के प्रतिरोधक बैटरी (6 V), कुंजी और ऐमीटर के साथ सिरे से सिरा मिलाकर (श्रेणीक्रम में) जुड़े हैं। वोल्टमीटर पूरे संयोजन XY के सिरों के बीच जुड़ा है।", "hg": "1 Ω, 2 Ω aur 3 Ω ke resistors battery (6 V), key aur ammeter ke saath end to end (series mein) jude hain. Voltmeter poore combination XY ke across laga hai."}, "The meters read zero: the key is open.": {"hi": "मीटर शून्य दिखा रहे हैं: कुंजी खुली है।", "hg": "Meters zero dikha rahe hain: key open hai."}, "Insert the key. Note the ammeter reading I and the voltmeter reading V across the combination.": {"hi": "कुंजी लगाइए। ऐमीटर का पाठ्यांक I और संयोजन के सिरों के बीच वोल्टमीटर का पाठ्यांक V नोट कीजिए।", "hg": "Key lagao. Ammeter ki reading I aur combination ke across voltmeter ki reading V note karo."}, "I ≈ 0.9 A and V ≈ 5.4 V.": {"hi": "I ≈ 0.9 A और V ≈ 5.4 V।", "hg": "I ≈ 0.9 A aur V ≈ 5.4 V."}, "Remove the key. Connect the ammeter between the 2 Ω and the 3 Ω resistors instead, and insert the key again.": {"hi": "कुंजी निकालिए। अब ऐमीटर को 2 Ω और 3 Ω के प्रतिरोधकों के बीच जोड़िए, और कुंजी फिर से लगाइए।", "hg": "Key nikaalo. Ab ammeter ko 2 Ω aur 3 Ω ke resistors ke beech connect karo, aur key phir se lagao."}, "The ammeter shows the same current, about 0.9 A.": {"hi": "ऐमीटर वही विद्युत धारा, लगभग 0.9 A, दर्शाता है।", "hg": "Ammeter wahi current, lagbhag 0.9 A, dikhata hai."}, "In a series circuit the same current flows through every part of the circuit.": {"hi": "श्रेणीक्रम परिपथ में परिपथ के प्रत्येक भाग से समान विद्युत धारा प्रवाहित होती है।", "hg": "Series circuit mein circuit ke har hisse se same current flow hota hai."}, "Now connect the voltmeter across the 1 Ω resistor only, then across the 2 Ω and then the 3 Ω resistor. Note V₁, V₂ and V₃.": {"hi": "अब वोल्टमीटर को केवल 1 Ω के प्रतिरोधक के सिरों के बीच जोड़िए, फिर 2 Ω और फिर 3 Ω के प्रतिरोधक के सिरों के बीच। V₁, V₂ और V₃ नोट कीजिए।", "hg": "Ab voltmeter ko sirf 1 Ω resistor ke across connect karo, phir 2 Ω aur phir 3 Ω resistor ke across. V₁, V₂ aur V₃ note karo."}, "V₁ ≈ 0.9 V, V₂ ≈ 1.8 V and V₃ ≈ 2.7 V.": {"hi": "V₁ ≈ 0.9 V, V₂ ≈ 1.8 V और V₃ ≈ 2.7 V।", "hg": "V₁ ≈ 0.9 V, V₂ ≈ 1.8 V aur V₃ ≈ 2.7 V."}, "Compare V with V₁ + V₂ + V₃, and find V/I. Then remove the key.": {"hi": "V की तुलना V₁ + V₂ + V₃ से कीजिए, और V/I ज्ञात कीजिए। फिर कुंजी निकाल दीजिए।", "hg": "V ko V₁ + V₂ + V₃ se compare karo, aur V/I nikaalo. Phir key nikaal do."}, "V₁ + V₂ + V₃ = V. V/I ≈ 6 Ω, which is the sum of the three resistances.": {"hi": "V₁ + V₂ + V₃ = V। V/I ≈ 6 Ω, जो तीनों प्रतिरोधों का योग है।", "hg": "V₁ + V₂ + V₃ = V. V/I ≈ 6 Ω, jo teeno resistances ka sum hai."}, "In series the battery’s potential difference is shared between the resistors in proportion to their resistances, and the total resistance is Rs = R₁ + R₂ + R₃.": {"hi": "श्रेणीक्रम में बैटरी का विभवांतर प्रतिरोधकों के बीच उनके प्रतिरोधों के अनुपात में बँट जाता है, और कुल प्रतिरोध Rs = R₁ + R₂ + R₃ होता है।", "hg": "Series mein battery ka potential difference resistors ke beech unke resistances ke ratio mein bant jaata hai, aur total resistance Rs = R₁ + R₂ + R₃ hota hai."}, "I ≈ 0.9 A at both positions of the ammeter. V₁ ≈ 0.9 V, V₂ ≈ 1.8 V, V₃ ≈ 2.7 V and V ≈ 5.4 V. V/I ≈ 6 Ω.": {"hi": "ऐमीटर की दोनों स्थितियों में I ≈ 0.9 A। V₁ ≈ 0.9 V, V₂ ≈ 1.8 V, V₃ ≈ 2.7 V और V ≈ 5.4 V। V/I ≈ 6 Ω।", "hg": "Ammeter ki dono positions par I ≈ 0.9 A. V₁ ≈ 0.9 V, V₂ ≈ 1.8 V, V₃ ≈ 2.7 V aur V ≈ 5.4 V. V/I ≈ 6 Ω."}, "In a series circuit the same current flows through each resistor, the total potential difference is the sum of the potential differences across the resistors, and Rs = R₁ + R₂ + R₃.": {"hi": "श्रेणीक्रम परिपथ में प्रत्येक प्रतिरोधक से समान विद्युत धारा प्रवाहित होती है, कुल विभवांतर प्रतिरोधकों के सिरों के बीच के विभवांतरों के योग के बराबर होता है, और Rs = R₁ + R₂ + R₃।", "hg": "Series circuit mein har resistor se same current flow hota hai, total potential difference resistors ke across potential differences ke sum ke barabar hota hai, aur Rs = R₁ + R₂ + R₃."}, "Always remove the key before changing any connection. Join the + terminals of the meters towards the + terminal of the battery.": {"hi": "कोई भी संयोजन बदलने से पहले सदैव कुंजी निकाल दीजिए। मीटरों के + टर्मिनलों को बैटरी के + टर्मिनल की ओर जोड़िए।", "hg": "Koi bhi connection badalne se pehle hamesha key nikaal do. Meters ke + terminals ko battery ke + terminal ki taraf connect karo."}, "Is the current the same through each resistor in series?": {"hi": "क्या श्रेणीक्रम में जुड़े प्रत्येक प्रतिरोधक से समान विद्युत धारा प्रवाहित होती है?", "hg": "Kya series mein jude har resistor se same current flow hota hai?"}, "Yes, the same current flows through all of them.": {"hi": "हाँ, सभी से समान विद्युत धारा प्रवाहित होती है।", "hg": "Haan, sabse same current flow hota hai."}, "Which resistor has the largest potential difference across it?": {"hi": "किस प्रतिरोधक के सिरों के बीच विभवांतर सबसे अधिक है?", "hg": "Kis resistor ke across potential difference sabse zyada hai?"}, "The 3 Ω resistor, because V = IR.": {"hi": "3 Ω के प्रतिरोधक के, क्योंकि V = IR।", "hg": "3 Ω resistor ke, kyunki V = IR."}, "What happens to the other bulbs in a series circuit if one bulb fuses?": {"hi": "श्रेणीक्रम परिपथ में यदि एक बल्ब फ्यूज़ हो जाए, तो अन्य बल्बों का क्या होता है?", "hg": "Series circuit mein agar ek bulb fuse ho jaaye, to baaki bulbs ka kya hota hai?"}, "They all go off, because the circuit is broken.": {"hi": "वे सभी बुझ जाते हैं, क्योंकि परिपथ टूट जाता है।", "hg": "Woh sab band ho jaate hain, kyunki circuit toot jaata hai."}, "Seen in the mirror: an enlarged, upright image": {"hi": "दर्पण में देखने पर: एक आवर्धित, सीधा प्रतिबिंब", "hg": "Mirror mein dekhne par: ek enlarged, upright image"}, "Seen through the lens: upright, smaller": {"hi": "लेंस में से देखने पर: सीधा, छोटा", "hg": "Lens ke through dekhne par: upright, chhoti"}, "Seen in the mirror: upright, smaller": {"hi": "दर्पण में देखने पर: सीधा, छोटा", "hg": "Mirror mein dekhne par: upright, chhoti"}, "Nichrome wire": {"hi": "नाइक्रोम तार", "hg": "Nichrome wire"}, "Torch bulb": {"hi": "टॉर्च बल्ब", "hg": "Torch bulb"}, "10 W bulb": {"hi": "10 W बल्ब", "hg": "10 W bulb"}, "Wire": {"hi": "तार", "hg": "Wire"}, "violet … red": {"hi": "बैंगनी … लाल", "hg": "violet … red"}, "Real depth": {"hi": "वास्तविक गहराई", "hg": "Real depth"}, "apparent depth": {"hi": "आभासी गहराई", "hg": "apparent depth"}});
+// p4-p8 translations
+Object.assign(DICT, {"Simple pendulum: does the amplitude change the time period?": {"hi": "सरल लोलक: क्या आयाम बदलने से आवर्तकाल बदलता है?", "hg": "Simple pendulum: kya amplitude se time period badalta hai?"}, "To study the effect of amplitude on the time period of a simple pendulum.": {"hi": "सरल लोलक के आवर्तकाल पर आयाम के प्रभाव का अध्ययन करना।", "hg": "Simple pendulum ke time period par amplitude ke effect ka study karna."}, "Simple pendulum (Lab Manual)": {"hi": "सरल लोलक (प्रयोगशाला पुस्तिका)", "hg": "Simple pendulum (Lab Manual)"}, "The bob hangs from a thread held in a split cork. The effective length, from the point of suspension to the centre of the bob, is 100 cm.": {"hi": "गोलक एक धागे से लटका है जो दो भागों में कटे कॉर्क में पकड़ा गया है। निलंबन बिंदु से गोलक के केंद्र तक प्रभावी लंबाई 100 cm है।", "hg": "Bob ek thread se latka hai jo split cork mein pakda hua hai. Point of suspension se bob ke centre tak effective length 100 cm hai."}, "The pendulum hangs freely beyond the edge of the table.": {"hi": "लोलक मेज़ के किनारे से बाहर स्वतंत्र रूप से लटक रहा है।", "hg": "Pendulum table ke edge ke bahar freely latak raha hai."}, "Pull the bob aside to an amplitude of 5° and let it go. Start the stopwatch as the bob passes the mean position, and stop it after 20 oscillations.": {"hi": "गोलक को 5° के आयाम तक एक ओर खींचिए और छोड़ दीजिए। जब गोलक माध्य स्थिति से गुज़रे तब विराम घड़ी चालू कीजिए, और 20 दोलनों के बाद उसे रोकिए।", "hg": "Bob ko 5° amplitude tak side mein kheencho aur chhod do. Jab bob mean position se guzre tab stopwatch start karo, aur 20 oscillations ke baad use stop karo."}, "20 oscillations take about 40.1 s, so the time period T is about 2.01 s.": {"hi": "20 दोलनों में लगभग 40.1 s लगते हैं, अतः आवर्तकाल T लगभग 2.01 s है।", "hg": "20 oscillations mein lagbhag 40.1 s lagte hain, isliye time period T lagbhag 2.01 s hai."}, "Timing many oscillations and dividing makes the small error of starting and stopping the watch much less important.": {"hi": "अनेक दोलनों का समय मापकर भाग देने से घड़ी को चालू और बंद करने की छोटी त्रुटि का महत्व बहुत कम हो जाता है।", "hg": "Kai oscillations ka time naapkar divide karne se watch ko start aur stop karne ki chhoti error ka asar bahut kam ho jaata hai."}, "Repeat with amplitudes of 10°, 15° and 20°.": {"hi": "10°, 15° और 20° के आयामों के साथ दोहराइए।", "hg": "10°, 15° aur 20° ke amplitudes ke saath repeat karo."}, "T ≈ 2.01 s, 2.01 s and 2.02 s: almost the same for every amplitude.": {"hi": "T ≈ 2.01 s, 2.01 s और 2.02 s: प्रत्येक आयाम के लिए लगभग समान।", "hg": "T ≈ 2.01 s, 2.01 s aur 2.02 s: har amplitude ke liye lagbhag same."}, "Compare the time periods for the different amplitudes.": {"hi": "विभिन्न आयामों के लिए आवर्तकालों की तुलना कीजिए।", "hg": "Alag-alag amplitudes ke time periods compare karo."}, "The time period stays the same within the accuracy of the stopwatch.": {"hi": "विराम घड़ी की परिशुद्धता की सीमा में आवर्तकाल समान रहता है।", "hg": "Stopwatch ki accuracy ke andar time period same rehta hai."}, "For small amplitudes the time period of a pendulum does not depend on how far it swings. This is why pendulums are used to keep time.": {"hi": "छोटे आयामों के लिए लोलक का आवर्तकाल इस पर निर्भर नहीं करता कि वह कितनी दूर तक दोलन करता है। इसी कारण समय मापने के लिए लोलकों का उपयोग किया जाता है।", "hg": "Chhote amplitudes ke liye pendulum ka time period is par depend nahi karta ki woh kitna door tak swing karta hai. Isi wajah se time maintain karne ke liye pendulums use kiye jaate hain."}, "For L = 100 cm, T ≈ 2.01 s for amplitudes of 5°, 10°, 15° and 20°.": {"hi": "L = 100 cm के लिए, 5°, 10°, 15° और 20° के आयामों पर T ≈ 2.01 s।", "hg": "L = 100 cm ke liye, 5°, 10°, 15° aur 20° ke amplitudes par T ≈ 2.01 s."}, "For small amplitudes the time period of a simple pendulum is independent of the amplitude.": {"hi": "छोटे आयामों के लिए सरल लोलक का आवर्तकाल आयाम पर निर्भर नहीं करता।", "hg": "Chhote amplitudes ke liye simple pendulum ka time period amplitude se independent hota hai."}, "Keep the amplitude small (below about 15°). Make sure the bob does not spin or move in an ellipse; start timing only after a few swings.": {"hi": "आयाम छोटा रखिए (लगभग 15° से कम)। सुनिश्चित कीजिए कि गोलक घूमे नहीं या दीर्घवृत्त में न चले; कुछ दोलनों के बाद ही समय मापना आरंभ कीजिए।", "hg": "Amplitude chhota rakho (lagbhag 15° se kam). Dhyan rakho ki bob spin na kare ya ellipse mein na ghoome; kuch swings ke baad hi timing start karo."}, "What is one oscillation?": {"hi": "एक दोलन क्या है?", "hg": "Ek oscillation kya hai?"}, "One complete to-and-fro motion: from one extreme to the other and back again.": {"hi": "एक पूर्ण इधर-उधर की गति: एक चरम स्थिति से दूसरी चरम स्थिति तक और फिर वापस।", "hg": "Ek complete to-and-fro motion: ek extreme se doosre extreme tak aur phir wapas."}, "Why do we time 20 oscillations instead of one?": {"hi": "हम एक के बजाय 20 दोलनों का समय क्यों मापते हैं?", "hg": "Hum ek ki jagah 20 oscillations ka time kyon naapte hain?"}, "The error in starting and stopping the watch is shared over 20 oscillations, so T is more accurate.": {"hi": "घड़ी को चालू और बंद करने की त्रुटि 20 दोलनों में बँट जाती है, अतः T अधिक परिशुद्ध होता है।", "hg": "Watch ko start aur stop karne ki error 20 oscillations mein bant jaati hai, isliye T zyada accurate hota hai."}, "Why should the amplitude be small?": {"hi": "आयाम छोटा क्यों होना चाहिए?", "hg": "Amplitude chhota kyon hona chahiye?"}, "The time period stays constant only for small swings.": {"hi": "आवर्तकाल केवल छोटे दोलनों के लिए ही स्थिर रहता है।", "hg": "Time period sirf chhote swings ke liye hi constant rehta hai."}, "Time period of a simple pendulum": {"hi": "सरल लोलक का आवर्तकाल", "hg": "Simple pendulum ka time period"}, "Simple pendulum: time period and length": {"hi": "सरल लोलक: आवर्तकाल और लंबाई", "hg": "Simple pendulum: time period aur length"}, "To study how the time period of a simple pendulum changes with its length.": {"hi": "सरल लोलक का आवर्तकाल उसकी लंबाई के साथ कैसे बदलता है, इसका अध्ययन करना।", "hg": "Simple pendulum ka time period uski length ke saath kaise badalta hai, iska study karna."}, "Simple pendulum: T² ∝ L (Lab Manual)": {"hi": "सरल लोलक: T² ∝ L (प्रयोगशाला पुस्तिका)", "hg": "Simple pendulum: T² ∝ L (Lab Manual)"}, "Set the effective length to 40 cm. Displace the bob by about 5°, let it go and time 20 oscillations.": {"hi": "प्रभावी लंबाई 40 cm रखिए। गोलक को लगभग 5° विस्थापित कीजिए, छोड़ दीजिए और 20 दोलनों का समय मापिए।", "hg": "Effective length 40 cm set karo. Bob ko lagbhag 5° displace karo, chhod do aur 20 oscillations ka time naapo."}, "For L = 40 cm, T ≈ 1.27 s.": {"hi": "L = 40 cm के लिए, T ≈ 1.27 s।", "hg": "L = 40 cm ke liye, T ≈ 1.27 s."}, "Repeat for lengths of 60 cm, 80 cm, 100 cm and 120 cm, and plot T² against L.": {"hi": "60 cm, 80 cm, 100 cm और 120 cm की लंबाइयों के लिए दोहराइए, और L के सापेक्ष T² का ग्राफ़ खींचिए।", "hg": "60 cm, 80 cm, 100 cm aur 120 cm lengths ke liye repeat karo, aur T² vs L graph plot karo."}, "T ≈ 1.55 s, 1.80 s, 2.01 s and 2.20 s: a longer pendulum swings more slowly.": {"hi": "T ≈ 1.55 s, 1.80 s, 2.01 s और 2.20 s: लंबा लोलक अधिक धीरे दोलन करता है।", "hg": "T ≈ 1.55 s, 1.80 s, 2.01 s aur 2.20 s: lamba pendulum zyada dheere swing karta hai."}, "Draw the best straight line through the points of the T²–L graph.": {"hi": "T²–L ग्राफ़ के बिंदुओं से होकर सर्वोत्तम सरल रेखा खींचिए।", "hg": "T²–L graph ke points se hokar best straight line draw karo."}, "The T² – L graph is a straight line through the origin, with T²/L ≈ 4 s² per metre.": {"hi": "T² – L ग्राफ़ मूल बिंदु से होकर जाने वाली एक सरल रेखा है, जिसमें T²/L ≈ 4 s² प्रति मीटर है।", "hg": "T² – L graph origin se guzarne wali ek straight line hai, jismein T²/L ≈ 4 s² per metre hai."}, "T² is proportional to L: the time period is proportional to the square root of the length (T = 2π√(L/g)).": {"hi": "T², L के समानुपाती है: आवर्तकाल लंबाई के वर्गमूल के समानुपाती है (T = 2π√(L/g))।", "hg": "T², L ke proportional hai: time period length ke square root ke proportional hai (T = 2π√(L/g))."}, "L = 40, 60, 80, 100, 120 cm gave T ≈ 1.27, 1.55, 1.80, 2.01, 2.20 s. The T²–L graph is a straight line through the origin.": {"hi": "L = 40, 60, 80, 100, 120 cm के लिए T ≈ 1.27, 1.55, 1.80, 2.01, 2.20 s प्राप्त हुआ। T²–L ग्राफ़ मूल बिंदु से होकर जाने वाली एक सरल रेखा है।", "hg": "L = 40, 60, 80, 100, 120 cm ke liye T ≈ 1.27, 1.55, 1.80, 2.01, 2.20 s mila. T²–L graph origin se guzarne wali ek straight line hai."}, "The time period of a simple pendulum increases with its length: T² is directly proportional to L.": {"hi": "सरल लोलक का आवर्तकाल उसकी लंबाई के साथ बढ़ता है: T², L के अनुक्रमानुपाती है।", "hg": "Simple pendulum ka time period uski length ke saath badhta hai: T², L ke directly proportional hai."}, "What length gives a time period of 2 s (a seconds pendulum)?": {"hi": "कितनी लंबाई से 2 s का आवर्तकाल प्राप्त होता है (सेकंड लोलक)?", "hg": "Kitni length se 2 s ka time period milta hai (seconds pendulum)?"}, "About 99.3 cm, i.e. about 1 m.": {"hi": "लगभग 99.3 cm, अर्थात लगभग 1 m।", "hg": "Lagbhag 99.3 cm, yaani lagbhag 1 m."}, "Simple pendulum: does the mass of the bob matter?": {"hi": "सरल लोलक: क्या गोलक के द्रव्यमान का प्रभाव पड़ता है?", "hg": "Simple pendulum: kya bob ke mass se farak padta hai?"}, "To study the effect of the mass of the bob on the time period of a simple pendulum.": {"hi": "सरल लोलक के आवर्तकाल पर गोलक के द्रव्यमान के प्रभाव का अध्ययन करना।", "hg": "Simple pendulum ke time period par bob ke mass ke effect ka study karna."}, "Simple pendulum: mass of the bob (Lab Manual)": {"hi": "सरल लोलक: गोलक का द्रव्यमान (प्रयोगशाला पुस्तिका)", "hg": "Simple pendulum: bob ka mass (Lab Manual)"}, "A 50 g brass bob hangs at an effective length of 100 cm. Displace it by about 5°, let it go and time 20 oscillations.": {"hi": "50 g का पीतल का गोलक 100 cm की प्रभावी लंबाई पर लटका है। इसे लगभग 5° विस्थापित कीजिए, छोड़ दीजिए और 20 दोलनों का समय मापिए।", "hg": "50 g ka brass bob 100 cm ki effective length par latka hai. Ise lagbhag 5° displace karo, chhod do aur 20 oscillations ka time naapo."}, "T ≈ 2.01 s.": {"hi": "T ≈ 2.01 s।", "hg": "T ≈ 2.01 s."}, "Replace the bob with a 100 g bob and then a 200 g bob, keeping the effective length 100 cm. Time 20 oscillations each time.": {"hi": "प्रभावी लंबाई 100 cm बनाए रखते हुए गोलक को पहले 100 g के और फिर 200 g के गोलक से बदलिए। हर बार 20 दोलनों का समय मापिए।", "hg": "Effective length 100 cm rakhte hue bob ko pehle 100 g wale aur phir 200 g wale bob se badlo. Har baar 20 oscillations ka time naapo."}, "T ≈ 2.01 s for the 100 g bob and for the 200 g bob as well.": {"hi": "100 g के गोलक के लिए और 200 g के गोलक के लिए भी T ≈ 2.01 s।", "hg": "100 g bob ke liye aur 200 g bob ke liye bhi T ≈ 2.01 s."}, "The time period of a simple pendulum does not depend on the mass of the bob, only on its length (and on g).": {"hi": "सरल लोलक का आवर्तकाल गोलक के द्रव्यमान पर निर्भर नहीं करता, केवल उसकी लंबाई (और g) पर निर्भर करता है।", "hg": "Simple pendulum ka time period bob ke mass par depend nahi karta, sirf uski length (aur g) par depend karta hai."}, "Bobs of 50 g, 100 g and 200 g at L = 100 cm all gave T ≈ 2.01 s.": {"hi": "L = 100 cm पर 50 g, 100 g और 200 g के सभी गोलकों से T ≈ 2.01 s प्राप्त हुआ।", "hg": "L = 100 cm par 50 g, 100 g aur 200 g ke sabhi bobs se T ≈ 2.01 s mila."}, "The time period of a simple pendulum does not depend on the mass of the bob.": {"hi": "सरल लोलक का आवर्तकाल गोलक के द्रव्यमान पर निर्भर नहीं करता।", "hg": "Simple pendulum ka time period bob ke mass par depend nahi karta."}, "Will the pendulum swing faster on the Moon?": {"hi": "क्या चंद्रमा पर लोलक अधिक तेज़ी से दोलन करेगा?", "hg": "Kya Moon par pendulum zyada tez swing karega?"}, "No, slower: g on the Moon is about one sixth, so T is about 2.4 times longer.": {"hi": "नहीं, धीमा: चंद्रमा पर g लगभग छठा भाग है, अतः T लगभग 2.4 गुना अधिक होता है।", "hg": "Nahi, dheere: Moon par g lagbhag one sixth hai, isliye T lagbhag 2.4 guna lamba hota hai."}, "Archimedes' principle": {"hi": "आर्किमिडीज़ का सिद्धांत", "hg": "Archimedes' principle"}, "To verify Archimedes' principle: the loss in weight of a solid immersed in water equals the weight of the water it displaces.": {"hi": "आर्किमिडीज़ के सिद्धांत का सत्यापन करना: जल में डुबोए गए ठोस के भार में कमी उसके द्वारा विस्थापित जल के भार के बराबर होती है।", "hg": "Archimedes' principle verify karna: paani mein duboye gaye solid ke weight mein kami uske dwara displace kiye gaye paani ke weight ke barabar hoti hai."}, "Overflow can and spring balance (Lab Manual)": {"hi": "अतिप्रवाह पात्र (ओवरफ़्लो कैन) और कमानीदार तुला (प्रयोगशाला पुस्तिका)", "hg": "Overflow can aur spring balance (Lab Manual)"}, "Stand the overflow can on the wooden block and pour water into it until water starts to flow out of the spout into the beaker. Wait until it stops dripping.": {"hi": "अतिप्रवाह पात्र को लकड़ी के गुटके पर रखिए और उसमें तब तक जल डालिए जब तक जल टोंटी से बाहर निकलकर बीकर में बहने न लगे। टपकना बंद होने तक प्रतीक्षा कीजिए।", "hg": "Overflow can ko wooden block par rakho aur usmein tab tak paani daalo jab tak paani spout se bahar nikalkar beaker mein na behne lage. Dripping band hone tak wait karo."}, "The water level stands exactly at the spout; the extra water has run into the beaker.": {"hi": "जल का तल ठीक टोंटी तक है; अतिरिक्त जल बीकर में बह गया है।", "hg": "Water level bilkul spout tak hai; extra paani beaker mein beh gaya hai."}, "Take the beaker away and put the clean, dry measuring cylinder under the spout.": {"hi": "बीकर को हटा दीजिए और साफ़, सूखे मापक सिलिंडर को टोंटी के नीचे रखिए।", "hg": "Beaker hata do aur saaf, sookha measuring cylinder spout ke neeche rakho."}, "The empty measuring cylinder stands under the spout.": {"hi": "खाली मापक सिलिंडर टोंटी के नीचे रखा है।", "hg": "Khaali measuring cylinder spout ke neeche rakha hai."}, "Hold the spring balance with the stone hanging from it above the can. Note the weight of the stone in air (W₁).": {"hi": "कमानीदार तुला को, जिससे पत्थर लटका है, पात्र के ऊपर पकड़िए। वायु में पत्थर का भार (W₁) नोट कीजिए।", "hg": "Spring balance ko, jisse stone latka hai, can ke upar pakdo. Air mein stone ka weight (W₁) note karo."}, "The spring balance reads W₁ = 1.50 N.": {"hi": "कमानीदार तुला का पाठ्यांक W₁ = 1.50 N है।", "hg": "Spring balance ki reading W₁ = 1.50 N hai."}, "Lower the stone slowly into the water until it is completely under water, without touching the sides or the bottom. Note the reading W₂.": {"hi": "पत्थर को धीरे-धीरे जल में तब तक नीचे ले जाइए जब तक वह पूरी तरह जल में डूब न जाए, बिना किनारों या तली को छुए। पाठ्यांक W₂ नोट कीजिए।", "hg": "Stone ko dheere-dheere paani mein tab tak neeche le jao jab tak woh poori tarah paani ke andar na ho jaaye, sides ya bottom ko chhue bina. Reading W₂ note karo."}, "As the stone goes in, water flows out of the spout into the cylinder. The balance now reads W₂ = 1.00 N: the stone seems lighter.": {"hi": "जैसे-जैसे पत्थर अंदर जाता है, जल टोंटी से निकलकर सिलिंडर में बहता है। अब तुला का पाठ्यांक W₂ = 1.00 N है: पत्थर हल्का प्रतीत होता है।", "hg": "Jaise-jaise stone andar jaata hai, paani spout se nikalkar cylinder mein behta hai. Ab balance ki reading W₂ = 1.00 N hai: stone halka lagta hai."}, "The water pushes up on the stone (the buoyant force, or upthrust), so the spring is stretched less.": {"hi": "जल पत्थर पर ऊपर की ओर बल लगाता है (उत्प्लावक बल या उत्क्षेप), अतः कमानी कम खिंचती है।", "hg": "Paani stone ko upar ki taraf push karta hai (buoyant force, ya upthrust), isliye spring kam stretch hota hai."}, "Read the volume of water collected in the measuring cylinder.": {"hi": "मापक सिलिंडर में एकत्रित जल का आयतन पढ़िए।", "hg": "Measuring cylinder mein collect hue paani ka volume padho."}, "About 51 mL of water has been collected. Its mass is 51 g, so its weight is 0.051 kg × 9.8 m/s² ≈ 0.50 N.": {"hi": "लगभग 51 mL जल एकत्रित हुआ है। इसका द्रव्यमान 51 g है, अतः इसका भार 0.051 kg × 9.8 m/s² ≈ 0.50 N है।", "hg": "Lagbhag 51 mL paani collect hua hai. Iska mass 51 g hai, isliye iska weight 0.051 kg × 9.8 m/s² ≈ 0.50 N hai."}, "Compare the loss in weight of the stone with the weight of the water it displaced.": {"hi": "पत्थर के भार में कमी की तुलना उसके द्वारा विस्थापित जल के भार से कीजिए।", "hg": "Stone ke weight mein kami ko uske dwara displace kiye gaye paani ke weight se compare karo."}, "Loss in weight = 1.50 N − 1.00 N = 0.50 N = weight of the water displaced.": {"hi": "भार में कमी = 1.50 N − 1.00 N = 0.50 N = विस्थापित जल का भार।", "hg": "Weight mein kami = 1.50 N − 1.00 N = 0.50 N = displace hue paani ka weight."}, "This is Archimedes’ principle: a body wholly or partly immersed in a fluid experiences an upward force equal to the weight of the fluid it displaces.": {"hi": "यही आर्किमिडीज़ का सिद्धांत है: किसी तरल में पूर्णतः या आंशिक रूप से डूबी वस्तु पर ऊपर की ओर एक बल लगता है जो उसके द्वारा विस्थापित तरल के भार के बराबर होता है।", "hg": "Yahi Archimedes’ principle hai: kisi fluid mein poori tarah ya kuch had tak doobi body par upar ki taraf ek force lagta hai jo uske dwara displace kiye gaye fluid ke weight ke barabar hota hai."}, "Weight in air W₁ = 1.50 N; weight in water W₂ = 1.00 N; water displaced V = 51 mL, weighing about 0.50 N.": {"hi": "वायु में भार W₁ = 1.50 N; जल में भार W₂ = 1.00 N; विस्थापित जल V = 51 mL, जिसका भार लगभग 0.50 N है।", "hg": "Air mein weight W₁ = 1.50 N; paani mein weight W₂ = 1.00 N; displaced water V = 51 mL, jiska weight lagbhag 0.50 N hai."}, "The loss in weight of the stone (0.50 N) is equal to the weight of the water it displaced. Archimedes’ principle is verified.": {"hi": "पत्थर के भार में कमी (0.50 N) उसके द्वारा विस्थापित जल के भार के बराबर है। आर्किमिडीज़ के सिद्धांत का सत्यापन हो गया।", "hg": "Stone ke weight mein kami (0.50 N) uske dwara displace kiye gaye paani ke weight ke barabar hai. Archimedes’ principle verify ho gaya."}, "Fill the can only until water just stops dripping before you start. The stone must not touch the can. Read the cylinder at the bottom of the meniscus.": {"hi": "प्रयोग आरंभ करने से पहले पात्र को केवल तब तक भरिए जब तक जल का टपकना ठीक बंद न हो जाए। पत्थर पात्र को नहीं छूना चाहिए। सिलिंडर का पाठ्यांक नवचंद्रक (मेनिस्कस) के निचले तल पर पढ़िए।", "hg": "Start karne se pehle can ko sirf tab tak bharo jab tak paani ka dripping bas band na ho jaaye. Stone can ko touch nahi karna chahiye. Cylinder ki reading meniscus ke bottom par padho."}, "What is buoyant force?": {"hi": "उत्प्लावक बल क्या है?", "hg": "Buoyant force kya hai?"}, "The upward force exerted by a fluid on a body immersed in it.": {"hi": "किसी तरल द्वारा उसमें डूबी वस्तु पर ऊपर की ओर लगाया गया बल।", "hg": "Kisi fluid dwara usmein doobi body par upar ki taraf lagaya gaya force."}, "Why does a stone feel lighter in water?": {"hi": "जल में पत्थर हल्का क्यों लगता है?", "hg": "Paani mein stone halka kyon lagta hai?"}, "The upthrust of the water acts upwards on it, opposite to its weight.": {"hi": "जल का उत्क्षेप उस पर ऊपर की ओर, उसके भार के विपरीत, कार्य करता है।", "hg": "Paani ka upthrust us par upar ki taraf, uske weight ke opposite, act karta hai."}, "Name one use of Archimedes’ principle.": {"hi": "आर्किमिडीज़ के सिद्धांत का एक उपयोग बताइए।", "hg": "Archimedes’ principle ka ek use batao."}, "Designing ships and submarines, or hydrometers and lactometers.": {"hi": "जलयानों और पनडुब्बियों का अभिकल्पन, या हाइड्रोमीटर और लैक्टोमीटर।", "hg": "Ships aur submarines ka design, ya hydrometers aur lactometers."}, "Density of a solid": {"hi": "ठोस का घनत्व", "hg": "Solid ki density"}, "To find the density of a solid (denser than water) using a spring balance and a measuring cylinder.": {"hi": "कमानीदार तुला और मापक सिलिंडर की सहायता से किसी ठोस (जो जल से अधिक घना हो) का घनत्व ज्ञात करना।", "hg": "Spring balance aur measuring cylinder ki madad se kisi solid (jo paani se zyada dense ho) ki density nikalna."}, "Mass ÷ volume (Lab Manual)": {"hi": "द्रव्यमान ÷ आयतन (प्रयोगशाला पुस्तिका)", "hg": "Mass ÷ volume (Lab Manual)"}, "Note the least counts: the spring balance reads in steps of 5 g and the measuring cylinder in steps of 1 mL.": {"hi": "अल्पतमांक नोट कीजिए: कमानीदार तुला का पाठ्यांक 5 g के अंतराल में और मापक सिलिंडर का 1 mL के अंतराल में होता है।", "hg": "Least counts note karo: spring balance 5 g ke steps mein aur measuring cylinder 1 mL ke steps mein padhta hai."}, "Least count of the spring balance = 5 g; of the measuring cylinder = 1 mL.": {"hi": "कमानीदार तुला का अल्पतमांक = 5 g; मापक सिलिंडर का = 1 mL।", "hg": "Spring balance ka least count = 5 g; measuring cylinder ka = 1 mL."}, "Take the spring balance with the brass piece hanging from it and read the mass m.": {"hi": "कमानीदार तुला लीजिए जिससे पीतल का टुकड़ा लटका है, और द्रव्यमान m पढ़िए।", "hg": "Spring balance lo jisse brass piece latka hai, aur mass m padho."}, "The spring balance reads m = 170 g.": {"hi": "कमानीदार तुला का पाठ्यांक m = 170 g है।", "hg": "Spring balance ki reading m = 170 g hai."}, "Pour water into the measuring cylinder up to the 50 mL mark. Read the bottom of the meniscus: this is V₁.": {"hi": "मापक सिलिंडर में 50 mL के निशान तक जल डालिए। नवचंद्रक का निचला तल पढ़िए: यह V₁ है।", "hg": "Measuring cylinder mein 50 mL mark tak paani daalo. Meniscus ka bottom padho: yeh V₁ hai."}, "V₁ = 50 mL.": {"hi": "V₁ = 50 mL।", "hg": "V₁ = 50 mL."}, "Unhook the brass piece and lower it gently by its thread into the cylinder until it is completely under water. Read the new level V₂.": {"hi": "पीतल के टुकड़े को हुक से उतारिए और उसके धागे से उसे धीरे-से सिलिंडर में तब तक नीचे ले जाइए जब तक वह पूरी तरह जल में डूब न जाए। नया तल V₂ पढ़िए।", "hg": "Brass piece ko hook se utaaro aur uske thread se use dheere se cylinder mein tab tak neeche le jao jab tak woh poori tarah paani ke andar na ho jaaye. Naya level V₂ padho."}, "The water level rises to V₂ = 70 mL.": {"hi": "जल का तल बढ़कर V₂ = 70 mL हो जाता है।", "hg": "Water level badhkar V₂ = 70 mL ho jaata hai."}, "The brass piece pushes aside (displaces) its own volume of water.": {"hi": "पीतल का टुकड़ा अपने आयतन के बराबर जल को हटा देता है (विस्थापित करता है)।", "hg": "Brass piece apne volume ke barabar paani ko hata deta hai (displace karta hai)."}, "Find the volume of the brass piece and its density.": {"hi": "पीतल के टुकड़े का आयतन और उसका घनत्व ज्ञात कीजिए।", "hg": "Brass piece ka volume aur uski density nikalo."}, "V = 70 − 50 = 20 cm³, so the density ρ = 170 g ÷ 20 cm³ = 8.5 g/cm³ (8500 kg/m³).": {"hi": "V = 70 − 50 = 20 cm³, अतः घनत्व ρ = 170 g ÷ 20 cm³ = 8.5 g/cm³ (8500 kg/m³)।", "hg": "V = 70 − 50 = 20 cm³, isliye density ρ = 170 g ÷ 20 cm³ = 8.5 g/cm³ (8500 kg/m³)."}, "Density is mass per unit volume. Brass is about 8.5 times as dense as water.": {"hi": "घनत्व प्रति एकांक आयतन का द्रव्यमान है। पीतल जल से लगभग 8.5 गुना अधिक घना है।", "hg": "Density per unit volume mass hai. Brass paani se lagbhag 8.5 guna zyada dense hai."}, "Mass of the brass piece m = 170 g; V₁ = 50 mL; V₂ = 70 mL; volume V = 20 cm³.": {"hi": "पीतल के टुकड़े का द्रव्यमान m = 170 g; V₁ = 50 mL; V₂ = 70 mL; आयतन V = 20 cm³।", "hg": "Brass piece ka mass m = 170 g; V₁ = 50 mL; V₂ = 70 mL; volume V = 20 cm³."}, "The density of the brass piece is about 8.5 g/cm³ (8500 kg/m³).": {"hi": "पीतल के टुकड़े का घनत्व लगभग 8.5 g/cm³ (8500 kg/m³) है।", "hg": "Brass piece ki density lagbhag 8.5 g/cm³ (8500 kg/m³) hai."}, "Lower the solid gently so that water does not splash out and the cylinder does not crack. Keep your eye level with the meniscus.": {"hi": "ठोस को धीरे-से नीचे ले जाइए ताकि जल छलककर बाहर न गिरे और सिलिंडर न चटके। अपनी आँख को नवचंद्रक के समतल रखिए।", "hg": "Solid ko dheere se neeche le jao taaki paani chhalak kar bahar na gire aur cylinder crack na ho. Apni aankh meniscus ke level par rakho."}, "What is the SI unit of density?": {"hi": "घनत्व का SI मात्रक क्या है?", "hg": "Density ka SI unit kya hai?"}, "kg/m³ (1 g/cm³ = 1000 kg/m³).": {"hi": "kg/m³ (1 g/cm³ = 1000 kg/m³)।", "hg": "kg/m³ (1 g/cm³ = 1000 kg/m³)."}, "Why must the solid be completely under water?": {"hi": "ठोस का पूरी तरह जल में डूबा होना क्यों आवश्यक है?", "hg": "Solid ka poori tarah paani ke andar hona kyon zaroori hai?"}, "Only then does it displace a volume of water equal to its own volume.": {"hi": "केवल तभी वह अपने आयतन के बराबर आयतन का जल विस्थापित करता है।", "hg": "Sirf tabhi woh apne volume ke barabar volume ka paani displace karta hai."}, "Will this solid float or sink in water?": {"hi": "यह ठोस जल में तैरेगा या डूबेगा?", "hg": "Yeh solid paani mein tairega ya doobega?"}, "It sinks, because its density is more than that of water (1 g/cm³).": {"hi": "यह डूब जाता है, क्योंकि इसका घनत्व जल के घनत्व (1 g/cm³) से अधिक है।", "hg": "Yeh doob jaata hai, kyonki iski density paani ki density (1 g/cm³) se zyada hai."}, "Density": {"hi": "घनत्व", "hg": "Density"}, "A vibrating tuning fork": {"hi": "कंपन करता स्वरित्र द्विभुज", "hg": "Vibrate karta tuning fork"}, "To show that sound is produced by vibrating objects, using a tuning fork and water.": {"hi": "स्वरित्र द्विभुज और जल की सहायता से यह दर्शाना कि ध्वनि कंपन करती वस्तुओं द्वारा उत्पन्न होती है।", "hg": "Tuning fork aur paani ki madad se dikhana ki sound vibrate karti objects se paida hoti hai."}, "Sound is produced by vibration": {"hi": "ध्वनि कंपन से उत्पन्न होती है", "hg": "Sound vibration se paida hoti hai"}, "Strike one prong of the tuning fork on the rubber pad and bring the fork close to your ear.": {"hi": "स्वरित्र द्विभुज की एक भुजा को रबड़ के पैड पर मारिए और द्विभुज को अपने कान के पास लाइए।", "hg": "Tuning fork ke ek prong ko rubber pad par maaro aur fork ko apne kaan ke paas lao."}, "You hear a steady, pure humming sound. The prongs look slightly blurred.": {"hi": "आपको एक स्थिर, शुद्ध गुंजन ध्वनि सुनाई देती है। भुजाएँ थोड़ी धुंधली दिखाई देती हैं।", "hg": "Aapko ek steady, pure humming sound sunai deti hai. Prongs thode blurred dikhte hain."}, "Strike it again and gently touch the tip of one prong to the surface of the water.": {"hi": "इसे फिर से मारिए और एक भुजा के सिरे को धीरे-से जल की सतह से स्पर्श कराइए।", "hg": "Ise phir se maaro aur ek prong ki tip ko dheere se paani ki surface se touch karao."}, "The water splashes and ripples spread out from the prong.": {"hi": "जल उछलता है और भुजा से तरंगिकाएँ (लहरें) फैलती हैं।", "hg": "Paani splash hota hai aur prong se ripples phailti hain."}, "The prongs vibrate to and fro very fast (512 times a second for this fork). The vibrating prong pushes the water — and the air around it. Sound is produced by vibrating objects.": {"hi": "भुजाएँ बहुत तेज़ी से इधर-उधर कंपन करती हैं (इस द्विभुज के लिए एक सेकंड में 512 बार)। कंपन करती भुजा जल को — और अपने आसपास की वायु को — धकेलती है। ध्वनि कंपन करती वस्तुओं द्वारा उत्पन्न होती है।", "hg": "Prongs bahut tezi se to and fro vibrate karte hain (is fork ke liye ek second mein 512 baar). Vibrate karta prong paani ko — aur apne aas-paas ki air ko — push karta hai. Sound vibrate karti objects se paida hoti hai."}, "Strike the fork again, then hold the prongs between your fingers.": {"hi": "द्विभुज को फिर से मारिए, फिर भुजाओं को अपनी उँगलियों के बीच पकड़िए।", "hg": "Fork ko phir se maaro, phir prongs ko apni ungliyon ke beech pakdo."}, "The sound stops at once.": {"hi": "ध्वनि तुरंत रुक जाती है।", "hg": "Sound turant ruk jaati hai."}, "When the prongs stop vibrating, no more sound is produced.": {"hi": "जब भुजाएँ कंपन करना बंद कर देती हैं, तो और ध्वनि उत्पन्न नहीं होती।", "hg": "Jab prongs vibrate karna band kar dete hain, to aur sound paida nahi hoti."}, "The struck tuning fork gave a steady hum; its prong made the water splash and ripple; when the prongs were held, the sound stopped.": {"hi": "मारे गए स्वरित्र द्विभुज से स्थिर गुंजन हुआ; उसकी भुजा से जल उछला और उसमें लहरें बनीं; भुजाओं को पकड़ने पर ध्वनि रुक गई।", "hg": "Strike kiye gaye tuning fork se steady hum hua; uske prong se paani splash hua aur ripples bani; prongs ko pakadne par sound ruk gayi."}, "Sound is produced by vibrating objects. The tuning fork vibrates 512 times a second.": {"hi": "ध्वनि कंपन करती वस्तुओं द्वारा उत्पन्न होती है। स्वरित्र द्विभुज एक सेकंड में 512 बार कंपन करता है।", "hg": "Sound vibrate karti objects se paida hoti hai. Tuning fork ek second mein 512 baar vibrate karta hai."}, "Strike the fork only on a rubber pad, never on a hard surface. Do not put the vibrating fork into your ear.": {"hi": "द्विभुज को केवल रबड़ के पैड पर मारिए, कभी किसी कठोर सतह पर नहीं। कंपन करते द्विभुज को अपने कान में मत डालिए।", "hg": "Fork ko sirf rubber pad par maaro, kabhi hard surface par nahi. Vibrate karte fork ko apne kaan mein mat daalo."}, "What is the frequency of a tuning fork?": {"hi": "स्वरित्र द्विभुज की आवृत्ति क्या है?", "hg": "Tuning fork ki frequency kya hai?"}, "The number of vibrations its prongs make in one second; it is marked on the fork.": {"hi": "उसकी भुजाओं द्वारा एक सेकंड में किए गए कंपनों की संख्या; यह द्विभुज पर अंकित होती है।", "hg": "Uske prongs dwara ek second mein kiye gaye vibrations ki sankhya; yeh fork par marked hoti hai."}, "Why is the fork struck on a rubber pad?": {"hi": "द्विभुज को रबड़ के पैड पर क्यों मारा जाता है?", "hg": "Fork ko rubber pad par kyon maara jaata hai?"}, "A hard surface can damage the fork and change its frequency; rubber also gives a pure tone.": {"hi": "कठोर सतह द्विभुज को क्षति पहुँचा सकती है और उसकी आवृत्ति बदल सकती है; रबड़ से शुद्ध स्वर भी प्राप्त होता है।", "hg": "Hard surface fork ko damage kar sakti hai aur uski frequency badal sakti hai; rubber se pure tone bhi milta hai."}, "What vibrates in our throat when we speak?": {"hi": "जब हम बोलते हैं तो हमारे गले में क्या कंपन करता है?", "hg": "Jab hum bolte hain to hamare gale mein kya vibrate karta hai?"}, "The vocal cords.": {"hi": "वाक्-तंतु (स्वर रज्जु)।", "hg": "Vocal cords."}, "Sound is produced by vibrating objects": {"hi": "ध्वनि कंपन करती वस्तुओं द्वारा उत्पन्न होती है", "hg": "Sound vibrate karti objects se paida hoti hai"}, "Sound needs a medium: bell in a bell jar": {"hi": "ध्वनि को माध्यम की आवश्यकता होती है: बेलजार में घंटी", "hg": "Sound ko medium chahiye: bell jar mein bell"}, "To show that sound needs a material medium to travel and cannot travel through a vacuum.": {"hi": "यह दर्शाना कि ध्वनि को संचरण के लिए द्रव्यात्मक माध्यम की आवश्यकता होती है और यह निर्वात में संचरित नहीं हो सकती।", "hg": "Dikhana ki sound ko travel karne ke liye material medium chahiye aur yeh vacuum mein travel nahi kar sakti."}, "Electric bell in a vacuum": {"hi": "निर्वात में विद्युत घंटी", "hg": "Vacuum mein electric bell"}, "Switch on the electric bell inside the bell jar.": {"hi": "बेलजार के अंदर रखी विद्युत घंटी का स्विच चालू कीजिए।", "hg": "Bell jar ke andar electric bell ka switch on karo."}, "The hammer strikes the gong again and again, and you hear the bell ringing loudly.": {"hi": "हथौड़ी बार-बार घंटे (गोंग) से टकराती है, और आपको घंटी के ज़ोर से बजने की आवाज़ सुनाई देती है।", "hg": "Hammer baar-baar gong par strike karta hai, aur aapko bell zor se bajti sunai deti hai."}, "Start the vacuum pump to pump the air out of the jar slowly. Keep listening.": {"hi": "जार से वायु को धीरे-धीरे बाहर निकालने के लिए निर्वात पंप चालू कीजिए। सुनते रहिए।", "hg": "Jar se air ko dheere-dheere bahar nikalne ke liye vacuum pump start karo. Sunte raho."}, "The sound becomes fainter and fainter, though you can still see the hammer striking the gong.": {"hi": "ध्वनि धीमी होती जाती है, यद्यपि आप अब भी हथौड़ी को घंटे से टकराते हुए देख सकते हैं।", "hg": "Sound dheemi aur dheemi hoti jaati hai, halaanki aap ab bhi hammer ko gong par strike karte dekh sakte ho."}, "Sound travels as vibrations of a medium. As the air is pumped out, less and less air is left to carry the vibrations from the bell to the glass and out to your ear.": {"hi": "ध्वनि माध्यम के कंपनों के रूप में संचरित होती है। जैसे-जैसे वायु बाहर निकाली जाती है, घंटी से काँच तक और बाहर आपके कान तक कंपनों को ले जाने के लिए कम से कम वायु बचती है।", "hg": "Sound medium ke vibrations ke roop mein travel karti hai. Jaise-jaise air pump out hoti hai, bell se glass tak aur bahar aapke kaan tak vibrations le jaane ke liye kam se kam air bachti hai."}, "Switch off the pump and open the valve to let the air back into the jar.": {"hi": "पंप बंद कीजिए और जार में वायु वापस आने देने के लिए वाल्व खोलिए।", "hg": "Pump switch off karo aur jar mein air wapas aane dene ke liye valve kholo."}, "As the air rushes back in, the sound of the bell becomes loud again.": {"hi": "जैसे ही वायु तेज़ी से वापस अंदर आती है, घंटी की ध्वनि फिर से तेज़ हो जाती है।", "hg": "Jaise hi air tezi se wapas andar aati hai, bell ki sound phir se loud ho jaati hai."}, "Switch off the bell.": {"hi": "घंटी का स्विच बंद कीजिए।", "hg": "Bell switch off karo."}, "The ringing stops.": {"hi": "घंटी बजना बंद हो जाती है।", "hg": "Ringing band ho jaati hai."}, "The bell rang loudly at first. As the air was pumped out the sound became very faint, even though the hammer kept striking. When air was let in again the sound became loud.": {"hi": "पहले घंटी ज़ोर से बजी। जैसे-जैसे वायु बाहर निकाली गई, ध्वनि बहुत धीमी हो गई, यद्यपि हथौड़ी टकराती रही। जब वायु फिर से अंदर आने दी गई, तो ध्वनि तेज़ हो गई।", "hg": "Pehle bell zor se baji. Jaise-jaise air pump out ki gayi, sound bahut dheemi ho gayi, halaanki hammer strike karta raha. Jab air phir se andar aane di gayi, to sound loud ho gayi."}, "Sound needs a material medium such as air to travel. It cannot travel through a vacuum.": {"hi": "ध्वनि को संचरण के लिए वायु जैसे द्रव्यात्मक माध्यम की आवश्यकता होती है। यह निर्वात में संचरित नहीं हो सकती।", "hg": "Sound ko travel karne ke liye air jaisa material medium chahiye. Yeh vacuum mein travel nahi kar sakti."}, "Handle the glass bell jar carefully. Let air into the jar slowly before lifting it.": {"hi": "काँच के बेलजार को सावधानी से सँभालिए। उसे उठाने से पहले जार में धीरे-धीरे वायु जाने दीजिए।", "hg": "Glass bell jar ko dhyan se handle karo. Use uthane se pehle jar mein dheere-dheere air jaane do."}, "Why can a faint sound still be heard when most of the air is pumped out?": {"hi": "अधिकांश वायु बाहर निकाल देने पर भी धीमी ध्वनि क्यों सुनाई देती है?", "hg": "Zyadatar air pump out karne ke baad bhi dheemi sound kyon sunai deti hai?"}, "Some air is left, and the sound also travels through the base plate and the bell’s supports.": {"hi": "कुछ वायु बची रहती है, और ध्वनि आधार-पट्टिका और घंटी के आधारों से होकर भी संचरित होती है।", "hg": "Kuch air bachi rehti hai, aur sound base plate aur bell ke supports se hokar bhi travel karti hai."}, "Can astronauts on the Moon talk to each other directly?": {"hi": "क्या चंद्रमा पर अंतरिक्ष यात्री एक-दूसरे से सीधे बात कर सकते हैं?", "hg": "Kya Moon par astronauts ek-doosre se seedhe baat kar sakte hain?"}, "No: there is no air on the Moon. They use radio, which does not need a medium.": {"hi": "नहीं: चंद्रमा पर वायु नहीं है। वे रेडियो का उपयोग करते हैं, जिसे माध्यम की आवश्यकता नहीं होती।", "hg": "Nahi: Moon par air nahi hai. Woh radio use karte hain, jise medium ki zaroorat nahi hoti."}, "Does sound travel through solids and liquids too?": {"hi": "क्या ध्वनि ठोसों और द्रवों में से होकर भी संचरित होती है?", "hg": "Kya sound solids aur liquids mein bhi travel karti hai?"}, "Yes, in fact faster than through air.": {"hi": "हाँ, वास्तव में वायु की तुलना में अधिक तेज़ी से।", "hg": "Haan, balki air se bhi zyada tez."}, "Sound needs a medium": {"hi": "ध्वनि को माध्यम की आवश्यकता होती है", "hg": "Sound ko medium chahiye"}, "A lever: lifting a stapler with erasers": {"hi": "उत्तोलक: रबड़ों से स्टेपलर उठाना", "hg": "Lever: erasers se stapler uthana"}, "To show how a lever lets a small effort lift a large load.": {"hi": "यह दर्शाना कि उत्तोलक किस प्रकार कम आयास से अधिक भार उठाने में सहायता करता है।", "hg": "Dikhana ki lever kaise chhote effort se bada load utha deta hai."}, "Simple machine: the lever": {"hi": "सरल मशीन: उत्तोलक", "hg": "Simple machine: lever"}, "Place the 30 cm scale on the round pencil so that the pencil is under the 7 cm mark (the fulcrum).": {"hi": "30 cm के पैमाने को गोल पेंसिल पर इस प्रकार रखिए कि पेंसिल 7 cm के निशान के नीचे हो (आलंब)।", "hg": "30 cm scale ko round pencil par aise rakho ki pencil 7 cm mark ke neeche ho (fulcrum)."}, "The longer side of the scale tips down and rests on the table.": {"hi": "पैमाने की लंबी ओर नीचे झुककर मेज़ पर टिक जाती है।", "hg": "Scale ki lambi side neeche jhuk kar table par tik jaati hai."}, "Put the stapler (150 g) across the short end of the scale, at the 2.5 cm mark.": {"hi": "स्टेपलर (150 g) को पैमाने के छोटे सिरे पर, 2.5 cm के निशान पर, आड़ा रखिए।", "hg": "Stapler (150 g) ko scale ke chhote end par, 2.5 cm mark par, aada rakho."}, "The stapler end goes down and the long end of the scale rises.": {"hi": "स्टेपलर वाला सिरा नीचे चला जाता है और पैमाने का लंबा सिरा ऊपर उठ जाता है।", "hg": "Stapler wala end neeche chala jaata hai aur scale ka lamba end upar uth jaata hai."}, "Put erasers (20 g each) one by one on the far end, at the 28 cm mark, until the stapler is lifted.": {"hi": "दूर वाले सिरे पर, 28 cm के निशान पर, रबड़ (प्रत्येक 20 g) एक-एक करके तब तक रखिए जब तक स्टेपलर ऊपर न उठ जाए।", "hg": "Door wale end par, 28 cm mark par, erasers (har ek 20 g) ek-ek karke tab tak rakho jab tak stapler upar na uth jaaye."}, "One eraser is not enough, but with the second eraser the scale tips over and the heavy stapler is lifted.": {"hi": "एक रबड़ पर्याप्त नहीं है, परंतु दूसरा रबड़ रखने पर पैमाना पलट जाता है और भारी स्टेपलर ऊपर उठ जाता है।", "hg": "Ek eraser kaafi nahi hai, lekin doosra eraser rakhne par scale palat jaata hai aur bhaari stapler upar uth jaata hai."}, "Compare the turning effects of the load and the effort about the fulcrum.": {"hi": "आलंब के परितः भार और आयास के घूर्णन प्रभावों की तुलना कीजिए।", "hg": "Fulcrum ke around load aur effort ke turning effects compare karo."}, "The load is heavy but close to the fulcrum; the effort is light but far from it. The effort side turns the scale more.": {"hi": "भार भारी है परंतु आलंब के पास है; आयास हल्का है परंतु उससे दूर है। आयास वाली ओर पैमाने को अधिक घुमाती है।", "hg": "Load bhaari hai lekin fulcrum ke paas hai; effort halka hai lekin usse door hai. Effort wali side scale ko zyada ghumati hai."}, "A lever turns about its fulcrum. Load × load arm = effort × effort arm at balance, so a long effort arm lets a small effort move a large load.": {"hi": "उत्तोलक अपने आलंब के परितः घूमता है। संतुलन पर भार × भार भुजा = आयास × आयास भुजा, अतः लंबी आयास भुजा होने पर कम आयास से अधिक भार हिलाया जा सकता है।", "hg": "Lever apne fulcrum ke around ghoomta hai. Balance par load × load arm = effort × effort arm, isliye lamba effort arm hone par chhota effort bade load ko hila sakta hai."}, "Two erasers (40 g) at 21 cm from the fulcrum lifted the stapler (150 g) placed 4.5 cm from it; one eraser could not.": {"hi": "आलंब से 21 cm दूर रखे दो रबड़ों (40 g) ने उससे 4.5 cm दूर रखे स्टेपलर (150 g) को उठा दिया; एक रबड़ ऐसा नहीं कर सका।", "hg": "Fulcrum se 21 cm door rakhe do erasers (40 g) ne usse 4.5 cm door rakhe stapler (150 g) ko utha diya; ek eraser aisa nahi kar paaya."}, "A lever can lift a heavy load with a small effort when the effort arm is much longer than the load arm.": {"hi": "जब आयास भुजा भार भुजा से बहुत लंबी होती है, तब उत्तोलक कम आयास से भारी भार उठा सकता है।", "hg": "Jab effort arm load arm se bahut lamba hota hai, tab lever chhote effort se bhaari load utha sakta hai."}, "Place things gently on the scale so that they do not slide off.": {"hi": "वस्तुओं को पैमाने पर धीरे-से रखिए ताकि वे फिसलकर गिरें नहीं।", "hg": "Cheezon ko scale par dheere se rakho taaki woh slide hokar gire nahi."}, "Name the three parts of a lever.": {"hi": "उत्तोलक के तीन भागों के नाम बताइए।", "hg": "Lever ke teen parts ke naam batao."}, "The fulcrum, the load and the effort.": {"hi": "आलंब, भार और आयास।", "hg": "Fulcrum, load aur effort."}, "Give two examples of levers used at home.": {"hi": "घर में उपयोग होने वाले उत्तोलकों के दो उदाहरण दीजिए।", "hg": "Ghar mein use hone wale levers ke do examples do."}, "A see-saw, scissors, a bottle opener, a nutcracker.": {"hi": "सी-सॉ, कैंची, बोतल ओपनर, सरौता।", "hg": "See-saw, scissors, bottle opener, nutcracker."}, "How can you lift the stapler with only one eraser?": {"hi": "केवल एक रबड़ से आप स्टेपलर को कैसे उठा सकते हैं?", "hg": "Sirf ek eraser se aap stapler ko kaise utha sakte ho?"}, "Move the pencil (fulcrum) closer to the stapler, so the load arm is shorter and the effort arm longer.": {"hi": "पेंसिल (आलंब) को स्टेपलर के और पास ले जाइए, जिससे भार भुजा छोटी और आयास भुजा लंबी हो जाए।", "hg": "Pencil (fulcrum) ko stapler ke aur paas le jao, taaki load arm chhota aur effort arm lamba ho jaaye."}, "Principle of the lever": {"hi": "उत्तोलक का सिद्धांत", "hg": "Lever ka principle"}, "Time for 20 oscillations": {"hi": "20 दोलनों का समय", "hg": "20 oscillations ka time"}, "Time period": {"hi": "आवर्तकाल", "hg": "Time period"}, "Weight in air": {"hi": "वायु में भार", "hg": "Air mein weight"}, "Weight in water": {"hi": "जल में भार", "hg": "Paani mein weight"}, "Water collected": {"hi": "एकत्रित जल", "hg": "Collect hua paani"}, "Loss in weight": {"hi": "भार में कमी", "hg": "Weight mein kami"}, "Weight of water displaced": {"hi": "विस्थापित जल का भार", "hg": "Displaced water ka weight"}, "Mass": {"hi": "द्रव्यमान", "hg": "Mass"}, "Pressure in the jar": {"hi": "जार में दाब", "hg": "Jar mein pressure"}, "1 eraser: the stapler stays down": {"hi": "1 रबड़: स्टेपलर नीचे ही रहता है", "hg": "1 eraser: stapler neeche hi rehta hai"}, "2 erasers: the stapler is lifted!": {"hi": "2 रबड़: स्टेपलर ऊपर उठ गया!", "hg": "2 erasers: stapler upar uth gaya!"}, "Load": {"hi": "भार", "hg": "Load"}, "Effort": {"hi": "आयास", "hg": "Effort"}, "Length": {"hi": "लंबाई", "hg": "Length"}, "Amplitude": {"hi": "आयाम", "hg": "Amplitude"}, "Bob": {"hi": "गोलक", "hg": "Bob"}, "Spring balance": {"hi": "कमानीदार तुला", "hg": "Spring balance"}, "Measuring cylinder": {"hi": "मापक सिलिंडर", "hg": "Measuring cylinder"}, "Fulcrum": {"hi": "आलंब", "hg": "Fulcrum"}, "Friction on different surfaces": {"hi": "विभिन्न सतहों पर घर्षण", "hg": "Alag-alag surfaces par friction"}, "To study how the force of friction depends on the nature of the surfaces and on how hard they are pressed together.": {"hi": "यह अध्ययन करना कि घर्षण बल सतहों की प्रकृति पर और उन्हें कितने ज़ोर से एक-दूसरे पर दबाया गया है, इस पर कैसे निर्भर करता है।", "hg": "Study karna ki friction force surfaces ki nature par aur unhe kitne zor se ek-doosre par dabaya gaya hai, us par kaise depend karta hai."}, "Limiting friction with a spring balance": {"hi": "कमानीदार तुला द्वारा सीमांत घर्षण", "hg": "Spring balance se limiting friction"}, "The wooden block (400 g) lies on the wooden board, hooked to a spring balance held flat along the board.": {"hi": "लकड़ी का गुटका (400 g) लकड़ी के तख़्ते पर रखा है, और तख़्ते के अनुदिश समतल पकड़ी गई कमानीदार तुला से जुड़ा है।", "hg": "Wooden block (400 g) wooden board par rakha hai, aur board ke along flat pakde gaye spring balance se hooked hai."}, "The spring balance reads zero: nothing pulls the block yet.": {"hi": "कमानीदार तुला का पाठ्यांक शून्य है: अभी गुटके को कोई नहीं खींच रहा।", "hg": "Spring balance ki reading zero hai: abhi block ko kuch bhi pull nahi kar raha."}, "Pull the ring of the spring balance slowly. Note the reading just when the block starts to move, and the reading while it slides steadily.": {"hi": "कमानीदार तुला के छल्ले को धीरे-धीरे खींचिए। ठीक उस समय का पाठ्यांक नोट कीजिए जब गुटका चलना आरंभ करता है, और वह पाठ्यांक भी जब वह एकसमान रूप से सरकता है।", "hg": "Spring balance ki ring ko dheere-dheere kheencho. Theek us waqt ki reading note karo jab block move karna start karta hai, aur woh reading bhi jab woh steadily slide karta hai."}, "The reading rises to about 1.65 N before the block moves; while it slides the reading is a little less, about 1.35 N.": {"hi": "गुटके के चलने से पहले पाठ्यांक बढ़कर लगभग 1.65 N हो जाता है; सरकते समय पाठ्यांक थोड़ा कम, लगभग 1.35 N होता है।", "hg": "Block ke move karne se pehle reading badhkar lagbhag 1.65 N ho jaati hai; slide karte waqt reading thodi kam, lagbhag 1.35 N hoti hai."}, "Friction opposes the pull. It grows with the pull until a limit (limiting friction); once sliding, friction is a little smaller.": {"hi": "घर्षण खिंचाव का विरोध करता है। यह खिंचाव के साथ एक सीमा तक बढ़ता है (सीमांत घर्षण); सरकना आरंभ होने पर घर्षण थोड़ा कम हो जाता है।", "hg": "Friction pull ko oppose karta hai. Yeh pull ke saath ek limit tak badhta hai (limiting friction); slide shuru hone par friction thoda kam ho jaata hai."}, "Put the 200 g mass on the block and pull again.": {"hi": "गुटके पर 200 g का बाट रखिए और फिर से खींचिए।", "hg": "Block par 200 g ka mass rakho aur phir se kheencho."}, "Now the block starts to move only at about 2.45 N: the heavier block, pressed harder on the board, has more friction.": {"hi": "अब गुटका लगभग 2.45 N पर ही चलना आरंभ करता है: भारी गुटका, जो तख़्ते पर अधिक ज़ोर से दबा है, अधिक घर्षण अनुभव करता है।", "hg": "Ab block lagbhag 2.45 N par hi move karna start karta hai: bhaari block, jo board par zyada zor se daba hai, uspar zyada friction hota hai."}, "Move the block to the glass sheet and then to the sandpaper, and pull it each time.": {"hi": "गुटके को काँच की शीट पर और फिर रेगमाल पर ले जाइए, और हर बार उसे खींचिए।", "hg": "Block ko glass sheet par aur phir sandpaper par le jao, aur har baar use kheencho."}, "On smooth glass the block moves at only about 0.95 N; on rough sandpaper it needs about 2.8 N.": {"hi": "चिकने काँच पर गुटका केवल लगभग 0.95 N पर चल पड़ता है; खुरदरे रेगमाल पर इसे लगभग 2.8 N की आवश्यकता होती है।", "hg": "Smooth glass par block sirf lagbhag 0.95 N par move karta hai; rough sandpaper par ise lagbhag 2.8 N chahiye."}, "Compare all the readings.": {"hi": "सभी पाठ्यांकों की तुलना कीजिए।", "hg": "Saari readings compare karo."}, "Friction is least on the smooth glass and most on the rough sandpaper, and it increases when the block is pressed harder against the surface.": {"hi": "घर्षण चिकने काँच पर सबसे कम और खुरदरे रेगमाल पर सबसे अधिक होता है, और जब गुटके को सतह पर अधिक ज़ोर से दबाया जाता है तो यह बढ़ जाता है।", "hg": "Friction smooth glass par sabse kam aur rough sandpaper par sabse zyada hota hai, aur jab block ko surface par zyada zor se dabaya jaata hai to yeh badh jaata hai."}, "Friction comes from the tiny bumps of the two surfaces locking into each other. Rougher surfaces and a larger force pressing them together give more friction.": {"hi": "घर्षण दोनों सतहों के सूक्ष्म उभारों के एक-दूसरे में फँसने से उत्पन्न होता है। अधिक खुरदरी सतहें और उन्हें एक-दूसरे पर दबाने वाला अधिक बल, अधिक घर्षण उत्पन्न करते हैं।", "hg": "Friction dono surfaces ke chhote-chhote bumps ke ek-doosre mein phansne se aata hai. Zyada rough surfaces aur unhe ek saath dabane wala zyada force, zyada friction dete hain."}, "Block on wood: 1.65 N (sliding 1.35 N); with 200 g more: 2.45 N; on glass: 0.95 N; on sandpaper: 2.8 N.": {"hi": "लकड़ी पर गुटका: 1.65 N (सरकते समय 1.35 N); 200 g अधिक के साथ: 2.45 N; काँच पर: 0.95 N; रेगमाल पर: 2.8 N।", "hg": "Wood par block: 1.65 N (sliding 1.35 N); 200 g aur ke saath: 2.45 N; glass par: 0.95 N; sandpaper par: 2.8 N."}, "The force of friction depends on the nature of the surfaces in contact and increases with the force pressing them together. Static (limiting) friction is a little more than sliding friction.": {"hi": "घर्षण बल संपर्क में आने वाली सतहों की प्रकृति पर निर्भर करता है और उन्हें एक-दूसरे पर दबाने वाले बल के साथ बढ़ता है। स्थैतिक (सीमांत) घर्षण सर्पी घर्षण से थोड़ा अधिक होता है।", "hg": "Friction force contact wali surfaces ki nature par depend karta hai aur unhe ek saath dabane wale force ke saath badhta hai. Static (limiting) friction sliding friction se thoda zyada hota hai."}, "Pull the spring balance slowly and keep it parallel to the board.": {"hi": "कमानीदार तुला को धीरे-धीरे खींचिए और उसे तख़्ते के समांतर रखिए।", "hg": "Spring balance ko dheere-dheere kheencho aur use board ke parallel rakho."}, "Why is it harder to start pushing a heavy box than to keep it moving?": {"hi": "किसी भारी बक्से को चलाते रहने की तुलना में उसे धकेलना आरंभ करना अधिक कठिन क्यों होता है?", "hg": "Kisi bhaari box ko chalate rehne ke mukable use push karna start karna zyada mushkil kyon hota hai?"}, "Static friction is greater than sliding friction.": {"hi": "स्थैतिक घर्षण सर्पी घर्षण से अधिक होता है।", "hg": "Static friction sliding friction se zyada hota hai."}, "Name two ways of reducing friction.": {"hi": "घर्षण कम करने के दो उपाय बताइए।", "hg": "Friction kam karne ke do tareeke batao."}, "Using lubricants (oil, grease) and using wheels or ball bearings; polishing the surfaces.": {"hi": "स्नेहकों (तेल, ग्रीज़) का उपयोग और पहियों या बॉल बेयरिंग का उपयोग; सतहों को पॉलिश करना।", "hg": "Lubricants (oil, grease) use karna aur wheels ya ball bearings use karna; surfaces ko polish karna."}, "Why do shoes have grooved soles?": {"hi": "जूतों के तलों में खाँचे क्यों होते हैं?", "hg": "Shoes ke soles mein grooves kyon hote hain?"}, "To increase friction so that we do not slip.": {"hi": "घर्षण बढ़ाने के लिए, ताकि हम फिसलें नहीं।", "hg": "Friction badhane ke liye, taaki hum slip na karein."}, "Limiting friction": {"hi": "सीमांत घर्षण", "hg": "Limiting friction"}, "Action and reaction with two spring balances": {"hi": "दो कमानीदार तुलाओं द्वारा क्रिया और प्रतिक्रिया", "hg": "Do spring balances se action aur reaction"}, "To show that when two bodies pull on each other, the forces are equal and opposite.": {"hi": "यह दर्शाना कि जब दो वस्तुएँ एक-दूसरे को खींचती हैं, तो बल बराबर और विपरीत होते हैं।", "hg": "Dikhana ki jab do bodies ek-doosre ko pull karti hain, to forces equal aur opposite hote hain."}, "Newton's third law": {"hi": "न्यूटन का तीसरा नियम", "hg": "Newton's third law"}, "Hook two identical spring balances to each other. The ring of A is held by a fixed hook; you hold the ring of B.": {"hi": "दो एकसमान कमानीदार तुलाओं को एक-दूसरे से जोड़िए। A का छल्ला एक स्थिर हुक से पकड़ा गया है; B का छल्ला आप पकड़िए।", "hg": "Do identical spring balances ko ek-doosre se hook karo. A ki ring ek fixed hook se pakdi hui hai; B ki ring aap pakdo."}, "Both balances read zero.": {"hi": "दोनों तुलाओं का पाठ्यांक शून्य है।", "hg": "Dono balances ki reading zero hai."}, "Pull B gently and note the readings of both balances.": {"hi": "B को धीरे-से खींचिए और दोनों तुलाओं के पाठ्यांक नोट कीजिए।", "hg": "B ko dheere se kheencho aur dono balances ki readings note karo."}, "Both balances read 2.0 N.": {"hi": "दोनों तुलाओं का पाठ्यांक 2.0 N है।", "hg": "Dono balances ki reading 2.0 N hai."}, "Pull B harder and read both balances again.": {"hi": "B को और ज़ोर से खींचिए और दोनों तुलाओं को फिर से पढ़िए।", "hg": "B ko aur zor se kheencho aur dono balances ko phir se padho."}, "Both read 3.5 N. However hard you pull, the two readings are always equal.": {"hi": "दोनों का पाठ्यांक 3.5 N है। आप कितने भी ज़ोर से खींचें, दोनों पाठ्यांक सदैव बराबर रहते हैं।", "hg": "Dono ki reading 3.5 N hai. Aap kitna bhi zor se kheencho, dono readings hamesha equal rehti hain."}, "B pulls on A (action) and A pulls back on B (reaction). The two forces are always equal in size and opposite in direction, and they act on different bodies.": {"hi": "B, A को खींचता है (क्रिया) और A, B को वापस खींचता है (प्रतिक्रिया)। दोनों बल सदैव परिमाण में बराबर और दिशा में विपरीत होते हैं, और ये भिन्न-भिन्न वस्तुओं पर कार्य करते हैं।", "hg": "B, A ko pull karta hai (action) aur A, B ko wapas pull karta hai (reaction). Dono forces hamesha size mein equal aur direction mein opposite hote hain, aur yeh alag-alag bodies par act karte hain."}, "The two spring balances always showed the same reading (2.0 N, then 3.5 N), though the forces act in opposite directions.": {"hi": "दोनों कमानीदार तुलाओं ने सदैव समान पाठ्यांक दर्शाया (2.0 N, फिर 3.5 N), यद्यपि बल विपरीत दिशाओं में कार्य करते हैं।", "hg": "Dono spring balances ne hamesha same reading dikhayi (2.0 N, phir 3.5 N), halaanki forces opposite directions mein act karte hain."}, "To every action there is an equal and opposite reaction. The two forces act on two different bodies.": {"hi": "प्रत्येक क्रिया की सदैव बराबर और विपरीत प्रतिक्रिया होती है। दोनों बल दो भिन्न वस्तुओं पर कार्य करते हैं।", "hg": "Har action ka ek equal aur opposite reaction hota hai. Dono forces do alag bodies par act karte hain."}, "Do not pull beyond the range of the spring balances (5 N).": {"hi": "कमानीदार तुलाओं की परास (5 N) से अधिक मत खींचिए।", "hg": "Spring balances ki range (5 N) se zyada mat kheencho."}, "Do action and reaction cancel each other?": {"hi": "क्या क्रिया और प्रतिक्रिया एक-दूसरे को निरस्त कर देती हैं?", "hg": "Kya action aur reaction ek-doosre ko cancel karte hain?"}, "No, they act on different bodies.": {"hi": "नहीं, वे भिन्न-भिन्न वस्तुओं पर कार्य करती हैं।", "hg": "Nahi, woh alag-alag bodies par act karte hain."}, "Why does a gun recoil when fired?": {"hi": "गोली चलाने पर बंदूक पीछे की ओर धक्का (प्रतिक्षेप) क्यों देती है?", "hg": "Fire karne par gun recoil kyon karti hai?"}, "The gun pushes the bullet forward; the bullet pushes the gun back with an equal force.": {"hi": "बंदूक गोली को आगे धकेलती है; गोली बंदूक को उतने ही बल से पीछे धकेलती है।", "hg": "Gun bullet ko aage push karti hai; bullet gun ko utne hi force se peeche push karti hai."}, "How does a swimmer move forward?": {"hi": "तैराक आगे कैसे बढ़ता है?", "hg": "Swimmer aage kaise badhta hai?"}, "The swimmer pushes the water backwards; the water pushes the swimmer forwards.": {"hi": "तैराक जल को पीछे की ओर धकेलता है; जल तैराक को आगे की ओर धकेलता है।", "hg": "Swimmer paani ko peeche ki taraf push karta hai; paani swimmer ko aage ki taraf push karta hai."}, "Newton's third law of motion": {"hi": "न्यूटन का गति का तीसरा नियम", "hg": "Newton's third law of motion"}, "Balloon rocket": {"hi": "गुब्बारा रॉकेट", "hg": "Balloon rocket"}, "To show action and reaction with a balloon that moves along a thread.": {"hi": "धागे के अनुदिश चलने वाले गुब्बारे द्वारा क्रिया और प्रतिक्रिया दर्शाना।", "hg": "Thread ke along chalne wale balloon se action aur reaction dikhana."}, "Action and reaction: rocket propulsion": {"hi": "क्रिया और प्रतिक्रिया: रॉकेट प्रणोदन", "hg": "Action aur reaction: rocket propulsion"}, "A drinking straw is threaded on a long thread stretched between two stands, and a balloon is taped below it. Blow up the balloon and hold its neck closed.": {"hi": "दो स्टैंडों के बीच तने एक लंबे धागे में एक पीने वाली स्ट्रॉ पिरोई गई है, और उसके नीचे एक गुब्बारा टेप से चिपकाया गया है। गुब्बारे को फुलाइए और उसका मुँह बंद पकड़े रखिए।", "hg": "Do stands ke beech tane ek lambe thread mein ek drinking straw piroyi gayi hai, aur uske neeche ek balloon tape se chipkaya gaya hai. Balloon ko phulao aur uski neck band pakde rakho."}, "The balloon is full of air, its open neck pointing backwards.": {"hi": "गुब्बारा वायु से भरा है, और उसका खुला मुँह पीछे की ओर है।", "hg": "Balloon air se bhara hai, aur uski open neck peeche ki taraf hai."}, "Let go of the neck.": {"hi": "मुँह को छोड़ दीजिए।", "hg": "Neck chhod do."}, "Air rushes out backwards, and the balloon shoots forwards along the thread.": {"hi": "वायु तेज़ी से पीछे की ओर निकलती है, और गुब्बारा धागे के अनुदिश तेज़ी से आगे बढ़ता है।", "hg": "Air tezi se peeche ki taraf nikalti hai, aur balloon thread ke along tezi se aage bhaagta hai."}, "The balloon pushes the air out backwards (action); the air pushes the balloon forwards (reaction). Rockets and jet engines work the same way.": {"hi": "गुब्बारा वायु को पीछे की ओर बाहर धकेलता है (क्रिया); वायु गुब्बारे को आगे की ओर धकेलती है (प्रतिक्रिया)। रॉकेट और जेट इंजन भी इसी प्रकार कार्य करते हैं।", "hg": "Balloon air ko peeche ki taraf bahar push karta hai (action); air balloon ko aage ki taraf push karti hai (reaction). Rockets aur jet engines bhi isi tarah kaam karte hain."}, "When the neck was released, the air rushed out backwards and the balloon moved forwards along the thread until the air was used up.": {"hi": "मुँह छोड़ने पर वायु तेज़ी से पीछे की ओर निकली और गुब्बारा धागे के अनुदिश तब तक आगे बढ़ता रहा जब तक वायु समाप्त नहीं हो गई।", "hg": "Neck chhodne par air tezi se peeche ki taraf nikli aur balloon thread ke along tab tak aage badhta raha jab tak air khatam nahi ho gayi."}, "The force that pushes the air out of the balloon is matched by an equal and opposite force on the balloon: action and reaction.": {"hi": "गुब्बारे से वायु को बाहर धकेलने वाले बल के बराबर और विपरीत एक बल गुब्बारे पर लगता है: क्रिया और प्रतिक्रिया।", "hg": "Balloon se air ko bahar push karne wale force ke barabar aur opposite ek force balloon par lagta hai: action aur reaction."}, "Do not overblow the balloon. Keep the path along the thread clear.": {"hi": "गुब्बारे को अधिक मत फुलाइए। धागे के अनुदिश मार्ग को खाली रखिए।", "hg": "Balloon ko zyada mat phulao. Thread ke along raasta khaali rakho."}, "Which way does the balloon move compared with the escaping air?": {"hi": "निकलती हुई वायु की तुलना में गुब्बारा किस दिशा में चलता है?", "hg": "Nikalti hui air ke mukable balloon kis direction mein chalta hai?"}, "In the opposite direction.": {"hi": "विपरीत दिशा में।", "hg": "Opposite direction mein."}, "Why does the balloon stop?": {"hi": "गुब्बारा क्यों रुक जाता है?", "hg": "Balloon kyon ruk jaata hai?"}, "The air runs out, and friction and air resistance slow it down.": {"hi": "वायु समाप्त हो जाती है, और घर्षण तथा वायु प्रतिरोध उसे धीमा कर देते हैं।", "hg": "Air khatam ho jaati hai, aur friction aur air resistance use slow kar dete hain."}, "Can a rocket work in space where there is no air?": {"hi": "क्या रॉकेट अंतरिक्ष में कार्य कर सकता है जहाँ वायु नहीं है?", "hg": "Kya rocket space mein kaam kar sakta hai jahan air nahi hai?"}, "Yes: it pushes its own exhaust gases out; it does not need air to push against.": {"hi": "हाँ: यह अपनी स्वयं की निकास गैसों को बाहर धकेलता है; इसे धकेलने के लिए वायु की आवश्यकता नहीं होती।", "hg": "Haan: yeh apni khud ki exhaust gases ko bahar push karta hai; ise push karne ke liye air ki zaroorat nahi hoti."}, "Action and reaction": {"hi": "क्रिया और प्रतिक्रिया", "hg": "Action aur reaction"}, "Potential energy: a ball dropped into sand": {"hi": "स्थितिज ऊर्जा: रेत में गिराई गई गेंद", "hg": "Potential energy: sand mein giraayi gayi ball"}, "To show that an object raised higher has more potential energy, by dropping a ball into sand from different heights.": {"hi": "विभिन्न ऊँचाइयों से रेत में गेंद गिराकर यह दर्शाना कि अधिक ऊँचाई तक उठाई गई वस्तु में अधिक स्थितिज ऊर्जा होती है।", "hg": "Alag-alag heights se sand mein ball giraakar dikhana ki zyada upar uthaayi gayi object mein zyada potential energy hoti hai."}, "Potential energy and height": {"hi": "स्थितिज ऊर्जा और ऊँचाई", "hg": "Potential energy aur height"}, "Smooth the sand in the tray. Hold the heavy ball 25 cm above the sand and let it fall.": {"hi": "ट्रे में रेत को समतल कीजिए। भारी गेंद को रेत से 25 cm ऊपर पकड़िए और उसे गिरने दीजिए।", "hg": "Tray mein sand ko smooth karo. Heavy ball ko sand se 25 cm upar pakdo aur use girne do."}, "The ball makes a small dent in the sand.": {"hi": "गेंद रेत में एक छोटा गड्ढा बनाती है।", "hg": "Ball sand mein ek chhota dent banati hai."}, "Drop it from 50 cm at another place.": {"hi": "इसे किसी दूसरे स्थान पर 50 cm से गिराइए।", "hg": "Ise kisi doosri jagah par 50 cm se girao."}, "The dent is deeper.": {"hi": "गड्ढा अधिक गहरा है।", "hg": "Dent zyada gehra hai."}, "Now drop it from 1 m at a third place.": {"hi": "अब इसे तीसरे स्थान पर 1 m से गिराइए।", "hg": "Ab ise teesri jagah par 1 m se girao."}, "The dent is the deepest of the three.": {"hi": "यह गड्ढा तीनों में सबसे गहरा है।", "hg": "Yeh dent teeno mein sabse gehra hai."}, "Measure the depth of each dent with the scale.": {"hi": "पैमाने से प्रत्येक गड्ढे की गहराई मापिए।", "hg": "Scale se har dent ki depth naapo."}, "Depths: about 0.8 cm (25 cm), 1.1 cm (50 cm) and 1.5 cm (1 m).": {"hi": "गहराइयाँ: लगभग 0.8 cm (25 cm), 1.1 cm (50 cm) और 1.5 cm (1 m)।", "hg": "Depths: lagbhag 0.8 cm (25 cm), 1.1 cm (50 cm) aur 1.5 cm (1 m)."}, "Raised higher, the ball has more potential energy (mgh). As it falls this becomes kinetic energy, which does more work on the sand.": {"hi": "अधिक ऊँचाई तक उठाने पर गेंद में अधिक स्थितिज ऊर्जा (mgh) होती है। गिरते समय यह गतिज ऊर्जा में बदल जाती है, जो रेत पर अधिक कार्य करती है।", "hg": "Zyada upar uthane par ball mein zyada potential energy (mgh) hoti hai. Girte waqt yeh kinetic energy ban jaati hai, jo sand par zyada work karti hai."}, "The higher the ball was dropped from, the deeper the dent it made in the sand (0.8 cm, 1.1 cm, 1.5 cm for 25 cm, 50 cm, 1 m).": {"hi": "गेंद को जितनी अधिक ऊँचाई से गिराया गया, उसने रेत में उतना ही गहरा गड्ढा बनाया (25 cm, 50 cm, 1 m के लिए 0.8 cm, 1.1 cm, 1.5 cm)।", "hg": "Ball ko jitni zyada height se giraaya gaya, usne sand mein utna hi gehra dent banaya (25 cm, 50 cm, 1 m ke liye 0.8 cm, 1.1 cm, 1.5 cm)."}, "An object raised to a greater height has more potential energy, so it can do more work when it falls.": {"hi": "अधिक ऊँचाई तक उठाई गई वस्तु में अधिक स्थितिज ऊर्जा होती है, अतः गिरने पर वह अधिक कार्य कर सकती है।", "hg": "Zyada height tak uthaayi gayi object mein zyada potential energy hoti hai, isliye girne par woh zyada work kar sakti hai."}, "Keep your feet and hands away from where the ball falls.": {"hi": "जहाँ गेंद गिरती है, वहाँ से अपने हाथ और पैर दूर रखिए।", "hg": "Jahan ball girti hai, wahan se apne haath aur pair door rakho."}, "What is the potential energy of the 0.5 kg ball at 1 m?": {"hi": "1 m की ऊँचाई पर 0.5 kg की गेंद की स्थितिज ऊर्जा कितनी है?", "hg": "1 m par 0.5 kg ball ki potential energy kitni hai?"}, "mgh = 0.5 × 9.8 × 1 = 4.9 J.": {"hi": "mgh = 0.5 × 9.8 × 1 = 4.9 J।", "hg": "mgh = 0.5 × 9.8 × 1 = 4.9 J."}, "What happens to the potential energy as the ball falls?": {"hi": "गेंद के गिरते समय स्थितिज ऊर्जा का क्या होता है?", "hg": "Ball ke girte waqt potential energy ka kya hota hai?"}, "It changes into kinetic energy.": {"hi": "यह गतिज ऊर्जा में बदल जाती है।", "hg": "Yeh kinetic energy mein badal jaati hai."}, "Where does the energy go when the ball stops in the sand?": {"hi": "जब गेंद रेत में रुक जाती है तो ऊर्जा कहाँ जाती है?", "hg": "Jab ball sand mein ruk jaati hai to energy kahan jaati hai?"}, "Into moving the sand (work) and into heat and sound.": {"hi": "रेत को हटाने (कार्य) में और ऊष्मा तथा ध्वनि में।", "hg": "Sand ko hatane (work) mein aur heat aur sound mein."}, "Gravitational potential energy": {"hi": "गुरुत्वीय स्थितिज ऊर्जा", "hg": "Gravitational potential energy"}, "Inclined plane: less force, more distance": {"hi": "आनत तल: कम बल, अधिक दूरी", "hg": "Inclined plane: kam force, zyada distance"}, "To compare the force and the work needed to raise a cart straight up and along an inclined plane.": {"hi": "किसी गाड़ी (कार्ट) को सीधे ऊपर उठाने और आनत तल के अनुदिश ऊपर ले जाने में आवश्यक बल और कार्य की तुलना करना।", "hg": "Cart ko seedha upar uthane aur inclined plane ke along upar le jaane mein lagne wale force aur work ko compare karna."}, "Simple machine: the inclined plane": {"hi": "सरल मशीन: आनत तल", "hg": "Simple machine: inclined plane"}, "Hook the cart to the spring balance and lift it slowly straight up by 40 cm, the height of the top of the plank.": {"hi": "गाड़ी को कमानीदार तुला से जोड़िए और उसे धीरे-धीरे सीधे 40 cm ऊपर उठाइए, जो तख़्ते के ऊपरी सिरे की ऊँचाई है।", "hg": "Cart ko spring balance se hook karo aur use dheere-dheere seedha 40 cm upar uthao, jo plank ke top ki height hai."}, "Lifting the cart (500 g) straight up needs a force of about 4.9 N.": {"hi": "गाड़ी (500 g) को सीधे ऊपर उठाने के लिए लगभग 4.9 N बल की आवश्यकता होती है।", "hg": "Cart (500 g) ko seedha upar uthane ke liye lagbhag 4.9 N force chahiye."}, "Now put the cart at the bottom of the plank and pull it slowly up along the plank with the spring balance held parallel to the plank.": {"hi": "अब गाड़ी को तख़्ते के निचले सिरे पर रखिए और कमानीदार तुला को तख़्ते के समांतर पकड़कर उसे तख़्ते के अनुदिश धीरे-धीरे ऊपर खींचिए।", "hg": "Ab cart ko plank ke bottom par rakho aur spring balance ko plank ke parallel pakadkar use plank ke along dheere-dheere upar kheencho."}, "Along the plank the spring balance reads only about 2.5 N, but the cart has to be pulled through 80 cm instead of 40 cm.": {"hi": "तख़्ते के अनुदिश कमानीदार तुला का पाठ्यांक केवल लगभग 2.5 N है, परंतु गाड़ी को 40 cm के बजाय 80 cm तक खींचना पड़ता है।", "hg": "Plank ke along spring balance ki reading sirf lagbhag 2.5 N hai, lekin cart ko 40 cm ki jagah 80 cm tak kheenchna padta hai."}, "Compare the work done in the two cases.": {"hi": "दोनों स्थितियों में किए गए कार्य की तुलना कीजिए।", "hg": "Dono cases mein kiye gaye work ko compare karo."}, "The work done is about the same (about 2 J) both ways, but the force needed along the plank is only half.": {"hi": "दोनों प्रकार से किया गया कार्य लगभग समान (लगभग 2 J) है, परंतु तख़्ते के अनुदिश आवश्यक बल केवल आधा है।", "hg": "Dono tarah se kiya gaya work lagbhag same (lagbhag 2 J) hai, lekin plank ke along lagne wala force sirf aadha hai."}, "An inclined plane is a simple machine: it lets us use a smaller force over a longer distance. It does not reduce the work (it adds a little, to overcome friction).": {"hi": "आनत तल एक सरल मशीन है: इससे हम अधिक दूरी पर कम बल लगा सकते हैं। यह कार्य को कम नहीं करता (घर्षण पर विजय पाने के लिए यह कार्य को थोड़ा बढ़ा देता है)।", "hg": "Inclined plane ek simple machine hai: isse hum lambi distance par chhota force laga sakte hain. Yeh work ko kam nahi karta (friction ko overcome karne ke liye thoda work badh jaata hai)."}, "Lifting straight up through 40 cm needed 4.9 N; pulling along the 80 cm plank needed about 2.5 N. The work done was about 2 J both ways.": {"hi": "सीधे 40 cm ऊपर उठाने में 4.9 N लगा; 80 cm लंबे तख़्ते के अनुदिश खींचने में लगभग 2.5 N लगा। दोनों प्रकार से किया गया कार्य लगभग 2 J था।", "hg": "Seedha 40 cm upar uthane mein 4.9 N laga; 80 cm plank ke along kheenchne mein lagbhag 2.5 N laga. Dono tarah se kiya gaya work lagbhag 2 J tha."}, "An inclined plane reduces the force needed to raise a load, but the load has to be moved through a longer distance; the work done stays about the same.": {"hi": "आनत तल किसी भार को उठाने के लिए आवश्यक बल को कम कर देता है, परंतु भार को अधिक दूरी तक ले जाना पड़ता है; किया गया कार्य लगभग समान रहता है।", "hg": "Inclined plane load uthane ke liye lagne wale force ko kam kar deta hai, lekin load ko zyada distance tak le jaana padta hai; kiya gaya work lagbhag same rehta hai."}, "Make sure the plank is firmly held on the books so that it does not slip.": {"hi": "सुनिश्चित कीजिए कि तख़्ता किताबों पर मज़बूती से टिका हो ताकि वह फिसले नहीं।", "hg": "Dhyan rakho ki plank books par mazbooti se tika ho taaki woh slip na kare."}, "Give two examples of inclined planes.": {"hi": "आनत तलों के दो उदाहरण दीजिए।", "hg": "Inclined planes ke do examples do."}, "A ramp for loading trucks, a slope for wheelchairs, a mountain road, a staircase.": {"hi": "ट्रकों में माल चढ़ाने का रैंप, व्हीलचेयर के लिए ढलान, पहाड़ी सड़क, सीढ़ियाँ।", "hg": "Trucks load karne ka ramp, wheelchairs ke liye slope, pahadi road, staircase."}, "How would the force change if the plank were longer, for the same height?": {"hi": "समान ऊँचाई के लिए, यदि तख़्ता अधिक लंबा हो तो बल में क्या परिवर्तन होगा?", "hg": "Same height ke liye, agar plank zyada lamba ho to force kaise badlega?"}, "The force would be smaller (the slope is gentler).": {"hi": "बल कम होगा (ढलान कम खड़ी होगी)।", "hg": "Force kam hoga (slope kam steep hoga)."}, "What is the SI unit of work?": {"hi": "कार्य का SI मात्रक क्या है?", "hg": "Work ka SI unit kya hai?"}, "The joule (1 J = 1 N × 1 m).": {"hi": "जूल (1 J = 1 N × 1 m)।", "hg": "Joule (1 J = 1 N × 1 m)."}, "Work = force × distance": {"hi": "कार्य = बल × दूरी", "hg": "Work = force × distance"}, "Cooling curve of hot water": {"hi": "गर्म जल का शीतलन वक्र", "hg": "Garam paani ka cooling curve"}, "To plot a temperature–time graph for hot water as it cools.": {"hi": "ठंडे होते गर्म जल के लिए ताप–समय ग्राफ़ खींचना।", "hg": "Thande hote garam paani ke liye temperature–time graph plot karna."}, "Temperature–time graph (Lab Manual)": {"hi": "ताप–समय ग्राफ़ (प्रयोगशाला पुस्तिका)", "hg": "Temperature–time graph (Lab Manual)"}, "The room temperature is 30 °C. Water in the calorimeter has just been heated to about 70 °C.": {"hi": "कमरे का ताप 30 °C है। कैलोरीमीटर में जल को अभी-अभी लगभग 70 °C तक गर्म किया गया है।", "hg": "Room temperature 30 °C hai. Calorimeter mein paani ko abhi-abhi lagbhag 70 °C tak garam kiya gaya hai."}, "The thermometer in the calorimeter reads 70 °C.": {"hi": "कैलोरीमीटर में लगे तापमापी का पाठ्यांक 70 °C है।", "hg": "Calorimeter mein thermometer ki reading 70 °C hai."}, "Start the stopwatch. Stir gently and read the temperature every 2 minutes for 20 minutes (time-lapse).": {"hi": "विराम घड़ी चालू कीजिए। धीरे-से हिलाइए और 20 मिनट तक हर 2 मिनट पर ताप पढ़िए (टाइम-लैप्स)।", "hg": "Stopwatch start karo. Dheere se stir karo aur 20 minute tak har 2 minute par temperature padho (time-lapse)."}, "The temperature falls quickly at first: from 70 °C to about 61 °C in 10 minutes and about 54 °C in 20 minutes.": {"hi": "पहले ताप तेज़ी से गिरता है: 10 मिनट में 70 °C से लगभग 61 °C तक और 20 मिनट में लगभग 54 °C तक।", "hg": "Pehle temperature tezi se girta hai: 10 minute mein 70 °C se lagbhag 61 °C tak aur 20 minute mein lagbhag 54 °C tak."}, "Go on reading it every 5 minutes up to 60 minutes.": {"hi": "60 मिनट तक हर 5 मिनट पर इसे पढ़ते रहिए।", "hg": "60 minute tak har 5 minute par ise padhte raho."}, "Later it falls more and more slowly: about 49 °C at 30 min, 41.5 °C at 50 min and 39 °C at 60 min.": {"hi": "बाद में यह और अधिक धीरे-धीरे गिरता है: 30 min पर लगभग 49 °C, 50 min पर 41.5 °C और 60 min पर 39 °C।", "hg": "Baad mein yeh aur bhi dheere girta hai: 30 min par lagbhag 49 °C, 50 min par 41.5 °C aur 60 min par 39 °C."}, "Join the points with a smooth curve.": {"hi": "बिंदुओं को एक निष्कोण (चिकने) वक्र से मिलाइए।", "hg": "Points ko ek smooth curve se jodo."}, "The cooling curve falls steeply at first and then flattens out as the water approaches room temperature.": {"hi": "शीतलन वक्र पहले तीव्रता से नीचे गिरता है और फिर, जैसे-जैसे जल कमरे के ताप के निकट पहुँचता है, चपटा होता जाता है।", "hg": "Cooling curve pehle steeply girta hai aur phir, jaise-jaise paani room temperature ke paas pahunchta hai, flat hota jaata hai."}, "Hot water loses heat faster when it is much hotter than its surroundings. As the difference in temperature becomes smaller, it cools more slowly.": {"hi": "जब गर्म जल अपने परिवेश से बहुत अधिक गर्म होता है, तब वह तेज़ी से ऊष्मा खोता है। जैसे-जैसे ताप का अंतर कम होता जाता है, वह अधिक धीरे ठंडा होता है।", "hg": "Jab garam paani apne surroundings se bahut zyada garam hota hai, tab woh tezi se heat khota hai. Jaise-jaise temperature ka difference kam hota hai, woh aur dheere thanda hota hai."}, "T fell from 70 °C to about 61 °C in 10 min, 54 °C in 20 min, 49 °C in 30 min and 39 °C in 60 min.": {"hi": "T, 10 min में 70 °C से गिरकर लगभग 61 °C, 20 min में 54 °C, 30 min में 49 °C और 60 min में 39 °C हो गया।", "hg": "T, 10 min mein 70 °C se girkar lagbhag 61 °C, 20 min mein 54 °C, 30 min mein 49 °C aur 60 min mein 39 °C ho gaya."}, "The rate of cooling is fast at first and slows down as the temperature of the water comes closer to room temperature: the cooling curve is not a straight line.": {"hi": "शीतलन की दर पहले तेज़ होती है और जैसे-जैसे जल का ताप कमरे के ताप के निकट आता है, धीमी होती जाती है: शीतलन वक्र एक सरल रेखा नहीं है।", "hg": "Cooling ka rate pehle tez hota hai aur jaise-jaise paani ka temperature room temperature ke paas aata hai, slow hota jaata hai: cooling curve straight line nahi hai."}, "Handle hot water carefully. Stir gently and read the thermometer with your eye level with the mercury.": {"hi": "गर्म जल को सावधानी से सँभालिए। धीरे-से हिलाइए और अपनी आँख को पारे के तल के समतल रखकर तापमापी पढ़िए।", "hg": "Garam paani ko dhyan se handle karo. Dheere se stir karo aur apni aankh mercury ke level par rakhkar thermometer padho."}, "Why does the curve flatten out?": {"hi": "वक्र चपटा क्यों होता जाता है?", "hg": "Curve flat kyon hota jaata hai?"}, "The difference between the water and the room temperature becomes smaller, so heat is lost more slowly.": {"hi": "जल और कमरे के ताप के बीच का अंतर कम हो जाता है, अतः ऊष्मा अधिक धीरे-धीरे निकलती है।", "hg": "Paani aur room temperature ke beech ka difference kam ho jaata hai, isliye heat aur dheere loss hoti hai."}, "Why is the calorimeter kept in an insulating jacket?": {"hi": "कैलोरीमीटर को ऊष्मारोधी आवरण में क्यों रखा जाता है?", "hg": "Calorimeter ko insulating jacket mein kyon rakha jaata hai?"}, "To reduce heat loss by conduction and convection to the surroundings.": {"hi": "चालन और संवहन द्वारा परिवेश में होने वाली ऊष्मा-हानि को कम करने के लिए।", "hg": "Conduction aur convection se surroundings mein hone wale heat loss ko kam karne ke liye."}, "Why should the water be stirred?": {"hi": "जल को क्यों हिलाना चाहिए?", "hg": "Paani ko stir kyon karna chahiye?"}, "So that the whole of the water is at the same temperature.": {"hi": "ताकि पूरे जल का ताप समान रहे।", "hg": "Taaki poore paani ka temperature same rahe."}, "Newton's law of cooling (rate of cooling)": {"hi": "न्यूटन का शीतलन नियम (शीतलन की दर)", "hg": "Newton's law of cooling (cooling ka rate)"}, "Waves on a slinky": {"hi": "स्लिंकी पर तरंगें", "hg": "Slinky par waves"}, "To show longitudinal and transverse waves on a slinky and to see that the coils only move back and forth while the wave travels.": {"hi": "स्लिंकी पर अनुदैर्ध्य और अनुप्रस्थ तरंगें दर्शाना और यह देखना कि तरंग के आगे बढ़ते समय कुंडलियाँ केवल आगे-पीछे गति करती हैं।", "hg": "Slinky par longitudinal aur transverse waves dikhana aur dekhna ki wave ke travel karte waqt coils sirf aage-peeche move karti hain."}, "Longitudinal and transverse waves": {"hi": "अनुदैर्ध्य और अनुप्रस्थ तरंगें", "hg": "Longitudinal aur transverse waves"}, "Stretch the slinky along the table; a friend holds the far end fixed. One coil is marked with a red thread.": {"hi": "स्लिंकी को मेज़ के अनुदिश खींचकर फैलाइए; एक मित्र दूर वाले सिरे को स्थिर पकड़े रखता है। एक कुंडली पर लाल धागे से निशान लगा है।", "hg": "Slinky ko table ke along stretch karo; ek friend door wale end ko fixed pakde rakhta hai. Ek coil par red thread se mark laga hai."}, "The coils are evenly spaced.": {"hi": "कुंडलियाँ समान दूरी पर हैं।", "hg": "Coils barabar doori par hain."}, "Give your end a sharp push forward and pull it back.": {"hi": "अपने सिरे को झटके से आगे धकेलिए और वापस खींचिए।", "hg": "Apne end ko jhatke se aage push karo aur wapas kheencho."}, "A region where the coils are crowded together (a compression) runs along the slinky to the far end and back.": {"hi": "एक क्षेत्र जहाँ कुंडलियाँ पास-पास सिमट जाती हैं (संपीडन), स्लिंकी के अनुदिश दूर वाले सिरे तक जाता है और वापस आता है।", "hg": "Ek region jahan coils paas-paas crowd ho jaati hain (compression), slinky ke along door wale end tak jaata hai aur wapas aata hai."}, "Each coil pushes the next one: the disturbance travels, but the coils themselves do not travel along.": {"hi": "प्रत्येक कुंडली अगली कुंडली को धकेलती है: विक्षोभ आगे बढ़ता है, परंतु कुंडलियाँ स्वयं आगे नहीं बढ़तीं।", "hg": "Har coil agli coil ko push karti hai: disturbance aage travel karta hai, lekin coils khud aage nahi jaati."}, "Do it again and watch the marked coil as the pulse passes it.": {"hi": "इसे फिर से कीजिए और जब स्पंद (पल्स) निशान वाली कुंडली से गुज़रे तब उसे देखिए।", "hg": "Ise phir se karo aur jab pulse marked coil se guzre tab use dekho."}, "The marked coil moves forward and back along the length of the slinky, and returns to its place.": {"hi": "निशान वाली कुंडली स्लिंकी की लंबाई के अनुदिश आगे-पीछे गति करती है, और अपने स्थान पर लौट आती है।", "hg": "Marked coil slinky ki length ke along aage-peeche move karti hai, aur apni jagah par wapas aa jaati hai."}, "This is a longitudinal wave: the coils move back and forth in the same direction as the wave travels. Sound travels through air like this, as compressions and rarefactions.": {"hi": "यह अनुदैर्ध्य तरंग है: कुंडलियाँ उसी दिशा में आगे-पीछे गति करती हैं जिस दिशा में तरंग चलती है। वायु में ध्वनि इसी प्रकार, संपीडनों और विरलनों के रूप में, संचरित होती है।", "hg": "Yeh longitudinal wave hai: coils usi direction mein aage-peeche move karti hain jis direction mein wave travel karti hai. Air mein sound isi tarah, compressions aur rarefactions ke roop mein, travel karti hai."}, "Now move your end quickly to one side and back.": {"hi": "अब अपने सिरे को तेज़ी से एक ओर ले जाइए और वापस लाइए।", "hg": "Ab apne end ko tezi se ek side le jao aur wapas lao."}, "A sideways hump runs along the slinky; it comes back on the other side after the fixed end.": {"hi": "एक पार्श्व उभार स्लिंकी के अनुदिश चलता है; स्थिर सिरे से टकराने के बाद यह दूसरी ओर उभरकर वापस आता है।", "hg": "Ek sideways hump slinky ke along chalta hai; fixed end ke baad yeh doosri side par wapas aata hai."}, "This is a transverse wave: the coils move at right angles to the direction in which the wave travels.": {"hi": "यह अनुप्रस्थ तरंग है: कुंडलियाँ तरंग के चलने की दिशा के लंबवत गति करती हैं।", "hg": "Yeh transverse wave hai: coils wave ke travel karne ki direction ke right angles par move karti hain."}, "A push sent a compression along the slinky; a sideways jerk sent a hump. The marked coil only moved to and fro about its place.": {"hi": "धक्का देने से स्लिंकी के अनुदिश एक संपीडन गया; पार्श्व झटके से एक उभार गया। निशान वाली कुंडली केवल अपने स्थान के इधर-उधर गति करती रही।", "hg": "Push se slinky ke along ek compression gaya; sideways jerk se ek hump gaya. Marked coil sirf apni jagah ke aas-paas to and fro move karti rahi."}, "A wave carries a disturbance (energy) from place to place without carrying the material along. In a longitudinal wave the particles move along the direction of the wave; in a transverse wave they move across it.": {"hi": "तरंग पदार्थ को साथ ले जाए बिना विक्षोभ (ऊर्जा) को एक स्थान से दूसरे स्थान तक ले जाती है। अनुदैर्ध्य तरंग में कण तरंग की दिशा के अनुदिश गति करते हैं; अनुप्रस्थ तरंग में वे उसके लंबवत गति करते हैं।", "hg": "Wave material ko saath le jaaye bina disturbance (energy) ko ek jagah se doosri jagah tak le jaati hai. Longitudinal wave mein particles wave ki direction ke along move karte hain; transverse wave mein woh uske across move karte hain."}, "Do not overstretch the slinky or let it snap back.": {"hi": "स्लिंकी को अधिक मत खींचिए और न ही उसे झटके से वापस छूटने दीजिए।", "hg": "Slinky ko zyada stretch mat karo aur na hi use jhatke se wapas snap hone do."}, "Is sound a longitudinal or a transverse wave in air?": {"hi": "वायु में ध्वनि अनुदैर्ध्य तरंग है या अनुप्रस्थ तरंग?", "hg": "Air mein sound longitudinal wave hai ya transverse wave?"}, "Longitudinal.": {"hi": "अनुदैर्ध्य।", "hg": "Longitudinal."}, "What are compressions and rarefactions?": {"hi": "संपीडन और विरलन क्या हैं?", "hg": "Compressions aur rarefactions kya hain?"}, "Regions where the particles are crowded together, and where they are spread apart.": {"hi": "वे क्षेत्र जहाँ कण पास-पास सिमटे होते हैं, और जहाँ वे दूर-दूर फैले होते हैं।", "hg": "Woh regions jahan particles paas-paas crowd hote hain, aur jahan woh door-door phaile hote hain."}, "Does the medium travel with the wave?": {"hi": "क्या माध्यम तरंग के साथ आगे बढ़ता है?", "hg": "Kya medium wave ke saath travel karta hai?"}, "No, only the disturbance (energy) travels.": {"hi": "नहीं, केवल विक्षोभ (ऊर्जा) आगे बढ़ता है।", "hg": "Nahi, sirf disturbance (energy) travel karta hai."}, "Wave speed": {"hi": "तरंग की चाल", "hg": "Wave speed"}, "Sound makes a drum skin vibrate": {"hi": "ध्वनि ढोल की झिल्ली को कंपित करती है", "hg": "Sound drum skin ko vibrate karti hai"}, "To show that sound is carried by vibrations, using grains on a stretched rubber sheet.": {"hi": "तनी हुई रबड़ की शीट पर रखे दानों की सहायता से यह दर्शाना कि ध्वनि कंपनों द्वारा संचरित होती है।", "hg": "Stretched rubber sheet par grains ki madad se dikhana ki sound vibrations dwara carry hoti hai."}, "Vibrations of a membrane": {"hi": "झिल्ली के कंपन", "hg": "Membrane ke vibrations"}, "A rubber sheet is stretched tight over the mouth of a tin, and a few grains of semolina are sprinkled on it. Tap the sheet gently with a finger.": {"hi": "एक डिब्बे के मुँह पर रबड़ की शीट कसकर तनी हुई है, और उस पर सूजी के कुछ दाने छिड़के गए हैं। शीट को उँगली से धीरे-से थपथपाइए।", "hg": "Ek tin ke mouth par rubber sheet kas kar tani hui hai, aur us par suji (semolina) ke kuch daane chhidke gaye hain. Sheet ko ungli se dheere se tap karo."}, "The grains jump up and down each time the sheet is tapped.": {"hi": "हर बार शीट को थपथपाने पर दाने ऊपर-नीचे उछलते हैं।", "hg": "Har baar sheet ko tap karne par grains upar-neeche uchhalte hain."}, "Hold the steel plate close to the tin (without touching it) and strike it hard with the hammer.": {"hi": "स्टील की प्लेट को डिब्बे के पास (उसे छुए बिना) पकड़िए और उस पर हथौड़ी से ज़ोर से मारिए।", "hg": "Steel plate ko tin ke paas (use chhue bina) pakdo aur us par hammer se zor se maaro."}, "With each loud clang the grains on the sheet jump, though nothing has touched the tin.": {"hi": "हर तेज़ झनझनाहट के साथ शीट पर रखे दाने उछलते हैं, यद्यपि डिब्बे को किसी ने नहीं छुआ है।", "hg": "Har loud clang ke saath sheet par rakhe grains uchhalte hain, halaanki tin ko kisi ne touch nahi kiya hai."}, "The vibrating plate makes the air vibrate. These vibrations travel through the air (sound) and make the rubber sheet vibrate — just as sound makes our eardrum vibrate.": {"hi": "कंपन करती प्लेट वायु को कंपित करती है। ये कंपन वायु से होकर (ध्वनि के रूप में) संचरित होते हैं और रबड़ की शीट को कंपित करते हैं — ठीक वैसे ही जैसे ध्वनि हमारे कान के पर्दे को कंपित करती है।", "hg": "Vibrate karti plate air ko vibrate karti hai. Yeh vibrations air se hokar (sound) travel karte hain aur rubber sheet ko vibrate karte hain — bilkul waise hi jaise sound hamare eardrum ko vibrate karti hai."}, "The grains jumped when the sheet was tapped, and also when a steel plate was struck near it without touching it.": {"hi": "शीट को थपथपाने पर दाने उछले, और तब भी जब उसके पास, उसे छुए बिना, स्टील की प्लेट पर मारा गया।", "hg": "Sheet ko tap karne par grains uchhle, aur tab bhi jab uske paas, use chhue bina, steel plate par strike kiya gaya."}, "Sound is carried by vibrations of the air, which can make a stretched sheet — or our eardrum — vibrate.": {"hi": "ध्वनि वायु के कंपनों द्वारा संचरित होती है, जो किसी तनी हुई शीट को — या हमारे कान के पर्दे को — कंपित कर सकते हैं।", "hg": "Sound air ke vibrations dwara carry hoti hai, jo kisi stretched sheet ko — ya hamare eardrum ko — vibrate kar sakte hain."}, "Do not strike the plate near anyone’s ear.": {"hi": "प्लेट को किसी के कान के पास मत मारिए।", "hg": "Plate ko kisi ke kaan ke paas mat maaro."}, "Which part of our ear works like the rubber sheet?": {"hi": "हमारे कान का कौन-सा भाग रबर की शीट की तरह कार्य करता है?", "hg": "Hamare kaan ka kaunsa part rubber sheet ki tarah kaam karta hai?"}, "The eardrum.": {"hi": "कर्णपटह (कान का पर्दा)।", "hg": "Eardrum (kaan ka parda)."}, "What carried the vibrations from the plate to the sheet?": {"hi": "प्लेट से शीट तक कंपनों को किसने पहुँचाया?", "hg": "Plate se sheet tak vibrations ko kisne pahunchaya?"}, "The air.": {"hi": "वायु ने।", "hg": "Air ne."}, "Why do the grains jump higher for a louder sound?": {"hi": "अधिक प्रबल ध्वनि होने पर दाने अधिक ऊँचे क्यों उछलते हैं?", "hg": "Louder sound par grains zyada upar kyun uchhalte hain?"}, "A louder sound has a larger amplitude, so the sheet vibrates more.": {"hi": "प्रबल ध्वनि का आयाम अधिक होता है, इसलिए शीट अधिक कंपन करती है।", "hg": "Louder sound ka amplitude zyada hota hai, isliye sheet zyada vibrate karti hai."}, "Sound travels as vibrations": {"hi": "ध्वनि कंपनों के रूप में चलती है", "hg": "Sound vibrations ke roop mein travel karti hai"}, "Reflection of sound": {"hi": "ध्वनि का परावर्तन", "hg": "Sound ka reflection"}, "To show that sound is reflected like light, with the angle of reflection equal to the angle of incidence.": {"hi": "यह दर्शाना कि ध्वनि का परावर्तन प्रकाश की तरह होता है, जिसमें परावर्तन कोण आपतन कोण के बराबर होता है।", "hg": "Yeh dikhana ki sound light ki tarah reflect hoti hai, jismein angle of reflection angle of incidence ke barabar hota hai."}, "Laws of reflection of sound (Lab Manual)": {"hi": "ध्वनि के परावर्तन के नियम (प्रयोगशाला पुस्तिका)", "hg": "Sound ke reflection ke laws (Lab Manual)"}, "Put the two pipes on the table pointing at the hard board, with a screen between them. Place the ticking clock at the end of the first pipe, at 40° to the normal.": {"hi": "दोनों पाइपों को मेज़ पर कठोर बोर्ड की ओर इंगित करते हुए रखिए, और उनके बीच एक पर्दा रखिए। टिक-टिक करती घड़ी को पहले पाइप के सिरे पर रखिए, जो अभिलंब से 40° पर हो।", "hg": "Dono pipes ko table par hard board ki taraf point karte hue rakho, aur unke beech ek screen rakho. Ticking clock ko pehle pipe ke end par rakho, jo normal se 40° par ho."}, "The clock ticks at the open end of the first pipe; the screen stops the sound from reaching the other pipe directly.": {"hi": "घड़ी पहले पाइप के खुले सिरे पर टिक-टिक करती है; पर्दा ध्वनि को सीधे दूसरे पाइप तक पहुँचने से रोकता है।", "hg": "Clock pehle pipe ke open end par tick karti hai; screen sound ko seedhe doosre pipe tak pahunchne se rokti hai."}, "Put your ear at the end of the second pipe, at 20° to the normal, and listen.": {"hi": "अपना कान दूसरे पाइप के सिरे पर लगाइए, जो अभिलंब से 20° पर है, और सुनिए।", "hg": "Apna kaan doosre pipe ke end par lagao, jo normal se 20° par hai, aur suno."}, "The ticking is very faint.": {"hi": "टिक-टिक की आवाज़ बहुत धीमी है।", "hg": "Ticking bahut faint hai."}, "Turn the second pipe slowly until the ticking is loudest.": {"hi": "दूसरे पाइप को धीरे-धीरे तब तक घुमाइए जब तक टिक-टिक सबसे तेज़ सुनाई न दे।", "hg": "Doosre pipe ko dheere-dheere tab tak ghumao jab tak ticking sabse loud na sunai de."}, "The ticking is loudest when the second pipe is at about 40° to the normal.": {"hi": "जब दूसरा पाइप अभिलंब से लगभग 40° पर होता है, तब टिक-टिक सबसे तेज़ सुनाई देती है।", "hg": "Jab doosra pipe normal se lagbhag 40° par hota hai, tab ticking sabse loud sunai deti hai."}, "Measure the angle of each pipe from the normal to the board.": {"hi": "बोर्ड के अभिलंब से प्रत्येक पाइप का कोण मापिए।", "hg": "Board ke normal se har pipe ka angle measure karo."}, "The angle of reflection (40°) equals the angle of incidence (40°).": {"hi": "परावर्तन कोण (40°) आपतन कोण (40°) के बराबर है।", "hg": "Angle of reflection (40°) angle of incidence (40°) ke barabar hai."}, "Sound is reflected from a hard surface following the same laws as light: ∠i = ∠r, and both rays and the normal lie in one plane.": {"hi": "ध्वनि कठोर सतह से प्रकाश के समान नियमों का पालन करते हुए परावर्तित होती है: ∠i = ∠r, और दोनों किरणें तथा अभिलंब एक ही तल में होते हैं।", "hg": "Sound hard surface se light ke same laws follow karte hue reflect hoti hai: ∠i = ∠r, aur dono rays aur normal ek hi plane mein hote hain."}, "With the clock pipe at 40° to the normal, the ticking was heard loudest through the second pipe when it was also at 40°.": {"hi": "घड़ी वाले पाइप को अभिलंब से 40° पर रखने पर, दूसरे पाइप से टिक-टिक सबसे तेज़ तब सुनाई दी जब वह भी 40° पर था।", "hg": "Clock wale pipe ko normal se 40° par rakhne par, doosre pipe se ticking sabse loud tab suni gayi jab woh bhi 40° par tha."}, "Sound is reflected from a hard surface like light: the angle of reflection is equal to the angle of incidence.": {"hi": "ध्वनि कठोर सतह से प्रकाश की तरह परावर्तित होती है: परावर्तन कोण आपतन कोण के बराबर होता है।", "hg": "Sound hard surface se light ki tarah reflect hoti hai: angle of reflection angle of incidence ke barabar hota hai."}, "Keep the clock’s ticking soft; never put anything loud close to your ear.": {"hi": "घड़ी की टिक-टिक धीमी रखिए; कोई भी तेज़ आवाज़ वाली वस्तु कभी अपने कान के पास न रखिए।", "hg": "Clock ki ticking soft rakho; koi bhi loud cheez kabhi apne kaan ke paas mat rakho."}, "What is an echo?": {"hi": "प्रतिध्वनि क्या है?", "hg": "Echo kya hai?"}, "A sound heard again after reflection from a distant surface.": {"hi": "किसी दूर की सतह से परावर्तन के बाद दोबारा सुनाई देने वाली ध्वनि।", "hg": "Kisi door ki surface se reflection ke baad dobara sunai dene wali sound."}, "Why are the ceilings of concert halls curved?": {"hi": "सभा भवनों (कॉन्सर्ट हॉल) की छतें वक्राकार क्यों बनाई जाती हैं?", "hg": "Concert halls ki ceilings curved kyun hoti hain?"}, "So that reflected sound spreads evenly to all parts of the hall.": {"hi": "ताकि परावर्तित ध्वनि हॉल के सभी भागों में समान रूप से फैल जाए।", "hg": "Taaki reflected sound hall ke saare parts mein barabar fail jaaye."}, "Which surfaces reflect sound well?": {"hi": "कौन-सी सतहें ध्वनि को अच्छी तरह परावर्तित करती हैं?", "hg": "Kaunsi surfaces sound ko achchhe se reflect karti hain?"}, "Hard, smooth surfaces such as walls and boards.": {"hi": "कठोर, चिकनी सतहें, जैसे दीवारें और बोर्ड।", "hg": "Hard, smooth surfaces jaise walls aur boards."}, "Laws of reflection of sound": {"hi": "ध्वनि के परावर्तन के नियम", "hg": "Sound ke reflection ke laws"}, "While sliding": {"hi": "फिसलते समय", "hg": "Slide karte waqt"}, "Wood": {"hi": "लकड़ी", "hg": "Wood"}, "Glass": {"hi": "काँच", "hg": "Glass"}, "Sandpaper": {"hi": "रेगमाल (सैंडपेपर)", "hg": "Sandpaper"}, "Room temperature": {"hi": "कमरे का ताप", "hg": "Room temperature"}, "Depth of the dent": {"hi": "गड्ढे की गहराई", "hg": "Dent ki depth"}, "Lifting straight up": {"hi": "सीधे ऊपर उठाना", "hg": "Seedha upar uthana"}, "Pulling along the plank": {"hi": "तख़्ते के अनुदिश खींचना", "hg": "Plank ke along kheenchna"}, "Work": {"hi": "कार्य", "hg": "Work"}, "faint": {"hi": "धीमी", "hg": "faint"}, "loudest": {"hi": "सबसे तेज़", "hg": "sabse loud"}, "louder": {"hi": "अधिक तेज़", "hg": "zyada loud"}, "Spring balance A (fixed)": {"hi": "कमानीदार तुला A (स्थिर)", "hg": "Spring balance A (fixed)"}, "Spring balance B (pulled)": {"hi": "कमानीदार तुला B (खींची गई)", "hg": "Spring balance B (kheencha gaya)"}, "Cardboard screen": {"hi": "गत्ते का पर्दा", "hg": "Cardboard screen"}, "A current-carrying wire and a compass": {"hi": "धारावाही तार और दिक्सूचक", "hg": "Current-carrying wire aur compass"}, "To show that a wire carrying an electric current deflects a magnetic compass needle placed near it.": {"hi": "यह दर्शाना कि विद्युत धारा प्रवाहित करने वाला तार अपने पास रखी चुंबकीय दिक्सूचक सुई को विक्षेपित करता है।", "hg": "Yeh dikhana ki electric current wala wire apne paas rakhi magnetic compass needle ko deflect karta hai."}, "Magnetic effect of current": {"hi": "विद्युत धारा का चुंबकीय प्रभाव", "hg": "Current ka magnetic effect"}, "The wire runs north–south just above a magnetic compass. Look at the needle.": {"hi": "तार चुंबकीय दिक्सूचक के ठीक ऊपर उत्तर–दक्षिण दिशा में लगा है। सुई को देखिए।", "hg": "Wire magnetic compass ke theek upar north–south direction mein laga hai. Needle ko dekho."}, "Switch on the current for a few seconds and watch the needle. Then switch off.": {"hi": "कुछ सेकंड के लिए विद्युत धारा चालू कीजिए और सुई को देखिए। फिर बंद कर दीजिए।", "hg": "Kuch seconds ke liye current on karo aur needle ko dekho. Phir off kar do."}, "The needle turns away from north while the current flows, and comes back when it is switched off.": {"hi": "धारा प्रवाहित होते समय सुई उत्तर दिशा से हट जाती है, और धारा बंद करने पर वापस लौट आती है।", "hg": "Current flow hote waqt needle north se hat jaati hai, aur current off karne par wapas aa jaati hai."}, "A wire carrying a current behaves like a magnet: it has a magnetic field around it.": {"hi": "धारावाही तार एक चुंबक की तरह व्यवहार करता है: उसके चारों ओर चुंबकीय क्षेत्र होता है।", "hg": "Current wala wire magnet ki tarah behave karta hai: uske charon taraf magnetic field hota hai."}, "Reverse the connections of the cell and switch on again.": {"hi": "सेल के संयोजन उलट दीजिए और फिर से धारा चालू कीजिए।", "hg": "Cell ke connections ulte karo aur phir se switch on karo."}, "The needle now turns the other way.": {"hi": "अब सुई विपरीत दिशा में घूमती है।", "hg": "Ab needle ulti taraf ghoomti hai."}, "Reversing the current reverses the direction of its magnetic field.": {"hi": "धारा की दिशा उलटने पर उसके चुंबकीय क्षेत्र की दिशा भी उलट जाती है।", "hg": "Current reverse karne par uske magnetic field ki direction bhi reverse ho jaati hai."}, "The compass needle turned when the current was switched on, came back when it was switched off, and turned the other way when the current was reversed.": {"hi": "धारा चालू करने पर दिक्सूचक सुई घूम गई, बंद करने पर वापस आ गई, और धारा उलटने पर विपरीत दिशा में घूमी।", "hg": "Current on karne par compass needle ghoom gayi, off karne par wapas aa gayi, aur current reverse karne par ulti taraf ghoomi."}, "An electric current produces a magnetic field around the wire carrying it.": {"hi": "विद्युत धारा उसे प्रवाहित करने वाले तार के चारों ओर चुंबकीय क्षेत्र उत्पन्न करती है।", "hg": "Electric current apne wire ke charon taraf magnetic field produce karta hai."}, "Switch the current on only for a few seconds; the wire and the cell get hot otherwise.": {"hi": "धारा केवल कुछ सेकंड के लिए ही चालू कीजिए; अन्यथा तार और सेल गरम हो जाते हैं।", "hg": "Current sirf kuch seconds ke liye hi on karo; warna wire aur cell garam ho jaate hain."}, "What happens if no current flows?": {"hi": "यदि कोई धारा प्रवाहित न हो तो क्या होता है?", "hg": "Agar koi current flow na ho to kya hota hai?"}, "The needle points north again, along the Earth’s field.": {"hi": "सुई फिर से पृथ्वी के चुंबकीय क्षेत्र के अनुदिश उत्तर दिशा की ओर संकेत करती है।", "hg": "Needle phir se Earth ke field ke along north ki taraf point karti hai."}, "How can the deflection be made larger?": {"hi": "विक्षेप को अधिक कैसे किया जा सकता है?", "hg": "Deflection ko zyada kaise kiya ja sakta hai?"}, "By passing a larger current, or bringing the wire closer to the compass.": {"hi": "अधिक धारा प्रवाहित करके, या तार को दिक्सूचक के और पास लाकर।", "hg": "Zyada current pass karke, ya wire ko compass ke aur paas laakar."}, "Magnetic effect of electric current": {"hi": "विद्युत धारा का चुंबकीय प्रभाव", "hg": "Electric current ka magnetic effect"}, "A coil on an iron nail picks up paper clips": {"hi": "लोहे की कील पर लिपटी कुंडली पेपर क्लिप उठाती है", "hg": "Iron nail par coil paper clips uthati hai"}, "To show that a coil of wire wound on an iron nail attracts paper clips only while a current flows through it.": {"hi": "यह दर्शाना कि लोहे की कील पर लपेटी गई तार की कुंडली पेपर क्लिपों को केवल तभी आकर्षित करती है जब उसमें धारा प्रवाहित हो रही हो।", "hg": "Yeh dikhana ki iron nail par lapeti gayi wire ki coil paper clips ko sirf tabhi attract karti hai jab usmein current flow ho raha ho."}, "A simple electromagnet": {"hi": "एक सरल विद्युत चुंबक", "hg": "Ek simple electromagnet"}, "Bring the tip of the nail close to the paper clips while no current flows, and lift it.": {"hi": "जब कोई धारा प्रवाहित न हो रही हो, तब कील की नोक को पेपर क्लिपों के पास लाइए और उसे ऊपर उठाइए।", "hg": "Jab koi current flow na ho raha ho, tab nail ki tip ko paper clips ke paas lao aur use upar uthao."}, "Nothing happens: the nail does not attract the clips.": {"hi": "कुछ नहीं होता: कील क्लिपों को आकर्षित नहीं करती।", "hg": "Kuch nahi hota: nail clips ko attract nahi karti."}, "Switch on the current, bring the nail to the clips again and lift it.": {"hi": "धारा चालू कीजिए, कील को फिर से क्लिपों के पास लाइए और उसे उठाइए।", "hg": "Current on karo, nail ko phir se clips ke paas lao aur use uthao."}, "Several clips cling to the tip of the nail and hang from it.": {"hi": "कई क्लिप कील की नोक से चिपक जाते हैं और उससे लटक जाते हैं।", "hg": "Kai clips nail ki tip se chipak jaate hain aur usse latak jaate hain."}, "With a current in the coil, the iron nail becomes a magnet — an electromagnet.": {"hi": "कुंडली में धारा प्रवाहित होने पर लोहे की कील चुंबक बन जाती है — एक विद्युत चुंबक।", "hg": "Coil mein current hone par iron nail magnet ban jaati hai — ek electromagnet."}, "Now switch off the current.": {"hi": "अब धारा बंद कर दीजिए।", "hg": "Ab current off kar do."}, "The clips drop off (one may stay for a moment).": {"hi": "क्लिप गिर जाते हैं (एक क्लिप कुछ पल के लिए चिपका रह सकता है)।", "hg": "Clips gir jaate hain (ek clip kuch pal ke liye chipka reh sakta hai)."}, "An electromagnet is a magnet only while the current flows. Soft iron keeps very little magnetism after that.": {"hi": "विद्युत चुंबक केवल तभी तक चुंबक रहता है जब तक धारा प्रवाहित होती है। उसके बाद नर्म लोहे में बहुत कम चुंबकत्व बचता है।", "hg": "Electromagnet sirf tab tak magnet rehta hai jab tak current flow hota hai. Uske baad soft iron mein bahut kam magnetism bachta hai."}, "Without current the nail picked up no clips. With current it picked up several clips; when the current was switched off the clips fell.": {"hi": "धारा के बिना कील ने कोई क्लिप नहीं उठाया। धारा के साथ उसने कई क्लिप उठाए; धारा बंद करने पर क्लिप गिर गए।", "hg": "Current ke bina nail ne koi clip nahi uthaya. Current ke saath usne kai clips uthaye; current off karne par clips gir gaye."}, "A coil carrying a current, wound on an iron nail, becomes an electromagnet. It works only while the current flows.": {"hi": "लोहे की कील पर लपेटी गई धारावाही कुंडली विद्युत चुंबक बन जाती है। यह केवल तभी तक कार्य करता है जब तक धारा प्रवाहित होती है।", "hg": "Iron nail par lapeti gayi current wali coil electromagnet ban jaati hai. Yeh sirf tab tak kaam karta hai jab tak current flow hota hai."}, "Connect the cell only for a few seconds at a time; the coil and the cell heat up.": {"hi": "सेल को एक बार में केवल कुछ सेकंड के लिए ही जोड़िए; कुंडली और सेल गरम हो जाते हैं।", "hg": "Cell ko ek baar mein sirf kuch seconds ke liye hi connect karo; coil aur cell garam ho jaate hain."}, "Name two uses of electromagnets.": {"hi": "विद्युत चुंबकों के दो उपयोग बताइए।", "hg": "Electromagnets ke do uses batao."}, "Electric bells, cranes that lift scrap iron, loudspeakers, motors.": {"hi": "विद्युत घंटियाँ, लोहे का कबाड़ उठाने वाली क्रेनें, लाउडस्पीकर, मोटरें।", "hg": "Electric bells, scrap iron uthane wali cranes, loudspeakers, motors."}, "Why is the nail made of iron?": {"hi": "कील लोहे की क्यों बनी होती है?", "hg": "Nail iron ki kyun bani hoti hai?"}, "Iron becomes strongly magnetised inside the coil and loses its magnetism when the current stops.": {"hi": "कुंडली के भीतर लोहा प्रबल रूप से चुंबकित हो जाता है और धारा रुकने पर अपना चुंबकत्व खो देता है।", "hg": "Coil ke andar iron strongly magnetised ho jaata hai aur current rukne par apna magnetism kho deta hai."}, "How can it be made to lift more clips?": {"hi": "इससे अधिक क्लिप कैसे उठवाए जा सकते हैं?", "hg": "Isse zyada clips kaise uthwaye ja sakte hain?"}, "Use more turns of wire or more cells.": {"hi": "तार के अधिक फेरे या अधिक सेल लगाइए।", "hg": "Wire ke zyada turns ya zyada cells use karo."}, "Electromagnet": {"hi": "विद्युत चुंबक", "hg": "Electromagnet"}, "Poles and strength of an electromagnet": {"hi": "विद्युत चुंबक के ध्रुव और प्रबलता", "hg": "Electromagnet ke poles aur strength"}, "To find the poles of an electromagnet with a compass, and how its strength and poles depend on the current.": {"hi": "दिक्सूचक की सहायता से विद्युत चुंबक के ध्रुव ज्ञात करना, और यह पता लगाना कि उसकी प्रबलता और ध्रुव धारा पर कैसे निर्भर करते हैं।", "hg": "Compass se electromagnet ke poles pata karna, aur yeh dekhna ki uski strength aur poles current par kaise depend karte hain."}, "Electromagnet: poles and strength": {"hi": "विद्युत चुंबक: ध्रुव और प्रबलता", "hg": "Electromagnet: poles aur strength"}, "Place the compass near end A (the head of the nail) and switch on the current. Which end of the needle is attracted?": {"hi": "दिक्सूचक को सिरे A (कील का सिर) के पास रखिए और धारा चालू कीजिए। सुई का कौन-सा सिरा आकर्षित होता है?", "hg": "Compass ko end A (nail ka head) ke paas rakho aur current on karo. Needle ka kaunsa end attract hota hai?"}, "The needle swings round so that one of its ends points at end A. The other end of the coil attracts the other end of the needle.": {"hi": "सुई घूमकर इस प्रकार रुकती है कि उसका एक सिरा A की ओर संकेत करता है। कुंडली का दूसरा सिरा सुई के दूसरे सिरे को आकर्षित करता है।", "hg": "Needle ghoomkar aise rukti hai ki uska ek end A ki taraf point karta hai. Coil ka doosra end needle ke doosre end ko attract karta hai."}, "A coil carrying a current has a north pole at one end and a south pole at the other, like a bar magnet. The north end of a compass needle points to a south pole.": {"hi": "धारावाही कुंडली के एक सिरे पर उत्तरी ध्रुव और दूसरे सिरे पर दक्षिणी ध्रुव होता है, छड़ चुंबक की तरह। दिक्सूचक सुई का उत्तरी सिरा दक्षिणी ध्रुव की ओर संकेत करता है।", "hg": "Current wali coil ke ek end par north pole aur doosre end par south pole hota hai, bar magnet ki tarah. Compass needle ka north end south pole ki taraf point karta hai."}, "Pick up clips with 1 cell, then with 2 cells and with 4 cells. Count the clips each time.": {"hi": "1 सेल से क्लिप उठाइए, फिर 2 सेल से और 4 सेल से। हर बार क्लिप गिनिए।", "hg": "1 cell se clips uthao, phir 2 cells se aur 4 cells se. Har baar clips gino."}, "With more cells (more current) the electromagnet lifts more clips.": {"hi": "अधिक सेल (अधिक धारा) होने पर विद्युत चुंबक अधिक क्लिप उठाता है।", "hg": "Zyada cells (zyada current) hone par electromagnet zyada clips uthata hai."}, "The strength of an electromagnet increases with the current and with the number of turns of the coil.": {"hi": "विद्युत चुंबक की प्रबलता धारा के साथ और कुंडली के फेरों की संख्या के साथ बढ़ती है।", "hg": "Electromagnet ki strength current ke saath aur coil ke turns ki sankhya ke saath badhti hai."}, "Reverse the connections of the battery and test end A with the compass again.": {"hi": "बैटरी के संयोजन उलट दीजिए और सिरे A को फिर से दिक्सूचक से जाँचिए।", "hg": "Battery ke connections ulte karo aur end A ko phir se compass se check karo."}, "Now the other end of the needle points at A: the poles of the electromagnet have changed places.": {"hi": "अब सुई का दूसरा सिरा A की ओर संकेत करता है: विद्युत चुंबक के ध्रुवों ने अपना स्थान बदल लिया है।", "hg": "Ab needle ka doosra end A ki taraf point karta hai: electromagnet ke poles ne jagah badal li hai."}, "Reversing the direction of the current reverses the poles of an electromagnet.": {"hi": "धारा की दिशा उलटने पर विद्युत चुंबक के ध्रुव भी उलट जाते हैं।", "hg": "Current ki direction reverse karne par electromagnet ke poles bhi reverse ho jaate hain."}, "End A attracted one end of the compass needle; more cells made the coil lift more clips; reversing the current reversed the poles.": {"hi": "सिरे A ने दिक्सूचक सुई के एक सिरे को आकर्षित किया; अधिक सेल लगाने पर कुंडली ने अधिक क्लिप उठाए; धारा उलटने पर ध्रुव उलट गए।", "hg": "End A ne compass needle ke ek end ko attract kiya; zyada cells lagane par coil ne zyada clips uthaye; current reverse karne par poles reverse ho gaye."}, "An electromagnet has two poles like a bar magnet. Its strength increases with the current, and its poles change when the current is reversed.": {"hi": "विद्युत चुंबक के छड़ चुंबक की तरह दो ध्रुव होते हैं। इसकी प्रबलता धारा के साथ बढ़ती है, और धारा उलटने पर इसके ध्रुव बदल जाते हैं।", "hg": "Electromagnet ke bar magnet ki tarah do poles hote hain. Iski strength current ke saath badhti hai, aur current reverse karne par iske poles badal jaate hain."}, "Do not keep the current on for long, especially with 4 cells.": {"hi": "धारा को देर तक चालू न रखिए, विशेषकर 4 सेल के साथ।", "hg": "Current ko der tak on mat rakho, khaaskar 4 cells ke saath."}, "Give two ways of making an electromagnet stronger.": {"hi": "विद्युत चुंबक को अधिक प्रबल बनाने के दो तरीके बताइए।", "hg": "Electromagnet ko zyada strong banane ke do tarike batao."}, "Increase the current (more cells) or the number of turns.": {"hi": "धारा बढ़ाइए (अधिक सेल) या फेरों की संख्या बढ़ाइए।", "hg": "Current badhao (zyada cells) ya turns ki sankhya badhao."}, "How can you find which end is the north pole?": {"hi": "आप कैसे पता लगा सकते हैं कि कौन-सा सिरा उत्तरी ध्रुव है?", "hg": "Tum kaise pata laga sakte ho ki kaunsa end north pole hai?"}, "The south pole of a compass needle is attracted to it (the north end of the needle points away).": {"hi": "दिक्सूचक सुई का दक्षिणी ध्रुव उसकी ओर आकर्षित होता है (सुई का उत्तरी सिरा उससे दूर की ओर रहता है)।", "hg": "Compass needle ka south pole uski taraf attract hota hai (needle ka north end usse door ki taraf rehta hai)."}, "Can a permanent magnet change its poles like this?": {"hi": "क्या कोई स्थायी चुंबक इस तरह अपने ध्रुव बदल सकता है?", "hg": "Kya permanent magnet is tarah apne poles badal sakta hai?"}, "No; only an electromagnet can have its poles reversed by reversing the current.": {"hi": "नहीं; केवल विद्युत चुंबक के ध्रुव ही धारा उलटकर उलटे जा सकते हैं।", "hg": "Nahi; sirf electromagnet ke poles hi current reverse karke reverse kiye ja sakte hain."}, "Strength of an electromagnet": {"hi": "विद्युत चुंबक की प्रबलता", "hg": "Electromagnet ki strength"}, "Heating effect of current": {"hi": "विद्युत धारा का तापीय प्रभाव", "hg": "Current ka heating effect"}, "To observe that a nichrome wire becomes hot when an electric current flows through it.": {"hi": "यह प्रेक्षण करना कि विद्युत धारा प्रवाहित होने पर नाइक्रोम तार गरम हो जाता है।", "hg": "Yeh observe karna ki electric current flow hone par nichrome wire garam ho jaata hai."}, "Heating effect of electric current": {"hi": "विद्युत धारा का तापीय प्रभाव", "hg": "Electric current ka heating effect"}, "With the switch off, touch the nichrome wire for a moment.": {"hi": "स्विच बंद रखते हुए नाइक्रोम तार को एक क्षण के लिए छुइए।", "hg": "Switch off rakhte hue nichrome wire ko ek pal ke liye chhuo."}, "The wire is at room temperature.": {"hi": "तार कमरे के ताप पर है।", "hg": "Wire room temperature par hai."}, "Switch on for about 30 seconds (time-lapse), switch off and touch the wire for a moment.": {"hi": "लगभग 30 सेकंड के लिए स्विच चालू कीजिए (टाइम-लैप्स), फिर बंद कीजिए और तार को एक क्षण के लिए छुइए।", "hg": "Lagbhag 30 seconds ke liye switch on karo (time-lapse), phir off karo aur wire ko ek pal ke liye chhuo."}, "The wire has become warm.": {"hi": "तार गुनगुना हो गया है।", "hg": "Wire warm ho gaya hai."}, "The current makes the wire hot. This is the heating effect of electric current.": {"hi": "विद्युत धारा तार को गरम कर देती है। यही विद्युत धारा का तापीय प्रभाव है।", "hg": "Current wire ko garam kar deta hai. Yahi electric current ka heating effect hai."}, "Repeat with a battery of 2 cells.": {"hi": "2 सेलों की बैटरी के साथ दोहराइए।", "hg": "2 cells ki battery ke saath repeat karo."}, "The wire gets much hotter than with one cell.": {"hi": "तार एक सेल की तुलना में कहीं अधिक गरम हो जाता है।", "hg": "Wire ek cell ke comparison mein kaafi zyada garam ho jaata hai."}, "More cells drive a larger current, and the heat produced increases quickly with the current. Heaters, irons and toasters use this effect.": {"hi": "अधिक सेल अधिक धारा प्रवाहित करते हैं, और उत्पन्न ऊष्मा धारा के साथ तेज़ी से बढ़ती है। हीटर, इस्त्री और टोस्टर इसी प्रभाव का उपयोग करते हैं।", "hg": "Zyada cells zyada current chalate hain, aur paida hone wali heat current ke saath tezi se badhti hai. Heaters, irons aur toasters isi effect ko use karte hain."}, "With one cell the wire became warm (about 55 °C); with two cells it became hot (above 100 °C).": {"hi": "एक सेल से तार गुनगुना हुआ (लगभग 55 °C); दो सेलों से वह गरम हो गया (100 °C से अधिक)।", "hg": "Ek cell se wire warm hua (lagbhag 55 °C); do cells se woh hot ho gaya (100 °C se zyada)."}, "An electric current heats the wire it flows through; a larger current produces more heat.": {"hi": "विद्युत धारा जिस तार से प्रवाहित होती है उसे गरम करती है; अधिक धारा अधिक ऊष्मा उत्पन्न करती है।", "hg": "Electric current jis wire se flow hota hai use garam karta hai; zyada current zyada heat paida karta hai."}, "Touch the wire only for an instant and only after switching off. Do not leave the circuit on.": {"hi": "तार को केवल एक क्षण के लिए और केवल स्विच बंद करने के बाद ही छुइए। परिपथ को चालू न छोड़िए।", "hg": "Wire ko sirf ek pal ke liye aur sirf switch off karne ke baad hi chhuo. Circuit ko on mat chhodo."}, "Name two appliances that use the heating effect of current.": {"hi": "विद्युत धारा के तापीय प्रभाव का उपयोग करने वाले दो उपकरणों के नाम बताइए।", "hg": "Current ke heating effect ko use karne wale do appliances ke naam batao."}, "Electric iron, heater, toaster, kettle, geyser.": {"hi": "विद्युत इस्त्री, हीटर, टोस्टर, केतली, गीज़र।", "hg": "Electric iron, heater, toaster, kettle, geyser."}, "Why is nichrome used for heating elements?": {"hi": "तापन अवयवों में नाइक्रोम का उपयोग क्यों किया जाता है?", "hg": "Heating elements mein nichrome kyun use kiya jaata hai?"}, "It has a high resistance and does not burn (oxidise) easily when hot.": {"hi": "इसका प्रतिरोध अधिक होता है और गरम होने पर यह आसानी से जलता (ऑक्सीकृत होता) नहीं है।", "hg": "Iska resistance high hota hai aur garam hone par yeh aasani se burn (oxidise) nahi hota."}, "What is an electric fuse?": {"hi": "विद्युत फ़्यूज़ क्या है?", "hg": "Electric fuse kya hai?"}, "A thin wire that melts and breaks the circuit when too much current flows.": {"hi": "एक पतला तार जो बहुत अधिक धारा प्रवाहित होने पर पिघलकर परिपथ को तोड़ देता है।", "hg": "Ek patla wire jo bahut zyada current flow hone par pighalkar circuit tod deta hai."}, "A lemon battery lights an LED": {"hi": "नींबू की बैटरी से LED जलती है", "hg": "Lemon battery se LED jalti hai"}, "To make a battery from lemons with copper and iron electrodes, and to light an LED with it.": {"hi": "ताँबे और लोहे के इलेक्ट्रोडों से नींबुओं की बैटरी बनाना, और उससे एक LED जलाना।", "hg": "Copper aur iron electrodes se lemons ki battery banana, aur usse ek LED jalana."}, "Voltaic cell from lemons": {"hi": "नींबुओं से वोल्टीय सेल", "hg": "Lemons se voltaic cell"}, "A copper strip and an iron nail are pushed into each lemon. Connect the voltmeter across one lemon.": {"hi": "प्रत्येक नींबू में ताँबे की एक पट्टी और लोहे की एक कील घुसाई गई है। वोल्टमीटर को एक नींबू के सिरों के बीच जोड़िए।", "hg": "Har lemon mein ek copper strip aur ek iron nail ghusayi gayi hai. Voltmeter ko ek lemon ke across connect karo."}, "One lemon gives only about 0.55 V.": {"hi": "एक नींबू केवल लगभग 0.55 V देता है।", "hg": "Ek lemon sirf lagbhag 0.55 V deta hai."}, "Join the lemons in series: the iron nail of each lemon to the copper strip of the next. Measure across all six.": {"hi": "नींबुओं को श्रेणीक्रम में जोड़िए: प्रत्येक नींबू की लोहे की कील को अगले नींबू की ताँबे की पट्टी से। सभी छह के सिरों के बीच वोल्टता मापिए।", "hg": "Lemons ko series mein jodo: har lemon ki iron nail ko agle lemon ki copper strip se. Saare chhah ke across measure karo."}, "Six lemons in series give about 3.3 V.": {"hi": "श्रेणीक्रम में जुड़े छह नींबू लगभग 3.3 V देते हैं।", "hg": "Series mein jude chhah lemons lagbhag 3.3 V dete hain."}, "In series the voltages of the cells add up: 6 × 0.55 V ≈ 3.3 V.": {"hi": "श्रेणीक्रम में सेलों की वोल्टताएँ जुड़ जाती हैं: 6 × 0.55 V ≈ 3.3 V।", "hg": "Series mein cells ke voltages jud jaate hain: 6 × 0.55 V ≈ 3.3 V."}, "Connect the LED across the lemon battery: its longer leg to the copper end.": {"hi": "LED को नींबू बैटरी के सिरों के बीच जोड़िए: उसकी लंबी टाँग ताँबे वाले सिरे से।", "hg": "LED ko lemon battery ke across connect karo: uski lambi leg copper wale end se."}, "The LED glows dimly (it is easier to see in a darkened room).": {"hi": "LED मंद रूप से चमकती है (अँधेरे कमरे में इसे देखना आसान होता है)।", "hg": "LED dheemi chamakti hai (andhere kamre mein ise dekhna aasaan hota hai)."}, "The chemical reactions at the copper and iron in the lemon juice push a small current round the circuit.": {"hi": "नींबू के रस में ताँबे और लोहे पर होने वाली रासायनिक अभिक्रियाएँ परिपथ में एक छोटी धारा प्रवाहित करती हैं।", "hg": "Lemon juice mein copper aur iron par hone wali chemical reactions circuit mein ek chhota current chalati hain."}, "Turn the LED round (swap its legs).": {"hi": "LED को उलट दीजिए (उसकी टाँगें आपस में बदल दीजिए)।", "hg": "LED ko ulta karo (uski legs swap karo)."}, "An LED lets current pass only one way: from its longer leg (+) to its shorter leg (−).": {"hi": "LED धारा को केवल एक ही दिशा में जाने देती है: उसकी लंबी टाँग (+) से छोटी टाँग (−) की ओर।", "hg": "LED current ko sirf ek hi direction mein jaane deti hai: uski lambi leg (+) se chhoti leg (−) ki taraf."}, "One lemon gave about 0.55 V; six lemons in series gave about 3.3 V and made a red LED glow dimly. Reversed, the LED did not glow.": {"hi": "एक नींबू ने लगभग 0.55 V दिए; श्रेणीक्रम में छह नींबुओं ने लगभग 3.3 V दिए और एक लाल LED को मंद रूप से जला दिया। उलटने पर LED नहीं जली।", "hg": "Ek lemon ne lagbhag 0.55 V diye; series mein chhah lemons ne lagbhag 3.3 V diye aur ek red LED ko dheema jala diya. Ulta karne par LED nahi jali."}, "Two different metals in lemon juice make an electric cell. Cells joined in series give a larger voltage.": {"hi": "नींबू के रस में दो भिन्न धातुएँ एक विद्युत सेल बनाती हैं। श्रेणीक्रम में जोड़े गए सेल अधिक वोल्टता देते हैं।", "hg": "Lemon juice mein do alag metals ek electric cell banate hain. Series mein jode gaye cells zyada voltage dete hain."}, "Do not eat the lemons used in the experiment. Wash your hands afterwards.": {"hi": "प्रयोग में उपयोग किए गए नींबू न खाइए। बाद में अपने हाथ धोइए।", "hg": "Experiment mein use kiye gaye lemons mat khao. Baad mein apne haath dho lo."}, "What is the electrolyte in a lemon cell?": {"hi": "नींबू सेल में विद्युत अपघट्य क्या है?", "hg": "Lemon cell mein electrolyte kya hai?"}, "Lemon juice (citric acid).": {"hi": "नींबू का रस (सिट्रिक अम्ल)।", "hg": "Lemon juice (citric acid)."}, "Why did the LED glow only dimly?": {"hi": "LED केवल मंद रूप से ही क्यों चमकी?", "hg": "LED sirf dheemi hi kyun chamki?"}, "A lemon cell can give only a very small current.": {"hi": "नींबू सेल केवल बहुत कम धारा दे सकता है।", "hg": "Lemon cell sirf bahut kam current de sakta hai."}, "What would happen with zinc instead of iron?": {"hi": "लोहे के स्थान पर जस्ता (ज़िंक) लेने पर क्या होगा?", "hg": "Iron ki jagah zinc lene par kya hoga?"}, "Each cell would give a higher voltage, about 0.9 V.": {"hi": "प्रत्येक सेल अधिक वोल्टता देगा, लगभग 0.9 V।", "hg": "Har cell zyada voltage dega, lagbhag 0.9 V."}, "Cells in series": {"hi": "श्रेणीक्रम में सेल", "hg": "Series mein cells"}, "How far does it slide? Friction on different surfaces": {"hi": "यह कितनी दूर फिसलता है? विभिन्न सतहों पर घर्षण", "hg": "Yeh kitni door slide karta hai? Alag-alag surfaces par friction"}, "To compare how far the same block slides on different surfaces when given the same push.": {"hi": "समान धक्का देने पर एक ही गुटका विभिन्न सतहों पर कितनी दूर फिसलता है, इसकी तुलना करना।", "hg": "Same push dene par ek hi block alag-alag surfaces par kitni door slide karta hai, iska comparison karna."}, "Friction opposes motion": {"hi": "घर्षण गति का विरोध करता है", "hg": "Friction motion ko oppose karta hai"}, "Put the block at the start of the glass sheet and give it a push with the rubber-band launcher. Measure how far it slides.": {"hi": "गुटके को काँच की शीट के आरंभ में रखिए और रबर-बैंड लॉन्चर से उसे धक्का दीजिए। मापिए कि वह कितनी दूर फिसलता है।", "hg": "Block ko glass sheet ke start par rakho aur rubber-band launcher se use push do. Measure karo ki woh kitni door slide karta hai."}, "The block slides about 60 cm on the smooth glass before it stops.": {"hi": "चिकने काँच पर गुटका रुकने से पहले लगभग 60 cm फिसलता है।", "hg": "Smooth glass par block rukne se pehle lagbhag 60 cm slide karta hai."}, "Give it the same push on the wooden board.": {"hi": "लकड़ी के बोर्ड पर उसे वैसा ही धक्का दीजिए।", "hg": "Wooden board par use same push do."}, "On wood it stops after about 34 cm.": {"hi": "लकड़ी पर यह लगभग 34 cm के बाद रुक जाता है।", "hg": "Wood par yeh lagbhag 34 cm ke baad ruk jaata hai."}, "Now on the towel.": {"hi": "अब तौलिये पर।", "hg": "Ab towel par."}, "On the towel it stops after about 15 cm.": {"hi": "तौलिये पर यह लगभग 15 cm के बाद रुक जाता है।", "hg": "Towel par yeh lagbhag 15 cm ke baad ruk jaata hai."}, "And on the board covered with sand.": {"hi": "और रेत से ढके बोर्ड पर।", "hg": "Aur sand se dhake board par."}, "On sand it moves only about 5 cm.": {"hi": "रेत पर यह केवल लगभग 5 cm ही चलता है।", "hg": "Sand par yeh sirf lagbhag 5 cm hi chalta hai."}, "Friction acts against the motion and slows the block down. Rough surfaces give more friction, so the block stops sooner.": {"hi": "घर्षण गति के विपरीत कार्य करता है और गुटके को धीमा कर देता है। खुरदरी सतहें अधिक घर्षण देती हैं, इसलिए गुटका जल्दी रुक जाता है।", "hg": "Friction motion ke against kaam karta hai aur block ko slow kar deta hai. Rough surfaces zyada friction deti hain, isliye block jaldi ruk jaata hai."}, "With the same push the block slid about 60 cm on glass, 34 cm on wood, 15 cm on a towel and 5 cm on sand.": {"hi": "समान धक्के से गुटका काँच पर लगभग 60 cm, लकड़ी पर 34 cm, तौलिये पर 15 cm और रेत पर 5 cm फिसला।", "hg": "Same push se block glass par lagbhag 60 cm, wood par 34 cm, towel par 15 cm aur sand par 5 cm slide hua."}, "Friction depends on the surfaces in contact: it is least on smooth surfaces and most on rough ones. It always acts against the motion.": {"hi": "घर्षण संपर्क में आने वाली सतहों पर निर्भर करता है: यह चिकनी सतहों पर सबसे कम और खुरदरी सतहों पर सबसे अधिक होता है। यह सदैव गति के विपरीत कार्य करता है।", "hg": "Friction contact mein aane wali surfaces par depend karta hai: yeh smooth surfaces par sabse kam aur rough surfaces par sabse zyada hota hai. Yeh hamesha motion ke against kaam karta hai."}, "Keep your fingers away from the stretched rubber band.": {"hi": "खिंचे हुए रबर बैंड से अपनी उँगलियाँ दूर रखिए।", "hg": "Stretched rubber band se apni ungliyan door rakho."}, "Why does a ball rolling on the ground finally stop?": {"hi": "ज़मीन पर लुढ़कती गेंद अंत में रुक क्यों जाती है?", "hg": "Zameen par rolling ball aakhir mein ruk kyun jaati hai?"}, "Friction between the ball and the ground slows it down.": {"hi": "गेंद और ज़मीन के बीच का घर्षण उसे धीमा कर देता है।", "hg": "Ball aur zameen ke beech ka friction use slow kar deta hai."}, "Why is it easy to slip on a wet marble floor?": {"hi": "गीले संगमरमर के फ़र्श पर फिसलना आसान क्यों होता है?", "hg": "Geele marble floor par slip karna aasaan kyun hota hai?"}, "Water makes the floor smoother, so friction is less.": {"hi": "पानी फ़र्श को अधिक चिकना बना देता है, इसलिए घर्षण कम होता है।", "hg": "Paani floor ko aur smooth bana deta hai, isliye friction kam hota hai."}, "Is friction always a nuisance?": {"hi": "क्या घर्षण सदैव एक परेशानी है?", "hg": "Kya friction hamesha ek problem hai?"}, "No: without friction we could not walk, write or hold things.": {"hi": "नहीं: घर्षण के बिना हम न चल सकते, न लिख सकते और न ही वस्तुओं को पकड़ सकते।", "hg": "Nahi: friction ke bina hum na chal sakte, na likh sakte aur na hi cheezein pakad sakte."}, "Floating ring magnets": {"hi": "तैरते वलय चुंबक", "hg": "Floating ring magnets"}, "To show that magnets can push each other without touching (a non-contact force).": {"hi": "यह दर्शाना कि चुंबक एक-दूसरे को छुए बिना धकेल सकते हैं (एक असंपर्क बल)।", "hg": "Yeh dikhana ki magnets ek-doosre ko bina chhue push kar sakte hain (ek non-contact force)."}, "Magnetic force: a non-contact force": {"hi": "चुंबकीय बल: एक असंपर्क बल", "hg": "Magnetic force: ek non-contact force"}, "Slide the second ring magnet down the stick so that like poles face each other, and let go.": {"hi": "दूसरे वलय चुंबक को छड़ी पर नीचे की ओर इस प्रकार सरकाइए कि सजातीय ध्रुव आमने-सामने हों, और छोड़ दीजिए।", "hg": "Doosre ring magnet ko stick par neeche aise slide karo ki like poles aamne-saamne hon, aur chhod do."}, "The upper magnet floats in the air above the lower one, with a gap of about 2 cm.": {"hi": "ऊपर वाला चुंबक नीचे वाले चुंबक के ऊपर हवा में लगभग 2 cm के अंतराल पर तैरता है।", "hg": "Upar wala magnet neeche wale ke upar hawa mein lagbhag 2 cm ke gap par float karta hai."}, "Like poles repel. The magnetic push upwards balances the weight of the upper magnet.": {"hi": "सजातीय ध्रुव एक-दूसरे को प्रतिकर्षित करते हैं। ऊपर की ओर लगने वाला चुंबकीय धक्का ऊपर वाले चुंबक के भार को संतुलित करता है।", "hg": "Like poles repel karte hain. Upar ki taraf lagne wala magnetic push upar wale magnet ke weight ko balance karta hai."}, "Press the upper magnet down gently and let it go.": {"hi": "ऊपर वाले चुंबक को धीरे से नीचे दबाइए और छोड़ दीजिए।", "hg": "Upar wale magnet ko halke se neeche dabao aur chhod do."}, "You feel a springy push; the magnet jumps back up and bobs before settling.": {"hi": "आपको स्प्रिंग जैसा धक्का महसूस होता है; चुंबक वापस ऊपर उछलता है और स्थिर होने से पहले कुछ देर ऊपर-नीचे होता है।", "hg": "Tumhe springy push feel hota hai; magnet wapas upar uchhalta hai aur settle hone se pehle upar-neeche hota hai."}, "Take out the upper magnet, turn it over and slide it down again.": {"hi": "ऊपर वाले चुंबक को निकालिए, उसे पलटिए और फिर से नीचे सरकाइए।", "hg": "Upar wale magnet ko nikalo, use palto aur phir se neeche slide karo."}, "Now it snaps down onto the lower magnet and sticks to it.": {"hi": "अब यह झटके से नीचे वाले चुंबक पर आ जाता है और उससे चिपक जाता है।", "hg": "Ab yeh jhatke se neeche wale magnet par aa jaata hai aur usse chipak jaata hai."}, "Unlike poles attract. Magnetic forces act even without touching: they are non-contact forces.": {"hi": "विजातीय ध्रुव एक-दूसरे को आकर्षित करते हैं। चुंबकीय बल बिना छुए भी कार्य करते हैं: ये असंपर्क बल हैं।", "hg": "Unlike poles attract karte hain. Magnetic forces bina chhue bhi kaam karti hain: yeh non-contact forces hain."}, "With like poles facing, the upper ring magnet floated about 2 cm above the lower one and bounced back when pressed; turned over, it stuck to the lower magnet.": {"hi": "सजातीय ध्रुव आमने-सामने होने पर ऊपर वाला वलय चुंबक नीचे वाले से लगभग 2 cm ऊपर तैरता रहा और दबाने पर वापस उछला; पलटने पर वह नीचे वाले चुंबक से चिपक गया।", "hg": "Like poles aamne-saamne hone par upar wala ring magnet neeche wale se lagbhag 2 cm upar float karta raha aur dabane par wapas uchhla; palatne par woh neeche wale magnet se chipak gaya."}, "Magnets exert forces on each other without touching. Like poles repel and unlike poles attract.": {"hi": "चुंबक बिना छुए एक-दूसरे पर बल लगाते हैं। सजातीय ध्रुव प्रतिकर्षित करते हैं और विजातीय ध्रुव आकर्षित करते हैं।", "hg": "Magnets bina chhue ek-doosre par force lagate hain. Like poles repel karte hain aur unlike poles attract karte hain."}, "Do not let the magnets snap together on your fingers; keep them away from phones and cards.": {"hi": "चुंबकों को अपनी उँगलियों पर झटके से आपस में चिपकने न दीजिए; उन्हें फ़ोन और कार्डों से दूर रखिए।", "hg": "Magnets ko apni ungliyon par jhatke se aapas mein chipakne mat do; unhe phones aur cards se door rakho."}, "Name two non-contact forces.": {"hi": "दो असंपर्क बलों के नाम बताइए।", "hg": "Do non-contact forces ke naam batao."}, "Magnetic force, electrostatic force and gravitational force.": {"hi": "चुंबकीय बल, स्थिरवैद्युत बल और गुरुत्वाकर्षण बल।", "hg": "Magnetic force, electrostatic force aur gravitational force."}, "Why does the upper magnet not fall?": {"hi": "ऊपर वाला चुंबक नीचे क्यों नहीं गिरता?", "hg": "Upar wala magnet neeche kyun nahi girta?"}, "The repulsion between like poles balances its weight.": {"hi": "सजातीय ध्रुवों के बीच का प्रतिकर्षण उसके भार को संतुलित करता है।", "hg": "Like poles ke beech ka repulsion uske weight ko balance karta hai."}, "Where is this idea used?": {"hi": "इस विचार का उपयोग कहाँ किया जाता है?", "hg": "Yeh idea kahan use hota hai?"}, "In maglev trains, which float above the track.": {"hi": "मैगलेव रेलगाड़ियों में, जो पटरी के ऊपर तैरती हैं।", "hg": "Maglev trains mein, jo track ke upar float karti hain."}, "Magnetic force": {"hi": "चुंबकीय बल", "hg": "Magnetic force"}, "A rubbed plastic scale picks up paper bits": {"hi": "रगड़ा गया प्लास्टिक का पैमाना कागज़ के टुकड़े उठाता है", "hg": "Rub kiya gaya plastic scale paper ke tukde uthata hai"}, "To show the electrostatic force: a plastic scale rubbed with polythene attracts small bits of paper.": {"hi": "स्थिरवैद्युत बल दर्शाना: पॉलीथीन से रगड़ा गया प्लास्टिक का पैमाना कागज़ के छोटे टुकड़ों को आकर्षित करता है।", "hg": "Electrostatic force dikhana: polythene se rub kiya gaya plastic scale paper ke chhote tukdon ko attract karta hai."}, "Electrostatic force": {"hi": "स्थिरवैद्युत बल", "hg": "Electrostatic force"}, "Hold the scale just above the paper bits without rubbing it.": {"hi": "पैमाने को रगड़े बिना कागज़ के टुकड़ों के ठीक ऊपर पकड़िए।", "hg": "Scale ko rub kiye bina paper ke tukdon ke theek upar pakdo."}, "Nothing happens.": {"hi": "कुछ नहीं होता।", "hg": "Kuch nahi hota."}, "Rub the scale hard with the polythene a few times.": {"hi": "पैमाने को पॉलीथीन से कुछ बार ज़ोर से रगड़िए।", "hg": "Scale ko polythene se kuch baar zor se rub karo."}, "Rubbing gives the scale an electric charge (you cannot see it yet).": {"hi": "रगड़ने से पैमाने पर विद्युत आवेश आ जाता है (आप इसे अभी देख नहीं सकते)।", "hg": "Rub karne se scale par electric charge aa jaata hai (tum ise abhi dekh nahi sakte)."}, "Hold the rubbed end of the scale about 1 cm above the paper bits.": {"hi": "पैमाने के रगड़े गए सिरे को कागज़ के टुकड़ों से लगभग 1 cm ऊपर पकड़िए।", "hg": "Scale ke rub kiye gaye end ko paper ke tukdon se lagbhag 1 cm upar pakdo."}, "The paper bits jump up and stick to the scale.": {"hi": "कागज़ के टुकड़े उछलकर पैमाने से चिपक जाते हैं।", "hg": "Paper ke tukde uchhalkar scale se chipak jaate hain."}, "A charged object attracts small uncharged objects. This electrostatic force acts without touching.": {"hi": "आवेशित वस्तु छोटी अनावेशित वस्तुओं को आकर्षित करती है। यह स्थिरवैद्युत बल बिना छुए कार्य करता है।", "hg": "Charged object chhote uncharged objects ko attract karta hai. Yeh electrostatic force bina chhue kaam karta hai."}, "The unrubbed scale did nothing; after rubbing with polythene it pulled small paper bits up from about 1 cm away.": {"hi": "बिना रगड़े पैमाने से कुछ नहीं हुआ; पॉलीथीन से रगड़ने के बाद उसने लगभग 1 cm दूर से कागज़ के छोटे टुकड़ों को ऊपर खींच लिया।", "hg": "Bina rub kiye scale se kuch nahi hua; polythene se rub karne ke baad usne lagbhag 1 cm door se paper ke chhote tukdon ko upar kheench liya."}, "Rubbing gives a plastic scale an electric charge, and a charged object attracts small bits of paper by electrostatic force, without touching them.": {"hi": "रगड़ने से प्लास्टिक के पैमाने पर विद्युत आवेश आ जाता है, और आवेशित वस्तु कागज़ के छोटे टुकड़ों को बिना छुए स्थिरवैद्युत बल द्वारा आकर्षित करती है।", "hg": "Rub karne se plastic scale par electric charge aa jaata hai, aur charged object paper ke chhote tukdon ko bina chhue electrostatic force se attract karta hai."}, "This works best in dry weather. Do not rub the scale on your skin for long.": {"hi": "यह प्रयोग शुष्क मौसम में सबसे अच्छा होता है। पैमाने को अपनी त्वचा पर देर तक न रगड़िए।", "hg": "Yeh dry weather mein sabse achchha kaam karta hai. Scale ko apni skin par der tak rub mat karo."}, "Why does the experiment work poorly on a humid day?": {"hi": "आर्द्र (नमी वाले) दिन यह प्रयोग ठीक से क्यों नहीं होता?", "hg": "Humid din par yeh experiment theek se kyun nahi hota?"}, "Moist air lets the charge leak away.": {"hi": "नम वायु के कारण आवेश धीरे-धीरे निकल जाता है।", "hg": "Moist air ki wajah se charge leak ho jaata hai."}, "Name another example of electrostatic force.": {"hi": "स्थिरवैद्युत बल का एक अन्य उदाहरण बताइए।", "hg": "Electrostatic force ka ek aur example batao."}, "A comb run through dry hair attracts paper bits; clothes cling together after drying.": {"hi": "सूखे बालों में फेरी गई कंघी कागज़ के टुकड़ों को आकर्षित करती है; सूखने के बाद कपड़े आपस में चिपक जाते हैं।", "hg": "Sookhe baalon mein pheri gayi comb paper ke tukdon ko attract karti hai; sookhne ke baad kapde aapas mein chipak jaate hain."}, "Is the electrostatic force a contact force?": {"hi": "क्या स्थिरवैद्युत बल एक संपर्क बल है?", "hg": "Kya electrostatic force ek contact force hai?"}, "No, it acts from a distance.": {"hi": "नहीं, यह दूर से ही कार्य करता है।", "hg": "Nahi, yeh door se hi kaam karta hai."}, "Charged balloons push and pull": {"hi": "आवेशित गुब्बारे धकेलते और खींचते हैं", "hg": "Charged balloons push aur pull karte hain"}, "To show that like charges repel and unlike charges attract, using balloons rubbed with wool.": {"hi": "ऊन से रगड़े गए गुब्बारों की सहायता से यह दर्शाना कि सजातीय आवेश एक-दूसरे को प्रतिकर्षित करते हैं और विजातीय आवेश आकर्षित करते हैं।", "hg": "Wool se rub kiye gaye balloons se yeh dikhana ki like charges repel karte hain aur unlike charges attract karte hain."}, "Like and unlike charges": {"hi": "सजातीय और विजातीय आवेश", "hg": "Like aur unlike charges"}, "Two balloons hang side by side on threads, close but not touching.": {"hi": "दो गुब्बारे धागों से अगल-बगल लटके हैं, पास-पास लेकिन एक-दूसरे को छूते हुए नहीं।", "hg": "Do balloons threads se side by side latke hain, paas-paas lekin ek-doosre ko chhoote hue nahi."}, "The balloons hang straight down.": {"hi": "गुब्बारे सीधे नीचे लटकते हैं।", "hg": "Balloons seedhe neeche latakte hain."}, "Rub each balloon with the woollen cloth, and let them hang again.": {"hi": "प्रत्येक गुब्बारे को ऊनी कपड़े से रगड़िए, और उन्हें फिर से लटकने दीजिए।", "hg": "Har balloon ko woollen cloth se rub karo, aur unhe phir se latakne do."}, "The two balloons move apart from each other.": {"hi": "दोनों गुब्बारे एक-दूसरे से दूर हट जाते हैं।", "hg": "Dono balloons ek-doosre se door hat jaate hain."}, "Both balloons got the same kind of charge from the wool. Like charges repel.": {"hi": "दोनों गुब्बारों को ऊन से एक ही प्रकार का आवेश मिला। सजातीय आवेश प्रतिकर्षित करते हैं।", "hg": "Dono balloons ko wool se same type ka charge mila. Like charges repel karte hain."}, "Bring the woollen cloth near one of the balloons (without touching).": {"hi": "ऊनी कपड़े को किसी एक गुब्बारे के पास लाइए (बिना छुए)।", "hg": "Woollen cloth ko kisi ek balloon ke paas lao (bina chhue)."}, "The balloon swings towards the cloth.": {"hi": "गुब्बारा कपड़े की ओर झूल जाता है।", "hg": "Balloon cloth ki taraf jhool jaata hai."}, "The wool got the opposite charge to the balloons. Unlike charges attract.": {"hi": "ऊन पर गुब्बारों के विपरीत आवेश आया। विजातीय आवेश आकर्षित करते हैं।", "hg": "Wool par balloons ka opposite charge aaya. Unlike charges attract karte hain."}, "After rubbing with wool the two balloons pushed each other apart, but a balloon was pulled towards the woollen cloth.": {"hi": "ऊन से रगड़ने के बाद दोनों गुब्बारों ने एक-दूसरे को दूर धकेला, लेकिन एक गुब्बारा ऊनी कपड़े की ओर खिंच गया।", "hg": "Wool se rub karne ke baad dono balloons ne ek-doosre ko door push kiya, lekin ek balloon woollen cloth ki taraf kheench gaya."}, "Rubbing gives objects electric charges. Like charges repel each other and unlike charges attract.": {"hi": "रगड़ने से वस्तुओं पर विद्युत आवेश आ जाते हैं। सजातीय आवेश एक-दूसरे को प्रतिकर्षित करते हैं और विजातीय आवेश आकर्षित करते हैं।", "hg": "Rub karne se objects par electric charges aa jaate hain. Like charges ek-doosre ko repel karte hain aur unlike charges attract karte hain."}, "Do not burst the balloons near anyone’s ears.": {"hi": "किसी के कानों के पास गुब्बारे न फोड़िए।", "hg": "Kisi ke kaanon ke paas balloons mat phodo."}, "What kind of charge do the two balloons have?": {"hi": "दोनों गुब्बारों पर किस प्रकार का आवेश है?", "hg": "Dono balloons par kis type ka charge hai?"}, "The same kind (both got it the same way from the wool).": {"hi": "एक ही प्रकार का (दोनों को यह ऊन से एक ही तरह मिला)।", "hg": "Same type ka (dono ko yeh wool se same tarah mila)."}, "Why does the balloon move towards the wool?": {"hi": "गुब्बारा ऊन की ओर क्यों जाता है?", "hg": "Balloon wool ki taraf kyun jaata hai?"}, "The wool and the balloon have opposite charges, which attract.": {"hi": "ऊन और गुब्बारे पर विपरीत आवेश हैं, जो एक-दूसरे को आकर्षित करते हैं।", "hg": "Wool aur balloon par opposite charges hain, jo ek-doosre ko attract karte hain."}, "What happens to the charge after some time?": {"hi": "कुछ समय बाद आवेश का क्या होता है?", "hg": "Kuch time baad charge ka kya hota hai?"}, "It slowly leaks away into the air, and the balloons hang straight again.": {"hi": "यह धीरे-धीरे वायु में निकल जाता है, और गुब्बारे फिर से सीधे लटक जाते हैं।", "hg": "Yeh dheere-dheere air mein leak ho jaata hai, aur balloons phir se seedhe latak jaate hain."}, "Electric charges": {"hi": "विद्युत आवेश", "hg": "Electric charges"}, "Stretching a spring": {"hi": "स्प्रिंग को खींचना", "hg": "Spring ko stretch karna"}, "To see that a spring stretches more when a heavier object hangs from it.": {"hi": "यह देखना कि स्प्रिंग से भारी वस्तु लटकाने पर वह अधिक खिंचती है।", "hg": "Yeh dekhna ki spring se heavy object latkane par woh zyada stretch hoti hai."}, "Weight stretches a spring": {"hi": "भार स्प्रिंग को खींचता है", "hg": "Weight spring ko stretch karta hai"}, "Hang the small stone on the spring and read the stretch on the scale.": {"hi": "छोटे पत्थर को स्प्रिंग पर लटकाइए और पैमाने पर खिंचाव पढ़िए।", "hg": "Chhote stone ko spring par latkao aur scale par stretch padho."}, "The spring stretches by about 2 cm.": {"hi": "स्प्रिंग लगभग 2 cm खिंचती है।", "hg": "Spring lagbhag 2 cm stretch hoti hai."}, "Replace it with the pencil box.": {"hi": "उसके स्थान पर पेंसिल बॉक्स लटकाइए।", "hg": "Uski jagah pencil box latkao."}, "It stretches by about 4 cm.": {"hi": "यह लगभग 4 cm खिंचती है।", "hg": "Yeh lagbhag 4 cm stretch hoti hai."}, "Now hang the tiffin box.": {"hi": "अब टिफ़िन बॉक्स लटकाइए।", "hg": "Ab tiffin box latkao."}, "It stretches by about 8 cm.": {"hi": "यह लगभग 8 cm खिंचती है।", "hg": "Yeh lagbhag 8 cm stretch hoti hai."}, "The heavier the object, the greater the force of gravity on it (its weight), and the more it stretches the spring. A spring balance works on this idea.": {"hi": "वस्तु जितनी भारी होती है, उस पर गुरुत्व बल (उसका भार) उतना ही अधिक होता है, और वह स्प्रिंग को उतना ही अधिक खींचती है। कमानीदार तुला इसी सिद्धांत पर कार्य करती है।", "hg": "Object jitna heavy hota hai, us par force of gravity (uska weight) utna hi zyada hota hai, aur woh spring ko utna hi zyada stretch karta hai. Spring balance isi idea par kaam karta hai."}, "The stone (100 g) stretched the spring about 2 cm, the pencil box (200 g) about 4 cm and the tiffin box (400 g) about 8 cm.": {"hi": "पत्थर (100 g) ने स्प्रिंग को लगभग 2 cm, पेंसिल बॉक्स (200 g) ने लगभग 4 cm और टिफ़िन बॉक्स (400 g) ने लगभग 8 cm खींचा।", "hg": "Stone (100 g) ne spring ko lagbhag 2 cm, pencil box (200 g) ne lagbhag 4 cm aur tiffin box (400 g) ne lagbhag 8 cm stretch kiya."}, "A spring stretches more for a heavier object: the stretch is proportional to the weight hanging from it.": {"hi": "भारी वस्तु के लिए स्प्रिंग अधिक खिंचती है: खिंचाव उससे लटके भार के समानुपाती होता है।", "hg": "Heavy object ke liye spring zyada stretch hoti hai: stretch us par latke weight ke proportional hota hai."}, "Do not hang very heavy objects; the spring may be stretched permanently.": {"hi": "बहुत भारी वस्तुएँ न लटकाइए; स्प्रिंग स्थायी रूप से खिंच सकती है।", "hg": "Bahut heavy objects mat latkao; spring permanently stretch ho sakti hai."}, "What force stretches the spring?": {"hi": "कौन-सा बल स्प्रिंग को खींचता है?", "hg": "Kaunsa force spring ko stretch karta hai?"}, "The weight of the object (the pull of gravity on it).": {"hi": "वस्तु का भार (उस पर गुरुत्व का खिंचाव)।", "hg": "Object ka weight (us par gravity ka pull)."}, "Which instrument uses a spring to measure force?": {"hi": "कौन-सा उपकरण बल मापने के लिए स्प्रिंग का उपयोग करता है?", "hg": "Kaunsa instrument force measure karne ke liye spring use karta hai?"}, "The spring balance.": {"hi": "कमानीदार तुला (स्प्रिंग बैलेंस)।", "hg": "Spring balance."}, "What happens if the spring is stretched too much?": {"hi": "यदि स्प्रिंग को बहुत अधिक खींचा जाए तो क्या होता है?", "hg": "Agar spring ko bahut zyada stretch kiya jaaye to kya hota hai?"}, "It does not return to its original length.": {"hi": "यह अपनी मूल लंबाई पर वापस नहीं लौटती।", "hg": "Yeh apni original length par wapas nahi aati."}, "Stretch of a spring": {"hi": "स्प्रिंग का खिंचाव", "hg": "Spring ka stretch"}, "Using a spring balance": {"hi": "कमानीदार तुला का उपयोग", "hg": "Spring balance ka use"}, "To find the range and the least count of a spring balance and to measure the weight of objects with it.": {"hi": "कमानीदार तुला का परिसर (रेंज) और अल्पतमांक ज्ञात करना तथा उससे वस्तुओं का भार मापना।", "hg": "Spring balance ki range aur least count pata karna aur usse objects ka weight measure karna."}, "Spring balance: range, least count and weight": {"hi": "कमानीदार तुला: परिसर, अल्पतमांक और भार", "hg": "Spring balance: range, least count aur weight"}, "Look at the scale of the spring balance. What is the largest weight it can measure?": {"hi": "कमानीदार तुला के पैमाने को देखिए। यह अधिकतम कितना भार माप सकती है?", "hg": "Spring balance ke scale ko dekho. Yeh maximum kitna weight measure kar sakta hai?"}, "Its range is 0 to 10 N.": {"hi": "इसका परिसर 0 से 10 N है।", "hg": "Iski range 0 se 10 N hai."}, "Count the small divisions between 0 and 1 N.": {"hi": "0 और 1 N के बीच के छोटे भाग गिनिए।", "hg": "0 aur 1 N ke beech ke chhote divisions gino."}, "There are 5 divisions, so the least count is 1 N ÷ 5 = 0.2 N.": {"hi": "5 भाग हैं, इसलिए अल्पतमांक 1 N ÷ 5 = 0.2 N है।", "hg": "5 divisions hain, isliye least count 1 N ÷ 5 = 0.2 N hai."}, "Hang the stone, the pencil box and the tiffin box from the hook one by one and read the weight.": {"hi": "पत्थर, पेंसिल बॉक्स और टिफ़िन बॉक्स को एक-एक करके हुक से लटकाइए और भार पढ़िए।", "hg": "Stone, pencil box aur tiffin box ko ek-ek karke hook se latkao aur weight padho."}, "The stone weighs about 1.0 N, the pencil box about 2.0 N and the tiffin box about 4.0 N.": {"hi": "पत्थर का भार लगभग 1.0 N, पेंसिल बॉक्स का लगभग 2.0 N और टिफ़िन बॉक्स का लगभग 4.0 N है।", "hg": "Stone ka weight lagbhag 1.0 N, pencil box ka lagbhag 2.0 N aur tiffin box ka lagbhag 4.0 N hai."}, "Weight is the force of gravity on an object, measured in newtons (N). An object of mass 100 g weighs about 1 N.": {"hi": "भार किसी वस्तु पर लगने वाला गुरुत्व बल है, जिसे न्यूटन (N) में मापा जाता है। 100 g द्रव्यमान की वस्तु का भार लगभग 1 N होता है।", "hg": "Weight kisi object par lagne wala force of gravity hai, jise newtons (N) mein measure kiya jaata hai. 100 g mass wale object ka weight lagbhag 1 N hota hai."}, "Range 0 – 10 N; least count 0.2 N. Weights: stone ≈ 1.0 N, pencil box ≈ 2.0 N, tiffin box ≈ 4.0 N.": {"hi": "परिसर 0 – 10 N; अल्पतमांक 0.2 N। भार: पत्थर ≈ 1.0 N, पेंसिल बॉक्स ≈ 2.0 N, टिफ़िन बॉक्स ≈ 4.0 N।", "hg": "Range 0 – 10 N; least count 0.2 N. Weights: stone ≈ 1.0 N, pencil box ≈ 2.0 N, tiffin box ≈ 4.0 N."}, "A spring balance measures force (weight) in newtons. Its range is the largest force it can measure and its least count is the smallest.": {"hi": "कमानीदार तुला बल (भार) को न्यूटन में मापती है। इसका परिसर वह अधिकतम बल है जिसे यह माप सकती है, और इसका अल्पतमांक वह न्यूनतम बल है जिसे यह माप सकती है।", "hg": "Spring balance force (weight) ko newtons mein measure karta hai. Iski range woh sabse bada force hai jo yeh measure kar sakta hai, aur iska least count sabse chhota."}, "Never hang anything heavier than the range of the balance. Check that the pointer is at zero before use.": {"hi": "तुला के परिसर से अधिक भारी कोई वस्तु कभी न लटकाइए। उपयोग से पहले जाँच लीजिए कि संकेतक शून्य पर है।", "hg": "Balance ki range se zyada heavy cheez kabhi mat latkao. Use se pehle check karo ki pointer zero par hai."}, "What is the SI unit of force?": {"hi": "बल का SI मात्रक क्या है?", "hg": "Force ki SI unit kya hai?"}, "The newton (N).": {"hi": "न्यूटन (N)।", "hg": "Newton (N)."}, "What is the least count of an instrument?": {"hi": "किसी उपकरण का अल्पतमांक क्या होता है?", "hg": "Kisi instrument ka least count kya hota hai?"}, "The smallest value it can measure accurately.": {"hi": "वह सबसे छोटा मान जिसे वह सही-सही माप सकता है।", "hg": "Woh sabse chhoti value jo woh accurately measure kar sakta hai."}, "What would the stone weigh on the Moon?": {"hi": "चंद्रमा पर पत्थर का भार कितना होगा?", "hg": "Moon par stone ka weight kitna hoga?"}, "About one sixth: about 0.16 N.": {"hi": "लगभग छठा भाग: लगभग 0.16 N।", "hg": "Lagbhag one sixth: lagbhag 0.16 N."}, "Weight": {"hi": "भार", "hg": "Weight"}, "Upthrust on a bottle pushed into water": {"hi": "पानी में दबाई गई बोतल पर उत्प्लावक बल", "hg": "Paani mein dabayi gayi bottle par upthrust"}, "To feel the upward force (upthrust) of water on an empty closed bottle pushed into it.": {"hi": "पानी में दबाई गई खाली बंद बोतल पर पानी के ऊपर की ओर लगने वाले बल (उत्प्लावक बल) को महसूस करना।", "hg": "Paani mein dabayi gayi khaali band bottle par paani ka upward force (upthrust) feel karna."}, "Buoyant force": {"hi": "उत्प्लावक बल", "hg": "Buoyant force"}, "Put the closed empty bottle on the water in the bucket.": {"hi": "बंद खाली बोतल को बाल्टी में भरे पानी पर रखिए।", "hg": "Band khaali bottle ko bucket ke paani par rakho."}, "The bottle floats with only a small part of it under water.": {"hi": "बोतल तैरती है, उसका केवल एक छोटा भाग ही पानी में डूबा रहता है।", "hg": "Bottle float karti hai, uska sirf ek chhota part hi paani ke andar rehta hai."}, "Push the bottle down into the water slowly with your hand.": {"hi": "बोतल को अपने हाथ से धीरे-धीरे पानी में नीचे दबाइए।", "hg": "Bottle ko apne haath se dheere-dheere paani mein neeche dabao."}, "The deeper the bottle goes, the harder the water pushes it up — with the bottle fully under water the push is about 6 N.": {"hi": "बोतल जितनी गहराई तक जाती है, पानी उसे उतने ही अधिक बल से ऊपर धकेलता है — बोतल पूरी डूबी होने पर यह धक्का लगभग 6 N होता है।", "hg": "Bottle jitni gehrai tak jaati hai, paani use utni hi zor se upar push karta hai — bottle poori paani ke andar hone par push lagbhag 6 N hota hai."}, "Water pushes up on anything put into it. The more water the bottle pushes aside, the greater this upthrust (buoyant force).": {"hi": "पानी उसमें डाली गई हर वस्तु को ऊपर की ओर धकेलता है। बोतल जितना अधिक पानी हटाती है, यह उत्क्षेप (उत्प्लावक बल) उतना ही अधिक होता है।", "hg": "Paani usmein daali gayi har cheez ko upar push karta hai. Bottle jitna zyada paani hatati hai, yeh upthrust (buoyant force) utna hi zyada hota hai."}, "Now let go of the bottle.": {"hi": "अब बोतल को छोड़ दीजिए।", "hg": "Ab bottle ko chhod do."}, "The bottle shoots up out of the water and then floats again.": {"hi": "बोतल तेज़ी से उछलकर पानी से बाहर आती है और फिर से तैरने लगती है।", "hg": "Bottle tezi se uchhalkar paani se bahar aati hai aur phir se float karne lagti hai."}, "With nothing holding it down, the upthrust (much more than the bottle’s small weight) pushes it up until only a little of it stays under water.": {"hi": "उसे नीचे दबाए रखने वाला कुछ न होने पर, उत्प्लावक बल (जो बोतल के छोटे भार से कहीं अधिक है) उसे तब तक ऊपर धकेलता है जब तक उसका केवल थोड़ा-सा भाग ही पानी में रह जाता है।", "hg": "Use neeche dabaye rakhne wala kuch na hone par, upthrust (jo bottle ke chhote weight se kaafi zyada hai) use tab tak upar push karta hai jab tak uska sirf thoda sa part hi paani ke andar reh jaata hai."}, "The bottle floated; pushing it down needed more and more force (up to about 6 N when it was fully under); released, it jumped up and floated again.": {"hi": "बोतल तैरती रही; उसे नीचे दबाने के लिए अधिक-से-अधिक बल लगाना पड़ा (पूरी डूबने पर लगभग 6 N तक); छोड़ने पर वह ऊपर उछली और फिर से तैरने लगी।", "hg": "Bottle float karti rahi; use neeche dabane ke liye zyada se zyada force lagana pada (poori doobne par lagbhag 6 N tak); chhodne par woh upar uchhli aur phir se float karne lagi."}, "Water exerts an upward force (upthrust) on objects in it. The more of the object is under water, the greater the upthrust.": {"hi": "पानी उसमें रखी वस्तुओं पर ऊपर की ओर बल (उत्प्लावक बल) लगाता है। वस्तु का जितना अधिक भाग पानी में डूबा होता है, उत्प्लावक बल उतना ही अधिक होता है।", "hg": "Paani usmein rakhe objects par upward force (upthrust) lagata hai. Object ka jitna zyada part paani ke andar hota hai, upthrust utna hi zyada hota hai."}, "Wipe up spilled water so that nobody slips.": {"hi": "गिरे हुए पानी को पोंछ दीजिए ताकि कोई फिसले नहीं।", "hg": "Gira hua paani pochh do taaki koi slip na kare."}, "Why does a mug of water feel lighter under water than in air?": {"hi": "पानी से भरा मग हवा की तुलना में पानी के भीतर हल्का क्यों लगता है?", "hg": "Paani se bhara mug hawa ke comparison mein paani ke andar halka kyun lagta hai?"}, "The water pushes it up (upthrust).": {"hi": "पानी उसे ऊपर की ओर धकेलता है (उत्प्लावक बल)।", "hg": "Paani use upar push karta hai (upthrust)."}, "Why do ships float?": {"hi": "जहाज़ क्यों तैरते हैं?", "hg": "Ships float kyun karte hain?"}, "They push aside a lot of water, so the upthrust balances their weight.": {"hi": "वे बहुत सारा पानी हटाते हैं, इसलिए उत्प्लावक बल उनके भार को संतुलित कर देता है।", "hg": "Woh bahut saara paani hatate hain, isliye upthrust unke weight ko balance kar deta hai."}, "Does a stone also feel upthrust in water?": {"hi": "क्या पानी में पत्थर पर भी उत्प्लावक बल लगता है?", "hg": "Kya paani mein stone par bhi upthrust lagta hai?"}, "Yes, but its weight is more than the upthrust, so it sinks.": {"hi": "हाँ, परंतु उसका भार उत्प्लावक बल से अधिक होता है, इसलिए वह डूब जाता है।", "hg": "Haan, lekin uska weight upthrust se zyada hota hai, isliye woh doob jaata hai."}, "Upthrust (buoyant force)": {"hi": "उत्क्षेप (उत्प्लावक बल)", "hg": "Upthrust (buoyant force)"}, "A is a south pole": {"hi": "A दक्षिणी ध्रुव है", "hg": "A south pole hai"}, "A is a north pole": {"hi": "A उत्तरी ध्रुव है", "hg": "A north pole hai"}, "cool": {"hi": "ठंडा", "hg": "thanda"}, "warm": {"hi": "गुनगुना", "hg": "warm"}, "hot — do not touch for long": {"hi": "गरम — देर तक न छुएँ", "hg": "garam — der tak mat chhuo"}, "Distance moved": {"hi": "तय की गई दूरी", "hg": "Distance moved"}, "Upward push of the water": {"hi": "पानी का ऊपर की ओर धक्का", "hg": "Paani ka upward push"}, "Towel": {"hi": "तौलिया", "hg": "Towel"}, "Sand": {"hi": "रेत", "hg": "Sand"}, "Stretch": {"hi": "खिंचाव", "hg": "Stretch"}, "Range": {"hi": "परिसर", "hg": "Range"}, "Least count": {"hi": "अल्पतमांक", "hg": "Least count"}, "clips": {"hi": "क्लिप", "hg": "clips"}, "Electromagnet: 50 turns on an iron nail (end A = nail head)": {"hi": "विद्युत चुंबक: लोहे की कील पर 50 फेरे (सिरा A = कील का सिर)", "hg": "Electromagnet: iron nail par 50 turns (end A = nail head)"}, "Board covered with sand": {"hi": "रेत से ढका बोर्ड", "hg": "Sand se dhaka board"}, "Wooden block": {"hi": "लकड़ी का गुटका", "hg": "Wooden block"}, "Pressure of a water column": {"hi": "जल स्तंभ का दाब", "hg": "Water column ka pressure"}, "To show that the pressure of water at the bottom of a column depends on its height, not on how much water there is.": {"hi": "यह दर्शाना कि स्तंभ के तल पर पानी का दाब उसकी ऊँचाई पर निर्भर करता है, इस पर नहीं कि पानी कितना है।", "hg": "Yeh dikhana ki column ke bottom par paani ka pressure uski height par depend karta hai, is par nahi ki paani kitna hai."}, "Liquid pressure and height": {"hi": "द्रव का दाब और ऊँचाई", "hg": "Liquid pressure aur height"}, "Balloons are tied over the lower ends of a narrow and a wide pipe, clamped upright. Pour water into both up to the 12 cm mark.": {"hi": "एक संकरे और एक चौड़े पाइप के निचले सिरों पर गुब्बारे बँधे हैं, और दोनों पाइप सीधे खड़े क्लैंप किए गए हैं। दोनों में 12 cm के निशान तक पानी डालिए।", "hg": "Ek narrow aur ek wide pipe ke neeche wale ends par balloons bandhe hain, aur dono pipes seedhe clamp kiye gaye hain. Dono mein 12 cm mark tak paani daalo."}, "Both balloons bulge by the same amount, although the wide pipe holds about five times as much water.": {"hi": "दोनों गुब्बारे समान मात्रा में फूलते हैं, यद्यपि चौड़े पाइप में लगभग पाँच गुना अधिक पानी है।", "hg": "Dono balloons same amount mein phoolte hain, halaanki wide pipe mein lagbhag paanch guna zyada paani hai."}, "The pressure at the bottom depends only on the height of the water column above it (p = h ρ g), not on the width of the pipe.": {"hi": "तल पर दाब केवल उसके ऊपर के जल स्तंभ की ऊँचाई पर निर्भर करता है (p = h ρ g), पाइप की चौड़ाई पर नहीं।", "hg": "Bottom par pressure sirf uske upar ke water column ki height par depend karta hai (p = h ρ g), pipe ki width par nahi."}, "Now pour more water into the narrow pipe, up to the 24 cm mark.": {"hi": "अब संकरे पाइप में 24 cm के निशान तक और पानी डालिए।", "hg": "Ab narrow pipe mein 24 cm mark tak aur paani daalo."}, "The balloon under the narrow pipe now bulges much more.": {"hi": "अब संकरे पाइप के नीचे का गुब्बारा कहीं अधिक फूल जाता है।", "hg": "Ab narrow pipe ke neeche wala balloon kaafi zyada phool jaata hai."}, "A taller column of water presses harder on the bottom: liquid pressure increases with depth.": {"hi": "पानी का अधिक ऊँचा स्तंभ तल पर अधिक ज़ोर से दबाता है: द्रव का दाब गहराई के साथ बढ़ता है।", "hg": "Paani ka zyada ooncha column bottom par zyada zor se dabata hai: liquid pressure depth ke saath badhta hai."}, "With 12 cm of water in each pipe both balloons bulged equally; with 24 cm in the narrow pipe its balloon bulged much more.": {"hi": "प्रत्येक पाइप में 12 cm पानी होने पर दोनों गुब्बारे बराबर फूले; संकरे पाइप में 24 cm पानी होने पर उसका गुब्बारा कहीं अधिक फूला।", "hg": "Har pipe mein 12 cm paani hone par dono balloons barabar phoole; narrow pipe mein 24 cm paani hone par uska balloon kaafi zyada phoola."}, "The pressure of a liquid at the bottom of a column depends on the height of the column, not on the amount of liquid.": {"hi": "स्तंभ के तल पर द्रव का दाब स्तंभ की ऊँचाई पर निर्भर करता है, द्रव की मात्रा पर नहीं।", "hg": "Column ke bottom par liquid ka pressure column ki height par depend karta hai, liquid ki quantity par nahi."}, "Tie the balloons tightly so that water does not leak; wipe up any spills.": {"hi": "गुब्बारों को कसकर बाँधिए ताकि पानी न रिसे; गिरा हुआ पानी पोंछ दीजिए।", "hg": "Balloons ko kaskar baandho taaki paani leak na ho; gira hua paani pochh do."}, "Why is a dam made wider at the bottom?": {"hi": "बाँध नीचे की ओर अधिक चौड़ा क्यों बनाया जाता है?", "hg": "Dam neeche se zyada chauda kyun banaya jaata hai?"}, "Water pressure is greatest at the bottom, where the water is deepest.": {"hi": "पानी का दाब तल पर सबसे अधिक होता है, जहाँ पानी सबसे गहरा होता है।", "hg": "Paani ka pressure bottom par sabse zyada hota hai, jahan paani sabse gehra hota hai."}, "Why do divers feel pressure on their ears deep in water?": {"hi": "गोताखोरों को गहरे पानी में अपने कानों पर दाब क्यों महसूस होता है?", "hg": "Divers ko gehre paani mein apne kaanon par pressure kyun feel hota hai?"}, "Pressure increases with depth.": {"hi": "दाब गहराई के साथ बढ़ता है।", "hg": "Pressure depth ke saath badhta hai."}, "Does the pressure depend on the width of the pipe?": {"hi": "क्या दाब पाइप की चौड़ाई पर निर्भर करता है?", "hg": "Kya pressure pipe ki width par depend karta hai?"}, "No, only on the height (depth) of the liquid.": {"hi": "नहीं, केवल द्रव की ऊँचाई (गहराई) पर।", "hg": "Nahi, sirf liquid ki height (depth) par."}, "Pressure of a liquid column": {"hi": "द्रव स्तंभ का दाब", "hg": "Liquid column ka pressure"}, "Water presses on the walls of its container": {"hi": "पानी अपने पात्र की दीवारों पर दाब डालता है", "hg": "Paani apne container ki walls par pressure daalta hai"}, "To show that a liquid exerts pressure on the walls of its container.": {"hi": "यह दर्शाना कि द्रव अपने पात्र की दीवारों पर दाब डालता है।", "hg": "Yeh dikhana ki liquid apne container ki walls par pressure daalta hai."}, "Liquid pressure on the sides": {"hi": "पार्श्व दीवारों पर द्रव का दाब", "hg": "Sides par liquid pressure"}, "Four holes have been made all round the bottle at the same height and sealed with tape. Fill the bottle with water.": {"hi": "बोतल के चारों ओर समान ऊँचाई पर चार छेद किए गए हैं और उन्हें टेप से बंद किया गया है। बोतल को पानी से भरिए।", "hg": "Bottle ke charon taraf same height par chaar holes kiye gaye hain aur unhe tape se seal kiya gaya hai. Bottle ko paani se bharo."}, "No water comes out while the holes are taped.": {"hi": "जब तक छेदों पर टेप लगा है, कोई पानी बाहर नहीं निकलता।", "hg": "Jab tak holes par tape laga hai, koi paani bahar nahi nikalta."}, "Pull off all four pieces of tape together.": {"hi": "टेप के चारों टुकड़ों को एक साथ खींचकर हटाइए।", "hg": "Tape ke chaaron pieces ko ek saath kheenchkar hatao."}, "Water spurts out of all four holes, and all the jets land equally far from the bottle.": {"hi": "चारों छेदों से पानी की धार निकलती है, और सभी धाराएँ बोतल से बराबर दूरी पर गिरती हैं।", "hg": "Chaaron holes se paani ki dhaar nikalti hai, aur saare jets bottle se barabar door girte hain."}, "Water presses outwards on the walls of the bottle. At the same depth the pressure is the same in all directions, so the jets are equal.": {"hi": "पानी बोतल की दीवारों पर बाहर की ओर दाब डालता है। समान गहराई पर दाब सभी दिशाओं में समान होता है, इसलिए धाराएँ बराबर होती हैं।", "hg": "Paani bottle ki walls par bahar ki taraf pressure daalta hai. Same depth par pressure saari directions mein same hota hai, isliye jets barabar hote hain."}, "Keep watching as the water level falls (time-lapse).": {"hi": "पानी का स्तर गिरते समय देखते रहिए (टाइम-लैप्स)।", "hg": "Paani ka level girte waqt dekhte raho (time-lapse)."}, "As the water level falls, the jets become weaker and land closer to the bottle.": {"hi": "जैसे-जैसे पानी का स्तर गिरता है, धाराएँ कमज़ोर होती जाती हैं और बोतल के अधिक पास गिरती हैं।", "hg": "Jaise-jaise paani ka level girta hai, jets kamzor hote jaate hain aur bottle ke aur paas girte hain."}, "With less water above the holes the pressure there is less.": {"hi": "छेदों के ऊपर पानी कम होने पर वहाँ दाब भी कम होता है।", "hg": "Holes ke upar paani kam hone par wahan pressure bhi kam hota hai."}, "Water spurted equally far out of four holes at the same height; the jets got shorter as the water level fell.": {"hi": "समान ऊँचाई पर बने चार छेदों से पानी बराबर दूरी तक निकला; पानी का स्तर गिरने के साथ धाराएँ छोटी होती गईं।", "hg": "Same height par bane chaar holes se paani barabar door tak nikla; paani ka level girne ke saath jets chhote hote gaye."}, "A liquid exerts pressure on the walls of its container. At a given depth the pressure is the same in all directions, and it is less where the liquid is shallower.": {"hi": "द्रव अपने पात्र की दीवारों पर दाब डालता है। किसी दी गई गहराई पर दाब सभी दिशाओं में समान होता है, और जहाँ द्रव कम गहरा होता है वहाँ दाब कम होता है।", "hg": "Liquid apne container ki walls par pressure daalta hai. Kisi given depth par pressure saari directions mein same hota hai, aur jahan liquid kam gehra hota hai wahan pressure kam hota hai."}, "Do this over a tray; wipe up all the water afterwards.": {"hi": "यह प्रयोग एक ट्रे के ऊपर कीजिए; बाद में सारा पानी पोंछ दीजिए।", "hg": "Yeh experiment ek tray ke upar karo; baad mein saara paani pochh do."}, "Why are the jets equal?": {"hi": "धाराएँ बराबर क्यों हैं?", "hg": "Jets barabar kyun hain?"}, "The holes are at the same depth, where the pressure is the same.": {"hi": "छेद समान गहराई पर हैं, जहाँ दाब समान होता है।", "hg": "Holes same depth par hain, jahan pressure same hota hai."}, "What happens to the jets as the bottle empties?": {"hi": "बोतल खाली होने के साथ धाराओं का क्या होता है?", "hg": "Bottle khaali hone ke saath jets ka kya hota hai?"}, "They become weaker because the pressure decreases.": {"hi": "वे कमज़ोर हो जाती हैं क्योंकि दाब घट जाता है।", "hg": "Woh kamzor ho jaate hain kyunki pressure kam ho jaata hai."}, "Why are water tanks placed high on buildings?": {"hi": "पानी की टंकियाँ इमारतों पर ऊँचाई पर क्यों रखी जाती हैं?", "hg": "Water tanks buildings par oonchai par kyun rakhe jaate hain?"}, "The height of the water gives it pressure to flow through the taps.": {"hi": "पानी की ऊँचाई उसे नलों से बहने के लिए दाब प्रदान करती है।", "hg": "Paani ki height use taps se behne ke liye pressure deti hai."}, "Liquid pressure": {"hi": "द्रव का दाब", "hg": "Liquid pressure"}, "A rubber sucker and air pressure": {"hi": "रबर चूषक और वायु दाब", "hg": "Rubber sucker aur air pressure"}, "To show the pressure of the atmosphere using a rubber sucker on a smooth surface.": {"hi": "चिकनी सतह पर रबर चूषक की सहायता से वायुमंडल का दाब दर्शाना।", "hg": "Smooth surface par rubber sucker ki madad se atmosphere ka pressure dikhana."}, "Atmospheric pressure": {"hi": "वायुमंडलीय दाब", "hg": "Atmospheric pressure"}, "Press the rubber sucker firmly on the smooth tile.": {"hi": "रबर चूषक को चिकनी टाइल पर ज़ोर से दबाइए।", "hg": "Rubber sucker ko smooth tile par zor se dabao."}, "The sucker flattens and most of the air under it is pushed out.": {"hi": "चूषक चपटा हो जाता है और उसके नीचे की अधिकांश वायु बाहर निकल जाती है।", "hg": "Sucker flat ho jaata hai aur uske neeche ki zyadatar hawa bahar nikal jaati hai."}, "Hook the spring balance to the sucker and try to pull it straight up.": {"hi": "कमानीदार तुला (spring balance) को चूषक से जोड़िए और उसे सीधा ऊपर खींचने का प्रयास कीजिए।", "hg": "Spring balance ko sucker se hook karo aur use seedha upar kheenchne ki koshish karo."}, "Even a pull of more than 10 N does not take the sucker off the tile.": {"hi": "10 N से अधिक का खिंचाव लगाने पर भी चूषक टाइल से अलग नहीं होता।", "hg": "10 N se zyada pull lagane par bhi sucker tile se alag nahi hota."}, "There is almost no air under the sucker, so the air outside presses it hard against the tile. This push of the air is atmospheric pressure.": {"hi": "चूषक के नीचे लगभग कोई वायु नहीं है, इसलिए बाहर की वायु उसे टाइल पर ज़ोर से दबाती है। वायु का यही धक्का वायुमंडलीय दाब है।", "hg": "Sucker ke neeche lagbhag koi hawa nahi hai, isliye bahar ki hawa use tile par zor se dabati hai. Hawa ka yahi push atmospheric pressure hai."}, "Lift the edge of the sucker a little with a fingernail.": {"hi": "नाखून से चूषक के किनारे को थोड़ा-सा उठाइए।", "hg": "Fingernail se sucker ke edge ko thoda sa uthao."}, "Air rushes in with a hiss and the sucker comes off easily.": {"hi": "सीटी जैसी आवाज़ के साथ वायु तेज़ी से अंदर जाती है और चूषक आसानी से अलग हो जाता है।", "hg": "Hiss ki awaaz ke saath hawa tezi se andar jaati hai aur sucker aasani se nikal jaata hai."}, "Once air gets under the sucker, the air presses equally on both sides.": {"hi": "चूषक के नीचे वायु पहुँचते ही वायु दोनों ओर समान रूप से दाब डालती है।", "hg": "Sucker ke neeche hawa pahunchte hi hawa dono sides par barabar press karti hai."}, "The pressed sucker could not be pulled off with more than 10 N, but it came off easily once air was let in under its edge.": {"hi": "दबाए गए चूषक को 10 N से अधिक बल से भी खींचकर अलग नहीं किया जा सका, परंतु उसके किनारे के नीचे वायु जाने देने पर वह आसानी से अलग हो गया।", "hg": "Dabaye gaye sucker ko 10 N se zyada force se bhi kheench kar alag nahi kiya ja saka, lekin uske edge ke neeche hawa jaane dene par woh aasani se nikal gaya."}, "The air around us exerts pressure (atmospheric pressure). It holds the sucker against the tile when there is no air under it.": {"hi": "हमारे चारों ओर की वायु दाब डालती है (वायुमंडलीय दाब)। जब चूषक के नीचे वायु नहीं होती, तब यह उसे टाइल से चिपकाए रखती है।", "hg": "Hamare aas-paas ki hawa pressure daalti hai (atmospheric pressure). Jab sucker ke neeche hawa nahi hoti, tab yeh use tile se chipkaye rakhti hai."}, "Do not pull the spring balance beyond its range.": {"hi": "कमानीदार तुला को उसकी परास से अधिक मत खींचिए।", "hg": "Spring balance ko uski range se zyada mat kheencho."}, "Why does a sucker not stick to a rough wall?": {"hi": "चूषक खुरदरी दीवार पर क्यों नहीं चिपकता?", "hg": "Sucker rough wall par kyun nahi chipakta?"}, "Air leaks in under it through the gaps.": {"hi": "खाली स्थानों (गैप) से होकर वायु उसके नीचे घुस जाती है।", "hg": "Gaps se hawa uske neeche ghus jaati hai."}, "Name two things that work because of air pressure.": {"hi": "वायु दाब के कारण काम करने वाली दो वस्तुओं के नाम बताइए।", "hg": "Air pressure ki wajah se kaam karne wali do cheezon ke naam batao."}, "A drinking straw, a syringe, a dropper, a sucker hook.": {"hi": "पीने की स्ट्रॉ, सिरिंज, ड्रॉपर, चूषक हुक।", "hg": "Drinking straw, syringe, dropper, sucker hook."}, "Why don’t we feel the air pressing on us?": {"hi": "हमें अपने ऊपर वायु का दाब महसूस क्यों नहीं होता?", "hg": "Humein apne upar hawa ka pressure feel kyun nahi hota?"}, "The pressure inside our body balances it.": {"hi": "हमारे शरीर के अंदर का दाब उसे संतुलित कर देता है।", "hg": "Hamare body ke andar ka pressure use balance kar deta hai."}, "Air moves from high to low pressure": {"hi": "वायु उच्च दाब से निम्न दाब की ओर चलती है", "hg": "Hawa high pressure se low pressure ki taraf chalti hai"}, "To show that air flows from a region of higher pressure to one of lower pressure.": {"hi": "यह दर्शाना कि वायु उच्च दाब वाले क्षेत्र से निम्न दाब वाले क्षेत्र की ओर प्रवाहित होती है।", "hg": "Yeh dikhana ki hawa higher pressure wale region se lower pressure wale region ki taraf flow karti hai."}, "Air pressure and wind": {"hi": "वायु दाब और पवन", "hg": "Air pressure aur wind"}, "One balloon is blown up; the other is almost empty. They are joined by a straw that is pinched shut with a clip.": {"hi": "एक गुब्बारा फुलाया हुआ है; दूसरा लगभग खाली है। दोनों एक स्ट्रॉ से जुड़े हैं जिसे एक क्लिप से दबाकर बंद किया गया है।", "hg": "Ek balloon phula hua hai; doosra lagbhag khaali hai. Dono ek straw se jude hain jise clip se daba kar band kiya gaya hai."}, "The full balloon stays full while the straw is closed.": {"hi": "जब तक स्ट्रॉ बंद है, भरा हुआ गुब्बारा भरा ही रहता है।", "hg": "Jab tak straw band hai, bhara hua balloon bhara hi rehta hai."}, "Remove the clip.": {"hi": "क्लिप हटाइए।", "hg": "Clip hatao."}, "Air rushes from the full balloon into the empty one until they are about the same size.": {"hi": "वायु तेज़ी से भरे गुब्बारे से खाली गुब्बारे में तब तक जाती है जब तक दोनों लगभग एक ही आकार के नहीं हो जाते।", "hg": "Hawa tezi se bhare balloon se khaali balloon mein tab tak jaati hai jab tak dono lagbhag same size ke nahi ho jaate."}, "The air in the stretched balloon is at a higher pressure. Air always moves from higher pressure to lower pressure — this is how winds blow.": {"hi": "खिंचे हुए गुब्बारे की वायु अधिक दाब पर होती है। वायु सदैव उच्च दाब से निम्न दाब की ओर चलती है — इसी प्रकार पवनें चलती हैं।", "hg": "Stretched balloon ki hawa higher pressure par hoti hai. Hawa hamesha higher pressure se lower pressure ki taraf chalti hai — isi tarah winds chalti hain."}, "When the clip was removed, air flowed from the inflated balloon into the uninflated one until both were about equal.": {"hi": "क्लिप हटाने पर वायु फूले हुए गुब्बारे से बिना फूले गुब्बारे में तब तक गई जब तक दोनों लगभग बराबर नहीं हो गए।", "hg": "Clip hatane par hawa phule hue balloon se bina phule balloon mein tab tak gayi jab tak dono lagbhag barabar nahi ho gaye."}, "Air moves from a region of high pressure to a region of low pressure. Winds blow the same way, from high-pressure to low-pressure areas.": {"hi": "वायु उच्च दाब वाले क्षेत्र से निम्न दाब वाले क्षेत्र की ओर चलती है। पवनें भी इसी प्रकार उच्च दाब वाले क्षेत्रों से निम्न दाब वाले क्षेत्रों की ओर चलती हैं।", "hg": "Hawa high pressure wale region se low pressure wale region ki taraf chalti hai. Winds bhi isi tarah high-pressure areas se low-pressure areas ki taraf chalti hain."}, "Do not over-inflate the balloon.": {"hi": "गुब्बारे को आवश्यकता से अधिक मत फुलाइए।", "hg": "Balloon ko zaroorat se zyada mat phulao."}, "What causes wind?": {"hi": "पवन किस कारण चलती है?", "hg": "Wind kis wajah se chalti hai?"}, "Differences in air pressure, often caused by uneven heating of the Earth.": {"hi": "वायु दाब में अंतर के कारण, जो प्रायः पृथ्वी के असमान रूप से गर्म होने से उत्पन्न होता है।", "hg": "Air pressure mein farak ki wajah se, jo aksar Earth ke uneven heating se hota hai."}, "Why does the flow stop?": {"hi": "वायु का प्रवाह क्यों रुक जाता है?", "hg": "Flow kyun ruk jaata hai?"}, "The pressures in the two balloons become equal.": {"hi": "दोनों गुब्बारों में दाब बराबर हो जाता है।", "hg": "Dono balloons mein pressure barabar ho jaata hai."}, "Where does air move from on a hot day near the sea?": {"hi": "गर्म दिन में समुद्र के पास वायु किधर से किधर चलती है?", "hg": "Garam din mein sea ke paas hawa kahan se kahan chalti hai?"}, "From the sea (cooler, higher pressure) towards the land (warmer, lower pressure).": {"hi": "समुद्र (ठंडा, उच्च दाब) से स्थल (गर्म, निम्न दाब) की ओर।", "hg": "Sea (thanda, higher pressure) se land (garam, lower pressure) ki taraf."}, "Wind": {"hi": "पवन", "hg": "Wind"}, "Blowing between two balloons": {"hi": "दो गुब्बारों के बीच फूँकना", "hg": "Do balloons ke beech phoonkna"}, "To show that fast-moving air has lower pressure.": {"hi": "यह दर्शाना कि तेज़ गति से चलती वायु का दाब कम होता है।", "hg": "Yeh dikhana ki fast-moving air ka pressure kam hota hai."}, "Moving air and pressure": {"hi": "गतिशील वायु और दाब", "hg": "Moving air aur pressure"}, "Two balloons hang on strings from a stick, about 8 cm apart.": {"hi": "दो गुब्बारे एक छड़ी से धागों द्वारा, लगभग 8 cm की दूरी पर लटके हैं।", "hg": "Do balloons ek stick se dhaagon par, lagbhag 8 cm ki doori par latke hain."}, "They hang straight down.": {"hi": "वे सीधे नीचे की ओर लटके हैं।", "hg": "Woh seedhe neeche latke hain."}, "Blow air through a straw into the gap between the balloons.": {"hi": "स्ट्रॉ से गुब्बारों के बीच के खाली स्थान में फूँक मारिए।", "hg": "Straw se balloons ke beech ke gap mein hawa phoonko."}, "The balloons move towards each other instead of being blown apart!": {"hi": "गुब्बारे दूर हटने के बजाय एक-दूसरे की ओर आ जाते हैं!", "hg": "Balloons door hatne ke bajaye ek-doosre ki taraf aa jaate hain!"}, "Blow harder.": {"hi": "और ज़ोर से फूँकिए।", "hg": "Aur zor se phoonko."}, "They come together faster and closer.": {"hi": "वे और तेज़ी से तथा और पास आ जाते हैं।", "hg": "Woh aur tezi se aur zyada paas aa jaate hain."}, "Fast-moving air between the balloons has lower pressure. The still air on the outside, at higher pressure, pushes them together.": {"hi": "गुब्बारों के बीच तेज़ चलती वायु का दाब कम होता है। बाहर की स्थिर वायु, जिसका दाब अधिक है, उन्हें एक-दूसरे की ओर धकेलती है।", "hg": "Balloons ke beech fast-moving air ka pressure kam hota hai. Bahar ki still air, jiska pressure zyada hai, unhe ek-doosre ki taraf push karti hai."}, "When air was blown between the hanging balloons they moved towards each other, and faster when blown harder.": {"hi": "लटके हुए गुब्बारों के बीच फूँक मारने पर वे एक-दूसरे की ओर आए, और ज़ोर से फूँकने पर और तेज़ी से आए।", "hg": "Latke hue balloons ke beech hawa phoonkne par woh ek-doosre ki taraf aaye, aur zor se phoonkne par aur tezi se aaye."}, "Fast-moving air has lower pressure than still air. This helps explain why roofs are lifted off in storms.": {"hi": "तेज़ चलती वायु का दाब स्थिर वायु की तुलना में कम होता है। इससे यह समझने में सहायता मिलती है कि आँधी-तूफ़ान में छतें क्यों उड़ जाती हैं।", "hg": "Fast-moving air ka pressure still air se kam hota hai. Isse samajh aata hai ki storms mein roofs kyun ud jaati hain."}, "Use a clean straw of your own.": {"hi": "अपनी स्वयं की साफ़ स्ट्रॉ का उपयोग कीजिए।", "hg": "Apni khud ki saaf straw use karo."}, "Why can a strong wind lift a roof?": {"hi": "तेज़ हवा छत को क्यों उठा सकती है?", "hg": "Strong wind roof ko kyun utha sakti hai?"}, "Fast wind over the roof lowers the pressure above it; the higher pressure inside pushes it up.": {"hi": "छत के ऊपर तेज़ हवा उसके ऊपर का दाब कम कर देती है; अंदर का अधिक दाब उसे ऊपर धकेलता है।", "hg": "Roof ke upar tez wind uske upar ka pressure kam kar deti hai; andar ka higher pressure use upar push karta hai."}, "Did the balloons move apart or together?": {"hi": "गुब्बारे दूर हटे या पास आए?", "hg": "Balloons door hate ya paas aaye?"}, "Together.": {"hi": "पास आए।", "hg": "Paas aaye."}, "What pushes them together?": {"hi": "उन्हें एक-दूसरे की ओर कौन धकेलता है?", "hg": "Unhe ek-doosre ki taraf kaun push karta hai?"}, "The higher pressure of the still air outside.": {"hi": "बाहर की स्थिर वायु का अधिक दाब।", "hg": "Bahar ki still air ka higher pressure."}, "Moving air": {"hi": "गतिशील वायु", "hg": "Moving air"}, "Measuring mass with a digital balance": {"hi": "डिजिटल तुला से द्रव्यमान मापना", "hg": "Digital balance se mass measure karna"}, "To measure the mass of a solid with a digital balance, using the tare button.": {"hi": "टेयर बटन का उपयोग करते हुए डिजिटल तुला से किसी ठोस का द्रव्यमान मापना।", "hg": "Tare button use karke digital balance se ek solid ka mass measure karna."}, "Digital balance and tare": {"hi": "डिजिटल तुला और टेयर", "hg": "Digital balance aur tare"}, "Switch on the balance and check that it reads zero.": {"hi": "तुला का स्विच ऑन कीजिए और जाँचिए कि उसका पाठ्यांक शून्य है।", "hg": "Balance ka switch on karo aur check karo ki reading zero hai."}, "The display shows 0.00 g.": {"hi": "डिस्प्ले पर 0.00 g दिखता है।", "hg": "Display par 0.00 g dikhta hai."}, "Put the clean, dry watch glass on the pan.": {"hi": "साफ़, सूखे वॉच ग्लास को पलड़े पर रखिए।", "hg": "Saaf, sookha watch glass pan par rakho."}, "The display shows the mass of the watch glass, 12.35 g.": {"hi": "डिस्प्ले पर वॉच ग्लास का द्रव्यमान, 12.35 g, दिखता है।", "hg": "Display par watch glass ka mass, 12.35 g, dikhta hai."}, "Press TARE.": {"hi": "TARE दबाइए।", "hg": "TARE dabao."}, "The display goes back to 0.00 g, with the watch glass still on the pan.": {"hi": "वॉच ग्लास के पलड़े पर रखे रहते हुए भी डिस्प्ले फिर से 0.00 g दिखाने लगता है।", "hg": "Watch glass pan par rehte hue bhi display wapas 0.00 g dikhane lagta hai."}, "Tare subtracts the mass of the container, so the next reading is only the mass of what you put in it.": {"hi": "टेयर पात्र का द्रव्यमान घटा देता है, इसलिए अगला पाठ्यांक केवल उस वस्तु का द्रव्यमान होता है जो आप उसमें रखते हैं।", "hg": "Tare container ka mass subtract kar deta hai, isliye agli reading sirf us cheez ka mass hoti hai jo aap usmein rakhte ho."}, "Put the stone on the watch glass and read its mass.": {"hi": "पत्थर को वॉच ग्लास पर रखिए और उसका द्रव्यमान पढ़िए।", "hg": "Stone ko watch glass par rakho aur uska mass padho."}, "The balance shows 16.40 g: the mass of the stone alone.": {"hi": "तुला 16.40 g दिखाती है: केवल पत्थर का द्रव्यमान।", "hg": "Balance 16.40 g dikhata hai: sirf stone ka mass."}, "Watch glass: 12.35 g. After tare: 0.00 g. With the stone: 16.40 g.": {"hi": "वॉच ग्लास: 12.35 g। टेयर के बाद: 0.00 g। पत्थर के साथ: 16.40 g।", "hg": "Watch glass: 12.35 g. Tare ke baad: 0.00 g. Stone ke saath: 16.40 g."}, "A digital balance measures mass. The tare button lets us find the mass of a substance without the container.": {"hi": "डिजिटल तुला द्रव्यमान मापती है। टेयर बटन की सहायता से हम पात्र को छोड़कर किसी पदार्थ का द्रव्यमान ज्ञात कर सकते हैं।", "hg": "Digital balance mass measure karta hai. Tare button se hum container ke bina kisi substance ka mass pata kar sakte hain."}, "Do not put hot, wet or very heavy things directly on the pan. Keep the balance level and away from draughts.": {"hi": "गर्म, गीली या बहुत भारी वस्तुएँ सीधे पलड़े पर मत रखिए। तुला को समतल और हवा के झोंकों से दूर रखिए।", "hg": "Garam, geeli ya bahut bhaari cheezein seedhe pan par mat rakho. Balance ko level aur hawa ke jhonkon se door rakho."}, "What does the tare button do?": {"hi": "टेयर बटन क्या करता है?", "hg": "Tare button kya karta hai?"}, "It sets the reading to zero with the container on the pan.": {"hi": "पलड़े पर पात्र रखे होने पर यह पाठ्यांक को शून्य कर देता है।", "hg": "Pan par container rakhe hone par yeh reading ko zero kar deta hai."}, "What is the SI unit of mass?": {"hi": "द्रव्यमान का SI मात्रक क्या है?", "hg": "Mass ki SI unit kya hai?"}, "The kilogram (kg).": {"hi": "किलोग्राम (kg)।", "hg": "Kilogram (kg)."}, "Is mass the same as weight?": {"hi": "क्या द्रव्यमान और भार एक ही हैं?", "hg": "Kya mass aur weight same hain?"}, "No: mass is the amount of matter (kg); weight is the force of gravity on it (N).": {"hi": "नहीं: द्रव्यमान द्रव्य की मात्रा है (kg); भार उस पर लगने वाला गुरुत्व बल है (N)।", "hg": "Nahi: mass matter ki quantity hai (kg); weight us par lagne wala gravity ka force hai (N)."}, "Mass with tare": {"hi": "टेयर के साथ द्रव्यमान", "hg": "Tare ke saath mass"}, "Reading a measuring cylinder": {"hi": "मापक सिलिंडर का पाठ्यांक पढ़ना", "hg": "Measuring cylinder ki reading lena"}, "To find the capacity and least count of a measuring cylinder and to measure 50 mL of water correctly.": {"hi": "मापक सिलिंडर की धारिता और अल्पतमांक ज्ञात करना तथा 50 mL जल सही-सही मापना।", "hg": "Measuring cylinder ki capacity aur least count pata karna aur 50 mL paani sahi tarah measure karna."}, "Volume of a liquid": {"hi": "द्रव का आयतन", "hg": "Liquid ka volume"}, "Look at the cylinder: find its largest mark (capacity) and count the small divisions between 10 mL and 20 mL.": {"hi": "सिलिंडर को देखिए: उसका सबसे बड़ा चिह्न (धारिता) ज्ञात कीजिए और 10 mL तथा 20 mL के बीच के छोटे भाग गिनिए।", "hg": "Cylinder ko dekho: uska sabse bada mark (capacity) dhoondo aur 10 mL aur 20 mL ke beech ke chhote divisions gino."}, "Capacity 100 mL; there are 10 divisions between 10 and 20 mL, so the least count is 1 mL.": {"hi": "धारिता 100 mL; 10 और 20 mL के बीच 10 भाग हैं, इसलिए अल्पतमांक 1 mL है।", "hg": "Capacity 100 mL; 10 aur 20 mL ke beech 10 divisions hain, isliye least count 1 mL hai."}, "Pour water into the cylinder up to about the 50 mL mark.": {"hi": "सिलिंडर में लगभग 50 mL के चिह्न तक जल डालिए।", "hg": "Cylinder mein lagbhag 50 mL mark tak paani daalo."}, "The water surface is slightly curved (the meniscus).": {"hi": "जल की सतह थोड़ी वक्र होती है (नवचंद्रक या मेनिस्कस)।", "hg": "Paani ki surface thodi curved hoti hai (meniscus)."}, "Bring your eye level with the water surface and read the bottom of the curved surface.": {"hi": "अपनी आँख को जल की सतह के स्तर पर लाइए और वक्र सतह के निचले भाग का पाठ्यांक पढ़िए।", "hg": "Apni aankh ko paani ki surface ke level par lao aur curved surface ke bottom ki reading padho."}, "Read at eye level, the bottom of the meniscus is exactly on the 50 mL mark.": {"hi": "आँख के स्तर से पढ़ने पर नवचंद्रक का निचला भाग ठीक 50 mL के चिह्न पर है।", "hg": "Eye level se padhne par meniscus ka bottom theek 50 mL mark par hai."}, "Looking from above or below makes the reading too high or too low (parallax error).": {"hi": "ऊपर या नीचे से देखने पर पाठ्यांक अधिक या कम आता है (लंबन त्रुटि)।", "hg": "Upar ya neeche se dekhne par reading zyada ya kam aati hai (parallax error)."}, "Capacity 100 mL, least count 1 mL. Read at eye level, the bottom of the meniscus stood at 50 mL.": {"hi": "धारिता 100 mL, अल्पतमांक 1 mL। आँख के स्तर से पढ़ने पर नवचंद्रक का निचला भाग 50 mL पर था।", "hg": "Capacity 100 mL, least count 1 mL. Eye level se padhne par meniscus ka bottom 50 mL par tha."}, "To measure the volume of a liquid, keep the cylinder on a level surface and read the bottom of the meniscus with your eye at the same level.": {"hi": "किसी द्रव का आयतन मापने के लिए सिलिंडर को समतल सतह पर रखिए और आँख को उसी स्तर पर रखकर नवचंद्रक के निचले भाग का पाठ्यांक पढ़िए।", "hg": "Liquid ka volume measure karne ke liye cylinder ko level surface par rakho aur aankh ko same level par rakh kar meniscus ke bottom ki reading padho."}, "Keep the cylinder on a flat table; do not hold it up in the air while reading.": {"hi": "सिलिंडर को समतल मेज़ पर रखिए; पाठ्यांक पढ़ते समय उसे हवा में उठाकर मत पकड़िए।", "hg": "Cylinder ko flat table par rakho; reading lete samay use hawa mein utha kar mat pakdo."}, "What is a meniscus?": {"hi": "नवचंद्रक (meniscus) क्या है?", "hg": "Meniscus kya hai?"}, "The curved surface of a liquid in a narrow tube.": {"hi": "किसी संकरी नली में द्रव की वक्र सतह।", "hg": "Patli tube mein liquid ki curved surface."}, "Where should your eye be when reading?": {"hi": "पाठ्यांक पढ़ते समय आपकी आँख कहाँ होनी चाहिए?", "hg": "Reading lete samay aapki aankh kahan honi chahiye?"}, "Level with the bottom of the meniscus.": {"hi": "नवचंद्रक के निचले भाग के स्तर पर।", "hg": "Meniscus ke bottom ke level par."}, "What is 1 mL in cm³?": {"hi": "1 mL कितने cm³ के बराबर है?", "hg": "1 mL kitne cm³ ke barabar hai?"}, "1 mL = 1 cm³.": {"hi": "1 mL = 1 cm³।", "hg": "1 mL = 1 cm³."}, "Volume of a notebook": {"hi": "नोटबुक का आयतन", "hg": "Notebook ka volume"}, "To find the volume of a regular solid (a notebook) by measuring its length, width and height.": {"hi": "एक नियमित ठोस (नोटबुक) की लंबाई, चौड़ाई और ऊँचाई मापकर उसका आयतन ज्ञात करना।", "hg": "Ek regular solid (notebook) ki length, width aur height measure karke uska volume pata karna."}, "Volume = length × width × height": {"hi": "आयतन = लंबाई × चौड़ाई × ऊँचाई", "hg": "Volume = length × width × height"}, "Measure the length of the notebook with the scale.": {"hi": "पैमाने से नोटबुक की लंबाई मापिए।", "hg": "Scale se notebook ki length measure karo."}, "Length = 25 cm.": {"hi": "लंबाई = 25 cm।", "hg": "Length = 25 cm."}, "Measure its width.": {"hi": "इसकी चौड़ाई मापिए।", "hg": "Iski width measure karo."}, "Width = 18 cm.": {"hi": "चौड़ाई = 18 cm।", "hg": "Width = 18 cm."}, "Measure its height (thickness).": {"hi": "इसकी ऊँचाई (मोटाई) मापिए।", "hg": "Iski height (thickness) measure karo."}, "Height = 2 cm.": {"hi": "ऊँचाई = 2 cm।", "hg": "Height = 2 cm."}, "Volume of a cuboid = length × width × height = 25 cm × 18 cm × 2 cm = 900 cm³.": {"hi": "घनाभ का आयतन = लंबाई × चौड़ाई × ऊँचाई = 25 cm × 18 cm × 2 cm = 900 cm³।", "hg": "Cuboid ka volume = length × width × height = 25 cm × 18 cm × 2 cm = 900 cm³."}, "Length 25 cm, width 18 cm, height 2 cm.": {"hi": "लंबाई 25 cm, चौड़ाई 18 cm, ऊँचाई 2 cm।", "hg": "Length 25 cm, width 18 cm, height 2 cm."}, "The volume of the notebook is 25 × 18 × 2 = 900 cm³.": {"hi": "नोटबुक का आयतन 25 × 18 × 2 = 900 cm³ है।", "hg": "Notebook ka volume 25 × 18 × 2 = 900 cm³ hai."}, "Place the zero mark of the scale exactly at one edge and read the other edge straight from above.": {"hi": "पैमाने के शून्य चिह्न को ठीक एक किनारे पर रखिए और दूसरे किनारे का पाठ्यांक ठीक ऊपर से सीधा देखकर पढ़िए।", "hg": "Scale ka zero mark theek ek edge par rakho aur doosre edge ki reading seedha upar se dekh kar padho."}, "What is the SI unit of volume?": {"hi": "आयतन का SI मात्रक क्या है?", "hg": "Volume ki SI unit kya hai?"}, "The cubic metre (m³); cm³ is also used.": {"hi": "घन मीटर (m³); cm³ का भी उपयोग होता है।", "hg": "Cubic metre (m³); cm³ bhi use hota hai."}, "How would you find the volume of a stone?": {"hi": "आप किसी पत्थर का आयतन कैसे ज्ञात करेंगे?", "hg": "Aap stone ka volume kaise pata karoge?"}, "By the rise in the water level when it is lowered into a measuring cylinder.": {"hi": "उसे मापक सिलिंडर में डुबोने पर जल-स्तर में होने वाली वृद्धि से।", "hg": "Use measuring cylinder mein utaarne par water level kitna badhta hai, usse."}, "What is the volume of a cube of side 2 cm?": {"hi": "2 cm भुजा वाले घन का आयतन कितना है?", "hg": "2 cm side wale cube ka volume kitna hai?"}, "2 × 2 × 2 = 8 cm³.": {"hi": "2 × 2 × 2 = 8 cm³।", "hg": "2 × 2 × 2 = 8 cm³."}, "Volume of a cuboid": {"hi": "घनाभ का आयतन", "hg": "Cuboid ka volume"}, "Volume and density of a stone": {"hi": "पत्थर का आयतन और घनत्व", "hg": "Stone ka volume aur density"}, "To find the volume of an irregular solid by displacement of water, and its density.": {"hi": "जल के विस्थापन द्वारा एक अनियमित ठोस का आयतन तथा उसका घनत्व ज्ञात करना।", "hg": "Water displacement se ek irregular solid ka volume aur uski density pata karna."}, "Displacement and density": {"hi": "विस्थापन और घनत्व", "hg": "Displacement aur density"}, "The mass of the stone, found with the digital balance, is 16.4 g. Pour water into the cylinder up to 50 mL.": {"hi": "डिजिटल तुला से ज्ञात पत्थर का द्रव्यमान 16.4 g है। सिलिंडर में 50 mL तक जल डालिए।", "hg": "Digital balance se mila stone ka mass 16.4 g hai. Cylinder mein 50 mL tak paani daalo."}, "Initial volume = 50 mL.": {"hi": "प्रारंभिक आयतन = 50 mL।", "hg": "Initial volume = 50 mL."}, "Lower the stone slowly by its thread until it is completely under water. Read the new level.": {"hi": "पत्थर को उसके धागे से धीरे-धीरे तब तक नीचे उतारिए जब तक वह पूरी तरह जल में न डूब जाए। नया स्तर पढ़िए।", "hg": "Stone ko uske dhaage se dheere-dheere tab tak neeche utaaro jab tak woh poori tarah paani mein na doob jaaye. Naya level padho."}, "The water rises to 55 mL.": {"hi": "जल 55 mL तक चढ़ जाता है।", "hg": "Paani 55 mL tak chadh jaata hai."}, "Find the volume and the density of the stone.": {"hi": "पत्थर का आयतन और घनत्व ज्ञात कीजिए।", "hg": "Stone ka volume aur density pata karo."}, "Volume = 55 − 50 = 5 cm³; density = 16.4 g ÷ 5 cm³ ≈ 3.3 g/cm³.": {"hi": "आयतन = 55 − 50 = 5 cm³; घनत्व = 16.4 g ÷ 5 cm³ ≈ 3.3 g/cm³।", "hg": "Volume = 55 − 50 = 5 cm³; density = 16.4 g ÷ 5 cm³ ≈ 3.3 g/cm³."}, "The stone pushes aside water equal to its own volume. Density = mass ÷ volume.": {"hi": "पत्थर अपने आयतन के बराबर जल को हटाता (विस्थापित करता) है। घनत्व = द्रव्यमान ÷ आयतन।", "hg": "Stone apne volume ke barabar paani ko hata deta (displace karta) hai. Density = mass ÷ volume."}, "Mass 16.4 g; water level 50 mL → 55 mL; volume of the stone 5 cm³.": {"hi": "द्रव्यमान 16.4 g; जल-स्तर 50 mL → 55 mL; पत्थर का आयतन 5 cm³।", "hg": "Mass 16.4 g; water level 50 mL → 55 mL; stone ka volume 5 cm³."}, "The volume of an irregular solid can be found by displacement of water. The density of this stone is about 3.3 g/cm³, so it sinks in water.": {"hi": "अनियमित ठोस का आयतन जल के विस्थापन द्वारा ज्ञात किया जा सकता है। इस पत्थर का घनत्व लगभग 3.3 g/cm³ है, इसलिए यह जल में डूब जाता है।", "hg": "Irregular solid ka volume water displacement se pata kiya ja sakta hai. Is stone ki density lagbhag 3.3 g/cm³ hai, isliye yeh paani mein doob jaata hai."}, "Lower the stone gently so that the cylinder does not crack and no water splashes out.": {"hi": "पत्थर को धीरे से उतारिए ताकि सिलिंडर न चटके और जल बाहर न छलके।", "hg": "Stone ko dheere se utaaro taaki cylinder crack na ho aur paani bahar na chhalke."}, "Why must the stone be fully under water?": {"hi": "पत्थर का पूरी तरह जल में डूबा होना क्यों आवश्यक है?", "hg": "Stone ka poori tarah paani mein doobna kyun zaroori hai?"}, "Only then is the water displaced equal to the whole volume of the stone.": {"hi": "तभी विस्थापित जल पत्थर के पूरे आयतन के बराबर होता है।", "hg": "Tabhi displaced paani stone ke poore volume ke barabar hota hai."}, "Will a solid of density 0.8 g/cm³ float or sink in water?": {"hi": "0.8 g/cm³ घनत्व वाला ठोस जल में तैरेगा या डूबेगा?", "hg": "0.8 g/cm³ density wala solid paani mein tairega ya doobega?"}, "It will float (it is less dense than water).": {"hi": "यह तैरेगा (इसका घनत्व जल से कम है)।", "hg": "Yeh tairega (iski density paani se kam hai)."}, "Why do we lower the stone with a thread?": {"hi": "हम पत्थर को धागे से क्यों उतारते हैं?", "hg": "Hum stone ko dhaage se kyun utaarte hain?"}, "So that it does not hit the bottom and so that no water splashes out.": {"hi": "ताकि वह तली से न टकराए और जल बाहर न छलके।", "hg": "Taaki woh bottom se na takraaye aur paani bahar na chhalke."}, "Making an egg float": {"hi": "अंडे को तैराना", "hg": "Egg ko float karana"}, "To make a sinking egg float by making the water denser with salt.": {"hi": "नमक द्वारा जल का घनत्व बढ़ाकर डूबते हुए अंडे को तैराना।", "hg": "Namak se paani ki density badha kar doobte hue egg ko float karana."}, "Density and floating": {"hi": "घनत्व और तैरना", "hg": "Density aur floating"}, "Put the raw egg gently into the glass of tap water.": {"hi": "कच्चे अंडे को नल के जल से भरे गिलास में धीरे से डालिए।", "hg": "Kachche egg ko tap water wale glass mein dheere se daalo."}, "The egg sinks to the bottom.": {"hi": "अंडा तली में डूब जाता है।", "hg": "Egg bottom tak doob jaata hai."}, "The egg (about 1.08 g/cm³) is denser than water (1.00 g/cm³).": {"hi": "अंडे का घनत्व (लगभग 1.08 g/cm³) जल (1.00 g/cm³) से अधिक है।", "hg": "Egg ki density (lagbhag 1.08 g/cm³) paani (1.00 g/cm³) se zyada hai."}, "Add salt one spoonful at a time and stir gently. Watch the egg after each spoonful.": {"hi": "एक बार में एक चम्मच नमक डालिए और धीरे से हिलाइए। हर चम्मच के बाद अंडे को देखिए।", "hg": "Ek baar mein ek chammach namak daalo aur dheere se hilao. Har chammach ke baad egg ko dekho."}, "With 4 spoonfuls the egg still sinks; after the 5th spoonful it rises and floats.": {"hi": "4 चम्मच तक अंडा डूबा ही रहता है; 5वें चम्मच के बाद वह ऊपर उठकर तैरने लगता है।", "hg": "4 chammach tak egg dooba hi rehta hai; 5th chammach ke baad woh upar uth kar float karne lagta hai."}, "Dissolving salt makes the water denser. When the salt water becomes denser than the egg, the egg floats.": {"hi": "नमक घुलने से जल का घनत्व बढ़ जाता है। जब नमकीन जल का घनत्व अंडे से अधिक हो जाता है, तब अंडा तैरने लगता है।", "hg": "Namak ghulne se paani ki density badh jaati hai. Jab namak wale paani ki density egg se zyada ho jaati hai, tab egg float karne lagta hai."}, "The egg sank in tap water; as salt was dissolved it stayed down for 4 spoonfuls and floated after the 5th.": {"hi": "अंडा नल के जल में डूब गया; नमक घोलने पर वह 4 चम्मच तक नीचे रहा और 5वें के बाद तैरने लगा।", "hg": "Egg tap water mein doob gaya; namak gholne par woh 4 chammach tak neeche raha aur 5th ke baad float karne laga."}, "An object floats in a liquid that is denser than it and sinks in one that is less dense. Salt water is denser than fresh water.": {"hi": "कोई वस्तु अपने से अधिक घनत्व वाले द्रव में तैरती है और कम घनत्व वाले द्रव में डूब जाती है। नमकीन जल का घनत्व स्वच्छ (मीठे) जल से अधिक होता है।", "hg": "Koi object apne se zyada density wale liquid mein float karta hai aur kam density wale liquid mein doob jaata hai. Salt water ki density fresh water se zyada hoti hai."}, "Handle the egg gently; wash your hands after touching a raw egg.": {"hi": "अंडे को सावधानी से पकड़िए; कच्चा अंडा छूने के बाद हाथ धोइए।", "hg": "Egg ko dhyaan se pakdo; kachcha egg chhoone ke baad haath dho lo."}, "Why is it easier to float in the sea than in a river?": {"hi": "नदी की तुलना में समुद्र में तैरना आसान क्यों होता है?", "hg": "River ki tulna mein sea mein float karna aasan kyun hota hai?"}, "Sea water is salty and denser.": {"hi": "समुद्र का जल खारा होता है और उसका घनत्व अधिक होता है।", "hg": "Sea ka paani khaara hota hai aur uski density zyada hoti hai."}, "What would happen if you added fresh water now?": {"hi": "यदि अब आप स्वच्छ जल मिलाएँ तो क्या होगा?", "hg": "Agar ab aap fresh water milao to kya hoga?"}, "The water would become less dense and the egg would sink again.": {"hi": "जल का घनत्व कम हो जाएगा और अंडा फिर से डूब जाएगा।", "hg": "Paani ki density kam ho jaayegi aur egg phir se doob jaayega."}, "Is an egg denser than tap water?": {"hi": "क्या अंडे का घनत्व नल के जल से अधिक है?", "hg": "Kya egg ki density tap water se zyada hai?"}, "Yes, slightly (about 1.08 g/cm³).": {"hi": "हाँ, थोड़ा-सा (लगभग 1.08 g/cm³)।", "hg": "Haan, thoda sa (lagbhag 1.08 g/cm³)."}, "Floating and sinking": {"hi": "तैरना और डूबना", "hg": "Floating aur sinking"}, "Height of water": {"hi": "जल की ऊँचाई", "hg": "Paani ki height"}, "Bulge": {"hi": "उभार", "hg": "Bulge"}, "Same height, same bulge": {"hi": "समान ऊँचाई, समान उभार", "hg": "Same height, same bulge"}, "Pull": {"hi": "खिंचाव", "hg": "Pull"}, "Width": {"hi": "चौड़ाई", "hg": "Width"}, "Height": {"hi": "ऊँचाई", "hg": "Height"}, "Volume": {"hi": "आयतन", "hg": "Volume"}, "spoons of salt": {"hi": "चम्मच नमक", "hg": "chammach namak"}, "The egg sinks": {"hi": "अंडा डूबता है", "hg": "Egg doobta hai"}, "The egg floats": {"hi": "अंडा तैरता है", "hg": "Egg float karta hai"}, "Capacity": {"hi": "धारिता", "hg": "Capacity"}, "Images in a shiny spoon": {"hi": "चमकीले चम्मच में प्रतिबिंब", "hg": "Shiny spoon mein images"}, "To observe the images formed by the inner (concave) and outer (convex) surfaces of a shiny steel spoon.": {"hi": "स्टील के चमकीले चम्मच की भीतरी (अवतल) और बाहरी (उत्तल) सतहों द्वारा बने प्रतिबिंबों का प्रेक्षण करना।", "hg": "Shiny steel spoon ki andar wali (concave) aur bahar wali (convex) surfaces se bani images observe karna."}, "Curved mirrors: concave and convex": {"hi": "वक्र दर्पण: अवतल और उत्तल", "hg": "Curved mirrors: concave aur convex"}, "Hold the spoon upright with its inner (curved-in) side facing you, at arm’s length, and look at the image of the toy and the room in it.": {"hi": "चम्मच को हाथ भर की दूरी पर सीधा पकड़िए, उसकी भीतरी (अंदर की ओर मुड़ी) सतह आपकी ओर हो, और उसमें खिलौने तथा कमरे का प्रतिबिंब देखिए।", "hg": "Spoon ko haath bhar ki doori par seedha pakdo, uski andar wali (andar ko mudi) side aapki taraf ho, aur usmein toy aur room ki image dekho."}, "In the inner side the image of the toy and the room is upside down.": {"hi": "भीतरी सतह में खिलौने और कमरे का प्रतिबिंब उलटा है।", "hg": "Andar wali side mein toy aur room ki image ulti hai."}, "The inner surface of the spoon is a concave mirror. For things far from it, a concave mirror forms an inverted image.": {"hi": "चम्मच की भीतरी सतह एक अवतल दर्पण है। दूर स्थित वस्तुओं के लिए अवतल दर्पण उलटा प्रतिबिंब बनाता है।", "hg": "Spoon ki andar wali surface ek concave mirror hai. Door rakhi cheezon ke liye concave mirror inverted image banata hai."}, "Turn the spoon round and look into its outer (bulging) side.": {"hi": "चम्मच को पलटिए और उसकी बाहरी (उभरी हुई) सतह में देखिए।", "hg": "Spoon ko palto aur uski bahar wali (ubhri hui) side mein dekho."}, "In the outer side the image is upright and smaller, and you see more of the room.": {"hi": "बाहरी सतह में प्रतिबिंब सीधा और छोटा है, और कमरे का अधिक भाग दिखाई देता है।", "hg": "Bahar wali side mein image upright aur chhoti hai, aur room ka zyada hissa dikhta hai."}, "The outer surface is a convex mirror. It always forms an upright, diminished image and shows a wider view.": {"hi": "बाहरी सतह एक उत्तल दर्पण है। यह सदैव सीधा, छोटा प्रतिबिंब बनाता है और अधिक विस्तृत दृश्य दिखाता है।", "hg": "Bahar wali surface ek convex mirror hai. Yeh hamesha upright, diminished image banata hai aur wider view dikhata hai."}, "The inner side of the spoon showed an upside-down image of the toy; the outer side showed an upright, smaller image with a wider view.": {"hi": "चम्मच की भीतरी सतह में खिलौने का उलटा प्रतिबिंब दिखा; बाहरी सतह में अधिक विस्तृत दृश्य के साथ सीधा, छोटा प्रतिबिंब दिखा।", "hg": "Spoon ki andar wali side mein toy ki ulti image dikhi; bahar wali side mein wider view ke saath upright, chhoti image dikhi."}, "A spoon’s inner surface acts as a concave mirror and its outer surface as a convex mirror; they form different kinds of images.": {"hi": "चम्मच की भीतरी सतह अवतल दर्पण की तरह और बाहरी सतह उत्तल दर्पण की तरह कार्य करती है; ये भिन्न-भिन्न प्रकार के प्रतिबिंब बनाती हैं।", "hg": "Spoon ki andar wali surface concave mirror ki tarah aur bahar wali surface convex mirror ki tarah kaam karti hai; yeh alag-alag tarah ki images banati hain."}, "Use a clean, shiny spoon; do not use a spoon with sharp edges.": {"hi": "साफ़, चमकीले चम्मच का उपयोग कीजिए; नुकीले किनारों वाले चम्मच का उपयोग मत कीजिए।", "hg": "Saaf, shiny spoon use karo; sharp edges wala spoon use mat karo."}, "Which side of the spoon is a convex mirror?": {"hi": "चम्मच की कौन-सी सतह उत्तल दर्पण है?", "hg": "Spoon ki kaun si side convex mirror hai?"}, "The outer (bulging) side.": {"hi": "बाहरी (उभरी हुई) सतह।", "hg": "Bahar wali (ubhri hui) side."}, "Where are convex mirrors used?": {"hi": "उत्तल दर्पणों का उपयोग कहाँ होता है?", "hg": "Convex mirrors kahan use hote hain?"}, "As rear-view mirrors in vehicles and at sharp road bends.": {"hi": "वाहनों में पश्च-दृश्य दर्पण के रूप में और सड़कों के तीखे मोड़ों पर।", "hg": "Vehicles mein rear-view mirror ki tarah aur sadak ke sharp mod par."}, "Where are concave mirrors used?": {"hi": "अवतल दर्पणों का उपयोग कहाँ होता है?", "hg": "Concave mirrors kahan use hote hain?"}, "In torches and headlights, and as shaving or dentists’ mirrors.": {"hi": "टॉर्च और हेडलाइट में, तथा दाढ़ी बनाने के दर्पण या दंत चिकित्सकों के दर्पण के रूप में।", "hg": "Torch aur headlights mein, aur shaving mirror ya dentist ke mirror ki tarah."}, "Spherical mirrors": {"hi": "गोलीय दर्पण", "hg": "Spherical mirrors"}, "Laws of reflection with a ray of light": {"hi": "प्रकाश की किरण से परावर्तन के नियम", "hg": "Light ki ray se laws of reflection"}, "To verify that the angle of incidence is equal to the angle of reflection, using a narrow beam of light and a plane mirror.": {"hi": "प्रकाश के एक पतले किरण-पुंज और समतल दर्पण की सहायता से यह सत्यापित करना कि आपतन कोण परावर्तन कोण के बराबर होता है।", "hg": "Light ke ek patle beam aur plane mirror ki madad se verify karna ki angle of incidence angle of reflection ke barabar hota hai."}, "Angle of incidence = angle of reflection": {"hi": "आपतन कोण = परावर्तन कोण", "hg": "Angle of incidence = angle of reflection"}, "Stand the plane mirror strip on the straight line through the centre of the angle disc, its shiny side towards you.": {"hi": "समतल दर्पण की पट्टी को कोण-डिस्क के केंद्र से गुज़रने वाली सीधी रेखा पर खड़ा कीजिए, उसकी चमकीली सतह आपकी ओर हो।", "hg": "Plane mirror strip ko angle disc ke centre se guzarne wali straight line par khada karo, uski shiny side aapki taraf ho."}, "The mirror stands on the 90° line; the dashed line N is the normal at its middle.": {"hi": "दर्पण 90° वाली रेखा पर खड़ा है; टूटी रेखा N उसके मध्य पर अभिलंब है।", "hg": "Mirror 90° line par khada hai; dashed line N uske middle par normal hai."}, "Switch on the ray box and aim its beam at the centre of the mirror at 30° to the normal. Read the angle of the reflected beam on the disc.": {"hi": "किरण बॉक्स का स्विच ऑन कीजिए और उसके किरण-पुंज को अभिलंब से 30° पर दर्पण के केंद्र की ओर डालिए। डिस्क पर परावर्तित किरण-पुंज का कोण पढ़िए।", "hg": "Ray box ka switch on karo aur uski beam ko normal se 30° par mirror ke centre par daalo. Disc par reflected beam ka angle padho."}, "The reflected beam leaves at 30° on the other side of the normal.": {"hi": "परावर्तित किरण-पुंज अभिलंब के दूसरी ओर 30° पर निकलता है।", "hg": "Reflected beam normal ki doosri taraf 30° par nikalti hai."}, "Move the ray box so that the beam falls at 45°.": {"hi": "किरण बॉक्स को खिसकाइए ताकि किरण-पुंज 45° पर पड़े।", "hg": "Ray box ko khiskao taaki beam 45° par pade."}, "The reflected beam is at 45°.": {"hi": "परावर्तित किरण-पुंज 45° पर है।", "hg": "Reflected beam 45° par hai."}, "Now at 60°.": {"hi": "अब 60° पर।", "hg": "Ab 60° par."}, "The reflected beam is at 60°.": {"hi": "परावर्तित किरण-पुंज 60° पर है।", "hg": "Reflected beam 60° par hai."}, "The angle of reflection is always equal to the angle of incidence, and the incident beam, the normal and the reflected beam lie on the same flat surface.": {"hi": "परावर्तन कोण सदैव आपतन कोण के बराबर होता है, तथा आपतित किरण-पुंज, अभिलंब और परावर्तित किरण-पुंज एक ही समतल में होते हैं।", "hg": "Angle of reflection hamesha angle of incidence ke barabar hota hai, aur incident beam, normal aur reflected beam ek hi flat surface par hote hain."}, "For angles of incidence of 30°, 45° and 60°, the reflected beam made 30°, 45° and 60° with the normal.": {"hi": "30°, 45° और 60° के आपतन कोणों के लिए परावर्तित किरण-पुंज ने अभिलंब के साथ 30°, 45° और 60° के कोण बनाए।", "hg": "30°, 45° aur 60° ke angles of incidence ke liye reflected beam ne normal ke saath 30°, 45° aur 60° ke angle banaye."}, "The angle of reflection is equal to the angle of incidence.": {"hi": "परावर्तन कोण आपतन कोण के बराबर होता है।", "hg": "Angle of reflection angle of incidence ke barabar hota hai."}, "Do not look straight into the ray box; the lamp gets hot.": {"hi": "किरण बॉक्स में सीधे मत देखिए; उसका लैंप गर्म हो जाता है।", "hg": "Ray box mein seedha mat dekho; lamp garam ho jaata hai."}, "What is the normal?": {"hi": "अभिलंब क्या है?", "hg": "Normal kya hai?"}, "A line at right angles to the mirror at the point where the ray strikes it.": {"hi": "दर्पण के उस बिंदु पर, जहाँ किरण टकराती है, दर्पण से समकोण बनाने वाली रेखा।", "hg": "Mirror ke us point par, jahan ray takraati hai, mirror se right angle banane wali line."}, "What happens if a ray falls along the normal?": {"hi": "यदि किरण अभिलंब के अनुदिश पड़े तो क्या होता है?", "hg": "Agar ray normal ke along pade to kya hota hai?"}, "It goes straight back along the same path.": {"hi": "वह उसी पथ पर सीधी वापस लौट जाती है।", "hg": "Woh usi path par seedhi wapas laut jaati hai."}, "Why is a dark room or black board used?": {"hi": "अँधेरे कमरे या काले बोर्ड का उपयोग क्यों किया जाता है?", "hg": "Dark room ya black board kyun use kiya jaata hai?"}, "So that the path of the beam can be seen clearly.": {"hi": "ताकि किरण-पुंज का पथ स्पष्ट दिखाई दे।", "hg": "Taaki beam ka path saaf dikhe."}, "Law of reflection": {"hi": "परावर्तन का नियम", "hg": "Law of reflection"}, "Parallel beams and curved mirrors": {"hi": "समांतर किरण-पुंज और वक्र दर्पण", "hg": "Parallel beams aur curved mirrors"}, "To see what plane, concave and convex mirrors do to parallel beams of light.": {"hi": "यह देखना कि समतल, अवतल और उत्तल दर्पण प्रकाश के समांतर किरण-पुंजों पर क्या प्रभाव डालते हैं।", "hg": "Dekhna ki plane, concave aur convex mirrors light ki parallel beams ke saath kya karte hain."}, "Converging and diverging mirrors": {"hi": "अभिसारी और अपसारी दर्पण", "hg": "Converging aur diverging mirrors"}, "Switch on the ray box with three slits: three parallel beams cross the board.": {"hi": "तीन झिरियों वाले किरण बॉक्स का स्विच ऑन कीजिए: तीन समांतर किरण-पुंज बोर्ड पर से गुज़रते हैं।", "hg": "Teen slits wale ray box ka switch on karo: teen parallel beams board ke across jaati hain."}, "Three thin parallel beams of light.": {"hi": "प्रकाश के तीन पतले समांतर किरण-पुंज।", "hg": "Light ki teen patli parallel beams."}, "Stand the plane mirror strip across the beams.": {"hi": "समतल दर्पण की पट्टी को किरण-पुंजों के आर-पार खड़ा कीजिए।", "hg": "Plane mirror strip ko beams ke across khada karo."}, "The reflected beams stay parallel.": {"hi": "परावर्तित किरण-पुंज समांतर ही रहते हैं।", "hg": "Reflected beams parallel hi rehti hain."}, "Replace it with the concave mirror strip.": {"hi": "इसके स्थान पर अवतल दर्पण की पट्टी रखिए।", "hg": "Iski jagah concave mirror strip rakho."}, "The reflected beams come together (converge) at a point in front of the mirror.": {"hi": "परावर्तित किरण-पुंज दर्पण के सामने एक बिंदु पर मिल जाते हैं (अभिसरित होते हैं)।", "hg": "Reflected beams mirror ke saamne ek point par mil jaati hain (converge hoti hain)."}, "Replace it with the convex mirror strip.": {"hi": "इसके स्थान पर उत्तल दर्पण की पट्टी रखिए।", "hg": "Iski jagah convex mirror strip rakho."}, "The reflected beams spread out (diverge), as if they came from a point behind the mirror.": {"hi": "परावर्तित किरण-पुंज फैल जाते हैं (अपसरित होते हैं), मानो वे दर्पण के पीछे के किसी बिंदु से आ रहे हों।", "hg": "Reflected beams phail jaati hain (diverge hoti hain), jaise woh mirror ke peeche ke kisi point se aa rahi hon."}, "A concave mirror converges parallel light to its focus; a convex mirror diverges it. A plane mirror keeps the beams parallel.": {"hi": "अवतल दर्पण समांतर प्रकाश को अपने फोकस पर अभिसरित करता है; उत्तल दर्पण उसे अपसरित करता है। समतल दर्पण किरण-पुंजों को समांतर ही रखता है।", "hg": "Concave mirror parallel light ko apne focus par converge karta hai; convex mirror use diverge karta hai. Plane mirror beams ko parallel hi rakhta hai."}, "After reflection the beams stayed parallel for the plane mirror, met at a point for the concave mirror and spread out for the convex mirror.": {"hi": "परावर्तन के बाद किरण-पुंज समतल दर्पण से समांतर रहे, अवतल दर्पण से एक बिंदु पर मिले और उत्तल दर्पण से फैल गए।", "hg": "Reflection ke baad beams plane mirror se parallel rahi, concave mirror se ek point par mili aur convex mirror se phail gayi."}, "A concave mirror is a converging mirror and a convex mirror is a diverging mirror.": {"hi": "अवतल दर्पण अभिसारी दर्पण है और उत्तल दर्पण अपसारी दर्पण है।", "hg": "Concave mirror converging mirror hai aur convex mirror diverging mirror hai."}, "Handle the mirror strips by their edges.": {"hi": "दर्पण की पट्टियों को उनके किनारों से पकड़िए।", "hg": "Mirror strips ko unke edges se pakdo."}, "What is the point where the beams meet called?": {"hi": "जिस बिंदु पर किरण-पुंज मिलते हैं, उसे क्या कहते हैं?", "hg": "Jis point par beams milti hain, use kya kehte hain?"}, "The principal focus of the concave mirror.": {"hi": "अवतल दर्पण का मुख्य फोकस।", "hg": "Concave mirror ka principal focus."}, "Why does a torch use a concave mirror?": {"hi": "टॉर्च में अवतल दर्पण का उपयोग क्यों होता है?", "hg": "Torch mein concave mirror kyun use hota hai?"}, "With the bulb at its focus, it sends out a parallel, strong beam.": {"hi": "बल्ब को उसके फोकस पर रखने से यह एक समांतर, तीव्र किरण-पुंज भेजता है।", "hg": "Bulb uske focus par ho to yeh ek parallel, strong beam bhejta hai."}, "Which mirror gives a wider view?": {"hi": "कौन-सा दर्पण अधिक विस्तृत दृश्य देता है?", "hg": "Kaun sa mirror wider view deta hai?"}, "A convex mirror.": {"hi": "उत्तल दर्पण।", "hg": "Convex mirror."}, "Mirrors and parallel light": {"hi": "दर्पण और समांतर प्रकाश", "hg": "Mirrors aur parallel light"}, "Parallel beams through lenses": {"hi": "लेंसों से गुज़रते समांतर किरण-पुंज", "hg": "Lenses se guzarti parallel beams"}, "To see what a glass block, a convex lens and a concave lens do to parallel beams of light.": {"hi": "यह देखना कि काँच का गुटका, उत्तल लेंस और अवतल लेंस प्रकाश के समांतर किरण-पुंजों पर क्या प्रभाव डालते हैं।", "hg": "Dekhna ki glass block, convex lens aur concave lens light ki parallel beams ke saath kya karte hain."}, "Converging and diverging lenses": {"hi": "अभिसारी और अपसारी लेंस", "hg": "Converging aur diverging lenses"}, "Switch on the ray box with three slits.": {"hi": "तीन झिरियों वाले किरण बॉक्स का स्विच ऑन कीजिए।", "hg": "Teen slits wale ray box ka switch on karo."}, "Three parallel beams run across the board.": {"hi": "तीन समांतर किरण-पुंज बोर्ड पर से गुज़रते हैं।", "hg": "Teen parallel beams board ke across chalti hain."}, "Put the glass block in the path of the beams.": {"hi": "किरण-पुंजों के पथ में काँच का गुटका रखिए।", "hg": "Beams ke path mein glass block rakho."}, "The beams come out still parallel.": {"hi": "किरण-पुंज बाहर निकलने पर भी समांतर रहते हैं।", "hg": "Beams bahar nikal kar bhi parallel rehti hain."}, "Replace it with the convex lens.": {"hi": "इसके स्थान पर उत्तल लेंस रखिए।", "hg": "Iski jagah convex lens rakho."}, "The beams bend towards each other and meet at a point beyond the lens (its focus), then spread out.": {"hi": "किरण-पुंज एक-दूसरे की ओर मुड़कर लेंस के पार एक बिंदु (उसके फोकस) पर मिलते हैं, फिर फैल जाते हैं।", "hg": "Beams ek-doosre ki taraf mud kar lens ke paar ek point (uske focus) par milti hain, phir phail jaati hain."}, "Replace it with the concave lens.": {"hi": "इसके स्थान पर अवतल लेंस रखिए।", "hg": "Iski jagah concave lens rakho."}, "The beams spread out after passing through the lens.": {"hi": "लेंस से गुज़रने के बाद किरण-पुंज फैल जाते हैं।", "hg": "Lens se guzarne ke baad beams phail jaati hain."}, "A convex lens (thicker in the middle) converges light; a concave lens (thinner in the middle) diverges it.": {"hi": "उत्तल लेंस (बीच में मोटा) प्रकाश को अभिसरित करता है; अवतल लेंस (बीच में पतला) उसे अपसरित करता है।", "hg": "Convex lens (beech mein mota) light ko converge karta hai; concave lens (beech mein patla) use diverge karta hai."}, "The beams stayed parallel through the glass block, met at a point after the convex lens and spread out after the concave lens.": {"hi": "किरण-पुंज काँच के गुटके से गुज़रकर समांतर रहे, उत्तल लेंस के बाद एक बिंदु पर मिले और अवतल लेंस के बाद फैल गए।", "hg": "Beams glass block se guzar kar parallel rahi, convex lens ke baad ek point par mili aur concave lens ke baad phail gayi."}, "A convex lens is a converging lens and a concave lens is a diverging lens.": {"hi": "उत्तल लेंस अभिसारी लेंस है और अवतल लेंस अपसारी लेंस है।", "hg": "Convex lens converging lens hai aur concave lens diverging lens hai."}, "Handle the glass block and lenses carefully; do not drop them.": {"hi": "काँच के गुटके और लेंसों को सावधानी से पकड़िए; उन्हें गिराइए मत।", "hg": "Glass block aur lenses ko dhyaan se pakdo; unhe girao mat."}, "Which lens is thicker in the middle?": {"hi": "कौन-सा लेंस बीच में मोटा होता है?", "hg": "Kaun sa lens beech mein mota hota hai?"}, "The convex lens.": {"hi": "उत्तल लेंस।", "hg": "Convex lens."}, "What is the focal length of a lens?": {"hi": "लेंस की फोकस दूरी क्या है?", "hg": "Lens ki focal length kya hai?"}, "The distance from the lens to its principal focus.": {"hi": "लेंस से उसके मुख्य फोकस तक की दूरी।", "hg": "Lens se uske principal focus tak ki doori."}, "Which lens is used in a magnifying glass?": {"hi": "आवर्धक लेंस (magnifying glass) में कौन-सा लेंस होता है?", "hg": "Magnifying glass mein kaun sa lens use hota hai?"}, "A convex lens.": {"hi": "उत्तल लेंस।", "hg": "Convex lens."}, "Lenses and parallel light": {"hi": "लेंस और समांतर प्रकाश", "hg": "Lenses aur parallel light"}, "Focusing sunlight with a convex lens": {"hi": "उत्तल लेंस से सूर्य के प्रकाश को फोकस करना", "hg": "Convex lens se sunlight focus karna"}, "To focus sunlight with a convex lens onto a piece of paper and see that it can burn the paper.": {"hi": "उत्तल लेंस से सूर्य के प्रकाश को कागज़ के एक टुकड़े पर फोकस करना और देखना कि यह कागज़ को जला सकता है।", "hg": "Convex lens se sunlight ko paper ke ek tukde par focus karna aur dekhna ki yeh paper ko jala sakti hai."}, "A convex lens concentrates light": {"hi": "उत्तल लेंस प्रकाश को एक स्थान पर केंद्रित करता है", "hg": "Convex lens light ko concentrate karta hai"}, "In bright sunlight, hold the lens about 5 cm above the paper.": {"hi": "तेज़ धूप में लेंस को कागज़ से लगभग 5 cm ऊपर पकड़िए।", "hg": "Tez dhoop mein lens ko paper se lagbhag 5 cm upar pakdo."}, "A large, round patch of light falls on the paper.": {"hi": "कागज़ पर प्रकाश का एक बड़ा, गोल धब्बा पड़ता है।", "hg": "Paper par light ka ek bada, gol patch padta hai."}, "Slowly raise the lens until the patch becomes a tiny, very bright spot.": {"hi": "लेंस को धीरे-धीरे तब तक ऊपर उठाइए जब तक धब्बा एक नन्हा, बहुत चमकीला बिंदु न बन जाए।", "hg": "Lens ko dheere-dheere tab tak upar uthao jab tak patch ek chhota, bahut bright spot na ban jaaye."}, "At about 15 cm the spot is smallest and brightest: this is the focus of the lens.": {"hi": "लगभग 15 cm पर बिंदु सबसे छोटा और सबसे चमकीला होता है: यही लेंस का फोकस है।", "hg": "Lagbhag 15 cm par spot sabse chhota aur sabse bright hota hai: yahi lens ka focus hai."}, "A convex lens brings the parallel rays of the Sun together at its focus.": {"hi": "उत्तल लेंस सूर्य की समांतर किरणों को अपने फोकस पर एकत्र कर देता है।", "hg": "Convex lens Sun ki parallel rays ko apne focus par ikattha kar deta hai."}, "Hold the lens steady and wait (time-lapse).": {"hi": "लेंस को स्थिर पकड़े रखिए और प्रतीक्षा कीजिए (टाइम-लैप्स)।", "hg": "Lens ko steady pakde raho aur wait karo (time-lapse)."}, "The paper under the spot turns brown, starts to smoke and then a hole is burnt in it.": {"hi": "बिंदु के नीचे का कागज़ भूरा हो जाता है, उसमें से धुआँ निकलने लगता है और फिर उसमें जलकर छेद हो जाता है।", "hg": "Spot ke neeche ka paper brown ho jaata hai, usmein se dhuaan nikalne lagta hai aur phir usmein jal kar chhed ho jaata hai."}, "All the sunlight falling on the lens is concentrated on a tiny spot, so the paper there becomes hot enough to burn.": {"hi": "लेंस पर पड़ने वाला सारा सूर्य का प्रकाश एक नन्हे बिंदु पर केंद्रित हो जाता है, इसलिए वहाँ का कागज़ इतना गर्म हो जाता है कि जल उठता है।", "hg": "Lens par padne wali saari sunlight ek chhote spot par concentrate ho jaati hai, isliye wahan ka paper itna garam ho jaata hai ki jal uthta hai."}, "The patch of light became smallest and brightest about 15 cm below the lens; there the paper browned, smoked and burnt.": {"hi": "लेंस से लगभग 15 cm नीचे प्रकाश का धब्बा सबसे छोटा और सबसे चमकीला हुआ; वहाँ कागज़ भूरा हुआ, उससे धुआँ निकला और वह जल गया।", "hg": "Lens se lagbhag 15 cm neeche light ka patch sabse chhota aur sabse bright hua; wahan paper brown hua, dhuaan nikla aur woh jal gaya."}, "A convex lens converges sunlight to a point (its focus). The concentrated light can heat and burn paper.": {"hi": "उत्तल लेंस सूर्य के प्रकाश को एक बिंदु (अपने फोकस) पर अभिसरित करता है। केंद्रित प्रकाश कागज़ को गर्म करके जला सकता है।", "hg": "Convex lens sunlight ko ek point (apne focus) par converge karta hai. Concentrated light paper ko garam karke jala sakti hai."}, "Never look at the Sun through a lens. Do this only under a teacher’s supervision, on a non-flammable surface, away from anything that can catch fire.": {"hi": "लेंस से कभी भी सूर्य को मत देखिए। यह प्रयोग केवल शिक्षक की देखरेख में, न जलने वाली सतह पर और आग पकड़ सकने वाली किसी भी वस्तु से दूर कीजिए।", "hg": "Lens se kabhi bhi Sun ko mat dekho. Yeh sirf teacher ki nigraani mein, non-flammable surface par, aag pakad sakne wali har cheez se door karo."}, "What is the focal length of this lens?": {"hi": "इस लेंस की फोकस दूरी कितनी है?", "hg": "Is lens ki focal length kitni hai?"}, "About 15 cm.": {"hi": "लगभग 15 cm।", "hg": "Lagbhag 15 cm."}, "Can a concave lens burn paper like this?": {"hi": "क्या अवतल लेंस इस प्रकार कागज़ जला सकता है?", "hg": "Kya concave lens is tarah paper jala sakta hai?"}, "No, it spreads light out.": {"hi": "नहीं, यह प्रकाश को फैला देता है।", "hg": "Nahi, yeh light ko phaila deta hai."}, "Why should we never look at the Sun through a lens?": {"hi": "हमें लेंस से कभी भी सूर्य को क्यों नहीं देखना चाहिए?", "hg": "Humein lens se kabhi bhi Sun ko kyun nahi dekhna chahiye?"}, "The concentrated light can permanently damage the eye.": {"hi": "केंद्रित प्रकाश आँख को स्थायी रूप से क्षति पहुँचा सकता है।", "hg": "Concentrated light aankh ko permanently damage kar sakti hai."}, "Focus of a convex lens": {"hi": "उत्तल लेंस का फोकस", "hg": "Convex lens ka focus"}, "A drop of water as a lens": {"hi": "लेंस के रूप में जल की बूँद", "hg": "Lens ki tarah paani ki boond"}, "To see that a drop of water can act as a magnifying lens.": {"hi": "यह देखना कि जल की एक बूँद आवर्धक लेंस की तरह कार्य कर सकती है।", "hg": "Dekhna ki paani ki ek boond magnifying lens ki tarah kaam kar sakti hai."}, "A simple lens": {"hi": "एक सरल लेंस", "hg": "Ek simple lens"}, "Look at the small print through the clear plastic sheet.": {"hi": "पारदर्शी प्लास्टिक शीट में से छोटे अक्षरों को देखिए।", "hg": "Clear plastic sheet ke through chhote print ko dekho."}, "The letters look the same as without the sheet.": {"hi": "अक्षर वैसे ही दिखते हैं जैसे शीट के बिना।", "hg": "Letters waise hi dikhte hain jaise sheet ke bina."}, "Put a drop of water on the plastic sheet over the print.": {"hi": "छपे अक्षरों के ऊपर प्लास्टिक शीट पर जल की एक बूँद रखिए।", "hg": "Print ke upar plastic sheet par paani ki ek boond rakho."}, "The letters under the drop look bigger.": {"hi": "बूँद के नीचे के अक्षर बड़े दिखते हैं।", "hg": "Boond ke neeche ke letters bade dikhte hain."}, "The drop is curved like a convex lens: thicker in the middle. It bends the light and magnifies the print.": {"hi": "बूँद उत्तल लेंस की तरह वक्र है: बीच में मोटी। यह प्रकाश को मोड़ती है और अक्षरों को बड़ा (आवर्धित) करके दिखाती है।", "hg": "Boond convex lens ki tarah curved hai: beech mein moti. Yeh light ko bend karti hai aur print ko magnify karti hai."}, "The print seen through a drop of water on the sheet looked larger than the print around it.": {"hi": "शीट पर रखी जल की बूँद में से देखे गए अक्षर आसपास के अक्षरों से बड़े दिखे।", "hg": "Sheet par rakhi paani ki boond ke through dekha gaya print aas-paas ke print se bada dikha."}, "A drop of water with a curved surface acts like a convex lens and magnifies.": {"hi": "वक्र सतह वाली जल की बूँद उत्तल लेंस की तरह कार्य करती है और आवर्धन करती है।", "hg": "Curved surface wali paani ki boond convex lens ki tarah kaam karti hai aur magnify karti hai."}, "Keep the sheet flat so that the drop does not run off.": {"hi": "शीट को समतल रखिए ताकि बूँद बह न जाए।", "hg": "Sheet ko flat rakho taaki boond beh na jaaye."}, "Which kind of lens does the drop act as?": {"hi": "बूँद किस प्रकार के लेंस की तरह कार्य करती है?", "hg": "Boond kis tarah ke lens ki tarah kaam karti hai?"}, "A convex (converging) lens.": {"hi": "उत्तल (अभिसारी) लेंस।", "hg": "Convex (converging) lens."}, "Why does a bigger, flatter drop magnify less?": {"hi": "बड़ी, अधिक चपटी बूँद कम आवर्धन क्यों करती है?", "hg": "Badi, zyada flat boond kam magnify kyun karti hai?"}, "It is less curved, so it bends light less.": {"hi": "वह कम वक्र होती है, इसलिए प्रकाश को कम मोड़ती है।", "hg": "Woh kam curved hoti hai, isliye light ko kam bend karti hai."}, "Name an instrument that uses a convex lens to magnify.": {"hi": "ऐसे किसी उपकरण का नाम बताइए जो आवर्धन के लिए उत्तल लेंस का उपयोग करता है।", "hg": "Aise kisi instrument ka naam batao jo magnify karne ke liye convex lens use karta hai."}, "A magnifying glass, a microscope.": {"hi": "आवर्धक लेंस, सूक्ष्मदर्शी।", "hg": "Magnifying glass, microscope."}, "A water lens": {"hi": "जल का लेंस", "hg": "Water lens"}, "Phases of the Moon: a model": {"hi": "चंद्रमा की कलाएँ: एक मॉडल", "hg": "Moon ke phases: ek model"}, "To understand the phases of the Moon with a model: a lamp as the Sun, your head as the Earth and a white ball as the Moon.": {"hi": "एक मॉडल द्वारा चंद्रमा की कलाओं को समझना: लैंप को सूर्य, अपने सिर को पृथ्वी और एक सफ़ेद गेंद को चंद्रमा मानकर।", "hg": "Ek model se Moon ke phases samajhna: lamp ko Sun, apne sir ko Earth aur ek white ball ko Moon maan kar."}, "Model of the phases of the Moon": {"hi": "चंद्रमा की कलाओं का मॉडल", "hg": "Moon ke phases ka model"}, "Darken the room and switch on the lamp (the Sun). Hold the ball (the Moon) at arm’s length, between you and the lamp.": {"hi": "कमरे में अँधेरा कीजिए और लैंप (सूर्य) का स्विच ऑन कीजिए। गेंद (चंद्रमा) को हाथ भर की दूरी पर, अपने और लैंप के बीच पकड़िए।", "hg": "Room mein andhera karo aur lamp (Sun) ka switch on karo. Ball (Moon) ko haath bhar ki doori par, apne aur lamp ke beech pakdo."}, "The side of the ball facing you is dark: new moon.": {"hi": "गेंद का आपकी ओर वाला भाग अँधेरा है: अमावस्या।", "hg": "Ball ka aapki taraf wala hissa dark hai: new moon (amavasya)."}, "Turn slowly to your left, keeping the ball in front of you, and watch its lit part.": {"hi": "गेंद को अपने सामने रखते हुए धीरे-धीरे अपनी बाईं ओर घूमिए और उसके प्रकाशित भाग को देखिए।", "hg": "Ball ko apne saamne rakhte hue dheere-dheere apni left taraf ghoomo aur uske lit part ko dekho."}, "The lit part grows: a thin crescent, then half (first quarter), then more than half (gibbous), then the whole face (full moon) when the lamp is behind you.": {"hi": "प्रकाशित भाग बढ़ता जाता है: पहले पतला बालचंद्र, फिर आधा (प्रथम चतुर्थांश), फिर आधे से अधिक (गिबस), और जब लैंप आपके पीछे होता है तब पूरा मुख (पूर्णिमा)।", "hg": "Lit part badhta jaata hai: pehle patla crescent, phir aadha (first quarter), phir aadhe se zyada (gibbous), aur jab lamp aapke peeche hota hai tab poora face (full moon)."}, "Half of the ball is always lit by the lamp. As it moves round you, you see different amounts of its lit half.": {"hi": "गेंद का आधा भाग सदैव लैंप से प्रकाशित रहता है। जैसे-जैसे यह आपके चारों ओर घूमती है, आपको इसके प्रकाशित आधे भाग का भिन्न-भिन्न अंश दिखाई देता है।", "hg": "Ball ka aadha hissa hamesha lamp se lit rehta hai. Jaise-jaise yeh aapke chaaron taraf ghoomti hai, aapko iske lit half ka alag-alag hissa dikhta hai."}, "Keep turning until you face the lamp again.": {"hi": "तब तक घूमते रहिए जब तक आपका मुख फिर से लैंप की ओर न हो जाए।", "hg": "Tab tak ghoomte raho jab tak aapka face phir se lamp ki taraf na ho jaaye."}, "The lit part shrinks again through gibbous, last quarter and crescent back to new moon.": {"hi": "प्रकाशित भाग फिर से घटता है — गिबस, अंतिम चतुर्थांश और बालचंद्र से होते हुए वापस अमावस्या तक।", "hg": "Lit part phir se ghatta hai — gibbous, last quarter aur crescent se hote hue wapas new moon tak."}, "The Moon takes about 29½ days to go through all its phases, which is about a month.": {"hi": "चंद्रमा को अपनी सभी कलाओं से गुज़रने में लगभग 29½ दिन लगते हैं, जो लगभग एक महीना है।", "hg": "Moon ko apne saare phases poore karne mein lagbhag 29½ din lagte hain, jo lagbhag ek mahina hai."}, "As the ball went round the head, its lit part seen from the head changed from none (new moon) to a crescent, half, gibbous, full and back.": {"hi": "जैसे-जैसे गेंद सिर के चारों ओर घूमी, सिर से दिखने वाला उसका प्रकाशित भाग शून्य (अमावस्या) से बालचंद्र, आधा, गिबस, पूर्ण और फिर वापस बदलता गया।", "hg": "Jaise-jaise ball sir ke chaaron taraf ghoomi, sir se dikhne wala uska lit part zero (new moon) se crescent, half, gibbous, full aur phir wapas badalta gaya."}, "The Moon has no light of its own; we see the part of its sunlit half that faces the Earth. As it goes round the Earth, this part changes and we see the phases.": {"hi": "चंद्रमा का अपना कोई प्रकाश नहीं है; हम उसके सूर्य से प्रकाशित आधे भाग का वह अंश देखते हैं जो पृथ्वी की ओर होता है। पृथ्वी की परिक्रमा करते समय यह अंश बदलता रहता है और हमें कलाएँ दिखाई देती हैं।", "hg": "Moon ki apni koi light nahi hai; hum uske sunlit half ka woh hissa dekhte hain jo Earth ki taraf hota hai. Earth ke chakkar lagate samay yeh hissa badalta rehta hai aur humein phases dikhte hain."}, "Do not look straight at a bright lamp for long. Move carefully in the dark room.": {"hi": "किसी चमकीले लैंप को देर तक सीधे मत देखिए। अँधेरे कमरे में सावधानी से चलिए।", "hg": "Bright lamp ko der tak seedha mat dekho. Dark room mein dhyaan se chalo."}, "Why do we see phases of the Moon?": {"hi": "हमें चंद्रमा की कलाएँ क्यों दिखाई देती हैं?", "hg": "Humein Moon ke phases kyun dikhte hain?"}, "We see different amounts of its sunlit half as it goes round the Earth.": {"hi": "पृथ्वी की परिक्रमा करते समय हमें उसके सूर्य से प्रकाशित आधे भाग का भिन्न-भिन्न अंश दिखाई देता है।", "hg": "Earth ke chakkar lagate samay humein uske sunlit half ka alag-alag hissa dikhta hai."}, "How long is one cycle of phases?": {"hi": "कलाओं का एक चक्र कितने समय का होता है?", "hg": "Phases ka ek cycle kitne time ka hota hai?"}, "About 29.5 days.": {"hi": "लगभग 29.5 दिन।", "hg": "Lagbhag 29.5 din."}, "At which phase is the Moon on the side of the Earth opposite the Sun?": {"hi": "किस कला के समय चंद्रमा पृथ्वी की उस ओर होता है जो सूर्य के विपरीत है?", "hg": "Kis phase mein Moon Earth ki us side par hota hai jo Sun ke opposite hai?"}, "Full moon.": {"hi": "पूर्णिमा।", "hg": "Full moon."}, "Phases of the Moon": {"hi": "चंद्रमा की कलाएँ", "hg": "Moon ke phases"}, "The shadow of a stick through the day": {"hi": "दिन भर में एक छड़ी की छाया", "hg": "Din bhar mein ek stick ki shadow"}, "To find local noon (the time of the shortest shadow) with a stick in the sunlight, and so understand the solar day.": {"hi": "धूप में रखी एक छड़ी की सहायता से स्थानीय मध्याह्न (सबसे छोटी छाया का समय) ज्ञात करना और इस प्रकार सौर दिवस को समझना।", "hg": "Dhoop mein rakhi ek stick ki madad se local noon (sabse chhoti shadow ka time) pata karna aur is tarah solar day ko samajhna."}, "Shadow stick (gnomon) and the solar day": {"hi": "छाया-छड़ी (नोमोन) और सौर दिवस", "hg": "Shadow stick (gnomon) aur solar day"}, "Early in the morning (7 am) mark the tip of the stick’s shadow.": {"hi": "सुबह जल्दी (7 am) छड़ी की छाया के सिरे पर निशान लगाइए।", "hg": "Subah jaldi (7 am) stick ki shadow ke tip par mark lagao."}, "The shadow is long and points towards the west.": {"hi": "छाया लंबी है और पश्चिम की ओर है।", "hg": "Shadow lambi hai aur west ki taraf hai."}, "Mark the tip of the shadow every hour until 5 pm (time-lapse).": {"hi": "5 pm तक हर घंटे छाया के सिरे पर निशान लगाइए (टाइम-लैप्स)।", "hg": "5 pm tak har ghante shadow ke tip par mark lagao (time-lapse)."}, "The shadow gets shorter until about midday, turns from west through north towards east, and then grows longer again.": {"hi": "छाया लगभग दोपहर तक छोटी होती जाती है, पश्चिम से उत्तर होते हुए पूर्व की ओर घूमती है, और फिर से लंबी होने लगती है।", "hg": "Shadow lagbhag dopahar tak chhoti hoti jaati hai, west se north hote hue east ki taraf ghoomti hai, aur phir se lambi hone lagti hai."}, "Find when the shadow was shortest.": {"hi": "ज्ञात कीजिए कि छाया कब सबसे छोटी थी।", "hg": "Pata karo ki shadow kab sabse chhoti thi."}, "The shadow is shortest at about 12:15, pointing due north: this is local noon.": {"hi": "छाया लगभग 12:15 पर सबसे छोटी है और ठीक उत्तर की ओर है: यही स्थानीय मध्याह्न है।", "hg": "Shadow lagbhag 12:15 par sabse chhoti hai aur theek north ki taraf hai: yahi local noon hai."}, "At local noon the Sun is highest in the sky. The time from one local noon to the next is a solar day: 24 hours.": {"hi": "स्थानीय मध्याह्न पर सूर्य आकाश में सबसे ऊँचा होता है। एक स्थानीय मध्याह्न से अगले स्थानीय मध्याह्न तक का समय एक सौर दिवस है: 24 घंटे।", "hg": "Local noon par Sun sky mein sabse upar hota hai. Ek local noon se agle local noon tak ka time ek solar day hai: 24 ghante."}, "The shadow was long in the morning, shortest at about 12:15 (pointing north) and long again in the evening, pointing east.": {"hi": "छाया सुबह लंबी थी, लगभग 12:15 पर सबसे छोटी (उत्तर की ओर) और शाम को फिर से लंबी होकर पूर्व की ओर थी।", "hg": "Shadow subah lambi thi, lagbhag 12:15 par sabse chhoti (north ki taraf) aur shaam ko phir se lambi ho kar east ki taraf thi."}, "The shadow of a stick is shortest at local noon, when the Sun is highest. The time from one local noon to the next is one solar day.": {"hi": "छड़ी की छाया स्थानीय मध्याह्न पर सबसे छोटी होती है, जब सूर्य सबसे ऊँचा होता है। एक स्थानीय मध्याह्न से अगले तक का समय एक सौर दिवस है।", "hg": "Stick ki shadow local noon par sabse chhoti hoti hai, jab Sun sabse upar hota hai. Ek local noon se agle tak ka time ek solar day hai."}, "Never look directly at the Sun.": {"hi": "सूर्य को कभी भी सीधे मत देखिए।", "hg": "Sun ko kabhi bhi seedha mat dekho."}, "Why is the shadow shortest at noon?": {"hi": "दोपहर में छाया सबसे छोटी क्यों होती है?", "hg": "Noon par shadow sabse chhoti kyun hoti hai?"}, "The Sun is highest in the sky at noon.": {"hi": "दोपहर में सूर्य आकाश में सबसे ऊँचा होता है।", "hg": "Noon par Sun sky mein sabse upar hota hai."}, "In which direction does the noon shadow point in India?": {"hi": "भारत में दोपहर की छाया किस दिशा में होती है?", "hg": "India mein noon ki shadow kis direction mein hoti hai?"}, "Towards the north.": {"hi": "उत्तर की ओर।", "hg": "North ki taraf."}, "Why may local noon not be exactly 12:00 by the clock?": {"hi": "स्थानीय मध्याह्न घड़ी के अनुसार ठीक 12:00 पर क्यों नहीं भी हो सकता?", "hg": "Local noon clock ke hisaab se theek 12:00 par kyun nahi bhi ho sakta?"}, "Clocks follow a standard time for the whole country, not the local position of the Sun.": {"hi": "घड़ियाँ पूरे देश के लिए एक मानक समय का पालन करती हैं, न कि सूर्य की स्थानीय स्थिति का।", "hg": "Clocks poore desh ke liye ek standard time follow karti hain, Sun ki local position nahi."}, "Solar day": {"hi": "सौर दिवस", "hg": "Solar day"}, "Inner side: the image is upside down": {"hi": "भीतरी सतह: प्रतिबिंब उलटा है", "hg": "Andar wali side: image ulti hai"}, "Outer side: the image is upright and smaller": {"hi": "बाहरी सतह: प्रतिबिंब सीधा और छोटा है", "hg": "Bahar wali side: image upright aur chhoti hai"}, "New moon": {"hi": "अमावस्या", "hg": "New moon"}, "Crescent": {"hi": "बालचंद्र", "hg": "Crescent"}, "First quarter": {"hi": "प्रथम चतुर्थांश", "hg": "First quarter"}, "Gibbous": {"hi": "गिबस", "hg": "Gibbous"}, "Full moon": {"hi": "पूर्णिमा", "hg": "Full moon"}, "Last quarter": {"hi": "अंतिम चतुर्थांश", "hg": "Last quarter"}, "Shortest shadow": {"hi": "सबसे छोटी छाया", "hg": "Sabse chhoti shadow"}, "local noon": {"hi": "स्थानीय मध्याह्न", "hg": "local noon"}});
+// p9-p10 translations
+Object.assign(DICT, {
+"Inside a torch: cells in the right order": {
+"hi": "टॉर्च के अंदर: सेलों का सही क्रम",
+"hg": "Torch ke andar: cells ka sahi order"
+},
+"To see what is inside a torch and find the correct way of putting the cells in it.": {
+"hi": "टॉर्च के अंदर क्या है यह देखना और उसमें सेलों को लगाने का सही तरीका पता करना।",
+"hg": "Torch ke andar kya hai yeh dekhna aur usme cells lagane ka sahi tareeka pata karna."
+},
+"Electric cell and battery": {
+"hi": "विद्युत सेल और बैटरी",
+"hg": "Electric cell aur battery"
+},
+"Look inside the opened torch: find the switch, the lamp behind the glass, and the space for the cells.": {
+"hi": "खुली हुई टॉर्च के अंदर देखिए: स्विच, काँच के पीछे लगा बल्ब और सेलों के लिए जगह ढूँढिए।",
+"hg": "Khuli hui torch ke andar dekhiye: switch, glass ke peeche laga lamp aur cells ke liye jagah dhoondhiye."
+},
+"The torch has a slide switch, a small lamp at the front and room for two cells.": {
+"hi": "टॉर्च में एक स्लाइड स्विच, आगे की ओर एक छोटा बल्ब और दो सेलों के लिए जगह है।",
+"hg": "Torch mein ek slide switch, aage ki taraf ek chhota lamp aur do cells ke liye jagah hai."
+},
+"Look at a cell. Find its two terminals.": {
+"hi": "एक सेल को देखिए। उसके दोनों टर्मिनल ढूँढिए।",
+"hg": "Ek cell ko dekhiye. Uske dono terminals dhoondhiye."
+},
+"A cell has a positive terminal (+, the small metal cap) and a negative terminal (−, the flat metal disc).": {
+"hi": "सेल में एक धन टर्मिनल (+, धातु की छोटी टोपी) और एक ऋण टर्मिनल (−, धातु की चपटी डिस्क) होता है।",
+"hg": "Cell mein ek positive terminal (+, chhoti metal cap) aur ek negative terminal (−, flat metal disc) hota hai."
+},
+"Put the two cells in with their negative ends touching, and switch the torch on.": {
+"hi": "दोनों सेलों को इस तरह लगाइए कि उनके ऋण सिरे आपस में छूएँ, और टॉर्च का स्विच ऑन कीजिए।",
+"hg": "Dono cells ko aise lagaiye ki unke negative ends aapas mein touch karein, aur torch ka switch on kijiye."
+},
+"The torch does not light.": {
+"hi": "टॉर्च नहीं जलती।",
+"hg": "Torch nahi jalti."
+},
+"Turn the second cell round so that the + of one cell touches the − of the next. Switch on.": {
+"hi": "दूसरे सेल को उलटकर लगाइए ताकि एक सेल का + अगले सेल के − को छुए। स्विच ऑन कीजिए।",
+"hg": "Doosre cell ko ulta karke lagaiye taaki ek cell ka + agle cell ke − ko touch kare. Switch on kijiye."
+},
+"The torch lights up.": {
+"hi": "टॉर्च जल उठती है।",
+"hg": "Torch jal uthti hai."
+},
+"Two or more cells joined with the + terminal of one to the − terminal of the next make a battery. Placed the wrong way, they do not push current round the circuit.": {
+"hi": "जब दो या अधिक सेलों को इस प्रकार जोड़ा जाता है कि एक का + टर्मिनल अगले के − टर्मिनल से जुड़ा हो, तो बैटरी बनती है। गलत तरीके से लगाने पर वे परिपथ में विद्युत धारा नहीं भेजते।",
+"hg": "Jab do ya zyada cells ko aise joda jata hai ki ek ka + terminal agle ke − terminal se juda ho, to battery banti hai. Galat tareeke se lagane par ye circuit mein current nahi bhejte."
+},
+"With the cells in the wrong order the torch did not light; with + of one cell touching − of the next it lit.": {
+"hi": "सेलों को गलत क्रम में लगाने पर टॉर्च नहीं जली; एक सेल का + अगले सेल के − को छूने पर वह जल गई।",
+"hg": "Cells galat order mein hone par torch nahi jali; ek cell ka + agle cell ke − ko touch karne par woh jal gayi."
+},
+"In a torch the cells must be joined positive to negative to make a battery; then current flows and the lamp glows.": {
+"hi": "टॉर्च में बैटरी बनाने के लिए सेलों को धन से ऋण टर्मिनल की ओर जोड़ना आवश्यक है; तभी विद्युत धारा बहती है और बल्ब जलता है।",
+"hg": "Torch mein battery banane ke liye cells ko positive se negative jodna zaroori hai; tabhi current flow hota hai aur lamp glow karta hai."
+},
+"Never open or cut a cell, and never connect its two terminals directly with a wire.": {
+"hi": "किसी सेल को कभी न खोलिए और न काटिए, और उसके दोनों टर्मिनलों को कभी सीधे तार से न जोड़िए।",
+"hg": "Cell ko kabhi mat kholiye ya kaatiye, aur uske dono terminals ko kabhi seedhe wire se mat jodiye."
+},
+"What are the two terminals of a cell?": {
+"hi": "सेल के दो टर्मिनल कौन-से हैं?",
+"hg": "Cell ke do terminals kaun se hain?"
+},
+"Positive (+) and negative (−).": {
+"hi": "धन (+) और ऋण (−)।",
+"hg": "Positive (+) aur negative (−)."
+},
+"What is a battery?": {
+"hi": "बैटरी क्या है?",
+"hg": "Battery kya hai?"
+},
+"Two or more cells joined together, + of one to − of the next.": {
+"hi": "दो या अधिक सेल जो आपस में जुड़े हों, एक का + अगले के − से।",
+"hg": "Do ya zyada cells jo aapas mein jude hon, ek ka + agle ke − se."
+},
+"What is the voltage of two 1.5 V cells in series?": {
+"hi": "श्रेणी में जुड़े 1.5 V के दो सेलों की वोल्टता कितनी होती है?",
+"hg": "Series mein jude do 1.5 V cells ka voltage kitna hota hai?"
+},
+"3 V.": {
+"hi": "3 V।",
+"hg": "3 V."
+},
+"A battery": {
+"hi": "एक बैटरी",
+"hg": "Ek battery"
+},
+"Looking at a torch lamp and an LED": {
+"hi": "टॉर्च के बल्ब और LED को देखना",
+"hg": "Torch lamp aur LED ko dekhna"
+},
+"To find the filament and terminals of a torch lamp, and the positive and negative legs of an LED.": {
+"hi": "टॉर्च के बल्ब का तंतु और टर्मिनल, तथा LED के धन और ऋण तार पहचानना।",
+"hg": "Torch lamp ka filament aur terminals, aur LED ke positive aur negative legs pehchanna."
+},
+"Lamp and LED": {
+"hi": "बल्ब और LED",
+"hg": "Lamp aur LED"
+},
+"Look closely at the torch lamp.": {
+"hi": "टॉर्च के बल्ब को ध्यान से देखिए।",
+"hg": "Torch lamp ko dhyan se dekhiye."
+},
+"Inside the glass is a very thin coiled wire, the filament, held by two thicker wires. These lead to its two terminals.": {
+"hi": "काँच के अंदर एक बहुत पतला कुंडलित तार होता है, जिसे तंतु कहते हैं, और यह दो मोटे तारों पर टिका होता है। ये तार उसके दोनों टर्मिनलों तक जाते हैं।",
+"hg": "Glass ke andar ek bahut patla coiled wire hota hai, jise filament kehte hain, aur yeh do mote wires par tika hota hai. Ye wires uske dono terminals tak jaate hain."
+},
+"When current flows through the filament it becomes so hot that it glows.": {
+"hi": "जब तंतु में से विद्युत धारा बहती है तो वह इतना गरम हो जाता है कि चमकने लगता है।",
+"hg": "Jab filament mein se current flow hota hai to woh itna garam ho jata hai ki glow karne lagta hai."
+},
+"Now look at the LED.": {
+"hi": "अब LED को देखिए।",
+"hg": "Ab LED ko dekhiye."
+},
+"An LED has two legs: the longer leg is its positive terminal and the shorter leg its negative terminal.": {
+"hi": "LED के दो तार होते हैं: लंबा तार उसका धन टर्मिनल और छोटा तार उसका ऋण टर्मिनल होता है।",
+"hg": "LED ke do legs hote hain: lamba leg uska positive terminal aur chhota leg uska negative terminal hota hai."
+},
+"The torch lamp has a thin coiled filament connected to two terminals; the LED has a longer (+) and a shorter (−) leg.": {
+"hi": "टॉर्च के बल्ब में दो टर्मिनलों से जुड़ा एक पतला कुंडलित तंतु होता है; LED में एक लंबा (+) और एक छोटा (−) तार होता है।",
+"hg": "Torch lamp mein do terminals se juda ek patla coiled filament hota hai; LED mein ek lamba (+) aur ek chhota (−) leg hota hai."
+},
+"A lamp glows when current passes through its filament; an LED must be connected the right way round.": {
+"hi": "बल्ब तब जलता है जब उसके तंतु से विद्युत धारा गुज़रती है; LED को सही दिशा में जोड़ना आवश्यक है।",
+"hg": "Lamp tab glow karta hai jab uske filament se current guzarta hai; LED ko sahi direction mein jodna zaroori hai."
+},
+"Handle lamps gently; the glass can break.": {
+"hi": "बल्बों को सावधानी से पकड़िए; काँच टूट सकता है।",
+"hg": "Lamps ko dhyan se pakadiye; glass toot sakta hai."
+},
+"What is the filament?": {
+"hi": "तंतु क्या है?",
+"hg": "Filament kya hai?"
+},
+"The thin coiled wire inside a lamp that glows.": {
+"hi": "बल्ब के अंदर का पतला कुंडलित तार जो चमकता है।",
+"hg": "Lamp ke andar ka patla coiled wire jo glow karta hai."
+},
+"Which leg of an LED is positive?": {
+"hi": "LED का कौन-सा तार धन होता है?",
+"hg": "LED ka kaun sa leg positive hota hai?"
+},
+"The longer leg.": {
+"hi": "लंबा तार।",
+"hg": "Lamba leg."
+},
+"Why are LEDs used more and more?": {
+"hi": "LED का उपयोग अधिक से अधिक क्यों किया जा रहा है?",
+"hg": "LEDs ka use zyada se zyada kyon ho raha hai?"
+},
+"They use much less electricity and last longer.": {
+"hi": "ये बहुत कम बिजली खर्च करते हैं और अधिक समय तक चलते हैं।",
+"hg": "Ye bahut kam electricity use karte hain aur zyada time tak chalte hain."
+},
+"Making a lamp glow: a closed circuit": {
+"hi": "बल्ब जलाना: बंद परिपथ",
+"hg": "Lamp jalana: closed circuit"
+},
+"To make a torch lamp glow using a cell, wires and holders, and to see why the circuit must be closed.": {
+"hi": "सेल, तारों और होल्डरों की सहायता से टॉर्च का बल्ब जलाना, और यह देखना कि परिपथ का बंद होना क्यों आवश्यक है।",
+"hg": "Cell, wires aur holders ki madad se torch lamp jalana, aur yeh dekhna ki circuit ka closed hona kyon zaroori hai."
+},
+"Open and closed circuits": {
+"hi": "खुले और बंद परिपथ",
+"hg": "Open aur closed circuits"
+},
+"Join one wire from the + terminal of the cell to one terminal of the lamp holder.": {
+"hi": "सेल के + टर्मिनल से एक तार को बल्ब होल्डर के एक टर्मिनल से जोड़िए।",
+"hg": "Cell ke + terminal se ek wire ko lamp holder ke ek terminal se jodiye."
+},
+"The lamp does not glow yet.": {
+"hi": "बल्ब अभी नहीं जलता।",
+"hg": "Lamp abhi glow nahi karta."
+},
+"Join the second wire from the other terminal of the lamp holder to the − terminal of the cell.": {
+"hi": "दूसरे तार को बल्ब होल्डर के दूसरे टर्मिनल से सेल के − टर्मिनल तक जोड़िए।",
+"hg": "Doosre wire ko lamp holder ke doosre terminal se cell ke − terminal tak jodiye."
+},
+"The lamp glows.": {
+"hi": "बल्ब जलता है।",
+"hg": "Lamp glow karta hai."
+},
+"Now there is a complete path from the + terminal through the lamp back to the − terminal: a closed circuit.": {
+"hi": "अब + टर्मिनल से बल्ब होते हुए वापस − टर्मिनल तक एक पूरा पथ है: एक बंद परिपथ।",
+"hg": "Ab + terminal se lamp hote hue wapas − terminal tak ek complete path hai: ek closed circuit."
+},
+"Take one wire off the lamp holder.": {
+"hi": "बल्ब होल्डर से एक तार हटा दीजिए।",
+"hg": "Lamp holder se ek wire hata dijiye."
+},
+"The lamp goes off.": {
+"hi": "बल्ब बुझ जाता है।",
+"hg": "Lamp off ho jata hai."
+},
+"With a gap anywhere, the circuit is open and no current flows.": {
+"hi": "कहीं भी अंतराल होने पर परिपथ खुला होता है और कोई विद्युत धारा नहीं बहती।",
+"hg": "Kahin bhi gap hone par circuit open hota hai aur koi current flow nahi hota."
+},
+"The lamp glowed only when both wires connected it to the two terminals of the cell; removing one wire made it go off.": {
+"hi": "बल्ब तभी जला जब दोनों तारों ने उसे सेल के दोनों टर्मिनलों से जोड़ा; एक तार हटाने पर वह बुझ गया।",
+"hg": "Lamp tabhi glow hua jab dono wires ne use cell ke dono terminals se joda; ek wire hatane par woh off ho gaya."
+},
+"Current flows only in a closed circuit — a complete path from one terminal of the cell, through the lamp, to the other terminal.": {
+"hi": "विद्युत धारा केवल बंद परिपथ में बहती है — सेल के एक टर्मिनल से, बल्ब से होते हुए, दूसरे टर्मिनल तक एक पूरा पथ।",
+"hg": "Current sirf closed circuit mein flow hota hai — cell ke ek terminal se, lamp se hote hue, doosre terminal tak ek complete path."
+},
+"Do not connect the two terminals of the cell directly with a wire.": {
+"hi": "सेल के दोनों टर्मिनलों को सीधे तार से न जोड़िए।",
+"hg": "Cell ke dono terminals ko seedhe wire se mat jodiye."
+},
+"What is an open circuit?": {
+"hi": "खुला परिपथ क्या है?",
+"hg": "Open circuit kya hai?"
+},
+"A circuit with a gap, in which no current flows.": {
+"hi": "ऐसा परिपथ जिसमें अंतराल हो और कोई विद्युत धारा न बहे।",
+"hg": "Aisa circuit jisme gap ho aur koi current flow na ho."
+},
+"Why does a fused lamp not glow?": {
+"hi": "फ़्यूज़ हुआ बल्ब क्यों नहीं जलता?",
+"hg": "Fused lamp kyon nahi jalta?"
+},
+"Its filament is broken, so the circuit is open.": {
+"hi": "उसका तंतु टूट चुका होता है, इसलिए परिपथ खुला रहता है।",
+"hg": "Uska filament toota hota hai, isliye circuit open rehta hai."
+},
+"What does a switch do?": {
+"hi": "स्विच क्या करता है?",
+"hg": "Switch kya karta hai?"
+},
+"It opens or closes the circuit.": {
+"hi": "यह परिपथ को खोलता या बंद करता है।",
+"hg": "Yeh circuit ko open ya close karta hai."
+},
+"Electric circuit": {
+"hi": "विद्युत परिपथ",
+"hg": "Electric circuit"
+},
+"An LED lets current pass only one way": {
+"hi": "LED विद्युत धारा को केवल एक दिशा में जाने देता है",
+"hg": "LED current ko sirf ek direction mein jaane deta hai"
+},
+"To show that an LED glows only when it is connected the right way round.": {
+"hi": "यह दिखाना कि LED तभी जलता है जब उसे सही दिशा में जोड़ा जाए।",
+"hg": "Yeh dikhana ki LED tabhi glow karta hai jab use sahi direction mein joda jaye."
+},
+"LED in a circuit": {
+"hi": "परिपथ में LED",
+"hg": "Circuit mein LED"
+},
+"The longer leg of the LED is joined towards the + terminal of the battery. Close the switch.": {
+"hi": "LED का लंबा तार बैटरी के + टर्मिनल की ओर जोड़ा गया है। स्विच बंद कीजिए।",
+"hg": "LED ka lamba leg battery ke + terminal ki taraf joda gaya hai. Switch close kijiye."
+},
+"The LED glows brightly.": {
+"hi": "LED तेज़ चमकता है।",
+"hg": "LED tez glow karta hai."
+},
+"Turn the LED round (swap its legs) and close the switch again.": {
+"hi": "LED को उलट दीजिए (उसके तारों की जगह बदल दीजिए) और स्विच फिर से बंद कीजिए।",
+"hg": "LED ko ulta kar dijiye (uske legs swap kar dijiye) aur switch phir se close kijiye."
+},
+"An LED lets current pass in one direction only — from its longer (+) leg to its shorter (−) leg.": {
+"hi": "LED विद्युत धारा को केवल एक दिशा में जाने देता है — उसके लंबे (+) तार से छोटे (−) तार की ओर।",
+"hg": "LED current ko sirf ek direction mein jaane deta hai — uske lambe (+) leg se chhote (−) leg ki taraf."
+},
+"The LED glowed when its longer leg was towards the + terminal, and not when it was turned round.": {
+"hi": "LED तब जला जब उसका लंबा तार + टर्मिनल की ओर था, और उलटने पर नहीं जला।",
+"hg": "LED tab glow hua jab uska lamba leg + terminal ki taraf tha, aur ulta karne par nahi hua."
+},
+"An LED conducts current in one direction only.": {
+"hi": "LED विद्युत धारा का चालन केवल एक दिशा में करता है।",
+"hg": "LED current ko sirf ek direction mein conduct karta hai."
+},
+"Do not connect an LED directly to many cells; it can burn out.": {
+"hi": "LED को सीधे बहुत सारे सेलों से न जोड़िए; वह जलकर खराब हो सकता है।",
+"hg": "LED ko seedhe bahut saare cells se mat jodiye; woh burn out ho sakta hai."
+},
+"Does a torch lamp work both ways round?": {
+"hi": "क्या टॉर्च का बल्ब दोनों ओर से जोड़ने पर काम करता है?",
+"hg": "Kya torch lamp dono taraf se jodne par kaam karta hai?"
+},
+"Yes, a filament lamp glows either way.": {
+"hi": "हाँ, तंतु वाला बल्ब किसी भी ओर से जोड़ने पर जलता है।",
+"hg": "Haan, filament lamp kisi bhi taraf se jodne par glow karta hai."
+},
+"What does LED stand for?": {
+"hi": "LED का पूरा नाम क्या है?",
+"hg": "LED ka full form kya hai?"
+},
+"Light Emitting Diode.": {
+"hi": "लाइट एमिटिंग डायोड।",
+"hg": "Light Emitting Diode."
+},
+"How do you find the + leg of an LED?": {
+"hi": "LED का + तार कैसे पहचानते हैं?",
+"hg": "LED ka + leg kaise pehchante hain?"
+},
+"It is the longer leg.": {
+"hi": "वह लंबा तार होता है।",
+"hg": "Woh lamba leg hota hai."
+},
+"LED": {
+"hi": "LED",
+"hg": "LED"
+},
+"A home-made switch": {
+"hi": "घर पर बनाया गया स्विच",
+"hg": "Ghar par banaya gaya switch"
+},
+"To make a simple switch with drawing pins and a safety pin, and use it to turn a lamp on and off.": {
+"hi": "ड्रॉइंग पिनों और एक सेफ़्टी पिन से एक सरल स्विच बनाना, और उससे बल्ब को जलाना और बुझाना।",
+"hg": "Drawing pins aur ek safety pin se ek simple switch banana, aur usse lamp ko on aur off karna."
+},
+"Switch": {
+"hi": "स्विच",
+"hg": "Switch"
+},
+"The switch is two drawing pins on a piece of cardboard, with a safety pin hooked on one of them. It is joined in the circuit with a cell and a lamp.": {
+"hi": "यह स्विच गत्ते के एक टुकड़े पर लगी दो ड्रॉइंग पिनों से बना है, जिनमें से एक पर सेफ़्टी पिन फँसी हुई है। इसे एक सेल और एक बल्ब के साथ परिपथ में जोड़ा गया है।",
+"hg": "Yeh switch cardboard ke ek tukde par lagi do drawing pins se bana hai, jinme se ek par safety pin phansi hui hai. Ise ek cell aur ek lamp ke saath circuit mein joda gaya hai."
+},
+"The safety pin does not touch the second drawing pin: the lamp is off.": {
+"hi": "सेफ़्टी पिन दूसरी ड्रॉइंग पिन को नहीं छू रही: बल्ब बुझा हुआ है।",
+"hg": "Safety pin doosri drawing pin ko touch nahi kar rahi: lamp off hai."
+},
+"Turn the safety pin so that it touches the other drawing pin.": {
+"hi": "सेफ़्टी पिन को घुमाइए ताकि वह दूसरी ड्रॉइंग पिन को छुए।",
+"hg": "Safety pin ko ghumaiye taaki woh doosri drawing pin ko touch kare."
+},
+"The metal safety pin closes the gap: the circuit is complete.": {
+"hi": "धातु की सेफ़्टी पिन अंतराल को भर देती है: परिपथ पूरा हो जाता है।",
+"hg": "Metal ki safety pin gap ko close kar deti hai: circuit complete ho jata hai."
+},
+"Turn the safety pin away again.": {
+"hi": "सेफ़्टी पिन को फिर से दूर घुमा दीजिए।",
+"hg": "Safety pin ko phir se door ghuma dijiye."
+},
+"A switch opens or closes the circuit.": {
+"hi": "स्विच परिपथ को खोलता या बंद करता है।",
+"hg": "Switch circuit ko open ya close karta hai."
+},
+"The lamp glowed when the safety pin touched both drawing pins and went off when it was moved away.": {
+"hi": "जब सेफ़्टी पिन ने दोनों ड्रॉइंग पिनों को छुआ तो बल्ब जला, और उसे दूर हटाने पर बुझ गया।",
+"hg": "Jab safety pin ne dono drawing pins ko touch kiya to lamp glow hua, aur use door hatane par off ho gaya."
+},
+"A switch makes a gap in the circuit or closes it, turning the current off or on.": {
+"hi": "स्विच परिपथ में अंतराल बनाता है या उसे बंद करता है, जिससे विद्युत धारा बंद या चालू होती है।",
+"hg": "Switch circuit mein gap banata hai ya use close karta hai, jisse current off ya on hota hai."
+},
+"Use only a cell (not mains electricity) for such experiments.": {
+"hi": "ऐसे प्रयोगों के लिए केवल सेल (मेन्स की बिजली नहीं) का उपयोग कीजिए।",
+"hg": "Aise experiments ke liye sirf cell (mains electricity nahi) use kijiye."
+},
+"Why is the safety pin made of metal?": {
+"hi": "सेफ़्टी पिन धातु की क्यों बनी है?",
+"hg": "Safety pin metal ki kyon bani hai?"
+},
+"Metal conducts electricity.": {
+"hi": "धातु विद्युत का चालन करती है।",
+"hg": "Metal electricity conduct karta hai."
+},
+"Would a plastic clip work instead?": {
+"hi": "क्या इसके स्थान पर प्लास्टिक की क्लिप काम करेगी?",
+"hg": "Kya iski jagah plastic clip kaam karegi?"
+},
+"No, plastic is an insulator.": {
+"hi": "नहीं, प्लास्टिक विद्युतरोधी है।",
+"hg": "Nahi, plastic insulator hai."
+},
+"Where is the switch of a torch in its circuit?": {
+"hi": "टॉर्च के परिपथ में उसका स्विच कहाँ होता है?",
+"hg": "Torch ke circuit mein uska switch kahan hota hai?"
+},
+"In the path between the cells and the lamp.": {
+"hi": "सेलों और बल्ब के बीच के पथ में।",
+"hg": "Cells aur lamp ke beech ke path mein."
+},
+"Conductors and insulators": {
+"hi": "चालक और विद्युतरोधी",
+"hg": "Conductors aur insulators"
+},
+"To sort everyday objects into conductors and insulators of electricity with a tester.": {
+"hi": "टेस्टर की सहायता से रोज़मर्रा की वस्तुओं को विद्युत के चालकों और विद्युतरोधियों में बाँटना।",
+"hg": "Tester ki madad se roz ki cheezon ko electricity ke conductors aur insulators mein baantna."
+},
+"Electrical conductors and insulators": {
+"hi": "विद्युत चालक और विद्युतरोधी",
+"hg": "Electrical conductors aur insulators"
+},
+"Touch the two free ends of the tester together.": {
+"hi": "टेस्टर के दोनों खुले सिरों को आपस में छुआइए।",
+"hg": "Tester ke dono free ends ko aapas mein touch karaiye."
+},
+"The lamp glows: the tester works.": {
+"hi": "बल्ब जलता है: टेस्टर काम कर रहा है।",
+"hg": "Lamp glow karta hai: tester kaam kar raha hai."
+},
+"Touch the free ends to each object in turn: a paper clip, a key, a coin, aluminium foil, pencil lead, an eraser, a plastic scale, a wooden stick and a glass slide.": {
+"hi": "खुले सिरों को बारी-बारी से हर वस्तु से छुआइए: पेपर क्लिप, चाबी, सिक्का, ऐलुमिनियम पन्नी, पेंसिल की लीड, रबड़, प्लास्टिक का स्केल, लकड़ी की छड़ी और काँच की स्लाइड।",
+"hg": "Free ends ko baari-baari se har object se touch karaiye: paper clip, chaabi, coin, aluminium foil, pencil lead, eraser, plastic scale, lakdi ki stick aur glass slide."
+},
+"The lamp glows with the paper clip, key, coin, aluminium foil and pencil lead (dimly), but not with the eraser, plastic scale, wood or glass.": {
+"hi": "पेपर क्लिप, चाबी, सिक्के, ऐलुमिनियम पन्नी और पेंसिल की लीड (मंद) के साथ बल्ब जलता है, परंतु रबड़, प्लास्टिक के स्केल, लकड़ी या काँच के साथ नहीं।",
+"hg": "Paper clip, chaabi, coin, aluminium foil aur pencil lead (dim) ke saath lamp glow karta hai, lekin eraser, plastic scale, wood ya glass ke saath nahi."
+},
+"Materials that let current pass are conductors (metals, graphite); those that do not are insulators (rubber, plastic, wood, glass).": {
+"hi": "जो पदार्थ विद्युत धारा को गुज़रने देते हैं वे चालक हैं (धातुएँ, ग्रेफ़ाइट); जो नहीं गुज़रने देते वे विद्युतरोधी हैं (रबड़, प्लास्टिक, लकड़ी, काँच)।",
+"hg": "Jo materials current ko pass hone dete hain woh conductors hain (metals, graphite); jo nahi hone dete woh insulators hain (rubber, plastic, wood, glass)."
+},
+"Metal objects and pencil lead made the lamp glow; the eraser, plastic scale, wooden stick and glass slide did not.": {
+"hi": "धातु की वस्तुओं और पेंसिल की लीड से बल्ब जला; रबड़, प्लास्टिक के स्केल, लकड़ी की छड़ी और काँच की स्लाइड से नहीं जला।",
+"hg": "Metal objects aur pencil lead se lamp glow hua; eraser, plastic scale, lakdi ki stick aur glass slide se nahi hua."
+},
+"Metals and graphite are conductors of electricity; plastic, rubber, wood and glass are insulators.": {
+"hi": "धातुएँ और ग्रेफ़ाइट विद्युत के चालक हैं; प्लास्टिक, रबड़, लकड़ी और काँच विद्युतरोधी हैं।",
+"hg": "Metals aur graphite electricity ke conductors hain; plastic, rubber, wood aur glass insulators hain."
+},
+"Never test anything with the mains supply; use only cells.": {
+"hi": "मेन्स सप्लाई से कभी कुछ भी न जाँचिए; केवल सेलों का उपयोग कीजिए।",
+"hg": "Mains supply se kabhi kuch bhi test mat kijiye; sirf cells use kijiye."
+},
+"Why are electric wires covered with plastic?": {
+"hi": "बिजली के तारों पर प्लास्टिक क्यों चढ़ा होता है?",
+"hg": "Electric wires par plastic kyon chadha hota hai?"
+},
+"Plastic is an insulator, which protects us from shocks.": {
+"hi": "प्लास्टिक विद्युतरोधी है, जो हमें बिजली के झटकों से बचाता है।",
+"hg": "Plastic insulator hai, jo humein electric shock se bachata hai."
+},
+"Why do electricians use tools with rubber handles?": {
+"hi": "बिजली मिस्त्री रबड़ के हत्थे वाले औज़ारों का उपयोग क्यों करते हैं?",
+"hg": "Electricians rubber handle wale tools kyon use karte hain?"
+},
+"Rubber is an insulator.": {
+"hi": "रबड़ विद्युतरोधी है।",
+"hg": "Rubber insulator hai."
+},
+"Is our body a conductor?": {
+"hi": "क्या हमारा शरीर चालक है?",
+"hg": "Kya hamara body conductor hai?"
+},
+"Yes, which is why mains electricity is dangerous.": {
+"hi": "हाँ, इसीलिए मेन्स की बिजली खतरनाक होती है।",
+"hg": "Haan, isiliye mains electricity khatarnaak hoti hai."
+},
+"Heat travels along a metal strip": {
+"hi": "ऊष्मा धातु की पट्टी में आगे बढ़ती है",
+"hg": "Heat metal strip mein aage badhti hai"
+},
+"To show that heat travels along a metal strip by conduction, using pins stuck on with wax.": {
+"hi": "मोम से चिपकाई गई पिनों की सहायता से यह दिखाना कि ऊष्मा धातु की पट्टी में चालन द्वारा आगे बढ़ती है।",
+"hg": "Wax se chipkaayi gayi pins ki madad se yeh dikhana ki heat metal strip mein conduction se aage badhti hai."
+},
+"Conduction": {
+"hi": "चालन",
+"hg": "Conduction"
+},
+"Pins are stuck under a metal strip with drops of wax, at equal distances. Put the spirit lamp under the free end of the strip and light it.": {
+"hi": "धातु की पट्टी के नीचे मोम की बूँदों से बराबर दूरियों पर पिनें चिपकाई गई हैं। पट्टी के खुले सिरे के नीचे स्पिरिट लैंप रखिए और उसे जलाइए।",
+"hg": "Metal strip ke neeche wax ki boondon se barabar doori par pins chipkaayi gayi hain. Strip ke free end ke neeche spirit lamp rakhiye aur use jalaiye."
+},
+"The flame heats the end of the strip.": {
+"hi": "ज्वाला पट्टी के सिरे को गरम करती है।",
+"hg": "Flame strip ke end ko garam karti hai."
+},
+"Watch the pins (time-lapse).": {
+"hi": "पिनों को देखिए (टाइम-लैप्स)।",
+"hg": "Pins ko dekhiye (time-lapse)."
+},
+"The pins fall one after another, first the one nearest the flame, then the next, and so on.": {
+"hi": "पिनें एक के बाद एक गिरती हैं, पहले ज्वाला के सबसे पास वाली, फिर उसके बाद वाली, और इसी प्रकार आगे।",
+"hg": "Pins ek ke baad ek girti hain, pehle flame ke sabse paas wali, phir uske baad wali, aur aise hi aage."
+},
+"Heat is passed from particle to particle along the strip, from the hot end to the colder end. This is conduction.": {
+"hi": "ऊष्मा पट्टी में एक कण से दूसरे कण तक, गरम सिरे से ठंडे सिरे की ओर पहुँचती है। इसे चालन कहते हैं।",
+"hg": "Heat strip mein ek particle se doosre particle tak, garam end se thande end ki taraf jaati hai. Ise conduction kehte hain."
+},
+"The wax melted and the pins dropped one by one, starting with the pin nearest the flame.": {
+"hi": "मोम पिघल गया और पिनें एक-एक करके गिरीं, ज्वाला के सबसे पास वाली पिन से शुरू होकर।",
+"hg": "Wax pighal gaya aur pins ek-ek karke giri, flame ke sabse paas wali pin se shuru hokar."
+},
+"In a solid, heat travels from the hotter end to the colder end by conduction.": {
+"hi": "ठोस में ऊष्मा चालन द्वारा अधिक गरम सिरे से ठंडे सिरे की ओर जाती है।",
+"hg": "Solid mein heat conduction se zyada garam end se thande end ki taraf jaati hai."
+},
+"Do not touch the hot strip. Keep the spirit lamp away from paper and hair.": {
+"hi": "गरम पट्टी को न छुइए। स्पिरिट लैंप को कागज़ और बालों से दूर रखिए।",
+"hg": "Garam strip ko mat chhuiye. Spirit lamp ko paper aur baalon se door rakhiye."
+},
+"Metals are good conductors of heat.": {
+"hi": "धातुएँ ऊष्मा की सुचालक होती हैं।",
+"hg": "Metals heat ke good conductors hote hain."
+},
+"Why do pans have plastic or wooden handles?": {
+"hi": "बर्तनों के हत्थे प्लास्टिक या लकड़ी के क्यों होते हैं?",
+"hg": "Pans ke handles plastic ya wood ke kyon hote hain?"
+},
+"Plastic and wood are poor conductors (insulators) of heat.": {
+"hi": "प्लास्टिक और लकड़ी ऊष्मा के कुचालक (ऊष्मारोधी) हैं।",
+"hg": "Plastic aur wood heat ke poor conductors (insulators) hain."
+},
+"Which pin fell first?": {
+"hi": "कौन-सी पिन सबसे पहले गिरी?",
+"hg": "Kaun si pin sabse pehle giri?"
+},
+"The one nearest the flame.": {
+"hi": "ज्वाला के सबसे पास वाली।",
+"hg": "Flame ke sabse paas wali."
+},
+"Hot air rises": {
+"hi": "गरम वायु ऊपर उठती है",
+"hg": "Hot air upar uthti hai"
+},
+"To show that air expands and rises when it is heated, using two paper cups balanced on a stick.": {
+"hi": "एक छड़ी पर संतुलित दो कागज़ के कपों की सहायता से यह दिखाना कि गरम करने पर वायु फैलती है और ऊपर उठती है।",
+"hg": "Ek stick par balanced do paper cups ki madad se yeh dikhana ki garam karne par air expand hoti hai aur upar uthti hai."
+},
+"Convection in air": {
+"hi": "वायु में संवहन",
+"hg": "Air mein convection"
+},
+"Two paper cups hang upside down from the ends of a stick, balanced on a stand.": {
+"hi": "एक स्टैंड पर संतुलित छड़ी के सिरों से दो कागज़ के कप उलटे लटके हैं।",
+"hg": "Stand par balanced ek stick ke ends se do paper cups ulte latke hain."
+},
+"The stick is level.": {
+"hi": "छड़ी क्षैतिज है।",
+"hg": "Stick level hai."
+},
+"Light a candle and put it below one of the cups (not too close).": {
+"hi": "एक मोमबत्ती जलाइए और उसे एक कप के नीचे रखिए (बहुत पास नहीं)।",
+"hg": "Ek candle jalaiye aur use ek cup ke neeche rakhiye (bahut paas nahi)."
+},
+"The cup above the candle slowly moves up.": {
+"hi": "मोमबत्ती के ऊपर वाला कप धीरे-धीरे ऊपर उठता है।",
+"hg": "Candle ke upar wala cup dheere-dheere upar uthta hai."
+},
+"The air above the flame is heated. Warm air expands, becomes lighter and rises, pushing the cup up. This is how convection currents start in air.": {
+"hi": "ज्वाला के ऊपर की वायु गरम हो जाती है। गरम वायु फैलती है, हल्की हो जाती है और ऊपर उठती है, जिससे कप ऊपर की ओर धकेला जाता है। इसी प्रकार वायु में संवहन धाराएँ शुरू होती हैं।",
+"hg": "Flame ke upar ki air garam ho jaati hai. Garam air expand hoti hai, halki ho jaati hai aur upar uthti hai, jisse cup upar push hota hai. Aise hi air mein convection currents shuru hote hain."
+},
+"The cup above the candle rose and the stick tilted.": {
+"hi": "मोमबत्ती के ऊपर वाला कप ऊपर उठा और छड़ी झुक गई।",
+"hg": "Candle ke upar wala cup upar utha aur stick tilt ho gayi."
+},
+"Air expands and rises when heated. Heat is carried upwards by the moving air (convection).": {
+"hi": "गरम करने पर वायु फैलती है और ऊपर उठती है। गतिशील वायु ऊष्मा को ऊपर ले जाती है (संवहन)।",
+"hg": "Garam karne par air expand hoti hai aur upar uthti hai. Moving air heat ko upar le jaati hai (convection)."
+},
+"Keep the flame well below the paper cup so that it does not catch fire.": {
+"hi": "ज्वाला को कागज़ के कप से काफ़ी नीचे रखिए ताकि उसमें आग न लगे।",
+"hg": "Flame ko paper cup se kaafi neeche rakhiye taaki usme aag na lage."
+},
+"Why is a room heater placed near the floor?": {
+"hi": "रूम हीटर को फ़र्श के पास क्यों रखा जाता है?",
+"hg": "Room heater ko floor ke paas kyon rakha jata hai?"
+},
+"The warm air rises and spreads through the room.": {
+"hi": "गरम वायु ऊपर उठती है और पूरे कमरे में फैल जाती है।",
+"hg": "Garam air upar uthti hai aur poore room mein phail jaati hai."
+},
+"Why are ventilators placed near the ceiling?": {
+"hi": "रोशनदान छत के पास क्यों बनाए जाते हैं?",
+"hg": "Ventilators ceiling ke paas kyon lagaye jaate hain?"
+},
+"Warm, used air rises and goes out through them.": {
+"hi": "गरम, उपयोग की हुई वायु ऊपर उठती है और उनसे बाहर निकल जाती है।",
+"hg": "Garam, use ki hui air upar uthti hai aur unse bahar nikal jaati hai."
+},
+"What causes sea breeze?": {
+"hi": "समुद्री समीर किस कारण चलती है?",
+"hg": "Sea breeze kis wajah se chalti hai?"
+},
+"Warm air over land rises and cooler air from the sea moves in.": {
+"hi": "स्थल के ऊपर की गरम वायु ऊपर उठती है और समुद्र की ठंडी वायु उसका स्थान लेने आ जाती है।",
+"hg": "Land ke upar ki garam air upar uthti hai aur sea se thandi air andar aa jaati hai."
+},
+"Convection currents in water": {
+"hi": "जल में संवहन धाराएँ",
+"hg": "Paani mein convection currents"
+},
+"To see convection currents in water using a crystal of potassium permanganate.": {
+"hi": "पोटैशियम परमैंगनेट के एक क्रिस्टल की सहायता से जल में संवहन धाराएँ देखना।",
+"hg": "Potassium permanganate ke ek crystal ki madad se paani mein convection currents dekhna."
+},
+"Convection in water": {
+"hi": "जल में संवहन",
+"hg": "Paani mein convection"
+},
+"Put the beaker of water on the tripod and drop a crystal of potassium permanganate gently near one side of the bottom.": {
+"hi": "पानी से भरे बीकर को तिपाई पर रखिए और पोटैशियम परमैंगनेट का एक क्रिस्टल धीरे से तली में एक ओर डालिए।",
+"hg": "Paani wale beaker ko tripod par rakhiye aur potassium permanganate ka ek crystal dheere se bottom mein ek side daaliye."
+},
+"The crystal starts to dissolve and a little purple colour stays near the bottom.": {
+"hi": "क्रिस्टल घुलने लगता है और थोड़ा बैंगनी रंग तली के पास रहता है।",
+"hg": "Crystal ghulne lagta hai aur thoda purple colour bottom ke paas rehta hai."
+},
+"Heat the water gently just below the crystal (time-lapse).": {
+"hi": "क्रिस्टल के ठीक नीचे पानी को धीरे-धीरे गरम कीजिए (टाइम-लैप्स)।",
+"hg": "Crystal ke theek neeche paani ko dheere-dheere garam kijiye (time-lapse)."
+},
+"Purple streams rise above the flame, spread across the top and come down on the other side.": {
+"hi": "ज्वाला के ऊपर बैंगनी धाराएँ उठती हैं, ऊपर फैलती हैं और दूसरी ओर नीचे आती हैं।",
+"hg": "Flame ke upar purple streams uthti hain, upar phailti hain aur doosri side neeche aati hain."
+},
+"Water above the flame gets warm, expands and rises; cooler water from the sides sinks to take its place. Heat is carried by the moving water — convection.": {
+"hi": "ज्वाला के ऊपर का पानी गरम होकर फैलता है और ऊपर उठता है; किनारों का ठंडा पानी उसका स्थान लेने के लिए नीचे आता है। ऊष्मा गतिशील पानी द्वारा ले जाई जाती है — संवहन।",
+"hg": "Flame ke upar ka paani garam hokar expand hota hai aur upar uthta hai; sides ka thanda paani uski jagah lene ke liye neeche aata hai. Heat moving paani se carry hoti hai — convection."
+},
+"The purple colour rose in a stream above the flame, spread at the top and sank on the far side.": {
+"hi": "बैंगनी रंग ज्वाला के ऊपर एक धारा में उठा, ऊपर फैला और दूसरी ओर नीचे बैठ गया।",
+"hg": "Purple colour flame ke upar ek stream mein utha, upar phaila aur doosri side neeche chala gaya."
+},
+"Liquids are heated mainly by convection: the warm liquid rises and the cooler liquid sinks, setting up convection currents.": {
+"hi": "द्रव मुख्य रूप से संवहन द्वारा गरम होते हैं: गरम द्रव ऊपर उठता है और ठंडा द्रव नीचे जाता है, जिससे संवहन धाराएँ बनती हैं।",
+"hg": "Liquids mainly convection se garam hote hain: garam liquid upar uthta hai aur thanda liquid neeche jaata hai, jisse convection currents bante hain."
+},
+"Heat gently and do not touch the hot beaker or tripod.": {
+"hi": "धीरे-धीरे गरम कीजिए और गरम बीकर या तिपाई को न छुइए।",
+"hg": "Dheere-dheere garam kijiye aur garam beaker ya tripod ko mat chhuiye."
+},
+"Why is the crystal used?": {
+"hi": "क्रिस्टल का उपयोग क्यों किया जाता है?",
+"hg": "Crystal kyon use kiya jata hai?"
+},
+"Its colour shows how the water moves.": {
+"hi": "उसका रंग दिखाता है कि पानी कैसे गति करता है।",
+"hg": "Uska colour dikhata hai ki paani kaise move karta hai."
+},
+"Why is the heating element of an electric kettle at the bottom?": {
+"hi": "बिजली की केतली का हीटिंग एलिमेंट तली में क्यों होता है?",
+"hg": "Electric kettle ka heating element bottom mein kyon hota hai?"
+},
+"Hot water rises from the bottom and the whole water is heated by convection.": {
+"hi": "गरम पानी तली से ऊपर उठता है और संवहन द्वारा पूरा पानी गरम हो जाता है।",
+"hg": "Garam paani bottom se upar uthta hai aur convection se poora paani garam ho jaata hai."
+},
+"Can convection happen in solids?": {
+"hi": "क्या ठोसों में संवहन हो सकता है?",
+"hg": "Kya solids mein convection ho sakta hai?"
+},
+"No, the particles of a solid cannot move from place to place.": {
+"hi": "नहीं, ठोस के कण एक स्थान से दूसरे स्थान तक नहीं जा सकते।",
+"hg": "Nahi, solid ke particles ek jagah se doosri jagah move nahi kar sakte."
+},
+"Convection in a liquid": {
+"hi": "द्रव में संवहन",
+"hg": "Liquid mein convection"
+},
+"Soil and water in the Sun": {
+"hi": "धूप में मिट्टी और पानी",
+"hg": "Dhoop mein soil aur paani"
+},
+"To compare how quickly soil and water warm up in sunlight and cool down in the shade.": {
+"hi": "तुलना करना कि मिट्टी और पानी धूप में कितनी जल्दी गरम होते हैं और छाया में कितनी जल्दी ठंडे होते हैं।",
+"hg": "Compare karna ki soil aur paani dhoop mein kitni jaldi garam hote hain aur shade mein kitni jaldi thande hote hain."
+},
+"Heating of land and water": {
+"hi": "स्थल और जल का गरम होना",
+"hg": "Land aur paani ka garam hona"
+},
+"Two similar containers hold dry soil and water, each with a thermometer. Note the temperatures.": {
+"hi": "दो एक जैसे पात्रों में सूखी मिट्टी और पानी है, दोनों में एक-एक तापमापी लगा है। ताप नोट कीजिए।",
+"hg": "Do ek jaise containers mein sookhi soil aur paani hai, dono mein ek-ek thermometer laga hai. Temperatures note kijiye."
+},
+"Both are at 30 °C.": {
+"hi": "दोनों का ताप 30 °C है।",
+"hg": "Dono 30 °C par hain."
+},
+"Keep both in bright sunlight for 30 minutes (time-lapse) and read the thermometers.": {
+"hi": "दोनों को 30 मिनट तक तेज़ धूप में रखिए (टाइम-लैप्स) और तापमापी पढ़िए।",
+"hg": "Dono ko 30 minutes tak tez dhoop mein rakhiye (time-lapse) aur thermometers padhiye."
+},
+"The soil warms up a lot (to about 52 °C) but the water only to about 39 °C.": {
+"hi": "मिट्टी बहुत गरम हो जाती है (लगभग 52 °C तक) परंतु पानी केवल लगभग 39 °C तक।",
+"hg": "Soil bahut garam ho jaati hai (lagbhag 52 °C tak) lekin paani sirf lagbhag 39 °C tak."
+},
+"Now move both into the shade for 15 minutes (time-lapse).": {
+"hi": "अब दोनों को 15 मिनट के लिए छाया में रखिए (टाइम-लैप्स)।",
+"hg": "Ab dono ko 15 minutes ke liye shade mein rakhiye (time-lapse)."
+},
+"The soil cools quickly, back to about 30 °C, while the water is still warmer (about 33 °C).": {
+"hi": "मिट्टी जल्दी ठंडी होकर लगभग 30 °C पर लौट आती है, जबकि पानी अभी भी अधिक गरम है (लगभग 33 °C)।",
+"hg": "Soil jaldi thandi hokar lagbhag 30 °C par wapas aa jaati hai, jabki paani abhi bhi zyada garam hai (lagbhag 33 °C)."
+},
+"Land heats up and cools down faster than water. This difference causes the sea breeze by day and the land breeze at night.": {
+"hi": "स्थल, जल की तुलना में जल्दी गरम और जल्दी ठंडा होता है। इसी अंतर के कारण दिन में समुद्री समीर और रात में थल समीर चलती है।",
+"hg": "Land, paani ke comparison mein jaldi garam aur jaldi thanda hota hai. Isi difference ki wajah se din mein sea breeze aur raat mein land breeze chalti hai."
+},
+"In the Sun the soil reached about 52 °C and the water about 39 °C; in the shade the soil cooled to about 30 °C while the water stayed at about 33 °C.": {
+"hi": "धूप में मिट्टी का ताप लगभग 52 °C और पानी का लगभग 39 °C तक पहुँचा; छाया में मिट्टी ठंडी होकर लगभग 30 °C हो गई जबकि पानी लगभग 33 °C पर रहा।",
+"hg": "Dhoop mein soil lagbhag 52 °C aur paani lagbhag 39 °C tak pahuncha; shade mein soil thandi hokar lagbhag 30 °C ho gayi jabki paani lagbhag 33 °C par raha."
+},
+"Soil (land) heats up and cools down faster than water. This is the basis of sea and land breezes.": {
+"hi": "मिट्टी (स्थल) जल की तुलना में जल्दी गरम और जल्दी ठंडी होती है। यही समुद्री समीर और थल समीर का आधार है।",
+"hg": "Soil (land) paani ke comparison mein jaldi garam aur jaldi thandi hoti hai. Yahi sea breeze aur land breeze ka basis hai."
+},
+"Do not look at the Sun. Read the thermometers carefully without taking them out.": {
+"hi": "सूर्य की ओर न देखिए। तापमापियों को बाहर निकाले बिना सावधानी से पढ़िए।",
+"hg": "Sun ki taraf mat dekhiye. Thermometers ko bahar nikaale bina dhyan se padhiye."
+},
+"Which blows during the day at the seaside: sea breeze or land breeze?": {
+"hi": "समुद्र तट पर दिन में कौन-सी हवा चलती है: समुद्री समीर या थल समीर?",
+"hg": "Seaside par din mein kaun si chalti hai: sea breeze ya land breeze?"
+},
+"Sea breeze (from the sea to the land).": {
+"hi": "समुद्री समीर (समुद्र से स्थल की ओर)।",
+"hg": "Sea breeze (sea se land ki taraf)."
+},
+"Why does the land breeze blow at night?": {
+"hi": "रात में थल समीर क्यों चलती है?",
+"hg": "Raat mein land breeze kyon chalti hai?"
+},
+"The land cools faster, so the air over the sea is warmer and rises.": {
+"hi": "स्थल जल्दी ठंडा हो जाता है, इसलिए समुद्र के ऊपर की वायु अधिक गरम होती है और ऊपर उठती है।",
+"hg": "Land jaldi thanda ho jaata hai, isliye sea ke upar ki air zyada garam hoti hai aur upar uthti hai."
+},
+"Which warms up faster in the Sun?": {
+"hi": "धूप में कौन जल्दी गरम होता है?",
+"hg": "Dhoop mein kaun jaldi garam hota hai?"
+},
+"Soil (land).": {
+"hi": "मिट्टी (स्थल)।",
+"hg": "Soil (land)."
+},
+"Land and water": {
+"hi": "स्थल और जल",
+"hg": "Land aur paani"
+},
+"Water seeping through clay, sand and gravel": {
+"hi": "चिकनी मिट्टी, बालू और बजरी से पानी का रिसना",
+"hg": "Clay, sand aur gravel se paani ka seep hona"
+},
+"To compare how quickly water seeps through clay, sand and gravel.": {
+"hi": "तुलना करना कि चिकनी मिट्टी, बालू और बजरी से पानी कितनी जल्दी रिसता है।",
+"hg": "Compare karna ki clay, sand aur gravel se paani kitni jaldi seep hota hai."
+},
+"Seepage (infiltration) of water": {
+"hi": "पानी का रिसाव (अंतःस्रवण)",
+"hg": "Paani ka seepage (infiltration)"
+},
+"Three funnels are packed with clay, sand and gravel, each over a measuring cylinder. Pour 100 mL of water into each funnel.": {
+"hi": "तीन कीपों में चिकनी मिट्टी, बालू और बजरी भरी है, और हर कीप एक मापक सिलिंडर के ऊपर रखी है। हर कीप में 100 mL पानी डालिए।",
+"hg": "Teen funnels mein clay, sand aur gravel bhara hai, aur har funnel ek measuring cylinder ke upar rakha hai. Har funnel mein 100 mL paani daaliye."
+},
+"Water stands on top of each material and starts to seep through.": {
+"hi": "हर पदार्थ के ऊपर पानी ठहरता है और रिसना शुरू करता है।",
+"hg": "Har material ke upar paani rukta hai aur seep hona shuru karta hai."
+},
+"Wait for one minute (time-lapse) and read the water collected in each cylinder.": {
+"hi": "एक मिनट प्रतीक्षा कीजिए (टाइम-लैप्स) और हर सिलिंडर में इकट्ठा हुए पानी को पढ़िए।",
+"hg": "Ek minute wait kijiye (time-lapse) aur har cylinder mein jama hua paani padhiye."
+},
+"Through gravel nearly all 100 mL has passed, through sand most of it, but through clay only a little (about 10 mL).": {
+"hi": "बजरी से लगभग पूरा 100 mL पानी निकल गया है, बालू से अधिकांश, परंतु चिकनी मिट्टी से केवल थोड़ा (लगभग 10 mL)।",
+"hg": "Gravel se lagbhag poora 100 mL nikal gaya hai, sand se zyadatar, lekin clay se sirf thoda (lagbhag 10 mL)."
+},
+"Gravel has large spaces between its particles, sand smaller ones, and clay very tiny ones, so water seeps fastest through gravel and slowest through clay.": {
+"hi": "बजरी के कणों के बीच बड़े रिक्त स्थान होते हैं, बालू में उससे छोटे, और चिकनी मिट्टी में बहुत ही छोटे, इसलिए पानी बजरी से सबसे तेज़ी से और चिकनी मिट्टी से सबसे धीरे रिसता है।",
+"hg": "Gravel ke particles ke beech bade spaces hote hain, sand mein usse chhote, aur clay mein bahut hi chhote, isliye paani gravel se sabse tez aur clay se sabse dheere seep hota hai."
+},
+"After one minute about 100 mL had passed through gravel, about 90 mL through sand and only about 10 mL through clay.": {
+"hi": "एक मिनट बाद बजरी से लगभग 100 mL, बालू से लगभग 90 mL और चिकनी मिट्टी से केवल लगभग 10 mL पानी निकल चुका था।",
+"hg": "Ek minute baad gravel se lagbhag 100 mL, sand se lagbhag 90 mL aur clay se sirf lagbhag 10 mL nikal chuka tha."
+},
+"Water seeps through gravel fastest and through clay slowest, because of the size of the spaces between the particles. This is why clayey soil gets waterlogged and sandy soil dries fast.": {
+"hi": "कणों के बीच के रिक्त स्थानों के आकार के कारण पानी बजरी से सबसे तेज़ी से और चिकनी मिट्टी से सबसे धीरे रिसता है। इसीलिए मृण्मय मृदा में जलभराव हो जाता है और बलुई मृदा जल्दी सूख जाती है।",
+"hg": "Particles ke beech ke spaces ke size ki wajah se paani gravel se sabse tez aur clay se sabse dheere seep hota hai. Isiliye clayey soil mein waterlogging ho jaati hai aur sandy soil jaldi sookh jaati hai."
+},
+"Pour slowly so that the material does not overflow.": {
+"hi": "धीरे-धीरे डालिए ताकि पदार्थ बाहर न छलके।",
+"hg": "Dheere-dheere daaliye taaki material overflow na ho."
+},
+"Which soil holds water best?": {
+"hi": "कौन-सी मिट्टी पानी को सबसे अच्छी तरह रोकती है?",
+"hg": "Kaun si soil paani ko sabse achhe se rokti hai?"
+},
+"Clay.": {
+"hi": "चिकनी मिट्टी।",
+"hg": "Clay."
+},
+"How does seepage help groundwater?": {
+"hi": "रिसाव से भौम जल को कैसे सहायता मिलती है?",
+"hg": "Seepage groundwater ki kaise madad karta hai?"
+},
+"Rainwater seeps down through soil and fills the spaces in rocks below (aquifers).": {
+"hi": "वर्षा का जल मिट्टी से नीचे रिसकर नीचे की चट्टानों के रिक्त स्थानों (जलभृतों) को भर देता है।",
+"hg": "Baarish ka paani soil se neeche seep hokar neeche ki rocks ke spaces (aquifers) ko bhar deta hai."
+},
+"Why do roads with gravel drain quickly?": {
+"hi": "बजरी वाली सड़कों से पानी जल्दी क्यों निकल जाता है?",
+"hg": "Gravel wali roads se paani jaldi kyon nikal jaata hai?"
+},
+"Water seeps quickly through gravel.": {
+"hi": "बजरी से पानी जल्दी रिस जाता है।",
+"hg": "Gravel se paani jaldi seep ho jaata hai."
+},
+"Seepage": {
+"hi": "रिसाव",
+"hg": "Seepage"
+},
+"Filament": {
+"hi": "तंतु",
+"hg": "Filament"
+},
+"Terminals": {
+"hi": "टर्मिनल",
+"hg": "Terminals"
+},
+"Longer leg: +": {
+"hi": "लंबा तार: +",
+"hg": "Lamba leg: +"
+},
+"Shorter leg: −": {
+"hi": "छोटा तार: −",
+"hg": "Chhota leg: −"
+},
+"+ terminal (metal cap)": {
+"hi": "+ टर्मिनल (धातु की टोपी)",
+"hg": "+ terminal (metal cap)"
+},
+"− terminal (flat metal disc)": {
+"hi": "− टर्मिनल (धातु की चपटी डिस्क)",
+"hg": "− terminal (flat metal disc)"
+},
+"conductor": {
+"hi": "चालक",
+"hg": "conductor"
+},
+"insulator": {
+"hi": "विद्युतरोधी",
+"hg": "insulator"
+},
+"Soil": {
+"hi": "मिट्टी",
+"hg": "Soil"
+},
+"Clay": {
+"hi": "चिकनी मिट्टी",
+"hg": "Clay"
+},
+"Gravel": {
+"hi": "बजरी",
+"hg": "Gravel"
+},
+"In the Sun, 30 min": {
+"hi": "धूप में, 30 min",
+"hg": "Dhoop mein, 30 min"
+},
+"In the shade, 15 min": {
+"hi": "छाया में, 15 min",
+"hg": "Shade mein, 15 min"
+},
+"Making a water clock": {
+"hi": "जल घड़ी बनाना",
+"hg": "Water clock banana"
+},
+"To make a simple water clock and mark it in minutes.": {
+"hi": "एक सरल जल घड़ी बनाना और उस पर मिनटों के निशान लगाना।",
+"hg": "Ek simple water clock banana aur us par minutes ke marks lagana."
+},
+"Measuring time with dripping water": {
+"hi": "टपकते पानी से समय मापना",
+"hg": "Tapakte paani se time measure karna"
+},
+"Water drips through a tiny hole in the cap of the upside-down bottle into the jar. Start the dripping and the stopwatch together.": {
+"hi": "उलटी रखी बोतल के ढक्कन में बने छोटे से छेद से पानी जार में टपकता है। पानी का टपकना और विराम घड़ी एक साथ शुरू कीजिए।",
+"hg": "Ulti rakhi bottle ke cap mein bane chhote se hole se paani jar mein tapakta hai. Dripping aur stopwatch ek saath start kijiye."
+},
+"Drops fall steadily into the jar.": {
+"hi": "बूँदें जार में लगातार गिरती हैं।",
+"hg": "Drops jar mein lagataar girti hain."
+},
+"Mark the water level on the paper strip every minute for 5 minutes (time-lapse).": {
+"hi": "5 मिनट तक हर मिनट कागज़ की पट्टी पर पानी के तल का निशान लगाइए (टाइम-लैप्स)।",
+"hg": "5 minute tak har minute paper strip par water level ka mark lagaiye (time-lapse)."
+},
+"The marks are not equally spaced: they come closer together as time goes on.": {
+"hi": "निशान बराबर दूरी पर नहीं हैं: समय बीतने के साथ वे एक-दूसरे के पास-पास आते जाते हैं।",
+"hg": "Marks barabar doori par nahi hain: time ke saath ve ek-doosre ke paas-paas aate jaate hain."
+},
+"With less water left in the bottle, it pushes less hard and drips more slowly. A water clock has to be marked against a clock first.": {
+"hi": "बोतल में पानी कम रह जाने पर वह कम ज़ोर से दबाता है और धीरे-धीरे टपकता है। जल घड़ी पर पहले किसी घड़ी से मिलाकर निशान लगाने पड़ते हैं।",
+"hg": "Bottle mein paani kam bachne par woh kam zor se push karta hai aur dheere-dheere tapakta hai. Water clock par pehle kisi clock se mila kar marks lagane padte hain."
+},
+"Empty the jar and use the marks to time something, such as how long a friend takes to read a page.": {
+"hi": "जार खाली कीजिए और निशानों की सहायता से किसी काम का समय मापिए, जैसे कोई मित्र एक पृष्ठ पढ़ने में कितना समय लेता है।",
+"hg": "Jar khaali kijiye aur marks ki madad se kisi kaam ka time measure kijiye, jaise ek dost ko ek page padhne mein kitna time lagta hai."
+},
+"The water level reaching a mark tells you how many minutes have passed.": {
+"hi": "पानी का तल किसी निशान तक पहुँचने पर पता चलता है कि कितने मिनट बीत गए।",
+"hg": "Water level kisi mark tak pahunchne par pata chalta hai ki kitne minute beet gaye."
+},
+"The water level in the jar rose minute by minute; the marks got closer together as the bottle emptied.": {
+"hi": "जार में पानी का तल हर मिनट बढ़ता गया; बोतल खाली होने के साथ निशान पास-पास होते गए।",
+"hg": "Jar mein water level har minute badhta gaya; bottle khaali hone ke saath marks paas-paas hote gaye."
+},
+"A steady process such as dripping water can be used to measure time once it is marked against a clock.": {
+"hi": "टपकते पानी जैसी किसी नियमित प्रक्रिया पर घड़ी से मिलाकर निशान लगाने के बाद उसका उपयोग समय मापने के लिए किया जा सकता है।",
+"hg": "Tapakte paani jaisa koi steady process, ek baar clock se mila kar mark karne ke baad, time measure karne ke liye use kiya ja sakta hai."
+},
+"Use a stable stand so that the bottle does not fall; wipe up spilled water.": {
+"hi": "मज़बूत स्टैंड का उपयोग कीजिए ताकि बोतल गिरे नहीं; गिरा हुआ पानी पोंछ दीजिए।",
+"hg": "Stable stand use kijiye taaki bottle gire nahi; gira hua paani pochh dijiye."
+},
+"Why do the marks get closer together?": {
+"hi": "निशान पास-पास क्यों होते जाते हैं?",
+"hg": "Marks paas-paas kyon hote jaate hain?"
+},
+"The water flows more slowly as the level in the bottle falls.": {
+"hi": "बोतल में पानी का तल नीचे जाने पर पानी और धीरे बहता है।",
+"hg": "Bottle mein water level neeche jaane par paani aur dheere behta hai."
+},
+"Name another old way of measuring time.": {
+"hi": "समय मापने का कोई अन्य पुराना तरीका बताइए।",
+"hg": "Time measure karne ka koi aur purana tareeka bataiye."
+},
+"A sundial, a sand clock (hourglass) or a candle clock.": {
+"hi": "धूपघड़ी, रेत घड़ी (ऑवरग्लास) या मोमबत्ती घड़ी।",
+"hg": "Sundial, sand clock (hourglass) ya candle clock."
+},
+"What is the SI unit of time?": {
+"hi": "समय का SI मात्रक क्या है?",
+"hg": "Time ka SI unit kya hai?"
+},
+"The second (s).": {
+"hi": "सेकंड (s)।",
+"hg": "Second (s)."
+},
+"Water clock": {
+"hi": "जल घड़ी",
+"hg": "Water clock"
+},
+"The time period of a pendulum": {
+"hi": "लोलक का आवर्तकाल",
+"hg": "Pendulum ka time period"
+},
+"To measure the time period of a simple pendulum and see how it depends on the length of the thread.": {
+"hi": "सरल लोलक का आवर्तकाल मापना और यह देखना कि वह धागे की लंबाई पर कैसे निर्भर करता है।",
+"hg": "Simple pendulum ka time period measure karna aur dekhna ki woh thread ki length par kaise depend karta hai."
+},
+"Simple pendulum": {
+"hi": "सरल लोलक",
+"hg": "Simple pendulum"
+},
+"The pendulum is 100 cm long. Pull the bob a little to one side, let it go and time 10 oscillations.": {
+"hi": "लोलक 100 cm लंबा है। गोलक को थोड़ा एक ओर खींचिए, छोड़ दीजिए और 10 दोलनों का समय मापिए।",
+"hg": "Pendulum 100 cm lamba hai. Bob ko thoda ek side kheenchiye, chhod dijiye aur 10 oscillations ka time measure kijiye."
+},
+"10 oscillations take about 20 s, so one oscillation takes about 2 s.": {
+"hi": "10 दोलनों में लगभग 20 s लगते हैं, इसलिए एक दोलन में लगभग 2 s लगते हैं।",
+"hg": "10 oscillations mein lagbhag 20 s lagte hain, isliye ek oscillation mein lagbhag 2 s lagte hain."
+},
+"Shorten the thread to 50 cm and time 10 oscillations again.": {
+"hi": "धागे को छोटा करके 50 cm कीजिए और फिर से 10 दोलनों का समय मापिए।",
+"hg": "Thread ko chhota karke 50 cm kijiye aur phir se 10 oscillations ka time measure kijiye."
+},
+"Now 10 oscillations take only about 14 s: the shorter pendulum swings faster.": {
+"hi": "अब 10 दोलनों में केवल लगभग 14 s लगते हैं: छोटा लोलक तेज़ी से दोलन करता है।",
+"hg": "Ab 10 oscillations mein sirf lagbhag 14 s lagte hain: chhota pendulum tez swing karta hai."
+},
+"Use a heavier bob, keeping the length 50 cm, and time it again.": {
+"hi": "लंबाई 50 cm ही रखते हुए भारी गोलक लगाइए और फिर से समय मापिए।",
+"hg": "Length 50 cm hi rakhte hue heavier bob lagaiye aur phir se time measure kijiye."
+},
+"The time is the same: about 1.4 s for each oscillation.": {
+"hi": "समय वही रहता है: प्रत्येक दोलन के लिए लगभग 1.4 s।",
+"hg": "Time same rehta hai: har oscillation ke liye lagbhag 1.4 s."
+},
+"The time period of a pendulum depends on its length, not on the mass of the bob. This is why pendulums were used in clocks.": {
+"hi": "लोलक का आवर्तकाल उसकी लंबाई पर निर्भर करता है, गोलक के द्रव्यमान पर नहीं। इसीलिए घड़ियों में लोलकों का उपयोग किया जाता था।",
+"hg": "Pendulum ka time period uski length par depend karta hai, bob ke mass par nahi. Isiliye clocks mein pendulum use kiye jaate the."
+},
+"With a 100 cm thread T ≈ 2 s; with 50 cm T ≈ 1.4 s; a heavier bob did not change T.": {
+"hi": "100 cm धागे के साथ T ≈ 2 s; 50 cm के साथ T ≈ 1.4 s; भारी गोलक से T नहीं बदला।",
+"hg": "100 cm thread ke saath T ≈ 2 s; 50 cm ke saath T ≈ 1.4 s; heavier bob se T nahi badla."
+},
+"The time period of a simple pendulum depends on its length (longer → slower) but not on the mass of the bob.": {
+"hi": "सरल लोलक का आवर्तकाल उसकी लंबाई पर निर्भर करता है (अधिक लंबा → अधिक धीमा), परंतु गोलक के द्रव्यमान पर नहीं।",
+"hg": "Simple pendulum ka time period uski length par depend karta hai (longer → slower), lekin bob ke mass par nahi."
+},
+"Keep the swing small and clear of other people.": {
+"hi": "दोलन छोटा रखिए और दूसरे लोगों से दूर रखिए।",
+"hg": "Swing chhota rakhiye aur doosre logon se door rakhiye."
+},
+"One complete to-and-fro swing.": {
+"hi": "एक पूरा आगे-पीछे का दोलन।",
+"hg": "Ek poora aage-peeche ka swing."
+},
+"Why time 10 oscillations and not one?": {
+"hi": "एक दोलन के बजाय 10 दोलनों का समय क्यों मापते हैं?",
+"hg": "Ek ki jagah 10 oscillations ka time kyon measure karte hain?"
+},
+"It reduces the error of starting and stopping the watch.": {
+"hi": "इससे घड़ी को चालू और बंद करने में होने वाली त्रुटि कम हो जाती है।",
+"hg": "Isse watch ko start aur stop karne ki error kam ho jaati hai."
+},
+"How can a pendulum clock be made to go slower?": {
+"hi": "लोलक घड़ी को धीमा कैसे चलाया जा सकता है?",
+"hg": "Pendulum clock ko slow kaise chalaya ja sakta hai?"
+},
+"Make its pendulum longer.": {
+"hi": "उसके लोलक को लंबा कीजिए।",
+"hg": "Uske pendulum ko lamba kijiye."
+},
+"Light travels in a straight line": {
+"hi": "प्रकाश सीधी रेखा में चलता है",
+"hg": "Light straight line mein travel karti hai"
+},
+"To show that light travels in a straight line, using three matchboxes with holes.": {
+"hi": "छेद वाली तीन माचिस की डिब्बियों की सहायता से यह दिखाना कि प्रकाश सीधी रेखा में चलता है।",
+"hg": "Hole wali teen matchboxes ki madad se dikhana ki light straight line mein travel karti hai."
+},
+"Rectilinear propagation of light": {
+"hi": "प्रकाश का सरल रेखीय संचरण",
+"hg": "Light ka rectilinear propagation"
+},
+"Light the candle. Arrange the three matchboxes so that their holes are in a straight line, and look through the first hole.": {
+"hi": "मोमबत्ती जलाइए। तीनों माचिस की डिब्बियों को इस प्रकार रखिए कि उनके छेद एक सीधी रेखा में हों, और पहले छेद से देखिए।",
+"hg": "Candle jalaiye. Teeno matchboxes ko aise rakhiye ki unke holes ek straight line mein hon, aur pehle hole se dekhiye."
+},
+"You can see the candle flame through the three holes.": {
+"hi": "आप तीनों छेदों से मोमबत्ती की लौ देख सकते हैं।",
+"hg": "Aap teeno holes se candle ki flame dekh sakte hain."
+},
+"Move the middle matchbox a little to one side and look again.": {
+"hi": "बीच वाली माचिस की डिब्बी को थोड़ा एक ओर खिसकाइए और फिर से देखिए।",
+"hg": "Beech wali matchbox ko thoda ek side khiskaiye aur phir se dekhiye."
+},
+"Now the flame cannot be seen.": {
+"hi": "अब लौ दिखाई नहीं देती।",
+"hg": "Ab flame dikhai nahi deti."
+},
+"Light travels in straight lines. When the holes are not in one straight line, the middle box blocks the light.": {
+"hi": "प्रकाश सीधी रेखाओं में चलता है। जब छेद एक सीधी रेखा में नहीं होते, तो बीच वाली डिब्बी प्रकाश को रोक देती है।",
+"hg": "Light straight lines mein travel karti hai. Jab holes ek straight line mein nahi hote, to beech wala box light ko block kar deta hai."
+},
+"Put the middle box back in line.": {
+"hi": "बीच वाली डिब्बी को फिर से सीध में रखिए।",
+"hg": "Beech wale box ko wapas line mein rakhiye."
+},
+"The flame can be seen again.": {
+"hi": "लौ फिर से दिखाई देने लगती है।",
+"hg": "Flame phir se dikhai dene lagti hai."
+},
+"The flame was visible only when the three holes were in a straight line.": {
+"hi": "लौ केवल तभी दिखाई दी जब तीनों छेद एक सीधी रेखा में थे।",
+"hg": "Flame sirf tabhi dikhi jab teeno holes ek straight line mein the."
+},
+"Light travels in a straight line.": {
+"hi": "प्रकाश सीधी रेखा में चलता है।",
+"hg": "Light straight line mein travel karti hai."
+},
+"Keep the boxes and your hair away from the flame.": {
+"hi": "डिब्बियों और अपने बालों को लौ से दूर रखिए।",
+"hg": "Boxes aur apne baalon ko flame se door rakhiye."
+},
+"Name one everyday observation that shows light travels in straight lines.": {
+"hi": "रोज़मर्रा का कोई एक प्रेक्षण बताइए जो दिखाता है कि प्रकाश सीधी रेखाओं में चलता है।",
+"hg": "Roz ka koi ek observation bataiye jo dikhata hai ki light straight lines mein travel karti hai."
+},
+"The straight beams of sunlight through gaps in a roof, or the beam of a torch.": {
+"hi": "छत की दरारों से आते सूर्य के प्रकाश के सीधे पुंज, या टॉर्च का प्रकाश पुंज।",
+"hg": "Roof ke gaps se aate sunlight ke straight beams, ya torch ki beam."
+},
+"What happens if one box is out of line?": {
+"hi": "यदि एक डिब्बी सीध से हट जाए तो क्या होता है?",
+"hg": "Agar ek box line se hat jaye to kya hota hai?"
+},
+"The flame cannot be seen.": {
+"hi": "लौ दिखाई नहीं देती।",
+"hg": "Flame dikhai nahi deti."
+},
+"Can we see round corners?": {
+"hi": "क्या हम कोनों के पीछे देख सकते हैं?",
+"hg": "Kya hum corners ke peeche dekh sakte hain?"
+},
+"No, because light travels in straight lines.": {
+"hi": "नहीं, क्योंकि प्रकाश सीधी रेखाओं में चलता है।",
+"hg": "Nahi, kyonki light straight lines mein travel karti hai."
+},
+"Light travels in straight lines": {
+"hi": "प्रकाश सीधी रेखाओं में चलता है",
+"hg": "Light straight lines mein travel karti hai"
+},
+"Looking through a straight and a bent pipe": {
+"hi": "सीधे और मुड़े हुए पाइप से देखना",
+"hg": "Straight aur mude hue pipe se dekhna"
+},
+"To see that light from a candle reaches the eye through a straight pipe but not through a bent one.": {
+"hi": "यह देखना कि मोमबत्ती का प्रकाश सीधे पाइप से होकर आँख तक पहुँचता है, परंतु मुड़े हुए पाइप से नहीं।",
+"hg": "Dekhna ki candle ki light straight pipe se aankh tak pahunchti hai, lekin mude hue pipe se nahi."
+},
+"Light the candle and look at it through the straight pipe.": {
+"hi": "मोमबत्ती जलाइए और सीधे पाइप से उसे देखिए।",
+"hg": "Candle jalaiye aur straight pipe se use dekhiye."
+},
+"You can see the flame at the end of the pipe.": {
+"hi": "आपको पाइप के सिरे पर लौ दिखाई देती है।",
+"hg": "Aapko pipe ke end par flame dikhai deti hai."
+},
+"Now replace it with the bent pipe and look again.": {
+"hi": "अब उसकी जगह मुड़ा हुआ पाइप लगाइए और फिर से देखिए।",
+"hg": "Ab uski jagah muda hua pipe lagaiye aur phir se dekhiye."
+},
+"You cannot see the flame through the bent pipe.": {
+"hi": "मुड़े हुए पाइप से आपको लौ दिखाई नहीं देती।",
+"hg": "Mude hue pipe se aapko flame dikhai nahi deti."
+},
+"Light travels in straight lines, so it cannot follow the bend of the pipe.": {
+"hi": "प्रकाश सीधी रेखाओं में चलता है, इसलिए वह पाइप के मोड़ के साथ नहीं मुड़ सकता।",
+"hg": "Light straight lines mein travel karti hai, isliye woh pipe ke bend ke saath nahi mud sakti."
+},
+"The flame was seen through the straight pipe but not through the bent pipe.": {
+"hi": "लौ सीधे पाइप से दिखाई दी, परंतु मुड़े हुए पाइप से नहीं।",
+"hg": "Flame straight pipe se dikhi, lekin mude hue pipe se nahi."
+},
+"Light travels in straight lines; it does not bend round corners by itself.": {
+"hi": "प्रकाश सीधी रेखाओं में चलता है; वह अपने आप कोनों पर नहीं मुड़ता।",
+"hg": "Light straight lines mein travel karti hai; woh apne aap corners par nahi mudti."
+},
+"Keep the pipe away from the flame.": {
+"hi": "पाइप को लौ से दूर रखिए।",
+"hg": "Pipe ko flame se door rakhiye."
+},
+"Why could you not see the flame through the bent pipe?": {
+"hi": "मुड़े हुए पाइप से आपको लौ क्यों दिखाई नहीं दी?",
+"hg": "Mude hue pipe se aapko flame kyon nahi dikhi?"
+},
+"Light travels in straight lines and cannot follow the bend.": {
+"hi": "प्रकाश सीधी रेखाओं में चलता है और मोड़ के साथ नहीं मुड़ सकता।",
+"hg": "Light straight lines mein travel karti hai aur bend ke saath nahi mud sakti."
+},
+"How can light be made to go round a bend?": {
+"hi": "प्रकाश को मोड़ के पार कैसे पहुँचाया जा सकता है?",
+"hg": "Light ko bend ke paar kaise pahunchaya ja sakta hai?"
+},
+"With mirrors (or optical fibres, which reflect it many times).": {
+"hi": "दर्पणों से (या प्रकाशिक तंतुओं से, जो उसे कई बार परावर्तित करते हैं)।",
+"hg": "Mirrors se (ya optical fibres se, jo use kai baar reflect karte hain)."
+},
+"What would you see through a straight pipe pointed away from the candle?": {
+"hi": "मोमबत्ती से दूसरी ओर घुमाए गए सीधे पाइप से आप क्या देखेंगे?",
+"hg": "Candle se doosri taraf ghumaye gaye straight pipe se aap kya dekhenge?"
+},
+"Not the flame.": {
+"hi": "लौ नहीं।",
+"hg": "Flame nahi."
+},
+"Straight-line travel of light": {
+"hi": "प्रकाश का सीधी रेखा में चलना",
+"hg": "Light ka straight line mein travel karna"
+},
+"Transparent, translucent and opaque": {
+"hi": "पारदर्शी, पारभासी और अपारदर्शी",
+"hg": "Transparent, translucent aur opaque"
+},
+"To find out how much light passes through different materials.": {
+"hi": "यह पता लगाना कि विभिन्न पदार्थों से होकर कितना प्रकाश गुज़रता है।",
+"hg": "Pata lagana ki alag-alag materials se kitni light pass hoti hai."
+},
+"Transparent, translucent and opaque materials": {
+"hi": "पारदर्शी, पारभासी और अपारदर्शी पदार्थ",
+"hg": "Transparent, translucent aur opaque materials"
+},
+"Switch on the torch and shine it on the white screen.": {
+"hi": "टॉर्च जलाइए और उसका प्रकाश सफ़ेद पर्दे पर डालिए।",
+"hg": "Torch on kijiye aur uski light white screen par daliye."
+},
+"A bright round patch of light falls on the screen.": {
+"hi": "पर्दे पर प्रकाश का एक चमकीला गोल धब्बा पड़ता है।",
+"hg": "Screen par light ka ek bright gol patch padta hai."
+},
+"Hold the glass sheet in the path of the light.": {
+"hi": "काँच की शीट को प्रकाश के मार्ग में पकड़िए।",
+"hg": "Glass sheet ko light ke path mein pakadiye."
+},
+"The patch on the screen is just as bright: almost all the light passes through glass.": {
+"hi": "पर्दे पर धब्बा उतना ही चमकीला रहता है: लगभग सारा प्रकाश काँच से होकर गुज़र जाता है।",
+"hg": "Screen par patch utna hi bright rehta hai: lagbhag saari light glass se pass ho jaati hai."
+},
+"Now hold the butter paper in the path.": {
+"hi": "अब बटर पेपर को मार्ग में पकड़िए।",
+"hg": "Ab butter paper ko path mein pakadiye."
+},
+"The patch is dimmer and blurred: only some light passes through.": {
+"hi": "धब्बा मंद और धुँधला हो जाता है: केवल कुछ प्रकाश ही गुज़रता है।",
+"hg": "Patch dim aur blurred ho jaata hai: sirf kuch light hi pass hoti hai."
+},
+"Now hold the piece of cardboard in the path.": {
+"hi": "अब गत्ते के टुकड़े को मार्ग में पकड़िए।",
+"hg": "Ab cardboard ke tukde ko path mein pakadiye."
+},
+"There is no patch at all, only a shadow: no light passes through.": {
+"hi": "कोई धब्बा नहीं बनता, केवल छाया बनती है: कोई प्रकाश नहीं गुज़रता।",
+"hg": "Koi patch nahi banta, sirf shadow banti hai: koi light pass nahi hoti."
+},
+"Materials that let almost all light through are transparent, those that let some light through are translucent, and those that let no light through are opaque.": {
+"hi": "जो पदार्थ लगभग सारे प्रकाश को गुज़रने देते हैं वे पारदर्शी होते हैं, जो कुछ प्रकाश को गुज़रने देते हैं वे पारभासी होते हैं, और जो किसी भी प्रकाश को नहीं गुज़रने देते वे अपारदर्शी होते हैं।",
+"hg": "Jo materials lagbhag saari light pass hone dete hain ve transparent hote hain, jo kuch light pass hone dete hain ve translucent hote hain, aur jo bilkul bhi light pass nahi hone dete ve opaque hote hain."
+},
+"The patch of light stayed bright with glass, became dim and blurred with butter paper, and disappeared with cardboard.": {
+"hi": "प्रकाश का धब्बा काँच के साथ चमकीला रहा, बटर पेपर के साथ मंद और धुँधला हो गया, और गत्ते के साथ गायब हो गया।",
+"hg": "Light ka patch glass ke saath bright raha, butter paper ke saath dim aur blurred ho gaya, aur cardboard ke saath gayab ho gaya."
+},
+"Glass is transparent, butter paper is translucent and cardboard is opaque.": {
+"hi": "काँच पारदर्शी है, बटर पेपर पारभासी है और गत्ता अपारदर्शी है।",
+"hg": "Glass transparent hai, butter paper translucent hai aur cardboard opaque hai."
+},
+"Do not shine the torch into anyone’s eyes.": {
+"hi": "टॉर्च का प्रकाश किसी की आँखों में मत डालिए।",
+"hg": "Torch ki light kisi ki aankhon mein mat daliye."
+},
+"Is frosted glass transparent or translucent?": {
+"hi": "घिसा हुआ काँच पारदर्शी है या पारभासी?",
+"hg": "Frosted glass transparent hai ya translucent?"
+},
+"Translucent.": {
+"hi": "पारभासी।",
+"hg": "Translucent."
+},
+"Which kind of material forms a shadow?": {
+"hi": "किस प्रकार का पदार्थ छाया बनाता है?",
+"hg": "Kis type ka material shadow banata hai?"
+},
+"An opaque material.": {
+"hi": "अपारदर्शी पदार्थ।",
+"hg": "Opaque material."
+},
+"Give an example of a translucent material.": {
+"hi": "किसी पारभासी पदार्थ का एक उदाहरण दीजिए।",
+"hg": "Kisi translucent material ka ek example dijiye."
+},
+"Butter paper, frosted glass, oiled paper, thin cloth.": {
+"hi": "बटर पेपर, घिसा हुआ काँच, तेल लगा कागज़, पतला कपड़ा।",
+"hg": "Butter paper, frosted glass, oiled paper, patla kapda."
+},
+"Materials and light": {
+"hi": "पदार्थ और प्रकाश",
+"hg": "Materials aur light"
+},
+"How shadows change": {
+"hi": "छाया कैसे बदलती है",
+"hg": "Shadows kaise badalti hain"
+},
+"To see how the size of a shadow changes with the positions of the light, the object and the screen.": {
+"hi": "यह देखना कि प्रकाश स्रोत, वस्तु और पर्दे की स्थितियों के साथ छाया का आकार कैसे बदलता है।",
+"hg": "Dekhna ki light, object aur screen ki positions ke saath shadow ka size kaise badalta hai."
+},
+"Shadows": {
+"hi": "छाया",
+"hg": "Shadows"
+},
+"Darken the room and switch on the small lamp. A ball on a stand is between the lamp and the screen.": {
+"hi": "कमरे में अँधेरा कीजिए और छोटा लैंप जलाइए। लैंप और पर्दे के बीच एक स्टैंड पर एक गेंद रखी है।",
+"hg": "Room mein andhera kijiye aur chhota lamp on kijiye. Lamp aur screen ke beech ek stand par ek ball rakhi hai."
+},
+"A dark round shadow of the ball forms on the screen.": {
+"hi": "पर्दे पर गेंद की एक काली गोल छाया बनती है।",
+"hg": "Screen par ball ki ek dark gol shadow banti hai."
+},
+"The opaque ball blocks the light travelling in straight lines, leaving a dark region behind it.": {
+"hi": "अपारदर्शी गेंद सीधी रेखाओं में चलते प्रकाश को रोक देती है, जिससे उसके पीछे एक अँधेरा क्षेत्र बन जाता है।",
+"hg": "Opaque ball straight lines mein travel karti light ko block kar deti hai, jisse uske peeche ek dark region ban jaata hai."
+},
+"Move the ball closer to the lamp.": {
+"hi": "गेंद को लैंप के पास ले जाइए।",
+"hg": "Ball ko lamp ke paas le jaiye."
+},
+"The shadow becomes much bigger (and less sharp).": {
+"hi": "छाया बहुत बड़ी (और कम स्पष्ट) हो जाती है।",
+"hg": "Shadow bahut badi (aur kam sharp) ho jaati hai."
+},
+"Now move the ball close to the screen.": {
+"hi": "अब गेंद को पर्दे के पास ले जाइए।",
+"hg": "Ab ball ko screen ke paas le jaiye."
+},
+"The shadow becomes smaller, nearly the size of the ball, and sharper.": {
+"hi": "छाया छोटी, लगभग गेंद के आकार की, और अधिक स्पष्ट हो जाती है।",
+"hg": "Shadow chhoti, lagbhag ball ke size ki, aur zyada sharp ho jaati hai."
+},
+"Rays from the lamp spread out from it in straight lines; the nearer the object is to the light, the more of them it blocks and the bigger its shadow.": {
+"hi": "लैंप से किरणें सीधी रेखाओं में चारों ओर फैलती हैं; वस्तु प्रकाश के जितनी पास होती है, वह उतनी अधिक किरणों को रोकती है और उसकी छाया उतनी ही बड़ी होती है।",
+"hg": "Lamp se rays straight lines mein chaaron taraf failti hain; object light ke jitna paas hota hai, woh utni zyada rays ko block karta hai aur uski shadow utni hi badi hoti hai."
+},
+"The shadow of the ball grew larger as the ball moved towards the lamp and became smaller and sharper as it moved towards the screen.": {
+"hi": "गेंद को लैंप की ओर ले जाने पर उसकी छाया बड़ी होती गई और पर्दे की ओर ले जाने पर छोटी और अधिक स्पष्ट होती गई।",
+"hg": "Ball ko lamp ki taraf le jaane par uski shadow badi hoti gayi aur screen ki taraf le jaane par chhoti aur zyada sharp hoti gayi."
+},
+"A shadow forms when an opaque object blocks light. Its size depends on the distances between the light, the object and the screen.": {
+"hi": "जब कोई अपारदर्शी वस्तु प्रकाश को रोकती है तो छाया बनती है। इसका आकार प्रकाश स्रोत, वस्तु और पर्दे के बीच की दूरियों पर निर्भर करता है।",
+"hg": "Jab koi opaque object light ko block karta hai to shadow banti hai. Iska size light, object aur screen ke beech ki distances par depend karta hai."
+},
+"Do not touch the hot lamp.": {
+"hi": "गरम लैंप को मत छुइए।",
+"hg": "Garam lamp ko mat chhuiye."
+},
+"What three things are needed to see a shadow?": {
+"hi": "छाया देखने के लिए कौन-सी तीन चीज़ें आवश्यक हैं?",
+"hg": "Shadow dekhne ke liye kaun si teen cheezein zaroori hain?"
+},
+"A source of light, an opaque object and a screen.": {
+"hi": "प्रकाश का एक स्रोत, एक अपारदर्शी वस्तु और एक पर्दा।",
+"hg": "Light ka ek source, ek opaque object aur ek screen."
+},
+"Does a shadow show the colour of the object?": {
+"hi": "क्या छाया वस्तु का रंग दिखाती है?",
+"hg": "Kya shadow object ka colour dikhati hai?"
+},
+"No, shadows are always dark.": {
+"hi": "नहीं, छाया सदैव काली होती है।",
+"hg": "Nahi, shadows hamesha dark hoti hain."
+},
+"When is your shadow shortest on a sunny day?": {
+"hi": "धूप वाले दिन आपकी छाया सबसे छोटी कब होती है?",
+"hg": "Dhoop wale din aapki shadow sabse chhoti kab hoti hai?"
+},
+"At noon, when the Sun is highest.": {
+"hi": "दोपहर में, जब सूर्य सबसे ऊँचा होता है।",
+"hg": "Dopahar mein, jab Sun sabse upar hota hai."
+},
+"A shadow needs": {
+"hi": "छाया के लिए आवश्यक है",
+"hg": "Shadow ke liye chahiye"
+},
+"Images in a plane mirror": {
+"hi": "समतल दर्पण में प्रतिबिंब",
+"hg": "Plane mirror mein images"
+},
+"To study the image formed by a plane mirror: its size, whether it is upright, its distance and lateral inversion.": {
+"hi": "समतल दर्पण द्वारा बने प्रतिबिंब का अध्ययन करना: उसका आकार, वह सीधा है या नहीं, उसकी दूरी और पार्श्व परिवर्तन।",
+"hg": "Plane mirror se bani image ka study karna: uska size, woh upright hai ya nahi, uski distance aur lateral inversion."
+},
+"Plane mirror image": {
+"hi": "समतल दर्पण का प्रतिबिंब",
+"hg": "Plane mirror image"
+},
+"Stand the plane mirror upright and light a candle 10 cm in front of it. Look at the image.": {
+"hi": "समतल दर्पण को सीधा खड़ा कीजिए और उसके सामने 10 cm पर एक मोमबत्ती जलाइए। प्रतिबिंब को देखिए।",
+"hg": "Plane mirror ko seedha khada kijiye aur uske saamne 10 cm par ek candle jalaiye. Image ko dekhiye."
+},
+"The image of the candle is upright and the same size as the candle.": {
+"hi": "मोमबत्ती का प्रतिबिंब सीधा है और मोमबत्ती के आकार के बराबर है।",
+"hg": "Candle ki image upright hai aur candle ke size ki hi hai."
+},
+"Look at the scale lying in front of the mirror and its image.": {
+"hi": "दर्पण के सामने रखे पैमाने और उसके प्रतिबिंब को देखिए।",
+"hg": "Mirror ke saamne rakhe scale aur uski image ko dekhiye."
+},
+"The image appears as far behind the mirror as the candle is in front of it (10 cm).": {
+"hi": "प्रतिबिंब दर्पण के पीछे उतनी ही दूरी पर दिखाई देता है जितनी दूरी पर मोमबत्ती उसके सामने है (10 cm)।",
+"hg": "Image mirror ke peeche utni hi distance par dikhti hai jitni distance par candle uske saamne hai (10 cm)."
+},
+"Hold the card with the letter R in front of the mirror.": {
+"hi": "अक्षर R वाले कार्ड को दर्पण के सामने पकड़िए।",
+"hg": "Letter R wale card ko mirror ke saamne pakadiye."
+},
+"In the mirror the letter appears reversed left to right.": {
+"hi": "दर्पण में अक्षर बाएँ से दाएँ उलटा दिखाई देता है।",
+"hg": "Mirror mein letter left se right ulta dikhta hai."
+},
+"In a plane mirror the left side of the object appears on the right side of the image: this is lateral inversion.": {
+"hi": "समतल दर्पण में वस्तु का बायाँ भाग प्रतिबिंब के दाएँ भाग में दिखाई देता है: इसे पार्श्व परिवर्तन कहते हैं।",
+"hg": "Plane mirror mein object ka left side image ke right side mein dikhta hai: ise lateral inversion kehte hain."
+},
+"The image of the candle was upright, of the same size and as far behind the mirror as the candle was in front; the letter R looked reversed.": {
+"hi": "मोमबत्ती का प्रतिबिंब सीधा, समान आकार का और दर्पण के पीछे उतनी ही दूरी पर था जितनी दूरी पर मोमबत्ती सामने थी; अक्षर R उलटा दिखाई दिया।",
+"hg": "Candle ki image upright, same size ki aur mirror ke peeche utni hi distance par thi jitni distance par candle saamne thi; letter R ulta dikha."
+},
+"A plane mirror forms an upright, virtual image of the same size, as far behind the mirror as the object is in front of it, and laterally inverted.": {
+"hi": "समतल दर्पण वस्तु के समान आकार का सीधा, आभासी प्रतिबिंब बनाता है, जो दर्पण के पीछे उतनी ही दूरी पर होता है जितनी दूरी पर वस्तु उसके सामने होती है, और पार्श्व परिवर्तित होता है।",
+"hg": "Plane mirror same size ki upright, virtual image banata hai, jo mirror ke peeche utni hi distance par hoti hai jitni distance par object uske saamne hota hai, aur laterally inverted hoti hai."
+},
+"Handle the mirror carefully; keep the flame away from the card.": {
+"hi": "दर्पण को सावधानी से पकड़िए; लौ को कार्ड से दूर रखिए।",
+"hg": "Mirror ko dhyaan se handle kijiye; flame ko card se door rakhiye."
+},
+"Why is AMBULANCE written in reverse on ambulances?": {
+"hi": "एम्बुलेंस पर AMBULANCE उलटा क्यों लिखा होता है?",
+"hg": "Ambulance par AMBULANCE ulta kyon likha hota hai?"
+},
+"So that drivers ahead read it correctly in their rear-view mirrors.": {
+"hi": "ताकि आगे चल रहे वाहनों के चालक इसे अपने पश्च-दृश्य दर्पण में सही पढ़ सकें।",
+"hg": "Taaki aage wale drivers apne rear-view mirrors mein ise sahi padh sakein."
+},
+"Can the image in a plane mirror be caught on a screen?": {
+"hi": "क्या समतल दर्पण के प्रतिबिंब को पर्दे पर प्राप्त किया जा सकता है?",
+"hg": "Kya plane mirror ki image ko screen par laaya ja sakta hai?"
+},
+"No, it is a virtual image.": {
+"hi": "नहीं, यह एक आभासी प्रतिबिंब है।",
+"hg": "Nahi, yeh ek virtual image hai."
+},
+"If you move 1 m towards a mirror, how much closer does your image come to you?": {
+"hi": "यदि आप दर्पण की ओर 1 m चलें, तो आपका प्रतिबिंब आपके कितना पास आ जाएगा?",
+"hg": "Agar aap mirror ki taraf 1 m chalein, to aapki image aapke kitna paas aa jaayegi?"
+},
+"2 m.": {
+"hi": "2 m।",
+"hg": "2 m."
+},
+"Image in a plane mirror": {
+"hi": "समतल दर्पण में प्रतिबिंब",
+"hg": "Plane mirror mein image"
+},
+"Image through a pinhole": {
+"hi": "पिनहोल से प्रतिबिंब",
+"hg": "Pinhole se image"
+},
+"To form the image of a candle flame through a pinhole on a screen.": {
+"hi": "पिनहोल की सहायता से पर्दे पर मोमबत्ती की लौ का प्रतिबिंब बनाना।",
+"hg": "Pinhole ki madad se screen par candle ki flame ki image banana."
+},
+"Pinhole camera": {
+"hi": "पिनहोल कैमरा",
+"hg": "Pinhole camera"
+},
+"Light the candle 15 cm in front of the card with a pinhole. Darken the room and look at the screen 15 cm behind the pinhole.": {
+"hi": "पिनहोल वाले कार्ड के सामने 15 cm पर मोमबत्ती जलाइए। कमरे में अँधेरा कीजिए और पिनहोल के पीछे 15 cm पर रखे पर्दे को देखिए।",
+"hg": "Pinhole wale card ke saamne 15 cm par candle jalaiye. Room mein andhera kijiye aur pinhole ke peeche 15 cm par rakhi screen ko dekhiye."
+},
+"A small upside-down image of the flame appears on the screen.": {
+"hi": "पर्दे पर लौ का एक छोटा उलटा प्रतिबिंब दिखाई देता है।",
+"hg": "Screen par flame ki ek chhoti ulti image dikhti hai."
+},
+"Light from the top of the flame goes in a straight line through the pinhole to the bottom of the screen, and light from the bottom goes to the top. So the image is inverted.": {
+"hi": "लौ के ऊपरी भाग से आने वाला प्रकाश सीधी रेखा में पिनहोल से होकर पर्दे के निचले भाग पर जाता है, और निचले भाग से आने वाला प्रकाश ऊपरी भाग पर जाता है। इसलिए प्रतिबिंब उलटा बनता है।",
+"hg": "Flame ke top se aane wali light straight line mein pinhole se hokar screen ke bottom par jaati hai, aur bottom se aane wali light top par jaati hai. Isliye image inverted banti hai."
+},
+"Move the screen farther from the pinhole.": {
+"hi": "पर्दे को पिनहोल से और दूर ले जाइए।",
+"hg": "Screen ko pinhole se aur door le jaiye."
+},
+"The image becomes bigger and dimmer, but stays sharp and upside down.": {
+"hi": "प्रतिबिंब बड़ा और मंद हो जाता है, परंतु स्पष्ट और उलटा ही रहता है।",
+"hg": "Image badi aur dim ho jaati hai, lekin sharp aur ulti hi rehti hai."
+},
+"This is how a pinhole camera works; the eye and the camera work on a similar idea, with a lens instead of a pinhole.": {
+"hi": "पिनहोल कैमरा इसी प्रकार कार्य करता है; आँख और कैमरा भी इसी तरह के सिद्धांत पर कार्य करते हैं, बस पिनहोल के स्थान पर लेंस होता है।",
+"hg": "Pinhole camera aise hi kaam karta hai; aankh aur camera bhi isi tarah ke idea par kaam karte hain, bas pinhole ki jagah lens hota hai."
+},
+"An inverted image of the candle flame formed on the screen; it became larger and dimmer as the screen was moved away.": {
+"hi": "पर्दे पर मोमबत्ती की लौ का उलटा प्रतिबिंब बना; पर्दे को दूर ले जाने पर वह बड़ा और मंद होता गया।",
+"hg": "Screen par candle ki flame ki inverted image bani; screen ko door le jaane par woh badi aur dim hoti gayi."
+},
+"Because light travels in straight lines, a pinhole forms an inverted image of a bright object on a screen.": {
+"hi": "प्रकाश सीधी रेखाओं में चलता है, इसलिए पिनहोल किसी चमकीली वस्तु का पर्दे पर उलटा प्रतिबिंब बनाता है।",
+"hg": "Light straight lines mein travel karti hai, isliye pinhole kisi bright object ki screen par inverted image banata hai."
+},
+"Keep the candle flame away from the card and paper.": {
+"hi": "मोमबत्ती की लौ को कार्ड और कागज़ से दूर रखिए।",
+"hg": "Candle ki flame ko card aur paper se door rakhiye."
+},
+"Why is the image inverted?": {
+"hi": "प्रतिबिंब उलटा क्यों बनता है?",
+"hg": "Image inverted kyon banti hai?"
+},
+"Rays from the top and bottom of the object cross at the pinhole.": {
+"hi": "वस्तु के ऊपरी और निचले भाग से आने वाली किरणें पिनहोल पर एक-दूसरे को काटती हैं।",
+"hg": "Object ke top aur bottom se aane wali rays pinhole par cross karti hain."
+},
+"What happens if the hole is made bigger?": {
+"hi": "यदि छेद को बड़ा कर दिया जाए तो क्या होता है?",
+"hg": "Agar hole ko bada kar diya jaye to kya hota hai?"
+},
+"The image becomes brighter but blurred.": {
+"hi": "प्रतिबिंब अधिक चमकीला परंतु धुँधला हो जाता है।",
+"hg": "Image zyada bright lekin blurred ho jaati hai."
+},
+"Where do we see pinhole images in nature?": {
+"hi": "प्रकृति में हम पिनहोल प्रतिबिंब कहाँ देखते हैं?",
+"hg": "Nature mein hum pinhole images kahan dekhte hain?"
+},
+"Round spots of sunlight under a tree are pinhole images of the Sun.": {
+"hi": "पेड़ के नीचे सूर्य के प्रकाश के गोल धब्बे सूर्य के पिनहोल प्रतिबिंब होते हैं।",
+"hg": "Ped ke neeche sunlight ke gol spots Sun ki pinhole images hote hain."
+},
+"Pinhole image": {
+"hi": "पिनहोल प्रतिबिंब",
+"hg": "Pinhole image"
+},
+"Beams of light reflected by a mirror": {
+"hi": "दर्पण द्वारा परावर्तित प्रकाश पुंज",
+"hg": "Mirror se reflect hui light beams"
+},
+"To observe narrow beams of light being reflected by a plane mirror.": {
+"hi": "समतल दर्पण द्वारा प्रकाश के पतले पुंजों के परावर्तन का प्रेक्षण करना।",
+"hg": "Plane mirror se light ki patli beams ke reflect hone ko observe karna."
+},
+"Reflection of light": {
+"hi": "प्रकाश का परावर्तन",
+"hg": "Light ka reflection"
+},
+"Switch on the ray box: light comes out through its narrow slits (like a torch shining through a comb) and runs across the black sheet as thin beams.": {
+"hi": "किरण बॉक्स चालू कीजिए: प्रकाश उसकी पतली झिरियों से बाहर निकलता है (जैसे कंघी में से चमकती टॉर्च) और काली शीट पर पतले पुंजों के रूप में आगे बढ़ता है।",
+"hg": "Ray box on kijiye: light uski patli slits se bahar nikalti hai (jaise comb mein se chamakti torch) aur black sheet par patli beams ke roop mein aage badhti hai."
+},
+"Thin parallel beams of light cross the sheet.": {
+"hi": "प्रकाश के पतले समांतर पुंज शीट के आर-पार जाते हैं।",
+"hg": "Light ki patli parallel beams sheet ke aar-paar jaati hain."
+},
+"Stand the mirror in the path of the beams, at a slant.": {
+"hi": "दर्पण को पुंजों के मार्ग में तिरछा खड़ा कीजिए।",
+"hg": "Mirror ko beams ke path mein tircha khada kijiye."
+},
+"The beams bounce off the mirror and go off in another direction, still parallel.": {
+"hi": "पुंज दर्पण से टकराकर लौटते हैं और दूसरी दिशा में चले जाते हैं, फिर भी समांतर रहते हैं।",
+"hg": "Beams mirror se takra kar lautti hain aur doosri direction mein chali jaati hain, phir bhi parallel rehti hain."
+},
+"A smooth shiny surface reflects light. Reflection changes the direction of the light.": {
+"hi": "चिकना चमकीला पृष्ठ प्रकाश को परावर्तित करता है। परावर्तन से प्रकाश की दिशा बदल जाती है।",
+"hg": "Smooth shiny surface light ko reflect karta hai. Reflection se light ki direction badal jaati hai."
+},
+"The thin beams from the slits were reflected by the mirror into a new direction.": {
+"hi": "झिरियों से निकले पतले पुंज दर्पण द्वारा एक नई दिशा में परावर्तित हो गए।",
+"hg": "Slits se nikli patli beams mirror se ek nayi direction mein reflect ho gayin."
+},
+"A plane mirror reflects light, changing its direction.": {
+"hi": "समतल दर्पण प्रकाश को परावर्तित करके उसकी दिशा बदल देता है।",
+"hg": "Plane mirror light ko reflect karke uski direction badal deta hai."
+},
+"Do not look straight into the light of the ray box.": {
+"hi": "किरण बॉक्स के प्रकाश में सीधे मत देखिए।",
+"hg": "Ray box ki light mein seedha mat dekhiye."
+},
+"What is reflection of light?": {
+"hi": "प्रकाश का परावर्तन क्या है?",
+"hg": "Light ka reflection kya hai?"
+},
+"The bouncing back of light from a surface.": {
+"hi": "किसी पृष्ठ से प्रकाश का वापस लौटना।",
+"hg": "Kisi surface se light ka wapas lautna."
+},
+"Which surfaces reflect light best?": {
+"hi": "कौन-से पृष्ठ प्रकाश को सबसे अच्छी तरह परावर्तित करते हैं?",
+"hg": "Kaun se surfaces light ko sabse achhe se reflect karte hain?"
+},
+"Smooth, shiny surfaces such as mirrors.": {
+"hi": "चिकने, चमकीले पृष्ठ, जैसे दर्पण।",
+"hg": "Smooth, shiny surfaces, jaise mirrors."
+},
+"How does a periscope use reflection?": {
+"hi": "परिदर्शी परावर्तन का उपयोग कैसे करता है?",
+"hg": "Periscope reflection ka use kaise karta hai?"
+},
+"Two mirrors reflect light so that you can see over obstacles.": {
+"hi": "दो दर्पण प्रकाश को परावर्तित करते हैं जिससे आप रुकावटों के ऊपर से देख सकते हैं।",
+"hg": "Do mirrors light ko reflect karte hain jisse aap obstacles ke upar se dekh sakte hain."
+},
+"Reflection": {
+"hi": "परावर्तन",
+"hg": "Reflection"
+},
+"Day and night on a globe": {
+"hi": "ग्लोब पर दिन और रात",
+"hg": "Globe par din aur raat"
+},
+"To model day and night with a globe and a torch.": {
+"hi": "ग्लोब और टॉर्च की सहायता से दिन और रात का मॉडल बनाना।",
+"hg": "Globe aur torch ki madad se din aur raat ka model banana."
+},
+"Rotation of the Earth": {
+"hi": "पृथ्वी का घूर्णन",
+"hg": "Earth ka rotation"
+},
+"Darken the room and shine the torch (the Sun) on the globe.": {
+"hi": "कमरे में अँधेरा कीजिए और टॉर्च (सूर्य) का प्रकाश ग्लोब पर डालिए।",
+"hg": "Room mein andhera kijiye aur torch (Sun) ki light globe par daliye."
+},
+"Only the half of the globe facing the torch is lit; the other half is dark.": {
+"hi": "ग्लोब का केवल वह आधा भाग प्रकाशित होता है जो टॉर्च की ओर है; दूसरा आधा भाग अँधेरा रहता है।",
+"hg": "Globe ka sirf woh half hissa roshan hota hai jo torch ki taraf hai; doosra half dark rehta hai."
+},
+"Turn the globe slowly from west to east and watch India.": {
+"hi": "ग्लोब को धीरे-धीरे पश्चिम से पूर्व की ओर घुमाइए और भारत को देखिए।",
+"hg": "Globe ko dheere-dheere west se east ki taraf ghumaiye aur India ko dekhiye."
+},
+"India moves from the lit half into the dark half and back again: day, evening, night and morning.": {
+"hi": "भारत प्रकाशित आधे भाग से अँधेरे आधे भाग में जाता है और फिर वापस आता है: दिन, शाम, रात और सुबह।",
+"hg": "India roshan half se dark half mein jaata hai aur phir wapas aata hai: din, shaam, raat aur subah."
+},
+"The Earth spins on its axis from west to east once in about 24 hours. The half facing the Sun has day; the other half has night. That is why the Sun appears to rise in the east.": {
+"hi": "पृथ्वी अपने अक्ष पर पश्चिम से पूर्व की ओर लगभग 24 घंटे में एक बार घूमती है। सूर्य की ओर वाले आधे भाग में दिन होता है; दूसरे आधे भाग में रात होती है। इसीलिए सूर्य पूर्व में उगता हुआ प्रतीत होता है।",
+"hg": "Earth apne axis par west se east ki taraf lagbhag 24 ghante mein ek baar ghoomti hai. Sun ki taraf wale half mein din hota hai; doosre half mein raat hoti hai. Isiliye Sun east mein ugta hua dikhta hai."
+},
+"Half the globe was lit by the torch; as the globe turned, India passed from day into night and back.": {
+"hi": "टॉर्च से ग्लोब का आधा भाग प्रकाशित हुआ; ग्लोब घूमने पर भारत दिन से रात में गया और फिर वापस आया।",
+"hg": "Torch se globe ka half hissa roshan hua; globe ghoomne par India din se raat mein gaya aur phir wapas aaya."
+},
+"Day and night are caused by the rotation of the Earth on its axis.": {
+"hi": "दिन और रात पृथ्वी के अपने अक्ष पर घूर्णन के कारण होते हैं।",
+"hg": "Din aur raat Earth ke apne axis par rotation ki wajah se hote hain."
+},
+"Turn the globe gently by its stand.": {
+"hi": "ग्लोब को उसके स्टैंड से पकड़कर धीरे से घुमाइए।",
+"hg": "Globe ko uske stand se pakad kar dheere se ghumaiye."
+},
+"In which direction does the Earth rotate?": {
+"hi": "पृथ्वी किस दिशा में घूर्णन करती है?",
+"hg": "Earth kis direction mein rotate karti hai?"
+},
+"From west to east.": {
+"hi": "पश्चिम से पूर्व की ओर।",
+"hg": "West se east ki taraf."
+},
+"How long does one rotation take?": {
+"hi": "एक घूर्णन में कितना समय लगता है?",
+"hg": "Ek rotation mein kitna time lagta hai?"
+},
+"About 24 hours.": {
+"hi": "लगभग 24 घंटे।",
+"hg": "Lagbhag 24 ghante."
+},
+"Why does the Sun seem to rise in the east?": {
+"hi": "सूर्य पूर्व में उगता हुआ क्यों प्रतीत होता है?",
+"hg": "Sun east mein ugta hua kyon dikhta hai?"
+},
+"Because the Earth turns from west to east.": {
+"hi": "क्योंकि पृथ्वी पश्चिम से पूर्व की ओर घूमती है।",
+"hg": "Kyonki Earth west se east ki taraf ghoomti hai."
+},
+"Day and night": {
+"hi": "दिन और रात",
+"hg": "Din aur raat"
+},
+"min": {
+"hi": "min",
+"hg": "min"
+},
+"Transparent": {
+"hi": "पारदर्शी",
+"hg": "Transparent"
+},
+"Translucent": {
+"hi": "पारभासी",
+"hg": "Translucent"
+},
+"Opaque": {
+"hi": "अपारदर्शी",
+"hg": "Opaque"
+},
+"Day": {
+"hi": "दिन",
+"hg": "Din"
+},
+"Night": {
+"hi": "रात",
+"hg": "Raat"
+},
+"Image": {
+"hi": "प्रतिबिंब",
+"hg": "Image"
+},
+"India": {
+"hi": "भारत",
+"hg": "India"
+},
+"Torch (the Sun)": {
+"hi": "टॉर्च (सूर्य)",
+"hg": "Torch (Sun)"
+}
+});
+// p11 translations
+Object.assign(DICT, {
+"Which materials does a magnet attract?": {
+"hi": "चुंबक किन पदार्थों को आकर्षित करता है?",
+"hg": "Magnet kin materials ko attract karta hai?"
+},
+"To test which everyday objects are attracted by a magnet.": {
+"hi": "यह परखना कि रोज़मर्रा की कौन-सी वस्तुएँ चुंबक की ओर आकर्षित होती हैं।",
+"hg": "Test karna ki rozmarra ki kaun-si cheezein magnet se attract hoti hain."
+},
+"Magnetic and non-magnetic materials": {
+"hi": "चुंबकीय और अचुंबकीय पदार्थ",
+"hg": "Magnetic aur non-magnetic materials"
+},
+"Eight objects lie in a row: an iron nail, a steel paper clip, an eraser, a plastic scale, a wooden stick, aluminium foil, a brass key and a glass slide. Bring the bar magnet close to each in turn.": {
+"hi": "आठ वस्तुएँ एक पंक्ति में रखी हैं: लोहे की कील, स्टील की पेपर क्लिप, रबड़, प्लास्टिक का पैमाना, लकड़ी की छड़ी, ऐलुमिनियम पन्नी, पीतल की चाबी और काँच की स्लाइड। छड़ चुंबक को बारी-बारी से हर वस्तु के पास लाइए।",
+"hg": "Aath objects ek line mein rakhe hain: iron nail, steel paper clip, eraser, plastic scale, wooden stick, aluminium foil, brass key aur glass slide. Bar magnet ko baari-baari se har object ke paas laiye."
+},
+"The iron nail and the steel paper clip jump to the magnet and cling to it. The eraser, plastic scale, wooden stick, aluminium foil, brass key and glass slide do not move.": {
+"hi": "लोहे की कील और स्टील की पेपर क्लिप उछलकर चुंबक से जा चिपकती हैं। रबड़, प्लास्टिक का पैमाना, लकड़ी की छड़ी, ऐलुमिनियम पन्नी, पीतल की चाबी और काँच की स्लाइड नहीं हिलतीं।",
+"hg": "Iron nail aur steel paper clip uchhalkar magnet se chipak jaati hain. Eraser, plastic scale, wooden stick, aluminium foil, brass key aur glass slide hilte nahi."
+},
+"Pull the nail and the clip off the magnet and sort all the objects into two groups.": {
+"hi": "कील और क्लिप को चुंबक से अलग कीजिए और सभी वस्तुओं को दो समूहों में बाँटिए।",
+"hg": "Nail aur clip ko magnet se alag kijiye aur saare objects ko do groups mein baantiye."
+},
+"Two groups: things made of iron or steel, and things made of other materials.": {
+"hi": "दो समूह: लोहे या स्टील से बनी वस्तुएँ, और अन्य पदार्थों से बनी वस्तुएँ।",
+"hg": "Do groups: iron ya steel se bani cheezein, aur doosre materials se bani cheezein."
+},
+"A magnet attracts only some materials, such as iron, nickel, cobalt and steel. These are magnetic materials. Aluminium, brass, plastic, wood, rubber and glass are non-magnetic.": {
+"hi": "चुंबक केवल कुछ पदार्थों को ही आकर्षित करता है, जैसे लोहा, निकेल, कोबाल्ट और स्टील। ये चुंबकीय पदार्थ हैं। ऐलुमिनियम, पीतल, प्लास्टिक, लकड़ी, रबड़ और काँच अचुंबकीय हैं।",
+"hg": "Magnet sirf kuch materials ko attract karta hai, jaise iron, nickel, cobalt aur steel. Ye magnetic materials hain. Aluminium, brass, plastic, wood, rubber aur glass non-magnetic hain."
+},
+"Only the iron nail and the steel paper clip were attracted by the magnet.": {
+"hi": "केवल लोहे की कील और स्टील की पेपर क्लिप ही चुंबक की ओर आकर्षित हुईं।",
+"hg": "Sirf iron nail aur steel paper clip hi magnet se attract hue."
+},
+"Materials that a magnet attracts are magnetic (iron, steel, nickel, cobalt); the rest are non-magnetic.": {
+"hi": "जिन पदार्थों को चुंबक आकर्षित करता है, वे चुंबकीय हैं (लोहा, स्टील, निकेल, कोबाल्ट); बाकी अचुंबकीय हैं।",
+"hg": "Jin materials ko magnet attract karta hai, woh magnetic hain (iron, steel, nickel, cobalt); baaki non-magnetic hain."
+},
+"Do not drop or hammer a magnet; keep it away from phones and cards.": {
+"hi": "चुंबक को न गिराइए और न ही उस पर हथौड़ा मारिए; उसे फ़ोन और कार्डों से दूर रखिए।",
+"hg": "Magnet ko na giraiye aur na hi us par hammer maariye; use phone aur cards se door rakhiye."
+},
+"Is a brass key attracted by a magnet?": {
+"hi": "क्या पीतल की चाबी चुंबक की ओर आकर्षित होती है?",
+"hg": "Kya brass key magnet se attract hoti hai?"
+},
+"No, brass is non-magnetic.": {
+"hi": "नहीं, पीतल अचुंबकीय है।",
+"hg": "Nahi, brass non-magnetic hai."
+},
+"Name three magnetic materials.": {
+"hi": "तीन चुंबकीय पदार्थों के नाम बताइए।",
+"hg": "Teen magnetic materials ke naam bataiye."
+},
+"Iron, nickel and cobalt (and steel, which is mostly iron).": {
+"hi": "लोहा, निकेल और कोबाल्ट (और स्टील, जो अधिकतर लोहा ही होता है)।",
+"hg": "Iron, nickel aur cobalt (aur steel, jo zyaadatar iron hi hota hai)."
+},
+"How can a magnet help separate iron pins mixed with sand?": {
+"hi": "रेत में मिली लोहे की पिनों को अलग करने में चुंबक कैसे मदद कर सकता है?",
+"hg": "Sand mein mili iron pins ko alag karne mein magnet kaise help kar sakta hai?"
+},
+"Move the magnet over the mixture: the pins cling to it and the sand stays behind.": {
+"hi": "चुंबक को मिश्रण के ऊपर घुमाइए: पिनें उससे चिपक जाती हैं और रेत पीछे रह जाती है।",
+"hg": "Magnet ko mixture ke upar ghumaiye: pins usse chipak jaati hain aur sand peeche reh jaati hai."
+},
+"Magnetic materials": {
+"hi": "चुंबकीय पदार्थ",
+"hg": "Magnetic materials"
+},
+"Where is a magnet strongest?": {
+"hi": "चुंबक कहाँ सबसे प्रबल होता है?",
+"hg": "Magnet kahan sabse strong hota hai?"
+},
+"To find the poles of a bar magnet using iron filings.": {
+"hi": "लोहे के बुरादे की सहायता से छड़ चुंबक के ध्रुव ज्ञात करना।",
+"hg": "Iron filings ki help se bar magnet ke poles pata karna."
+},
+"Poles of a magnet": {
+"hi": "चुंबक के ध्रुव",
+"hg": "Magnet ke poles"
+},
+"Roll the bar magnet in the iron filings in the dish, then lift it out.": {
+"hi": "छड़ चुंबक को तश्तरी में रखे लोहे के बुरादे में लुढ़काइए, फिर उसे बाहर निकालिए।",
+"hg": "Bar magnet ko dish mein rakhe iron filings mein roll kijiye, phir use bahar nikaliye."
+},
+"Thick tufts of filings cling to the two ends of the magnet; hardly any stick to the middle.": {
+"hi": "चुंबक के दोनों सिरों पर बुरादे के घने गुच्छे चिपक जाते हैं; बीच में लगभग कुछ भी नहीं चिपकता।",
+"hg": "Magnet ke dono ends par filings ke ghane gucchhe chipak jaate hain; beech mein lagbhag kuch bhi nahi chipakta."
+},
+"Look at the ends of the magnet.": {
+"hi": "चुंबक के सिरों को देखिए।",
+"hg": "Magnet ke ends ko dekhiye."
+},
+"The attraction is strongest near the two ends.": {
+"hi": "दोनों सिरों के पास आकर्षण सबसे प्रबल होता है।",
+"hg": "Dono ends ke paas attraction sabse strong hota hai."
+},
+"The ends of a magnet, where its attraction is strongest, are its poles: the north pole (N) and the south pole (S). Every magnet has two poles.": {
+"hi": "चुंबक के वे सिरे, जहाँ उसका आकर्षण सबसे प्रबल होता है, उसके ध्रुव कहलाते हैं: उत्तरी ध्रुव (N) और दक्षिणी ध्रुव (S)। प्रत्येक चुंबक के दो ध्रुव होते हैं।",
+"hg": "Magnet ke woh ends, jahan uska attraction sabse strong hota hai, uske poles hain: north pole (N) aur south pole (S). Har magnet ke do poles hote hain."
+},
+"Most of the iron filings stuck to the two ends of the magnet and very few to its middle.": {
+"hi": "लोहे का अधिकांश बुरादा चुंबक के दोनों सिरों पर चिपका और उसके बीच में बहुत कम।",
+"hg": "Zyaadatar iron filings magnet ke dono ends par chipke aur beech mein bahut kam."
+},
+"A magnet attracts most strongly at its two ends, called its poles.": {
+"hi": "चुंबक अपने दोनों सिरों पर सबसे प्रबल आकर्षण करता है, जिन्हें उसके ध्रुव कहते हैं।",
+"hg": "Magnet apne dono ends par sabse zyada strongly attract karta hai, jinhe uske poles kehte hain."
+},
+"Do not rub your eyes after touching iron filings; wash your hands.": {
+"hi": "लोहे का बुरादा छूने के बाद अपनी आँखें न मलिए; अपने हाथ धोइए।",
+"hg": "Iron filings chhoone ke baad apni aankhein na maliye; apne haath dhoiye."
+},
+"How many poles does a bar magnet have?": {
+"hi": "छड़ चुंबक के कितने ध्रुव होते हैं?",
+"hg": "Bar magnet ke kitne poles hote hain?"
+},
+"Two: a north pole and a south pole.": {
+"hi": "दो: एक उत्तरी ध्रुव और एक दक्षिणी ध्रुव।",
+"hg": "Do: ek north pole aur ek south pole."
+},
+"If a magnet is broken into two pieces, how many poles does each piece have?": {
+"hi": "यदि किसी चुंबक को तोड़कर दो टुकड़े कर दिए जाएँ, तो प्रत्येक टुकड़े के कितने ध्रुव होते हैं?",
+"hg": "Agar magnet ko tod kar do pieces kar diye jaayein, to har piece ke kitne poles hote hain?"
+},
+"Two: each piece is a complete magnet.": {
+"hi": "दो: प्रत्येक टुकड़ा एक पूरा चुंबक होता है।",
+"hg": "Do: har piece ek poora magnet hota hai."
+},
+"Where are the poles of a ring magnet?": {
+"hi": "वलय चुंबक के ध्रुव कहाँ होते हैं?",
+"hg": "Ring magnet ke poles kahan hote hain?"
+},
+"On its two flat faces.": {
+"hi": "उसके दोनों चपटे फलकों पर।",
+"hg": "Uske dono flat faces par."
+},
+"Poles": {
+"hi": "ध्रुव",
+"hg": "Poles"
+},
+"A freely hanging magnet": {
+"hi": "स्वतंत्रतापूर्वक लटकता चुंबक",
+"hg": "Freely latakta hua magnet"
+},
+"To find the direction in which a freely suspended bar magnet comes to rest.": {
+"hi": "वह दिशा ज्ञात करना जिसमें स्वतंत्रतापूर्वक लटकाया गया छड़ चुंबक आकर ठहरता है।",
+"hg": "Freely suspended bar magnet jis direction mein aakar rukta hai, woh direction pata karna."
+},
+"Directive property of a magnet": {
+"hi": "चुंबक का दिशात्मक गुण",
+"hg": "Magnet ki directive property"
+},
+"A bar magnet hangs from a thread in a paper stirrup, far from other magnets and iron. Let it swing freely until it stops.": {
+"hi": "एक छड़ चुंबक काग़ज़ के रकाब में रखकर धागे से लटकाया गया है, जो अन्य चुंबकों और लोहे से दूर है। उसे तब तक स्वतंत्रतापूर्वक झूलने दीजिए जब तक वह रुक न जाए।",
+"hg": "Ek bar magnet paper stirrup mein thread se latka hai, doosre magnets aur iron se door. Use tab tak freely jhoolne dijiye jab tak woh ruk na jaaye."
+},
+"It turns, swings to and fro a few times and comes to rest along one particular direction.": {
+"hi": "वह घूमता है, कुछ बार इधर-उधर झूलता है और एक विशेष दिशा में आकर ठहर जाता है।",
+"hg": "Woh ghoomta hai, kuch baar idhar-udhar jhoolta hai aur ek particular direction mein aakar ruk jaata hai."
+},
+"Compare its direction with the compass.": {
+"hi": "उसकी दिशा की तुलना दिक्सूचक से कीजिए।",
+"hg": "Uski direction ko compass se compare kijiye."
+},
+"Its N end points north and its S end points south, the same way as the compass needle.": {
+"hi": "उसका N सिरा उत्तर की ओर और S सिरा दक्षिण की ओर संकेत करता है, ठीक दिक्सूचक की सुई की तरह।",
+"hg": "Uska N end north ki taraf aur S end south ki taraf point karta hai, bilkul compass needle ki tarah."
+},
+"Turn the magnet gently to another direction and let it go.": {
+"hi": "चुंबक को धीरे से किसी दूसरी दिशा में घुमाइए और छोड़ दीजिए।",
+"hg": "Magnet ko dheere se kisi doosri direction mein ghumaiye aur chhod dijiye."
+},
+"It swings back and again rests north–south.": {
+"hi": "वह झूलकर वापस आता है और फिर से उत्तर–दक्षिण दिशा में ठहर जाता है।",
+"hg": "Woh jhool kar wapas aata hai aur phir se north–south mein ruk jaata hai."
+},
+"A freely suspended magnet always comes to rest in the north–south direction. A compass is a small magnet (its needle) that can turn freely.": {
+"hi": "स्वतंत्रतापूर्वक लटकाया गया चुंबक सदैव उत्तर–दक्षिण दिशा में ठहरता है। दिक्सूचक एक छोटा चुंबक (उसकी सुई) है जो स्वतंत्रतापूर्वक घूम सकता है।",
+"hg": "Freely suspended magnet hamesha north–south direction mein rukta hai. Compass ek chhota magnet (uski needle) hai jo freely ghoom sakta hai."
+},
+"The hanging magnet always came to rest with its N end pointing north and its S end pointing south.": {
+"hi": "लटका हुआ चुंबक हर बार इस प्रकार ठहरा कि उसका N सिरा उत्तर की ओर और S सिरा दक्षिण की ओर था।",
+"hg": "Latakta hua magnet har baar aise ruka ki uska N end north ki taraf aur S end south ki taraf tha."
+},
+"A freely suspended bar magnet always comes to rest in the north–south direction.": {
+"hi": "स्वतंत्रतापूर्वक लटकाया गया छड़ चुंबक सदैव उत्तर–दक्षिण दिशा में ठहरता है।",
+"hg": "Freely suspended bar magnet hamesha north–south direction mein rukta hai."
+},
+"Keep other magnets and iron objects away while the magnet settles.": {
+"hi": "जब तक चुंबक स्थिर न हो जाए, अन्य चुंबकों और लोहे की वस्तुओं को दूर रखिए।",
+"hg": "Jab tak magnet settle na ho jaaye, doosre magnets aur iron objects ko door rakhiye."
+},
+"Why is the north-seeking end of a magnet called its north pole?": {
+"hi": "चुंबक के उत्तर की ओर संकेत करने वाले सिरे को उसका उत्तरी ध्रुव क्यों कहते हैं?",
+"hg": "Magnet ke north-seeking end ko uska north pole kyon kehte hain?"
+},
+"Because it points towards the geographic north.": {
+"hi": "क्योंकि वह भौगोलिक उत्तर की ओर संकेत करता है।",
+"hg": "Kyunki woh geographic north ki taraf point karta hai."
+},
+"How did travellers use magnets long ago?": {
+"hi": "बहुत पहले यात्री चुंबकों का उपयोग कैसे करते थे?",
+"hg": "Bahut pehle travellers magnets ka use kaise karte the?"
+},
+"They used a freely turning magnet to find directions.": {
+"hi": "वे दिशाएँ ज्ञात करने के लिए स्वतंत्रतापूर्वक घूमने वाले चुंबक का उपयोग करते थे।",
+"hg": "Woh directions pata karne ke liye freely ghoomne wale magnet ka use karte the."
+},
+"What is the needle of a compass?": {
+"hi": "दिक्सूचक की सुई क्या है?",
+"hg": "Compass ki needle kya hai?"
+},
+"A small magnet that can turn freely.": {
+"hi": "एक छोटा चुंबक जो स्वतंत्रतापूर्वक घूम सकता है।",
+"hg": "Ek chhota magnet jo freely ghoom sakta hai."
+},
+"Freely suspended magnet": {
+"hi": "स्वतंत्रतापूर्वक लटकाया गया चुंबक",
+"hg": "Freely suspended magnet"
+},
+"Like poles and unlike poles": {
+"hi": "समान ध्रुव और असमान ध्रुव",
+"hg": "Like poles aur unlike poles"
+},
+"To see what happens when the poles of two magnets are brought near each other.": {
+"hi": "यह देखना कि जब दो चुंबकों के ध्रुवों को एक-दूसरे के पास लाया जाता है, तो क्या होता है।",
+"hg": "Yeh dekhna ki jab do magnets ke poles ek-doosre ke paas laaye jaate hain to kya hota hai."
+},
+"Attraction and repulsion between magnets": {
+"hi": "चुंबकों के बीच आकर्षण और प्रतिकर्षण",
+"hg": "Magnets ke beech attraction aur repulsion"
+},
+"The hanging magnet rests north–south. Bring the N pole of a second magnet near its N pole.": {
+"hi": "लटका हुआ चुंबक उत्तर–दक्षिण दिशा में ठहरा है। एक दूसरे चुंबक का N ध्रुव उसके N ध्रुव के पास लाइए।",
+"hg": "Latakta hua magnet north–south mein ruka hai. Doosre magnet ka N pole uske N pole ke paas laiye."
+},
+"The N end of the hanging magnet swings away: the two N poles push each other away.": {
+"hi": "लटके हुए चुंबक का N सिरा झूलकर दूर हट जाता है: दोनों N ध्रुव एक-दूसरे को दूर धकेलते हैं।",
+"hg": "Latakte hue magnet ka N end jhool kar door hat jaata hai: dono N poles ek-doosre ko door dhakelte hain."
+},
+"Turn the second magnet round and bring its S pole near the same end.": {
+"hi": "दूसरे चुंबक को पलटिए और उसका S ध्रुव उसी सिरे के पास लाइए।",
+"hg": "Doosre magnet ko palatiye aur uska S pole usi end ke paas laiye."
+},
+"Now the N end of the hanging magnet is pulled towards the S pole.": {
+"hi": "अब लटके हुए चुंबक का N सिरा S ध्रुव की ओर खिंच जाता है।",
+"hg": "Ab latakte hue magnet ka N end S pole ki taraf khinch jaata hai."
+},
+"Like poles (N–N or S–S) repel each other; unlike poles (N–S) attract each other.": {
+"hi": "समान ध्रुव (N–N या S–S) एक-दूसरे को प्रतिकर्षित करते हैं; असमान ध्रुव (N–S) एक-दूसरे को आकर्षित करते हैं।",
+"hg": "Like poles (N–N ya S–S) ek-doosre ko repel karte hain; unlike poles (N–S) ek-doosre ko attract karte hain."
+},
+"The N pole of the hanging magnet moved away from another N pole and towards an S pole.": {
+"hi": "लटके हुए चुंबक का N ध्रुव दूसरे N ध्रुव से दूर हटा और S ध्रुव की ओर गया।",
+"hg": "Latakte hue magnet ka N pole doosre N pole se door hata aur S pole ki taraf gaya."
+},
+"Like poles of magnets repel each other and unlike poles attract each other.": {
+"hi": "चुंबकों के समान ध्रुव एक-दूसरे को प्रतिकर्षित करते हैं और असमान ध्रुव एक-दूसरे को आकर्षित करते हैं।",
+"hg": "Magnets ke like poles ek-doosre ko repel karte hain aur unlike poles ek-doosre ko attract karte hain."
+},
+"Do not let strong magnets snap together on your fingers.": {
+"hi": "ध्यान रखिए कि प्रबल चुंबक आपकी उँगलियों पर झटके से आपस में न चिपकें।",
+"hg": "Dhyan rakhiye ki strong magnets aapki ungliyon par jhatke se aapas mein na chipkein."
+},
+"Which is a sure test of a magnet: attraction or repulsion?": {
+"hi": "चुंबक की पक्की पहचान कौन-सी है: आकर्षण या प्रतिकर्षण?",
+"hg": "Magnet ka pakka test kaun-sa hai: attraction ya repulsion?"
+},
+"Repulsion: only a magnet can repel another magnet; a piece of iron is attracted by both poles.": {
+"hi": "प्रतिकर्षण: केवल एक चुंबक ही दूसरे चुंबक को प्रतिकर्षित कर सकता है; लोहे का टुकड़ा दोनों ध्रुवों की ओर आकर्षित होता है।",
+"hg": "Repulsion: sirf ek magnet hi doosre magnet ko repel kar sakta hai; iron ka piece dono poles se attract hota hai."
+},
+"What happens when the S poles of two magnets are brought together?": {
+"hi": "जब दो चुंबकों के S ध्रुवों को पास लाया जाता है, तो क्या होता है?",
+"hg": "Jab do magnets ke S poles paas laaye jaate hain to kya hota hai?"
+},
+"They repel each other.": {
+"hi": "वे एक-दूसरे को प्रतिकर्षित करते हैं।",
+"hg": "Woh ek-doosre ko repel karte hain."
+},
+"Why do magnets on a fridge door stick to it?": {
+"hi": "फ्रिज के दरवाज़े पर लगे चुंबक उससे क्यों चिपके रहते हैं?",
+"hg": "Fridge ke door par lage magnets usse kyon chipke rehte hain?"
+},
+"The door is made of steel, a magnetic material.": {
+"hi": "दरवाज़ा स्टील का बना है, जो एक चुंबकीय पदार्थ है।",
+"hg": "Door steel ka bana hai, jo ek magnetic material hai."
+},
+"Making a magnet": {
+"hi": "चुंबक बनाना",
+"hg": "Magnet banana"
+},
+"To make a magnet from an iron nail by stroking it with a bar magnet.": {
+"hi": "लोहे की कील को छड़ चुंबक से रगड़कर उसे चुंबक बनाना।",
+"hg": "Iron nail ko bar magnet se ragad kar use magnet banana."
+},
+"Making a temporary magnet": {
+"hi": "अस्थायी चुंबक बनाना",
+"hg": "Temporary magnet banana"
+},
+"Hold the iron nail over the paper clips.": {
+"hi": "लोहे की कील को पेपर क्लिपों के ऊपर पकड़िए।",
+"hg": "Iron nail ko paper clips ke upar pakadiye."
+},
+"No clip sticks to it: an ordinary nail is not a magnet.": {
+"hi": "कोई भी क्लिप उससे नहीं चिपकती: साधारण कील चुंबक नहीं होती।",
+"hg": "Koi bhi clip usse nahi chipakti: normal nail magnet nahi hoti."
+},
+"Lay the nail on the table and stroke it with the N pole of the bar magnet from the head to the tip about 30 times, always in the same direction, lifting the magnet high on the way back.": {
+"hi": "कील को मेज़ पर रखिए और छड़ चुंबक के N ध्रुव से उसे सिर से नोक तक लगभग 30 बार रगड़िए, हमेशा एक ही दिशा में, और वापस लाते समय चुंबक को ऊपर उठाकर लाइए।",
+"hg": "Nail ko table par rakhiye aur bar magnet ke N pole se use head se tip tak lagbhag 30 baar ragadiye, hamesha same direction mein, aur wapas laate samay magnet ko upar utha kar laiye."
+},
+"Nothing seems to change in the nail.": {
+"hi": "कील में कोई बदलाव दिखाई नहीं देता।",
+"hg": "Nail mein koi change dikhai nahi deta."
+},
+"Hold the nail over the paper clips again.": {
+"hi": "कील को फिर से पेपर क्लिपों के ऊपर पकड़िए।",
+"hg": "Nail ko phir se paper clips ke upar pakadiye."
+},
+"A few clips cling to the tip of the nail: the nail has become a magnet.": {
+"hi": "कुछ क्लिप कील की नोक से चिपक जाती हैं: कील चुंबक बन गई है।",
+"hg": "Kuch clips nail ki tip se chipak jaati hain: nail magnet ban gayi hai."
+},
+"Stroking with a magnet in one direction turns an iron nail into a magnet. It is a weak, temporary magnet: it loses its magnetism after some time, or if it is dropped or heated.": {
+"hi": "चुंबक से एक ही दिशा में रगड़ने पर लोहे की कील चुंबक बन जाती है। यह एक दुर्बल, अस्थायी चुंबक है: कुछ समय बाद, या गिराने अथवा गर्म करने पर, यह अपना चुंबकत्व खो देती है।",
+"hg": "Magnet se ek hi direction mein ragadne par iron nail magnet ban jaati hai. Yeh ek weak, temporary magnet hai: kuch time baad, ya girane ya garam karne par, yeh apni magnetism kho deti hai."
+},
+"Before stroking, the nail did not pick up any clip; after stroking it picked up a few.": {
+"hi": "रगड़ने से पहले कील ने कोई क्लिप नहीं उठाई; रगड़ने के बाद उसने कुछ क्लिप उठा लीं।",
+"hg": "Ragadne se pehle nail ne koi clip nahi uthayi; ragadne ke baad usne kuch clips utha li."
+},
+"An iron nail can be made into a magnet by stroking it many times in one direction with one pole of a bar magnet.": {
+"hi": "छड़ चुंबक के एक ध्रुव से एक ही दिशा में कई बार रगड़कर लोहे की कील को चुंबक बनाया जा सकता है।",
+"hg": "Bar magnet ke ek pole se ek hi direction mein kai baar ragad kar iron nail ko magnet banaya ja sakta hai."
+},
+"The tip of the nail is sharp: hold it carefully.": {
+"hi": "कील की नोक नुकीली है: उसे सावधानी से पकड़िए।",
+"hg": "Nail ki tip nukeeli hai: use dhyan se pakadiye."
+},
+"Why must every stroke be in the same direction?": {
+"hi": "हर बार एक ही दिशा में क्यों रगड़ना चाहिए?",
+"hg": "Har stroke same direction mein kyon hona chahiye?"
+},
+"Strokes back and forth would undo the magnetism.": {
+"hi": "आगे-पीछे रगड़ने से चुंबकत्व नष्ट हो जाएगा।",
+"hg": "Aage-peeche ragadne se magnetism khatam ho jaayegi."
+},
+"Name two ways in which a magnet can lose its magnetism.": {
+"hi": "दो तरीके बताइए जिनसे कोई चुंबक अपना चुंबकत्व खो सकता है।",
+"hg": "Do tareeke bataiye jinse magnet apni magnetism kho sakta hai."
+},
+"Heating it, dropping it, or hammering it.": {
+"hi": "उसे गर्म करना, गिराना या उस पर हथौड़ा मारना।",
+"hg": "Use garam karna, girana ya us par hammer maarna."
+},
+"How should bar magnets be stored?": {
+"hi": "छड़ चुंबकों को किस प्रकार रखना चाहिए?",
+"hg": "Bar magnets ko kaise store karna chahiye?"
+},
+"In pairs with unlike poles side by side, with a piece of wood between them and soft iron keepers across their ends.": {
+"hi": "जोड़ों में, असमान ध्रुव साथ-साथ रखकर, उनके बीच लकड़ी का एक टुकड़ा और उनके सिरों पर नर्म लोहे के कीपर लगाकर।",
+"hg": "Pairs mein, unlike poles side by side rakh kar, unke beech wood ka ek piece aur unke ends par soft iron keepers laga kar."
+},
+"A needle compass": {
+"hi": "सुई वाला दिक्सूचक",
+"hg": "Needle compass"
+},
+"To make a compass with a magnetised needle on a cork floating in water.": {
+"hi": "पानी में तैरते कॉर्क पर चुंबकित सुई लगाकर दिक्सूचक बनाना।",
+"hg": "Paani mein float karte cork par magnetised needle laga kar compass banana."
+},
+"Making a compass": {
+"hi": "दिक्सूचक बनाना",
+"hg": "Compass banana"
+},
+"A sewing needle is pushed through a small cork floating in a bowl of water. Give the cork a gentle turn.": {
+"hi": "पानी से भरे कटोरे में तैरते एक छोटे कॉर्क में सिलाई की सुई आर-पार घुसाई गई है। कॉर्क को धीरे से घुमाइए।",
+"hg": "Paani ke bowl mein float karte ek chhote cork mein silai ki needle aar-paar lagi hai. Cork ko dheere se ghumaiye."
+},
+"It slowly stops — in any direction.": {
+"hi": "वह धीरे-धीरे रुक जाता है — किसी भी दिशा में।",
+"hg": "Woh dheere-dheere ruk jaata hai — kisi bhi direction mein."
+},
+"Stroke the needle about 30 times with one pole of the magnet, always in the same direction.": {
+"hi": "चुंबक के एक ध्रुव से सुई को लगभग 30 बार रगड़िए, हमेशा एक ही दिशा में।",
+"hg": "Magnet ke ek pole se needle ko lagbhag 30 baar ragadiye, hamesha same direction mein."
+},
+"Now the cork turns by itself and the needle comes to rest pointing north–south.": {
+"hi": "अब कॉर्क अपने-आप घूमता है और सुई उत्तर–दक्षिण दिशा की ओर संकेत करते हुए ठहर जाती है।",
+"hg": "Ab cork apne-aap ghoomta hai aur needle north–south point karte hue ruk jaati hai."
+},
+"Turn the cork gently once more.": {
+"hi": "कॉर्क को एक बार फिर धीरे से घुमाइए।",
+"hg": "Cork ko ek baar phir dheere se ghumaiye."
+},
+"It turns back and rests north–south again.": {
+"hi": "वह वापस घूम जाता है और फिर से उत्तर–दक्षिण दिशा में ठहर जाता है।",
+"hg": "Woh wapas ghoom jaata hai aur phir se north–south mein ruk jaata hai."
+},
+"The stroked needle has become a magnet. Floating on the cork, it can turn freely, so it settles north–south like a compass needle.": {
+"hi": "रगड़ी गई सुई चुंबक बन गई है। कॉर्क पर तैरते हुए वह स्वतंत्रतापूर्वक घूम सकती है, इसलिए वह दिक्सूचक की सुई की तरह उत्तर–दक्षिण दिशा में ठहर जाती है।",
+"hg": "Ragdi gayi needle magnet ban gayi hai. Cork par float karte hue woh freely ghoom sakti hai, isliye woh compass needle ki tarah north–south mein settle ho jaati hai."
+},
+"The ordinary needle stopped in any direction; after stroking, the needle always came to rest north–south.": {
+"hi": "साधारण सुई किसी भी दिशा में रुक गई; रगड़ने के बाद सुई हर बार उत्तर–दक्षिण दिशा में ठहरी।",
+"hg": "Normal needle kisi bhi direction mein ruk gayi; ragadne ke baad needle har baar north–south mein ruki."
+},
+"A magnetised needle that can turn freely works as a compass.": {
+"hi": "स्वतंत्रतापूर्वक घूम सकने वाली चुंबकित सुई दिक्सूचक की तरह काम करती है।",
+"hg": "Freely ghoom sakne wali magnetised needle compass ki tarah kaam karti hai."
+},
+"Handle the needle carefully; keep the magnet away from the bowl while the needle settles.": {
+"hi": "सुई को सावधानी से पकड़िए; जब तक सुई स्थिर न हो जाए, चुंबक को कटोरे से दूर रखिए।",
+"hg": "Needle ko dhyan se pakadiye; jab tak needle settle na ho jaaye, magnet ko bowl se door rakhiye."
+},
+"Why does the cork need to float?": {
+"hi": "कॉर्क का तैरना क्यों आवश्यक है?",
+"hg": "Cork ka float karna kyon zaroori hai?"
+},
+"So that the needle can turn freely.": {
+"hi": "ताकि सुई स्वतंत्रतापूर्वक घूम सके।",
+"hg": "Taaki needle freely ghoom sake."
+},
+"What would happen if a strong magnet were kept near the bowl?": {
+"hi": "यदि कटोरे के पास कोई प्रबल चुंबक रख दिया जाए, तो क्या होगा?",
+"hg": "Agar bowl ke paas koi strong magnet rakh diya jaaye to kya hoga?"
+},
+"The needle would point towards the magnet instead of north.": {
+"hi": "सुई उत्तर की बजाय उस चुंबक की ओर संकेत करेगी।",
+"hg": "Needle north ki jagah us magnet ki taraf point karegi."
+},
+"Which end of a compass needle is usually painted red?": {
+"hi": "दिक्सूचक की सुई का कौन-सा सिरा प्रायः लाल रंग से रंगा होता है?",
+"hg": "Compass needle ka kaun-sa end aksar red paint kiya hota hai?"
+},
+"The north-pointing end.": {
+"hi": "उत्तर की ओर संकेत करने वाला सिरा।",
+"hg": "North ki taraf point karne wala end."
+},
+"A compass": {
+"hi": "दिक्सूचक",
+"hg": "Compass"
+},
+"Measuring with a pencil and a stick": {
+"hi": "पेंसिल और छड़ी से मापन",
+"hg": "Pencil aur stick se measurement"
+},
+"To measure the length of a plank with non-standard units and with a metre scale.": {
+"hi": "अमानक मात्रकों से और मीटर पैमाने से एक तख़्ते की लंबाई मापना।",
+"hg": "Non-standard units aur metre scale se ek plank ki length naapna."
+},
+"Need for a standard unit": {
+"hi": "मानक मात्रक की आवश्यकता",
+"hg": "Standard unit ki zaroorat"
+},
+"Measure the length of the plank in pencil lengths: lay the pencil along it, mark where it ends, move it on and count.": {
+"hi": "तख़्ते की लंबाई पेंसिल-लंबाइयों में मापिए: पेंसिल को उसके अनुदिश रखिए, जहाँ पेंसिल समाप्त हो वहाँ निशान लगाइए, उसे आगे खिसकाइए और गिनिए।",
+"hg": "Plank ki length pencil lengths mein naapiye: pencil ko uske along rakhiye, jahan pencil khatam ho wahan mark lagaiye, use aage khiskaiye aur giniye."
+},
+"The plank is a little more than 5 pencil lengths long.": {
+"hi": "तख़्ता 5 पेंसिल-लंबाइयों से थोड़ा अधिक लंबा है।",
+"hg": "Plank 5 pencil lengths se thoda zyada lamba hai."
+},
+"Now measure it with the ice-cream stick.": {
+"hi": "अब इसे आइसक्रीम की डंडी से मापिए।",
+"hg": "Ab ise ice-cream stick se naapiye."
+},
+"The plank is nearly 8 stick lengths long.": {
+"hi": "तख़्ता लगभग 8 डंडी-लंबाइयों जितना लंबा है।",
+"hg": "Plank lagbhag 8 stick lengths lamba hai."
+},
+"Measure the plank with the metre scale.": {
+"hi": "तख़्ते को मीटर पैमाने से मापिए।",
+"hg": "Plank ko metre scale se naapiye."
+},
+"The plank is 90 cm long.": {
+"hi": "तख़्ता 90 cm लंबा है।",
+"hg": "Plank 90 cm lamba hai."
+},
+"Pencils, sticks and hand spans differ from person to person, so the numbers do not agree. A standard unit — the metre (m) and its parts, the centimetre (cm) and millimetre (mm) — gives everyone the same result.": {
+"hi": "पेंसिल, डंडी और बित्ता हर व्यक्ति के अलग-अलग होते हैं, इसलिए संख्याएँ मेल नहीं खातीं। एक मानक मात्रक — मीटर (m) और उसके भाग, सेंटीमीटर (cm) और मिलीमीटर (mm) — सभी को एक जैसा परिणाम देता है।",
+"hg": "Pencil, stick aur hand span har insaan ke alag-alag hote hain, isliye numbers match nahi karte. Ek standard unit — metre (m) aur uske parts, centimetre (cm) aur millimetre (mm) — sabko same result deti hai."
+},
+"The plank was about 5.1 pencil lengths, about 7.8 stick lengths, and 90 cm on the metre scale.": {
+"hi": "तख़्ता लगभग 5.1 पेंसिल-लंबाई, लगभग 7.8 डंडी-लंबाई, और मीटर पैमाने पर 90 cm निकला।",
+"hg": "Plank lagbhag 5.1 pencil lengths, lagbhag 7.8 stick lengths, aur metre scale par 90 cm nikla."
+},
+"Non-standard units give different numbers; a standard unit such as the metre is needed for a measurement that everyone agrees on.": {
+"hi": "अमानक मात्रक अलग-अलग संख्याएँ देते हैं; ऐसे मापन के लिए, जिस पर सभी सहमत हों, मीटर जैसे मानक मात्रक की आवश्यकता होती है।",
+"hg": "Non-standard units alag-alag numbers dete hain; aisi measurement ke liye jis par sab agree karein, metre jaisi standard unit ki zaroorat hoti hai."
+},
+"Place the measuring stick carefully end to end without gaps or overlaps.": {
+"hi": "मापने वाली छड़ी को सावधानी से सिरे से सिरा मिलाकर रखिए, बीच में न कोई खाली जगह हो और न ही कोई भाग एक-दूसरे पर चढ़े।",
+"hg": "Measuring stick ko dhyan se end se end mila kar rakhiye, beech mein na koi gap ho aur na hi overlap."
+},
+"What is the SI unit of length?": {
+"hi": "लंबाई का SI मात्रक क्या है?",
+"hg": "Length ki SI unit kya hai?"
+},
+"The metre (m).": {
+"hi": "मीटर (m)।",
+"hg": "Metre (m)."
+},
+"How many millimetres are there in 1 cm?": {
+"hi": "1 cm में कितने मिलीमीटर होते हैं?",
+"hg": "1 cm mein kitne millimetre hote hain?"
+},
+"10 mm.": {
+"hi": "10 mm।",
+"hg": "10 mm."
+},
+"Why is a hand span not a good unit?": {
+"hi": "बित्ता एक अच्छा मात्रक क्यों नहीं है?",
+"hg": "Hand span achhi unit kyon nahi hai?"
+},
+"Different people have hand spans of different lengths.": {
+"hi": "अलग-अलग लोगों के बित्ते की लंबाई अलग-अलग होती है।",
+"hg": "Alag-alag logon ke hand span ki length alag-alag hoti hai."
+},
+"Standard unit of length": {
+"hi": "लंबाई का मानक मात्रक",
+"hg": "Length ki standard unit"
+},
+"Measuring with a scale correctly": {
+"hi": "पैमाने से सही मापन",
+"hg": "Scale se sahi measurement"
+},
+"To measure the length of a pencil correctly with a 30 cm scale.": {
+"hi": "30 cm पैमाने से पेंसिल की लंबाई सही ढंग से मापना।",
+"hg": "30 cm scale se pencil ki length sahi tarah naapna."
+},
+"Correct use of a scale": {
+"hi": "पैमाने का सही उपयोग",
+"hg": "Scale ka sahi use"
+},
+"The edge of the scale is worn, so do not start at its end. Place the pencil along the scale with its back end exactly at the 1 cm mark.": {
+"hi": "पैमाने का किनारा घिसा हुआ है, इसलिए उसके सिरे से शुरू न कीजिए। पेंसिल को पैमाने के अनुदिश इस प्रकार रखिए कि उसका पिछला सिरा ठीक 1 cm के निशान पर हो।",
+"hg": "Scale ka edge ghisa hua hai, isliye uske end se start na kijiye. Pencil ko scale ke along aise rakhiye ki uska peeche wala end bilkul 1 cm ke mark par ho."
+},
+"The back end of the pencil is at the 1.0 cm mark.": {
+"hi": "पेंसिल का पिछला सिरा 1.0 cm के निशान पर है।",
+"hg": "Pencil ka peeche wala end 1.0 cm ke mark par hai."
+},
+"Look from directly above the tip of the pencil and read the mark there.": {
+"hi": "पेंसिल की नोक के ठीक ऊपर से देखिए और वहाँ का निशान पढ़िए।",
+"hg": "Pencil ki tip ke theek upar se dekhiye aur wahan ka mark padhiye."
+},
+"The tip is at the 18.5 cm mark.": {
+"hi": "नोक 18.5 cm के निशान पर है।",
+"hg": "Tip 18.5 cm ke mark par hai."
+},
+"If you look at the mark from one side, the tip seems to be at a different mark (an error called parallax). Always keep your eye directly above the point you read.": {
+"hi": "यदि आप निशान को एक ओर से देखते हैं, तो नोक किसी दूसरे निशान पर प्रतीत होती है (इस त्रुटि को लंबन कहते हैं)। अपनी आँख को सदैव उस बिंदु के ठीक ऊपर रखिए जिसे आप पढ़ रहे हैं।",
+"hg": "Agar aap mark ko ek side se dekhte hain to tip kisi doosre mark par lagti hai (is error ko parallax kehte hain). Apni aankh hamesha us point ke theek upar rakhiye jise aap padh rahe hain."
+},
+"Work out the length of the pencil.": {
+"hi": "पेंसिल की लंबाई ज्ञात कीजिए।",
+"hg": "Pencil ki length nikaliye."
+},
+"The pencil is 17.5 cm long.": {
+"hi": "पेंसिल 17.5 cm लंबी है।",
+"hg": "Pencil 17.5 cm lambi hai."
+},
+"Starting at the 1.0 cm mark, the tip of the pencil was at 18.5 cm.": {
+"hi": "1.0 cm के निशान से शुरू करने पर पेंसिल की नोक 18.5 cm पर थी।",
+"hg": "1.0 cm ke mark se start karne par pencil ki tip 18.5 cm par thi."
+},
+"The length of the pencil is 17.5 cm. Place the object along the scale, start from a clear mark, and read with your eye directly above the mark.": {
+"hi": "पेंसिल की लंबाई 17.5 cm है। वस्तु को पैमाने के अनुदिश रखिए, किसी स्पष्ट निशान से शुरू कीजिए, और आँख को निशान के ठीक ऊपर रखकर पढ़िए।",
+"hg": "Pencil ki length 17.5 cm hai. Object ko scale ke along rakhiye, kisi clear mark se start kijiye, aur aankh ko mark ke theek upar rakh kar padhiye."
+},
+"Keep the scale in contact with the object and along its length.": {
+"hi": "पैमाने को वस्तु से सटाकर और उसकी लंबाई के अनुदिश रखिए।",
+"hg": "Scale ko object se sata kar aur uski length ke along rakhiye."
+},
+"Why should you not start from a broken end of a scale?": {
+"hi": "पैमाने के टूटे हुए सिरे से मापन क्यों शुरू नहीं करना चाहिए?",
+"hg": "Scale ke toote hue end se kyon start nahi karna chahiye?"
+},
+"The zero mark may not be accurate; start from another full mark and subtract.": {
+"hi": "हो सकता है कि शून्य का निशान सटीक न हो; किसी दूसरे पूरे निशान से शुरू कीजिए और घटा दीजिए।",
+"hg": "Ho sakta hai zero mark accurate na ho; kisi doosre full mark se start kijiye aur subtract kar dijiye."
+},
+"Where should your eye be while reading?": {
+"hi": "पढ़ते समय आपकी आँख कहाँ होनी चाहिए?",
+"hg": "Reading lete samay aapki aankh kahan honi chahiye?"
+},
+"Directly above the mark being read.": {
+"hi": "जिस निशान को पढ़ा जा रहा है, उसके ठीक ऊपर।",
+"hg": "Jis mark ko padh rahe hain, uske theek upar."
+},
+"What is the smallest length a 30 cm school scale can measure?": {
+"hi": "30 cm का स्कूली पैमाना सबसे छोटी कितनी लंबाई माप सकता है?",
+"hg": "30 cm ka school scale sabse chhoti kitni length naap sakta hai?"
+},
+"1 mm.": {
+"hi": "1 mm।",
+"hg": "1 mm."
+},
+"Measuring a curved line": {
+"hi": "वक्र रेखा का मापन",
+"hg": "Curved line ko naapna"
+},
+"To measure the length of a curved line using a thread and a scale.": {
+"hi": "धागे और पैमाने की सहायता से वक्र रेखा की लंबाई मापना।",
+"hg": "Thread aur scale ki help se curved line ki length naapna."
+},
+"Measuring curved lengths": {
+"hi": "वक्र लंबाइयों का मापन",
+"hg": "Curved lengths ko naapna"
+},
+"Lay a thread carefully along the curved line from A to B, holding it down bit by bit.": {
+"hi": "एक धागे को वक्र रेखा के अनुदिश A से B तक सावधानी से रखिए, और उसे थोड़ा-थोड़ा करके दबाते जाइए।",
+"hg": "Ek thread ko curved line ke along A se B tak dhyan se rakhiye, aur use thoda-thoda karke dabaate jaiye."
+},
+"The thread follows every bend of the line.": {
+"hi": "धागा रेखा के हर मोड़ के साथ-साथ चलता है।",
+"hg": "Thread line ke har bend ke saath-saath chalta hai."
+},
+"Mark the thread at B, then pull it straight along the scale, starting at the 0 mark.": {
+"hi": "धागे पर B के स्थान पर निशान लगाइए, फिर उसे 0 के निशान से शुरू करके पैमाने के अनुदिश सीधा खींचिए।",
+"hg": "Thread par B ke paas mark lagaiye, phir use 0 mark se start karke scale ke along seedha kheenchiye."
+},
+"The straightened thread lies along the scale.": {
+"hi": "सीधा किया गया धागा पैमाने के अनुदिश रखा है।",
+"hg": "Seedha kiya hua thread scale ke along rakha hai."
+},
+"Read the scale at the mark on the thread.": {
+"hi": "धागे पर लगे निशान के सामने पैमाने का पाठ्यांक पढ़िए।",
+"hg": "Thread par lage mark ke saamne scale ki reading padhiye."
+},
+"The curved line is about 22 cm long — much longer than the straight distance from A to B.": {
+"hi": "वक्र रेखा लगभग 22 cm लंबी है — A से B तक की सीधी दूरी से बहुत अधिक।",
+"hg": "Curved line lagbhag 22 cm lambi hai — A se B tak ki seedhi distance se bahut zyada."
+},
+"A thread can follow a curve and then be straightened, so its length can be read on a scale.": {
+"hi": "धागा वक्र के साथ-साथ रखा जा सकता है और फिर सीधा किया जा सकता है, इसलिए उसकी लंबाई पैमाने पर पढ़ी जा सकती है।",
+"hg": "Thread curve ke saath-saath rakha ja sakta hai aur phir seedha kiya ja sakta hai, isliye uski length scale par padhi ja sakti hai."
+},
+"The thread laid along the curve and then straightened measured about 22 cm.": {
+"hi": "वक्र के अनुदिश रखकर फिर सीधा किया गया धागा लगभग 22 cm मापा गया।",
+"hg": "Curve ke along rakh kar phir seedha kiya gaya thread lagbhag 22 cm naapa gaya."
+},
+"The length of a curved line can be measured with a thread and a scale.": {
+"hi": "वक्र रेखा की लंबाई धागे और पैमाने से मापी जा सकती है।",
+"hg": "Curved line ki length thread aur scale se naapi ja sakti hai."
+},
+"Do not stretch the thread while measuring.": {
+"hi": "मापते समय धागे को खींचकर न तानिए।",
+"hg": "Naapte samay thread ko stretch na kijiye."
+},
+"Why should the thread not be stretched?": {
+"hi": "धागे को क्यों नहीं तानना चाहिए?",
+"hg": "Thread ko stretch kyon nahi karna chahiye?"
+},
+"A stretched thread would give a wrong (smaller) reading.": {
+"hi": "तना हुआ धागा गलत (कम) पाठ्यांक देगा।",
+"hg": "Stretched thread galat (kam) reading dega."
+},
+"How else could you measure a curved line?": {
+"hi": "वक्र रेखा को आप और किस तरह माप सकते हैं?",
+"hg": "Curved line ko aap aur kaise naap sakte hain?"
+},
+"With a divider, or by rolling a wheel along it, or with a flexible measuring tape.": {
+"hi": "डिवाइडर से, या उसके अनुदिश एक पहिया घुमाकर, या लचीले मापने वाले फ़ीते से।",
+"hg": "Divider se, ya uske along ek wheel ghuma kar, ya flexible measuring tape se."
+},
+"What is used to measure the chest of a person?": {
+"hi": "किसी व्यक्ति की छाती मापने के लिए किसका उपयोग किया जाता है?",
+"hg": "Kisi insaan ki chest naapne ke liye kya use hota hai?"
+},
+"A measuring tape.": {
+"hi": "मापने वाला फ़ीता।",
+"hg": "Measuring tape."
+},
+"Curved length": {
+"hi": "वक्र लंबाई",
+"hg": "Curved length"
+},
+"Using a laboratory thermometer": {
+"hi": "प्रयोगशाला तापमापी का उपयोग",
+"hg": "Laboratory thermometer ka use"
+},
+"To measure the temperature of ice-cold water, tap water and warm water with a laboratory thermometer.": {
+"hi": "प्रयोगशाला तापमापी से बर्फ़ जैसे ठंडे पानी, नल के पानी और गर्म पानी का ताप मापना।",
+"hg": "Laboratory thermometer se ice-cold paani, nal ke paani aur garam paani ka temperature naapna."
+},
+"Laboratory thermometer": {
+"hi": "प्रयोगशाला तापमापी",
+"hg": "Laboratory thermometer"
+},
+"Put the thermometer in the tap water. Keep its bulb under the water without touching the bottom or the side, wait until the level stops moving and read it with your eye level with the top of the liquid.": {
+"hi": "तापमापी को नल के पानी में डालिए। उसके बल्ब को पानी के अंदर रखिए पर तली या किनारे को छूने न दीजिए, जब तक स्तर का हिलना बंद न हो जाए तब तक प्रतीक्षा कीजिए और अपनी आँख को द्रव के ऊपरी तल के बराबर रखकर पाठ्यांक पढ़िए।",
+"hg": "Thermometer ko nal ke paani mein daaliye. Uska bulb paani ke andar rakhiye par bottom ya side ko chhoone na dijiye, jab tak level hilna band na ho tab tak wait kijiye aur apni aankh liquid ke top ke level par rakh kar reading padhiye."
+},
+"It reads about 27 °C.": {
+"hi": "यह लगभग 27 °C दर्शाता है।",
+"hg": "Yeh lagbhag 27 °C dikhata hai."
+},
+"Now measure the water with ice in it.": {
+"hi": "अब बर्फ़ डाले हुए पानी का ताप मापिए।",
+"hg": "Ab ice wale paani ka temperature naapiye."
+},
+"The level falls and stops at about 4 °C.": {
+"hi": "स्तर नीचे गिरता है और लगभग 4 °C पर रुक जाता है।",
+"hg": "Level neeche girta hai aur lagbhag 4 °C par ruk jaata hai."
+},
+"Now measure the warm water.": {
+"hi": "अब गर्म पानी का ताप मापिए।",
+"hg": "Ab garam paani ka temperature naapiye."
+},
+"The level rises and stops at about 52 °C.": {
+"hi": "स्तर ऊपर चढ़ता है और लगभग 52 °C पर रुक जाता है।",
+"hg": "Level upar chadhta hai aur lagbhag 52 °C par ruk jaata hai."
+},
+"A laboratory thermometer reads from about −10 °C to 110 °C. Its reading changes only while the bulb is in the liquid, so it is read while it is still in the liquid. A clinical thermometer (35 °C to 42 °C) is for body temperature only.": {
+"hi": "प्रयोगशाला तापमापी लगभग −10 °C से 110 °C तक का ताप मापता है। बल्ब के द्रव में रहने पर ही इसका पाठ्यांक बदलता है, इसलिए इसे द्रव में रहते हुए ही पढ़ा जाता है। डॉक्टरी (क्लिनिकल) तापमापी (35 °C से 42 °C) केवल शरीर का ताप मापने के लिए है।",
+"hg": "Laboratory thermometer lagbhag −10 °C se 110 °C tak padhta hai. Iski reading tabhi badalti hai jab bulb liquid mein ho, isliye ise liquid mein rehte hue hi padha jaata hai. Clinical thermometer (35 °C se 42 °C) sirf body temperature ke liye hai."
+},
+"Tap water was about 27 °C, water with ice about 4 °C and warm water about 52 °C.": {
+"hi": "नल का पानी लगभग 27 °C, बर्फ़ वाला पानी लगभग 4 °C और गर्म पानी लगभग 52 °C था।",
+"hg": "Nal ka paani lagbhag 27 °C, ice wala paani lagbhag 4 °C aur garam paani lagbhag 52 °C tha."
+},
+"A laboratory thermometer measures how hot or cold a liquid is; it must be read while its bulb is in the liquid.": {
+"hi": "प्रयोगशाला तापमापी यह मापता है कि कोई द्रव कितना गर्म या ठंडा है; इसे तभी पढ़ना चाहिए जब इसका बल्ब द्रव में हो।",
+"hg": "Laboratory thermometer naapta hai ki koi liquid kitna garam ya thanda hai; ise tabhi padhna chahiye jab iska bulb liquid mein ho."
+},
+"Hold the thermometer by its upper end, never by the bulb; handle it gently as it is made of glass.": {
+"hi": "तापमापी को उसके ऊपरी सिरे से पकड़िए, बल्ब से कभी नहीं; इसे सावधानी से संभालिए क्योंकि यह काँच का बना होता है।",
+"hg": "Thermometer ko uske upar wale end se pakadiye, bulb se kabhi nahi; ise dhyan se sambhaliye kyunki yeh glass ka bana hota hai."
+},
+"What is the range of a laboratory thermometer?": {
+"hi": "प्रयोगशाला तापमापी का परिसर क्या है?",
+"hg": "Laboratory thermometer ki range kya hai?"
+},
+"About −10 °C to 110 °C.": {
+"hi": "लगभग −10 °C से 110 °C तक।",
+"hg": "Lagbhag −10 °C se 110 °C tak."
+},
+"Why can a clinical thermometer not be used to measure the temperature of boiling water?": {
+"hi": "उबलते पानी का ताप मापने के लिए डॉक्टरी (क्लिनिकल) तापमापी का उपयोग क्यों नहीं किया जा सकता?",
+"hg": "Ubalte paani ka temperature naapne ke liye clinical thermometer ka use kyon nahi kiya ja sakta?"
+},
+"Its range goes only up to 42 °C; it would break.": {
+"hi": "इसका परिसर केवल 42 °C तक होता है; यह टूट जाएगा।",
+"hg": "Iski range sirf 42 °C tak hoti hai; yeh toot jaayega."
+},
+"What is the normal temperature of the human body?": {
+"hi": "मानव शरीर का सामान्य ताप कितना होता है?",
+"hg": "Human body ka normal temperature kitna hota hai?"
+},
+"About 37 °C.": {
+"hi": "लगभग 37 °C।",
+"hg": "Lagbhag 37 °C."
+},
+"Temperature": {
+"hi": "ताप",
+"hg": "Temperature"
+},
+"Which things sink and which float?": {
+"hi": "कौन-सी वस्तुएँ डूबती हैं और कौन-सी तैरती हैं?",
+"hg": "Kaun-si cheezein sink karti hain aur kaun-si float karti hain?"
+},
+"To find out which objects sink in water and which float.": {
+"hi": "यह पता लगाना कि कौन-सी वस्तुएँ पानी में डूबती हैं और कौन-सी तैरती हैं।",
+"hg": "Pata lagana ki kaun-se objects paani mein sink karte hain aur kaun-se float karte hain."
+},
+"Sinking and floating": {
+"hi": "डूबना और तैरना",
+"hg": "Sink aur float karna"
+},
+"Drop the objects into the tub of water one by one: a stone, a wooden block, an iron nail, a cork, a brass key and a plastic bottle cap.": {
+"hi": "वस्तुओं को एक-एक करके पानी के टब में डालिए: एक पत्थर, लकड़ी का गुटका, लोहे की कील, कॉर्क, पीतल की चाबी और प्लास्टिक की बोतल का ढक्कन।",
+"hg": "Objects ko ek-ek karke paani ke tub mein daaliye: ek stone, wooden block, iron nail, cork, brass key aur plastic bottle cap."
+},
+"The stone, the iron nail and the brass key sink to the bottom. The wooden block, the cork and the plastic cap float, partly under water.": {
+"hi": "पत्थर, लोहे की कील और पीतल की चाबी तली में डूब जाते हैं। लकड़ी का गुटका, कॉर्क और प्लास्टिक का ढक्कन तैरते हैं, उनका कुछ भाग पानी में डूबा रहता है।",
+"hg": "Stone, iron nail aur brass key bottom tak sink ho jaate hain. Wooden block, cork aur plastic cap float karte hain, thoda paani ke andar rehte hue."
+},
+"Whether a thing sinks or floats depends on what it is made of: materials that are heavier than the same volume of water sink; lighter ones float.": {
+"hi": "कोई वस्तु डूबेगी या तैरेगी, यह इस पर निर्भर करता है कि वह किस पदार्थ से बनी है: जो पदार्थ उतने ही आयतन के पानी से भारी होते हैं, वे डूबते हैं; हल्के पदार्थ तैरते हैं।",
+"hg": "Koi cheez sink karegi ya float, yeh is par depend karta hai ki woh kis material se bani hai: jo materials utne hi volume ke paani se heavy hote hain woh sink karte hain; halke wale float karte hain."
+},
+"The stone, nail and key sank; the wooden block, cork and plastic cap floated.": {
+"hi": "पत्थर, कील और चाबी डूब गए; लकड़ी का गुटका, कॉर्क और प्लास्टिक का ढक्कन तैरते रहे।",
+"hg": "Stone, nail aur key sink ho gaye; wooden block, cork aur plastic cap float karte rahe."
+},
+"Some materials sink in water and others float.": {
+"hi": "कुछ पदार्थ पानी में डूबते हैं और कुछ तैरते हैं।",
+"hg": "Kuch materials paani mein sink karte hain aur kuch float karte hain."
+},
+"Does an iron ship sink?": {
+"hi": "क्या लोहे का जहाज़ डूबता है?",
+"hg": "Kya iron ka ship sink hota hai?"
+},
+"No: its hollow shape holds a lot of air, so the ship as a whole is lighter than the water it pushes aside.": {
+"hi": "नहीं: इसके खोखले आकार में बहुत-सी हवा भरी रहती है, इसलिए पूरा जहाज़ अपने द्वारा हटाए गए पानी से हल्का होता है।",
+"hg": "Nahi: iske hollow shape mein bahut saari hawa rehti hai, isliye poora ship us paani se halka hota hai jise woh hataata hai."
+},
+"Name two things that float on water.": {
+"hi": "पानी पर तैरने वाली दो वस्तुओं के नाम बताइए।",
+"hg": "Paani par float karne wali do cheezon ke naam bataiye."
+},
+"Wood and cork (also ice, plastic, oil).": {
+"hi": "लकड़ी और कॉर्क (बर्फ़, प्लास्टिक, तेल भी)।",
+"hg": "Wood aur cork (ice, plastic, oil bhi)."
+},
+"Does a big log of wood sink?": {
+"hi": "क्या लकड़ी का बड़ा लट्ठा डूबता है?",
+"hg": "Kya wood ka bada log sink hota hai?"
+},
+"No, wood floats whatever its size.": {
+"hi": "नहीं, लकड़ी चाहे किसी भी आकार की हो, तैरती है।",
+"hg": "Nahi, wood chahe kisi bhi size ki ho, float karti hai."
+},
+"Sink or float": {
+"hi": "डूबना या तैरना",
+"hg": "Sink ya float"
+},
+"Attracted": {
+"hi": "आकर्षित",
+"hg": "Attract hua"
+},
+"Not attracted": {
+"hi": "आकर्षित नहीं",
+"hg": "Attract nahi hua"
+},
+"Magnetic": {
+"hi": "चुंबकीय",
+"hg": "Magnetic"
+},
+"Non-magnetic": {
+"hi": "अचुंबकीय",
+"hg": "Non-magnetic"
+},
+"Pole": {
+"hi": "ध्रुव",
+"hg": "Pole"
+},
+"North": {
+"hi": "उत्तर",
+"hg": "North"
+},
+"South": {
+"hi": "दक्षिण",
+"hg": "South"
+},
+"pencil lengths": {
+"hi": "पेंसिल-लंबाई",
+"hg": "pencil lengths"
+},
+"stick lengths": {
+"hi": "डंडी-लंबाई",
+"hg": "stick lengths"
+},
+"Sinks": {
+"hi": "डूबती है",
+"hg": "Sink hoti hai"
+},
+"Floats": {
+"hi": "तैरती है",
+"hg": "Float karti hai"
+}
+});

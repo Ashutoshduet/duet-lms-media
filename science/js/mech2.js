@@ -4,6 +4,7 @@
 import * as THREE from 'three';
 import { Item } from './apparatus.js';
 import { canvasTex, woodTex, glassMat } from './mats.js';
+import { dress } from './models.js';
 
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 const steel = (c = 0x9aa0a6, r = 0.35) => new THREE.MeshStandardMaterial({ color: c, metalness: 0.85, roughness: r });
@@ -81,13 +82,13 @@ export function slinky(o = {}) {
   const ux = new Float32Array(n), vx = new Float32Array(n), uz = new Float32Array(n), vz = new Float32Array(n); const c = o.c ?? 1.6; // pulse speed, m/s
   const m4 = new THREE.Matrix4(), q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, Math.PI / 2, 0)), s = V3(1, 1, 1), p = V3(0, 0, 0);
   it.n = n; it.dx = dx; it.ux = ux; it.uz = uz; it.drive = null; // drive(t) → [ux0, uz0] moves the free end (coil 0)
-  it.t = 0;
+  it.t = 0; let acc = 0;
   it.update = (dt) => {
-    const k = (c * c) / (dx * dx); let rem = Math.min(dt, 0.05);
-    while (rem > 1e-6) { const h = Math.min(rem, 0.6 * dx / c); it.t += h;
+    const k = (c * c) / (dx * dx), h = 0.5 * dx / c; acc = Math.min(acc + dt, 0.05); // fixed sub-steps: leapfrog with uneven steps is unstable
+    while (acc >= h) { acc -= h; it.t += h;
       if (it.drive) { const [a, b] = it.drive(it.t); ux[0] = a; uz[0] = b; vx[0] = 0; vz[0] = 0; }
       for (let i = 1; i < n - 1; i++) { vx[i] += h * (k * (ux[i - 1] - 2 * ux[i] + ux[i + 1]) - 0.4 * vx[i]); vz[i] += h * (k * (uz[i - 1] - 2 * uz[i] + uz[i + 1]) - 0.4 * vz[i]); }
-      for (let i = 1; i < n - 1; i++) { ux[i] += h * vx[i]; uz[i] += h * vz[i]; } ux[n - 1] = 0; uz[n - 1] = 0; rem -= h; } // the far end is held fixed
+      for (let i = 1; i < n - 1; i++) { ux[i] += h * vx[i]; uz[i] += h * vz[i]; } ux[n - 1] = 0; uz[n - 1] = 0; } // the far end is held fixed
     for (let i = 0; i < n; i++) { p.set(-L / 2 + i * dx + ux[i], R + 0.001, uz[i]); m4.compose(p, q, s); im.setMatrixAt(i, m4); if (i === it.markI) { mark.position.copy(p); mark.quaternion.copy(q); } }
     im.instanceMatrix.needsUpdate = true;
   };
@@ -154,6 +155,7 @@ export function tickClock(o = {}) {
   const f = canvasTex(128, 128, (x, w, h) => { x.fillStyle = '#fbf8ef'; x.beginPath(); x.arc(64, 64, 62, 0, 6.29); x.fill(); x.strokeStyle = '#1b1b1b'; x.lineWidth = 3; for (let i = 0; i < 12; i++) { const a = (i / 12) * Math.PI * 2; x.beginPath(); x.moveTo(64 + Math.cos(a) * 54, 64 + Math.sin(a) * 54); x.lineTo(64 + Math.cos(a) * 46, 64 + Math.sin(a) * 46); x.stroke(); } x.lineWidth = 4; x.beginPath(); x.moveTo(64, 64); x.lineTo(64, 26); x.moveTo(64, 64); x.lineTo(92, 64); x.stroke(); });
   const face = new THREE.Mesh(new THREE.CircleGeometry(0.022, 32), new THREE.MeshStandardMaterial({ map: f, roughness: 0.4 })); face.position.set(0, 0.03, 0.0062); it.g.add(face);
   for (const s of [-1, 1]) { const l = new THREE.Mesh(new THREE.CylinderGeometry(0.002, 0.002, 0.012, 8), steel()); l.position.set(s * 0.015, 0.006, 0); l.rotation.z = s * 0.4; it.g.add(l); }
+  dress(it, 'alarm_clock_01', { h: 0.066, hide: [...it.g.children] });
   it.on = false; it.gain = 0.1; it.audio = null; let ph = 0;
   it.update = (dt) => { if (!it.on) return; ph += dt; if (ph >= 0.5) { ph -= 0.5; const a = it.audio; if (a && a.tone && it.gain > 0.0015) { a.tone(3100, 0.03, it.gain, 'square'); a.tone(1700, 0.025, it.gain * 0.5, 'sine'); } } };
   it.height = 0.055; it.radius = 0.026; it.grabY = 0.03; return it;

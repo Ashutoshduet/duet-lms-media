@@ -71,7 +71,7 @@ export class XRInput {
   nearest(h, maxD) {
     const p = this.handPos(h, tmp); let best = null, bd = maxD;
     for (const it of this.app.lab.items) {
-      if (it.kind === 'rack' || it.kind === 'tripod' || it.kind === 'circuit' || it.noGrab || this.hands.some((o) => o.held === it)) continue;
+      if (it.kind === 'rack' || it.kind === 'tripod' || it.kind === 'circuit' || it.noGrab || it.broken || !it.g.visible || this.hands.some((o) => o.held === it)) continue;
       const g = it.g.localToWorld(tmp2.set(0, it.grabY ?? 0.04, 0)); const d = g.distanceTo(p);
       if (d < bd) { bd = d; best = it; }
     }
@@ -124,7 +124,9 @@ export class XRInput {
         }
       }
     }
-    // otherwise stand it upright on the bench (or the shelf) right below
+    // otherwise it is a real object: it falls, tips over, rolls or flies (and glass may break)
+    if (this.app.phys && this.app.phys.drop(it, h.vel, h.angVel)) return;
+    // (no physics engine) stand it upright on the bench (or the shelf) right below
     const p = it.g.position.clone();
     const shelfY = this.app.roomInfo.shelfY; let y = BENCH_Y;
     if (p.z < BENCH.z0 + 0.1 && p.y > shelfY[0] + 0.02) y = p.y > shelfY[1] + 0.02 ? shelfY[1] : shelfY[0];
@@ -137,13 +139,33 @@ export class XRInput {
     this.app.runner.K.tween(0.3, (k) => { if (it.held) return; it.g.position.lerpVectors(p0, p, k); it.g.quaternion.slerpQuaternions(q0, q, k); })
       .then(() => { if (!it.held && it.kind !== 'splint' && it.kind !== 'strip') it.home = { p: it.g.position.clone(), q: it.g.quaternion.clone() }; this.app.audio.clink(); });
   }
+  walk(dt) {
+    const r = this.app.renderer; const base = this.baseRef || (this.baseRef = r.xr.getReferenceSpace()); if (!base || typeof XRRigidTransform === 'undefined') return;
+    const L = this.loco || (this.loco = { x: 0, z: 0, yaw: 0, turned: false }); let mx = 0, mz = 0, turn = 0;
+    for (const h of this.hands) { const gp = h.src && h.src.gamepad; if (!gp || !gp.axes || gp.axes.length < 4) continue; const ax = gp.axes[2], ay = gp.axes[3];
+      if (h.src.handedness === 'left') { mx += Math.abs(ax) > 0.15 ? ax : 0; mz += Math.abs(ay) > 0.15 ? ay : 0; } else { if (Math.abs(ax) > 0.7) turn = Math.sign(ax); } }
+    const cam = r.xr.getCamera(); const head = cam.getWorldPosition(tmp); let changed = false;
+    if (mx || mz) { const f = cam.getWorldDirection(tmp2).setY(0); if (f.lengthSq() < 1e-6) f.set(0, 0, -1); f.normalize(); const rt = new THREE.Vector3(-f.z, 0, f.x); const sp = 1.3 * dt; const dx = (rt.x * mx - f.x * mz) * sp, dz = (rt.z * mx - f.z * mz) * sp;
+      const nx = Math.max(-3.5, Math.min(3.5, head.x + dx)), nz = Math.max(-3.3, Math.min(3.4, head.z + dz)); L.x += nx - head.x; L.z += nz - head.z; changed = true; }
+    if (turn && !L.turned) { const d = -turn * Math.PI / 6; const c = Math.cos(d), s = Math.sin(d); const ox = head.x - L.x, oz = head.z - L.z; L.x = head.x - (ox * c + oz * s); L.z = head.z - (-ox * s + oz * c); L.yaw += d; changed = true; L.turned = true; }
+    if (!turn) L.turned = false;
+    if (changed) { const c = Math.cos(-L.yaw), s = Math.sin(-L.yaw); const px = -(L.x * c + L.z * s), pz = -(-L.x * s + L.z * c); const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), -L.yaw);
+      r.xr.setReferenceSpace(base.getOffsetReferenceSpace(new XRRigidTransform({ x: px, y: 0, z: pz, w: 1 }, { x: q.x, y: q.y, z: q.z, w: q.w }))); }
+  }
   pulse(h, v, ms) { try { const a = h.src && h.src.gamepad && h.src.gamepad.hapticActuators && h.src.gamepad.hapticActuators[0]; a && a.pulse(v, ms); } catch (e) {} }
   // ------------------------------------------------------------ every frame in the headset
-  update() {
+  update(dt = 1 / 72) {
     if (!this.app.renderer.xr.isPresenting) return;
     const lab = this.app.lab; const ui = this.app.ui;
+    this.walk(dt);
     for (const h of this.hands) {
       if (!h.src) continue;
+      // hand speed and spin (for throwing what it lets go of)
+      const hpos = this.handPos(h, tmp), hq = (h.src && h.src.hand ? h.c : h.grip).getWorldQuaternion(tq);
+      if (!h.vel) { h.vel = new THREE.Vector3(); h.angVel = new THREE.Vector3(); h.lp = hpos.clone(); h.lq = hq.clone(); }
+      const k = Math.min(1, dt * 18); h.vel.lerp(tmp2.copy(hpos).sub(h.lp).divideScalar(Math.max(dt, 1e-3)), k);
+      const dq = h.lq.clone().invert().premultiply(hq); const ang = 2 * Math.acos(Math.min(1, Math.abs(dq.w))); const ax = new THREE.Vector3(dq.x, dq.y, dq.z); if (ax.lengthSq() > 1e-10) ax.normalize().multiplyScalar((dq.w < 0 ? -1 : 1) * ang / Math.max(dt, 1e-3)); else ax.set(0, 0, 0);
+      h.angVel.lerp(ax, k); h.lp.copy(hpos); h.lq.copy(hq);
       // hand tracking: show finger tips
       if (h.src.hand) { const tipJ = ['index-finger-tip', 'thumb-tip']; tipJ.forEach((n, k) => { const j = h.hand.joints && h.hand.joints[n]; if (j && j.visible !== false) { h.tips[k].visible = true; j.getWorldPosition(h.tips[k].position); } }); }
       const hit = h.held ? null : this.cast(h);

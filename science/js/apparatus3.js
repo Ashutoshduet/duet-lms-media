@@ -5,6 +5,7 @@
 import * as THREE from 'three';
 import { Item, Vessel, flame, realTex, heap, nail } from './apparatus.js';
 import { glassMat, canvasTex, woodTex } from './mats.js';
+import { dress } from './models.js';
 
 const V2 = (r, y) => new THREE.Vector2(r, y);
 const SEG = 40;
@@ -317,7 +318,7 @@ export function waxSpoon(metal, o = {}) {
 export function hammer(o = {}) {
   const it = new Item('hammer', { ...o, name: { en: 'Hammer', hi: 'हथौड़ा', hg: 'Hathauda' } });
   const hd = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.022, 0.022), new THREE.MeshStandardMaterial({ color: 0x5a5f66, metalness: 0.85, roughness: 0.4 })); hd.position.y = 0.2; it.g.add(hd);
-  const hn = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.009, 0.2, 12), new THREE.MeshStandardMaterial({ map: woodTex('#9a6a3a'), roughness: 0.6 })); hn.position.y = 0.1; it.g.add(hn);
+  const hn = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.009, 0.2, 12), new THREE.MeshStandardMaterial({ map: woodTex('#9a6a3a'), roughness: 0.6 })); hn.position.y = 0.1; it.g.add(hn); dress(it, 'cross_pein_hammer', { h: 0.23, hide: [hd, hn] });
   it.faceLocal = new THREE.Vector3(-0.03, 0.2, 0); it.height = 0.012; it.radius = 0.1; it.grabY = 0.05; return it;
 }
 export function ironBlock(o = {}) {

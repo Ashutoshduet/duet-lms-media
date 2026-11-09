@@ -12,7 +12,8 @@ import { I18N, DICT } from './exp_i18n.js';
 import { Audio } from './audio.js';
 import { UI } from './ui.js';
 import { XRInput } from './xr.js';
-import { loadModels, loadLabHDR, furnish } from './models.js';
+import { loadModels, loadLabHDR, furnish, loadPhysModels } from './models.js';
+import { initPhysics } from './physics.js';
 import { ParticleView, HAS_PARTICLES } from './particles.js';
 import { PHOTOS, photoImage } from './photos.js';
 import { T, tx, LANGS } from './strings.js';
@@ -67,6 +68,8 @@ export class App {
     const bar = document.querySelector('#loader .bar i');
     await Promise.all([loadModels((k) => { if (bar) { bar.style.animation = 'none'; bar.style.width = Math.round(k * 100) + '%'; bar.style.transform = 'none'; } }), loadLabHDR(this.renderer, this.scene)]);
     furnish(this.roomInfo.room, this.roomInfo);
+    const pm = loadPhysModels(); if (Q.has('test')) await pm; // real physics apparatus models load in the background
+    const php = initPhysics(this).then((p) => { this.phys = p; if (p) { this.lab.surfaceY = (x, z) => p.surfaceY(x, z); this.lab.phys = p; const c0 = this.lab.clear.bind(this.lab); this.lab.clear = () => { c0(); p.clear(); }; } }); if (Q.has('test')) await php; // falling, throwing and breaking
     const first = Q.get('exp');
     if (Q.get('cls')) this.ui.setClass(+Q.get('cls') || 0);
     if (first && BY_ID[first]) this.openExp(first, { auto: Q.has('auto') });
@@ -191,11 +194,20 @@ export class App {
     const pick = (e) => {
       const rc = el.getBoundingClientRect(); ndc.set(((e.clientX - rc.left) / rc.width) * 2 - 1, -((e.clientY - rc.top) / rc.height) * 2 + 1);
       ray.setFromCamera(ndc, this.camera); let best = null;
-      for (const it of this.lab.items) { const h = ray.intersectObjects(it.hitMeshes(), false)[0]; if (h && (!best || h.distance < best.d)) best = { it: this.xr.owner(h.object) || it, d: h.distance }; }
+      for (const it of this.lab.items) { if (it.broken || !it.g.visible) continue; const h = ray.intersectObjects(it.hitMeshes(), false)[0]; if (h && (!best || h.distance < best.d)) best = { it: this.xr.owner(h.object) || it, d: h.distance }; }
       return best && best.it;
     };
-    el.addEventListener('pointerdown', (e) => { this.audio.unlock(); down = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+    let drag = null; const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); const hp = new THREE.Vector3();
+    const canGrab = (it) => it && this.phys && !it.noGrab && !it.broken && !['rack', 'tripod', 'circuit'].includes(it.kind) && !this.renderer.xr.isPresenting;
+    const startDrag = (it) => { if (!down || it.held) return; drag = { it, y: it.g.position.y + 0.06, hist: [] }; this.controls.enabled = false; it.held = 'pointer'; if (it.follow) it.follow = null; it.g.position.y = drag.y; this.lab.emit('grab', { obj: it.id }); this.audio.clink(); this.hint('drag'); };
+    const moveDrag = (e) => { const rc = el.getBoundingClientRect(); ndc.set(((e.clientX - rc.left) / rc.width) * 2 - 1, -((e.clientY - rc.top) / rc.height) * 2 + 1); ray.setFromCamera(ndc, this.camera); plane.constant = -drag.y; if (!ray.ray.intersectPlane(plane, hp)) return;
+      const g = drag.it.g.position; const lim = 3.4; g.set(Math.max(-lim, Math.min(lim, hp.x)), drag.y, Math.max(-lim, Math.min(lim, hp.z))); const now = performance.now(); drag.hist.push({ p: g.clone(), t: now }); while (drag.hist.length > 2 && now - drag.hist[0].t > 90) drag.hist.shift(); };
+    const endDrag = () => { const it = drag.it; it.held = null; this.controls.enabled = true; const H = drag.hist; let v = null; if (H.length > 1) { const a = H[0], b = H[H.length - 1]; const dt = Math.max(0.016, (b.t - a.t) / 1000); v = b.p.clone().sub(a.p).divideScalar(dt); if (v.length() < 0.25) v.set(0, 0, 0); v.y = Math.min(2, v.length() * 0.25); }
+      drag = null; if (!this.phys.drop(it, v, null)) { it.g.position.y -= 0.06; } };
+    el.addEventListener('wheel', (e) => { if (!drag) return; e.preventDefault(); const it = drag.it; if (e.shiftKey) { drag.y = Math.max(0.05, Math.min(2.2, drag.y - e.deltaY * 0.0006)); it.g.position.y = drag.y; return; } const axis = new THREE.Vector3(1, 0, 0).applyQuaternion(this.camera.quaternion).setY(0).normalize(); it.g.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(axis, e.deltaY * 0.0025)); }, { passive: false });
+    el.addEventListener('pointerdown', (e) => { this.audio.unlock(); down = { x: e.clientX, y: e.clientY, t: performance.now() }; const it = pick(e); if (canGrab(it)) { const d0 = down; d0.timer = setTimeout(() => { if (down === d0) startDrag(it); }, e.pointerType === 'mouse' ? 160 : 380); } });
     el.addEventListener('pointerup', (e) => {
+      if (down && down.timer) clearTimeout(down.timer); if (drag) { endDrag(); down = null; return; }
       if (!down) return; const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y); const quick = performance.now() - down.t < 450; down = null;
       if (moved > 7 || !quick) return;
       const it = pick(e); const r = this.runner;
@@ -205,11 +217,19 @@ export class App {
     });
     let raf = 0, last = null;
     el.addEventListener('pointermove', (e) => {
+      if (drag) { moveDrag(e); return; } if (down && down.timer && Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) { clearTimeout(down.timer); down.timer = null; }
       if (e.pointerType !== 'mouse') return; last = e; if (raf) return;
       raf = requestAnimationFrame(() => { raf = 0; if (!last || down) return; const it = pick(last); this.hover = it; el.style.cursor = it && this.runner.state === 'todo' && this.runner.target() === it ? 'pointer' : it ? 'help' : ''; if (it) this.showTip(it, last.clientX, last.clientY); else tip.classList.remove('show'); });
     });
     el.addEventListener('pointerleave', () => tip.classList.remove('show'));
   }
+  walkKeys(dt) {
+    if (!this._keys) { this._keys = new Set(); addEventListener('keydown', (e) => { if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return; this._keys.add(e.key.toLowerCase()); }); addEventListener('keyup', (e) => this._keys.delete(e.key.toLowerCase())); addEventListener('blur', () => this._keys.clear()); }
+    const k = this._keys; if (!k.size || this.renderer.xr.isPresenting) return; const f = (k.has('w') || k.has('arrowup') ? 1 : 0) - (k.has('s') || k.has('arrowdown') ? 1 : 0), sd = (k.has('d') || k.has('arrowright') ? 1 : 0) - (k.has('a') || k.has('arrowleft') ? 1 : 0); if (!f && !sd) return;
+    const fw = this.controls.target.clone().sub(this.camera.position).setY(0); if (fw.lengthSq() < 1e-6) return; fw.normalize(); const rt = new THREE.Vector3(-fw.z, 0, fw.x); const mv = fw.multiplyScalar(f).add(rt.multiplyScalar(sd)).multiplyScalar(1.2 * dt);
+    const c = this.camera.position; const nx = Math.max(-3.5, Math.min(3.5, c.x + mv.x)), nz = Math.max(-3.4, Math.min(3.4, c.z + mv.z)); mv.set(nx - c.x, 0, nz - c.z); c.add(mv); this.controls.target.add(mv); this.userCam = true; this.camGoal = null;
+  }
+  hint(kind) { if (this._hinted) return; this._hinted = true; const t = { en: 'Mouse wheel: tilt (pour) · Shift + wheel: lift · let go to put it down or throw it', hi: 'माउस व्हील: झुकाइए (उँडेलिए) · Shift + व्हील: ऊपर-नीचे · छोड़ने पर रख दीजिए या फेंकिए', hg: 'Mouse wheel: tilt (pour) · Shift + wheel: upar-neeche · chhodne par rakh do ya phenko' }; if (this.ui && this.ui.toast) this.ui.toast(t[this.lang] || t.en); void kind; }
   describe(it) {
     const L = this.lang; const lines = [];
     if (it.mix) {
@@ -286,9 +306,9 @@ export class App {
     // the simulation runs faster with the speed setting (and very fast while replaying steps after "Back")
     const K = this.runner.K; let rem = dt * (K.speed || 1), n = 0;
     this.audio.sfx = !this.muted;
-    while (rem > 1e-6 && n++ < 40) { const sd = Math.min(rem, 1 / 30); K.update(sd); this.simT += sd; this.lab.update(sd, this.simT); this.follow(); rem -= sd; }
+    while (rem > 1e-6 && n++ < 40) { const sd = Math.min(rem, 1 / 30); K.update(sd); this.simT += sd; this.lab.update(sd, this.simT); if (this.phys) this.phys.step(sd); this.follow(); rem -= sd; }
     this.runner.update(dt, this.t); this.particles.update(dt); if (this.runner.auto) this._wasAuto = true; else if (this.runner.state !== 'finished') this._wasAuto = false;
-    this.xr.update(dt);
+    this.xr.update(dt); this.walkKeys(dt);
     this.audio.frame(this.audio.pourT > 0, this.fx.bubbles.length); this.audio.pourT = Math.max(0, this.audio.pourT - dt);
     if (this.lapseShown !== this._lapse) { this._lapse = this.lapseShown; this.ui.renderStory(); }
     if (xr && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR(); this.ui.dirty = false; this._vrDraw = this.t; }

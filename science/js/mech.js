@@ -5,6 +5,7 @@
 import * as THREE from 'three';
 import { Item, Vessel } from './apparatus.js';
 import { canvasTex, woodTex, glassMat } from './mats.js';
+import { dress } from './models.js';
 
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 const steel = (c = 0x9aa0a6, r = 0.35) => new THREE.MeshStandardMaterial({ color: c, metalness: 0.85, roughness: r });
@@ -219,7 +220,7 @@ export function stapler(o = {}) {
   const it = new Item('stapler', { ...o, name: o.name || { en: 'Stapler (150 g)', hi: 'स्टेपलर (150 ग्राम)', hg: 'Stapler (150 g)' } });
   const dark = new THREE.MeshStandardMaterial({ color: 0x23272d, roughness: 0.45 }), red = new THREE.MeshStandardMaterial({ color: 0xb3262b, roughness: 0.4 });
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.008, 0.11), dark); base.position.y = 0.004; it.g.add(base);
-  const top = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.016, 0.1), red); top.position.set(0, 0.018, -0.004); top.rotation.x = 0.06; it.g.add(top);
+  const top = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.016, 0.1), red); top.position.set(0, 0.018, -0.004); top.rotation.x = 0.06; it.g.add(top); dress(it, 'vintage_stapler', { rot: [0, Math.PI / 2, 0], l: 0.12, hide: [base, top] });
   it.grams = 150; it.height = 0.027; it.radius = 0.055; it.grabY = 0.015; return it;
 }
 export function eraser(o = {}) {

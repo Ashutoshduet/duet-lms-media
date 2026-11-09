@@ -42,3 +42,24 @@ export function furnish(room, info) {
   add('plastic_bottle_gallon', 1.12, BENCH_Y, -0.62, -0.5);   // distilled water can at the end of our bench
   for (const [x, z, r] of [[-0.95, -0.12, 0.3], [0.95, -0.12, -0.2], [-2.0, 1.75, 0.8], [2.3, 1.75, 1.6]]) add('metal_stool_02', x, 0, z, r);
 }
+
+// ------------------------------------------------------------------ real models for physics apparatus (Poly Haven, CC0), loaded in the background
+export const PHYS_FILES = ['lemon', 'alarm_clock_01', 'magnifying_glass_01', 'stone_01', 'small_plastic_torch', 'pastic_torch_6v', 'vintage_stapler', 'cross_pein_hammer', 'rubber_duck_toy', 'lightbulb_01'];
+let physP = null;
+// glass that uses transmission renders black on some phones/headsets: make it a light transparent glass instead
+function plainGlass(root) { root.traverse((o) => { if (!o.isMesh) return; o.castShadow = true; o.receiveShadow = true; for (const m of [].concat(o.material)) if (m && (m.transmission > 0 || /_(glass|lense?)$/i.test(m.name))) { m.map = null; m.transmission = 0; m.transparent = true; m.opacity = 0.22; m.roughness = 0.05; m.metalness = 0; m.depthWrite = false; m.color && m.color.setHex(0xe8f2f6); } }); }
+export function loadPhysModels() {
+  if (physP) return physP; const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
+  physP = Promise.all(PHYS_FILES.map((n) => loader.loadAsync(`models/${n}.glb`).then((g) => { plainGlass(g.scene); MODELS[n] = g.scene; }).catch((e) => console.warn('model', n, e))));
+  return physP;
+}
+// put a real model inside an item in place of its drawn parts. o: { h | w | l (fit height / width (x) / length (z), metres), rot: [x, y, z] (+ order),
+// pin: a point of the model's box as fractions [fx, fy, fz] (default bottom centre [0.5, 0, 0.5]) that goes to at: [x, y, z], hide: [meshes], done(group, model) }
+export function dress(it, name, o = {}) {
+  const apply = () => { const src = MODELS[name]; if (!src || it.disposed) return; const m = src.clone(true); const w = new THREE.Group(); w.add(m); if (o.rot) { m.rotation.order = o.order || 'XYZ'; m.rotation.set(...o.rot); }
+    m.updateMatrixWorld(true); let b = new THREE.Box3().setFromObject(m); const s = b.getSize(new THREE.Vector3());
+    const k = o.h ? o.h / s.y : o.w ? o.w / s.x : o.l ? o.l / s.z : 1; m.scale.multiplyScalar(k); m.updateMatrixWorld(true); b = new THREE.Box3().setFromObject(m); const pin = o.pin || [0.5, 0, 0.5]; const c = new THREE.Vector3(...pin.map((f, i) => b.min.getComponent(i) + (b.max.getComponent(i) - b.min.getComponent(i)) * f));
+    const at = o.at || [0, 0, 0]; m.position.add(new THREE.Vector3(at[0] - c.x, at[1] - c.y, at[2] - c.z)); m.traverse((x) => { if (x.isMesh) { x.userData.real = true; if (o.shadow === false) x.castShadow = false; } });
+    (o.parent || it.g).add(w); for (const h of o.hide || []) h.visible = false; it.real = w; o.done && o.done(w, m); };
+  if (MODELS[name]) apply(); else loadPhysModels().then(apply);
+}

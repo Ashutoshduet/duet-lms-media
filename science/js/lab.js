@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { Mix, SOLIDS, SUBS, heatTick, stripColor } from './chem.js';
 import { BENCH_Y } from './room.js';
 
+const SOFT_GLASS = ['cylinder', 'measuring', 'bottle', 'dropbottle', 'jar']; // ordinary (soda-lime) glass cracks in a flame; test tubes, beakers and flasks are heat-proof glass
 const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3(), tmpQ = new THREE.Quaternion();
 
 export class Lab {
@@ -65,7 +66,7 @@ export class Lab {
     this.heat(dt);
     this.tests(dt);
     this.chem.tick(this.vessels, dt);
-    for (const v of this.vessels) v.update(dt);
+    for (const v of this.vessels) { v.update(dt); if (v.glassT != null) { const t0 = v.ml > 0.5 ? v.mix.temp : 27; v.glassT += (t0 - v.glassT) * Math.min(1, dt * (v.ml > 0.5 ? 2 : 0.05)); } }
     this.fx.endStreams();
     this.fx.update(dt, t);
   }
@@ -86,12 +87,13 @@ export class Lab {
         if (m.y < lip.y && d < Math.max(0.006, w.rimR * 1.15) && wup.y > 0.6 && lip.y - m.y < best) { best = lip.y - m.y; target = w; }
       }
       const portion = v.mix.take(rate); v.ml = v.mix.ml(); v.ledger = (v.ledger || 0) - rate; if (target) target.ledger = (target.ledger || 0) + rate;
-      const bottom = target ? target.mouthWorld(tmp2).clone() : land.clone().setY(BENCH_Y + 0.001);
+      const bottom = target ? target.mouthWorld(tmp2).clone() : land.clone().setY((this.surfaceY ? this.surfaceY(land.x, land.z) : BENCH_Y) + 0.001);
+      if (target && this.phys && (target.glassT ?? 27) > 200 && !(target.solids && target.solids.length) && portion && portion.temp != null && portion.temp < 45 && !target.pyrex && Math.random() < 0.5) { this.emit('cracked', { obj: target.id, why: 'cold' }); this.phys.shatter(target, 0.2); }
       if (target) { const surf = target.levelWorld(); bottom.y = Math.max(surf, target.g.localToWorld(new THREE.Vector3(0, target.inner[0].y, 0)).y); target.mix.put(portion, rate); target.ml = target.mix.ml(); }
       const look = target ? null : 'spill';
       this.fx.stream(v.id, lip.clone().add(out), new THREE.Vector3(land.x, bottom.y, land.z), v.color, 0.0012 + Math.min(0.0016, rate / dt * 0.0002));
       v._pouring = (v._pouring || 0) + rate;
-      this.emit('pouring', { from: v.id, to: target ? target.id : null, ml: rate, spill: !!look });
+      this.emit('pouring', { from: v.id, to: target ? target.id : null, ml: rate, spill: !!look, at: target ? null : new THREE.Vector3(land.x, bottom.y, land.z), color: v.color });
       if (this.audio && this.audio.pour) this.audio.pour(dt);
     }
   }
@@ -100,13 +102,14 @@ export class Lab {
     for (const f of flames) {
       const hp = f.g.localToWorld(tmp.copy(f.heatPoint));
       for (const v of this.vessels) {
-        if (v.bath) continue; // a vessel standing in a bath is heated only by the bath
+        if (v.bath || v.broken) continue; // a vessel standing in a bath is heated only by the bath
         // the lowest point of the vessel must sit in the flame
         const b = v.g.localToWorld(tmp2.set(0, v.inner[0].y, 0));
         const dxz = Math.hypot(b.x - hp.x, b.z - hp.z), dy = b.y - hp.y;
         const onTripod = v.onTripod && v.onTripod.over === f;
         if ((dxz < 0.03 && dy > -0.035 && dy < 0.05) || onTripod) {
-          heatTick(v, dt * (onTripod ? 0.7 : 1) * this.chem.lapse, this.chem); v.heatNow = 0.2; v._heated = (v._heated || 0) + dt; v.onHeat && v.onHeat(dt * this.chem.lapse, this.chem);
+          heatTick(v, dt * (onTripod ? 0.7 : 1) * this.chem.lapse, this.chem); v.heatNow = 0.2; v.glassT = (v.glassT ?? 27) + dt * this.chem.lapse * (v.ml < 0.5 ? 55 : 4) * (onTripod ? 0.3 : 1); // empty glass in a flame gets very hot
+          if (this.phys && v.ml < 0.5 && !(v.solids && v.solids.length) && v.glassT > 380 && SOFT_GLASS.includes(v.kind) && Math.random() < dt * 0.4) { this.emit('cracked', { obj: v.id, why: 'empty' }); this.phys.shatter(v, 0.15); continue; } v._heated = (v._heated || 0) + dt; v.onHeat && v.onHeat(dt * this.chem.lapse, this.chem);
           this.emit('heating', { v: v.id, by: f.id, sec: v._heated });
         }
       }

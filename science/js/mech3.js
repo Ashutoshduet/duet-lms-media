@@ -5,6 +5,7 @@
 import * as THREE from 'three';
 import { Item, Vessel } from './apparatus.js';
 import { canvasTex, woodTex, glassMat } from './mats.js';
+import { dress } from './models.js';
 import { fieldAt } from './magnet.js';
 
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -47,7 +48,8 @@ export function lemon(o = {}) {
   const it = new Item('lemon', { ...o, name: o.name || { en: 'Lemon with a copper strip and an iron nail', hi: 'ताँबे की पट्टी और लोहे की कील लगा नींबू', hg: 'Copper strip aur iron nail laga nimbu' } });
   const t = canvasTex(256, 128, (x, w, h) => { x.fillStyle = '#f2cf2c'; x.fillRect(0, 0, w, h); for (let i = 0; i < 1600; i++) { x.fillStyle = `rgba(${200 + Math.random() * 40},${160 + Math.random() * 40},20,0.35)`; x.beginPath(); x.arc(Math.random() * w, Math.random() * h, 0.8 + Math.random() * 1.4, 0, 6.29); x.fill(); } });
   const body = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 22), new THREE.MeshStandardMaterial({ map: t, roughness: 0.55 })); body.scale.set(0.034, 0.026, 0.026); body.position.y = 0.025; it.g.add(body);
-  for (const s of [-1, 1]) { const tipM = new THREE.Mesh(new THREE.SphereGeometry(0.004, 10, 8), new THREE.MeshStandardMaterial({ color: 0xd9b52a, roughness: 0.6 })); tipM.position.set(s * 0.034, 0.025, 0); tipM.scale.set(1.4, 0.8, 0.8); it.g.add(tipM); }
+  const tips = []; for (const s of [-1, 1]) { const tipM = new THREE.Mesh(new THREE.SphereGeometry(0.004, 10, 8), new THREE.MeshStandardMaterial({ color: 0xd9b52a, roughness: 0.6 })); tipM.position.set(s * 0.034, 0.025, 0); tipM.scale.set(1.4, 0.8, 0.8); it.g.add(tipM); tips.push(tipM); }
+  dress(it, 'lemon', { rot: [0, 0, Math.PI / 2], w: 0.07, hide: [body, ...tips] }); // a real scanned lemon
   const cu = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.04, 0.0008), steel(0xc8743a, 0.3)); cu.position.set(-0.012, 0.045, 0); it.g.add(cu);
   const fe = new THREE.Mesh(new THREE.CylinderGeometry(0.0016, 0.0016, 0.04, 10), steel(0x7d8288, 0.45)); fe.position.set(0.012, 0.045, 0); it.g.add(fe); const fh = new THREE.Mesh(new THREE.CylinderGeometry(0.0034, 0.0034, 0.0012, 12), steel(0x7d8288, 0.45)); fh.position.set(0.012, 0.065, 0); it.g.add(fh);
   term(it, '+', V3(-0.012, 0.064, 0), V3(-0.3, 1, 0.3)); term(it, '-', V3(0.012, 0.066, 0), V3(0.3, 1, 0.3));
