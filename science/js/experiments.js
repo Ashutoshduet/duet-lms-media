@@ -272,15 +272,15 @@ export const EXPERIMENTS = [
     kind: X('Neutralisation reaction'),
     setup(K) {
       const rk = K.rack(-0.05, -0.62); const t = K.tube(rk, 2, 'naoh', 2);
-      const ph = K.bottle('phenol', -0.45, -0.78, { dropper: true }); const acid = K.bottle('hcl', -0.3, -0.8, { dropper: true, ml: 25 });
-      return { rk, t, ph, acid };
+      const ph = K.bottle('phenol', -0.45, -0.78, { dropper: true }); const acid = K.bottle('hcl', -0.3, -0.8, { dropper: true, ml: 25 }); const base = K.bottle('naoh', -0.18, -0.8, { dropper: true });
+      return { rk, t, ph, acid, base };
     },
     steps: [
       { do: X('Take 2 mL of dilute sodium hydroxide in a test tube and add two drops of phenolphthalein.'), target: 'ph', act: (K, o) => K.drops(o.ph, o.t, 2), ev: { type: 'drop', to: 't' },
         see: X('The solution turns pink.'), why: X('Phenolphthalein is colourless in acids and pink in bases.') },
-      { do: X('Add dilute hydrochloric acid drop by drop and shake after each drop.'), target: 'acid', act: async (K, o) => { for (let i = 0; i < 4 && o.t.mix.pH() > 8.2; i++) { await K.drops(o.acid, o.t, 10); } }, ev: { type: 'drop', to: 't' },
+      { do: X('Add dilute hydrochloric acid drop by drop and shake after each drop.'), target: 'acid', act: async (K, o) => { for (let i = 0; i < 4 && o.t.mix.pH() > 8.2; i++) { await K.drops(o.acid, o.t, 10); } }, ev: { type: 'drop', from: 'acid', to: 't' }, until: (K, o) => o.t.mix.pH() < 8.2, // done when the pink has just gone
         see: X('After enough acid is added the pink colour disappears.'), why: X('The acid neutralises the base. When no base is left, phenolphthalein becomes colourless again.') },
-      { do: X('Now add a few drops of sodium hydroxide again (watch the colour).'), target: 't', act: async (K, o) => { o.t.mix.add('naoh', 0.6); }, see: X('The pink colour comes back.'), why: X('The solution is basic again.') },
+      { do: X('Now add a few drops of sodium hydroxide again (watch the colour).'), target: 'base', act: (K, o) => K.drops(o.base, o.t, 3), ev: { type: 'drops', from: 'base', to: 't' }, see: X('The pink colour comes back.'), why: X('The solution is basic again.') },
     ],
     eq: { word: 'Sodium hydroxide + Hydrochloric acid → Sodium chloride + Water', sym: 'NaOH(aq) + HCl(aq) → NaCl(aq) + H₂O(l)' },
     result: { obs: X('Pink colour disappears when acid is added and comes back when base is added.'), concl: X('An acid and a base neutralise each other to form a salt and water.'),

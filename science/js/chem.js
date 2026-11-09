@@ -171,10 +171,12 @@ export function stripColor(kind, pH) {
 }
 
 // ------------------------------------------------------------------ mixture in a vessel
+// CTX.rule > 0 while the reaction engine itself is changing a mix: what it adds is a product, not something a person put in
+export const CTX = { rule: 0 };
 export class Mix {
-  constructor() { this.liq = {}; this.ppt = {}; this.temp = 27; this.gas = {}; this.sed = 0; this.cloud = 0; this.events = []; }
+  constructor() { this.liq = {}; this.ppt = {}; this.temp = 27; this.gas = {}; this.sed = 0; this.cloud = 0; this.events = []; this.inp = {}; }
   ml() { let s = 0; for (const k in this.liq) s += this.liq[k]; return s; }
-  add(sub, ml) { this.liq[sub] = (this.liq[sub] || 0) + ml; }
+  add(sub, ml) { this.liq[sub] = (this.liq[sub] || 0) + ml; if (!CTX.rule && ml > 0) this.inp[sub] = (this.inp[sub] || 0) + ml; } // inp: everything ever put in (poured, dropped, filled), for comparing what a student did with the method
   take(ml) { // remove a well-mixed portion
     const tot = this.ml(); if (tot <= 0) return null; const f = Math.min(1, ml / tot); const out = { liq: {}, ppt: {}, cloud: this.cloud, temp: this.temp };
     for (const k in this.liq) { const d = this.liq[k] * f; out.liq[k] = d; this.liq[k] -= d; if (this.liq[k] < 1e-6) delete this.liq[k]; }
@@ -582,7 +584,8 @@ export const RULES = [
 ];
 
 // heating rules: called when a vessel is above a flame
-export function heatTick(v, dt, E) {
+export function heatTick(v, dt, E) { CTX.rule++; try { heatTick0(v, dt, E); } finally { CTX.rule--; } }
+function heatTick0(v, dt, E) {
   const m = v.mix;
   // liquids warm up and boil
   if (m.ml() > 0.2) {
@@ -655,7 +658,7 @@ export class Chem {
       // solids are "under" the liquid if the liquid covers them
       const h = v.heightFor(v.ml);
       for (const s of v.solids) s.under = v.ml > 0.3 && (s.localY ?? 0.005) < h;
-      for (const r of RULES) if (r.test(v)) r.run(v, dt, this);
+      CTX.rule++; try { for (const r of RULES) if (r.test(v)) r.run(v, dt, this); } finally { CTX.rule--; }
       // cool down towards room temperature; settle precipitate
       if (!v.bath) v.mix.temp += (27 - v.mix.temp) * Math.min(1, dt * 0.02 * (v.coolLapse ? this.lapse : 1)); // a tube standing in a bath follows the bath instead
       if (v.stirT > 0) v.stirT -= dt;

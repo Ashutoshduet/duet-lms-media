@@ -45,7 +45,8 @@ export class UI {
   renderSubjects() { $('#subjects').innerHTML = SUBJECTS.map((s) => { const ok = hasSubject(s); return `<button data-sub="${s}" class="${s === this.subj ? 'on' : ok ? '' : 'off'}" ${ok ? '' : 'aria-disabled="true"'}>${esc(this.t(s))}</button>`; }).join(''); }
   // the subject (chemistry, physics …) whose experiments are listed
   setSubject(s) { if (!hasSubject(s)) return; this.subj = s; store.set('subj', s); this.page = 0; this.renderSubjects(); this.renderPicker(); this.renderList(); this.renderStory(); this.dirty = true; const e = this.app.runner.exp; if (e && subjOf(e) !== s) { const f = this.classLeft(this.cls)[0] || classOrder(this.cls, s)[0]; if (f) this.app.openExp(f.id); } }
-  toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => t.classList.remove('show'), ms); }
+  toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => { t.classList.remove('show'); this.dirty = true; }, ms);
+    this._toast = { msg, until: performance.now() + ms }; this.dirty = true; } // also shown on the panel in VR
   renderAll() { this.renderTop(); this.renderPicker(); this.renderList(); this.renderStory(); this.renderNotebook(); this.dirty = true; }
   // ------------------------------------------------------------ class-wise flow: pick your class, do its experiments in book order
   showPicker(on) { document.body.classList.toggle('pick', on); if (on) this.renderPicker(); }
@@ -163,6 +164,11 @@ export class UI {
       else if (r.state === 'todo') para('➜', this.t('vrHint'));
     }
     if (a.lapseShown) S.text(`⏩ ${this.t('timelapse')} ×${a.lapseShown}`, 40, 860, 30, '#f0a65a', 700);
+    if (this._toast && performance.now() < this._toast.until) { // a message (an accident explained, a different result) inside the headset too
+      X.font = `600 28px ${FONT}`; const tl = wrap(X, this._toast.msg, 960).slice(0, 4); const h = 30 + tl.length * 38, y0 = 885 - h;
+      X.fillStyle = 'rgba(24,18,10,0.94)'; X.fillRect(30, y0, 1040, h); X.strokeStyle = '#f0a65a'; X.lineWidth = 4; X.strokeRect(30, y0, 1040, h);
+      tl.forEach((l, i) => S.text(l, 56, y0 + 14 + i * 38, 28, '#f6e3c8', 600));
+    }
     const by = 920, n = e.steps.length; for (let i = 0; i < n; i++) { X.fillStyle = i < r.i || r.done.has(i) ? '#7fd1ff' : 'rgba(255,255,255,0.15)'; X.fillRect(40 + i * (1020 / n), 900, 1020 / n - 8, 8); }
     S.btn('back', 40, by, 250, 90, '‹ ' + this.t('back'), { size: 30, align: 'center' });
     const inside = r.state === 'finished' && a.hasParticles(e.id); const pv = a.particles && a.particles.g.visible;

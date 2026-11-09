@@ -1,7 +1,7 @@
 // The lab bench: keeps every item, and runs the physical side of experiments — pouring when a vessel tilts
 // past its rim, drops, solids sitting in liquid, heating over a flame, litmus dipping and splint tests.
 import * as THREE from 'three';
-import { Mix, SOLIDS, SUBS, heatTick, stripColor } from './chem.js';
+import { Mix, SOLIDS, SUBS, heatTick, stripColor, CTX } from './chem.js';
 import { BENCH_Y } from './room.js';
 
 const SOFT_GLASS = ['cylinder', 'measuring', 'bottle', 'dropbottle', 'jar']; // ordinary (soda-lime) glass cracks in a flame; test tubes, beakers and flasks are heat-proof glass
@@ -33,7 +33,7 @@ export class Lab {
   putSolid(s, v, o = {}) {
     // move the solid's group into the vessel, resting at the bottom
     if (s.g.parent) s.g.parent.remove(s.g);
-    v.g.add(s.g); s.inVessel = v; v.solids.push(s);
+    v.g.add(s.g); s.inVessel = v; v.solids.push(s); if (s.chem0 == null) s.chem0 = s.chem; // chem0: what was put in (reactions may change s.chem later)
     const y0 = v.inner[0].y + 0.0015;
     if (s.kind === 'nail') { s.g.position.set(0.0022, y0 + 0.002, 0); s.g.rotation.set(0, 0, -0.06); s.localY = 0.01; }
     else if (s.kind === 'ribbon') { s.g.position.set(0, y0, 0); s.g.rotation.set(0, 0, 0.12); s.localY = 0.006; }
@@ -78,6 +78,8 @@ export class Lab {
       const head = lvl - lip.y; if (head <= 0) continue;
       let rate = Math.min(v.ml, (2 + 25 * head / Math.max(0.005, v.rimR)) * dt * (v.rimR / 0.01) * (v.pourK ?? 1));
       if (v.pourLimit != null) { rate = Math.min(rate, v.pourLimit); v.pourLimit -= rate; if (rate <= 1e-5) continue; }
+      const asDrop = v.kind === 'dropbottle' && v.pourLimit == null; // a dropper bottle tilted over a vessel by hand gives drops, one at a time, not a stream
+      if (asDrop) { v._dropT = (v._dropT || 0) + dt; if (v._dropT < 0.45) continue; v._dropT = 0; rate = Math.min(v.ml, 0.05); }
       // where does the stream land? look for an open vessel mouth below the lip
       const out = new THREE.Vector3(up.x, 0, up.z).normalize().multiplyScalar(0.004);
       const land = lip.clone().add(out); let target = null, best = 0.5;
@@ -88,6 +90,11 @@ export class Lab {
       }
       const portion = v.mix.take(rate); v.ml = v.mix.ml(); v.ledger = (v.ledger || 0) - rate; if (target) target.ledger = (target.ledger || 0) + rate;
       const bottom = target ? target.mouthWorld(tmp2).clone() : land.clone().setY((this.surfaceY ? this.surfaceY(land.x, land.z) : BENCH_Y) + 0.001);
+      if (asDrop) {
+        const to = target ? new THREE.Vector3(bottom.x, Math.max(target.levelWorld(), target.g.localToWorld(new THREE.Vector3(0, target.inner[0].y, 0)).y) + 0.001, bottom.z) : new THREE.Vector3(land.x, bottom.y, land.z);
+        this.fx.drop(lip.clone().add(out), to, v.color.clone(), () => { if (target && !target.broken) { target.mix.put(portion, rate); target.ml = target.mix.ml(); this.emit('drop', { from: v.id, to: target.id }); } });
+        this.emit('pouring', { from: v.id, to: target ? target.id : null, ml: rate, spill: false, drop: true }); continue;
+      }
       if (target && this.phys && (target.glassT ?? 27) > 200 && !(target.solids && target.solids.length) && portion && portion.temp != null && portion.temp < 45 && !target.pyrex && Math.random() < 0.5) { this.emit('cracked', { obj: target.id, why: 'cold' }); this.phys.shatter(target, 0.2); }
       if (target) { const surf = target.levelWorld(); bottom.y = Math.max(surf, target.g.localToWorld(new THREE.Vector3(0, target.inner[0].y, 0)).y); target.mix.put(portion, rate); target.ml = target.mix.ml(); }
       const look = target ? null : 'spill';
@@ -109,7 +116,7 @@ export class Lab {
         const onTripod = v.onTripod && v.onTripod.over === f;
         if ((dxz < 0.03 && dy > -0.035 && dy < 0.05) || onTripod) {
           heatTick(v, dt * (onTripod ? 0.7 : 1) * this.chem.lapse, this.chem); v.heatNow = 0.2; v.glassT = (v.glassT ?? 27) + dt * this.chem.lapse * (v.ml < 0.5 ? 55 : 4) * (onTripod ? 0.3 : 1); // empty glass in a flame gets very hot
-          if (this.phys && v.ml < 0.5 && !(v.solids && v.solids.length) && v.glassT > 380 && SOFT_GLASS.includes(v.kind) && Math.random() < dt * 0.4) { this.emit('cracked', { obj: v.id, why: 'empty' }); this.phys.shatter(v, 0.15); continue; } v._heated = (v._heated || 0) + dt; v.onHeat && v.onHeat(dt * this.chem.lapse, this.chem);
+          if (this.phys && v.ml < 0.5 && !(v.solids && v.solids.length) && v.glassT > 380 && SOFT_GLASS.includes(v.kind) && Math.random() < dt * 0.4) { this.emit('cracked', { obj: v.id, why: 'empty' }); this.phys.shatter(v, 0.15); continue; } v._heated = (v._heated || 0) + dt; if (v.onHeat) { CTX.rule++; try { v.onHeat(dt * this.chem.lapse, this.chem); } finally { CTX.rule--; } }
           this.emit('heating', { v: v.id, by: f.id, sec: v._heated });
         }
       }

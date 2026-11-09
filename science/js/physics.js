@@ -59,7 +59,7 @@ export class Physics {
     dt = Math.min(dt, 1 / 30); if (dt <= 0) return;
     for (const it of this.lab.items) if (!this.bodies.has(it) && it.g.parent === this.app.scene) this.track(it);
     for (const [it, r] of this.bodies) {
-      if (!this.lab.byId[it.id] || it.broken) { this.forget(it); continue; }
+      if (!this.lab.byId[it.id] || it.broken || (it.inVessel && !it.held)) { this.forget(it); continue; } // a solid lying in a vessel moves with it and must not push it from inside
       if (it.held || it.g.parent !== this.app.scene) { if (r.dyn) { r.body.setBodyType(R.RigidBodyType.KinematicPositionBased, true); r.dyn = false; } }
       if (!r.dyn) { it.g.getWorldPosition(tmpV); it.g.getWorldQuaternion(tmpQ); r.body.setNextKinematicTranslation(tmpV); r.body.setNextKinematicRotation(tmpQ); }
       else { const lv = r.body.linvel(); r.v0.set(lv.x, lv.y, lv.z); }

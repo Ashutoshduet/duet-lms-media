@@ -98,20 +98,23 @@ export class XRInput {
     h.held = it; it.held = h; if (it.stopper) it.stopper.visible = false;
     this.pulse(h, 0.6, 50); this.app.audio.clink(); this.app.lab.emit('grab', { obj: it.id });
   }
+  // a solid (granules, ribbon, nail, crystals) let go above the mouth of an open vessel falls into it (desktop and VR)
+  dropSolid(it) {
+    const lab = this.app.lab, K = this.app.runner.K; if (!(it.chem && SOLID.includes(it.kind)) || it.inVessel) return false;
+    for (const v of lab.vessels) {
+      if (v === it || v.closed || v.broken) continue; const m = v.mouthWorld(tmp);
+      if (Math.hypot(m.x - it.g.position.x, m.z - it.g.position.z) < Math.max(0.025, v.rimR * 1.4) && it.g.position.y > m.y - 0.02 && it.g.position.y < m.y + 0.25) {
+        this.app.scene.attach(it.g); const from = it.g.position.clone(); const bottom = v.g.localToWorld(new THREE.Vector3(0, v.inner[0].y + 0.004, 0));
+        K.tween(0.4, (k) => { it.g.position.lerpVectors(from, bottom, k * k); }).then(() => lab.putSolid(it, v));
+        return true;
+      }
+    }
+    return false;
+  }
   release(h) {
     const it = h.held; if (!it) return; h.held = null; it.held = null;
     this.app.scene.attach(it.g); const lab = this.app.lab, K = this.app.runner.K;
-    // a solid let go over an open vessel falls in
-    if (it.chem && SOLID.includes(it.kind)) {
-      for (const v of lab.vessels) {
-        if (v === it || v.closed) continue; const m = v.mouthWorld(tmp);
-        if (Math.hypot(m.x - it.g.position.x, m.z - it.g.position.z) < Math.max(0.025, v.rimR * 1.4) && it.g.position.y > m.y - 0.02 && it.g.position.y < m.y + 0.25) {
-          const from = it.g.position.clone(); const bottom = v.g.localToWorld(new THREE.Vector3(0, v.inner[0].y + 0.004, 0));
-          K.tween(0.4, (k) => { it.g.position.lerpVectors(from, bottom, k * k); }).then(() => lab.putSolid(it, v));
-          return;
-        }
-      }
-    }
+    if (this.dropSolid(it)) return; // a solid let go over an open vessel falls in
     if (it.stopper) it.stopper.visible = true;
     // paper, splints, tongs and thermometers go back to their place
     if (FLAT.includes(it.kind) || it.kind === 'ribbon') { if (it.kind === 'splint') it.setFlame && it.setFlame(false); this.settle(it, it.home.p.clone(), it.home.q.clone()); return; }

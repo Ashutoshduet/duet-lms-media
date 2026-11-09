@@ -88,6 +88,7 @@ export class Kit {
   }
   // a small paper sticker on the front of a vessel ("A", "1", "Lime water" …)
   sticker(v, text, o = {}) {
+    v.stickerText = text;
     const tex = A.labelSticker ? A.labelSticker(text) : null; if (!tex) return;
     const r = v.rInner ? v.rInner(Math.min(v.rimY * 0.55, 0.05)) + (v.wall ?? 0.0012) + 0.0004 : 0.02;
     const w = Math.min(0.03, r * 1.3), h = w * 0.62;

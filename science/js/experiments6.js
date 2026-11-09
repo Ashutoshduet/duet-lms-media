@@ -378,7 +378,7 @@ export const EXPERIMENTS6 = [
       { do: X('Stand the test tube of ethanol in the warm water bath.'), target: 't', act: async (K, o) => { await intoBathAt(K, o.t, o.bath); await K.wait(4, 8); }, ev: { type: 'bath' }, see: X('The ethanol warms up.') },
       { do: X('Add alkaline potassium permanganate solution one drop at a time, shaking after each drop.'), target: 'km', act: async (K, o) => { await K.dropsUntil(o.km, o.t, () => false, 3, 1.6); }, ev: { type: 'drops', to: 't' },
         see: X('The purple colour of each drop disappears on shaking, and the liquid becomes slightly brownish.'), why: X('Potassium permanganate gives oxygen to ethanol and is itself used up, so its colour goes.') },
-      { do: X('Keep adding drops until the purple colour no longer disappears.'), target: 't', act: async (K, o) => { o.n = await K.dropsUntil(o.km, o.t, (v) => (v.mix.liq.kmno4alk || 0) > 0.035, 24, 1.6); }, ev: { type: 'drops', to: 't' },
+      { do: X('Keep adding drops until the purple colour no longer disappears.'), target: 't', act: async (K, o) => { o.n = await K.dropsUntil(o.km, o.t, (v) => (v.mix.liq.kmno4alk || 0) > 0.035, 24, 1.6); }, ev: { type: 'drops', to: 't' }, until: (K, o) => (o.t.mix.liq.kmno4alk || 0) > 0.035, // by hand: done when the purple stays
         see: X('After a number of drops the pink-purple colour stays: no more ethanol is left to be oxidised.'), why: X('Alkaline KMnO₄ is an oxidising agent. It oxidises ethanol to ethanoic acid; once the ethanol is used up, the excess permanganate stays purple.') },
     ],
     eq: { word: 'Ethanol —alkaline KMnO₄, heat→ ethanoic acid', sym: 'CH₃CH₂OH + 2[O] → CH₃COOH + H₂O' },

@@ -1,13 +1,13 @@
 // Offline support. Code and text: network first (updates show at once), cache when offline.
 // Fonts, images and narration: cache first. Narration for the chosen language is saved in the background.
-const VERSION = 'sl360-v12';
+const VERSION = 'sl360-v13';
 const CORE = [
   './', './index.html', './manifest.webmanifest', './voice/manifest.json',
   './js/main.js', './js/ui.js', './js/xr.js', './js/runner.js', './js/actions.js', './js/lab.js', './js/chem.js', './js/fx.js', './js/apparatus.js',
   './js/mats.js', './js/room.js', './js/audio.js', './js/strings.js', './js/vrpanels.js', './js/experiments.js', './js/experiments2.js', './js/experiments3.js', './js/experiments4.js', './js/experiments5.js', './js/experiments6.js', './js/apparatus3.js', './js/apparatus4.js', './js/apparatus5.js', './js/apparatus6.js', './js/exp_i18n.js',
   './js/optics.js', './js/optics2.js', './js/electric.js', './js/refraction.js', './js/magnet.js', './js/actions_phys.js', './js/experiments_p1.js', './js/experiments_p2.js', './js/experiments_p3.js', './lib/addons/objects/Reflector.js',
   './js/mech.js', './js/mech2.js', './js/mech3.js', './js/mech4.js', './js/light2.js', './js/mech5.js', './js/mech6.js',
-  ...[4, 5, 6, 7, 8, 9, 10, 11].map((n) => `./js/experiments_p${n}.js`), './js/experiments_free.js', './js/mech7.js', './js/physics.js', './lib/rapier/rapier.mjs',
+  ...[4, 5, 6, 7, 8, 9, 10, 11].map((n) => `./js/experiments_p${n}.js`), './js/experiments_free.js', './js/mech7.js', './js/physics.js', './lib/rapier/rapier.mjs', './js/chemcheck.js', './js/chem_expect.json',
   ...['lemon', 'alarm_clock_01', 'magnifying_glass_01', 'stone_01', 'small_plastic_torch', 'pastic_torch_6v', 'vintage_stapler', 'cross_pein_hammer', 'rubber_duck_toy', 'lightbulb_01'].map((n) => `./models/${n}.glb`),
   './tex/wood_grain.jpg', './tex/cardboard.jpg', './tex/earth.jpg',
   './lib/three.module.js', './lib/addons/controls/OrbitControls.js', './lib/addons/environments/RoomEnvironment.js',

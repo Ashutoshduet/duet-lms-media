@@ -2,10 +2,12 @@
 // performs it on "Do it" / click / auto-play, or completes it when the student does it by hand in VR.
 import * as THREE from 'three';
 import { Kit } from './actions.js';
-import { EXPERIMENTS, BY_ID } from './experiments.js';
+import { EXPERIMENTS, BY_ID, subjOf } from './experiments.js';
+import { chemCheck, snapAll, loadExpect } from './chemcheck.js';
 import { I18N, DICT } from './exp_i18n.js';
 
 export const tx = (o, L) => (o ? (o[L] || o.en || '') : '');
+const HANDS = new Set(['pouring', 'drop', 'add', 'spoon', 'stir', 'shake', 'swirl']); // things a student does to what is in a vessel
 
 export class Runner {
   constructor(app) {
@@ -23,15 +25,29 @@ export class Runner {
   list() { return EXPERIMENTS; }
   // what the student actually got: a step can look at the real state of the bench (check) and, if it differs from the
   // expected result, its "You see" and "Why" are replaced by what really happened and the reason
-  judge() {
-    const s = this.step(); if (!s) return; if (s.noCheck) { this.res[this.i] = null; return; } let chk = s.check; if (!chk && s.ev && s.ev.type === 'focus') chk = focusCheck; if (!chk && s.ev && s.ev.type === 'key') chk = circuitCheck;
-    if (!chk) { this.res[this.i] = null; return; } try { const r = chk(this.K, this.o); this.res[this.i] = r && r.ok === false ? r : null; } catch (err) { console.warn('check', err); this.res[this.i] = null; }
-    if (this.res[this.i]) this.app.lab.emit('mismatch', { step: this.i });
+  isChem() { const e = this.exp; return !!e && subjOf(e) === 'chemistry' && !e.id.startsWith('open_'); }
+  judge(i = this.i, partial) {
+    const s = this.exp?.steps[i]; if (!s) return; if (s.noCheck) { this.res[i] = null; return; } let chk = s.check; if (!chk && s.ev && s.ev.type === 'focus') chk = focusCheck; if (!chk && s.ev && s.ev.type === 'key') chk = circuitCheck;
+    if (!chk && this.isChem()) chk = () => chemCheck(this, i, partial); // chemistry: compare the bench with the method
+    const prev = this.res[i];
+    if (!chk) { this.res[i] = null; return; } try { const r = chk(this.K, this.o); this.res[i] = r && r.ok === false ? r : null; } catch (err) { console.warn('check', err); this.res[i] = null; }
+    if (this.res[i] && (!prev || prev.see?.en !== this.res[i].see?.en)) this.app.lab.emit('mismatch', { step: i });
+  }
+  // a step finished by hand is judged once the pouring has stopped and things have settled
+  settle(now) {
+    const p = this.pend; if (!p) return; if (now != null && (now - p.t < 1.4 || now - (this.lastPour ?? -9) < 1.0)) return;
+    const before = this.res[p.i]?.see?.en || ''; this.pend = null; this.judge(p.i, true); this.changed();
+    if (now != null && this.i === p.i && (p.first || before !== (this.res[p.i]?.see?.en || ''))) this.app.onStep && this.app.onStep(this, false, true); // now read out what really happened
   }
   text(key, L) { // experiment text with translation
     const e = this.exp; if (!e) return '';
     const m = /^steps\.(\d+)\.(see|why)$/.exec(key); const rr = m && this.res && this.res[+m[1]];
     if (rr && rr[m[2]]) { const v = rr[m[2]]; const t = typeof v === 'string' ? v : v[L] || v.en; return m[2] === 'see' ? `⚠ ${t}` : t; }
+    if (m && this.pend && this.pend.i === +m[1]) return m[2] === 'see' ? ({ hi: 'देखते हैं क्या होता है…', hg: 'Dekhte hain kya hota hai…' }[L] || 'Watching what happens…') : '';
+    return this.baseText(key, L);
+  }
+  baseText(key, L) { // the text as written in the experiment (the book's result)
+    const e = this.exp; if (!e) return '';
     const tr = I18N[e.id] || {}; const parts = key.split('.');
     let base = e; for (const p of parts) base = base?.[p];
     let t = tr; for (const p of parts) t = t?.[p];
@@ -44,6 +60,7 @@ export class Runner {
     this.gen = (this.gen || 0) + 1; this.app.lab.clear(); this.app.fx.glow(null, false);
     this.exp = BY_ID[id]; this.i = 0; this.state = 'todo'; this.done = new Set(); this.evAcc = 0; this.res = {};
     this.o = this.exp.setup(this.K); for (const k in this.o) { if (this.o[k] && this.o[k].g) this.o[k].key = k; }
+    this.pend = null; this.base = snapAll(this.o); if (this.isChem()) loadExpect(); if (this.app.recHook) this.app.recHook(this, true);
     // vessels named "Beaker A — …" / "Test tube B — …" get a sticker with their letter
     for (const it of this.app.lab.vessels) { const n = it.name && it.name.en; const m = n && n.match(/^(?:Beaker|Test tube|Tube)\s+([A-E1-5])\b/); if (m && !it.stickerMesh) this.K.sticker(it, m[1]); else if (it.tag && !it.stickerMesh) this.K.sticker(it, it.tag); }
     this.app.chem.lapse = 1; this.app.boardFor(this.exp);
@@ -60,14 +77,17 @@ export class Runner {
     try { if (s.act) await s.act(this.K, this.o); } catch (err) { console.warn('step failed', err); }
     if (gen === this.gen && this.state === 'doing') this.finish();
   }
-  finish() {
+  finish(byHand) {
     if (this.state === 'done' || this.state === 'finished') return;
-    this.judge(); this.state = 'done'; this.done.add(this.i); this.changed();
-    this.app.onStep && this.app.onStep(this, false, true);
+    if (this.app.recHook) this.app.recHook(this);
+    if (byHand && this.isChem()) { this.res[this.i] = null; this.pend = { i: this.i, t: this.app.lab.t ?? 0, first: true }; } else this.judge();
+    this.state = 'done'; this.done.add(this.i); this.changed();
+    if (!this.pend) this.app.onStep && this.app.onStep(this, false, true);
     if (this.auto) this.autoNext();
   }
   next() {
     if (!this.exp) return;
+    this.settle(); this.base = snapAll(this.o); // judge a step left pending, then remember the bench as the next step starts
     if (this.i < this.exp.steps.length - 1) { this.i++; this.state = this.done.has(this.i) ? 'done' : 'todo'; this.evAcc = 0; this.changed(); this.app.onStep && this.app.onStep(this, false); if (this.auto && this.state === 'todo') this.doStep(); }
     else { this.state = 'finished'; this.auto = false; this.changed(); this.app.onFinished && this.app.onFinished(this); }
   }
@@ -76,7 +96,7 @@ export class Runner {
     const target = this.i - 1; const id = this.exp.id;
     this.app.muted = true; await this.load(id); this.K.speed = 40; const gen = this.gen;
     for (let k = 0; k < target; k++) { const s = this.exp.steps[k]; this.state = 'doing'; this.i = k; this.changed(); if (s.act) await s.act(this.K, this.o); if (gen !== this.gen) return; this.done.add(k); this.i = k + 1; }
-    this.K.speed = this.app.speed || 1; this.app.muted = false; this.state = 'todo'; this.changed(); this.app.onStep && this.app.onStep(this, false);
+    this.K.speed = this.app.speed || 1; this.app.muted = false; this.state = 'todo'; this.base = snapAll(this.o); this.changed(); this.app.onStep && this.app.onStep(this, false);
   }
   play() { this.auto = true; this.changed(); if (this.state === 'todo') this.doStep(); else if (this.state === 'done') this.autoNext(); }
   pause() { this.auto = false; this.changed(); }
@@ -84,15 +104,26 @@ export class Runner {
   reset() { if (this.exp) this.load(this.exp.id); }
   // a student did something by hand: see if it completes the current step
   onLabEvent(e) {
+    if (e.type === 'pouring' || e.type === 'drop') this.lastPour = this.app.lab.t ?? 0;
+    // still working on a finished chemistry step (the second part of it, or something more): look again once the student stops
+    if (this.state === 'done' && this.isChem() && HANDS.has(e.type) && (e.type !== 'pouring' || e.to)) this.pend = { i: this.i, t: this.app.lab.t ?? 0, first: !!(this.pend && this.pend.first) };
     const s = this.step(); if (!s || !s.ev || this.state !== 'todo') return;
-    const ev = s.ev; if (ev.type !== e.type) return;
+    const ev = s.ev; let type = e.type;
+    if (ev.type === 'pour' && e.type === 'pouring' && e.to) type = 'pour'; // pouring by hand counts as the step's pour
+    if ((ev.type === 'drops' || ev.type === 'drop') && e.type === 'drop' && e.from) type = ev.type; // so do drops from a dropper bottle tilted by hand
+    if (ev.type !== type) return;
     const id = (k) => this.o[k]?.id;
     if (ev.to && e.to !== id(ev.to)) return; if (ev.from && e.from !== id(ev.from)) return; if (ev.in && e.in !== id(ev.in)) return; if (ev.v && e.v !== id(ev.v)) return;
-    if (ev.ml) { this.evAcc += e.ml || 0; if (this.evAcc < ev.ml) return; }
+    const hand = type !== e.type;
+    if (hand && ev.type === 'pour') { this.evAcc += e.ml || 0; if (this.evAcc < (ev.ml ? ev.ml * 0.5 : 1)) return; }
+    else if (hand) { this.evAcc += 1; if (this.evAcc < (ev.n ?? 1)) return; }
+    else if (ev.ml) { this.evAcc += e.ml || 0; if (this.evAcc < ev.ml) return; }
     if (ev.sec && (e.sec || 0) < ev.sec) return;
-    this.finish();
+    if (s.until && !s.until(this.K, this.o)) return; // e.g. drop by drop until the pink just disappears
+    this.finish(true);
   }
   update(dt, t) {
+    if (this.pend) this.settle(this.app.lab.t ?? t);
     const tg = this.state === 'todo' ? this.target() : null;
     this.marker.visible = !!tg && !this.app.hideMarker;
     if (tg) {

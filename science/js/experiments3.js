@@ -210,7 +210,7 @@ export const EXPERIMENTS3 = [
     steps: [
       { do: X('Add one drop of lemon juice to the test tube of water.'), target: 'lem', act: (K, o) => K.drops(o.lem, o.t, 1), ev: { type: 'drops', to: 't' }, see: X('The solution looks almost colourless.') },
       { do: X('Add one drop of blue litmus solution.'), target: 'lit', act: (K, o) => K.drops(o.lit, o.t, 1), ev: { type: 'drops', to: 't' }, see: X('It turns red.'), why: X('The lemon juice is acidic, so the litmus turns red.') },
-      { do: X('Add lime water drop by drop, swirling after each drop, until the colour changes.'), target: 'lw', act: (K, o) => K.dropsUntil(o.lw, o.t, (v) => v.mix.pH() > 7.6, 45),
+      { do: X('Add lime water drop by drop, swirling after each drop, until the colour changes.'), target: 'lw', act: (K, o) => K.dropsUntil(o.lw, o.t, (v) => v.mix.pH() > 7.6, 45), ev: { type: 'drop', from: 'lw', to: 't' }, until: (K, o) => o.t.mix.pH() > 7.6, // by hand: done when the colour has changed
         see: X('The solution stays red for many drops, then turns purple and suddenly blue.'), why: X('Each drop of lime water (a base) uses up some of the acid. When all the acid is used up, the solution becomes neutral and then slightly basic.') },
       { do: X('Now add one more drop of lemon juice.'), target: 'lem', act: (K, o) => K.drops(o.lem, o.t, 1), ev: { type: 'drops', to: 't' }, see: X('The colour turns back towards red.'), why: X('The new acid is no longer neutralised.') },
     ],
