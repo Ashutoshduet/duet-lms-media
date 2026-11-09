@@ -131,7 +131,7 @@ export const EXPERIMENTS6 = [
   },
   // ===================================================== Ch 2
   {
-    id: 'olfactory', cls: 10, ch: C2, title: X('Smell indicators: onion, vanilla and clove'),
+    id: 'olfactory', cls: 10, also: [7], ch: C2, title: X('Smell indicators: onion, vanilla and clove'),
     aim: X('To test whether onion, vanilla essence and clove oil can tell an acid from a base by their smell.'),
     kind: X('Olfactory indicators'),
     setup(K) {

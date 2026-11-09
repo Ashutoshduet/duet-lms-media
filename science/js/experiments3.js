@@ -10,7 +10,7 @@ const until = async (K, test, max = 30) => { let t = 0; while (!test() && t < ma
 export const EXPERIMENTS3 = [
   // ===================================================== Class 6
   {
-    id: 'evaporation', cls: 6, ch: X(C6W), title: X('What makes water evaporate faster?'),
+    id: 'evaporation', cls: 6, also: [9], ch: X(C6W), title: X('What makes water evaporate faster?'),
     aim: X('To show that water evaporates, and that it evaporates faster from a bigger surface, in sunlight, and that spirit evaporates faster than water.'),
     kind: X('Evaporation'),
     setup(K) {
@@ -220,7 +220,7 @@ export const EXPERIMENTS3 = [
       viva: [{ q: X('What is neutralisation?'), a: X('The reaction of an acid with a base to give a salt and water.') }, { q: X('Why is a drop of base added at a time?'), a: X('To see exactly when the colour changes.') }, { q: X('Why do we take an antacid for acidity?'), a: X('It is a mild base that neutralises extra acid in the stomach.') }] },
   },
   {
-    id: 'sulphur_burn', cls: 7, ch: X(C7M), title: X('Burning sulphur (teacher demonstration)'),
+    id: 'sulphur_burn', cls: 7, also: [10], ch: X(C7M), title: X('Burning sulphur (teacher demonstration)'),
     aim: X('To burn sulphur in air and test the nature of its oxide.'),
     kind: X('Non-metal + oxygen → acidic oxide'),
     setup(K) {
@@ -319,7 +319,7 @@ export const EXPERIMENTS3 = [
       viva: [{ q: X('Is melting of ice a physical or a chemical change?'), a: X('A physical change.') }, { q: X('Why is salt added to the ice?'), a: X('Ice with salt becomes much colder than 0 °C, so it can freeze water.') }, { q: X('Did the blade change into a new substance?'), a: X('No, it became the same grey blade after cooling.') }] },
   },
   {
-    id: 'metal_nonmetal', cls: 7, ch: X(C7M), title: X('Metals and non-metals: shine, hammer, sound, heat'),
+    id: 'metal_nonmetal', cls: 7, also: [10], ch: X(C7M), title: X('Metals and non-metals: shine, hammer, sound, heat'),
     aim: X('To compare metals and non-metals for lustre, malleability, sonority and conduction of heat.'),
     kind: X('Physical properties of metals and non-metals'),
     setup(K) {
@@ -352,7 +352,7 @@ export const EXPERIMENTS3 = [
   },
   // ===================================================== Class 8
   {
-    id: 'saturated', cls: 8, ch: X('Ch 9 · The Amazing World of Solutes, Solvents, and Solutions'), title: X('Saturated solutions and temperature'),
+    id: 'saturated', cls: 8, also: [9], ch: X('Ch 9 · The Amazing World of Solutes, Solvents, and Solutions'), title: X('Saturated solutions and temperature'),
     aim: X('To make a saturated solution and show that more solid dissolves in hot water.'),
     kind: X('Saturated solution and solubility'),
     setup(K) {

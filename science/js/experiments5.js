@@ -21,7 +21,7 @@ function thermoIn(K, v, local, o = {}) {
 export const EXPERIMENTS5 = [
   // ===================================================== Class 8: mixture and compound
   {
-    id: 'iron_sulphur', cls: 8, ch: X(C8N), title: X('Iron and sulphur: a mixture and a compound'),
+    id: 'iron_sulphur', cls: 8, also: [9], ch: X(C8N), title: X('Iron and sulphur: a mixture and a compound'),
     aim: X('To make a mixture of iron filings and sulphur and a compound (iron sulphide) from them, and to tell them apart with a magnet and with dilute acid.'),
     kind: X('Mixture and compound'),
     setup(K) {
