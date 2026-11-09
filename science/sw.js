@@ -1,10 +1,12 @@
 // Offline support. Code and text: network first (updates show at once), cache when offline.
 // Fonts, images and narration: cache first. Narration for the chosen language is saved in the background.
-const VERSION = 'sl360-v8';
+const VERSION = 'sl360-v9';
 const CORE = [
   './', './index.html', './manifest.webmanifest', './voice/manifest.json',
   './js/main.js', './js/ui.js', './js/xr.js', './js/runner.js', './js/actions.js', './js/lab.js', './js/chem.js', './js/fx.js', './js/apparatus.js',
-  './js/mats.js', './js/room.js', './js/audio.js', './js/strings.js', './js/vrpanels.js', './js/experiments.js', './js/experiments2.js', './js/experiments3.js', './js/experiments4.js', './js/experiments5.js', './js/apparatus3.js', './js/apparatus4.js', './js/apparatus5.js', './js/apparatus6.js', './js/exp_i18n.js',
+  './js/mats.js', './js/room.js', './js/audio.js', './js/strings.js', './js/vrpanels.js', './js/experiments.js', './js/experiments2.js', './js/experiments3.js', './js/experiments4.js', './js/experiments5.js', './js/experiments6.js', './js/apparatus3.js', './js/apparatus4.js', './js/apparatus5.js', './js/apparatus6.js', './js/exp_i18n.js',
+  './js/optics.js', './js/optics2.js', './js/electric.js', './js/refraction.js', './js/magnet.js', './js/actions_phys.js', './js/experiments_p1.js', './js/experiments_p2.js', './js/experiments_p3.js', './lib/addons/objects/Reflector.js',
+  './js/mech.js', './js/mech2.js', './js/mech3.js', './js/mech4.js', './js/light2.js',
   './lib/three.module.js', './lib/addons/controls/OrbitControls.js', './lib/addons/environments/RoomEnvironment.js',
   './fonts/nsd-latin-400.woff2', './fonts/nsd-latin-600.woff2', './fonts/nsd-latin-700.woff2',
   './fonts/nsd-deva-400.woff2', './fonts/nsd-deva-600.woff2', './fonts/nsd-deva-700.woff2',

@@ -81,6 +81,7 @@ export class App {
   openExp(id, o = {}) {
     this.audio.unlock(); document.body.classList.remove('list-open');
     if (this.particles.g.visible) this.particles.close();
+    const sj = (BY_ID[id] && BY_ID[id].subj) || 'chemistry'; if (this.ui && this.ui.subj !== sj) { this.ui.subj = sj; this.ui.renderSubjects(); this.ui.renderPicker(); } // opening a physics experiment switches the list to physics
     this.userCam = false; this.recent.clear(); this.runner.load(id, o); this.focusBench();
   }
   primary() { // the big button: do the step, or after the experiment open/close the particle view
@@ -97,7 +98,7 @@ export class App {
   }
   boardFor(e) {
     const draw = this.roomInfo.drawBoard;
-    if (!e) { draw('DUET STEM · ' + tx(T.chemistry, this.lang), [{ t: tx(T.appTitle, this.lang), size: 54, c: 'rgba(240,166,90,0.95)' }, { t: tx(T.pickExp, this.lang), size: 44 }]); return; }
+    if (!e) { draw('DUET STEM · ' + tx(T[(this.ui && this.ui.subj) || 'chemistry'], this.lang), [{ t: tx(T.appTitle, this.lang), size: 54, c: 'rgba(240,166,90,0.95)' }, { t: tx(T.pickExp, this.lang), size: 44 }]); return; }
     const word = (DICT[e.eq.word] && DICT[e.eq.word][this.lang]) || e.eq.word;
     const lines = [{ t: e.eq.sym, size: 64, w: 700 }, { t: word, size: 44, c: 'rgba(240,166,90,0.95)' }, { t: this.expText(e, 'kind'), size: 40, c: 'rgba(200,220,210,0.85)' }];
     const ph = PHOTOS[e.id] || []; const L = this.lang;
@@ -167,6 +168,8 @@ export class App {
       if (r.state === 'doing' && it.home && it.g.position.distanceTo(it.home.p) > 0.012) set.add(it);
       const t = this.recent.get(it.id); if (t != null && this.t - t < 3.5) set.add(it);
     }
+    const cv = this.lab.items.find((it) => it.camView && it.g.parent === this.scene); // an experiment can ask for a particular point of view (e.g. low, just over the rim of a bowl)
+    if (cv) { const p = cv.g.position.clone().add(cv.camView.p), t = cv.g.position.clone().add(cv.camView.t); if (!(this.camGoal && this.camGoal.p.distanceTo(p) < 0.003)) this.camGoal = { p, t, slow: true }; return; }
     if (!set.size) return;
     const b = new THREE.Box3(); for (const it of set) b.expandByObject(it.g);
     const c = b.getCenter(new THREE.Vector3()); const size = Math.max(0.3, b.max.x - b.min.x, (b.max.y - b.min.y) * 1.3);

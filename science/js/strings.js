@@ -27,7 +27,7 @@ export const T = {
   timelapse: { en: 'Time-lapse', hi: 'टाइम-लैप्स', hg: 'Time-lapse' },
   menu: { en: 'Menu', hi: 'मेनू', hg: 'Menu' }, recenter: { en: 'Recentre', hi: 'बीच में लाएँ', hg: 'Recentre' },
   pickExp: { en: 'Choose an experiment', hi: 'एक प्रयोग चुनें', hg: 'Ek experiment chuno' },
-  welcome: { en: 'Welcome to the DUET STEM chemistry lab. Choose an experiment to begin.', hi: 'DUET STEM रसायन प्रयोगशाला में आपका स्वागत है। शुरू करने के लिए एक प्रयोग चुनें।', hg: 'DUET STEM chemistry lab mein welcome. Shuru karne ke liye ek experiment chuno.' },
+  welcome: { en: 'Welcome to the DUET STEM science lab. Choose a subject and an experiment to begin.', hi: 'DUET STEM विज्ञान प्रयोगशाला में आपका स्वागत है। शुरू करने के लिए एक विषय और एक प्रयोग चुनें।', hg: 'DUET STEM science lab mein welcome. Shuru karne ke liye ek subject aur ek experiment chuno.' },
   more: { en: 'More', hi: 'और', hg: 'Aur' },
   inside: { en: 'See it inside', hi: 'अंदर से देखें', hg: 'Andar se dekho' }, closeView: { en: 'Close', hi: 'बंद करें', hg: 'Band karo' },
   pickClass: { en: 'Which class are you in?', hi: 'आप किस कक्षा में हैं?', hg: 'Aap kis class mein ho?' },
@@ -38,8 +38,8 @@ export const T = {
   nextExp: { en: 'Next experiment', hi: 'अगला प्रयोग', hg: 'Agla experiment' },
   startW: { en: 'Start', hi: 'शुरू करें', hg: 'Shuru karo' },
   otherClasses: { en: 'From other classes', hi: 'दूसरी कक्षाओं से', hg: 'Doosri classes se' },
-  classWelcome: { en: 'Class {c} · Chemistry: {n} experiments from your book. Start with the first one, or choose any experiment from the list.', hi: 'कक्षा {c} · रसायन विज्ञान: आपकी किताब के {n} प्रयोग। पहले प्रयोग से शुरू करें, या सूची से कोई भी प्रयोग चुनें।', hg: 'Class {c} · Chemistry: aapki book ke {n} experiments. Pehle experiment se shuru karo, ya list se koi bhi experiment chuno.' },
-  classDone: { en: 'Well done! You have finished every chemistry experiment of Class {c}. Next subject: Physics (coming soon).', hi: 'शाबाश! आपने कक्षा {c} के सभी रसायन विज्ञान प्रयोग पूरे कर लिए। अगला विषय: भौतिकी (जल्द आ रहा है)।', hg: 'Shabaash! Aapne Class {c} ke saare chemistry experiments poore kar liye. Agla subject: Physics (jaldi aa raha hai).' },
+  classWelcome: { en: 'Class {c} · {s}: {n} experiments from your book. Start with the first one, or choose any experiment from the list.', hi: 'कक्षा {c} · {s}: आपकी किताब के {n} प्रयोग। पहले प्रयोग से शुरू करें, या सूची से कोई भी प्रयोग चुनें।', hg: 'Class {c} · {s}: aapki book ke {n} experiments. Pehle experiment se shuru karo, ya list se koi bhi experiment chuno.' },
+  classDone: { en: 'Well done! You have finished every {s} experiment of Class {c}. Choose the next subject at the top.', hi: 'शाबाश! आपने कक्षा {c} के सभी {s} प्रयोग पूरे कर लिए। ऊपर से अगला विषय चुनें।', hg: 'Shabaash! Aapne Class {c} ke saare {s} experiments poore kar liye. Upar se agla subject chuno.' },
   insideHint: { en: 'Watch what the atoms and ions are doing.', hi: 'देखें कि परमाणु और आयन क्या कर रहे हैं।', hg: 'Dekho atoms aur ions kya kar rahe hain.' },
 };
 export const tx = (o, L) => (o ? (o[L] || o.en || '') : '');

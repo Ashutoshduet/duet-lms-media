@@ -6690,3 +6690,2941 @@ Object.assign(DICT, {
 "hg": "(a) iron + copper sulphate · (b) magnesium + oxygen · (c) zinc + sulphuric acid · (d) copper sulphate crystals —heat→ · (e) sodium sulphate + barium chloride"
 }
 });
+// b6 translations (Class 10 batch)
+Object.assign(DICT, {
+"Silver chloride in sunlight": {
+"hi": "सूर्य के प्रकाश में सिल्वर क्लोराइड",
+"hg": "Sunlight mein silver chloride"
+},
+"To study the decomposition of silver chloride by light.": {
+"hi": "प्रकाश द्वारा सिल्वर क्लोराइड के अपघटन का अध्ययन करना।",
+"hg": "Light dwara silver chloride ke decomposition ka study karna."
+},
+"Decomposition by light": {
+"hi": "प्रकाश द्वारा अपघटन",
+"hg": "Light dwara decomposition"
+},
+"Pour a little salt (sodium chloride) solution into the silver nitrate solution.": {
+"hi": "सिल्वर नाइट्रेट विलयन में थोड़ा नमक (सोडियम क्लोराइड) विलयन डालिए।",
+"hg": "Silver nitrate solution mein thoda salt (sodium chloride) solution daalo."
+},
+"A white, curdy precipitate of silver chloride forms at once.": {
+"hi": "तुरंत सिल्वर क्लोराइड का सफ़ेद, दही जैसा अवक्षेप बनता है।",
+"hg": "Turant silver chloride ka white, curdy precipitate banta hai."
+},
+"Silver nitrate and sodium chloride exchange ions: insoluble silver chloride (AgCl) forms.": {
+"hi": "सिल्वर नाइट्रेट और सोडियम क्लोराइड आपस में आयनों का आदान-प्रदान करते हैं: अविलेय सिल्वर क्लोराइड (AgCl) बनता है।",
+"hg": "Silver nitrate aur sodium chloride ions exchange karte hain: insoluble silver chloride (AgCl) banta hai."
+},
+"Put two spatulas of the dry silver chloride in each china dish.": {
+"hi": "हर चाइना डिश में दो स्पैचुला सूखा सिल्वर क्लोराइड रखिए।",
+"hg": "Har china dish mein do spatula dry silver chloride rakho."
+},
+"Both dishes have white silver chloride powder.": {
+"hi": "दोनों डिशों में सफ़ेद सिल्वर क्लोराइड का चूर्ण है।",
+"hg": "Dono dishes mein white silver chloride powder hai."
+},
+"Cover dish B with the black paper cover so that no light reaches it.": {
+"hi": "डिश B को काले कागज़ के ढक्कन से ढक दीजिए ताकि उस तक बिल्कुल भी प्रकाश न पहुँचे।",
+"hg": "Dish B ko black paper cover se dhak do taaki us tak bilkul bhi light na pahunche."
+},
+"Dish B is now in the dark; dish A is open to the light.": {
+"hi": "डिश B अब अँधेरे में है; डिश A प्रकाश में खुली है।",
+"hg": "Dish B ab dark mein hai; dish A light mein khuli hai."
+},
+"Switch on the bright lamp (it stands in for sunlight) and leave the dishes in the light (time-lapse).": {
+"hi": "तेज़ लैंप जलाइए (यह सूर्य के प्रकाश का काम करता है) और डिशों को प्रकाश में छोड़ दीजिए (टाइम-लैप्स)।",
+"hg": "Bright lamp on karo (yeh sunlight ki jagah kaam karta hai) aur dishes ko light mein chhod do (time-lapse)."
+},
+"The silver chloride in dish A slowly turns grey (violet-grey) on its surface.": {
+"hi": "डिश A का सिल्वर क्लोराइड अपनी सतह पर धीरे-धीरे धूसर (बैंगनी-धूसर) हो जाता है।",
+"hg": "Dish A ka silver chloride apni surface par dheere-dheere grey (violet-grey) ho jaata hai."
+},
+"Light breaks silver chloride down into grey silver metal and chlorine gas.": {
+"hi": "प्रकाश सिल्वर क्लोराइड को धूसर सिल्वर धातु और क्लोरीन गैस में तोड़ देता है।",
+"hg": "Light silver chloride ko grey silver metal aur chlorine gas mein tod deti hai."
+},
+"Switch off the lamp, take the cover off dish B and compare the two dishes.": {
+"hi": "लैंप बंद कीजिए, डिश B का ढक्कन हटाइए और दोनों डिशों की तुलना कीजिए।",
+"hg": "Lamp off karo, dish B ka cover hatao aur dono dishes ko compare karo."
+},
+"Dish B, kept in the dark, is still white. Only the silver chloride kept in light has turned grey.": {
+"hi": "अँधेरे में रखी डिश B अब भी सफ़ेद है। केवल प्रकाश में रखा सिल्वर क्लोराइड ही धूसर हुआ है।",
+"hg": "Dark mein rakhi dish B abhi bhi white hai. Sirf light mein rakha silver chloride hi grey hua hai."
+},
+"This is a decomposition reaction caused by light (photolytic decomposition). Black-and-white photography uses this change.": {
+"hi": "यह प्रकाश के कारण होने वाली अपघटन अभिक्रिया (प्रकाशीय अपघटन) है। श्वेत-श्याम फ़ोटोग्राफ़ी में इसी परिवर्तन का उपयोग होता है।",
+"hg": "Yeh light ki wajah se hone wala decomposition reaction hai (photolytic decomposition). Black-and-white photography mein isi change ka use hota hai."
+},
+"White silver chloride turned grey in light; the covered sample stayed white.": {
+"hi": "सफ़ेद सिल्वर क्लोराइड प्रकाश में धूसर हो गया; ढका हुआ नमूना सफ़ेद ही रहा।",
+"hg": "White silver chloride light mein grey ho gaya; dhaka hua sample white hi raha."
+},
+"Silver chloride decomposes in sunlight into silver and chlorine. Light can supply the energy for a decomposition reaction.": {
+"hi": "सूर्य के प्रकाश में सिल्वर क्लोराइड सिल्वर और क्लोरीन में अपघटित हो जाता है। प्रकाश किसी अपघटन अभिक्रिया के लिए ऊर्जा प्रदान कर सकता है।",
+"hg": "Sunlight mein silver chloride silver aur chlorine mein decompose ho jaata hai. Light kisi decomposition reaction ke liye energy de sakti hai."
+},
+"Silver nitrate stains the skin and is corrosive: wear gloves. Silver salts are kept in dark bottles.": {
+"hi": "सिल्वर नाइट्रेट त्वचा पर दाग छोड़ता है और संक्षारक है: दस्ताने पहनिए। सिल्वर के लवण गहरे रंग की बोतलों में रखे जाते हैं।",
+"hg": "Silver nitrate skin par daag chhodta hai aur corrosive hai: gloves pehno. Silver salts dark bottles mein rakhe jaate hain."
+},
+"Why is silver chloride kept in dark coloured bottles?": {
+"hi": "सिल्वर क्लोराइड को गहरे रंग की बोतलों में क्यों रखा जाता है?",
+"hg": "Silver chloride ko dark coloured bottles mein kyon rakha jaata hai?"
+},
+"Because light decomposes it into silver and chlorine.": {
+"hi": "क्योंकि प्रकाश इसे सिल्वर और क्लोरीन में अपघटित कर देता है।",
+"hg": "Kyonki light ise silver aur chlorine mein decompose kar deti hai."
+},
+"A decomposition reaction caused by light (photolytic decomposition).": {
+"hi": "प्रकाश के कारण होने वाली अपघटन अभिक्रिया (प्रकाशीय अपघटन)।",
+"hg": "Light ki wajah se hone wala decomposition reaction (photolytic decomposition)."
+},
+"Name another silver salt that behaves the same way.": {
+"hi": "सिल्वर के एक और लवण का नाम बताइए जो इसी प्रकार व्यवहार करता है।",
+"hg": "Ek aur silver salt ka naam batao jo isi tarah behave karta hai."
+},
+"Silver bromide: 2AgBr → 2Ag + Br₂.": {
+"hi": "सिल्वर ब्रोमाइड: 2AgBr → 2Ag + Br₂।",
+"hg": "Silver bromide: 2AgBr → 2Ag + Br₂."
+},
+"Silver chloride —sunlight→ silver + chlorine": {
+"hi": "सिल्वर क्लोराइड —सूर्य का प्रकाश→ सिल्वर + क्लोरीन",
+"hg": "Silver chloride —sunlight→ silver + chlorine"
+},
+"Reactions that give out or take in heat": {
+"hi": "ऊष्मा देने वाली या ऊष्मा लेने वाली अभिक्रियाएँ",
+"hg": "Heat dene wali ya heat lene wali reactions"
+},
+"To observe the temperature change when sodium hydroxide neutralises hydrochloric acid, and when barium hydroxide reacts with ammonium chloride.": {
+"hi": "सोडियम हाइड्रॉक्साइड द्वारा हाइड्रोक्लोरिक अम्ल के उदासीनीकरण में, तथा बेरियम हाइड्रॉक्साइड की अमोनियम क्लोराइड के साथ अभिक्रिया में होने वाले ताप-परिवर्तन का प्रेक्षण करना।",
+"hg": "Jab sodium hydroxide hydrochloric acid ko neutralise karta hai, aur jab barium hydroxide ammonium chloride ke saath react karta hai, tab temperature change observe karna."
+},
+"Exothermic and endothermic reactions": {
+"hi": "ऊष्माक्षेपी और ऊष्माशोषी अभिक्रियाएँ",
+"hg": "Exothermic aur endothermic reactions"
+},
+"Read the thermometer in beaker A (dilute hydrochloric acid).": {
+"hi": "बीकर A (तनु हाइड्रोक्लोरिक अम्ल) में रखे तापमापी का पाठ्यांक पढ़िए।",
+"hg": "Beaker A (dilute hydrochloric acid) mein rakhe thermometer ki reading padho."
+},
+"It shows room temperature, about 27 °C.": {
+"hi": "यह कमरे का ताप, लगभग 27 °C, दिखाता है।",
+"hg": "Yeh room temperature dikhata hai, lagbhag 27 °C."
+},
+"Pour the sodium hydroxide solution into beaker A and stir gently. Read the highest temperature.": {
+"hi": "सोडियम हाइड्रॉक्साइड विलयन को बीकर A में डालिए और धीरे से हिलाइए। सबसे अधिक ताप पढ़िए।",
+"hg": "Sodium hydroxide solution ko beaker A mein daalo aur dheere se stir karo. Sabse zyada temperature padho."
+},
+"Nothing seems to happen, but the temperature rises by about 6–7 °C and the beaker feels warm.": {
+"hi": "देखने में कुछ होता नहीं लगता, पर ताप लगभग 6–7 °C बढ़ जाता है और बीकर छूने पर गरम लगता है।",
+"hg": "Dekhne mein kuch hota nahi lagta, lekin temperature lagbhag 6–7 °C badh jaata hai aur beaker chhoone par warm lagta hai."
+},
+"Neutralisation of an acid by a base gives out heat: it is an exothermic reaction.": {
+"hi": "क्षारक द्वारा अम्ल के उदासीनीकरण में ऊष्मा निकलती है: यह एक ऊष्माक्षेपी अभिक्रिया है।",
+"hg": "Base dwara acid ke neutralisation mein heat nikalti hai: yeh ek exothermic reaction hai."
+},
+"Put two spatulas of barium hydroxide and one spatula of ammonium chloride in dry beaker B.": {
+"hi": "सूखे बीकर B में दो स्पैचुला बेरियम हाइड्रॉक्साइड और एक स्पैचुला अमोनियम क्लोराइड डालिए।",
+"hg": "Dry beaker B mein do spatula barium hydroxide aur ek spatula ammonium chloride daalo."
+},
+"Two white solids lie in the beaker. The temperature has not changed yet.": {
+"hi": "बीकर में दो सफ़ेद ठोस पड़े हैं। ताप अभी तक नहीं बदला है।",
+"hg": "Beaker mein do white solids pade hain. Temperature abhi tak nahi badla hai."
+},
+"Mix the two solids well with the glass rod (time-lapse).": {
+"hi": "काँच की छड़ से दोनों ठोसों को अच्छी तरह मिलाइए (टाइम-लैप्स)।",
+"hg": "Glass rod se dono solids ko achhi tarah mix karo (time-lapse)."
+},
+"The solids turn wet and slushy, and the temperature falls far below 0 °C. Frost forms on the outside of the beaker.": {
+"hi": "ठोस गीले और कीचड़ जैसे हो जाते हैं, और ताप 0 °C से बहुत नीचे गिर जाता है। बीकर की बाहरी सतह पर पाला (बर्फ़ की परत) जम जाता है।",
+"hg": "Solids geele aur slushy ho jaate hain, aur temperature 0 °C se bahut neeche gir jaata hai. Beaker ke bahar frost jam jaata hai."
+},
+"This reaction takes in heat from its surroundings: it is an endothermic reaction.": {
+"hi": "यह अभिक्रिया अपने परिवेश से ऊष्मा लेती है: यह एक ऊष्माशोषी अभिक्रिया है।",
+"hg": "Yeh reaction apne surroundings se heat leti hai: yeh ek endothermic reaction hai."
+},
+"Waft the air above beaker B gently towards your nose.": {
+"hi": "बीकर B के ऊपर की हवा को हाथ से धीरे से अपनी नाक की ओर लाइए।",
+"hg": "Beaker B ke upar ki hawa ko haath se dheere se apni naak ki taraf waft karo."
+},
+"A sharp, choking smell of ammonia.": {
+"hi": "अमोनिया की तीखी, दम घोंटने वाली गंध।",
+"hg": "Ammonia ki sharp, choking smell."
+},
+"Hold moist red litmus paper over beaker B.": {
+"hi": "नम लाल लिटमस पत्र को बीकर B के ऊपर पकड़िए।",
+"hg": "Moist red litmus paper ko beaker B ke upar pakdo."
+},
+"Ammonia gas is basic. It is one of the products of the reaction.": {
+"hi": "अमोनिया गैस क्षारकीय है। यह इस अभिक्रिया के उत्पादों में से एक है।",
+"hg": "Ammonia gas basic hai. Yeh is reaction ke products mein se ek hai."
+},
+"NaOH + HCl: no visible change, but the temperature rose by about 7 °C. Ba(OH)₂ + NH₄Cl: slushy mixture, smell of ammonia, red litmus turned blue, temperature fell below 0 °C with frost on the beaker.": {
+"hi": "NaOH + HCl: कोई दिखाई देने वाला परिवर्तन नहीं, पर ताप लगभग 7 °C बढ़ गया। Ba(OH)₂ + NH₄Cl: कीचड़ जैसा मिश्रण, अमोनिया की गंध, लाल लिटमस नीला हो गया, ताप 0 °C से नीचे गिर गया और बीकर पर पाला जम गया।",
+"hg": "NaOH + HCl: koi visible change nahi, lekin temperature lagbhag 7 °C badh gaya. Ba(OH)₂ + NH₄Cl: slushy mixture, ammonia ki smell, red litmus blue ho gaya, temperature 0 °C se neeche gir gaya aur beaker par frost jam gaya."
+},
+"Neutralisation is exothermic (gives out heat). The reaction of barium hydroxide with ammonium chloride is endothermic (takes in heat).": {
+"hi": "उदासीनीकरण ऊष्माक्षेपी है (ऊष्मा देता है)। बेरियम हाइड्रॉक्साइड की अमोनियम क्लोराइड के साथ अभिक्रिया ऊष्माशोषी है (ऊष्मा लेती है)।",
+"hg": "Neutralisation exothermic hai (heat deta hai). Barium hydroxide ka ammonium chloride ke saath reaction endothermic hai (heat leta hai)."
+},
+"Barium hydroxide is poisonous and corrosive; ammonia is irritating. Do not smell directly; wear goggles and wash your hands.": {
+"hi": "बेरियम हाइड्रॉक्साइड विषैला और संक्षारक है; अमोनिया जलन पैदा करती है। सीधे न सूँघिए; गॉगल्स पहनिए और हाथ धोइए।",
+"hg": "Barium hydroxide poisonous aur corrosive hai; ammonia irritating hai. Seedha mat sungho; goggles pehno aur haath dho lo."
+},
+"What is an exothermic reaction? Give an example.": {
+"hi": "ऊष्माक्षेपी अभिक्रिया क्या है? एक उदाहरण दीजिए।",
+"hg": "Exothermic reaction kya hai? Ek example do."
+},
+"A reaction that gives out heat, e.g. neutralisation of NaOH by HCl, or burning of fuels.": {
+"hi": "वह अभिक्रिया जिसमें ऊष्मा निकलती है, जैसे HCl द्वारा NaOH का उदासीनीकरण, या ईंधनों का जलना।",
+"hg": "Woh reaction jo heat deta hai, jaise HCl dwara NaOH ka neutralisation, ya fuels ka jalna."
+},
+"What is an endothermic reaction? Give an example.": {
+"hi": "ऊष्माशोषी अभिक्रिया क्या है? एक उदाहरण दीजिए।",
+"hg": "Endothermic reaction kya hai? Ek example do."
+},
+"A reaction that takes in heat, e.g. barium hydroxide with ammonium chloride.": {
+"hi": "वह अभिक्रिया जिसमें ऊष्मा अवशोषित होती है, जैसे बेरियम हाइड्रॉक्साइड की अमोनियम क्लोराइड के साथ अभिक्रिया।",
+"hg": "Woh reaction jo heat leta hai, jaise barium hydroxide ka ammonium chloride ke saath reaction."
+},
+"Which gas turned the red litmus blue?": {
+"hi": "किस गैस ने लाल लिटमस को नीला कर दिया?",
+"hg": "Kis gas ne red litmus ko blue kar diya?"
+},
+"Ammonia (NH₃), a basic gas.": {
+"hi": "अमोनिया (NH₃), एक क्षारकीय गैस।",
+"hg": "Ammonia (NH₃), ek basic gas."
+},
+"Sodium hydroxide + hydrochloric acid → sodium chloride + water + heat · barium hydroxide + ammonium chloride + heat → barium chloride + ammonia + water": {
+"hi": "सोडियम हाइड्रॉक्साइड + हाइड्रोक्लोरिक अम्ल → सोडियम क्लोराइड + जल + ऊष्मा · बेरियम हाइड्रॉक्साइड + अमोनियम क्लोराइड + ऊष्मा → बेरियम क्लोराइड + अमोनिया + जल",
+"hg": "Sodium hydroxide + hydrochloric acid → sodium chloride + water + heat · barium hydroxide + ammonium chloride + heat → barium chloride + ammonia + water"
+},
+"Copper is oxidised in air and reduced by hydrogen": {
+"hi": "वायु में कॉपर का ऑक्सीकरण और हाइड्रोजन द्वारा अपचयन",
+"hg": "Copper air mein oxidise hota hai aur hydrogen se reduce hota hai"
+},
+"To show that copper is oxidised to black copper oxide on heating in air, and that hot copper oxide is reduced back to copper by hydrogen.": {
+"hi": "यह दर्शाना कि वायु में गरम करने पर कॉपर का ऑक्सीकरण होकर काला कॉपर ऑक्साइड बनता है, और गरम कॉपर ऑक्साइड हाइड्रोजन द्वारा अपचयित होकर फिर से कॉपर बन जाता है।",
+"hg": "Yeh dikhana ki air mein garam karne par copper oxidise hokar black copper oxide banta hai, aur garam copper oxide hydrogen dwara reduce hokar wapas copper ban jaata hai."
+},
+"Oxidation and reduction": {
+"hi": "ऑक्सीकरण और अपचयन",
+"hg": "Oxidation aur reduction"
+},
+"Put a spatula of copper powder in the china dish.": {
+"hi": "चाइना डिश में एक स्पैचुला कॉपर चूर्ण रखिए।",
+"hg": "China dish mein ek spatula copper powder daalo."
+},
+"Reddish-brown (salmon pink) copper powder.": {
+"hi": "लाल-भूरा (हल्का नारंगी-गुलाबी) कॉपर चूर्ण।",
+"hg": "Reddish-brown (salmon pink) copper powder."
+},
+"Place the dish on the tripod and heat it strongly, stirring now and then (time-lapse).": {
+"hi": "डिश को त्रिपाद स्टैंड पर रखिए और बीच-बीच में हिलाते हुए तेज़ गरम कीजिए (टाइम-लैप्स)।",
+"hg": "Dish ko tripod par rakho aur beech-beech mein stir karte hue tez garam karo (time-lapse)."
+},
+"The surface of the copper powder becomes coated with a black substance.": {
+"hi": "कॉपर चूर्ण की सतह पर एक काले पदार्थ की परत चढ़ जाती है।",
+"hg": "Copper powder ki surface par ek black substance ki layer chadh jaati hai."
+},
+"Copper combines with oxygen from the air to form black copper(II) oxide: copper is oxidised (it gains oxygen).": {
+"hi": "कॉपर वायु की ऑक्सीजन से संयोग करके काला कॉपर(II) ऑक्साइड बनाता है: कॉपर का ऑक्सीकरण होता है (यह ऑक्सीजन ग्रहण करता है)।",
+"hg": "Copper air ki oxygen ke saath combine hokar black copper(II) oxide banata hai: copper oxidise hota hai (yeh oxygen gain karta hai)."
+},
+"Turn off the burner. (Teacher) Put a little of the black powder in the hard-glass tube and connect the tube to the hydrogen flask.": {
+"hi": "बर्नर बंद कीजिए। (शिक्षक) थोड़ा-सा काला चूर्ण कठोर काँच की नली में डालिए और नली को हाइड्रोजन फ़्लास्क से जोड़िए।",
+"hg": "Burner band karo. (Teacher) Thoda black powder hard-glass tube mein daalo aur tube ko hydrogen flask se connect karo."
+},
+"The black powder lies at the bottom of the tube; the delivery tube from the flask reaches down to it.": {
+"hi": "काला चूर्ण नली की तली में पड़ा है; फ़्लास्क से आने वाली निकास नली उस तक पहुँचती है।",
+"hg": "Black powder tube ke bottom mein pada hai; flask se aane wali delivery tube us tak pahunchti hai."
+},
+"Pour dilute hydrochloric acid into the thistle funnel. Let the hydrogen push all the air out of the tube.": {
+"hi": "थिसल कीप में तनु हाइड्रोक्लोरिक अम्ल डालिए। हाइड्रोजन को नली से सारी वायु बाहर निकालने दीजिए।",
+"hg": "Thistle funnel mein dilute hydrochloric acid daalo. Hydrogen ko tube se saari air bahar nikalne do."
+},
+"The zinc fizzes. Hydrogen gas flows through the delivery tube over the black powder.": {
+"hi": "ज़िंक से बुदबुदाहट होती है। हाइड्रोजन गैस निकास नली से होकर काले चूर्ण के ऊपर से बहती है।",
+"hg": "Zinc fizz karta hai. Hydrogen gas delivery tube se hokar black powder ke upar se flow hoti hai."
+},
+"All the air must be pushed out first: a mixture of hydrogen and air can explode when heated.": {
+"hi": "पहले सारी वायु बाहर निकल जानी चाहिए: हाइड्रोजन और वायु का मिश्रण गरम करने पर विस्फोट कर सकता है।",
+"hg": "Pehle saari air bahar nikalni chahiye: hydrogen aur air ka mixture garam karne par explode ho sakta hai."
+},
+"Light the second burner and heat the black powder in the stream of hydrogen (time-lapse).": {
+"hi": "दूसरा बर्नर जलाइए और हाइड्रोजन की धारा में काले चूर्ण को गरम कीजिए (टाइम-लैप्स)।",
+"hg": "Doosra burner jalao aur hydrogen ki stream mein black powder ko garam karo (time-lapse)."
+},
+"The black powder slowly turns reddish-brown again, and drops of water appear on the cooler upper part of the tube.": {
+"hi": "काला चूर्ण धीरे-धीरे फिर से लाल-भूरा हो जाता है, और नली के ठंडे ऊपरी भाग पर पानी की बूँदें दिखाई देती हैं।",
+"hg": "Black powder dheere-dheere phir se reddish-brown ho jaata hai, aur tube ke thande upper part par paani ki boondein dikhti hain."
+},
+"Hydrogen removes oxygen from copper oxide: copper oxide is reduced to copper, and hydrogen is oxidised to water. Oxidation and reduction happen together (a redox reaction).": {
+"hi": "हाइड्रोजन कॉपर ऑक्साइड से ऑक्सीजन हटा देती है: कॉपर ऑक्साइड अपचयित होकर कॉपर बनता है, और हाइड्रोजन ऑक्सीकृत होकर जल बनती है। ऑक्सीकरण और अपचयन साथ-साथ होते हैं (रेडॉक्स अभिक्रिया)।",
+"hg": "Hydrogen copper oxide se oxygen hata deti hai: copper oxide reduce hokar copper banta hai, aur hydrogen oxidise hokar water banti hai. Oxidation aur reduction saath-saath hote hain (redox reaction)."
+},
+"Reddish-brown copper turned black on heating in air. The black powder turned reddish-brown again when heated in hydrogen, and water drops formed.": {
+"hi": "वायु में गरम करने पर लाल-भूरा कॉपर काला हो गया। हाइड्रोजन में गरम करने पर काला चूर्ण फिर से लाल-भूरा हो गया, और पानी की बूँदें बनीं।",
+"hg": "Air mein garam karne par reddish-brown copper black ho gaya. Hydrogen mein garam karne par black powder phir se reddish-brown ho gaya, aur paani ki boondein bani."
+},
+"Copper is oxidised to copper(II) oxide by oxygen; copper(II) oxide is reduced to copper by hydrogen. A substance that gains oxygen is oxidised; one that loses oxygen is reduced.": {
+"hi": "ऑक्सीजन द्वारा कॉपर का ऑक्सीकरण होकर कॉपर(II) ऑक्साइड बनता है; हाइड्रोजन द्वारा कॉपर(II) ऑक्साइड का अपचयन होकर कॉपर बनता है। जो पदार्थ ऑक्सीजन ग्रहण करता है उसका ऑक्सीकरण होता है; जो ऑक्सीजन खोता है उसका अपचयन होता है।",
+"hg": "Oxygen dwara copper oxidise hokar copper(II) oxide banta hai; hydrogen dwara copper(II) oxide reduce hokar copper banta hai. Jo substance oxygen gain karta hai woh oxidise hota hai; jo oxygen lose karta hai woh reduce hota hai."
+},
+"Use tongs for the hot dish. The hydrogen part is done only by the teacher, after all the air has been pushed out; keep flames away from the flask.": {
+"hi": "गरम डिश के लिए चिमटे का उपयोग कीजिए। हाइड्रोजन वाला भाग केवल शिक्षक ही करेंगे, सारी वायु बाहर निकल जाने के बाद; ज्वाला को फ़्लास्क से दूर रखिए।",
+"hg": "Garam dish ke liye tongs use karo. Hydrogen wala part sirf teacher hi karenge, saari air bahar nikal jaane ke baad; flames ko flask se door rakho."
+},
+"What is the black substance formed on heating copper?": {
+"hi": "कॉपर को गरम करने पर बनने वाला काला पदार्थ क्या है?",
+"hg": "Copper ko garam karne par banne wala black substance kya hai?"
+},
+"Copper(II) oxide, CuO.": {
+"hi": "कॉपर(II) ऑक्साइड, CuO।",
+"hg": "Copper(II) oxide, CuO."
+},
+"In CuO + H₂ → Cu + H₂O, which substance is oxidised and which is reduced?": {
+"hi": "CuO + H₂ → Cu + H₂O में किस पदार्थ का ऑक्सीकरण होता है और किसका अपचयन?",
+"hg": "CuO + H₂ → Cu + H₂O mein kaun sa substance oxidise hota hai aur kaun sa reduce?"
+},
+"Hydrogen is oxidised (to water); copper oxide is reduced (to copper).": {
+"hi": "हाइड्रोजन का ऑक्सीकरण होता है (जल बनता है); कॉपर ऑक्साइड का अपचयन होता है (कॉपर बनता है)।",
+"hg": "Hydrogen oxidise hoti hai (water banti hai); copper oxide reduce hota hai (copper banta hai)."
+},
+"What is a redox reaction?": {
+"hi": "रेडॉक्स अभिक्रिया क्या है?",
+"hg": "Redox reaction kya hai?"
+},
+"A reaction in which oxidation and reduction take place together.": {
+"hi": "वह अभिक्रिया जिसमें ऑक्सीकरण और अपचयन साथ-साथ होते हैं।",
+"hg": "Woh reaction jismein oxidation aur reduction saath-saath hote hain."
+},
+"Copper + oxygen —heat→ copper(II) oxide · copper(II) oxide + hydrogen —heat→ copper + water": {
+"hi": "कॉपर + ऑक्सीजन —ऊष्मा→ कॉपर(II) ऑक्साइड · कॉपर(II) ऑक्साइड + हाइड्रोजन —ऊष्मा→ कॉपर + जल",
+"hg": "Copper + oxygen —heat→ copper(II) oxide · copper(II) oxide + hydrogen —heat→ copper + water"
+},
+"Smell indicators: onion, vanilla and clove": {
+"hi": "गंध सूचक: प्याज़, वनीला और लौंग",
+"hg": "Smell indicators: onion, vanilla aur clove"
+},
+"To test whether onion, vanilla essence and clove oil can tell an acid from a base by their smell.": {
+"hi": "यह जाँचना कि क्या प्याज़, वनीला एसेंस और लौंग का तेल अपनी गंध द्वारा अम्ल और क्षारक में अंतर बता सकते हैं।",
+"hg": "Yeh test karna ki kya onion, vanilla essence aur clove oil apni smell se acid aur base mein farak bata sakte hain."
+},
+"Olfactory indicators": {
+"hi": "गंधीय सूचक",
+"hg": "Olfactory indicators"
+},
+"Smell the two cloth strips that were kept overnight with chopped onion.": {
+"hi": "कपड़े की उन दोनों पट्टियों को सूँघिए जिन्हें रात भर कटे हुए प्याज़ के साथ रखा गया था।",
+"hg": "Kapde ki un dono strips ko sungho jo raat bhar kate hue onion ke saath rakhi gayi thi."
+},
+"Both strips smell strongly of onion.": {
+"hi": "दोनों पट्टियों से प्याज़ की तेज़ गंध आती है।",
+"hg": "Dono strips se onion ki strong smell aati hai."
+},
+"Put a few drops of dilute hydrochloric acid on strip 1 and a few drops of dilute sodium hydroxide on strip 2.": {
+"hi": "पट्टी 1 पर तनु हाइड्रोक्लोरिक अम्ल की कुछ बूँदें और पट्टी 2 पर तनु सोडियम हाइड्रॉक्साइड की कुछ बूँदें डालिए।",
+"hg": "Strip 1 par dilute hydrochloric acid ki kuch boondein aur strip 2 par dilute sodium hydroxide ki kuch boondein daalo."
+},
+"Both strips become wet where the drops fall.": {
+"hi": "जहाँ बूँदें गिरती हैं, वहाँ दोनों पट्टियाँ गीली हो जाती हैं।",
+"hg": "Jahan boondein girti hain, wahan dono strips geeli ho jaati hain."
+},
+"Rinse both strips in water and smell them again.": {
+"hi": "दोनों पट्टियों को पानी में खंगालिए और फिर से सूँघिए।",
+"hg": "Dono strips ko paani mein rinse karo aur phir se sungho."
+},
+"Strip 1 (acid) still smells of onion. Strip 2 (base) has lost its onion smell.": {
+"hi": "पट्टी 1 (अम्ल) से अब भी प्याज़ की गंध आती है। पट्टी 2 (क्षारक) की प्याज़ की गंध चली गई है।",
+"hg": "Strip 1 (acid) se abhi bhi onion ki smell aati hai. Strip 2 (base) ki onion smell chali gayi hai."
+},
+"The onion smell survives an acid but is destroyed by a base, so onion can show whether a solution is acidic or basic by smell.": {
+"hi": "प्याज़ की गंध अम्ल में बनी रहती है पर क्षारक से नष्ट हो जाती है, इसलिए प्याज़ गंध के द्वारा बता सकता है कि कोई विलयन अम्लीय है या क्षारकीय।",
+"hg": "Onion ki smell acid mein bani rehti hai lekin base se khatam ho jaati hai, isliye onion smell se bata sakta hai ki solution acidic hai ya basic."
+},
+"Add three drops of vanilla essence to test tubes 1 (acid) and 2 (base), shake them and smell.": {
+"hi": "परखनली 1 (अम्ल) और 2 (क्षारक) में वनीला एसेंस की तीन बूँदें डालिए, उन्हें हिलाइए और सूँघिए।",
+"hg": "Test tube 1 (acid) aur 2 (base) mein vanilla essence ki teen boondein daalo, unhe shake karo aur sungho."
+},
+"Tube 1 (acid) smells of vanilla. In tube 2 (base) the vanilla smell has gone.": {
+"hi": "नली 1 (अम्ल) से वनीला की गंध आती है। नली 2 (क्षारक) में वनीला की गंध चली गई है।",
+"hg": "Tube 1 (acid) se vanilla ki smell aati hai. Tube 2 (base) mein vanilla ki smell chali gayi hai."
+},
+"Vanillin reacts with sodium hydroxide to form a salt that has no smell.": {
+"hi": "वैनिलिन सोडियम हाइड्रॉक्साइड से अभिक्रिया करके एक गंधहीन लवण बनाता है।",
+"hg": "Vanillin sodium hydroxide ke saath react karke ek aisa salt banata hai jismein koi smell nahi hoti."
+},
+"Do the same with clove oil in test tubes 3 (acid) and 4 (base).": {
+"hi": "परखनली 3 (अम्ल) और 4 (क्षारक) में लौंग के तेल के साथ यही कीजिए।",
+"hg": "Test tube 3 (acid) aur 4 (base) mein clove oil ke saath yahi karo."
+},
+"The clove smell stays in the acid (tube 3) but becomes very weak in the base (tube 4).": {
+"hi": "लौंग की गंध अम्ल (नली 3) में बनी रहती है पर क्षारक (नली 4) में बहुत हल्की हो जाती है।",
+"hg": "Clove ki smell acid (tube 3) mein bani rehti hai lekin base (tube 4) mein bahut weak ho jaati hai."
+},
+"Onion, vanilla and clove oil are olfactory indicators: their smell changes in a basic medium but not in an acidic one.": {
+"hi": "प्याज़, वनीला और लौंग का तेल गंधीय सूचक हैं: इनकी गंध क्षारकीय माध्यम में बदल जाती है पर अम्लीय माध्यम में नहीं।",
+"hg": "Onion, vanilla aur clove oil olfactory indicators hain: inki smell basic medium mein badal jaati hai lekin acidic medium mein nahi."
+},
+"Onion, vanilla and clove kept their smell with hydrochloric acid, but lost it (or nearly lost it) with sodium hydroxide.": {
+"hi": "प्याज़, वनीला और लौंग की गंध हाइड्रोक्लोरिक अम्ल के साथ बनी रही, पर सोडियम हाइड्रॉक्साइड के साथ चली गई (या लगभग चली गई)।",
+"hg": "Onion, vanilla aur clove ki smell hydrochloric acid ke saath bani rahi, lekin sodium hydroxide ke saath chali gayi (ya lagbhag chali gayi)."
+},
+"Onion, vanilla essence and clove oil are olfactory indicators: they can tell a base from an acid by smell. They are useful for visually impaired students.": {
+"hi": "प्याज़, वनीला एसेंस और लौंग का तेल गंधीय सूचक हैं: ये गंध द्वारा क्षारक और अम्ल में अंतर बता सकते हैं। ये दृष्टिबाधित विद्यार्थियों के लिए उपयोगी हैं।",
+"hg": "Onion, vanilla essence aur clove oil olfactory indicators hain: yeh smell se base aur acid mein farak bata sakte hain. Yeh visually impaired students ke liye useful hain."
+},
+"Waft the smell towards your nose with your hand; never sniff directly. Use only dilute acid and base.": {
+"hi": "हाथ से गंध को अपनी नाक की ओर लाइए; कभी भी सीधे न सूँघिए। केवल तनु अम्ल और क्षारक का उपयोग कीजिए।",
+"hg": "Haath se smell ko apni naak ki taraf waft karo; kabhi bhi seedha mat sungho. Sirf dilute acid aur base use karo."
+},
+"What is an olfactory indicator?": {
+"hi": "गंधीय सूचक क्या है?",
+"hg": "Olfactory indicator kya hai?"
+},
+"A substance whose smell changes in an acidic or basic medium, e.g. onion, vanilla, clove oil.": {
+"hi": "ऐसा पदार्थ जिसकी गंध अम्लीय या क्षारकीय माध्यम में बदल जाती है, जैसे प्याज़, वनीला, लौंग का तेल।",
+"hg": "Aisa substance jiski smell acidic ya basic medium mein badal jaati hai, jaise onion, vanilla, clove oil."
+},
+"In which medium does the vanilla smell disappear?": {
+"hi": "किस माध्यम में वनीला की गंध गायब हो जाती है?",
+"hg": "Kis medium mein vanilla ki smell gayab ho jaati hai?"
+},
+"In a basic medium (sodium hydroxide).": {
+"hi": "क्षारकीय माध्यम (सोडियम हाइड्रॉक्साइड) में।",
+"hg": "Basic medium (sodium hydroxide) mein."
+},
+"Who can use olfactory indicators especially?": {
+"hi": "गंधीय सूचकों का उपयोग विशेष रूप से कौन कर सकता है?",
+"hg": "Olfactory indicators ka use khaas taur par kaun kar sakta hai?"
+},
+"Visually impaired students, who cannot see colour changes.": {
+"hi": "दृष्टिबाधित विद्यार्थी, जो रंग-परिवर्तन नहीं देख सकते।",
+"hg": "Visually impaired students, jo colour change nahi dekh sakte."
+},
+"Vanillin + sodium hydroxide → sodium vanillate (no smell) + water": {
+"hi": "वैनिलिन + सोडियम हाइड्रॉक्साइड → सोडियम वैनिलेट (गंधहीन) + जल",
+"hg": "Vanillin + sodium hydroxide → sodium vanillate (koi smell nahi) + water"
+},
+"Copper oxide and hydrochloric acid": {
+"hi": "कॉपर ऑक्साइड और हाइड्रोक्लोरिक अम्ल",
+"hg": "Copper oxide aur hydrochloric acid"
+},
+"To show that a metal oxide reacts with an acid to form a salt and water.": {
+"hi": "यह दर्शाना कि धातु ऑक्साइड अम्ल से अभिक्रिया करके लवण और जल बनाता है।",
+"hg": "Yeh dikhana ki metal oxide acid ke saath react karke salt aur water banata hai."
+},
+"Metal oxides are basic": {
+"hi": "धातु ऑक्साइड क्षारकीय होते हैं",
+"hg": "Metal oxides basic hote hain"
+},
+"Put a spatula of black copper oxide in the beaker.": {
+"hi": "बीकर में एक स्पैचुला काला कॉपर ऑक्साइड डालिए।",
+"hg": "Beaker mein ek spatula black copper oxide daalo."
+},
+"A black powder at the bottom of the beaker.": {
+"hi": "बीकर की तली में काला चूर्ण।",
+"hg": "Beaker ke bottom mein black powder."
+},
+"Add about 15 mL of dilute hydrochloric acid slowly while stirring.": {
+"hi": "हिलाते हुए धीरे-धीरे लगभग 15 mL तनु हाइड्रोक्लोरिक अम्ल डालिए।",
+"hg": "Stir karte hue dheere-dheere lagbhag 15 mL dilute hydrochloric acid daalo."
+},
+"Some of the black powder dissolves and the liquid turns a pale blue-green.": {
+"hi": "कुछ काला चूर्ण घुल जाता है और द्रव हल्का नीला-हरा हो जाता है।",
+"hg": "Kuch black powder dissolve ho jaata hai aur liquid halka blue-green ho jaata hai."
+},
+"Warm the beaker gently on the tripod while stirring (time-lapse).": {
+"hi": "हिलाते हुए बीकर को त्रिपाद स्टैंड पर धीरे-धीरे गरम कीजिए (टाइम-लैप्स)।",
+"hg": "Stir karte hue beaker ko tripod par dheere-dheere warm karo (time-lapse)."
+},
+"All the black powder dissolves. The solution becomes clear and blue-green.": {
+"hi": "सारा काला चूर्ण घुल जाता है। विलयन पारदर्शी और नीला-हरा हो जाता है।",
+"hg": "Saara black powder dissolve ho jaata hai. Solution clear aur blue-green ho jaata hai."
+},
+"Copper oxide reacts with the acid to form copper(II) chloride, which colours the solution blue-green, and water.": {
+"hi": "कॉपर ऑक्साइड अम्ल से अभिक्रिया करके कॉपर(II) क्लोराइड, जो विलयन को नीला-हरा रंग देता है, और जल बनाता है।",
+"hg": "Copper oxide acid ke saath react karke copper(II) chloride banata hai, jo solution ko blue-green colour deta hai, aur saath mein water bhi banata hai."
+},
+"The black copper oxide dissolved in dilute hydrochloric acid (faster on warming) and the solution turned blue-green.": {
+"hi": "काला कॉपर ऑक्साइड तनु हाइड्रोक्लोरिक अम्ल में घुल गया (गरम करने पर अधिक तेज़ी से) और विलयन नीला-हरा हो गया।",
+"hg": "Black copper oxide dilute hydrochloric acid mein dissolve ho gaya (warm karne par aur tezi se) aur solution blue-green ho gaya."
+},
+"A metal oxide reacts with an acid to give a salt and water, just like a base. Metal oxides are basic oxides.": {
+"hi": "धातु ऑक्साइड, क्षारक की तरह ही, अम्ल से अभिक्रिया करके लवण और जल देता है। धातु ऑक्साइड क्षारकीय ऑक्साइड होते हैं।",
+"hg": "Metal oxide bilkul base ki tarah acid ke saath react karke salt aur water deta hai. Metal oxides basic oxides hote hain."
+},
+"Handle the acid with care and do not touch the hot beaker. Copper compounds are harmful if swallowed.": {
+"hi": "अम्ल को सावधानी से संभालिए और गरम बीकर को न छुइए। कॉपर के यौगिक निगलने पर हानिकारक होते हैं।",
+"hg": "Acid ko dhyaan se handle karo aur garam beaker ko mat chhuo. Copper compounds nigalne par harmful hote hain."
+},
+"Why does the solution turn blue-green?": {
+"hi": "विलयन नीला-हरा क्यों हो जाता है?",
+"hg": "Solution blue-green kyon ho jaata hai?"
+},
+"Because copper(II) chloride is formed.": {
+"hi": "क्योंकि कॉपर(II) क्लोराइड बनता है।",
+"hg": "Kyonki copper(II) chloride banta hai."
+},
+"Are metal oxides acidic or basic?": {
+"hi": "धातु ऑक्साइड अम्लीय होते हैं या क्षारकीय?",
+"hg": "Metal oxides acidic hote hain ya basic?"
+},
+"Basic: they react with acids to give salt and water.": {
+"hi": "क्षारकीय: ये अम्लों से अभिक्रिया करके लवण और जल देते हैं।",
+"hg": "Basic: yeh acids ke saath react karke salt aur water dete hain."
+},
+"Write the general equation.": {
+"hi": "सामान्य समीकरण लिखिए।",
+"hg": "General equation likho."
+},
+"Metal oxide + acid → salt + water.": {
+"hi": "धातु ऑक्साइड + अम्ल → लवण + जल।",
+"hg": "Metal oxide + acid → salt + water."
+},
+"Copper(II) oxide + hydrochloric acid → copper(II) chloride + water": {
+"hi": "कॉपर(II) ऑक्साइड + हाइड्रोक्लोरिक अम्ल → कॉपर(II) क्लोराइड + जल",
+"hg": "Copper(II) oxide + hydrochloric acid → copper(II) chloride + water"
+},
+"Does dry HCl gas behave as an acid?": {
+"hi": "क्या शुष्क HCl गैस अम्ल की तरह व्यवहार करती है?",
+"hg": "Kya dry HCl gas acid ki tarah behave karti hai?"
+},
+"To show that hydrogen chloride gas shows acidic behaviour only in the presence of water.": {
+"hi": "यह दर्शाना कि हाइड्रोजन क्लोराइड गैस केवल जल की उपस्थिति में ही अम्लीय व्यवहार दिखाती है।",
+"hg": "Yeh dikhana ki hydrogen chloride gas sirf water ki presence mein hi acidic behaviour dikhati hai."
+},
+"Acids need water to form H⁺ ions": {
+"hi": "H⁺ आयन बनाने के लिए अम्लों को जल की आवश्यकता होती है",
+"hg": "H⁺ ions banane ke liye acids ko water chahiye"
+},
+"Put a spatula of dry common salt in the dry boiling tube.": {
+"hi": "सूखी क्वथन नली में एक स्पैचुला सूखा साधारण नमक डालिए।",
+"hg": "Dry boiling tube mein ek spatula dry common salt daalo."
+},
+"White salt at the bottom of the tube.": {
+"hi": "नली की तली में सफ़ेद नमक।",
+"hg": "Tube ke bottom mein white salt."
+},
+"(Teacher) Add a little concentrated sulphuric acid and fit the cork with the delivery tube (through the calcium chloride guard tube).": {
+"hi": "(शिक्षक) थोड़ा सांद्र सल्फ़्यूरिक अम्ल डालिए और निकास नली वाला कॉर्क लगाइए (कैल्सियम क्लोराइड रक्षक नली से होकर)।",
+"hg": "(Teacher) Thoda concentrated sulphuric acid daalo aur delivery tube wala cork laga do (calcium chloride guard tube se hokar)."
+},
+"The salt fizzes. A colourless gas with a sharp, choking smell comes out of the delivery tube and forms white misty fumes in the moist air.": {
+"hi": "नमक से बुदबुदाहट होती है। तीखी, दम घोंटने वाली गंध वाली एक रंगहीन गैस निकास नली से निकलती है और नम वायु में सफ़ेद धुंध जैसा धुआँ बनाती है।",
+"hg": "Salt fizz karta hai. Sharp, choking smell wali ek colourless gas delivery tube se nikalti hai aur moist air mein white misty fumes banati hai."
+},
+"Sodium chloride and sulphuric acid give hydrogen chloride gas. The calcium chloride in the guard tube removes moisture, so the gas is dry.": {
+"hi": "सोडियम क्लोराइड और सल्फ़्यूरिक अम्ल से हाइड्रोजन क्लोराइड गैस बनती है। रक्षक नली में भरा कैल्सियम क्लोराइड नमी सोख लेता है, इसलिए गैस शुष्क होती है।",
+"hg": "Sodium chloride aur sulphuric acid se hydrogen chloride gas banti hai. Guard tube mein rakha calcium chloride moisture hata deta hai, isliye gas dry hoti hai."
+},
+"Hold dry blue litmus paper at the end of the delivery tube.": {
+"hi": "शुष्क नीले लिटमस पत्र को निकास नली के सिरे पर पकड़िए।",
+"hg": "Dry blue litmus paper ko delivery tube ke end par pakdo."
+},
+"No change: the dry blue litmus paper stays blue.": {
+"hi": "कोई परिवर्तन नहीं: शुष्क नीला लिटमस पत्र नीला ही रहता है।",
+"hg": "Koi change nahi: dry blue litmus paper blue hi rehta hai."
+},
+"Now hold moist blue litmus paper at the end of the tube.": {
+"hi": "अब नम नीले लिटमस पत्र को नली के सिरे पर पकड़िए।",
+"hg": "Ab moist blue litmus paper ko tube ke end par pakdo."
+},
+"The moist blue litmus paper turns red at once.": {
+"hi": "नम नीला लिटमस पत्र तुरंत लाल हो जाता है।",
+"hg": "Moist blue litmus paper turant red ho jaata hai."
+},
+"Hydrogen chloride forms hydrogen ions (H⁺) only when it dissolves in water. Dry HCl gas gives no H⁺ ions, so it does not act as an acid.": {
+"hi": "हाइड्रोजन क्लोराइड केवल जल में घुलने पर ही हाइड्रोजन आयन (H⁺) बनाता है। शुष्क HCl गैस कोई H⁺ आयन नहीं देती, इसलिए यह अम्ल की तरह कार्य नहीं करती।",
+"hg": "Hydrogen chloride sirf water mein dissolve hone par hi hydrogen ions (H⁺) banata hai. Dry HCl gas koi H⁺ ions nahi deti, isliye yeh acid ki tarah act nahi karti."
+},
+"Dry HCl gas did not change dry blue litmus; it turned moist blue litmus red.": {
+"hi": "शुष्क HCl गैस ने शुष्क नीले लिटमस को नहीं बदला; इसने नम नीले लिटमस को लाल कर दिया।",
+"hg": "Dry HCl gas ne dry blue litmus ko change nahi kiya; isne moist blue litmus ko red kar diya."
+},
+"The acidic behaviour of acids appears only in water, where they produce hydrogen ions (H⁺ or H₃O⁺).": {
+"hi": "अम्लों का अम्लीय व्यवहार केवल जल में दिखाई देता है, जहाँ वे हाइड्रोजन आयन (H⁺ या H₃O⁺) उत्पन्न करते हैं।",
+"hg": "Acids ka acidic behaviour sirf water mein dikhta hai, jahan woh hydrogen ions (H⁺ ya H₃O⁺) produce karte hain."
+},
+"Only the teacher handles concentrated sulphuric acid. HCl gas is corrosive: do it in a fume cupboard or near an open window and do not inhale it.": {
+"hi": "सांद्र सल्फ़्यूरिक अम्ल को केवल शिक्षक ही संभालेंगे। HCl गैस संक्षारक है: यह प्रयोग धूम-कोठरी (फ़्यूम कपबोर्ड) में या खुली खिड़की के पास कीजिए और गैस को साँस के साथ अंदर न लीजिए।",
+"hg": "Concentrated sulphuric acid sirf teacher hi handle karenge. HCl gas corrosive hai: yeh experiment fume cupboard mein ya khuli khidki ke paas karo aur gas ko inhale mat karo."
+},
+"Why does dry HCl gas not change the colour of dry litmus?": {
+"hi": "शुष्क HCl गैस शुष्क लिटमस का रंग क्यों नहीं बदलती?",
+"hg": "Dry HCl gas dry litmus ka colour kyon nahi badalti?"
+},
+"Without water it cannot form H⁺ ions.": {
+"hi": "जल के बिना यह H⁺ आयन नहीं बना सकती।",
+"hg": "Water ke bina yeh H⁺ ions nahi bana sakti."
+},
+"What is the purpose of the calcium chloride guard tube?": {
+"hi": "कैल्सियम क्लोराइड रक्षक नली का क्या उद्देश्य है?",
+"hg": "Calcium chloride guard tube ka kya purpose hai?"
+},
+"It absorbs moisture and keeps the gas dry.": {
+"hi": "यह नमी को अवशोषित करती है और गैस को शुष्क रखती है।",
+"hg": "Yeh moisture absorb karti hai aur gas ko dry rakhti hai."
+},
+"Which ion is responsible for acidic properties?": {
+"hi": "अम्लीय गुणों के लिए कौन-सा आयन उत्तरदायी है?",
+"hg": "Acidic properties ke liye kaun sa ion responsible hai?"
+},
+"The hydrogen ion, H⁺ (as H₃O⁺ in water).": {
+"hi": "हाइड्रोजन आयन, H⁺ (जल में H₃O⁺ के रूप में)।",
+"hg": "Hydrogen ion, H⁺ (water mein H₃O⁺ ke roop mein)."
+},
+"Sodium chloride + sulphuric acid → sodium hydrogensulphate + hydrogen chloride · in water: HCl → H⁺ + Cl⁻": {
+"hi": "सोडियम क्लोराइड + सल्फ़्यूरिक अम्ल → सोडियम हाइड्रोजनसल्फ़ेट + हाइड्रोजन क्लोराइड · जल में: HCl → H⁺ + Cl⁻",
+"hg": "Sodium chloride + sulphuric acid → sodium hydrogensulphate + hydrogen chloride · water mein: HCl → H⁺ + Cl⁻"
+},
+"Mixing an acid or a base with water": {
+"hi": "अम्ल या क्षारक को जल में मिलाना",
+"hg": "Acid ya base ko water mein mix karna"
+},
+"To show that dissolving a concentrated acid or a base in water gives out heat.": {
+"hi": "यह दर्शाना कि सांद्र अम्ल या क्षारक को जल में घोलने पर ऊष्मा निकलती है।",
+"hg": "Yeh dikhana ki concentrated acid ya base ko water mein dissolve karne par heat nikalti hai."
+},
+"Dilution is exothermic": {
+"hi": "तनुकरण ऊष्माक्षेपी है",
+"hg": "Dilution exothermic hai"
+},
+"Read the temperature of the water in beaker A.": {
+"hi": "बीकर A में रखे जल का ताप पढ़िए।",
+"hg": "Beaker A mein rakhe water ka temperature padho."
+},
+"Room temperature, about 27 °C.": {
+"hi": "कमरे का ताप, लगभग 27 °C।",
+"hg": "Room temperature, lagbhag 27 °C."
+},
+"(Teacher) Add concentrated sulphuric acid to the water drop by drop, swirling gently: always acid to water, never water to acid.": {
+"hi": "(शिक्षक) सांद्र सल्फ़्यूरिक अम्ल को बूँद-बूँद करके जल में डालिए और धीरे-धीरे घुमाते रहिए: हमेशा अम्ल को जल में डालें, कभी भी जल को अम्ल में नहीं।",
+"hg": "(Teacher) Concentrated sulphuric acid ko boond-boond karke water mein daalo, dheere se swirl karte hue: hamesha acid ko water mein, kabhi bhi water ko acid mein nahi."
+},
+"The heavy, oily drops sink and mix in swirls. The temperature rises quickly and the beaker becomes hot.": {
+"hi": "भारी, तैलीय बूँदें नीचे बैठती हैं और भँवर बनाते हुए मिलती हैं। ताप तेज़ी से बढ़ता है और बीकर गरम हो जाता है।",
+"hg": "Heavy, oily boondein neeche doobti hain aur swirls mein mix hoti hain. Temperature tezi se badhta hai aur beaker garam ho jaata hai."
+},
+"Mixing a concentrated acid with water is highly exothermic. If water were added to the acid, the heat could boil the mixture and splash acid out.": {
+"hi": "सांद्र अम्ल को जल में मिलाना अत्यधिक ऊष्माक्षेपी है। यदि अम्ल में जल डाला जाए, तो ऊष्मा से मिश्रण उबल सकता है और अम्ल छिटककर बाहर आ सकता है।",
+"hg": "Concentrated acid ko water mein mix karna highly exothermic hai. Agar acid mein water daala jaye, to heat se mixture boil ho sakta hai aur acid chhitak kar bahar aa sakta hai."
+},
+"Put a few sodium hydroxide pellets in beaker B and stir until they dissolve.": {
+"hi": "बीकर B में सोडियम हाइड्रॉक्साइड की कुछ गोलियाँ (पेलेट) डालिए और घुलने तक हिलाइए।",
+"hg": "Beaker B mein kuch sodium hydroxide pellets daalo aur dissolve hone tak stir karo."
+},
+"The pellets dissolve and the temperature of the water rises by several degrees.": {
+"hi": "गोलियाँ घुल जाती हैं और जल का ताप कई डिग्री बढ़ जाता है।",
+"hg": "Pellets dissolve ho jaati hain aur water ka temperature kai degree badh jaata hai."
+},
+"Dissolving a base such as sodium hydroxide in water also gives out heat.": {
+"hi": "सोडियम हाइड्रॉक्साइड जैसे क्षारक को जल में घोलने पर भी ऊष्मा निकलती है।",
+"hg": "Sodium hydroxide jaise base ko water mein dissolve karne par bhi heat nikalti hai."
+},
+"Beaker A became hot as concentrated sulphuric acid was added; beaker B became warm as sodium hydroxide dissolved.": {
+"hi": "सांद्र सल्फ़्यूरिक अम्ल डालने पर बीकर A गरम हो गया; सोडियम हाइड्रॉक्साइड घुलने पर बीकर B गुनगुना हो गया।",
+"hg": "Concentrated sulphuric acid daalne par beaker A garam ho gaya; sodium hydroxide dissolve hone par beaker B warm ho gaya."
+},
+"Dissolving an acid or a base in water is an exothermic process. Concentrated acid must always be added slowly to water, with stirring.": {
+"hi": "अम्ल या क्षारक को जल में घोलना एक ऊष्माक्षेपी प्रक्रम है। सांद्र अम्ल को हमेशा हिलाते हुए धीरे-धीरे जल में ही डालना चाहिए।",
+"hg": "Acid ya base ko water mein dissolve karna ek exothermic process hai. Concentrated acid ko hamesha stir karte hue dheere-dheere water mein daalna chahiye."
+},
+"Concentrated sulphuric acid causes severe burns: only the teacher handles it, with goggles and gloves. Never touch sodium hydroxide pellets with your fingers.": {
+"hi": "सांद्र सल्फ़्यूरिक अम्ल त्वचा को बुरी तरह जला देता है: इसे केवल शिक्षक ही गॉगल्स और दस्ताने पहनकर संभालेंगे। सोडियम हाइड्रॉक्साइड की गोलियों को कभी भी उँगलियों से न छुइए।",
+"hg": "Concentrated sulphuric acid se severe burns hote hain: ise sirf teacher hi goggles aur gloves pehen kar handle karenge. Sodium hydroxide pellets ko kabhi bhi ungliyon se mat chhuo."
+},
+"Why should acid be added to water and not water to acid?": {
+"hi": "अम्ल को जल में क्यों डालना चाहिए, जल को अम्ल में क्यों नहीं?",
+"hg": "Acid ko water mein kyon daalna chahiye, water ko acid mein kyon nahi?"
+},
+"Adding water to concentrated acid releases so much heat that the mixture can boil and splash out.": {
+"hi": "सांद्र अम्ल में जल डालने पर इतनी अधिक ऊष्मा निकलती है कि मिश्रण उबलकर छिटककर बाहर आ सकता है।",
+"hg": "Concentrated acid mein water daalne par itni zyada heat nikalti hai ki mixture boil hokar bahar chhitak sakta hai."
+},
+"What is dilution?": {
+"hi": "तनुकरण क्या है?",
+"hg": "Dilution kya hai?"
+},
+"Mixing an acid or base with water, which lowers the concentration of H⁺ or OH⁻ ions per unit volume.": {
+"hi": "अम्ल या क्षारक को जल में मिलाना, जिससे प्रति इकाई आयतन में H⁺ या OH⁻ आयनों की सांद्रता कम हो जाती है।",
+"hg": "Acid ya base ko water mein mix karna, jisse per unit volume H⁺ ya OH⁻ ions ka concentration kam ho jaata hai."
+},
+"Is dissolving NaOH in water exothermic or endothermic?": {
+"hi": "NaOH को जल में घोलना ऊष्माक्षेपी है या ऊष्माशोषी?",
+"hg": "NaOH ko water mein dissolve karna exothermic hai ya endothermic?"
+},
+"Exothermic.": {
+"hi": "ऊष्माक्षेपी।",
+"hg": "Exothermic."
+},
+"Sulphuric acid + water → hydrogen ions + hydrogensulphate ions + heat · sodium hydroxide → sodium ions + hydroxide ions + heat": {
+"hi": "सल्फ़्यूरिक अम्ल + जल → हाइड्रोजन आयन + हाइड्रोजनसल्फ़ेट आयन + ऊष्मा · सोडियम हाइड्रॉक्साइड → सोडियम आयन + हाइड्रॉक्साइड आयन + ऊष्मा",
+"hg": "Sulphuric acid + water → hydrogen ions + hydrogensulphate ions + heat · sodium hydroxide → sodium ions + hydroxide ions + heat"
+},
+"Properties of hydrochloric acid and sodium hydroxide": {
+"hi": "हाइड्रोक्लोरिक अम्ल और सोडियम हाइड्रॉक्साइड के गुणधर्म",
+"hg": "Hydrochloric acid aur sodium hydroxide ki properties"
+},
+"To study the properties of dilute HCl and dilute NaOH with litmus solution, zinc metal and solid sodium carbonate.": {
+"hi": "लिटमस विलयन, ज़िंक धातु और ठोस सोडियम कार्बोनेट के साथ तनु HCl और तनु NaOH के गुणधर्मों का अध्ययन करना।",
+"hg": "Litmus solution, zinc metal aur solid sodium carbonate ke saath dilute HCl aur dilute NaOH ki properties ka study karna."
+},
+"Properties of acids and bases": {
+"hi": "अम्लों और क्षारकों के गुणधर्म",
+"hg": "Acids aur bases ki properties"
+},
+"Add two drops of blue litmus solution to tube 1 (HCl) and two drops of red litmus solution to tube 2 (NaOH).": {
+"hi": "नली 1 (HCl) में नीले लिटमस विलयन की दो बूँदें और नली 2 (NaOH) में लाल लिटमस विलयन की दो बूँदें डालिए।",
+"hg": "Tube 1 (HCl) mein blue litmus solution ki do boondein aur tube 2 (NaOH) mein red litmus solution ki do boondein daalo."
+},
+"Blue litmus turns red in the acid. Red litmus turns blue in the base.": {
+"hi": "अम्ल में नीला लिटमस लाल हो जाता है। क्षारक में लाल लिटमस नीला हो जाता है।",
+"hg": "Acid mein blue litmus red ho jaata hai. Base mein red litmus blue ho jaata hai."
+},
+"Acids turn blue litmus red; bases turn red litmus blue.": {
+"hi": "अम्ल नीले लिटमस को लाल कर देते हैं; क्षारक लाल लिटमस को नीला कर देते हैं।",
+"hg": "Acids blue litmus ko red kar dete hain; bases red litmus ko blue kar dete hain."
+},
+"Drop a zinc granule into tube 3 (HCl) and another into tube 4 (NaOH).": {
+"hi": "नली 3 (HCl) में ज़िंक का एक दाना डालिए और दूसरा दाना नली 4 (NaOH) में डालिए।",
+"hg": "Tube 3 (HCl) mein ek zinc granule daalo aur doosra tube 4 (NaOH) mein daalo."
+},
+"Tube 3 fizzes at once. Tube 4 shows almost no change while cold.": {
+"hi": "नली 3 में तुरंत बुदबुदाहट होती है। ठंडी अवस्था में नली 4 में लगभग कोई परिवर्तन नहीं दिखता।",
+"hg": "Tube 3 mein turant fizz hota hai. Thande rehte hue tube 4 mein lagbhag koi change nahi dikhta."
+},
+"Light the spirit lamp and bring a burning splint to the mouth of tube 3.": {
+"hi": "स्पिरिट लैंप जलाइए और एक जलती हुई तीली को नली 3 के मुँह के पास लाइए।",
+"hg": "Spirit lamp jalao aur ek jalti hui splint ko tube 3 ke mouth ke paas lao."
+},
+"The gas burns with a pop sound: it is hydrogen.": {
+"hi": "गैस 'पॉप' ध्वनि के साथ जलती है: यह हाइड्रोजन है।",
+"hg": "Gas pop sound ke saath jalti hai: yeh hydrogen hai."
+},
+"Warm tube 4 gently, then test its gas with a burning splint.": {
+"hi": "नली 4 को धीरे से गरम कीजिए, फिर उसकी गैस का परीक्षण जलती हुई तीली से कीजिए।",
+"hg": "Tube 4 ko dheere se warm karo, phir uski gas ko burning splint se test karo."
+},
+"On warming, bubbles form slowly on the zinc; the gas also burns with a pop.": {
+"hi": "गरम करने पर ज़िंक पर धीरे-धीरे बुलबुले बनते हैं; यह गैस भी 'पॉप' ध्वनि के साथ जलती है।",
+"hg": "Warm karne par zinc par dheere-dheere bubbles bante hain; yeh gas bhi pop ke saath jalti hai."
+},
+"Zinc reacts with hot sodium hydroxide solution to form sodium zincate and hydrogen.": {
+"hi": "ज़िंक गरम सोडियम हाइड्रॉक्साइड विलयन से अभिक्रिया करके सोडियम ज़िंकेट और हाइड्रोजन बनाता है।",
+"hg": "Zinc garam sodium hydroxide solution ke saath react karke sodium zincate aur hydrogen banata hai."
+},
+"Add a pinch of solid sodium carbonate to tube 5 (HCl), fit the delivery tube and pass the gas into lime water.": {
+"hi": "नली 5 (HCl) में एक चुटकी ठोस सोडियम कार्बोनेट डालिए, निकास नली लगाइए और गैस को चूने के पानी में प्रवाहित कीजिए।",
+"hg": "Tube 5 (HCl) mein ek chutki solid sodium carbonate daalo, delivery tube lagao aur gas ko lime water mein pass karo."
+},
+"Brisk effervescence; the lime water turns milky.": {
+"hi": "तेज़ बुदबुदाहट होती है; चूने का पानी दूधिया हो जाता है।",
+"hg": "Tez effervescence hota hai; lime water milky ho jaata hai."
+},
+"Acids react with carbonates to give carbon dioxide, which turns lime water milky.": {
+"hi": "अम्ल कार्बोनेटों से अभिक्रिया करके कार्बन डाइऑक्साइड देते हैं, जो चूने के पानी को दूधिया कर देती है।",
+"hg": "Acids carbonates ke saath react karke carbon dioxide dete hain, jo lime water ko milky kar deti hai."
+},
+"Add a pinch of sodium carbonate to tube 6 (NaOH) and swirl.": {
+"hi": "नली 6 (NaOH) में एक चुटकी सोडियम कार्बोनेट डालिए और घुमाइए।",
+"hg": "Tube 6 (NaOH) mein ek chutki sodium carbonate daalo aur swirl karo."
+},
+"No gas is given off.": {
+"hi": "कोई गैस नहीं निकलती।",
+"hg": "Koi gas nahi nikalti."
+},
+"Sodium carbonate does not react with a base.": {
+"hi": "सोडियम कार्बोनेट क्षारक से अभिक्रिया नहीं करता।",
+"hg": "Sodium carbonate base ke saath react nahi karta."
+},
+"HCl turned blue litmus red, gave hydrogen with zinc in the cold and carbon dioxide with sodium carbonate. NaOH turned red litmus blue, gave hydrogen with zinc only on warming, and did not react with sodium carbonate.": {
+"hi": "HCl ने नीले लिटमस को लाल कर दिया, ठंडे में ही ज़िंक के साथ हाइड्रोजन और सोडियम कार्बोनेट के साथ कार्बन डाइऑक्साइड दी। NaOH ने लाल लिटमस को नीला कर दिया, ज़िंक के साथ केवल गरम करने पर हाइड्रोजन दी, और सोडियम कार्बोनेट से अभिक्रिया नहीं की।",
+"hg": "HCl ne blue litmus ko red kar diya, thande mein hi zinc ke saath hydrogen di aur sodium carbonate ke saath carbon dioxide di. NaOH ne red litmus ko blue kar diya, zinc ke saath sirf warm karne par hydrogen di, aur sodium carbonate ke saath react nahi kiya."
+},
+"Dilute HCl is acidic: it reacts with active metals and with carbonates. Dilute NaOH is basic: it reacts with zinc on warming but not with carbonates.": {
+"hi": "तनु HCl अम्लीय है: यह सक्रिय धातुओं और कार्बोनेटों से अभिक्रिया करता है। तनु NaOH क्षारकीय है: यह गरम करने पर ज़िंक से अभिक्रिया करता है पर कार्बोनेटों से नहीं।",
+"hg": "Dilute HCl acidic hai: yeh active metals aur carbonates ke saath react karta hai. Dilute NaOH basic hai: yeh warm karne par zinc ke saath react karta hai lekin carbonates ke saath nahi."
+},
+"Acids and alkalis are corrosive: wear goggles. Point the mouth of a tube being warmed away from everyone.": {
+"hi": "अम्ल और क्षार संक्षारक होते हैं: गॉगल्स पहनिए। गरम की जा रही नली का मुँह सभी से दूर की ओर रखिए।",
+"hg": "Acids aur alkalis corrosive hote hain: goggles pehno. Garam ki ja rahi tube ka mouth sabse door ki taraf rakho."
+},
+"Which gas is given off when zinc reacts with HCl or NaOH?": {
+"hi": "जब ज़िंक HCl या NaOH से अभिक्रिया करता है तो कौन-सी गैस निकलती है?",
+"hg": "Jab zinc HCl ya NaOH ke saath react karta hai to kaun si gas nikalti hai?"
+},
+"How do you test for carbon dioxide?": {
+"hi": "कार्बन डाइऑक्साइड का परीक्षण आप कैसे करते हैं?",
+"hg": "Carbon dioxide ka test aap kaise karte ho?"
+},
+"What colour does blue litmus turn in HCl?": {
+"hi": "HCl में नीला लिटमस किस रंग का हो जाता है?",
+"hg": "HCl mein blue litmus kis colour ka ho jaata hai?"
+},
+"Zinc + hydrochloric acid → zinc chloride + hydrogen · zinc + sodium hydroxide → sodium zincate + hydrogen · sodium carbonate + hydrochloric acid → sodium chloride + water + carbon dioxide": {
+"hi": "ज़िंक + हाइड्रोक्लोरिक अम्ल → ज़िंक क्लोराइड + हाइड्रोजन · ज़िंक + सोडियम हाइड्रॉक्साइड → सोडियम ज़िंकेट + हाइड्रोजन · सोडियम कार्बोनेट + हाइड्रोक्लोरिक अम्ल → सोडियम क्लोराइड + जल + कार्बन डाइऑक्साइड",
+"hg": "Zinc + hydrochloric acid → zinc chloride + hydrogen · zinc + sodium hydroxide → sodium zincate + hydrogen · sodium carbonate + hydrochloric acid → sodium chloride + water + carbon dioxide"
+},
+"Do metals burn in air?": {
+"hi": "क्या धातुएँ वायु में जलती हैं?",
+"hg": "Kya metals air mein jalte hain?"
+},
+"To compare how magnesium, copper, aluminium, zinc and iron behave when heated in a flame.": {
+"hi": "ज्वाला में गरम करने पर मैग्नीशियम, कॉपर, ऐलुमिनियम, ज़िंक और आयरन के व्यवहार की तुलना करना।",
+"hg": "Flame mein garam karne par magnesium, copper, aluminium, zinc aur iron kaise behave karte hain, iski tulna karna."
+},
+"Reaction of metals with oxygen": {
+"hi": "धातुओं की ऑक्सीजन के साथ अभिक्रिया",
+"hg": "Metals ka oxygen ke saath reaction"
+},
+"Light the burner. Rub the copper and zinc strips with sandpaper to clean them.": {
+"hi": "बर्नर जलाइए। कॉपर और ज़िंक की पट्टियों को साफ़ करने के लिए रेगमाल (सैंडपेपर) से रगड़िए।",
+"hg": "Burner jalao. Copper aur zinc strips ko saaf karne ke liye sandpaper se ragdo."
+},
+"The cleaned metals look shiny.": {
+"hi": "साफ़ की गई धातुएँ चमकदार दिखती हैं।",
+"hg": "Saaf kiye gaye metals shiny dikhte hain."
+},
+"Hold the magnesium ribbon in the flame with tongs.": {
+"hi": "चिमटे से मैग्नीशियम रिबन को ज्वाला में पकड़िए।",
+"hg": "Tongs se magnesium ribbon ko flame mein pakdo."
+},
+"It burns with a dazzling white light and leaves white ash (magnesium oxide).": {
+"hi": "यह चकाचौंध करने वाले श्वेत प्रकाश के साथ जलता है और सफ़ेद राख (मैग्नीशियम ऑक्साइड) छोड़ता है।",
+"hg": "Yeh dazzling white light ke saath jalta hai aur white ash (magnesium oxide) chhodta hai."
+},
+"Magnesium is a very reactive metal; it burns in air to form magnesium oxide.": {
+"hi": "मैग्नीशियम एक अत्यधिक अभिक्रियाशील धातु है; यह वायु में जलकर मैग्नीशियम ऑक्साइड बनाता है।",
+"hg": "Magnesium ek bahut reactive metal hai; yeh air mein jal kar magnesium oxide banata hai."
+},
+"Hold the copper strip in the hottest part of the flame (time-lapse).": {
+"hi": "कॉपर की पट्टी को ज्वाला के सबसे गरम भाग में पकड़िए (टाइम-लैप्स)।",
+"hg": "Copper strip ko flame ke sabse garam part mein pakdo (time-lapse)."
+},
+"Copper does not burn. It glows red-hot, gives the flame a green tinge, and becomes coated with a black layer of copper(II) oxide.": {
+"hi": "कॉपर जलता नहीं है। यह लाल-तप्त होकर चमकता है, ज्वाला को हल्की हरी आभा देता है, और इस पर कॉपर(II) ऑक्साइड की काली परत चढ़ जाती है।",
+"hg": "Copper jalta nahi hai. Yeh red-hot hokar glow karta hai, flame ko halka green tinge deta hai, aur is par copper(II) oxide ki black layer chadh jaati hai."
+},
+"Hold the aluminium foil in the flame.": {
+"hi": "ऐलुमिनियम पन्नी को ज्वाला में पकड़िए।",
+"hg": "Aluminium foil ko flame mein pakdo."
+},
+"The foil does not catch fire. Its thin edge may soften and droop.": {
+"hi": "पन्नी में आग नहीं लगती। इसका पतला किनारा नरम होकर लटक सकता है।",
+"hg": "Foil mein aag nahi lagti. Iska patla edge soft hokar latak sakta hai."
+},
+"A thin layer of aluminium oxide on the surface protects the metal from further reaction.": {
+"hi": "सतह पर ऐलुमिनियम ऑक्साइड की एक पतली परत धातु को आगे की अभिक्रिया से बचाती है।",
+"hg": "Surface par aluminium oxide ki ek patli layer metal ko aage ke reaction se bachati hai."
+},
+"Heat the zinc strip strongly (time-lapse).": {
+"hi": "ज़िंक की पट्टी को तेज़ गरम कीजिए (टाइम-लैप्स)।",
+"hg": "Zinc strip ko tez garam karo (time-lapse)."
+},
+"Zinc gets coated with zinc oxide, which is yellow while hot and white when cold.": {
+"hi": "ज़िंक पर ज़िंक ऑक्साइड की परत चढ़ जाती है, जो गरम रहने पर पीली और ठंडी होने पर सफ़ेद होती है।",
+"hg": "Zinc par zinc oxide ki layer chadh jaati hai, jo garam hone par yellow aur thandi hone par white hoti hai."
+},
+"Take a few iron filings on the spatula and sprinkle them into the flame.": {
+"hi": "स्पैचुला पर थोड़ा लोहे का बुरादा लीजिए और उसे ज्वाला में छिड़किए।",
+"hg": "Spatula par thode iron filings lo aur unhe flame mein chhidko."
+},
+"The filings burn as bright golden sparks.": {
+"hi": "बुरादा चमकीली सुनहरी चिंगारियों के रूप में जलता है।",
+"hg": "Filings bright golden sparks ki tarah jalti hain."
+},
+"Fine filings have a large surface, so they burn in the flame; a solid iron nail would only become red-hot.": {
+"hi": "बारीक बुरादे का पृष्ठ-क्षेत्रफल बड़ा होता है, इसलिए वह ज्वाला में जल जाता है; लोहे की ठोस कील केवल लाल-तप्त होगी।",
+"hg": "Fine filings ki surface badi hoti hai, isliye woh flame mein jal jaati hain; solid iron nail sirf red-hot hogi."
+},
+"Magnesium burned with a dazzling white flame; iron filings burned as sparks; copper did not burn but turned black; aluminium did not burn; zinc became coated with an oxide that was yellow when hot and white when cold.": {
+"hi": "मैग्नीशियम चकाचौंध करने वाली श्वेत ज्वाला के साथ जला; लोहे का बुरादा चिंगारियों के रूप में जला; कॉपर जला नहीं पर काला हो गया; ऐलुमिनियम नहीं जला; ज़िंक पर एक ऑक्साइड की परत चढ़ गई जो गरम होने पर पीली और ठंडी होने पर सफ़ेद थी।",
+"hg": "Magnesium dazzling white flame ke saath jala; iron filings sparks ki tarah jali; copper jala nahi lekin black ho gaya; aluminium nahi jala; zinc par ek oxide ki layer chadh gayi jo garam hone par yellow aur thandi hone par white thi."
+},
+"Metals combine with oxygen to form metal oxides, but they react with different vigour: magnesium is the most reactive of these and copper the least. (Sodium and potassium react so fast that they are kept under kerosene.)": {
+"hi": "धातुएँ ऑक्सीजन से संयोग करके धातु ऑक्साइड बनाती हैं, पर उनकी अभिक्रिया की तीव्रता अलग-अलग होती है: इनमें मैग्नीशियम सबसे अधिक अभिक्रियाशील है और कॉपर सबसे कम। (सोडियम और पोटैशियम इतनी तेज़ी से अभिक्रिया करते हैं कि उन्हें केरोसिन में डुबोकर रखा जाता है।)",
+"hg": "Metals oxygen ke saath combine hokar metal oxides banate hain, lekin unke react karne ki tezi alag-alag hoti hai: inmein magnesium sabse zyada reactive hai aur copper sabse kam. (Sodium aur potassium itni tezi se react karte hain ki unhe kerosene mein dubo kar rakha jaata hai.)"
+},
+"Do not look straight at burning magnesium. Hold samples with tongs, keep your face away from the flame, and put hot pieces on a tile to cool.": {
+"hi": "जलते हुए मैग्नीशियम को सीधे न देखिए। नमूनों को चिमटे से पकड़िए, अपना चेहरा ज्वाला से दूर रखिए, और गरम टुकड़ों को ठंडा होने के लिए टाइल पर रखिए।",
+"hg": "Jalte hue magnesium ko seedha mat dekho. Samples ko tongs se pakdo, apna face flame se door rakho, aur garam pieces ko thanda hone ke liye tile par rakho."
+},
+"Which of these metals burned with a dazzling white light?": {
+"hi": "इनमें से कौन-सी धातु चकाचौंध करने वाले श्वेत प्रकाश के साथ जली?",
+"hg": "Inmein se kaun sa metal dazzling white light ke saath jala?"
+},
+"Why does aluminium foil not burn easily?": {
+"hi": "ऐलुमिनियम पन्नी आसानी से क्यों नहीं जलती?",
+"hg": "Aluminium foil aasani se kyon nahi jalti?"
+},
+"It is protected by a thin layer of aluminium oxide.": {
+"hi": "ऐलुमिनियम ऑक्साइड की एक पतली परत इसकी रक्षा करती है।",
+"hg": "Aluminium oxide ki ek patli layer isko protect karti hai."
+},
+"Why are sodium and potassium stored under kerosene?": {
+"hi": "सोडियम और पोटैशियम को केरोसिन में डुबोकर क्यों रखा जाता है?",
+"hg": "Sodium aur potassium ko kerosene mein dubo kar kyon rakha jaata hai?"
+},
+"They react so vigorously with oxygen and moisture in the air that they can catch fire.": {
+"hi": "ये वायु की ऑक्सीजन और नमी से इतनी तीव्रता से अभिक्रिया करते हैं कि इनमें आग लग सकती है।",
+"hg": "Yeh air ki oxygen aur moisture ke saath itni tezi se react karte hain ki inmein aag lag sakti hai."
+},
+"Metal + oxygen → metal oxide": {
+"hi": "धातु + ऑक्सीजन → धातु ऑक्साइड",
+"hg": "Metal + oxygen → metal oxide"
+},
+"How do metals react with water?": {
+"hi": "धातुएँ जल के साथ कैसे अभिक्रिया करती हैं?",
+"hg": "Metals water ke saath kaise react karte hain?"
+},
+"To compare the reactions of sodium, calcium, magnesium, aluminium, zinc and iron with cold and hot water.": {
+"hi": "सोडियम, कैल्सियम, मैग्नीशियम, ऐलुमिनियम, ज़िंक और आयरन की ठंडे और गरम जल के साथ अभिक्रियाओं की तुलना करना।",
+"hg": "Sodium, calcium, magnesium, aluminium, zinc aur iron ke cold aur hot water ke saath reactions ki tulna karna."
+},
+"Reactivity of metals with water": {
+"hi": "जल के साथ धातुओं की अभिक्रियाशीलता",
+"hg": "Water ke saath metals ki reactivity"
+},
+"(Teacher, from a safe distance) Drop the small piece of sodium into beaker 1 of cold water.": {
+"hi": "(शिक्षक, सुरक्षित दूरी से) सोडियम का छोटा टुकड़ा ठंडे जल वाले बीकर 1 में डालिए।",
+"hg": "(Teacher, safe distance se) Sodium ka chhota piece cold water wale beaker 1 mein daalo."
+},
+"Sodium floats, melts into a shiny silvery ball and darts about on the water with a hissing sound. It may catch fire with a yellow flame. Soon it is used up.": {
+"hi": "सोडियम तैरता है, पिघलकर एक चमकदार चाँदी जैसी गोली बन जाता है और सनसनाहट की आवाज़ के साथ पानी पर इधर-उधर तेज़ी से दौड़ता है। इसमें पीली ज्वाला के साथ आग लग सकती है। जल्दी ही यह समाप्त हो जाता है।",
+"hg": "Sodium float karta hai, pighal kar ek shiny silvery ball ban jaata hai aur hissing sound ke saath paani par idhar-udhar tezi se bhaagta hai. Ismein yellow flame ke saath aag lag sakti hai. Jaldi hi yeh khatam ho jaata hai."
+},
+"Sodium reacts violently with cold water, giving sodium hydroxide and hydrogen; so much heat is produced that the hydrogen can catch fire.": {
+"hi": "सोडियम ठंडे जल से तीव्र अभिक्रिया करके सोडियम हाइड्रॉक्साइड और हाइड्रोजन देता है; इतनी अधिक ऊष्मा उत्पन्न होती है कि हाइड्रोजन में आग लग सकती है।",
+"hg": "Sodium cold water ke saath violently react karke sodium hydroxide aur hydrogen deta hai; itni zyada heat banti hai ki hydrogen mein aag lag sakti hai."
+},
+"Add two drops of phenolphthalein to beaker 1.": {
+"hi": "बीकर 1 में फ़ीनॉल्फ़्थेलिन की दो बूँदें डालिए।",
+"hg": "Beaker 1 mein phenolphthalein ki do boondein daalo."
+},
+"The water turns pink: a base (sodium hydroxide) has formed.": {
+"hi": "पानी गुलाबी हो जाता है: एक क्षारक (सोडियम हाइड्रॉक्साइड) बन गया है।",
+"hg": "Paani pink ho jaata hai: ek base (sodium hydroxide) ban gaya hai."
+},
+"Drop calcium granules into beaker 2 of cold water (time-lapse).": {
+"hi": "ठंडे जल वाले बीकर 2 में कैल्सियम के दाने डालिए (टाइम-लैप्स)।",
+"hg": "Cold water wale beaker 2 mein calcium granules daalo (time-lapse)."
+},
+"Calcium sinks, then starts to float as bubbles of hydrogen stick to it. The water turns milky.": {
+"hi": "कैल्सियम डूब जाता है, फिर हाइड्रोजन के बुलबुले इससे चिपकने के कारण तैरने लगता है। पानी दूधिया हो जाता है।",
+"hg": "Calcium doob jaata hai, phir hydrogen ke bubbles chipakne se float karne lagta hai. Paani milky ho jaata hai."
+},
+"Calcium reacts less violently: it forms calcium hydroxide (milky, slightly soluble) and hydrogen. The heat is not enough to set the hydrogen on fire.": {
+"hi": "कैल्सियम कम तीव्रता से अभिक्रिया करता है: यह कैल्सियम हाइड्रॉक्साइड (दूधिया, थोड़ा विलेय) और हाइड्रोजन बनाता है। उत्पन्न ऊष्मा हाइड्रोजन में आग लगाने के लिए पर्याप्त नहीं होती।",
+"hg": "Calcium kam violently react karta hai: yeh calcium hydroxide (milky, thoda soluble) aur hydrogen banata hai. Heat itni nahi hoti ki hydrogen mein aag lag sake."
+},
+"Put a piece of magnesium ribbon into beaker 3 of cold water (time-lapse).": {
+"hi": "ठंडे जल वाले बीकर 3 में मैग्नीशियम रिबन का एक टुकड़ा डालिए (टाइम-लैप्स)।",
+"hg": "Cold water wale beaker 3 mein magnesium ribbon ka ek piece daalo (time-lapse)."
+},
+"Almost nothing happens; only a few tiny bubbles stick to the ribbon after a long time.": {
+"hi": "लगभग कुछ नहीं होता; बहुत देर बाद केवल कुछ छोटे-छोटे बुलबुले रिबन से चिपकते हैं।",
+"hg": "Lagbhag kuch nahi hota; bahut der baad sirf kuch chhote-chhote bubbles ribbon se chipakte hain."
+},
+"Heat beaker 4 of water on the tripod. Put the other magnesium ribbon into the hot water and add a drop of phenolphthalein.": {
+"hi": "पानी वाले बीकर 4 को त्रिपाद स्टैंड पर गरम कीजिए। दूसरा मैग्नीशियम रिबन गरम पानी में डालिए और फ़ीनॉल्फ़्थेलिन की एक बूँद डालिए।",
+"hg": "Paani wale beaker 4 ko tripod par garam karo. Doosra magnesium ribbon hot water mein daalo aur phenolphthalein ki ek boond daalo."
+},
+"Bubbles of hydrogen form on the ribbon, it starts to float, and the water turns pink.": {
+"hi": "रिबन पर हाइड्रोजन के बुलबुले बनते हैं, यह तैरने लगता है, और पानी गुलाबी हो जाता है।",
+"hg": "Ribbon par hydrogen ke bubbles bante hain, yeh float karne lagta hai, aur paani pink ho jaata hai."
+},
+"Magnesium reacts with hot water to form magnesium hydroxide (a base) and hydrogen.": {
+"hi": "मैग्नीशियम गरम जल से अभिक्रिया करके मैग्नीशियम हाइड्रॉक्साइड (एक क्षारक) और हाइड्रोजन बनाता है।",
+"hg": "Magnesium hot water ke saath react karke magnesium hydroxide (ek base) aur hydrogen banata hai."
+},
+"Put aluminium, zinc and iron pieces into beaker 5 of hot water.": {
+"hi": "गरम जल वाले बीकर 5 में ऐलुमिनियम, ज़िंक और आयरन के टुकड़े डालिए।",
+"hg": "Hot water wale beaker 5 mein aluminium, zinc aur iron ke pieces daalo."
+},
+"There is no reaction with hot water.": {
+"hi": "गरम जल के साथ कोई अभिक्रिया नहीं होती।",
+"hg": "Hot water ke saath koi reaction nahi hota."
+},
+"Aluminium, iron and zinc react neither with cold nor with hot water; they react only with steam to form a metal oxide and hydrogen.": {
+"hi": "ऐलुमिनियम, आयरन और ज़िंक न तो ठंडे जल से और न ही गरम जल से अभिक्रिया करते हैं; ये केवल भाप से अभिक्रिया करके धातु ऑक्साइड और हाइड्रोजन बनाते हैं।",
+"hg": "Aluminium, iron aur zinc na cold water ke saath react karte hain na hot water ke saath; yeh sirf steam ke saath react karke metal oxide aur hydrogen banate hain."
+},
+"Sodium reacted violently with cold water; calcium reacted steadily (milky water, it floated); magnesium hardly reacted with cold water but gave bubbles in hot water; aluminium, zinc and iron did not react with hot water.": {
+"hi": "सोडियम ने ठंडे जल से तीव्र अभिक्रिया की; कैल्सियम ने स्थिर गति से अभिक्रिया की (पानी दूधिया हुआ, वह तैरने लगा); मैग्नीशियम ने ठंडे जल से लगभग अभिक्रिया नहीं की पर गरम जल में बुलबुले दिए; ऐलुमिनियम, ज़िंक और आयरन ने गरम जल से अभिक्रिया नहीं की।",
+"hg": "Sodium ne cold water ke saath violently react kiya; calcium ne steadily react kiya (paani milky hua, woh float karne laga); magnesium ne cold water ke saath mushkil se react kiya lekin hot water mein bubbles diye; aluminium, zinc aur iron ne hot water ke saath react nahi kiya."
+},
+"Metals differ in reactivity with water: Na > Ca > Mg > Al, Zn, Fe. Metals that react with water form a metal hydroxide (a base) and hydrogen.": {
+"hi": "जल के साथ धातुओं की अभिक्रियाशीलता अलग-अलग होती है: Na > Ca > Mg > Al, Zn, Fe। जो धातुएँ जल से अभिक्रिया करती हैं, वे धातु हाइड्रॉक्साइड (एक क्षारक) और हाइड्रोजन बनाती हैं।",
+"hg": "Water ke saath metals ki reactivity alag-alag hoti hai: Na > Ca > Mg > Al, Zn, Fe. Jo metals water ke saath react karte hain, woh metal hydroxide (ek base) aur hydrogen banate hain."
+},
+"Sodium is handled only by the teacher, with tongs, behind a screen; it is stored under kerosene. Keep your face away from the beakers. Hot water and steam can scald.": {
+"hi": "सोडियम को केवल शिक्षक ही चिमटे से, एक सुरक्षा-पर्दे के पीछे से संभालेंगे; इसे केरोसिन में डुबोकर रखा जाता है। अपना चेहरा बीकरों से दूर रखिए। गरम पानी और भाप से त्वचा झुलस सकती है।",
+"hg": "Sodium ko sirf teacher hi tongs se, screen ke peeche se handle karenge; ise kerosene mein dubo kar rakha jaata hai. Apna face beakers se door rakho. Hot water aur steam se skin jal sakti hai."
+},
+"Why does sodium float and dart about on water?": {
+"hi": "सोडियम पानी पर क्यों तैरता है और इधर-उधर तेज़ी से क्यों दौड़ता है?",
+"hg": "Sodium paani par kyon float karta hai aur idhar-udhar kyon bhaagta hai?"
+},
+"It is lighter than water, and the hydrogen produced beneath it pushes it around.": {
+"hi": "यह पानी से हल्का है, और इसके नीचे बनने वाली हाइड्रोजन इसे इधर-उधर धकेलती है।",
+"hg": "Yeh paani se halka hai, aur iske neeche banne wali hydrogen ise idhar-udhar dhakelti hai."
+},
+"Why does calcium start floating?": {
+"hi": "कैल्सियम तैरने क्यों लगता है?",
+"hg": "Calcium float kyon karne lagta hai?"
+},
+"Bubbles of hydrogen stick to its surface.": {
+"hi": "हाइड्रोजन के बुलबुले इसकी सतह पर चिपक जाते हैं।",
+"hg": "Hydrogen ke bubbles iski surface par chipak jaate hain."
+},
+"Which metals react only with steam?": {
+"hi": "कौन-सी धातुएँ केवल भाप से अभिक्रिया करती हैं?",
+"hg": "Kaun se metals sirf steam ke saath react karte hain?"
+},
+"Aluminium, iron and zinc.": {
+"hi": "ऐलुमिनियम, आयरन और ज़िंक।",
+"hg": "Aluminium, iron aur zinc."
+},
+"Sodium + water → sodium hydroxide + hydrogen + heat · calcium + water → calcium hydroxide + hydrogen · magnesium + hot water → magnesium hydroxide + hydrogen": {
+"hi": "सोडियम + जल → सोडियम हाइड्रॉक्साइड + हाइड्रोजन + ऊष्मा · कैल्सियम + जल → कैल्सियम हाइड्रॉक्साइड + हाइड्रोजन · मैग्नीशियम + गरम जल → मैग्नीशियम हाइड्रॉक्साइड + हाइड्रोजन",
+"hg": "Sodium + water → sodium hydroxide + hydrogen + heat · calcium + water → calcium hydroxide + hydrogen · magnesium + hot water → magnesium hydroxide + hydrogen"
+},
+"Burning carbon compounds and the Bunsen flame": {
+"hi": "कार्बन यौगिकों का दहन और बुन्सेन ज्वाला",
+"hg": "Carbon compounds ka jalna aur Bunsen flame"
+},
+"To compare the flames of naphthalene, camphor and alcohol, and to see how the Bunsen burner flame changes with its air hole.": {
+"hi": "नैफ़्थलीन, कपूर और ऐल्कोहॉल की ज्वालाओं की तुलना करना, और यह देखना कि वायु-छिद्र के साथ बुन्सेन बर्नर की ज्वाला कैसे बदलती है।",
+"hg": "Naphthalene, camphor aur alcohol ki flames ki tulna karna, aur dekhna ki air hole ke saath Bunsen burner ki flame kaise badalti hai."
+},
+"Combustion: sooty and clean flames": {
+"hi": "दहन: कालिखयुक्त और स्वच्छ ज्वालाएँ",
+"hg": "Combustion: sooty aur clean flames"
+},
+"(Teacher) Light the naphthalene in dish 1 with a burning splint.": {
+"hi": "(शिक्षक) डिश 1 में रखी नैफ़्थलीन को जलती हुई तीली से जलाइए।",
+"hg": "(Teacher) Dish 1 mein rakhi naphthalene ko burning splint se jalao."
+},
+"It burns with a yellow, smoky flame and gives off thick black smoke.": {
+"hi": "यह पीली, धुएँदार ज्वाला के साथ जलती है और गाढ़ा काला धुआँ छोड़ती है।",
+"hg": "Yeh yellow, smoky flame ke saath jalti hai aur thick black smoke chhodti hai."
+},
+"Hold metal plate 1 over the flame for a while.": {
+"hi": "धातु की प्लेट 1 को कुछ देर ज्वाला के ऊपर पकड़िए।",
+"hg": "Metal plate 1 ko kuch der flame ke upar pakdo."
+},
+"Black soot collects on the plate.": {
+"hi": "प्लेट पर काली कालिख जमा हो जाती है।",
+"hg": "Plate par black soot jama ho jaati hai."
+},
+"Naphthalene has a lot of carbon; it does not burn completely, and the unburnt carbon appears as soot.": {
+"hi": "नैफ़्थलीन में कार्बन बहुत अधिक होता है; यह पूरी तरह नहीं जलती, और बिना जला कार्बन कालिख के रूप में दिखाई देता है।",
+"hg": "Naphthalene mein carbon bahut zyada hota hai; yeh poori tarah nahi jalti, aur unburnt carbon soot ke roop mein dikhta hai."
+},
+"Light the camphor in dish 2 and hold plate 2 over it.": {
+"hi": "डिश 2 में रखे कपूर को जलाइए और उसके ऊपर प्लेट 2 पकड़िए।",
+"hg": "Dish 2 mein rakhe camphor ko jalao aur uske upar plate 2 pakdo."
+},
+"Camphor also burns with a smoky yellow flame and leaves soot on the plate.": {
+"hi": "कपूर भी धुएँदार पीली ज्वाला के साथ जलता है और प्लेट पर कालिख छोड़ता है।",
+"hg": "Camphor bhi smoky yellow flame ke saath jalta hai aur plate par soot chhodta hai."
+},
+"Light the alcohol in dish 3 and hold plate 3 over it.": {
+"hi": "डिश 3 में रखे ऐल्कोहॉल को जलाइए और उसके ऊपर प्लेट 3 पकड़िए।",
+"hg": "Dish 3 mein rakhe alcohol ko jalao aur uske upar plate 3 pakdo."
+},
+"Alcohol burns with a clean, pale blue flame. There is no smoke and no soot on the plate.": {
+"hi": "ऐल्कोहॉल स्वच्छ, हल्की नीली ज्वाला के साथ जलता है। न धुआँ होता है और न ही प्लेट पर कालिख जमती है।",
+"hg": "Alcohol clean, halki blue flame ke saath jalta hai. Na smoke hota hai aur na plate par soot jamti hai."
+},
+"Alcohol (a saturated compound) burns completely to carbon dioxide and water, giving a clean blue flame.": {
+"hi": "ऐल्कोहॉल (एक संतृप्त यौगिक) पूरी तरह जलकर कार्बन डाइऑक्साइड और जल बनाता है, और स्वच्छ नीली ज्वाला देता है।",
+"hg": "Alcohol (ek saturated compound) poori tarah jal kar carbon dioxide aur water banata hai, aur clean blue flame deta hai."
+},
+"Close the air hole of the Bunsen burner, light it and hold plate 4 over the flame.": {
+"hi": "बुन्सेन बर्नर का वायु-छिद्र बंद कीजिए, उसे जलाइए और ज्वाला के ऊपर प्लेट 4 पकड़िए।",
+"hg": "Bunsen burner ka air hole band karo, use jalao aur flame ke upar plate 4 pakdo."
+},
+"The flame is tall, wavy and yellow (luminous), and it leaves soot on the plate.": {
+"hi": "ज्वाला लंबी, लहराती हुई और पीली (दीप्त) होती है, और प्लेट पर कालिख छोड़ती है।",
+"hg": "Flame lambi, wavy aur yellow (luminous) hoti hai, aur plate par soot chhodti hai."
+},
+"Now slowly open the air hole.": {
+"hi": "अब धीरे-धीरे वायु-छिद्र खोलिए।",
+"hg": "Ab dheere-dheere air hole kholo."
+},
+"The flame becomes short, steady and blue, and it makes no soot.": {
+"hi": "ज्वाला छोटी, स्थिर और नीली हो जाती है, और कोई कालिख नहीं बनाती।",
+"hg": "Flame chhoti, steady aur blue ho jaati hai, aur koi soot nahi banati."
+},
+"With the air hole open, enough oxygen mixes with the gas for complete combustion. With too little oxygen, burning is incomplete and carbon particles glow yellow and form soot.": {
+"hi": "वायु-छिद्र खुला होने पर गैस के साथ पर्याप्त ऑक्सीजन मिल जाती है जिससे पूर्ण दहन होता है। ऑक्सीजन बहुत कम होने पर दहन अपूर्ण होता है और कार्बन के कण पीले रंग में चमकते हैं तथा कालिख बनाते हैं।",
+"hg": "Air hole khula hone par gas ke saath kaafi oxygen mix ho jaati hai, isliye complete combustion hota hai. Oxygen bahut kam ho to burning incomplete hoti hai aur carbon particles yellow glow karte hain aur soot banate hain."
+},
+"Naphthalene and camphor burned with sooty yellow flames and blackened the plates; alcohol burned with a clean blue flame. The Bunsen flame was yellow and sooty with the air hole closed and blue and clean with it open.": {
+"hi": "नैफ़्थलीन और कपूर कालिखयुक्त पीली ज्वालाओं के साथ जले और प्लेटों को काला कर दिया; ऐल्कोहॉल स्वच्छ नीली ज्वाला के साथ जला। वायु-छिद्र बंद होने पर बुन्सेन ज्वाला पीली और कालिखयुक्त थी, और खुला होने पर नीली और स्वच्छ थी।",
+"hg": "Naphthalene aur camphor sooty yellow flames ke saath jale aur plates ko black kar diya; alcohol clean blue flame ke saath jala. Air hole band hone par Bunsen flame yellow aur sooty thi, aur khula hone par blue aur clean thi."
+},
+"Carbon compounds burn in oxygen to give carbon dioxide and water. With enough air, burning is complete and the flame is blue; with too little air, it is incomplete, yellow and sooty.": {
+"hi": "कार्बन यौगिक ऑक्सीजन में जलकर कार्बन डाइऑक्साइड और जल देते हैं। पर्याप्त वायु होने पर दहन पूर्ण होता है और ज्वाला नीली होती है; बहुत कम वायु होने पर दहन अपूर्ण होता है और ज्वाला पीली व कालिखयुक्त होती है।",
+"hg": "Carbon compounds oxygen mein jal kar carbon dioxide aur water dete hain. Kaafi air ho to burning complete hoti hai aur flame blue hoti hai; bahut kam air ho to burning incomplete, yellow aur sooty hoti hai."
+},
+"Burning naphthalene and camphor is done by the teacher in a ventilated place. Keep flammable bottles away from flames and hold the plates with tongs.": {
+"hi": "नैफ़्थलीन और कपूर को जलाने का कार्य शिक्षक हवादार स्थान पर करेंगे। ज्वलनशील पदार्थों की बोतलों को ज्वाला से दूर रखिए और प्लेटों को चिमटे से पकड़िए।",
+"hg": "Naphthalene aur camphor ko jalane ka kaam teacher ventilated jagah par karenge. Flammable bottles ko flames se door rakho aur plates ko tongs se pakdo."
+},
+"Why does naphthalene burn with a sooty flame?": {
+"hi": "नैफ़्थलीन कालिखयुक्त ज्वाला के साथ क्यों जलती है?",
+"hg": "Naphthalene sooty flame ke saath kyon jalti hai?"
+},
+"It has a high proportion of carbon and burns incompletely, leaving unburnt carbon (soot).": {
+"hi": "इसमें कार्बन का अनुपात अधिक होता है और यह अपूर्ण रूप से जलती है, जिससे बिना जला कार्बन (कालिख) बचा रह जाता है।",
+"hg": "Ismein carbon ka proportion zyada hota hai aur yeh incompletely jalti hai, jisse unburnt carbon (soot) bach jaata hai."
+},
+"Why is the Bunsen flame blue when the air hole is open?": {
+"hi": "वायु-छिद्र खुला होने पर बुन्सेन ज्वाला नीली क्यों होती है?",
+"hg": "Air hole khula hone par Bunsen flame blue kyon hoti hai?"
+},
+"Enough oxygen mixes with the gas, so combustion is complete.": {
+"hi": "गैस के साथ पर्याप्त ऑक्सीजन मिल जाती है, इसलिए दहन पूर्ण होता है।",
+"hg": "Gas ke saath kaafi oxygen mix ho jaati hai, isliye combustion complete hota hai."
+},
+"Why do cooking vessels get blackened on a gas stove?": {
+"hi": "गैस स्टोव पर खाना पकाने के बर्तन काले क्यों हो जाते हैं?",
+"hg": "Gas stove par khana banane ke bartan black kyon ho jaate hain?"
+},
+"The air holes are blocked, so the fuel burns incompletely and leaves soot.": {
+"hi": "वायु-छिद्र अवरुद्ध होते हैं, इसलिए ईंधन अपूर्ण रूप से जलता है और कालिख छोड़ता है।",
+"hg": "Air holes blocked hote hain, isliye fuel incompletely jalta hai aur soot chhodta hai."
+},
+"Complete combustion: carbon compound + oxygen → carbon dioxide + water + heat and light": {
+"hi": "पूर्ण दहन: कार्बन यौगिक + ऑक्सीजन → कार्बन डाइऑक्साइड + जल + ऊष्मा और प्रकाश",
+"hg": "Complete combustion: carbon compound + oxygen → carbon dioxide + water + heat aur light"
+},
+"Oxidation of ethanol by alkaline potassium permanganate": {
+"hi": "क्षारीय पोटैशियम परमैंगनेट द्वारा एथेनॉल का ऑक्सीकरण",
+"hg": "Alkaline potassium permanganate dwara ethanol ka oxidation"
+},
+"To study the oxidation of ethanol by warm alkaline potassium permanganate solution.": {
+"hi": "गुनगुने क्षारीय पोटैशियम परमैंगनेट विलयन द्वारा एथेनॉल के ऑक्सीकरण का अध्ययन करना।",
+"hg": "Warm alkaline potassium permanganate solution dwara ethanol ke oxidation ka study karna."
+},
+"Oxidation of alcohols": {
+"hi": "ऐल्कोहॉलों का ऑक्सीकरण",
+"hg": "Alcohols ka oxidation"
+},
+"Put the water bath on the tripod and heat it to about 60 °C.": {
+"hi": "जल-ऊष्मक (वॉटर बाथ) को तिपाई पर रखें और उसे लगभग 60 °C तक गरम करें।",
+"hg": "Water bath ko tripod par rakho aur use lagbhag 60 °C tak garam karo."
+},
+"The water bath warms up to about 60 °C.": {
+"hi": "जल-ऊष्मक लगभग 60 °C तक गरम हो जाता है।",
+"hg": "Water bath lagbhag 60 °C tak garam ho jaata hai."
+},
+"Stand the test tube of ethanol in the warm water bath.": {
+"hi": "एथेनॉल वाली परखनली को गरम जल-ऊष्मक में खड़ा करके रखें।",
+"hg": "Ethanol wali test tube ko garam water bath mein khada karke rakho."
+},
+"The ethanol warms up.": {
+"hi": "एथेनॉल गरम हो जाता है।",
+"hg": "Ethanol garam ho jaata hai."
+},
+"Add alkaline potassium permanganate solution one drop at a time, shaking after each drop.": {
+"hi": "क्षारीय पोटैशियम परमैंगनेट विलयन एक-एक बूँद करके डालें और हर बूँद के बाद हिलाएँ।",
+"hg": "Alkaline potassium permanganate solution ek-ek drop karke daalo, aur har drop ke baad shake karo."
+},
+"The purple colour of each drop disappears on shaking, and the liquid becomes slightly brownish.": {
+"hi": "हिलाने पर हर बूँद का बैंगनी रंग गायब हो जाता है, और द्रव हल्का भूरा-सा हो जाता है।",
+"hg": "Shake karne par har drop ka purple colour gayab ho jaata hai, aur liquid thoda brownish ho jaata hai."
+},
+"Potassium permanganate gives oxygen to ethanol and is itself used up, so its colour goes.": {
+"hi": "पोटैशियम परमैंगनेट एथेनॉल को ऑक्सीजन देता है और स्वयं खर्च हो जाता है, इसलिए उसका रंग चला जाता है।",
+"hg": "Potassium permanganate ethanol ko oxygen deta hai aur khud use ho jaata hai, isliye uska colour chala jaata hai."
+},
+"Keep adding drops until the purple colour no longer disappears.": {
+"hi": "बूँदें तब तक डालते रहें जब तक बैंगनी रंग गायब होना बंद न हो जाए।",
+"hg": "Drops tab tak daalte raho jab tak purple colour gayab hona band na ho jaaye."
+},
+"After a number of drops the pink-purple colour stays: no more ethanol is left to be oxidised.": {
+"hi": "कई बूँदों के बाद गुलाबी-बैंगनी रंग बना रहता है: अब ऑक्सीकृत होने के लिए कोई एथेनॉल शेष नहीं है।",
+"hg": "Kai drops ke baad pink-purple colour bana rehta hai: ab oxidise hone ke liye koi ethanol bacha nahi hai."
+},
+"Alkaline KMnO₄ is an oxidising agent. It oxidises ethanol to ethanoic acid; once the ethanol is used up, the excess permanganate stays purple.": {
+"hi": "क्षारीय KMnO₄ एक ऑक्सीकारक है। यह एथेनॉल को एथेनॉइक अम्ल में ऑक्सीकृत करता है; एथेनॉल समाप्त हो जाने पर अतिरिक्त परमैंगनेट बैंगनी ही बना रहता है।",
+"hg": "Alkaline KMnO₄ ek oxidising agent hai. Yeh ethanol ko ethanoic acid mein oxidise karta hai; jab ethanol khatam ho jaata hai, toh extra permanganate purple hi rehta hai."
+},
+"The purple colour of the first drops of alkaline KMnO₄ disappeared in warm ethanol; after more drops the colour persisted.": {
+"hi": "गरम एथेनॉल में क्षारीय KMnO₄ की पहली बूँदों का बैंगनी रंग गायब हो गया; और बूँदें डालने के बाद रंग बना रहा।",
+"hg": "Garam ethanol mein alkaline KMnO₄ ki pehli drops ka purple colour gayab ho gaya; aur drops daalne ke baad colour bana raha."
+},
+"Alkaline potassium permanganate oxidises ethanol to ethanoic acid. Substances that give oxygen to others are called oxidising agents.": {
+"hi": "क्षारीय पोटैशियम परमैंगनेट एथेनॉल को एथेनॉइक अम्ल में ऑक्सीकृत करता है। जो पदार्थ दूसरों को ऑक्सीजन देते हैं, उन्हें ऑक्सीकारक कहते हैं।",
+"hg": "Alkaline potassium permanganate ethanol ko ethanoic acid mein oxidise karta hai. Jo substances doosron ko oxygen dete hain, unhe oxidising agents kehte hain."
+},
+"Ethanol is flammable: warm it only in a water bath, never over a flame. Potassium permanganate stains skin and clothes.": {
+"hi": "एथेनॉल ज्वलनशील है: इसे केवल जल-ऊष्मक में गरम करें, कभी भी सीधे ज्वाला के ऊपर नहीं। पोटैशियम परमैंगनेट त्वचा और कपड़ों पर दाग छोड़ता है।",
+"hg": "Ethanol flammable hai: ise sirf water bath mein garam karo, kabhi bhi flame ke upar nahi. Potassium permanganate skin aur kapdon par daag chhodta hai."
+},
+"What is the role of alkaline KMnO₄ here?": {
+"hi": "यहाँ क्षारीय KMnO₄ की क्या भूमिका है?",
+"hg": "Yahan alkaline KMnO₄ ka kya role hai?"
+},
+"It is an oxidising agent.": {
+"hi": "यह एक ऑक्सीकारक है।",
+"hg": "Yeh ek oxidising agent hai."
+},
+"What is ethanol oxidised to?": {
+"hi": "एथेनॉल किसमें ऑक्सीकृत होता है?",
+"hg": "Ethanol kis cheez mein oxidise hota hai?"
+},
+"Ethanoic acid (acetic acid).": {
+"hi": "एथेनॉइक अम्ल (ऐसीटिक अम्ल)।",
+"hg": "Ethanoic acid (acetic acid)."
+},
+"Why does the purple colour finally persist?": {
+"hi": "अंत में बैंगनी रंग बना क्यों रहता है?",
+"hg": "Aakhir mein purple colour bana kyun rehta hai?"
+},
+"All the ethanol has been oxidised, so the extra permanganate is not used up.": {
+"hi": "सारा एथेनॉल ऑक्सीकृत हो चुका है, इसलिए अतिरिक्त परमैंगनेट खर्च नहीं होता।",
+"hg": "Saara ethanol oxidise ho chuka hai, isliye extra permanganate use nahi hota."
+},
+"Ethanol —alkaline KMnO₄, heat→ ethanoic acid": {
+"hi": "एथेनॉल —क्षारीय KMnO₄, ऊष्मा→ एथेनॉइक अम्ल",
+"hg": "Ethanol —alkaline KMnO₄, heat→ ethanoic acid"
+},
+"Sodium and ethanol": {
+"hi": "सोडियम और एथेनॉल",
+"hg": "Sodium aur ethanol"
+},
+"To show that ethanol reacts with sodium to give hydrogen gas.": {
+"hi": "यह दर्शाना कि एथेनॉल सोडियम से अभिक्रिया करके हाइड्रोजन गैस देता है।",
+"hg": "Yeh dikhana ki ethanol sodium ke saath react karke hydrogen gas deta hai."
+},
+"Reaction of alcohols with sodium": {
+"hi": "ऐल्कोहॉलों की सोडियम के साथ अभिक्रिया",
+"hg": "Alcohols ka sodium ke saath reaction"
+},
+"(Teacher) Drop the small piece of sodium into the ethanol.": {
+"hi": "(शिक्षक) सोडियम का छोटा टुकड़ा एथेनॉल में डालें।",
+"hg": "(Teacher) Sodium ka chhota piece ethanol mein daalo."
+},
+"Sodium sinks and gives a steady stream of bubbles, much more gently than with water. There is no fire; the tube becomes warm.": {
+"hi": "सोडियम नीचे बैठ जाता है और बुलबुलों की लगातार धारा निकलती है, जो पानी की तुलना में कहीं अधिक धीमी होती है। कोई आग नहीं लगती; परखनली गरम हो जाती है।",
+"hg": "Sodium neeche doob jaata hai aur bubbles ki ek steady stream nikalti hai, jo water ke comparison mein kaafi gentle hoti hai. Koi fire nahi hoti; tube garam ho jaati hai."
+},
+"Light the lamp and bring a burning splint to the mouth of the tube.": {
+"hi": "लैंप जलाएँ और एक जलती हुई तीली को परखनली के मुँह के पास लाएँ।",
+"hg": "Lamp jalao aur ek burning splint ko tube ke mouth ke paas laao."
+},
+"Leave the tube until all the sodium has reacted (time-lapse).": {
+"hi": "परखनली को तब तक छोड़ दें जब तक सारा सोडियम अभिक्रिया न कर ले (टाइम-लैप्स)।",
+"hg": "Tube ko tab tak chhod do jab tak saara sodium react na kar le (time-lapse)."
+},
+"The sodium slowly disappears. Sodium ethoxide stays dissolved; on evaporation it is left as a white solid.": {
+"hi": "सोडियम धीरे-धीरे गायब हो जाता है। सोडियम एथॉक्साइड घुला हुआ रहता है; वाष्पन करने पर यह सफ़ेद ठोस के रूप में बच जाता है।",
+"hg": "Sodium dheere-dheere gayab ho jaata hai. Sodium ethoxide ghula hua rehta hai; evaporation par yeh white solid ke roop mein bach jaata hai."
+},
+"Sodium replaces the hydrogen of the –OH group of ethanol, forming sodium ethoxide and hydrogen gas.": {
+"hi": "सोडियम एथेनॉल के –OH समूह के हाइड्रोजन को विस्थापित करता है, जिससे सोडियम एथॉक्साइड और हाइड्रोजन गैस बनती हैं।",
+"hg": "Sodium ethanol ke –OH group ke hydrogen ko replace karta hai, jisse sodium ethoxide aur hydrogen gas banti hai."
+},
+"Sodium reacted steadily with ethanol, giving bubbles of a gas that burned with a pop.": {
+"hi": "सोडियम ने एथेनॉल के साथ लगातार अभिक्रिया की, जिससे एक गैस के बुलबुले निकले जो 'पॉप' की ध्वनि के साथ जली।",
+"hg": "Sodium ne ethanol ke saath steadily react kiya, aur ek gas ke bubbles nikle jo pop ki awaaz ke saath jali."
+},
+"Ethanol reacts with sodium to give sodium ethoxide and hydrogen, but much less vigorously than water does.": {
+"hi": "एथेनॉल सोडियम से अभिक्रिया करके सोडियम एथॉक्साइड और हाइड्रोजन देता है, परंतु जल की तुलना में बहुत कम तीव्रता से।",
+"hg": "Ethanol sodium ke saath react karke sodium ethoxide aur hydrogen deta hai, lekin water ke comparison mein bahut kam vigorously."
+},
+"This is only a teacher demonstration: sodium is very reactive. Keep water away and use only a small piece; ethanol is flammable.": {
+"hi": "यह केवल शिक्षक द्वारा किया जाने वाला प्रदर्शन है: सोडियम बहुत अभिक्रियाशील है। पानी को दूर रखें और केवल छोटा टुकड़ा ही उपयोग करें; एथेनॉल ज्वलनशील है।",
+"hg": "Yeh sirf teacher demonstration hai: sodium bahut reactive hai. Paani ko door rakho aur sirf chhota piece hi use karo; ethanol flammable hai."
+},
+"Which gas is evolved when sodium reacts with ethanol?": {
+"hi": "जब सोडियम एथेनॉल से अभिक्रिया करता है, तो कौन-सी गैस निकलती है?",
+"hg": "Jab sodium ethanol ke saath react karta hai, toh kaun si gas nikalti hai?"
+},
+"Name the other product.": {
+"hi": "दूसरे उत्पाद का नाम बताइए।",
+"hg": "Doosre product ka naam batao."
+},
+"Sodium ethoxide, CH₃CH₂ONa.": {
+"hi": "सोडियम एथॉक्साइड, CH₃CH₂ONa।",
+"hg": "Sodium ethoxide, CH₃CH₂ONa."
+},
+"Is the reaction with ethanol more or less vigorous than with water?": {
+"hi": "क्या एथेनॉल के साथ अभिक्रिया जल की तुलना में अधिक तीव्र है या कम?",
+"hg": "Kya ethanol ke saath reaction water ke comparison mein zyada vigorous hai ya kam?"
+},
+"Less vigorous.": {
+"hi": "कम तीव्र।",
+"hg": "Kam vigorous."
+},
+"Sodium + ethanol → sodium ethoxide + hydrogen": {
+"hi": "सोडियम + एथेनॉल → सोडियम एथॉक्साइड + हाइड्रोजन",
+"hg": "Sodium + ethanol → sodium ethoxide + hydrogen"
+},
+"Properties of ethanoic acid": {
+"hi": "एथेनॉइक अम्ल के गुण",
+"hg": "Ethanoic acid ki properties"
+},
+"To study the odour, solubility in water, effect on litmus and reaction with sodium hydrogencarbonate of ethanoic acid.": {
+"hi": "एथेनॉइक अम्ल की गंध, जल में विलेयता, लिटमस पर प्रभाव और सोडियम हाइड्रोजनकार्बोनेट के साथ अभिक्रिया का अध्ययन करना।",
+"hg": "Ethanoic acid ki smell, water mein solubility, litmus par effect aur sodium hydrogencarbonate ke saath reaction ko study karna."
+},
+"Carefully waft the smell of ethanoic acid from the bottle towards your nose.": {
+"hi": "बोतल से एथेनॉइक अम्ल की गंध को सावधानी से हाथ से हवा करते हुए अपनी नाक की ओर लाएँ।",
+"hg": "Bottle se ethanoic acid ki smell ko carefully haath se waft karke apni naak ki taraf laao."
+},
+"A sharp, sour smell of vinegar.": {
+"hi": "सिरके की तीखी, खट्टी गंध।",
+"hg": "Vinegar ki sharp, khatti smell."
+},
+"Add 1 mL of ethanoic acid to 2 mL of water in test tube 1 and shake.": {
+"hi": "परखनली 1 में 2 mL पानी में 1 mL एथेनॉइक अम्ल डालें और हिलाएँ।",
+"hg": "Test tube 1 mein 2 mL water mein 1 mL ethanoic acid daalo aur shake karo."
+},
+"It mixes completely to give a clear solution with no layers: ethanoic acid dissolves in water.": {
+"hi": "यह पूरी तरह मिल जाता है और बिना परतों वाला एक स्वच्छ विलयन बनता है: एथेनॉइक अम्ल जल में घुल जाता है।",
+"hg": "Yeh poori tarah mix ho jaata hai aur bina layers ka clear solution banta hai: ethanoic acid water mein dissolve ho jaata hai."
+},
+"Dip blue and red litmus paper in test tube 2 (ethanoic acid).": {
+"hi": "नीले और लाल लिटमस पत्र को परखनली 2 (एथेनॉइक अम्ल) में डुबोएँ।",
+"hg": "Blue aur red litmus paper ko test tube 2 (ethanoic acid) mein dip karo."
+},
+"Blue litmus turns red; red litmus stays red. Ethanoic acid is an acid.": {
+"hi": "नीला लिटमस लाल हो जाता है; लाल लिटमस लाल ही रहता है। एथेनॉइक अम्ल एक अम्ल है।",
+"hg": "Blue litmus red ho jaata hai; red litmus red hi rehta hai. Ethanoic acid ek acid hai."
+},
+"Dip pH paper in ethanoic acid (tube 2) and another in dilute hydrochloric acid (tube 5), and compare.": {
+"hi": "एक pH पत्र को एथेनॉइक अम्ल (परखनली 2) में और दूसरे को तनु हाइड्रोक्लोरिक अम्ल (परखनली 5) में डुबोएँ, और तुलना करें।",
+"hg": "Ek pH paper ethanoic acid (tube 2) mein aur doosra dilute hydrochloric acid (tube 5) mein dip karo, aur compare karo."
+},
+"Ethanoic acid gives an orange colour (pH about 3); hydrochloric acid gives red (pH about 1 or less).": {
+"hi": "एथेनॉइक अम्ल नारंगी रंग देता है (pH लगभग 3); हाइड्रोक्लोरिक अम्ल लाल रंग देता है (pH लगभग 1 या उससे कम)।",
+"hg": "Ethanoic acid orange colour deta hai (pH lagbhag 3); hydrochloric acid red deta hai (pH lagbhag 1 ya usse kam)."
+},
+"Ethanoic acid ionises only partly in water, so it gives fewer H⁺ ions: it is a weak acid. HCl ionises completely: it is a strong acid.": {
+"hi": "एथेनॉइक अम्ल जल में केवल आंशिक रूप से आयनित होता है, इसलिए यह कम H⁺ आयन देता है: यह एक दुर्बल अम्ल है। HCl पूर्ण रूप से आयनित होता है: यह एक प्रबल अम्ल है।",
+"hg": "Ethanoic acid water mein sirf partly ionise hota hai, isliye yeh kam H⁺ ions deta hai: yeh ek weak acid hai. HCl completely ionise hota hai: yeh ek strong acid hai."
+},
+"Add a spatula of sodium hydrogencarbonate to test tube 3, fit the delivery tube and pass the gas into lime water.": {
+"hi": "परखनली 3 में एक स्पैचुला सोडियम हाइड्रोजनकार्बोनेट डालें, निकास नली लगाएँ और गैस को चूने के पानी में प्रवाहित करें।",
+"hg": "Test tube 3 mein ek spatula sodium hydrogencarbonate daalo, delivery tube lagao aur gas ko lime water mein pass karo."
+},
+"Brisk effervescence; the gas turns the lime water milky: carbon dioxide.": {
+"hi": "तेज़ बुदबुदाहट होती है; गैस चूने के पानी को दूधिया कर देती है: कार्बन डाइऑक्साइड।",
+"hg": "Tez effervescence hoti hai; gas lime water ko milky kar deti hai: carbon dioxide."
+},
+"Ethanoic acid smelled of vinegar, mixed completely with water, turned blue litmus red, gave pH about 3 (HCl about 1), and gave carbon dioxide with sodium hydrogencarbonate.": {
+"hi": "एथेनॉइक अम्ल से सिरके जैसी गंध आई, यह जल में पूरी तरह मिल गया, इसने नीले लिटमस को लाल कर दिया, pH लगभग 3 दिया (HCl लगभग 1), और सोडियम हाइड्रोजनकार्बोनेट के साथ कार्बन डाइऑक्साइड दी।",
+"hg": "Ethanoic acid se vinegar jaisi smell aayi, yeh water mein poori tarah mix ho gaya, isne blue litmus ko red kar diya, pH lagbhag 3 diya (HCl lagbhag 1), aur sodium hydrogencarbonate ke saath carbon dioxide di."
+},
+"Ethanoic acid is a weak acid that is soluble in water and reacts with carbonates and hydrogencarbonates to give carbon dioxide.": {
+"hi": "एथेनॉइक अम्ल एक दुर्बल अम्ल है जो जल में विलेय है और कार्बोनेटों तथा हाइड्रोजनकार्बोनेटों से अभिक्रिया करके कार्बन डाइऑक्साइड देता है।",
+"hg": "Ethanoic acid ek weak acid hai jo water mein soluble hai aur carbonates aur hydrogencarbonates ke saath react karke carbon dioxide deta hai."
+},
+"Do not smell the acid directly; waft it. Glacial ethanoic acid burns the skin; dilute acid is used here.": {
+"hi": "अम्ल को सीधे न सूँघें; हाथ से हवा करके सूँघें। ग्लेशियल एथेनॉइक अम्ल त्वचा को जला देता है; यहाँ तनु अम्ल का उपयोग किया गया है।",
+"hg": "Acid ko seedha mat soongho; haath se waft karke soongho. Glacial ethanoic acid skin ko jala deta hai; yahan dilute acid use kiya gaya hai."
+},
+"Why is ethanoic acid called a weak acid?": {
+"hi": "एथेनॉइक अम्ल को दुर्बल अम्ल क्यों कहा जाता है?",
+"hg": "Ethanoic acid ko weak acid kyun kaha jaata hai?"
+},
+"It ionises only partly in water, giving few H⁺ ions.": {
+"hi": "यह जल में केवल आंशिक रूप से आयनित होता है और कम H⁺ आयन देता है।",
+"hg": "Yeh water mein sirf partly ionise hota hai aur kam H⁺ ions deta hai."
+},
+"What is vinegar?": {
+"hi": "सिरका क्या है?",
+"hg": "Vinegar kya hai?"
+},
+"A 5–8% solution of ethanoic acid in water.": {
+"hi": "जल में एथेनॉइक अम्ल का 5–8% विलयन।",
+"hg": "Water mein ethanoic acid ka 5–8% solution."
+},
+"Why is pure ethanoic acid called glacial acetic acid?": {
+"hi": "शुद्ध एथेनॉइक अम्ल को ग्लेशियल ऐसीटिक अम्ल क्यों कहा जाता है?",
+"hg": "Pure ethanoic acid ko glacial acetic acid kyun kaha jaata hai?"
+},
+"It freezes into ice-like crystals in cold weather (melting point about 17 °C).": {
+"hi": "ठंडे मौसम में यह जमकर बर्फ़ जैसे क्रिस्टल बना लेता है (गलनांक लगभग 17 °C)।",
+"hg": "Thande mausam mein yeh jamkar ice jaise crystals ban jaata hai (melting point lagbhag 17 °C)."
+},
+"Ethanoic acid + sodium hydrogencarbonate → sodium ethanoate + water + carbon dioxide": {
+"hi": "एथेनॉइक अम्ल + सोडियम हाइड्रोजनकार्बोनेट → सोडियम एथेनोएट + जल + कार्बन डाइऑक्साइड",
+"hg": "Ethanoic acid + sodium hydrogencarbonate → sodium ethanoate + water + carbon dioxide"
+},
+"Making an ester": {
+"hi": "एस्टर बनाना",
+"hg": "Ester banana"
+},
+"To prepare an ester (ethyl ethanoate) from ethanol and ethanoic acid.": {
+"hi": "एथेनॉल और एथेनॉइक अम्ल से एक एस्टर (एथिल एथेनोएट) बनाना।",
+"hg": "Ethanol aur ethanoic acid se ek ester (ethyl ethanoate) banana."
+},
+"Esterification": {
+"hi": "एस्टरीकरण",
+"hg": "Esterification"
+},
+"Take 1 mL of ethanol in the test tube and add 1 mL of glacial ethanoic acid.": {
+"hi": "परखनली में 1 mL एथेनॉल लें और उसमें 1 mL ग्लेशियल एथेनॉइक अम्ल डालें।",
+"hg": "Test tube mein 1 mL ethanol lo aur usmein 1 mL glacial ethanoic acid daalo."
+},
+"A clear, colourless mixture.": {
+"hi": "एक स्वच्छ, रंगहीन मिश्रण।",
+"hg": "Ek clear, colourless mixture."
+},
+"Smell the mixture carefully.": {
+"hi": "मिश्रण को सावधानी से सूँघें।",
+"hg": "Mixture ko carefully soongho."
+},
+"It smells sharply of vinegar.": {
+"hi": "इससे सिरके की तीखी गंध आती है।",
+"hg": "Isse vinegar ki tez, sharp smell aati hai."
+},
+"(Teacher) Add a few drops of concentrated sulphuric acid.": {
+"hi": "(शिक्षक) सांद्र सल्फ्यूरिक अम्ल की कुछ बूँदें डालें।",
+"hg": "(Teacher) Concentrated sulphuric acid ki kuch drops daalo."
+},
+"No visible change.": {
+"hi": "कोई दिखाई देने वाला परिवर्तन नहीं।",
+"hg": "Koi visible change nahi."
+},
+"Sulphuric acid is a catalyst: it speeds up the reaction.": {
+"hi": "सल्फ्यूरिक अम्ल एक उत्प्रेरक है: यह अभिक्रिया की गति बढ़ा देता है।",
+"hg": "Sulphuric acid ek catalyst hai: yeh reaction ko fast kar deta hai."
+},
+"Warm the tube in the water bath at about 60 °C for at least five minutes (time-lapse).": {
+"hi": "परखनली को लगभग 60 °C पर जल-ऊष्मक में कम से कम पाँच मिनट तक गरम करें (टाइम-लैप्स)।",
+"hg": "Tube ko lagbhag 60 °C par water bath mein kam se kam paanch minute tak garam karo (time-lapse)."
+},
+"The mixture stays clear, but slowly a new substance forms.": {
+"hi": "मिश्रण स्वच्छ बना रहता है, लेकिन धीरे-धीरे एक नया पदार्थ बनता है।",
+"hg": "Mixture clear rehta hai, lekin dheere-dheere ek naya substance banta hai."
+},
+"Pour the warm mixture into the beaker of water and smell it.": {
+"hi": "गरम मिश्रण को पानी से भरे बीकर में उड़ेलें और उसे सूँघें।",
+"hg": "Garam mixture ko paani wale beaker mein daalo aur use soongho."
+},
+"A sweet, fruity smell, like nail-polish remover. A thin, oily, colourless layer floats on the water.": {
+"hi": "नेल-पॉलिश रिमूवर जैसी मीठी, फलों जैसी गंध। पानी पर एक पतली, तैलीय, रंगहीन परत तैरती है।",
+"hg": "Nail-polish remover jaisi sweet, fruity smell. Paani ke upar ek patli, oily, colourless layer tairti hai."
+},
+"Ethanol and ethanoic acid react, with sulphuric acid as a catalyst, to form the ester ethyl ethanoate. Esters have sweet smells and are used in perfumes and flavours.": {
+"hi": "सल्फ्यूरिक अम्ल को उत्प्रेरक के रूप में लेकर एथेनॉल और एथेनॉइक अम्ल अभिक्रिया करते हैं और एस्टर एथिल एथेनोएट बनाते हैं। एस्टरों की गंध मीठी होती है और इनका उपयोग इत्र तथा स्वाद देने वाले पदार्थों में होता है।",
+"hg": "Sulphuric acid catalyst ka kaam karta hai, aur ethanol aur ethanoic acid react karke ester ethyl ethanoate banate hain. Esters ki smell sweet hoti hai aur inka use perfumes aur flavours mein hota hai."
+},
+"The vinegar smell of the mixture changed to a sweet, fruity smell; an oily layer floated on water.": {
+"hi": "मिश्रण की सिरके जैसी गंध बदलकर मीठी, फलों जैसी गंध हो गई; पानी पर एक तैलीय परत तैरने लगी।",
+"hg": "Mixture ki vinegar wali smell badalkar sweet, fruity smell ho gayi; paani par ek oily layer tairne lagi."
+},
+"Carboxylic acids react with alcohols in the presence of an acid catalyst to form sweet-smelling esters (esterification).": {
+"hi": "कार्बोक्सिलिक अम्ल, अम्ल उत्प्रेरक की उपस्थिति में ऐल्कोहॉलों से अभिक्रिया करके मीठी गंध वाले एस्टर बनाते हैं (एस्टरीकरण)।",
+"hg": "Carboxylic acids, acid catalyst ki presence mein alcohols ke saath react karke sweet-smelling esters banate hain (esterification)."
+},
+"Only the teacher adds concentrated sulphuric acid. Ethanol is flammable: warm only in a water bath. Waft smells; do not sniff directly.": {
+"hi": "सांद्र सल्फ्यूरिक अम्ल केवल शिक्षक ही डालें। एथेनॉल ज्वलनशील है: केवल जल-ऊष्मक में ही गरम करें। गंध को हाथ से हवा करके लें; सीधे न सूँघें।",
+"hg": "Concentrated sulphuric acid sirf teacher hi daalenge. Ethanol flammable hai: sirf water bath mein hi garam karo. Smell ko haath se waft karke lo; seedha mat soongho."
+},
+"What is esterification?": {
+"hi": "एस्टरीकरण क्या है?",
+"hg": "Esterification kya hai?"
+},
+"The reaction of a carboxylic acid with an alcohol to form an ester.": {
+"hi": "एक कार्बोक्सिलिक अम्ल की ऐल्कोहॉल के साथ अभिक्रिया, जिससे एस्टर बनता है।",
+"hg": "Carboxylic acid ka alcohol ke saath reaction, jisse ester banta hai."
+},
+"What is the role of concentrated sulphuric acid?": {
+"hi": "सांद्र सल्फ्यूरिक अम्ल की क्या भूमिका है?",
+"hg": "Concentrated sulphuric acid ka kya role hai?"
+},
+"It is a catalyst (and removes water).": {
+"hi": "यह एक उत्प्रेरक है (और जल को हटाता है)।",
+"hg": "Yeh ek catalyst hai (aur water ko remove karta hai)."
+},
+"Give one use of esters.": {
+"hi": "एस्टरों का एक उपयोग बताइए।",
+"hg": "Esters ka ek use batao."
+},
+"In perfumes and as flavouring agents.": {
+"hi": "इत्र में और स्वाद देने वाले पदार्थों (फ्लेवरिंग एजेंट) के रूप में।",
+"hg": "Perfumes mein aur flavouring agents ke roop mein."
+},
+"Ethanoic acid + ethanol —conc. H₂SO₄→ ethyl ethanoate (ester) + water": {
+"hi": "एथेनॉइक अम्ल + एथेनॉल —सांद्र H₂SO₄→ एथिल एथेनोएट (एस्टर) + जल",
+"hg": "Ethanoic acid + ethanol —conc. H₂SO₄→ ethyl ethanoate (ester) + water"
+},
+"How soap cleans: oil, water and soap": {
+"hi": "साबुन कैसे साफ़ करता है: तेल, जल और साबुन",
+"hg": "Soap kaise saaf karta hai: oil, water aur soap"
+},
+"To show how soap helps oil to mix with water.": {
+"hi": "यह दर्शाना कि साबुन तेल को जल के साथ मिलने में कैसे सहायता करता है।",
+"hg": "Yeh dikhana ki soap oil ko water ke saath mix hone mein kaise help karta hai."
+},
+"Micelles and cleansing action of soap": {
+"hi": "मिसेल और साबुन की सफ़ाई क्रिया",
+"hg": "Micelles aur soap ka cleansing action"
+},
+"Look at test tubes A and B: each has 10 mL of water and a drop of cooking oil.": {
+"hi": "परखनली A और B को देखें: प्रत्येक में 10 mL पानी और खाना पकाने के तेल की एक बूँद है।",
+"hg": "Test tube A aur B ko dekho: har ek mein 10 mL water aur cooking oil ki ek drop hai."
+},
+"The oil floats on the water as a separate layer: oil and water do not mix.": {
+"hi": "तेल पानी पर एक अलग परत के रूप में तैरता है: तेल और पानी आपस में नहीं मिलते।",
+"hg": "Oil paani ke upar ek alag layer ki tarah tairta hai: oil aur water mix nahi hote."
+},
+"Add a few drops of soap solution to test tube B only.": {
+"hi": "केवल परखनली B में साबुन के विलयन की कुछ बूँदें डालें।",
+"hg": "Sirf test tube B mein soap solution ki kuch drops daalo."
+},
+"The soap solution goes into tube B.": {
+"hi": "साबुन का विलयन परखनली B में चला जाता है।",
+"hg": "Soap solution tube B mein chala jaata hai."
+},
+"Shake both tubes vigorously for the same time.": {
+"hi": "दोनों परखनलियों को समान समय तक ज़ोर से हिलाएँ।",
+"hg": "Dono tubes ko same time tak zor se shake karo."
+},
+"Both tubes look milky just after shaking: the oil has broken into tiny drops.": {
+"hi": "हिलाने के ठीक बाद दोनों परखनलियाँ दूधिया दिखती हैं: तेल छोटी-छोटी बूँदों में टूट गया है।",
+"hg": "Shake karne ke turant baad dono tubes milky dikhti hain: oil chhoti-chhoti drops mein toot gaya hai."
+},
+"Leave both tubes undisturbed and watch (time-lapse).": {
+"hi": "दोनों परखनलियों को बिना हिलाए छोड़ दें और देखें (टाइम-लैप्स)।",
+"hg": "Dono tubes ko bina hilaaye chhod do aur dekho (time-lapse)."
+},
+"In tube A the oil drops quickly rise and join into a layer again. Tube B stays milky for a long time.": {
+"hi": "परखनली A में तेल की बूँदें जल्दी ऊपर उठकर फिर से एक परत में मिल जाती हैं। परखनली B लंबे समय तक दूधिया बनी रहती है।",
+"hg": "Tube A mein oil ki drops jaldi upar uthkar phir se mil kar ek layer ban jaati hain. Tube B kaafi der tak milky rehti hai."
+},
+"Soap molecules have a long hydrocarbon tail that dissolves in oil and an ionic head that stays in water. They surround oil drops to form micelles, so the oil stays spread through the water (an emulsion). This is how soap washes oily dirt away.": {
+"hi": "साबुन के अणुओं में एक लंबी हाइड्रोकार्बन पूँछ होती है जो तेल में घुलती है और एक आयनिक शीर्ष होता है जो जल में रहता है। ये तेल की बूँदों को घेरकर मिसेल बनाते हैं, जिससे तेल जल में फैला रहता है (एक पायस या इमल्शन)। इसी प्रकार साबुन तैलीय मैल को धोकर हटा देता है।",
+"hg": "Soap molecules mein ek lambi hydrocarbon tail hoti hai jo oil mein dissolve hoti hai aur ek ionic head hota hai jo water mein rehta hai. Yeh oil drops ko gher kar micelles banate hain, isliye oil water mein faila rehta hai (ek emulsion). Isi tarah soap oily dirt ko dho kar hata deta hai."
+},
+"Without soap the oil separated within a minute; with soap the mixture stayed milky (an emulsion) for a long time.": {
+"hi": "साबुन के बिना तेल एक मिनट के भीतर अलग हो गया; साबुन के साथ मिश्रण लंबे समय तक दूधिया (एक पायस) बना रहा।",
+"hg": "Soap ke bina oil ek minute ke andar alag ho gaya; soap ke saath mixture kaafi der tak milky (ek emulsion) bana raha."
+},
+"Soap forms micelles that trap oil drops and keep them suspended in water; the oily dirt is then rinsed away.": {
+"hi": "साबुन मिसेल बनाता है जो तेल की बूँदों को फँसाकर उन्हें जल में निलंबित रखते हैं; फिर तैलीय मैल धुलकर निकल जाता है।",
+"hg": "Soap micelles banata hai jo oil drops ko trap karke unhe water mein suspended rakhte hain; phir oily dirt rinse hokar nikal jaata hai."
+},
+"Close the tube with your thumb (or a cork) while shaking, and wash your hands afterwards.": {
+"hi": "हिलाते समय परखनली को अपने अँगूठे (या कॉर्क) से बंद रखें, और बाद में अपने हाथ धोएँ।",
+"hg": "Shake karte waqt tube ko apne thumb (ya cork) se band rakho, aur baad mein apne haath dho lo."
+},
+"What is a micelle?": {
+"hi": "मिसेल क्या है?",
+"hg": "Micelle kya hai?"
+},
+"A cluster of soap molecules with their tails inside (holding oil) and their ionic heads facing the water.": {
+"hi": "साबुन के अणुओं का एक गुच्छा, जिसमें उनकी पूँछें अंदर की ओर (तेल को पकड़े हुए) और आयनिक शीर्ष जल की ओर होते हैं।",
+"hg": "Soap molecules ka ek cluster, jismein unki tails andar ki taraf (oil ko pakde hue) aur ionic heads water ki taraf hote hain."
+},
+"Which part of a soap molecule dissolves in oil?": {
+"hi": "साबुन के अणु का कौन-सा भाग तेल में घुलता है?",
+"hg": "Soap molecule ka kaun sa part oil mein dissolve hota hai?"
+},
+"The long hydrocarbon tail (hydrophobic part).": {
+"hi": "लंबी हाइड्रोकार्बन पूँछ (जलविरागी भाग)।",
+"hg": "Lambi hydrocarbon tail (hydrophobic part)."
+},
+"Why does oil not mix with water on its own?": {
+"hi": "तेल अपने आप जल के साथ क्यों नहीं मिलता?",
+"hg": "Oil apne aap water ke saath mix kyun nahi hota?"
+},
+"Oil is non-polar and water is polar, so they do not dissolve in each other.": {
+"hi": "तेल अध्रुवीय है और जल ध्रुवीय है, इसलिए वे एक-दूसरे में नहीं घुलते।",
+"hg": "Oil non-polar hai aur water polar hai, isliye yeh ek-doosre mein dissolve nahi hote."
+},
+"Soap (sodium stearate) in water → stearate ions (oil-loving tail, water-loving head) + sodium ions": {
+"hi": "जल में साबुन (सोडियम स्टीयरेट) → स्टीयरेट आयन (तेल-प्रेमी पूँछ, जल-प्रेमी शीर्ष) + सोडियम आयन",
+"hg": "Water mein soap (sodium stearate) → stearate ions (oil-loving tail, water-loving head) + sodium ions"
+},
+"Soap in soft and hard water": {
+"hi": "मृदु और कठोर जल में साबुन",
+"hg": "Soft aur hard water mein soap"
+},
+"To compare the foaming of soap in distilled water and in hard water, and of a detergent in hard water.": {
+"hi": "आसुत जल और कठोर जल में साबुन के झाग की, तथा कठोर जल में अपमार्जक के झाग की तुलना करना।",
+"hg": "Distilled water aur hard water mein soap ke jhaag ko, aur hard water mein detergent ke jhaag ko compare karna."
+},
+"Hard water, soap and detergents": {
+"hi": "कठोर जल, साबुन और अपमार्जक",
+"hg": "Hard water, soap aur detergents"
+},
+"Add five drops of soap solution to test tube 1 (distilled water) and test tube 2 (hard water).": {
+"hi": "परखनली 1 (आसुत जल) और परखनली 2 (कठोर जल) में साबुन के विलयन की पाँच बूँदें डालें।",
+"hg": "Test tube 1 (distilled water) aur test tube 2 (hard water) mein soap solution ki paanch drops daalo."
+},
+"In tube 2 (hard water) a white, curdy scum appears.": {
+"hi": "परखनली 2 (कठोर जल) में एक सफ़ेद, दही जैसा स्कम (मैल) दिखाई देता है।",
+"hg": "Tube 2 (hard water) mein ek white, dahi jaisa scum dikhai deta hai."
+},
+"Close each tube with your thumb and shake it ten times.": {
+"hi": "प्रत्येक परखनली को अपने अँगूठे से बंद करें और उसे दस बार हिलाएँ।",
+"hg": "Har tube ko apne thumb se band karo aur use das baar shake karo."
+},
+"Tube 1 fills with a tall lather. Tube 2 gives very little lather and looks cloudy.": {
+"hi": "परखनली 1 ऊँचे झाग से भर जाती है। परखनली 2 में बहुत कम झाग बनता है और वह धुँधली दिखती है।",
+"hg": "Tube 1 oonche lather (jhaag) se bhar jaati hai. Tube 2 mein bahut kam jhaag banta hai aur woh cloudy dikhti hai."
+},
+"Measure the height of the lather in tubes 1 and 2 with the scale.": {
+"hi": "पैमाने (स्केल) से परखनली 1 और 2 में झाग की ऊँचाई मापें।",
+"hg": "Scale se tube 1 aur 2 mein jhaag ki height measure karo."
+},
+"Distilled water: about 3 cm of lather that lasts. Hard water: less than 1 cm, which soon collapses.": {
+"hi": "आसुत जल: लगभग 3 cm झाग जो टिका रहता है। कठोर जल: 1 cm से कम, जो जल्दी ही बैठ जाता है।",
+"hg": "Distilled water: lagbhag 3 cm jhaag jo tika rehta hai. Hard water: 1 cm se kam, jo jaldi hi baith jaata hai."
+},
+"Calcium and magnesium salts in hard water react with soap to form an insoluble scum, so much of the soap is wasted.": {
+"hi": "कठोर जल में उपस्थित कैल्शियम और मैग्नीशियम के लवण साबुन से अभिक्रिया करके अविलेय स्कम बनाते हैं, जिससे बहुत-सा साबुन व्यर्थ हो जाता है।",
+"hg": "Hard water mein calcium aur magnesium salts soap ke saath react karke insoluble scum banate hain, isliye kaafi soap waste ho jaata hai."
+},
+"Add five drops of detergent solution to test tube 3 (hard water), shake it ten times and measure the lather.": {
+"hi": "परखनली 3 (कठोर जल) में अपमार्जक विलयन की पाँच बूँदें डालें, उसे दस बार हिलाएँ और झाग मापें।",
+"hg": "Test tube 3 (hard water) mein detergent solution ki paanch drops daalo, use das baar shake karo aur jhaag measure karo."
+},
+"A good lather forms and there is no scum.": {
+"hi": "अच्छा झाग बनता है और कोई स्कम नहीं बनता।",
+"hg": "Achha jhaag banta hai aur koi scum nahi banta."
+},
+"Detergents do not form insoluble compounds with calcium and magnesium ions, so they work well even in hard water.": {
+"hi": "अपमार्जक कैल्शियम और मैग्नीशियम आयनों के साथ अविलेय यौगिक नहीं बनाते, इसलिए वे कठोर जल में भी अच्छी तरह काम करते हैं।",
+"hg": "Detergents calcium aur magnesium ions ke saath insoluble compounds nahi banate, isliye yeh hard water mein bhi achhe se kaam karte hain."
+},
+"Soap gave a tall, lasting lather in distilled water but little lather and a curdy scum in hard water. The detergent lathered well in hard water.": {
+"hi": "साबुन ने आसुत जल में ऊँचा, टिकाऊ झाग दिया, लेकिन कठोर जल में बहुत कम झाग और दही जैसा स्कम दिया। अपमार्जक ने कठोर जल में अच्छा झाग दिया।",
+"hg": "Soap ne distilled water mein ooncha, lasting jhaag diya lekin hard water mein bahut kam jhaag aur dahi jaisa scum diya. Detergent ne hard water mein achha jhaag diya."
+},
+"Hard water wastes soap by forming scum; detergents lather well in both soft and hard water.": {
+"hi": "कठोर जल स्कम बनाकर साबुन को व्यर्थ करता है; अपमार्जक मृदु और कठोर दोनों प्रकार के जल में अच्छा झाग देते हैं।",
+"hg": "Hard water scum banakar soap ko waste karta hai; detergents soft aur hard dono tarah ke water mein achha jhaag dete hain."
+},
+"Shake with the thumb firmly on the mouth of the tube; wash your hands afterwards.": {
+"hi": "परखनली के मुँह पर अँगूठा मज़बूती से रखकर हिलाएँ; बाद में अपने हाथ धोएँ।",
+"hg": "Tube ke mouth par thumb mazbooti se rakh kar shake karo; baad mein apne haath dho lo."
+},
+"What makes water hard?": {
+"hi": "जल को कठोर क्या बनाता है?",
+"hg": "Water ko hard kya banata hai?"
+},
+"Dissolved calcium and magnesium salts (hydrogencarbonates, chlorides and sulphates).": {
+"hi": "घुले हुए कैल्शियम और मैग्नीशियम के लवण (हाइड्रोजनकार्बोनेट, क्लोराइड और सल्फेट)।",
+"hg": "Dissolved calcium aur magnesium salts (hydrogencarbonates, chlorides aur sulphates)."
+},
+"What is scum?": {
+"hi": "स्कम क्या है?",
+"hg": "Scum kya hai?"
+},
+"The insoluble calcium/magnesium salt of the fatty acid, formed when soap reacts with hard water.": {
+"hi": "वसा अम्ल का अविलेय कैल्शियम/मैग्नीशियम लवण, जो साबुन के कठोर जल से अभिक्रिया करने पर बनता है।",
+"hg": "Fatty acid ka insoluble calcium/magnesium salt, jo soap ke hard water ke saath react karne par banta hai."
+},
+"Why are detergents better in hard water?": {
+"hi": "कठोर जल में अपमार्जक बेहतर क्यों होते हैं?",
+"hg": "Hard water mein detergents better kyun hote hain?"
+},
+"They do not form scum with calcium and magnesium ions.": {
+"hi": "वे कैल्शियम और मैग्नीशियम आयनों के साथ स्कम नहीं बनाते।",
+"hg": "Yeh calcium aur magnesium ions ke saath scum nahi banate."
+},
+"Soap + calcium ions (hard water) → calcium soap (scum) + sodium ions": {
+"hi": "साबुन + कैल्शियम आयन (कठोर जल) → कैल्शियम साबुन (स्कम) + सोडियम आयन",
+"hg": "Soap + calcium ions (hard water) → calcium soap (scum) + sodium ions"
+},
+"Preparing carbon dioxide and testing it": {
+"hi": "कार्बन डाइऑक्साइड बनाना और उसका परीक्षण करना",
+"hg": "Carbon dioxide banana aur uska test karna"
+},
+"To prepare carbon dioxide from marble chips and dilute hydrochloric acid and to study its properties.": {
+"hi": "संगमरमर के टुकड़ों और तनु हाइड्रोक्लोरिक अम्ल से कार्बन डाइऑक्साइड बनाना और उसके गुणों का अध्ययन करना।",
+"hg": "Marble chips aur dilute hydrochloric acid se carbon dioxide banana aur uski properties ko study karna."
+},
+"Preparation and properties of a gas": {
+"hi": "एक गैस का निर्माण और उसके गुण",
+"hg": "Ek gas ka preparation aur uski properties"
+},
+"Put the marble chips in the flask; the cork carries the thistle funnel and the delivery tube going to the bottom of gas jar 1.": {
+"hi": "संगमरमर के टुकड़ों को फ्लास्क में डालें; कॉर्क में थिसल कीप और निकास नली लगी हैं, और निकास नली गैस जार 1 की तली तक जाती है।",
+"hg": "Marble chips ko flask mein daalo; cork mein thistle funnel aur delivery tube lage hain, aur delivery tube gas jar 1 ke bottom tak jaati hai."
+},
+"The apparatus is ready. The gas jar stands upright.": {
+"hi": "उपकरण तैयार है। गैस जार सीधा खड़ा है।",
+"hg": "Apparatus ready hai. Gas jar seedha khada hai."
+},
+"Pour dilute hydrochloric acid through the thistle funnel until its lower end dips in the acid.": {
+"hi": "थिसल कीप से तनु हाइड्रोक्लोरिक अम्ल तब तक डालें जब तक उसका निचला सिरा अम्ल में डूब न जाए।",
+"hg": "Thistle funnel se dilute hydrochloric acid tab tak daalo jab tak uska neeche wala end acid mein doob na jaaye."
+},
+"The marble chips fizz briskly and the gas passes into the jar.": {
+"hi": "संगमरमर के टुकड़ों से तेज़ी से बुदबुदाहट होती है और गैस जार में जाती है।",
+"hg": "Marble chips tezi se fizz karte hain aur gas jar mein jaati hai."
+},
+"Carbon dioxide is heavier than air, so it is collected by upward displacement of air in an upright jar.": {
+"hi": "कार्बन डाइऑक्साइड वायु से भारी है, इसलिए इसे सीधे खड़े जार में वायु के ऊर्ध्व विस्थापन द्वारा एकत्र किया जाता है।",
+"hg": "Carbon dioxide air se heavy hai, isliye ise seedhe khade jar mein air ke upward displacement se collect kiya jaata hai."
+},
+"When jar 1 is full, cover it with its lid and connect the delivery tube to jar 2.": {
+"hi": "जब जार 1 भर जाए, तो उसे उसके ढक्कन से ढक दें और निकास नली को जार 2 से जोड़ें।",
+"hg": "Jab jar 1 bhar jaaye, toh use uske lid se dhak do aur delivery tube ko jar 2 se connect karo."
+},
+"The gas is colourless; it has no smell.": {
+"hi": "गैस रंगहीन है; इसकी कोई गंध नहीं है।",
+"hg": "Gas colourless hai; iski koi smell nahi hai."
+},
+"Take the lid off jar 1 and hold moist blue litmus paper inside its mouth.": {
+"hi": "जार 1 का ढक्कन हटाएँ और उसके मुँह के अंदर नम नीला लिटमस पत्र पकड़कर रखें।",
+"hg": "Jar 1 ka lid hatao aur uske mouth ke andar moist blue litmus paper pakad kar rakho."
+},
+"The moist blue litmus turns faintly red (purplish).": {
+"hi": "नम नीला लिटमस हल्का लाल (बैंगनी-सा) हो जाता है।",
+"hg": "Moist blue litmus halka red (purplish) ho jaata hai."
+},
+"Carbon dioxide dissolves in water to form carbonic acid, a weak acid.": {
+"hi": "कार्बन डाइऑक्साइड जल में घुलकर कार्बोनिक अम्ल बनाती है, जो एक दुर्बल अम्ल है।",
+"hg": "Carbon dioxide water mein dissolve hokar carbonic acid banati hai, jo ek weak acid hai."
+},
+"Light a splint and lower it into jar 1.": {
+"hi": "एक तीली जलाएँ और उसे जार 1 में नीचे ले जाएँ।",
+"hg": "Ek splint jalao aur use jar 1 mein neeche le jao."
+},
+"The burning splint goes out at once.": {
+"hi": "जलती हुई तीली तुरंत बुझ जाती है।",
+"hg": "Burning splint turant bujh jaati hai."
+},
+"Carbon dioxide does not burn and does not support burning.": {
+"hi": "कार्बन डाइऑक्साइड न तो स्वयं जलती है और न ही जलने में सहायता करती है।",
+"hg": "Carbon dioxide na khud jalti hai aur na hi jalne mein support karti hai."
+},
+"Pour some lime water into jar 1, put the lid on and shake it.": {
+"hi": "जार 1 में थोड़ा चूने का पानी डालें, ढक्कन लगाएँ और उसे हिलाएँ।",
+"hg": "Jar 1 mein thoda lime water daalo, lid lagao aur use shake karo."
+},
+"Carbon dioxide reacts with lime water to form insoluble white calcium carbonate.": {
+"hi": "कार्बन डाइऑक्साइड चूने के पानी से अभिक्रिया करके अविलेय सफ़ेद कैल्शियम कार्बोनेट बनाती है।",
+"hg": "Carbon dioxide lime water ke saath react karke insoluble white calcium carbonate banati hai."
+},
+"Take jar 2 and tilt it over the burning candle, as if pouring water.": {
+"hi": "जार 2 लें और उसे जलती हुई मोमबत्ती के ऊपर ऐसे झुकाएँ, मानो पानी उड़ेल रहे हों।",
+"hg": "Jar 2 lo aur use jalti hui candle ke upar aise jhukao, jaise paani daal rahe ho."
+},
+"The candle goes out.": {
+"hi": "मोमबत्ती बुझ जाती है।",
+"hg": "Candle bujh jaati hai."
+},
+"Carbon dioxide is heavier than air: it flows down over the flame and cuts off its oxygen. That is why it is used in fire extinguishers.": {
+"hi": "कार्बन डाइऑक्साइड वायु से भारी है: यह ज्वाला के ऊपर से नीचे की ओर बहती है और उसकी ऑक्सीजन की आपूर्ति रोक देती है। इसीलिए इसका उपयोग अग्निशामकों में किया जाता है।",
+"hg": "Carbon dioxide air se heavy hai: yeh flame ke upar se neeche ki taraf behti hai aur uski oxygen supply cut off kar deti hai. Isiliye iska use fire extinguishers mein hota hai."
+},
+"Marble chips fizzed with dilute HCl. The gas was colourless and odourless, turned moist blue litmus faint red, put out a burning splint, turned lime water milky, and could be poured onto a candle to put it out.": {
+"hi": "संगमरमर के टुकड़ों से तनु HCl के साथ बुदबुदाहट हुई। गैस रंगहीन और गंधहीन थी, इसने नम नीले लिटमस को हल्का लाल किया, जलती हुई तीली को बुझा दिया, चूने के पानी को दूधिया कर दिया, और इसे मोमबत्ती पर उड़ेलकर उसे बुझाया जा सका।",
+"hg": "Marble chips dilute HCl ke saath fizz hue. Gas colourless aur odourless thi, isne moist blue litmus ko halka red kiya, burning splint ko bujha diya, lime water ko milky kar diya, aur ise candle par pour karke use bujhaya ja saka."
+},
+"Carbon dioxide is a colourless, odourless, slightly acidic gas, heavier than air, that does not support burning and turns lime water milky.": {
+"hi": "कार्बन डाइऑक्साइड एक रंगहीन, गंधहीन, हल्की अम्लीय गैस है, जो वायु से भारी है, जलने में सहायता नहीं करती और चूने के पानी को दूधिया कर देती है।",
+"hg": "Carbon dioxide ek colourless, odourless, thodi acidic gas hai, jo air se heavy hai, jalne mein support nahi karti aur lime water ko milky kar deti hai."
+},
+"Make sure the thistle funnel dips into the acid, or the gas escapes through it. Handle acid and flames with care.": {
+"hi": "सुनिश्चित करें कि थिसल कीप अम्ल में डूबी हो, नहीं तो गैस उसमें से बाहर निकल जाएगी। अम्ल और ज्वाला को सावधानी से संभालें।",
+"hg": "Make sure karo ki thistle funnel acid mein dooba ho, warna gas usmein se bahar nikal jaayegi. Acid aur flames ko carefully handle karo."
+},
+"Why is carbon dioxide collected by upward displacement of air?": {
+"hi": "कार्बन डाइऑक्साइड को वायु के ऊर्ध्व विस्थापन द्वारा क्यों एकत्र किया जाता है?",
+"hg": "Carbon dioxide ko air ke upward displacement se kyun collect kiya jaata hai?"
+},
+"It is heavier than air.": {
+"hi": "यह वायु से भारी है।",
+"hg": "Yeh air se heavy hai."
+},
+"Why must the end of the thistle funnel dip into the acid?": {
+"hi": "थिसल कीप का सिरा अम्ल में डूबा होना क्यों आवश्यक है?",
+"hg": "Thistle funnel ka end acid mein dooba hona kyun zaroori hai?"
+},
+"Otherwise the gas would escape through the funnel.": {
+"hi": "अन्यथा गैस कीप से बाहर निकल जाएगी।",
+"hg": "Warna gas funnel se bahar nikal jaayegi."
+},
+"Why is CO₂ used to put out fires?": {
+"hi": "आग बुझाने के लिए CO₂ का उपयोग क्यों किया जाता है?",
+"hg": "Aag bujhane ke liye CO₂ kyun use kiya jaata hai?"
+},
+"It is heavier than air and does not support burning, so it covers the fire and cuts off oxygen.": {
+"hi": "यह वायु से भारी है और जलने में सहायता नहीं करती, इसलिए यह आग को ढक लेती है और ऑक्सीजन की आपूर्ति रोक देती है।",
+"hg": "Yeh air se heavy hai aur jalne mein support nahi karti, isliye yeh aag ko cover kar leti hai aur oxygen cut off kar deti hai."
+},
+"Calcium carbonate + hydrochloric acid → calcium chloride + water + carbon dioxide · carbon dioxide + lime water → calcium carbonate + water": {
+"hi": "कैल्शियम कार्बोनेट + हाइड्रोक्लोरिक अम्ल → कैल्शियम क्लोराइड + जल + कार्बन डाइऑक्साइड · कार्बन डाइऑक्साइड + चूने का पानी → कैल्शियम कार्बोनेट + जल",
+"hg": "Calcium carbonate + hydrochloric acid → calcium chloride + water + carbon dioxide · carbon dioxide + lime water → calcium carbonate + water"
+},
+"Making soap from oil (saponification)": {
+"hi": "तेल से साबुन बनाना (साबुनीकरण)",
+"hg": "Oil se soap banana (saponification)"
+},
+"To prepare soap by the reaction of castor oil with sodium hydroxide.": {
+"hi": "अरंडी के तेल की सोडियम हाइड्रॉक्साइड के साथ अभिक्रिया द्वारा साबुन बनाना।",
+"hg": "Castor oil ka sodium hydroxide ke saath reaction karwa kar soap banana."
+},
+"Saponification": {
+"hi": "साबुनीकरण",
+"hg": "Saponification"
+},
+"Pour about 20 mL of castor oil into the beaker.": {
+"hi": "बीकर में लगभग 20 mL अरंडी का तेल डालें।",
+"hg": "Beaker mein lagbhag 20 mL castor oil daalo."
+},
+"Thick, pale yellow oil.": {
+"hi": "गाढ़ा, हल्का पीला तेल।",
+"hg": "Gaadha, halka yellow oil."
+},
+"Add 30 mL of 20% sodium hydroxide solution and stir.": {
+"hi": "30 mL 20% सोडियम हाइड्रॉक्साइड विलयन डालें और चलाएँ।",
+"hg": "30 mL 20% sodium hydroxide solution daalo aur stir karo."
+},
+"The oil floats at first; on stirring the mixture starts to turn cloudy, and the beaker feels slightly warm.": {
+"hi": "पहले तेल ऊपर तैरता है; चलाने पर मिश्रण धुँधला होने लगता है, और बीकर छूने पर हल्का गरम लगता है।",
+"hg": "Pehle oil upar tairta hai; stir karne par mixture cloudy hone lagta hai, aur beaker chhoone par thoda garam lagta hai."
+},
+"Dip a piece of red litmus paper in the mixture.": {
+"hi": "मिश्रण में लाल लिटमस पत्र का एक टुकड़ा डुबोएँ।",
+"hg": "Mixture mein red litmus paper ka ek piece dip karo."
+},
+"It turns blue: the mixture is strongly basic (excess sodium hydroxide).": {
+"hi": "यह नीला हो जाता है: मिश्रण प्रबल क्षारीय है (अतिरिक्त सोडियम हाइड्रॉक्साइड)।",
+"hg": "Yeh blue ho jaata hai: mixture strongly basic hai (extra sodium hydroxide)."
+},
+"Warm the beaker gently on the tripod and keep stirring (time-lapse, about 15 minutes).": {
+"hi": "बीकर को तिपाई पर धीरे-धीरे गरम करें और लगातार चलाते रहें (टाइम-लैप्स, लगभग 15 मिनट)।",
+"hg": "Beaker ko tripod par dheere-dheere garam karo aur stir karte raho (time-lapse, lagbhag 15 minute)."
+},
+"The mixture becomes thick, smooth and creamy.": {
+"hi": "मिश्रण गाढ़ा, चिकना और क्रीम जैसा हो जाता है।",
+"hg": "Mixture gaadha, smooth aur creamy ho jaata hai."
+},
+"The oil (a fat) reacts with the alkali: soap (the sodium salt of a fatty acid) and glycerol are formed. This is saponification.": {
+"hi": "तेल (एक वसा) क्षार से अभिक्रिया करता है: साबुन (वसा अम्ल का सोडियम लवण) और ग्लिसरॉल बनते हैं। यही साबुनीकरण है।",
+"hg": "Oil (ek fat) alkali ke saath react karta hai: soap (fatty acid ka sodium salt) aur glycerol bante hain. Yahi saponification hai."
+},
+"Turn off the burner, add two spatulas of common salt and stir.": {
+"hi": "बर्नर बंद करें, दो स्पैचुला साधारण नमक डालें और चलाएँ।",
+"hg": "Burner band karo, do spatula common salt daalo aur stir karo."
+},
+"The soap separates and floats on top as a solid layer (curd); the liquid below becomes clearer.": {
+"hi": "साबुन अलग होकर ऊपर एक ठोस परत (दही जैसी) के रूप में तैरने लगता है; नीचे का द्रव अधिक स्वच्छ हो जाता है।",
+"hg": "Soap alag hokar upar ek solid layer (curd) ki tarah tairne lagta hai; neeche ka liquid zyada clear ho jaata hai."
+},
+"Soap is less soluble in salt water, so it comes out of the solution. This is called salting out.": {
+"hi": "साबुन नमक वाले पानी में कम विलेय होता है, इसलिए यह विलयन से बाहर निकल आता है। इसे लवणन (सॉल्टिंग आउट) कहते हैं।",
+"hg": "Soap salt water mein kam soluble hota hai, isliye yeh solution se bahar aa jaata hai. Ise salting out kehte hain."
+},
+"Leave it for a day to set (time-lapse), then lift out the soap.": {
+"hi": "इसे जमने के लिए एक दिन तक छोड़ दें (टाइम-लैप्स), फिर साबुन को बाहर निकाल लें।",
+"hg": "Ise set hone ke liye ek din tak chhod do (time-lapse), phir soap ko bahar nikaal lo."
+},
+"A solid cake of soap. It lathers when rubbed with water.": {
+"hi": "साबुन की एक ठोस टिकिया। पानी के साथ रगड़ने पर इसमें झाग बनता है।",
+"hg": "Soap ki ek solid tikki. Paani ke saath ragadne par ismein jhaag banta hai."
+},
+"The castor oil and sodium hydroxide mixture became thick and creamy on stirring and warming; red litmus turned blue; on adding salt, soap separated as a solid that set into a cake.": {
+"hi": "अरंडी के तेल और सोडियम हाइड्रॉक्साइड का मिश्रण चलाने और गरम करने पर गाढ़ा और क्रीम जैसा हो गया; लाल लिटमस नीला हो गया; नमक डालने पर साबुन ठोस के रूप में अलग हो गया जो जमकर टिकिया बन गया।",
+"hg": "Castor oil aur sodium hydroxide ka mixture stir aur garam karne par gaadha aur creamy ho gaya; red litmus blue ho gaya; salt daalne par soap solid ke roop mein alag ho gaya jo jamkar tikki ban gaya."
+},
+"Oils and fats react with sodium hydroxide to form soap and glycerol (saponification). Common salt separates the soap from the mixture.": {
+"hi": "तेल और वसा सोडियम हाइड्रॉक्साइड से अभिक्रिया करके साबुन और ग्लिसरॉल बनाते हैं (साबुनीकरण)। साधारण नमक साबुन को मिश्रण से अलग कर देता है।",
+"hg": "Oils aur fats sodium hydroxide ke saath react karke soap aur glycerol banate hain (saponification). Common salt soap ko mixture se alag kar deta hai."
+},
+"20% sodium hydroxide is very corrosive: wear goggles and gloves and do not touch the mixture. Freshly made soap still contains alkali: do not use it on your skin.": {
+"hi": "20% सोडियम हाइड्रॉक्साइड बहुत संक्षारक है: चश्मा (गॉगल्स) और दस्ताने पहनें और मिश्रण को न छुएँ। ताज़ा बने साबुन में अभी भी क्षार होता है: इसे अपनी त्वचा पर उपयोग न करें।",
+"hg": "20% sodium hydroxide bahut corrosive hai: goggles aur gloves pehno aur mixture ko touch mat karo. Fresh bane soap mein abhi bhi alkali hota hai: ise apni skin par use mat karo."
+},
+"What is saponification?": {
+"hi": "साबुनीकरण क्या है?",
+"hg": "Saponification kya hai?"
+},
+"The reaction of an oil or fat with an alkali to form soap and glycerol.": {
+"hi": "किसी तेल या वसा की क्षार के साथ अभिक्रिया, जिससे साबुन और ग्लिसरॉल बनते हैं।",
+"hg": "Kisi oil ya fat ka alkali ke saath reaction, jisse soap aur glycerol bante hain."
+},
+"Why is common salt added?": {
+"hi": "साधारण नमक क्यों डाला जाता है?",
+"hg": "Common salt kyun daala jaata hai?"
+},
+"To make the soap separate out (salting out).": {
+"hi": "साबुन को अलग करने के लिए (लवणन)।",
+"hg": "Soap ko alag karne ke liye (salting out)."
+},
+"Which by-product is formed in this reaction?": {
+"hi": "इस अभिक्रिया में कौन-सा सह-उत्पाद बनता है?",
+"hg": "Is reaction mein kaun sa by-product banta hai?"
+},
+"Glycerol.": {
+"hi": "ग्लिसरॉल।",
+"hg": "Glycerol."
+},
+"Oil (fat) + sodium hydroxide → soap + glycerol": {
+"hi": "तेल (वसा) + सोडियम हाइड्रॉक्साइड → साबुन + ग्लिसरॉल",
+"hg": "Oil (fat) + sodium hydroxide → soap + glycerol"
+},
+"Washing soda or baking soda?": {
+"hi": "धोने का सोडा या बेकिंग सोडा?",
+"hg": "Washing soda ya baking soda?"
+},
+"To identify washing soda (sodium carbonate) and baking soda (sodium hydrogencarbonate) from two unlabelled samples.": {
+"hi": "बिना लेबल वाले दो नमूनों में से धोने का सोडा (सोडियम कार्बोनेट) और बेकिंग सोडा (सोडियम हाइड्रोजनकार्बोनेट) की पहचान करना।",
+"hg": "Do bina label wale samples mein se washing soda (sodium carbonate) aur baking soda (sodium hydrogencarbonate) ko identify karna."
+},
+"Identifying salts by tests": {
+"hi": "परीक्षणों द्वारा लवणों की पहचान",
+"hg": "Tests se salts ko identify karna"
+},
+"Dissolve a spatula of sample A in test tube 1 and of sample B in test tube 2 (5 mL of distilled water each).": {
+"hi": "नमूना A की एक स्पैचुला मात्रा परखनली 1 में और नमूना B की परखनली 2 में घोलें (प्रत्येक में 5 mL आसुत जल)।",
+"hg": "Sample A ka ek spatula test tube 1 mein aur sample B ka test tube 2 mein dissolve karo (har ek mein 5 mL distilled water)."
+},
+"Both dissolve to give clear, colourless solutions.": {
+"hi": "दोनों घुलकर स्वच्छ, रंगहीन विलयन बनाते हैं।",
+"hg": "Dono dissolve hokar clear, colourless solutions banate hain."
+},
+"Dip red litmus paper and pH paper in each solution.": {
+"hi": "प्रत्येक विलयन में लाल लिटमस पत्र और pH पत्र डुबोएँ।",
+"hg": "Har solution mein red litmus paper aur pH paper dip karo."
+},
+"Both turn red litmus blue: both are basic. On pH paper, A gives a blue colour (pH about 10) and B a green colour (pH about 8): A is more strongly basic.": {
+"hi": "दोनों लाल लिटमस को नीला कर देते हैं: दोनों क्षारीय हैं। pH पत्र पर A नीला रंग देता है (pH लगभग 10) और B हरा रंग (pH लगभग 8): A अधिक प्रबल क्षारीय है।",
+"hg": "Dono red litmus ko blue kar dete hain: dono basic hain. pH paper par A blue colour deta hai (pH lagbhag 10) aur B green colour (pH lagbhag 8): A zyada strongly basic hai."
+},
+"Add a little dilute hydrochloric acid to each solution.": {
+"hi": "प्रत्येक विलयन में थोड़ा तनु हाइड्रोक्लोरिक अम्ल डालें।",
+"hg": "Har solution mein thoda dilute hydrochloric acid daalo."
+},
+"Both fizz: both give carbon dioxide with an acid.": {
+"hi": "दोनों में बुदबुदाहट होती है: दोनों अम्ल के साथ कार्बन डाइऑक्साइड देते हैं।",
+"hg": "Dono mein fizz hota hai: dono acid ke saath carbon dioxide dete hain."
+},
+"Put a little dry sample A in its dry tube, connect it to lime water 1 and heat it.": {
+"hi": "थोड़ा सूखा नमूना A उसकी सूखी नली में डालें, उसे चूने के पानी 1 से जोड़ें और गरम करें।",
+"hg": "Thoda dry sample A uski dry tube mein daalo, use lime water 1 se connect karo aur garam karo."
+},
+"No gas comes out; the lime water stays clear.": {
+"hi": "कोई गैस नहीं निकलती; चूने का पानी स्वच्छ बना रहता है।",
+"hg": "Koi gas nahi nikalti; lime water clear hi rehta hai."
+},
+"Do the same with dry sample B and lime water 2.": {
+"hi": "सूखे नमूने B और चूने के पानी 2 के साथ भी यही करें।",
+"hg": "Dry sample B aur lime water 2 ke saath bhi yahi karo."
+},
+"Bubbles pass into the lime water and it turns milky; drops of water appear in the upper part of the tube.": {
+"hi": "बुलबुले चूने के पानी में जाते हैं और वह दूधिया हो जाता है; नली के ऊपरी भाग में पानी की बूँदें दिखाई देती हैं।",
+"hg": "Bubbles lime water mein jaate hain aur woh milky ho jaata hai; tube ke upper part mein paani ki boondein dikhai deti hain."
+},
+"Baking soda decomposes on heating to give carbon dioxide and water; washing soda does not. So sample A is washing soda and sample B is baking soda.": {
+"hi": "बेकिंग सोडा गरम करने पर अपघटित होकर कार्बन डाइऑक्साइड और जल देता है; धोने का सोडा ऐसा नहीं करता। अतः नमूना A धोने का सोडा है और नमूना B बेकिंग सोडा है।",
+"hg": "Baking soda garam karne par decompose hokar carbon dioxide aur water deta hai; washing soda aisa nahi karta. Isliye sample A washing soda hai aur sample B baking soda hai."
+},
+"Both samples dissolved, turned red litmus blue and fizzed with HCl. Sample A was more strongly basic and gave no gas on heating; sample B gave carbon dioxide and water on heating.": {
+"hi": "दोनों नमूने घुल गए, उन्होंने लाल लिटमस को नीला किया और HCl के साथ बुदबुदाहट दी। नमूना A अधिक प्रबल क्षारीय था और गरम करने पर उसने कोई गैस नहीं दी; नमूना B ने गरम करने पर कार्बन डाइऑक्साइड और जल दिया।",
+"hg": "Dono samples dissolve ho gaye, red litmus ko blue kiya aur HCl ke saath fizz kiya. Sample A zyada strongly basic tha aur garam karne par usne koi gas nahi di; sample B ne garam karne par carbon dioxide aur water diya."
+},
+"Sample A is washing soda (sodium carbonate); sample B is baking soda (sodium hydrogencarbonate).": {
+"hi": "नमूना A धोने का सोडा (सोडियम कार्बोनेट) है; नमूना B बेकिंग सोडा (सोडियम हाइड्रोजनकार्बोनेट) है।",
+"hg": "Sample A washing soda (sodium carbonate) hai; sample B baking soda (sodium hydrogencarbonate) hai."
+},
+"Heat the dry tube gently with its mouth pointing away from people; remove the delivery tube from the lime water before the heating stops, so that lime water is not sucked back.": {
+"hi": "सूखी नली को धीरे-धीरे गरम करें और उसका मुँह लोगों से दूर की ओर रखें; गरम करना बंद करने से पहले निकास नली को चूने के पानी से बाहर निकाल लें, ताकि चूने का पानी वापस न खिंच आए।",
+"hg": "Dry tube ko dheere-dheere garam karo aur uska mouth logon se door ki taraf rakho; heating band karne se pehle delivery tube ko lime water se bahar nikaal lo, taaki lime water wapas suck na ho."
+},
+"What is the chemical name of baking soda?": {
+"hi": "बेकिंग सोडा का रासायनिक नाम क्या है?",
+"hg": "Baking soda ka chemical name kya hai?"
+},
+"Sodium hydrogencarbonate, NaHCO₃.": {
+"hi": "सोडियम हाइड्रोजनकार्बोनेट, NaHCO₃।",
+"hg": "Sodium hydrogencarbonate, NaHCO₃."
+},
+"Which sample gives carbon dioxide on heating?": {
+"hi": "गरम करने पर कौन-सा नमूना कार्बन डाइऑक्साइड देता है?",
+"hg": "Garam karne par kaun sa sample carbon dioxide deta hai?"
+},
+"Baking soda.": {
+"hi": "बेकिंग सोडा।",
+"hg": "Baking soda."
+},
+"What is the formula of washing soda?": {
+"hi": "धोने के सोडे का सूत्र क्या है?",
+"hg": "Washing soda ka formula kya hai?"
+},
+"Na₂CO₃·10H₂O.": {
+"hi": "Na₂CO₃·10H₂O।",
+"hg": "Na₂CO₃·10H₂O."
+},
+"Sodium hydrogencarbonate —heat→ sodium carbonate + water + carbon dioxide": {
+"hi": "सोडियम हाइड्रोजनकार्बोनेट —ऊष्मा→ सोडियम कार्बोनेट + जल + कार्बन डाइऑक्साइड",
+"hg": "Sodium hydrogencarbonate —heat→ sodium carbonate + water + carbon dioxide"
+},
+"Almost no smell: the onion smell is gone": {
+"hi": "लगभग कोई गंध नहीं: प्याज़ की गंध चली गई है",
+"hg": "Lagbhag koi smell nahi: onion ki smell chali gayi hai"
+},
+"Strong smell of onion": {
+"hi": "प्याज़ की तेज़ गंध",
+"hg": "Onion ki tez smell"
+},
+"No smell": {
+"hi": "कोई गंध नहीं",
+"hg": "Koi smell nahi"
+},
+"Sharp, choking smell of ammonia": {
+"hi": "अमोनिया की तीखी, दम घोंटने वाली गंध",
+"hg": "Ammonia ki sharp, dum ghontne wali smell"
+},
+"Hardly any smell: the vanilla smell is gone": {
+"hi": "मुश्किल से कोई गंध: वनीला की गंध चली गई है",
+"hg": "Mushkil se koi smell: vanilla ki smell chali gayi hai"
+},
+"Strong smell of vanilla": {
+"hi": "वनीला की तेज़ गंध",
+"hg": "Vanilla ki tez smell"
+},
+"Very weak smell of clove": {
+"hi": "लौंग की बहुत हल्की गंध",
+"hg": "Clove (laung) ki bahut halki smell"
+},
+"Strong smell of clove": {
+"hi": "लौंग की तेज़ गंध",
+"hg": "Clove (laung) ki tez smell"
+},
+"Sweet, fruity smell (like nail-polish remover)": {
+"hi": "मीठी, फलों जैसी गंध (नेल-पॉलिश रिमूवर जैसी)",
+"hg": "Sweet, fruity smell (nail-polish remover jaisi)"
+},
+"Sharp, sour smell of vinegar": {
+"hi": "सिरके की तीखी, खट्टी गंध",
+"hg": "Vinegar ki sharp, khatti smell"
+},
+"Test tube with silver nitrate solution": {
+"hi": "सिल्वर नाइट्रेट विलयन वाली परखनली",
+"hg": "Silver nitrate solution wali test tube"
+},
+"Silver chloride (dried, prepared earlier)": {
+"hi": "सिल्वर क्लोराइड (सुखाया हुआ, पहले से तैयार)",
+"hg": "Silver chloride (sukhaya hua, pehle se taiyaar)"
+},
+"Bright lamp (in place of sunlight)": {
+"hi": "तेज़ रोशनी वाला लैंप (सूर्य के प्रकाश के स्थान पर)",
+"hg": "Bright lamp (sunlight ki jagah)"
+},
+"China dish A": {
+"hi": "चीनी मिट्टी की प्याली A",
+"hg": "China dish A"
+},
+"China dish B": {
+"hi": "चीनी मिट्टी की प्याली B",
+"hg": "China dish B"
+},
+"Beaker A: 20 mL dilute hydrochloric acid": {
+"hi": "बीकर A: 20 mL तनु हाइड्रोक्लोरिक अम्ल",
+"hg": "Beaker A: 20 mL dilute hydrochloric acid"
+},
+"20 mL dilute sodium hydroxide solution": {
+"hi": "20 mL तनु सोडियम हाइड्रॉक्साइड विलयन",
+"hg": "20 mL dilute sodium hydroxide solution"
+},
+"Beaker B (dry)": {
+"hi": "बीकर B (सूखा)",
+"hg": "Beaker B (dry)"
+},
+"Flask with zinc granules (makes hydrogen)": {
+"hi": "जिंक के दानों वाला फ्लास्क (हाइड्रोजन बनाता है)",
+"hg": "Zinc granules wala flask (hydrogen banata hai)"
+},
+"Hard-glass tube": {
+"hi": "कठोर काँच की नली",
+"hg": "Hard-glass tube"
+},
+"Onion cloth strip 1": {
+"hi": "प्याज़ वाली कपड़े की पट्टी 1",
+"hg": "Onion wali cloth strip 1"
+},
+"Onion cloth strip 2": {
+"hi": "प्याज़ वाली कपड़े की पट्टी 2",
+"hg": "Onion wali cloth strip 2"
+},
+"Water for rinsing": {
+"hi": "खंगालने के लिए पानी",
+"hg": "Rinse karne ke liye paani"
+},
+"Test tube 1: dilute hydrochloric acid": {
+"hi": "परखनली 1: तनु हाइड्रोक्लोरिक अम्ल",
+"hg": "Test tube 1: dilute hydrochloric acid"
+},
+"Test tube 2: dilute sodium hydroxide": {
+"hi": "परखनली 2: तनु सोडियम हाइड्रॉक्साइड",
+"hg": "Test tube 2: dilute sodium hydroxide"
+},
+"Test tube 3: dilute hydrochloric acid": {
+"hi": "परखनली 3: तनु हाइड्रोक्लोरिक अम्ल",
+"hg": "Test tube 3: dilute hydrochloric acid"
+},
+"Test tube 4: dilute sodium hydroxide": {
+"hi": "परखनली 4: तनु सोडियम हाइड्रॉक्साइड",
+"hg": "Test tube 4: dilute sodium hydroxide"
+},
+"Dry boiling tube": {
+"hi": "सूखी क्वथन नली",
+"hg": "Dry boiling tube"
+},
+"Dry blue litmus paper": {
+"hi": "सूखा नीला लिटमस पत्र",
+"hg": "Dry blue litmus paper"
+},
+"Beaker A: 10 mL water": {
+"hi": "बीकर A: 10 mL पानी",
+"hg": "Beaker A: 10 mL water"
+},
+"Beaker B: 10 mL water": {
+"hi": "बीकर B: 10 mL पानी",
+"hg": "Beaker B: 10 mL water"
+},
+"Beaker 1: cold water (for sodium)": {
+"hi": "बीकर 1: ठंडा पानी (सोडियम के लिए)",
+"hg": "Beaker 1: thanda paani (sodium ke liye)"
+},
+"Sodium kept under kerosene": {
+"hi": "मिट्टी के तेल में रखा सोडियम",
+"hg": "Kerosene mein rakha sodium"
+},
+"Sodium (a small piece, blotted dry)": {
+"hi": "सोडियम (एक छोटा टुकड़ा, सोख्ता कागज़ से सुखाया हुआ)",
+"hg": "Sodium (ek chhota piece, blotting paper se sukhaya hua)"
+},
+"Beaker 2: cold water (for calcium)": {
+"hi": "बीकर 2: ठंडा पानी (कैल्शियम के लिए)",
+"hg": "Beaker 2: thanda paani (calcium ke liye)"
+},
+"Beaker 3: cold water (for magnesium)": {
+"hi": "बीकर 3: ठंडा पानी (मैग्नीशियम के लिए)",
+"hg": "Beaker 3: thanda paani (magnesium ke liye)"
+},
+"Beaker 4: hot water": {
+"hi": "बीकर 4: गरम पानी",
+"hg": "Beaker 4: garam paani"
+},
+"Beaker 5: hot water": {
+"hi": "बीकर 5: गरम पानी",
+"hg": "Beaker 5: garam paani"
+},
+"Dish 1: naphthalene": {
+"hi": "प्याली 1: नैफ़्थलीन",
+"hg": "Dish 1: naphthalene"
+},
+"Dish 2: camphor": {
+"hi": "प्याली 2: कपूर",
+"hg": "Dish 2: camphor (kapoor)"
+},
+"Dish 3: alcohol (ethanol)": {
+"hi": "प्याली 3: ऐल्कोहॉल (एथेनॉल)",
+"hg": "Dish 3: alcohol (ethanol)"
+},
+"Water bath": {
+"hi": "जल-ऊष्मक",
+"hg": "Water bath"
+},
+"Test tube with 3 mL ethanol": {
+"hi": "3 mL एथेनॉल वाली परखनली",
+"hg": "3 mL ethanol wali test tube"
+},
+"Dry boiling tube with ethanol": {
+"hi": "एथेनॉल वाली सूखी क्वथन नली",
+"hg": "Ethanol wali dry boiling tube"
+},
+"Test tube 1: 2 mL water": {
+"hi": "परखनली 1: 2 mL पानी",
+"hg": "Test tube 1: 2 mL water"
+},
+"Test tube 2: ethanoic acid": {
+"hi": "परखनली 2: एथेनॉइक अम्ल",
+"hg": "Test tube 2: ethanoic acid"
+},
+"Test tube 3: ethanoic acid": {
+"hi": "परखनली 3: एथेनॉइक अम्ल",
+"hg": "Test tube 3: ethanoic acid"
+},
+"Test tube 5: dilute HCl": {
+"hi": "परखनली 5: तनु HCl",
+"hg": "Test tube 5: dilute HCl"
+},
+"Test tube": {
+"hi": "परखनली",
+"hg": "Test tube"
+},
+"Water bath (about 60 °C)": {
+"hi": "जल-ऊष्मक (लगभग 60 °C)",
+"hg": "Water bath (lagbhag 60 °C)"
+},
+"Beaker with water": {
+"hi": "पानी वाला बीकर",
+"hg": "Paani wala beaker"
+},
+"Test tube A: water and a drop of oil": {
+"hi": "परखनली A: पानी और तेल की एक बूँद",
+"hg": "Test tube A: water aur oil ki ek drop"
+},
+"Test tube B: water and a drop of oil": {
+"hi": "परखनली B: पानी और तेल की एक बूँद",
+"hg": "Test tube B: water aur oil ki ek drop"
+},
+"Test tube 1: distilled water": {
+"hi": "परखनली 1: आसुत जल",
+"hg": "Test tube 1: distilled water"
+},
+"Test tube 2: hard water": {
+"hi": "परखनली 2: कठोर जल",
+"hg": "Test tube 2: hard water"
+},
+"Test tube 3: hard water": {
+"hi": "परखनली 3: कठोर जल",
+"hg": "Test tube 3: hard water"
+},
+"Lather": {
+"hi": "झाग",
+"hg": "Lather (jhaag)"
+},
+"Woulfe bottle (flask)": {
+"hi": "वुल्फ़ बोतल (फ्लास्क)",
+"hg": "Woulfe bottle (flask)"
+},
+"Gas jar 1": {
+"hi": "गैस जार 1",
+"hg": "Gas jar 1"
+},
+"Gas jar 2": {
+"hi": "गैस जार 2",
+"hg": "Gas jar 2"
+},
+"Beaker (250 mL)": {
+"hi": "बीकर (250 mL)",
+"hg": "Beaker (250 mL)"
+},
+"Sample A": {
+"hi": "नमूना A",
+"hg": "Sample A"
+},
+"Sample B": {
+"hi": "नमूना B",
+"hg": "Sample B"
+},
+"Test tube 1 (sample A)": {
+"hi": "परखनली 1 (नमूना A)",
+"hg": "Test tube 1 (sample A)"
+},
+"Test tube 2 (sample B)": {
+"hi": "परखनली 2 (नमूना B)",
+"hg": "Test tube 2 (sample B)"
+},
+"Dry tube for sample A": {
+"hi": "सूखी नली (नमूना A के लिए)",
+"hg": "Dry tube (sample A ke liye)"
+},
+"Dry tube for sample B": {
+"hi": "सूखी नली (नमूना B के लिए)",
+"hg": "Dry tube (sample B ke liye)"
+},
+"Lime water 1": {
+"hi": "चूने का पानी 1",
+"hg": "Lime water 1"
+},
+"Lime water 2": {
+"hi": "चूने का पानी 2",
+"hg": "Lime water 2"
+}
+});
+// p1 translations (physics, Class 10 light and electricity)
+Object.assign(DICT, {
+"Focal length of a concave mirror": {
+"hi": "अवतल दर्पण की फोकस दूरी",
+"hg": "Concave mirror ki focal length"
+},
+"To find the focal length of a concave mirror by obtaining the image of a distant object.": {
+"hi": "किसी दूरस्थ वस्तु का प्रतिबिंब प्राप्त करके अवतल दर्पण की फोकस दूरी ज्ञात करना।",
+"hg": "Kisi distant object ki image banakar concave mirror ki focal length nikaalna."
+},
+"Concave mirror, distant object (CBSE practical)": {
+"hi": "अवतल दर्पण, दूरस्थ वस्तु (CBSE प्रायोगिक)",
+"hg": "Concave mirror, distant object (CBSE practical)"
+},
+"Turn the concave mirror towards a window far away (a distant object) and hold the white screen in front of the mirror.": {
+"hi": "अवतल दर्पण को दूर स्थित किसी खिड़की (दूरस्थ वस्तु) की ओर घुमाइए और सफ़ेद पर्दे को दर्पण के सामने पकड़िए।",
+"hg": "Concave mirror ko door wali kisi window (distant object) ki taraf ghumao aur white screen ko mirror ke saamne pakdo."
+},
+"A patch of light reflected by the mirror falls on the screen.": {
+"hi": "दर्पण से परावर्तित प्रकाश का एक धब्बा पर्दे पर पड़ता है।",
+"hg": "Mirror se reflect hui light ka ek patch screen par padta hai."
+},
+"Move the screen slowly towards and away from the mirror until a sharp image of the window forms on it.": {
+"hi": "पर्दे को धीरे-धीरे दर्पण के पास और दूर तब तक खिसकाइए जब तक उस पर खिड़की का स्पष्ट प्रतिबिंब न बन जाए।",
+"hg": "Screen ko dheere-dheere mirror ke paas aur door karo jab tak us par window ki sharp image na ban jaaye."
+},
+"A small, inverted, sharp image of the window appears on the screen.": {
+"hi": "पर्दे पर खिड़की का एक छोटा, उल्टा और स्पष्ट प्रतिबिंब दिखाई देता है।",
+"hg": "Screen par window ki ek chhoti, inverted aur sharp image dikhti hai."
+},
+"Rays from a very distant object are nearly parallel. A concave mirror brings parallel rays together at its principal focus, so the sharp image is at the focus.": {
+"hi": "बहुत दूर की वस्तु से आने वाली किरणें लगभग समांतर होती हैं। अवतल दर्पण समांतर किरणों को अपने मुख्य फोकस पर मिलाता है, इसलिए स्पष्ट प्रतिबिंब फोकस पर बनता है।",
+"hg": "Bahut door ke object se aane wali rays lagbhag parallel hoti hain. Concave mirror parallel rays ko apne principal focus par mila deta hai, isliye sharp image focus par banti hai."
+},
+"Read the positions of the mirror and the screen on the scale. Their difference is the focal length.": {
+"hi": "पैमाने पर दर्पण और पर्दे की स्थितियाँ पढ़िए। इनका अंतर ही फोकस दूरी है।",
+"hg": "Scale par mirror aur screen ki positions padho. Inka difference hi focal length hai."
+},
+"Mirror at 70.0 cm, screen at about 55.0 cm: f ≈ 15.0 cm.": {
+"hi": "दर्पण 70.0 cm पर, पर्दा लगभग 55.0 cm पर: f ≈ 15.0 cm।",
+"hg": "Mirror 70.0 cm par, screen lagbhag 55.0 cm par: f ≈ 15.0 cm."
+},
+"Repeat with the mirror at the 85 cm mark and take the mean of the two values.": {
+"hi": "दर्पण को 85 cm के निशान पर रखकर प्रयोग दोहराइए और दोनों मानों का माध्य लीजिए।",
+"hg": "Mirror ko 85 cm mark par rakhkar experiment repeat karo aur dono values ka mean nikaalo."
+},
+"Again the sharp image is about 15 cm from the mirror. The focal length of the mirror is about 15 cm.": {
+"hi": "इस बार भी स्पष्ट प्रतिबिंब दर्पण से लगभग 15 cm दूर बनता है। दर्पण की फोकस दूरी लगभग 15 cm है।",
+"hg": "Is baar bhi sharp image mirror se lagbhag 15 cm door banti hai. Mirror ki focal length lagbhag 15 cm hai."
+},
+"A sharp, diminished, inverted image of the distant window formed about 15 cm in front of the mirror.": {
+"hi": "दूरस्थ खिड़की का स्पष्ट, छोटा और उल्टा प्रतिबिंब दर्पण के सामने लगभग 15 cm दूरी पर बना।",
+"hg": "Distant window ki sharp, diminished aur inverted image mirror ke saamne lagbhag 15 cm par bani."
+},
+"The focal length of the given concave mirror is about 15 cm (its radius of curvature is about 30 cm).": {
+"hi": "दिए गए अवतल दर्पण की फोकस दूरी लगभग 15 cm है (इसकी वक्रता त्रिज्या लगभग 30 cm है)।",
+"hg": "Diye gaye concave mirror ki focal length lagbhag 15 cm hai (iski radius of curvature lagbhag 30 cm hai)."
+},
+"Never use the Sun as the object for a long time: the focused sunlight can burn paper or your skin. Handle the mirror by its edges.": {
+"hi": "सूर्य को कभी भी देर तक वस्तु के रूप में प्रयोग न कीजिए: फोकस हुआ सूर्य का प्रकाश कागज़ या आपकी त्वचा को जला सकता है। दर्पण को उसके किनारों से पकड़िए।",
+"hg": "Sun ko kabhi bhi zyada der tak object ki tarah use mat karo: focus hui sunlight paper ya tumhari skin ko jala sakti hai. Mirror ko uske edges se pakdo."
+},
+"Why is a distant object used?": {
+"hi": "दूरस्थ वस्तु का उपयोग क्यों किया जाता है?",
+"hg": "Distant object kyun use kiya jaata hai?"
+},
+"Its rays are almost parallel to each other, so they meet at the principal focus.": {
+"hi": "इसकी किरणें एक-दूसरे के लगभग समांतर होती हैं, इसलिए वे मुख्य फोकस पर मिलती हैं।",
+"hg": "Iski rays ek-doosre ke lagbhag parallel hoti hain, isliye woh principal focus par milti hain."
+},
+"What is the nature of the image?": {
+"hi": "प्रतिबिंब की प्रकृति क्या है?",
+"hg": "Image ka nature kya hai?"
+},
+"Real, inverted and highly diminished.": {
+"hi": "वास्तविक, उल्टा और अत्यधिक छोटा।",
+"hg": "Real, inverted aur bahut zyada diminished."
+},
+"How is the radius of curvature related to the focal length?": {
+"hi": "वक्रता त्रिज्या का फोकस दूरी से क्या संबंध है?",
+"hg": "Radius of curvature ka focal length se kya relation hai?"
+},
+"R = 2f.": {
+"hi": "R = 2f।",
+"hg": "R = 2f."
+},
+"Focal length f = distance between the mirror and the sharp image of a distant object": {
+"hi": "फोकस दूरी f = दर्पण और दूरस्थ वस्तु के स्पष्ट प्रतिबिंब के बीच की दूरी",
+"hg": "Focal length f = mirror aur distant object ki sharp image ke beech ki doori"
+},
+"Focal length of a convex lens": {
+"hi": "उत्तल लेंस की फोकस दूरी",
+"hg": "Convex lens ki focal length"
+},
+"To find the focal length of a convex lens by obtaining the image of a distant object.": {
+"hi": "किसी दूरस्थ वस्तु का प्रतिबिंब प्राप्त करके उत्तल लेंस की फोकस दूरी ज्ञात करना।",
+"hg": "Kisi distant object ki image banakar convex lens ki focal length nikaalna."
+},
+"Convex lens, distant object (CBSE practical)": {
+"hi": "उत्तल लेंस, दूरस्थ वस्तु (CBSE प्रायोगिक)",
+"hg": "Convex lens, distant object (CBSE practical)"
+},
+"Turn the lens towards a distant window and put the screen on the other side of the lens.": {
+"hi": "लेंस को किसी दूरस्थ खिड़की की ओर घुमाइए और पर्दे को लेंस के दूसरी ओर रखिए।",
+"hg": "Lens ko kisi door ki window ki taraf ghumao aur screen ko lens ki doosri side rakho."
+},
+"A blurred patch of light falls on the screen.": {
+"hi": "पर्दे पर प्रकाश का एक धुंधला धब्बा पड़ता है।",
+"hg": "Screen par light ka ek blurred patch padta hai."
+},
+"Move the screen until a sharp image of the window forms on it.": {
+"hi": "पर्दे को तब तक खिसकाइए जब तक उस पर खिड़की का स्पष्ट प्रतिबिंब न बन जाए।",
+"hg": "Screen ko tab tak khiskao jab tak us par window ki sharp image na ban jaaye."
+},
+"A convex lens converges parallel rays from a distant object to its principal focus.": {
+"hi": "उत्तल लेंस दूरस्थ वस्तु से आने वाली समांतर किरणों को अपने मुख्य फोकस पर अभिसरित करता है।",
+"hg": "Convex lens distant object se aane wali parallel rays ko apne principal focus par converge karta hai."
+},
+"Read the positions of the lens and the screen; their difference is the focal length.": {
+"hi": "लेंस और पर्दे की स्थितियाँ पढ़िए; इनका अंतर ही फोकस दूरी है।",
+"hg": "Lens aur screen ki positions padho; inka difference hi focal length hai."
+},
+"Lens at 30.0 cm, screen at about 45.0 cm: f ≈ 15.0 cm.": {
+"hi": "लेंस 30.0 cm पर, पर्दा लगभग 45.0 cm पर: f ≈ 15.0 cm।",
+"hg": "Lens 30.0 cm par, screen lagbhag 45.0 cm par: f ≈ 15.0 cm."
+},
+"A sharp, diminished, inverted image of the distant window formed about 15 cm behind the lens.": {
+"hi": "दूरस्थ खिड़की का स्पष्ट, छोटा और उल्टा प्रतिबिंब लेंस के पीछे लगभग 15 cm दूरी पर बना।",
+"hg": "Distant window ki sharp, diminished aur inverted image lens ke peeche lagbhag 15 cm par bani."
+},
+"The focal length of the given convex lens is about 15 cm.": {
+"hi": "दिए गए उत्तल लेंस की फोकस दूरी लगभग 15 cm है।",
+"hg": "Diye gaye convex lens ki focal length lagbhag 15 cm hai."
+},
+"Do not look at the Sun through a lens. Hold the lens by its edge and keep it clean.": {
+"hi": "लेंस से होकर सूर्य को न देखिए। लेंस को उसके किनारे से पकड़िए और उसे साफ़ रखिए।",
+"hg": "Lens se Sun ko mat dekho. Lens ko uske edge se pakdo aur use saaf rakho."
+},
+"Why is a convex lens called a converging lens?": {
+"hi": "उत्तल लेंस को अभिसारी लेंस क्यों कहते हैं?",
+"hg": "Convex lens ko converging lens kyun kehte hain?"
+},
+"It bends parallel rays so that they meet at a point (the focus).": {
+"hi": "यह समांतर किरणों को इस प्रकार मोड़ता है कि वे एक बिंदु (फोकस) पर मिलती हैं।",
+"hg": "Yeh parallel rays ko aise bend karta hai ki woh ek point (focus) par milti hain."
+},
+"What is the power of a lens with f = 15 cm?": {
+"hi": "f = 15 cm वाले लेंस की क्षमता क्या है?",
+"hg": "f = 15 cm wale lens ki power kya hai?"
+},
+"P = 1/f = 1/0.15 m ≈ +6.7 D.": {
+"hi": "P = 1/f = 1/0.15 m ≈ +6.7 D।",
+"hg": "P = 1/f = 1/0.15 m ≈ +6.7 D."
+},
+"Can a concave lens form a real image of a distant object on a screen?": {
+"hi": "क्या अवतल लेंस किसी दूरस्थ वस्तु का वास्तविक प्रतिबिंब पर्दे पर बना सकता है?",
+"hg": "Kya concave lens kisi distant object ki real image screen par bana sakta hai?"
+},
+"No, it always forms a virtual image.": {
+"hi": "नहीं, यह सदैव आभासी प्रतिबिंब बनाता है।",
+"hg": "Nahi, yeh hamesha virtual image banata hai."
+},
+"Focal length f = distance between the lens and the sharp image of a distant object": {
+"hi": "फोकस दूरी f = लेंस और दूरस्थ वस्तु के स्पष्ट प्रतिबिंब के बीच की दूरी",
+"hg": "Focal length f = lens aur distant object ki sharp image ke beech ki doori"
+},
+"Images formed by a convex lens": {
+"hi": "उत्तल लेंस द्वारा बनने वाले प्रतिबिंब",
+"hg": "Convex lens se banne wali images"
+},
+"To find the position, nature and size of the image formed by a convex lens for different positions of the object.": {
+"hi": "वस्तु की विभिन्न स्थितियों के लिए उत्तल लेंस द्वारा बने प्रतिबिंब की स्थिति, प्रकृति और आकार ज्ञात करना।",
+"hg": "Object ki alag-alag positions ke liye convex lens se bani image ki position, nature aur size pata karna."
+},
+"Image formation by a convex lens": {
+"hi": "उत्तल लेंस द्वारा प्रतिबिंब निर्माण",
+"hg": "Convex lens se image formation"
+},
+"Light the candle. The convex lens (f = 15 cm) is at the 50 cm mark; put the candle at the 5 cm mark, beyond 2F₁.": {
+"hi": "मोमबत्ती जलाइए। उत्तल लेंस (f = 15 cm) 50 cm के निशान पर है; मोमबत्ती को 5 cm के निशान पर, 2F₁ से परे रखिए।",
+"hg": "Candle jalao. Convex lens (f = 15 cm) 50 cm mark par hai; candle ko 5 cm mark par, 2F₁ ke beyond rakho."
+},
+"The candle burns steadily, 45 cm from the lens.": {
+"hi": "मोमबत्ती लेंस से 45 cm दूर स्थिर रूप से जल रही है।",
+"hg": "Candle lens se 45 cm door steady jal rahi hai."
+},
+"Move the screen behind the lens until the image of the flame is sharp.": {
+"hi": "लेंस के पीछे पर्दे को तब तक खिसकाइए जब तक ज्वाला का प्रतिबिंब स्पष्ट न हो जाए।",
+"hg": "Lens ke peeche screen ko tab tak khiskao jab tak flame ki image sharp na ho jaaye."
+},
+"A small, inverted, real image forms between F₂ and 2F₂ (about 22.5 cm behind the lens).": {
+"hi": "F₂ और 2F₂ के बीच (लेंस के पीछे लगभग 22.5 cm पर) एक छोटा, उल्टा, वास्तविक प्रतिबिंब बनता है।",
+"hg": "F₂ aur 2F₂ ke beech (lens ke peeche lagbhag 22.5 cm par) ek chhoti, inverted, real image banti hai."
+},
+"Move the candle to the 20 cm mark (at 2F₁) and find the sharp image again.": {
+"hi": "मोमबत्ती को 20 cm के निशान पर (2F₁ पर) ले जाइए और फिर से स्पष्ट प्रतिबिंब प्राप्त कीजिए।",
+"hg": "Candle ko 20 cm mark par (2F₁ par) le jao aur phir se sharp image dhoondo."
+},
+"The image is at 2F₂ (30 cm behind the lens), inverted and the same size as the flame.": {
+"hi": "प्रतिबिंब 2F₂ पर (लेंस के पीछे 30 cm पर) बनता है, उल्टा है और ज्वाला के समान आकार का है।",
+"hg": "Image 2F₂ par (lens ke peeche 30 cm par) banti hai, inverted hai aur flame ke same size ki hai."
+},
+"Move the candle to the 27 cm mark (between F₁ and 2F₁) and find the image.": {
+"hi": "मोमबत्ती को 27 cm के निशान पर (F₁ और 2F₁ के बीच) ले जाइए और प्रतिबिंब प्राप्त कीजिए।",
+"hg": "Candle ko 27 cm mark par (F₁ aur 2F₁ ke beech) le jao aur image dhoondo."
+},
+"The image is beyond 2F₂ (about 43 cm behind the lens), inverted and enlarged.": {
+"hi": "प्रतिबिंब 2F₂ से परे (लेंस के पीछे लगभग 43 cm पर) बनता है, उल्टा और आवर्धित है।",
+"hg": "Image 2F₂ ke beyond (lens ke peeche lagbhag 43 cm par) banti hai, inverted aur enlarged hai."
+},
+"Move the candle to the 35 cm mark (at F₁) and look for an image with the screen.": {
+"hi": "मोमबत्ती को 35 cm के निशान पर (F₁ पर) ले जाइए और पर्दे की सहायता से प्रतिबिंब खोजिए।",
+"hg": "Candle ko 35 cm mark par (F₁ par) le jao aur screen se image dhoondo."
+},
+"No sharp image forms anywhere: there is only a large patch of light.": {
+"hi": "कहीं भी स्पष्ट प्रतिबिंब नहीं बनता: केवल प्रकाश का एक बड़ा धब्बा दिखता है।",
+"hg": "Kahin bhi sharp image nahi banti: sirf light ka ek bada patch dikhta hai."
+},
+"Rays from an object at the focus come out of the lens parallel; the image would be at infinity.": {
+"hi": "फोकस पर रखी वस्तु से आने वाली किरणें लेंस से समांतर होकर निकलती हैं; प्रतिबिंब अनंत पर बनेगा।",
+"hg": "Focus par rakhe object se aane wali rays lens se parallel hokar nikalti hain; image infinity par banegi."
+},
+"Move the candle to the 42 cm mark (between F₁ and the lens) and look through the lens from the other side.": {
+"hi": "मोमबत्ती को 42 cm के निशान पर (F₁ और लेंस के बीच) ले जाइए और दूसरी ओर से लेंस में से देखिए।",
+"hg": "Candle ko 42 cm mark par (F₁ aur lens ke beech) le jao aur doosri side se lens ke through dekho."
+},
+"No image on the screen. Through the lens you see an enlarged, upright (virtual) image of the flame, on the same side as the candle.": {
+"hi": "पर्दे पर कोई प्रतिबिंब नहीं बनता। लेंस में से देखने पर ज्वाला का एक आवर्धित, सीधा (आभासी) प्रतिबिंब मोमबत्ती वाली ओर ही दिखाई देता है।",
+"hg": "Screen par koi image nahi banti. Lens ke through dekhne par flame ki ek enlarged, upright (virtual) image dikhti hai, candle wali side par hi."
+},
+"This is how a convex lens works as a magnifying glass.": {
+"hi": "इसी प्रकार उत्तल लेंस आवर्धक लेंस की तरह कार्य करता है।",
+"hg": "Isi tarah convex lens magnifying glass ki tarah kaam karta hai."
+},
+"u = −45 cm: v ≈ 22.5 cm, inverted, smaller. u = −30 cm (2F): v ≈ 30 cm, inverted, same size. u = −23 cm: v ≈ 43 cm, inverted, larger. At F: no image (infinity). Between F and O: virtual, upright, enlarged image seen through the lens.": {
+"hi": "u = −45 cm: v ≈ 22.5 cm, उल्टा, छोटा। u = −30 cm (2F): v ≈ 30 cm, उल्टा, समान आकार। u = −23 cm: v ≈ 43 cm, उल्टा, बड़ा। F पर: कोई प्रतिबिंब नहीं (अनंत)। F और O के बीच: लेंस में से दिखने वाला आभासी, सीधा, आवर्धित प्रतिबिंब।",
+"hg": "u = −45 cm: v ≈ 22.5 cm, inverted, chhoti. u = −30 cm (2F): v ≈ 30 cm, inverted, same size. u = −23 cm: v ≈ 43 cm, inverted, badi. F par: koi image nahi (infinity). F aur O ke beech: lens ke through dikhne wali virtual, upright, enlarged image."
+},
+"As the object comes closer to a convex lens, its real image moves farther away and becomes larger; inside the focus the image is virtual, upright and magnified. The results agree with 1/v − 1/u = 1/f.": {
+"hi": "जैसे-जैसे वस्तु उत्तल लेंस के पास आती है, उसका वास्तविक प्रतिबिंब दूर खिसकता जाता है और बड़ा होता जाता है; फोकस के भीतर प्रतिबिंब आभासी, सीधा और आवर्धित होता है। परिणाम 1/v − 1/u = 1/f से मेल खाते हैं।",
+"hg": "Jaise-jaise object convex lens ke paas aata hai, uski real image door jaati hai aur badi hoti jaati hai; focus ke andar image virtual, upright aur magnified hoti hai. Results 1/v − 1/u = 1/f se match karte hain."
+},
+"Keep the candle flame away from paper and hair; do not touch the hot wax.": {
+"hi": "मोमबत्ती की ज्वाला को कागज़ और बालों से दूर रखिए; गरम मोम को न छुइए।",
+"hg": "Candle ki flame ko paper aur baalon se door rakho; garam wax ko mat chhuo."
+},
+"Where should the object be for a real image of the same size?": {
+"hi": "समान आकार का वास्तविक प्रतिबिंब पाने के लिए वस्तु कहाँ होनी चाहिए?",
+"hg": "Same size ki real image ke liye object kahan hona chahiye?"
+},
+"At 2F₁, i.e. at twice the focal length.": {
+"hi": "2F₁ पर, अर्थात फोकस दूरी के दोगुने पर।",
+"hg": "2F₁ par, yaani focal length ke double par."
+},
+"When does a convex lens act as a magnifying glass?": {
+"hi": "उत्तल लेंस आवर्धक लेंस की तरह कब कार्य करता है?",
+"hg": "Convex lens magnifying glass ki tarah kab kaam karta hai?"
+},
+"When the object is between the optical centre and the focus.": {
+"hi": "जब वस्तु प्रकाशिक केंद्र और फोकस के बीच होती है।",
+"hg": "Jab object optical centre aur focus ke beech hota hai."
+},
+"What does a negative magnification mean?": {
+"hi": "ऋणात्मक आवर्धन का क्या अर्थ है?",
+"hg": "Negative magnification ka kya matlab hai?"
+},
+"The image is real and inverted.": {
+"hi": "प्रतिबिंब वास्तविक और उल्टा है।",
+"hg": "Image real aur inverted hai."
+},
+"Lens formula and magnification": {
+"hi": "लेंस सूत्र और आवर्धन",
+"hg": "Lens formula aur magnification"
+},
+"Refraction through a rectangular glass slab": {
+"hi": "आयताकार काँच के स्लैब से अपवर्तन",
+"hg": "Rectangular glass slab se refraction"
+},
+"To trace the path of a ray of light through a rectangular glass slab for different angles of incidence and to measure the angles of incidence, refraction and emergence.": {
+"hi": "विभिन्न आपतन कोणों के लिए आयताकार काँच के स्लैब से गुजरने वाली प्रकाश किरण का पथ आरेखित करना तथा आपतन कोण, अपवर्तन कोण और निर्गत कोण मापना।",
+"hg": "Alag-alag angles of incidence ke liye rectangular glass slab se guzarne wali light ray ka path trace karna aur angle of incidence, angle of refraction aur angle of emergence measure karna."
+},
+"Refraction through a glass slab (CBSE practical)": {
+"hi": "काँच के स्लैब से अपवर्तन (CBSE प्रायोगिक)",
+"hg": "Glass slab se refraction (CBSE practical)"
+},
+"Place the glass slab in the middle of the sheet and draw its outline ABCD with a pencil.": {
+"hi": "काँच के स्लैब को शीट के बीच में रखिए और पेंसिल से उसकी रूपरेखा ABCD खींचिए।",
+"hg": "Glass slab ko sheet ke beech mein rakho aur pencil se uski outline ABCD banao."
+},
+"The outline ABCD of the slab is drawn on the sheet.": {
+"hi": "शीट पर स्लैब की रूपरेखा ABCD खिंच गई है।",
+"hg": "Sheet par slab ki outline ABCD ban gayi hai."
+},
+"Draw a normal at point E on side AB and a line at 30° to it (the incident ray). Fix pins P and Q upright on this line.": {
+"hi": "भुजा AB पर बिंदु E पर एक अभिलंब खींचिए और उससे 30° पर एक रेखा (आपतित किरण) खींचिए। इस रेखा पर पिन P और Q सीधी खड़ी गाड़िए।",
+"hg": "Side AB par point E par ek normal draw karo aur usse 30° par ek line (incident ray) banao. Is line par pins P aur Q seedhi khadi lagao."
+},
+"Pins P and Q stand on the incident ray.": {
+"hi": "पिन P और Q आपतित किरण पर खड़ी हैं।",
+"hg": "Pins P aur Q incident ray par khadi hain."
+},
+"Look at the images of P and Q through side CD. Fix pins R and S so that R, S and the images of P and Q all appear in one straight line.": {
+"hi": "भुजा CD से P और Q के प्रतिबिंबों को देखिए। पिन R और S को इस प्रकार गाड़िए कि R, S तथा P और Q के प्रतिबिंब सभी एक सीधी रेखा में दिखाई दें।",
+"hg": "Side CD se P aur Q ki images dekho. Pins R aur S aise lagao ki R, S aur P aur Q ki images sab ek straight line mein dikhein."
+},
+"Seen through the glass, the pins R and S hide the images of Q and P exactly.": {
+"hi": "काँच से देखने पर पिन R और S, Q और P के प्रतिबिंबों को ठीक-ठीक ढक लेती हैं।",
+"hg": "Glass ke through dekhne par pins R aur S, Q aur P ki images ko bilkul chhupa leti hain."
+},
+"Remove the slab and the pins, mark their positions, join S and R to meet CD at F, and join E and F.": {
+"hi": "स्लैब और पिनों को हटाइए, उनकी स्थितियाँ अंकित कीजिए, S और R को मिलाकर CD पर बिंदु F तक बढ़ाइए, और E तथा F को मिलाइए।",
+"hg": "Slab aur pins hatao, unki positions mark karo, S aur R ko jodkar line ko CD par F tak le jao, aur E aur F ko jodo."
+},
+"The path of the ray is complete: incident ray PQE, refracted ray EF inside the glass, and emergent ray FRS.": {
+"hi": "किरण का पथ पूरा हो गया: आपतित किरण PQE, काँच के अंदर अपवर्तित किरण EF, और निर्गत किरण FRS।",
+"hg": "Ray ka path complete ho gaya: incident ray PQE, glass ke andar refracted ray EF, aur emergent ray FRS."
+},
+"Measure the angle of incidence (i), the angle of refraction (r) and the angle of emergence (e) with the protractor.": {
+"hi": "चाँदे (प्रोट्रैक्टर) से आपतन कोण (i), अपवर्तन कोण (r) और निर्गत कोण (e) मापिए।",
+"hg": "Protractor se angle of incidence (i), angle of refraction (r) aur angle of emergence (e) measure karo."
+},
+"i = 30°, r ≈ 19.5°, e = 30°. The emergent ray is parallel to the incident ray but shifted sideways.": {
+"hi": "i = 30°, r ≈ 19.5°, e = 30°। निर्गत किरण आपतित किरण के समांतर है, परंतु एक ओर खिसकी हुई है।",
+"hg": "i = 30°, r ≈ 19.5°, e = 30°. Emergent ray incident ray ke parallel hai, lekin sideways shift ho gayi hai."
+},
+"Light bends towards the normal on entering glass (denser) and away from the normal on leaving it. The two faces are parallel, so the angle of emergence equals the angle of incidence.": {
+"hi": "काँच (सघन माध्यम) में प्रवेश करते समय प्रकाश अभिलंब की ओर मुड़ता है और उससे बाहर निकलते समय अभिलंब से दूर मुड़ता है। दोनों फलक समांतर हैं, इसलिए निर्गत कोण आपतन कोण के बराबर होता है।",
+"hg": "Glass (denser) mein enter karte waqt light normal ki taraf bend hoti hai aur bahar nikalte waqt normal se door bend hoti hai. Dono faces parallel hain, isliye angle of emergence angle of incidence ke barabar hota hai."
+},
+"Repeat for angles of incidence of 45° and 60° on fresh lines.": {
+"hi": "नई रेखाओं पर 45° और 60° के आपतन कोणों के लिए प्रयोग दोहराइए।",
+"hg": "Nayi lines par 45° aur 60° ke angle of incidence ke liye experiment repeat karo."
+},
+"i = 45°: r ≈ 28°, e = 45°. i = 60°: r ≈ 35°, e = 60°. Each time e = i, and r is smaller than i.": {
+"hi": "i = 45°: r ≈ 28°, e = 45°। i = 60°: r ≈ 35°, e = 60°। हर बार e = i, और r, i से छोटा है।",
+"hg": "i = 45°: r ≈ 28°, e = 45°. i = 60°: r ≈ 35°, e = 60°. Har baar e = i, aur r, i se chhota hai."
+},
+"i = 30°, 45°, 60° gave r ≈ 19.5°, 28°, 35° and e = 30°, 45°, 60°. sin i / sin r ≈ 1.5 each time.": {
+"hi": "i = 30°, 45°, 60° के लिए r ≈ 19.5°, 28°, 35° और e = 30°, 45°, 60° प्राप्त हुए। हर बार sin i / sin r ≈ 1.5 आया।",
+"hg": "i = 30°, 45°, 60° par r ≈ 19.5°, 28°, 35° aur e = 30°, 45°, 60° mile. Har baar sin i / sin r ≈ 1.5 aaya."
+},
+"Light bends towards the normal when it enters the glass and away from it when it leaves. The emergent ray is parallel to the incident ray (e = i) but laterally displaced.": {
+"hi": "प्रकाश काँच में प्रवेश करते समय अभिलंब की ओर और बाहर निकलते समय अभिलंब से दूर मुड़ता है। निर्गत किरण आपतित किरण के समांतर (e = i) होती है, परंतु उसमें पार्श्व विस्थापन होता है।",
+"hg": "Light glass mein enter karte waqt normal ki taraf aur bahar nikalte waqt normal se door bend hoti hai. Emergent ray incident ray ke parallel (e = i) hoti hai, lekin laterally displaced hoti hai."
+},
+"Keep the pins vertical and handle them with care. Use a sharp pencil and fine lines; draw the normal accurately.": {
+"hi": "पिनों को ऊर्ध्वाधर रखिए और उन्हें सावधानी से पकड़िए। नुकीली पेंसिल और पतली रेखाओं का उपयोग कीजिए; अभिलंब सही-सही खींचिए।",
+"hg": "Pins ko vertical rakho aur dhyaan se handle karo. Sharp pencil aur patli lines use karo; normal accurately draw karo."
+},
+"Why is the emergent ray parallel to the incident ray?": {
+"hi": "निर्गत किरण आपतित किरण के समांतर क्यों होती है?",
+"hg": "Emergent ray incident ray ke parallel kyun hoti hai?"
+},
+"The opposite faces of the slab are parallel, so the bending at the two faces is equal and opposite.": {
+"hi": "स्लैब के आमने-सामने के फलक समांतर हैं, इसलिए दोनों फलकों पर मुड़ना बराबर और विपरीत होता है।",
+"hg": "Slab ke opposite faces parallel hain, isliye dono faces par bending barabar aur opposite hoti hai."
+},
+"What is lateral displacement?": {
+"hi": "पार्श्व विस्थापन क्या है?",
+"hg": "Lateral displacement kya hai?"
+},
+"The sideways shift between the incident ray (extended) and the emergent ray.": {
+"hi": "आपतित किरण (आगे बढ़ाने पर) और निर्गत किरण के बीच का पार्श्व खिसकाव।",
+"hg": "Incident ray (extended) aur emergent ray ke beech ka sideways shift."
+},
+"What is the refractive index of the glass from these readings?": {
+"hi": "इन पाठ्यांकों से काँच का अपवर्तनांक क्या है?",
+"hg": "In readings se glass ka refractive index kya hai?"
+},
+"n = sin 30° / sin 19.5° ≈ 1.5.": {
+"hi": "n = sin 30° / sin 19.5° ≈ 1.5।",
+"hg": "n = sin 30° / sin 19.5° ≈ 1.5."
+},
+"Snell's law of refraction": {
+"hi": "अपवर्तन का स्नेल नियम",
+"hg": "Snell's law of refraction"
+},
+"Refraction through a glass prism": {
+"hi": "काँच के प्रिज़्म से अपवर्तन",
+"hg": "Glass prism se refraction"
+},
+"To trace the path of a ray of light through a glass prism and to find the angle of deviation.": {
+"hi": "काँच के प्रिज़्म से गुजरने वाली प्रकाश किरण का पथ आरेखित करना और विचलन कोण ज्ञात करना।",
+"hg": "Glass prism se guzarne wali light ray ka path trace karna aur angle of deviation nikaalna."
+},
+"Refraction through a prism (CBSE practical)": {
+"hi": "प्रिज़्म से अपवर्तन (CBSE प्रायोगिक)",
+"hg": "Prism se refraction (CBSE practical)"
+},
+"Place the prism on the sheet with one face (the base) towards you and draw its outline ABC.": {
+"hi": "प्रिज़्म को शीट पर इस प्रकार रखिए कि उसका एक फलक (आधार) आपकी ओर हो, और उसकी रूपरेखा ABC खींचिए।",
+"hg": "Prism ko sheet par aise rakho ki uska ek face (base) tumhari taraf ho, aur uski outline ABC banao."
+},
+"The triangular outline of the prism is drawn.": {
+"hi": "प्रिज़्म की त्रिभुजाकार रूपरेखा खिंच गई है।",
+"hg": "Prism ki triangular outline ban gayi hai."
+},
+"Draw a normal on face AB and a ray PE at 40° to it; fix pins P and Q on it.": {
+"hi": "फलक AB पर एक अभिलंब खींचिए और उससे 40° पर एक किरण PE खींचिए; इस पर पिन P और Q गाड़िए।",
+"hg": "Face AB par ek normal draw karo aur usse 40° par ek ray PE banao; us par pins P aur Q lagao."
+},
+"Looking through face AC, fix pins R and S in line with the images of P and Q.": {
+"hi": "फलक AC से देखते हुए पिन R और S को P और Q के प्रतिबिंबों की सीध में गाड़िए।",
+"hg": "Face AC se dekhte hue pins R aur S ko P aur Q ki images ki seedh mein lagao."
+},
+"Pins R and S line up with the images of P and Q seen through the prism; the line of sight is bent towards the base.": {
+"hi": "पिन R और S, प्रिज़्म से दिखने वाले P और Q के प्रतिबिंबों की सीध में आ जाती हैं; दृष्टि-रेखा आधार की ओर मुड़ी हुई है।",
+"hg": "Pins R aur S prism ke through dikhne wali P aur Q ki images ki seedh mein aa jaati hain; line of sight base ki taraf mudi hui hai."
+},
+"Remove the prism and pins; join S and R to F and join E to F. Extend the incident and emergent rays to meet, and measure the angle of deviation.": {
+"hi": "प्रिज़्म और पिनों को हटाइए; S और R को मिलाकर F तक बढ़ाइए और E को F से मिलाइए। आपतित और निर्गत किरणों को आगे बढ़ाकर मिलाइए, और विचलन कोण मापिए।",
+"hg": "Prism aur pins hatao; S aur R ko F tak jodo aur E ko F se jodo. Incident aur emergent rays ko aage badhakar milao, aur angle of deviation measure karo."
+},
+"The ray bends towards the base twice. For i = 40° the angle of emergence is about 58° and the angle of deviation D is about 38°.": {
+"hi": "किरण दो बार आधार की ओर मुड़ती है। i = 40° के लिए निर्गत कोण लगभग 58° और विचलन कोण D लगभग 38° है।",
+"hg": "Ray do baar base ki taraf bend hoti hai. i = 40° ke liye angle of emergence lagbhag 58° aur angle of deviation D lagbhag 38° hai."
+},
+"A prism has inclined faces, so the bending at the two faces adds up: the emergent ray is deviated towards the base. D = i + e − A (A = 60°).": {
+"hi": "प्रिज़्म के फलक एक-दूसरे पर झुके हुए होते हैं, इसलिए दोनों फलकों पर होने वाला मुड़ना जुड़ जाता है: निर्गत किरण आधार की ओर विचलित होती है। D = i + e − A (A = 60°)।",
+"hg": "Prism ke faces inclined hote hain, isliye dono faces par bending add ho jaati hai: emergent ray base ki taraf deviate hoti hai. D = i + e − A (A = 60°)."
+},
+"For i = 40° on a 60° glass prism: e ≈ 58°, angle of deviation D ≈ 38°. The ray bent towards the base at both faces.": {
+"hi": "60° के काँच के प्रिज़्म पर i = 40° के लिए: e ≈ 58°, विचलन कोण D ≈ 38°। किरण दोनों फलकों पर आधार की ओर मुड़ी।",
+"hg": "60° glass prism par i = 40° ke liye: e ≈ 58°, angle of deviation D ≈ 38°. Ray dono faces par base ki taraf bend hui."
+},
+"Light passing through a prism bends towards its base; the emergent ray is deviated from the incident direction by the angle of deviation D = i + e − A.": {
+"hi": "प्रिज़्म से गुजरने वाला प्रकाश उसके आधार की ओर मुड़ता है; निर्गत किरण आपतित दिशा से विचलन कोण D = i + e − A जितनी विचलित होती है।",
+"hg": "Prism se guzarne wali light uske base ki taraf bend hoti hai; emergent ray incident direction se angle of deviation D = i + e − A jitna deviate hoti hai."
+},
+"Keep the pins vertical and at least 5 cm apart; place the prism exactly on its outline.": {
+"hi": "पिनों को ऊर्ध्वाधर और एक-दूसरे से कम से कम 5 cm दूर रखिए; प्रिज़्म को ठीक उसकी रूपरेखा पर रखिए।",
+"hg": "Pins ko vertical aur ek-doosre se kam se kam 5 cm door rakho; prism ko bilkul uski outline par rakho."
+},
+"Why does a ray bend towards the base of a prism?": {
+"hi": "किरण प्रिज़्म के आधार की ओर क्यों मुड़ती है?",
+"hg": "Ray prism ke base ki taraf kyun bend hoti hai?"
+},
+"At both faces it bends in the same sense because the faces are inclined to each other.": {
+"hi": "दोनों फलकों पर यह एक ही दिशा में मुड़ती है क्योंकि फलक एक-दूसरे पर झुके हुए हैं।",
+"hg": "Dono faces par yeh same direction mein bend hoti hai kyunki faces ek-doosre par inclined hain."
+},
+"What is the angle of the prism here?": {
+"hi": "यहाँ प्रिज़्म कोण कितना है?",
+"hg": "Yahan prism ka angle kitna hai?"
+},
+"60°.": {
+"hi": "60°।",
+"hg": "60°."
+},
+"What happens to white light passing through a prism?": {
+"hi": "प्रिज़्म से गुजरने वाले श्वेत प्रकाश का क्या होता है?",
+"hg": "Prism se guzarne wali white light ka kya hota hai?"
+},
+"It splits into its colours (dispersion), violet bending the most.": {
+"hi": "यह अपने अवयवी रंगों में विभक्त हो जाता है (विक्षेपण), जिसमें बैंगनी रंग सबसे अधिक मुड़ता है।",
+"hg": "Yeh apne colours mein split ho jaati hai (dispersion), violet sabse zyada bend hota hai."
+},
+"Angle of deviation for a prism of angle A": {
+"hi": "प्रिज़्म कोण A वाले प्रिज़्म के लिए विचलन कोण",
+"hg": "Angle A wale prism ke liye angle of deviation"
+},
+"Ohm's law: V–I graph of a resistor": {
+"hi": "ओम का नियम: प्रतिरोधक का V–I ग्राफ़",
+"hg": "Ohm's law: resistor ka V–I graph"
+},
+"To study the dependence of the potential difference (V) across a resistor on the current (I) through it, and to find its resistance from a V–I graph.": {
+"hi": "किसी प्रतिरोधक के सिरों के बीच विभवांतर (V) की उसमें प्रवाहित विद्युत धारा (I) पर निर्भरता का अध्ययन करना और V–I ग्राफ़ से उसका प्रतिरोध ज्ञात करना।",
+"hg": "Resistor ke across potential difference (V) ki usme flow hone wale current (I) par dependence study karna, aur V–I graph se uska resistance nikaalna."
+},
+"Ohm's law (CBSE practical)": {
+"hi": "ओम का नियम (CBSE प्रायोगिक)",
+"hg": "Ohm's law (CBSE practical)"
+},
+"The circuit is connected: cells, key, ammeter, rheostat and the resistance wire in series, and the voltmeter across the wire. Check the + and − terminals of the meters.": {
+"hi": "परिपथ जोड़ा जा चुका है: सेल, कुंजी, ऐमीटर, धारा नियंत्रक (रिओस्टेट) और प्रतिरोध तार श्रेणीक्रम में, और वोल्टमीटर तार के सिरों के बीच। मीटरों के + और − टर्मिनल जाँचिए।",
+"hg": "Circuit connect ho chuka hai: cells, key, ammeter, rheostat aur resistance wire series mein, aur voltmeter wire ke across. Meters ke + aur − terminals check karo."
+},
+"The + terminal of each meter is joined towards the + terminal of the battery. The needles show zero: no current yet.": {
+"hi": "प्रत्येक मीटर का + टर्मिनल बैटरी के + टर्मिनल की ओर जुड़ा है। सुइयाँ शून्य दिखा रही हैं: अभी कोई धारा नहीं है।",
+"hg": "Har meter ka + terminal battery ke + terminal ki taraf juda hai. Needles zero dikha rahi hain: abhi koi current nahi hai."
+},
+"Insert the plug in the key to close the circuit.": {
+"hi": "परिपथ बंद करने के लिए कुंजी में प्लग लगाइए।",
+"hg": "Circuit close karne ke liye key mein plug lagao."
+},
+"The needles of the ammeter and the voltmeter move: a current flows.": {
+"hi": "ऐमीटर और वोल्टमीटर की सुइयाँ हिलती हैं: धारा प्रवाहित हो रही है।",
+"hg": "Ammeter aur voltmeter ki needles hilti hain: current flow ho raha hai."
+},
+"Note the ammeter and voltmeter readings. Then move the rheostat slider in steps and note both readings each time (5 readings).": {
+"hi": "ऐमीटर और वोल्टमीटर के पाठ्यांक नोट कीजिए। फिर धारा नियंत्रक के स्लाइडर को चरणों में खिसकाइए और हर बार दोनों पाठ्यांक नोट कीजिए (5 पाठ्यांक)।",
+"hg": "Ammeter aur voltmeter ki readings note karo. Phir rheostat ka slider step-by-step khiskao aur har baar dono readings note karo (5 readings)."
+},
+"As the current increases, the potential difference increases in the same proportion: V/I stays about 5 Ω.": {
+"hi": "जैसे-जैसे धारा बढ़ती है, विभवांतर भी उसी अनुपात में बढ़ता है: V/I लगभग 5 Ω बना रहता है।",
+"hg": "Jaise-jaise current badhta hai, potential difference bhi usi proportion mein badhta hai: V/I lagbhag 5 Ω hi rehta hai."
+},
+"Plot V against I on the graph paper and draw the best straight line.": {
+"hi": "ग्राफ़ पेपर पर I के सापेक्ष V आलेखित कीजिए और सर्वोत्तम सरल रेखा खींचिए।",
+"hg": "Graph paper par V ko I ke against plot karo aur best straight line draw karo."
+},
+"The points lie on a straight line through the origin. Its slope (V/I) is the resistance, about 5 Ω.": {
+"hi": "सभी बिंदु मूल बिंदु से गुजरने वाली एक सरल रेखा पर हैं। इसकी ढाल (V/I) ही प्रतिरोध है, लगभग 5 Ω।",
+"hg": "Saare points origin se guzarne wali ek straight line par hain. Iska slope (V/I) hi resistance hai, lagbhag 5 Ω."
+},
+"Ohm's law: at constant temperature the current through a conductor is proportional to the potential difference across it, V = IR.": {
+"hi": "ओम का नियम: स्थिर ताप पर किसी चालक में प्रवाहित विद्युत धारा उसके सिरों के बीच विभवांतर के अनुक्रमानुपाती होती है, V = IR।",
+"hg": "Ohm's law: constant temperature par kisi conductor mein current uske across potential difference ke proportional hota hai, V = IR."
+},
+"Take the plug out of the key when you have finished.": {
+"hi": "काम पूरा होने पर कुंजी से प्लग निकाल लीजिए।",
+"hg": "Kaam khatam hone par key se plug nikaal lo."
+},
+"The needles return to zero.": {
+"hi": "सुइयाँ वापस शून्य पर आ जाती हैं।",
+"hg": "Needles wapas zero par aa jaati hain."
+},
+"Do not leave the key closed for long: the wire heats up and its resistance changes.": {
+"hi": "कुंजी को देर तक बंद न रखिए: तार गरम हो जाता है और उसका प्रतिरोध बदल जाता है।",
+"hg": "Key ko zyada der tak closed mat rakho: wire garam ho jaata hai aur uska resistance badal jaata hai."
+},
+"Five pairs of readings gave V/I ≈ 5 Ω each time; the V–I graph is a straight line through the origin.": {
+"hi": "पाठ्यांकों के पाँच युग्मों से हर बार V/I ≈ 5 Ω प्राप्त हुआ; V–I ग्राफ़ मूल बिंदु से गुजरने वाली एक सरल रेखा है।",
+"hg": "Readings ke paanch pairs se har baar V/I ≈ 5 Ω mila; V–I graph origin se guzarne wali ek straight line hai."
+},
+"V is directly proportional to I (Ohm’s law). The resistance of the wire is about 5 Ω.": {
+"hi": "V, I के अनुक्रमानुपाती है (ओम का नियम)। तार का प्रतिरोध लगभग 5 Ω है।",
+"hg": "V, I ke directly proportional hai (Ohm’s law). Wire ka resistance lagbhag 5 Ω hai."
+},
+"Connect the ammeter in series and the voltmeter in parallel, + to +. Start with the rheostat at maximum resistance and close the key only while taking readings.": {
+"hi": "ऐमीटर को श्रेणीक्रम में और वोल्टमीटर को पार्श्वक्रम में जोड़िए, + को + से। धारा नियंत्रक को अधिकतम प्रतिरोध पर रखकर शुरू कीजिए और कुंजी को केवल पाठ्यांक लेते समय ही बंद कीजिए।",
+"hg": "Ammeter ko series mein aur voltmeter ko parallel mein connect karo, + ko + se. Rheostat ko maximum resistance par rakhkar start karo aur key sirf readings lete waqt hi close karo."
+},
+"How is an ammeter connected in a circuit?": {
+"hi": "परिपथ में ऐमीटर को कैसे जोड़ा जाता है?",
+"hg": "Circuit mein ammeter kaise connect kiya jaata hai?"
+},
+"In series, so that the whole current passes through it.": {
+"hi": "श्रेणीक्रम में, ताकि पूरी धारा उसमें से होकर गुजरे।",
+"hg": "Series mein, taaki poora current usme se hokar guzre."
+},
+"How is a voltmeter connected?": {
+"hi": "वोल्टमीटर को कैसे जोड़ा जाता है?",
+"hg": "Voltmeter kaise connect kiya jaata hai?"
+},
+"In parallel (across) the component.": {
+"hi": "अवयव के पार्श्वक्रम में (उसके सिरों के बीच)।",
+"hg": "Component ke parallel mein (across)."
+},
+"What does the slope of the V–I graph give?": {
+"hi": "V–I ग्राफ़ की ढाल से क्या प्राप्त होता है?",
+"hg": "V–I graph ka slope kya batata hai?"
+},
+"The resistance of the conductor.": {
+"hi": "चालक का प्रतिरोध।",
+"hg": "Conductor ka resistance."
+},
+"Ohm's law": {
+"hi": "ओम का नियम",
+"hg": "Ohm's law"
+},
+"Resistors in series": {
+"hi": "श्रेणीक्रम में प्रतिरोधक",
+"hg": "Series mein resistors"
+},
+"To find the equivalent resistance of two resistors connected in series.": {
+"hi": "श्रेणीक्रम में जुड़े दो प्रतिरोधकों का तुल्य प्रतिरोध ज्ञात करना।",
+"hg": "Series mein jude do resistors ka equivalent resistance nikaalna."
+},
+"Equivalent resistance in series (CBSE practical)": {
+"hi": "श्रेणीक्रम में तुल्य प्रतिरोध (CBSE प्रायोगिक)",
+"hg": "Series mein equivalent resistance (CBSE practical)"
+},
+"The circuit is connected: the 4 Ω and 6 Ω resistors are joined end to end (in series); the voltmeter is across both of them together.": {
+"hi": "परिपथ जोड़ा जा चुका है: 4 Ω और 6 Ω के प्रतिरोधक सिरे से सिरा मिलाकर (श्रेणीक्रम में) जुड़े हैं; वोल्टमीटर दोनों के संयोजन के सिरों के बीच जुड़ा है।",
+"hg": "Circuit connect ho chuka hai: 4 Ω aur 6 Ω ke resistors end to end (series mein) jude hain; voltmeter dono ke across ek saath laga hai."
+},
+"For every reading V/I is about 10 Ω.": {
+"hi": "हर पाठ्यांक के लिए V/I लगभग 10 Ω है।",
+"hg": "Har reading ke liye V/I lagbhag 10 Ω hai."
+},
+"A straight line through the origin with slope about 10 Ω = 4 Ω + 6 Ω.": {
+"hi": "मूल बिंदु से गुजरने वाली एक सरल रेखा, जिसकी ढाल लगभग 10 Ω = 4 Ω + 6 Ω है।",
+"hg": "Origin se guzarne wali ek straight line, jiska slope lagbhag 10 Ω = 4 Ω + 6 Ω hai."
+},
+"In series the same current flows through both resistors and their voltages add: Rs = R₁ + R₂.": {
+"hi": "श्रेणीक्रम में दोनों प्रतिरोधकों से समान धारा प्रवाहित होती है और उनके विभवांतर जुड़ जाते हैं: Rs = R₁ + R₂।",
+"hg": "Series mein dono resistors se same current flow hota hai aur unke voltages add ho jaate hain: Rs = R₁ + R₂."
+},
+"V/I for the series combination was about 10 Ω for all readings.": {
+"hi": "सभी पाठ्यांकों के लिए श्रेणी संयोजन का V/I लगभग 10 Ω रहा।",
+"hg": "Saari readings ke liye series combination ka V/I lagbhag 10 Ω raha."
+},
+"The equivalent resistance of resistors in series is the sum of their resistances: Rs = R₁ + R₂.": {
+"hi": "श्रेणीक्रम में जुड़े प्रतिरोधकों का तुल्य प्रतिरोध उनके प्रतिरोधों के योग के बराबर होता है: Rs = R₁ + R₂।",
+"hg": "Series mein jude resistors ka equivalent resistance unke resistances ka sum hota hai: Rs = R₁ + R₂."
+},
+"What is the equivalent resistance of 4 Ω and 6 Ω in series?": {
+"hi": "श्रेणीक्रम में जुड़े 4 Ω और 6 Ω का तुल्य प्रतिरोध कितना है?",
+"hg": "Series mein 4 Ω aur 6 Ω ka equivalent resistance kitna hai?"
+},
+"10 Ω.": {
+"hi": "10 Ω।",
+"hg": "10 Ω."
+},
+"Series combination": {
+"hi": "श्रेणी संयोजन",
+"hg": "Series combination"
+},
+"Resistors in parallel": {
+"hi": "पार्श्वक्रम में प्रतिरोधक",
+"hg": "Parallel mein resistors"
+},
+"To find the equivalent resistance of two resistors connected in parallel.": {
+"hi": "पार्श्वक्रम में जुड़े दो प्रतिरोधकों का तुल्य प्रतिरोध ज्ञात करना।",
+"hg": "Parallel mein jude do resistors ka equivalent resistance nikaalna."
+},
+"Equivalent resistance in parallel (CBSE practical)": {
+"hi": "पार्श्वक्रम में तुल्य प्रतिरोध (CBSE प्रायोगिक)",
+"hg": "Parallel mein equivalent resistance (CBSE practical)"
+},
+"The circuit is connected: the 4 Ω and 6 Ω resistors are joined between the same two points (in parallel); the voltmeter is across them.": {
+"hi": "परिपथ जोड़ा जा चुका है: 4 Ω और 6 Ω के प्रतिरोधक एक ही दो बिंदुओं के बीच (पार्श्वक्रम में) जुड़े हैं; वोल्टमीटर उनके सिरों के बीच जुड़ा है।",
+"hg": "Circuit connect ho chuka hai: 4 Ω aur 6 Ω ke resistors same do points ke beech (parallel mein) jude hain; voltmeter unke across laga hai."
+},
+"For every reading V/I is about 2.4 Ω.": {
+"hi": "हर पाठ्यांक के लिए V/I लगभग 2.4 Ω है।",
+"hg": "Har reading ke liye V/I lagbhag 2.4 Ω hai."
+},
+"A straight line through the origin with slope about 2.4 Ω, which is less than either resistor.": {
+"hi": "मूल बिंदु से गुजरने वाली एक सरल रेखा, जिसकी ढाल लगभग 2.4 Ω है, जो दोनों में से किसी भी प्रतिरोधक से कम है।",
+"hg": "Origin se guzarne wali ek straight line, jiska slope lagbhag 2.4 Ω hai, jo dono mein se kisi bhi resistor se kam hai."
+},
+"In parallel the voltage is the same across both and the currents add: 1/Rp = 1/R₁ + 1/R₂ = 1/4 + 1/6, so Rp = 2.4 Ω.": {
+"hi": "पार्श्वक्रम में दोनों के सिरों के बीच विभवांतर समान होता है और धाराएँ जुड़ जाती हैं: 1/Rp = 1/R₁ + 1/R₂ = 1/4 + 1/6, अतः Rp = 2.4 Ω।",
+"hg": "Parallel mein dono ke across voltage same hota hai aur currents add ho jaate hain: 1/Rp = 1/R₁ + 1/R₂ = 1/4 + 1/6, isliye Rp = 2.4 Ω."
+},
+"V/I for the parallel combination was about 2.4 Ω for all readings.": {
+"hi": "सभी पाठ्यांकों के लिए पार्श्व संयोजन का V/I लगभग 2.4 Ω रहा।",
+"hg": "Saari readings ke liye parallel combination ka V/I lagbhag 2.4 Ω raha."
+},
+"The equivalent resistance of resistors in parallel is less than the smallest resistance: 1/Rp = 1/R₁ + 1/R₂.": {
+"hi": "पार्श्वक्रम में जुड़े प्रतिरोधकों का तुल्य प्रतिरोध सबसे छोटे प्रतिरोध से भी कम होता है: 1/Rp = 1/R₁ + 1/R₂।",
+"hg": "Parallel mein jude resistors ka equivalent resistance sabse chhote resistance se bhi kam hota hai: 1/Rp = 1/R₁ + 1/R₂."
+},
+"What is the equivalent resistance of 4 Ω and 6 Ω in parallel?": {
+"hi": "पार्श्वक्रम में जुड़े 4 Ω और 6 Ω का तुल्य प्रतिरोध कितना है?",
+"hg": "Parallel mein 4 Ω aur 6 Ω ka equivalent resistance kitna hai?"
+},
+"2.4 Ω.": {
+"hi": "2.4 Ω।",
+"hg": "2.4 Ω."
+},
+"Parallel combination": {
+"hi": "पार्श्व संयोजन",
+"hg": "Parallel combination"
+},
+"Mirror": {
+"hi": "दर्पण",
+"hg": "Mirror"
+},
+"Screen": {
+"hi": "पर्दा",
+"hg": "Screen"
+},
+"mean": {
+"hi": "माध्य",
+"hg": "mean"
+},
+"Lens": {
+"hi": "लेंस",
+"hg": "Lens"
+},
+"Seen through the lens: an enlarged, upright image": {
+"hi": "लेंस में से देखने पर: एक आवर्धित, सीधा प्रतिबिंब",
+"hg": "Lens ke through dekhne par: ek enlarged, upright image"
+}
+});
+// p2 translations
+Object.assign(DICT, {"A current in a wire deflects a compass needle": {"hi": "तार में प्रवाहित विद्युत धारा दिक्सूचक (कंपास) सुई को विक्षेपित करती है", "hg": "Wire mein current compass needle ko deflect karta hai"}, "To show that a current-carrying wire produces a magnetic field that deflects a compass needle, and that reversing the current reverses the deflection.": {"hi": "यह दर्शाना कि धारावाही तार एक चुंबकीय क्षेत्र उत्पन्न करता है जो दिक्सूचक सुई को विक्षेपित करता है, तथा विद्युत धारा की दिशा उलटने पर विक्षेप की दिशा भी उलट जाती है।", "hg": "Yeh dikhana ki current-carrying wire ek magnetic field banata hai jo compass needle ko deflect karta hai, aur current ki direction ulatne par deflection bhi ulat jaata hai."}, "Magnetic field of a current (Oersted)": {"hi": "विद्युत धारा का चुंबकीय क्षेत्र (Oersted)", "hg": "Current ka magnetic field (Oersted)"}, "The thick copper wire XY runs north–south, just above a magnetic compass. Look at the needle.": {"hi": "ताँबे का मोटा तार XY उत्तर–दक्षिण दिशा में, चुंबकीय दिक्सूचक के ठीक ऊपर रखा है। सुई को देखिए।", "hg": "Copper ka mota wire XY north–south direction mein, magnetic compass ke theek upar rakha hai. Needle ko dekho."}, "The needle points north, along the wire.": {"hi": "सुई तार के अनुदिश उत्तर दिशा की ओर संकेत करती है।", "hg": "Needle wire ke along north ki taraf point karti hai."}, "Insert the plug in the key to pass a current through the wire.": {"hi": "तार में विद्युत धारा प्रवाहित करने के लिए कुंजी में प्लग लगाइए।", "hg": "Wire mein current bhejne ke liye key mein plug lagao."}, "The needle turns away from north (here towards the west).": {"hi": "सुई उत्तर दिशा से हट जाती है (यहाँ पश्चिम की ओर)।", "hg": "Needle north se hat jaati hai (yahan west ki taraf)."}, "A current in a wire produces a magnetic field around it. Below a wire carrying current northwards, this field points west.": {"hi": "तार में प्रवाहित विद्युत धारा अपने चारों ओर चुंबकीय क्षेत्र उत्पन्न करती है। उत्तर की ओर धारा ले जा रहे तार के नीचे यह क्षेत्र पश्चिम की ओर होता है।", "hg": "Wire mein current apne charon taraf magnetic field banata hai. Jis wire mein current north ki taraf beh raha ho, uske neeche yeh field west ki taraf hota hai."}, "Increase the current with the rheostat and watch the needle.": {"hi": "धारा नियंत्रक (रिओस्टेट) से विद्युत धारा बढ़ाइए और सुई को देखिए।", "hg": "Rheostat se current badhao aur needle ko dekho."}, "The deflection becomes larger.": {"hi": "विक्षेप बढ़ जाता है।", "hg": "Deflection badh jaata hai."}, "A larger current produces a stronger magnetic field.": {"hi": "अधिक विद्युत धारा अधिक प्रबल चुंबकीय क्षेत्र उत्पन्न करती है।", "hg": "Zyada current zyada strong magnetic field banata hai."}, "Take out the plug, reverse the connections at the cells (so the current flows from Y to X) and close the key again.": {"hi": "प्लग निकालिए, सेलों पर संयोजन उलट दीजिए (ताकि धारा Y से X की ओर प्रवाहित हो) और कुंजी को फिर से बंद कीजिए।", "hg": "Plug nikaalo, cells par connections ulat do (taaki current Y se X ki taraf flow kare) aur key ko phir se close karo."}, "The needle now turns the other way (towards the east).": {"hi": "अब सुई विपरीत दिशा में (पूर्व की ओर) घूमती है।", "hg": "Ab needle ulti taraf (east ki taraf) ghoomti hai."}, "Reversing the current reverses the direction of the magnetic field.": {"hi": "विद्युत धारा की दिशा उलटने पर चुंबकीय क्षेत्र की दिशा भी उलट जाती है।", "hg": "Current ki direction ulatne par magnetic field ki direction bhi ulat jaati hai."}, "Hold the compass just above the wire instead of below it.": {"hi": "दिक्सूचक को तार के नीचे के बजाय तार के ठीक ऊपर रखिए।", "hg": "Compass ko wire ke neeche ki jagah wire ke theek upar pakdo."}, "Above the wire the needle turns in the opposite direction to below it.": {"hi": "तार के ऊपर सुई उस दिशा के विपरीत घूमती है जिसमें वह तार के नीचे घूमती थी।", "hg": "Wire ke upar needle us direction ke opposite ghoomti hai jismein woh wire ke neeche ghoomti thi."}, "The field lines are circles around the wire: the field above the wire points opposite to the field below it (right-hand thumb rule).": {"hi": "चुंबकीय क्षेत्र रेखाएँ तार के चारों ओर वृत्त होती हैं: तार के ऊपर क्षेत्र की दिशा तार के नीचे के क्षेत्र की दिशा के विपरीत होती है (दक्षिण-हस्त अंगुष्ठ नियम)।", "hg": "Field lines wire ke charon taraf circles hoti hain: wire ke upar field ki direction wire ke neeche wale field ke opposite hoti hai (right-hand thumb rule)."}, "With current the needle deflected; a larger current gave a larger deflection; reversing the current, or putting the compass above the wire, reversed the deflection.": {"hi": "विद्युत धारा प्रवाहित करने पर सुई विक्षेपित हुई; अधिक धारा से अधिक विक्षेप मिला; धारा की दिशा उलटने पर या दिक्सूचक को तार के ऊपर रखने पर विक्षेप की दिशा उलट गई।", "hg": "Current dene par needle deflect hui; zyada current se zyada deflection mila; current ulatne par ya compass ko wire ke upar rakhne par deflection ulat gaya."}, "An electric current produces a magnetic field around the wire. Its direction depends on the direction of the current and is given by the right-hand thumb rule.": {"hi": "विद्युत धारा तार के चारों ओर चुंबकीय क्षेत्र उत्पन्न करती है। इसकी दिशा विद्युत धारा की दिशा पर निर्भर करती है और दक्षिण-हस्त अंगुष्ठ नियम से ज्ञात की जाती है।", "hg": "Electric current wire ke charon taraf magnetic field banata hai. Iski direction current ki direction par depend karti hai aur right-hand thumb rule se pata chalti hai."}, "Do not keep the key closed for long: a thick wire carrying a large current gets hot and the cells run down.": {"hi": "कुंजी को देर तक बंद न रखिए: अधिक धारा ले जाने वाला मोटा तार गर्म हो जाता है और सेल जल्दी समाप्त हो जाते हैं।", "hg": "Key ko zyada der tak close mat rakho: zyada current le jaane wala mota wire garam ho jaata hai aur cells jaldi khatam ho jaate hain."}, "Who first observed this effect?": {"hi": "इस प्रभाव को सबसे पहले किसने देखा था?", "hg": "Is effect ko sabse pehle kisne observe kiya tha?"}, "Hans Christian Oersted, in 1820.": {"hi": "हैंस क्रिश्चियन ओर्स्टेड (Hans Christian Oersted) ने, 1820 में।", "hg": "Hans Christian Oersted ne, 1820 mein."}, "What happens to the deflection if the current is increased?": {"hi": "विद्युत धारा बढ़ाने पर विक्षेप पर क्या प्रभाव पड़ता है?", "hg": "Current badhane par deflection ka kya hota hai?"}, "It increases.": {"hi": "यह बढ़ जाता है।", "hg": "Yeh badh jaata hai."}, "State the right-hand thumb rule.": {"hi": "दक्षिण-हस्त अंगुष्ठ नियम बताइए।", "hg": "Right-hand thumb rule batao."}, "Hold the wire in the right hand with the thumb along the current; the curled fingers show the direction of the field lines.": {"hi": "तार को दाएँ हाथ में इस प्रकार पकड़िए कि अँगूठा विद्युत धारा की दिशा में हो; मुड़ी हुई अँगुलियाँ चुंबकीय क्षेत्र रेखाओं की दिशा बताती हैं।", "hg": "Wire ko right hand mein aise pakdo ki thumb current ki direction mein ho; mudi hui ungliyan field lines ki direction batati hain."}, "Right-hand thumb rule: thumb along the current, the curled fingers give the direction of the magnetic field": {"hi": "दक्षिण-हस्त अंगुष्ठ नियम: अँगूठा विद्युत धारा की दिशा में, मुड़ी हुई अँगुलियाँ चुंबकीय क्षेत्र की दिशा बताती हैं", "hg": "Right-hand thumb rule: thumb current ki direction mein, mudi hui ungliyan magnetic field ki direction batati hain"}, "Iron filings around a bar magnet": {"hi": "छड़ चुंबक के चारों ओर लोहे का बुरादा", "hg": "Bar magnet ke charon taraf iron filings"}, "To see the pattern of the magnetic field around a bar magnet using iron filings.": {"hi": "लोहे के बुरादे की सहायता से छड़ चुंबक के चारों ओर चुंबकीय क्षेत्र का पैटर्न देखना।", "hg": "Iron filings ki madad se bar magnet ke charon taraf magnetic field ka pattern dekhna."}, "Magnetic field pattern": {"hi": "चुंबकीय क्षेत्र का पैटर्न", "hg": "Magnetic field ka pattern"}, "Place the bar magnet under the middle of the white card.": {"hi": "छड़ चुंबक को सफ़ेद कार्ड के बीच वाले भाग के नीचे रखिए।", "hg": "Bar magnet ko white card ke beech wale hisse ke neeche rakho."}, "The magnet lies under the card; you cannot see it through the card.": {"hi": "चुंबक कार्ड के नीचे रखा है; कार्ड के आर-पार इसे देखा नहीं जा सकता।", "hg": "Magnet card ke neeche rakha hai; card ke through yeh dikhta nahi hai."}, "Sprinkle iron filings evenly over the card.": {"hi": "कार्ड पर लोहे का बुरादा समान रूप से छिड़किए।", "hg": "Card par iron filings barabar se chhidko."}, "The filings lie scattered at random.": {"hi": "बुरादा अव्यवस्थित रूप से बिखरा रहता है।", "hg": "Filings randomly bikhri padi hain."}, "Tap the card gently a few times.": {"hi": "कार्ड को कुछ बार धीरे से थपथपाइए।", "hg": "Card ko kuch baar halke se tap karo."}, "The filings arrange themselves in a pattern of curved lines from one end of the magnet to the other, crowded near the two ends.": {"hi": "बुरादा चुंबक के एक सिरे से दूसरे सिरे तक वक्र रेखाओं के पैटर्न में व्यवस्थित हो जाता है, जो दोनों सिरों के पास घनी होती हैं।", "hg": "Filings magnet ke ek end se doosre end tak curved lines ke pattern mein arrange ho jaati hain, jo dono ends ke paas ghani hoti hain."}, "Each filing becomes a tiny magnet and lines up along the magnetic field. The lines show the field; where they are crowded the field is strongest (at the poles).": {"hi": "बुरादे का प्रत्येक कण एक छोटा चुंबक बन जाता है और चुंबकीय क्षेत्र के अनुदिश पंक्तिबद्ध हो जाता है। ये रेखाएँ क्षेत्र को दर्शाती हैं; जहाँ ये घनी होती हैं वहाँ क्षेत्र सबसे प्रबल होता है (ध्रुवों पर)।", "hg": "Har filing ek chhota magnet ban jaati hai aur magnetic field ke along line up ho jaati hai. Yeh lines field dikhati hain; jahan yeh ghani hoti hain wahan field sabse strong hota hai (poles par)."}, "Bring the compass near one end of the card.": {"hi": "दिक्सूचक को कार्ड के एक सिरे के पास लाइए।", "hg": "Compass ko card ke ek end ke paas lao."}, "The north end of the needle points away from the N pole of the magnet: field lines come out of the N pole and go into the S pole.": {"hi": "सुई का उत्तरी सिरा चुंबक के N ध्रुव से दूर की ओर संकेत करता है: क्षेत्र रेखाएँ N ध्रुव से निकलती हैं और S ध्रुव में प्रवेश करती हैं।", "hg": "Needle ka north end magnet ke N pole se door ki taraf point karta hai: field lines N pole se nikalti hain aur S pole mein jaati hain."}, "The filings formed closed curved lines from one end to the other, crowded at the poles.": {"hi": "बुरादे ने एक सिरे से दूसरे सिरे तक बंद वक्र रेखाएँ बनाईं, जो ध्रुवों पर घनी थीं।", "hg": "Filings ne ek end se doosre end tak closed curved lines banayin, jo poles par ghani thin."}, "A magnet has a magnetic field around it. Field lines go from N to S outside the magnet, are closest where the field is strongest and never cross each other.": {"hi": "चुंबक के चारों ओर चुंबकीय क्षेत्र होता है। चुंबक के बाहर क्षेत्र रेखाएँ N से S की ओर जाती हैं, जहाँ क्षेत्र सबसे प्रबल होता है वहाँ सबसे पास-पास होती हैं और कभी एक-दूसरे को प्रतिच्छेद नहीं करतीं।", "hg": "Magnet ke charon taraf magnetic field hota hai. Magnet ke bahar field lines N se S ki taraf jaati hain, jahan field sabse strong ho wahan sabse paas-paas hoti hain aur kabhi ek-doosre ko cross nahi karti."}, "Do not let the filings touch the magnet directly: they are hard to remove. Keep magnets away from phones and watches.": {"hi": "बुरादे को चुंबक से सीधे छूने न दीजिए: उसे हटाना कठिन होता है। चुंबकों को फ़ोन और घड़ियों से दूर रखिए।", "hg": "Filings ko magnet se seedha chhoone mat do: unhe hatana mushkil hota hai. Magnets ko phone aur watch se door rakho."}, "Why do two field lines never cross?": {"hi": "दो क्षेत्र रेखाएँ कभी एक-दूसरे को प्रतिच्छेद क्यों नहीं करतीं?", "hg": "Do field lines kabhi ek-doosre ko cross kyun nahi karti?"}, "At the crossing point the compass needle would have to point in two directions at once, which is impossible.": {"hi": "प्रतिच्छेद बिंदु पर दिक्सूचक सुई को एक साथ दो दिशाओं में संकेत करना पड़ता, जो असंभव है।", "hg": "Crossing point par compass needle ko ek saath do directions mein point karna padta, jo impossible hai."}, "Where is the field strongest?": {"hi": "क्षेत्र सबसे प्रबल कहाँ होता है?", "hg": "Field sabse strong kahan hota hai?"}, "Near the poles, where the lines are crowded.": {"hi": "ध्रुवों के पास, जहाँ रेखाएँ घनी होती हैं।", "hg": "Poles ke paas, jahan lines ghani hoti hain."}, "What is the direction of field lines inside a magnet?": {"hi": "चुंबक के भीतर क्षेत्र रेखाओं की दिशा क्या होती है?", "hg": "Magnet ke andar field lines ki direction kya hoti hai?"}, "From the S pole to the N pole.": {"hi": "S ध्रुव से N ध्रुव की ओर।", "hg": "S pole se N pole ki taraf."}, "Magnetic field lines leave the north pole and enter the south pole; they never cross": {"hi": "चुंबकीय क्षेत्र रेखाएँ उत्तरी ध्रुव से निकलती हैं और दक्षिणी ध्रुव में प्रवेश करती हैं; ये कभी प्रतिच्छेद नहीं करतीं", "hg": "Magnetic field lines north pole se nikalti hain aur south pole mein enter karti hain; yeh kabhi cross nahi karti"}, "Drawing field lines with a compass": {"hi": "दिक्सूचक की सहायता से क्षेत्र रेखाएँ खींचना", "hg": "Compass se field lines draw karna"}, "To draw the magnetic field lines of a bar magnet using a small compass.": {"hi": "एक छोटे दिक्सूचक की सहायता से छड़ चुंबक की चुंबकीय क्षेत्र रेखाएँ खींचना।", "hg": "Chhote compass ki madad se bar magnet ki magnetic field lines draw karna."}, "Plotting magnetic field lines": {"hi": "चुंबकीय क्षेत्र रेखाएँ आलेखित करना", "hg": "Magnetic field lines plot karna"}, "Fix the sheet on the board, place the bar magnet in the middle and draw its outline.": {"hi": "शीट को बोर्ड पर लगाइए, छड़ चुंबक को बीच में रखिए और उसकी रूपरेखा खींचिए।", "hg": "Sheet ko board par fix karo, bar magnet ko beech mein rakho aur uski outline draw karo."}, "The outline of the magnet with its N and S ends marked.": {"hi": "चुंबक की रूपरेखा, जिस पर उसके N और S सिरे अंकित हैं।", "hg": "Magnet ki outline, jis par uske N aur S ends mark kiye hain."}, "Place the compass near the N pole. Mark the positions of the two ends of its needle; move the compass so that its south end is at the last mark, and repeat until you reach the S pole. Join the marks.": {"hi": "दिक्सूचक को N ध्रुव के पास रखिए। उसकी सुई के दोनों सिरों की स्थितियाँ अंकित कीजिए; दिक्सूचक को इस प्रकार खिसकाइए कि उसका दक्षिणी सिरा अंतिम चिह्न पर आ जाए, और S ध्रुव तक पहुँचने तक यही दोहराइए। चिह्नों को मिलाइए।", "hg": "Compass ko N pole ke paas rakho. Uski needle ke dono ends ki position mark karo; compass ko aise khiskao ki uska south end last mark par aa jaaye, aur S pole tak pahunchne tak yahi repeat karo. Marks ko jod do."}, "A smooth curve from the N pole to the S pole: one magnetic field line.": {"hi": "N ध्रुव से S ध्रुव तक एक चिकना वक्र: एक चुंबकीय क्षेत्र रेखा।", "hg": "N pole se S pole tak ek smooth curve: ek magnetic field line."}, "Repeat from other starting points near the N pole to draw more field lines.": {"hi": "और अधिक क्षेत्र रेखाएँ खींचने के लिए N ध्रुव के पास अन्य प्रारंभिक बिंदुओं से यही प्रक्रिया दोहराइए।", "hg": "Aur field lines draw karne ke liye N pole ke paas doosre starting points se yahi repeat karo."}, "A set of closed curved lines from N to S that never cross; they are crowded near the poles.": {"hi": "N से S तक बंद वक्र रेखाओं का एक समूह, जो कभी प्रतिच्छेद नहीं करतीं; ध्रुवों के पास ये घनी होती हैं।", "hg": "N se S tak closed curved lines ka ek set, jo kabhi cross nahi karti; poles ke paas yeh ghani hoti hain."}, "A compass needle sets itself along the field, so the marks follow the direction of the field. The arrows point from N to S outside the magnet.": {"hi": "दिक्सूचक सुई स्वयं को क्षेत्र के अनुदिश व्यवस्थित कर लेती है, इसलिए चिह्न क्षेत्र की दिशा का अनुसरण करते हैं। चुंबक के बाहर तीर N से S की ओर संकेत करते हैं।", "hg": "Compass needle khud ko field ke along set kar leti hai, isliye marks field ki direction follow karte hain. Magnet ke bahar arrows N se S ki taraf point karte hain."}, "Joining the needle marks gave curved lines from the N pole to the S pole; they did not cross and were closest near the poles.": {"hi": "सुई के चिह्नों को मिलाने पर N ध्रुव से S ध्रुव तक वक्र रेखाएँ प्राप्त हुईं; ये एक-दूसरे को प्रतिच्छेद नहीं करती थीं और ध्रुवों के पास सबसे पास-पास थीं।", "hg": "Needle ke marks jodne par N pole se S pole tak curved lines mili; yeh cross nahi hui aur poles ke paas sabse paas-paas thin."}, "Magnetic field lines can be traced with a compass. They are closed curves that run from N to S outside the magnet.": {"hi": "दिक्सूचक की सहायता से चुंबकीय क्षेत्र रेखाएँ खींची जा सकती हैं। ये बंद वक्र होती हैं जो चुंबक के बाहर N से S की ओर जाती हैं।", "hg": "Compass se magnetic field lines trace ki ja sakti hain. Yeh closed curves hoti hain jo magnet ke bahar N se S ki taraf jaati hain."}, "Keep other magnets and iron objects away from the board; they disturb the compass.": {"hi": "अन्य चुंबकों और लोहे की वस्तुओं को बोर्ड से दूर रखिए; वे दिक्सूचक को प्रभावित करती हैं।", "hg": "Doosre magnets aur iron ki cheezon ko board se door rakho; yeh compass ko disturb karti hain."}, "What is a magnetic field line?": {"hi": "चुंबकीय क्षेत्र रेखा क्या है?", "hg": "Magnetic field line kya hoti hai?"}, "The path along which a free north pole would tend to move.": {"hi": "वह पथ जिसके अनुदिश एक स्वतंत्र उत्तरी ध्रुव गति करने की प्रवृत्ति रखता है।", "hg": "Woh path jiske along ek free north pole move karne ki koshish karega."}, "What does the closeness of field lines show?": {"hi": "क्षेत्र रेखाओं का पास-पास होना क्या दर्शाता है?", "hg": "Field lines ka paas-paas hona kya dikhata hai?"}, "The strength of the field.": {"hi": "क्षेत्र की प्रबलता।", "hg": "Field ki strength."}, "Why is a small compass used?": {"hi": "छोटे दिक्सूचक का उपयोग क्यों किया जाता है?", "hg": "Chhota compass kyun use kiya jaata hai?"}, "So that the needle follows the field at one small region at a time.": {"hi": "ताकि सुई एक समय में केवल एक छोटे से स्थान के चुंबकीय क्षेत्र का अनुसरण करे।", "hg": "Taaki needle ek time par sirf ek chhoti si jagah ke field ko follow kare."}, "The direction of a field line at any point is the direction in which the north pole of a compass points there": {"hi": "किसी बिंदु पर क्षेत्र रेखा की दिशा वह दिशा है जिसमें वहाँ रखे दिक्सूचक का उत्तरी ध्रुव संकेत करता है", "hg": "Kisi point par field line ki direction wahi hai jis direction mein wahan compass ka north pole point karta hai"}, "Magnetic field of a straight current-carrying wire": {"hi": "सीधे धारावाही तार का चुंबकीय क्षेत्र", "hg": "Seedhe current-carrying wire ka magnetic field"}, "To see the pattern of the magnetic field around a straight wire carrying a current.": {"hi": "विद्युत धारा प्रवाहित हो रहे सीधे तार के चारों ओर चुंबकीय क्षेत्र का पैटर्न देखना।", "hg": "Current le ja rahe seedhe wire ke charon taraf magnetic field ka pattern dekhna."}, "Field of a straight conductor": {"hi": "सीधे चालक का क्षेत्र", "hg": "Seedhe conductor ka field"}, "A thick copper wire passes vertically through the centre of the cardboard. Sprinkle iron filings on the cardboard.": {"hi": "ताँबे का एक मोटा तार कार्डबोर्ड के केंद्र से होकर ऊर्ध्वाधर गुज़रता है। कार्डबोर्ड पर लोहे का बुरादा छिड़किए।", "hg": "Ek mota copper wire cardboard ke centre se vertically guzarta hai. Cardboard par iron filings chhidko."}, "The filings lie at random.": {"hi": "बुरादा अव्यवस्थित रूप से पड़ा रहता है।", "hg": "Filings randomly padi hain."}, "Close the key so that a current flows up the wire, and tap the cardboard gently.": {"hi": "कुंजी बंद कीजिए ताकि तार में विद्युत धारा ऊपर की ओर प्रवाहित हो, और कार्डबोर्ड को धीरे से थपथपाइए।", "hg": "Key close karo taaki wire mein current upar ki taraf flow kare, aur cardboard ko halke se tap karo."}, "The filings arrange themselves in concentric circles around the wire.": {"hi": "बुरादा तार के चारों ओर संकेंद्री वृत्तों में व्यवस्थित हो जाता है।", "hg": "Filings wire ke charon taraf concentric circles mein arrange ho jaati hain."}, "The magnetic field lines around a straight wire are concentric circles centred on the wire.": {"hi": "सीधे तार के चारों ओर चुंबकीय क्षेत्र रेखाएँ संकेंद्री वृत्त होती हैं, जिनका केंद्र तार पर होता है।", "hg": "Seedhe wire ke charon taraf magnetic field lines concentric circles hoti hain, jinka centre wire par hota hai."}, "Place the small compass on the cardboard near the wire and note where its N end points.": {"hi": "छोटे दिक्सूचक को कार्डबोर्ड पर तार के पास रखिए और देखिए कि उसका N सिरा किस ओर संकेत करता है।", "hg": "Chhote compass ko cardboard par wire ke paas rakho aur note karo ki uska N end kis taraf point karta hai."}, "The needle lies along a circle; seen from above, its N end points anticlockwise for a current flowing upwards.": {"hi": "सुई एक वृत्त के अनुदिश रहती है; ऊपर से देखने पर, ऊपर की ओर प्रवाहित धारा के लिए इसका N सिरा वामावर्त दिशा में संकेत करता है।", "hg": "Needle ek circle ke along rehti hai; upar se dekhne par, upar ki taraf flow karte current ke liye iska N end anticlockwise point karta hai."}, "Reverse the current and look at the compass again.": {"hi": "विद्युत धारा की दिशा उलटिए और दिक्सूचक को फिर से देखिए।", "hg": "Current reverse karo aur compass ko phir se dekho."}, "The needle turns round: the field now goes clockwise.": {"hi": "सुई घूमकर उलट जाती है: अब क्षेत्र दक्षिणावर्त है।", "hg": "Needle ghoom jaati hai: ab field clockwise hai."}, "By the right-hand thumb rule the direction of the circles depends on the direction of the current.": {"hi": "दक्षिण-हस्त अंगुष्ठ नियम के अनुसार वृत्तों की दिशा विद्युत धारा की दिशा पर निर्भर करती है।", "hg": "Right-hand thumb rule ke hisaab se circles ki direction current ki direction par depend karti hai."}, "The filings formed concentric circles around the wire; the compass followed the circles and reversed when the current was reversed.": {"hi": "बुरादे ने तार के चारों ओर संकेंद्री वृत्त बनाए; दिक्सूचक ने वृत्तों का अनुसरण किया और धारा की दिशा उलटने पर उसकी दिशा भी उलट गई।", "hg": "Filings ne wire ke charon taraf concentric circles banaye; compass ne circles ko follow kiya aur current reverse karne par woh bhi ulat gaya."}, "The magnetic field around a straight current-carrying wire consists of concentric circles; its direction is given by the right-hand thumb rule.": {"hi": "सीधे धारावाही तार के चारों ओर चुंबकीय क्षेत्र संकेंद्री वृत्तों के रूप में होता है; इसकी दिशा दक्षिण-हस्त अंगुष्ठ नियम से ज्ञात होती है।", "hg": "Seedhe current-carrying wire ke charon taraf magnetic field concentric circles ke roop mein hota hai; iski direction right-hand thumb rule se milti hai."}, "Pass the current only for a short time; use a rheostat to keep it safe.": {"hi": "विद्युत धारा केवल थोड़े समय के लिए प्रवाहित कीजिए; इसे सुरक्षित सीमा में रखने के लिए धारा नियंत्रक (रिओस्टेट) का उपयोग कीजिए।", "hg": "Current sirf thodi der ke liye do; ise safe rakhne ke liye rheostat use karo."}, "How does the field change as you move away from the wire?": {"hi": "तार से दूर जाने पर क्षेत्र में क्या परिवर्तन होता है?", "hg": "Wire se door jaane par field kaise badalta hai?"}, "It becomes weaker (the circles are farther apart).": {"hi": "यह दुर्बल हो जाता है (वृत्त एक-दूसरे से अधिक दूर होते हैं)।", "hg": "Yeh weak ho jaata hai (circles ek-doosre se zyada door hote hain)."}, "What is the shape of the field lines?": {"hi": "क्षेत्र रेखाओं की आकृति कैसी होती है?", "hg": "Field lines ka shape kaisa hota hai?"}, "Concentric circles centred on the wire.": {"hi": "तार पर केंद्रित संकेंद्री वृत्त।", "hg": "Wire par centred concentric circles."}, "What happens if the current is increased?": {"hi": "विद्युत धारा बढ़ाने पर क्या होता है?", "hg": "Current badhane par kya hota hai?"}, "The field becomes stronger.": {"hi": "क्षेत्र अधिक प्रबल हो जाता है।", "hg": "Field zyada strong ho jaata hai."}, "Field of a straight wire: concentric circles; stronger near the wire and for a larger current": {"hi": "सीधे तार का क्षेत्र: संकेंद्री वृत्त; तार के पास तथा अधिक धारा के लिए अधिक प्रबल", "hg": "Seedhe wire ka field: concentric circles; wire ke paas aur zyada current par zyada strong"}, "Magnetic field of a circular coil": {"hi": "वृत्ताकार कुंडली का चुंबकीय क्षेत्र", "hg": "Circular coil ka magnetic field"}, "To see the pattern of the magnetic field of a current-carrying circular coil.": {"hi": "धारावाही वृत्ताकार कुंडली के चुंबकीय क्षेत्र का पैटर्न देखना।", "hg": "Current-carrying circular coil ke magnetic field ka pattern dekhna."}, "Field of a circular coil": {"hi": "वृत्ताकार कुंडली का क्षेत्र", "hg": "Circular coil ka field"}, "A coil of many turns stands upright through the cardboard. Sprinkle iron filings on the cardboard.": {"hi": "अनेक फेरों वाली एक कुंडली कार्डबोर्ड से होकर सीधी खड़ी है। कार्डबोर्ड पर लोहे का बुरादा छिड़किए।", "hg": "Kai turns wali ek coil cardboard ke through seedhi khadi hai. Cardboard par iron filings chhidko."}, "Close the key and tap the cardboard gently.": {"hi": "कुंजी बंद कीजिए और कार्डबोर्ड को धीरे से थपथपाइए।", "hg": "Key close karo aur cardboard ko halke se tap karo."}, "Near each side of the coil the filings form small circles around the wire; at the centre of the coil the lines are nearly straight and parallel.": {"hi": "कुंडली की प्रत्येक भुजा के पास बुरादा तार के चारों ओर छोटे वृत्त बनाता है; कुंडली के केंद्र पर रेखाएँ लगभग सीधी और समांतर होती हैं।", "hg": "Coil ke har side ke paas filings wire ke charon taraf chhote circles banati hain; coil ke centre par lines lagbhag seedhi aur parallel hoti hain."}, "Each part of the coil makes circles of field around it. Inside the loop all these fields point the same way, so the field at the centre is strong and nearly uniform.": {"hi": "कुंडली का प्रत्येक भाग अपने चारों ओर क्षेत्र के वृत्त बनाता है। लूप के भीतर ये सभी क्षेत्र एक ही दिशा में होते हैं, इसलिए केंद्र पर क्षेत्र प्रबल और लगभग एकसमान होता है।", "hg": "Coil ka har part apne charon taraf field ke circles banata hai. Loop ke andar yeh saare fields ek hi direction mein hote hain, isliye centre par field strong aur lagbhag uniform hota hai."}, "Circles around each side of the coil, nearly straight parallel lines at its centre.": {"hi": "कुंडली की प्रत्येक भुजा के चारों ओर वृत्त, और उसके केंद्र पर लगभग सीधी समांतर रेखाएँ।", "hg": "Coil ke har side ke charon taraf circles, aur uske centre par lagbhag seedhi parallel lines."}, "The field of a circular coil is strongest at its centre and increases with the number of turns and the current.": {"hi": "वृत्ताकार कुंडली का क्षेत्र उसके केंद्र पर सबसे प्रबल होता है और फेरों की संख्या तथा विद्युत धारा बढ़ने पर बढ़ता है।", "hg": "Circular coil ka field uske centre par sabse strong hota hai aur turns ki sankhya aur current badhne par badhta hai."}, "Pass the current only for a short time.": {"hi": "विद्युत धारा केवल थोड़े समय के लिए प्रवाहित कीजिए।", "hg": "Current sirf thodi der ke liye do."}, "How can the field at the centre be made stronger?": {"hi": "केंद्र पर क्षेत्र को अधिक प्रबल कैसे बनाया जा सकता है?", "hg": "Centre par field ko zyada strong kaise banaya ja sakta hai?"}, "Increase the current or the number of turns.": {"hi": "विद्युत धारा या फेरों की संख्या बढ़ाइए।", "hg": "Current ya turns ki sankhya badhao."}, "What is the field like at the centre?": {"hi": "केंद्र पर क्षेत्र कैसा होता है?", "hg": "Centre par field kaisa hota hai?"}, "Nearly straight and parallel lines (almost uniform).": {"hi": "लगभग सीधी और समांतर रेखाएँ (लगभग एकसमान)।", "hg": "Lagbhag seedhi aur parallel lines (almost uniform)."}, "Field at the centre of a coil: proportional to the current and the number of turns": {"hi": "कुंडली के केंद्र पर क्षेत्र: विद्युत धारा तथा फेरों की संख्या के अनुक्रमानुपाती", "hg": "Coil ke centre par field: current aur turns ki sankhya ke proportional"}, "Magnetic field of a solenoid": {"hi": "परिनालिका का चुंबकीय क्षेत्र", "hg": "Solenoid ka magnetic field"}, "To see the magnetic field of a current-carrying solenoid and compare it with that of a bar magnet.": {"hi": "धारावाही परिनालिका का चुंबकीय क्षेत्र देखना और उसकी तुलना छड़ चुंबक के क्षेत्र से करना।", "hg": "Current-carrying solenoid ka magnetic field dekhna aur use bar magnet ke field se compare karna."}, "Solenoid and electromagnet": {"hi": "परिनालिका और विद्युत चुंबक", "hg": "Solenoid aur electromagnet"}, "Sprinkle iron filings on the card that passes through the solenoid.": {"hi": "परिनालिका के बीच से गुज़रने वाले कार्ड पर लोहे का बुरादा छिड़किए।", "hg": "Solenoid ke beech se guzarne wale card par iron filings chhidko."}, "Close the key and tap the card.": {"hi": "कुंजी बंद कीजिए और कार्ड को थपथपाइए।", "hg": "Key close karo aur card ko tap karo."}, "Inside the solenoid the filings lie in straight parallel lines; outside, the pattern is just like that of a bar magnet.": {"hi": "परिनालिका के भीतर बुरादा सीधी समांतर रेखाओं में व्यवस्थित होता है; बाहर पैटर्न ठीक छड़ चुंबक जैसा होता है।", "hg": "Solenoid ke andar filings seedhi parallel lines mein hoti hain; bahar pattern bilkul bar magnet jaisa hota hai."}, "The fields of all the turns add up: inside a long solenoid the field is strong and uniform; one end behaves as a north pole and the other as a south pole.": {"hi": "सभी फेरों के क्षेत्र जुड़ जाते हैं: लंबी परिनालिका के भीतर क्षेत्र प्रबल और एकसमान होता है; इसका एक सिरा उत्तरी ध्रुव और दूसरा सिरा दक्षिणी ध्रुव की तरह व्यवहार करता है।", "hg": "Saare turns ke fields jud jaate hain: lambe solenoid ke andar field strong aur uniform hota hai; ek end north pole ki tarah aur doosra end south pole ki tarah behave karta hai."}, "Bring the compass near one end of the solenoid.": {"hi": "दिक्सूचक को परिनालिका के एक सिरे के पास लाइए।", "hg": "Compass ko solenoid ke ek end ke paas lao."}, "The compass needle swings round: that end of the solenoid behaves like a magnetic pole.": {"hi": "दिक्सूचक सुई घूम जाती है: परिनालिका का वह सिरा एक चुंबकीय ध्रुव की तरह व्यवहार करता है।", "hg": "Compass needle ghoom jaati hai: solenoid ka woh end ek magnetic pole ki tarah behave karta hai."}, "A solenoid carrying a current is an electromagnet. With a soft iron core inside it becomes a strong electromagnet that works only while the current flows.": {"hi": "धारावाही परिनालिका एक विद्युत चुंबक है। इसके भीतर नर्म लोहे का क्रोड रखने पर यह एक प्रबल विद्युत चुंबक बन जाती है, जो केवल तभी तक कार्य करता है जब तक विद्युत धारा प्रवाहित होती है।", "hg": "Current-carrying solenoid ek electromagnet hai. Iske andar soft iron core rakhne par yeh ek strong electromagnet ban jaata hai jo sirf tab tak kaam karta hai jab tak current flow karta hai."}, "The filings formed straight parallel lines inside and a bar-magnet-like pattern outside; the ends attracted and repelled the compass needle like poles.": {"hi": "बुरादे ने भीतर सीधी समांतर रेखाएँ और बाहर छड़ चुंबक जैसा पैटर्न बनाया; सिरों ने ध्रुवों की तरह दिक्सूचक सुई को आकर्षित और प्रतिकर्षित किया।", "hg": "Filings ne andar seedhi parallel lines aur bahar bar magnet jaisa pattern banaya; ends ne poles ki tarah compass needle ko attract aur repel kiya."}, "A current-carrying solenoid behaves like a bar magnet with a uniform field inside. It is the basis of the electromagnet.": {"hi": "धारावाही परिनालिका छड़ चुंबक की तरह व्यवहार करती है और इसके भीतर क्षेत्र एकसमान होता है। यही विद्युत चुंबक का आधार है।", "hg": "Current-carrying solenoid bar magnet ki tarah behave karta hai aur iske andar field uniform hota hai. Yahi electromagnet ka base hai."}, "Do not keep the current on for long; the coil gets hot.": {"hi": "विद्युत धारा को अधिक समय तक चालू न रखिए; कुंडली गर्म हो जाती है।", "hg": "Current ko zyada der tak on mat rakho; coil garam ho jaati hai."}, "How is a solenoid different from a bar magnet?": {"hi": "परिनालिका छड़ चुंबक से किस प्रकार भिन्न है?", "hg": "Solenoid bar magnet se kaise alag hai?"}, "Its magnetism can be switched on and off and its strength changed with the current.": {"hi": "इसके चुंबकत्व को चालू और बंद किया जा सकता है तथा विद्युत धारा द्वारा इसकी प्रबलता बदली जा सकती है।", "hg": "Iska magnetism on aur off kiya ja sakta hai aur current se iski strength badli ja sakti hai."}, "What is placed inside a solenoid to make an electromagnet?": {"hi": "विद्युत चुंबक बनाने के लिए परिनालिका के भीतर क्या रखा जाता है?", "hg": "Electromagnet banane ke liye solenoid ke andar kya rakha jaata hai?"}, "A soft iron core.": {"hi": "नर्म लोहे का क्रोड।", "hg": "Soft iron core."}, "How can you find which end is N?": {"hi": "आप कैसे पता लगा सकते हैं कि कौन-सा सिरा N है?", "hg": "Kaise pata karoge ki kaun sa end N hai?"}, "With a compass, or by the clockwise/anticlockwise rule of the current seen from that end.": {"hi": "दिक्सूचक से, या उस सिरे से देखने पर धारा के दक्षिणावर्त/वामावर्त नियम से।", "hg": "Compass se, ya us end se dekhne par current ke clockwise/anticlockwise rule se."}, "Field inside a long solenoid: uniform, proportional to the current and to the number of turns per unit length": {"hi": "लंबी परिनालिका के भीतर क्षेत्र: एकसमान, विद्युत धारा तथा प्रति एकांक लंबाई फेरों की संख्या के अनुक्रमानुपाती", "hg": "Lambe solenoid ke andar field: uniform, current aur per unit length turns ki sankhya ke proportional"}, "Force on a current-carrying rod in a magnetic field": {"hi": "चुंबकीय क्षेत्र में धारावाही छड़ पर बल", "hg": "Magnetic field mein current-carrying rod par force"}, "To show that a current-carrying conductor in a magnetic field experiences a force, and that its direction depends on the current and the field.": {"hi": "यह दर्शाना कि चुंबकीय क्षेत्र में रखा धारावाही चालक एक बल का अनुभव करता है, और इस बल की दिशा विद्युत धारा तथा क्षेत्र की दिशा पर निर्भर करती है।", "hg": "Yeh dikhana ki magnetic field mein rakha current-carrying conductor ek force feel karta hai, aur is force ki direction current aur field par depend karti hai."}, "Force on a conductor (Fleming's left-hand rule)": {"hi": "चालक पर बल (फ्लेमिंग का वामहस्त नियम)", "hg": "Conductor par force (Fleming's left-hand rule)"}, "The light aluminium rod AB hangs between the poles of the horseshoe magnet (N below, S above: the field points upwards).": {"hi": "ऐलुमिनियम की हल्की छड़ AB नाल चुंबक के ध्रुवों के बीच लटकी है (N नीचे, S ऊपर: क्षेत्र ऊपर की ओर है)।", "hg": "Aluminium ki halki rod AB horseshoe magnet ke poles ke beech latki hai (N neeche, S upar: field upar ki taraf hai)."}, "The rod hangs straight down at rest.": {"hi": "छड़ विराम अवस्था में सीधी नीचे की ओर लटकी है।", "hg": "Rod rest mein seedhi neeche latki hai."}, "Close the key so that a current flows from A to B.": {"hi": "कुंजी बंद कीजिए ताकि विद्युत धारा A से B की ओर प्रवाहित हो।", "hg": "Key close karo taaki current A se B ki taraf flow kare."}, "The rod is pushed sideways out of the gap and stays displaced while the current flows.": {"hi": "छड़ बगल की ओर धकेली जाकर अंतराल से बाहर आ जाती है और जब तक विद्युत धारा प्रवाहित होती है, विस्थापित रहती है।", "hg": "Rod side ki taraf push hokar gap se bahar aa jaati hai aur jab tak current flow karta hai, displaced rehti hai."}, "A current-carrying conductor in a magnetic field experiences a force. The force is perpendicular to both the current and the field.": {"hi": "चुंबकीय क्षेत्र में रखा धारावाही चालक एक बल का अनुभव करता है। यह बल विद्युत धारा और क्षेत्र दोनों के लंबवत होता है।", "hg": "Magnetic field mein rakha current-carrying conductor ek force feel karta hai. Yeh force current aur field dono ke perpendicular hota hai."}, "Reverse the current (swap the connections at the cells).": {"hi": "विद्युत धारा की दिशा उलटिए (सेलों पर संयोजन आपस में बदल दीजिए)।", "hg": "Current reverse karo (cells par connections aapas mein badal do)."}, "The rod is now pushed the opposite way.": {"hi": "अब छड़ विपरीत दिशा में धकेली जाती है।", "hg": "Ab rod opposite direction mein push hoti hai."}, "Now turn the magnet over (S below, N above) and watch the rod.": {"hi": "अब चुंबक को पलट दीजिए (S नीचे, N ऊपर) और छड़ को देखिए।", "hg": "Ab magnet ko palat do (S neeche, N upar) aur rod ko dekho."}, "The direction of the force reverses again.": {"hi": "बल की दिशा फिर से उलट जाती है।", "hg": "Force ki direction phir se ulat jaati hai."}, "Fleming's left-hand rule: stretch the forefinger along the field, the middle finger along the current; the thumb gives the direction of the force (motion).": {"hi": "फ्लेमिंग का वामहस्त नियम: तर्जनी को क्षेत्र की दिशा में और मध्यमा को विद्युत धारा की दिशा में फैलाइए; अँगूठा बल (गति) की दिशा बताता है।", "hg": "Fleming's left-hand rule: forefinger ko field ki direction mein aur middle finger ko current ki direction mein stretch karo; thumb force (motion) ki direction batata hai."}, "The rod moved sideways when the current flowed; its direction reversed when either the current or the magnetic field was reversed.": {"hi": "विद्युत धारा प्रवाहित होने पर छड़ बगल की ओर खिसकी; धारा या चुंबकीय क्षेत्र में से किसी एक की दिशा उलटने पर इसकी दिशा उलट गई।", "hg": "Current flow hone par rod side ki taraf move hui; current ya magnetic field mein se kisi ek ko reverse karne par uski direction ulat gayi."}, "A current-carrying conductor placed in a magnetic field experiences a force whose direction is given by Fleming's left-hand rule. This is the principle of the electric motor.": {"hi": "चुंबकीय क्षेत्र में रखा धारावाही चालक एक बल का अनुभव करता है, जिसकी दिशा फ्लेमिंग के वामहस्त नियम से ज्ञात होती है। यही विद्युत मोटर का सिद्धांत है।", "hg": "Magnetic field mein rakha current-carrying conductor ek force feel karta hai, jiski direction Fleming's left-hand rule se milti hai. Yahi electric motor ka principle hai."}, "Use a rheostat to limit the current and close the key only for a short time.": {"hi": "विद्युत धारा को सीमित रखने के लिए धारा नियंत्रक (रिओस्टेट) का उपयोग कीजिए और कुंजी को केवल थोड़े समय के लिए बंद कीजिए।", "hg": "Current ko limit karne ke liye rheostat use karo aur key ko sirf thodi der ke liye close karo."}, "State Fleming’s left-hand rule.": {"hi": "फ्लेमिंग का वामहस्त नियम बताइए।", "hg": "Fleming’s left-hand rule batao."}, "Forefinger: field, middle finger: current, thumb: force (motion) — all mutually perpendicular.": {"hi": "तर्जनी: क्षेत्र, मध्यमा: विद्युत धारा, अँगूठा: बल (गति) — तीनों परस्पर लंबवत।", "hg": "Forefinger: field, middle finger: current, thumb: force (motion) — teeno ek-doosre ke perpendicular."}, "When is the force on the conductor largest?": {"hi": "चालक पर बल अधिकतम कब होता है?", "hg": "Conductor par force sabse zyada kab hota hai?"}, "When the current is at right angles to the magnetic field.": {"hi": "जब विद्युत धारा चुंबकीय क्षेत्र के लंबवत होती है।", "hg": "Jab current magnetic field ke right angle par (perpendicular) ho."}, "Name a device that uses this force.": {"hi": "ऐसी एक युक्ति का नाम बताइए जो इस बल का उपयोग करती है।", "hg": "Ek aisi device ka naam batao jo is force ko use karti hai."}, "An electric motor (also loudspeakers).": {"hi": "विद्युत मोटर (लाउडस्पीकर भी)।", "hg": "Electric motor (loudspeaker bhi)."}, "Force on a conductor: F = B I L (largest when the current is perpendicular to the field); direction by Fleming's left-hand rule": {"hi": "चालक पर बल: F = B I L (जब धारा क्षेत्र के लंबवत हो तब अधिकतम); दिशा फ्लेमिंग के वामहस्त नियम से", "hg": "Conductor par force: F = B I L (jab current field ke perpendicular ho tab sabse zyada); direction Fleming's left-hand rule se"}, "The rod is pushed towards you": {"hi": "छड़ आपकी ओर धकेली जाती है", "hg": "Rod aapki taraf push hoti hai"}, "The rod is pushed away from you": {"hi": "छड़ आपसे दूर धकेली जाती है", "hg": "Rod aapse door push hoti hai"}, "Magnetic compass (under the wire)": {"hi": "चुंबकीय दिक्सूचक (तार के नीचे)", "hg": "Magnetic compass (wire ke neeche)"}, "Deflection": {"hi": "विक्षेप", "hg": "Deflection"}, "towards west": {"hi": "पश्चिम की ओर", "hg": "west ki taraf"}, "towards east": {"hi": "पूर्व की ओर", "hg": "east ki taraf"}, "White card on supports": {"hi": "आधारों पर टिका सफ़ेद कार्ड", "hg": "Supports par rakha white card"}, "Small magnetic compass": {"hi": "छोटा चुंबकीय दिक्सूचक", "hg": "Chhota magnetic compass"}, "Cardboard (the wire passes through its centre)": {"hi": "कार्डबोर्ड (तार इसके केंद्र से होकर गुज़रता है)", "hg": "Cardboard (wire iske centre se guzarta hai)"}, "N end: anticlockwise round the wire (seen from above)": {"hi": "N सिरा: तार के चारों ओर वामावर्त (ऊपर से देखने पर)", "hg": "N end: wire ke charon taraf anticlockwise (upar se dekhne par)"}, "Now clockwise": {"hi": "अब दक्षिणावर्त", "hg": "Ab clockwise"}, "Cardboard (the coil passes through it)": {"hi": "कार्डबोर्ड (कुंडली इसमें से होकर गुज़रती है)", "hg": "Cardboard (coil iske through guzarti hai)"}, "Card through the middle of the solenoid": {"hi": "परिनालिका के बीच से गुज़रता कार्ड", "hg": "Solenoid ke beech se guzarta card"}, "Aluminium rod AB hung between the poles": {"hi": "ध्रुवों के बीच लटकी ऐलुमिनियम छड़ AB", "hg": "Poles ke beech latki aluminium rod AB"}});
+// p3 translations
+Object.assign(DICT, {"Images formed by a concave mirror": {"hi": "अवतल दर्पण द्वारा बनने वाले प्रतिबिंब", "hg": "Concave mirror se banne wali images"}, "To study the nature, position and size of the image formed by a concave mirror for different positions of the object.": {"hi": "वस्तु की विभिन्न स्थितियों के लिए अवतल दर्पण द्वारा बने प्रतिबिंब की प्रकृति, स्थिति और आकार का अध्ययन करना।", "hg": "Object ki alag-alag positions ke liye concave mirror se bani image ka nature, position aur size study karna."}, "Image formation by a concave mirror": {"hi": "अवतल दर्पण द्वारा प्रतिबिंब निर्माण", "hg": "Concave mirror se image formation"}, "Light the candle. The concave mirror (f = 15 cm) is at the 90 cm mark and the candle at the 45 cm mark, beyond C (u = 45 cm). The screen stands beside the bench so that it does not block the light.": {"hi": "मोमबत्ती जलाइए। अवतल दर्पण (f = 15 cm) 90 cm के निशान पर है और मोमबत्ती 45 cm के निशान पर, C से परे (u = 45 cm)। पर्दा बेंच के बगल में खड़ा है ताकि वह प्रकाश को न रोके।", "hg": "Candle jalao. Concave mirror (f = 15 cm) 90 cm mark par hai aur candle 45 cm mark par, C ke beyond (u = 45 cm). Screen bench ke bagal mein khadi hai taaki woh light ko block na kare."}, "The candle burns steadily, 45 cm in front of the mirror.": {"hi": "मोमबत्ती दर्पण के सामने 45 cm दूर स्थिर रूप से जल रही है।", "hg": "Candle mirror ke saamne 45 cm door steady jal rahi hai."}, "Move the screen until a sharp image of the flame forms on it.": {"hi": "पर्दे को तब तक खिसकाइए जब तक उस पर ज्वाला का स्पष्ट प्रतिबिंब न बन जाए।", "hg": "Screen ko tab tak khiskao jab tak us par flame ki sharp image na ban jaaye."}, "A small, inverted, real image forms between F and C, about 22.5 cm from the mirror.": {"hi": "F और C के बीच, दर्पण से लगभग 22.5 cm दूर, एक छोटा, उल्टा, वास्तविक प्रतिबिंब बनता है।", "hg": "F aur C ke beech, mirror se lagbhag 22.5 cm door, ek chhoti, inverted, real image banti hai."}, "Move the candle to the 60 cm mark (at C, u = 30 cm) and find the sharp image again.": {"hi": "मोमबत्ती को 60 cm के निशान पर (C पर, u = 30 cm) ले जाइए और फिर से स्पष्ट प्रतिबिंब प्राप्त कीजिए।", "hg": "Candle ko 60 cm mark par (C par, u = 30 cm) le jao aur phir se sharp image dhoondo."}, "The image is also at C, 30 cm from the mirror. It is inverted and the same size as the flame.": {"hi": "प्रतिबिंब भी C पर, दर्पण से 30 cm दूर बनता है। यह उल्टा है और ज्वाला के समान आकार का है।", "hg": "Image bhi C par, mirror se 30 cm door banti hai. Yeh inverted hai aur flame ke same size ki hai."}, "Move the candle to the 67.5 cm mark (between F and C, u = 22.5 cm) and find the image.": {"hi": "मोमबत्ती को 67.5 cm के निशान पर (F और C के बीच, u = 22.5 cm) ले जाइए और प्रतिबिंब प्राप्त कीजिए।", "hg": "Candle ko 67.5 cm mark par (F aur C ke beech, u = 22.5 cm) le jao aur image dhoondo."}, "The image forms beyond C, about 45 cm from the mirror. It is inverted and enlarged.": {"hi": "प्रतिबिंब C से परे, दर्पण से लगभग 45 cm दूर बनता है। यह उल्टा और आवर्धित है।", "hg": "Image C ke beyond, mirror se lagbhag 45 cm door banti hai. Yeh inverted aur enlarged hai."}, "Move the candle to the 75 cm mark (at F) and look for an image with the screen.": {"hi": "मोमबत्ती को 75 cm के निशान पर (F पर) ले जाइए और पर्दे की सहायता से प्रतिबिंब खोजिए।", "hg": "Candle ko 75 cm mark par (F par) le jao aur screen se image dhoondo."}, "No sharp image forms anywhere on the screen.": {"hi": "पर्दे पर कहीं भी स्पष्ट प्रतिबिंब नहीं बनता।", "hg": "Screen par kahin bhi sharp image nahi banti."}, "Rays from an object at the focus are reflected parallel to each other, so the image is at infinity.": {"hi": "फोकस पर रखी वस्तु से आने वाली किरणें परावर्तन के बाद एक-दूसरे के समांतर हो जाती हैं, इसलिए प्रतिबिंब अनंत पर बनता है।", "hg": "Focus par rakhe object se aane wali rays reflect hokar ek-doosre ke parallel ho jaati hain, isliye image infinity par banti hai."}, "Move the candle to the 80 cm mark (between P and F, u = 10 cm) and look into the mirror.": {"hi": "मोमबत्ती को 80 cm के निशान पर (P और F के बीच, u = 10 cm) ले जाइए और दर्पण में देखिए।", "hg": "Candle ko 80 cm mark par (P aur F ke beech, u = 10 cm) le jao aur mirror mein dekho."}, "No image forms on the screen. In the mirror you see an enlarged, upright (virtual) image of the flame, behind the mirror.": {"hi": "पर्दे पर कोई प्रतिबिंब नहीं बनता। दर्पण में आपको दर्पण के पीछे ज्वाला का एक आवर्धित, सीधा (आभासी) प्रतिबिंब दिखाई देता है।", "hg": "Screen par koi image nahi banti. Mirror mein tumhe mirror ke peeche flame ki ek enlarged, upright (virtual) image dikhti hai."}, "This is why a concave mirror is used as a shaving mirror or by dentists.": {"hi": "इसी कारण अवतल दर्पण का उपयोग दाढ़ी बनाने के दर्पण के रूप में या दंत चिकित्सकों द्वारा किया जाता है।", "hg": "Isi wajah se concave mirror ko shaving mirror ki tarah ya dentists dwara use kiya jaata hai."}, "u = 45 cm: v ≈ 22.5 cm, inverted, smaller. u = 30 cm (at C): v ≈ 30 cm, inverted, same size. u = 22.5 cm: v ≈ 45 cm, inverted, larger. At F: no image (at infinity). Between P and F: virtual, upright, enlarged image behind the mirror.": {"hi": "u = 45 cm: v ≈ 22.5 cm, उल्टा, छोटा। u = 30 cm (C पर): v ≈ 30 cm, उल्टा, समान आकार। u = 22.5 cm: v ≈ 45 cm, उल्टा, बड़ा। F पर: कोई प्रतिबिंब नहीं (अनंत पर)। P और F के बीच: दर्पण के पीछे आभासी, सीधा, आवर्धित प्रतिबिंब।", "hg": "u = 45 cm: v ≈ 22.5 cm, inverted, chhoti. u = 30 cm (C par): v ≈ 30 cm, inverted, same size. u = 22.5 cm: v ≈ 45 cm, inverted, badi. F par: koi image nahi (infinity par). P aur F ke beech: mirror ke peeche virtual, upright, enlarged image."}, "A concave mirror forms real, inverted images of objects beyond F; as the object comes closer to F the image moves farther away and grows larger. For an object between P and F the image is virtual, upright and magnified.": {"hi": "अवतल दर्पण F से परे रखी वस्तुओं के वास्तविक, उल्टे प्रतिबिंब बनाता है; जैसे-जैसे वस्तु F के पास आती है, प्रतिबिंब दूर खिसकता जाता है और बड़ा होता जाता है। P और F के बीच रखी वस्तु के लिए प्रतिबिंब आभासी, सीधा और आवर्धित होता है।", "hg": "Concave mirror F ke beyond rakhe objects ki real, inverted images banata hai; jaise-jaise object F ke paas aata hai, image door jaati hai aur badi hoti jaati hai. P aur F ke beech rakhe object ke liye image virtual, upright aur magnified hoti hai."}, "Keep the candle flame away from paper and hair; do not touch the hot wax. Handle the mirror by its edges.": {"hi": "मोमबत्ती की ज्वाला को कागज़ और बालों से दूर रखिए; गरम मोम को न छुइए। दर्पण को उसके किनारों से पकड़िए।", "hg": "Candle ki flame ko paper aur baalon se door rakho; garam wax ko mat chhuo. Mirror ko uske edges se pakdo."}, "At the centre of curvature C.": {"hi": "वक्रता केंद्र C पर।", "hg": "Centre of curvature C par."}, "Where is the image when the object is at the focus?": {"hi": "जब वस्तु फोकस पर हो, तब प्रतिबिंब कहाँ बनता है?", "hg": "Jab object focus par ho, tab image kahan banti hai?"}, "At infinity: the reflected rays are parallel.": {"hi": "अनंत पर: परावर्तित किरणें समांतर होती हैं।", "hg": "Infinity par: reflected rays parallel hoti hain."}, "Why is a concave mirror used in torches and headlights?": {"hi": "टॉर्च और हेडलाइट में अवतल दर्पण का उपयोग क्यों किया जाता है?", "hg": "Torch aur headlights mein concave mirror kyun use kiya jaata hai?"}, "With the bulb at its focus, it sends out a strong parallel beam of light.": {"hi": "बल्ब को इसके फोकस पर रखने पर यह प्रकाश का एक प्रबल समांतर किरण-पुंज भेजता है।", "hg": "Bulb ko iske focus par rakhne par yeh light ka ek strong parallel beam bhejta hai."}, "Mirror formula and magnification": {"hi": "दर्पण सूत्र और आवर्धन", "hg": "Mirror formula aur magnification"}, "Images formed by a concave lens": {"hi": "अवतल लेंस द्वारा बनने वाले प्रतिबिंब", "hg": "Concave lens se banne wali images"}, "To observe the nature, position and size of the image formed by a concave lens.": {"hi": "अवतल लेंस द्वारा बने प्रतिबिंब की प्रकृति, स्थिति और आकार का प्रेक्षण करना।", "hg": "Concave lens se bani image ka nature, position aur size observe karna."}, "Concave lens: virtual image": {"hi": "अवतल लेंस: आभासी प्रतिबिंब", "hg": "Concave lens: virtual image"}, "Light the candle. The concave lens is at the 50 cm mark and the candle at the 20 cm mark (u = 30 cm).": {"hi": "मोमबत्ती जलाइए। अवतल लेंस 50 cm के निशान पर है और मोमबत्ती 20 cm के निशान पर (u = 30 cm)।", "hg": "Candle jalao. Concave lens 50 cm mark par hai aur candle 20 cm mark par (u = 30 cm)."}, "The light from the candle passes through the lens.": {"hi": "मोमबत्ती का प्रकाश लेंस से होकर गुजरता है।", "hg": "Candle ki light lens se hokar guzarti hai."}, "Move the screen slowly on the other side of the lens and try to get an image on it.": {"hi": "लेंस के दूसरी ओर पर्दे को धीरे-धीरे खिसकाइए और उस पर प्रतिबिंब प्राप्त करने का प्रयास कीजिए।", "hg": "Lens ki doosri side screen ko dheere-dheere khiskao aur us par image laane ki koshish karo."}, "No image forms on the screen at any position; the light only spreads out.": {"hi": "किसी भी स्थिति में पर्दे पर कोई प्रतिबिंब नहीं बनता; प्रकाश केवल फैल जाता है।", "hg": "Kisi bhi position par screen par koi image nahi banti; light sirf phail jaati hai."}, "A concave lens spreads out (diverges) the rays. They never meet, so no real image is formed.": {"hi": "अवतल लेंस किरणों को फैला देता है (अपसरित करता है)। वे कभी नहीं मिलतीं, इसलिए कोई वास्तविक प्रतिबिंब नहीं बनता।", "hg": "Concave lens rays ko phaila deta hai (diverge karta hai). Woh kabhi nahi milti, isliye koi real image nahi banti."}, "Look through the lens from the other side.": {"hi": "दूसरी ओर से लेंस में से देखिए।", "hg": "Doosri side se lens ke through dekho."}, "You see a small, upright (virtual) image of the flame on the same side as the candle, between the focus and the lens.": {"hi": "आपको ज्वाला का एक छोटा, सीधा (आभासी) प्रतिबिंब मोमबत्ती वाली ओर ही, फोकस और लेंस के बीच दिखाई देता है।", "hg": "Tumhe flame ki ek chhoti, upright (virtual) image candle wali side par hi, focus aur lens ke beech dikhti hai."}, "Move the candle farther, to the 5 cm mark (u = 45 cm), and look through the lens again.": {"hi": "मोमबत्ती को और दूर, 5 cm के निशान पर (u = 45 cm) ले जाइए, और फिर से लेंस में से देखिए।", "hg": "Candle ko aur door, 5 cm mark par (u = 45 cm) le jao, aur phir se lens ke through dekho."}, "The image becomes still smaller and moves closer to the focus.": {"hi": "प्रतिबिंब और भी छोटा हो जाता है और फोकस के और पास खिसक जाता है।", "hg": "Image aur bhi chhoti ho jaati hai aur focus ke aur paas aa jaati hai."}, "Wherever the object is, a concave lens forms a virtual, upright, diminished image between its focus and the lens.": {"hi": "वस्तु कहीं भी हो, अवतल लेंस अपने फोकस और लेंस के बीच एक आभासी, सीधा, छोटा प्रतिबिंब बनाता है।", "hg": "Object kahin bhi ho, concave lens apne focus aur lens ke beech ek virtual, upright, diminished image banata hai."}, "No image could be obtained on the screen. Through the lens a small upright image was seen: v ≈ −10 cm for u = −30 cm, and v ≈ −11 cm for u = −45 cm.": {"hi": "पर्दे पर कोई प्रतिबिंब प्राप्त नहीं हो सका। लेंस में से एक छोटा सीधा प्रतिबिंब दिखाई दिया: u = −30 cm के लिए v ≈ −10 cm, और u = −45 cm के लिए v ≈ −11 cm।", "hg": "Screen par koi image nahi mil saki. Lens ke through ek chhoti upright image dikhi: u = −30 cm ke liye v ≈ −10 cm, aur u = −45 cm ke liye v ≈ −11 cm."}, "A concave lens always forms a virtual, upright and diminished image between its optical centre and focus, on the same side as the object.": {"hi": "अवतल लेंस सदैव अपने प्रकाशिक केंद्र और फोकस के बीच, वस्तु वाली ओर ही, एक आभासी, सीधा और छोटा प्रतिबिंब बनाता है।", "hg": "Concave lens hamesha apne optical centre aur focus ke beech, object wali side par hi, ek virtual, upright aur diminished image banata hai."}, "Keep the candle flame away from paper and hair; hold the lens by its edge.": {"hi": "मोमबत्ती की ज्वाला को कागज़ और बालों से दूर रखिए; लेंस को उसके किनारे से पकड़िए।", "hg": "Candle ki flame ko paper aur baalon se door rakho; lens ko uske edge se pakdo."}, "Why can a concave lens not form an image on a screen?": {"hi": "अवतल लेंस पर्दे पर प्रतिबिंब क्यों नहीं बना सकता?", "hg": "Concave lens screen par image kyun nahi bana sakta?"}, "Its image is virtual: the refracted rays spread out and never meet.": {"hi": "इसका प्रतिबिंब आभासी होता है: अपवर्तित किरणें फैल जाती हैं और कभी नहीं मिलतीं।", "hg": "Iski image virtual hoti hai: refracted rays phail jaati hain aur kabhi nahi milti."}, "What is the power of this lens?": {"hi": "इस लेंस की क्षमता क्या है?", "hg": "Is lens ki power kya hai?"}, "P = 1/f = 1/(−0.15 m) ≈ −6.7 D.": {"hi": "P = 1/f = 1/(−0.15 m) ≈ −6.7 D।", "hg": "P = 1/f = 1/(−0.15 m) ≈ −6.7 D."}, "Which defect of vision is corrected with a concave lens?": {"hi": "अवतल लेंस से दृष्टि के किस दोष का संशोधन किया जाता है?", "hg": "Concave lens se vision ka kaun sa defect correct kiya jaata hai?"}, "Myopia (short-sightedness).": {"hi": "निकट-दृष्टि दोष (मायोपिया)।", "hg": "Myopia (short-sightedness)."}, "Lens formula for a concave lens": {"hi": "अवतल लेंस के लिए लेंस सूत्र", "hg": "Concave lens ke liye lens formula"}, "Images formed by a convex mirror": {"hi": "उत्तल दर्पण द्वारा बनने वाले प्रतिबिंब", "hg": "Convex mirror se banne wali images"}, "To observe the nature, position and size of the image formed by a convex mirror.": {"hi": "उत्तल दर्पण द्वारा बने प्रतिबिंब की प्रकृति, स्थिति और आकार का प्रेक्षण करना।", "hg": "Convex mirror se bani image ka nature, position aur size observe karna."}, "Convex mirror: virtual image": {"hi": "उत्तल दर्पण: आभासी प्रतिबिंब", "hg": "Convex mirror: virtual image"}, "Light the candle. The convex mirror is at the 90 cm mark and the candle at the 60 cm mark (u = 30 cm).": {"hi": "मोमबत्ती जलाइए। उत्तल दर्पण 90 cm के निशान पर है और मोमबत्ती 60 cm के निशान पर (u = 30 cm)।", "hg": "Candle jalao. Convex mirror 90 cm mark par hai aur candle 60 cm mark par (u = 30 cm)."}, "The light from the candle falls on the mirror.": {"hi": "मोमबत्ती का प्रकाश दर्पण पर पड़ता है।", "hg": "Candle ki light mirror par padti hai."}, "Move the screen in front of the mirror and try to get an image on it.": {"hi": "पर्दे को दर्पण के सामने खिसकाइए और उस पर प्रतिबिंब प्राप्त करने का प्रयास कीजिए।", "hg": "Screen ko mirror ke saamne khiskao aur us par image laane ki koshish karo."}, "No image forms on the screen anywhere.": {"hi": "पर्दे पर कहीं भी कोई प्रतिबिंब नहीं बनता।", "hg": "Screen par kahin bhi koi image nahi banti."}, "A convex mirror reflects the rays so that they spread out. They never meet in front of the mirror.": {"hi": "उत्तल दर्पण किरणों को इस प्रकार परावर्तित करता है कि वे फैल जाती हैं। वे दर्पण के सामने कभी नहीं मिलतीं।", "hg": "Convex mirror rays ko aise reflect karta hai ki woh phail jaati hain. Woh mirror ke saamne kabhi nahi milti."}, "Look into the mirror.": {"hi": "दर्पण में देखिए।", "hg": "Mirror mein dekho."}, "You see a small, upright (virtual) image of the flame behind the mirror.": {"hi": "आपको दर्पण के पीछे ज्वाला का एक छोटा, सीधा (आभासी) प्रतिबिंब दिखाई देता है।", "hg": "Tumhe mirror ke peeche flame ki ek chhoti, upright (virtual) image dikhti hai."}, "Move the candle to the 30 cm mark (u = 60 cm) and look into the mirror again.": {"hi": "मोमबत्ती को 30 cm के निशान पर (u = 60 cm) ले जाइए और फिर से दर्पण में देखिए।", "hg": "Candle ko 30 cm mark par (u = 60 cm) le jao aur phir se mirror mein dekho."}, "The image is still upright and becomes even smaller. It stays behind the mirror, between P and F.": {"hi": "प्रतिबिंब अब भी सीधा है तथा और भी छोटा हो जाता है। यह दर्पण के पीछे, P और F के बीच ही रहता है।", "hg": "Image ab bhi upright hai aur pehle se bhi chhoti ho jaati hai. Yeh mirror ke peeche, P aur F ke beech hi rehti hai."}, "A convex mirror always gives an upright, diminished image and shows a wide view. That is why it is used as a rear-view mirror in vehicles.": {"hi": "उत्तल दर्पण सदैव सीधा, छोटा प्रतिबिंब बनाता है और विस्तृत दृश्य दिखाता है। इसी कारण वाहनों में इसका उपयोग पश्च-दृश्य दर्पण के रूप में किया जाता है।", "hg": "Convex mirror hamesha upright, diminished image deta hai aur wide view dikhata hai. Isiliye vehicles mein ise rear-view mirror ki tarah use kiya jaata hai."}, "No image could be obtained on the screen. In the mirror a small upright image was seen: v ≈ +10 cm for u = −30 cm, and v ≈ +12 cm for u = −60 cm.": {"hi": "पर्दे पर कोई प्रतिबिंब प्राप्त नहीं हो सका। दर्पण में एक छोटा सीधा प्रतिबिंब दिखाई दिया: u = −30 cm के लिए v ≈ +10 cm, और u = −60 cm के लिए v ≈ +12 cm।", "hg": "Screen par koi image nahi mil saki. Mirror mein ek chhoti upright image dikhi: u = −30 cm ke liye v ≈ +10 cm, aur u = −60 cm ke liye v ≈ +12 cm."}, "A convex mirror always forms a virtual, upright and diminished image behind the mirror, between P and F.": {"hi": "उत्तल दर्पण सदैव दर्पण के पीछे, P और F के बीच, एक आभासी, सीधा और छोटा प्रतिबिंब बनाता है।", "hg": "Convex mirror hamesha mirror ke peeche, P aur F ke beech, ek virtual, upright aur diminished image banata hai."}, "Keep the candle flame away from paper and hair; handle the mirror by its edges.": {"hi": "मोमबत्ती की ज्वाला को कागज़ और बालों से दूर रखिए; दर्पण को उसके किनारों से पकड़िए।", "hg": "Candle ki flame ko paper aur baalon se door rakho; mirror ko uske edges se pakdo."}, "Why are convex mirrors used as rear-view mirrors?": {"hi": "उत्तल दर्पणों का उपयोग पश्च-दृश्य दर्पण के रूप में क्यों किया जाता है?", "hg": "Convex mirrors ko rear-view mirrors ki tarah kyun use kiya jaata hai?"}, "They always give an upright image and a much wider field of view.": {"hi": "ये सदैव सीधा प्रतिबिंब बनाते हैं और इनका दृष्टि-क्षेत्र बहुत अधिक विस्तृत होता है।", "hg": "Yeh hamesha upright image dete hain aur inka field of view bahut zyada wide hota hai."}, "Can a convex mirror form a real image?": {"hi": "क्या उत्तल दर्पण वास्तविक प्रतिबिंब बना सकता है?", "hg": "Kya convex mirror real image bana sakta hai?"}, "No, its image is always virtual.": {"hi": "नहीं, इसका प्रतिबिंब सदैव आभासी होता है।", "hg": "Nahi, iski image hamesha virtual hoti hai."}, "Is the focal length of a convex mirror positive or negative?": {"hi": "उत्तल दर्पण की फोकस दूरी धनात्मक होती है या ऋणात्मक?", "hg": "Convex mirror ki focal length positive hoti hai ya negative?"}, "Positive: its focus is behind the mirror.": {"hi": "धनात्मक: इसका फोकस दर्पण के पीछे होता है।", "hg": "Positive: iska focus mirror ke peeche hota hai."}, "Mirror formula for a convex mirror": {"hi": "उत्तल दर्पण के लिए दर्पण सूत्र", "hg": "Convex mirror ke liye mirror formula"}, "Laws of reflection with a plane mirror": {"hi": "समतल दर्पण द्वारा परावर्तन के नियम", "hg": "Plane mirror se laws of reflection"}, "To verify the laws of reflection of light using a plane mirror and pins.": {"hi": "समतल दर्पण और पिनों की सहायता से प्रकाश के परावर्तन के नियमों का सत्यापन करना।", "hg": "Plane mirror aur pins ki madad se light ke laws of reflection verify karna."}, "Laws of reflection (pin method)": {"hi": "परावर्तन के नियम (पिन विधि)", "hg": "Laws of reflection (pin method)"}, "Draw a straight line MM′ across the sheet and a normal ON at its middle point O.": {"hi": "शीट पर एक सरल रेखा MM′ खींचिए और उसके मध्य बिंदु O पर एक अभिलंब ON खींचिए।", "hg": "Sheet par ek straight line MM′ draw karo aur uske middle point O par ek normal ON draw karo."}, "The line MM′ and the normal ON are drawn.": {"hi": "रेखा MM′ और अभिलंब ON खिंच गए हैं।", "hg": "Line MM′ aur normal ON ban gaye hain."}, "Draw a line PO at 30° to the normal (the incident ray). Stand the mirror strip on MM′ with its silvered face exactly on the line.": {"hi": "अभिलंब से 30° पर एक रेखा PO (आपतित किरण) खींचिए। दर्पण की पट्टी को MM′ पर इस प्रकार खड़ा कीजिए कि उसकी परावर्तक (कलई वाली) सतह ठीक रेखा पर हो।", "hg": "Normal se 30° par ek line PO (incident ray) draw karo. Mirror strip ko MM′ par aise khada karo ki uska silvered face bilkul line par ho."}, "The mirror stands upright on MM′; the incident ray PO meets it at O.": {"hi": "दर्पण MM′ पर सीधा खड़ा है; आपतित किरण PO उससे O पर मिलती है।", "hg": "Mirror MM′ par seedha khada hai; incident ray PO use O par milti hai."}, "Fix two pins P and Q upright on the line PO, well apart.": {"hi": "रेखा PO पर दो पिन P और Q एक-दूसरे से पर्याप्त दूरी पर सीधी खड़ी गाड़िए।", "hg": "Line PO par do pins P aur Q ek-doosre se kaafi door seedhi khadi lagao."}, "Pins P and Q stand on the incident ray. Their images can be seen in the mirror.": {"hi": "पिन P और Q आपतित किरण पर खड़ी हैं। दर्पण में उनके प्रतिबिंब देखे जा सकते हैं।", "hg": "Pins P aur Q incident ray par khadi hain. Mirror mein unki images dekhi ja sakti hain."}, "Looking into the mirror from the other side of the normal, fix pins R and S so that they and the images of P and Q all appear in one straight line.": {"hi": "अभिलंब के दूसरी ओर से दर्पण में देखते हुए पिन R और S को इस प्रकार गाड़िए कि वे तथा P और Q के प्रतिबिंब सभी एक सीधी रेखा में दिखाई दें।", "hg": "Normal ki doosri side se mirror mein dekhte hue pins R aur S aise lagao ki woh aur P aur Q ki images sab ek straight line mein dikhein."}, "R and S hide the images of Q and P exactly: all four appear in one line.": {"hi": "R और S, Q और P के प्रतिबिंबों को ठीक-ठीक ढक लेती हैं: चारों एक ही रेखा में दिखाई देती हैं।", "hg": "R aur S, Q aur P ki images ko bilkul chhupa leti hain: chaaron ek hi line mein dikhti hain."}, "Remove the mirror and the pins. Mark the pin positions, join S and R up to O (the reflected ray) and measure the angles of incidence and reflection.": {"hi": "दर्पण और पिनों को हटाइए। पिनों की स्थितियाँ अंकित कीजिए, S और R को मिलाकर O तक बढ़ाइए (परावर्तित किरण) और आपतन कोण तथा परावर्तन कोण मापिए।", "hg": "Mirror aur pins hatao. Pins ki positions mark karo, S aur R ko O tak jodo (reflected ray) aur angle of incidence aur angle of reflection measure karo."}, "∠i = 30° and ∠r = 30°: the angle of reflection is equal to the angle of incidence.": {"hi": "∠i = 30° और ∠r = 30°: परावर्तन कोण आपतन कोण के बराबर है।", "hg": "∠i = 30° aur ∠r = 30°: angle of reflection angle of incidence ke barabar hai."}, "This is the law of reflection. The incident ray, the normal and the reflected ray all lie in the plane of the sheet.": {"hi": "यही परावर्तन का नियम है। आपतित किरण, अभिलंब और परावर्तित किरण, तीनों शीट के तल में स्थित हैं।", "hg": "Yahi law of reflection hai. Incident ray, normal aur reflected ray, teeno sheet ke plane mein hain."}, "Repeat with angles of incidence of 45° and 60°.": {"hi": "45° और 60° के आपतन कोणों के साथ प्रयोग दोहराइए।", "hg": "45° aur 60° ke angles of incidence ke saath repeat karo."}, "Each time the angle of reflection equals the angle of incidence.": {"hi": "हर बार परावर्तन कोण आपतन कोण के बराबर होता है।", "hg": "Har baar angle of reflection angle of incidence ke barabar hota hai."}, "For i = 30°, 45° and 60° the angle of reflection r was 30°, 45° and 60°.": {"hi": "i = 30°, 45° और 60° के लिए परावर्तन कोण r क्रमशः 30°, 45° और 60° प्राप्त हुआ।", "hg": "i = 30°, 45° aur 60° ke liye angle of reflection r bhi 30°, 45° aur 60° aaya."}, "The angle of reflection is always equal to the angle of incidence, and the incident ray, the normal at the point of incidence and the reflected ray lie in the same plane.": {"hi": "परावर्तन कोण सदैव आपतन कोण के बराबर होता है, तथा आपतित किरण, आपतन बिंदु पर अभिलंब और परावर्तित किरण, तीनों एक ही तल में होते हैं।", "hg": "Angle of reflection hamesha angle of incidence ke barabar hota hai, aur incident ray, point of incidence par normal aur reflected ray, teeno ek hi plane mein hote hain."}, "Handle the mirror strip carefully; its edges can be sharp. Keep the pins upright and at least 5 cm apart, and line up the bottoms of the pin images.": {"hi": "दर्पण की पट्टी को सावधानी से पकड़िए; इसके किनारे धारदार हो सकते हैं। पिनों को सीधा और एक-दूसरे से कम से कम 5 cm दूर रखिए, और पिनों के प्रतिबिंबों के निचले सिरों को एक सीध में मिलाइए।", "hg": "Mirror strip ko dhyaan se pakdo; iske edges sharp ho sakte hain. Pins ko seedha aur ek-doosre se kam se kam 5 cm door rakho, aur pin images ke neeche wale hisson ko ek seedh mein milao."}, "What is the angle of reflection when a ray falls along the normal?": {"hi": "जब किरण अभिलंब के अनुदिश पड़ती है, तब परावर्तन कोण कितना होता है?", "hg": "Jab ray normal ke along padti hai, tab angle of reflection kitna hota hai?"}, "Zero: the ray goes back along the same path.": {"hi": "शून्य: किरण उसी पथ पर वापस लौट जाती है।", "hg": "Zero: ray usi path par wapas laut jaati hai."}, "Why should the pins be placed far apart?": {"hi": "पिनों को दूर-दूर क्यों गाड़ना चाहिए?", "hg": "Pins ko door-door kyun lagana chahiye?"}, "It reduces the error in drawing the direction of the ray.": {"hi": "इससे किरण की दिशा खींचने में त्रुटि कम होती है।", "hg": "Isse ray ki direction draw karne mein error kam hota hai."}, "What kind of image does a plane mirror form?": {"hi": "समतल दर्पण किस प्रकार का प्रतिबिंब बनाता है?", "hg": "Plane mirror kis tarah ki image banata hai?"}, "Virtual, upright, of the same size, and as far behind the mirror as the object is in front of it.": {"hi": "आभासी, सीधा, समान आकार का, और दर्पण के पीछे उतनी ही दूरी पर जितनी दूरी पर वस्तु दर्पण के सामने है।", "hg": "Virtual, upright, same size ki, aur mirror ke peeche utni hi door jitna object mirror ke saamne hai."}, "Laws of reflection": {"hi": "परावर्तन के नियम", "hg": "Laws of reflection"}, "Dispersion of white light by a glass prism": {"hi": "काँच के प्रिज़्म द्वारा श्वेत प्रकाश का विक्षेपण", "hg": "Glass prism se white light ka dispersion"}, "To observe the splitting of white light into its colours by a glass prism.": {"hi": "काँच के प्रिज़्म द्वारा श्वेत प्रकाश के उसके अवयवी वर्णों में विभाजन का प्रेक्षण करना।", "hg": "Glass prism se white light ka uske colours mein split hona observe karna."}, "Dispersion of white light": {"hi": "श्वेत प्रकाश का विक्षेपण", "hg": "White light ka dispersion"}, "Switch on the ray box. A narrow beam of white light comes out of its slit and shows as a bright streak on the black paper.": {"hi": "किरण बॉक्स (ray box) का स्विच ऑन कीजिए। इसकी झिरी से श्वेत प्रकाश का एक पतला किरण-पुंज निकलता है और काले कागज़ पर एक चमकीली धारी के रूप में दिखाई देता है।", "hg": "Ray box ka switch on karo. Iski slit se white light ka ek patla beam nikalta hai aur black paper par ek bright streak ki tarah dikhta hai."}, "A thin, straight streak of white light runs across the paper.": {"hi": "श्वेत प्रकाश की एक पतली, सीधी धारी कागज़ के आर-पार दिखाई देती है।", "hg": "White light ki ek patli, seedhi streak paper ke across dikhti hai."}, "Place the glass prism in the path of the beam, with one corner pointing towards you.": {"hi": "काँच के प्रिज़्म को किरण-पुंज के मार्ग में इस प्रकार रखिए कि उसका एक कोना आपकी ओर हो।", "hg": "Glass prism ko beam ke raaste mein aise rakho ki uska ek corner tumhari taraf ho."}, "The beam bends as it passes through the prism, and the light coming out has coloured edges.": {"hi": "प्रिज़्म से गुजरते समय किरण-पुंज मुड़ जाता है, और बाहर निकलने वाले प्रकाश के किनारे रंगीन होते हैं।", "hg": "Prism se guzarte waqt beam bend ho jaata hai, aur bahar nikalne wali light ke edges coloured hote hain."}, "Turn the prism slowly about its upright edge until the light that comes out falls on the white screen.": {"hi": "प्रिज़्म को उसके ऊर्ध्वाधर किनारे के परितः धीरे-धीरे तब तक घुमाइए जब तक बाहर निकलने वाला प्रकाश सफ़ेद पर्दे पर न पड़ने लगे।", "hg": "Prism ko uske upright edge ke around dheere-dheere tab tak ghumao jab tak bahar nikalne wali light white screen par na padne lage."}, "The light leaving the prism spreads out like a fan, and a band of colours appears on the screen.": {"hi": "प्रिज़्म से निकलने वाला प्रकाश पंखे की तरह फैल जाता है, और पर्दे पर रंगों की एक पट्टी दिखाई देती है।", "hg": "Prism se nikalne wali light pankhe ki tarah phail jaati hai, aur screen par colours ki ek band dikhti hai."}, "Look at the band of colours on the screen and note their order.": {"hi": "पर्दे पर रंगों की पट्टी को देखिए और उनका क्रम नोट कीजिए।", "hg": "Screen par colours ki band ko dekho aur unka order note karo."}, "Seven colours: violet, indigo, blue, green, yellow, orange and red. Red is bent the least and violet the most.": {"hi": "सात रंग: बैंगनी, जामुनी, नीला, हरा, पीला, नारंगी और लाल। लाल रंग सबसे कम और बैंगनी सबसे अधिक मुड़ता है।", "hg": "Saat colours: violet, indigo, blue, green, yellow, orange aur red. Red sabse kam aur violet sabse zyada bend hota hai."}, "Each colour travels at a different speed in glass, so the prism bends each colour through a different angle. This splitting of white light into its colours is called dispersion.": {"hi": "काँच में प्रत्येक रंग भिन्न चाल से चलता है, इसलिए प्रिज़्म प्रत्येक रंग को भिन्न कोण से मोड़ता है। श्वेत प्रकाश का इस प्रकार उसके अवयवी वर्णों में विभाजन विक्षेपण कहलाता है।", "hg": "Glass mein har colour alag speed se chalta hai, isliye prism har colour ko alag angle se bend karta hai. White light ka is tarah uske colours mein split hona dispersion kehlata hai."}, "Switch off the ray box.": {"hi": "किरण बॉक्स का स्विच ऑफ़ कीजिए।", "hg": "Ray box ka switch off karo."}, "The beam and the band of colours disappear.": {"hi": "किरण-पुंज और रंगों की पट्टी गायब हो जाते हैं।", "hg": "Beam aur colours ki band gayab ho jaate hain."}, "A narrow beam of white light passing through the prism spread out into a band of seven colours on the screen; red was deviated the least and violet the most.": {"hi": "प्रिज़्म से गुजरने वाला श्वेत प्रकाश का पतला किरण-पुंज पर्दे पर सात रंगों की पट्टी में फैल गया; लाल रंग का विचलन सबसे कम और बैंगनी का सबसे अधिक हुआ।", "hg": "Prism se guzarne wala white light ka patla beam screen par saat colours ki band mein phail gaya; red sabse kam aur violet sabse zyada deviate hua."}, "White light is made up of seven colours. A glass prism splits (disperses) it because the refractive index of glass is different for different colours.": {"hi": "श्वेत प्रकाश सात रंगों से मिलकर बना है। काँच का प्रिज़्म इसे विभाजित (विक्षेपित) कर देता है क्योंकि भिन्न-भिन्न रंगों के लिए काँच का अपवर्तनांक भिन्न होता है।", "hg": "White light saat colours se milkar bani hai. Glass prism ise split (disperse) kar deta hai kyunki alag-alag colours ke liye glass ka refractive index alag hota hai."}, "Do not look straight into the ray box or at the Sun. The lamp gets hot: do not touch it while it is on.": {"hi": "किरण बॉक्स में या सूर्य की ओर सीधे न देखिए। लैंप गरम हो जाता है: जलते समय इसे न छुइए।", "hg": "Ray box mein ya Sun ki taraf seedha mat dekho. Lamp garam ho jaata hai: on hone par ise mat chhuo."}, "What is the band of colours called?": {"hi": "रंगों की इस पट्टी को क्या कहते हैं?", "hg": "Colours ki is band ko kya kehte hain?"}, "The spectrum of white light.": {"hi": "श्वेत प्रकाश का स्पेक्ट्रम।", "hg": "White light ka spectrum."}, "Which colour is bent the most by the prism?": {"hi": "प्रिज़्म द्वारा कौन-सा रंग सबसे अधिक मुड़ता है?", "hg": "Prism se kaun sa colour sabse zyada bend hota hai?"}, "Violet.": {"hi": "बैंगनी।", "hg": "Violet."}, "Which natural phenomenon is caused by dispersion?": {"hi": "विक्षेपण के कारण कौन-सी प्राकृतिक परिघटना होती है?", "hg": "Dispersion ki wajah se kaun sa natural phenomenon hota hai?"}, "The rainbow: sunlight is dispersed by tiny raindrops.": {"hi": "इंद्रधनुष: वर्षा की नन्ही बूँदें सूर्य के प्रकाश का विक्षेपण करती हैं।", "hg": "Rainbow: baarish ki chhoti-chhoti boondein sunlight ko disperse karti hain."}, "Dispersion of white light by a prism": {"hi": "प्रिज़्म द्वारा श्वेत प्रकाश का विक्षेपण", "hg": "Prism se white light ka dispersion"}, "The coin that reappears: refraction at water": {"hi": "फिर से दिखने वाला सिक्का: जल पर अपवर्तन", "hg": "Phir se dikhne wala coin: paani par refraction"}, "To observe that an object under water appears raised because of the refraction of light.": {"hi": "यह प्रेक्षण करना कि प्रकाश के अपवर्तन के कारण जल के भीतर रखी वस्तु ऊपर उठी हुई प्रतीत होती है।", "hg": "Yeh observe karna ki light ke refraction ki wajah se paani ke andar rakha object upar utha hua dikhta hai."}, "Apparent depth (Activity)": {"hi": "आभासी गहराई (क्रियाकलाप)", "hg": "Apparent depth (Activity)"}, "Put the coin in the middle of the empty bowl.": {"hi": "सिक्के को खाली कटोरे के बीच में रखिए।", "hg": "Coin ko khaali bowl ke beech mein rakho."}, "The coin lies flat at the bottom of the bowl. From above you can see it clearly.": {"hi": "सिक्का कटोरे की तली पर सपाट पड़ा है। ऊपर से आप इसे स्पष्ट रूप से देख सकते हैं।", "hg": "Coin bowl ke bottom par flat pada hai. Upar se tum ise saaf dekh sakte ho."}, "Move back and lower your eyes slowly until the coin just disappears behind the rim of the bowl. Keep your eyes there.": {"hi": "पीछे हटिए और अपनी आँखें धीरे-धीरे तब तक नीचे कीजिए जब तक सिक्का कटोरे के किनारे के पीछे ठीक ओझल न हो जाए। अपनी आँखें वहीं रखिए।", "hg": "Peeche hato aur apni aankhein dheere-dheere tab tak neeche karo jab tak coin bowl ke rim ke peeche bas chhup na jaaye. Apni aankhein wahin rakho."}, "The rim of the bowl hides the coin completely.": {"hi": "कटोरे का किनारा सिक्के को पूरी तरह छिपा लेता है।", "hg": "Bowl ka rim coin ko poori tarah chhupa leta hai."}, "Light travels in straight lines: the rim blocks the light going from the coin to your eye.": {"hi": "प्रकाश सरल रेखाओं में चलता है: किनारा सिक्के से आपकी आँख तक जाने वाले प्रकाश को रोक देता है।", "hg": "Light straight lines mein chalti hai: rim coin se tumhari aankh tak jaane wali light ko block kar deta hai."}, "Ask a friend to pour water gently into the bowl without moving the coin. Keep looking from the same place.": {"hi": "अपने किसी मित्र से कहिए कि वह सिक्के को हिलाए बिना कटोरे में धीरे-धीरे पानी डाले। उसी स्थान से देखते रहिए।", "hg": "Kisi dost se kaho ki woh coin ko hilaye bina bowl mein dheere-dheere paani daale. Usi jagah se dekhte raho."}, "As the water rises, the coin comes into view again!": {"hi": "जैसे-जैसे पानी का तल ऊपर उठता है, सिक्का फिर से दिखाई देने लगता है!", "hg": "Jaise-jaise paani upar aata hai, coin phir se dikhne lagta hai!"}, "Light from the coin bends away from the normal as it leaves the water. Your eye follows the bent ray back in a straight line, so the coin appears raised and can be seen over the rim.": {"hi": "सिक्के से आने वाला प्रकाश पानी से बाहर निकलते समय अभिलंब से दूर मुड़ जाता है। आपकी आँख मुड़ी हुई किरण को सरल रेखा में पीछे की ओर देखती है, इसलिए सिक्का ऊपर उठा हुआ प्रतीत होता है और किनारे के ऊपर से दिखाई देने लगता है।", "hg": "Coin se aane wali light paani se bahar nikalte waqt normal se door bend ho jaati hai. Tumhari aankh bend hui ray ko straight line mein peeche ki taraf follow karti hai, isliye coin upar utha hua dikhta hai aur rim ke upar se dikhne lagta hai."}, "Now look at the coin from straight above the bowl.": {"hi": "अब कटोरे के ठीक ऊपर से सिक्के को देखिए।", "hg": "Ab bowl ke theek upar se coin ko dekho."}, "Seen from above, the coin looks nearer than it is: the bottom of the bowl appears raised.": {"hi": "ऊपर से देखने पर सिक्का वास्तविकता से अधिक पास दिखाई देता है: कटोरे की तली ऊपर उठी हुई प्रतीत होती है।", "hg": "Upar se dekhne par coin asal se zyada paas dikhta hai: bowl ka bottom upar utha hua lagta hai."}, "Apparent depth = real depth ÷ refractive index of water (1.33), so water looks shallower than it really is.": {"hi": "आभासी गहराई = वास्तविक गहराई ÷ जल का अपवर्तनांक (1.33), इसलिए पानी वास्तविकता से कम गहरा दिखाई देता है।", "hg": "Apparent depth = real depth ÷ paani ka refractive index (1.33), isliye paani asal se kam gehra dikhta hai."}, "The coin hidden behind the rim became visible again when water was poured into the bowl, and it appeared raised. From above, the bowl looked shallower than it is.": {"hi": "कटोरे में पानी डालने पर किनारे के पीछे छिपा सिक्का फिर से दिखाई देने लगा, और वह ऊपर उठा हुआ प्रतीत हुआ। ऊपर से देखने पर कटोरा वास्तविकता से कम गहरा दिखाई दिया।", "hg": "Bowl mein paani daalne par rim ke peeche chhupa coin phir se dikhne laga, aur woh upar utha hua dikha. Upar se dekhne par bowl asal se kam gehra dikha."}, "Light bends (refracts) when it passes from water into air. Because of refraction, objects under water appear raised, nearer the surface than they really are.": {"hi": "जब प्रकाश जल से वायु में जाता है तो वह मुड़ जाता है (अपवर्तित होता है)। अपवर्तन के कारण जल के भीतर की वस्तुएँ ऊपर उठी हुई, अर्थात वास्तविकता की तुलना में सतह के अधिक पास, प्रतीत होती हैं।", "hg": "Jab light paani se hawa mein jaati hai to woh bend hoti hai (refract hoti hai). Refraction ki wajah se paani ke andar ki cheezein upar uthi hui, yaani asal se zyada surface ke paas, dikhti hain."}, "Pour the water gently so that the coin does not move. Wipe up any spilled water.": {"hi": "पानी धीरे-धीरे डालिए ताकि सिक्का न हिले। गिरा हुआ पानी पोंछ दीजिए।", "hg": "Paani dheere-dheere daalo taaki coin na hile. Gira hua paani pochh do."}, "Why does a swimming pool look shallower than it is?": {"hi": "तरण-ताल (स्विमिंग पूल) वास्तविकता से कम गहरा क्यों दिखाई देता है?", "hg": "Swimming pool asal se kam gehra kyun dikhta hai?"}, "Refraction at the water surface makes its bottom appear raised.": {"hi": "जल की सतह पर होने वाले अपवर्तन के कारण इसकी तली ऊपर उठी हुई प्रतीत होती है।", "hg": "Paani ki surface par refraction ki wajah se iska bottom upar utha hua dikhta hai."}, "Does light bend towards or away from the normal when it goes from water into air?": {"hi": "जल से वायु में जाते समय प्रकाश अभिलंब की ओर मुड़ता है या अभिलंब से दूर?", "hg": "Paani se hawa mein jaate waqt light normal ki taraf bend hoti hai ya normal se door?"}, "Away from the normal.": {"hi": "अभिलंब से दूर।", "hg": "Normal se door."}, "What is the refractive index of water?": {"hi": "जल का अपवर्तनांक कितना है?", "hg": "Paani ka refractive index kitna hai?"}, "About 1.33.": {"hi": "लगभग 1.33।", "hg": "Lagbhag 1.33."}, "Apparent depth of an object under water": {"hi": "जल के भीतर रखी वस्तु की आभासी गहराई", "hg": "Paani ke andar rakhe object ki apparent depth"}, "Current through different components": {"hi": "विभिन्न अवयवों से प्रवाहित विद्युत धारा", "hg": "Alag-alag components se current"}, "To compare the currents through different components connected one by one to the same battery.": {"hi": "एक ही बैटरी से एक-एक करके जोड़े गए विभिन्न अवयवों से प्रवाहित विद्युत धाराओं की तुलना करना।", "hg": "Ek hi battery se ek-ek karke jode gaye alag-alag components se current ki tulna karna."}, "Current and resistance (Activity)": {"hi": "विद्युत धारा और प्रतिरोध (क्रियाकलाप)", "hg": "Current aur resistance (Activity)"}, "The circuit has 4 cells (6 V), a plug key and an ammeter in series, with a gap XY. A nichrome wire is connected in the gap.": {"hi": "परिपथ में 4 सेल (6 V), एक प्लग कुंजी और एक ऐमीटर श्रेणीक्रम में जुड़े हैं, और बीच में एक रिक्त स्थान XY है। इस रिक्त स्थान में एक नाइक्रोम तार जुड़ा है।", "hg": "Circuit mein 4 cells (6 V), ek plug key aur ek ammeter series mein jude hain, aur beech mein ek gap XY hai. Is gap mein ek nichrome wire connect hai."}, "The free ends X and Y are clipped to the two terminals of the nichrome wire.": {"hi": "मुक्त सिरे X और Y नाइक्रोम तार के दोनों टर्मिनलों से क्लिप द्वारा जुड़े हैं।", "hg": "Free ends X aur Y nichrome wire ke dono terminals se clip kiye gaye hain."}, "Insert the key and note the ammeter reading. Then remove the key.": {"hi": "कुंजी लगाइए और ऐमीटर का पाठ्यांक नोट कीजिए। फिर कुंजी निकाल दीजिए।", "hg": "Key lagao aur ammeter ki reading note karo. Phir key nikaal do."}, "The ammeter reads about 1.05 A for the nichrome wire.": {"hi": "नाइक्रोम तार के लिए ऐमीटर लगभग 1.05 A पढ़ता है।", "hg": "Nichrome wire ke liye ammeter lagbhag 1.05 A padhta hai."}, "Replace the nichrome wire with the torch bulb: clip X and Y to its terminals. Insert the key and note the current.": {"hi": "नाइक्रोम तार के स्थान पर टॉर्च बल्ब लगाइए: X और Y को उसके टर्मिनलों से क्लिप कीजिए। कुंजी लगाइए और विद्युत धारा नोट कीजिए।", "hg": "Nichrome wire ki jagah torch bulb lagao: X aur Y ko uske terminals se clip karo. Key lagao aur current note karo."}, "The torch bulb glows brightly and the ammeter reads about 0.3 A.": {"hi": "टॉर्च बल्ब तेज़ चमकता है और ऐमीटर लगभग 0.3 A पढ़ता है।", "hg": "Torch bulb tez chamakta hai aur ammeter lagbhag 0.3 A padhta hai."}, "Now connect the 12 V, 10 W bulb in the gap XY and note the current.": {"hi": "अब रिक्त स्थान XY में 12 V, 10 W का बल्ब जोड़िए और विद्युत धारा नोट कीजिए।", "hg": "Ab gap XY mein 12 V, 10 W ka bulb connect karo aur current note karo."}, "The bigger bulb glows only dimly (it is made for 12 V), and the ammeter reads about 0.5 A.": {"hi": "बड़ा बल्ब केवल मंद चमकता है (यह 12 V के लिए बना है), और ऐमीटर लगभग 0.5 A पढ़ता है।", "hg": "Bada bulb sirf dheema chamakta hai (yeh 12 V ke liye bana hai), aur ammeter lagbhag 0.5 A padhta hai."}, "Compare the three readings.": {"hi": "तीनों पाठ्यांकों की तुलना कीजिए।", "hg": "Teeno readings ki tulna karo."}, "The current is different for each component, although the battery is the same.": {"hi": "बैटरी एक ही होने पर भी प्रत्येक अवयव के लिए विद्युत धारा भिन्न है।", "hg": "Battery same hone par bhi har component ke liye current alag hai."}, "Each component has a different resistance. For the same potential difference, the current is smaller through a component with more resistance (I = V/R).": {"hi": "प्रत्येक अवयव का प्रतिरोध भिन्न होता है। समान विभवांतर के लिए अधिक प्रतिरोध वाले अवयव से कम विद्युत धारा प्रवाहित होती है (I = V/R)।", "hg": "Har component ka resistance alag hota hai. Same potential difference ke liye zyada resistance wale component se kam current flow hota hai (I = V/R)."}, "With the same 6 V battery the current was about 1.05 A through the nichrome wire, 0.3 A through the torch bulb and 0.5 A through the 10 W bulb.": {"hi": "उसी 6 V बैटरी के साथ नाइक्रोम तार से लगभग 1.05 A, टॉर्च बल्ब से 0.3 A और 10 W बल्ब से 0.5 A विद्युत धारा प्रवाहित हुई।", "hg": "Same 6 V battery ke saath nichrome wire se lagbhag 1.05 A, torch bulb se 0.3 A aur 10 W bulb se 0.5 A current flow hua."}, "Different components allow different currents for the same potential difference, because they have different resistances.": {"hi": "समान विभवांतर के लिए विभिन्न अवयवों से भिन्न-भिन्न विद्युत धारा प्रवाहित होती है, क्योंकि उनके प्रतिरोध भिन्न होते हैं।", "hg": "Same potential difference ke liye alag-alag components se alag-alag current flow hota hai, kyunki unke resistances alag hote hain."}, "Insert the key only while taking a reading. Do not touch the bulbs: they get hot.": {"hi": "कुंजी केवल पाठ्यांक लेते समय ही लगाइए। बल्बों को न छुइए: वे गरम हो जाते हैं।", "hg": "Key sirf reading lete waqt hi lagao. Bulbs ko mat chhuo: woh garam ho jaate hain."}, "Which component here has the largest resistance?": {"hi": "यहाँ किस अवयव का प्रतिरोध सबसे अधिक है?", "hg": "Yahan kis component ka resistance sabse zyada hai?"}, "The torch bulb, because the least current flows through it.": {"hi": "टॉर्च बल्ब का, क्योंकि इससे सबसे कम विद्युत धारा प्रवाहित होती है।", "hg": "Torch bulb ka, kyunki isse sabse kam current flow hota hai."}, "The voltage across the nichrome wire is 5.3 V and the current is 1.05 A. What is its resistance?": {"hi": "नाइक्रोम तार के सिरों के बीच विभवांतर 5.3 V है और विद्युत धारा 1.05 A है। इसका प्रतिरोध कितना है?", "hg": "Nichrome wire ke across voltage 5.3 V hai aur current 1.05 A hai. Iska resistance kitna hai?"}, "R = V/I = 5.3/1.05 ≈ 5 Ω.": {"hi": "R = V/I = 5.3/1.05 ≈ 5 Ω।", "hg": "R = V/I = 5.3/1.05 ≈ 5 Ω."}, "Why does the 10 W bulb glow dimly here?": {"hi": "यहाँ 10 W का बल्ब मंद क्यों चमकता है?", "hg": "Yahan 10 W ka bulb dheema kyun chamakta hai?"}, "It is made for 12 V; at 6 V it takes much less power than its rating.": {"hi": "यह 12 V के लिए बना है; 6 V पर यह अपनी निर्धारित (रेटेड) शक्ति से बहुत कम शक्ति लेता है।", "hg": "Yeh 12 V ke liye bana hai; 6 V par yeh apni rating se bahut kam power leta hai."}, "Current through a component": {"hi": "किसी अवयव से प्रवाहित विद्युत धारा", "hg": "Component se current"}, "Factors on which resistance depends": {"hi": "वे कारक जिन पर प्रतिरोध निर्भर करता है", "hg": "Resistance kin factors par depend karta hai"}, "To study how the resistance of a wire depends on its length, its thickness and its material.": {"hi": "किसी तार का प्रतिरोध उसकी लंबाई, मोटाई और पदार्थ पर किस प्रकार निर्भर करता है, इसका अध्ययन करना।", "hg": "Wire ka resistance uski length, thickness aur material par kaise depend karta hai, yeh study karna."}, "Length, thickness and material of a wire": {"hi": "तार की लंबाई, मोटाई और पदार्थ", "hg": "Wire ki length, thickness aur material"}, "The circuit has one cell (1.5 V), a plug key, an ammeter and a gap XY. Wire (1), nichrome of length l, is connected in the gap. Insert the key and note the current.": {"hi": "परिपथ में एक सेल (1.5 V), एक प्लग कुंजी, एक ऐमीटर और एक रिक्त स्थान XY है। रिक्त स्थान में तार (1), अर्थात l लंबाई का नाइक्रोम तार, जुड़ा है। कुंजी लगाइए और विद्युत धारा नोट कीजिए।", "hg": "Circuit mein ek cell (1.5 V), ek plug key, ek ammeter aur ek gap XY hai. Gap mein wire (1), yaani l length ka nichrome wire, connect hai. Key lagao aur current note karo."}, "The ammeter reads about 0.45 A.": {"hi": "ऐमीटर लगभग 0.45 A पढ़ता है।", "hg": "Ammeter lagbhag 0.45 A padhta hai."}, "Replace it with wire (2): the same nichrome wire, but twice as long (2l). Note the current.": {"hi": "इसके स्थान पर तार (2) लगाइए: वैसा ही नाइक्रोम तार, परंतु दोगुनी लंबाई (2l) का। विद्युत धारा नोट कीजिए।", "hg": "Iski jagah wire (2) lagao: waisa hi nichrome wire, lekin double length (2l) ka. Current note karo."}, "The current falls to about 0.25 A, roughly half: doubling the length doubles the resistance.": {"hi": "विद्युत धारा घटकर लगभग 0.25 A, यानी लगभग आधी, रह जाती है: लंबाई दोगुनी करने पर प्रतिरोध दोगुना हो जाता है।", "hg": "Current ghatkar lagbhag 0.25 A, yaani lagbhag aadha, reh jaata hai: length double karne par resistance double ho jaata hai."}, "Now connect wire (3): nichrome of length l, but thicker. Note the current.": {"hi": "अब तार (3) जोड़िए: l लंबाई का नाइक्रोम तार, परंतु अधिक मोटा। विद्युत धारा नोट कीजिए।", "hg": "Ab wire (3) connect karo: l length ka nichrome wire, lekin zyada mota. Current note karo."}, "The current rises to about 1.0 A: the thicker wire, with its larger area of cross-section, has less resistance.": {"hi": "विद्युत धारा बढ़कर लगभग 1.0 A हो जाती है: मोटे तार के अनुप्रस्थ काट का क्षेत्रफल अधिक होता है, इसलिए उसका प्रतिरोध कम होता है।", "hg": "Current badhkar lagbhag 1.0 A ho jaata hai: mote wire ka area of cross-section zyada hota hai, isliye uska resistance kam hota hai."}, "Finally connect wire (4): copper, of the same length and thickness as wire (1). Take the reading quickly and remove the key.": {"hi": "अंत में तार (4) जोड़िए: ताँबे का तार, जिसकी लंबाई और मोटाई तार (1) के समान है। पाठ्यांक शीघ्रता से लीजिए और कुंजी निकाल दीजिए।", "hg": "Last mein wire (4) connect karo: copper ka wire, jiski length aur thickness wire (1) ke barabar hai. Reading jaldi lo aur key nikaal do."}, "The current jumps to about 2.75 A, far more than with the nichrome wire of the same size.": {"hi": "विद्युत धारा अचानक बढ़कर लगभग 2.75 A हो जाती है, जो समान आकार के नाइक्रोम तार की तुलना में कहीं अधिक है।", "hg": "Current achanak badhkar lagbhag 2.75 A ho jaata hai, jo same size ke nichrome wire se kahin zyada hai."}, "Copper has a much smaller resistivity than nichrome (about 65 times smaller), so its resistance is tiny. The cell is nearly short-circuited, so remove the key at once.": {"hi": "ताँबे की प्रतिरोधकता नाइक्रोम से बहुत कम (लगभग 65 गुना कम) होती है, इसलिए इसका प्रतिरोध बहुत ही कम होता है। सेल लगभग लघुपथित (शॉर्ट-सर्किट) हो जाता है, इसलिए कुंजी तुरंत निकाल दीजिए।", "hg": "Copper ki resistivity nichrome se bahut kam (lagbhag 65 guna kam) hoti hai, isliye iska resistance bahut hi kam hota hai. Cell lagbhag short-circuit ho jaata hai, isliye key turant nikaal do."}, "Compare the four readings.": {"hi": "चारों पाठ्यांकों की तुलना कीजिए।", "hg": "Chaaron readings ki tulna karo."}, "Resistance increases with length, decreases with thickness, and depends on the material.": {"hi": "प्रतिरोध लंबाई बढ़ने पर बढ़ता है, मोटाई बढ़ने पर घटता है, और पदार्थ पर निर्भर करता है।", "hg": "Resistance length badhne par badhta hai, thickness badhne par ghatta hai, aur material par depend karta hai."}, "R = ρ l / A: the resistance is proportional to the length, inversely proportional to the area of cross-section, and depends on the resistivity ρ of the material.": {"hi": "R = ρ l / A: प्रतिरोध लंबाई के अनुक्रमानुपाती तथा अनुप्रस्थ काट के क्षेत्रफल के व्युत्क्रमानुपाती होता है, और पदार्थ की प्रतिरोधकता ρ पर निर्भर करता है।", "hg": "R = ρ l / A: resistance length ke proportional aur area of cross-section ke inversely proportional hota hai, aur material ki resistivity ρ par depend karta hai."}, "Wire (1): 0.45 A. Wire (2), twice as long: 0.25 A. Wire (3), thicker: 1.0 A. Wire (4), copper of the same size: 2.75 A.": {"hi": "तार (1): 0.45 A। तार (2), दोगुना लंबा: 0.25 A। तार (3), अधिक मोटा: 1.0 A। तार (4), समान आकार का ताँबे का तार: 2.75 A।", "hg": "Wire (1): 0.45 A. Wire (2), double lamba: 0.25 A. Wire (3), zyada mota: 1.0 A. Wire (4), same size ka copper wire: 2.75 A."}, "The resistance of a conductor is directly proportional to its length, inversely proportional to its area of cross-section, and depends on its material: R = ρ l / A.": {"hi": "किसी चालक का प्रतिरोध उसकी लंबाई के अनुक्रमानुपाती तथा उसके अनुप्रस्थ काट के क्षेत्रफल के व्युत्क्रमानुपाती होता है, और उसके पदार्थ पर निर्भर करता है: R = ρ l / A।", "hg": "Kisi conductor ka resistance uski length ke directly proportional aur uske area of cross-section ke inversely proportional hota hai, aur uske material par depend karta hai: R = ρ l / A."}, "Insert the key only for a moment while reading, especially with the copper wire, which nearly short-circuits the cell.": {"hi": "पाठ्यांक लेते समय कुंजी केवल क्षण भर के लिए लगाइए, विशेषकर ताँबे के तार के साथ, जो सेल को लगभग लघुपथित कर देता है।", "hg": "Reading lete waqt key sirf ek pal ke liye lagao, khaas kar copper wire ke saath, jo cell ko lagbhag short-circuit kar deta hai."}, "How does the resistance change if the length of a wire is doubled?": {"hi": "तार की लंबाई दोगुनी करने पर उसका प्रतिरोध कैसे बदलता है?", "hg": "Wire ki length double karne par uska resistance kaise badalta hai?"}, "It doubles.": {"hi": "यह दोगुना हो जाता है।", "hg": "Yeh double ho jaata hai."}, "Why are heating elements made of nichrome?": {"hi": "तापन अवयव नाइक्रोम के क्यों बनाए जाते हैं?", "hg": "Heating elements nichrome ke kyun banaye jaate hain?"}, "Nichrome has a high resistivity and does not burn (oxidise) easily when red hot.": {"hi": "नाइक्रोम की प्रतिरोधकता अधिक होती है और रक्त-तप्त होने पर भी यह आसानी से नहीं जलता (ऑक्सीकृत नहीं होता)।", "hg": "Nichrome ki resistivity zyada hoti hai aur laal garam hone par bhi yeh aasani se nahi jalta (oxidise nahi hota)."}, "Why are connecting wires made of copper?": {"hi": "संयोजक तार ताँबे के क्यों बनाए जाते हैं?", "hg": "Connecting wires copper ke kyun banaye jaate hain?"}, "Copper has a very low resistivity, so very little energy is wasted in the wires.": {"hi": "ताँबे की प्रतिरोधकता बहुत कम होती है, इसलिए तारों में बहुत कम ऊर्जा व्यर्थ होती है।", "hg": "Copper ki resistivity bahut kam hoti hai, isliye wires mein bahut kam energy waste hoti hai."}, "Resistance of a wire": {"hi": "तार का प्रतिरोध", "hg": "Wire ka resistance"}, "Current and voltage in a series circuit": {"hi": "श्रेणीक्रम परिपथ में विद्युत धारा और विभवांतर", "hg": "Series circuit mein current aur voltage"}, "To show that the current is the same everywhere in a series circuit and that the total potential difference is the sum of the potential differences across the resistors.": {"hi": "यह दर्शाना कि श्रेणीक्रम परिपथ में विद्युत धारा हर जगह समान रहती है और कुल विभवांतर प्रतिरोधकों के सिरों के बीच के विभवांतरों के योग के बराबर होता है।", "hg": "Yeh dikhana ki series circuit mein current har jagah same rehta hai aur total potential difference resistors ke across potential differences ke sum ke barabar hota hai."}, "Series circuit: I and V": {"hi": "श्रेणीक्रम परिपथ: I और V", "hg": "Series circuit: I aur V"}, "Resistors of 1 Ω, 2 Ω and 3 Ω are joined end to end (in series) with the battery (6 V), the key and the ammeter. The voltmeter is across the whole combination XY.": {"hi": "1 Ω, 2 Ω और 3 Ω के प्रतिरोधक बैटरी (6 V), कुंजी और ऐमीटर के साथ सिरे से सिरा मिलाकर (श्रेणीक्रम में) जुड़े हैं। वोल्टमीटर पूरे संयोजन XY के सिरों के बीच जुड़ा है।", "hg": "1 Ω, 2 Ω aur 3 Ω ke resistors battery (6 V), key aur ammeter ke saath end to end (series mein) jude hain. Voltmeter poore combination XY ke across laga hai."}, "The meters read zero: the key is open.": {"hi": "मीटर शून्य दिखा रहे हैं: कुंजी खुली है।", "hg": "Meters zero dikha rahe hain: key open hai."}, "Insert the key. Note the ammeter reading I and the voltmeter reading V across the combination.": {"hi": "कुंजी लगाइए। ऐमीटर का पाठ्यांक I और संयोजन के सिरों के बीच वोल्टमीटर का पाठ्यांक V नोट कीजिए।", "hg": "Key lagao. Ammeter ki reading I aur combination ke across voltmeter ki reading V note karo."}, "I ≈ 0.9 A and V ≈ 5.4 V.": {"hi": "I ≈ 0.9 A और V ≈ 5.4 V।", "hg": "I ≈ 0.9 A aur V ≈ 5.4 V."}, "Remove the key. Connect the ammeter between the 2 Ω and the 3 Ω resistors instead, and insert the key again.": {"hi": "कुंजी निकालिए। अब ऐमीटर को 2 Ω और 3 Ω के प्रतिरोधकों के बीच जोड़िए, और कुंजी फिर से लगाइए।", "hg": "Key nikaalo. Ab ammeter ko 2 Ω aur 3 Ω ke resistors ke beech connect karo, aur key phir se lagao."}, "The ammeter shows the same current, about 0.9 A.": {"hi": "ऐमीटर वही विद्युत धारा, लगभग 0.9 A, दर्शाता है।", "hg": "Ammeter wahi current, lagbhag 0.9 A, dikhata hai."}, "In a series circuit the same current flows through every part of the circuit.": {"hi": "श्रेणीक्रम परिपथ में परिपथ के प्रत्येक भाग से समान विद्युत धारा प्रवाहित होती है।", "hg": "Series circuit mein circuit ke har hisse se same current flow hota hai."}, "Now connect the voltmeter across the 1 Ω resistor only, then across the 2 Ω and then the 3 Ω resistor. Note V₁, V₂ and V₃.": {"hi": "अब वोल्टमीटर को केवल 1 Ω के प्रतिरोधक के सिरों के बीच जोड़िए, फिर 2 Ω और फिर 3 Ω के प्रतिरोधक के सिरों के बीच। V₁, V₂ और V₃ नोट कीजिए।", "hg": "Ab voltmeter ko sirf 1 Ω resistor ke across connect karo, phir 2 Ω aur phir 3 Ω resistor ke across. V₁, V₂ aur V₃ note karo."}, "V₁ ≈ 0.9 V, V₂ ≈ 1.8 V and V₃ ≈ 2.7 V.": {"hi": "V₁ ≈ 0.9 V, V₂ ≈ 1.8 V और V₃ ≈ 2.7 V।", "hg": "V₁ ≈ 0.9 V, V₂ ≈ 1.8 V aur V₃ ≈ 2.7 V."}, "Compare V with V₁ + V₂ + V₃, and find V/I. Then remove the key.": {"hi": "V की तुलना V₁ + V₂ + V₃ से कीजिए, और V/I ज्ञात कीजिए। फिर कुंजी निकाल दीजिए।", "hg": "V ko V₁ + V₂ + V₃ se compare karo, aur V/I nikaalo. Phir key nikaal do."}, "V₁ + V₂ + V₃ = V. V/I ≈ 6 Ω, which is the sum of the three resistances.": {"hi": "V₁ + V₂ + V₃ = V। V/I ≈ 6 Ω, जो तीनों प्रतिरोधों का योग है।", "hg": "V₁ + V₂ + V₃ = V. V/I ≈ 6 Ω, jo teeno resistances ka sum hai."}, "In series the battery’s potential difference is shared between the resistors in proportion to their resistances, and the total resistance is Rs = R₁ + R₂ + R₃.": {"hi": "श्रेणीक्रम में बैटरी का विभवांतर प्रतिरोधकों के बीच उनके प्रतिरोधों के अनुपात में बँट जाता है, और कुल प्रतिरोध Rs = R₁ + R₂ + R₃ होता है।", "hg": "Series mein battery ka potential difference resistors ke beech unke resistances ke ratio mein bant jaata hai, aur total resistance Rs = R₁ + R₂ + R₃ hota hai."}, "I ≈ 0.9 A at both positions of the ammeter. V₁ ≈ 0.9 V, V₂ ≈ 1.8 V, V₃ ≈ 2.7 V and V ≈ 5.4 V. V/I ≈ 6 Ω.": {"hi": "ऐमीटर की दोनों स्थितियों में I ≈ 0.9 A। V₁ ≈ 0.9 V, V₂ ≈ 1.8 V, V₃ ≈ 2.7 V और V ≈ 5.4 V। V/I ≈ 6 Ω।", "hg": "Ammeter ki dono positions par I ≈ 0.9 A. V₁ ≈ 0.9 V, V₂ ≈ 1.8 V, V₃ ≈ 2.7 V aur V ≈ 5.4 V. V/I ≈ 6 Ω."}, "In a series circuit the same current flows through each resistor, the total potential difference is the sum of the potential differences across the resistors, and Rs = R₁ + R₂ + R₃.": {"hi": "श्रेणीक्रम परिपथ में प्रत्येक प्रतिरोधक से समान विद्युत धारा प्रवाहित होती है, कुल विभवांतर प्रतिरोधकों के सिरों के बीच के विभवांतरों के योग के बराबर होता है, और Rs = R₁ + R₂ + R₃।", "hg": "Series circuit mein har resistor se same current flow hota hai, total potential difference resistors ke across potential differences ke sum ke barabar hota hai, aur Rs = R₁ + R₂ + R₃."}, "Always remove the key before changing any connection. Join the + terminals of the meters towards the + terminal of the battery.": {"hi": "कोई भी संयोजन बदलने से पहले सदैव कुंजी निकाल दीजिए। मीटरों के + टर्मिनलों को बैटरी के + टर्मिनल की ओर जोड़िए।", "hg": "Koi bhi connection badalne se pehle hamesha key nikaal do. Meters ke + terminals ko battery ke + terminal ki taraf connect karo."}, "Is the current the same through each resistor in series?": {"hi": "क्या श्रेणीक्रम में जुड़े प्रत्येक प्रतिरोधक से समान विद्युत धारा प्रवाहित होती है?", "hg": "Kya series mein jude har resistor se same current flow hota hai?"}, "Yes, the same current flows through all of them.": {"hi": "हाँ, सभी से समान विद्युत धारा प्रवाहित होती है।", "hg": "Haan, sabse same current flow hota hai."}, "Which resistor has the largest potential difference across it?": {"hi": "किस प्रतिरोधक के सिरों के बीच विभवांतर सबसे अधिक है?", "hg": "Kis resistor ke across potential difference sabse zyada hai?"}, "The 3 Ω resistor, because V = IR.": {"hi": "3 Ω के प्रतिरोधक के, क्योंकि V = IR।", "hg": "3 Ω resistor ke, kyunki V = IR."}, "What happens to the other bulbs in a series circuit if one bulb fuses?": {"hi": "श्रेणीक्रम परिपथ में यदि एक बल्ब फ्यूज़ हो जाए, तो अन्य बल्बों का क्या होता है?", "hg": "Series circuit mein agar ek bulb fuse ho jaaye, to baaki bulbs ka kya hota hai?"}, "They all go off, because the circuit is broken.": {"hi": "वे सभी बुझ जाते हैं, क्योंकि परिपथ टूट जाता है।", "hg": "Woh sab band ho jaate hain, kyunki circuit toot jaata hai."}, "Seen in the mirror: an enlarged, upright image": {"hi": "दर्पण में देखने पर: एक आवर्धित, सीधा प्रतिबिंब", "hg": "Mirror mein dekhne par: ek enlarged, upright image"}, "Seen through the lens: upright, smaller": {"hi": "लेंस में से देखने पर: सीधा, छोटा", "hg": "Lens ke through dekhne par: upright, chhoti"}, "Seen in the mirror: upright, smaller": {"hi": "दर्पण में देखने पर: सीधा, छोटा", "hg": "Mirror mein dekhne par: upright, chhoti"}, "Nichrome wire": {"hi": "नाइक्रोम तार", "hg": "Nichrome wire"}, "Torch bulb": {"hi": "टॉर्च बल्ब", "hg": "Torch bulb"}, "10 W bulb": {"hi": "10 W बल्ब", "hg": "10 W bulb"}, "Wire": {"hi": "तार", "hg": "Wire"}, "violet … red": {"hi": "बैंगनी … लाल", "hg": "violet … red"}, "Real depth": {"hi": "वास्तविक गहराई", "hg": "Real depth"}, "apparent depth": {"hi": "आभासी गहराई", "hg": "apparent depth"}});

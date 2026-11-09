@@ -6,6 +6,10 @@ import { EXPERIMENTS2 } from './experiments2.js';
 import { EXPERIMENTS3 } from './experiments3.js';
 import { EXPERIMENTS4 } from './experiments4.js';
 import { EXPERIMENTS5 } from './experiments5.js';
+import { EXPERIMENTS6 } from './experiments6.js';
+import { EXPERIMENTS_P1 } from './experiments_p1.js';
+import { EXPERIMENTS_P2 } from './experiments_p2.js';
+import { EXPERIMENTS_P3 } from './experiments_p3.js';
 import { DICT } from './exp_i18n.js';
 const X = (en) => ({ en, ...(DICT[en] || {}) });
 
@@ -323,16 +327,20 @@ export const EXPERIMENTS = [
   },
 ];
 
-EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5);
+EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3);
 EXPERIMENTS.sort((a, b) => a.cls - b.cls); // stable: keeps the book order inside each class
 export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));
 // a class's experiments in book order: chapter by chapter (older-NCERT chapters after the current book), then any from other classes
+// the order of experiments inside a chapter, as in the book (others keep the order they were added in)
+const ORD = { p10_reflection: 1, p10_mirror_f: 2, p10_mirror_images: 3, p10_convex_mirror: 4, p10_coin_bowl: 5, p10_slab: 6, p10_lens_f: 7, p10_lens_images: 8, p10_concave_lens: 9, p10_prism: 1, p10_dispersion: 2, p10_ohm: 1, p10_components: 2, p10_resistance: 3, p10_series_iv: 4, p10_series: 5, p10_parallel: 6 };
 const chNum = (e) => { const m = /^Ch (\d+)/.exec(e.ch.en); return m ? +m[1] : 100; };
-export function classGroups(cls) {
-  const own = EXPERIMENTS.filter((e) => e.cls === cls).map((e, i) => ({ e, i, n: chNum(e), c: e.ch.en }));
-  own.sort((a, b) => a.n - b.n || (a.c < b.c ? -1 : a.c > b.c ? 1 : 0) || a.i - b.i);
+export const subjOf = (e) => e.subj || 'chemistry'; // every experiment belongs to one subject (chemistry when not set)
+export const hasSubject = (sub) => EXPERIMENTS.some((e) => subjOf(e) === sub);
+export function classGroups(cls, sub = 'chemistry') {
+  const own = EXPERIMENTS.filter((e) => e.cls === cls && subjOf(e) === sub).map((e, i) => ({ e, i, n: chNum(e), c: e.ch.en }));
+  own.sort((a, b) => a.n - b.n || (a.c < b.c ? -1 : a.c > b.c ? 1 : 0) || (ORD[a.e.id] ?? 50) - (ORD[b.e.id] ?? 50) || a.i - b.i);
   const groups = []; for (const o of own) { const g = groups[groups.length - 1]; if (g && g.key === o.c) g.items.push(o.e); else groups.push({ key: o.c, items: [o.e] }); }
-  const also = EXPERIMENTS.filter((e) => e.cls !== cls && e.also && e.also.includes(cls)); if (also.length) groups.push({ key: null, items: also });
+  const also = EXPERIMENTS.filter((e) => e.cls !== cls && subjOf(e) === sub && e.also && e.also.includes(cls)); if (also.length) groups.push({ key: null, items: also });
   return groups;
 }
-export const classOrder = (cls) => (cls ? classGroups(cls).flatMap((g) => g.items) : EXPERIMENTS);
+export const classOrder = (cls, sub = 'chemistry') => (cls ? classGroups(cls, sub).flatMap((g) => g.items) : EXPERIMENTS.filter((e) => subjOf(e) === sub));

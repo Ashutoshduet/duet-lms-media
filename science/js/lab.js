@@ -38,7 +38,7 @@ export class Lab {
     else if (s.kind === 'ribbon') { s.g.position.set(0, y0, 0); s.g.rotation.set(0, 0, 0.12); s.localY = 0.006; }
     else { s.g.position.set(0, y0, 0); s.g.rotation.set(0, 0, 0); s.localY = 0.004; }
     s.amount = s.amount ?? 1; v.ledger = (v.ledger || 0) + (s.gram ?? (SOLIDS[s.chem]?.spoonG ?? 2) * s.amount); if (s.carrier) s.carrier.gram = Math.max(0, (s.carrier.gram || 0) - (s.gram ?? 2));
-    if (s.kind !== 'nail' && s.kind !== 'ribbon' && v.rInner) { s.fit = Math.min(1, (v.rInner(y0 + 0.004) * 0.92) / (s.radius || 0.008)); s.g.scale.setScalar(s.fit * Math.max(0.05, Math.cbrt(s.amount))); } // shrink to fit a narrow tube
+    if (s.kind !== 'nail' && s.kind !== 'ribbon' && v.rInner) { s.fit = Math.min(1, (v.rInner(y0 + 0.004) * 0.92) / (s.radius || 0.008)) * (v.kind === 'dish' ? 2.2 : 1); s.g.scale.setScalar(s.fit * Math.max(0.05, Math.cbrt(s.amount))); } // shrink to fit a narrow tube
     s.surfacePoint = () => {
       if (s.kind === 'nail') return new THREE.Vector3(0.0022 + (Math.random() - 0.5) * 0.002, y0 + 0.004 + Math.random() * 0.04, (Math.random() - 0.5) * 0.002);
       if (s.kind === 'ribbon') return new THREE.Vector3((Math.random() - 0.5) * 0.002, y0 + Math.random() * 0.06 * Math.max(0.1, s.amount), (Math.random() - 0.5) * 0.001);

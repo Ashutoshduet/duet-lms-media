@@ -53,7 +53,7 @@ export const SUBS = {
   skim: { f: 'Skimmed milk', n: { en: 'Skimmed milk', hi: 'मलाई निकला दूध', hg: 'Skimmed milk' }, c: '#dfe8f0', a: 0.6, pH: 6.7, cloud: 0.6, cloudC: '#dbe6f0' },
   moil: { f: 'Mustard oil', n: { en: 'Mustard oil', hi: 'सरसों का तेल', hg: 'Sarson ka tel' }, c: '#d9b23a', a: 0.6, pH: 7, float: true },
   // batch 6 (Class 10)
-  cucl2: { f: 'CuCl₂', n: { en: 'Copper(II) chloride solution', hi: 'कॉपर(II) क्लोराइड विलयन', hg: 'Copper(II) chloride solution' }, c: '#25a08e', a: 0.55, pH: 4, weak: true, h: 0.002, tint: 3 },
+  cucl2: { f: 'CuCl₂', n: { en: 'Copper(II) chloride solution', hi: 'कॉपर(II) क्लोराइड विलयन', hg: 'Copper(II) chloride solution' }, c: '#1f9c86', a: 1.4, pH: 4, weak: true, h: 0.002, tint: 3 },
   ethanol: { f: 'C₂H₅OH', n: { en: 'Ethanol', hi: 'एथेनॉल', hg: 'Ethanol' }, c: '#eef6ff', a: 0.14, pH: 7, volatile: 5 },
   ethanoic: { f: 'CH₃COOH', n: { en: 'Dilute ethanoic acid', hi: 'तनु एथेनॉइक अम्ल', hg: 'Dilute ethanoic acid' }, c: '#f2f5f2', a: 0.16, h: 0.1, pH: 2.9, weak: true },
   glacial: { f: 'CH₃COOH (glacial)', n: { en: 'Glacial ethanoic acid', hi: 'ग्लेशियल एथेनॉइक अम्ल', hg: 'Glacial ethanoic acid' }, c: '#f4f6f2', a: 0.16, h: 0.5, pH: 2.4, weak: true },
@@ -98,6 +98,7 @@ export const PPT = {
   scol: { f: 'S', c: '#f3ecbf', colloid: true, settle: 0.00002, n: { en: 'colloidal sulphur (it does not settle)', hi: 'कोलॉइडी सल्फ़र (नीचे नहीं बैठता)', hg: 'colloidal sulphur (neeche nahi baithta)' } },
   mno2: { f: 'MnO₂', c: '#5b3a1e', settle: 0.012, n: { en: 'brown precipitate of manganese dioxide', hi: 'मैंगनीज़ डाइऑक्साइड का भूरा अवक्षेप', hg: 'manganese dioxide ka brown precipitate' } },
   scum: { f: '(C₁₇H₃₅COO)₂Ca', c: '#efece4', settle: 0.004, n: { en: 'white curdy scum (calcium and magnesium soap)', hi: 'सफ़ेद दही जैसा मैल (कैल्शियम और मैग्नीशियम साबुन)', hg: 'white curdy scum (calcium/magnesium saabun)' } },
+  slush: { f: 'Ba(OH)₂ + NH₄Cl', c: '#f2f2ee', settle: 0, n: { en: 'wet white slush of crystals', hi: 'क्रिस्टलों का गीला सफ़ेद घोल', hg: 'crystals ka geela safed slush' } },
   clay: { f: 'Clay', c: '#9a7b52', n: { en: 'fine clay particles', hi: 'मिट्टी के बारीक कण', hg: 'mitti ke baareek kan' } },
 };
 // solids that can be put into vessels
@@ -488,15 +489,15 @@ export const RULES = [
   { id: 'endo', test: (v) => v.solids.some((s) => s.chem === 'baoh2' && s.amount > 0.02) && v.solids.some((s) => s.chem === 'nh4cl' && s.amount > 0.02) && (v.stirT > 0 || v.endoK > 0),
     run(v, dt, E) {
       const a = v.solids.find((s) => s.chem === 'baoh2' && s.amount > 0.02), b = v.solids.find((s) => s.chem === 'nh4cl' && s.amount > 0.02); v.endoK = Math.min(1, (v.endoK || 0) + dt * 0.1);
-      const d = Math.min(a.amount, b.amount, dt * E.lapse * 0.05 * (v.stirT > 0 ? 1 : 0.3)); if (v.setMist && v.mix.temp < 0) v.setMist(Math.min(1, (v.mist || 0) + dt * E.lapse * 0.05)); // frost forms on the outside a.amount -= d; b.amount -= d; a.onAmount && a.onAmount(); b.onAmount && b.onAmount();
-      v.mix.add('water', d * 7); v.mix.add('bacl2', d * 1.5); v.mix.temp = Math.max(-20, v.mix.temp - d * 80); v.gas.NH3 = (v.gas.NH3 || 0) + d * 3;
+      const d = Math.min(a.amount, b.amount, dt * E.lapse * 0.05 * (v.stirT > 0 ? 1 : 0.3)); if (v.setMist && v.mix.temp < 0) v.setMist(Math.min(1, (v.mist || 0) + dt * E.lapse * 0.05)); a.amount -= d; b.amount -= d; a.onAmount && a.onAmount(); b.onAmount && b.onAmount(); // frost forms on the outside
+      v.mix.add('water', d * 7); v.mix.add('bacl2', d * 1.5); v.mix.ppt.slush = (v.mix.ppt.slush || 0) + d; v.mix.cloud = Math.min(0.88, v.mix.cloud + d * 2); v.mix.temp = Math.max(-20, v.mix.temp - d * 80); v.gas.NH3 = (v.gas.NH3 || 0) + d * 3; // a wet white slush of crystals
       if (Math.random() < dt * 2) E.fx.puff(v.mouthWorld(), '#f4f6f8', { alpha: 0.12, size: 0.008, grow: 0.03, life: 1.6 }); E.note(v, 'cold', { t: v.mix.temp });
     } },
   // copper oxide dissolves in dilute hydrochloric acid: copper chloride, blue-green
   { id: 'cuo_acid', test: (v) => v.solids.some((s) => s.chem === 'cuo' && s.under && s.amount > 0.01) && v.mix.has('hcl', 0.1),
     run(v, dt, E) {
       for (const s of v.solids) { if (s.chem !== 'cuo' || !s.under || s.amount <= 0.01) continue; const k = (v.stirT > 0 ? 1 : 0.25) * (1 + Math.max(0, v.mix.temp - 27) / 12);
-        const d = Math.min(s.amount, dt * E.lapse * 0.006 * k); s.amount -= d; s.onAmount && s.onAmount(); v.mix.liq.hcl = Math.max(0, v.mix.liq.hcl - d * 4); v.mix.add('cucl2', d * 4);
+        const d = Math.min(s.amount, dt * E.lapse * 0.009 * k); s.amount -= d; if (s.amount < 0.03) { s.amount = 0; s.g.visible = false; } s.onAmount && s.onAmount(); v.mix.liq.hcl = Math.max(0, v.mix.liq.hcl - d * 4); v.mix.add('cucl2', d * 4);
         if (v.stirT > 0) E.fx.flakes_(v, 10, dt, '#262321'); E.note(v, 'cuo_dissolve', { left: s.amount }); }
     } },
   // solid salt + concentrated sulphuric acid: hydrogen chloride gas comes out of the delivery tube (white misty fumes in moist air)
@@ -564,7 +565,7 @@ export const RULES = [
     run(v, dt, E) { const m = v.mix; const k = (v.stirT > 0 ? 1 : 0.12) * (1 + Math.max(0, m.temp - 27) / 20); const d = Math.min(m.liq.castor, m.liq.naoh20 * 0.7, dt * E.lapse * 0.006 * k);
       m.liq.castor -= d; m.liq.naoh20 -= d * 0.6; m.add('soapmix', d * 1.6); m.temp = Math.min(48, m.temp + d * 0.5); E.note(v, 'sapon', { left: m.liq.castor }); } },
   // salting out: common salt makes the soap separate and float as a solid curd
-  { id: 'saltout', test: (v) => v.mix.has('soapmix', 1) && v.solids.some((s) => s.chem === 'salt' && s.amount > 0.01),
+  { id: 'saltout', test: (v) => v.mix.has('soapmix', 1) && ((v.saltG || 0) > 0.2 || v.solids.some((s) => s.chem === 'salt' && s.amount > 0.01)),
     run(v, dt, E) { const m = v.mix; for (const s of v.solids) if (s.chem === 'salt' && s.amount > 0) { const d = Math.min(s.amount, dt * (v.stirT > 0 ? 0.25 : 0.03)); s.amount -= d; s.onAmount && s.onAmount(); v.saltG = (v.saltG || 0) + d; }
       const k = Math.min(1, (v.saltG || 0) / 1.5); const d = Math.min(m.liq.soapmix, dt * E.lapse * 0.02 * k); m.liq.soapmix -= d; m.add('lye', d * 0.6); v.curdG = (v.curdG || 0) + d;
       v.setCurd && v.setCurd(Math.min(1, v.curdG / 30)); E.note(v, 'curd', { k: v.curdG }); } },

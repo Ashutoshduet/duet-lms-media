@@ -42,18 +42,18 @@ export function floatLayer(v, subs, color = 0xe0b84a) {
 }
 // ------------------------------------------------------------------ frost: a very cold beaker gets a white coat of ice from the moist air
 export function frost(v) {
-  const tex = canvasTex(256, 256, (x, w, h) => { x.clearRect(0, 0, w, h); for (let i = 0; i < 2600; i++) { x.fillStyle = `rgba(255,255,255,${rnd(0.25, 0.9).toFixed(2)})`; const s = rnd(1, 3.2); x.fillRect(rnd(0, w), rnd(0, h), s, s); } });
+  const tex = canvasTex(256, 256, (x, w, h) => { x.clearRect(0, 0, w, h); x.fillStyle = 'rgba(240,246,252,0.35)'; x.fillRect(0, 0, w, h); for (let i = 0; i < 7000; i++) { x.fillStyle = `rgba(255,255,255,${rnd(0.35, 0.95).toFixed(2)})`; const s = rnd(1, 3.6); x.fillRect(rnd(0, w), rnd(0, h), s, s); } });
   const prof = v.outer.map((p) => V2(p.x + 0.0007, p.y)).filter((p) => p.y < v.rimY * 0.7);
   const m = new THREE.Mesh(new THREE.LatheGeometry(prof, 36), new THREE.MeshStandardMaterial({ map: tex, color: 0xffffff, transparent: true, opacity: 0, roughness: 0.9, depthWrite: false }));
   m.renderOrder = 7; m.userData.noHit = true; v.g.add(m); v.mist = 0;
-  v.setMist = (k) => { v.mist = k; m.material.opacity = 0.85 * k; };
+  v.setMist = (k) => { v.mist = k; m.material.opacity = Math.min(1, 1.1 * k); };
   return m;
 }
 // ------------------------------------------------------------------ water droplets that condense on the cooler upper part inside a heated tube
 export function droplets(v, o = {}) {
   const N = o.n ?? 40; const geo = new THREE.SphereGeometry(1, 8, 6);
   const im = new THREE.InstancedMesh(geo, new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.02, transparent: true, opacity: 0.6, clearcoat: 1, depthWrite: false }), N);
-  im.renderOrder = 7; im.userData.noHit = true; im.count = 0; v.g.add(im);
+  im.renderOrder = 7; im.userData.noHit = true; im.count = 0; im.frustumCulled = false; v.g.add(im);
   const M = new THREE.Matrix4(), Q = new THREE.Quaternion(), S = new THREE.Vector3(); const pts = [];
   for (let i = 0; i < N; i++) { const y = v.rimY * rnd(o.lo ?? 0.55, o.hi ?? 0.92); const r = v.rInner(y) - 0.0006; const a = rnd(0, 6.29); pts.push([Math.cos(a) * r, y, Math.sin(a) * r, rnd(0.0004, 0.0009)]); }
   hook(v, () => { const n = Math.round(N * Math.min(1, v.condense || 0)); if (n === im.count) return; for (let i = 0; i < n; i++) { const p = pts[i]; M.compose(S.set(p[0], p[1], p[2]), Q, tmp.setScalar(p[3])); im.setMatrixAt(i, M); } im.count = n; im.instanceMatrix.needsUpdate = true; });
@@ -66,7 +66,7 @@ export function thistleFunnel(o = {}) {
   v.drainFast = true; v.grabY = stem + 0.015; v.noGrab = true; return v;
 }
 // ------------------------------------------------------------------ a small steel dish with a substance that burns; sooty (yellow, smoky) or clean (blue)
-const BURN = { naph: { sooty: true, size: 1.5 }, camphor: { sooty: true, size: 1.35 }, ethanol: { sooty: false, size: 1 } };
+const BURN = { naph: { sooty: true, size: 1.3 }, camphor: { sooty: true, size: 1.15 }, ethanol: { sooty: false, size: 1 } };
 export function burnDish(chem, o = {}) {
   const it = new Item('burncap', { ...o, name: o.name || { en: 'Steel cap', hi: 'स्टील का ढक्कन', hg: 'Steel cap' } });
   const cup = new THREE.Mesh(new THREE.LatheGeometry([V2(0.0001, 0), V2(0.016, 0), V2(0.017, 0.009), V2(0.0175, 0.0095)], 32), new THREE.MeshStandardMaterial({ color: 0xc9cdd1, metalness: 0.85, roughness: 0.3, side: THREE.DoubleSide })); it.g.add(cup);
