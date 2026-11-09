@@ -4,6 +4,7 @@ import { T, tx, LANGS, LANG_LABEL, FONT } from './strings.js';
 import { Panel, wrap } from './vrpanels.js';
 import { EXPERIMENTS, classGroups, classOrder as order0, hasSubject, subjOf } from './experiments.js';
 import { PHOTOS } from './photos.js';
+import { topicGroups } from './topics.js';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -15,7 +16,7 @@ void EXPERIMENTS;
 
 export class UI {
   constructor(app) {
-    this.app = app; this.subj = store.get('subj') || 'chemistry'; if (!hasSubject(this.subj)) this.subj = 'chemistry'; this.cls = +(store.get('cls') || 0) || 0; this.nbOpen = false; this.done = new Set((store.get('done') || '').split(',').filter(Boolean));
+    this.app = app; this.subj = store.get('subj') || 'chemistry'; if (!hasSubject(this.subj)) this.subj = 'chemistry'; this.cls = +(store.get('cls') || 0) || 0; this.view = store.get('view') === 'topic' ? 'topic' : 'class'; this.topic = null; this.nbOpen = false; this.done = new Set((store.get('done') || '').split(',').filter(Boolean));
     this.buildDOM();
     // headset panels
     this.menu = new Panel(1000, 1400, 0.46); this.story = new Panel(1100, 1150, 0.52);
@@ -30,8 +31,8 @@ export class UI {
     $('#subjects').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; if (hasSubject(b.dataset.sub)) this.setSubject(b.dataset.sub); else this.toast(`${this.t(b.dataset.sub)} — ${this.t('soon')}`); };
     $('#langs').innerHTML = LANGS.map((l) => `<button data-l="${l}"><span class="lf">${LANG_LABEL[l]}</span><span class="ls">${{ en: 'EN', hi: 'हि', hg: 'HG' }[l]}</span></button>`).join('');
     $('#langs').onclick = (e) => { const b = e.target.closest('button'); if (b) a.setLang(b.dataset.l); };
-    $('#classes').onclick = (e) => { const b = e.target.closest('button'); if (b) this.setClass(+b.dataset.c); };
-    $('#cp-btns').onclick = (e) => { const b = e.target.closest('button'); if (b) this.setClass(+b.dataset.c); }; $('#cp-all').onclick = () => this.setClass(0);
+    $('#classes').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.c === 't') this.setView('topic'); else this.setClass(+b.dataset.c); };
+    $('#cp-btns').onclick = (e) => { const b = e.target.closest('button'); if (b) this.setClass(+b.dataset.c); }; $('#cp-all').onclick = () => this.setClass(0); $('#cp-top').onclick = () => { this.showPicker(false); this.setView('topic'); };
     $('#prog').onclick = (e) => { if (e.target.closest('button')) this.showPicker(true); };
     $('#story').addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b) return; if (b.dataset.act === 'start') this.startClass(); else if (b.dataset.act === 'nextexp') this.nextExp(); });
     $('#explist').onclick = (e) => { const b = e.target.closest('button'); if (b) a.openExp(b.dataset.id); };
@@ -44,24 +45,30 @@ export class UI {
   }
   renderSubjects() { $('#subjects').innerHTML = SUBJECTS.map((s) => { const ok = hasSubject(s); return `<button data-sub="${s}" class="${s === this.subj ? 'on' : ok ? '' : 'off'}" ${ok ? '' : 'aria-disabled="true"'}>${esc(this.t(s))}</button>`; }).join(''); }
   // the subject (chemistry, physics …) whose experiments are listed
-  setSubject(s) { if (!hasSubject(s)) return; this.subj = s; store.set('subj', s); this.page = 0; this.renderSubjects(); this.renderPicker(); this.renderList(); this.renderStory(); this.dirty = true; const e = this.app.runner.exp; if (e && subjOf(e) !== s) { const f = this.classLeft(this.cls)[0] || classOrder(this.cls, s)[0]; if (f) this.app.openExp(f.id); } }
+  setSubject(s) { if (!hasSubject(s)) return; this.subj = s; store.set('subj', s); this.page = 0; this.topic = null; this.renderSubjects(); this.renderPicker(); this.renderList(); this.renderStory(); this.dirty = true; const e = this.app.runner.exp; if (e && subjOf(e) !== s) { const f = this.classLeft(this.cls)[0] || classOrder(this.cls, s)[0]; if (f) this.app.openExp(f.id); } }
   toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => { t.classList.remove('show'); this.dirty = true; }, ms);
     this._toast = { msg, until: performance.now() + ms }; this.dirty = true; } // also shown on the panel in VR
   renderAll() { this.renderTop(); this.renderPicker(); this.renderList(); this.renderStory(); this.renderNotebook(); this.dirty = true; }
   // ------------------------------------------------------------ class-wise flow: pick your class, do its experiments in book order
   showPicker(on) { document.body.classList.toggle('pick', on); if (on) this.renderPicker(); }
-  setClass(c) { this.cls = c; store.set('cls', String(c)); this.page = 0; this.showPicker(false); this.renderList(); this.renderStory(); this.dirty = true; }
+  // two ways to look at the list: class-wise (your class, in book order) or topic-wise (all classes, grouped by what they are about)
+  setView(v) { this.view = v; store.set('view', v); this.topic = null; this.page = 0; this.renderList(); this.dirty = true; }
+  setTopic(k) { this.topic = k; this.page = 0; this.dirty = true; }
+  badge(e) { return this.done.has(e.id) ? '✓' : e.id.startsWith('open_') ? '★' : e.cls; }
+  setClass(c) { this.view = 'class'; store.set('view', 'class'); this.topic = null; this.cls = c; store.set('cls', String(c)); this.page = 0; this.showPicker(false); this.renderList(); this.renderStory(); this.dirty = true; }
   markDone(id) { if (this.done.has(id)) return; this.done.add(id); store.set('done', [...this.done].join(',')); this.renderList(); }
   classLeft(c) { return classOrder(c, this.subj).filter((e) => !this.done.has(e.id)); }
   startClass() { const o = classOrder(this.cls, this.subj); const e = this.classLeft(this.cls)[0] || o[0]; if (e) this.app.openExp(e.id); }
   nextExp() {
-    const a = this.app, cur = a.runner.exp; const c = this.cls || (cur && cur.cls) || 0; const o = classOrder(c, this.subj); const i = cur ? o.indexOf(cur) : -1;
+    const a = this.app, cur = a.runner.exp; const c = this.cls || (cur && cur.cls) || 0; let o = classOrder(c, this.subj);
+    if (this.view === 'topic') { const gs = topicGroups(this.subj); const g = gs.find((x) => x.k === this.topic) || gs.find((x) => cur && x.items.includes(cur)); o = g ? [...g.items, ...gs.flatMap((x) => x.items).filter((e) => !g.items.includes(e))] : gs.flatMap((x) => x.items); } // topic-wise: the rest of this topic first
+    const i = cur ? o.indexOf(cur) : -1;
     const nx = o.slice(i + 1).find((e) => !this.done.has(e.id)) || o.find((e) => !this.done.has(e.id) && e !== cur) || o[i + 1];
     if (nx) a.openExp(nx.id); else this.toast(this.fill('classDone', c));
   }
   fill(k, c, n) { return this.t(k).replace('{c}', c).replace('{n}', n ?? '').replace('{s}', this.t(this.subj)); }
   renderPicker() {
-    $('#cp-h').textContent = this.t('pickClass'); $('#cp-sub').textContent = this.t('pickClassSub'); $('#cp-all').textContent = this.t('allClasses');
+    $('#cp-h').textContent = this.t('pickClass'); $('#cp-sub').textContent = this.t('pickClassSub'); $('#cp-all').textContent = this.t('allClasses'); $('#cp-top').textContent = this.t('byTopic');
     $('#cp-btns').innerHTML = CLASSES.map((c) => { const n = classOrder(c, this.subj).length, d = n - this.classLeft(c).length; return `<button data-c="${c}">${c}<small>${esc(this.t('cls'))} ${c} · ${d ? `${d}/${n} ✓` : `${n}`}</small></button>`; }).join('');
   }
   renderTop() {
@@ -73,13 +80,13 @@ export class UI {
     $('#xr-btn').textContent = this.t('enterVR');
   }
   renderList() {
-    const cs = [0, ...CLASSES]; const c = this.cls;
-    $('#classes').innerHTML = cs.map((k) => `<button data-c="${k}" class="${k === c ? 'on' : ''}">${k ? k : this.t('all')}</button>`).join('');
-    $('#list-h').textContent = c ? `${this.t('cls')} ${c} · ${this.t(this.subj)}` : this.t('experiments');
-    const cur = this.app.runner.exp?.id; const order = classOrder(c, this.subj); const d = order.filter((e) => this.done.has(e.id)).length;
+    const cs = [0, ...CLASSES]; const c = this.cls; const tv = this.view === 'topic';
+    $('#classes').innerHTML = `<button data-c="t" class="tp ${tv ? 'on' : ''}">${esc(this.t('topics'))}</button>` + cs.map((k) => `<button data-c="${k}" class="${!tv && k === c ? 'on' : ''}">${k ? k : this.t('all')}</button>`).join('');
+    $('#list-h').textContent = tv ? `${this.t('topics')} · ${this.t(this.subj)}` : c ? `${this.t('cls')} ${c} · ${this.t(this.subj)}` : this.t('experiments');
+    const cur = this.app.runner.exp?.id; const order = tv ? classOrder(0, this.subj) : classOrder(c, this.subj); const d = order.filter((e) => this.done.has(e.id)).length;
     $('#prog').innerHTML = `<span>${d}/${order.length} ${esc(this.t('doneW'))}</span><span class="bar"><i style="width:${order.length ? Math.round((100 * d) / order.length) : 0}%"></i></span><button>${esc(this.t('changeClass'))}</button>`;
-    const btn = (e) => `<button data-id="${e.id}" class="ebtn ${e.id === cur ? 'on' : ''}"><span class="cl ${this.done.has(e.id) ? 'ok' : ''}">${this.done.has(e.id) ? '✓' : e.cls}</span><span>${esc(this.app.expText(e, 'title'))}<small>${esc(this.app.expText(e, 'kind'))}</small></span></button>`;
-    $('#explist').innerHTML = (c ? classGroups(c, this.subj).map((g) => `<h5 class="chh">${esc(g.key ? this.app.expText(g.items[0], 'ch') : this.t('otherClasses'))}</h5>${g.items.map(btn).join('')}`).join('') : order.map(btn).join(''))
+    const btn = (e) => `<button data-id="${e.id}" class="ebtn ${e.id === cur ? 'on' : ''}"><span class="cl ${this.done.has(e.id) ? 'ok' : ''}">${this.badge(e)}</span><span>${esc(this.app.expText(e, 'title'))}<small>${esc(this.app.expText(e, 'kind'))}</small></span></button>`;
+    $('#explist').innerHTML = (tv ? topicGroups(this.subj).map((g) => `<h5 class="chh">${esc(tx(g.n, this.L()))} · ${g.items.length}</h5>${g.items.map(btn).join('')}`).join('') : c ? classGroups(c, this.subj).map((g) => `<h5 class="chh">${esc(g.key ? this.app.expText(g.items[0], 'ch') : this.t('otherClasses'))}</h5>${g.items.map(btn).join('')}`).join('') : order.map(btn).join(''))
       || `<p class="empty">${esc(this.t('soon'))}</p>`;
     this.dirty = true;
   }
@@ -139,11 +146,21 @@ export class UI {
   drawVR() {
     const a = this.app, r = a.runner, L = this.L();
     // menu
-    const P = this.menu; P.bg('#f0a65a'); P.logo(40, 34, 40); P.text(this.t('appTitle') + ' · ' + this.t(this.subj) + (this.cls ? ` · ${this.t('cls')} ${this.cls}` : ''), 40, 92, 40, '#f3eee6', 700);
+    const P = this.menu; P.bg('#f0a65a'); P.logo(40, 34, 40); const tv = this.view === 'topic';
+    const head = `${this.t(this.subj)} · ${tv ? this.t('topics') : this.cls ? `${this.t('cls')} ${this.cls}` : this.t('all')}`; P.x.font = `700 40px ${FONT}`; const hs = Math.max(26, Math.min(40, (40 * 640) / Math.max(1, P.x.measureText(head).width))); P.text(head, 40, 92 + (40 - hs) / 2, hs, '#f3eee6', 700);
     SUBJECTS.filter((x) => hasSubject(x)).forEach((x, i, arr) => P.btn('sub_' + x, 960 - (arr.length - i) * 214, 18, 200, 58, this.t(x), { size: 26, align: 'center', active: this.subj === x })); // subject tabs, top right
-    const cs = [0, 6, 7, 8, 9, 10]; cs.forEach((c, i) => P.btn('cls_' + c, 40 + i * 152, 160, 140, 70, c ? `${c}` : this.t('all'), { size: 30, align: 'center', active: this.cls === c }));
-    const list = classOrder(this.cls, this.subj); const per = 8; const dn = list.filter((e) => this.done.has(e.id)).length; P.text(`${dn}/${list.length} ${this.t('doneW')}`, 760, 92, 30, '#9fd17a', 700); const pages = Math.max(1, Math.ceil(list.length / per)); this.page = Math.min(this.page, pages - 1);
-    list.slice(this.page * per, this.page * per + per).forEach((e, i) => P.btn('exp_' + e.id, 40, 256 + i * 112, 920, 100, `${this.done.has(e.id) ? '✓' : e.cls} · ${a.expText(e, 'title')}`, { size: 30, active: r.exp?.id === e.id }));
+    // class-wise (Topics | All | 6 … 10) or topic-wise: pick a topic, then its experiments from every class
+    P.btn('view_topic', 40, 160, 160, 70, this.t('topics'), { size: 26, align: 'center', active: tv });
+    [0, 6, 7, 8, 9, 10].forEach((c, i) => P.btn('cls_' + c, 212 + i * 125, 160, 113, 70, c ? `${c}` : this.t('all'), { size: 28, align: 'center', active: !tv && this.cls === c }));
+    const gs = tv ? topicGroups(this.subj) : null; const g = gs ? gs.find((x) => x.k === this.topic) || null : null;
+    const pool = tv ? (g ? g.items : gs.flatMap((x) => x.items)) : classOrder(this.cls, this.subj);
+    const dn = pool.filter((e) => this.done.has(e.id)).length; const dl = `${dn}/${pool.length} ${this.t('doneW')}`; P.x.font = `700 30px ${FONT}`; P.text(dl, 960 - P.x.measureText(dl).width, 98, 30, '#9fd17a', 700);
+    let rows, per = 10, y0 = 256;
+    if (tv && !g) rows = gs.map((x) => ({ id: 'top_' + x.k, label: `${tx(x.n, L)}  ·  ${x.items.filter((e) => this.done.has(e.id)).length}/${x.items.length}` }));
+    else { if (g) { P.btn('top_back', 40, 256, 920, 72, `‹ ${this.t('topics')} · ${tx(g.n, L)}`, { size: 28, primary: true }); y0 = 340; per = 9; }
+      rows = pool.map((e) => ({ id: 'exp_' + e.id, label: `${this.badge(e)} · ${a.expText(e, 'title')}`, on: r.exp?.id === e.id })); }
+    const pages = Math.max(1, Math.ceil(rows.length / per)); this.page = Math.min(this.page, pages - 1);
+    rows.slice(this.page * per, this.page * per + per).forEach((x, k) => P.btn(x.id, 40, y0 + k * 90, 920, 82, x.label, { size: 28, active: x.on }));
     if (pages > 1) { P.btn('pg_prev', 40, 1160, 300, 80, '‹', { size: 40, align: 'center' }); P.text(`${this.page + 1} / ${pages}`, 440, 1178, 34, '#a49d90', 600); P.btn('pg_next', 660, 1160, 300, 80, '›', { size: 40, align: 'center' }); }
     LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, 1270, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
     P.btn('voice', 748, 1270, 212, 84, (a.audio.voice ? '🔊 ' : '🔇 ') + this.t('voice'), { size: 26, align: 'center' });
@@ -182,6 +199,7 @@ export class UI {
   vrClick(id) {
     const a = this.app, r = a.runner;
     if (id.startsWith('sub_')) { this.setSubject(id.slice(4)); }
+    else if (id === 'view_topic') this.setView('topic'); else if (id === 'top_back') { this.topic = null; this.page = 0; } else if (id.startsWith('top_')) this.setTopic(id.slice(4));
     else if (id.startsWith('cls_')) { this.setClass(+id.slice(4)); }
     else if (id === 'start') this.startClass();
     else if (id.startsWith('exp_')) a.openExp(id.slice(4));

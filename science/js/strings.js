@@ -8,7 +8,7 @@ export const T = {
   physics: { en: 'Physics', hi: 'भौतिकी', hg: 'Physics' }, maths: { en: 'Maths', hi: 'गणित', hg: 'Maths' }, biology: { en: 'Biology', hi: 'जीव विज्ञान', hg: 'Biology' },
   astronomy: { en: 'Astronomy', hi: 'खगोल विज्ञान', hg: 'Astronomy' }, robotics: { en: 'Robotics', hi: 'रोबोटिक्स', hg: 'Robotics' }, nature: { en: 'Nature', hi: 'प्रकृति', hg: 'Nature' },
   soon: { en: 'coming soon', hi: 'जल्द आ रहा है', hg: 'jaldi aa raha hai' },
-  all: { en: 'All', hi: 'सभी', hg: 'All' }, cls: { en: 'Class', hi: 'कक्षा', hg: 'Class' },
+  all: { en: 'All', hi: 'सभी', hg: 'All' }, topics: { en: 'Topics', hi: 'टॉपिक', hg: 'Topics' }, byTopic: { en: 'Browse by topic', hi: 'टॉपिक के अनुसार देखें', hg: 'Topic ke hisaab se dekhein' }, cls: { en: 'Class', hi: 'कक्षा', hg: 'Class' },
   experiments: { en: 'Experiments', hi: 'प्रयोग', hg: 'Experiments' },
   step: { en: 'Step', hi: 'चरण', hg: 'Step' }, of: { en: 'of', hi: 'में से', hg: 'of' },
   doLabel: { en: 'Do', hi: 'करें', hg: 'Karo' }, seeLabel: { en: 'You see', hi: 'आप देखेंगे', hg: 'Aap dekhoge' }, whyLabel: { en: 'Why', hi: 'क्यों', hg: 'Kyun' },

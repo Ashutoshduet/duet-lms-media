@@ -49,6 +49,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 #classes{display:flex;gap:4px;margin:0 4px 8px}
 #classes button{flex:1;padding:6px 0;border-radius:8px;font-size:13px;font-weight:700;color:var(--mute);background:rgba(255,255,255,.05)}
 #classes button.on{background:var(--acc);color:#14100a}
+#classes button.tp{flex:1.9}
 #explist{overflow:auto;flex:1;padding-right:2px}
 .ebtn{display:flex;gap:10px;width:100%;text-align:left;padding:9px 8px;border-radius:11px;font-size:14.5px;font-weight:600;line-height:1.3;position:relative;align-items:flex-start}
 .ebtn:hover{background:rgba(255,255,255,.06)}
@@ -173,7 +174,7 @@ body.in-vr #top,body.in-vr #list,body.in-vr #story,body.in-vr #notebook{display:
   <div id="tools" class="panel"><div id="langs" class="seg" role="group" aria-label="Language"></div><button id="b-voice" class="ib" aria-label="Voice">🔊</button><button id="xr-btn" class="xr" hidden>Enter VR</button></div>
 </header>
 <aside id="list" class="panel"><h3 id="list-h">Experiments</h3><div id="classes"></div><div id="prog"></div><div id="explist"></div></aside>
-<div id="classpick"><div class="box panel"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h2 id="cp-h"></h2><p id="cp-sub"></p><div id="cp-btns"></div><button id="cp-all" class="cp-all"></button></div></div>
+<div id="classpick"><div class="box panel"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h2 id="cp-h"></h2><p id="cp-sub"></p><div id="cp-btns"></div><button id="cp-all" class="cp-all"></button> · <button id="cp-top" class="cp-all"></button></div></div>
 <section id="story" class="panel intro" aria-live="polite">
   <div id="s-kicker"></div><div id="s-title"></div><div id="s-text"></div><div id="s-dots"></div>
   <div id="s-buttons"><button id="b-back" class="cbtn">‹ Back</button><button id="b-do" class="cbtn primary">Do it</button><button id="b-next" class="cbtn">Next ›</button><span class="sp"></span><button id="b-auto" class="cbtn">Auto</button><button id="b-speed" class="cbtn">1×</button><button id="b-reset" class="cbtn">↺</button><button id="b-nb" class="cbtn">Notebook</button></div>
