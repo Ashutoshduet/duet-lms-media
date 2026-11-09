@@ -36,7 +36,7 @@ export class UI {
     $('#cp-btns').onclick = (e) => { const b = e.target.closest('button'); if (b) this.setClass(+b.dataset.c); }; $('#cp-all').onclick = () => this.setClass(0); $('#cp-top').onclick = () => { this.showPicker(false); this.setView('topic'); };
     $('#prog').onclick = (e) => { if (e.target.closest('button')) this.showPicker(true); };
     $('#story').addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b) return; if (b.dataset.act === 'start') this.startClass(); else if (b.dataset.act === 'nextexp') this.nextExp(); });
-    $('#explist').onclick = (e) => { const b = e.target.closest('button'); if (b) a.openExp(b.dataset.id); };
+    $('#explist').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.code) a.askCode(null); else a.openExp(b.dataset.id); };
     $('#b-do').onclick = () => a.primary(); $('#b-next').onclick = () => (a.runner.state === 'finished' ? this.nextExp() : a.runner.next()); $('#b-back').onclick = () => a.runner.prev();
     $('#b-auto').onclick = () => (a.runner.auto ? a.runner.pause() : a.runner.play()); $('#b-reset').onclick = () => a.runner.reset();
     $('#b-speed').onclick = () => a.cycleSpeed(); $('#b-nb').onclick = () => { this.nbOpen = !this.nbOpen; document.body.classList.toggle('nb-open', this.nbOpen); this.renderNotebook(); };
@@ -55,7 +55,7 @@ export class UI {
   // two ways to look at the list: class-wise (your class, in book order) or topic-wise (all classes, grouped by what they are about)
   setView(v) { this.view = v; store.set('view', v); this.topic = null; this.page = 0; this.renderList(); this.dirty = true; }
   setTopic(k) { this.topic = k; this.page = 0; this.dirty = true; }
-  badge(e) { return this.done.has(e.id) ? '✓' : e.id.startsWith('open_') ? '★' : e.cls; }
+  badge(e) { return this.app.isLocked && this.app.isLocked(e.id) ? '🔒' : this.done.has(e.id) ? '✓' : e.id.startsWith('open_') ? '★' : e.cls; }
   setClass(c) { this.view = 'class'; store.set('view', 'class'); this.topic = null; this.cls = c; store.set('cls', String(c)); this.page = 0; this.showPicker(false); this.renderList(); this.renderStory(); this.dirty = true; }
   markDone(id) { if (this.done.has(id)) return; this.done.add(id); store.set('done', [...this.done].join(',')); this.renderList(); }
   classLeft(c) { return classOrder(c, this.subj).filter((e) => !this.done.has(e.id)); }
@@ -88,7 +88,8 @@ export class UI {
     const cur = this.app.runner.exp?.id; const order = tv ? classOrder(0, this.subj) : classOrder(c, this.subj); const d = order.filter((e) => this.done.has(e.id)).length;
     $('#prog').innerHTML = `<span>${d}/${order.length} ${esc(this.t('doneW'))}</span><span class="bar"><i style="width:${order.length ? Math.round((100 * d) / order.length) : 0}%"></i></span><button>${esc(this.t('changeClass'))}</button>`;
     const btn = (e) => `<button data-id="${e.id}" class="ebtn ${e.id === cur ? 'on' : ''}"><span class="cl ${this.done.has(e.id) ? 'ok' : ''}">${this.badge(e)}</span><span>${esc(this.app.expText(e, 'title'))}<small>${esc(this.app.expText(e, 'kind'))}</small></span></button>`;
-    $('#explist').innerHTML = (tv ? topicGroups(this.subj).map((g) => `<h5 class="chh">${esc(tx(g.n, this.L()))} · ${g.items.length}</h5>${g.items.map(btn).join('')}`).join('') : c ? classGroups(c, this.subj).map((g) => `<h5 class="chh">${esc(g.key ? this.app.expText(g.items[0], 'ch') : this.t('otherClasses'))}</h5>${g.items.map(btn).join('')}`).join('') : order.map(btn).join(''))
+    const codeBtn = this.app.demo ? `<button class="ebtn codebtn" data-code="1"><span class="cl">🔑</span><span>${esc({ en: 'Free demo · Enter your DUET STEM code', hi: 'मुफ़्त डेमो · अपना DUET STEM कोड डालिए', hg: 'Free demo · Apna DUET STEM code daaliye' }[this.L()])}<small>${esc({ en: 'Unlocks every experiment', hi: 'सभी प्रयोग खुल जाते हैं', hg: 'Saare experiments khul jaate hain' }[this.L()])}</small></span></button>` : '';
+    $('#explist').innerHTML = codeBtn + (tv ? topicGroups(this.subj).map((g) => `<h5 class="chh">${esc(tx(g.n, this.L()))} · ${g.items.length}</h5>${g.items.map(btn).join('')}`).join('') : c ? classGroups(c, this.subj).map((g) => `<h5 class="chh">${esc(g.key ? this.app.expText(g.items[0], 'ch') : this.t('otherClasses'))}</h5>${g.items.map(btn).join('')}`).join('') : order.map(btn).join(''))
       || `<p class="empty">${esc(this.t('soon'))}</p>`;
     this.dirty = true;
   }

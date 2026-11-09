@@ -42,6 +42,12 @@ export function topicOf(e) {
   const ch = e.ch?.en || ''; for (const [k, , re] of TOPICS[subjOf(e)] || []) if (re.test(ch)) return k;
   return 'other';
 }
+// the free demo (no code): every open lab and the first experiment of each class, chemistry and physics
+export function demoIds() {
+  const s = new Set(EXPERIMENTS.filter((e) => e.id.startsWith('open_')).map((e) => e.id));
+  for (const sub of ['chemistry', 'physics']) for (const c of [6, 7, 8, 9, 10]) { const e = classOrder(c, sub).find((x) => !x.id.startsWith('open_') && x.cls === c); if (e) s.add(e.id); }
+  return s;
+}
 // [{ k, n, items }] in a fixed topic order; inside a topic, experiments go by class and book order
 export function topicGroups(sub) {
   const all = EXPERIMENTS.filter((e) => subjOf(e) === sub); const order = classOrder(0, sub);

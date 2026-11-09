@@ -36,6 +36,10 @@ const S = {
   net: { en: 'No internet. Connect to Wi-Fi once to activate the code.', hi: 'इंटरनेट नहीं है। कोड चालू करने के लिए एक बार Wi-Fi से जुड़िए।', hg: 'Internet nahi hai. Code chalu karne ke liye ek baar Wi-Fi se judiye.' },
   gone: { en: 'This code is no longer active. Please contact DUET STEM.', hi: 'यह कोड अब सक्रिय नहीं है। कृपया DUET STEM से संपर्क कीजिए।', hg: 'Yeh code ab active nahi hai. DUET STEM se contact kijiye.' },
   ok: { en: 'Activated{n} · valid until {d}', hi: 'चालू हो गया{n} · {d} तक मान्य', hg: 'Activate ho gaya{n} · {d} tak valid' },
+  demo: { en: 'Try the free demo', hi: 'मुफ़्त डेमो आज़माइए', hg: 'Free demo try kijiye' },
+  demoSub: { en: 'Free without a code: the Open Labs and the first experiment of every class.', hi: 'बिना कोड के मुफ़्त: खुली प्रयोगशालाएँ और हर कक्षा का पहला प्रयोग।', hg: 'Bina code ke free: Open Labs aur har class ka pehla experiment.' },
+  locked: { en: 'This experiment is part of the DUET STEM subscription. Enter your school\'s code to open it.', hi: 'यह प्रयोग DUET STEM सदस्यता का हिस्सा है। इसे खोलने के लिए अपने विद्यालय का कोड डालिए।', hg: 'Yeh experiment DUET STEM subscription ka hissa hai. Ise kholne ke liye apne school ka code daaliye.' },
+  back: { en: 'Back', hi: 'वापस', hg: 'Wapas' },
   soon: { en: 'Your DUET STEM subscription ends on {d}. Please renew it in time.', hi: 'आपकी DUET STEM सदस्यता {d} को समाप्त होगी। कृपया समय पर नवीनीकरण कराइए।', hg: 'Aapka DUET STEM subscription {d} ko khatam hoga. Time par renew karaiye.' },
 };
 const fmt = (d, L) => { const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); };
@@ -44,7 +48,7 @@ const fmt = (d, L) => { const [y, m, dd] = d.split('-').map(Number); return new 
 export function licenceInfo(app) { const v = load(); return v && covers(v.a, app) && v.u >= today() ? { ok: true, until: v.u, name: v.n || '' } : null; }
 
 // resolves once this device has a valid code for the app; until then a full-screen code screen blocks the app
-export function licenceGate(app, getLang, onMsg) {
+export function licenceGate(app, getLang, onMsg, opt = {}) { // opt.demo: offer the free demo; opt.locked: opened from a locked experiment (with a Back button)
   const L = () => (getLang && getLang()) || 'en'; const tx = (o, d = {}) => (o[L()] || o.en).replace('{d}', d.d || '').replace('{n}', d.n || '');
   return new Promise((resolve) => {
     const have = load();
@@ -65,13 +69,15 @@ export function licenceGate(app, getLang, onMsg) {
 #lic input{width:100%;box-sizing:border-box;font-size:24px;letter-spacing:.08em;text-align:center;padding:14px 12px;border-radius:14px;border:2px solid rgba(255,255,255,.18);background:#0b0f17;color:#fff;text-transform:uppercase;outline:none}
 #lic input:focus{border-color:#f0a65a}#lic .go{margin-top:14px;width:100%;padding:14px;border-radius:14px;border:0;background:#f0a65a;color:#14100a;font-size:18px;font-weight:800;cursor:pointer}
 #lic .go:disabled{opacity:.6}#lic .m{min-height:22px;margin-top:14px;font-size:14.5px;font-weight:600}#lic .m.e{color:#ff9b8a}#lic .m.k{color:#9fd17a}
+#lic .alt{margin-top:10px;width:100%;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:transparent;color:#e6ecf5;font-size:15.5px;font-weight:700;cursor:pointer}#lic .alt small{display:block;font-weight:500;color:#9aa6b8;font-size:12.5px;margin-top:3px}
 #lic .lg{margin-top:16px;display:flex;gap:6px;justify-content:center}#lic .lg button{background:rgba(255,255,255,.07);border:0;color:#cfd7e4;padding:6px 12px;border-radius:9px;cursor:pointer;font-size:13px}
 </style><div class="bx"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h1></h1><p></p>
-<input id="lic-in" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="DUET-XXXX-XXXX-XXXX" maxlength="24"><button class="go"></button><div class="m"></div>
+<input id="lic-in" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="DUET-XXXX-XXXX-XXXX" maxlength="24"><button class="go"></button><div class="m"></div>${opt.demo || opt.locked ? '<button class="alt"></button>' : ''}
 <div class="lg"><button data-l="en">English</button><button data-l="hi">हिंदी</button><button data-l="hg">Hinglish</button></div></div>`;
     document.body.appendChild(el);
     const $ = (s) => el.querySelector(s); const msg = (t, c) => { $('.m').textContent = t; $('.m').className = 'm ' + (c || ''); };
-    let lang = L(); const paint = () => { const o = (x) => x[lang] || x.en; $('h1').textContent = o(S.title); $('p').textContent = o(S.sub); $('.go').textContent = o(S.btn); };
+    let lang = L(); const paint = () => { const o = (x) => x[lang] || x.en; $('h1').textContent = o(S.title); $('p').textContent = opt.locked ? o(S.locked) : o(S.sub); $('.go').textContent = o(S.btn);
+      const alt = $('.alt'); if (alt) alt.innerHTML = opt.locked ? '‹ ' + o(S.back) : `${o(S.demo)}<small>${o(S.demoSub)}</small>`; };
     const tl = (o, d = {}) => (o[lang] || o.en).replace('{d}', d.d || '').replace('{n}', d.n || '');
     paint(); $('.lg').onclick = (e) => { const b = e.target.closest('button'); if (b) { lang = b.dataset.l; paint(); } };
     if (have && have.u < today()) msg(tl(S.exp, { d: fmt(have.u, lang) }), 'e');
@@ -87,6 +93,7 @@ export function licenceGate(app, getLang, onMsg) {
       save({ h, u: e.u, a: e.a, n: name, t: Date.now() }); msg(tl(S.ok, { n: name ? ' · ' + name : '', d: fmt(e.u, lang) }), 'k');
       setTimeout(() => { el.remove(); resolve(licenceInfo(app)); }, 1400);
     };
+    const alt = $('.alt'); if (alt) alt.onclick = () => { el.remove(); resolve(opt.locked ? null : { ok: false, demo: true }); };
     $('.go').onclick = go; $('#lic-in').addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
     setTimeout(() => $('#lic-in').focus(), 300);
   });

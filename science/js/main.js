@@ -18,6 +18,7 @@ import { ParticleView, HAS_PARTICLES } from './particles.js';
 import { PHOTOS, photoImage } from './photos.js';
 import { T, tx, LANGS } from './strings.js';
 import { licenceGate } from './licence.js';
+import { demoIds } from './topics.js';
 
 const Q = new URLSearchParams(location.search);
 if (Q.has('iwer')) { try { await (await import('../test-iwer.js')).default(); } catch (e) { console.warn('no test hook', e); } } // test only
@@ -59,8 +60,8 @@ export class App {
     this.particles = new ParticleView(this); this.hasParticles = HAS_PARTICLES;
     this.clock = new THREE.Clock();
     // DUET STEM subscription: nothing opens without a valid code (local tests only skip it)
-    this.lic = Q.has('test') && /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? Promise.resolve({ ok: true }) : licenceGate('science', () => this.lang, (m) => this.ui && this.ui.toast(m, 9000));
-    this.lic.then(() => this.ui && this.ui.renderPicker());
+    this.lic = Q.has('test') && /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? Promise.resolve({ ok: true }) : licenceGate('science', () => this.lang, (m) => this.ui && this.ui.toast(m, 9000), { demo: true });
+    this.demoSet = demoIds(); this.demo = false; this.lic.then((r) => { this.demo = !(r && r.ok); if (this.ui) this.ui.renderAll(); });
     this.initPointer(); this.initXRButton(); this.initKeys();
     addEventListener('resize', () => { this.camera.aspect = innerWidth / innerHeight; this.camera.updateProjectionMatrix(); r.setSize(innerWidth, innerHeight); });
     this.loadVoice();
@@ -86,7 +87,13 @@ export class App {
   setLang(l) { if (!LANGS.includes(l)) return; const v0 = this.voiceLang(); this.lang = l; store.set('lang', l); if (this.voiceLang() !== v0) this.prefetchVoice(); this.audio.stop(); this.ui.renderAll(); this.boardFor(this.runner.exp); }
   toggleVoice() { this.audio.voice = !this.audio.voice; store.set('voice', this.audio.voice ? '1' : '0'); if (!this.audio.voice) this.audio.stop(); this.ui.renderTop(); this.ui.dirty = true; }
   cycleSpeed() { this.speed = SPEEDS[(SPEEDS.indexOf(this.speed) + 1) % SPEEDS.length] || 1; this.runner.K.speed = this.speed; this.audio.rate = Math.min(1.5, 0.75 + this.speed * 0.25); this.ui.renderStory(); }
+  isLocked(id) { return this.demo && !this.demoSet.has(id); } // free demo: only the demo experiments open without a code
+  askCode(id) { // a locked experiment (or the "enter code" button): leave VR if needed and show the code screen
+    const s = this.renderer.xr.getSession && this.renderer.xr.getSession(); if (s) s.end();
+    licenceGate('science', () => this.lang, null, { locked: true }).then((r) => { if (r && r.ok) { this.demo = false; this.ui.renderAll(); if (id) this.openExp(id); } });
+  }
   openExp(id, o = {}) {
+    if (this.isLocked(id)) { this.askCode(id); return; }
     this.audio.unlock(); document.body.classList.remove('list-open');
     if (this.particles.g.visible) this.particles.close();
     const sj = (BY_ID[id] && BY_ID[id].subj) || 'chemistry'; if (this.ui && this.ui.subj !== sj) { this.ui.subj = sj; this.ui.renderSubjects(); this.ui.renderPicker(); } // opening a physics experiment switches the list to physics
