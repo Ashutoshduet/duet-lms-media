@@ -141,3 +141,13 @@ export function metreRule(o = {}) {
   const m = new THREE.Mesh(new THREE.BoxGeometry(L, 0.006, 0.03), [0, 1, 2, 3, 4, 5].map((i) => new THREE.MeshStandardMaterial(i === 2 ? { map: tex, roughness: 0.6 } : { map: woodTex('#d8b67e'), roughness: 0.6 }))); m.position.y = 0.003; m.castShadow = true; it.g.add(m);
   it.xAt = (cm) => -L / 2 + 0.01 + (cm / 100) * (L - 0.02); it.height = 0.006; it.radius = L / 2; it.grabY = 0.003; return it;
 }
+// ------------------------------------------------------------------ a 9 V battery (six cells inside) with two snap terminals on top
+export function battery9v(o = {}) {
+  const it = new Item('bat9', { ...o, name: o.name || { en: '9 V battery', hi: '9 V बैटरी', hg: '9 V battery' } });
+  const lab = canvasTex(256, 512, (x, w, h) => { const g = x.createLinearGradient(0, 0, w, 0); g.addColorStop(0, '#1b1f24'); g.addColorStop(0.5, '#2c333b'); g.addColorStop(1, '#15181c'); x.fillStyle = g; x.fillRect(0, 0, w, h); x.fillStyle = '#e8b422'; x.fillRect(0, h * 0.12, w, h * 0.05); x.fillStyle = '#f2f2f2'; x.font = '800 120px sans-serif'; x.textAlign = 'center'; x.fillText('9V', w / 2, h * 0.55); x.font = '600 34px sans-serif'; x.fillText('6F22', w / 2, h * 0.7); });
+  const body = new THREE.Mesh(new THREE.BoxGeometry(0.026, 0.046, 0.017), [0, 1, 2, 3, 4, 5].map((i) => (i === 4 || i === 5 ? new THREE.MeshStandardMaterial({ map: lab, roughness: 0.5 }) : new THREE.MeshStandardMaterial({ color: 0x1d2228, roughness: 0.5 })))); body.position.y = 0.023; it.g.add(body);
+  const sM = steel(0xd0d4d8, 0.25); const snapP = new THREE.Mesh(new THREE.CylinderGeometry(0.0032, 0.0032, 0.004, 16), sM); snapP.position.set(0.0063, 0.048, 0); it.g.add(snapP);
+  const snapN = new THREE.Mesh(new THREE.CylinderGeometry(0.0045, 0.0045, 0.0035, 6), sM); snapN.position.set(-0.0063, 0.0478, 0); it.g.add(snapN);
+  it.terms = { '+': { item: it, local: V3(0.0063, 0.05, 0), dir: V3(0.3, 1, 0) }, '-': { item: it, local: V3(-0.0063, 0.0495, 0), dir: V3(-0.3, 1, 0) } };
+  it.volts = 9; it.rInt = 1.6; it.height = 0.05; it.radius = 0.016; it.grabY = 0.025; return it;
+}

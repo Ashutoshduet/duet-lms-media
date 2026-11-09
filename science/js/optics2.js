@@ -85,9 +85,10 @@ export class Spectrum {
     const pr = this.prism; let poly = null;
     if (pr && pr.g.parent && Math.abs(pr.g.position.y - (S.g.position.y + S.surfY)) < 0.004) { const c = this.uv(pr.g.position); const a = yawOf(pr.g); poly = pr.corners.map(([x, y]) => RF.add(c, [x * Math.cos(a) - y * Math.sin(a), x * Math.sin(a) + y * Math.cos(a)])); }
     const ts = poly ? SPECTRUM.map(([, n]) => RF.traceThrough(poly, p0, d0, n)) : null;
-    if (!ts || !ts[0]) { const e = edge(p0, d0); strip(this.inBeam, p0, e, n0, w, w * 1.3); this.paint(null); this.out = null; return; }
+    if (!ts || !ts[0]) { const e = edge(p0, d0); strip(this.inBeam, p0, e, n0, w, w * 1.3); this.paint(null); this.out = null; this.state = 'miss'; return; } // the beam misses the prism (or the prism is not lying on the paper)
     const E = ts[0].E; strip(this.inBeam, p0, E, n0, w, w);
-    const ok = ts.filter((t) => t && t.dout); if (!ok.length) { this.paint(null); this.out = null; return; } // total internal reflection: nothing comes out
+    const ok = ts.filter((t) => t && t.dout); if (!ok.length) { this.paint(null); this.out = null; this.state = 'tir'; return; } // total internal reflection: nothing comes out
+    this.state = 'out';
     const r = ok[0], v = ok[ok.length - 1];
     this.glassFan.set([this.P(...RF.add(E, RF.mul(n0, -w / 2))), this.P(...RF.add(E, RF.mul(n0, w / 2))), this.P(...v.F), this.P(...r.F)]);
     // out of the prism: to the card if the fan reaches it, else to the edge of the paper

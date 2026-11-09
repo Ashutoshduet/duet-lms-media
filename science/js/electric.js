@@ -131,16 +131,16 @@ export class DC {
       if (e.meter) e.item.reading = e.item.meterKind === 'A' ? Math.max(0, I) : Math.max(0, dv);
       if (e.item.kind === 'bulb' && e.item.setGlow) e.item.setGlow(Math.min(1.2, (I * I * e.R) / (e.item.Prated ?? 1.2))); // brightness: the power it takes compared with its rating
       // too much current burns things out, as in a real circuit: a lamp's filament melts, an LED dies (and neither works again)
-      if (e.item.kind === 'bulb' && !e.item.fused && I * I * e.R > 2.6 * (e.item.Prated ?? 1.2)) this.burn(e.item);
-      if (e.item.kind === 'diode' && !e.item.burnt && Math.abs(I) > 0.045) this.burn(e.item);
+      if (e.item.kind === 'bulb' && !e.item.fused && I * I * e.R > 3.5 * (e.item.Prated ?? 1.2)) this.burn(e.item, { P: I * I * e.R, Pr: e.item.Prated ?? 1.2 });
+      if (e.item.kind === 'diode' && !e.item.burnt && Math.abs(I) > 0.045) this.burn(e.item, { I: Math.abs(I) });
     }
   }
-  burn(it) {
+  burn(it, info = {}) {
     const lab = this.lab; it.fused = it.burnt = true;
     if (it.kind === 'bulb') { it.Rb = 1e9; const sg = it.setGlow; if (sg && !it._sgW) { it._sgW = true; it.setGlow = (b) => sg(it.fused ? 0 : b); } it.setGlow && it.setGlow(0); }
     else { it.Vf = 1e6; it.fwd = false; it.dc = () => [{ a: 'a', b: 'b', R: 1e9 }]; }
     const p = it.g.localToWorld(new THREE.Vector3(0, (it.height ?? 0.03) * 0.8, 0)); lab.fx && lab.fx.flashAt && lab.fx.flashAt(p, 3, 0.18, 0xfff0c8, 0.05); lab.audio && lab.audio.pop && lab.audio.pop();
-    lab.emit('burnt', { obj: it.id, kind: it.kind });
+    lab.emit('burnt', { obj: it.id, kind: it.kind, ...info });
   }
 }
 // ------------------------------------------------------------------ graph paper on a clipboard: points plotted one by one, then the best straight line through the origin

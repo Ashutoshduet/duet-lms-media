@@ -163,3 +163,5 @@ export const EXPERIMENTS_P2 = [
   },
 ];
 void BENCH_Y;
+// reversing the cell also reverses the ammeter in this set-up (the needle kicks back): that is expected here, not a mistake
+{ const e = EXPERIMENTS_P2.find((x) => x.id === 'p10_oersted'); if (e) e.steps.forEach((st, i) => { if (i >= 3) st.noCheck = true; }); }

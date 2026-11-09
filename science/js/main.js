@@ -53,6 +53,7 @@ export class App {
     this.runner.on(() => { this.ui.renderStory(); this.ui.renderList(); this.ui.renderNotebook(); if (this.runner.i !== this._lastI) { this._lastI = this.runner.i; this.userCam = false; } });
     this.recent = new Map(); // item id -> time it last took part in something (the camera keeps those in view)
     this.lab.listeners.push((e) => { for (const k of ['to', 'from', 'v', 'in', 'obj', 'by']) if (e[k]) this.recent.set(e[k], this.t); });
+    this.lab.listeners.push((e) => this.explain(e)); // when something goes wrong (or differently), say what happened and why
     this.xr = new XRInput(this);
     this.particles = new ParticleView(this); this.hasParticles = HAS_PARTICLES;
     this.clock = new THREE.Clock();
@@ -206,13 +207,20 @@ export class App {
       drag = null; if (!this.phys.drop(it, v, null)) { it.g.position.y -= 0.06; } };
     el.addEventListener('wheel', (e) => { if (!drag) return; e.preventDefault(); const it = drag.it; if (e.shiftKey) { drag.y = Math.max(0.05, Math.min(2.2, drag.y - e.deltaY * 0.0006)); it.g.position.y = drag.y; return; } const axis = new THREE.Vector3(1, 0, 0).applyQuaternion(this.camera.quaternion).setY(0).normalize(); it.g.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(axis, e.deltaY * 0.0025)); }, { passive: false });
     el.addEventListener('pointerdown', (e) => { this.audio.unlock(); down = { x: e.clientX, y: e.clientY, t: performance.now() }; const it = pick(e); if (canGrab(it)) { const d0 = down; d0.timer = setTimeout(() => { if (down === d0) startDrag(it); }, e.pointerType === 'mouse' ? 160 : 380); } });
+    // the terminal under the pointer (within 16 px on the screen), for wiring by hand
+    const termAt = (e) => { const rc = el.getBoundingClientRect(); let best = null, bd = 16; const v = new THREE.Vector3();
+      for (const it of this.lab.items) { if (!it.terms || !it.g.visible || it.kind === 'lead') continue; for (const k in it.terms) { const t = it.terms[k]; v.copy(t.local); it.g.localToWorld(v); const d0 = v.distanceTo(this.camera.position); v.project(this.camera); if (v.z > 1) continue;
+        const x = (v.x + 1) / 2 * rc.width + rc.left, y = (1 - v.y) / 2 * rc.height + rc.top; const d = Math.hypot(x - e.clientX, y - e.clientY); if (d < bd && d0 < 3) { bd = d; best = t; } } } return best; };
     el.addEventListener('pointerup', (e) => {
       if (down && down.timer) clearTimeout(down.timer); if (drag) { endDrag(); down = null; return; }
+      if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 7) { const t = termAt(e); const tg = this.runner.state === 'todo' ? this.runner.target() : null; if (t && !(tg && pick(e) === tg)) { down = null; this.wireTap(t); return; } else if (!t && this.wirePend) this.wireTap(null); }
       if (!down) return; const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y); const quick = performance.now() - down.t < 450; down = null;
       if (moved > 7 || !quick) return;
       const it = pick(e); const r = this.runner;
       if (it && r.state === 'todo' && r.target() === it) r.doStep();
       else if (it && r.state === 'done') r.next();
+      else if (it && it.kind === 'key' && it.setOn) { it.setOn(!it.on); this.lab.emit('key', { v: it.id, on: it.on }); this.audio.tone(it.on ? 1500 : 900, 0.04, 0.06, 'square'); } // press a switch yourself
+      else if (it && it.setLit && !it.held) { it.setLit(!it.lit); this.lab.emit(it.lit ? 'lit' : 'unlit', { obj: it.id }); if (it.lit) this.audio.whoosh(); } // light or put out a burner, lamp or candle
       else if (it) this.showTip(it, e.clientX, e.clientY, true);
     });
     let raf = 0, last = null;
@@ -223,11 +231,43 @@ export class App {
     });
     el.addEventListener('pointerleave', () => tip.classList.remove('show'));
   }
+  // wiring by hand: tap a terminal, then another one to join them with a wire; tap the same terminal twice to unclip its last wire
+  wireTap(t) {
+    const K = this.runner.K; if (!this.wireDot) { this.wireDot = new THREE.Mesh(new THREE.SphereGeometry(0.006, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffd34d, transparent: true, opacity: 0.85, depthTest: false })); this.wireDot.renderOrder = 60; this.scene.add(this.wireDot); this.wireDot.visible = false; }
+    const p = this.wirePend; const L = this.lang; const say = (o) => this.ui && this.ui.toast(o[L] || o.en, 3200);
+    if (!t) { this.wirePend = null; this.wireDot.visible = false; return; }
+    if (!p) { this.wirePend = t; this.wireDot.visible = true; this.wireDot.userData.t = t; say({ en: 'Wire: now tap another terminal (tap this one again to unclip its wire).', hi: 'तार: अब कोई दूसरा टर्मिनल चुनिए (इसी को दोबारा चुनें तो इसका तार हट जाएगा)।', hg: 'Wire: ab koi doosra terminal chuniye (isi ko dobara chunein to iska wire hat jayega).' }); return; }
+    this.wirePend = null; this.wireDot.visible = false;
+    if (p === t) { if (!K.unwire(t)) say({ en: 'No wire is clipped to this terminal.', hi: 'इस टर्मिनल पर कोई तार नहीं लगा है।', hg: 'Is terminal par koi wire nahi laga hai.' }); return; }
+    K.connect(p, t);
+  }
+  // a short explanation of a breakage, burn-out, crack or spill, in the student's language
+  explain(e) {
+    const L = this.lang, it = e.obj ? this.lab.byId[e.obj] : null; const nm = it && it.name ? tx(it.name, L) : ''; const pick = (o) => o[L] || o.en; let m = null;
+    if (e.type === 'broken') { const sp = (e.dv || 0).toFixed(1); const where = e.floor ? { en: 'the floor', hi: 'फ़र्श', hg: 'floor' } : { en: 'a hard surface', hi: 'कठोर सतह', hg: 'hard surface' };
+      m = { en: `${nm} hit ${where.en} at about ${sp} m/s and broke. Glass is brittle: it cannot bend, so a hard knock cracks it. Anything inside spilled.`, hi: `${nm} लगभग ${sp} m/s की चाल से ${where.hi} से टकराया और टूट गया। काँच भंगुर होता है: वह मुड़ नहीं सकता, इसलिए ज़ोर की चोट से टूट जाता है। अंदर का सब कुछ गिर गया।`, hg: `${nm} lagbhag ${sp} m/s se ${where.hg} se takraaya aur toot gaya. Glass brittle hota hai: mud nahi sakta, isliye zor ki chot se toot jaata hai. Andar ka sab gir gaya.` }; }
+    else if (e.type === 'cracked') m = e.why === 'cold' ? { en: `${nm} cracked when a cold liquid touched the very hot glass: the glass shrank suddenly (thermal shock). Let hot glass cool before adding a cold liquid.`, hi: `बहुत गरम काँच पर ठंडा द्रव पड़ते ही ${nm} चटक गया: काँच अचानक सिकुड़ा (तापीय झटका)। ठंडा द्रव डालने से पहले गरम काँच को ठंडा होने दीजिए।`, hg: `Bahut garam glass par thanda liquid padte hi ${nm} chatak gaya: glass achanak sikuda (thermal shock). Thanda liquid daalne se pehle garam glass ko thanda hone dijiye.` }
+      : { en: `${nm} cracked in the flame. Ordinary glass cannot take strong heating: one part expands more than another and it cracks. Only heat-proof test tubes, beakers and flasks go on a flame.`, hi: `${nm} लौ में चटक गया। साधारण काँच तेज़ गरमी नहीं सह पाता: उसका एक भाग दूसरे से अधिक फैलता है और वह चटक जाता है। लौ पर केवल ऊष्मारोधी परखनली, बीकर और फ़्लास्क ही रखे जाते हैं।`, hg: `${nm} flame mein chatak gaya. Ordinary glass tez garmi nahi seh paata: ek hissa doosre se zyada phailta hai aur wo chatak jaata hai. Flame par sirf heat-proof test tube, beaker aur flask hi rakhe jaate hain.` };
+    else if (e.type === 'burnt' && e.kind === 'bulb') { const P = (e.P || 0).toFixed(1), Pr = e.Pr, k = Math.round((e.P || 0) / (e.Pr || 1)); m = { en: `The lamp burnt out: it took ${P} W, about ${k} times its rating of ${Pr} W, and its filament melted. It will not glow again.`, hi: `लैंप फ़्यूज़ हो गया: उसे ${P} W मिले, जो उसकी क्षमता ${Pr} W का लगभग ${k} गुना है, और उसका तंतु पिघल गया। अब वह फिर नहीं जलेगा।`, hg: `Lamp fuse ho gaya: usse ${P} W mile, jo uski rating ${Pr} W ka lagbhag ${k} guna hai, aur uska filament pighal gaya. Ab wo phir nahi jalega.` }; }
+    else if (e.type === 'burnt') { const mA = Math.round((e.I || 0) * 1000); m = { en: `The LED burnt out: ${mA} mA flowed through it (a safe current is about 20 mA). An LED needs a resistor in series with it.`, hi: `LED जल गया: उसमें ${mA} mA धारा बही (सुरक्षित धारा लगभग 20 mA है)। LED के साथ श्रेणी में एक प्रतिरोधक लगाना ज़रूरी है।`, hg: `LED jal gaya: usme ${mA} mA current baha (safe current lagbhag 20 mA hai). LED ke saath series mein ek resistor lagana zaroori hai.` }; }
+    else if (e.type === 'pouring' && e.spill && this.t - (this._spillT || -9) > 8) { this._spillT = this.t; m = { en: 'Liquid spilled. In a real lab wipe up spills at once — acids and alkalis harm skin and clothes.', hi: 'द्रव गिर गया। असली प्रयोगशाला में गिरा द्रव तुरंत पोंछिए — अम्ल और क्षार त्वचा और कपड़ों को नुकसान पहुँचाते हैं।', hg: 'Liquid gir gaya. Real lab mein gira hua liquid turant pochiye — acid aur alkali skin aur kapdon ko nuksaan pahunchate hain.' }; }
+    else if (e.type === 'mismatch') m = { en: 'Your result is different from the expected one — read “You see” and “Why” to find out what happened.', hi: 'आपका परिणाम अपेक्षित परिणाम से अलग है — क्या हुआ यह जानने के लिए “आप देखते हैं” और “क्यों” पढ़िए।', hg: 'Aapka result expected result se alag hai — kya hua ye jaanne ke liye “You see” aur “Why” padhiye.' };
+    if (m && this.ui && this.ui.toast) this.ui.toast(pick(m), 7000);
+  }
   walkKeys(dt) {
     if (!this._keys) { this._keys = new Set(); addEventListener('keydown', (e) => { if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return; this._keys.add(e.key.toLowerCase()); }); addEventListener('keyup', (e) => this._keys.delete(e.key.toLowerCase())); addEventListener('blur', () => this._keys.clear()); }
-    const k = this._keys; if (!k.size || this.renderer.xr.isPresenting) return; const f = (k.has('w') || k.has('arrowup') ? 1 : 0) - (k.has('s') || k.has('arrowdown') ? 1 : 0), sd = (k.has('d') || k.has('arrowright') ? 1 : 0) - (k.has('a') || k.has('arrowleft') ? 1 : 0); if (!f && !sd) return;
+    if (!this._joyMade) { this._joyMade = true; if (matchMedia('(pointer: coarse)').matches) this.makeJoystick(); }
+    const k = this._keys, J = this._joy || { x: 0, y: 0 }; if ((!k.size && !J.x && !J.y) || this.renderer.xr.isPresenting) return; const f = (k.has('w') || k.has('arrowup') ? 1 : 0) - (k.has('s') || k.has('arrowdown') ? 1 : 0) - J.y, sd = (k.has('d') || k.has('arrowright') ? 1 : 0) - (k.has('a') || k.has('arrowleft') ? 1 : 0) + J.x; if (!f && !sd) return;
     const fw = this.controls.target.clone().sub(this.camera.position).setY(0); if (fw.lengthSq() < 1e-6) return; fw.normalize(); const rt = new THREE.Vector3(-fw.z, 0, fw.x); const mv = fw.multiplyScalar(f).add(rt.multiplyScalar(sd)).multiplyScalar(1.2 * dt);
     const c = this.camera.position; const nx = Math.max(-3.5, Math.min(3.5, c.x + mv.x)), nz = Math.max(-3.4, Math.min(3.4, c.z + mv.z)); mv.set(nx - c.x, 0, nz - c.z); c.add(mv); this.controls.target.add(mv); this.userCam = true; this.camGoal = null;
+  }
+  // phones and tablets: a small thumb joystick at the bottom left to walk round the lab
+  makeJoystick() {
+    const b = document.createElement('div'); b.id = 'joy'; b.style.cssText = 'position:fixed;left:18px;bottom:18px;width:96px;height:96px;border-radius:50%;background:rgba(20,24,30,.35);border:2px solid rgba(255,255,255,.25);z-index:30;touch-action:none';
+    const n = document.createElement('div'); n.style.cssText = 'position:absolute;left:30px;top:30px;width:36px;height:36px;border-radius:50%;background:rgba(240,166,90,.85)'; b.appendChild(n); document.body.appendChild(b);
+    const set = (x, y) => { const r = Math.hypot(x, y), m = 34; if (r > m) { x *= m / r; y *= m / r; } n.style.transform = `translate(${x}px,${y}px)`; this._joy = { x: x / m, y: y / m }; };
+    let id = null, cx = 0, cy = 0; b.addEventListener('pointerdown', (e) => { id = e.pointerId; b.setPointerCapture(id); const rc = b.getBoundingClientRect(); cx = rc.left + rc.width / 2; cy = rc.top + rc.height / 2; set(e.clientX - cx, e.clientY - cy); e.stopPropagation(); });
+    b.addEventListener('pointermove', (e) => { if (e.pointerId === id) set(e.clientX - cx, e.clientY - cy); }); const up = (e) => { if (e.pointerId !== id) return; id = null; set(0, 0); }; b.addEventListener('pointerup', up); b.addEventListener('pointercancel', up);
   }
   hint(kind) { if (this._hinted) return; this._hinted = true; const t = { en: 'Mouse wheel: tilt (pour) · Shift + wheel: lift · let go to put it down or throw it', hi: 'माउस व्हील: झुकाइए (उँडेलिए) · Shift + व्हील: ऊपर-नीचे · छोड़ने पर रख दीजिए या फेंकिए', hg: 'Mouse wheel: tilt (pour) · Shift + wheel: upar-neeche · chhodne par rakh do ya phenko' }; if (this.ui && this.ui.toast) this.ui.toast(t[this.lang] || t.en); void kind; }
   describe(it) {
@@ -308,7 +348,7 @@ export class App {
     this.audio.sfx = !this.muted;
     while (rem > 1e-6 && n++ < 40) { const sd = Math.min(rem, 1 / 30); K.update(sd); this.simT += sd; this.lab.update(sd, this.simT); if (this.phys) this.phys.step(sd); this.follow(); rem -= sd; }
     this.runner.update(dt, this.t); this.particles.update(dt); if (this.runner.auto) this._wasAuto = true; else if (this.runner.state !== 'finished') this._wasAuto = false;
-    this.xr.update(dt); this.walkKeys(dt);
+    this.xr.update(dt); this.walkKeys(dt); if (this.wireDot && this.wireDot.visible) { const t = this.wireDot.userData.t; this.wireDot.position.copy(t.local); t.item.g.localToWorld(this.wireDot.position); }
     this.audio.frame(this.audio.pourT > 0, this.fx.bubbles.length); this.audio.pourT = Math.max(0, this.audio.pourT - dt);
     if (this.lapseShown !== this._lapse) { this._lapse = this.lapseShown; this.ui.renderStory(); }
     if (xr && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR(); this.ui.dirty = false; this._vrDraw = this.t; }

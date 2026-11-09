@@ -69,7 +69,7 @@ export class Physics {
       if (!r.dyn) continue; r.t += dt;
       const t = r.body.translation(), q = r.body.rotation(); it.g.position.set(t.x, t.y, t.z); it.g.quaternion.set(q.x, q.y, q.z, q.w);
       const lv = r.body.linvel(); const dv = Math.hypot(lv.x - r.v0.x, lv.y - r.v0.y, lv.z - r.v0.z);
-      if (dv > BREAK_DV && r.t > 0.05 && this.isGlass(it)) { this.shatter(it, Math.min(1, (dv - BREAK_DV) / 3)); continue; }
+      if (dv > BREAK_DV && r.t > 0.05 && this.isGlass(it)) { this.shatter(it, Math.min(1, (dv - BREAK_DV) / 3), dv); continue; }
       if (dv > 0.8) { const a = this.app.audio; a && a.clink && a.clink(); this.lab.emit('hit', { obj: it.id, dv }); }
       const sp = Math.hypot(lv.x, lv.y, lv.z); r.still = sp < 0.03 ? r.still + dt : 0;
       if (t.y < -1 || r.still > 0.6 || r.body.isSleeping()) { // at rest again: it stays where it ended up
@@ -79,7 +79,7 @@ export class Physics {
     this.updateShards(dt); this.updatePuddles(dt);
   }
   // ---------------------------------------------------------------- broken glass
-  shatter(it, k = 0.5) {
+  shatter(it, k = 0.5, dv = null) {
     if (it.broken) return; it.broken = true; const scene = this.app.scene; const p = it.g.getWorldPosition(new THREE.Vector3()); const top = this.surfaceY(p.x, p.z);
     const col = new THREE.Color(it.kind === 'prism' || it.kind === 'slab' || it.kind === 'lens' ? 0xd8eef2 : 0xe8f4f8);
     const mat = new THREE.MeshStandardMaterial({ color: col, transparent: true, opacity: 0.45, roughness: 0.05, metalness: 0.1, side: THREE.DoubleSide, depthWrite: false });
@@ -93,8 +93,7 @@ export class Physics {
     }
     const a = this.app.audio; if (a && a.crash) a.crash(); else if (a && a.clink) { a.clink(); setTimeout(() => a.clink(), 60); setTimeout(() => a.clink(), 140); }
     if (it.mix && it.ml > 0.5) { const c = it.color ?? 0x9fc6ff; this.puddle(new THREE.Vector3(p.x, top, p.z), it.ml, c); it.mix.take(it.ml); it.ml = 0; }
-    it.g.visible = false; this.forget(it); this.lab.emit('broken', { obj: it.id, kind: it.kind });
-    const msg = { en: 'The glass broke!', hi: 'काँच टूट गया!', hg: 'Glass toot gaya!' }; if (this.app.ui && this.app.ui.toast) this.app.ui.toast(msg[this.app.lang] || msg.en);
+    it.g.visible = false; this.forget(it); if (dv != null) this.lab.emit('broken', { obj: it.id, kind: it.kind, dv, floor: top < 0.1 });
   }
   updateShards(dt) {
     for (const s of this.shards) {

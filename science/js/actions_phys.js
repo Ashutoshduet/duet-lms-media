@@ -62,6 +62,10 @@ Object.assign(Kit.prototype, {
       await this.sleep(0.15); }
     this.lab.emit('lines', { obj: bd.id }); this.busy--;
   },
+  // free wiring by the student: a new wire between any two terminals, or unclip the last wire on a terminal
+  termKey(t) { return Object.keys(t.item.terms).find((k) => t.item.terms[k] === t); },
+  connect(ta, tb, col) { if (!ta || !tb || ta === tb) return null; const cols = [0xc62828, 0x1d1d1d, 0x1d4f9a, 0xe0a020, 0x2e7d32]; this._wc = (this._wc || 0) + 1; const [w] = this.wires([[[ta.item, this.termKey(ta)], [tb.item, this.termKey(tb)], col ?? cols[this._wc % cols.length]]]); this.lab.emit('lead', { obj: tb.item.id, wired: true }); this.app.audio && this.app.audio.clink && this.app.audio.clink(); return w; },
+  unwire(t) { const ws = (this.wireList || []).filter((w) => !w.gone && (w.a === t || w.b === t)); const w = ws[ws.length - 1]; if (!w) return false; w.gone = true; w.mesh.visible = false; w.clips.forEach((c) => (c.visible = false)); if (this.dc) { const i = this.dc.links.indexOf(w.link); if (i >= 0) this.dc.links.splice(i, 1); } w.update = () => {}; this.lab.emit('unwire', { obj: t.item.id }); this.app.audio && this.app.audio.clink && this.app.audio.clink(); return true; },
   // unclip one end of a wire and clip it on another terminal (the clip travels there in the hand); the circuit follows
   async moveLead(w, end, term, dur = 0.9) {
     this.busy++; const old = w[end]; const p0 = old.item.g.localToWorld(old.local.clone()); const at = () => term.item.g.localToWorld(term.local.clone());

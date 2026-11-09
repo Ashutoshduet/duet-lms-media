@@ -58,6 +58,8 @@ export class XRInput {
     if (hit && hit.panel) { const id = hit.panel.hitUV(hit.uv); if (id) { this.pulse(h, 0.4, 30); this.app.audio.tone(900, 0.05, 0.05); this.app.ui.vrClick(id); } return; }
     // with hand tracking, a pinch close to an object picks it up
     if (h.src && h.src.hand) { const near = this.nearest(h, 0.06); if (near) { this.take(h, near, true); return; } }
+    // the ray points at a terminal: wire it (tap one terminal, then another)
+    if (hit && hit.p) { let best = null, bd = 0.025; const v = new THREE.Vector3(); for (const it2 of this.app.lab.items) { if (!it2.terms || !it2.g.visible || it2.kind === 'lead') continue; for (const k in it2.terms) { const t = it2.terms[k]; v.copy(t.local); it2.g.localToWorld(v); const d = v.distanceTo(hit.p); if (d < bd) { bd = d; best = t; } } } if (best) { this.pulse(h, 0.4, 30); this.app.wireTap(best); return; } }
     if (!hit || !hit.item) return;
     const r = this.app.runner; const it = hit.item;
     if (r.state === 'todo' && r.target() === it) { this.pulse(h, 0.5, 40); r.doStep(); return; }

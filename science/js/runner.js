@@ -21,8 +21,17 @@ export class Runner {
   on(f) { this.listeners.push(f); }
   changed() { for (const f of this.listeners) f(this); }
   list() { return EXPERIMENTS; }
+  // what the student actually got: a step can look at the real state of the bench (check) and, if it differs from the
+  // expected result, its "You see" and "Why" are replaced by what really happened and the reason
+  judge() {
+    const s = this.step(); if (!s) return; if (s.noCheck) { this.res[this.i] = null; return; } let chk = s.check; if (!chk && s.ev && s.ev.type === 'focus') chk = focusCheck; if (!chk && s.ev && s.ev.type === 'key') chk = circuitCheck;
+    if (!chk) { this.res[this.i] = null; return; } try { const r = chk(this.K, this.o); this.res[this.i] = r && r.ok === false ? r : null; } catch (err) { console.warn('check', err); this.res[this.i] = null; }
+    if (this.res[this.i]) this.app.lab.emit('mismatch', { step: this.i });
+  }
   text(key, L) { // experiment text with translation
     const e = this.exp; if (!e) return '';
+    const m = /^steps\.(\d+)\.(see|why)$/.exec(key); const rr = m && this.res && this.res[+m[1]];
+    if (rr && rr[m[2]]) { const v = rr[m[2]]; const t = typeof v === 'string' ? v : v[L] || v.en; return m[2] === 'see' ? `⚠ ${t}` : t; }
     const tr = I18N[e.id] || {}; const parts = key.split('.');
     let base = e; for (const p of parts) base = base?.[p];
     let t = tr; for (const p of parts) t = t?.[p];
@@ -33,7 +42,7 @@ export class Runner {
     if (this.K) this.K.dispose();
     this.K = new Kit(this.app); this.K.speed = this.app.speed || 1; this.auto = false; // a fresh kit: actions of the old bench simply stop
     this.gen = (this.gen || 0) + 1; this.app.lab.clear(); this.app.fx.glow(null, false);
-    this.exp = BY_ID[id]; this.i = 0; this.state = 'todo'; this.done = new Set(); this.evAcc = 0;
+    this.exp = BY_ID[id]; this.i = 0; this.state = 'todo'; this.done = new Set(); this.evAcc = 0; this.res = {};
     this.o = this.exp.setup(this.K); for (const k in this.o) { if (this.o[k] && this.o[k].g) this.o[k].key = k; }
     // vessels named "Beaker A — …" / "Test tube B — …" get a sticker with their letter
     for (const it of this.app.lab.vessels) { const n = it.name && it.name.en; const m = n && n.match(/^(?:Beaker|Test tube|Tube)\s+([A-E1-5])\b/); if (m && !it.stickerMesh) this.K.sticker(it, m[1]); else if (it.tag && !it.stickerMesh) this.K.sticker(it, it.tag); }
@@ -53,7 +62,7 @@ export class Runner {
   }
   finish() {
     if (this.state === 'done' || this.state === 'finished') return;
-    this.state = 'done'; this.done.add(this.i); this.changed();
+    this.judge(); this.state = 'done'; this.done.add(this.i); this.changed();
     this.app.onStep && this.app.onStep(this, false, true);
     if (this.auto) this.autoNext();
   }
@@ -92,5 +101,28 @@ export class Runner {
       this.mRing.scale.setScalar(r / 0.033 * (1 + Math.sin(t * 4) * 0.05)); this.mArrow.position.set(c.x, b.max.y + 0.04 + Math.sin(t * 4) * 0.01, c.z);
     }
   }
+}
+// after closing the key of a circuit with an ammeter, current should flow the right way through the meter
+function circuitCheck(K, o) {
+  const items = Object.values(o).filter((it) => it && it.g); const keys = items.filter((it) => it.kind === 'key'); if (!keys.length || !keys.some((k) => k.on)) return null;
+  const am = items.find((it) => it.meterKind === 'A'); const blown = items.find((it) => it.fused || it.burnt);
+  if (blown) return { ok: false, see: { en: 'Nothing works: a lamp or LED in the circuit has burnt out.', hi: 'कुछ काम नहीं करता: परिपथ का एक लैंप या LED जल चुका है।', hg: 'Kuch kaam nahi karta: circuit ka ek lamp ya LED jal chuka hai.' },
+    why: { en: 'Too much current melted its filament, so the circuit is now broken at that point. Replace it and use the correct cell voltage.', hi: 'अधिक धारा से उसका तंतु पिघल गया, इसलिए परिपथ वहाँ टूट गया है। उसे बदलिए और सही वोल्टता का सेल लगाइए।', hg: 'Zyada current se uska filament pighal gaya, isliye circuit wahan toot gaya hai. Use badliye aur sahi voltage ka cell lagaiye.' } };
+  if (!am) return null; const I = am.Is ?? 0;
+  if (I < -1e-4) return { ok: false, see: { en: 'The ammeter needle moves the wrong way, below zero.', hi: 'ऐमीटर की सुई उल्टी दिशा में, शून्य से नीचे जाती है।', hg: 'Ammeter ki sui ulti direction mein, zero se neeche jaati hai.' },
+    why: { en: 'Its + and − terminals are connected the wrong way round. The + terminal of a meter must go towards the + terminal of the cell.', hi: 'उसके + और − टर्मिनल उल्टे जुड़े हैं। मीटर का + टर्मिनल सेल के + टर्मिनल की ओर जुड़ना चाहिए।', hg: 'Uske + aur − terminals ulte jude hain. Meter ka + terminal cell ke + terminal ki taraf judna chahiye.' } };
+  if (Math.abs(I) < 1e-4) return { ok: false, see: { en: 'The ammeter reads zero: no current flows.', hi: 'ऐमीटर शून्य पढ़ता है: कोई धारा नहीं बहती।', hg: 'Ammeter zero padhta hai: koi current nahi behta.' },
+    why: { en: 'The circuit is open somewhere — a loose wire, a wire on the wrong terminal, or a gap. Current flows only round a complete, closed path.', hi: 'परिपथ कहीं खुला है — कोई ढीला तार, ग़लत टर्मिनल पर लगा तार, या कोई खाली जगह। धारा केवल पूरे, बंद रास्ते में ही बहती है।', hg: 'Circuit kahin khula hai — koi loose wire, galat terminal par laga wire, ya koi gap. Current sirf poore, band raaste mein hi behta hai.' } };
+  return { ok: true };
+}
+// a screen should show a sharp image after a "find the sharp image" step
+function focusCheck(K, o) {
+  const scr = Object.values(o).find((it) => it && it.g && it.sharp != null && it.img !== undefined); if (!scr) return null;
+  if (!scr.img) return { ok: false, see: { en: 'No image forms on your screen: the light does not reach it from this position.', hi: 'आपके पर्दे पर कोई प्रतिबिंब नहीं बनता: इस जगह से प्रकाश उस तक नहीं पहुँचता।', hg: 'Aapke screen par koi image nahi banti: is jagah se light us tak nahi pahunchti.' },
+    why: { en: 'A lens or mirror forms a real image only on one side and at one distance; for a virtual image there is nothing to catch on a screen.', hi: 'लेंस या दर्पण वास्तविक प्रतिबिंब केवल एक ओर और एक निश्चित दूरी पर बनाता है; आभासी प्रतिबिंब पर्दे पर नहीं आता।', hg: 'Lens ya mirror real image sirf ek taraf aur ek fixed distance par banata hai; virtual image screen par nahi aati.' } };
+  if (scr.sharp >= 0.72) return { ok: true };
+  const pc = Math.round(scr.sharp * 100); const v = scr.img.v != null && isFinite(scr.img.v) ? Math.abs(scr.img.v * 100).toFixed(1) : '—';
+  return { ok: false, see: { en: `The image on your screen is blurred (sharpness ${pc} %).`, hi: `आपके पर्दे पर प्रतिबिंब धुँधला है (स्पष्टता ${pc} %)।`, hg: `Aapke screen par image blurred hai (sharpness ${pc} %).` },
+    why: { en: `The sharp image forms about ${v} cm from the lens or mirror, and your screen is not there. Slide the screen slowly to and fro until the image is sharpest.`, hi: `स्पष्ट प्रतिबिंब लेंस या दर्पण से लगभग ${v} सेमी पर बनता है, और आपका पर्दा वहाँ नहीं है। पर्दे को धीरे-धीरे आगे-पीछे खिसकाइए जब तक प्रतिबिंब सबसे स्पष्ट न हो जाए।`, hg: `Sharp image lens ya mirror se lagbhag ${v} cm par banti hai, aur aapka screen wahan nahi hai. Screen ko dheere-dheere aage-peeche kijiye jab tak image sabse sharp na ho jaye.` } };
 }
 export { EXPERIMENTS };

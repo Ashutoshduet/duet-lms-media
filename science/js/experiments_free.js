@@ -49,5 +49,22 @@ export const EXPERIMENTS_FREE = [
     result: { obs: N('Your own observations.', 'आपके अपने प्रेक्षण।', 'Aapke apne observations.'), concl: N('Your own conclusions.', 'आपके अपने निष्कर्ष।', 'Aapke apne conclusions.'),
       safety: N('Do not look straight into the ray box; keep magnets away from phones.', 'किरण बॉक्स में सीधे मत देखिए; चुंबकों को फ़ोन से दूर रखिए।', 'Ray box mein seedha mat dekhiye; magnets ko phone se door rakhiye.'), viva: [] },
   },
+  {
+    id: 'open_elec', subj: 'physics', cls: 6, also: ALL, ch: CH, title: N('Open electricity lab', 'खुली विद्युत प्रयोगशाला', 'Open electricity lab'),
+    aim: N('To make circuits of your own and see what happens.', 'अपने खुद के परिपथ बनाकर देखना कि क्या होता है।', 'Apne khud ke circuits bana kar dekhna ki kya hota hai.'),
+    kind: N('Free experimenting', 'स्वतंत्र प्रयोग', 'Free experimenting'),
+    setup(K) {
+      K.wires([]); // the circuit solver runs from the start; every wire the student clips on joins in
+      K.add(K.M5.cellHolder(), -0.42, -0.6); K.add(K.M5.cellHolder(), -0.42, -0.68); K.add(K.M7.battery9v(), -0.5, -0.5);
+      K.add(K.M5.lampHolder(), -0.24, -0.62); K.add(K.M5.lampHolder(), -0.14, -0.7); K.add(K.M3.ledDiode(), -0.06, -0.6); K.add(K.M5.pinSwitch(), -0.3, -0.5);
+      K.add(K.EL.resistorBoard(10), 0.06, -0.66); K.add(K.EL.meter('A', 1.5), 0.2, -0.62); K.add(K.EL.meter('V', 10), 0.34, -0.62);
+      ['clip', 'key', 'coin', 'eraser', 'wood', 'foil', 'lead', 'glass'].forEach((k, i) => K.add(K.M5.thing(k), 0.04 + i * 0.06, -0.48));
+      return {};
+    },
+    steps: [step(N('To join two terminals with a wire, tap (or point at and press) one terminal and then the other; tap a terminal twice to unclip its wire. Cells, lamps, LEDs and meters behave like real ones — too much voltage burns a lamp or an LED out.', 'दो टर्मिनलों को तार से जोड़ने के लिए एक टर्मिनल को छूइए (या उस पर इशारा करके बटन दबाइए) और फिर दूसरे को; किसी टर्मिनल को दो बार छूने से उसका तार हट जाता है। सेल, लैंप, LED और मीटर असली जैसे ही काम करते हैं — अधिक वोल्टता से लैंप या LED जल जाता है।', 'Do terminals ko wire se jodne ke liye ek terminal ko tap kijiye (ya us par point karke button dabaiye) aur phir doosre ko; kisi terminal ko do baar tap karne se uska wire hat jaata hai. Cells, lamps, LEDs aur meters bilkul real jaise kaam karte hain — zyada voltage se lamp ya LED jal jaata hai.'))],
+    eq: { word: N('Open lab', 'खुली प्रयोगशाला', 'Open lab'), sym: '—' },
+    result: { obs: N('Your own observations.', 'आपके अपने प्रेक्षण।', 'Aapke apne observations.'), concl: N('Your own conclusions.', 'आपके अपने निष्कर्ष।', 'Aapke apne conclusions.'),
+      safety: N('Never connect the two terminals of a cell or battery directly with a wire (short circuit). Never use mains electricity for experiments.', 'किसी सेल या बैटरी के दोनों टर्मिनलों को कभी सीधे तार से न जोड़िए (लघुपथन)। प्रयोगों के लिए घर की बिजली का कभी उपयोग न कीजिए।', 'Kisi cell ya battery ke dono terminals ko kabhi seedhe wire se mat jodiye (short circuit). Experiments ke liye ghar ki bijli kabhi use mat kijiye.'), viva: [] },
+  },
 ];
 void X;

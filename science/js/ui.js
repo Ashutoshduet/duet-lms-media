@@ -45,7 +45,7 @@ export class UI {
   renderSubjects() { $('#subjects').innerHTML = SUBJECTS.map((s) => { const ok = hasSubject(s); return `<button data-sub="${s}" class="${s === this.subj ? 'on' : ok ? '' : 'off'}" ${ok ? '' : 'aria-disabled="true"'}>${esc(this.t(s))}</button>`; }).join(''); }
   // the subject (chemistry, physics …) whose experiments are listed
   setSubject(s) { if (!hasSubject(s)) return; this.subj = s; store.set('subj', s); this.page = 0; this.renderSubjects(); this.renderPicker(); this.renderList(); this.renderStory(); this.dirty = true; const e = this.app.runner.exp; if (e && subjOf(e) !== s) { const f = this.classLeft(this.cls)[0] || classOrder(this.cls, s)[0]; if (f) this.app.openExp(f.id); } }
-  toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => t.classList.remove('show'), 2600); }
+  toast(msg, ms = 2600) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => t.classList.remove('show'), ms); }
   renderAll() { this.renderTop(); this.renderPicker(); this.renderList(); this.renderStory(); this.renderNotebook(); this.dirty = true; }
   // ------------------------------------------------------------ class-wise flow: pick your class, do its experiments in book order
   showPicker(on) { document.body.classList.toggle('pick', on); if (on) this.renderPicker(); }
