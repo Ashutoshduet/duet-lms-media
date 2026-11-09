@@ -45,10 +45,33 @@ export const SUBS = {
   glucose: { f: 'C₆H₁₂O₆', n: { en: 'Glucose solution', hi: 'ग्लूकोज़ विलयन', hg: 'Glucose solution' }, c: '#f2f6f8', a: 0.17, pH: 7 },
   alcohol: { f: 'C₂H₅OH', n: { en: 'Alcohol solution', hi: 'ऐल्कोहॉल विलयन', hg: 'Alcohol solution' }, c: '#eef6ff', a: 0.15, pH: 7 },
   kerosene: { f: 'Kerosene', n: { en: 'Kerosene', hi: 'मिट्टी का तेल (केरोसिन)', hg: 'Kerosene (mitti ka tel)' }, c: '#efe3b8', a: 0.22, pH: 7 },
+  // batch 5
+  thio: { f: 'Na₂S₂O₃', n: { en: 'Sodium thiosulphate solution', hi: 'सोडियम थायोसल्फ़ेट विलयन', hg: 'Sodium thiosulphate solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
+  ink: { f: 'Ink', n: { en: 'Blue ink', hi: 'नीली स्याही', hg: 'Blue ink' }, c: '#1d3d9a', a: 0.85, pH: 7, dye: 60 },
+  acetone: { f: 'CH₃COCH₃', n: { en: 'Acetone', hi: 'ऐसीटोन', hg: 'Acetone' }, c: '#eef6ff', a: 0.14, pH: 7, volatile: 6 },
+  milkfull: { f: 'Milk', n: { en: 'Full-cream milk', hi: 'फुल क्रीम दूध', hg: 'Full-cream doodh' }, c: '#f7f4ec', a: 0.9, pH: 6.7, cloud: 0.95, cloudC: '#fbf8ef' },
+  skim: { f: 'Skimmed milk', n: { en: 'Skimmed milk', hi: 'मलाई निकला दूध', hg: 'Skimmed milk' }, c: '#dfe8f0', a: 0.6, pH: 6.7, cloud: 0.6, cloudC: '#dbe6f0' },
+  moil: { f: 'Mustard oil', n: { en: 'Mustard oil', hi: 'सरसों का तेल', hg: 'Sarson ka tel' }, c: '#d9b23a', a: 0.6, pH: 7, float: true },
+  // batch 6 (Class 10)
+  cucl2: { f: 'CuCl₂', n: { en: 'Copper(II) chloride solution', hi: 'कॉपर(II) क्लोराइड विलयन', hg: 'Copper(II) chloride solution' }, c: '#25a08e', a: 0.55, pH: 4, weak: true, h: 0.002, tint: 3 },
+  ethanol: { f: 'C₂H₅OH', n: { en: 'Ethanol', hi: 'एथेनॉल', hg: 'Ethanol' }, c: '#eef6ff', a: 0.14, pH: 7, volatile: 5 },
+  ethanoic: { f: 'CH₃COOH', n: { en: 'Dilute ethanoic acid', hi: 'तनु एथेनॉइक अम्ल', hg: 'Dilute ethanoic acid' }, c: '#f2f5f2', a: 0.16, h: 0.1, pH: 2.9, weak: true },
+  glacial: { f: 'CH₃COOH (glacial)', n: { en: 'Glacial ethanoic acid', hi: 'ग्लेशियल एथेनॉइक अम्ल', hg: 'Glacial ethanoic acid' }, c: '#f4f6f2', a: 0.16, h: 0.5, pH: 2.4, weak: true },
+  ester: { f: 'CH₃COOC₂H₅', n: { en: 'Ethyl ethanoate (an ester)', hi: 'एथिल एथेनोएट (एक एस्टर)', hg: 'Ethyl ethanoate (ester)' }, c: '#f2f6f8', a: 0.15, pH: 7, float: true },
+  kmno4alk: { f: 'KMnO₄ + NaOH', n: { en: 'Alkaline potassium permanganate', hi: 'क्षारीय पोटैशियम परमैंगनेट', hg: 'Alkaline potassium permanganate' }, c: '#7a1f8f', a: 0.8, pH: 12, weak: true, h: -0.05, dye: 250 },
+  vanilla: { f: 'Vanilla essence', n: { en: 'Vanilla essence', hi: 'वनीला एसेंस', hg: 'Vanilla essence' }, c: '#5a3418', a: 0.7, pH: 7, dye: 6 },
+  clove: { f: 'Clove oil', n: { en: 'Clove oil', hi: 'लौंग का तेल', hg: 'Laung ka tel (clove oil)' }, c: '#c9a24a', a: 0.5, pH: 7, dye: 5 },
+  hardwater: { f: 'Hard water (Ca²⁺, Mg²⁺)', n: { en: 'Hard water', hi: 'कठोर जल', hg: 'Hard water (khaara paani)' }, c: '#dceeff', a: 0.16, pH: 7.3 },
+  detergent: { f: 'Detergent solution', n: { en: 'Detergent solution', hi: 'अपमार्जक (डिटर्जेंट) का घोल', hg: 'Detergent ka ghol' }, c: '#e9f0f5', a: 0.3, h: -0.005, pH: 8, weak: true, cloud: 0.12, cloudC: '#f2f5f7' },
+  castor: { f: 'Castor oil', n: { en: 'Castor oil', hi: 'अरंडी का तेल', hg: 'Arandi ka tel (castor oil)' }, c: '#efe2a8', a: 0.55, pH: 7, float: true },
+  naoh20: { f: 'NaOH (20%)', n: { en: '20% sodium hydroxide solution', hi: '20% सोडियम हाइड्रॉक्साइड विलयन', hg: '20% sodium hydroxide solution' }, c: '#eef6ff', a: 0.2, h: -5, pH: 14 },
+  soapmix: { f: 'Soap + glycerol', n: { en: 'Soap mixture (soap and glycerol)', hi: 'साबुन का मिश्रण (साबुन और ग्लिसरॉल)', hg: 'Saabun ka mixture (saabun aur glycerol)' }, c: '#f3ead0', a: 0.9, pH: 10, weak: true, h: -0.02, cloud: 0.92, cloudC: '#f5edd4' },
+  lye: { f: 'Glycerol + salt + NaOH', n: { en: 'Liquid left below the soap (glycerol, salt, alkali)', hi: 'साबुन के नीचे बचा द्रव (ग्लिसरॉल, नमक, क्षार)', hg: 'Saabun ke neeche bacha liquid' }, c: '#efe8cc', a: 0.3, h: -1, pH: 13, cloud: 0.18, cloudC: '#f2ecd6' },
   // indicators (strong colour, small amounts)
   phenol: { f: 'Phenolphthalein', n: { en: 'Phenolphthalein', hi: 'फीनॉलफ्थेलिन', hg: 'Phenolphthalein' }, c: '#f8f8f8', a: 0.12, ind: 'phenol' },
   methylorange: { f: 'Methyl orange', n: { en: 'Methyl orange', hi: 'मेथिल ऑरेंज', hg: 'Methyl orange' }, c: '#f08a24', a: 0.8, ind: 'mo' },
   litmus: { f: 'Litmus', n: { en: 'Litmus solution', hi: 'लिटमस विलयन', hg: 'Litmus solution' }, c: '#7a4f9a', a: 0.8, ind: 'litmus' },
+  redlitmus: { f: 'Red litmus', n: { en: 'Red litmus solution', hi: 'लाल लिटमस विलयन', hg: 'Red litmus solution' }, c: '#c8404a', a: 0.8, ind: 'litmus', pHself: 3 },
   bluelitmus: { f: 'Blue litmus', n: { en: 'Blue litmus solution', hi: 'नीला लिटमस विलयन', hg: 'Blue litmus solution' }, c: '#3a5fc6', a: 0.8, ind: 'litmus', pHself: 9 },
   universal: { f: 'Universal indicator', n: { en: 'Universal indicator', hi: 'सार्वत्रिक सूचक', hg: 'Universal indicator' }, c: '#3e9d4a', a: 0.8, ind: 'ui' },
   turmeric: { f: 'Turmeric', n: { en: 'Turmeric solution', hi: 'हल्दी का घोल', hg: 'Haldi ka ghol' }, c: '#e8b422', a: 0.75, ind: 'turmeric' },
@@ -59,7 +82,7 @@ export const SUBS = {
 // no ions; weak acids (lemon, vinegar) only a few; strong acids, bases and salts many. Tap water has a few dissolved salts.
 const ION = { hcl: 2.5, h2so4: 3, h2so4c: 0.6, naoh: 2.2, nacl: 3, kno3: 1.8, ki: 1.8, bacl2: 1.8, na2so4: 1.8, agno3: 1.5, pbno3: 1.5, cuso4: 1.6, feso4: 1.2, znso4: 1.2,
   zncl2: 1.4, fecl2: 1.2, mgcl2: 1.5, washingsoda: 1.2, bakingsoda: 0.5, limewater: 0.35, soap: 0.15, milkmag: 0.05, vinegar: 0.05, lemon: 0.07, amla: 0.04, tamarind: 0.05,
-  so2aq: 0.08, tapwater: 0.012, milk: 0.04 };
+  so2aq: 0.08, tapwater: 0.012, milk: 0.04, cucl2: 1.6, ethanoic: 0.05, glacial: 0.01, kmno4alk: 1, hardwater: 0.05, detergent: 0.3, naoh20: 3, lye: 2.5 };
 export function conductance(mix) { const tot = mix.ml(); if (tot <= 0.05) return 0; let g = 0; for (const k in mix.liq) g += (ION[k] || 0) * mix.liq[k]; return g / tot; }
 // precipitates
 export const PPT = {
@@ -72,6 +95,9 @@ export const PPT = {
   sand: { f: 'SiO₂', c: '#c2a878', settle: 1.4, n: { en: 'sand (settled at the bottom)', hi: 'रेत (नीचे बैठ गई)', hg: 'ret (neeche baith gayi)' } },
   caoh2: { f: 'Ca(OH)₂', c: '#f6f5f0', n: { en: 'slaked lime (milky)', hi: 'बुझा हुआ चूना (दूधिया)', hg: 'slaked lime (milky)' } },
   mud: { f: 'Mud', c: '#7a5a35', n: { en: 'mud (sand and soil particles)', hi: 'कीचड़ (रेत और मिट्टी के कण)', hg: 'keechad (ret aur mitti ke kan)' } },
+  scol: { f: 'S', c: '#f3ecbf', colloid: true, settle: 0.00002, n: { en: 'colloidal sulphur (it does not settle)', hi: 'कोलॉइडी सल्फ़र (नीचे नहीं बैठता)', hg: 'colloidal sulphur (neeche nahi baithta)' } },
+  mno2: { f: 'MnO₂', c: '#5b3a1e', settle: 0.012, n: { en: 'brown precipitate of manganese dioxide', hi: 'मैंगनीज़ डाइऑक्साइड का भूरा अवक्षेप', hg: 'manganese dioxide ka brown precipitate' } },
+  scum: { f: '(C₁₇H₃₅COO)₂Ca', c: '#efece4', settle: 0.004, n: { en: 'white curdy scum (calcium and magnesium soap)', hi: 'सफ़ेद दही जैसा मैल (कैल्शियम और मैग्नीशियम साबुन)', hg: 'white curdy scum (calcium/magnesium saabun)' } },
   clay: { f: 'Clay', c: '#9a7b52', n: { en: 'fine clay particles', hi: 'मिट्टी के बारीक कण', hg: 'mitti ke baareek kan' } },
 };
 // solids that can be put into vessels
@@ -81,7 +107,7 @@ export const SOLIDS = {
   fe: { f: 'Fe', n: { en: 'Iron', hi: 'लोहा', hg: 'Iron (loha)' }, color: 0x8d9196, react: 0.35 },
   al: { f: 'Al', n: { en: 'Aluminium', hi: 'एल्युमिनियम', hg: 'Aluminium' }, color: 0xd5d8dc, react: 1.4 },
   cu: { f: 'Cu', n: { en: 'Copper turnings', hi: 'ताँबे के टुकड़े', hg: 'Copper turnings' }, color: 0xb86a3c, react: 0 },
-  na2co3: { f: 'Na₂CO₃', n: { en: 'Sodium carbonate', hi: 'सोडियम कार्बोनेट', hg: 'Sodium carbonate' }, color: 0xf7f7f3, carb: 2.4, tex: 'nahco3' },
+  na2co3: { f: 'Na₂CO₃', n: { en: 'Sodium carbonate', hi: 'सोडियम कार्बोनेट', hg: 'Sodium carbonate' }, color: 0xf7f7f3, carb: 2.4, tex: 'nahco3', dis: 'washingsoda', disK: 1.6 },
   nahco3: { f: 'NaHCO₃', n: { en: 'Sodium hydrogencarbonate (baking soda)', hi: 'सोडियम हाइड्रोजन कार्बोनेट (खाने का सोडा)', hg: 'Baking soda (NaHCO₃)' }, tex: 'nahco3', color: 0xfafaf7, carb: 3, dis: 'bakingsoda', disK: 1.6, spoonG: 2, solub: (T) => 9.6 + 0.165 * (T - 20) },
   caco3: { f: 'CaCO₃', n: { en: 'Marble chips', hi: 'संगमरमर के टुकड़े', hg: 'Marble chips' }, color: 0xeeebe4, carb: 0.8, tex: 'marble' },
   cao: { f: 'CaO', n: { en: 'Quick lime', hi: 'बिना बुझा चूना', hg: 'Quick lime (chuna)' }, color: 0xf2efe6, tex: 'cao' },
@@ -96,8 +122,22 @@ export const SOLIDS = {
   cacl2: { f: 'CaCl₂', n: { en: 'Anhydrous calcium chloride', hi: 'निर्जल कैल्शियम क्लोराइड', hg: 'Anhydrous calcium chloride' }, color: 0xf6f5f0, tex: 'cacl2' },
   soil: { f: 'Soil', n: { en: 'Soil', hi: 'मिट्टी', hg: 'Mitti' }, color: 0x6b4a2a, tex: 'soil', insol: 'soil' },
   alum: { f: 'KAl(SO₄)₂·12H₂O', n: { en: 'Potash alum (fitkari)', hi: 'फिटकरी', hg: 'Fitkari (alum)' }, color: 0xf2f1ec, tex: 'salt', alum: true },
+  // batch 6
+  agcl: { f: 'AgCl', n: { en: 'Silver chloride', hi: 'सिल्वर क्लोराइड', hg: 'Silver chloride' }, color: 0xf7f7f2, tex: 'chalk', light: true },
+  baoh2: { f: 'Ba(OH)₂·8H₂O', n: { en: 'Barium hydroxide crystals', hi: 'बेरियम हाइड्रॉक्साइड के क्रिस्टल', hg: 'Barium hydroxide crystals' }, color: 0xf5f5f1, tex: 'nh4cl' },
+  cupow: { f: 'Cu', n: { en: 'Copper powder', hi: 'ताँबे का चूर्ण', hg: 'Copper powder' }, color: 0xb87333, cuOx: true },
+  cuo: { f: 'CuO', n: { en: 'Copper(II) oxide (black)', hi: 'कॉपर(II) ऑक्साइड (काला)', hg: 'Copper(II) oxide (kaala)' }, color: 0x232120 },
+  naohs: { f: 'NaOH', n: { en: 'Sodium hydroxide pellets', hi: 'सोडियम हाइड्रॉक्साइड की गोलियाँ', hg: 'NaOH ki goliyan' }, color: 0xf7f7f4, tex: 'naoh', dis: 'naoh', disK: 0.9, disMl: 2, heatDis: 7 },
+  na: { f: 'Na', n: { en: 'Sodium (a small piece)', hi: 'सोडियम (एक छोटा टुकड़ा)', hg: 'Sodium (chhota tukda)' }, color: 0xcfcfc8, alkali: 1 },
+  ca: { f: 'Ca', n: { en: 'Calcium granules', hi: 'कैल्शियम के दाने', hg: 'Calcium ke daane' }, color: 0xd6d4cc, alkali: 0.3 },
+  // batch 5
+  femix: { f: 'Fe + S', n: { en: 'Mixture of iron filings and sulphur', hi: 'लोहे के बुरादे और सल्फ़र का मिश्रण', hg: 'Iron ke buraade aur sulphur ka mixture' }, color: 0xffffff, tex: 'femix', react: 0.4, rough: 1, heatFeS: true },
+  fes: { f: 'FeS', n: { en: 'Iron sulphide (black)', hi: 'आयरन सल्फ़ाइड (काला)', hg: 'Iron sulphide (kaala)' }, color: 0x2c2926, tex: 'fes' },
+  filings: { f: 'Fe', n: { en: 'Iron filings', hi: 'लोहे का बुरादा', hg: 'Iron ka buraada' }, color: 0x55585c, tex: 'filings' },
+  spow: { f: 'S', n: { en: 'Sulphur powder', hi: 'सल्फ़र पाउडर', hg: 'Sulphur powder' }, color: 0xf0d02a, tex: 'sulphur' },
+  cuso4i: { f: 'CuSO₄·5H₂O', n: { en: 'Impure copper sulphate', hi: 'अशुद्ध कॉपर सल्फ़ेट', hg: 'Impure copper sulphate' }, color: 0x2f86c8, tex: 'cuso4', dis: 'cuso4', disK: 1.4, disMl: 1.5, spoonG: 3, imp: 0.04, solub: (T) => 32 + 0.75 * (T - 20) },
   // batch 4
-  cuso4d: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x1f8fd0, tex: 'cuso4', dis: 'cuso4', disK: 2.2, disMl: 12 },
+  cuso4d: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x1f8fd0, tex: 'cuso4', dis: 'cuso4', disK: 2.2, disMl: 4 },
   kis: { f: 'KI', n: { en: 'Potassium iodide', hi: 'पोटैशियम आयोडाइड', hg: 'Potassium iodide' }, color: 0xf8f8f4, tex: 'ki', dis: 'ki', disK: 2 },
   bacl2s: { f: 'BaCl₂', n: { en: 'Barium chloride', hi: 'बेरियम क्लोराइड', hg: 'Barium chloride' }, color: 0xf6f6f2, tex: 'bacl2', dis: 'bacl2', disK: 1.6 },
   camphor: { f: 'C₁₀H₁₆O', n: { en: 'Camphor', hi: 'कपूर', hg: 'Kapoor (camphor)' }, color: 0xf7f7f2, tex: 'nh4cl', kero: 'kerosene', floats: true },
@@ -123,7 +163,7 @@ export function indColor(ind, pH) {
 // strip colour after dipping (litmus papers, pH paper, turmeric paper)
 export function stripColor(kind, pH) {
   if (kind === 'blue') return pH < 5 ? C('#d0424a') : C('#4e6fbf');
-  if (kind === 'red') return pH > 8 ? C('#4e6fbf') : C('#d0424a');
+  if (kind === 'red') return pH > 7.8 ? C('#4e6fbf') : C('#d0424a');
   if (kind === 'ph') return uiColor(pH);
   if (kind === 'turmeric') return pH > 8 ? C('#b5361f') : C('#e8b422');
   return C('#ffffff');
@@ -135,12 +175,12 @@ export class Mix {
   ml() { let s = 0; for (const k in this.liq) s += this.liq[k]; return s; }
   add(sub, ml) { this.liq[sub] = (this.liq[sub] || 0) + ml; }
   take(ml) { // remove a well-mixed portion
-    const tot = this.ml(); if (tot <= 0) return null; const f = Math.min(1, ml / tot); const out = { liq: {}, ppt: {}, cloud: this.cloud };
+    const tot = this.ml(); if (tot <= 0) return null; const f = Math.min(1, ml / tot); const out = { liq: {}, ppt: {}, cloud: this.cloud, temp: this.temp };
     for (const k in this.liq) { const d = this.liq[k] * f; out.liq[k] = d; this.liq[k] -= d; if (this.liq[k] < 1e-6) delete this.liq[k]; }
     for (const k in this.ppt) { const d = this.ppt[k] * f * Math.min(1, this.cloud + 0.15); out.ppt[k] = d; this.ppt[k] -= d; }
     return out;
   }
-  put(p, ml) { if (!p) return; for (const k in p.liq) this.add(k, p.liq[k]); for (const k in p.ppt) { this.ppt[k] = (this.ppt[k] || 0) + p.ppt[k]; this.cloud = Math.max(this.cloud, p.cloud * 0.9); } void ml; }
+  put(p, ml) { if (!p) return; if (p.temp != null) { const m0 = this.ml(), m1 = Object.values(p.liq).reduce((a, b) => a + b, 0); if (m0 + m1 > 1e-6) this.temp = (this.temp * m0 + p.temp * m1) / (m0 + m1); } for (const k in p.liq) this.add(k, p.liq[k]); for (const k in p.ppt) { this.ppt[k] = (this.ppt[k] || 0) + p.ppt[k]; this.cloud = Math.max(this.cloud, p.cloud * 0.9); } void ml; }
   has(sub, min = 0.05) { return (this.liq[sub] || 0) > min; }
   pH() {
     const self = this; const tot = this.ml(); if (tot <= 0) return 7;
@@ -216,7 +256,7 @@ export const RULES = [
         v.gasOut('H2', rate * dt);
         const used = rate * dt * 0.004; s.amount = Math.max(0, s.amount - used * (s.chem === 'mg' ? 6 : 0.4));
         v.mix.liq[acid] = Math.max(0, v.mix.liq[acid] - used * 0.6);
-        const salt = { zn: acid === 'hcl' ? 'zncl2' : 'znso4', fe: acid === 'hcl' ? 'fecl2' : 'feso4', mg: 'mgcl2', al: 'zncl2' }[s.chem];
+        const salt = { zn: acid === 'hcl' ? 'zncl2' : 'znso4', fe: acid === 'hcl' ? 'fecl2' : 'feso4', femix: 'fecl2', mg: 'mgcl2', al: 'zncl2' }[s.chem];
         if (salt) v.mix.add(salt, used * 0.6);
         v.mix.temp += rate * dt * (s.chem === 'mg' ? 0.5 : 0.25);
         E.note(v, 'h2', { metal: s.chem });
@@ -224,16 +264,16 @@ export const RULES = [
       }
     } },
   // carbonate + acid -> CO2 (fizzing)
-  { id: 'carb_acid', test: (v) => v.solids.some((s) => s.chem && SOLIDS[s.chem].carb && s.amount > 0) && (v.mix.has('hcl') || v.mix.has('h2so4') || v.mix.has('vinegar') || v.mix.has('lemon')),
+  { id: 'carb_acid', test: (v) => v.solids.some((s) => s.chem && SOLIDS[s.chem].carb && s.amount > 0) && ['hcl', 'h2so4', 'vinegar', 'lemon', 'ethanoic', 'glacial'].some((a) => v.mix.has(a)),
     run(v, dt, E) {
-      const acid = ['hcl', 'h2so4', 'vinegar', 'lemon'].find((a) => v.mix.has(a));
+      const acid = ['hcl', 'h2so4', 'vinegar', 'lemon', 'ethanoic', 'glacial'].find((a) => v.mix.has(a));
       for (const s of v.solids) {
         const S = SOLIDS[s.chem]; if (!S?.carb || s.amount <= 0 || !s.under) continue;
         const rate = S.carb * Math.min(1, v.mix.liq[acid] / 2) * (SUBS[acid].weak ? 0.6 : 1);
         E.fx.bubbles_(v, 30 + rate * 60, dt, { size: 0.0009 });
         if (rate > 1.5) for (let i = 0; i < 2; i++) E.fx.bubbles_(v, 40, dt, { size: 0.0012 });
-        v.gasOut('CO2', rate * dt);
-        const used = rate * dt * 0.006; s.amount = Math.max(0, s.amount - used); v.mix.liq[acid] = Math.max(0, v.mix.liq[acid] - used * 0.5);
+        v.gasOut('CO2', rate * dt * E.lapse);
+        const used = rate * dt * E.lapse * 0.006; s.amount = Math.max(0, s.amount - used); v.mix.liq[acid] = Math.max(0, v.mix.liq[acid] - used * 0.5); // time-lapse speeds the reaction up too
         v.mix.add(s.chem === 'caco3' ? 'water' : 'nacl', used * 0.4);
         E.note(v, 'co2', {}); s.onAmount && s.onAmount();
       }
@@ -297,8 +337,8 @@ export const RULES = [
           if (room < 1e-4) { if (!v.saturated) { v.saturated = s.chem; E.note(v, 'saturated', { chem: s.chem }); } continue; }
           d = Math.min(d, room); v.disG[s.chem] = (v.disG[s.chem] || 0) + d * (S.spoonG || 5); v.saturated = null;
         }
-        s.amount -= d; s.onAmount && s.onAmount();
-        v.mix.add(S.dis, d * (S.dye ? 0.15 : S.disMl ?? 0.8)); // disMl: how much of the stock solution one spoonful makes (copper sulphate colours water strongly)
+        s.amount -= d; s.onAmount && s.onAmount(); if (S.imp) { v.mix.ppt.mud = (v.mix.ppt.mud || 0) + d * S.imp; v.mix.cloud = Math.min(0.25, v.mix.cloud + d * S.imp * 2); }
+        v.mix.add(S.dis, d * (S.dye ? 0.15 : S.disMl ?? 0.8)); if (S.heatDis) v.mix.temp += d * S.heatDis * 10 / Math.max(5, v.mix.ml()); // NaOH pellets warm the water as they dissolve // disMl: how much of the stock solution one spoonful makes (copper sulphate colours water strongly)
         if (s.chem === 'kmno4') { E.fx.flakes_(v, 10 * Math.min(4, E.lapse), dt, '#b02fbf'); }
         E.note(v, 'dissolve', { chem: s.chem, left: s.amount });
       }
@@ -350,10 +390,11 @@ export const RULES = [
   { id: 'filter', test: (v) => v.filter && v.drainTo && v.ml > 0.01,
     run(v, dt, E) {
       const m = v.mix; const tot = m.ml(); if (!v.drain0 || tot > v.drain0) v.drain0 = tot;
-      let pw = 0; const pc = new THREE.Color(0, 0, 0); const all = { ...m.ppt }; for (const k in (m.settled || {})) all[k] = (all[k] || 0) + m.settled[k];
+      let pw = 0; const pc = new THREE.Color(0, 0, 0); const all = {}; for (const k in m.ppt) if (!PPT[k]?.colloid) all[k] = m.ppt[k]; for (const k in (m.settled || {})) all[k] = (all[k] || 0) + m.settled[k];
       for (const k in all) { const a = all[k]; if (a <= 0 || !PPT[k]) continue; pc.add(C(PPT[k].c).multiplyScalar(a)); pw += a; }
-      const rate = Math.min(tot, dt * 0.7 * E.lapse / (1 + v.residue * 0.6)); const f = rate / tot; const out = { liq: {}, ppt: {}, cloud: 0 };
+      const rate = Math.min(tot, dt * 0.7 * E.lapse / (1 + v.residue * 0.6)); const f = rate / tot; const out = { liq: {}, ppt: {}, cloud: 0, temp: m.temp };
       for (const k in m.liq) { const d = m.liq[k] * f; out.liq[k] = d; m.liq[k] -= d; if (m.liq[k] < 1e-6) delete m.liq[k]; }
+      for (const k in m.ppt) if (PPT[k]?.colloid) { const d = m.ppt[k] * f; out.ppt[k] = d; m.ppt[k] -= d; out.cloud = m.cloud; } // colloid particles are small enough to pass through the paper
       if (pw > 0) { v.res0 = Math.max(v.res0 || 0, pw); v.resCol = pc.multiplyScalar(1 / pw); }
       v.residue = (v.res0 || 0) * (1 - m.ml() / Math.max(0.01, v.drain0)); v.setResidue && v.setResidue(v.residue, v.resCol);
       if (m.ml() < 0.05) { m.ppt = {}; m.settled = {}; m.cloud = 0; m.sed = 0; v.setResidue && v.setResidue(v.res0 || 0, v.resCol); }
@@ -368,16 +409,16 @@ export const RULES = [
       const m = v.mix; const lvl = v.heightFor(v.ml); const r = v.rInner(Math.max(lvl * 0.8, v.inner[0].y + 0.0004)); const area = Math.PI * r * r;
       const sun = v.sunBy && v.sunBy.on ? 2.4 : 0; const heat = 1 + sun + Math.max(0, m.temp - 27) / 8;
       const rate = area * 0.6 * heat * E.lapse * dt;
-      for (const k of ['water', 'spirit', 'tapwater']) if (m.liq[k] > 0) { const d = Math.min(m.liq[k], rate * (SUBS[k].volatile ?? 1)); m.liq[k] -= d; if (m.liq[k] < 1e-4) delete m.liq[k]; }
+      for (const k of ['water', 'spirit', 'tapwater', 'ink', 'acetone']) if (m.liq[k] > 0) { const d = Math.min(m.liq[k], rate * (SUBS[k].volatile ?? 1)); m.liq[k] -= d; if (m.liq[k] < 1e-4) delete m.liq[k]; if (k === 'ink') { v.dyeG = (v.dyeG || 0) + d; v.setResidue && v.setResidue(Math.min(1, v.dyeG / Math.max(0.05, v.ink0 || 0.3)), '#1b2a6b'); } }
       if (m.ml() < 0.02 && !v.evDry) { v.evDry = true; for (const k in m.liq) delete m.liq[k]; E.note(v, 'evap_dry', {}); }
       E.note(v, 'evap', { ml: m.ml() });
     } },
   // ice keeps the water near 0 °C and slowly melts; with salt (freezing mixture) it gets far colder
   { id: 'ice', test: (v) => (v.ice || 0) > 0,
     run(v, dt, E) {
-      const m = v.mix; const salty = m.has('nacl', 0.3) || v.saltIce; const target = salty ? -9 : 0.5;
-      m.temp += (target - m.temp) * Math.min(1, dt * 0.6);
-      const d = Math.min(v.ice, dt * E.lapse * (salty ? 0.03 : 0.012)); v.ice -= d; m.add('water', d); v.placeIce && v.placeIce();
+      const m = v.mix; const salty = m.has('nacl', 0.3) || v.saltIce; const target = salty ? -9 : 0.2; const hot = v.heatNow > 0; if (hot) v.heatNow -= dt;
+      if (hot) m.temp = Math.min(m.temp, target + 0.3); else m.temp += (target - m.temp) * Math.min(1, dt * 0.6); // while ice is melting, the heat goes into melting it: the temperature stays at 0 °C
+      const d = Math.min(v.ice, dt * E.lapse * (salty ? 0.03 : 0.012) * (hot ? 10 : 1)); v.ice -= d; m.add('water', d); v.ledger = (v.ledger || 0); v.placeIce && v.placeIce();
       E.note(v, 'ice', { ice: v.ice, t: m.temp });
     } },
   // a cold glass: water vapour from the air condenses on the outside
@@ -387,7 +428,7 @@ export const RULES = [
   { id: 'bath', test: (v) => v.bath && v.bath.mix,
     run(v, dt, E) { v.mix.temp += (v.bath.mix.temp - v.mix.temp) * Math.min(1, dt * 0.05 * E.lapse); } },
   // water below 0 °C freezes; ice above 0 °C melts (the liquid looks white and solid while frozen)
-  { id: 'freeze', test: (v) => v.mix.has('water', 0.3) && (v.mix.temp < -0.5 || (v.frozenK || 0) > 0),
+  { id: 'freeze', test: (v) => !v.noFreeze && v.mix.has('water', 0.3) && (v.mix.temp < -0.5 || (v.frozenK || 0) > 0),
     run(v, dt, E) {
       const was = v.frozenK || 0;
       if (v.mix.temp < -0.5) v.frozenK = Math.min(1, was + dt * E.lapse * 0.02 * Math.min(1, -v.mix.temp / 4)); else if (v.mix.temp > 0.5) v.frozenK = Math.max(0, was - dt * E.lapse * 0.012 * Math.min(1, v.mix.temp / 10));
@@ -403,7 +444,29 @@ export const RULES = [
     run(v, dt, E) { v.gasIn.CO2 = (v.gasIn.CO2 || 0) + dt * E.lapse * 0.0016; } },
   // carbon dioxide trapped in a jar or tumbler meets lime water when it is swirled
   { id: 'jar_co2', test: (v) => (v.gas.CO2 || 0) > 0.01 && v.mix.has('limewater', 0.3) && (v.shaking || v.stirT > 0),
-    run(v) { v.gasIn.CO2 = (v.gasIn.CO2 || 0) + v.gas.CO2 * 3; v.gas.CO2 = 0; } },
+    run(v) { v.gasIn.CO2 = (v.gasIn.CO2 || 0) + Math.min(v.gas.CO2 * 3, Math.max(0, 4 - (v.co2Tot || 0))); v.gas.CO2 = 0; } }, // a jar of the gas shaken with lime water turns it milky (not so much that it clears again)
+  // ---------------------------------------------------------- batch 5
+  // sodium thiosulphate + hydrochloric acid: sulphur forms slowly as tiny particles (a colloid) — the liquid turns milky pale yellow
+  { id: 'thio_acid', test: (v) => v.mix.has('thio', 0.05) && v.mix.has('hcl', 0.02),
+    run(v, dt, E) { const d = Math.min(v.mix.liq.thio, v.mix.liq.hcl, dt * E.lapse * 0.004); v.mix.liq.thio -= d; v.mix.liq.hcl -= d; v.mix.ppt.scol = (v.mix.ppt.scol || 0) + d; v.mix.add('nacl', d * 0.5); v.mix.cloud = Math.min(0.55, v.mix.ppt.scol * 0.4); if (Math.random() < dt * 0.6) E.fx.puff(v.mouthWorld(), '#e8e6dc', { alpha: 0.12, size: 0.006, grow: 0.03, life: 1.5 }); E.note(v, 'colloid', { k: v.mix.ppt.scol }); } },
+  // iron sulphide + acid: hydrogen sulphide gas (rotten-egg smell)
+  { id: 'fes_acid', test: (v) => v.solids.some((s) => s.chem === 'fes' && s.under && s.amount > 0) && (v.mix.has('hcl', 0.2) || v.mix.has('h2so4', 0.2)),
+    run(v, dt, E) { for (const s of v.solids) { if (s.chem !== 'fes' || !s.under || s.amount <= 0) continue; E.fx.bubbles_(v, 30, dt, { from: () => s.surfacePoint(), size: 0.0009 }); v.gasOut('H2S', dt * 0.4); s.amount = Math.max(0, s.amount - dt * 0.002); E.note(v, 'h2s', {}); } } },
+  // a hot saturated solution of copper sulphate cools: the extra salt comes out as crystals
+  { id: 'crystallise', test: (v) => v.xtalBed && v.mix.has('cuso4', 0.05) && v.mix.has('water', 1),
+    run(v, dt, E) {
+      const S = SOLIDS.cuso4i; const gPerMl = S.spoonG / S.disMl; const cap = S.solub(v.mix.temp) * v.mix.liq.water / 100; const g = v.mix.liq.cuso4 * gPerMl;
+      if (g > cap) { const d = Math.min(g - cap, dt * E.lapse * 0.004 * (g - cap + 0.5)); v.mix.liq.cuso4 -= d / gPerMl; v.xtalG = (v.xtalG || 0) + d; v.xtalBed(v.xtalG); E.note(v, 'crystals', { g: v.xtalG }); }
+    } },
+  // distillation: while acetone is boiling off, the flask stays at about 56 °C; its vapour condenses into the receiver
+  { id: 'distil', test: (v) => v.distTo && v.mix.has('acetone', 0.05) && v.mix.temp >= 56,
+    run(v, dt, E) {
+      const heat = v.bath ? Math.min(1, Math.max(0, v.bath.mix.temp - 56) / 25) : 1; const d = Math.min(v.mix.liq.acetone, dt * E.lapse * 0.15 * heat); v.mix.liq.acetone -= d; v.mix.temp = Math.min(v.mix.temp, 56.5 + Math.random() * 0.4);
+      const t = v.distTo; t.mix.add('acetone', d); t.ml = t.mix.ml(); v.distilled = (v.distilled || 0) + d; v.dripT = (v.dripT || 0) + d;
+      if (v.dripT > 0.15 && v.dripFrom) { v.dripT = 0; const a = v.dripFrom(); E.fx.drop(a, new THREE.Vector3(a.x, Math.max(t.levelWorld(), t.g.localToWorld(new THREE.Vector3(0, t.inner[0].y, 0)).y), a.z), new THREE.Color('#eef6ff'), () => {}); }
+      if (Math.random() < dt * 4) E.fx.bubbles_(v, 20, dt, { size: 0.0009 });
+      E.note(v, 'distil', { ml: v.distilled });
+    } },
   // ---------------------------------------------------------- batch 4
   // camphor and naphthalene (covalent) dissolve in kerosene, not in water; camphor floats on water
   { id: 'kero', test: (v) => v.solids.some((s) => SOLIDS[s.chem]?.kero && s.amount > 0) && v.ml > 0.3,
@@ -414,6 +477,107 @@ export const RULES = [
         else if (S.floats && v.mix.has('water', 0.5) && s.g.parent === v.g) { const top = v.heightFor(v.ml) - 0.0025; s.g.position.y += (top - s.g.position.y) * Math.min(1, dt * 2); s.localY = 0; }
       }
     } },
+  // ---------------------------------------------------------- batch 6 (Class 10)
+  // silver chloride in sunlight: grey silver forms on the surface; a covered sample stays white
+  { id: 'agcl_light', test: (v) => v.sunBy && v.sunBy.on && !v.dark && v.solids.some((s) => s.chem === 'agcl'),
+    run(v, dt, E) { for (const s of v.solids) if (s.chem === 'agcl') { s.grey = Math.min(1, (s.grey || 0) + dt * E.lapse * 0.0009); if (s.mat) s.mat.color.setHex(0xf7f7f2).lerp(new THREE.Color(0x6f6a7a), s.grey); E.note(v, 'agcl_grey', { k: s.grey }); } } },
+  // an acid and a base neutralise each other and give out heat (about 7 °C for 20 mL + 20 mL)
+  { id: 'neut_heat', test: (v) => v.mix.has('hcl', 0.02) && v.mix.has('naoh', 0.02),
+    run(v, dt, E) { const m = v.mix; const d = Math.min(m.liq.hcl, m.liq.naoh, dt * 40); m.liq.hcl -= d; m.liq.naoh -= d; m.add('nacl', d * 2); m.temp += d * 13.6 / Math.max(1, m.ml()); E.note(v, 'neutral_heat', { t: m.temp }); } },
+  // barium hydroxide + ammonium chloride (two solids, stirred): they turn slushy, ammonia is given off and it gets very cold
+  { id: 'endo', test: (v) => v.solids.some((s) => s.chem === 'baoh2' && s.amount > 0.02) && v.solids.some((s) => s.chem === 'nh4cl' && s.amount > 0.02) && (v.stirT > 0 || v.endoK > 0),
+    run(v, dt, E) {
+      const a = v.solids.find((s) => s.chem === 'baoh2' && s.amount > 0.02), b = v.solids.find((s) => s.chem === 'nh4cl' && s.amount > 0.02); v.endoK = Math.min(1, (v.endoK || 0) + dt * 0.1);
+      const d = Math.min(a.amount, b.amount, dt * E.lapse * 0.05 * (v.stirT > 0 ? 1 : 0.3)); if (v.setMist && v.mix.temp < 0) v.setMist(Math.min(1, (v.mist || 0) + dt * E.lapse * 0.05)); // frost forms on the outside a.amount -= d; b.amount -= d; a.onAmount && a.onAmount(); b.onAmount && b.onAmount();
+      v.mix.add('water', d * 7); v.mix.add('bacl2', d * 1.5); v.mix.temp = Math.max(-20, v.mix.temp - d * 80); v.gas.NH3 = (v.gas.NH3 || 0) + d * 3;
+      if (Math.random() < dt * 2) E.fx.puff(v.mouthWorld(), '#f4f6f8', { alpha: 0.12, size: 0.008, grow: 0.03, life: 1.6 }); E.note(v, 'cold', { t: v.mix.temp });
+    } },
+  // copper oxide dissolves in dilute hydrochloric acid: copper chloride, blue-green
+  { id: 'cuo_acid', test: (v) => v.solids.some((s) => s.chem === 'cuo' && s.under && s.amount > 0.01) && v.mix.has('hcl', 0.1),
+    run(v, dt, E) {
+      for (const s of v.solids) { if (s.chem !== 'cuo' || !s.under || s.amount <= 0.01) continue; const k = (v.stirT > 0 ? 1 : 0.25) * (1 + Math.max(0, v.mix.temp - 27) / 12);
+        const d = Math.min(s.amount, dt * E.lapse * 0.006 * k); s.amount -= d; s.onAmount && s.onAmount(); v.mix.liq.hcl = Math.max(0, v.mix.liq.hcl - d * 4); v.mix.add('cucl2', d * 4);
+        if (v.stirT > 0) E.fx.flakes_(v, 10, dt, '#262321'); E.note(v, 'cuo_dissolve', { left: s.amount }); }
+    } },
+  // solid salt + concentrated sulphuric acid: hydrogen chloride gas comes out of the delivery tube (white misty fumes in moist air)
+  { id: 'hcl_gas', test: (v) => v.solids.some((s) => s.chem === 'salt' && s.amount > 0.02) && v.mix.has('h2so4c', 0.05),
+    run(v, dt, E) {
+      const s = v.solids.find((q) => q.chem === 'salt' && q.amount > 0.02); const rate = 0.5 * (1 + Math.max(0, v.mix.temp - 27) / 20);
+      E.fx.bubbles_(v, 25 * rate, dt, { from: () => s.surfacePoint(), size: 0.0007 }); s.amount = Math.max(0, s.amount - dt * 0.003 * rate); s.onAmount && s.onAmount();
+      v.gasOut('HCl', dt * rate); const at = v.outletWorld ? v.outletWorld() : v.mouthWorld();
+      if (Math.random() < dt * 5 * rate) E.fx.puff(at, '#f3f3ef', { alpha: 0.28, size: 0.004, grow: 0.03, life: 1.8, up: 0.03 }); E.note(v, 'hcl_gas', {});
+    } },
+  // concentrated sulphuric acid added to water: it mixes in swirls and the water gets hot
+  { id: 'dil_heat', test: (v) => v.mix.has('h2so4c', 0.005) && (v.mix.liq.water || 0) > 3 * (v.mix.liq.h2so4c || 0),
+    run(v, dt, E) { const d = Math.min(v.mix.liq.h2so4c, dt * 0.4); v.mix.liq.h2so4c -= d; v.mix.add('h2so4', d); v.mix.temp += d * 360 / Math.max(1, v.mix.ml()); E.fx.flakes_(v, 40, dt, '#e6eef6'); E.note(v, 'dil_heat', { t: v.mix.temp }); } },
+  // sodium / calcium with water (and sodium with ethanol): hydrogen, an alkaline solution, heat
+  { id: 'alkali', test: (v) => v.solids.some((s) => SOLIDS[s.chem]?.alkali && s.amount > 0.01) && v.ml > 0.5,
+    run(v, dt, E) {
+      const m = v.mix; const inW = m.has('water', 0.5) || m.has('tapwater', 0.5); const inE = !inW && m.has('ethanol', 0.5); if (!inW && !inE) return;
+      for (const s of v.solids) {
+        const S = SOLIDS[s.chem]; if (!S?.alkali || s.amount <= 0.01) continue;
+        const k = inW ? 1 : 0.1; const d = Math.min(s.amount, dt * E.lapse * S.alkali * k * 0.04); s.amount -= d; s.onAmount && s.onAmount(); v.gasOut('H2', d * 30);
+        const top = v.heightFor(v.ml), bot = v.inner[0].y + 0.003; const p = s.g.position; s.age = (s.age || 0) + dt;
+        if (s.chem === 'na' && inW) { // floats, melts into a shiny ball and darts about the surface, hissing
+          p.y += (top - 0.0012 - p.y) * Math.min(1, dt * 6); s.vx = (s.vx || 0) + (Math.random() - 0.5) * dt * 0.6; s.vz = (s.vz || 0) + (Math.random() - 0.5) * dt * 0.6; s.vx *= Math.exp(-dt); s.vz *= Math.exp(-dt);
+          p.x += s.vx * dt; p.z += s.vz * dt; const R = v.rInner(top) * 0.7; const r = Math.hypot(p.x, p.z); if (r > R) { p.x *= R / r; p.z *= R / r; s.vx *= -0.8; s.vz *= -0.8; }
+          m.add('naoh', d * 3); m.temp += d * 30; if (Math.random() < dt * 1.2) E.audio && E.audio.hiss && E.audio.hiss();
+          const w = v.g.localToWorld(p.clone()); if (Math.random() < dt * 0.8) E.fx.flashAt(w, 1.2, 0.18, 0xffb000, 0.04); if (Math.random() < dt * 4) E.fx.puff(w, '#f2f2ee', { alpha: 0.2, size: 0.004, grow: 0.02, life: 1.2, up: 0.03 });
+          E.fx.bubbles_(v, 30, dt, { from: () => p.clone().add(new THREE.Vector3((Math.random() - 0.5) * 0.004, -0.001, (Math.random() - 0.5) * 0.004)), size: 0.0007 });
+        } else if (s.chem === 'na') { // in ethanol it sinks and gives a steady stream of small bubbles; no fire
+          p.y += (bot - p.y) * Math.min(1, dt * 3); m.temp += d * 25; E.fx.bubbles_(v, 18, dt, { from: () => p.clone().add(new THREE.Vector3((Math.random() - 0.5) * 0.003, 0.002, (Math.random() - 0.5) * 0.003)), size: 0.0006 });
+        } else { // calcium sinks, then floats up as bubbles of hydrogen stick to it; the water turns milky (slaked lime)
+          const yT = s.age > 4 ? top - 0.003 : bot; p.y += (yT - p.y) * Math.min(1, dt * 0.8); m.add('limewater', d * 4); m.ppt.caoh2 = (m.ppt.caoh2 || 0) + d * 0.6; m.cloud = Math.min(0.7, m.cloud + d * 1.6); m.temp += d * 8;
+          E.fx.bubbles_(v, 40, dt, { from: () => p.clone().add(new THREE.Vector3((Math.random() - 0.5) * 0.006, 0.002, (Math.random() - 0.5) * 0.006)), size: 0.0008 });
+        }
+        E.note(v, 'alkali', { metal: s.chem, left: s.amount });
+      }
+    } },
+  // magnesium hardly reacts with cold water; with hot water it gives bubbles of hydrogen and starts to float
+  { id: 'mg_water', test: (v) => v.solids.some((s) => s.chem === 'mg' && s.under && s.amount > 0) && v.mix.has('water', 0.5) && !v.mix.has('hcl') && !v.mix.has('h2so4'),
+    run(v, dt, E) {
+      const hot = Math.max(0, Math.min(1, (v.mix.temp - 45) / 40));
+      for (const s of v.solids) { if (s.chem !== 'mg' || !s.under) continue; E.fx.bubbles_(v, 0.6 + hot * 22, dt, { from: () => s.surfacePoint(), size: 0.0006 + hot * 0.0003 }); v.gasOut('H2', dt * hot * 0.3);
+        v.mix.add('milkmag', dt * hot * 0.004); if (hot > 0.4) { s.g.position.y = Math.min(v.heightFor(v.ml) * 0.5, s.g.position.y + dt * 0.002); s.g.rotation.z = Math.min(1.2, s.g.rotation.z + dt * 0.05); } E.note(v, 'mg_water', { hot }); }
+    } },
+  // ethanol is oxidised by warm alkaline potassium permanganate: the purple colour disappears until all the ethanol it can oxidise is used up
+  { id: 'etoh_ox', test: (v) => v.mix.has('ethanol', 0.1) && v.mix.has('kmno4alk', 0.002),
+    run(v, dt, E) { const m = v.mix; const cap = m.liq.ethanol * 0.18 - (v.oxUsed || 0); if (cap <= 0) { E.note(v, 'purple_stays', {}); return; } const warm = Math.max(0.04, Math.min(1.4, (m.temp - 25) / 30));
+      const d = Math.min(m.liq.kmno4alk, cap, dt * 0.03 * warm); m.liq.kmno4alk -= d; v.oxUsed = (v.oxUsed || 0) + d; m.ppt.mno2 = (m.ppt.mno2 || 0) + d * 3; m.cloud = Math.min(0.45, m.cloud + d * 2.2); E.note(v, 'decolour', { used: v.oxUsed }); } },
+  // ethanol + glacial ethanoic acid with a few drops of concentrated sulphuric acid, warmed: a sweet-smelling ester
+  { id: 'ester', test: (v) => v.mix.has('ethanol', 0.05) && v.mix.has('glacial', 0.05) && v.mix.has('h2so4c', 0.005) && v.mix.temp > 45,
+    run(v, dt, E) { const m = v.mix; const lim = Math.max(0, 1 - (m.liq.ester || 0) / 1.3); const d = Math.min(m.liq.ethanol, m.liq.glacial, dt * E.lapse * 0.0012 * Math.min(1.5, (m.temp - 40) / 20) * lim); m.liq.ethanol -= d; m.liq.glacial -= d; m.add('ester', d * 1.6); m.add('water', d * 0.3); E.note(v, 'ester', { ml: m.liq.ester }); } },
+  // oil and water: shaking breaks the oil into tiny drops (milky); without soap they join again within a minute, with soap they stay (micelles)
+  { id: 'emulsion', test: (v) => ['oil', 'moil'].some((k) => v.mix.has(k, 0.02)) && v.mix.has('water', 1),
+    run(v, dt, E) { const soap = v.mix.has('soap', 0.03) || v.mix.has('detergent', 0.03); const e0 = v.emul || 0;
+      if (v.shaking) v.emul = Math.min(1, e0 + dt * 2); else if (e0 > 0) v.emul = Math.max(0, e0 - dt * E.lapse * (soap ? 0.0015 : 0.045));
+      if (v.emul > 0) { v.mix.cloud = Math.max(v.mix.cloud, v.emul * (soap ? 0.72 : 0.5)); if (!soap && !v.shaking) v.mix.cloud = Math.min(v.mix.cloud, v.emul * 0.5); } E.note(v, 'emulsion', { k: v.emul, soap }); } },
+  // soap in hard water: calcium and magnesium ions use it up as a curdy scum first, so there is little lather; a detergent still lathers
+  { id: 'lather', test: (v) => (v.mix.has('soap', 0.0005) || v.mix.has('detergent', 0.02) || (v.foam || 0) > 0) && v.ml > 2 && v.setFoam,
+    run(v, dt, E) { const m = v.mix; const hard = m.has('hardwater', 0.5);
+      if (hard && m.has('soap', 0.0005)) { const cap = m.liq.hardwater * 0.02 - (v.scumUsed || 0); if (cap > 0) { const d = Math.min(cap, m.liq.soap, dt * 0.2); m.liq.soap -= d; v.scumUsed = (v.scumUsed || 0) + d; m.ppt.scum = (m.ppt.scum || 0) + d * 3; m.cloud = Math.min(0.55, m.cloud + d * 3); E.fx.flakes_(v, 25, dt, '#efece4'); E.note(v, 'scum', {}); } }
+      const sv = (m.liq.soap || 0) + (m.liq.detergent || 0) * 1.1; const f0 = v.foam || 0;
+      if (v.shaking) v.setFoam(Math.min(Math.min(0.05, sv * 0.12), f0 + dt * 0.02)); else if (f0 > 0) v.setFoam(Math.max(0, f0 - dt * E.lapse * (hard && !m.has('detergent', 0.02) ? 0.0003 : 0.00004)));
+      E.note(v, 'lather', { h: v.foam }); } },
+  // castor oil + 20 % sodium hydroxide, stirred (and warmed): saponification — a thick creamy mixture of soap and glycerol
+  { id: 'sapon', test: (v) => v.mix.has('castor', 0.2) && v.mix.has('naoh20', 0.2),
+    run(v, dt, E) { const m = v.mix; const k = (v.stirT > 0 ? 1 : 0.12) * (1 + Math.max(0, m.temp - 27) / 20); const d = Math.min(m.liq.castor, m.liq.naoh20 * 0.7, dt * E.lapse * 0.006 * k);
+      m.liq.castor -= d; m.liq.naoh20 -= d * 0.6; m.add('soapmix', d * 1.6); m.temp = Math.min(48, m.temp + d * 0.5); E.note(v, 'sapon', { left: m.liq.castor }); } },
+  // salting out: common salt makes the soap separate and float as a solid curd
+  { id: 'saltout', test: (v) => v.mix.has('soapmix', 1) && v.solids.some((s) => s.chem === 'salt' && s.amount > 0.01),
+    run(v, dt, E) { const m = v.mix; for (const s of v.solids) if (s.chem === 'salt' && s.amount > 0) { const d = Math.min(s.amount, dt * (v.stirT > 0 ? 0.25 : 0.03)); s.amount -= d; s.onAmount && s.onAmount(); v.saltG = (v.saltG || 0) + d; }
+      const k = Math.min(1, (v.saltG || 0) / 1.5); const d = Math.min(m.liq.soapmix, dt * E.lapse * 0.02 * k); m.liq.soapmix -= d; m.add('lye', d * 0.6); v.curdG = (v.curdG || 0) + d;
+      v.setCurd && v.setCurd(Math.min(1, v.curdG / 30)); E.note(v, 'curd', { k: v.curdG }); } },
+  // sodium carbonate / hydrogencarbonate solution + acid: fizzing carbon dioxide
+  { id: 'carbsol_acid', test: (v) => (v.mix.has('washingsoda', 0.05) || v.mix.has('bakingsoda', 0.05)) && ['hcl', 'h2so4', 'ethanoic', 'vinegar'].some((a) => v.mix.has(a, 0.05)),
+    run(v, dt, E) { const m = v.mix; const c = m.has('washingsoda', 0.05) ? 'washingsoda' : 'bakingsoda'; const a = ['hcl', 'h2so4', 'ethanoic', 'vinegar'].find((x) => m.has(x, 0.05));
+      const d = Math.min(m.liq[c], m.liq[a], dt * 1.5); m.liq[c] -= d; m.liq[a] -= d * 0.5; m.add('nacl', d * 0.8); E.fx.bubbles_(v, 60, dt, { size: 0.001 }); v.gasOut('CO2', d * 2.5); E.note(v, 'co2', {}); } },
+  // a thistle funnel: what is poured in runs down at once into the flask
+  { id: 'drain_fast', test: (v) => v.drainFast && v.drainTo && v.ml > 0.01,
+    run(v, dt) { const t = v.drainTo; const p = v.mix.take(Math.min(v.ml, dt * 8)); t.mix.put(p); t.ml = t.mix.ml(); } },
+  // an upright gas jar fed by a delivery tube collects the gas (carbon dioxide is heavier than air and stays in)
+  { id: 'collect', test: (v) => v.collects && Object.keys(v.gasIn).some((g) => g !== 'air' && v.gasIn[g] > 0) && !v.mix.has('limewater', 0.3),
+    run(v) { for (const g in v.gasIn) { if (g === 'air') continue; v.gas[g] = Math.min(v.gasCap ?? 30, (v.gas[g] || 0) + v.gasIn[g]); v.gasIn[g] = 0; } } },
 ];
 
 // heating rules: called when a vessel is above a flame
@@ -421,7 +585,7 @@ export function heatTick(v, dt, E) {
   const m = v.mix;
   // liquids warm up and boil
   if (m.ml() > 0.2) {
-    m.temp = Math.min(100, m.temp + dt * 9 * (8 / Math.max(4, m.ml())));
+    m.temp = Math.min(v.maxT ?? 100, m.temp + dt * 9 * (8 / Math.max(4, m.ml()))); // maxT: a water bath kept at about 60 °C by turning the flame down
     if (m.temp >= 99) { const d = Math.min(m.liq.water || 0, dt * 0.15 * (v.evapK ?? 1)); if (d > 0) m.liq.water -= d; E.fx.bubbles_(v, 50, dt, { size: 0.0013 }); if (Math.random() < dt * 6) E.fx.puff(v.mouthWorld(), '#ffffff', { alpha: 0.3, size: 0.01, grow: 0.06 }); E.note(v, 'boil', {}); }
     else if (m.temp > 70) E.fx.bubbles_(v, 8, dt, { size: 0.0006 });
   }
@@ -454,6 +618,24 @@ export function heatTick(v, dt, E) {
       else if (Math.random() < dt * 9) E.fx.puff(v.mouthWorld(), '#f2f2ee', { alpha: 0.4, size: 0.012, grow: 0.08, life: 3 });
       E.note(v, 'feso4_heat', { stage: s.stage });
     }
+    if (S.heatFeS && m.ml() < 0.3) { // iron + sulphur: a red glow starts at one spot and spreads through the mass by itself; it becomes black iron sulphide
+      s.stage = Math.min(2, (s.stage || 0) + dt * (s.stage > 0.5 ? 0.09 : 0.05)); const st = s.stage; const glow = st < 0.5 ? 0 : st < 1.4 ? Math.min(1, (st - 0.5) * 2) : Math.max(0, (2 - st) * 1.6);
+      if (s.mat) { s.mat.emissive = s.mat.emissive || new THREE.Color(); s.mat.emissive.setHex(0xff4a12); s.mat.emissiveIntensity = glow * 1.8; s.mat.color.setHex(0xffffff).lerp(new THREE.Color(0x3a3430), Math.min(1, Math.max(0, st - 0.6) / 1.2)); }
+      if (glow > 0.2 && Math.random() < dt * 8) E.fx.puff(v.mouthWorld(), Math.random() < 0.3 ? '#8fb0ff' : '#ece8de', { alpha: 0.3, size: 0.01, grow: 0.05, life: 2.2 });
+      if (st >= 2 && s.chem !== 'fes') { s.chem = 'fes'; s.name = SOLIDS.fes.n; E.note(v, 'fes_made', {}); }
+      E.note(v, 'fes_heat', { stage: st });
+    }
+    if (S.cuOx && m.ml() < 0.3 && !s.done) { // copper powder heated in air: a black coat of copper(II) oxide forms
+      s.ox = Math.min(1, (s.ox || 0) + dt * 0.02); if (s.mat) s.mat.color.setHex(0xb87333).lerp(new THREE.Color(0x232120), s.ox);
+      if (s.ox >= 1 && s.chem !== 'cuo') { s.chem = 'cuo'; s.name = SOLIDS.cuo.n; } E.note(v, 'cu_black', { k: s.ox });
+    }
+    if (s.chem === 'cuo' && (v.gasIn?.H2 || 0) > 0) { // hot copper oxide + hydrogen: back to reddish-brown copper, and water drops form higher up
+      v.gasIn.H2 = 0; s.red = Math.min(1, (s.red || 0) + dt * 0.035); if (s.mat) s.mat.color.setHex(0x232120).lerp(new THREE.Color(0xb05f32), s.red); v.condense = Math.min(1, (v.condense || 0) + dt * 0.03);
+      if (s.red >= 1) { s.chem = 'cupow'; s.ox = 0; s.name = SOLIDS.cupow.n; s.done = true; } E.note(v, 'cuo_h2', { k: s.red });
+    }
+    if (s.chem === 'nahco3' && m.ml() < 0.3) { // dry baking soda on heating: carbon dioxide and water vapour (washing soda gives no gas)
+      s.dec = Math.min(1, (s.dec || 0) + dt * 0.03); if (s.dec < 1) { v.gasOut('CO2', dt * 0.5); v.condense = Math.min(1, (v.condense || 0) + dt * 0.04); } E.note(v, 'nahco3_heat', { k: s.dec });
+    }
     if (s.chem === 'pbno3s') { // crackling, brown NO2 fumes, yellow PbO left
       s.stage = Math.min(1, (s.stage || 0) + dt * 0.06); s.onStage && s.onStage(s.stage);
       if (s.stage > 0.15 && Math.random() < dt * 12) E.fx.puff(v.mouthWorld(), '#8a3b12', { alpha: 0.55, size: 0.014, grow: 0.09, life: 3.2 });
@@ -474,7 +656,7 @@ export class Chem {
       for (const s of v.solids) s.under = v.ml > 0.3 && (s.localY ?? 0.005) < h;
       for (const r of RULES) if (r.test(v)) r.run(v, dt, this);
       // cool down towards room temperature; settle precipitate
-      if (!v.bath) v.mix.temp += (27 - v.mix.temp) * dt * 0.02; // a tube standing in a bath follows the bath instead
+      if (!v.bath) v.mix.temp += (27 - v.mix.temp) * Math.min(1, dt * 0.02 * (v.coolLapse ? this.lapse : 1)); // a tube standing in a bath follows the bath instead
       if (v.stirT > 0) v.stirT -= dt;
       if (v.mix.cloud > 0 && !v.shaking && !(v.stirT > 0)) { let sw = 0, sk = 0; for (const p in v.mix.ppt) { const m = v.mix.ppt[p]; sw += m; sk += m * (PPT[p]?.settle ?? 0.02); } const k = v.settle ?? (sw > 0 ? sk / sw : 0.02); const d = Math.min(v.mix.cloud, v.mix.cloud * dt * k * this.lapse); v.mix.cloud -= d; v.mix.sed = Math.min(0.012, v.mix.sed + d * 0.004 * Object.values(v.mix.ppt).reduce((a, b) => a + b, 0)); }
       v.ml = v.mix.ml();

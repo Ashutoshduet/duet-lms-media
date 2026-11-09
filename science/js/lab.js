@@ -19,7 +19,7 @@ export class Lab {
     item.home = { p: item.g.position.clone(), q: item.g.quaternion.clone() };
     this.scene.add(item.g); this.items.push(item); this.byId[item.id] = item; item.lab = this;
     if (item.inner) { item.mix = item.mix || new Mix(); item.gas = item.gas || {}; item.gasIn = item.gasIn || {}; this.vessels.push(item);
-      item.gasOut = (type, amt) => { if (item.pipeTo) { item.pipeTo.gasIn[type] = (item.pipeTo.gasIn[type] || 0) + amt; } else item.gas[type] = (item.gas[type] || 0) + amt; }; }
+      item.gasOut = (type, amt) => { if (item.pipeTo) { item.pipeTo.gasIn[type] = (item.pipeTo.gasIn[type] || 0) + amt; } else item.gas[type] = (item.gas[type] || 0) + amt; if (!item.holdGas && type === 'CO2') item.ledger = (item.ledger || 0) - amt * 0.0063; }; } // gas that escapes takes its mass away (ledger: grams on a balance)
     item.g.traverse((m) => { if (m.isMesh && !m.material.transparent) { m.castShadow = true; m.receiveShadow = true; } });
     return item;
   }
@@ -27,7 +27,7 @@ export class Lab {
     for (const it of this.items) { it.g.parent && it.g.parent.remove(it.g); }
     this.items = []; this.byId = {}; this.vessels = []; this.fx.bubbles = []; this.fx.flakes = []; this.fx.puffs = [];
   }
-  fill(v, sub, ml) { v.mix.add(sub, ml); v.ml = v.mix.ml(); }
+  fill(v, sub, ml) { v.mix.add(sub, ml); v.ml = v.mix.ml(); v.ledger = (v.ledger || 0) + ml; }
   // ---------------------------------------------------------- solids inside vessels
   putSolid(s, v, o = {}) {
     // move the solid's group into the vessel, resting at the bottom
@@ -37,7 +37,7 @@ export class Lab {
     if (s.kind === 'nail') { s.g.position.set(0.0022, y0 + 0.002, 0); s.g.rotation.set(0, 0, -0.06); s.localY = 0.01; }
     else if (s.kind === 'ribbon') { s.g.position.set(0, y0, 0); s.g.rotation.set(0, 0, 0.12); s.localY = 0.006; }
     else { s.g.position.set(0, y0, 0); s.g.rotation.set(0, 0, 0); s.localY = 0.004; }
-    s.amount = s.amount ?? 1;
+    s.amount = s.amount ?? 1; v.ledger = (v.ledger || 0) + (s.gram ?? (SOLIDS[s.chem]?.spoonG ?? 2) * s.amount); if (s.carrier) s.carrier.gram = Math.max(0, (s.carrier.gram || 0) - (s.gram ?? 2));
     if (s.kind !== 'nail' && s.kind !== 'ribbon' && v.rInner) { s.fit = Math.min(1, (v.rInner(y0 + 0.004) * 0.92) / (s.radius || 0.008)); s.g.scale.setScalar(s.fit * Math.max(0.05, Math.cbrt(s.amount))); } // shrink to fit a narrow tube
     s.surfacePoint = () => {
       if (s.kind === 'nail') return new THREE.Vector3(0.0022 + (Math.random() - 0.5) * 0.002, y0 + 0.004 + Math.random() * 0.04, (Math.random() - 0.5) * 0.002);
@@ -85,7 +85,7 @@ export class Lab {
         const d = Math.hypot(m.x - land.x, m.z - land.z); const wup = w.worldUp();
         if (m.y < lip.y && d < Math.max(0.006, w.rimR * 1.15) && wup.y > 0.6 && lip.y - m.y < best) { best = lip.y - m.y; target = w; }
       }
-      const portion = v.mix.take(rate); v.ml = v.mix.ml();
+      const portion = v.mix.take(rate); v.ml = v.mix.ml(); v.ledger = (v.ledger || 0) - rate; if (target) target.ledger = (target.ledger || 0) + rate;
       const bottom = target ? target.mouthWorld(tmp2).clone() : land.clone().setY(BENCH_Y + 0.001);
       if (target) { const surf = target.levelWorld(); bottom.y = Math.max(surf, target.g.localToWorld(new THREE.Vector3(0, target.inner[0].y, 0)).y); target.mix.put(portion, rate); target.ml = target.mix.ml(); }
       const look = target ? null : 'spill';
@@ -100,12 +100,13 @@ export class Lab {
     for (const f of flames) {
       const hp = f.g.localToWorld(tmp.copy(f.heatPoint));
       for (const v of this.vessels) {
+        if (v.bath) continue; // a vessel standing in a bath is heated only by the bath
         // the lowest point of the vessel must sit in the flame
         const b = v.g.localToWorld(tmp2.set(0, v.inner[0].y, 0));
         const dxz = Math.hypot(b.x - hp.x, b.z - hp.z), dy = b.y - hp.y;
         const onTripod = v.onTripod && v.onTripod.over === f;
         if ((dxz < 0.03 && dy > -0.035 && dy < 0.05) || onTripod) {
-          heatTick(v, dt * (onTripod ? 0.7 : 1) * this.chem.lapse, this.chem); v._heated = (v._heated || 0) + dt; v.onHeat && v.onHeat(dt * this.chem.lapse, this.chem);
+          heatTick(v, dt * (onTripod ? 0.7 : 1) * this.chem.lapse, this.chem); v.heatNow = 0.2; v._heated = (v._heated || 0) + dt; v.onHeat && v.onHeat(dt * this.chem.lapse, this.chem);
           this.emit('heating', { v: v.id, by: f.id, sec: v._heated });
         }
       }
@@ -113,7 +114,7 @@ export class Lab {
       for (const it of this.items) if (it.flameTest && it !== f) it.flameTest(dt * this.chem.lapse, f, hp);
       // ribbon / other items held in the flame
       for (const it of this.items) {
-        if (it.kind !== 'ribbon' || it.burnt) continue;
+        if (it.kind !== 'ribbon' || it.burnt || it.inVessel) continue; // a ribbon lying in water never catches fire
         const tip = it.g.localToWorld(tmp2.set(0, 0.002, 0));
         if (tip.distanceTo(hp) < 0.035) { it.burning = (it.burning || 0) + dt; }
       }

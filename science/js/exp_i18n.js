@@ -5430,3 +5430,1263 @@ Object.assign(DICT, {
 "hg": "Waste beaker"
 }
 });
+
+// batch 5: Class 9 separation, colloids, conservation of mass
+Object.assign(DICT, {
+"Iron and sulphur: a mixture and a compound": {
+"hi": "लोहा और सल्फ़र: एक मिश्रण और एक यौगिक",
+"hg": "Iron aur sulphur: ek mixture aur ek compound"
+},
+"To make a mixture of iron filings and sulphur and a compound (iron sulphide) from them, and to tell them apart with a magnet and with dilute acid.": {
+"hi": "लोहे के बुरादे और सल्फ़र से एक मिश्रण और एक यौगिक (आयरन सल्फ़ाइड) बनाना, और चुंबक तथा तनु अम्ल की मदद से दोनों में अंतर पहचानना।",
+"hg": "Iron filings aur sulphur se ek mixture aur ek compound (iron sulphide) banana, aur magnet aur dilute acid ki madad se dono mein fark pehchaanna."
+},
+"Mixture and compound": {
+"hi": "मिश्रण और यौगिक",
+"hg": "Mixture aur compound"
+},
+"Mix the iron filings and the sulphur powder well on the watch glass with a glass rod. This is sample A.": {
+"hi": "वॉच ग्लास पर लोहे के बुरादे और सल्फ़र चूर्ण को काँच की छड़ से अच्छी तरह मिलाएँ। यह नमूना A है।",
+"hg": "Watch glass par iron filings aur sulphur powder ko glass rod se achhe se mix karo. Yeh sample A hai."
+},
+"You can still see grey bits of iron and yellow bits of sulphur side by side. The mixture is not the same everywhere.": {
+"hi": "आपको अब भी लोहे के धूसर कण और सल्फ़र के पीले कण साथ-साथ दिखाई देते हैं। मिश्रण हर जगह एक जैसा नहीं है।",
+"hg": "Tumhe abhi bhi iron ke grey tukde aur sulphur ke yellow tukde saath-saath dikhte hain. Mixture har jagah ek jaisa nahi hai."
+},
+"Spread a little of sample A on a sheet of paper and move the magnet over it.": {
+"hi": "नमूना A का थोड़ा-सा भाग एक कागज़ पर फैलाएँ और उसके ऊपर चुंबक घुमाएँ।",
+"hg": "Sample A ka thoda sa hissa ek paper par failao aur uske upar magnet ghumao."
+},
+"The iron filings jump up and cling to the magnet. The yellow sulphur is left behind.": {
+"hi": "लोहे का बुरादा उछलकर चुंबक से चिपक जाता है। पीला सल्फ़र नीचे ही रह जाता है।",
+"hg": "Iron filings uchhal kar magnet se chipak jaati hain. Yellow sulphur peeche reh jaata hai."
+},
+"In a mixture each part keeps its own properties: iron is still magnetic, sulphur is not.": {
+"hi": "मिश्रण में हर घटक अपने गुण बनाए रखता है: लोहा अब भी चुंबकीय है, सल्फ़र नहीं।",
+"hg": "Mixture mein har part apni properties banaye rakhta hai: iron abhi bhi magnetic hai, sulphur nahi."
+},
+"Put half of sample A in the china dish, place it on the tripod and heat it strongly (time-lapse).": {
+"hi": "नमूना A का आधा भाग चीनी मिट्टी की प्याली में डालें, उसे तिपाई स्टैंड पर रखें और तेज़ गरम करें (टाइम-लैप्स)।",
+"hg": "Sample A ka aadha hissa china dish mein daalo, use tripod par rakho aur tez garam karo (time-lapse)."
+},
+"One spot starts to glow red. The glow spreads through the whole mass by itself, with a little blue flame and a choking smell. A black solid is left: sample B.": {
+"hi": "एक जगह लाल चमक दिखने लगती है। यह चमक अपने-आप पूरे मिश्रण में फैल जाती है, साथ में हल्की नीली ज्वाला और दम घोंटने वाली गंध आती है। एक काला ठोस बचता है: नमूना B।",
+"hg": "Ek jagah red glow dikhne lagta hai. Yeh glow apne aap poore mixture mein fail jaata hai, thodi blue flame aur dam ghontne wali smell ke saath. Ek black solid bachta hai: sample B."
+},
+"Iron and sulphur react to form a new substance, iron sulphide (FeS). The reaction gives out so much heat that it keeps going by itself.": {
+"hi": "लोहा और सल्फ़र अभिक्रिया करके एक नया पदार्थ, आयरन सल्फ़ाइड (FeS), बनाते हैं। इस अभिक्रिया में इतनी ऊष्मा निकलती है कि यह अपने-आप चलती रहती है।",
+"hg": "Iron aur sulphur react karke ek naya substance, iron sulphide (FeS), banate hain. Is reaction mein itni garmi nikalti hai ki yeh apne aap chalta rehta hai."
+},
+"Turn off the burner, let the dish cool, and move the magnet over sample B.": {
+"hi": "बर्नर बंद करें, प्याली को ठंडा होने दें, और नमूना B के ऊपर चुंबक घुमाएँ।",
+"hg": "Burner band karo, dish ko thanda hone do, aur sample B ke upar magnet ghumao."
+},
+"Nothing is pulled up. Sample B is not attracted by the magnet.": {
+"hi": "कुछ भी ऊपर नहीं खिंचता। नमूना B चुंबक की ओर आकर्षित नहीं होता।",
+"hg": "Kuch bhi upar nahi khinchta. Sample B magnet ki taraf attract nahi hota."
+},
+"Iron sulphide is a compound with its own new properties; it is not magnetic like iron.": {
+"hi": "आयरन सल्फ़ाइड एक यौगिक है जिसके अपने नए गुण हैं; यह लोहे की तरह चुंबकीय नहीं है।",
+"hg": "Iron sulphide ek compound hai jiski apni nayi properties hain; yeh iron ki tarah magnetic nahi hai."
+},
+"Put a little of sample A in test tube 1 and add some dilute hydrochloric acid.": {
+"hi": "नमूना A का थोड़ा-सा भाग परखनली 1 में डालें और उसमें थोड़ा तनु हाइड्रोक्लोरिक अम्ल मिलाएँ।",
+"hg": "Sample A ka thoda sa hissa test tube 1 mein daalo aur usme thoda dilute hydrochloric acid daalo."
+},
+"It fizzes: a colourless gas with no smell. Yellow sulphur stays at the bottom.": {
+"hi": "इसमें बुलबुले उठते हैं: एक रंगहीन और गंधहीन गैस निकलती है। पीला सल्फ़र तली में रह जाता है।",
+"hg": "Isme fizz hota hai: ek colourless gas nikalti hai jismein koi smell nahi. Yellow sulphur neeche reh jaata hai."
+},
+"Light the lamp, light a splint and bring it to the mouth of test tube 1.": {
+"hi": "लैंप जलाएँ, एक तीली जलाएँ और उसे परखनली 1 के मुँह के पास लाएँ।",
+"hg": "Lamp jalao, ek splint jalao aur use test tube 1 ke munh ke paas lao."
+},
+"The gas burns with a pop: it is hydrogen.": {
+"hi": "गैस पॉप की आवाज़ के साथ जलती है: यह हाइड्रोजन है।",
+"hg": "Gas pop ki awaaz ke saath jalti hai: yeh hydrogen hai."
+},
+"The iron in the mixture reacts with the acid and gives hydrogen; the sulphur does not react.": {
+"hi": "मिश्रण में मौजूद लोहा अम्ल से अभिक्रिया करके हाइड्रोजन देता है; सल्फ़र अभिक्रिया नहीं करता।",
+"hg": "Mixture mein jo iron hai woh acid ke saath react karke hydrogen deta hai; sulphur react nahi karta."
+},
+"Put a little of sample B in test tube 2, add dilute hydrochloric acid and hold the moist lead acetate paper at its mouth.": {
+"hi": "नमूना B का थोड़ा-सा भाग परखनली 2 में डालें, तनु हाइड्रोक्लोरिक अम्ल मिलाएँ और उसके मुँह पर नम लेड ऐसीटेट पेपर पकड़ें।",
+"hg": "Sample B ka thoda sa hissa test tube 2 mein daalo, dilute hydrochloric acid daalo aur uske munh par geela lead acetate paper pakdo."
+},
+"It fizzes and gives a gas that smells of rotten eggs. The lead acetate paper turns black.": {
+"hi": "इसमें बुलबुले उठते हैं और एक गैस निकलती है जिसकी गंध सड़े अंडे जैसी होती है। लेड ऐसीटेट पेपर काला हो जाता है।",
+"hg": "Isme fizz hota hai aur ek gas nikalti hai jiski smell sade ande jaisi hoti hai. Lead acetate paper black ho jaata hai."
+},
+"Iron sulphide reacts with the acid to give hydrogen sulphide (H₂S), a different gas. A compound behaves differently from the mixture it was made from.": {
+"hi": "आयरन सल्फ़ाइड अम्ल से अभिक्रिया करके हाइड्रोजन सल्फ़ाइड (H₂S) देता है, जो एक अलग गैस है। यौगिक का व्यवहार उस मिश्रण से अलग होता है जिससे वह बना था।",
+"hg": "Iron sulphide acid ke saath react karke hydrogen sulphide (H₂S) deta hai, jo ek alag gas hai. Compound ka behaviour us mixture se alag hota hai jisse woh bana tha."
+},
+"Sample A (mixture) showed iron and sulphur separately; the magnet picked out the iron; with acid it gave hydrogen (pop). Sample B (compound) was a uniform black solid, not magnetic, and with acid gave hydrogen sulphide (rotten-egg smell, paper turned black).": {
+"hi": "नमूना A (मिश्रण) में लोहा और सल्फ़र अलग-अलग दिखे; चुंबक ने लोहे को अलग कर लिया; अम्ल के साथ इसने हाइड्रोजन (पॉप) दी। नमूना B (यौगिक) एक समान काला ठोस था, चुंबकीय नहीं था, और अम्ल के साथ इसने हाइड्रोजन सल्फ़ाइड (सड़े अंडे जैसी गंध, पेपर काला हुआ) दी।",
+"hg": "Sample A (mixture) mein iron aur sulphur alag-alag dikhe; magnet ne iron ko alag kar liya; acid ke saath isne hydrogen (pop) di. Sample B (compound) ek uniform black solid tha, magnetic nahi tha, aur acid ke saath isne hydrogen sulphide (sade ande jaisi smell, paper black hua) di."
+},
+"In a mixture the parts keep their own properties and can be separated simply. In a compound the elements combine chemically into a new substance with new properties.": {
+"hi": "मिश्रण में घटक अपने गुण बनाए रखते हैं और उन्हें आसानी से अलग किया जा सकता है। यौगिक में तत्व रासायनिक रूप से जुड़कर नए गुणों वाला एक नया पदार्थ बनाते हैं।",
+"hg": "Mixture mein parts apni properties banaye rakhte hain aur unhe aasaani se alag kiya ja sakta hai. Compound mein elements chemically judkar nayi properties wala ek naya substance banate hain."
+},
+"Heat in a well-ventilated room; the fumes are irritating. Hydrogen sulphide is poisonous: do not smell it directly. Handle the acid carefully.": {
+"hi": "हवादार कमरे में गरम करें; इसके धुएँ से जलन होती है। हाइड्रोजन सल्फ़ाइड ज़हरीली है: इसे सीधे न सूँघें। अम्ल को सावधानी से इस्तेमाल करें।",
+"hg": "Hawadaar kamre mein garam karo; iske fumes se jalan hoti hai. Hydrogen sulphide zehreeli hai: ise seedha mat soongho. Acid ko dhyaan se handle karo."
+},
+"Which sample is attracted by a magnet?": {
+"hi": "कौन-सा नमूना चुंबक की ओर आकर्षित होता है?",
+"hg": "Kaun sa sample magnet ki taraf attract hota hai?"
+},
+"The mixture (A), because it still contains free iron.": {
+"hi": "मिश्रण (A), क्योंकि इसमें अब भी मुक्त लोहा है।",
+"hg": "Mixture (A), kyunki isme abhi bhi free iron hai."
+},
+"Which gas comes from the compound with dilute acid?": {
+"hi": "तनु अम्ल के साथ यौगिक से कौन-सी गैस निकलती है?",
+"hg": "Dilute acid ke saath compound se kaun si gas nikalti hai?"
+},
+"Hydrogen sulphide, which smells of rotten eggs.": {
+"hi": "हाइड्रोजन सल्फ़ाइड, जिसकी गंध सड़े अंडे जैसी होती है।",
+"hg": "Hydrogen sulphide, jiski smell sade ande jaisi hoti hai."
+},
+"Give two differences between a mixture and a compound.": {
+"hi": "मिश्रण और यौगिक में दो अंतर बताएँ।",
+"hg": "Mixture aur compound mein do differences batao."
+},
+"A mixture keeps the properties of its parts and can be separated physically; a compound has new properties and a fixed composition.": {
+"hi": "मिश्रण में उसके घटकों के गुण बने रहते हैं और उसे भौतिक विधियों से अलग किया जा सकता है; यौगिक के गुण नए होते हैं और उसका संघटन निश्चित होता है।",
+"hg": "Mixture mein uske parts ki properties bani rehti hain aur use physical methods se alag kiya ja sakta hai; compound ki properties nayi hoti hain aur uska composition fixed hota hai."
+},
+"Iron + sulphur —heat→ iron sulphide · iron + hydrochloric acid → iron chloride + hydrogen · iron sulphide + hydrochloric acid → iron chloride + hydrogen sulphide": {
+"hi": "आयरन + सल्फ़र —ऊष्मा→ आयरन सल्फ़ाइड · आयरन + हाइड्रोक्लोरिक अम्ल → आयरन क्लोराइड + हाइड्रोजन · आयरन सल्फ़ाइड + हाइड्रोक्लोरिक अम्ल → आयरन क्लोराइड + हाइड्रोजन सल्फ़ाइड",
+"hg": "Iron + sulphur —heat→ iron sulphide · iron + hydrochloric acid → iron chloride + hydrogen · iron sulphide + hydrochloric acid → iron chloride + hydrogen sulphide"
+},
+"Colloid, solution and suspension": {
+"hi": "कोलॉइड, विलयन और निलंबन",
+"hg": "Colloid, solution aur suspension"
+},
+"To prepare a colloid of sulphur, a true solution of salt and a suspension of chalk, and to tell them apart by light, filtering and settling.": {
+"hi": "सल्फ़र का कोलॉइड, नमक का वास्तविक विलयन और चॉक का निलंबन बनाना, और प्रकाश, छानने तथा नीचे बैठने के आधार पर उनमें अंतर पहचानना।",
+"hg": "Sulphur ka colloid, namak ka true solution aur chalk ka suspension banana, aur light, filter karne aur settle hone se unmein fark pehchaanna."
+},
+"True solution, colloid and suspension": {
+"hi": "वास्तविक विलयन, कोलॉइड और निलंबन",
+"hg": "True solution, colloid aur suspension"
+},
+"Add some dilute hydrochloric acid to beaker A (sodium thiosulphate solution) and stir.": {
+"hi": "बीकर A (सोडियम थायोसल्फ़ेट विलयन) में थोड़ा तनु हाइड्रोक्लोरिक अम्ल डालें और हिलाएँ।",
+"hg": "Beaker A (sodium thiosulphate solution) mein thoda dilute hydrochloric acid daalo aur hilao."
+},
+"At first nothing seems to happen.": {
+"hi": "शुरू में कुछ होता हुआ नहीं दिखता।",
+"hg": "Shuru mein kuch hota hua nahi dikhta."
+},
+"Wait and watch beaker A (time-lapse).": {
+"hi": "प्रतीक्षा करें और बीकर A को देखें (टाइम-लैप्स)।",
+"hg": "Thoda ruko aur beaker A ko dekho (time-lapse)."
+},
+"The clear liquid slowly turns milky, pale yellow and translucent.": {
+"hi": "साफ़ द्रव धीरे-धीरे दूधिया, हल्का पीला और पारभासी हो जाता है।",
+"hg": "Saaf liquid dheere-dheere doodhiya, halka yellow aur translucent ho jaata hai."
+},
+"The reaction makes sulphur as extremely tiny particles that stay spread through the water: a colloid.": {
+"hi": "अभिक्रिया से सल्फ़र के बहुत ही छोटे कण बनते हैं, जो पूरे पानी में फैले रहते हैं: यह कोलॉइड है।",
+"hg": "Reaction se sulphur ke bahut hi chhote particles bante hain jo poore paani mein faile rehte hain: yeh colloid hai."
+},
+"Dissolve a spoonful of salt in beaker B.": {
+"hi": "बीकर B में एक चम्मच नमक घोलें।",
+"hg": "Beaker B mein ek chammach namak gholo."
+},
+"The salt disappears; the liquid stays clear. This is a true solution.": {
+"hi": "नमक गायब हो जाता है; द्रव साफ़ रहता है। यह वास्तविक विलयन है।",
+"hg": "Namak gayab ho jaata hai; liquid saaf rehta hai. Yeh true solution hai."
+},
+"Stir a spoonful of chalk powder into beaker C.": {
+"hi": "बीकर C में एक चम्मच चॉक का चूर्ण डालकर हिलाएँ।",
+"hg": "Beaker C mein ek chammach chalk powder daal kar hilao."
+},
+"The water turns cloudy white; you can see chalk particles. This is a suspension.": {
+"hi": "पानी धुँधला सफ़ेद हो जाता है; चॉक के कण दिखाई देते हैं। यह निलंबन है।",
+"hg": "Paani cloudy white ho jaata hai; chalk ke particles dikhte hain. Yeh suspension hai."
+},
+"Shine the torch through each beaker from the side.": {
+"hi": "हर बीकर पर बगल से टॉर्च की रोशनी डालें।",
+"hg": "Har beaker par side se torch ki roshni daalo."
+},
+"The path of the light can be seen in A (colloid) and C (suspension), but not in B (solution).": {
+"hi": "A (कोलॉइड) और C (निलंबन) में प्रकाश का मार्ग दिखाई देता है, पर B (विलयन) में नहीं।",
+"hg": "A (colloid) aur C (suspension) mein light ka path dikhta hai, par B (solution) mein nahi."
+},
+"Colloid and suspension particles are big enough to scatter light (the Tyndall effect); dissolved particles are too small.": {
+"hi": "कोलॉइड और निलंबन के कण इतने बड़े होते हैं कि प्रकाश को बिखेर देते हैं (टिंडल प्रभाव); घुले हुए कण बहुत छोटे होते हैं।",
+"hg": "Colloid aur suspension ke particles itne bade hote hain ki light ko scatter kar dete hain (Tyndall effect); ghule hue particles bahut chhote hote hain."
+},
+"Filter A and C.": {
+"hi": "A और C को छानें।",
+"hg": "A aur C ko filter karo."
+},
+"The colloid passes through the filter paper and the filtrate is still milky. The chalk stays on the paper as a white residue and its filtrate is clear.": {
+"hi": "कोलॉइड फ़िल्टर पेपर से छनकर निकल जाता है और निस्यंद अब भी दूधिया रहता है। चॉक पेपर पर सफ़ेद अवशेष के रूप में रह जाता है और उसका निस्यंद साफ़ होता है।",
+"hg": "Colloid filter paper se chhan kar nikal jaata hai aur filtrate abhi bhi doodhiya rehta hai. Chalk paper par white residue ki tarah reh jaata hai aur uska filtrate saaf hota hai."
+},
+"Colloid particles are smaller than the pores of the filter paper; suspension particles are bigger.": {
+"hi": "कोलॉइड के कण फ़िल्टर पेपर के छिद्रों से छोटे होते हैं; निलंबन के कण उनसे बड़े होते हैं।",
+"hg": "Colloid ke particles filter paper ke pores se chhote hote hain; suspension ke particles unse bade hote hain."
+},
+"Leave the beakers undisturbed for a while (time-lapse).": {
+"hi": "बीकरों को कुछ देर के लिए बिना हिलाए छोड़ दें (टाइम-लैप्स)।",
+"hg": "Beakers ko kuch der ke liye bina hilaye chhod do (time-lapse)."
+},
+"The chalk in C settles at the bottom. The colloid in A does not settle; the salt solution stays clear.": {
+"hi": "C का चॉक तली में बैठ जाता है। A का कोलॉइड नीचे नहीं बैठता; नमक का विलयन साफ़ रहता है।",
+"hg": "C ka chalk neeche baith jaata hai. A ka colloid settle nahi hota; namak ka solution saaf rehta hai."
+},
+"A (colloid): milky pale yellow, scattered light, passed through filter paper, did not settle. B (solution): clear, no scattering, nothing on the filter. C (suspension): cloudy, scattered light, left residue, settled.": {
+"hi": "A (कोलॉइड): दूधिया हल्का पीला, प्रकाश बिखेरा, फ़िल्टर पेपर से छनकर निकल गया, नीचे नहीं बैठा। B (विलयन): साफ़, प्रकाश नहीं बिखेरा, फ़िल्टर पर कुछ नहीं बचा। C (निलंबन): धुँधला, प्रकाश बिखेरा, अवशेष छोड़ा, नीचे बैठ गया।",
+"hg": "A (colloid): doodhiya pale yellow, light scatter hui, filter paper se nikal gaya, settle nahi hua. B (solution): saaf, koi scattering nahi, filter par kuch nahi. C (suspension): cloudy, light scatter hui, residue chhoda, settle ho gaya."
+},
+"A true solution is clear and its particles are too small to scatter light. A colloid scatters light but its particles do not settle and pass through filter paper. A suspension scatters light, is filtered out and settles.": {
+"hi": "वास्तविक विलयन साफ़ होता है और उसके कण इतने छोटे होते हैं कि प्रकाश को नहीं बिखेरते। कोलॉइड प्रकाश को बिखेरता है, पर उसके कण नीचे नहीं बैठते और फ़िल्टर पेपर से निकल जाते हैं। निलंबन प्रकाश को बिखेरता है, छानने पर अलग हो जाता है और नीचे बैठ जाता है।",
+"hg": "True solution saaf hota hai aur uske particles itne chhote hote hain ki light scatter nahi karte. Colloid light scatter karta hai par uske particles settle nahi hote aur filter paper se nikal jaate hain. Suspension light scatter karta hai, filter ho jaata hai aur settle ho jaata hai."
+},
+"Sulphur dioxide has a choking smell: do the reaction in a ventilated room. Handle the acid carefully.": {
+"hi": "सल्फ़र डाइऑक्साइड की गंध दम घोंटने वाली होती है: अभिक्रिया हवादार कमरे में करें। अम्ल को सावधानी से इस्तेमाल करें।",
+"hg": "Sulphur dioxide ki smell dam ghontne wali hoti hai: reaction hawadaar kamre mein karo. Acid ko dhyaan se handle karo."
+},
+"Scattering of a beam of light by colloid (or suspension) particles, so the path of light becomes visible.": {
+"hi": "कोलॉइड (या निलंबन) के कणों द्वारा प्रकाश की किरण का बिखरना, जिससे प्रकाश का मार्ग दिखाई देने लगता है।",
+"hg": "Colloid (ya suspension) ke particles se light ki beam ka scatter hona, jisse light ka path dikhne lagta hai."
+},
+"Can a colloid be separated by filtration?": {
+"hi": "क्या कोलॉइड को छानकर अलग किया जा सकता है?",
+"hg": "Kya colloid ko filtration se alag kiya ja sakta hai?"
+},
+"No, its particles pass through filter paper.": {
+"hi": "नहीं, इसके कण फ़िल्टर पेपर से निकल जाते हैं।",
+"hg": "Nahi, iske particles filter paper se nikal jaate hain."
+},
+"Give one example each of a colloid and a suspension.": {
+"hi": "कोलॉइड और निलंबन का एक-एक उदाहरण दें।",
+"hg": "Colloid aur suspension ka ek-ek example do."
+},
+"Milk is a colloid; muddy water (or chalk in water) is a suspension.": {
+"hi": "दूध एक कोलॉइड है; मटमैला पानी (या पानी में चॉक) एक निलंबन है।",
+"hg": "Doodh ek colloid hai; matmaila paani (ya paani mein chalk) ek suspension hai."
+},
+"Sodium thiosulphate + hydrochloric acid → sodium chloride + sulphur (colloid) + sulphur dioxide + water": {
+"hi": "सोडियम थायोसल्फ़ेट + हाइड्रोक्लोरिक अम्ल → सोडियम क्लोराइड + सल्फ़र (कोलॉइड) + सल्फ़र डाइऑक्साइड + जल",
+"hg": "Sodium thiosulphate + hydrochloric acid → sodium chloride + sulphur (colloid) + sulphur dioxide + water"
+},
+"Pure copper sulphate crystals by crystallisation": {
+"hi": "क्रिस्टलीकरण द्वारा कॉपर सल्फ़ेट के शुद्ध क्रिस्टल",
+"hg": "Crystallisation se copper sulphate ke pure crystals"
+},
+"To obtain pure crystals of copper sulphate from an impure sample by crystallisation.": {
+"hi": "क्रिस्टलीकरण द्वारा अशुद्ध नमूने से कॉपर सल्फ़ेट के शुद्ध क्रिस्टल प्राप्त करना।",
+"hg": "Crystallisation se impure sample se copper sulphate ke pure crystals prapt karna."
+},
+"Separation by crystallisation": {
+"hi": "क्रिस्टलीकरण द्वारा पृथक्करण",
+"hg": "Crystallisation se separation"
+},
+"Put the water bath on the tripod and stand the beaker of water in it. Add one drop of dilute sulphuric acid and light the burner.": {
+"hi": "जल ऊष्मक को तिपाई स्टैंड पर रखें और पानी वाला बीकर उसमें रखें। तनु सल्फ़्यूरिक अम्ल की एक बूँद डालें और बर्नर जलाएँ।",
+"hg": "Water bath ko tripod par rakho aur paani wala beaker usme rakho. Dilute sulphuric acid ki ek boond daalo aur burner jalao."
+},
+"The water bath and the water in the beaker get hot.": {
+"hi": "जल ऊष्मक और बीकर का पानी गरम हो जाते हैं।",
+"hg": "Water bath aur beaker ka paani garam ho jaate hain."
+},
+"A drop of acid stops the copper sulphate from reacting with water (hydrolysis), so the crystals come out clear.": {
+"hi": "अम्ल की एक बूँद कॉपर सल्फ़ेट को पानी से अभिक्रिया (जल-अपघटन) करने से रोकती है, इसलिए क्रिस्टल साफ़ बनते हैं।",
+"hg": "Acid ki ek boond copper sulphate ko paani ke saath react (hydrolysis) karne se rokti hai, isliye crystals saaf bante hain."
+},
+"Add impure copper sulphate a spoonful at a time, stirring, until no more dissolves.": {
+"hi": "अशुद्ध कॉपर सल्फ़ेट एक-एक चम्मच करके डालें और हिलाते रहें, जब तक कि और घुलना बंद न हो जाए।",
+"hg": "Impure copper sulphate ek-ek chammach karke daalo aur hilaate raho, jab tak aur ghulna band na ho jaaye."
+},
+"A deep blue solution forms. In the end some crystals stay undissolved and the liquid looks a little cloudy with specks of dirt: the hot solution is saturated.": {
+"hi": "गहरे नीले रंग का विलयन बनता है। अंत में कुछ क्रिस्टल बिना घुले रह जाते हैं और गंदगी के कणों से द्रव थोड़ा धुँधला दिखता है: गरम विलयन संतृप्त है।",
+"hg": "Deep blue solution banta hai. Aakhir mein kuch crystals bina ghule reh jaate hain aur gandagi ke kanon se liquid thoda cloudy dikhta hai: garam solution saturated hai."
+},
+"Filter the hot solution into the clean beaker.": {
+"hi": "गरम विलयन को छानकर साफ़ बीकर में लें।",
+"hg": "Garam solution ko filter karke saaf beaker mein lo."
+},
+"A clear, deep blue filtrate collects in the beaker. The insoluble dirt stays on the filter paper.": {
+"hi": "बीकर में साफ़, गहरा नीला निस्यंद इकट्ठा होता है। अविलेय गंदगी फ़िल्टर पेपर पर रह जाती है।",
+"hg": "Beaker mein saaf, deep blue filtrate ikattha hota hai. Insoluble gandagi filter paper par reh jaati hai."
+},
+"Cover the beaker with the watch glass and leave it to cool slowly, undisturbed (overnight, time-lapse).": {
+"hi": "बीकर को वॉच ग्लास से ढकें और उसे बिना हिलाए धीरे-धीरे ठंडा होने दें (पूरी रात, टाइम-लैप्स)।",
+"hg": "Beaker ko watch glass se dhako aur use bina hilaye dheere-dheere thanda hone do (poori raat, time-lapse)."
+},
+"As the solution cools, blue crystals appear and grow on the bottom of the beaker. The liquid above becomes a paler blue.": {
+"hi": "जैसे-जैसे विलयन ठंडा होता है, बीकर की तली पर नीले क्रिस्टल दिखने लगते हैं और बड़े होते जाते हैं। ऊपर का द्रव हल्का नीला हो जाता है।",
+"hg": "Jaise-jaise solution thanda hota hai, beaker ke bottom par blue crystals dikhne lagte hain aur bade hote jaate hain. Upar ka liquid halka blue ho jaata hai."
+},
+"Hot water can hold more copper sulphate than cold water. On cooling, the extra copper sulphate comes out as pure crystals; the impurities stay in the liquid.": {
+"hi": "गरम पानी में ठंडे पानी से ज़्यादा कॉपर सल्फ़ेट घुल सकता है। ठंडा होने पर अतिरिक्त कॉपर सल्फ़ेट शुद्ध क्रिस्टल के रूप में बाहर आ जाता है; अशुद्धियाँ द्रव में ही रह जाती हैं।",
+"hg": "Garam paani mein thande paani se zyada copper sulphate ghul sakta hai. Thanda hone par extra copper sulphate pure crystals ke roop mein bahar aa jaata hai; impurities liquid mein hi reh jaati hain."
+},
+"Remove the watch glass, pour off the remaining liquid and look at the crystals.": {
+"hi": "वॉच ग्लास हटाएँ, बचा हुआ द्रव धीरे से निकाल दें और क्रिस्टलों को देखें।",
+"hg": "Watch glass hatao, bacha hua liquid dheere se nikaal do aur crystals ko dekho."
+},
+"Bright blue, clear crystals with flat faces and sharp edges are left.": {
+"hi": "चपटी सतहों और नुकीले किनारों वाले चमकीले नीले, साफ़ क्रिस्टल बचते हैं।",
+"hg": "Flat faces aur sharp edges wale bright blue, saaf crystals bachte hain."
+},
+"A deep blue saturated solution formed on heating; impurities were left on the filter paper; on slow cooling, blue crystals with flat faces grew.": {
+"hi": "गरम करने पर गहरे नीले रंग का संतृप्त विलयन बना; अशुद्धियाँ फ़िल्टर पेपर पर रह गईं; धीरे-धीरे ठंडा होने पर चपटी सतहों वाले नीले क्रिस्टल बने।",
+"hg": "Garam karne par deep blue saturated solution bana; impurities filter paper par reh gayin; dheere-dheere thanda hone par flat faces wale blue crystals bane."
+},
+"Crystallisation separates a pure solid from its solution: a hot saturated solution gives pure crystals on cooling, while the impurities remain behind.": {
+"hi": "क्रिस्टलीकरण से शुद्ध ठोस को उसके विलयन से अलग किया जाता है: गरम संतृप्त विलयन ठंडा होने पर शुद्ध क्रिस्टल देता है, जबकि अशुद्धियाँ पीछे रह जाती हैं।",
+"hg": "Crystallisation pure solid ko uske solution se alag karta hai: garam saturated solution thanda hone par pure crystals deta hai, jabki impurities peeche reh jaati hain."
+},
+"Copper sulphate is harmful if swallowed. Handle the hot beaker with tongs or a cloth. Only the teacher should add the sulphuric acid.": {
+"hi": "कॉपर सल्फ़ेट निगलने पर हानिकारक है। गरम बीकर को चिमटे या कपड़े से पकड़ें। सल्फ़्यूरिक अम्ल केवल शिक्षक ही डालें।",
+"hg": "Copper sulphate nigalne par nuksaandeh hai. Garam beaker ko tongs ya kapde se pakdo. Sulphuric acid sirf teacher hi daalenge."
+},
+"Why is crystallisation better than evaporating the solution to dryness?": {
+"hi": "विलयन को वाष्पित करके पूरी तरह सुखाने की तुलना में क्रिस्टलीकरण बेहतर क्यों है?",
+"hg": "Solution ko poora evaporate karke sukhaane se crystallisation behtar kyun hai?"
+},
+"Impurities stay in the solution, and some solids decompose or char on strong heating.": {
+"hi": "अशुद्धियाँ विलयन में ही रह जाती हैं, और कुछ ठोस तेज़ गरम करने पर विघटित हो जाते हैं या जल जाते हैं।",
+"hg": "Impurities solution mein hi reh jaati hain, aur kuch solids tez garam karne par decompose ho jaate hain ya jal jaate hain."
+},
+"One in which no more solute can dissolve at that temperature.": {
+"hi": "वह विलयन जिसमें उस ताप पर और विलेय नहीं घुल सकता।",
+"hg": "Woh solution jismein us temperature par aur solute nahi ghul sakta."
+},
+"Why should the solution cool slowly?": {
+"hi": "विलयन को धीरे-धीरे ठंडा क्यों होने देना चाहिए?",
+"hg": "Solution ko dheere-dheere thanda kyun hone dena chahiye?"
+},
+"Slow cooling gives bigger, purer crystals.": {
+"hi": "धीरे-धीरे ठंडा होने से बड़े और ज़्यादा शुद्ध क्रिस्टल बनते हैं।",
+"hg": "Dheere-dheere thanda hone se bade aur zyada pure crystals bante hain."
+},
+"Hot saturated copper sulphate solution —cool→ pure copper sulphate crystals (with water of crystallisation)": {
+"hi": "कॉपर सल्फ़ेट का गरम संतृप्त विलयन —ठंडा करने पर→ कॉपर सल्फ़ेट के शुद्ध क्रिस्टल (क्रिस्टलन जल के साथ)",
+"hg": "Garam saturated copper sulphate solution —cool→ pure copper sulphate crystals (water of crystallisation ke saath)"
+},
+"Separating oil and water": {
+"hi": "तेल और पानी को अलग करना",
+"hg": "Oil aur paani ko alag karna"
+},
+"To separate two liquids that do not mix (mustard oil and water) using a separating funnel.": {
+"hi": "पृथक्कारी कीप की मदद से ऐसे दो द्रवों (सरसों का तेल और पानी) को अलग करना जो आपस में नहीं मिलते।",
+"hg": "Separating funnel ki madad se aise do liquids (mustard oil aur paani) ko alag karna jo aapas mein mix nahi hote."
+},
+"Separation of immiscible liquids": {
+"hi": "अमिश्रणीय द्रवों का पृथक्करण",
+"hg": "Immiscible liquids ka separation"
+},
+"Check that the stopcock is closed, then pour the water into the separating funnel.": {
+"hi": "जाँच लें कि स्टॉपकॉक बंद है, फिर पानी को पृथक्कारी कीप में डालें।",
+"hg": "Check karo ki stopcock band hai, phir paani ko separating funnel mein daalo."
+},
+"The water fills the lower part of the funnel.": {
+"hi": "पानी कीप के निचले भाग में भर जाता है।",
+"hg": "Paani funnel ke neeche wale hisse mein bhar jaata hai."
+},
+"Now pour in the mustard oil.": {
+"hi": "अब सरसों का तेल डालें।",
+"hg": "Ab mustard oil daalo."
+},
+"The oil breaks into drops and the liquid looks cloudy yellow.": {
+"hi": "तेल बूँदों में टूट जाता है और द्रव धुँधला पीला दिखता है।",
+"hg": "Oil boondon mein toot jaata hai aur liquid cloudy yellow dikhta hai."
+},
+"Put the stopper on the funnel and let it stand undisturbed (time-lapse).": {
+"hi": "कीप पर डाट लगाएँ और उसे बिना हिलाए रखा रहने दें (टाइम-लैप्स)।",
+"hg": "Funnel par stopper lagao aur use bina hilaye rakha rehne do (time-lapse)."
+},
+"Two separate layers form: yellow mustard oil on top, clear water below, with a sharp boundary.": {
+"hi": "दो अलग परतें बन जाती हैं: ऊपर पीला सरसों का तेल, नीचे साफ़ पानी, और बीच में एक साफ़ सीमा-रेखा।",
+"hg": "Do alag layers ban jaati hain: upar yellow mustard oil, neeche saaf paani, aur beech mein ek sharp boundary."
+},
+"Oil and water do not mix (they are immiscible). Oil is lighter (less dense) than water, so it floats on top.": {
+"hi": "तेल और पानी आपस में नहीं मिलते (ये अमिश्रणीय हैं)। तेल पानी से हल्का (कम घनत्व वाला) होता है, इसलिए यह ऊपर तैरता है।",
+"hg": "Oil aur paani mix nahi hote (yeh immiscible hain). Oil paani se halka (kam dense) hota hai, isliye upar tairta hai."
+},
+"Remove the stopper and open the stopcock slowly. Let the water run into beaker 1, and close the stopcock when the water has run out.": {
+"hi": "डाट हटाएँ और स्टॉपकॉक को धीरे से खोलें। पानी को बीकर 1 में बहने दें, और पानी निकल जाने पर स्टॉपकॉक बंद कर दें।",
+"hg": "Stopper hatao aur stopcock ko dheere se kholo. Paani ko beaker 1 mein behne do, aur paani nikal jaane par stopcock band kar do."
+},
+"The water runs out first and the boundary moves down. Only the oil is left in the funnel.": {
+"hi": "पहले पानी निकलता है और सीमा-रेखा नीचे खिसकती है। कीप में केवल तेल बचता है।",
+"hg": "Pehle paani nikalta hai aur boundary neeche khisakti hai. Funnel mein sirf oil bachta hai."
+},
+"The stopper is removed so that air can get in and the liquid can flow out.": {
+"hi": "डाट इसलिए हटाई जाती है ताकि हवा अंदर जा सके और द्रव बाहर बह सके।",
+"hg": "Stopper isliye hataya jaata hai taaki hawa andar ja sake aur liquid bahar beh sake."
+},
+"Put beaker 2 under the funnel and run out the oil.": {
+"hi": "कीप के नीचे बीकर 2 रखें और तेल को निकाल लें।",
+"hg": "Funnel ke neeche beaker 2 rakho aur oil ko nikaal lo."
+},
+"The oil is collected separately in beaker 2.": {
+"hi": "तेल अलग से बीकर 2 में इकट्ठा हो जाता है।",
+"hg": "Oil alag se beaker 2 mein ikattha ho jaata hai."
+},
+"Oil and water formed two layers, oil on top. The water ran out first through the stopcock, then the oil was collected separately.": {
+"hi": "तेल और पानी की दो परतें बनीं, तेल ऊपर था। पहले पानी स्टॉपकॉक से बाहर निकला, फिर तेल को अलग से इकट्ठा किया गया।",
+"hg": "Oil aur paani ki do layers bani, oil upar tha. Pehle paani stopcock se bahar nikla, phir oil ko alag se collect kiya gaya."
+},
+"Two immiscible liquids can be separated with a separating funnel, because they form layers according to their densities.": {
+"hi": "दो अमिश्रणीय द्रवों को पृथक्कारी कीप से अलग किया जा सकता है, क्योंकि वे अपने घनत्व के अनुसार परतें बना लेते हैं।",
+"hg": "Do immiscible liquids ko separating funnel se alag kiya ja sakta hai, kyunki woh apni density ke hisaab se layers bana lete hain."
+},
+"Open the stopcock slowly. Remove the stopper before draining.": {
+"hi": "स्टॉपकॉक को धीरे से खोलें। द्रव निकालने से पहले डाट हटा दें।",
+"hg": "Stopcock ko dheere se kholo. Liquid nikaalne se pehle stopper hata do."
+},
+"Why does oil float on water?": {
+"hi": "तेल पानी पर क्यों तैरता है?",
+"hg": "Oil paani par kyun tairta hai?"
+},
+"It is less dense than water and does not mix with it.": {
+"hi": "इसका घनत्व पानी से कम होता है और यह पानी में नहीं मिलता।",
+"hg": "Iski density paani se kam hoti hai aur yeh paani mein mix nahi hota."
+},
+"Why is the stopper removed before opening the stopcock?": {
+"hi": "स्टॉपकॉक खोलने से पहले डाट क्यों हटाई जाती है?",
+"hg": "Stopcock kholne se pehle stopper kyun hataya jaata hai?"
+},
+"So that air can enter and the liquid can flow out freely.": {
+"hi": "ताकि हवा अंदर जा सके और द्रव आसानी से बाहर बह सके।",
+"hg": "Taaki hawa andar ja sake aur liquid aasaani se bahar beh sake."
+},
+"Give one use of this method.": {
+"hi": "इस विधि का एक उपयोग बताएँ।",
+"hg": "Is method ka ek use batao."
+},
+"Separating oil from water, or iron from its ore slag in a blast furnace (lighter slag floats on molten iron).": {
+"hi": "पानी से तेल को अलग करना, या ब्लास्ट फ़र्नेस (धमन भट्ठी) में लोहे को अयस्क से निकले धातुमल से अलग करना (हल्का धातुमल पिघले हुए लोहे के ऊपर तैरता है)।",
+"hg": "Paani se oil ko alag karna, ya blast furnace mein iron ko ore ke slag se alag karna (halka slag pighle hue iron ke upar tairta hai)."
+},
+"Oil and water do not mix: the lighter liquid (oil) floats; the heavier (water) runs out first": {
+"hi": "तेल और पानी आपस में नहीं मिलते: हल्का द्रव (तेल) ऊपर तैरता है; भारी द्रव (पानी) पहले बाहर निकलता है",
+"hg": "Oil aur paani mix nahi hote: halka liquid (oil) upar tairta hai; bhaari (paani) pehle bahar nikalta hai"
+},
+"NCERT Lab Manual, Class 9": {
+"hi": "NCERT प्रयोगशाला पुस्तिका, कक्षा 9",
+"hg": "NCERT Lab Manual, Class 9"
+},
+"Separating sand, salt and ammonium chloride": {
+"hi": "रेत, नमक और अमोनियम क्लोराइड को अलग करना",
+"hg": "Ret, namak aur ammonium chloride ko alag karna"
+},
+"To separate a mixture of sand, common salt and ammonium chloride by sublimation, dissolving, filtration and evaporation.": {
+"hi": "ऊर्ध्वपातन, घोलने, छानने और वाष्पन द्वारा रेत, साधारण नमक और अमोनियम क्लोराइड के मिश्रण को अलग करना।",
+"hg": "Sublimation, gholne, filtration aur evaporation se ret, common salt aur ammonium chloride ke mixture ko alag karna."
+},
+"Separation of a mixture of three solids": {
+"hi": "तीन ठोसों के मिश्रण का पृथक्करण",
+"hg": "Teen solids ke mixture ka separation"
+},
+"Put the china dish with the mixture on the tripod. Cover it with an upside-down funnel and plug the funnel stem with cotton.": {
+"hi": "मिश्रण वाली चीनी मिट्टी की प्याली को तिपाई स्टैंड पर रखें। उसे एक उलटी कीप से ढकें और कीप की नली को रुई से बंद करें।",
+"hg": "Mixture wali china dish ko tripod par rakho. Use ek ulti funnel se dhako aur funnel ki stem ko cotton se band karo."
+},
+"The mixture is covered by the funnel.": {
+"hi": "मिश्रण कीप से ढक जाता है।",
+"hg": "Mixture funnel se dhak jaata hai."
+},
+"White fumes rise and a white solid collects on the cool inside of the funnel.": {
+"hi": "सफ़ेद धुआँ उठता है और कीप की ठंडी भीतरी सतह पर एक सफ़ेद ठोस जमा हो जाता है।",
+"hg": "White fumes uthte hain aur funnel ki thandi andar wali surface par ek white solid jama ho jaata hai."
+},
+"Ammonium chloride sublimes: it turns straight into vapour and back into solid on the cool funnel. Sand and salt do not sublime.": {
+"hi": "अमोनियम क्लोराइड का ऊर्ध्वपातन होता है: यह सीधे वाष्प में बदल जाता है और ठंडी कीप पर फिर से ठोस बन जाता है। रेत और नमक का ऊर्ध्वपातन नहीं होता।",
+"hg": "Ammonium chloride sublime hota hai: yeh seedha vapour ban jaata hai aur thandi funnel par wapas solid ban jaata hai. Ret aur namak sublime nahi hote."
+},
+"Turn off the burner, let it cool and lift off the funnel. Keep the white solid: it is ammonium chloride.": {
+"hi": "बर्नर बंद करें, ठंडा होने दें और कीप को उठा लें। सफ़ेद ठोस को सँभालकर रखें: यह अमोनियम क्लोराइड है।",
+"hg": "Burner band karo, thanda hone do aur funnel utha lo. White solid ko sambhaal kar rakho: yeh ammonium chloride hai."
+},
+"The funnel is coated inside with white ammonium chloride. Sand and salt are left in the dish.": {
+"hi": "कीप के अंदर सफ़ेद अमोनियम क्लोराइड की परत जम गई है। रेत और नमक प्याली में रह जाते हैं।",
+"hg": "Funnel ke andar white ammonium chloride ki layer jam gayi hai. Ret aur namak dish mein reh jaate hain."
+},
+"Add water to the dish and stir.": {
+"hi": "प्याली में पानी डालें और हिलाएँ।",
+"hg": "Dish mein paani daalo aur hilao."
+},
+"The salt dissolves; the sand does not.": {
+"hi": "नमक घुल जाता है; रेत नहीं घुलती।",
+"hg": "Namak ghul jaata hai; ret nahi ghulti."
+},
+"Filter the mixture.": {
+"hi": "मिश्रण को छानें।",
+"hg": "Mixture ko filter karo."
+},
+"The sand stays on the filter paper. A clear salt solution (filtrate) collects in the beaker.": {
+"hi": "रेत फ़िल्टर पेपर पर रह जाती है। बीकर में नमक का साफ़ विलयन (निस्यंद) इकट्ठा होता है।",
+"hg": "Ret filter paper par reh jaati hai. Beaker mein namak ka saaf solution (filtrate) ikattha hota hai."
+},
+"Pour the filtrate into the second china dish and heat it until the water evaporates (time-lapse).": {
+"hi": "निस्यंद को दूसरी चीनी मिट्टी की प्याली में डालें और पानी के वाष्पित होने तक गरम करें (टाइम-लैप्स)।",
+"hg": "Filtrate ko doosri china dish mein daalo aur paani evaporate hone tak garam karo (time-lapse)."
+},
+"The water boils away and white salt is left in the dish.": {
+"hi": "पानी उबलकर उड़ जाता है और प्याली में सफ़ेद नमक बच जाता है।",
+"hg": "Paani ubal kar ud jaata hai aur dish mein white namak bach jaata hai."
+},
+"Ammonium chloride collected on the funnel; sand stayed on the filter paper; salt was left in the dish after evaporation.": {
+"hi": "अमोनियम क्लोराइड कीप पर जमा हुआ; रेत फ़िल्टर पेपर पर रह गई; वाष्पन के बाद नमक प्याली में बचा।",
+"hg": "Ammonium chloride funnel par jama hua; ret filter paper par reh gayi; evaporation ke baad namak dish mein bacha."
+},
+"A mixture can be separated by using the different properties of its parts: sublimation, solubility in water, filtration and evaporation.": {
+"hi": "किसी मिश्रण को उसके घटकों के अलग-अलग गुणों का उपयोग करके अलग किया जा सकता है: ऊर्ध्वपातन, पानी में विलेयता, निस्यंदन और वाष्पन।",
+"hg": "Kisi mixture ko uske parts ki alag-alag properties use karke alag kiya ja sakta hai: sublimation, paani mein solubility, filtration aur evaporation."
+},
+"Heat gently and do not breathe the fumes. Do not touch the hot dish.": {
+"hi": "धीमी आँच पर गरम करें और धुएँ को साँस के साथ अंदर न लें। गरम प्याली को न छुएँ।",
+"hg": "Dheemi aanch par garam karo aur fumes ko saans ke saath andar mat lo. Garam dish ko mat chhuo."
+},
+"Which part is removed first, and how?": {
+"hi": "सबसे पहले कौन-सा घटक अलग किया जाता है, और कैसे?",
+"hg": "Sabse pehle kaun sa part alag kiya jaata hai, aur kaise?"
+},
+"Ammonium chloride, by sublimation.": {
+"hi": "अमोनियम क्लोराइड, ऊर्ध्वपातन द्वारा।",
+"hg": "Ammonium chloride, sublimation se."
+},
+"How is sand separated from salt?": {
+"hi": "रेत को नमक से कैसे अलग किया जाता है?",
+"hg": "Ret ko namak se kaise alag kiya jaata hai?"
+},
+"Salt dissolves in water and sand does not, so sand is filtered out.": {
+"hi": "नमक पानी में घुल जाता है और रेत नहीं घुलती, इसलिए रेत को छानकर अलग कर लिया जाता है।",
+"hg": "Namak paani mein ghul jaata hai aur ret nahi ghulti, isliye ret ko filter karke alag kar liya jaata hai."
+},
+"How is salt recovered from the filtrate?": {
+"hi": "निस्यंद से नमक वापस कैसे प्राप्त किया जाता है?",
+"hg": "Filtrate se namak wapas kaise milta hai?"
+},
+"By evaporating the water.": {
+"hi": "पानी का वाष्पन करके।",
+"hg": "Paani ko evaporate karke."
+},
+"Ammonium chloride: sublimation · salt: dissolves in water, recovered by evaporation · sand: insoluble, stays on the filter paper": {
+"hi": "अमोनियम क्लोराइड: ऊर्ध्वपातन · नमक: पानी में घुलता है, वाष्पन से वापस मिलता है · रेत: अविलेय, फ़िल्टर पेपर पर रह जाती है",
+"hg": "Ammonium chloride: sublimation · namak: paani mein ghulta hai, evaporation se wapas milta hai · ret: insoluble, filter paper par reh jaati hai"
+},
+"Separating acetone and water by distillation": {
+"hi": "आसवन द्वारा ऐसीटोन और पानी को अलग करना",
+"hg": "Distillation se acetone aur paani ko alag karna"
+},
+"To separate two liquids that mix (acetone and water) by simple distillation, using their different boiling points.": {
+"hi": "आपस में मिलने वाले दो द्रवों (ऐसीटोन और पानी) को उनके अलग-अलग क्वथनांकों का उपयोग करके, साधारण आसवन द्वारा अलग करना।",
+"hg": "Aapas mein mix hone wale do liquids (acetone aur paani) ko unke alag-alag boiling points ka use karke, simple distillation se alag karna."
+},
+"Separation by distillation": {
+"hi": "आसवन द्वारा पृथक्करण",
+"hg": "Distillation se separation"
+},
+"Pour the mixture of acetone and water into the distillation flask.": {
+"hi": "ऐसीटोन और पानी के मिश्रण को आसवन फ्लास्क में डालें।",
+"hg": "Acetone aur paani ke mixture ko distillation flask mein daalo."
+},
+"The flask is about half full of a clear liquid. Acetone and water are completely mixed, so we cannot separate them with a funnel.": {
+"hi": "फ्लास्क लगभग आधा साफ़ द्रव से भरा है। ऐसीटोन और पानी पूरी तरह मिले हुए हैं, इसलिए हम इन्हें कीप से अलग नहीं कर सकते।",
+"hg": "Flask lagbhag aadha saaf liquid se bhara hai. Acetone aur paani poori tarah mixed hain, isliye hum inhe funnel se alag nahi kar sakte."
+},
+"Close the flask with the cork that holds the thermometer. The bulb of the thermometer should be just at the side arm.": {
+"hi": "फ्लास्क को थर्मामीटर लगे कॉर्क से बंद करें। थर्मामीटर का बल्ब ठीक बगल वाली नली (साइड आर्म) के पास होना चाहिए।",
+"hg": "Flask ko thermometer wale cork se band karo. Thermometer ka bulb theek side arm ke paas hona chahiye."
+},
+"The thermometer reads room temperature.": {
+"hi": "थर्मामीटर कमरे का ताप दिखाता है।",
+"hg": "Thermometer room temperature dikhata hai."
+},
+"The thermometer measures the temperature of the vapour that goes into the condenser.": {
+"hi": "थर्मामीटर उस वाष्प का ताप मापता है जो संघनित्र में जाती है।",
+"hg": "Thermometer us vapour ka temperature naapta hai jo condenser mein jaati hai."
+},
+"Turn on the cold water through the condenser.": {
+"hi": "संघनित्र में ठंडा पानी चालू करें।",
+"hg": "Condenser mein thanda paani chalu karo."
+},
+"Cold water flows into the jacket at the lower end and out at the upper end.": {
+"hi": "ठंडा पानी नीचे वाले सिरे से जैकेट में जाता है और ऊपर वाले सिरे से बाहर निकलता है।",
+"hg": "Thanda paani neeche wale end se jacket mein jaata hai aur upar wale end se bahar nikalta hai."
+},
+"The cold jacket cools the hot vapour so that it turns back into liquid.": {
+"hi": "ठंडी जैकेट गरम वाष्प को ठंडा करती है, जिससे वह फिर से द्रव बन जाती है।",
+"hg": "Thandi jacket garam vapour ko thanda karti hai, jisse woh wapas liquid ban jaati hai."
+},
+"Light the burner and heat the water bath slowly. Watch the thermometer (time-lapse).": {
+"hi": "बर्नर जलाएँ और जल ऊष्मक को धीरे-धीरे गरम करें। थर्मामीटर को देखते रहें (टाइम-लैप्स)।",
+"hg": "Burner jalao aur water bath ko dheere-dheere garam karo. Thermometer ko dekhte raho (time-lapse)."
+},
+"The temperature rises and then stays steady at about 56 °C. Drops of a colourless liquid fall from the condenser into the receiver.": {
+"hi": "ताप बढ़ता है और फिर लगभग 56 °C पर स्थिर हो जाता है। संघनित्र से रंगहीन द्रव की बूँदें रिसीवर में गिरती हैं।",
+"hg": "Temperature badhta hai aur phir lagbhag 56 °C par steady ho jaata hai. Condenser se colourless liquid ki boondein receiver mein girti hain."
+},
+"Acetone boils at 56 °C, much lower than water (100 °C). Its vapour reaches the condenser first and turns back into liquid.": {
+"hi": "ऐसीटोन 56 °C पर उबलता है, जो पानी (100 °C) से बहुत कम है। इसकी वाष्प पहले संघनित्र तक पहुँचती है और फिर से द्रव बन जाती है।",
+"hg": "Acetone 56 °C par boil hota hai, jo paani (100 °C) se bahut kam hai. Iski vapour pehle condenser tak pahunchti hai aur wapas liquid ban jaati hai."
+},
+"Keep heating and keep watching the thermometer (time-lapse).": {
+"hi": "गरम करते रहें और थर्मामीटर को देखते रहें (टाइम-लैप्स)।",
+"hg": "Garam karte raho aur thermometer dekhte raho (time-lapse)."
+},
+"When almost all the acetone has distilled over, the drops stop and the temperature starts rising again.": {
+"hi": "जब लगभग सारा ऐसीटोन आसवित होकर निकल जाता है, तो बूँदें गिरना बंद हो जाती हैं और ताप फिर से बढ़ने लगता है।",
+"hg": "Jab lagbhag saara acetone distil hokar nikal jaata hai, toh boondein girna band ho jaati hain aur temperature phir se badhne lagta hai."
+},
+"Turn off the burner. Compare the liquid in the receiver with the liquid left in the flask.": {
+"hi": "बर्नर बंद करें। रिसीवर के द्रव की तुलना फ्लास्क में बचे द्रव से करें।",
+"hg": "Burner band karo. Receiver ke liquid ko flask mein bache liquid se compare karo."
+},
+"The receiver has acetone (it smells of nail-polish remover). Water is left behind in the flask.": {
+"hi": "रिसीवर में ऐसीटोन है (इसकी गंध नेल-पॉलिश रिमूवर जैसी है)। पानी फ्लास्क में बच जाता है।",
+"hg": "Receiver mein acetone hai (iski smell nail-polish remover jaisi hai). Paani flask mein bach jaata hai."
+},
+"The temperature stayed at about 56 °C while a colourless liquid (acetone) distilled into the receiver; then it rose again. Water was left in the flask.": {
+"hi": "जब तक रंगहीन द्रव (ऐसीटोन) आसवित होकर रिसीवर में आता रहा, ताप लगभग 56 °C पर रहा; फिर यह दोबारा बढ़ने लगा। पानी फ्लास्क में बचा रहा।",
+"hg": "Jab tak colourless liquid (acetone) distil hokar receiver mein aata raha, temperature lagbhag 56 °C par raha; phir yeh dobara badhne laga. Paani flask mein bacha raha."
+},
+"Two miscible liquids whose boiling points are far apart can be separated by distillation.": {
+"hi": "ऐसे दो मिश्रणीय द्रव, जिनके क्वथनांकों में काफ़ी अंतर हो, आसवन द्वारा अलग किए जा सकते हैं।",
+"hg": "Aise do miscible liquids, jinke boiling points mein kaafi fark ho, distillation se alag kiye ja sakte hain."
+},
+"Acetone catches fire easily: heat only with a water bath, never with a naked flame on the flask. Keep the room ventilated.": {
+"hi": "ऐसीटोन आसानी से आग पकड़ लेता है: केवल जल ऊष्मक से गरम करें, फ्लास्क को कभी सीधी ज्वाला पर न रखें। कमरा हवादार रखें।",
+"hg": "Acetone aasaani se aag pakad leta hai: sirf water bath se garam karo, flask ko kabhi seedhi flame par mat rakho. Kamra hawadaar rakho."
+},
+"Why does the temperature stay steady at 56 °C?": {
+"hi": "ताप 56 °C पर स्थिर क्यों रहता है?",
+"hg": "Temperature 56 °C par steady kyun rehta hai?"
+},
+"The heat is used to boil the acetone; the temperature stays at its boiling point until it has distilled.": {
+"hi": "ऊष्मा ऐसीटोन को उबालने में लगती है; जब तक इसका आसवन पूरा नहीं होता, ताप इसके क्वथनांक पर ही रहता है।",
+"hg": "Garmi acetone ko boil karne mein lagti hai; jab tak yeh poora distil nahi ho jaata, temperature iske boiling point par hi rehta hai."
+},
+"Why is a water bath used?": {
+"hi": "जल ऊष्मक का उपयोग क्यों किया जाता है?",
+"hg": "Water bath kyun use kiya jaata hai?"
+},
+"Acetone is flammable, and a water bath heats gently and evenly.": {
+"hi": "ऐसीटोन ज्वलनशील है, और जल ऊष्मक धीरे-धीरे और एक समान गरम करता है।",
+"hg": "Acetone flammable hai, aur water bath dheere-dheere aur ek jaisa garam karta hai."
+},
+"Why does cold water enter the condenser at the lower end?": {
+"hi": "ठंडा पानी संघनित्र में नीचे वाले सिरे से क्यों डाला जाता है?",
+"hg": "Thanda paani condenser mein neeche wale end se kyun daala jaata hai?"
+},
+"So the jacket stays completely full of cold water.": {
+"hi": "ताकि जैकेट पूरी तरह ठंडे पानी से भरी रहे।",
+"hg": "Taaki jacket poori tarah thande paani se bhari rahe."
+},
+"Mixture of acetone (boils at 56 °C) and water (boils at 100 °C) —distillation→ acetone in the receiver, water in the flask": {
+"hi": "ऐसीटोन (56 °C पर उबलता है) और पानी (100 °C पर उबलता है) का मिश्रण —आसवन→ रिसीवर में ऐसीटोन, फ्लास्क में पानी",
+"hg": "Acetone (56 °C par boil hota hai) aur paani (100 °C par boil hota hai) ka mixture —distillation→ receiver mein acetone, flask mein paani"
+},
+"Separating cream from milk by centrifugation": {
+"hi": "अपकेंद्रण द्वारा दूध से क्रीम अलग करना",
+"hg": "Centrifugation se doodh se cream alag karna"
+},
+"To separate cream from full-cream milk by spinning it fast in a centrifuge.": {
+"hi": "फुल-क्रीम दूध को सेंट्रीफ़्यूज में तेज़ी से घुमाकर उससे क्रीम अलग करना।",
+"hg": "Full-cream milk ko centrifuge mein tezi se ghuma kar usse cream alag karna."
+},
+"Separation by centrifugation": {
+"hi": "अपकेंद्रण द्वारा पृथक्करण",
+"hg": "Centrifugation se separation"
+},
+"Pour equal amounts of full-cream milk into the two tubes.": {
+"hi": "दोनों नलियों में बराबर मात्रा में फुल-क्रीम दूध डालें।",
+"hg": "Dono tubes mein barabar quantity mein full-cream milk daalo."
+},
+"Both tubes hold the same amount of white milk.": {
+"hi": "दोनों नलियों में सफ़ेद दूध की बराबर मात्रा है।",
+"hg": "Dono tubes mein white doodh ki barabar quantity hai."
+},
+"The tubes must weigh the same so that the machine stays balanced when it spins.": {
+"hi": "नलियों का भार बराबर होना चाहिए, ताकि घूमते समय मशीन संतुलित रहे।",
+"hg": "Tubes ka weight barabar hona chahiye, taaki ghoomte waqt machine balanced rahe."
+},
+"Put the two tubes in the centrifuge, opposite each other.": {
+"hi": "दोनों नलियों को सेंट्रीफ़्यूज में एक-दूसरे के ठीक सामने रखें।",
+"hg": "Dono tubes ko centrifuge mein ek-doosre ke theek saamne rakho."
+},
+"The tubes sit in the rotor, facing each other.": {
+"hi": "नलियाँ रोटर में एक-दूसरे के आमने-सामने लगी हैं।",
+"hg": "Tubes rotor mein ek-doosre ke aamne-saamne lagi hain."
+},
+"Close the lid and switch on the centrifuge for a few minutes (time-lapse).": {
+"hi": "ढक्कन बंद करें और सेंट्रीफ़्यूज को कुछ मिनट के लिए चालू करें (टाइम-लैप्स)।",
+"hg": "Lid band karo aur centrifuge ko kuch minute ke liye on karo (time-lapse)."
+},
+"The rotor spins very fast with a whirring sound, then slows down and stops by itself.": {
+"hi": "रोटर घर्र-घर्र की आवाज़ के साथ बहुत तेज़ी से घूमता है, फिर धीमा होकर अपने-आप रुक जाता है।",
+"hg": "Rotor ghar-ghar ki awaaz ke saath bahut tez ghoomta hai, phir dheema hokar apne aap ruk jaata hai."
+},
+"Take out the tubes and look at them.": {
+"hi": "नलियों को बाहर निकालें और उन्हें देखें।",
+"hg": "Tubes ko bahar nikaalo aur unhe dekho."
+},
+"A thick layer of cream has collected at the top of each tube. The milk below is thinner and slightly bluish: skimmed milk.": {
+"hi": "हर नली में ऊपर क्रीम की एक मोटी परत जमा हो गई है। नीचे का दूध पतला और हल्का नीला-सा है: यह मलाई रहित (स्किम्ड) दूध है।",
+"hg": "Har tube mein upar cream ki ek moti layer jama ho gayi hai. Neeche ka doodh patla aur thoda bluish hai: yeh skimmed milk hai."
+},
+"Spinning pushes the heavier parts of the milk outward (to the bottom of the tube), and the lighter fat (cream) is left at the top.": {
+"hi": "घुमाने से दूध के भारी भाग बाहर की ओर (नली की तली की ओर) चले जाते हैं, और हल्की वसा (क्रीम) ऊपर रह जाती है।",
+"hg": "Ghumaane se doodh ke bhaari parts bahar ki taraf (tube ke bottom ki taraf) chale jaate hain, aur halka fat (cream) upar reh jaata hai."
+},
+"After spinning, cream collected at the top of each tube and skimmed milk was left below.": {
+"hi": "घुमाने के बाद हर नली में ऊपर क्रीम इकट्ठा हुई और नीचे मलाई रहित दूध बचा।",
+"hg": "Ghumaane ke baad har tube mein upar cream ikatthi hui aur neeche skimmed milk bacha."
+},
+"Centrifugation separates particles of different densities by spinning them fast: the denser part moves to the bottom and the lighter part stays at the top.": {
+"hi": "अपकेंद्रण में तेज़ी से घुमाकर अलग-अलग घनत्व वाले कणों को अलग किया जाता है: ज़्यादा घनत्व वाला भाग तली में चला जाता है और हल्का भाग ऊपर रहता है।",
+"hg": "Centrifugation mein tez ghuma kar alag-alag density wale particles ko alag kiya jaata hai: zyada dense part bottom mein chala jaata hai aur halka part upar rehta hai."
+},
+"Always balance the tubes. Never open the lid while the rotor is spinning.": {
+"hi": "नलियों को हमेशा संतुलित रखें। रोटर घूमते समय ढक्कन कभी न खोलें।",
+"hg": "Tubes ko hamesha balance karo. Rotor ghoomte waqt lid kabhi mat kholo."
+},
+"Why must the tubes be balanced?": {
+"hi": "नलियों को संतुलित रखना क्यों ज़रूरी है?",
+"hg": "Tubes ko balance karna kyun zaroori hai?"
+},
+"An unbalanced rotor shakes violently and can be damaged.": {
+"hi": "असंतुलित रोटर बहुत ज़ोर से हिलता है और खराब हो सकता है।",
+"hg": "Unbalanced rotor bahut zor se hilta hai aur kharaab ho sakta hai."
+},
+"Give two uses of centrifugation.": {
+"hi": "अपकेंद्रण के दो उपयोग बताएँ।",
+"hg": "Centrifugation ke do uses batao."
+},
+"Separating cream from milk in dairies, and separating blood cells from plasma in pathology labs; also in washing machines to squeeze water out of clothes.": {
+"hi": "डेयरी में दूध से क्रीम अलग करना, और पैथोलॉजी लैब में रक्त कोशिकाओं को प्लाज़्मा से अलग करना; साथ ही वॉशिंग मशीन में कपड़ों से पानी निचोड़ना।",
+"hg": "Dairy mein doodh se cream alag karna, aur pathology labs mein blood cells ko plasma se alag karna; saath hi washing machine mein kapdon se paani nichodna."
+},
+"Which part of milk is lighter?": {
+"hi": "दूध का कौन-सा भाग हल्का होता है?",
+"hg": "Doodh ka kaun sa part halka hota hai?"
+},
+"The cream (fat).": {
+"hi": "क्रीम (वसा)।",
+"hg": "Cream (fat)."
+},
+"Full-cream milk —spin fast→ cream (lighter, on top) + skimmed milk (heavier, below)": {
+"hi": "फुल-क्रीम दूध —तेज़ी से घुमाने पर→ क्रीम (हल्की, ऊपर) + मलाई रहित दूध (भारी, नीचे)",
+"hg": "Full-cream milk —spin fast→ cream (halki, upar) + skimmed milk (bhaari, neeche)"
+},
+"Is Matter Around Us Pure? (older NCERT, Class 9)": {
+"hi": "क्या हमारे आस-पास के पदार्थ शुद्ध हैं? (पुरानी NCERT, कक्षा 9)",
+"hg": "Kya Hamare Aas-paas ka Matter Pure hai? (purani NCERT, Class 9)"
+},
+"Getting the dye out of ink by evaporation": {
+"hi": "वाष्पन द्वारा स्याही से डाई अलग करना",
+"hg": "Evaporation se ink se dye alag karna"
+},
+"To separate the coloured dye in ink from the liquid it is dissolved in, by evaporation.": {
+"hi": "वाष्पन द्वारा स्याही की रंगीन डाई को उस द्रव से अलग करना जिसमें वह घुली होती है।",
+"hg": "Evaporation se ink ki coloured dye ko us liquid se alag karna jismein woh ghuli hoti hai."
+},
+"Put the beaker of water on the tripod and heat it.": {
+"hi": "पानी वाले बीकर को तिपाई स्टैंड पर रखें और गरम करें।",
+"hg": "Paani wale beaker ko tripod par rakho aur garam karo."
+},
+"The water gets hot and steam starts to rise.": {
+"hi": "पानी गरम हो जाता है और भाप उठने लगती है।",
+"hg": "Paani garam ho jaata hai aur steam uthne lagti hai."
+},
+"Place the watch glass on the mouth of the beaker.": {
+"hi": "बीकर के मुँह पर वॉच ग्लास रखें।",
+"hg": "Beaker ke munh par watch glass rakho."
+},
+"The steam from the hot water heats the watch glass gently.": {
+"hi": "गरम पानी की भाप वॉच ग्लास को धीरे-धीरे गरम करती है।",
+"hg": "Garam paani ki steam watch glass ko dheere-dheere garam karti hai."
+},
+"Put a few drops of ink on the watch glass.": {
+"hi": "वॉच ग्लास पर स्याही की कुछ बूँदें डालें।",
+"hg": "Watch glass par ink ki kuch boondein daalo."
+},
+"A small pool of blue ink sits on the watch glass.": {
+"hi": "वॉच ग्लास पर नीली स्याही की थोड़ी-सी मात्रा जमा है।",
+"hg": "Watch glass par thodi si blue ink jama hai."
+},
+"Keep heating and watch the ink (time-lapse).": {
+"hi": "गरम करते रहें और स्याही को देखें (टाइम-लैप्स)।",
+"hg": "Garam karte raho aur ink ko dekho (time-lapse)."
+},
+"The liquid part of the ink evaporates and a dry blue solid is left on the watch glass.": {
+"hi": "स्याही का द्रव भाग वाष्पित हो जाता है और वॉच ग्लास पर एक सूखा नीला ठोस बच जाता है।",
+"hg": "Ink ka liquid part evaporate ho jaata hai aur watch glass par ek sookha blue solid bach jaata hai."
+},
+"Ink is a mixture of a dye in water. Water evaporates; the dye does not, so it is left behind.": {
+"hi": "स्याही पानी में घुली डाई का मिश्रण है। पानी वाष्पित हो जाता है; डाई नहीं होती, इसलिए वह बच जाती है।",
+"hg": "Ink paani mein ghuli dye ka mixture hai. Paani evaporate ho jaata hai; dye nahi hoti, isliye woh bach jaati hai."
+},
+"The blue dye stays on the watch glass.": {
+"hi": "नीली डाई वॉच ग्लास पर रह जाती है।",
+"hg": "Blue dye watch glass par reh jaati hai."
+},
+"The liquid in the ink evaporated and a blue solid residue (the dye) was left on the watch glass.": {
+"hi": "स्याही का द्रव वाष्पित हो गया और वॉच ग्लास पर नीला ठोस अवशेष (डाई) बच गया।",
+"hg": "Ink ka liquid evaporate ho gaya aur watch glass par blue solid residue (dye) bach gaya."
+},
+"Ink is a mixture. Its dye can be separated from the liquid by evaporation, because the liquid is volatile and the dye is not.": {
+"hi": "स्याही एक मिश्रण है। इसकी डाई को वाष्पन द्वारा द्रव से अलग किया जा सकता है, क्योंकि द्रव वाष्पशील है और डाई नहीं।",
+"hg": "Ink ek mixture hai. Iski dye ko evaporation se liquid se alag kiya ja sakta hai, kyunki liquid volatile hai aur dye nahi."
+},
+"Heat gently with the water bath; do not touch the hot watch glass.": {
+"hi": "जल ऊष्मक से धीरे-धीरे गरम करें; गरम वॉच ग्लास को न छुएँ।",
+"hg": "Water bath se dheere-dheere garam karo; garam watch glass ko mat chhuo."
+},
+"Why is the watch glass heated with steam and not directly?": {
+"hi": "वॉच ग्लास को सीधे गरम करने के बजाय भाप से क्यों गरम किया जाता है?",
+"hg": "Watch glass ko seedha garam karne ke bajaay steam se kyun garam kiya jaata hai?"
+},
+"Gentle heating evaporates the water without burning the dye.": {
+"hi": "धीमी आँच से डाई जले बिना पानी वाष्पित हो जाता है।",
+"hg": "Halki garmi se dye jale bina paani evaporate ho jaata hai."
+},
+"Is ink a pure substance?": {
+"hi": "क्या स्याही एक शुद्ध पदार्थ है?",
+"hg": "Kya ink ek pure substance hai?"
+},
+"No, it is a mixture of a dye and water (solvent).": {
+"hi": "नहीं, यह डाई और पानी (विलायक) का मिश्रण है।",
+"hg": "Nahi, yeh dye aur paani (solvent) ka mixture hai."
+},
+"Which method can separate the different dyes in ink?": {
+"hi": "स्याही की अलग-अलग डाई को किस विधि से अलग किया जा सकता है?",
+"hg": "Ink ki alag-alag dyes ko kis method se alag kiya ja sakta hai?"
+},
+"Paper chromatography.": {
+"hi": "पेपर क्रोमैटोग्राफ़ी।",
+"hg": "Paper chromatography."
+},
+"Ink (dye + water) —gentle heat→ water vapour ↑ + dye (left behind)": {
+"hi": "स्याही (डाई + पानी) —धीमी आँच→ जलवाष्प ↑ + डाई (बच जाती है)",
+"hg": "Ink (dye + paani) —gentle heat→ water vapour ↑ + dye (bach jaati hai)"
+},
+"Is mass lost when something dissolves or reacts?": {
+"hi": "किसी चीज़ के घुलने या अभिक्रिया करने पर क्या द्रव्यमान कम होता है?",
+"hg": "Kisi cheez ke ghulne ya react karne par kya mass kam hota hai?"
+},
+"To check whether the total mass changes when salt dissolves in water (physical change) and when vinegar reacts with baking soda in a closed flask (chemical change).": {
+"hi": "यह जाँचना कि पानी में नमक घुलने पर (भौतिक परिवर्तन) और बंद फ्लास्क में सिरके की बेकिंग सोडा से अभिक्रिया होने पर (रासायनिक परिवर्तन) कुल द्रव्यमान बदलता है या नहीं।",
+"hg": "Check karna ki paani mein namak ghulne par (physical change) aur band flask mein vinegar ke baking soda se react karne par (chemical change) total mass badalta hai ya nahi."
+},
+"Law of conservation of mass": {
+"hi": "द्रव्यमान संरक्षण का नियम",
+"hg": "Law of conservation of mass"
+},
+"Put the dry beaker on the balance and press TARE to make the reading zero.": {
+"hi": "सूखे बीकर को तुला पर रखें और रीडिंग शून्य करने के लिए TARE दबाएँ।",
+"hg": "Sookhe beaker ko balance par rakho aur reading zero karne ke liye TARE dabao."
+},
+"The balance reads 0.00 g.": {
+"hi": "तुला 0.00 g दिखाती है।",
+"hg": "Balance 0.00 g dikhata hai."
+},
+"Pour about 50 mL of water into the beaker and add a spoonful of salt. Note the mass.": {
+"hi": "बीकर में लगभग 50 mL पानी डालें और एक चम्मच नमक मिलाएँ। द्रव्यमान नोट करें।",
+"hg": "Beaker mein lagbhag 50 mL paani daalo aur ek chammach namak daalo. Mass note karo."
+},
+"The balance shows the mass of the water and the salt (about 55 g).": {
+"hi": "तुला पानी और नमक का द्रव्यमान (लगभग 55 g) दिखाती है।",
+"hg": "Balance paani aur namak ka mass (lagbhag 55 g) dikhata hai."
+},
+"Stir until all the salt dissolves, then read the balance again.": {
+"hi": "सारा नमक घुलने तक हिलाएँ, फिर तुला की रीडिंग दोबारा देखें।",
+"hg": "Saara namak ghulne tak hilao, phir balance ki reading dobara dekho."
+},
+"The salt disappears, but the reading does not change.": {
+"hi": "नमक गायब हो जाता है, पर रीडिंग नहीं बदलती।",
+"hg": "Namak gayab ho jaata hai, par reading nahi badalti."
+},
+"Dissolving is a physical change: the salt is still there, spread through the water. No mass is lost.": {
+"hi": "घुलना एक भौतिक परिवर्तन है: नमक अब भी वहीं है, पूरे पानी में फैला हुआ। कोई द्रव्यमान कम नहीं होता।",
+"hg": "Ghulna ek physical change hai: namak abhi bhi wahin hai, poore paani mein faila hua. Koi mass kam nahi hota."
+},
+"Take the beaker off. Put the empty flask and the balloon with baking soda on the balance and press TARE. Then pour about 20 mL of vinegar into the flask and note the mass.": {
+"hi": "बीकर हटा लें। खाली फ्लास्क और बेकिंग सोडा वाले गुब्बारे को तुला पर रखें और TARE दबाएँ। फिर फ्लास्क में लगभग 20 mL सिरका डालें और द्रव्यमान नोट करें।",
+"hg": "Beaker hata lo. Khaali flask aur baking soda wale balloon ko balance par rakho aur TARE dabao. Phir flask mein lagbhag 20 mL vinegar daalo aur mass note karo."
+},
+"The balance shows the mass of the vinegar (about 20 g).": {
+"hi": "तुला सिरके का द्रव्यमान (लगभग 20 g) दिखाती है।",
+"hg": "Balance vinegar ka mass (lagbhag 20 g) dikhata hai."
+},
+"Stretch the balloon over the mouth of the flask without letting the powder fall in.": {
+"hi": "पाउडर को अंदर गिराए बिना गुब्बारे को खींचकर फ्लास्क के मुँह पर चढ़ा दें।",
+"hg": "Powder ko andar giraaye bina balloon ko kheench kar flask ke munh par chadha do."
+},
+"The balloon hangs over the side, with the baking soda still inside it. The reading is the same.": {
+"hi": "गुब्बारा एक ओर लटका रहता है और बेकिंग सोडा अभी भी उसी के अंदर है। रीडिंग वही रहती है।",
+"hg": "Balloon ek side latka rehta hai aur baking soda abhi bhi uske andar hai. Reading same rehti hai."
+},
+"Lift the balloon so that the baking soda falls into the vinegar (time-lapse).": {
+"hi": "गुब्बारे को ऊपर उठाएँ ताकि बेकिंग सोडा सिरके में गिर जाए (टाइम-लैप्स)।",
+"hg": "Balloon ko upar uthao taaki baking soda vinegar mein gir jaaye (time-lapse)."
+},
+"It fizzes strongly and the balloon fills up with gas. The reading on the balance stays the same.": {
+"hi": "तेज़ी से बुलबुले उठते हैं और गुब्बारा गैस से भर जाता है। तुला की रीडिंग वही रहती है।",
+"hg": "Zor se fizz hota hai aur balloon gas se bhar jaata hai. Balance ki reading same rehti hai."
+},
+"Carbon dioxide gas is made, but it is trapped in the balloon. Nothing has left the system, so the total mass does not change.": {
+"hi": "कार्बन डाइऑक्साइड गैस बनती है, पर वह गुब्बारे में बंद रहती है। सिस्टम से कुछ भी बाहर नहीं गया, इसलिए कुल द्रव्यमान नहीं बदलता।",
+"hg": "Carbon dioxide gas banti hai, par woh balloon mein band rehti hai. System se kuch bhi bahar nahi gaya, isliye total mass nahi badalta."
+},
+"Now do the same in an open beaker: put the beaker of vinegar on the balance and add a spoonful of baking soda (time-lapse).": {
+"hi": "अब यही एक खुले बीकर में करें: सिरके वाले बीकर को तुला पर रखें और उसमें एक चम्मच बेकिंग सोडा डालें (टाइम-लैप्स)।",
+"hg": "Ab yahi ek khule beaker mein karo: vinegar wale beaker ko balance par rakho aur usme ek chammach baking soda daalo (time-lapse)."
+},
+"It fizzes, and this time the reading slowly goes down below the mass you put in.": {
+"hi": "बुलबुले उठते हैं, और इस बार रीडिंग धीरे-धीरे घटकर आपके डाले गए द्रव्यमान से कम हो जाती है।",
+"hg": "Fizz hota hai, aur is baar reading dheere-dheere ghat kar tumhare daale gaye mass se kam ho jaati hai."
+},
+"In the open beaker the carbon dioxide escapes into the air, taking its mass with it. In a closed system mass is always conserved.": {
+"hi": "खुले बीकर में कार्बन डाइऑक्साइड हवा में निकल जाती है और अपना द्रव्यमान साथ ले जाती है। बंद सिस्टम में द्रव्यमान हमेशा संरक्षित रहता है।",
+"hg": "Khule beaker mein carbon dioxide hawa mein nikal jaati hai aur apna mass saath le jaati hai. Band system mein mass hamesha conserved rehta hai."
+},
+"The mass did not change when salt dissolved, nor when vinegar reacted with baking soda in the closed flask. In the open beaker the mass went down because the gas escaped.": {
+"hi": "नमक घुलने पर द्रव्यमान नहीं बदला, और न ही बंद फ्लास्क में सिरके की बेकिंग सोडा से अभिक्रिया होने पर। खुले बीकर में गैस निकल जाने से द्रव्यमान घट गया।",
+"hg": "Namak ghulne par mass nahi badla, aur na hi band flask mein vinegar ke baking soda se react karne par. Khule beaker mein gas nikal jaane se mass ghat gaya."
+},
+"Mass is neither created nor destroyed in a physical or chemical change: this is the law of conservation of mass. A decrease is seen only when a gas escapes.": {
+"hi": "किसी भौतिक या रासायनिक परिवर्तन में द्रव्यमान न तो बनता है और न ही नष्ट होता है: यही द्रव्यमान संरक्षण का नियम है। द्रव्यमान में कमी तभी दिखती है जब कोई गैस बाहर निकल जाती है।",
+"hg": "Physical ya chemical change mein mass na toh banta hai aur na hi destroy hota hai: yahi law of conservation of mass hai. Mass kam tabhi dikhta hai jab koi gas bahar nikal jaati hai."
+},
+"Do not overfill the balloon. Keep the balance dry.": {
+"hi": "गुब्बारे में ज़रूरत से ज़्यादा न भरें। तुला को सूखा रखें।",
+"hg": "Balloon mein zaroorat se zyada mat bharo. Balance ko sookha rakho."
+},
+"State the law of conservation of mass.": {
+"hi": "द्रव्यमान संरक्षण का नियम बताएँ।",
+"hg": "Law of conservation of mass batao."
+},
+"In a chemical reaction mass is neither created nor destroyed; the total mass of the products equals that of the reactants.": {
+"hi": "किसी रासायनिक अभिक्रिया में द्रव्यमान न तो बनता है और न ही नष्ट होता है; उत्पादों का कुल द्रव्यमान अभिकारकों के कुल द्रव्यमान के बराबर होता है।",
+"hg": "Chemical reaction mein mass na toh banta hai aur na hi destroy hota hai; products ka total mass reactants ke total mass ke barabar hota hai."
+},
+"Why did the mass decrease in the open beaker?": {
+"hi": "खुले बीकर में द्रव्यमान क्यों घटा?",
+"hg": "Khule beaker mein mass kyun ghata?"
+},
+"Carbon dioxide gas escaped into the air.": {
+"hi": "कार्बन डाइऑक्साइड गैस हवा में निकल गई।",
+"hg": "Carbon dioxide gas hawa mein nikal gayi."
+},
+"Why is a balloon used?": {
+"hi": "गुब्बारे का उपयोग क्यों किया जाता है?",
+"hg": "Balloon kyun use kiya jaata hai?"
+},
+"To trap the gas so that the system is closed.": {
+"hi": "गैस को रोककर रखने के लिए, ताकि सिस्टम बंद रहे।",
+"hg": "Gas ko trap karne ke liye, taaki system band rahe."
+},
+"Acetic acid + sodium hydrogencarbonate → sodium acetate + water + carbon dioxide · mass of reactants = mass of products": {
+"hi": "ऐसीटिक अम्ल + सोडियम हाइड्रोजनकार्बोनेट → सोडियम ऐसीटेट + जल + कार्बन डाइऑक्साइड · अभिकारकों का द्रव्यमान = उत्पादों का द्रव्यमान",
+"hg": "Acetic acid + sodium hydrogencarbonate → sodium acetate + water + carbon dioxide · reactants ka mass = products ka mass"
+},
+"Mass before and after a precipitation reaction": {
+"hi": "अवक्षेपण अभिक्रिया से पहले और बाद में द्रव्यमान",
+"hg": "Precipitation reaction se pehle aur baad mein mass"
+},
+"To verify the law of conservation of mass using the reaction between sodium sulphate and barium chloride solutions.": {
+"hi": "सोडियम सल्फ़ेट और बेरियम क्लोराइड के विलयनों की अभिक्रिया द्वारा द्रव्यमान संरक्षण के नियम का सत्यापन करना।",
+"hg": "Sodium sulphate aur barium chloride solutions ke reaction se law of conservation of mass verify karna."
+},
+"Put the two clean, dry beakers on the balance and press TARE.": {
+"hi": "दोनों साफ़, सूखे बीकरों को तुला पर रखें और TARE दबाएँ।",
+"hg": "Dono saaf, sookhe beakers ko balance par rakho aur TARE dabao."
+},
+"Pour 10 mL of sodium sulphate solution into beaker A and 10 mL of barium chloride solution into beaker B. Note the total mass.": {
+"hi": "बीकर A में 10 mL सोडियम सल्फ़ेट विलयन और बीकर B में 10 mL बेरियम क्लोराइड विलयन डालें। कुल द्रव्यमान नोट करें।",
+"hg": "Beaker A mein 10 mL sodium sulphate solution aur beaker B mein 10 mL barium chloride solution daalo. Total mass note karo."
+},
+"Both solutions are clear and colourless. The balance shows their total mass (about 20 g).": {
+"hi": "दोनों विलयन साफ़ और रंगहीन हैं। तुला उनका कुल द्रव्यमान (लगभग 20 g) दिखाती है।",
+"hg": "Dono solutions saaf aur colourless hain. Balance unka total mass (lagbhag 20 g) dikhata hai."
+},
+"Pour the solution from beaker B into beaker A and swirl gently.": {
+"hi": "बीकर B का विलयन बीकर A में डालें और धीरे से घुमाकर मिलाएँ।",
+"hg": "Beaker B ka solution beaker A mein daalo aur dheere se ghuma kar mix karo."
+},
+"A thick white precipitate forms at once.": {
+"hi": "तुरंत एक गाढ़ा सफ़ेद अवक्षेप बनता है।",
+"hg": "Turant ek gaadha white precipitate banta hai."
+},
+"Barium sulphate, which does not dissolve in water, is formed.": {
+"hi": "बेरियम सल्फ़ेट बनता है, जो पानी में नहीं घुलता।",
+"hg": "Barium sulphate banta hai, jo paani mein nahi ghulta."
+},
+"Put both beakers back on the balance and read the mass.": {
+"hi": "दोनों बीकरों को वापस तुला पर रखें और द्रव्यमान पढ़ें।",
+"hg": "Dono beakers ko wapas balance par rakho aur mass padho."
+},
+"The reading is exactly the same as before mixing.": {
+"hi": "रीडिंग ठीक वैसी ही है जैसी मिलाने से पहले थी।",
+"hg": "Reading bilkul waisi hi hai jaisi mix karne se pehle thi."
+},
+"The atoms only changed partners; none were created or destroyed, and nothing escaped.": {
+"hi": "परमाणुओं ने केवल अपने साथी बदले; न कोई परमाणु बना, न नष्ट हुआ, और न ही कुछ बाहर निकला।",
+"hg": "Atoms ne sirf apne partners badle; na koi atom bana, na destroy hua, aur na hi kuch bahar nikla."
+},
+"A white precipitate formed, but the total mass was the same before and after the reaction.": {
+"hi": "एक सफ़ेद अवक्षेप बना, पर अभिक्रिया से पहले और बाद में कुल द्रव्यमान बराबर रहा।",
+"hg": "Ek white precipitate bana, par reaction se pehle aur baad mein total mass same raha."
+},
+"The total mass of the reactants equals the total mass of the products: mass is conserved in a chemical reaction.": {
+"hi": "अभिकारकों का कुल द्रव्यमान उत्पादों के कुल द्रव्यमान के बराबर होता है: रासायनिक अभिक्रिया में द्रव्यमान संरक्षित रहता है।",
+"hg": "Reactants ka total mass products ke total mass ke barabar hota hai: chemical reaction mein mass conserved rehta hai."
+},
+"Barium chloride is poisonous: wash your hands after use.": {
+"hi": "बेरियम क्लोराइड ज़हरीला है: इस्तेमाल के बाद हाथ धोएँ।",
+"hg": "Barium chloride zehreela hai: use karne ke baad haath dho lo."
+},
+"Name the white precipitate.": {
+"hi": "सफ़ेद अवक्षेप का नाम बताएँ।",
+"hg": "White precipitate ka naam batao."
+},
+"Barium sulphate (BaSO₄).": {
+"hi": "बेरियम सल्फ़ेट (BaSO₄)।",
+"hg": "Barium sulphate (BaSO₄)."
+},
+"A double displacement (precipitation) reaction.": {
+"hi": "द्विविस्थापन (अवक्षेपण) अभिक्रिया।",
+"hg": "Double displacement (precipitation) reaction."
+},
+"Why is the mass the same?": {
+"hi": "द्रव्यमान बराबर क्यों रहता है?",
+"hg": "Mass same kyun rehta hai?"
+},
+"No atoms are created or destroyed, and no gas escapes.": {
+"hi": "न कोई परमाणु बनता है, न नष्ट होता है, और न ही कोई गैस बाहर निकलती है।",
+"hg": "Na koi atom banta hai, na destroy hota hai, aur na hi koi gas bahar nikalti hai."
+},
+"Sodium sulphate + barium chloride → barium sulphate (white precipitate) + sodium chloride": {
+"hi": "सोडियम सल्फ़ेट + बेरियम क्लोराइड → बेरियम सल्फ़ेट (सफ़ेद अवक्षेप) + सोडियम क्लोराइड",
+"hg": "Sodium sulphate + barium chloride → barium sulphate (white precipitate) + sodium chloride"
+},
+"Melting point of ice and boiling point of water": {
+"hi": "बर्फ़ का गलनांक और पानी का क्वथनांक",
+"hg": "Barf ka melting point aur paani ka boiling point"
+},
+"To find the melting point of ice and the boiling point of water with a thermometer.": {
+"hi": "थर्मामीटर की मदद से बर्फ़ का गलनांक और पानी का क्वथनांक ज्ञात करना।",
+"hg": "Thermometer ki madad se barf ka melting point aur paani ka boiling point pata karna."
+},
+"Melting point and boiling point": {
+"hi": "गलनांक और क्वथनांक",
+"hg": "Melting point aur boiling point"
+},
+"Put the thermometer into the crushed ice so that its bulb is covered by ice. Read it.": {
+"hi": "थर्मामीटर को कुटी हुई बर्फ़ में इस तरह रखें कि उसका बल्ब बर्फ़ से ढका रहे। रीडिंग पढ़ें।",
+"hg": "Thermometer ko crushed ice mein aise rakho ki uska bulb barf se dhaka rahe. Reading padho."
+},
+"The reading falls to 0 °C.": {
+"hi": "रीडिंग गिरकर 0 °C हो जाती है।",
+"hg": "Reading gir kar 0 °C ho jaati hai."
+},
+"Put the beaker on the tripod and heat it gently. Keep reading the thermometer while the ice melts (time-lapse).": {
+"hi": "बीकर को तिपाई स्टैंड पर रखें और धीरे-धीरे गरम करें। बर्फ़ पिघलने के दौरान थर्मामीटर की रीडिंग देखते रहें (टाइम-लैप्स)।",
+"hg": "Beaker ko tripod par rakho aur dheere-dheere garam karo. Barf pighalte waqt thermometer ki reading dekhte raho (time-lapse)."
+},
+"The ice melts, but the thermometer stays at 0 °C as long as some ice is left — even though we keep heating.": {
+"hi": "बर्फ़ पिघलती है, पर जब तक थोड़ी भी बर्फ़ बची है, थर्मामीटर 0 °C पर ही रहता है — भले ही हम गरम करते रहें।",
+"hg": "Barf pighalti hai, par jab tak thodi bhi barf bachi hai, thermometer 0 °C par hi rehta hai — chahe hum garam karte rahein."
+},
+"The heat is used to break the ice into water, not to raise the temperature. 0 °C is the melting point of ice.": {
+"hi": "ऊष्मा बर्फ़ को पानी में बदलने में लगती है, ताप बढ़ाने में नहीं। 0 °C बर्फ़ का गलनांक है।",
+"hg": "Garmi barf ko paani mein badalne mein lagti hai, temperature badhaane mein nahi. 0 °C barf ka melting point hai."
+},
+"Keep heating after all the ice has melted (time-lapse).": {
+"hi": "सारी बर्फ़ पिघल जाने के बाद भी गरम करते रहें (टाइम-लैप्स)।",
+"hg": "Saari barf pighal jaane ke baad bhi garam karte raho (time-lapse)."
+},
+"Now the temperature rises steadily, until the water boils with big bubbles at 100 °C.": {
+"hi": "अब ताप लगातार बढ़ता है, जब तक कि 100 °C पर पानी बड़े-बड़े बुलबुलों के साथ उबलने न लगे।",
+"hg": "Ab temperature lagaataar badhta hai, jab tak 100 °C par paani bade-bade bubbles ke saath boil na hone lage."
+},
+"Let it boil for a few minutes and keep reading the thermometer (time-lapse).": {
+"hi": "इसे कुछ मिनट तक उबलने दें और थर्मामीटर की रीडिंग देखते रहें (टाइम-लैप्स)।",
+"hg": "Ise kuch minute tak boil hone do aur thermometer ki reading dekhte raho (time-lapse)."
+},
+"The water keeps boiling and the reading stays at 100 °C.": {
+"hi": "पानी उबलता रहता है और रीडिंग 100 °C पर ही रहती है।",
+"hg": "Paani boil hota rehta hai aur reading 100 °C par hi rehti hai."
+},
+"While water boils, the heat turns water into steam; the temperature stays at the boiling point, 100 °C at sea level.": {
+"hi": "पानी उबलते समय ऊष्मा पानी को भाप में बदलती है; ताप क्वथनांक पर ही रहता है, जो समुद्र तल पर 100 °C है।",
+"hg": "Paani boil hote waqt garmi paani ko steam mein badalti hai; temperature boiling point par hi rehta hai, jo sea level par 100 °C hai."
+},
+"The boiling stops.": {
+"hi": "उबलना बंद हो जाता है।",
+"hg": "Boiling band ho jaati hai."
+},
+"The temperature stayed at 0 °C while the ice melted, then rose and stayed at 100 °C while the water boiled.": {
+"hi": "बर्फ़ पिघलते समय ताप 0 °C पर रहा, फिर बढ़ा और पानी उबलते समय 100 °C पर रहा।",
+"hg": "Barf pighalte waqt temperature 0 °C par raha, phir badha aur paani boil hote waqt 100 °C par raha."
+},
+"The melting point of ice is 0 °C and the boiling point of water is 100 °C (at normal pressure). During a change of state the temperature stays constant.": {
+"hi": "बर्फ़ का गलनांक 0 °C और पानी का क्वथनांक 100 °C (सामान्य दाब पर) है। अवस्था बदलने के दौरान ताप स्थिर रहता है।",
+"hg": "Barf ka melting point 0 °C aur paani ka boiling point 100 °C (normal pressure par) hai. State change hote waqt temperature constant rehta hai."
+},
+"Do not let the thermometer touch the bottom of the hot beaker. Keep away from the steam.": {
+"hi": "थर्मामीटर को गरम बीकर की तली से छूने न दें। भाप से दूर रहें।",
+"hg": "Thermometer ko garam beaker ke bottom se touch mat hone do. Steam se door raho."
+},
+"Why does the temperature not rise while ice is melting?": {
+"hi": "बर्फ़ पिघलते समय ताप क्यों नहीं बढ़ता?",
+"hg": "Barf pighalte waqt temperature kyun nahi badhta?"
+},
+"The heat supplied is used to change the state (latent heat), not to raise the temperature.": {
+"hi": "दी गई ऊष्मा अवस्था बदलने (गुप्त ऊष्मा) में लगती है, ताप बढ़ाने में नहीं।",
+"hg": "Di gayi garmi state badalne (latent heat) mein lagti hai, temperature badhaane mein nahi."
+},
+"What is the boiling point of water at sea level?": {
+"hi": "समुद्र तल पर पानी का क्वथनांक क्या है?",
+"hg": "Sea level par paani ka boiling point kya hai?"
+},
+"100 °C.": {
+"hi": "100 °C होता है।",
+"hg": "100 °C."
+},
+"Why does water boil below 100 °C in the mountains?": {
+"hi": "पहाड़ों पर पानी 100 °C से कम ताप पर क्यों उबलता है?",
+"hg": "Pahadon par paani 100 °C se kam temperature par kyun boil hota hai?"
+},
+"The air pressure is lower there.": {
+"hi": "वहाँ वायुदाब कम होता है।",
+"hg": "Wahan air pressure kam hota hai."
+},
+"Ice ⇌ water at 0 °C (melting point) · water ⇌ steam at 100 °C (boiling point)": {
+"hi": "बर्फ़ ⇌ पानी 0 °C पर (गलनांक) · पानी ⇌ भाप 100 °C पर (क्वथनांक)",
+"hg": "Barf ⇌ paani 0 °C par (melting point) · paani ⇌ steam 100 °C par (boiling point)"
+},
+"CBSE practical, Class 9": {
+"hi": "CBSE प्रायोगिक, कक्षा 9",
+"hg": "CBSE practical, Class 9"
+},
+"Five changes: physical or chemical?": {
+"hi": "पाँच परिवर्तन: भौतिक या रासायनिक?",
+"hg": "Paanch changes: physical ya chemical?"
+},
+"To carry out five reactions and decide for each whether it is a physical or a chemical change.": {
+"hi": "पाँच अभिक्रियाएँ करना और हर एक के लिए तय करना कि वह भौतिक परिवर्तन है या रासायनिक परिवर्तन।",
+"hg": "Paanch reactions karna aur har ek ke liye decide karna ki woh physical change hai ya chemical change."
+},
+"Physical and chemical changes": {
+"hi": "भौतिक और रासायनिक परिवर्तन",
+"hg": "Physical aur chemical changes"
+},
+"(a) Put a clean iron nail into the copper sulphate solution and leave it (time-lapse).": {
+"hi": "(a) कॉपर सल्फ़ेट विलयन में लोहे की एक साफ़ कील डालें और छोड़ दें (टाइम-लैप्स)।",
+"hg": "(a) Copper sulphate solution mein ek saaf iron ki keel daalo aur chhod do (time-lapse)."
+},
+"The nail gets a reddish-brown coat and the blue solution turns pale green.": {
+"hi": "कील पर लाल-भूरी परत चढ़ जाती है और नीला विलयन हल्का हरा हो जाता है।",
+"hg": "Keel par reddish-brown coating chadh jaati hai aur blue solution pale green ho jaata hai."
+},
+"Iron displaces copper: new substances (iron sulphate and copper) form. A chemical change.": {
+"hi": "लोहा कॉपर को विस्थापित करता है: नए पदार्थ (आयरन सल्फ़ेट और कॉपर) बनते हैं। यह रासायनिक परिवर्तन है।",
+"hg": "Iron copper ko displace karta hai: naye substances (iron sulphate aur copper) bante hain. Yeh chemical change hai."
+},
+"(b) Light the lamp and burn the magnesium ribbon, holding it with tongs.": {
+"hi": "(b) लैंप जलाएँ और मैग्नीशियम रिबन को चिमटे से पकड़कर जलाएँ।",
+"hg": "(b) Lamp jalao aur magnesium ribbon ko tongs se pakad kar jalao."
+},
+"It burns with a dazzling white flame and leaves a white powder.": {
+"hi": "यह आँखें चौंधियाने वाली सफ़ेद ज्वाला के साथ जलता है और सफ़ेद पाउडर छोड़ता है।",
+"hg": "Yeh aankhein chaundhiya dene wali white flame ke saath jalta hai aur white powder chhodta hai."
+},
+"Magnesium combines with oxygen to form magnesium oxide. A chemical change.": {
+"hi": "मैग्नीशियम ऑक्सीजन से मिलकर मैग्नीशियम ऑक्साइड बनाता है। यह रासायनिक परिवर्तन है।",
+"hg": "Magnesium oxygen ke saath milkar magnesium oxide banata hai. Yeh chemical change hai."
+},
+"(c) Put zinc granules in boiling tube 3, add dilute sulphuric acid, and bring a burning splint to the mouth.": {
+"hi": "(c) क्वथन नली 3 में जिंक के दाने डालें, तनु सल्फ़्यूरिक अम्ल मिलाएँ, और नली के मुँह के पास जलती हुई तीली लाएँ।",
+"hg": "(c) Boiling tube 3 mein zinc granules daalo, dilute sulphuric acid daalo, aur munh ke paas jalti hui splint lao."
+},
+"Bubbles form; the gas burns with a pop. The tube feels warm.": {
+"hi": "बुलबुले बनते हैं; गैस पॉप की आवाज़ के साथ जलती है। नली छूने पर गरम लगती है।",
+"hg": "Bubbles bante hain; gas pop ki awaaz ke saath jalti hai. Tube chhoone par garam lagti hai."
+},
+"Zinc reacts with the acid to give zinc sulphate and hydrogen. A chemical change.": {
+"hi": "जिंक अम्ल से अभिक्रिया करके जिंक सल्फ़ेट और हाइड्रोजन देता है। यह रासायनिक परिवर्तन है।",
+"hg": "Zinc acid ke saath react karke zinc sulphate aur hydrogen deta hai. Yeh chemical change hai."
+},
+"(d) Heat copper sulphate crystals in dry boiling tube 4, then let it cool and add a few drops of water.": {
+"hi": "(d) सूखी क्वथन नली 4 में कॉपर सल्फ़ेट के क्रिस्टल गरम करें, फिर उसे ठंडा होने दें और पानी की कुछ बूँदें डालें।",
+"hg": "(d) Sookhi boiling tube 4 mein copper sulphate crystals garam karo, phir use thanda hone do aur paani ki kuch boondein daalo."
+},
+"The blue crystals turn white and water drops appear in the tube. With water, the white powder turns blue again and becomes warm.": {
+"hi": "नीले क्रिस्टल सफ़ेद हो जाते हैं और नली में पानी की बूँदें दिखती हैं। पानी डालने पर सफ़ेद पाउडर फिर से नीला हो जाता है और गरम हो जाता है।",
+"hg": "Blue crystals white ho jaate hain aur tube mein paani ki boondein dikhti hain. Paani daalne par white powder phir se blue ho jaata hai aur garam ho jaata hai."
+},
+"Heat removes the water of crystallisation; adding water brings it back. Usually counted as a chemical change, though it can be reversed.": {
+"hi": "गरम करने से क्रिस्टलन जल निकल जाता है; पानी डालने से यह वापस आ जाता है। इसे आमतौर पर रासायनिक परिवर्तन माना जाता है, हालाँकि इसे उलटा जा सकता है।",
+"hg": "Garam karne se water of crystallisation nikal jaata hai; paani daalne se woh wapas aa jaata hai. Ise aam taur par chemical change maana jaata hai, halaanki ise ulta kiya ja sakta hai."
+},
+"(e) Pour the barium chloride solution into the sodium sulphate solution.": {
+"hi": "(e) बेरियम क्लोराइड विलयन को सोडियम सल्फ़ेट विलयन में डालें।",
+"hg": "(e) Barium chloride solution ko sodium sulphate solution mein daalo."
+},
+"A white precipitate forms at once.": {
+"hi": "तुरंत एक सफ़ेद अवक्षेप बनता है।",
+"hg": "Turant ek white precipitate banta hai."
+},
+"Barium sulphate is formed: a new substance. A chemical change.": {
+"hi": "बेरियम सल्फ़ेट बनता है: एक नया पदार्थ। यह रासायनिक परिवर्तन है।",
+"hg": "Barium sulphate banta hai: ek naya substance. Yeh chemical change hai."
+},
+"Decide which changes are physical and which are chemical.": {
+"hi": "तय करें कि कौन-से परिवर्तन भौतिक हैं और कौन-से रासायनिक।",
+"hg": "Decide karo ki kaun se changes physical hain aur kaun se chemical."
+},
+"(a), (b), (c) and (e) made new substances: chemical changes. (d) also breaks and remakes bonds with water, so it is treated as a chemical change, though it is reversible.": {
+"hi": "(a), (b), (c) और (e) में नए पदार्थ बने: ये रासायनिक परिवर्तन हैं। (d) में भी पानी के साथ बंध टूटते हैं और फिर बनते हैं, इसलिए इसे रासायनिक परिवर्तन माना जाता है, हालाँकि इसे उलटा जा सकता है।",
+"hg": "(a), (b), (c) aur (e) mein naye substances bane: yeh chemical changes hain. (d) mein bhi paani ke saath bonds toot kar phir bante hain, isliye ise chemical change maana jaata hai, halaanki yeh reversible hai."
+},
+"A copper coat formed on the nail; magnesium burnt with a white flame; zinc gave hydrogen with acid; blue crystals turned white and back to blue with water; a white precipitate formed.": {
+"hi": "कील पर कॉपर की परत चढ़ी; मैग्नीशियम सफ़ेद ज्वाला के साथ जला; जिंक ने अम्ल के साथ हाइड्रोजन दी; नीले क्रिस्टल सफ़ेद हुए और पानी डालने पर फिर नीले हो गए; एक सफ़ेद अवक्षेप बना।",
+"hg": "Keel par copper ki coating chadhi; magnesium white flame ke saath jala; zinc ne acid ke saath hydrogen di; blue crystals white hue aur paani daalne par phir blue ho gaye; ek white precipitate bana."
+},
+"A chemical change makes new substances with new properties (colour change, gas, precipitate, heat or light). In a physical change no new substance is formed.": {
+"hi": "रासायनिक परिवर्तन में नए गुणों वाले नए पदार्थ बनते हैं (रंग बदलना, गैस, अवक्षेप, ऊष्मा या प्रकाश)। भौतिक परिवर्तन में कोई नया पदार्थ नहीं बनता।",
+"hg": "Chemical change mein nayi properties wale naye substances bante hain (colour change, gas, precipitate, heat ya light). Physical change mein koi naya substance nahi banta."
+},
+"Do not look straight at burning magnesium. Hold hot tubes with a holder, pointing away from people. Barium chloride is poisonous.": {
+"hi": "जलते हुए मैग्नीशियम को सीधे न देखें। गरम नलियों को होल्डर से पकड़ें और उनका मुँह लोगों से दूर रखें। बेरियम क्लोराइड ज़हरीला है।",
+"hg": "Jalte hue magnesium ko seedha mat dekho. Garam tubes ko holder se pakdo aur unka munh logon se door rakho. Barium chloride zehreela hai."
+},
+"Give two signs of a chemical change.": {
+"hi": "रासायनिक परिवर्तन के दो लक्षण बताएँ।",
+"hg": "Chemical change ke do signs batao."
+},
+"Change of colour, gas given off, precipitate formed, heat or light produced (any two).": {
+"hi": "रंग बदलना, गैस निकलना, अवक्षेप बनना, ऊष्मा या प्रकाश उत्पन्न होना (कोई दो)।",
+"hg": "Colour badalna, gas nikalna, precipitate banna, heat ya light paida hona (koi do)."
+},
+"Is dissolving salt in water a physical or chemical change?": {
+"hi": "पानी में नमक घोलना भौतिक परिवर्तन है या रासायनिक परिवर्तन?",
+"hg": "Paani mein namak gholna physical change hai ya chemical change?"
+},
+"Physical: no new substance forms, and the salt can be recovered by evaporation.": {
+"hi": "भौतिक: कोई नया पदार्थ नहीं बनता, और वाष्पन द्वारा नमक वापस प्राप्त किया जा सकता है।",
+"hg": "Physical: koi naya substance nahi banta, aur evaporation se namak wapas mil sakta hai."
+},
+"Which gas burns with a pop?": {
+"hi": "कौन-सी गैस पॉप की आवाज़ के साथ जलती है?",
+"hg": "Kaun si gas pop ki awaaz ke saath jalti hai?"
+},
+"(a) iron + copper sulphate · (b) magnesium + oxygen · (c) zinc + sulphuric acid · (d) copper sulphate crystals —heat→ · (e) sodium sulphate + barium chloride": {
+"hi": "(a) आयरन + कॉपर सल्फ़ेट · (b) मैग्नीशियम + ऑक्सीजन · (c) जिंक + सल्फ़्यूरिक अम्ल · (d) कॉपर सल्फ़ेट क्रिस्टल —ऊष्मा→ · (e) सोडियम सल्फ़ेट + बेरियम क्लोराइड",
+"hg": "(a) iron + copper sulphate · (b) magnesium + oxygen · (c) zinc + sulphuric acid · (d) copper sulphate crystals —heat→ · (e) sodium sulphate + barium chloride"
+}
+});

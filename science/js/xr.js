@@ -71,7 +71,7 @@ export class XRInput {
   nearest(h, maxD) {
     const p = this.handPos(h, tmp); let best = null, bd = maxD;
     for (const it of this.app.lab.items) {
-      if (it.kind === 'rack' || it.kind === 'tripod' || it.kind === 'circuit' || this.hands.some((o) => o.held === it)) continue;
+      if (it.kind === 'rack' || it.kind === 'tripod' || it.kind === 'circuit' || it.noGrab || this.hands.some((o) => o.held === it)) continue;
       const g = it.g.localToWorld(tmp2.set(0, it.grabY ?? 0.04, 0)); const d = g.distanceTo(p);
       if (d < bd) { bd = d; best = it; }
     }

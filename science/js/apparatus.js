@@ -193,18 +193,19 @@ export function dropperBottle(label, o = {}) {
 // ------------------------------------------------------------------ holders and heaters
 export function rack(n = 6, o = {}) {
   const it = new Item('rack', { ...o, name: { en: 'Test tube rack', hi: 'परखनली स्टैंड', hg: 'Test tube stand' } });
-  const w = 0.04 * n + 0.03, mat = new THREE.MeshStandardMaterial({ map: woodTex('#a0703f'), roughness: 0.65 });
-  const box = (sx, sy, sz, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), mat); m.position.set(x, y, z); it.g.add(m); return m; };
-  box(w, 0.012, 0.075, 0, 0.006, 0); box(0.012, 0.11, 0.075, -w / 2 + 0.006, 0.055, 0); box(0.012, 0.11, 0.075, w / 2 - 0.006, 0.055, 0);
-  // top shelf with holes (drawn as dark rings)
-  const top = box(w, 0.01, 0.075, 0, 0.1, 0); box(w, 0.006, 0.012, 0, 0.03, -0.03); // back rail only: the tube bottoms stay in view
-  it.slots = [];
-  for (let i = 0; i < n; i++) {
-    const x = -w / 2 + 0.03 + i * 0.04;
-    const ring = new THREE.Mesh(new THREE.RingGeometry(0.0095, 0.0125, 24), new THREE.MeshStandardMaterial({ color: 0x3a2412, roughness: 0.9 }));
-    ring.rotation.x = -Math.PI / 2; ring.position.set(x, 0.1051, 0); it.g.add(ring);
-    it.slots.push(new THREE.Vector3(x, 0.012, 0));
-  }
+  const w = 0.04 * n + 0.03, d = 0.075, mat = new THREE.MeshStandardMaterial({ map: woodTex('#a0703f'), roughness: 0.65 });
+  const box = (sx, sy, sz, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), mat); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; it.g.add(m); return m; };
+  box(w, 0.012, d, 0, 0.006, 0); box(0.012, 0.11, d, -w / 2 + 0.006, 0.055, 0); box(0.012, 0.11, d, w / 2 - 0.006, 0.055, 0);
+  box(w, 0.006, 0.012, 0, 0.03, -0.03); // back rail only: the tube bottoms stay in view
+  // top shelf: a wooden plank with real round holes cut through it; each tube passes through a hole and stands on the base
+  const HR = 0.0128; const xs = []; for (let i = 0; i < n; i++) xs.push(-w / 2 + 0.03 + i * 0.04);
+  const sh = new THREE.Shape(); sh.moveTo(-w / 2, -d / 2); sh.lineTo(w / 2, -d / 2); sh.lineTo(w / 2, d / 2); sh.lineTo(-w / 2, d / 2); sh.lineTo(-w / 2, -d / 2);
+  for (const x of xs) { const h = new THREE.Path(); h.absarc(x, 0, HR, 0, Math.PI * 2, true); sh.holes.push(h); }
+  const T = 0.01, bev = 0.0008; const geo = new THREE.ExtrudeGeometry(sh, { depth: T - 2 * bev, bevelEnabled: true, bevelThickness: bev, bevelSize: bev * 0.8, bevelSegments: 2, curveSegments: 40 });
+  geo.rotateX(-Math.PI / 2); // the shape lies flat (x, z); the thickness goes up
+  const pa = geo.attributes.position, uv = geo.attributes.uv; for (let i = 0; i < pa.count; i++) uv.setXY(i, (pa.getX(i) + w / 2) / w, (pa.getZ(i) + d / 2) / d + pa.getY(i) * 6); // wood grain spread over the whole plank
+  const top = new THREE.Mesh(geo, mat); top.position.y = 0.095 + bev; top.castShadow = top.receiveShadow = true; it.g.add(top);
+  it.slots = xs.map((x) => new THREE.Vector3(x, 0.012, 0));
   it.height = 0.11; it.radius = w / 2; return it;
 }
 export function flame(kind = 'spirit') {

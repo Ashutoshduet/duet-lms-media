@@ -40,6 +40,8 @@ export const PRODUCT = {
   candle: N('Wax candle', 'मोमबत्ती', 'Mombatti (wax candle)'),
   filings: N('Iron filings (Fe)', 'लोहे का बुरादा (Fe)', 'Iron ka buraada (Fe)'),
   cuwire: N('Copper wire (Cu)', 'ताँबे का तार (Cu)', 'Copper wire (Cu)'),
+  thio: N('Sodium thiosulphate crystals (Na₂S₂O₃·5H₂O)', 'सोडियम थायोसल्फ़ेट के क्रिस्टल (Na₂S₂O₃·5H₂O)', 'Sodium thiosulphate ke crystals'),
+  marble: N('Marble chips (CaCO₃)', 'संगमरमर के टुकड़े (CaCO₃)', 'Marble ke tukde (CaCO₃)'),
   naph: N('Naphthalene balls (C₁₀H₈)', 'नैफ़्थलीन की गोलियाँ (C₁₀H₈)', 'Naphthalene ki goliyan (C₁₀H₈)'),
 };
 // which real chemicals each experiment uses or makes (reactants first, then products)
@@ -54,6 +56,12 @@ const USE = {
   saturated: ['salt', 'nahco3'], limewater_air: ['cao', 'caoh2'], ph_salts: ['phpaper', 'salt'], zn_naoh: ['zngran', 'naoh'], rusting: ['nail', 'cacl2'], chromatography: ['chroma'],
   tester_solids: ['nail', 'cuwire', 'alfoil', 'sulphur'], conduct_liquids: ['salt', 'naoh'], electroplating: ['cuso4b', 'cuso4'], electrolysis9v: ['candle'], ionic_covalent: ['salt', 'cuso4', 'sugar', 'naph'],
   electrolysis10: ['candle'], acid_conduct: ['nail'], flame_ionic: ['salt', 'ki', 'bacl2'],
+  iron_sulphur: ['filings', 'sulphur'], colloid_s: ['thio', 'salt', 'chalk'], crystallise: ['cuso4b', 'cuso4'], sand_salt_nh4cl: ['sand', 'salt', 'nh4cl'], mass_closed: ['salt', 'nahco3'],
+  mass_baso4: ['na2so4', 'bacl2', 'barite'], five_changes: ['nail', 'mg', 'zngran', 'cuso4b'],
+  exo_endo: ['naoh', 'nh4cl', 'litmus'], cu_oxid: ['cuwire', 'zngran'], dry_hcl: ['salt', 'cacl2', 'litmus'], acid_dilution: ['naoh'], cbse_hcl_naoh: ['litmus', 'zngran', 'caoh2'],
+  metals_air: ['mg', 'mgo', 'cuwire', 'alfoil', 'zngran', 'filings'], metals_water: ['mg', 'alfoil', 'zngran', 'nail', 'phenol'], carbon_burn: ['naph', 'candle'], ethanol_kmno4: ['kmno4'],
+  ethanoic_props: ['nahco3', 'litmus', 'phpaper', 'caoh2'], soap_micelle: ['soap'], soap_hard: ['soap'], co2_prep: ['marble', 'caoh2', 'candle', 'litmus'], saponification: ['naoh', 'salt', 'soap'],
+  soda_id: ['nahco3', 'phpaper', 'litmus', 'caoh2'], agcl_sun: ['salt'],
 };
 export const PHOTOS = Object.fromEntries(Object.entries(USE).map(([id, ks]) => [id, ks.map((k) => ({ k, f: `products/${k}.webp`, cap: PRODUCT[k] }))]));
 

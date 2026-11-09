@@ -189,9 +189,9 @@ export function paperSheet(o = {}) {
   it.height = 0.001; it.radius = 0.06; it.grabY = 0; return it;
 }
 export function filingsMix(o = {}) {
-  const it = paperSheet({ name: { en: 'Iron filings mixed with sand', hi: 'रेत में मिला लोहे का बुरादा', hg: 'Ret mein mila iron ka buraada' } });
+  const it = paperSheet({ name: o.name || { en: 'Iron filings mixed with sand', hi: 'रेत में मिला लोहे का बुरादा', hg: 'Ret mein mila iron ka buraada' } });
   it.kind = 'filings';
-  const sand = heap(0xd2b080, { tex: 'sand', r: 0.028, h: 0.008, loose: 30 }); it.g.add(sand.g); it.sand = sand;
+  const sand = heap(o.baseColor ?? 0xd2b080, { tex: o.baseTex ?? 'sand', r: 0.028, h: 0.008, loose: 30 }); it.g.add(sand.g); it.sand = sand;
   const N = o.n ?? 320; const geo = new THREE.BoxGeometry(0.0011, 0.0004, 0.0004);
   const mat = new THREE.MeshStandardMaterial({ color: 0x3a3c40, metalness: 0.7, roughness: 0.5 });
   const im = new THREE.InstancedMesh(geo, mat, N); im.userData.noHit = true; it.g.add(im); it.im = im;

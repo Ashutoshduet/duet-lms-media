@@ -5,6 +5,7 @@
 import { EXPERIMENTS2 } from './experiments2.js';
 import { EXPERIMENTS3 } from './experiments3.js';
 import { EXPERIMENTS4 } from './experiments4.js';
+import { EXPERIMENTS5 } from './experiments5.js';
 import { DICT } from './exp_i18n.js';
 const X = (en) => ({ en, ...(DICT[en] || {}) });
 
@@ -322,7 +323,7 @@ export const EXPERIMENTS = [
   },
 ];
 
-EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4);
+EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5);
 EXPERIMENTS.sort((a, b) => a.cls - b.cls); // stable: keeps the book order inside each class
 export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));
 // a class's experiments in book order: chapter by chapter (older-NCERT chapters after the current book), then any from other classes
