@@ -5,6 +5,7 @@ import { Panel, wrap } from './vrpanels.js';
 import { EXPERIMENTS, classGroups, classOrder as order0, hasSubject, subjOf } from './experiments.js';
 import { PHOTOS } from './photos.js';
 import { topicGroups } from './topics.js';
+import { licenceInfo } from './licence.js';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -69,6 +70,7 @@ export class UI {
   fill(k, c, n) { return this.t(k).replace('{c}', c).replace('{n}', n ?? '').replace('{s}', this.t(this.subj)); }
   renderPicker() {
     $('#cp-h').textContent = this.t('pickClass'); $('#cp-sub').textContent = this.t('pickClassSub'); $('#cp-all').textContent = this.t('allClasses'); $('#cp-top').textContent = this.t('byTopic');
+    const li = licenceInfo('science'); const L = this.L(); $('#cp-lic').textContent = li ? `${{ en: 'DUET STEM subscription', hi: 'DUET STEM सदस्यता', hg: 'DUET STEM subscription' }[L]}${li.name ? ' · ' + li.name : ''} · ${((d) => ({ en: `valid until ${d}`, hi: `${d} तक मान्य`, hg: `${d} tak valid` }[L]))(new Date(li.until).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }))}` : '';
     $('#cp-btns').innerHTML = CLASSES.map((c) => { const n = classOrder(c, this.subj).length, d = n - this.classLeft(c).length; return `<button data-c="${c}">${c}<small>${esc(this.t('cls'))} ${c} · ${d ? `${d}/${n} ✓` : `${n}`}</small></button>`; }).join('');
   }
   renderTop() {

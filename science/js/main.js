@@ -17,6 +17,7 @@ import { initPhysics } from './physics.js';
 import { ParticleView, HAS_PARTICLES } from './particles.js';
 import { PHOTOS, photoImage } from './photos.js';
 import { T, tx, LANGS } from './strings.js';
+import { licenceGate } from './licence.js';
 
 const Q = new URLSearchParams(location.search);
 if (Q.has('iwer')) { try { await (await import('../test-iwer.js')).default(); } catch (e) { console.warn('no test hook', e); } } // test only
@@ -57,6 +58,9 @@ export class App {
     this.xr = new XRInput(this);
     this.particles = new ParticleView(this); this.hasParticles = HAS_PARTICLES;
     this.clock = new THREE.Clock();
+    // DUET STEM subscription: nothing opens without a valid code (local tests only skip it)
+    this.lic = Q.has('test') && /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? Promise.resolve({ ok: true }) : licenceGate('science', () => this.lang, (m) => this.ui && this.ui.toast(m, 9000));
+    this.lic.then(() => this.ui && this.ui.renderPicker());
     this.initPointer(); this.initXRButton(); this.initKeys();
     addEventListener('resize', () => { this.camera.aspect = innerWidth / innerHeight; this.camera.updateProjectionMatrix(); r.setSize(innerWidth, innerHeight); });
     this.loadVoice();
@@ -299,7 +303,8 @@ export class App {
   }
   // ------------------------------------------------------------ headset
   async initXRButton() {
-    const b = document.getElementById('xr-btn'); let ok = false;
+    const b = document.getElementById('xr-btn'); let ok = false; b.hidden = true;
+    await this.lic; // VR only after the subscription code
     try { ok = !!navigator.xr && await navigator.xr.isSessionSupported('immersive-vr'); } catch (e) {}
     b.hidden = !ok; if (!ok) return;
     b.onclick = async () => {
