@@ -100,6 +100,12 @@ export class Lab {
         const d = Math.hypot(m.x - land.x, m.z - land.z); const wup = w.worldUp();
         if (m.y < lip.y && d < Math.max(0.006, w.rimR * 1.15) && wup.y > 0.6 && lip.y - m.y < best) { best = lip.y - m.y; target = w; }
       }
+      { // something that takes liquid and is not a vessel (a funnel packed with soil, …); it catches the stream if it is above the vessel found
+        let rec = null, rb = 0.5; for (const it of this.items) { if (!it.receive || it === v || !it.g.visible) continue; const m = it.mouthWorld(tmp2); const d = Math.hypot(m.x - land.x, m.z - land.z); if (m.y < lip.y && d < Math.max(0.01, (it.rimR || 0.03) * 1.1) && lip.y - m.y < rb) { rb = lip.y - m.y; rec = it; } }
+        if (rec && target && lip.y - rb < target.mouthWorld(tmp2).y) rec = null;
+        if (rec) { const portion = v.mix.take(rate); v.ml = v.mix.ml(); v.ledger = (v.ledger || 0) - rate; rec.receive(portion, rate); this.fx.stream(v.id, lip.clone().add(out), rec.mouthWorld(tmp2).clone(), v.color, 0.0012 + Math.min(0.0016, rate / dt * 0.0002)); v._pouring = (v._pouring || 0) + rate;
+          this.emit('pouring', { from: v.id, to: rec.id, ml: rate, spill: false, color: v.color }); if (this.audio && this.audio.pour) this.audio.pour(dt); continue; }
+      }
       const portion = v.mix.take(rate); v.ml = v.mix.ml(); v.ledger = (v.ledger || 0) - rate; if (target) target.ledger = (target.ledger || 0) + rate;
       const bottom = target ? target.mouthWorld(tmp2).clone() : land.clone().setY((this.surfaceY ? this.surfaceY(land.x, land.z) : BENCH_Y) + 0.001);
       if (asDrop) {

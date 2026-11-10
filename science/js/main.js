@@ -389,7 +389,7 @@ export class App {
     const c = document.createElement('canvas'); c.width = 256; c.height = 96; const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
     const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true })); sp.scale.set(0.056, 0.021, 1); sp.renderOrder = 60; sp.visible = false; this.scene.add(sp);
     this._pt = { c, t, sp, v: null, until: 0, last: '' };
-    this.lab.listeners.push((e) => { if ((e.type === 'pouring' || e.type === 'drop') && e.to) { const v = this.lab.byId[e.to]; if (v) { this._pt.v = v; this._pt.until = this.t + 2.5; } } });
+    this.lab.listeners.push((e) => { if ((e.type === 'pouring' || e.type === 'drop') && e.to) { const v = this.lab.byId[e.to]; if (v && v.mix) { this._pt.v = v; this._pt.until = this.t + 2.5; } } });
   }
   updPourTag() {
     const P = this._pt; const v = P && P.v; if (!P) return; if (!v || this.t > P.until || v.broken || !v.g.parent) { P.sp.visible = false; return; }

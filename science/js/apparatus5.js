@@ -83,7 +83,7 @@ export function sepFunnel(o = {}) {
     if (v.sepK < 1 && !v.shaking) v.sepK = Math.min(1, v.sepK + dt * (v.lab?.chem?.lapse ?? 1) * 0.06);
     // draining from the stopcock
     if (v.open && tot > 0.01) {
-      const lapse = v.lab?.chem?.lapse ?? 1; const wNow = tot - (m.liq.moil || 0); let rate = Math.min(tot, dt * 1.6 * lapse); if (!v.waterOut && wNow > 0.01 && wNow <= rate) { rate = wNow; v.setOpen(false); } const out = { liq: {}, ppt: {}, cloud: 0 }; let left = rate; // the student closes the tap just as the last water runs out
+      const lapse = v.lab?.chem?.lapse ?? 1; const wNow = tot - (m.liq.moil || 0); let rate = Math.min(tot, dt * 1.6 * lapse); if (!v._wClosed && wNow <= rate) { rate = Math.max(0, wNow); v.setOpen(false); v._wClosed = true; } const out = { liq: {}, ppt: {}, cloud: 0 }; let left = rate; // the student closes the tap just as the last water runs out
       for (const k of Object.keys(m.liq).sort((a, b) => (a === 'moil' ? 1 : 0) - (b === 'moil' ? 1 : 0))) { if (left <= 0) break; const d = Math.min(m.liq[k], left); m.liq[k] -= d; left -= d; out.liq[k] = d; if (m.liq[k] < 1e-6) delete m.liq[k]; }
       v.ml = m.ml(); const t = v.drainTo; const tip = v.g.localToWorld(tmp.set(0, 0.001, 0)).clone();
       if (t) { t.mix.put(out, rate); t.ml = t.mix.ml(); const land = V3(tip.x, Math.max(t.levelWorld(), t.g.localToWorld(V3(0, t.inner[0].y, 0)).y), tip.z); v.lab && v.lab.fx.stream('sep' + v.id, tip, land, out.liq.moil ? new THREE.Color(0xd9b23a) : new THREE.Color(0xcfe6fb), 0.0008); }
