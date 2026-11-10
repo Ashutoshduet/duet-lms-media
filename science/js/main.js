@@ -370,6 +370,7 @@ export class App {
   }
   enterVR(s) {
     document.body.classList.add('in-vr'); this.ui.vr.visible = true; this.ui.layoutVR(); this.ui.dirty = true;
+    try { const fr = s.supportedFrameRates; if (fr && s.updateTargetFrameRate) { const want = [...fr].filter((x) => x <= 90).sort((a, b) => b - a)[0]; if (want) s.updateTargetFrameRate(want).catch(() => {}); } } catch (e) {} // smooth 90 Hz where the headset offers it (after a restart a Quest may start at 72 Hz)
     this.baseRef = this.renderer.xr.getReferenceSpace(); this._hgtT = this.t; this._hgtAuto = store.get('hgt') === null; this.setHeight(+(store.get('hgt') || 0), true);
     this._cam = { p: this.camera.position.clone(), t: this.controls.target.clone() };
     s.addEventListener('end', () => { document.body.classList.remove('in-vr'); this.ui.vr.visible = false; if (Q.get('app') === 'vr') { this._vrEnded = true; document.body.classList.add('xr-wait'); } if (this._cam) { this.camera.position.copy(this._cam.p); this.controls.target.copy(this._cam.t); } });
