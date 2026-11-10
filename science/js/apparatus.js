@@ -92,6 +92,10 @@ export class Vessel extends Item {
     this.wob.clampLength(0, 0.35);
     u.uLevel.value = this.levelWorld(); u.uWob.value.copy(this.wob); u.uCen.value.copy(p);
     this.liqMat.color.copy(this.color); u.uSurf.value.copy(this.color).lerp(new THREE.Color(1, 1, 1), 0.25); u.uAlpha.value = this.alpha;
+    // ripples while liquid pours in, while stirring or when the vessel is moved; streaks while something dissolves
+    this._ripT = Math.max(0, (this._ripT || 0) - dt); this._disT = Math.max(0, (this._disT || 0) - dt);
+    u.uRip.value = Math.min(1, this.wob.length() * 4 + (this.stirT > 0 ? 0.7 : 0) + this._ripT * 1.6); u.uBot.value = this.inner[0].y;
+    u.uSwirl.value += ((this._disT > 0 ? 1 : 0) - u.uSwirl.value) * Math.min(1, dt * 1.2);
   }
 }
 

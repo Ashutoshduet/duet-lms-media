@@ -337,12 +337,15 @@ export const RULES = [
         let d = Math.min(s.amount, k * dt);
         if (S.solub) { // saturated: no more can dissolve at this temperature
           v.disG = v.disG || {}; const cap = S.solub(v.mix.temp) * (v.mix.liq.water || 0) / 100; const room = Math.max(0, cap - (v.disG[s.chem] || 0)) / (S.spoonG || 5);
-          if (room < 1e-4) { if (!v.saturated) { v.saturated = s.chem; E.note(v, 'saturated', { chem: s.chem }); } continue; }
+          if (room < 1e-4) { if (!v.saturated) { v.saturated = s.chem; E.note(v, 'saturated', { chem: s.chem }); } (v.solLog = v.solLog || {})[s.chem] = { dis: true, left: s.amount / Math.max(1e-6, s.amount0 || s.amount), sat: true }; continue; }
           d = Math.min(d, room); v.disG[s.chem] = (v.disG[s.chem] || 0) + d * (S.spoonG || 5); v.saturated = null;
         }
         s.amount -= d; s.onAmount && s.onAmount(); if (S.imp) { v.mix.ppt.mud = (v.mix.ppt.mud || 0) + d * S.imp; v.mix.cloud = Math.min(0.25, v.mix.cloud + d * S.imp * 2); }
         v.mix.add(S.dis, d * (S.dye ? 0.15 : S.disMl ?? 0.8)); if (S.heatDis) v.mix.temp += d * S.heatDis * 10 / Math.max(5, v.mix.ml()); // NaOH pellets warm the water as they dissolve // disMl: how much of the stock solution one spoonful makes (copper sulphate colours water strongly)
         if (s.chem === 'kmno4') { E.fx.flakes_(v, 10 * Math.min(4, E.lapse), dt, '#b02fbf'); }
+        else if (v.stirT > 0 && !S.dye && s.amount > 0.05) E.fx.flakes_(v, 9 * Math.min(1, s.amount), dt, '#f6f6f2'); // stirred: a few crystals swirl round and get smaller
+        if (d > 0) v._disT = 0.6; s.amount0 = Math.max(s.amount0 || 0, s.amount + d);
+        (v.solLog = v.solLog || {})[s.chem] = { dis: true, left: s.amount / Math.max(1e-6, s.amount0), sat: v.saturated === s.chem }; // what the student is told: dissolving, how much is left
         E.note(v, 'dissolve', { chem: s.chem, left: s.amount });
       }
     } },
@@ -350,6 +353,7 @@ export const RULES = [
     run(v, dt, E) {
       for (const s of v.solids) {
         const S = SOLIDS[s.chem]; if (!S?.insol || !s.under || s.amount <= 0) continue;
+        (v.solLog = v.solLog || {})[s.chem] = { dis: false };
         if (S.insol === 'soil') { if (v.stirT > 0) { const d = Math.min(s.amount, dt * 0.9); s.amount -= d; s.onAmount && s.onAmount(); v.mix.ppt.mud = (v.mix.ppt.mud || 0) + d * 0.7; v.mix.ppt.clay = (v.mix.ppt.clay || 0) + d * 0.5; } continue; }
         if (S.insol === 'sand' || v.stirT > 0) { // stirred up: it spreads through the water but does not disappear
           const d = Math.min(s.amount, dt * (v.stirT > 0 ? 1.2 : 0.6)); s.amount -= d; s.onAmount && s.onAmount();

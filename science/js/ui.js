@@ -6,6 +6,7 @@ import { EXPERIMENTS, classGroups, classOrder as order0, hasSubject, subjOf } fr
 import { PHOTOS } from './photos.js';
 import { topicGroups } from './topics.js';
 import { licenceInfo, licText } from './licence.js';
+import { SOLIDS } from './chem.js';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -20,7 +21,7 @@ export class UI {
     this.app = app; this.subj = store.get('subj') || 'chemistry'; if (!hasSubject(this.subj)) this.subj = 'chemistry'; this.cls = +(store.get('cls') || 0) || 0; this.view = store.get('view') === 'topic' ? 'topic' : 'class'; this.topic = null; this.nbOpen = false; this.done = new Set((store.get('done') || '').split(',').filter(Boolean));
     this.buildDOM();
     // headset panels
-    this.menu = new Panel(1000, 1400, 0.46); this.story = new Panel(1100, 1150, 0.52);
+    this.menu = new Panel(1000, 1490, 0.46); this.story = new Panel(1100, 1150, 0.52);
     this.vr = new THREE.Group(); this.vr.add(this.menu.mesh, this.story.mesh); this.vr.visible = false; app.scene.add(this.vr);
     this.page = 0; this.dirty = true;
   }
@@ -167,6 +168,12 @@ export class UI {
     if (pages > 1) { P.btn('pg_prev', 40, 1160, 300, 80, '‹', { size: 40, align: 'center' }); P.text(`${this.page + 1} / ${pages}`, 440, 1178, 34, '#a49d90', 600); P.btn('pg_next', 660, 1160, 300, 80, '›', { size: 40, align: 'center' }); }
     LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, 1270, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
     P.btn('voice', 748, 1270, 212, 84, (a.audio.voice ? '🔊 ' : '🔇 ') + this.t('voice'), { size: 26, align: 'center' });
+    // eye height in the headset: lower / raise the view, or let it set itself
+    const eh = a.renderer.xr.isPresenting ? a.eyeY() : 0; const HL = { en: 'Eye height', hi: 'आँखों की ऊँचाई', hg: 'Aankh ki height' };
+    P.btn('hgt_dn', 40, 1376, 150, 84, '▼', { size: 34, align: 'center' });
+    P.x.font = `600 26px ${FONT}`; const hl = `${HL[L] || HL.en} ${eh ? eh.toFixed(2) + (L === 'hi' ? ' मी' : ' m') : ''}`; P.text(hl, 350 - P.x.measureText(hl).width / 2, 1404, 26, '#e2dccf', 600);
+    P.btn('hgt_up', 510, 1376, 150, 84, '▲', { size: 34, align: 'center' });
+    P.btn('hgt_auto', 676, 1376, 284, 84, { en: 'Auto height', hi: 'अपने-आप ऊँचाई', hg: 'Auto height' }[L] || 'Auto height', { size: 26, align: 'center', active: a._hgtAuto });
     P.commit();
     if (a.codeVR) { this.drawCodeVR(); return; }
     // story
@@ -184,6 +191,10 @@ export class UI {
       if (r.state === 'done') { para(this.t('seeLabel'), r.text(`steps.${r.i}.see`, L), '#9fd17a'); para(this.t('whyLabel'), r.text(`steps.${r.i}.why`, L), '#7fd1ff'); }
       else if (r.state === 'todo') para('➜', this.t('vrHint'));
     }
+    const st = this.solStatus(); if (st.length) { // is it dissolving? said plainly for every vessel with a solid in it
+      const y0 = Math.max(y + 4, 880 - st.length * 38 - 34); S.text({ en: 'In the vessels', hi: 'बर्तनों में', hg: 'Bartanon mein' }[L] || 'In the vessels', 40, y0, 24, '#a49d90', 700);
+      st.forEach((l, i) => { X.font = `600 25px ${FONT}`; let t = l.t; while (X.measureText(t).width > 1015 && t.length > 8) t = t.slice(0, -2); S.text(t === l.t ? t : t + '…', 40, y0 + 32 + i * 38, 25, l.c, 600); });
+    }
     if (a.lapseShown) S.text(`⏩ ${this.t('timelapse')} ×${a.lapseShown}`, 40, 860, 30, '#f0a65a', 700);
     if (this._toast && performance.now() < this._toast.until) { // a message (an accident explained, a different result) inside the headset too
       X.font = `600 28px ${FONT}`; const tl = wrap(X, this._toast.msg, 960).slice(0, 4); const h = 30 + tl.length * 38, y0 = 885 - h;
@@ -199,6 +210,25 @@ export class UI {
     S.btn('speed', 385, by + 110, 280, 80, `${this.t('speed')} ${a.speed}×`, { size: 28, align: 'center' });
     S.btn('reset', 680, by + 110, 380, 80, '↺ ' + this.t('reset'), { size: 28, align: 'center' });
     S.commit();
+  }
+  solStatus() { // [{ t, c }]: per vessel and solid — dissolving (how much is left), dissolved, saturated, or not dissolving
+    const L = this.L(); const out = []; const W = {
+      ing: { en: 'dissolving — {p}% left', hi: 'घुल रहा है — {p}% बचा है', hg: 'ghul raha hai — {p}% bacha hai' },
+      done: { en: 'dissolved completely — the solution is clear', hi: 'पूरा घुल गया — विलयन साफ़ है', hg: 'poora ghul gaya — solution saaf hai' },
+      sat: { en: 'no more dissolves — the solution is saturated', hi: 'अब और नहीं घुलता — विलयन संतृप्त है', hg: 'ab aur nahi ghulta — solution saturated hai' },
+      milky: { en: 'does not dissolve — the water has turned milky', hi: 'नहीं घुलता — पानी दूधिया हो गया', hg: 'nahi ghulta — paani doodhiya ho gaya' },
+      settle: { en: 'does not dissolve — it settles at the bottom', hi: 'नहीं घुलता — नीचे तली में बैठ जाता है', hg: 'nahi ghulta — neeche tali mein baith jaata hai' },
+    };
+    for (const v of this.app.lab.vessels) {
+      if (!v.solLog) continue; const vn = `${((v.name && (v.name[L] || v.name.en)) || '').replace(/\s*[(（].*?[)）]/g, '')}${v.tag ? ' ' + v.tag : ''}`;
+      for (const ch in v.solLog) {
+        const e = v.solLog[ch]; const sn = (SOLIDS[ch] && SOLIDS[ch].n && (SOLIDS[ch].n[L] || SOLIDS[ch].n.en)) || ch; let k, c;
+        if (e.dis) { if (e.sat) { k = 'sat'; c = '#f0a65a'; } else if (e.left > 0.02) { k = 'ing'; c = '#7fd1ff'; } else { k = 'done'; c = '#9fd17a'; } }
+        else { k = (v.mix && v.mix.cloud > 0.12) ? 'milky' : 'settle'; c = '#f6c08a'; }
+        out.push({ t: `${vn} · ${sn}: ${(W[k][L] || W[k].en).replace('{p}', Math.max(1, Math.round((e.left || 0) * 100)))}`, c });
+      }
+    }
+    return out.slice(0, 4);
   }
   drawCodeVR() { // the subscription code typed in the headset: a keypad of the code's letters (no I, L, O, U)
     const a = this.app, c = a.codeVR, L = this.L(); const S = this.story, X = S.x; S.bg('#f0a65a'); S.logo(40, 34, 40);
@@ -222,6 +252,8 @@ export class UI {
     const a = this.app, r = a.runner;
     if (id.startsWith('ck_')) { a.codeKey(id.slice(3)); this.dirty = true; return; }
     if (id === 'code') { a.askCode(null); this.dirty = true; return; }
+    if (id === 'hgt_dn' || id === 'hgt_up') { a.setHeight((a.hgt || 0) + (id === 'hgt_up' ? 0.05 : -0.05)); setTimeout(() => { this.dirty = true; }, 150); return; }
+    if (id === 'hgt_auto') { try { localStorage.removeItem('sl360.hgt'); } catch (e) {} a._hgtAuto = true; a.autoHeight(); setTimeout(() => { this.dirty = true; }, 150); return; }
     if (id.startsWith('sub_')) { this.setSubject(id.slice(4)); }
     else if (id === 'view_topic') this.setView('topic'); else if (id === 'top_back') { this.topic = null; this.page = 0; } else if (id.startsWith('top_')) this.setTopic(id.slice(4));
     else if (id.startsWith('cls_')) { this.setClass(+id.slice(4)); }

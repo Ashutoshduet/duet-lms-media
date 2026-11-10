@@ -19,6 +19,7 @@ import { PHOTOS, photoImage } from './photos.js';
 import { T, tx, LANGS } from './strings.js';
 import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './licence.js';
 import { demoIds } from './topics.js';
+import { LIQ_TIME } from './mats.js';
 
 const Q = new URLSearchParams(location.search);
 if (Q.has('iwer')) { try { await (await import('../test-iwer.js')).default(); } catch (e) { console.warn('no test hook', e); } } // test only
@@ -137,7 +138,7 @@ export class App {
   boardFor(e) {
     const draw = this.roomInfo.drawBoard;
     if (!e) { draw('DUET STEM · ' + tx(T[(this.ui && this.ui.subj) || 'chemistry'], this.lang), [{ t: tx(T.appTitle, this.lang), size: 54, c: 'rgba(240,166,90,0.95)' }, { t: tx(T.pickExp, this.lang), size: 44 }]); return; }
-    const word = (DICT[e.eq.word] && DICT[e.eq.word][this.lang]) || e.eq.word;
+    const w0 = e.eq.word; const word = typeof w0 === 'object' && w0 ? (w0[this.lang] || w0.en) : (DICT[w0] && DICT[w0][this.lang]) || w0; // open labs give the word in all three languages
     const lines = [{ t: e.eq.sym, size: 64, w: 700 }, { t: word, size: 44, c: 'rgba(240,166,90,0.95)' }, { t: this.expText(e, 'kind'), size: 40, c: 'rgba(200,220,210,0.85)' }];
     const ph = PHOTOS[e.id] || []; const L = this.lang;
     draw(this.expText(e, 'title'), lines);
@@ -367,12 +368,23 @@ export class App {
   }
   enterVR(s) {
     document.body.classList.add('in-vr'); this.ui.vr.visible = true; this.ui.layoutVR(); this.ui.dirty = true;
+    this.baseRef = this.renderer.xr.getReferenceSpace(); this._hgtT = this.t; this._hgtAuto = store.get('hgt') === null; this.setHeight(+(store.get('hgt') || 0), true);
     this._cam = { p: this.camera.position.clone(), t: this.controls.target.clone() };
     s.addEventListener('end', () => { document.body.classList.remove('in-vr'); this.ui.vr.visible = false; if (Q.get('app') === 'vr') { this._vrEnded = true; document.body.classList.add('xr-wait'); } if (this._cam) { this.camera.position.copy(this._cam.p); this.controls.target.copy(this._cam.t); } });
   }
+  // the student's eye height in the headset: raise or lower the view (a seated student, a short or tall one); saved on this device
+  setHeight(dy, quiet) {
+    this.hgt = Math.max(-0.5, Math.min(0.9, Math.round(dy * 100) / 100)); if (!quiet) { store.set('hgt', String(this.hgt)); this._hgtAuto = false; }
+    if (this.baseRef && typeof XRRigidTransform !== 'undefined') { try { this.renderer.xr.setReferenceSpace(this.baseRef.getOffsetReferenceSpace(new XRRigidTransform({ x: 0, y: -this.hgt, z: 0 }))); } catch (e) { this.xrErr = 'height: ' + e.message; } }
+    if (this.ui) this.ui.dirty = true;
+  }
+  eyeY() { const c = this.renderer.xr.getCamera(); return c ? c.position.y : 0; } // with the height offset
+  autoHeight() { // standing at the bench the eyes are about 1.5 m up; a student sitting down is lifted to that height (only until they set it themselves)
+    const raw = this.eyeY() - this.hgt; if (raw < 0.3) return; this.setHeight(raw < 1.25 ? 1.5 - raw : 0, true);
+  }
   // ------------------------------------------------------------ the loop
   frame() {
-    const dt = Math.min(0.05, this.clock.getDelta()); this.t += dt;
+    const dt = Math.min(0.05, this.clock.getDelta()); this.t += dt; LIQ_TIME.value = this.t;
     const xr = this.renderer.xr.isPresenting;
     if (!xr) {
       if (this.t - (this._voT || 0) > 0.25) { this._voT = this.t; this.viewOffset(); }
@@ -388,6 +400,8 @@ export class App {
     this.xr.update(dt); this.walkKeys(dt); if (this.wireDot && this.wireDot.visible) { const t = this.wireDot.userData.t; this.wireDot.position.copy(t.local); t.item.g.localToWorld(this.wireDot.position); }
     this.audio.frame(this.audio.pourT > 0, this.fx.bubbles.length); this.audio.pourT = Math.max(0, this.audio.pourT - dt);
     if (this.lapseShown !== this._lapse) { this._lapse = this.lapseShown; this.ui.renderStory(); }
+    if (xr && this.t - (this._solT || 0) > 0.5) { this._solT = this.t; if (this.lab.vessels.some((v) => v.solLog)) this.ui.dirty = true; } // the dissolving read-out in the headset stays current
+    if (xr && this._hgtAuto && this._hgtT != null && this.t - this._hgtT > 1.5) { this._hgtT = null; this.autoHeight(); }
     if (xr && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR(); this.ui.dirty = false; this._vrDraw = this.t; }
     if (FAST && ++this._fc % 24) return; // test mode: simulate quickly, draw only now and then
     this.renderer.render(this.scene, this.camera);

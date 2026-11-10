@@ -25,11 +25,13 @@ export function glassMat(o = {}) {
 // ------------------------------------------------------------------ liquid
 // Draw the inside volume of a vessel; fragments above the (world) level are dropped and the back faces
 // that remain look like the flat surface. Sediment sits at the bottom in object space.
+export const LIQ_TIME = { value: 0 }; // shared clock for ripples and dissolving streaks (the app advances it every frame)
 export function liquidMat() {
   const u = {
     uLevel: { value: 0 }, uWob: { value: new THREE.Vector2() }, uCen: { value: new THREE.Vector3() },
     uSurf: { value: new THREE.Color(0xffffff) }, uCloud: { value: 0 }, uCloudCol: { value: new THREE.Color(0xffffff) },
     uSed: { value: -1 }, uSedCol: { value: new THREE.Color(0xffffff) }, uAlpha: { value: 0.55 },
+    uTime: LIQ_TIME, uRip: { value: 0 }, uSwirl: { value: 0 }, uBot: { value: 0 },
   };
   const m = new THREE.MeshStandardMaterial({ color: 0x88aaff, roughness: 0.08, metalness: 0, transparent: true, side: THREE.DoubleSide, envMapIntensity: 1.2 });
   m.userData.u = u;
@@ -39,22 +41,32 @@ export function liquidMat() {
       .replace('#include <project_vertex>', '#include <project_vertex>\nvWP = (modelMatrix * vec4(transformed,1.0)).xyz; vLY = transformed.y;');
     s.fragmentShader = s.fragmentShader.replace('#include <common>', `#include <common>
       varying vec3 vWP; varying float vLY; uniform float uLevel; uniform vec2 uWob; uniform vec3 uCen; uniform vec3 uSurf;
-      uniform float uCloud; uniform vec3 uCloudCol; uniform float uSed; uniform vec3 uSedCol; uniform float uAlpha;`)
+      uniform float uCloud; uniform vec3 uCloudCol; uniform float uSed; uniform vec3 uSedCol; uniform float uAlpha;
+      uniform float uTime; uniform float uRip; uniform float uSwirl; uniform float uBot;`)
       .replace('#include <clipping_planes_fragment>', `#include <clipping_planes_fragment>
       float lvl = uLevel + dot(vWP.xz - uCen.xz, uWob);
       if (vWP.y > lvl) discard;
+      float dl = lvl - vWP.y; float clr = 1.0 - uCloud;
       bool isSed = vLY < uSed;`)
       .replace('#include <color_fragment>', `#include <color_fragment>
       diffuseColor.rgb = mix(diffuseColor.rgb, uCloudCol, uCloud);
-      diffuseColor.a = mix(uAlpha, 0.96, uCloud);
-      if (!gl_FrontFacing) { diffuseColor.rgb = mix(diffuseColor.rgb, uSurf, 0.35); }
+      diffuseColor.a = mix(max(uAlpha, 0.2), 0.96, uCloud); // even clear water shows a faint body
+      if (!gl_FrontFacing) { diffuseColor.rgb = mix(diffuseColor.rgb, uSurf, 0.35); diffuseColor.a = max(diffuseColor.a, 0.38 * clr + uCloud); } // the surface: a sheet that reflects the room
+      if (gl_FrontFacing && !isSed) { float wl = smoothstep(0.0022, 0.0, dl); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.97, 0.99, 1.0), wl * 0.6 * clr); diffuseColor.a = mix(diffuseColor.a, 0.8, wl * clr); } // the water line (meniscus) on the glass
+      if (uSwirl > 0.001 && !isSed) { // dissolving: wavy streaks of denser solution curling up from the crystals
+        float hB = vLY - uBot; float s1 = sin(vWP.y * 1400.0 + sin(vWP.x * 900.0 + uTime * 1.7) * 3.0 + sin(vWP.z * 800.0 - uTime * 1.3) * 3.0 - uTime * 2.2);
+        float k = smoothstep(0.55, 1.0, s1) * uSwirl * (1.0 - smoothstep(0.0, 0.045, hB)) * clr; diffuseColor.rgb = mix(diffuseColor.rgb, vec3(1.0), k * 0.5); diffuseColor.a = min(0.95, diffuseColor.a + k * 0.32); }
       if (isSed) { diffuseColor.rgb = uSedCol; diffuseColor.a = 1.0; }`)
       .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
-      roughnessFactor = mix(roughnessFactor, 0.8, uCloud); if (isSed) roughnessFactor = 0.95; // powders and precipitates are matte`)
+      roughnessFactor = mix(roughnessFactor, 0.8, uCloud); if (!gl_FrontFacing) roughnessFactor = mix(0.03, roughnessFactor, uCloud); if (isSed) roughnessFactor = 0.95; // powders and precipitates are matte`)
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
-      if (!gl_FrontFacing && !isSed) normal = normalize((viewMatrix * vec4(0.0, 1.0, 0.0, 0.0)).xyz);`);
+      if (!gl_FrontFacing && !isSed) { vec2 q = vWP.xz * 320.0; float t = uTime; vec3 n = vec3(0.0, 1.0, 0.0);
+        float r = 0.012 + uRip * 0.09; n.x += (sin(q.x + t * 6.1) + sin(q.y * 1.37 - t * 4.7)) * r; n.z += (cos(q.y + t * 5.3) + cos(q.x * 1.21 + t * 3.9)) * r; // ripples (stronger while pouring or stirring)
+        normal = normalize((viewMatrix * vec4(normalize(n), 0.0)).xyz); }`)
+      .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+      if (gl_FrontFacing && !isSed) { float fr = 1.0 - abs(dot(normal, normalize(vViewPosition))); diffuseColor.a = min(0.97, diffuseColor.a + fr * fr * 0.42 * clr); diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(0.86, 0.95, 1.0), fr * clr); } // seen at a slant through the glass, water looks denser and a little blue`);
   };
-  m.customProgramCacheKey = () => 'liquid2';
+  m.customProgramCacheKey = () => 'liquid3';
   return m;
 }
 

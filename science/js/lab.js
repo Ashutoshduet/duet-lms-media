@@ -96,7 +96,7 @@ export class Lab {
         this.emit('pouring', { from: v.id, to: target ? target.id : null, ml: rate, spill: false, drop: true }); continue;
       }
       if (target && this.phys && (target.glassT ?? 27) > 200 && !(target.solids && target.solids.length) && portion && portion.temp != null && portion.temp < 45 && !target.pyrex && Math.random() < 0.5) { this.emit('cracked', { obj: target.id, why: 'cold' }); this.phys.shatter(target, 0.2); }
-      if (target) { const surf = target.levelWorld(); bottom.y = Math.max(surf, target.g.localToWorld(new THREE.Vector3(0, target.inner[0].y, 0)).y); target.mix.put(portion, rate); target.ml = target.mix.ml(); }
+      if (target) { const surf = target.levelWorld(); bottom.y = Math.max(surf, target.g.localToWorld(new THREE.Vector3(0, target.inner[0].y, 0)).y); target.mix.put(portion, rate); target.ml = target.mix.ml(); target._ripT = 0.6; }
       const look = target ? null : 'spill';
       this.fx.stream(v.id, lip.clone().add(out), new THREE.Vector3(land.x, bottom.y, land.z), v.color, 0.0012 + Math.min(0.0016, rate / dt * 0.0002));
       v._pouring = (v._pouring || 0) + rate;

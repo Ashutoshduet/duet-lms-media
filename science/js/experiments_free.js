@@ -25,6 +25,9 @@ export const EXPERIMENTS_FREE = [
       K.beaker(-0.2, -0.6, 'water', 80, 100); K.beaker(-0.05, -0.6, null, 0, 250); K.flask(0.1, -0.62, null, 0); K.cylinder(0.24, -0.66, 100);
       K.solid('zn', 0.38, -0.56); K.solid('mg', 0.48, -0.6); K.solid('caco3', 0.38, -0.7); K.solid('nahco3', 0.5, -0.72);
       K.burner(0.62, -0.62); K.thermo(0.25, -0.46); K.splint(0.05, -0.45); K.strip('blue', -0.15, -0.45); K.strip('red', -0.08, -0.45);
+      // a second corner of the bench: water and four everyday solids to test what dissolves, a glass rod to stir
+      K.beaker(-0.74, -0.72, 'water', 70); K.beaker(-0.6, -0.72, 'water', 70);
+      [['sugar', -0.78], ['salt', -0.68], ['chalk', -0.58], ['sand', -0.48]].forEach(([c, x]) => K.solid(c, x, -0.5)); K.rod(-0.32, -0.44);
       return {};
     },
     steps: [step(N('Whatever you do happens as it would in a real lab.', 'आप जो भी करेंगे, वह वैसे ही होगा जैसे असली प्रयोगशाला में होता।', 'Aap jo bhi karenge, waisa hi hoga jaise real lab mein hota.'))],

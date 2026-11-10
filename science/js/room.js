@@ -73,9 +73,9 @@ export function buildRoom(scene) {
   // an open two-tier rack on thin steel posts, so the room and the chalkboard stay visible behind it
   const sw = 1.5;
   for (const y of [BENCH_Y + 0.23, BENCH_Y + 0.46]) { box(room, sw, 0.016, 0.15, cx - 0.2, y, sz, shelfM); box(room, sw, 0.03, 0.008, cx - 0.2, y + 0.022, sz - 0.071, steel, { recv: false }); }
-  for (const x of [cx - 0.2 - sw / 2 + 0.02, cx - 0.2 + sw / 2 - 0.02]) for (const dz of [-0.06, 0.06]) {
-    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.007, 0.007, 0.48, 10), steel); post.position.set(x, BENCH_Y + 0.24, sz + dz); room.add(post);
-  }
+  // the shelves rest on wooden end panels screwed to the bench top, with a steel post in the middle of each
+  for (const x of [cx - 0.2 - sw / 2 - 0.009, cx - 0.2 + sw / 2 + 0.009]) box(room, 0.018, 0.49, 0.16, x, BENCH_Y + 0.245, sz, shelfM, { cast: true });
+  for (const dz of [-0.06, 0.06]) { const post = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.46, 10), steel); post.position.set(cx - 0.2, BENCH_Y + 0.23, sz + dz); room.add(post); }
   // sink and tap at the right end
   const sinkX = B.x1 - 0.2;
   const sink = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.012, 0.32), new THREE.MeshStandardMaterial({ color: 0x9fa4a8, metalness: 0.8, roughness: 0.25 }));
@@ -163,7 +163,10 @@ export function buildRoom(scene) {
   const sideBench = (x, z, w, rot = 0) => {
     const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = rot; room.add(g);
     box(g, w, 0.03, 0.75, 0, BENCH_Y - 0.015, 0, epoxy); box(g, w - 0.04, BENCH_Y - 0.13, 0.7, 0, (BENCH_Y - 0.13) / 2 + 0.1, 0, cab);
+    // a reagent shelf on two wooden uprights with a back board, standing on the bench top
     box(g, w - 0.1, 0.018, 0.14, 0, BENCH_Y + 0.25, -0.3, shelfM);
+    for (const sx of [-1, 1]) box(g, 0.02, 0.3, 0.16, sx * ((w - 0.1) / 2 + 0.01), BENCH_Y + 0.15, -0.3, shelfM, { cast: true });
+    box(g, w - 0.06, 0.3, 0.012, 0, BENCH_Y + 0.15, -0.376, shelfM);
     for (let i = 0; i < Math.floor(w / 0.25); i++) {
       const b = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.028, 0.1, 14), new THREE.MeshStandardMaterial({ color: i % 3 ? 0x8a5a2a : 0xe8eef2, transparent: true, opacity: 0.75, roughness: 0.1 }));
       b.position.set(-w / 2 + 0.15 + i * 0.25, BENCH_Y + 0.31, -0.3); g.add(b);

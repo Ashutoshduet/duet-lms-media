@@ -1,6 +1,7 @@
 // Runs one experiment: builds the bench, shows each step (what to do → what you see → why),
 // performs it on "Do it" / click / auto-play, or completes it when the student does it by hand in VR.
 import * as THREE from 'three';
+import { BENCH_Y } from './room.js';
 import { Kit } from './actions.js';
 import { EXPERIMENTS, BY_ID, subjOf } from './experiments.js';
 import { chemCheck, snapAll, loadExpect } from './chemcheck.js';
@@ -60,6 +61,10 @@ export class Runner {
     this.gen = (this.gen || 0) + 1; this.app.lab.clear(); this.app.fx.glow(null, false);
     this.exp = BY_ID[id]; this.i = 0; this.state = 'todo'; this.done = new Set(); this.evAcc = 0; this.res = {};
     this.o = this.exp.setup(this.K); for (const k in this.o) { if (this.o[k] && this.o[k].g) this.o[k].key = k; }
+    // a real lab keeps its common reagents on the shelf: if this experiment leaves the shelves empty, stock them (they can be picked up and used too)
+    if (this.isChem() && !id.startsWith('open_') && !this.app.lab.items.some((it) => it.g.position.y > BENCH_Y + 0.15)) {
+      ['water', 'nacl', 'hcl', 'naoh', 'cuso4', 'limewater'].forEach((sub, i) => { const b = this.K.bottle(sub, -0.86 + i * 0.13, this.app.roomInfo.shelfZ, { shelf: 1, ml: 80 }); b.stock = true; });
+    }
     this.pend = null; this.base = snapAll(this.o); if (this.isChem()) loadExpect(); if (this.app.recHook) this.app.recHook(this, true);
     // vessels named "Beaker A — …" / "Test tube B — …" get a sticker with their letter
     for (const it of this.app.lab.vessels) { const n = it.name && it.name.en; const m = n && n.match(/^(?:Beaker|Test tube|Tube)\s+([A-E1-5])\b/); if (m && !it.stickerMesh) this.K.sticker(it, m[1]); else if (it.tag && !it.stickerMesh) this.K.sticker(it, it.tag); }
