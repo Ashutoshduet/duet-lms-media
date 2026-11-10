@@ -17,7 +17,7 @@ import { initPhysics } from './physics.js';
 import { ParticleView, HAS_PARTICLES } from './particles.js';
 import { PHOTOS, photoImage } from './photos.js';
 import { T, tx, LANGS } from './strings.js';
-import { licenceGate } from './licence.js';
+import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './licence.js';
 import { demoIds } from './topics.js';
 
 const Q = new URLSearchParams(location.search);
@@ -60,7 +60,11 @@ export class App {
     this.particles = new ParticleView(this); this.hasParticles = HAS_PARTICLES;
     this.clock = new THREE.Clock();
     // DUET STEM subscription: nothing opens without a valid code (local tests only skip it)
-    this.lic = Q.has('test') && /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? Promise.resolve({ ok: true }) : licenceGate('science', () => this.lang, (m) => this.ui && this.ui.toast(m, 9000), { demo: true });
+    // the installed headset app (?app=vr) opens straight into VR, where a page on the screen cannot be seen: there the code is typed on a keypad in the headset
+    this.headsetApp = Q.get('app') === 'vr'; this.codeVR = null;
+    this.lic = Q.has('test') && /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? Promise.resolve({ ok: true })
+      : this.headsetApp && !licenceInfo('science') ? Promise.resolve({ ok: false, demo: true }).then((r) => { this.codeVR = { code: '', first: true, exp: licenceExpired('science') }; return r; })
+      : licenceGate('science', () => this.lang, (m) => this.ui && this.ui.toast(m, 9000), { demo: true });
     this.demoSet = demoIds(); this.demo = false; this.lic.then((r) => { this.demo = !(r && r.ok); if (this.ui) this.ui.renderAll(); });
     this.initPointer(); this.initXRButton(); this.initKeys();
     addEventListener('resize', () => { this.camera.aspect = innerWidth / innerHeight; this.camera.updateProjectionMatrix(); r.setSize(innerWidth, innerHeight); });
@@ -88,12 +92,31 @@ export class App {
   toggleVoice() { this.audio.voice = !this.audio.voice; store.set('voice', this.audio.voice ? '1' : '0'); if (!this.audio.voice) this.audio.stop(); this.ui.renderTop(); this.ui.dirty = true; }
   cycleSpeed() { this.speed = SPEEDS[(SPEEDS.indexOf(this.speed) + 1) % SPEEDS.length] || 1; this.runner.K.speed = this.speed; this.audio.rate = Math.min(1.5, 0.75 + this.speed * 0.25); this.ui.renderStory(); }
   isLocked(id) { return this.demo && !this.demoSet.has(id); } // free demo: only the demo experiments open without a code
-  askCode(id) { // a locked experiment (or the "enter code" button): leave VR if needed and show the code screen
+  askCode(id) { // a locked experiment (or the "enter code" button): the code screen (in the headset: the keypad panel)
+    if (this.renderer.xr.isPresenting || this.headsetApp) { this.codeVR = { code: '', id, locked: !!id }; if (this.ui) this.ui.dirty = true; return; }
     const s = this.renderer.xr.getSession && this.renderer.xr.getSession(); if (s) s.end();
     licenceGate('science', () => this.lang, null, { locked: true }).then((r) => { if (r && r.ok) { this.demo = false; this.ui.renderAll(); if (id) this.openExp(id); } });
   }
+  codeKey(k) { // the headset code screen: a letter, ⌫, Activate, the free demo or Back
+    const c = this.codeVR; if (!c || c.busy) return; const L = this.lang;
+    if (k === 'del') { c.code = c.code.slice(0, -1); c.msg = ''; }
+    else if (k === 'clr') { c.code = ''; c.msg = ''; }
+    else if (k === 'demo') { const id = c.locked ? null : c.id; this.codeVR = null; if (id) this.openExp(id); }
+    else if (k === 'go') {
+      c.busy = true; c.msg = licText('wait', L); c.cls = '';
+      checkCode('science', c.code).then((r) => {
+        c.busy = false;
+        if (!r.ok) { c.msg = licText(r.key, L, { d: r.d }); c.cls = 'e'; }
+        else { const li = r.info || {}; c.msg = licText('ok', L, { n: li.name ? ' · ' + li.name : '', d: li.until }); c.cls = 'k'; c.done = true; this.demo = false;
+          setTimeout(() => { const id = c.id; if (this.codeVR === c) this.codeVR = null; this.ui.renderAll(); if (id) this.openExp(id); this.ui.dirty = true; }, 1800); }
+        this.ui.dirty = true;
+      });
+    } else if (k.length === 1 && c.code.length < 12) { c.code += k; c.msg = ''; }
+    this.ui.dirty = true;
+  }
   openExp(id, o = {}) {
     if (this.isLocked(id)) { this.askCode(id); return; }
+    this.codeVR = null;
     this.audio.unlock(); document.body.classList.remove('list-open');
     if (this.particles.g.visible) this.particles.close();
     const sj = (BY_ID[id] && BY_ID[id].subj) || 'chemistry'; if (this.ui && this.ui.subj !== sj) { this.ui.subj = sj; this.ui.renderSubjects(); this.ui.renderPicker(); } // opening a physics experiment switches the list to physics

@@ -40,9 +40,31 @@ const S = {
   demoSub: { en: 'Free without a code: the Open Labs and the first experiment of every class.', hi: 'बिना कोड के मुफ़्त: खुली प्रयोगशालाएँ और हर कक्षा का पहला प्रयोग।', hg: 'Bina code ke free: Open Labs aur har class ka pehla experiment.' },
   locked: { en: 'This experiment is part of the DUET STEM subscription. Enter your school\'s code to open it.', hi: 'यह प्रयोग DUET STEM सदस्यता का हिस्सा है। इसे खोलने के लिए अपने विद्यालय का कोड डालिए।', hg: 'Yeh experiment DUET STEM subscription ka hissa hai. Ise kholne ke liye apne school ka code daaliye.' },
   back: { en: 'Back', hi: 'वापस', hg: 'Wapas' },
+  key: { en: 'Point at the letters to type the code', hi: 'कोड लिखने के लिए अक्षरों पर पॉइंट कीजिए', hg: 'Code likhne ke liye letters par point kijiye' },
+  enter: { en: 'Enter your DUET STEM code', hi: 'अपना DUET STEM कोड डालिए', hg: 'Apna DUET STEM code daaliye' },
   soon: { en: 'Your DUET STEM subscription ends on {d}. Please renew it in time.', hi: 'आपकी DUET STEM सदस्यता {d} को समाप्त होगी। कृपया समय पर नवीनीकरण कराइए।', hg: 'Aapka DUET STEM subscription {d} ko khatam hoga. Time par renew karaiye.' },
 };
 const fmt = (d, L) => { const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); };
+
+// the same check without the code screen (the headset draws its own): { ok, info } or { ok: false, key: 'bad' | 'app' | 'exp' | 'net', d }
+export async function checkCode(app, code) {
+  if (normCode(code).length < 8) return { ok: false, key: 'bad' };
+  let list; try { list = await fetchList(); } catch (err) { return { ok: false, key: 'net' }; }
+  const h = await codeHash(code); const e = list[h];
+  if (!e || e.r) return { ok: false, key: 'bad' };
+  if (!covers(e.a, app)) return { ok: false, key: 'app' };
+  if (e.u < today()) return { ok: false, key: 'exp', d: e.u };
+  const name = e.e ? await openName(code, e.e) : '';
+  save({ h, u: e.u, a: e.a, n: name, t: Date.now() }); return { ok: true, info: licenceInfo(app) };
+}
+// a code-screen text in the chosen language ({d} = a date, {n} = the school's name)
+export function licText(key, L, d = {}) { const o = S[key]; if (!o) return ''; return (o[L] || o.en).replace('{d}', d.d ? fmt(d.d, L) : '').replace('{n}', d.n || ''); }
+export function licenceExpired(app) { const v = load(); return v && covers(v.a, app) && v.u < today() ? v.u : null; }
+// online, a saved licence is looked at again (renewed, changed or withdrawn); offline the app carries on
+export function recheckLicence(app) {
+  const have = load(); if (!have) return;
+  fetchList().then((list) => { const e = list[have.h]; if (!e || e.r) { save(null); location.reload(); return; } if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { save({ ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, app)) location.reload(); } }).catch(() => {});
+}
 
 // the licence now: { ok, until, name } or null
 export function licenceInfo(app) { const v = load(); return v && covers(v.a, app) && v.u >= today() ? { ok: true, until: v.u, name: v.n || '' } : null; }
@@ -57,7 +79,7 @@ export function licenceGate(app, getLang, onMsg, opt = {}) { // opt.demo: offer 
       resolve(licenceInfo(app));
       const days = (new Date(have.u) - new Date(today())) / 864e5; if (days <= 15 && onMsg) setTimeout(() => onMsg(tx(S.soon, { d: fmt(have.u, L()) })), 4000);
       // online: look again (renewed, changed or withdrawn); offline: carry on
-      fetchList().then((list) => { const e = list[have.h]; if (!e || e.r) { save(null); location.reload(); return; } if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { save({ ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, app)) location.reload(); } }).catch(() => {});
+      recheckLicence(app);
       return;
     }
     // the code screen

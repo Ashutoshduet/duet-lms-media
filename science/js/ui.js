@@ -5,7 +5,7 @@ import { Panel, wrap } from './vrpanels.js';
 import { EXPERIMENTS, classGroups, classOrder as order0, hasSubject, subjOf } from './experiments.js';
 import { PHOTOS } from './photos.js';
 import { topicGroups } from './topics.js';
-import { licenceInfo } from './licence.js';
+import { licenceInfo, licText } from './licence.js';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -168,10 +168,11 @@ export class UI {
     LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, 1270, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
     P.btn('voice', 748, 1270, 212, 84, (a.audio.voice ? '🔊 ' : '🔇 ') + this.t('voice'), { size: 26, align: 'center' });
     P.commit();
+    if (a.codeVR) { this.drawCodeVR(); return; }
     // story
     const S = this.story; S.bg('#7fd1ff'); S.logo(40, 34, 40);
     const e = r.exp; const X = S.x;
-    if (!e) { S.text(this.t('pickExp'), 40, 110, 46, '#f3eee6', 700); X.font = `500 32px ${FONT}`; const wl = wrap(X, this.cls ? this.fill('classWelcome', this.cls, classOrder(this.cls, this.subj).length) : this.t('welcome'), 1000); wl.forEach((l, i) => S.text(l, 40, 190 + i * 46, 32, '#e2dccf', 500)); if (this.cls) S.btn('start', 40, 220 + wl.length * 46, 400, 90, '▶ ' + this.t('startW'), { size: 34, align: 'center', primary: true }); S.commit(); return; }
+    if (!e) { S.text(this.t('pickExp'), 40, 110, 46, '#f3eee6', 700); X.font = `500 32px ${FONT}`; const wl = wrap(X, this.cls ? this.fill('classWelcome', this.cls, classOrder(this.cls, this.subj).length) : this.t('welcome'), 1000); wl.forEach((l, i) => S.text(l, 40, 190 + i * 46, 32, '#e2dccf', 500)); if (this.cls) S.btn('start', 40, 220 + wl.length * 46, 400, 90, '▶ ' + this.t('startW'), { size: 34, align: 'center', primary: true }); if (a.demo) S.btn('code', 40, 960, 1020, 110, '🔑 ' + licText('enter', L), { size: 32, align: 'center', primary: true }); S.commit(); return; }
     S.text(`${this.t('cls')} ${e.cls} · ${a.expText(e, 'kind')}`, 40, 96, 28, '#7fd1ff', 700);
     X.font = `700 44px ${FONT}`; const tl = wrap(X, a.expText(e, 'title'), 1020).slice(0, 2); tl.forEach((l, i) => S.text(l, 40, 140 + i * 54, 44, '#f3eee6', 700));
     let y = 150 + tl.length * 54 + 10; const s = r.step();
@@ -199,8 +200,28 @@ export class UI {
     S.btn('reset', 680, by + 110, 380, 80, '↺ ' + this.t('reset'), { size: 28, align: 'center' });
     S.commit();
   }
+  drawCodeVR() { // the subscription code typed in the headset: a keypad of the code's letters (no I, L, O, U)
+    const a = this.app, c = a.codeVR, L = this.L(); const S = this.story, X = S.x; S.bg('#f0a65a'); S.logo(40, 34, 40);
+    X.font = `700 40px ${FONT}`; const tl = wrap(X, licText('title', L), 1020).slice(0, 2); tl.forEach((l, i) => S.text(l, 40, 100 + i * 50, 40, '#f3eee6', 700));
+    let y = 108 + tl.length * 50; X.font = `500 27px ${FONT}`;
+    wrap(X, licText(c.locked ? 'locked' : 'sub', L), 1020).slice(0, 3).forEach((l) => { S.text(l, 40, y, 27, '#c9d0db', 500); y += 36; });
+    const box = Math.max(y + 12, 290); X.fillStyle = '#0b0f17'; X.beginPath(); X.roundRect(40, box, 1020, 96, 18); X.fill(); X.strokeStyle = c.cls === 'e' ? '#ff9b8a' : c.cls === 'k' ? '#9fd17a' : '#f0a65a'; X.lineWidth = 4; X.stroke();
+    const g = (c.code + '\u2007'.repeat(12)).slice(0, 12); const shown = 'DUET-' + [0, 4, 8].map((i) => [...g.slice(i, i + 4)].map((ch) => (ch === '\u2007' ? '·' : ch)).join('')).join('-');
+    X.font = `700 50px ${FONT}`; X.textAlign = 'center'; X.textBaseline = 'middle'; X.fillStyle = c.code ? '#ffffff' : 'rgba(255,255,255,0.45)'; X.fillText(shown, 550, box + 50); X.textAlign = 'left';
+    const msg = c.msg || (c.exp && !c.code ? licText('exp', L, { d: c.exp }) : licText('key', L)); X.font = `600 27px ${FONT}`;
+    S.text(wrap(X, msg, 1020)[0], 40, box + 108, 27, c.cls === 'e' || (c.exp && !c.code && !c.msg) ? '#ff9b8a' : c.cls === 'k' ? '#9fd17a' : '#a9b3c2', 600);
+    const K = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'; const k0 = box + 152, kw = 117, kh = 88, gap = 12;
+    [...K].forEach((ch, i) => S.btn('ck_' + ch, 40 + (i % 8) * (kw + gap - 1.7), k0 + Math.floor(i / 8) * (kh + 10), kw, kh, ch, { size: 40, weight: 700, align: 'center' }));
+    const r2 = k0 + 4 * (kh + 10) + 6;
+    S.btn('ck_del', 40, r2, 250, 92, '⌫', { size: 40, align: 'center' });
+    S.btn('ck_go', 305, r2, 755, 92, c.busy ? licText('wait', L) : licText('btn', L), { size: 36, weight: 800, align: 'center', active: c.code.length >= 8 && !c.busy });
+    S.btn('ck_demo', 40, r2 + 104, 1020, Math.min(92, 1140 - (r2 + 104)), c.locked ? '‹ ' + licText('back', L) : licText('demo', L), { size: 30, align: 'center', primary: !c.locked });
+    S.commit();
+  }
   vrClick(id) {
     const a = this.app, r = a.runner;
+    if (id.startsWith('ck_')) { a.codeKey(id.slice(3)); this.dirty = true; return; }
+    if (id === 'code') { a.askCode(null); this.dirty = true; return; }
     if (id.startsWith('sub_')) { this.setSubject(id.slice(4)); }
     else if (id === 'view_topic') this.setView('topic'); else if (id === 'top_back') { this.topic = null; this.page = 0; } else if (id.startsWith('top_')) this.setTopic(id.slice(4));
     else if (id.startsWith('cls_')) { this.setClass(+id.slice(4)); }
