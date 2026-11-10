@@ -350,18 +350,20 @@ export class App {
     if (Q.get('app') === 'vr') {
       const go = document.getElementById('xr-go'); go.textContent = tx(T.enterVR, 'en') + ' · ' + tx(T.enterVR, 'hi');
       go.onclick = () => this.startVR(true);
-      const t0 = performance.now(); const tryVR = () => { if (this.renderer.xr.isPresenting || this._vrEnded) return; this.startVR(false); if (performance.now() - t0 < 30000) setTimeout(tryVR, 2500); };
-      tryVR(); // the headset may need a moment (a previous session can still be closing)
+      const t0 = performance.now(); const tryVR = () => { if (this.renderer.xr.isPresenting || this._vrEnded) return; this.startVR(false); if (performance.now() - t0 < 180000) setTimeout(tryVR, 3000); };
+      tryVR(); // the headset may need a moment (a previous session can still be closing, the page may still be loading)
+      // the app comes back to the front (after the Meta button or the headset was taken off): straight back into VR
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !this.renderer.xr.isPresenting) setTimeout(() => this.startVR(false), 600); });
     }
   }
   async startVR(user) {
-    if (this._starting || this.renderer.xr.isPresenting) return; this._starting = true;
+    if ((this._starting && performance.now() - this._starting < 10000) || this.renderer.xr.isPresenting) return; this._starting = performance.now(); // a request that never answers does not block the next try
     this.audio.unlock(); document.body.classList.remove('xr-wait');
     try {
       const s = await navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'hand-tracking'] });
       await this.renderer.xr.setSession(s); this.enterVR(s);
-    } catch (e) { document.body.classList.add('xr-wait'); if (user) this.ui.toast('VR: ' + e.message); }
-    this._starting = false;
+    } catch (e) { this.xrErr = `${e.name}: ${e.message}`; document.body.classList.add('xr-wait'); if (user) this.ui.toast('VR: ' + e.message); }
+    this._starting = 0;
   }
   enterVR(s) {
     document.body.classList.add('in-vr'); this.ui.vr.visible = true; this.ui.layoutVR(); this.ui.dirty = true;
