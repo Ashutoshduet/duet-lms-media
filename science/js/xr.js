@@ -3,6 +3,7 @@
 // dip paper, light a splint in the flame, drop solids into a vessel, put tubes back in the rack.
 import * as THREE from 'three';
 import { BENCH_Y, BENCH } from './room.js';
+import { matchstick } from './apparatus.js';
 
 const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3(), tq = new THREE.Quaternion();
 const FLAT = ['splint', 'strip', 'thermo', 'tongs', 'rod', 'spatula'];
@@ -54,19 +55,35 @@ export class XRInput {
   // ------------------------------------------------------------ trigger / pinch
   select(h) {
     this.app.audio.unlock();
+    if (h.held && h.held.kind === 'match') { this.strike(h, true); return; } // trigger with a match in hand: strike it on the box
     const hit = this.cast(h);
     if (hit && hit.panel) { const id = hit.panel.hitUV(hit.uv); if (id) { this.pulse(h, 0.4, 30); this.app.audio.tone(900, 0.05, 0.05); this.app.ui.vrClick(id); } return; }
     // with hand tracking, a pinch close to an object picks it up
-    if (h.src && h.src.hand) { const near = this.nearest(h, 0.06); if (near) { this.take(h, near, true); return; } }
+    if (h.src && h.src.hand) { const near = this.nearest(h, 0.06); if (near && near.kind === 'matchbox') { this.takeMatch(h, near); return; } if (near) { this.take(h, near, true); return; } }
     // the ray points at a terminal: wire it (tap one terminal, then another)
     if (hit && hit.p) { let best = null, bd = 0.025; const v = new THREE.Vector3(); for (const it2 of this.app.lab.items) { if (!it2.terms || !it2.g.visible || it2.kind === 'lead') continue; for (const k in it2.terms) { const t = it2.terms[k]; v.copy(t.local); it2.g.localToWorld(v); const d = v.distanceTo(hit.p); if (d < bd) { bd = d; best = t; } } } if (best) { this.pulse(h, 0.4, 30); this.app.wireTap(best); return; } }
     if (!hit || !hit.item) return;
     const r = this.app.runner; const it = hit.item;
+    if (it.kind === 'matchbox' && !h.held) { this.takeMatch(h, it); return; } // a match out of the box, into the hand
     if (r.state === 'todo' && r.target() === it) { this.pulse(h, 0.5, 40); r.doStep(); return; }
     if (it.kind === 'key' && it.setOn) { it.setOn(!it.on); this.app.lab.emit('key', { v: it.id, on: it.on }); this.app.audio.tone(it.on ? 1500 : 900, 0.04, 0.06, 'square'); this.pulse(h, 0.4, 30); return; } // a switch: press it
-    if (it.setLit) { // light or put out a lamp yourself
+    if (it.setLit) { // put out a lamp yourself; lighting it needs a match (when there is a matchbox on the bench)
+      if (!it.lit && this.app.lab.items.some((x) => x.kind === 'matchbox')) { this.app.ui.toast(this.app.ui.lightHint(true) || '', 6000); this.pulse(h, 0.2, 20); return; }
       it.setLit(!it.lit); this.app.lab.emit(it.lit ? 'lit' : 'unlit', { obj: it.id }); if (it.lit) this.app.audio.whoosh(); this.pulse(h, 0.4, 40);
     }
+  }
+  // ------------------------------------------------------------ matches
+  takeMatch(h, box) {
+    const m = matchstick(); this.app.lab.add(m, box.g.position.x, box.g.position.z); m.g.position.y = box.g.position.y + 0.02;
+    this.take(h, m, false); this.app.audio.tone(1700, 0.03, 0.04, 'triangle');
+  }
+  boxNear(p, d) { let best = null, bd = d; for (const b of this.app.lab.items) { if (b.kind !== 'matchbox') continue; const c = b.g.localToWorld(tmp2.set(0, b.strikeY ?? 0.008, 0)); const x = c.distanceTo(p); if (x < bd) { bd = x; best = b; } } return best; }
+  strike(h, byTrigger) {
+    const m = h.held; if (!m || m.burning) return; const L = this.app.lang;
+    if (m.spent) { if (byTrigger) this.app.ui.toast({ en: 'This match has burnt out. Take a new one from the box.', hi: 'यह तीली जल चुकी है। डिब्बी से नई तीली लीजिए।', hg: 'Ye teeli jal chuki hai. Dibbi se nayi teeli lijiye.' }[L] || '', 4000); return; }
+    const tip = m.g.localToWorld(tmp.copy(m.tipLocal));
+    if (!this.boxNear(tip, byTrigger ? 0.08 : 0.035)) { if (byTrigger) this.app.ui.toast({ en: 'Bring the head of the match to the brown side of the matchbox, then pull the trigger to strike it.', hi: 'तीली का मसाला माचिस की भूरी पट्टी के पास लाइए, फिर ट्रिगर दबाकर रगड़िए।', hg: 'Teeli ka masala maachis ki brown patti ke paas laiye, phir trigger dabakar ragadiye.' }[L] || '', 4500); return; }
+    m.setFlame(true); this.app.audio.burst(0.18, 3200, 0.18, 'highpass'); setTimeout(() => this.app.audio.whoosh(), 120); this.pulse(h, 0.7, 60); this.app.lab.emit('match_lit', { obj: m.id });
   }
   // ------------------------------------------------------------ grip: pick up and put down
   handPos(h, out) { (h.src && h.src.hand ? h.c : h.grip).getWorldPosition(out); return out; }
@@ -179,8 +196,14 @@ export class XRInput {
       if (h.hoverPanel && (h.hoverPanel !== hp || h.hoverPanel.hover !== id)) { h.hoverPanel.hover = null; ui.dirty = true; }
       if (hp && hp.hover !== id) { hp.hover = id; ui.dirty = true; if (id) this.pulse(h, 0.15, 10); }
       h.hoverPanel = hp;
-      // held splint catches fire in a flame
+      // a match rubbed quickly along the side of the box strikes; a burning match or splint held at a wick lights the lamp
       const it = h.held;
+      if (it && it.kind === 'match' && !it.burning && !it.spent && h.vel && h.vel.length() > 0.45) this.strike(h, false);
+      if (it && (it.kind === 'match' || it.kind === 'splint') && it.burning) {
+        const tip = it.g.localToWorld(tmp.copy(it.tipLocal));
+        for (const f of lab.items) if (f.setLit && !f.lit && f.heatPoint && f.g.localToWorld(tmp2.copy(f.heatPoint)).distanceTo(tip) < 0.045) { f.setLit(true); lab.emit('lit', { obj: f.id, by: it.id }); this.app.audio.whoosh(); this.pulse(h, 0.6, 50); }
+      }
+      // held splint catches fire in a flame
       if (it && it.kind === 'splint' && !it.burning) {
         const tip = it.g.localToWorld(tmp.copy(it.tipLocal));
         for (const f of lab.items) if (f.lit && f.heatPoint && f.g.localToWorld(tmp2.copy(f.heatPoint)).distanceTo(tip) < 0.04) { it.setFlame(true); it.popped = false; this.app.audio.whoosh(); lab.emit('splint_lit', { obj: it.id }); }

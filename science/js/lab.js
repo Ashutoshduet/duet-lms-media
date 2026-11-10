@@ -63,12 +63,24 @@ export class Lab {
     this.t = t;
     for (const it of this.items) it.update && it.update(dt, t);
     this.pour(dt);
+    this.overflow();
     this.heat(dt);
     this.tests(dt);
     this.chem.tick(this.vessels, dt);
     for (const v of this.vessels) { v.update(dt); if (v.glassT != null) { const t0 = v.ml > 0.5 ? v.mix.temp : 27; v.glassT += (t0 - v.glassT) * Math.min(1, dt * (v.ml > 0.5 ? 2 : 0.05)); } }
     this.fx.endStreams();
     this.fx.update(dt, t);
+  }
+  // more liquid than the vessel holds runs over the rim onto the bench (a boiling tube cannot take three bottles of reagent)
+  overflow() {
+    for (const v of this.vessels) {
+      if (v.broken || !v.mix || !v.tab || !v.tab.length) continue; const full = v.tab[v.tab.length - 1][1]; if (!(full > 0) || v.ml <= full + 0.05) continue;
+      const ex = v.ml - full; v.mix.take(ex); v.ml = v.mix.ml();
+      const lip = v.lipLow(new THREE.Vector3()); const c = v.g.getWorldPosition(new THREE.Vector3()); const out = new THREE.Vector3(lip.x - c.x, 0, lip.z - c.z); if (out.lengthSq() < 1e-8) out.set(1, 0, 0); out.normalize();
+      const from = lip.clone().addScaledVector(out, 0.002); const to = from.clone().addScaledVector(out, 0.012); to.y = (this.surfaceY ? this.surfaceY(to.x, to.z) : BENCH_Y) + 0.001;
+      this.fx.stream(v.id + ':over', from, to, v.color, 0.0016);
+      if (this.t - (v._overT ?? -9) > 2) { v._overT = this.t; this.emit('overflow', { obj: v.id, ml: Math.round(full) }); }
+    }
   }
   pour(dt) {
     for (const v of this.vessels) {

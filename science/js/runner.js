@@ -2,6 +2,7 @@
 // performs it on "Do it" / click / auto-play, or completes it when the student does it by hand in VR.
 import * as THREE from 'three';
 import { BENCH_Y } from './room.js';
+import * as A from './apparatus.js';
 import { Kit } from './actions.js';
 import { EXPERIMENTS, BY_ID, subjOf } from './experiments.js';
 import { chemCheck, snapAll, loadExpect } from './chemcheck.js';
@@ -65,6 +66,9 @@ export class Runner {
     if (this.isChem() && !id.startsWith('open_') && !this.app.lab.items.some((it) => it.g.position.y > BENCH_Y + 0.15)) {
       ['water', 'nacl', 'hcl', 'naoh', 'cuso4', 'limewater'].forEach((sub, i) => { const b = this.K.bottle(sub, -0.86 + i * 0.13, this.app.roomInfo.shelfZ, { shelf: 1, ml: 80 }); b.stock = true; });
     }
+    // a lamp or burner on the bench: a box of matches beside it, to light it yourself
+    const lamp = this.app.lab.items.find((it) => it.setLit && it.heatPoint);
+    if (lamp && !this.app.lab.items.some((it) => it.kind === 'matchbox')) { const p = lamp.g.getWorldPosition(new THREE.Vector3()); this.K.add(A.matchbox(), Math.max(-1.15, Math.min(1.15, p.x + (p.x > 0.9 ? -0.13 : 0.13))), -0.45); }
     this.pend = null; this.base = snapAll(this.o); if (this.isChem()) loadExpect(); if (this.app.recHook) this.app.recHook(this, true);
     // vessels named "Beaker A — …" / "Test tube B — …" get a sticker with their letter
     for (const it of this.app.lab.vessels) { const n = it.name && it.name.en; const m = n && n.match(/^(?:Beaker|Test tube|Tube)\s+([A-E1-5])\b/); if (m && !it.stickerMesh) this.K.sticker(it, m[1]); else if (it.tag && !it.stickerMesh) this.K.sticker(it, it.tag); }

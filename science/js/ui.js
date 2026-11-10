@@ -6,7 +6,8 @@ import { EXPERIMENTS, classGroups, classOrder as order0, hasSubject, subjOf } fr
 import { PHOTOS } from './photos.js';
 import { topicGroups } from './topics.js';
 import { licenceInfo, licText } from './licence.js';
-import { SOLIDS } from './chem.js';
+import { SOLIDS, SUBS } from './chem.js';
+import { expectFor } from './chemcheck.js';
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -14,6 +15,9 @@ const classOrder = (c, sub) => order0(c, sub);
 const SUBJECTS = ['chemistry', 'physics', 'maths', 'biology', 'astronomy', 'robotics', 'nature'];
 const store = { get(k) { try { return localStorage.getItem('sl360.' + k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem('sl360.' + k, v); } catch (e) {} } };
 const CLASSES = [6, 7, 8, 9, 10];
+const YOURS = { en: 'Your result was different from the book', hi: 'आपका परिणाम किताब से अलग रहा', hg: 'Aapka result kitaab se alag raha' };
+const HOWMUCH = { en: 'How much', hi: 'कितना डालना है', hg: 'Kitna daalna hai' };
+const INBOOK = { en: 'In the book', hi: 'किताब में', hg: 'Kitaab mein' };
 void EXPERIMENTS;
 
 export class UI {
@@ -104,7 +108,7 @@ export class UI {
     $('#s-title').textContent = this.app.expText(e, 'title');
     let h = '';
     if (r.state === 'finished') {
-      h = `<p class="fin">✓ ${esc(this.t('finished'))}</p>${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p><p class="eq">${esc(e.eq.sym)}</p>`;
+      h = `<p class="fin">✓ ${esc(this.t('finished'))}</p>${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}${this.diffs().length ? `<p class="see"><b>⚠ ${esc(tx(YOURS, L))}:</b></p>${this.diffs().map(([k, t]) => `<p class="see">${esc(this.t('step'))} ${k + 1}: ${esc(t)}</p>`).join('')}<p><b>${esc(tx(INBOOK, L))}:</b> ${esc(r.baseText('result.obs', L))} ${esc(r.baseText('result.concl', L))}</p>` : `<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p>`}<p class="eq">${esc(e.eq.sym)}</p>`;
       const c = this.cls || e.cls; if (!this.classLeft(c).length) h += `<p class="fin">🎉 ${esc(this.fill('classDone', c))}</p>`;
     } else if (s) {
       h = `<p class="stepn">${esc(this.t('step'))} ${r.i + 1} ${esc(this.t('of'))} ${n}</p><p><b>${esc(this.t('doLabel'))}:</b> ${esc(r.text(`steps.${r.i}.do`, L))}</p>`;
@@ -112,6 +116,7 @@ export class UI {
         if (s.see) h += `<p class="see"><b>${esc(this.t('seeLabel'))}:</b> ${esc(r.text(`steps.${r.i}.see`, L))}</p>`;
         if (s.why) h += `<p class="why"><b>${esc(this.t('whyLabel'))}:</b> ${esc(r.text(`steps.${r.i}.why`, L))}</p>`;
       } else if (r.state === 'todo') h += `<p class="hint">${esc(this.t('tapHint'))}</p>`;
+      if (r.state === 'todo' || r.state === 'doing') { const am = this.amounts(); if (am.length) h += `<p class="amt"><b>${esc(tx(HOWMUCH, L))}:</b> ${am.map(esc).join('<br>')}</p>`; const lp = this.lightHint(); if (lp) h += `<p class="hint">🔥 ${esc(lp)}</p>`; }
       else if (r.state === 'doing') h += `<p class="hint">${esc(this.t('doing'))}</p>`;
     }
     if (this.app.lapseShown) h += `<p class="lapse">⏩ ${esc(this.t('timelapse'))} ×${this.app.lapseShown}</p>`;
@@ -184,12 +189,19 @@ export class UI {
     X.font = `700 44px ${FONT}`; const tl = wrap(X, a.expText(e, 'title'), 1020).slice(0, 2); tl.forEach((l, i) => S.text(l, 40, 140 + i * 54, 44, '#f3eee6', 700));
     let y = 150 + tl.length * 54 + 10; const s = r.step();
     const para = (label, txt, col) => { if (!txt) return; X.font = `500 32px ${FONT}`; const lines = wrap(X, `${label}: ${txt}`, 1010); lines.slice(0, 6).forEach((l, i) => { S.text(l, 40, y + i * 44, 32, i === 0 && col ? col : '#e2dccf', 500); }); y += Math.min(6, lines.length) * 44 + 14; };
-    if (r.state === 'finished') { S.text('✓ ' + this.t('finished'), 40, y, 34, '#9fd17a', 700); y += 60; para(this.t('concl'), r.text('result.concl', L)); S.text(e.eq.sym, 40, y, 30, '#f0a65a', 700); y += 50; }
+    if (r.state === 'finished') { S.text('✓ ' + this.t('finished'), 40, y, 34, '#9fd17a', 700); y += 60;
+      const dif = this.diffs(); // what the student actually got, when it was not the book's result
+      if (dif.length) { S.text('⚠ ' + tx(YOURS, L), 40, y, 30, '#f0a65a', 700); y += 44; dif.slice(0, 2).forEach(([k, t]) => para(`${this.t('step')} ${k + 1}`, t, '#f6c08a')); para(tx(INBOOK, L), r.baseText('result.concl', L)); }
+      else para(this.t('concl'), r.text('result.concl', L));
+      S.text(e.eq.sym, 40, y, 30, '#f0a65a', 700); y += 50; }
     else if (s) {
       S.text(`${this.t('step')} ${r.i + 1} ${this.t('of')} ${e.steps.length}`, 40, y, 28, '#a49d90', 600); y += 46;
       para(this.t('doLabel'), r.text(`steps.${r.i}.do`, L), '#f3eee6');
       if (r.state === 'done') { para(this.t('seeLabel'), r.text(`steps.${r.i}.see`, L), '#9fd17a'); para(this.t('whyLabel'), r.text(`steps.${r.i}.why`, L), '#7fd1ff'); }
-      else if (r.state === 'todo') para('➜', this.t('vrHint'));
+      const lp = this.lightHint(true); const am = this.amounts();
+      if (r.state === 'todo' && !lp && !am.length) para('➜', this.t('vrHint'));
+      if (am.length) { S.text(tx(HOWMUCH, L), 40, y, 26, '#f0a65a', 700); y += 36; X.font = `600 29px ${FONT}`; for (const l of am) for (const w of wrap(X, '• ' + l, 1010).slice(0, 2)) { S.text(w, 40, y, 29, '#f6e3c8', 600); y += 40; } y += 8; }
+      if (lp) para('🔥', lp, '#f6e3c8');
     }
     const st = this.solStatus(); if (st.length) { // is it dissolving? said plainly for every vessel with a solid in it
       const y0 = Math.max(y + 4, 880 - st.length * 38 - 34); S.text({ en: 'In the vessels', hi: 'बर्तनों में', hg: 'Bartanon mein' }[L] || 'In the vessels', 40, y0, 24, '#a49d90', 700);
@@ -210,6 +222,36 @@ export class UI {
     S.btn('speed', 385, by + 110, 280, 80, `${this.t('speed')} ${a.speed}×`, { size: 28, align: 'center' });
     S.btn('reset', 680, by + 110, 380, 80, '↺ ' + this.t('reset'), { size: 28, align: 'center' });
     S.commit();
+  }
+  amounts() { // how much goes in at this step, worked out from the method itself (chem_expect.json): mL, drops or a spoonful, and the level now
+    const r = this.app.runner, e = r.exp, L = this.L(); if (!e || !r.o || (r.state !== 'todo' && r.state !== 'doing')) return [];
+    const E = expectFor(e.id); const cur = E && E.s && E.s[r.i]; if (!cur) return []; const prev = r.i === 0 ? E.b : E.s[r.i - 1]; const out = [];
+    const nm = (o) => (o && (o[L] || o.en)) || ''; const fmt = (x) => (x >= 10 ? Math.round(x) : Math.round(x * 10) / 10);
+    const POW = ['sugar', 'salt', 'chalk', 'sand', 'na2co3', 'nahco3', 'nh4cl', 'soil', 'alum', 'cuso4x', 'feso4x', 'cuso4d', 'cuso4i', 'pbno3s', 'kis', 'bacl2s', 'spow', 'cupow', 'cuo', 'filings', 'femix'];
+    for (const k in cur) {
+      const a = (prev && prev[k]) || { i: {}, s: [] }, b = cur[k], v = r.o[k]; if (!v || !v.mix) continue; const parts = [];
+      for (const sub in b.i) { const d = b.i[sub] - ((a.i && a.i[sub]) || 0); if (d <= 0.04 || !SUBS[sub]) continue; const sn = nm(SUBS[sub].n);
+        if (d < 0.9) { const n = Math.max(1, Math.round(d / 0.05)); parts.push({ en: `${n} drop${n > 1 ? 's' : ''} of ${sn}`, hi: `${sn} की ${n} बूँद${n > 1 ? 'ें' : ''}`, hg: `${sn} ki ${n} boond${n > 1 ? 'ein' : ''}` }[L]); }
+        else parts.push({ en: `${fmt(d)} mL of ${sn}`, hi: `${sn} ${fmt(d)} mL`, hg: `${sn} ${fmt(d)} mL` }[L]); }
+      for (const c of (b.s || []).filter((x) => !(a.s || []).includes(x))) { const sn = nm(SOLIDS[c] && SOLIDS[c].n); parts.push(POW.includes(c) ? { en: `1 spoonful of ${sn}`, hi: `${sn} 1 चम्मच`, hg: `${sn} 1 chammach` }[L] : sn); }
+      if (!parts.length) continue;
+      const vn = `${nm(v.name).replace(/\s*[(（].*?[)）]/g, '')}${v.tag ? ' ' + v.tag : ''}`; const now = fmt(v.ml), goal = fmt(b.ml);
+      const lvl = b.ml > 0.3 && Math.abs(b.ml - (a.ml || 0)) > 0.04 ? `  (${{ en: 'now', hi: 'अभी', hg: 'abhi' }[L]} ${now} mL → ${{ en: 'about', hi: 'लगभग', hg: 'lagbhag' }[L]} ${goal} mL)` : '';
+      out.push(`${vn}: ${parts.join(' + ')}${lvl}`);
+    }
+    return out.slice(0, 3);
+  }
+  lightHint(short) { // the step lights a lamp or burner: how to do it yourself with a match
+    const r = this.app.runner; const t = r.state === 'todo' && r.target && r.target(); if (!t || !t.setLit || t.lit) return '';
+    if (short) return { en: 'Light it yourself: trigger on the matchbox gives you a match; trigger again with the match at the box strikes it; hold the flame at the wick.', hi: 'खुद जलाइए: माचिस पर ट्रिगर — तीली हाथ में; तीली डिब्बी के पास रखकर फिर ट्रिगर — तीली जलेगी; लौ को बत्ती पर रखिए।', hg: 'Khud jalaiye: maachis par trigger — teeli haath mein; teeli dibbi ke paas rakhkar phir trigger — teeli jalegi; flame ko batti par rakhiye.' }[this.L()] || '';
+    return { en: 'To light it yourself: point at the matchbox and pull the trigger to take a match, pull the trigger again with the match at the box to strike it (or rub it fast along the brown side), then hold the flame at the wick / top of the burner.',
+      hi: 'खुद जलाने के लिए: माचिस की डिब्बी पर पॉइंट करके ट्रिगर दबाइए — एक तीली हाथ में आ जाएगी; तीली को डिब्बी के पास लाकर फिर ट्रिगर दबाइए (या भूरी पट्टी पर तेज़ी से रगड़िए) — तीली जल उठेगी; अब लौ को बत्ती / बर्नर के मुँह पर रखिए।',
+      hg: 'Khud jalane ke liye: maachis ki dibbi par point karke trigger dabaiye — ek teeli haath mein aa jaayegi; teeli ko dibbi ke paas laakar phir trigger dabaiye (ya brown patti par tezi se ragadiye) — teeli jal uthegi; ab flame ko batti / burner ke munh par rakhiye.' }[this.L()] || '';
+  }
+  diffs() { // [[step index, what the student saw]] for every step whose result differed from the method
+    const r = this.app.runner, L = this.L(); const out = [];
+    for (const k in r.res || {}) { const x = r.res[k]; if (x && x.ok === false && x.see) out.push([+k, typeof x.see === 'string' ? x.see : x.see[L] || x.see.en]); }
+    return out.sort((a, b) => a[0] - b[0]);
   }
   solStatus() { // [{ t, c }]: per vessel and solid — dissolving (how much is left), dissolved, saturated, or not dissolving
     const L = this.L(); const out = []; const W = {

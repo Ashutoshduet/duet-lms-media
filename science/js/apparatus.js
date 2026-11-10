@@ -309,6 +309,25 @@ export function strip(color, o = {}) { // litmus / pH paper
   wet.position.y = 0.012; wet.visible = false; it.g.add(wet); it.wet = wet;
   return it;
 }
+// safety matches: take a match from the box, strike it on the brown side of the box, light the lamp with it
+export function matchbox(o = {}) {
+  const it = new Item('matchbox', { ...o, name: { en: 'Matchbox', hi: 'माचिस', hg: 'Maachis' } });
+  const W = 0.052, H = 0.016, D = 0.036;
+  const top = canvasTex(256, 180, (x, w, h) => { x.fillStyle = '#d23b2a'; x.fillRect(0, 0, w, h); x.fillStyle = '#f6e7c8'; x.fillRect(10, 10, w - 20, h - 20); x.fillStyle = '#d23b2a'; x.font = 'bold 34px sans-serif'; x.textAlign = 'center'; x.fillText('SAFETY', w / 2, 72); x.fillText('MATCHES', w / 2, 116); x.font = '18px sans-serif'; x.fillStyle = '#5a3a2a'; x.fillText('strike on box', w / 2, 152); });
+  const side = new THREE.MeshStandardMaterial({ color: 0x5a3322, roughness: 0.95 }); const end = new THREE.MeshStandardMaterial({ color: 0xd23b2a, roughness: 0.7 }); const lid = new THREE.MeshStandardMaterial({ map: top, roughness: 0.7 });
+  const box = new THREE.Mesh(new THREE.BoxGeometry(W, H, D), [side, side, lid, end, side, side]); // brown striking strips on every narrow side box.position.y = H / 2; box.castShadow = true; it.g.add(box);
+  it.height = H; it.radius = 0.03; it.grabY = H * 0.5; it.strikeY = H * 0.5; it.strikeZ = D / 2; return it;
+}
+export function matchstick(o = {}) {
+  const it = new Item('match', { ...o, name: { en: 'Matchstick', hi: 'माचिस की तीली', hg: 'Maachis ki teeli' } });
+  const m = new THREE.Mesh(new THREE.BoxGeometry(0.0022, 0.045, 0.0022), new THREE.MeshStandardMaterial({ map: woodTex('#e2c48e'), roughness: 0.8 })); m.position.y = 0.0225; it.g.add(m);
+  const headM = new THREE.MeshStandardMaterial({ color: 0xb3261e, roughness: 0.7 }); const head = new THREE.Mesh(new THREE.SphereGeometry(0.0023, 8, 6), headM); head.scale.y = 1.5; head.position.y = 0.046; it.g.add(head);
+  const f = flame('spirit'); f.scale.setScalar(0.3); f.position.y = 0.047; f.visible = false; it.g.add(f); it.flame = f;
+  it.height = 0.047; it.radius = 0.003; it.grabY = 0.012; it.tipLocal = new THREE.Vector3(0, 0.048, 0); it.burnT = 0;
+  it.setFlame = (on) => { it.burning = on; f.visible = on; if (on) headM.color.setHex(0x2a1a12); };
+  it.update = (dt, t) => { if (!f.visible) return; f.userData.tick(t); it.burnT += dt; if (it.burnT > 25) { it.setFlame(false); it.spent = true; m.material.color.setHex(0x3a2a20); } }; // a match burns for about 25 seconds
+  return it;
+}
 export function splint(o = {}) {
   const it = new Item('splint', { ...o, name: { en: 'Wooden splint', hi: 'लकड़ी की तीली', hg: 'Wooden splint' } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.15, 0.004), new THREE.MeshStandardMaterial({ map: woodTex('#d9b98a'), roughness: 0.8 }));

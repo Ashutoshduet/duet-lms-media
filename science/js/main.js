@@ -16,7 +16,7 @@ import { loadModels, loadLabHDR, furnish, loadPhysModels } from './models.js';
 import { initPhysics } from './physics.js';
 import { ParticleView, HAS_PARTICLES } from './particles.js';
 import { PHOTOS, photoImage } from './photos.js';
-import { T, tx, LANGS } from './strings.js';
+import { T, tx, LANGS, FONT } from './strings.js';
 import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './licence.js';
 import { demoIds } from './topics.js';
 import { LIQ_TIME } from './mats.js';
@@ -57,6 +57,7 @@ export class App {
     this.recent = new Map(); // item id -> time it last took part in something (the camera keeps those in view)
     this.lab.listeners.push((e) => { for (const k of ['to', 'from', 'v', 'in', 'obj', 'by']) if (e[k]) this.recent.set(e[k], this.t); });
     this.lab.listeners.push((e) => this.explain(e)); // when something goes wrong (or differently), say what happened and why
+    this.initPourTag();
     this.xr = new XRInput(this);
     this.particles = new ParticleView(this); this.hasParticles = HAS_PARTICLES;
     this.clock = new THREE.Clock();
@@ -286,6 +287,7 @@ export class App {
     else if (e.type === 'burnt' && e.kind === 'bulb') { const P = (e.P || 0).toFixed(1), Pr = e.Pr, k = Math.round((e.P || 0) / (e.Pr || 1)); m = { en: `The lamp burnt out: it took ${P} W, about ${k} times its rating of ${Pr} W, and its filament melted. It will not glow again.`, hi: `लैंप फ़्यूज़ हो गया: उसे ${P} W मिले, जो उसकी क्षमता ${Pr} W का लगभग ${k} गुना है, और उसका तंतु पिघल गया। अब वह फिर नहीं जलेगा।`, hg: `Lamp fuse ho gaya: usse ${P} W mile, jo uski rating ${Pr} W ka lagbhag ${k} guna hai, aur uska filament pighal gaya. Ab wo phir nahi jalega.` }; }
     else if (e.type === 'burnt') { const mA = Math.round((e.I || 0) * 1000); m = { en: `The LED burnt out: ${mA} mA flowed through it (a safe current is about 20 mA). An LED needs a resistor in series with it.`, hi: `LED जल गया: उसमें ${mA} mA धारा बही (सुरक्षित धारा लगभग 20 mA है)। LED के साथ श्रेणी में एक प्रतिरोधक लगाना ज़रूरी है।`, hg: `LED jal gaya: usme ${mA} mA current baha (safe current lagbhag 20 mA hai). LED ke saath series mein ek resistor lagana zaroori hai.` }; }
     else if (e.type === 'pouring' && e.spill && this.t - (this._spillT || -9) > 8) { this._spillT = this.t; m = { en: 'Liquid spilled. In a real lab wipe up spills at once — acids and alkalis harm skin and clothes.', hi: 'द्रव गिर गया। असली प्रयोगशाला में गिरा द्रव तुरंत पोंछिए — अम्ल और क्षार त्वचा और कपड़ों को नुकसान पहुँचाते हैं।', hg: 'Liquid gir gaya. Real lab mein gira hua liquid turant pochiye — acid aur alkali skin aur kapdon ko nuksaan pahunchate hain.' }; }
+    else if (e.type === 'overflow' && this.t - (this._overT || -9) > 6) { this._overT = this.t; m = { en: `${nm} is full — it holds only about ${e.ml} mL, so the extra liquid ran over the rim onto the bench. Pour slowly and watch the level.`, hi: `${nm} भर गया — इसमें लगभग ${e.ml} mL ही आता है, इसलिए बाकी द्रव किनारे से बहकर मेज़ पर गिर गया। धीरे-धीरे उँडेलिए और स्तर देखते रहिए।`, hg: `${nm} bhar gaya — isme lagbhag ${e.ml} mL hi aata hai, isliye baaki liquid kinare se behkar bench par gir gaya. Dheere-dheere daaliye aur level dekhte rahiye.` }; }
     else if (e.type === 'mismatch') m = { en: 'Your result is different from the expected one — read “You see” and “Why” to find out what happened.', hi: 'आपका परिणाम अपेक्षित परिणाम से अलग है — क्या हुआ यह जानने के लिए “आप देखते हैं” और “क्यों” पढ़िए।', hg: 'Aapka result expected result se alag hai — kya hua ye jaanne ke liye “You see” aur “Why” padhiye.' };
     if (m && this.ui && this.ui.toast) this.ui.toast(pick(m), 7000);
   }
@@ -382,6 +384,19 @@ export class App {
   autoHeight() { // standing at the bench the eyes are about 1.5 m up; a student sitting down is lifted to that height (only until they set it themselves)
     const raw = this.eyeY() - this.hgt; if (raw < 0.3) return; this.setHeight(raw < 1.25 ? 1.5 - raw : 0, true);
   }
+  // while liquid goes into a vessel, a small tag above it reads the volume now in it (like reading its graduations)
+  initPourTag() {
+    const c = document.createElement('canvas'); c.width = 256; c.height = 96; const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true })); sp.scale.set(0.056, 0.021, 1); sp.renderOrder = 60; sp.visible = false; this.scene.add(sp);
+    this._pt = { c, t, sp, v: null, until: 0, last: '' };
+    this.lab.listeners.push((e) => { if ((e.type === 'pouring' || e.type === 'drop') && e.to) { const v = this.lab.byId[e.to]; if (v) { this._pt.v = v; this._pt.until = this.t + 2.5; } } });
+  }
+  updPourTag() {
+    const P = this._pt; const v = P && P.v; if (!P) return; if (!v || this.t > P.until || v.broken || !v.g.parent) { P.sp.visible = false; return; }
+    const txt = `${v.ml >= 10 ? Math.round(v.ml) : v.ml.toFixed(1)} mL`;
+    if (txt !== P.last) { P.last = txt; const x = P.c.getContext('2d'); x.clearRect(0, 0, 256, 96); x.fillStyle = 'rgba(12,15,22,0.88)'; x.beginPath(); x.roundRect(4, 4, 248, 88, 22); x.fill(); x.strokeStyle = 'rgba(240,166,90,0.9)'; x.lineWidth = 4; x.stroke(); x.fillStyle = '#ffffff'; x.font = `700 52px ${FONT}`; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(txt, 128, 52); P.t.needsUpdate = true; }
+    v.mouthWorld(P.sp.position); P.sp.position.y += 0.03; P.sp.visible = true;
+  }
   // ------------------------------------------------------------ the loop
   frame() {
     const dt = Math.min(0.05, this.clock.getDelta()); this.t += dt; LIQ_TIME.value = this.t;
@@ -403,6 +418,7 @@ export class App {
     if (xr && this.t - (this._solT || 0) > 0.5) { this._solT = this.t; if (this.lab.vessels.some((v) => v.solLog)) this.ui.dirty = true; } // the dissolving read-out in the headset stays current
     if (xr && this._hgtAuto && this._hgtT != null && this.t - this._hgtT > 1.5) { this._hgtT = null; this.autoHeight(); }
     if (xr && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR(); this.ui.dirty = false; this._vrDraw = this.t; }
+    this.updPourTag();
     if (FAST && ++this._fc % 24) return; // test mode: simulate quickly, draw only now and then
     this.renderer.render(this.scene, this.camera);
   }
