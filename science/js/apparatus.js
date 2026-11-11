@@ -113,25 +113,45 @@ export function testTube(o = {}) { // 18 x 150 mm
 }
 export function boilingTube(o = {}) { return testTube({ r: 0.0125, h: 0.15, name: { en: 'Boiling tube', hi: 'बॉयलिंग ट्यूब', hg: 'Boiling tube' }, ...o }); }
 
-function gradTex(maxMl, step, H, label) {
-  return canvasTex(256, 1024, (x, w, h) => {
-    x.clearRect(0, 0, w, h); x.strokeStyle = 'rgba(255,255,255,0.92)'; x.fillStyle = 'rgba(255,255,255,0.95)';
-    x.font = '600 44px sans-serif'; x.textBaseline = 'middle';
-    const n = Math.round(maxMl / step);
-    for (let i = 1; i <= n; i++) {
-      const y = h - (i / n) * h * H; const major = i % 2 === 0 || n <= 6;
-      x.lineWidth = 5; x.beginPath(); x.moveTo(20, y); x.lineTo(major ? 120 : 80, y); x.stroke();
-      if (major) x.fillText(String(i * step), 130, y);
+// printed volume scale on the glass: white enamel marks with a thin dark edge, so they read against clear liquid,
+// the white wall tiles and the dark bench alike. Marks sit at the real height of each volume (heightFor), face the
+// student, and are sized in millimetres so the numbers stay readable in the headset.
+//   o.right: the scale ends at this angle (rad, 0 = straight at the student) · o.start: or begins here · o.center: or is centred here
+//   o.every: a number on every n-th mark · o.textMm / o.tickMm: sizes · o.r: radius of the glass surface
+function addGrad(v, maxMl, step, label, o = {}) {
+  const n = Math.round(maxMl / step); const every = o.every ?? (n <= 6 ? 1 : 2);
+  const ys = []; for (let i = 1; i <= n; i++) ys.push(v.heightFor(i * step));
+  const textMm = o.textMm ?? 4, tickMm = o.tickMm ?? 5, mm = 0.001;
+  const y0 = Math.max(0.0008, ys[0] - 0.004), y1 = Math.min(v.rimY - 0.0015, ys[n - 1] + (label ? textMm * 2.6 : textMm * 0.9) * mm);
+  const Hm = y1 - y0, Hc = 1024, pxm = Hc / Hm, px = (d) => d * mm * pxm; // millimetres -> canvas pixels
+  const font = (k = 1) => `700 ${Math.round(px(textMm) * k)}px "Noto Sans", sans-serif`;
+  const meas = document.createElement('canvas').getContext('2d'); meas.font = font();
+  let tw = 0; for (let i = every; i <= n; i += every) tw = Math.max(tw, meas.measureText(String(+(i * step).toFixed(2))).width);
+  if (label) { meas.font = font(0.8); tw = Math.max(tw, meas.measureText(label).width - px(tickMm + 1)); }
+  const W = Math.ceil(px(1) + px(tickMm) + px(1) + tw + px(1.2));
+  const r = o.r ?? (v.rInner((y0 + y1) / 2) + v.wall + 0.00035);
+  const len = W / pxm / r;
+  const a0 = o.start ?? (o.center != null ? o.center - len / 2 : (o.right ?? -0.1) - len);
+  const tex = canvasTex(W, Hc, (x, w, h) => {
+    x.clearRect(0, 0, w, h); x.lineJoin = 'round'; x.textBaseline = 'middle';
+    const dark = 'rgba(16,24,32,0.78)', white = '#ffffff', ow = px(0.32), lw = px(0.42), xl = px(1);
+    const Y = (y) => h - (y - y0) * pxm;
+    const marks = ys.map((y, k) => ({ y: Y(y), major: (k + 1) % every === 0, t: String(+((k + 1) * step).toFixed(2)) }));
+    for (const pass of [0, 1]) { // dark outline first, then the white marks on top
+      x.strokeStyle = pass ? white : dark; x.fillStyle = white;
+      for (const m of marks) {
+        x.lineWidth = pass ? lw : lw + ow * 2; x.beginPath(); x.moveTo(xl, m.y); x.lineTo(xl + px(m.major ? tickMm : tickMm * 0.55), m.y); x.stroke();
+        if (!m.major) continue; x.font = font();
+        if (pass) x.fillText(m.t, xl + px(tickMm + 1), m.y); else { x.lineWidth = ow * 2; x.strokeText(m.t, xl + px(tickMm + 1), m.y); }
+      }
+      if (label) { x.font = font(0.8); const ly = marks[n - 1].y - px(textMm * 1.6); if (pass) x.fillText(label, xl, ly); else { x.lineWidth = ow * 2; x.strokeText(label, xl, ly); } }
     }
-    if (label) { x.font = '600 34px sans-serif'; x.fillText(label, 24, h * (1 - H) - 40); }
   });
-}
-function addGrad(v, maxMl, step, label) {
-  const hMax = v.heightFor(maxMl); const fr = hMax / v.rimY;
-  const tex = gradTex(maxMl, step, fr, label);
-  const r = v.rimR + 0.0003;
-  const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, v.rimY * 0.98, 24, 1, true, -0.55, 1.1), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0.9 }));
-  m.position.y = v.rimY * 0.49 + 0.001; m.rotation.y = Math.PI; m.renderOrder = 7; m.userData.noHit = true; v.g.add(m);
+  tex.anisotropy = 16;
+  const mat = crispText(new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }), -0.6);
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, Hm, 32, 1, true, a0, len), mat);
+  m.position.y = (y0 + y1) / 2; m.renderOrder = 7; m.userData.noHit = true; v.g.add(m);
+  v.grad = { a0, a1: a0 + len, mesh: m }; return m;
 }
 export function beaker(ml = 100, o = {}) {
   const S = { 50: [0.021, 0.06], 100: [0.025, 0.07], 250: [0.0345, 0.095], 500: [0.043, 0.12] }[ml];
@@ -151,7 +171,7 @@ export function measuringCylinder(ml = 10, o = {}) {
   const prof = [[0, 0.006], [r, 0.006], [r, h - 0.002], [r + 0.002, h]];
   const v = new Vessel('cylinder', prof, { ...o, name: o.name || { en: `Measuring cylinder (${ml} mL)`, hi: `मेज़रिंग सिलिंडर (${ml} mL)`, hg: `Measuring cylinder (${ml} mL)` }, cap: ml });
   const base = new THREE.Mesh(new THREE.CylinderGeometry(r * 2.4, r * 2.6, 0.006, 6), glassMat({ opacity: 0.25 })); base.position.y = 0.003; base.renderOrder = 6; v.g.add(base);
-  addGrad(v, ml, ml / 10); v.grabY = h * 0.6; return v;
+  addGrad(v, ml, ml / 10, null, { center: 0, textMm: 2.6, tickMm: 3, every: ml === 10 ? 1 : 2 }); v.grabY = h * 0.6; return v;
 }
 export function chinaDish(o = {}) {
   const prof = []; for (let i = 0; i <= 10; i++) { const a = (i / 10) * 1.2; prof.push([Math.sin(a) * 0.05, 0.05 - Math.cos(a) * 0.05 + 0.002]); }
@@ -171,9 +191,12 @@ export function reagentBottle(label, o = {}) {
   const prof = [[0, 0], [0.026, 0], [0.028, 0.004], [0.028, 0.07], [0.022, 0.082], [0.012, 0.09], [0.0105, 0.092], [0.0105, 0.104], [0.012, 0.106]];
   const v = new Vessel('bottle', prof, { ...o, wall: 0.0018, name: o.name || { en: label.name, hi: label.name, hg: label.name },
     glass: { color: amber ? 0x9a5a1e : 0xffffff, opacity: amber ? 0.45 : 0.12, edge: amber ? 0.92 : 0.8 }, cap: 125 });
-  const tex = labelTex([{ t: label.formula, size: 92 }, { t: label.name, size: 42, w: 600 }, ...(label.extra ? [{ t: label.extra, size: 32, w: 400, c: '#6b5a40' }] : [])], { band: label.band ?? '#2c5d8a', hazard: label.hazard });
-  const lab = new THREE.Mesh(new THREE.CylinderGeometry(0.0284, 0.0284, 0.038, 32, 1, true, -1.15, 2.3), crispText(new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 })));
+  // the label covers only part of the round bottle (turned a little to the left), so the liquid shows beside it,
+  // with a printed mL scale on the glass to its right: the student can read how much is left
+  const tex = labelTex([{ t: label.formula, size: 96 }, { t: label.name, size: 48, w: 600 }, ...(label.extra ? [{ t: label.extra, size: 36, w: 400, c: '#6b5a40' }] : [])], { band: label.band ?? '#2c5d8a', hazard: label.hazard, h: 456, wrap: true });
+  const lab = new THREE.Mesh(new THREE.CylinderGeometry(0.0284, 0.0284, 0.038, 32, 1, true, -1.16, 1.5), crispText(new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 })));
   lab.position.y = 0.038; v.g.add(lab); // label faces the student (+z)
+  addGrad(v, 120, 10, null, { start: 0.4, r: 0.02835, every: 2, textMm: 4.6, tickMm: 4 });
   // ground-glass stopper
   const st = new THREE.Group();
   const s1 = new THREE.Mesh(new THREE.CylinderGeometry(0.0108, 0.0095, 0.016, 24), glassMat({ opacity: 0.35, color: amber ? 0x9a5a1e : 0xffffff }));

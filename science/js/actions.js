@@ -92,7 +92,8 @@ export class Kit {
     const tex = A.labelSticker ? A.labelSticker(text) : null; if (!tex) return;
     const r = v.rInner ? v.rInner(Math.min(v.rimY * 0.55, 0.05)) + (v.wall ?? 0.0012) + 0.0004 : 0.02;
     const w = Math.min(0.03, r * 1.3), h = w * 0.62;
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, 24, 1, true, -w / r / 2, w / r), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.8, transparent: true }));
+    const a0 = v.grad ? Math.max(-w / r / 2, v.grad.a1 + 0.08) : -w / r / 2; // keep the mL scale on the glass visible: the sticker goes beside it
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, 24, 1, true, a0, w / r), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.8, transparent: true }));
     m.position.y = o.y ?? Math.min(v.rimY * 0.55, 0.05); m.renderOrder = 7; m.userData.noHit = true; v.g.add(m); v.stickerMesh = m; return m;
   }
   holder(x, z) { const h = this.add(A.holder(), x, z, { ry: -0.5 }); return h; }

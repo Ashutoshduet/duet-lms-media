@@ -142,6 +142,23 @@ export function labelTex(lines, o = {}) {
     x.strokeStyle = o.border ?? '#7a6a52'; x.lineWidth = 8; x.strokeRect(10, 10, w - 20, h - 20);
     if (o.band) { x.fillStyle = o.band; x.fillRect(10, 10, w - 20, 34); }
     x.textAlign = 'center'; x.textBaseline = 'middle';
+    if (o.wrap) { // long names go on two lines instead of being squeezed; lines are stacked by their own size
+      const out = [];
+      lines.forEach((ln, i) => {
+        const sz = ln.size ?? (i === 0 ? 74 : 40); x.font = `${ln.w ?? 700} ${sz}px "Noto Sans Devanagari", sans-serif`;
+        const sp = [...ln.t.matchAll(/ /g)].map((m) => m.index);
+        if (i === 0 || !sp.length || x.measureText(ln.t).width <= w - 48) { out.push({ ...ln, size: sz }); return; }
+        const mid = ln.t.length / 2; const at = sp.reduce((b, s) => (Math.abs(s - mid) < Math.abs(b - mid) ? s : b), sp[0]);
+        out.push({ ...ln, t: ln.t.slice(0, at), size: sz * 0.92, tight: true }, { ...ln, t: ln.t.slice(at + 1), size: sz * 0.92 });
+      });
+      const hs = out.map((ln) => ln.size * (ln.tight ? 1.08 : 1.3)); const tot = hs.reduce((a, b) => a + b, 0);
+      let y = 44 + Math.max(0, (h - 56 - tot) / 2);
+      out.forEach((ln, i) => {
+        x.font = `${ln.w ?? 700} ${Math.round(ln.size)}px "Noto Sans Devanagari", sans-serif`; x.fillStyle = ln.c ?? '#1d1a15';
+        x.fillText(ln.t, w / 2, y + hs[i] / 2, w - 40); y += hs[i];
+      });
+      lines = [];
+    }
     const L = lines.length; const lh = (h - 50) / Math.max(L, 1);
     lines.forEach((ln, i) => {
       const sz = ln.size ?? (i === 0 ? 74 : 40);

@@ -130,8 +130,9 @@ export class Physics {
     }
     const c = new THREE.Color(color); const hsl = c.getHSL({}); const tinted = hsl.s > 0.25 && hsl.l < 0.85; // clear water and colourless solutions: no tint
     const w = Math.min(1, ml / Math.max(1, pd.ml + ml)); pd.ml += ml;
-    pd.col.lerp(tinted ? c.clone().multiplyScalar(0.55) : new THREE.Color(0.012, 0.016, 0.02), w); pd.tw += ((tinted ? 1 : 0) - pd.tw) * w;
-    pd.m.material.color.copy(pd.col); pd.m.material.opacity = 0.5 + 0.12 * pd.tw;
+    // a thin coloured film on a black bench looks dark and only tinted (deep blue for copper sulphate), never like paint
+    pd.col.lerp(tinted ? c.clone().lerp(new THREE.Color(0.02, 0.025, 0.03), 0.4).multiplyScalar(0.2) : new THREE.Color(0.012, 0.016, 0.02), w); pd.tw += ((tinted ? 1 : 0) - pd.tw) * w;
+    pd.m.material.color.copy(pd.col); pd.m.material.opacity = 0.5 + 0.04 * pd.tw;
   }
   updatePuddles(dt) { for (const pd of this.puddles) { const want = Math.sqrt(pd.ml * 1e-6 / (Math.PI * 0.003)); if (pd.r < want) { pd.r = Math.min(want, pd.r + dt * 0.25); pd.m.scale.set(pd.r, pd.r * (0.85 + 0.15 * Math.sin(pd.ml)), 1); } } } // about 1.2 mm deep
   clear() {
