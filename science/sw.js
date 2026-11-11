@@ -1,6 +1,6 @@
 // Offline support. Code and text: network first (updates show at once), cache when offline.
 // Fonts, images and narration: cache first. Narration for the chosen language is saved in the background.
-const VERSION = 'sl360-v26';
+const VERSION = 'sl360-v27';
 const CORE = [
   './', './index.html', './manifest.webmanifest', './voice/manifest.json',
   './js/main.js', './js/ui.js', './js/xr.js', './js/runner.js', './js/actions.js', './js/lab.js', './js/chem.js', './js/fx.js', './js/apparatus.js',

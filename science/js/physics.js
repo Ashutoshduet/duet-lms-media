@@ -10,6 +10,17 @@ export async function initPhysics(app) {
   catch (e) { console.warn('physics', e); return null; }
 }
 const GLASS = new Set(['beaker', 'testtube', 'boilingtube', 'flask', 'conical', 'rbflask', 'cylinder', 'measuring', 'watchglass', 'dish', 'bottle', 'dropbottle', 'jar', 'thermo', 'prism', 'slab', 'lens', 'pmirror', 'cmirror', 'burette', 'pipette', 'funnel', 'petri', 'bulb12', 'glass']);
+// a soft, random wobble for the surface of spilled liquid: lights glint on it in small broken highlights, as on a real wet patch
+let _ripple = null;
+function rippleTex() {
+  if (_ripple) return _ripple;
+  const N = 128, cv = document.createElement('canvas'); cv.width = cv.height = N; const x = cv.getContext('2d'); const img = x.createImageData(N, N);
+  const h = new Float32Array(N * N); for (let k = 0; k < 9; k++) { const cx = Math.random() * N, cy = Math.random() * N, r = 10 + Math.random() * 26, a = Math.random() * 2 - 1;
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) { let dx = Math.abs(i - cx), dy = Math.abs(j - cy); dx = Math.min(dx, N - dx); dy = Math.min(dy, N - dy); h[j * N + i] += a * Math.exp(-(dx * dx + dy * dy) / (r * r)); } }
+  for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) { const gx = h[j * N + (i + 1) % N] - h[j * N + (i + N - 1) % N], gy = h[((j + 1) % N) * N + i] - h[((j + N - 1) % N) * N + i]; const o = (j * N + i) * 4;
+    img.data[o] = 128 - gx * 300; img.data[o + 1] = 128 - gy * 300; img.data[o + 2] = 255; img.data[o + 3] = 255; }
+  x.putImageData(img, 0, 0); _ripple = new THREE.CanvasTexture(cv); _ripple.wrapS = _ripple.wrapT = THREE.RepeatWrapping; return _ripple;
+}
 const tmpV = new THREE.Vector3(), tmpQ = new THREE.Quaternion(), tmpM = new THREE.Matrix4(), tmpB = new THREE.Box3();
 const BREAK_DV = 2.4; // m/s: a beaker dropped from about 30 cm onto a hard top breaks
 
@@ -109,18 +120,18 @@ export class Physics {
     if (!pd) {
       const sh = new THREE.Shape(); const n = 36, lobes = 3 + Math.floor(Math.random() * 3), ph = Math.random() * 6.28;
       for (let i = 0; i <= n; i++) { const a = (i / n) * Math.PI * 2; const r = 1 + 0.13 * Math.sin(lobes * a + ph) + 0.06 * Math.sin((lobes + 2) * a + ph * 1.7); const px = Math.cos(a) * r, pz = Math.sin(a) * r; if (i) sh.lineTo(px, pz); else sh.moveTo(px, pz); }
-      const mat = new THREE.MeshStandardMaterial({ color: 0x000000, transparent: true, opacity: 0.42, roughness: 0.03, metalness: 0, envMapIntensity: 3, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
+      const mat = new THREE.MeshStandardMaterial({ color: 0x000000, transparent: true, opacity: 0.34, roughness: 0.07, metalness: 0, envMapIntensity: 1.3, normalMap: rippleTex(), normalScale: new THREE.Vector2(0.18, 0.18), depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
       const m = new THREE.Mesh(new THREE.ShapeGeometry(sh, 2), mat); m.rotation.x = -Math.PI / 2; m.position.set(at.x, y, at.z); m.renderOrder = 4; m.scale.setScalar(0.001); this.app.scene.add(m);
       // the edge of a spill catches the light (the little raised rim of the liquid): a thin bright band along the outline
       const band = new THREE.Shape(sh.getPoints(n)); band.holes.push(new THREE.Path(sh.getPoints(n).map((p) => p.clone().multiplyScalar(0.955)).reverse()));
-      const rim = new THREE.Mesh(new THREE.ShapeGeometry(band, 1), new THREE.MeshBasicMaterial({ color: 0xdfeaf2, transparent: true, opacity: 0.24, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3 }));
+      const rim = new THREE.Mesh(new THREE.ShapeGeometry(band, 1), new THREE.MeshBasicMaterial({ color: 0xdfeaf2, transparent: true, opacity: 0.05, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3 }));
       rim.position.z = 0.0002; rim.renderOrder = 5; m.add(rim);
       pd = { m, ml: 0, r: 0.001, grow: 0, col: new THREE.Color(0x000000), tw: 0 }; this.puddles.push(pd);
     }
     const c = new THREE.Color(color); const hsl = c.getHSL({}); const tinted = hsl.s > 0.25 && hsl.l < 0.85; // clear water and colourless solutions: no tint
     const w = Math.min(1, ml / Math.max(1, pd.ml + ml)); pd.ml += ml;
-    pd.col.lerp(tinted ? c.clone().multiplyScalar(0.55) : new THREE.Color(0.06, 0.08, 0.1), w); pd.tw += ((tinted ? 1 : 0) - pd.tw) * w;
-    pd.m.material.color.copy(pd.col); pd.m.material.opacity = 0.42 + 0.2 * pd.tw;
+    pd.col.lerp(tinted ? c.clone().multiplyScalar(0.55) : new THREE.Color(0.012, 0.016, 0.02), w); pd.tw += ((tinted ? 1 : 0) - pd.tw) * w;
+    pd.m.material.color.copy(pd.col); pd.m.material.opacity = 0.5 + 0.12 * pd.tw;
   }
   updatePuddles(dt) { for (const pd of this.puddles) { const want = Math.sqrt(pd.ml * 1e-6 / (Math.PI * 0.003)); if (pd.r < want) { pd.r = Math.min(want, pd.r + dt * 0.25); pd.m.scale.set(pd.r, pd.r * (0.85 + 0.15 * Math.sin(pd.ml)), 1); } } } // about 1.2 mm deep
   clear() {
