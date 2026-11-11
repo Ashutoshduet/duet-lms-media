@@ -121,7 +121,7 @@ export function boilingTube(o = {}) { return testTube({ r: 0.0125, h: 0.15, name
 function addGrad(v, maxMl, step, label, o = {}) {
   const n = Math.round(maxMl / step); const every = o.every ?? (n <= 6 ? 1 : 2);
   const ys = []; for (let i = 1; i <= n; i++) ys.push(v.heightFor(i * step));
-  const textMm = o.textMm ?? 4, tickMm = o.tickMm ?? 5, mm = 0.001;
+  const textMm = o.textMm ?? 5, tickMm = o.tickMm ?? 5.5, mm = 0.001;
   const y0 = Math.max(0.0008, ys[0] - 0.004), y1 = Math.min(v.rimY - 0.0015, ys[n - 1] + (label ? textMm * 2.6 : textMm * 0.9) * mm);
   const Hm = y1 - y0, Hc = 1024, pxm = Hc / Hm, px = (d) => d * mm * pxm; // millimetres -> canvas pixels
   const font = (k = 1) => `700 ${Math.round(px(textMm) * k)}px "Noto Sans", sans-serif`;
@@ -134,7 +134,7 @@ function addGrad(v, maxMl, step, label, o = {}) {
   const a0 = o.start ?? (o.center != null ? o.center - len / 2 : (o.right ?? -0.1) - len);
   const tex = canvasTex(W, Hc, (x, w, h) => {
     x.clearRect(0, 0, w, h); x.lineJoin = 'round'; x.textBaseline = 'middle';
-    const dark = 'rgba(16,24,32,0.78)', white = '#ffffff', ow = px(0.32), lw = px(0.42), xl = px(1);
+    const dark = 'rgba(16,24,32,0.78)', white = '#ffffff', ow = px(0.34), lw = px(0.5), xl = px(1);
     const Y = (y) => h - (y - y0) * pxm;
     const marks = ys.map((y, k) => ({ y: Y(y), major: (k + 1) % every === 0, t: String(+((k + 1) * step).toFixed(2)) }));
     for (const pass of [0, 1]) { // dark outline first, then the white marks on top
@@ -196,7 +196,7 @@ export function reagentBottle(label, o = {}) {
   const tex = labelTex([{ t: label.formula, size: 96 }, { t: label.name, size: 48, w: 600 }, ...(label.extra ? [{ t: label.extra, size: 36, w: 400, c: '#6b5a40' }] : [])], { band: label.band ?? '#2c5d8a', hazard: label.hazard, h: 456, wrap: true });
   const lab = new THREE.Mesh(new THREE.CylinderGeometry(0.0284, 0.0284, 0.038, 32, 1, true, -1.16, 1.5), crispText(new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 })));
   lab.position.y = 0.038; v.g.add(lab); // label faces the student (+z)
-  addGrad(v, 120, 10, null, { start: 0.4, r: 0.02835, every: 2, textMm: 4.6, tickMm: 4 });
+  addGrad(v, 120, 10, null, { start: 0.4, r: 0.02835, every: 2, textMm: 5.2, tickMm: 4.2 });
   // ground-glass stopper
   const st = new THREE.Group();
   const s1 = new THREE.Mesh(new THREE.CylinderGeometry(0.0108, 0.0095, 0.016, 24), glassMat({ opacity: 0.35, color: amber ? 0x9a5a1e : 0xffffff }));
