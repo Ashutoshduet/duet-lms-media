@@ -122,7 +122,7 @@ export class Physics {
     pd.col.lerp(tinted ? c.clone().multiplyScalar(0.55) : new THREE.Color(0.06, 0.08, 0.1), w); pd.tw += ((tinted ? 1 : 0) - pd.tw) * w;
     pd.m.material.color.copy(pd.col); pd.m.material.opacity = 0.42 + 0.2 * pd.tw;
   }
-  updatePuddles(dt) { for (const pd of this.puddles) { const want = Math.sqrt(pd.ml * 1e-6 / (Math.PI * 0.0012)); if (pd.r < want) { pd.r = Math.min(want, pd.r + dt * 0.25); pd.m.scale.set(pd.r, pd.r * (0.85 + 0.15 * Math.sin(pd.ml)), 1); } } } // about 1.2 mm deep
+  updatePuddles(dt) { for (const pd of this.puddles) { const want = Math.sqrt(pd.ml * 1e-6 / (Math.PI * 0.003)); if (pd.r < want) { pd.r = Math.min(want, pd.r + dt * 0.25); pd.m.scale.set(pd.r, pd.r * (0.85 + 0.15 * Math.sin(pd.ml)), 1); } } } // about 1.2 mm deep
   clear() {
     for (const s of this.shards) s.m.parent && s.m.parent.remove(s.m); for (const pd of this.puddles) pd.m.parent && pd.m.parent.remove(pd.m); this.shards = []; this.puddles = [];
     for (const it of [...this.bodies.keys()]) this.forget(it);
