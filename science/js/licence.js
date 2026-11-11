@@ -23,7 +23,12 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(
 const covers = (a, app) => Array.isArray(a) && (a.includes('*') || a.includes(app));
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } };
 const save = (v) => { try { if (v) localStorage.setItem(KEY, JSON.stringify(v)); else localStorage.removeItem(KEY); } catch (e) {} };
-async function fetchList() { const r = await fetch(LIST.href + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) throw new Error('list ' + r.status); return (await r.json()).codes || {}; }
+// never wait more than 10 s for the list: on a slow school network the screen says so instead of hanging
+async function fetchList() {
+  const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 10000);
+  try { const r = await fetch(LIST.href + '?t=' + Date.now(), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); return (await r.json()).codes || {}; }
+  finally { if (tm) clearTimeout(tm); }
+}
 
 const S = {
   title: { en: 'Enter your DUET STEM subscription code', hi: 'अपना DUET STEM सदस्यता कोड डालिए', hg: 'Apna DUET STEM subscription code daaliye' },

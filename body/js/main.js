@@ -112,7 +112,7 @@ class App {
     this.applyLayers();
     this.vrui = new VRUI(this); this.world.add(this.vrui.group);
     this.setupXR();
-    if (window.DuetGate) { DuetGate.init({ app: 'body', title: 'Human Body 360', lang: () => this.lang }); DuetGate.attachVR({ THREE, renderer: this.renderer, scene: this.scene, camera: this.camera }); }
+    if (window.DuetGate) { DuetGate.init({ app: 'body', title: 'Human Body 360', lang: () => this.lang, demo: { en: 'The heart: its Organ Lab, its journey and its parts', hi: 'हृदय: इसकी ऑर्गन लैब, यात्रा और भाग', hg: 'Heart: uski Organ Lab, journey aur parts' } }); DuetGate.attachVR({ THREE, renderer: this.renderer, scene: this.scene, camera: this.camera }); }
     this.buildHTML();
     this.bindInput();
     addEventListener('resize', () => this.onResize());
@@ -307,6 +307,7 @@ class App {
 
   // ---- journeys
   startJourney(id, idx = 0, play = true) {
+    if (window.DuetGate && !DuetGate.allow(id === 'heart')) return;
     const j = JOURNEYS.find((x) => x.id === id); if (!j) return;
     this.leave(); this.mode = 'journey';
     this.journey = j; this.playing = play;
@@ -388,6 +389,7 @@ class App {
     this.sel = null;
   }
   selectPart(pid, opts = {}) {
+    if (window.DuetGate && !DuetGate.allow(/^heart/.test(pid) || (this.mode === 'journey' && this.journey && this.journey.id === 'heart') || (this.mode === 'lab' && this.labId === 'heart'))) return;
     const oids = this.body.partObjs[pid];
     if (!oids || !partInfo(pid, this.lang)) return;
     if (this.mode !== 'explore' && this.mode !== 'part' && (this.mode !== 'journey' || opts.from === 'list')) this.explore();
@@ -447,6 +449,7 @@ class App {
 
   // ---- Organ Lab
   async openLab(id, step = 0, play = true) {
+    if (window.DuetGate && !DuetGate.allow(id === 'heart')) return;
     if (!LABS[id]) return;
     this.leave(); this.mode = 'lab'; this.labId = id; this.labSel = null;
     this.bodyRoot.visible = false;
@@ -483,6 +486,7 @@ class App {
 
   // ---- take apart / put back
   startDismantle(set, apart = true) {
+    if (window.DuetGate && !DuetGate.allow(false)) return;
     this.leave(); this.mode = 'dismantle';
     this.dis.explode(set, apart);
     this.hideGroups(this.dis.groupsOf(set));
@@ -498,6 +502,7 @@ class App {
     this.refreshUI();
   }
   startGame(set) {
+    if (window.DuetGate && !DuetGate.allow(false)) return;
     this.leave(); this.mode = 'game';
     const n = this.dis.build(set).length;
     const tray = (i, total) => {

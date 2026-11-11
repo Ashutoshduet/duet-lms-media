@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script src="duetgate.js"></script><script>DuetGate.init({app:"space",title:"Solar System 360"})</script>
+<script src="duetgate.js"></script><script>DuetGate.init({app:"space",title:"Solar System 360",demo:{en:"The 3D Solar System, Earth and the Moon",hi:"3D सौरमंडल, पृथ्वी और चंद्रमा",hg:"3D Solar System, Earth aur Moon"}})</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -8417,6 +8417,8 @@ function route(){
   if(APPXR&&!location.hash)history.replaceState(null,"","#xr");
   if(!location.hash&&/OculusBrowser|Quest/i.test(navigator.userAgent)&&matchMedia("(display-mode: standalone)").matches){history.replaceState(null,"","#xr")}
   let h=decodeURIComponent(location.hash.slice(1))||"home";
+  // free demo (no school code): the home page with the 3D Solar System, Earth and the Moon
+  if(window.DuetGate&&!DuetGate.allow(["home","planets","earth","moon","sources"].includes(h)||(APPXR&&h==="xr"))){history.replaceState(null,"",location.pathname+location.search);h="home"}
   let target=null;
   if(h==="planets"){h="home";target="planets"}
   if(h.startsWith("gallery-")){galFilter=h.slice(8);if(!PHOTOS.some(p=>p.body===galFilter))galFilter="all";h="gallery"}
