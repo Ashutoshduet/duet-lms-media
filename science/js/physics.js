@@ -102,10 +102,25 @@ export class Physics {
     }
   }
   // ---------------------------------------------------------------- spilled liquid spreads into a thin pool on the bench or the floor
+  // A spill should look like liquid on the bench: the wet patch is darker than the dry bench and glossy (it mirrors the room
+  // and the lights), with an uneven edge. A coloured liquid (copper sulphate, ink) tints it; clear water only darkens and shines.
   puddle(at, ml, color = 0x9fc6ff) {
     const y = this.surfaceY(at.x, at.z) + 0.0006; let pd = this.puddles.find((q) => q.m.position.distanceTo(tmpV.set(at.x, y, at.z)) < Math.max(0.03, q.r * 0.8));
-    if (!pd) { const m = new THREE.Mesh(new THREE.CircleGeometry(1, 40), new THREE.MeshStandardMaterial({ color, transparent: true, opacity: 0.55, roughness: 0.02, metalness: 0.15, depthWrite: false })); m.rotation.x = -Math.PI / 2; m.position.set(at.x, y, at.z); m.renderOrder = 4; m.scale.setScalar(0.001); this.app.scene.add(m); pd = { m, ml: 0, r: 0.001, grow: 0 }; this.puddles.push(pd); }
-    pd.ml += ml; pd.m.material.color.lerp(new THREE.Color(color), Math.min(1, ml / Math.max(1, pd.ml)));
+    if (!pd) {
+      const sh = new THREE.Shape(); const n = 36, lobes = 3 + Math.floor(Math.random() * 3), ph = Math.random() * 6.28;
+      for (let i = 0; i <= n; i++) { const a = (i / n) * Math.PI * 2; const r = 1 + 0.13 * Math.sin(lobes * a + ph) + 0.06 * Math.sin((lobes + 2) * a + ph * 1.7); const px = Math.cos(a) * r, pz = Math.sin(a) * r; if (i) sh.lineTo(px, pz); else sh.moveTo(px, pz); }
+      const mat = new THREE.MeshStandardMaterial({ color: 0x000000, transparent: true, opacity: 0.42, roughness: 0.03, metalness: 0, envMapIntensity: 3, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 });
+      const m = new THREE.Mesh(new THREE.ShapeGeometry(sh, 2), mat); m.rotation.x = -Math.PI / 2; m.position.set(at.x, y, at.z); m.renderOrder = 4; m.scale.setScalar(0.001); this.app.scene.add(m);
+      // the edge of a spill catches the light (the little raised rim of the liquid): a thin bright band along the outline
+      const band = new THREE.Shape(sh.getPoints(n)); band.holes.push(new THREE.Path(sh.getPoints(n).map((p) => p.clone().multiplyScalar(0.955)).reverse()));
+      const rim = new THREE.Mesh(new THREE.ShapeGeometry(band, 1), new THREE.MeshBasicMaterial({ color: 0xdfeaf2, transparent: true, opacity: 0.24, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3 }));
+      rim.position.z = 0.0002; rim.renderOrder = 5; m.add(rim);
+      pd = { m, ml: 0, r: 0.001, grow: 0, col: new THREE.Color(0x000000), tw: 0 }; this.puddles.push(pd);
+    }
+    const c = new THREE.Color(color); const hsl = c.getHSL({}); const tinted = hsl.s > 0.25 && hsl.l < 0.85; // clear water and colourless solutions: no tint
+    const w = Math.min(1, ml / Math.max(1, pd.ml + ml)); pd.ml += ml;
+    pd.col.lerp(tinted ? c.clone().multiplyScalar(0.55) : new THREE.Color(0.06, 0.08, 0.1), w); pd.tw += ((tinted ? 1 : 0) - pd.tw) * w;
+    pd.m.material.color.copy(pd.col); pd.m.material.opacity = 0.42 + 0.2 * pd.tw;
   }
   updatePuddles(dt) { for (const pd of this.puddles) { const want = Math.sqrt(pd.ml * 1e-6 / (Math.PI * 0.0012)); if (pd.r < want) { pd.r = Math.min(want, pd.r + dt * 0.25); pd.m.scale.set(pd.r, pd.r * (0.85 + 0.15 * Math.sin(pd.ml)), 1); } } } // about 1.2 mm deep
   clear() {
