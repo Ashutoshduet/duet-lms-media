@@ -1,6 +1,7 @@
 // Canvas panels for the headset (menu on the left, step card on the right), clicked with a controller ray or a pinch.
 import * as THREE from 'three';
 import { FONT } from './strings.js';
+import { crispText } from './mats.js';
 
 const LOGO = new Image();
 LOGO.src = './brand/duet-stem-logo-light.png';
@@ -23,9 +24,9 @@ export class Panel {
     this.w = wPx; this.h = hPx; this.S = 1.6; // drawn at 1.6x for sharp text in the headset
     this.c = document.createElement('canvas'); this.c.width = Math.round(wPx * this.S); this.c.height = Math.round(hPx * this.S);
     this.x = this.c.getContext('2d');
-    this.tex = new THREE.CanvasTexture(this.c); this.tex.colorSpace = THREE.SRGBColorSpace; this.tex.anisotropy = 8;
+    this.tex = new THREE.CanvasTexture(this.c); this.tex.colorSpace = THREE.SRGBColorSpace; this.tex.anisotropy = 16;
     this.tex.generateMipmaps = true; this.tex.minFilter = THREE.LinearMipmapLinearFilter;
-    this.mesh = new THREE.Mesh(new THREE.PlaneGeometry(wM, wM * hPx / wPx), new THREE.MeshBasicMaterial({ map: this.tex, transparent: true, depthWrite: false }));
+    this.mesh = new THREE.Mesh(new THREE.PlaneGeometry(wM, wM * hPx / wPx), crispText(new THREE.MeshBasicMaterial({ map: this.tex, transparent: true, depthWrite: false }), -0.9));
     this.mesh.renderOrder = 40; this.mesh.userData.panel = this;
     this.buttons = []; this.hover = null;
   }

@@ -13,7 +13,7 @@ const halo = (col, s) => { const c = document.createElement('canvas'); c.width =
 
 // ------------------------------------------------------------------ a single 1.5 V cell lying down (+ cap at local +x)
 export function cell(o = {}) {
-  const it = new Item('cell', { ...o, name: o.name || { en: 'Electric cell (1.5 V)', hi: 'विद्युत सेल (1.5 V)', hg: 'Electric cell (1.5 V)' } });
+  const it = new Item('cell', { ...o, name: o.name || { en: 'Electric cell (1.5 V)', hi: 'इलेक्ट्रिक सेल (1.5 V)', hg: 'Electric cell (1.5 V)' } });
   const lab = canvasTex(256, 128, (x, w, h) => { const g = x.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#1d2733'); g.addColorStop(0.5, '#33465c'); g.addColorStop(1, '#141b24'); x.fillStyle = g; x.fillRect(0, 0, w, h); x.fillStyle = '#c9ced4'; x.fillRect(w * 0.82, 0, w * 0.18, h); x.fillStyle = '#e8b422'; x.fillRect(w * 0.78, 0, w * 0.04, h); x.fillStyle = '#f2f2f2'; x.font = '700 30px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('1.5 V   AA', w * 0.42, h / 2); x.font = '800 34px sans-serif'; x.fillText('+', w * 0.91, h / 2); x.fillText('−', w * 0.06, h / 2); });
   const b = new THREE.Mesh(new THREE.CylinderGeometry(0.0072, 0.0072, 0.05, 24), new THREE.MeshStandardMaterial({ map: lab, roughness: 0.45, metalness: 0.2 })); b.rotation.z = Math.PI / 2; b.position.y = 0.0072; it.g.add(b);
   const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.0026, 0.0026, 0.0018, 14), steel(0xc8ccd0, 0.3)); cap.rotation.z = Math.PI / 2; cap.position.set(0.0259, 0.0072, 0); it.g.add(cap);
@@ -22,7 +22,7 @@ export function cell(o = {}) {
 }
 // ------------------------------------------------------------------ a torch: the barrel can be opened to show two cells, the lamp behind the glass and the slide switch
 export function torchKit(o = {}) {
-  const it = new Item('torch2', { ...o, name: o.name || { en: 'Torch (opened up)', hi: 'टॉर्च (खोली हुई)', hg: 'Torch (khuli hui)' } });
+  const it = new Item('torch2', { ...o, name: o.name || { en: 'Torch (opened up)', hi: 'टॉर्च (खुली हुई)', hg: 'Torch (khuli hui)' } });
   const body = new THREE.MeshStandardMaterial({ color: 0xe2c330, roughness: 0.5, metalness: 0 }); // yellow plastic
   const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.12, 24, 1, true), new THREE.MeshStandardMaterial({ color: 0xf0e6b0, roughness: 0.2, metalness: 0, side: THREE.DoubleSide, transparent: true, opacity: 0.28, depthWrite: false })); barrel.renderOrder = 6; barrel.rotation.z = Math.PI / 2; barrel.position.set(0, 0.012, 0); it.g.add(barrel);
   const head = new THREE.Mesh(new THREE.CylinderGeometry(0.017, 0.012, 0.035, 24), body); head.rotation.z = Math.PI / 2; head.position.set(0.077, 0.017, 0); it.g.add(head);
@@ -63,7 +63,7 @@ export function lampHolder(o = {}) {
 }
 // ------------------------------------------------------------------ a home-made switch: two drawing pins on a cardboard, a safety pin that can be turned to touch both
 export function pinSwitch(o = {}) {
-  const it = new Item('key', { ...o, name: o.name || { en: 'Home-made switch (drawing pins and a safety pin)', hi: 'घर का बना स्विच (ड्राइंग पिन और सेफ़्टी पिन)', hg: 'Ghar ka bana switch (drawing pins aur safety pin)' } });
+  const it = new Item('key', { ...o, name: o.name || { en: 'Home-made switch (drawing pins and a safety pin)', hi: 'घर का बना स्विच (ड्राइंग पिन और सेफ़्टी पिन)', hg: 'Ghar ka bana switch (drawing pin aur safety pin)' } });
   const card = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.004, 0.04), new THREE.MeshStandardMaterial({ color: 0xb79a6c, roughness: 0.95 })); card.position.y = 0.002; it.g.add(card);
   for (const s of [-1, 1]) { const p = new THREE.Mesh(new THREE.CylinderGeometry(0.0045, 0.0045, 0.0015, 18), new THREE.MeshStandardMaterial({ color: 0xc9a24a, metalness: 0.9, roughness: 0.3 })); p.position.set(s * 0.016, 0.0048, 0); it.g.add(p); }
   const piv = new THREE.Group(); piv.position.set(-0.016, 0.0062, 0); it.g.add(piv); const sp = new THREE.Mesh(new THREE.TorusGeometry(0.0034, 0.0006, 6, 16), steel(0xd0d4d8, 0.25)); sp.scale.set(5.2, 1, 1); sp.rotation.x = Math.PI / 2; sp.position.x = 0.017; piv.add(sp);
@@ -88,7 +88,7 @@ export function thing(kind, o = {}) {
 }
 // ------------------------------------------------------------------ a metal strip held in a stand, with pins stuck under it by drops of wax; heat travels along it and the pins drop one by one
 export function waxStrip(o = {}) {
-  const it = new Item('waxstrip', { ...o, name: o.name || { en: 'Metal strip with pins stuck on by wax', hi: 'मोम से चिपकी पिनों वाली धातु की पट्टी', hg: 'Mom se chipki pins wali metal strip' } });
+  const it = new Item('waxstrip', { ...o, name: o.name || { en: 'Metal strip with pins stuck on by wax', hi: 'धातु की पट्टी, जिस पर मोम से पिनें चिपकी हैं', hg: 'Metal strip, jis par mom se pins chipki hain' } });
   const L = 0.25, n = 5; const stand = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.12, 0.04), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); stand.position.set(-L / 2 - 0.02, 0.06, 0); it.g.add(stand);
   const sM = new THREE.MeshStandardMaterial({ color: 0xb87333, metalness: 0.85, roughness: 0.35, emissive: 0xff3a10, emissiveIntensity: 0 }); const st = new THREE.Mesh(new THREE.BoxGeometry(L, 0.002, 0.02), sM); st.position.set(0, 0.11, 0); it.g.add(st);
   it.pins = []; for (let i = 0; i < n; i++) { const x = -L / 2 + 0.05 + i * 0.042; const g = new THREE.Group(); g.position.set(x, 0.109, 0); it.g.add(g); const w = new THREE.Mesh(new THREE.SphereGeometry(0.004, 12, 8), new THREE.MeshStandardMaterial({ color: 0xf2e9c9, roughness: 0.5 })); w.scale.y = 0.6; w.position.y = -0.002; g.add(w); const p = new THREE.Mesh(new THREE.CylinderGeometry(0.0005, 0.0005, 0.03, 6), steel(0xc8ccd0, 0.25)); p.position.y = -0.018; g.add(p); const hd = new THREE.Mesh(new THREE.SphereGeometry(0.0018, 10, 8), new THREE.MeshStandardMaterial({ color: 0x1d4f9a })); hd.position.y = -0.034; g.add(hd); it.pins.push({ g, x, wax: w, t: 0, down: false, v: 0, y0: 0.109 }); }
@@ -102,7 +102,7 @@ export function waxStrip(o = {}) {
 }
 // ------------------------------------------------------------------ two paper cups hung upside down from the ends of a stick balanced on a stand; warm air under one pushes it up
 export function cupBalance(o = {}) {
-  const it = new Item('cupbal', { ...o, name: o.name || { en: 'Two paper cups balanced on a stick', hi: 'छड़ी पर संतुलित दो कागज़ के कप', hg: 'Stick par balanced do paper cups' } });
+  const it = new Item('cupbal', { ...o, name: o.name || { en: 'Two paper cups balanced on a stick', hi: 'छड़ी पर बैलेंस किए दो कागज़ के कप', hg: 'Stick par balance kiye do paper cup' } });
   const st = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.3, 10), steel()); st.position.y = 0.15; it.g.add(st); const base = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.012, 0.08), new THREE.MeshStandardMaterial({ color: 0x2b2f35 })); base.position.y = 0.006; it.g.add(base);
   const beam = new THREE.Group(); beam.position.y = 0.3; it.g.add(beam); const stick = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.006, 0.01), new THREE.MeshStandardMaterial({ map: woodTex('#b98a55'), roughness: 0.7 })); beam.add(stick);
   const cups = [-1, 1].map((s) => { const g = new THREE.Group(); g.position.set(s * 0.18, 0, 0); beam.add(g); const th = new THREE.Mesh(new THREE.CylinderGeometry(0.0004, 0.0004, 0.06, 4), new THREE.MeshStandardMaterial({ color: 0xf2efe6 })); th.position.y = -0.03; g.add(th); const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.022, 0.07, 24, 1, true), new THREE.MeshStandardMaterial({ color: 0xf4f1e8, roughness: 0.8, side: THREE.DoubleSide })); cup.position.y = -0.095; g.add(cup); const top = new THREE.Mesh(new THREE.CircleGeometry(0.022, 24), new THREE.MeshStandardMaterial({ color: 0xf4f1e8, side: THREE.DoubleSide })); top.rotation.x = Math.PI / 2; top.position.y = -0.06; g.add(top); return g; });
@@ -133,7 +133,7 @@ export function sunBox(kind = 'soil', o = {}) {
 }
 // ------------------------------------------------------------------ a funnel packed with clay, sand or gravel over a measuring cylinder; water seeps through at very different rates
 export function seepFunnel(kind = 'sand', o = {}) {
-  const k = { clay: [0x8a5a3c, 0.18], sand: [0xd8bf8c, 1.5], gravel: [0x8b8680, 6] }[kind]; const it = new Item('seep', { ...o, name: o.name || { clay: { en: 'Funnel packed with clay', hi: 'चिकनी मिट्टी भरी कीप', hg: 'Clay se bhari funnel' }, sand: { en: 'Funnel packed with sand', hi: 'रेत भरी कीप', hg: 'Ret se bhari funnel' }, gravel: { en: 'Funnel packed with gravel', hi: 'बजरी भरी कीप', hg: 'Bajri se bhari funnel' } }[kind] });
+  const k = { clay: [0x8a5a3c, 0.18], sand: [0xd8bf8c, 1.5], gravel: [0x8b8680, 6] }[kind]; const it = new Item('seep', { ...o, name: o.name || { clay: { en: 'Funnel packed with clay', hi: 'चिकनी मिट्टी से भरी कीप', hg: 'Chikni mitti (clay) se bhari funnel' }, sand: { en: 'Funnel packed with sand', hi: 'रेत से भरी कीप', hg: 'Ret se bhari funnel' }, gravel: { en: 'Funnel packed with gravel', hi: 'बजरी से भरी कीप', hg: 'Bajri se bhari funnel' } }[kind] });
   const cone = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.006, 0.06, 32, 1, true), glassMat({ opacity: 0.25, edge: 0.7 })); cone.position.y = 0.27; cone.renderOrder = 6; it.g.add(cone); const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.05, 12, 1, true), glassMat({ opacity: 0.25, edge: 0.7 })); stem.position.y = 0.215; it.g.add(stem);
   const fill = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.008, 0.045, 28), new THREE.MeshStandardMaterial({ color: k[0], roughness: 1 })); fill.position.y = 0.265; it.g.add(fill);
   const water = new THREE.Mesh(new THREE.CylinderGeometry(0.044, 0.04, 1, 28), new THREE.MeshStandardMaterial({ color: 0xa8c6dc, transparent: true, opacity: 0.6, roughness: 0.05 })); water.position.y = 0.29; water.scale.y = 0.0001; water.visible = false; it.g.add(water);

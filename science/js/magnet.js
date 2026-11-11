@@ -32,7 +32,7 @@ export function fieldAt(items, p0, o = {}) {
 }
 // ------------------------------------------------------------------ a magnetic compass: the needle turns (with a little swing) to the horizontal field
 export function compass(o = {}) {
-  const r = o.r ?? 0.02; const it = new Item('compass', { ...o, name: o.name || { en: 'Magnetic compass', hi: 'चुंबकीय दिक्सूचक', hg: 'Magnetic compass' } });
+  const r = o.r ?? 0.02; const it = new Item('compass', { ...o, name: o.name || { en: 'Magnetic compass', hi: 'चुंबकीय कम्पास', hg: 'Magnetic compass' } });
   const body = new THREE.Mesh(new THREE.CylinderGeometry(r, r * 1.05, 0.008, 32), new THREE.MeshStandardMaterial({ color: 0x9a7b3c, metalness: 0.7, roughness: 0.35 })); body.position.y = 0.004; it.g.add(body);
   const dial = new THREE.Mesh(new THREE.CircleGeometry(r * 0.9, 32), new THREE.MeshStandardMaterial({ map: canvasTex(256, 256, (x, w, h) => { x.fillStyle = '#f6f2e6'; x.fillRect(0, 0, w, h); x.fillStyle = '#222'; x.font = '700 30px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; [['N', 0], ['E', 90], ['S', 180], ['W', 270]].forEach(([t, a]) => { const q = (a - 90) * Math.PI / 180; x.fillText(t, w / 2 + Math.cos(q) * 96, h / 2 + Math.sin(q) * 96); }); x.strokeStyle = '#555'; for (let a = 0; a < 360; a += 10) { const q = a * Math.PI / 180; x.beginPath(); x.moveTo(w / 2 + Math.cos(q) * 118, h / 2 + Math.sin(q) * 118); x.lineTo(w / 2 + Math.cos(q) * (a % 30 ? 112 : 106), h / 2 + Math.sin(q) * (a % 30 ? 112 : 106)); x.stroke(); } }), roughness: 0.6 }));
   dial.rotation.x = -Math.PI / 2; dial.position.y = 0.0082; it.g.add(dial);
@@ -49,7 +49,7 @@ export function compass(o = {}) {
 // ------------------------------------------------------------------ iron filings on a sheet (glass plate or card); tapping lines them up along the field
 export function filingsSheet(o = {}) {
   const W = o.w ?? 0.24, H = o.h ?? 0.18, N = o.n ?? 2600;
-  const it = new Item('filings', { ...o, name: o.name || { en: 'Sheet with iron filings sprinkled on it', hi: 'लोहे का बुरादा छिड़की हुई शीट', hg: 'Iron filings chhidki hui sheet' } });
+  const it = new Item('filings', { ...o, name: o.name || { en: 'Sheet with iron filings sprinkled on it', hi: 'लोहे का बुरादा छिड़की हुई शीट', hg: 'Lohe ka buraada chhidki hui sheet' } });
   const sheet = new THREE.Mesh(new THREE.BoxGeometry(W, 0.0015, H), new THREE.MeshStandardMaterial({ color: 0xf5f3ec, roughness: 0.9 })); sheet.position.y = (o.lift ?? 0) + 0.00075; it.g.add(sheet);
   if ((o.lift ?? 0) > 0.008) for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) { const lg = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, o.lift, 8), new THREE.MeshStandardMaterial({ color: 0x8a5a33, roughness: 0.7 })); lg.position.set(sx * (W / 2 - 0.01), o.lift / 2, sz * (H / 2 - 0.01)); it.g.add(lg); }
   const im = new THREE.InstancedMesh(new THREE.BoxGeometry(0.0022, 0.0004, 0.0005), new THREE.MeshStandardMaterial({ color: 0x3b3d40, roughness: 0.7, metalness: 0.4 }), N); im.position.y = (o.lift ?? 0) + 0.0018; im.frustumCulled = false; it.g.add(im);
@@ -73,14 +73,14 @@ export function filingsSheet(o = {}) {
 }
 // ------------------------------------------------------------------ conductors: a straight vertical wire through a card, a circular coil and a solenoid (all carry it.I amperes)
 export function straightWire(o = {}) {
-  const h = o.h ?? 0.2; const it = new Item('wire', { ...o, name: o.name || { en: 'Thick copper wire (vertical, through a card)', hi: 'मोटा ताँबे का तार (कार्ड से होकर, खड़ा)', hg: 'Mota copper wire (card se hokar, khada)' } });
+  const h = o.h ?? 0.2; const it = new Item('wire', { ...o, name: o.name || { en: 'Thick copper wire (vertical, through a card)', hi: 'मोटा ताँबे का तार (कार्ड के आर-पार, खड़ा)', hg: 'Mota copper wire (card ke aar-paar, khada)' } });
   const m = new THREE.Mesh(new THREE.CylinderGeometry(0.0015, 0.0015, h, 10), new THREE.MeshStandardMaterial({ color: 0xc8733a, metalness: 0.85, roughness: 0.3 })); m.position.y = h / 2; it.g.add(m);
   it.I = 0; it.segs = () => { it.g.updateWorldMatrix(true, false); const out = []; for (let i = 0; i < 8; i++) out.push([it.g.localToWorld(V3(0, (i / 8) * h, 0)), it.g.localToWorld(V3(0, ((i + 1) / 8) * h, 0))]); return out; }; // current flows upwards (from a at the bottom to b at the top)
   term(it, 'a', V3(0, 0.004, 0), V3(1, 0, 0)); term(it, 'b', V3(0, h, 0), V3(0, 1, 0)); it.dc = () => [{ a: 'a', b: 'b', R: 0.05 }];
   it.height = h; it.radius = 0.004; it.grabY = h * 0.7; return it;
 }
 export function solenoid(o = {}) {
-  const turns = o.turns ?? 14, R = o.r ?? 0.018, L = o.len ?? 0.11; const it = new Item('solenoid', { ...o, name: o.name || { en: 'Solenoid (a long coil of insulated copper wire)', hi: 'परिनालिका (विद्युतरोधी ताँबे के तार की लंबी कुंडली)', hg: 'Solenoid (insulated copper wire ki lambi coil)' } });
+  const turns = o.turns ?? 14, R = o.r ?? 0.018, L = o.len ?? 0.11; const it = new Item('solenoid', { ...o, name: o.name || { en: 'Solenoid (a long coil of insulated copper wire)', hi: 'सोलेनॉइड (इंसुलेटेड ताँबे के तार की लंबी कुंडली)', hg: 'Solenoid (insulated copper wire ki lambi coil)' } });
   const pts = []; for (let i = 0; i <= turns * 40; i++) { const t = i / (turns * 40); const a = t * turns * Math.PI * 2; pts.push(V3(-L / 2 + t * L, R + 0.003 + Math.sin(a) * R, Math.cos(a) * R)); }
   const m = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), turns * 40, 0.0012, 6), new THREE.MeshStandardMaterial({ color: 0xb5562a, metalness: 0.7, roughness: 0.35 })); it.g.add(m);
   it.I = 0; it.segs = () => { it.g.updateWorldMatrix(true, false); const out = []; for (let i = 0; i < turns * 8; i++) { const t0 = i / (turns * 8), t1 = (i + 1) / (turns * 8); const p = (t) => it.g.localToWorld(V3(-L / 2 + t * L, R + 0.003 + Math.sin(t * turns * Math.PI * 2) * R, Math.cos(t * turns * Math.PI * 2) * R)); out.push([p(t0), p(t1)]); } return out; };
@@ -100,7 +100,7 @@ export function wireXY(o = {}) {
 }
 // ------------------------------------------------------------------ a circular coil standing upright through a horizontal card (its plane is x–y, the card is at y = cardY)
 export function coilCard(o = {}) {
-  const R = o.r ?? 0.03, turns = o.turns ?? 8, cardY = o.cardY ?? 0.045; const it = new Item('coil', { ...o, name: o.name || { en: 'Circular coil through a cardboard sheet', hi: 'गत्ते से होकर गुज़रती वृत्ताकार कुंडली', hg: 'Gatte se hokar guzarti circular coil' } });
+  const R = o.r ?? 0.03, turns = o.turns ?? 8, cardY = o.cardY ?? 0.045; const it = new Item('coil', { ...o, name: o.name || { en: 'Circular coil through a cardboard sheet', hi: 'गत्ते के आर-पार लगी गोल कुंडली', hg: 'Gatte ke aar-paar lagi circular coil' } });
   const pts = []; for (let i = 0; i <= turns * 48; i++) { const t = i / (turns * 48); const a = t * turns * Math.PI * 2; pts.push(V3(Math.sin(a) * R, cardY + Math.cos(a) * R, (t - 0.5) * 0.006)); }
   const m = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), turns * 48, 0.0011, 6), new THREE.MeshStandardMaterial({ color: 0xb5562a, metalness: 0.7, roughness: 0.35 })); it.g.add(m);
   term(it, 'a', V3(-0.005, 0.004, 0), V3(-1, 0, 0)); term(it, 'b', V3(0.005, 0.004, 0), V3(1, 0, 0)); it.I = 0; it.dc = () => [{ a: 'a', b: 'b', R: 0.2 }];
@@ -109,7 +109,7 @@ export function coilCard(o = {}) {
 }
 // ------------------------------------------------------------------ a horseshoe magnet lying so that its two poles face each other one above the other (N below, S above): the field between them points up
 export function horseshoe(o = {}) {
-  const it = new Item('horseshoe', { ...o, name: o.name || { en: 'Strong horseshoe magnet', hi: 'शक्तिशाली नाल चुंबक', hg: 'Strong horseshoe magnet' } });
+  const it = new Item('horseshoe', { ...o, name: o.name || { en: 'Strong horseshoe magnet', hi: 'ताक़तवर नाल चुंबक', hg: 'Strong horseshoe magnet' } });
   const gap = o.gap ?? 0.03, th = 0.012, w = 0.04, back = 0.05; const red = new THREE.MeshStandardMaterial({ color: 0xc62828, roughness: 0.45, metalness: 0.3 }), steelM = new THREE.MeshStandardMaterial({ color: 0xb8bcc0, roughness: 0.3, metalness: 0.9 });
   const lo = new THREE.Mesh(new THREE.BoxGeometry(back, th, w), red); lo.position.set(back / 2, th / 2, 0); const hi = new THREE.Mesh(new THREE.BoxGeometry(back, th, w), red); hi.position.set(back / 2, th * 1.5 + gap, 0);
   const bk = new THREE.Mesh(new THREE.BoxGeometry(th, gap + 2 * th, w), red); bk.position.set(back + th / 2, th + gap / 2, 0); it.g.add(lo, hi, bk);

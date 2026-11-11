@@ -14,7 +14,7 @@ export function loadExpect() {
 export const expectFor = (id) => (EXP ? EXP[id] : undefined);
 
 const r2 = (x) => Math.round(x * 100) / 100;
-const GAS = ['metal_acid', 'carb_acid', 'carbsol_acid', 'mg_water', 'metal_base', 'fes_acid', 'alkali', 'hcl_gas'];
+const GAS = ['metal_acid', 'carb_acid', 'carbsol_acid', 'carbppt_acid', 'mg_water', 'metal_base', 'fes_acid', 'alkali', 'hcl_gas'];
 const COAT = ['fe_cuso4', 'zn_feso4'];
 const liquidMl = (m) => { let s = 0; for (const k in m.liq) if (!SUBS[k]?.ind) s += m.liq[k]; return s; };
 
@@ -44,7 +44,7 @@ function touched(a, b) {
 const T3 = (en, hi, hg) => ({ en, hi, hg });
 const COL = {
   colourless: T3('colourless', 'रंगहीन', 'rangheen'), white: T3('white', 'सफ़ेद', 'safed'), milky: T3('milky', 'दूधिया', 'doodhiya'),
-  grey: T3('grey', 'धूसर', 'grey'), black: T3('black', 'काला', 'kaala'), red: T3('red', 'लाल', 'laal'), pink: T3('pink', 'गुलाबी', 'gulaabi'),
+  grey: T3('grey', 'स्लेटी', 'grey'), black: T3('black', 'काला', 'kaala'), red: T3('red', 'लाल', 'laal'), pink: T3('pink', 'गुलाबी', 'gulaabi'),
   orange: T3('orange', 'नारंगी', 'naarangi'), yellow: T3('yellow', 'पीला', 'peela'), green: T3('green', 'हरा', 'hara'), teal: T3('blue-green', 'नीला-हरा', 'neela-hara'),
   blue: T3('blue', 'नीला', 'neela'), purple: T3('purple', 'बैंगनी', 'baingani'), brown: T3('brown', 'भूरा', 'bhoora'),
 };
@@ -60,7 +60,7 @@ function hueName(c) {
 }
 function colourOf(v) {
   const L = v.mix.look();
-  if (L.cloud > 0.35) { const { ch, l } = hsl(L.cloudC); if (ch < 0.12 && l > 0.72) return COL.milky; const n = COL[hueName(L.cloudC)]; return T3(`cloudy ${n.en}`, `गँदला ${n.hi}`, `dhundhla ${n.hg}`); }
+  if (L.cloud > 0.35) { const { ch, l } = hsl(L.cloudC); if (ch < 0.12 && l > 0.72) return COL.milky; const n = COL[hueName(L.cloudC)]; return T3(`cloudy ${n.en}`, `धुंधला ${n.hi}`, `dhundhla ${n.hg}`); }
   const { ch } = hsl(L.color); if (L.alpha < 0.3 && ch < 0.2) return COL.colourless;
   const n = COL[hueName(L.color)]; if (L.alpha < 0.42) return T3(`light ${n.en}`, `हल्का ${n.hi}`, `halka ${n.hg}`); return n;
 }
@@ -78,22 +78,22 @@ function vname(v, all) {
   return out;
 }
 const ml1 = (x) => (x >= 10 ? Math.round(x) : Math.round(x * 10) / 10);
-const pHclass = (p) => (p < 6.5 ? T3('acidic', 'अम्लीय', 'acidic') : p > 7.5 ? T3('basic', 'क्षारीय', 'basic') : T3('neutral', 'उदासीन', 'neutral'));
+const pHclass = (p) => (p < 6.5 ? T3('acidic', 'एसिडिक', 'acidic') : p > 7.5 ? T3('basic', 'बेसिक', 'basic') : T3('neutral', 'न्यूट्रल', 'neutral'));
 
 // what the student sees in a vessel right now
 function describe(v, A, E) {
   const m = v.mix; const parts = [];
   const solidsNow = (v.solids || []).filter((s) => (s.amount ?? 1) > 0.02);
   if (m.ml() < 0.1 && !solidsNow.length) return T3('it is empty', 'यह खाली है', 'yeh khaali hai');
-  if (m.ml() >= 0.1) { const c = colourOf(v); parts.push(T3(`the liquid is ${c.en}`, `द्रव ${c.hi} है`, `liquid ${c.hg} hai`)); }
+  if (m.ml() >= 0.1) { const c = colourOf(v); parts.push(T3(`the liquid is ${c.en}`, `अंदर का द्रव ${c.hi} है`, `liquid ${c.hg} hai`)); }
   const pk = Object.keys(A.p || {}).sort((a, b) => A.p[b] - A.p[a])[0];
-  if (pk && PPT[pk] && A.p[pk] >= 0.03) { const n = ppt(pk); parts.push(T3(`with ${n.en}`, `उसमें ${n.hi} है`, `usme ${n.hg} hai`)); }
-  if (solidsNow.length) { const n = join3([...new Set(solidsNow.map((s) => s.chem))].map(solid)); parts.push(T3(`in it: ${n.en}`, `उसमें: ${n.hi}`, `usme: ${n.hg}`)); }
+  if (pk && PPT[pk] && A.p[pk] >= 0.03) { const n = ppt(pk); parts.push(T3(`with ${n.en}`, `इसमें ${n.hi} है`, `isme ${n.hg} hai`)); }
+  if (solidsNow.length) { const n = join3([...new Set(solidsNow.map((s) => s.chem))].map(solid)); parts.push(T3(`in it: ${n.en}`, `इसमें रखा है: ${n.hi}`, `isme rakha hai: ${n.hg}`)); }
   const gA = (A.r || []).some((r) => GAS.includes(r)), gE = (E.r || []).some((r) => GAS.includes(r));
-  if (gA) parts.push(T3('gas bubbles rise', 'गैस के बुलबुले उठते हैं', 'gas ke bulbule uthte hain')); else if (gE) parts.push(T3('no gas bubbles', 'गैस के कोई बुलबुले नहीं', 'gas ke koi bulbule nahi'));
+  if (gA) parts.push(T3('gas bubbles rise', 'गैस के बुलबुले उठते हैं', 'gas ke bulbule uthte hain')); else if (gE) parts.push(T3('no gas bubbles', 'गैस के बुलबुले नहीं उठते', 'gas ke bulbule nahi uthte'));
   const cA = (A.r || []).some((r) => COAT.includes(r)), cE = (E.r || []).some((r) => COAT.includes(r));
-  if (cA && !cE) parts.push(T3('a reddish-brown coat forms on the metal', 'धातु पर लाल-भूरी परत चढ़ती है', 'metal par laal-bhoori layer chadhti hai'));
-  else if (cE && !cA) parts.push(T3('no coat forms on the metal', 'धातु पर कोई परत नहीं चढ़ती', 'metal par koi layer nahi chadhti'));
+  if (cA && !cE) parts.push(T3('a reddish-brown coat forms on the metal', 'धातु पर लाल-भूरी परत जमती है', 'metal par laal-bhoori layer jamti hai'));
+  else if (cE && !cA) parts.push(T3('no coat forms on the metal', 'धातु पर कोई परत नहीं जमती', 'metal par koi layer nahi jamti'));
   const T = Math.round(m.temp); if (T >= 45) parts.push(T3(`it is hot (about ${T} °C)`, `यह गरम है (लगभग ${T} °C)`, `yeh garam hai (lagbhag ${T} °C)`)); else if (T <= 18) parts.push(T3(`it is cold (about ${T} °C)`, `यह ठंडा है (लगभग ${T} °C)`, `yeh thanda hai (lagbhag ${T} °C)`));
   return T3(parts.map((p) => p.en).join(', '), parts.map((p) => p.hi).join(', '), parts.map((p) => p.hg).join(', '));
 }
@@ -136,26 +136,26 @@ function compare(A, E, P, partial, B) {
 
 function reasons(d) {
   const out = [];
-  if (d.extra.length === 1 && d.missing.length === 1) { const x = sub(d.extra[0]), y = sub(d.missing[0]); out.push(T3(`You put ${x.en} in it instead of ${y.en}.`, `आपने उसमें ${y.hi} की जगह यह डाला: ${x.hi}।`, `Aapne usme ${y.hg} ki jagah ${x.hg} daala.`)); }
+  if (d.extra.length === 1 && d.missing.length === 1) { const x = sub(d.extra[0]), y = sub(d.missing[0]); out.push(T3(`You put ${x.en} in it instead of ${y.en}.`, `आपने इसमें ${y.hi} की जगह ${x.hi} डाल दिया।`, `Aapne isme ${y.hg} ki jagah ${x.hg} daal diya.`)); }
   else {
-    if (d.extra.length) { const x = join3(d.extra.map(sub)); out.push(T3(`You also put ${x.en} in it — the method does not use it here.`, `आपने उसमें यह भी डाला: ${x.hi} — विधि में यहाँ इसका उपयोग नहीं होता।`, `Aapne usme ${x.hg} bhi daala — method mein yahan iska use nahi hota.`)); }
-    if (d.missing.length) { const x = join3(d.missing.map(sub)); out.push(T3(`${cap(x.en)} has not been put in it.`, `उसमें यह नहीं डाला गया: ${x.hi}।`, `Usme ${x.hg} nahi daala gaya.`)); }
+    if (d.extra.length) { const x = join3(d.extra.map(sub)); out.push(T3(`You also put ${x.en} in it — the method does not use it here.`, `आपने इसमें ${x.hi} भी डाल दिया — विधि में यहाँ इसका इस्तेमाल नहीं होता।`, `Aapne isme ${x.hg} bhi daal diya — method mein yahan iska use nahi hota.`)); }
+    if (d.missing.length) { const x = join3(d.missing.map(sub)); out.push(T3(`${cap(x.en)} has not been put in it.`, `इसमें ${x.hi} नहीं डाला गया है।`, `Isme ${x.hg} nahi daala gaya hai.`)); }
   }
-  for (const [k, a, e] of [...d.more, ...d.less]) { const x = sub(k); out.push(T3(`You put in about ${ml1(a)} mL of ${x.en}; the method uses about ${ml1(e)} mL.`, `आपने लगभग ${ml1(a)} mL ${x.hi} डाला; विधि में लगभग ${ml1(e)} mL लगता है।`, `Aapne lagbhag ${ml1(a)} mL ${x.hg} daala; method mein lagbhag ${ml1(e)} mL lagta hai.`)); }
-  if (d.sx.length === 1 && d.sm.length === 1) { const x = solid(d.sx[0]), y = solid(d.sm[0]); out.push(T3(`You put ${x.en} in it instead of ${y.en}.`, `आपने उसमें ${y.hi} की जगह यह डाला: ${x.hi}।`, `Aapne usme ${y.hg} ki jagah ${x.hg} daala.`)); }
+  for (const [k, a, e] of [...d.more, ...d.less]) { const x = sub(k); out.push(T3(`You put in about ${ml1(a)} mL of ${x.en}; the method uses about ${ml1(e)} mL.`, `आपने लगभग ${ml1(a)} mL ${x.hi} डाला है, जबकि विधि में लगभग ${ml1(e)} mL लगता है।`, `Aapne lagbhag ${ml1(a)} mL ${x.hg} daala hai, jabki method mein lagbhag ${ml1(e)} mL lagta hai.`)); }
+  if (d.sx.length === 1 && d.sm.length === 1) { const x = solid(d.sx[0]), y = solid(d.sm[0]); out.push(T3(`You put ${x.en} in it instead of ${y.en}.`, `आपने इसमें ${y.hi} की जगह ${x.hi} डाल दिया।`, `Aapne isme ${y.hg} ki jagah ${x.hg} daal diya.`)); }
   else {
-    if (d.sx.length) { const x = join3(d.sx.map(solid)); out.push(T3(`You also put ${x.en} in it.`, `आपने उसमें यह भी डाला: ${x.hi}।`, `Aapne usme ${x.hg} bhi daala.`)); }
-    if (d.sm.length) { const x = join3(d.sm.map(solid)); out.push(T3(`${cap(x.en)} is not in it.`, `उसमें यह नहीं है: ${x.hi}।`, `Usme ${x.hg} nahi hai.`)); }
+    if (d.sx.length) { const x = join3(d.sx.map(solid)); out.push(T3(`You also put ${x.en} in it.`, `आपने इसमें ${x.hi} भी डाल दिया।`, `Aapne isme ${x.hg} bhi daal diya.`)); }
+    if (d.sm.length) { const x = join3(d.sm.map(solid)); out.push(T3(`${cap(x.en)} is not in it.`, `इसमें ${x.hi} नहीं है।`, `Isme ${x.hg} nahi hai.`)); }
   }
-  for (const k of d.px) { const x = ppt(k); out.push(T3(`So now there is ${x.en} in it.`, `इसलिए अब उसमें ${x.hi} है।`, `Isliye ab usme ${x.hg} hai.`)); }
-  for (const k of d.pm) { const x = ppt(k); out.push(T3(`So no ${x.en} forms.`, `इसलिए ${x.hi} नहीं बनता।`, `Isliye ${x.hg} nahi banta.`)); }
+  for (const k of d.px) { const x = ppt(k); out.push(T3(`So now there is ${x.en} in it.`, `इसलिए अब इसमें ${x.hi} है।`, `Isliye ab isme ${x.hg} hai.`)); }
+  for (const k of d.pm) { const x = ppt(k); out.push(T3(`So no ${x.en} forms.`, `इसलिए यहाँ ${x.hi} नहीं बनता।`, `Isliye yahan ${x.hg} nahi banta.`)); }
   if (d.pH) { const [a, e] = d.pH; const ca = pHclass(a), ce = pHclass(e);
-    if (ca.en === ce.en && ca.en !== 'neutral') { const more = (a < e) === (ca.en === 'acidic'); const w = more ? T3('much more', 'कहीं अधिक', 'kaafi zyada') : T3('much less', 'कहीं कम', 'kaafi kam');
-      out.push(T3(`Your mixture is ${w.en} ${ca.en} (pH about ${a.toFixed(1)}) than it would be done as in the method (pH about ${e.toFixed(1)}).`, `आपका मिश्रण विधि के अनुसार करने (pH लगभग ${e.toFixed(1)}) से ${w.hi} ${ca.hi} है (pH लगभग ${a.toFixed(1)})।`, `Aapka mixture method ke hisaab se karne (pH lagbhag ${e.toFixed(1)}) se ${w.hg} ${ca.hg} hai (pH lagbhag ${a.toFixed(1)}).`)); }
-    else out.push(T3(`Your mixture is ${ca.en} (pH about ${a.toFixed(1)}); done as in the method it would be ${ce.en} (pH about ${e.toFixed(1)}).`, `आपका मिश्रण ${ca.hi} है (pH लगभग ${a.toFixed(1)}); विधि के अनुसार करने पर यह ${ce.hi} होता (pH लगभग ${e.toFixed(1)})।`, `Aapka mixture ${ca.hg} hai (pH lagbhag ${a.toFixed(1)}); method ke hisaab se karne par yeh ${ce.hg} hota (pH lagbhag ${e.toFixed(1)}).`)); }
-  if (d.gas === false) out.push(T3('So the reaction that gives off gas does not take place.', 'इसलिए गैस देने वाली अभिक्रिया नहीं होती।', 'Isliye gas dene wala reaction nahi hota.'));
-  if (d.gas === true) out.push(T3('So a reaction gives off gas here.', 'इसलिए यहाँ एक अभिक्रिया गैस देती है।', 'Isliye yahan ek reaction gas deta hai.'));
-  if (d.coat === false) out.push(T3('So the more reactive metal does not displace copper here.', 'इसलिए यहाँ अधिक सक्रिय धातु कॉपर को विस्थापित नहीं करती।', 'Isliye yahan zyada reactive metal copper ko displace nahi karti.'));
+    if (ca.en === ce.en && ca.en !== 'neutral') { const more = (a < e) === (ca.en === 'acidic'); const w = more ? T3('much more', 'काफ़ी ज़्यादा', 'kaafi zyada') : T3('much less', 'काफ़ी कम', 'kaafi kam');
+      out.push(T3(`Your mixture is ${w.en} ${ca.en} (pH about ${a.toFixed(1)}) than it would be done as in the method (pH about ${e.toFixed(1)}).`, `विधि के हिसाब से करने पर pH लगभग ${e.toFixed(1)} होता, पर आपका मिश्रण उससे ${w.hi} ${ca.hi} है (pH लगभग ${a.toFixed(1)})।`, `Method ke hisaab se karne par pH lagbhag ${e.toFixed(1)} hota, par aapka mixture usse ${w.hg} ${ca.hg} hai (pH lagbhag ${a.toFixed(1)}).`)); }
+    else out.push(T3(`Your mixture is ${ca.en} (pH about ${a.toFixed(1)}); done as in the method it would be ${ce.en} (pH about ${e.toFixed(1)}).`, `आपका मिश्रण ${ca.hi} है (pH लगभग ${a.toFixed(1)})। विधि के हिसाब से करते, तो यह ${ce.hi} होता (pH लगभग ${e.toFixed(1)})।`, `Aapka mixture ${ca.hg} hai (pH lagbhag ${a.toFixed(1)}). Method ke hisaab se karte, to yeh ${ce.hg} hota (pH lagbhag ${e.toFixed(1)}).`)); }
+  if (d.gas === false) out.push(T3('So the reaction that gives off gas does not take place.', 'इसलिए वह रिएक्शन नहीं होता जिसमें गैस निकलती है।', 'Isliye woh reaction nahi hota jisme gas nikalti hai.'));
+  if (d.gas === true) out.push(T3('So a reaction gives off gas here.', 'इसलिए यहाँ रिएक्शन से गैस निकलती है।', 'Isliye yahan reaction se gas nikalti hai.'));
+  if (d.coat === false) out.push(T3('So the more reactive metal does not displace copper here.', 'इसलिए यहाँ ज़्यादा रिएक्टिव धातु कॉपर को हटाकर उसकी जगह नहीं लेती।', 'Isliye yahan zyada reactive metal copper ko displace nahi karti.'));
   return out;
 }
 
@@ -180,6 +180,6 @@ export function chemCheck(runner, i, partial) {
     const rs = reasons(f.c.d); if (!rs.length) continue;
     for (const L of ['en', 'hi', 'hg']) why[L].push((many ? `${n[L]}: ` : '') + rs.map((r) => r[L]).join(' '));
   }
-  for (const L of ['en', 'hi', 'hg']) { const b = runner.baseText ? runner.baseText(`steps.${i}.see`, L) : ''; if (b) why[L].push(L === 'hi' ? `तुलना के लिए किताब का परिणाम: “${b}”` : L === 'hg' ? `Comparison ke liye kitaab ka result: “${b}”` : `The book's result, for comparison: “${b}”`); }
+  for (const L of ['en', 'hi', 'hg']) { const b = runner.baseText ? runner.baseText(`steps.${i}.see`, L) : ''; if (b) why[L].push(L === 'hi' ? `तुलना के लिए, किताब के हिसाब से नतीजा: “${b}”` : L === 'hg' ? `Comparison ke liye, kitaab ke hisaab se result: “${b}”` : `The book's result, for comparison: “${b}”`); }
   return { ok: false, see: T3(see.en.join(' '), see.hi.join(' '), see.hg.join(' ')), why: T3(why.en.join(' '), why.hi.join(' '), why.hg.join(' ')), flagged: top.map((f) => f.k) };
 }

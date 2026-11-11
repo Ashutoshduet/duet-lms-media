@@ -15,7 +15,7 @@ const classOrder = (c, sub) => order0(c, sub);
 const SUBJECTS = ['chemistry', 'physics', 'maths', 'biology', 'astronomy', 'robotics', 'nature'];
 const store = { get(k) { try { return localStorage.getItem('sl360.' + k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem('sl360.' + k, v); } catch (e) {} } };
 const CLASSES = [6, 7, 8, 9, 10];
-const YOURS = { en: 'Your result was different from the book', hi: 'आपका परिणाम किताब से अलग रहा', hg: 'Aapka result kitaab se alag raha' };
+const YOURS = { en: 'Your result was different from the book', hi: 'आपका नतीजा किताब से अलग आया', hg: 'Aapka result kitaab se alag aaya' };
 const HOWMUCH = { en: 'How much', hi: 'कितना डालना है', hg: 'Kitna daalna hai' };
 const INBOOK = { en: 'In the book', hi: 'किताब में', hg: 'Kitaab mein' };
 void EXPERIMENTS;
@@ -25,7 +25,7 @@ export class UI {
     this.app = app; this.subj = store.get('subj') || 'chemistry'; if (!hasSubject(this.subj)) this.subj = 'chemistry'; this.cls = +(store.get('cls') || 0) || 0; this.view = store.get('view') === 'topic' ? 'topic' : 'class'; this.topic = null; this.nbOpen = false; this.done = new Set((store.get('done') || '').split(',').filter(Boolean));
     this.buildDOM();
     // headset panels
-    this.menu = new Panel(1000, 1490, 0.46); this.story = new Panel(1100, 1150, 0.52);
+    this.menu = new Panel(1000, 1490, 0.51); this.story = new Panel(1100, 1150, 0.58); // a little bigger than before: easier to read in the headset
     this.vr = new THREE.Group(); this.vr.add(this.menu.mesh, this.story.mesh); this.vr.visible = false; app.scene.add(this.vr);
     this.page = 0; this.dirty = true;
   }
@@ -75,7 +75,7 @@ export class UI {
   fill(k, c, n) { return this.t(k).replace('{c}', c).replace('{n}', n ?? '').replace('{s}', this.t(this.subj)); }
   renderPicker() {
     $('#cp-h').textContent = this.t('pickClass'); $('#cp-sub').textContent = this.t('pickClassSub'); $('#cp-all').textContent = this.t('allClasses'); $('#cp-top').textContent = this.t('byTopic');
-    const li = licenceInfo('science'); const L = this.L(); $('#cp-lic').textContent = li ? `${{ en: 'DUET STEM subscription', hi: 'DUET STEM सदस्यता', hg: 'DUET STEM subscription' }[L]}${li.name ? ' · ' + li.name : ''} · ${((d) => ({ en: `valid until ${d}`, hi: `${d} तक मान्य`, hg: `${d} tak valid` }[L]))(new Date(li.until).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }))}` : '';
+    const li = licenceInfo('science'); const L = this.L(); $('#cp-lic').textContent = li ? `${{ en: 'DUET STEM subscription', hi: 'DUET STEM सब्सक्रिप्शन', hg: 'DUET STEM subscription' }[L]}${li.name ? ' · ' + li.name : ''} · ${((d) => ({ en: `valid until ${d}`, hi: `${d} तक मान्य`, hg: `${d} tak valid` }[L]))(new Date(li.until).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }))}` : '';
     $('#cp-btns').innerHTML = CLASSES.map((c) => { const n = classOrder(c, this.subj).length, d = n - this.classLeft(c).length; return `<button data-c="${c}">${c}<small>${esc(this.t('cls'))} ${c} · ${d ? `${d}/${n} ✓` : `${n}`}</small></button>`; }).join('');
   }
   renderTop() {
@@ -93,7 +93,7 @@ export class UI {
     const cur = this.app.runner.exp?.id; const order = tv ? classOrder(0, this.subj) : classOrder(c, this.subj); const d = order.filter((e) => this.done.has(e.id)).length;
     $('#prog').innerHTML = `<span>${d}/${order.length} ${esc(this.t('doneW'))}</span><span class="bar"><i style="width:${order.length ? Math.round((100 * d) / order.length) : 0}%"></i></span><button>${esc(this.t('changeClass'))}</button>`;
     const btn = (e) => `<button data-id="${e.id}" class="ebtn ${e.id === cur ? 'on' : ''}"><span class="cl ${this.done.has(e.id) ? 'ok' : ''}">${this.badge(e)}</span><span>${esc(this.app.expText(e, 'title'))}<small>${esc(this.app.expText(e, 'kind'))}</small></span></button>`;
-    const codeBtn = this.app.demo ? `<button class="ebtn codebtn" data-code="1"><span class="cl">🔑</span><span>${esc({ en: 'Free demo · Enter your DUET STEM code', hi: 'मुफ़्त डेमो · अपना DUET STEM कोड डालिए', hg: 'Free demo · Apna DUET STEM code daaliye' }[this.L()])}<small>${esc({ en: 'Unlocks every experiment', hi: 'सभी प्रयोग खुल जाते हैं', hg: 'Saare experiments khul jaate hain' }[this.L()])}</small></span></button>` : '';
+    const codeBtn = this.app.demo ? `<button class="ebtn codebtn" data-code="1"><span class="cl">🔑</span><span>${esc({ en: 'Free demo · Enter your DUET STEM code', hi: 'मुफ़्त डेमो · अपना DUET STEM कोड डालिए', hg: 'Free demo · Apna DUET STEM code daaliye' }[this.L()])}<small>${esc({ en: 'Unlocks every experiment', hi: 'सारे प्रयोग खुल जाते हैं', hg: 'Saare experiments khul jaate hain' }[this.L()])}</small></span></button>` : '';
     $('#explist').innerHTML = codeBtn + (tv ? topicGroups(this.subj).map((g) => `<h5 class="chh">${esc(tx(g.n, this.L()))} · ${g.items.length}</h5>${g.items.map(btn).join('')}`).join('') : c ? classGroups(c, this.subj).map((g) => `<h5 class="chh">${esc(g.key ? this.app.expText(g.items[0], 'ch') : this.t('otherClasses'))}</h5>${g.items.map(btn).join('')}`).join('') : order.map(btn).join(''))
       || `<p class="empty">${esc(this.t('soon'))}</p>`;
     this.dirty = true;
@@ -108,14 +108,15 @@ export class UI {
     $('#s-title').textContent = this.app.expText(e, 'title');
     let h = '';
     if (r.state === 'finished') {
-      h = `<p class="fin">✓ ${esc(this.t('finished'))}</p>${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}${this.diffs().length ? `<p class="see"><b>⚠ ${esc(tx(YOURS, L))}:</b></p>${this.diffs().map(([k, t]) => `<p class="see">${esc(this.t('step'))} ${k + 1}: ${esc(t)}</p>`).join('')}<p><b>${esc(tx(INBOOK, L))}:</b> ${esc(r.baseText('result.obs', L))} ${esc(r.baseText('result.concl', L))}</p>` : `<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p>`}<p class="eq">${esc(e.eq.sym)}</p>`;
-      const c = this.cls || e.cls; if (!this.classLeft(c).length) h += `<p class="fin">🎉 ${esc(this.fill('classDone', c))}</p>`;
+      const okF = r.incomplete().ok; h = (okF ? `<p class="fin">✓ ${esc(this.t('finished'))}</p>` : `<p class="see"><b>⚠ ${esc(this.incompleteText())}</b></p>`) + `${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}${this.diffs().length ? `<p class="see"><b>⚠ ${esc(tx(YOURS, L))}:</b></p>${this.diffs().map(([k, t]) => `<p class="see">${esc(this.t('step'))} ${k + 1}: ${esc(t)}</p>`).join('')}<p><b>${esc(tx(INBOOK, L))}:</b> ${esc(r.baseText('result.obs', L))} ${esc(r.baseText('result.concl', L))}</p>` : `<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p>`}<p class="eq">${esc(e.eq.sym)}</p>`;
+      const c = this.cls || e.cls; if (okF && !this.classLeft(c).length) h += `<p class="fin">🎉 ${esc(this.fill('classDone', c))}</p>`;
     } else if (s) {
       h = `<p class="stepn">${esc(this.t('step'))} ${r.i + 1} ${esc(this.t('of'))} ${n}</p><p><b>${esc(this.t('doLabel'))}:</b> ${esc(r.text(`steps.${r.i}.do`, L))}</p>`;
       if (r.state === 'done' || r.state === 'finished') {
         if (s.see) h += `<p class="see"><b>${esc(this.t('seeLabel'))}:</b> ${esc(r.text(`steps.${r.i}.see`, L))}</p>`;
         if (s.why) h += `<p class="why"><b>${esc(this.t('whyLabel'))}:</b> ${esc(r.text(`steps.${r.i}.why`, L))}</p>`;
-      } else if (r.state === 'todo') h += `<p class="hint">${esc(this.t('tapHint'))}</p>`;
+      } else if (r.state === 'todo' && r.res && r.res[r.i]) h += `<p class="see"><b>⚠ ${esc(this.t('stepOpen'))}</b></p><p class="see"><b>${esc(this.t('seeLabel'))}:</b> ${esc(r.text(`steps.${r.i}.see`, L))}</p><p class="why"><b>${esc(this.t('whyLabel'))}:</b> ${esc(r.text(`steps.${r.i}.why`, L))}</p>`;
+      else if (r.state === 'todo') h += `<p class="hint">${esc(this.t('tapHint'))}</p>`;
       if (r.state === 'todo' || r.state === 'doing') { const am = this.amounts(); if (am.length) h += `<p class="amt"><b>${esc(tx(HOWMUCH, L))}:</b> ${am.map(esc).join('<br>')}</p>`; const lp = this.lightHint(); if (lp) h += `<p class="hint">🔥 ${esc(lp)}</p>`; }
       else if (r.state === 'doing') h += `<p class="hint">${esc(this.t('doing'))}</p>`;
     }
@@ -174,11 +175,11 @@ export class UI {
     LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, 1270, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
     P.btn('voice', 748, 1270, 212, 84, (a.audio.voice ? '🔊 ' : '🔇 ') + this.t('voice'), { size: 26, align: 'center' });
     // eye height in the headset: lower / raise the view, or let it set itself
-    const eh = a.renderer.xr.isPresenting ? a.eyeY() : 0; const HL = { en: 'Eye height', hi: 'आँखों की ऊँचाई', hg: 'Aankh ki height' };
+    const eh = a.renderer.xr.isPresenting ? a.eyeY() : 0; const HL = { en: 'Eye height', hi: 'आँखों की ऊँचाई', hg: 'Aankhon ki height' };
     P.btn('hgt_dn', 40, 1376, 150, 84, '▼', { size: 34, align: 'center' });
     P.x.font = `600 26px ${FONT}`; const hl = `${HL[L] || HL.en} ${eh ? eh.toFixed(2) + (L === 'hi' ? ' मी' : ' m') : ''}`; P.text(hl, 350 - P.x.measureText(hl).width / 2, 1404, 26, '#e2dccf', 600);
     P.btn('hgt_up', 510, 1376, 150, 84, '▲', { size: 34, align: 'center' });
-    P.btn('hgt_auto', 676, 1376, 284, 84, { en: 'Auto height', hi: 'अपने-आप ऊँचाई', hg: 'Auto height' }[L] || 'Auto height', { size: 26, align: 'center', active: a._hgtAuto });
+    P.btn('hgt_auto', 676, 1376, 284, 84, { en: 'Auto height', hi: 'ऊँचाई अपने-आप', hg: 'Auto height' }[L] || 'Auto height', { size: 26, align: 'center', active: a._hgtAuto });
     P.commit();
     if (a.codeVR) { this.drawCodeVR(); return; }
     // story
@@ -189,7 +190,7 @@ export class UI {
     X.font = `700 44px ${FONT}`; const tl = wrap(X, a.expText(e, 'title'), 1020).slice(0, 2); tl.forEach((l, i) => S.text(l, 40, 140 + i * 54, 44, '#f3eee6', 700));
     let y = 150 + tl.length * 54 + 10; const s = r.step();
     const para = (label, txt, col) => { if (!txt) return; X.font = `500 32px ${FONT}`; const lines = wrap(X, `${label}: ${txt}`, 1010); lines.slice(0, 6).forEach((l, i) => { S.text(l, 40, y + i * 44, 32, i === 0 && col ? col : '#e2dccf', 500); }); y += Math.min(6, lines.length) * 44 + 14; };
-    if (r.state === 'finished') { S.text('✓ ' + this.t('finished'), 40, y, 34, '#9fd17a', 700); y += 60;
+    if (r.state === 'finished') { if (r.incomplete().ok) { S.text('✓ ' + this.t('finished'), 40, y, 34, '#9fd17a', 700); y += 60; } else para('⚠', this.incompleteText(), '#f0a65a');
       const dif = this.diffs(); // what the student actually got, when it was not the book's result
       if (dif.length) { S.text('⚠ ' + tx(YOURS, L), 40, y, 30, '#f0a65a', 700); y += 44; dif.slice(0, 2).forEach(([k, t]) => para(`${this.t('step')} ${k + 1}`, t, '#f6c08a')); para(tx(INBOOK, L), r.baseText('result.concl', L)); }
       else para(this.t('concl'), r.text('result.concl', L));
@@ -198,6 +199,7 @@ export class UI {
       S.text(`${this.t('step')} ${r.i + 1} ${this.t('of')} ${e.steps.length}`, 40, y, 28, '#a49d90', 600); y += 46;
       para(this.t('doLabel'), r.text(`steps.${r.i}.do`, L), '#f3eee6');
       if (r.state === 'done') { para(this.t('seeLabel'), r.text(`steps.${r.i}.see`, L), '#9fd17a'); para(this.t('whyLabel'), r.text(`steps.${r.i}.why`, L), '#7fd1ff'); }
+      else if (r.state === 'todo' && r.res && r.res[r.i]) { para('⚠', this.t('stepOpen'), '#f0a65a'); para(this.t('seeLabel'), r.text(`steps.${r.i}.see`, L), '#f6c08a'); para(this.t('whyLabel'), r.text(`steps.${r.i}.why`, L), '#7fd1ff'); }
       const lp = this.lightHint(true); const am = this.amounts();
       if (r.state === 'todo' && !lp && !am.length) para('➜', this.t('vrHint'));
       if (am.length) { S.text(tx(HOWMUCH, L), 40, y, 26, '#f0a65a', 700); y += 36; X.font = `600 29px ${FONT}`; for (const l of am) for (const w of wrap(X, '• ' + l, 1010).slice(0, 2)) { S.text(w, 40, y, 29, '#f6e3c8', 600); y += 40; } y += 8; }
@@ -233,7 +235,7 @@ export class UI {
       for (const sub in b.i) { const d = b.i[sub] - ((a.i && a.i[sub]) || 0); if (d <= 0.04 || !SUBS[sub]) continue; const sn = nm(SUBS[sub].n);
         if (d < 0.9) { const n = Math.max(1, Math.round(d / 0.05)); parts.push({ en: `${n} drop${n > 1 ? 's' : ''} of ${sn}`, hi: `${sn} की ${n} बूँद${n > 1 ? 'ें' : ''}`, hg: `${sn} ki ${n} boond${n > 1 ? 'ein' : ''}` }[L]); }
         else parts.push({ en: `${fmt(d)} mL of ${sn}`, hi: `${sn} ${fmt(d)} mL`, hg: `${sn} ${fmt(d)} mL` }[L]); }
-      for (const c of (b.s || []).filter((x) => !(a.s || []).includes(x))) { const sn = nm(SOLIDS[c] && SOLIDS[c].n); parts.push(POW.includes(c) ? { en: `1 spoonful of ${sn}`, hi: `${sn} 1 चम्मच`, hg: `${sn} 1 chammach` }[L] : sn); }
+      for (const c of (b.s || []).filter((x) => !(a.s || []).includes(x))) { const sn = nm(SOLIDS[c] && SOLIDS[c].n); parts.push(POW.includes(c) ? { en: `1 spoonful of ${sn}`, hi: `1 चम्मच ${sn}`, hg: `1 chammach ${sn}` }[L] : sn); }
       if (!parts.length) continue;
       const vn = `${nm(v.name).replace(/\s*[(（].*?[)）]/g, '')}${v.tag ? ' ' + v.tag : ''}`; const now = fmt(v.ml), goal = fmt(b.ml);
       const lvl = b.ml > 0.3 && Math.abs(b.ml - (a.ml || 0)) > 0.04 ? `  (${{ en: 'now', hi: 'अभी', hg: 'abhi' }[L]} ${now} mL → ${{ en: 'about', hi: 'लगभग', hg: 'lagbhag' }[L]} ${goal} mL)` : '';
@@ -241,12 +243,20 @@ export class UI {
     }
     return out.slice(0, 3);
   }
-  lightHint(short) { // the step lights a lamp or burner: how to do it yourself with a match
+  lightHint(short) { // the step lights a lamp or burner: how to do it in the headset (one trigger, or with a match yourself)
     const r = this.app.runner; const t = r.state === 'todo' && r.target && r.target(); if (!t || !t.setLit || t.lit) return '';
-    if (short) return { en: 'Light it yourself: trigger on the matchbox gives you a match; trigger again with the match at the box strikes it; hold the flame at the wick.', hi: 'खुद जलाइए: माचिस पर ट्रिगर — तीली हाथ में; तीली डिब्बी के पास रखकर फिर ट्रिगर — तीली जलेगी; लौ को बत्ती पर रखिए।', hg: 'Khud jalaiye: maachis par trigger — teeli haath mein; teeli dibbi ke paas rakhkar phir trigger — teeli jalegi; flame ko batti par rakhiye.' }[this.L()] || '';
-    return { en: 'To light it yourself: point at the matchbox and pull the trigger to take a match, pull the trigger again with the match at the box to strike it (or rub it fast along the brown side), then hold the flame at the wick / top of the burner.',
-      hi: 'खुद जलाने के लिए: माचिस की डिब्बी पर पॉइंट करके ट्रिगर दबाइए — एक तीली हाथ में आ जाएगी; तीली को डिब्बी के पास लाकर फिर ट्रिगर दबाइए (या भूरी पट्टी पर तेज़ी से रगड़िए) — तीली जल उठेगी; अब लौ को बत्ती / बर्नर के मुँह पर रखिए।',
-      hg: 'Khud jalane ke liye: maachis ki dibbi par point karke trigger dabaiye — ek teeli haath mein aa jaayegi; teeli ko dibbi ke paas laakar phir trigger dabaiye (ya brown patti par tezi se ragadiye) — teeli jal uthegi; ab flame ko batti / burner ke munh par rakhiye.' }[this.L()] || '';
+    if (short) return { en: 'To light it: point at the burner and pull the trigger (a match lights it). Or strike a match yourself: trigger on the matchbox, trigger again at the box, hold the flame at the top.', hi: 'जलाने के लिए: बर्नर पर पॉइंट करके ट्रिगर दबाइए (माचिस की तीली उसे जला देगी)। या ख़ुद तीली जलाइए: माचिस पर ट्रिगर, फिर डिब्बी के पास ट्रिगर, और लौ को ऊपर रखिए।', hg: 'Jalane ke liye: burner par point karke trigger dabaiye (maachis ki teeli use jala degi). Ya khud teeli jalaiye: maachis par trigger, phir dibbi ke paas trigger, aur flame ko upar rakhiye.' }[this.L()] || '';
+    return { en: 'To light it: point at the burner or lamp and pull the trigger: a match from the box lights it. To do it all yourself: point at the matchbox and pull the trigger to take a match, pull the trigger again with the match at the box to strike it (or rub it fast along the brown side), then hold the flame at the wick / top of the burner.',
+      hi: 'जलाने के लिए: बर्नर या लैंप पर पॉइंट करके ट्रिगर दबाइए — डिब्बी की एक तीली उसे जला देगी। सब कुछ ख़ुद करना हो तो: माचिस की डिब्बी पर पॉइंट करके ट्रिगर दबाइए — एक तीली हाथ में आ जाएगी; तीली को डिब्बी के पास लाकर फिर ट्रिगर दबाइए (या भूरी पट्टी पर तेज़ी से रगड़िए) — तीली जल उठेगी; अब लौ को बत्ती / बर्नर के मुँह पर रखिए।',
+      hg: 'Jalane ke liye: burner ya lamp par point karke trigger dabaiye — dibbi ki ek teeli use jala degi. Sab kuch khud karna ho to: maachis ki dibbi par point karke trigger dabaiye — ek teeli haath mein aa jaayegi; teeli ko dibbi ke paas laakar phir trigger dabaiye (ya brown patti par tezi se ragadiye) — teeli jal uthegi; ab flame ko batti / burner ke munh par rakhiye.' }[this.L()] || '';
+  }
+  incompleteText() { // which steps were skipped or came out differently
+    const L = this.L(); const inc = this.app.runner.incomplete(); const n = (a) => a.map((i) => i + 1).join(', ');
+    const parts = [];
+    if (inc.skipped.length) parts.push({ en: `step ${n(inc.skipped)} not done`, hi: `स्टेप ${n(inc.skipped)} नहीं किया गया`, hg: `step ${n(inc.skipped)} nahi kiya gaya` }[L]);
+    if (inc.differ.length) parts.push({ en: `step ${n(inc.differ)} not done as in the method`, hi: `स्टेप ${n(inc.differ)} विधि के हिसाब से नहीं हुआ`, hg: `step ${n(inc.differ)} method ke hisaab se nahi hua` }[L]);
+    const go = { en: 'Press ‹ Back to do them.', hi: 'उन्हें करने के लिए ‹ पीछे दबाइए।', hg: 'Unhe karne ke liye ‹ Back dabaiye.' }[L];
+    return `${this.t('notComplete')}: ${parts.join('; ')}. ${go}`;
   }
   diffs() { // [[step index, what the student saw]] for every step whose result differed from the method
     const r = this.app.runner, L = this.L(); const out = [];
@@ -256,8 +266,8 @@ export class UI {
   solStatus() { // [{ t, c }]: per vessel and solid — dissolving (how much is left), dissolved, saturated, or not dissolving
     const L = this.L(); const out = []; const W = {
       ing: { en: 'dissolving — {p}% left', hi: 'घुल रहा है — {p}% बचा है', hg: 'ghul raha hai — {p}% bacha hai' },
-      done: { en: 'dissolved completely — the solution is clear', hi: 'पूरा घुल गया — विलयन साफ़ है', hg: 'poora ghul gaya — solution saaf hai' },
-      sat: { en: 'no more dissolves — the solution is saturated', hi: 'अब और नहीं घुलता — विलयन संतृप्त है', hg: 'ab aur nahi ghulta — solution saturated hai' },
+      done: { en: 'dissolved completely — the solution is clear', hi: 'पूरा घुल गया — घोल साफ़ है', hg: 'poora ghul gaya — solution saaf hai' },
+      sat: { en: 'no more dissolves — the solution is saturated', hi: 'अब और नहीं घुलता — घोल सैचुरेटेड (संतृप्त) है', hg: 'ab aur nahi ghulta — solution saturated hai' },
       milky: { en: 'does not dissolve — the water has turned milky', hi: 'नहीं घुलता — पानी दूधिया हो गया', hg: 'nahi ghulta — paani doodhiya ho gaya' },
       settle: { en: 'does not dissolve — it settles at the bottom', hi: 'नहीं घुलता — नीचे तली में बैठ जाता है', hg: 'nahi ghulta — neeche tali mein baith jaata hai' },
     };

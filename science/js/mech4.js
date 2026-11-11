@@ -13,7 +13,7 @@ export const G = 9.8;
 // ------------------------------------------------------------------ a transparent pipe clamped upright with a balloon tied over its lower end (a vessel)
 export function balloonPipe(o = {}) {
   const r = o.r ?? 0.012, y0 = 0.07, L = 0.25; const prof = [[0, y0], [r, y0], [r, y0 + L], [r + 0.0012, y0 + L]];
-  const v = new Vessel('bpipe', prof, { ...o, wall: 0.0012, name: o.name || { en: `Transparent pipe (${Math.round(r * 200 * 10) / 10} cm wide) with a balloon at the bottom`, hi: `नीचे गुब्बारा बँधा पारदर्शी पाइप (${Math.round(r * 200 * 10) / 10} सेमी चौड़ा)`, hg: `Neeche balloon bandha transparent pipe (${Math.round(r * 200 * 10) / 10} cm chauda)` } });
+  const v = new Vessel('bpipe', prof, { ...o, wall: 0.0012, name: o.name || { en: `Transparent pipe (${Math.round(r * 200 * 10) / 10} cm wide) with a balloon at the bottom`, hi: `नीचे गुब्बारा बँधा पारदर्शी पाइप (${Math.round(r * 200 * 10) / 10} cm चौड़ा)`, hg: `Neeche balloon bandha transparent pipe (${Math.round(r * 200 * 10) / 10} cm chauda)` } });
   const bm = new THREE.MeshPhysicalMaterial({ color: 0xd83a3a, roughness: 0.3, clearcoat: 0.5 });
   const memb = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 14, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), bm); memb.position.y = y0; v.g.add(memb);
   const neck = new THREE.Mesh(new THREE.CylinderGeometry(r + 0.0018, r + 0.0018, 0.02, 24, 1, true), bm); neck.position.y = y0 + 0.008; v.g.add(neck);
@@ -67,13 +67,13 @@ export function sucker(o = {}) {
   it.height = 0.035; it.radius = 0.022; it.grabY = 0.02; return it;
 }
 export function tile(o = {}) {
-  const it = new Item('tile', { ...o, name: o.name || { en: 'Smooth glazed tile', hi: 'चिकनी चमकदार टाइल', hg: 'Chikni glazed tile' } });
+  const it = new Item('tile', { ...o, name: o.name || { en: 'Smooth glazed tile', hi: 'चिकनी, चमकदार टाइल', hg: 'Chikni, chamakdaar tile' } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.008, 0.15), new THREE.MeshStandardMaterial({ color: 0xf2efe8, roughness: 0.08 })); m.position.y = 0.004; it.g.add(m);
   it.top = 0.008; it.height = 0.008; it.radius = 0.075; it.grabY = 0.004; return it;
 }
 // ------------------------------------------------------------------ two balloons joined by a straw: air flows from the full one into the empty one
 export function strawBalloons(o = {}) {
-  const it = new Item('sballoons', { ...o, name: o.name || { en: 'Two balloons joined by a straw', hi: 'स्ट्रॉ से जुड़े दो गुब्बारे', hg: 'Straw se jude do balloons' } });
+  const it = new Item('sballoons', { ...o, name: o.name || { en: 'Two balloons joined by a straw', hi: 'स्ट्रॉ से जुड़े दो गुब्बारे', hg: 'Straw se jude do gubbare' } });
   const straw = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0035, 0.12, 12), new THREE.MeshStandardMaterial({ color: 0xf2f2f2, roughness: 0.4 })); straw.rotation.z = Math.PI / 2; straw.position.y = 0.06; it.g.add(straw);
   const clip = new THREE.Mesh(new THREE.BoxGeometry(0.008, 0.016, 0.012), new THREE.MeshStandardMaterial({ color: 0x2e7d4f, roughness: 0.5 })); clip.position.set(0.02, 0.06, 0); it.g.add(clip); it.clip = clip;
   const mk = (s, col) => { const g = new THREE.Group(); g.position.set(s * 0.06, 0.06, 0); it.g.add(g); const m = new THREE.MeshPhysicalMaterial({ color: col, roughness: 0.25, clearcoat: 0.6 }); const b = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 18), m); g.add(b); const n = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.006, 0.012, 10), m); n.rotation.z = Math.PI / 2; n.position.x = -s * 0.004; g.add(n); return { g, b, s }; };

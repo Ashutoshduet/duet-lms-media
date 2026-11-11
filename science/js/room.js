@@ -1,7 +1,7 @@
 // A school chemistry lab: tiled walls, windows with daylight, black-top work bench with wooden cabinets,
 // a reagent shelf, sink with tap, a green chalkboard that shows the current reaction, posters and side benches.
 import * as THREE from 'three';
-import { woodTex, tileTex, speckTex, canvasTex, labelTex } from './mats.js';
+import { woodTex, tileTex, speckTex, canvasTex, labelTex, crispText } from './mats.js';
 
 export const BENCH_Y = 0.9; // working surface height
 export const BENCH = { x0: -1.25, x1: 1.25, z0: -1.12, z1: -0.36 };
@@ -92,7 +92,7 @@ export function buildRoom(scene) {
   box(board, 3.3, 1.35, 0.05, 0, 0, 0, new THREE.MeshStandardMaterial({ map: woodTex('#6b4526'), roughness: 0.6 }), { recv: false });
   const bc = document.createElement('canvas'); bc.width = 2048; bc.height = 820;
   const btex = new THREE.CanvasTexture(bc); btex.colorSpace = THREE.SRGBColorSpace; btex.anisotropy = 8;
-  const boardFace = new THREE.Mesh(new THREE.PlaneGeometry(3.15, 1.26), new THREE.MeshStandardMaterial({ map: btex, roughness: 0.9 }));
+  const boardFace = new THREE.Mesh(new THREE.PlaneGeometry(3.15, 1.26), crispText(new THREE.MeshStandardMaterial({ map: btex, roughness: 0.9 })));
   boardFace.position.z = 0.03; board.add(boardFace);
   box(board, 3.2, 0.03, 0.08, 0, -0.66, 0.04, new THREE.MeshStandardMaterial({ color: 0x7a5a3a, roughness: 0.7 }), { recv: false });
   // photos: optional [{ img, cap }] — the real chemicals (cut-out photos) standing on the right of the board, each named under it
@@ -144,12 +144,12 @@ export function buildRoom(scene) {
     }));
     void layout;
   });
-  const poster = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.75), new THREE.MeshStandardMaterial({ map: ptex, roughness: 0.8 }));
+  const poster = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.75), crispText(new THREE.MeshStandardMaterial({ map: ptex, roughness: 0.8 })));
   poster.position.set(2.65, 2.0, zf + 0.02); room.add(poster);
   const rules = labelTex([{ t: 'LAB SAFETY · प्रयोगशाला नियम', size: 44 }, { t: 'Wear goggles and lab coat · चश्मा और कोट पहनें', size: 30, w: 600 },
     { t: 'Never taste or smell directly · कभी चखें नहीं', size: 30, w: 600 }, { t: 'Add acid to water, not water to acid', size: 30, w: 600 },
     { t: 'Point test tubes away when heating', size: 30, w: 600 }], { w: 900, h: 600, band: '#c0392b' });
-  const rp = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 0.63), new THREE.MeshStandardMaterial({ map: rules, roughness: 0.8 }));
+  const rp = new THREE.Mesh(new THREE.PlaneGeometry(0.95, 0.63), crispText(new THREE.MeshStandardMaterial({ map: rules, roughness: 0.8 })));
   rp.position.set(-2.65, 2.0, zf + 0.02); room.add(rp);
   // clock
   const clock = new THREE.Mesh(new THREE.CylinderGeometry(0.17, 0.17, 0.03, 32), new THREE.MeshStandardMaterial({ map: canvasTex(256, 256, (x, w) => {

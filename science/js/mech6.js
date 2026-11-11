@@ -12,7 +12,7 @@ const lapseOf = (it) => (it.lab && it.lab.chem && it.lab.chem.lapse) || 1;
 
 // ------------------------------------------------------------------ a water clock: an upside-down bottle with a tiny hole drips into a glass jar with a paper strip on it
 export function waterClock(o = {}) {
-  const it = new Item('wclock', { ...o, name: o.name || { en: 'Water clock (dripping bottle and a marked jar)', hi: 'जल घड़ी (टपकती बोतल और निशान लगा जार)', hg: 'Water clock (tapakti bottle aur marked jar)' } });
+  const it = new Item('wclock', { ...o, name: o.name || { en: 'Water clock (dripping bottle and a marked jar)', hi: 'पानी की घड़ी (टपकती बोतल और निशान लगा जार)', hg: 'Paani ki ghadi (tapakti bottle aur nishaan laga jar)' } });
   const stand = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.012, 0.12), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); stand.position.y = 0.006; it.g.add(stand);
   for (const s of [-1, 1]) { const p = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.36, 8), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); p.position.set(s * 0.07, 0.18, -0.03); it.g.add(p); }
   const shelf = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.008, 0.07), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); shelf.position.set(0, 0.24, -0.005); it.g.add(shelf);
@@ -45,7 +45,7 @@ export function lookPipe(bent = false, o = {}) {
 }
 // ------------------------------------------------------------------ a torch on a stand pointing at a white screen; whatever stands in between lets through some, a little or none of the light
 export function beamRig(o = {}) {
-  const it = new Item('brig', { ...o, name: o.name || { en: 'Torch and white screen', hi: 'टॉर्च और सफ़ेद पर्दा', hg: 'Torch aur white screen' } });
+  const it = new Item('brig', { ...o, name: o.name || { en: 'Torch and white screen', hi: 'टॉर्च और सफ़ेद पर्दा', hg: 'Torch aur safed parda' } });
   const L = o.len ?? 0.5; const tb = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.012, 0.11, 20), new THREE.MeshStandardMaterial({ color: 0x1f2a36, roughness: 0.4, metalness: 0.4 })); tb.rotation.x = Math.PI / 2; tb.position.set(0, 0.06, 0.05); it.g.add(tb);
   const st = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.045, 0.04), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); st.position.set(0, 0.0225, 0.05); it.g.add(st);
   const lens = new THREE.Mesh(new THREE.CircleGeometry(0.013, 20), new THREE.MeshBasicMaterial({ color: 0x55515a })); lens.position.set(0, 0.06, -0.0055); lens.rotation.y = Math.PI; it.g.add(lens);
@@ -69,7 +69,7 @@ export function sheetOnFoot(kind = 'glass', o = {}) {
 }
 // ------------------------------------------------------------------ real shadows: a small lamp that casts shadows, an object on a stand and a screen
 export function shadowLamp(o = {}) {
-  const it = new Item('slamp', { ...o, name: o.name || { en: 'Small bright lamp', hi: 'छोटा तेज़ लैंप', hg: 'Chhota tez lamp' } });
+  const it = new Item('slamp', { ...o, name: o.name || { en: 'Small bright lamp', hi: 'छोटा, तेज़ रोशनी वाला लैंप', hg: 'Chhota, tez roshni wala lamp' } });
   const base = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.035, 0.01, 24), new THREE.MeshStandardMaterial({ color: 0x23272d })); base.position.y = 0.005; it.g.add(base);
   const post = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.1, 8), steel()); post.position.y = 0.055; it.g.add(post);
   const bulb = new THREE.Mesh(new THREE.SphereGeometry(o.size ?? 0.006, 16, 12), new THREE.MeshBasicMaterial({ color: 0xfff6dc })); bulb.position.y = 0.105; it.g.add(bulb); it.bulb = bulb;
@@ -80,13 +80,13 @@ export function shadowLamp(o = {}) {
   it.height = 0.11; it.radius = 0.035; it.grabY = 0.05; return it;
 }
 export function ballOnStand(o = {}) {
-  const it = new Item('bstand', { ...o, name: o.name || { en: 'Ball on a stand', hi: 'स्टैंड पर गेंद', hg: 'Stand par ball' } });
+  const it = new Item('bstand', { ...o, name: o.name || { en: 'Ball on a stand', hi: 'स्टैंड पर गेंद', hg: 'Stand par gend' } });
   const b = new THREE.Mesh(new THREE.SphereGeometry(0.018, 24, 16), new THREE.MeshStandardMaterial({ color: 0xd8462b, roughness: 0.5 })); b.position.y = 0.105; b.castShadow = true; it.g.add(b);
   const p = new THREE.Mesh(new THREE.CylinderGeometry(0.002, 0.002, 0.09, 6), steel()); p.position.y = 0.045; p.castShadow = true; it.g.add(p); const base = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.022, 0.006, 20), new THREE.MeshStandardMaterial({ color: 0x23272d })); base.position.y = 0.003; it.g.add(base);
   it.height = 0.125; it.radius = 0.022; it.grabY = 0.06; return it;
 }
 export function bigScreen(o = {}) {
-  const it = new Item('bscreen', { ...o, name: o.name || { en: 'White screen', hi: 'सफ़ेद पर्दा', hg: 'White screen' } });
+  const it = new Item('bscreen', { ...o, name: o.name || { en: 'White screen', hi: 'सफ़ेद पर्दा', hg: 'Safed parda' } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.22, 0.006), new THREE.MeshStandardMaterial({ color: 0xf4f1ea, roughness: 0.95 })); m.position.y = 0.12; m.receiveShadow = true; it.g.add(m);
   const ft = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.012, 0.06), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); ft.position.y = 0.006; it.g.add(ft);
   it.height = 0.23; it.radius = 0.16; it.grabY = 0.1; return it;

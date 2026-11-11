@@ -15,7 +15,7 @@ const steel = (c = 0xc8ccd0, r = 0.25) => new THREE.MeshStandardMaterial({ color
 // ------------------------------------------------------------------ a plane mirror strip (8 cm × 3 cm) standing upright in a wooden holder
 // its silvered face is at local z = 0, facing +z; the item's origin is the bottom of the silvered face (put it on the mirror line)
 export function planeMirror(o = {}) {
-  const it = new Item('pmirror', { ...o, name: o.name || { en: 'Plane mirror strip in a holder', hi: 'होल्डर में समतल दर्पण की पट्टी', hg: 'Holder mein plane mirror strip' } });
+  const it = new Item('pmirror', { ...o, name: o.name || { en: 'Plane mirror strip in a holder', hi: 'होल्डर में समतल दर्पण की पट्टी', hg: 'Holder mein plane mirror ki patti' } });
   const W = 0.08, H = 0.03;
   const back = new THREE.Mesh(new THREE.BoxGeometry(W, H, 0.0025), new THREE.MeshStandardMaterial({ color: 0x5b6168, roughness: 0.6, metalness: 0.3 })); back.position.set(0, H / 2, -0.0013); it.g.add(back);
   const glass = new Reflector(new THREE.PlaneGeometry(W - 0.001, H - 0.001), { textureWidth: 512, textureHeight: 192, color: 0xc9d1d6, clipBias: 0.002 }); glass.position.set(0, H / 2, 0.0001); glass.userData.noHit = true; it.g.add(glass);
@@ -26,13 +26,13 @@ export function planeMirror(o = {}) {
 // ------------------------------------------------------------------ a sheet of black chart paper on the table (paper coordinates as on the drawing board)
 export function blackSheet(o = {}) {
   const W = o.w ?? 0.6, H = o.h ?? 0.36;
-  const it = new Item('sheet', { ...o, name: o.name || { en: 'Black chart paper', hi: 'काला चार्ट पेपर', hg: 'Black chart paper' } });
+  const it = new Item('sheet', { ...o, name: o.name || { en: 'Black chart paper', hi: 'काला चार्ट पेपर', hg: 'Kaala chart paper' } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(W, 0.0008, H), new THREE.MeshStandardMaterial({ color: 0x15171b, roughness: 0.92 })); m.position.y = 0.0004; it.g.add(m);
   it.W = W; it.H = H; it.surfY = 0.0009; it.toLocal = (u, v) => V3(u, it.surfY, -v); it.noGrab = true; it.height = 0.001; it.radius = Math.max(W, H) / 2; it.grabY = 0.0005; return it;
 }
 // ------------------------------------------------------------------ a ray box: a lamp in a metal box with a narrow vertical slit; the beam leaves along local +x
 export function rayBox(o = {}) {
-  const it = new Item('raybox', { ...o, name: o.name || { en: 'Ray box (lamp with a narrow slit)', hi: 'किरण बॉक्स (पतली झिरी वाला लैंप)', hg: 'Ray box (patli slit wala lamp)' } });
+  const it = new Item('raybox', { ...o, name: o.name || { en: 'Ray box (lamp with a narrow slit)', hi: 'रे बॉक्स (पतली झिरी वाला लैंप)', hg: 'Ray box (patli slit wala lamp)' } });
   const lab = canvasTex(256, 128, (x, w, h) => { x.fillStyle = '#26334a'; x.fillRect(0, 0, w, h); x.fillStyle = '#e8eef6'; x.font = '700 34px sans-serif'; x.textAlign = 'center'; x.fillText('RAY BOX', w / 2, h * 0.45); x.font = '500 22px sans-serif'; x.fillText('12 V · 24 W', w / 2, h * 0.78); });
   const bodyM = new THREE.MeshStandardMaterial({ color: 0x26334a, roughness: 0.45, metalness: 0.5 });
   const body = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.045, 0.05), [bodyM, bodyM, bodyM, bodyM, new THREE.MeshStandardMaterial({ map: lab, roughness: 0.45, metalness: 0.4 }), bodyM]); body.position.y = 0.0225; it.g.add(body);
@@ -46,7 +46,7 @@ export function rayBox(o = {}) {
 }
 // ------------------------------------------------------------------ a white card standing on a foot; it faces local +z; the band of colours is painted on it
 export function cardScreen(o = {}) {
-  const it = new Item('card', { ...o, name: o.name || { en: 'White screen (card)', hi: 'सफ़ेद पर्दा (कार्ड)', hg: 'White screen (card)' } });
+  const it = new Item('card', { ...o, name: o.name || { en: 'White screen (card)', hi: 'सफ़ेद पर्दा (कार्ड)', hg: 'Safed parda (card)' } });
   const W = 0.12, H = 0.075; const c = document.createElement('canvas'); c.width = 384; c.height = 240; const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
   const front = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.35 }); const side = new THREE.MeshStandardMaterial({ color: 0xe9e6de, roughness: 0.9 });
   const card = new THREE.Mesh(new THREE.BoxGeometry(W, H, 0.0016), [side, side, side, side, front, side]); card.position.y = H / 2 + 0.0004; it.g.add(card);

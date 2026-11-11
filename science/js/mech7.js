@@ -42,7 +42,7 @@ export function hangMagnet(o = {}) {
 }
 // ------------------------------------------------------------------ iron filings in a dish; a magnet dipped in comes out with tufts at its two ends
 export function filingsDish(o = {}) {
-  const it = new Item('fdish', { ...o, name: o.name || { en: 'Iron filings in a dish', hi: 'डिश में लोहे का बुरादा', hg: 'Dish mein iron filings' } });
+  const it = new Item('fdish', { ...o, name: o.name || { en: 'Iron filings in a dish', hi: 'डिश में लोहे का बुरादा', hg: 'Dish mein lohe ka buraada' } });
   const R = 0.05; const dish = new THREE.Mesh(new THREE.LatheGeometry([new THREE.Vector2(0, 0), new THREE.Vector2(R, 0), new THREE.Vector2(R + 0.002, 0.012), new THREE.Vector2(R + 0.003, 0.0125)], 40), glassMat({ opacity: 0.22, edge: 0.7 })); dish.renderOrder = 6; it.g.add(dish);
   const N = 1400; const gm = new THREE.InstancedMesh(new THREE.BoxGeometry(0.0016, 0.0005, 0.0005), new THREE.MeshStandardMaterial({ color: 0x3b3d40, roughness: 0.7, metalness: 0.5 }), N); gm.frustumCulled = false; it.g.add(gm);
   const M = new THREE.Matrix4(), Q = new THREE.Quaternion(), E = new THREE.Euler(), S = V3(1, 1, 1);
@@ -60,7 +60,7 @@ export function tufts(mag, L = 0.075) {
 }
 // ------------------------------------------------------------------ a sewing needle pushed through a small cork, floating in a glass bowl of water
 export function needleCork(o = {}) {
-  const it = new Item('ncork', { ...o, name: o.name || { en: 'Bowl of water with a needle on a cork', hi: 'कॉर्क पर सुई रखा पानी का कटोरा', hg: 'Cork par sui wala paani ka katora' } });
+  const it = new Item('ncork', { ...o, name: o.name || { en: 'Bowl of water with a needle on a cork', hi: 'पानी का कटोरा और कॉर्क पर रखी सुई', hg: 'Paani ka katora aur cork par rakhi sui' } });
   const R = 0.075, H = 0.05; const bowl = new THREE.Mesh(new THREE.LatheGeometry([new THREE.Vector2(0, 0), new THREE.Vector2(R * 0.7, 0), new THREE.Vector2(R * 0.95, H * 0.5), new THREE.Vector2(R, H), new THREE.Vector2(R + 0.002, H)], 48), glassMat({ opacity: 0.18, edge: 0.7 })); bowl.renderOrder = 6; it.g.add(bowl);
   const water = new THREE.Mesh(new THREE.CircleGeometry(R * 0.93, 48), new THREE.MeshStandardMaterial({ color: 0x9fc6e8, transparent: true, opacity: 0.45, roughness: 0.05 })); water.rotation.x = -Math.PI / 2; water.position.y = H * 0.75; water.renderOrder = 5; it.g.add(water);
   const rot = new THREE.Group(); rot.position.set(0, H * 0.75, 0); it.g.add(rot);
@@ -75,7 +75,7 @@ export function needleCork(o = {}) {
 }
 // ------------------------------------------------------------------ an iron nail (it becomes a magnet when stroked many times in one direction with a magnet)
 export function ironNail(o = {}) {
-  const it = new Item('inail', { ...o, name: o.name || { en: 'Iron nail', hi: 'लोहे की कील', hg: 'Iron ki keel' } });
+  const it = new Item('inail', { ...o, name: o.name || { en: 'Iron nail', hi: 'लोहे की कील', hg: 'Lohe ki keel' } });
   const M = steel(0x8c9096, 0.42); const L = 0.075; const sh = new THREE.Mesh(new THREE.CylinderGeometry(0.0018, 0.0018, L, 12), M); sh.rotation.z = Math.PI / 2; sh.position.y = 0.0045; it.g.add(sh);
   const hd = new THREE.Mesh(new THREE.CylinderGeometry(0.0042, 0.0042, 0.0016, 18), M); hd.rotation.z = Math.PI / 2; hd.position.set(-L / 2, 0.0045, 0); it.g.add(hd);
   const tp = new THREE.Mesh(new THREE.ConeGeometry(0.0018, 0.007, 12), M); tp.rotation.z = -Math.PI / 2; tp.position.set(L / 2 + 0.0035, 0.0045, 0); it.g.add(tp);
@@ -100,7 +100,7 @@ export function measStick(kind = 'pencil', o = {}) {
 }
 // ------------------------------------------------------------------ a card with a curved line drawn on it and a thread that can be laid along the line, then straightened
 export function curveCard(o = {}) {
-  const it = new Item('ccard', { ...o, name: o.name || { en: 'Card with a curved line, and a thread', hi: 'वक्र रेखा वाला कार्ड और धागा', hg: 'Curved line wala card aur dhaaga' } });
+  const it = new Item('ccard', { ...o, name: o.name || { en: 'Card with a curved line, and a thread', hi: 'घुमावदार लाइन वाला कार्ड और धागा', hg: 'Ghumaavdaar line wala card aur dhaaga' } });
   const W = 0.2, D = 0.14; const pts = []; for (let i = 0; i <= 60; i++) { const t = i / 60; pts.push(V3(-0.085 + t * 0.17, 0, 0.035 * Math.sin(t * Math.PI * 2.2) - 0.01 + 0.02 * t)); }
   let len = 0; for (let i = 1; i < pts.length; i++) len += pts[i].distanceTo(pts[i - 1]);
   const tex = canvasTex(512, 358, (x, w, h) => { x.fillStyle = '#fbf8ef'; x.fillRect(0, 0, w, h); x.strokeStyle = '#1d4f9a'; x.lineWidth = 4; x.beginPath(); pts.forEach((p, i) => { const px = (p.x / W + 0.5) * w, py = (p.z / D + 0.5) * h; i ? x.lineTo(px, py) : x.moveTo(px, py); }); x.stroke(); x.fillStyle = '#1d4f9a'; for (const p of [pts[0], pts[60]]) { x.beginPath(); x.arc((p.x / W + 0.5) * w, (p.z / D + 0.5) * h, 6, 0, 6.29); x.fill(); } x.font = '600 26px sans-serif'; x.fillText('A', (pts[0].x / W + 0.5) * w - 26, (pts[0].z / D + 0.5) * h + 8); x.fillText('B', (pts[60].x / W + 0.5) * w + 10, (pts[60].z / D + 0.5) * h + 8); });
@@ -113,7 +113,7 @@ export function curveCard(o = {}) {
 }
 // ------------------------------------------------------------------ a glass tub of water: things dropped in sink to the bottom or float with part of them under water
 export function waterTub(o = {}) {
-  const it = new Item('tub', { ...o, name: o.name || { en: 'Glass tub of water', hi: 'पानी से भरा काँच का टब', hg: 'Paani se bhara glass tub' } });
+  const it = new Item('tub', { ...o, name: o.name || { en: 'Glass tub of water', hi: 'पानी से भरा काँच का टब', hg: 'Paani se bhara kaanch ka tub' } });
   const W = 0.34, D = 0.2, H = 0.14, wl = 0.11; const gm = glassMat({ opacity: 0.16, edge: 0.7 });
   for (const [sx, sy, sz, px, py, pz] of [[W, 0.004, D, 0, 0.002, 0], [W, H, 0.004, 0, H / 2, -D / 2], [W, H, 0.004, 0, H / 2, D / 2], [0.004, H, D, -W / 2, H / 2, 0], [0.004, H, D, W / 2, H / 2, 0]]) { const m = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), gm); m.position.set(px, py, pz); m.renderOrder = 6; it.g.add(m); }
   const wM = new THREE.MeshStandardMaterial({ color: 0x8fbfe6, transparent: true, opacity: 0.32, roughness: 0.05, depthWrite: false }); const w = new THREE.Mesh(new THREE.BoxGeometry(W - 0.008, wl - 0.004, D - 0.008), wM); w.position.y = 0.004 + (wl - 0.004) / 2; w.renderOrder = 5; it.g.add(w);
@@ -136,7 +136,7 @@ export function floatThing(kind, o = {}) {
 }
 // ------------------------------------------------------------------ a wooden metre scale (100 cm, marked in cm and mm)
 export function metreRule(o = {}) {
-  const it = new Item('mrule', { ...o, name: o.name || { en: 'Metre scale', hi: 'मीटर पैमाना', hg: 'Metre scale' } }); const L = 1.02;
+  const it = new Item('mrule', { ...o, name: o.name || { en: 'Metre scale', hi: 'मीटर स्केल', hg: 'Metre scale' } }); const L = 1.02;
   const tex = canvasTex(4096, 96, (x, w, h) => { x.drawImage(woodTex('#e2c48e').image, 0, 0, w, h); x.fillStyle = '#1b1b1b'; const px = (mm) => 40 + (mm / 1000) * (w - 80); for (let mm = 0; mm <= 1000; mm++) { const Lh = mm % 10 === 0 ? 40 : mm % 5 === 0 ? 28 : 16; x.fillRect(px(mm) - 0.8, 0, mm % 10 ? 1.4 : 2.4, Lh); if (mm % 50 === 0) { x.font = '600 30px sans-serif'; x.textAlign = 'center'; x.fillText(String(mm / 10), px(mm), 78); } } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(L, 0.006, 0.03), [0, 1, 2, 3, 4, 5].map((i) => new THREE.MeshStandardMaterial(i === 2 ? { map: tex, roughness: 0.6 } : { map: woodTex('#d8b67e'), roughness: 0.6 }))); m.position.y = 0.003; m.castShadow = true; it.g.add(m);
   it.xAt = (cm) => -L / 2 + 0.01 + (cm / 100) * (L - 0.02); it.height = 0.006; it.radius = L / 2; it.grabY = 0.003; return it;

@@ -50,9 +50,9 @@ export function liquidMat() {
       bool isSed = vLY < uSed;`)
       .replace('#include <color_fragment>', `#include <color_fragment>
       diffuseColor.rgb = mix(diffuseColor.rgb, uCloudCol, uCloud);
-      diffuseColor.a = mix(max(uAlpha, 0.2), 0.96, uCloud); // even clear water shows a faint body
-      if (!gl_FrontFacing) { diffuseColor.rgb = mix(diffuseColor.rgb, uSurf, 0.35); diffuseColor.a = max(diffuseColor.a, 0.38 * clr + uCloud); } // the surface: a sheet that reflects the room
-      if (gl_FrontFacing && !isSed) { float wl = smoothstep(0.0022, 0.0, dl); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.97, 0.99, 1.0), wl * 0.6 * clr); diffuseColor.a = mix(diffuseColor.a, 0.8, wl * clr); } // the water line (meniscus) on the glass
+      diffuseColor.a = mix(max(uAlpha, 0.3), 0.96, uCloud); diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(0.84, 0.94, 1.0), 0.35 * clr); // even clear water shows a body (a little blue), so you can see there is water in the glass
+      if (!gl_FrontFacing) { diffuseColor.rgb = mix(diffuseColor.rgb, uSurf, 0.35); diffuseColor.a = max(diffuseColor.a, 0.52 * clr + uCloud); } // the surface: a sheet that reflects the room
+      if (gl_FrontFacing && !isSed) { float wl = smoothstep(0.0032, 0.0, dl); diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.97, 0.99, 1.0), wl * 0.8 * clr); diffuseColor.a = mix(diffuseColor.a, 0.92, wl * clr); } // the water line (meniscus) on the glass
       if (uSwirl > 0.001 && !isSed) { // dissolving: wavy streaks of denser solution curling up from the crystals
         float hB = vLY - uBot; float s1 = sin(vWP.y * 1400.0 + sin(vWP.x * 900.0 + uTime * 1.7) * 3.0 + sin(vWP.z * 800.0 - uTime * 1.3) * 3.0 - uTime * 2.2);
         float k = smoothstep(0.55, 1.0, s1) * uSwirl * (1.0 - smoothstep(0.0, 0.045, hB)) * clr; diffuseColor.rgb = mix(diffuseColor.rgb, vec3(1.0), k * 0.5); diffuseColor.a = min(0.95, diffuseColor.a + k * 0.32); }
@@ -64,9 +64,9 @@ export function liquidMat() {
         float r = 0.012 + uRip * 0.09; n.x += (sin(q.x + t * 6.1) + sin(q.y * 1.37 - t * 4.7)) * r; n.z += (cos(q.y + t * 5.3) + cos(q.x * 1.21 + t * 3.9)) * r; // ripples (stronger while pouring or stirring)
         normal = normalize((viewMatrix * vec4(normalize(n), 0.0)).xyz); }`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
-      if (gl_FrontFacing && !isSed) { float fr = 1.0 - abs(dot(normal, normalize(vViewPosition))); diffuseColor.a = min(0.97, diffuseColor.a + fr * fr * 0.42 * clr); diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(0.86, 0.95, 1.0), fr * clr); } // seen at a slant through the glass, water looks denser and a little blue`);
+      if (gl_FrontFacing && !isSed) { float fr = 1.0 - abs(dot(normal, normalize(vViewPosition))); diffuseColor.a = min(0.97, diffuseColor.a + fr * fr * 0.5 * clr); diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(0.86, 0.95, 1.0), fr * clr); } // seen at a slant through the glass, water looks denser and a little blue`);
   };
-  m.customProgramCacheKey = () => 'liquid3';
+  m.customProgramCacheKey = () => 'liquid4';
   return m;
 }
 
@@ -126,6 +126,15 @@ export function shade(hex, pct) {
   return '#' + ((f(n >> 16) << 16) | (f((n >> 8) & 255) << 8) | f(n & 255)).toString(16).padStart(6, '0');
 }
 // bottle / poster labels
+// Writing drawn on a canvas (headset panels, bottle labels, the board, posters) is seen smaller in the headset than it is drawn,
+// and the GPU's mipmaps then blur it. Sampling a finer mip level (a small negative LOD bias) keeps the letters crisp.
+export function crispText(mat, bias = -0.75) {
+  const prev = mat.onBeforeCompile; const b = bias.toFixed(2);
+  mat.onBeforeCompile = (s, r) => { if (prev) prev(s, r); s.fragmentShader = s.fragmentShader.replace('#include <map_fragment>', THREE.ShaderChunk.map_fragment.replace('texture2D( map, vMapUv )', `texture2D( map, vMapUv, ${b} )`)); };
+  const key = mat.customProgramCacheKey && mat.customProgramCacheKey !== THREE.Material.prototype.customProgramCacheKey ? mat.customProgramCacheKey.bind(mat) : null;
+  mat.customProgramCacheKey = () => (key ? key() : mat.type) + '|crisp' + b;
+  return mat;
+}
 export function labelTex(lines, o = {}) {
   const W = o.w ?? 512, H = o.h ?? 256;
   return canvasTex(W, H, (x, w, h) => {

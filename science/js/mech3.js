@@ -15,7 +15,7 @@ export const G = 9.8;
 
 // ------------------------------------------------------------------ an iron nail with insulated copper wire wound on it; with a current it is an electromagnet (the iron makes the field ~40× stronger)
 export function nailCoil(o = {}) {
-  const turns = o.turns ?? 30, L = 0.075; const it = new Item('nailcoil', { ...o, name: o.name || { en: `Iron nail with a coil of ${turns} turns`, hi: `${turns} फेरों की कुंडली वाली लोहे की कील`, hg: `${turns} turns ki coil wali iron nail` } });
+  const turns = o.turns ?? 30, L = 0.075; const it = new Item('nailcoil', { ...o, name: o.name || { en: `Iron nail with a coil of ${turns} turns`, hi: `${turns} फेरों की कॉइल वाली लोहे की कील`, hg: `${turns} turns ki coil wali lohe ki keel` } });
   const nailM = steel(0x7d8288, 0.4); const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.0022, 0.0022, L, 12), nailM); shaft.rotation.z = Math.PI / 2; shaft.position.set(0, 0.0045, 0); it.g.add(shaft);
   const head = new THREE.Mesh(new THREE.CylinderGeometry(0.0045, 0.0045, 0.0015, 16), nailM); head.rotation.z = Math.PI / 2; head.position.set(-L / 2, 0.0045, 0); it.g.add(head);
   const tip = new THREE.Mesh(new THREE.ConeGeometry(0.0022, 0.008, 12), nailM); tip.rotation.z = -Math.PI / 2; tip.position.set(L / 2 + 0.004, 0.0045, 0); it.g.add(tip);
@@ -85,7 +85,7 @@ export function hotWireCard(o = {}) {
 }
 // ------------------------------------------------------------------ two ring magnets on an upright stick; with like poles facing, the upper one floats
 export function ringMagnets(o = {}) {
-  const it = new Item('rings', { ...o, name: o.name || { en: 'Two ring magnets on a wooden stick', hi: 'लकड़ी की छड़ी पर दो वलय चुंबक', hg: 'Lakdi ki stick par do ring magnets' } });
+  const it = new Item('rings', { ...o, name: o.name || { en: 'Two ring magnets on a wooden stick', hi: 'लकड़ी की छड़ी पर दो रिंग चुंबक', hg: 'Lakdi ki stick par do ring magnet' } });
   const base = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.045, 0.012, 32), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); base.position.y = 0.006; it.g.add(base);
   const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.16, 12), new THREE.MeshStandardMaterial({ map: woodTex('#c49a63'), roughness: 0.7 })); stick.position.y = 0.092; it.g.add(stick);
   const ringG = (col) => { const g = new THREE.Group(); const sh = new THREE.Shape(); sh.absarc(0, 0, 0.022, 0, Math.PI * 2, false); const hole = new THREE.Path(); hole.absarc(0, 0, 0.0055, 0, Math.PI * 2, true); sh.holes.push(hole); const geo = new THREE.ExtrudeGeometry(sh, { depth: 0.008, bevelEnabled: true, bevelSize: 0.0006, bevelThickness: 0.0006, bevelSegments: 2, curveSegments: 32 }); geo.rotateX(-Math.PI / 2); const m = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: 0x2c2f33, roughness: 0.6, metalness: 0.3 })); g.add(m); const dot = new THREE.Mesh(new THREE.CircleGeometry(0.003, 12), new THREE.MeshBasicMaterial({ color: col })); dot.rotation.x = -Math.PI / 2; dot.position.set(0.015, 0.0088, 0); g.add(dot); g.dot = dot; return g; };
@@ -98,7 +98,7 @@ export function ringMagnets(o = {}) {
 // ------------------------------------------------------------------ electric charge: a balloon hanging on a thread (a pendulum pushed by Coulomb forces), wool, a plastic scale and paper bits
 export const KC = 9e9;
 export function balloonPair(o = {}) {
-  const it = new Item('balloons', { ...o, name: o.name || { en: 'Two balloons hanging on threads', hi: 'धागों से लटके दो गुब्बारे', hg: 'Dhaagon se latke do balloons' } });
+  const it = new Item('balloons', { ...o, name: o.name || { en: 'Two balloons hanging on threads', hi: 'धागों से लटके दो गुब्बारे', hg: 'Dhaagon se latke do gubbare' } });
   const H = 0.62, Lt = 0.3, R = 0.07, sep = o.sep ?? 0.165; const st = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.012, 0.12), new THREE.MeshStandardMaterial({ color: 0x2b2f35, roughness: 0.6 })); st.position.set(-0.24, 0.006, 0); it.g.add(st);
   const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, H, 12), steel()); rod.position.set(-0.26, H / 2, 0); it.g.add(rod); const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.36, 10), steel()); arm.rotation.z = Math.PI / 2; arm.position.set(-0.08, H - 0.01, 0); it.g.add(arm);
   const cols = [0x2f7fd6, 0xe0403a]; it.b = [-1, 1].map((s, i) => { const piv = new THREE.Group(); piv.position.set(s * sep / 2, H - 0.014, 0); it.g.add(piv);
@@ -119,7 +119,7 @@ export function balloonPair(o = {}) {
   it.height = H; it.radius = 0.3; it.grabY = H / 2; it.noGrab = true; return it;
 }
 export function woolCloth(o = {}) {
-  const it = new Item('wool', { ...o, name: o.name || { en: 'Woollen cloth', hi: 'ऊनी कपड़ा', hg: 'Woollen kapda' } });
+  const it = new Item('wool', { ...o, name: o.name || { en: 'Woollen cloth', hi: 'ऊनी कपड़ा', hg: 'Ooni kapda' } });
   const t = canvasTex(128, 128, (x, w, h) => { x.fillStyle = '#7b2d3a'; x.fillRect(0, 0, w, h); x.strokeStyle = 'rgba(255,220,220,0.18)'; x.lineWidth = 2; for (let y = 0; y < h; y += 6) for (let xx = 0; xx < w; xx += 8) { x.beginPath(); x.arc(xx, y, 3, 0, Math.PI); x.stroke(); } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.008, 0.07), new THREE.MeshStandardMaterial({ map: t, roughness: 1 })); m.position.y = 0.004; it.g.add(m);
   it.q = 0; it.height = 0.008; it.radius = 0.05; it.grabY = 0.004; return it;
@@ -153,7 +153,7 @@ export function paperBits(n = 24, o = {}) {
 }
 // ------------------------------------------------------------------ a soft spring hanging from a stand, with a pointer and a scale to read the stretch; objects hang from its hook
 export function hangSpring(o = {}) {
-  const it = new Item('hspring', { ...o, name: o.name || { en: 'Soft spring on a stand', hi: 'स्टैंड पर लटकी नरम कमानी', hg: 'Stand par latki soft spring' } });
+  const it = new Item('hspring', { ...o, name: o.name || { en: 'Soft spring on a stand', hi: 'स्टैंड पर लटकी नरम स्प्रिंग', hg: 'Stand par latki naram spring' } });
   const H = 0.45, L0 = 0.1, k = o.k ?? 50;
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.012, 0.14), new THREE.MeshStandardMaterial({ color: 0x2b2f35, roughness: 0.6 })); base.position.y = 0.006; it.g.add(base);
   const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.005, 0.005, H, 12), steel()); rod.position.set(-0.04, H / 2, -0.04); it.g.add(rod);

@@ -17,7 +17,7 @@ const steel = () => new THREE.MeshStandardMaterial({ color: 0xc4c8cc, metalness:
 // glass funnel with a folded filter-paper cone; it drains into the vessel below and keeps the insoluble part (residue)
 export function filterFunnel(o = {}) {
   const prof = [[0.0034, 0], [0.0034, 0.044], [0.0048, 0.05], [0.037, 0.092], [0.0385, 0.094]];
-  const v = new Vessel('funnel_f', prof, { ...o, wall: 0.0011, name: o.name || { en: 'Funnel with filter paper', hi: 'फ़िल्टर पेपर लगी कीप', hg: 'Filter paper wali keep' } });
+  const v = new Vessel('funnel_f', prof, { ...o, wall: 0.0011, name: o.name || { en: 'Funnel with filter paper', hi: 'फ़िल्टर पेपर लगी कीप', hg: 'Filter paper laga funnel' } });
   const pp = []; for (let i = 0; i <= 10; i++) { const t = i / 10; pp.push(V2(0.0042 + t * 0.0305, 0.052 + t * 0.043)); }
   const paper = new THREE.Mesh(new THREE.LatheGeometry(pp, SEG), new THREE.MeshStandardMaterial({ color: 0xf7f6f0, roughness: 1, side: THREE.DoubleSide, transparent: true, opacity: 0.9 }));
   paper.renderOrder = 5; paper.userData.noHit = true; v.g.add(paper); v.paper = paper;
@@ -190,7 +190,7 @@ export function paperSheet(o = {}) {
   it.height = 0.001; it.radius = 0.06; it.grabY = 0; return it;
 }
 export function filingsMix(o = {}) {
-  const it = paperSheet({ name: o.name || { en: 'Iron filings mixed with sand', hi: 'रेत में मिला लोहे का बुरादा', hg: 'Ret mein mila iron ka buraada' } });
+  const it = paperSheet({ name: o.name || { en: 'Iron filings mixed with sand', hi: 'रेत में मिला लोहे का बुरादा', hg: 'Ret mein mila lohe ka buraada' } });
   it.kind = 'filings';
   const sand = heap(o.baseColor ?? 0xd2b080, { tex: o.baseTex ?? 'sand', r: 0.028, h: 0.008, loose: 30 }); it.g.add(sand.g); it.sand = sand;
   const N = o.n ?? 320; const geo = new THREE.BoxGeometry(0.0011, 0.0004, 0.0004);
@@ -289,7 +289,7 @@ export function glassSlide(o = {}) {
 }
 // thin glass tube: held in the dark zone, unburnt wax vapour comes out of the other end and can be lit
 export function thinTube(o = {}) {
-  const it = new Item('thintube', { ...o, name: { en: 'Thin glass tube', hi: 'पतली काँच की नली', hg: 'Patli glass tube' } });
+  const it = new Item('thintube', { ...o, name: { en: 'Thin glass tube', hi: 'काँच की पतली नली', hg: 'Patli glass tube' } });
   const m = new THREE.Mesh(new THREE.CylinderGeometry(0.0022, 0.0022, 0.05, 12, 1, true), glassMat({ opacity: 0.3 })); m.rotation.z = Math.PI / 2; m.position.x = 0.025; m.renderOrder = 7; it.g.add(m);
   const fl = flame('spirit'); fl.scale.setScalar(0.22); fl.position.set(0.051, 0.0, 0); fl.visible = false; it.g.add(fl); it.endFlame = fl;
   it.inDark = 0; it.height = 0.005; it.radius = 0.03; it.grabY = 0;
@@ -328,10 +328,10 @@ export function ironBlock(o = {}) {
 }
 const SAMPLE = {
   cu: { n: { en: 'Copper wire', hi: 'ताँबे का तार', hg: 'Copper wire' }, c: 0x9a5a36, shine: 0xd98a5a, metal: true },
-  al: { n: { en: 'Aluminium foil', hi: 'एल्युमिनियम पन्नी', hg: 'Aluminium foil' }, c: 0xa8acb0, shine: 0xe4e8ec, metal: true },
-  fe: { n: { en: 'Iron nail', hi: 'लोहे की कील', hg: 'Iron ki keel' }, c: 0x6e7176, shine: 0xb4b8bd, metal: true },
+  al: { n: { en: 'Aluminium foil', hi: 'एल्युमिनियम फ़ॉइल', hg: 'Aluminium foil' }, c: 0xa8acb0, shine: 0xe4e8ec, metal: true },
+  fe: { n: { en: 'Iron nail', hi: 'लोहे की कील', hg: 'Lohe ki keel' }, c: 0x6e7176, shine: 0xb4b8bd, metal: true },
   coal: { n: { en: 'Coal', hi: 'कोयला', hg: 'Koyla' }, c: 0x1e1e20, metal: false, tex: 'coal' },
-  s: { n: { en: 'Sulphur lump', hi: 'सल्फर का टुकड़ा', hg: 'Sulphur ka tukda' }, c: 0xe9cc2a, metal: false, tex: 'sulphur' },
+  s: { n: { en: 'Sulphur lump', hi: 'सल्फ़र का टुकड़ा', hg: 'Sulphur ka tukda' }, c: 0xe9cc2a, metal: false, tex: 'sulphur' },
 };
 export function sample(kind, o = {}) {
   const S = SAMPLE[kind];
@@ -347,7 +347,7 @@ export function sample(kind, o = {}) {
   it.height = 0.012; it.radius = 0.014; it.grabY = 0.005; return it;
 }
 export function sandpaper(o = {}) {
-  const it = new Item('sandpaper', { ...o, name: { en: 'Sandpaper', hi: 'रेगमाल', hg: 'Sandpaper (regmaal)' } });
+  const it = new Item('sandpaper', { ...o, name: { en: 'Sandpaper', hi: 'सैंडपेपर (रेगमाल)', hg: 'Sandpaper (regmaal)' } });
   const t = canvasTex(256, 256, (x, w, h) => { x.fillStyle = '#b07a46'; x.fillRect(0, 0, w, h); for (let i = 0; i < 9000; i++) { const g = 90 + Math.random() * 90; x.fillStyle = `rgb(${g + 40},${g},${g - 30})`; x.fillRect(Math.random() * w, Math.random() * h, 1.5, 1.5); } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.001, 0.045), new THREE.MeshStandardMaterial({ map: t, roughness: 1 })); m.position.y = 0.0005; it.g.add(m);
   it.height = 0.001; it.radius = 0.035; it.grabY = 0; return it;
@@ -355,7 +355,7 @@ export function sandpaper(o = {}) {
 
 // ------------------------------------------------------------------ desk lamp (stands in for sunlight), steel plate, bottle cap, petri dish
 export function sunLamp(o = {}) {
-  const it = new Item('sunlamp', { ...o, name: { en: 'Lamp (gives heat like sunlight)', hi: 'लैंप (धूप जैसी गर्मी देता है)', hg: 'Lamp (dhoop jaisi garmi)' } });
+  const it = new Item('sunlamp', { ...o, name: { en: 'Lamp (gives heat like sunlight)', hi: 'लैंप (धूप जैसी गरमी देता है)', hg: 'Lamp (dhoop jaisi garmi deta hai)' } });
   const dark = new THREE.MeshStandardMaterial({ color: 0x2a2f36, metalness: 0.5, roughness: 0.4 });
   const base = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.04, 0.012, 24), dark); base.position.y = 0.006; it.g.add(base);
   const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.004, 0.004, 0.22, 10), dark); arm.position.set(0.02, 0.115, 0); arm.rotation.z = -0.25; it.g.add(arm);
@@ -382,7 +382,7 @@ export function petriDish(o = {}) {
 }
 // a tile with small pieces of blue and red litmus paper, a drop can be put on each piece
 export function litmusTile(cols, o = {}) {
-  const it = new Item('ltile', { ...o, name: { en: 'White tile with litmus paper pieces', hi: 'लिटमस पत्र के टुकड़ों वाली सफ़ेद टाइल', hg: 'Litmus paper ke tukdon wali white tile' } });
+  const it = new Item('ltile', { ...o, name: { en: 'White tile with litmus paper pieces', hi: 'लिटमस पेपर के टुकड़ों वाली सफ़ेद टाइल', hg: 'Litmus paper ke tukdon wali white tile' } });
   const W = 0.032 * cols + 0.02; const t = new THREE.Mesh(new THREE.BoxGeometry(W, 0.006, 0.085), new THREE.MeshStandardMaterial({ color: 0xf6f6f2, roughness: 0.25 })); t.position.y = 0.003; it.g.add(t);
   it.pieces = [];
   for (let c = 0; c < cols; c++) for (let r = 0; r < 2; r++) {

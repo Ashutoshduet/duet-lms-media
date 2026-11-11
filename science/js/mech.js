@@ -15,7 +15,7 @@ export const G = 9.8;
 
 // ------------------------------------------------------------------ a digital stopwatch lying face up
 export function stopwatch(o = {}) {
-  const it = new Item('stopwatch', { ...o, name: o.name || { en: 'Stopwatch', hi: 'विराम घड़ी (स्टॉपवॉच)', hg: 'Stopwatch' } });
+  const it = new Item('stopwatch', { ...o, name: o.name || { en: 'Stopwatch', hi: 'स्टॉपवॉच', hg: 'Stopwatch' } });
   const body = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.031, 0.012, 40), new THREE.MeshStandardMaterial({ color: 0x1f6f8b, roughness: 0.45 })); body.position.y = 0.006; it.g.add(body);
   const c = document.createElement('canvas'); c.width = 256; c.height = 256; const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
   const face = new THREE.Mesh(new THREE.CircleGeometry(0.026, 40), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.3, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.18 })); face.rotation.x = -Math.PI / 2; face.position.y = 0.0122; it.g.add(face);
@@ -33,7 +33,7 @@ export function stopwatch(o = {}) {
 }
 // ------------------------------------------------------------------ a simple pendulum: heavy iron stand at the edge of the bench, the arm reaches out over the edge so the bob swings freely in front of it
 export function pendulum(o = {}) {
-  const it = new Item('pendulum', { ...o, name: o.name || { en: 'Simple pendulum on an iron stand', hi: 'लोहे के स्टैंड पर सरल लोलक', hg: 'Iron stand par simple pendulum' } });
+  const it = new Item('pendulum', { ...o, name: o.name || { en: 'Simple pendulum on an iron stand', hi: 'लोहे के स्टैंड पर सरल लोलक (पेंडुलम)', hg: 'Iron stand par simple pendulum' } });
   const H = o.h ?? 0.5, arm = 0.2;
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.014, 0.2), iron()); base.position.set(0, 0.007, -0.02); it.g.add(base);
   const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.006, 0.006, H, 14), steel()); rod.position.set(0, H / 2, -0.08); it.g.add(rod);
@@ -62,7 +62,7 @@ export function pendulum(o = {}) {
 // ------------------------------------------------------------------ a spring balance that hangs from its ring (the item's origin); the scale and the pointer are on the front (+z)
 export function springBalance(o = {}) {
   const unit = o.unit ?? 'N', max = o.max ?? 5, lc = o.lc ?? (unit === 'N' ? 0.05 : 5);
-  const it = new Item('sbal', { ...o, name: o.name || { en: `Spring balance (0–${max} ${unit === 'N' ? 'N' : 'g'})`, hi: `कमानीदार तुला (0–${max} ${unit === 'N' ? 'N' : 'g'})`, hg: `Spring balance (0–${max} ${unit === 'N' ? 'N' : 'g'})` } });
+  const it = new Item('sbal', { ...o, name: o.name || { en: `Spring balance (0–${max} ${unit === 'N' ? 'N' : 'g'})`, hi: `स्प्रिंग बैलेंस (0–${max} ${unit === 'N' ? 'N' : 'g'})`, hg: `Spring balance (0–${max} ${unit === 'N' ? 'N' : 'g'})` } });
   const S0 = -0.035, SL = 0.1; // the zero mark and the length of the scale
   const face = canvasTex(128, 640, (x, w, h) => { x.fillStyle = '#f3efe2'; x.fillRect(0, 0, w, h); x.fillStyle = '#1b1b1b'; x.strokeStyle = '#1b1b1b'; const py = (v) => ((-S0 + (v / max) * SL) / 0.16) * h; const n = Math.round(max / lc); const maj = unit === 'N' ? (max > 5 ? 1 : 0.5) : (max > 500 ? 100 : 50);
     for (let i = 0; i <= n; i++) { const v = i * lc; const isM = Math.abs(v / maj - Math.round(v / maj)) < 1e-6; const L = isM ? 40 : (Math.abs(v / (maj / 5) - Math.round(v / (maj / 5))) < 1e-6 ? 26 : 16); x.lineWidth = isM ? 3 : 1.5; x.beginPath(); x.moveTo(w - 8 - L, py(v)); x.lineTo(w - 8, py(v)); x.stroke(); if (isM) { x.font = '700 26px sans-serif'; x.textAlign = 'left'; x.textBaseline = 'middle'; x.fillText(String(+v.toFixed(1)), 6, py(v)); } }
@@ -106,7 +106,7 @@ export function immerse(s, vessels) {
 // ------------------------------------------------------------------ an overflow can (Eureka can) with a spout; water above the spout runs out into whatever stands under it
 export function overflowCan(o = {}) {
   const r = 0.032, h = 0.13, sy = 0.1;
-  const v = new Vessel('ocan', [[0, 0], [r - 0.003, 0], [r, 0.003], [r, h], [r + 0.0015, h]], { ...o, wall: 0.0016, name: o.name || { en: 'Overflow can', hi: 'अतिप्रवाह पात्र (ओवरफ़्लो कैन)', hg: 'Overflow can' }, glass: { opacity: 0.16, edge: 0.7 } });
+  const v = new Vessel('ocan', [[0, 0], [r - 0.003, 0], [r, 0.003], [r, h], [r + 0.0015, h]], { ...o, wall: 0.0016, name: o.name || { en: 'Overflow can', hi: 'ओवरफ़्लो कैन', hg: 'Overflow can' }, glass: { opacity: 0.16, edge: 0.7 } });
   const spM = glassMat({ opacity: 0.25, edge: 0.8 }); const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.0045, 0.0045, 0.05, 14, 1, true), spM); sp.rotation.z = Math.PI / 2 + 0.3; sp.position.set(r + 0.023, sy - 0.007, 0); sp.renderOrder = 6; v.g.add(sp);
   const sm = new THREE.Mesh(new THREE.CylinderGeometry(0.0018, 0.0012, 1, 8, 1, true), new THREE.MeshStandardMaterial({ color: 0xcfe6ff, transparent: true, opacity: 0.55, roughness: 0.05 })); sm.visible = false; sm.renderOrder = 5; sm.userData.noHit = true; v.g.add(sm);
   v.spoutY = sy; v.tip = V3(r + 0.046, sy - 0.016, 0); v.stream = sm; v.flowT = 0; withDisp(v); v.grabY = h * 0.5; return v;
@@ -121,7 +121,7 @@ export function overflowTick(v, dt) {
 }
 // ------------------------------------------------------------------ a tuning fork (512 Hz) and a rubber pad to strike it on
 export function tuningFork(o = {}) {
-  const it = new Item('fork', { ...o, name: o.name || { en: 'Tuning fork (512 Hz)', hi: 'स्वरित्र (512 Hz)', hg: 'Tuning fork (512 Hz)' } });
+  const it = new Item('fork', { ...o, name: o.name || { en: 'Tuning fork (512 Hz)', hi: 'ट्यूनिंग फ़ोर्क (512 Hz)', hg: 'Tuning fork (512 Hz)' } });
   const M = steel(0xc4c9ce, 0.22);
   const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.004, 0.05, 12), M); stem.position.y = 0.025; it.g.add(stem);
   const u = new THREE.Mesh(new THREE.TorusGeometry(0.0085, 0.0028, 10, 20, Math.PI), M); u.rotation.z = Math.PI; u.position.y = 0.058; it.g.add(u);
@@ -151,7 +151,7 @@ export class Splash {
 }
 // ------------------------------------------------------------------ an electric bell under a glass bell jar on a pump plate
 export function bellJar(o = {}) {
-  const it = new Item('belljar', { ...o, name: o.name || { en: 'Electric bell in a bell jar', hi: 'बेल जार में विद्युत घंटी', hg: 'Bell jar mein electric bell' } });
+  const it = new Item('belljar', { ...o, name: o.name || { en: 'Electric bell in a bell jar', hi: 'बेल जार में बिजली की घंटी', hg: 'Bell jar mein electric bell' } });
   const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.105, 0.014, 48), steel(0x6d737a, 0.4)); plate.position.y = 0.007; it.g.add(plate);
   const gasket = new THREE.Mesh(new THREE.TorusGeometry(0.083, 0.003, 8, 48), new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.8 })); gasket.rotation.x = Math.PI / 2; gasket.position.y = 0.0145; it.g.add(gasket);
   const prof = []; for (let i = 0; i <= 16; i++) { const a = (i / 16) * Math.PI / 2; prof.push(new THREE.Vector2(Math.max(0.0001, 0.083 * Math.cos(a)), 0.014 + 0.13 + 0.07 * Math.sin(a))); } prof.unshift(new THREE.Vector2(0.083, 0.014));
@@ -176,7 +176,7 @@ export function bellJar(o = {}) {
 }
 // ------------------------------------------------------------------ a vacuum pump with a pressure gauge and a hose to the plate of the bell jar
 export function vacuumPump(o = {}) {
-  const it = new Item('pump', { ...o, name: o.name || { en: 'Vacuum pump', hi: 'निर्वात पंप', hg: 'Vacuum pump' } });
+  const it = new Item('pump', { ...o, name: o.name || { en: 'Vacuum pump', hi: 'वैक्यूम पंप', hg: 'Vacuum pump' } });
   const body = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.08, 0.09), new THREE.MeshStandardMaterial({ color: 0x2d5f8a, roughness: 0.45, metalness: 0.3 })); body.position.y = 0.04; it.g.add(body);
   const motor = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.08, 24), new THREE.MeshStandardMaterial({ color: 0x23272d, roughness: 0.5, metalness: 0.4 })); motor.rotation.z = Math.PI / 2; motor.position.set(-0.03, 0.105, 0); it.g.add(motor);
   const fan = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.026, 0.006, 20), steel(0x9aa0a6, 0.3)); fan.rotation.z = Math.PI / 2; fan.position.set(0.016, 0.105, 0); it.g.add(fan);
@@ -237,7 +237,7 @@ export function woodBlock(w = 0.1, h = 0.1, d = 0.1, o = {}) {
 // ------------------------------------------------------------------ a 100 mL measuring cylinder, marked every 1 mL (numbered every 10 mL)
 export function cylinder100(o = {}) {
   const r = 0.0145, h = 0.215; const prof = [[0, 0.006], [r, 0.006], [r, h - 0.002], [r + 0.002, h]];
-  const v = new Vessel('cylinder', prof, { ...o, name: o.name || { en: 'Measuring cylinder (100 mL)', hi: 'मापक सिलिंडर (100 mL)', hg: 'Measuring cylinder (100 mL)' }, cap: 100 });
+  const v = new Vessel('cylinder', prof, { ...o, name: o.name || { en: 'Measuring cylinder (100 mL)', hi: 'मेज़रिंग सिलिंडर (100 mL)', hg: 'Measuring cylinder (100 mL)' }, cap: 100 });
   const base = new THREE.Mesh(new THREE.CylinderGeometry(r * 2.4, r * 2.6, 0.006, 6), glassMat({ opacity: 0.25 })); base.position.y = 0.003; base.renderOrder = 6; v.g.add(base);
   const y0 = v.heightFor(0.0001), y1 = v.heightFor(100); const H = h * 0.98; const tex = canvasTex(256, 2048, (x, w, hh) => { x.clearRect(0, 0, w, hh); x.strokeStyle = 'rgba(255,255,255,0.95)'; x.fillStyle = 'rgba(255,255,255,0.97)'; x.textBaseline = 'middle';
     const py = (ml) => hh - ((y0 + (y1 - y0) * (ml / 100) - (h - H) / 2 - 0.001) / H) * hh;

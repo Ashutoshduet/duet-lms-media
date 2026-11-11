@@ -31,23 +31,23 @@ async function fetchList() {
 }
 
 const S = {
-  title: { en: 'Enter your DUET STEM subscription code', hi: 'अपना DUET STEM सदस्यता कोड डालिए', hg: 'Apna DUET STEM subscription code daaliye' },
-  sub: { en: 'Your school receives this code from DUET STEM. You need the internet only once, to activate it.', hi: 'यह कोड आपके विद्यालय को DUET STEM से मिलता है। इसे चालू करने के लिए केवल एक बार इंटरनेट चाहिए।', hg: 'Yeh code aapke school ko DUET STEM se milta hai. Ise chalu karne ke liye sirf ek baar internet chahiye.' },
-  btn: { en: 'Activate', hi: 'चालू करें', hg: 'Activate karein' },
-  wait: { en: 'Checking the code…', hi: 'कोड जाँचा जा रहा है…', hg: 'Code check ho raha hai…' },
-  bad: { en: 'This code is not valid. Please check it and try again.', hi: 'यह कोड मान्य नहीं है। कृपया जाँचकर फिर से डालिए।', hg: 'Yeh code valid nahi hai. Check karke dobara daaliye.' },
+  title: { en: 'Enter your DUET STEM subscription code', hi: 'अपना DUET STEM सब्सक्रिप्शन कोड डालिए', hg: 'Apna DUET STEM subscription code daaliye' },
+  sub: { en: 'Your school receives this code from DUET STEM. You need the internet only once, to activate it.', hi: 'यह कोड आपके स्कूल को DUET STEM से मिलता है। इसे चालू करने के लिए सिर्फ़ एक बार इंटरनेट चाहिए।', hg: 'Yeh code aapke school ko DUET STEM se milta hai. Ise chalu karne ke liye sirf ek baar internet chahiye.' },
+  btn: { en: 'Activate', hi: 'चालू कीजिए', hg: 'Activate kijiye' },
+  wait: { en: 'Checking the code…', hi: 'कोड चेक हो रहा है…', hg: 'Code check ho raha hai…' },
+  bad: { en: 'This code is not valid. Please check it and try again.', hi: 'यह कोड सही नहीं है। कृपया देखकर दोबारा डालिए।', hg: 'Yeh code sahi nahi hai. Check karke dobara daaliye.' },
   app: { en: 'This code does not include this app.', hi: 'यह कोड इस ऐप के लिए नहीं है।', hg: 'Yeh code is app ke liye nahi hai.' },
-  exp: { en: 'This subscription ended on {d}. Please renew it with DUET STEM.', hi: 'यह सदस्यता {d} को समाप्त हो गई। कृपया DUET STEM से इसका नवीनीकरण कराइए।', hg: 'Yeh subscription {d} ko khatam ho gaya. DUET STEM se renew karaiye.' },
-  net: { en: 'No internet. Connect to Wi-Fi once to activate the code.', hi: 'इंटरनेट नहीं है। कोड चालू करने के लिए एक बार Wi-Fi से जुड़िए।', hg: 'Internet nahi hai. Code chalu karne ke liye ek baar Wi-Fi se judiye.' },
-  gone: { en: 'This code is no longer active. Please contact DUET STEM.', hi: 'यह कोड अब सक्रिय नहीं है। कृपया DUET STEM से संपर्क कीजिए।', hg: 'Yeh code ab active nahi hai. DUET STEM se contact kijiye.' },
-  ok: { en: 'Activated{n} · valid until {d}', hi: 'चालू हो गया{n} · {d} तक मान्य', hg: 'Activate ho gaya{n} · {d} tak valid' },
-  demo: { en: 'Try the free demo', hi: 'मुफ़्त डेमो आज़माइए', hg: 'Free demo try kijiye' },
-  demoSub: { en: 'Free without a code: the Open Labs and the first experiment of every class.', hi: 'बिना कोड के मुफ़्त: खुली प्रयोगशालाएँ और हर कक्षा का पहला प्रयोग।', hg: 'Bina code ke free: Open Labs aur har class ka pehla experiment.' },
-  locked: { en: 'This experiment is part of the DUET STEM subscription. Enter your school\'s code to open it.', hi: 'यह प्रयोग DUET STEM सदस्यता का हिस्सा है। इसे खोलने के लिए अपने विद्यालय का कोड डालिए।', hg: 'Yeh experiment DUET STEM subscription ka hissa hai. Ise kholne ke liye apne school ka code daaliye.' },
+  exp: { en: 'This subscription ended on {d}. Please renew it with DUET STEM.', hi: 'यह सब्सक्रिप्शन {d} को ख़त्म हो गया। कृपया DUET STEM से इसे रिन्यू करवाइए।', hg: 'Yeh subscription {d} ko khatam ho gaya. DUET STEM se renew karwaiye.' },
+  net: { en: 'No internet. Connect to Wi-Fi once to activate the code.', hi: 'इंटरनेट नहीं है। कोड चालू करने के लिए एक बार वाई-फ़ाई से जुड़िए।', hg: 'Internet nahi hai. Code chalu karne ke liye ek baar Wi-Fi se judiye.' },
+  gone: { en: 'This code is no longer active. Please contact DUET STEM.', hi: 'यह कोड अब चालू नहीं है। कृपया DUET STEM से संपर्क कीजिए।', hg: 'Yeh code ab active nahi hai. DUET STEM se contact kijiye.' },
+  ok: { en: 'Activated{n} · valid until {d}', hi: 'चालू हो गया{n} · {d} तक चलेगा', hg: 'Activate ho gaya{n} · {d} tak valid' },
+  demo: { en: 'Try the free demo', hi: 'मुफ़्त डेमो चलाकर देखिए', hg: 'Free demo try kijiye' },
+  demoSub: { en: 'Free without a code: the Open Labs and the first experiment of every class.', hi: 'बिना कोड के मुफ़्त: ओपन लैब और हर कक्षा का पहला प्रयोग।', hg: 'Bina code ke free: Open Labs aur har class ka pehla experiment.' },
+  locked: { en: 'This experiment is part of the DUET STEM subscription. Enter your school\'s code to open it.', hi: 'यह प्रयोग DUET STEM सब्सक्रिप्शन का हिस्सा है। इसे खोलने के लिए अपने स्कूल का कोड डालिए।', hg: 'Yeh experiment DUET STEM subscription ka hissa hai. Ise kholne ke liye apne school ka code daaliye.' },
   back: { en: 'Back', hi: 'वापस', hg: 'Wapas' },
   key: { en: 'Point at the letters to type the code', hi: 'कोड लिखने के लिए अक्षरों पर पॉइंट कीजिए', hg: 'Code likhne ke liye letters par point kijiye' },
   enter: { en: 'Enter your DUET STEM code', hi: 'अपना DUET STEM कोड डालिए', hg: 'Apna DUET STEM code daaliye' },
-  soon: { en: 'Your DUET STEM subscription ends on {d}. Please renew it in time.', hi: 'आपकी DUET STEM सदस्यता {d} को समाप्त होगी। कृपया समय पर नवीनीकरण कराइए।', hg: 'Aapka DUET STEM subscription {d} ko khatam hoga. Time par renew karaiye.' },
+  soon: { en: 'Your DUET STEM subscription ends on {d}. Please renew it in time.', hi: 'आपका DUET STEM सब्सक्रिप्शन {d} को ख़त्म होगा। कृपया समय पर रिन्यू करवा लीजिए।', hg: 'Aapka DUET STEM subscription {d} ko khatam hoga. Time par renew karwa lijiye.' },
 };
 const fmt = (d, L) => { const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); };
 

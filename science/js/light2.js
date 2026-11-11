@@ -16,7 +16,7 @@ const yawOf = (g) => { const e = V3(1, 0, 0).applyQuaternion(g.quaternion); retu
 
 // ------------------------------------------------------------------ a black board with a white printed angle disc (a ray-optics kit); paper coordinates as on the drawing board
 export function opticsDisc(o = {}) {
-  const W = o.w ?? 0.44, H = o.h ?? 0.34; const it = new Item('odisc', { ...o, name: o.name || { en: 'Ray-optics board with an angle disc', hi: 'कोण-चक्र वाला किरण-प्रकाशिकी बोर्ड', hg: 'Angle disc wala ray-optics board' } });
+  const W = o.w ?? 0.44, H = o.h ?? 0.34; const it = new Item('odisc', { ...o, name: o.name || { en: 'Ray-optics board with an angle disc', hi: 'कोण-डिस्क वाला रे-ऑप्टिक्स बोर्ड', hg: 'Angle disc wala ray-optics board' } });
   const R = o.r ?? 0.12; const tex = canvasTex(1024, Math.round((1024 * H) / W), (x, w, h) => { x.fillStyle = '#16181c'; x.fillRect(0, 0, w, h); const s = w / W; const cx = w / 2, cy = h / 2 + (o.cy ?? 0) * s;
     if (o.disc !== false) { x.strokeStyle = 'rgba(235,235,225,0.85)'; x.fillStyle = 'rgba(235,235,225,0.85)'; x.lineWidth = 2; x.beginPath(); x.arc(cx, cy, R * s, 0, Math.PI * 2); x.stroke();
       for (let a = 0; a < 360; a += 5) { const r = a * D; const L = a % 10 === 0 ? 16 : 8; x.beginPath(); x.moveTo(cx + Math.cos(r) * R * s, cy - Math.sin(r) * R * s); x.lineTo(cx + Math.cos(r) * (R * s - L), cy - Math.sin(r) * (R * s - L)); x.stroke(); if (a % 30 === 0) { const ang = ((a + 360 - 90) % 180); const lab = String(ang > 90 ? 180 - ang : ang); x.font = '600 18px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(lab, cx + Math.cos(r) * (R * s - 30), cy - Math.sin(r) * (R * s - 30)); } }
@@ -26,7 +26,7 @@ export function opticsDisc(o = {}) {
 }
 // ------------------------------------------------------------------ a ray box with 1 or 3 slits (parallel beams 1.2 cm apart); the beams leave along local +x
 export function rayBox2(o = {}) {
-  const n = o.slits ?? 1; const it = new Item('raybox', { ...o, name: o.name || (n > 1 ? { en: 'Ray box with three slits (parallel beams)', hi: 'तीन झिरियों वाला किरण बॉक्स (समांतर किरणें)', hg: 'Teen slits wala ray box (parallel beams)' } : { en: 'Ray box (lamp with a narrow slit)', hi: 'किरण बॉक्स (पतली झिरी वाला लैंप)', hg: 'Ray box (patli slit wala lamp)' }) });
+  const n = o.slits ?? 1; const it = new Item('raybox', { ...o, name: o.name || (n > 1 ? { en: 'Ray box with three slits (parallel beams)', hi: 'तीन झिरियों वाला रे बॉक्स (समांतर किरणें)', hg: 'Teen slits wala ray box (parallel beams)' } : { en: 'Ray box (lamp with a narrow slit)', hi: 'रे बॉक्स (पतली झिरी वाला लैंप)', hg: 'Ray box (patli slit wala lamp)' }) });
   const bodyM = new THREE.MeshStandardMaterial({ color: 0x26334a, roughness: 0.45, metalness: 0.5 }); const body = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.04, 0.06), bodyM); body.position.y = 0.02; it.g.add(body);
   const plate = new THREE.Mesh(new THREE.BoxGeometry(0.002, 0.04, 0.058), new THREE.MeshStandardMaterial({ color: 0x111316, roughness: 0.5 })); plate.position.set(0.031, 0.02, 0); it.g.add(plate);
   const sm = new THREE.MeshBasicMaterial({ color: 0x3a3a3a }); it.slits = []; for (let i = 0; i < n; i++) { const z = (i - (n - 1) / 2) * 0.012; const s = new THREE.Mesh(new THREE.PlaneGeometry(0.0012, 0.026), sm); s.rotation.y = Math.PI / 2; s.position.set(0.0322, 0.017, z); it.g.add(s); it.slits.push(V3(0.0322, 0.002, z)); }
@@ -36,7 +36,7 @@ export function rayBox2(o = {}) {
 }
 // ------------------------------------------------------------------ optics standing on the board (2D shapes in paper coordinates): a plane / concave / convex mirror strip, a cylindrical lens, a glass block
 export function mirrorStrip(kind = 'plane', o = {}) {
-  const it = new Item('mstrip', { ...o, name: o.name || { plane: { en: 'Plane mirror strip', hi: 'समतल दर्पण पट्टी', hg: 'Plane mirror strip' }, concave: { en: 'Concave mirror strip', hi: 'अवतल दर्पण पट्टी', hg: 'Concave mirror strip' }, convex: { en: 'Convex mirror strip', hi: 'उत्तल दर्पण पट्टी', hg: 'Convex mirror strip' } }[kind] });
+  const it = new Item('mstrip', { ...o, name: o.name || { plane: { en: 'Plane mirror strip', hi: 'समतल दर्पण की पट्टी', hg: 'Plane mirror strip' }, concave: { en: 'Concave mirror strip', hi: 'अवतल दर्पण की पट्टी', hg: 'Concave mirror strip' }, convex: { en: 'Convex mirror strip', hi: 'उत्तल दर्पण की पट्टी', hg: 'Convex mirror strip' } }[kind] });
   const Rc = o.R ?? 0.16, L = o.len ?? 0.08, H = 0.025; const sgn = kind === 'concave' ? 1 : kind === 'convex' ? -1 : 0; // the reflecting face looks along local +z (towards the student, −v on the paper)
   const pts = []; for (let i = 0; i <= 24; i++) { const u = -L / 2 + (L * i) / 24; pts.push([u, sgn ? sgn * (Rc - Math.sqrt(Rc * Rc - u * u)) : 0]); } // face curve: z(u) in local; concave bends towards +z at the ends
   const shape = new THREE.Shape(); pts.forEach(([u, z], i) => (i ? shape.lineTo(u, -z) : shape.moveTo(u, -z))); for (let i = pts.length - 1; i >= 0; i--) shape.lineTo(pts[i][0], -pts[i][1] - 0.003); shape.closePath();
@@ -44,7 +44,7 @@ export function mirrorStrip(kind = 'plane', o = {}) {
   it.kind2 = kind; it.Rc = Rc; it.L = L; it.face = pts; it.height = H; it.radius = L / 2; it.grabY = H / 2; return it;
 }
 export function cylLens(kind = 'convex', o = {}) {
-  const it = new Item('clens', { ...o, name: o.name || { convex: { en: 'Convex lens (cylindrical)', hi: 'उत्तल लेंस (बेलनाकार)', hg: 'Convex lens (cylindrical)' }, concave: { en: 'Concave lens (cylindrical)', hi: 'अवतल लेंस (बेलनाकार)', hg: 'Concave lens (cylindrical)' }, slab: { en: 'Glass block', hi: 'काँच का गुटका', hg: 'Glass block' } }[kind] });
+  const it = new Item('clens', { ...o, name: o.name || { convex: { en: 'Convex lens (cylindrical)', hi: 'उत्तल लेंस (बेलनाकार)', hg: 'Convex lens (cylindrical)' }, concave: { en: 'Concave lens (cylindrical)', hi: 'अवतल लेंस (बेलनाकार)', hg: 'Concave lens (cylindrical)' }, slab: { en: 'Glass block', hi: 'काँच का ब्लॉक', hg: 'Glass block' } }[kind] });
   const L = 0.07, H = 0.025, t = kind === 'slab' ? 0.03 : 0.016; const sh = new THREE.Shape(); const N = 20;
   const prof = (s) => (kind === 'convex' ? (t / 2) * (1 - s * s) + 0.002 : kind === 'concave' ? 0.002 + (t / 2) * s * s : t / 2); // half-thickness along the lens (s = −1 … 1)
   for (let i = 0; i <= N; i++) { const s = -1 + (2 * i) / N; const v = prof(s); i ? sh.lineTo(v, s * L / 2) : sh.moveTo(v, s * L / 2); } for (let i = N; i >= 0; i--) { const s = -1 + (2 * i) / N; sh.lineTo(-prof(s), s * L / 2); } sh.closePath();
@@ -84,7 +84,7 @@ export class BeamTracer {
 }
 // ------------------------------------------------------------------ a steel spoon whose bowl reflects the room (a cube-camera picture of its surroundings): concave inside, convex outside
 export function spoon(o = {}) {
-  const it = new Item('spoon', { ...o, name: o.name || { en: 'Shiny steel spoon', hi: 'चमकीला स्टील का चम्मच', hg: 'Chamakdaar steel ka chammach' } });
+  const it = new Item('spoon', { ...o, name: o.name || { en: 'Shiny steel spoon', hi: 'स्टील का चमकदार चम्मच', hg: 'Chamakdaar steel ka chammach' } });
   const rt = new THREE.WebGLCubeRenderTarget(256, { generateMipmaps: true, minFilter: THREE.LinearMipmapLinearFilter }); const cam = new THREE.CubeCamera(0.02, 30, rt); it.cube = cam; it.rt = rt;
   const mirror = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 0.04, envMap: rt.texture, envMapIntensity: 1.2 });
   const bowl = new THREE.Group(); it.g.add(bowl); it.bowl = bowl;
@@ -116,7 +116,7 @@ export function burnPaper(o = {}) {
 }
 // a magnifying (convex) lens in a handle, and a concave mirror on a little stand, both used to focus sunlight
 export function handLens(o = {}) {
-  const it = new Item('hlens', { ...o, name: o.name || { en: 'Convex lens (magnifying glass)', hi: 'उत्तल लेंस (आवर्धक लेंस)', hg: 'Convex lens (magnifying glass)' } });
+  const it = new Item('hlens', { ...o, name: o.name || { en: 'Convex lens (magnifying glass)', hi: 'उत्तल लेंस (मैग्निफ़ाइंग ग्लास)', hg: 'Convex lens (magnifying glass)' } });
   const R = 0.035, t = 0.008; const pts = []; for (let i = 0; i <= 16; i++) { const r = (i / 16) * R; pts.push(new THREE.Vector2(r, (t / 2) * (1 - (r / R) ** 2) + 0.0005)); } const all = [...pts.slice().reverse().map((p) => new THREE.Vector2(p.x, -p.y)), ...pts].sort((a, b) => a.y - b.y);
   const lens = new THREE.Mesh(new THREE.LatheGeometry(pts.map((p) => new THREE.Vector2(p.x, p.y)).concat(pts.slice().reverse().map((p) => new THREE.Vector2(p.x, -p.y))), 40), glassMat({ opacity: 0.3, edge: 0.7 })); lens.renderOrder = 6; it.g.add(lens); void all;
   const rim = new THREE.Mesh(new THREE.TorusGeometry(R + 0.001, 0.0025, 8, 40), new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.5 })); rim.rotation.x = Math.PI / 2; it.g.add(rim);
@@ -138,7 +138,7 @@ export function printSheet(o = {}) {
 }
 // ------------------------------------------------------------------ the Moon model: a lamp (the Sun) and a white ball on a stick that moves round the observer's head
 export function moonModel(o = {}) {
-  const it = new Item('moonrig', { ...o, name: o.name || { en: 'Lamp (Sun) and a white ball on a stick (Moon)', hi: 'लैंप (सूर्य) और छड़ी पर सफ़ेद गेंद (चंद्रमा)', hg: 'Lamp (Sun) aur stick par white ball (Moon)' } });
+  const it = new Item('moonrig', { ...o, name: o.name || { en: 'Lamp (Sun) and a white ball on a stick (Moon)', hi: 'लैंप (सूरज) और छड़ी पर सफ़ेद गेंद (चाँद)', hg: 'Lamp (Sun) aur stick par white ball (Moon)' } });
   const lampP = V3(-1.1, 0.42, 0.0); const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.04, 20, 14), new THREE.MeshBasicMaterial({ color: 0xfff2c8 })); bulb.position.copy(lampP); it.g.add(bulb); dress(it, 'lightbulb_01', { h: 0.1, shadow: false, at: [lampP.x, lampP.y - 0.062, lampP.z], done: () => { bulb.scale.setScalar(0.4); bulb.position.y = lampP.y - 0.005; } }); // a real bulb on the stand
   const shade = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.36, 10), steel(0x3a3f46, 0.5)); shade.position.set(lampP.x, 0.18, lampP.z); it.g.add(shade);
   const L = new THREE.PointLight(0xfff0d0, 0, 6, 1.2); L.position.copy(lampP); it.g.add(L); it.lamp = L;

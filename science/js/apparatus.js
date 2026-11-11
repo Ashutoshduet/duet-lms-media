@@ -2,7 +2,7 @@
 // gives the right height, the surface stays level when tilted, and liquid pours out over the lowest point of the rim.
 import * as THREE from 'three';
 import { model } from './models.js';
-import { glassMat, liquidMat, labelTex, woodTex, canvasTex, shade } from './mats.js';
+import { glassMat, liquidMat, labelTex, woodTex, canvasTex, shade, crispText } from './mats.js';
 
 const V2 = (r, y) => new THREE.Vector2(r, y);
 const SEG = 40;
@@ -108,10 +108,10 @@ function roundBottom(r, h, lip = 0.0009) {
 }
 export function testTube(o = {}) { // 18 x 150 mm
   const r = o.r ?? 0.009, h = o.h ?? 0.15;
-  const v = new Vessel('testtube', roundBottom(r, h), { ...o, name: o.name || { en: 'Test tube', hi: 'परखनली', hg: 'Test tube' }, cap: 25 });
+  const v = new Vessel('testtube', roundBottom(r, h), { ...o, name: o.name || { en: 'Test tube', hi: 'टेस्ट ट्यूब', hg: 'Test tube' }, cap: 25 });
   v.grabY = h * 0.78; return v;
 }
-export function boilingTube(o = {}) { return testTube({ r: 0.0125, h: 0.15, name: { en: 'Boiling tube', hi: 'क्वथन नली', hg: 'Boiling tube' }, ...o }); }
+export function boilingTube(o = {}) { return testTube({ r: 0.0125, h: 0.15, name: { en: 'Boiling tube', hi: 'बॉयलिंग ट्यूब', hg: 'Boiling tube' }, ...o }); }
 
 function gradTex(maxMl, step, H, label) {
   return canvasTex(256, 1024, (x, w, h) => {
@@ -143,19 +143,19 @@ export function beaker(ml = 100, o = {}) {
 export function conicalFlask(ml = 100, o = {}) {
   const k = ml === 250 ? 1.32 : 1;
   const prof = [[0, 0], [0.03 * k, 0], [0.032 * k, 0.004 * k], [0.0125 * k, 0.07 * k], [0.011 * k, 0.074 * k], [0.011 * k, 0.1 * k], [0.0128 * k, 0.103 * k]];
-  const v = new Vessel('flask', prof, { ...o, name: o.name || { en: 'Conical flask', hi: 'शंक्वाकार फ्लास्क', hg: 'Conical flask' }, cap: ml });
+  const v = new Vessel('flask', prof, { ...o, name: o.name || { en: 'Conical flask', hi: 'कोनिकल फ़्लास्क', hg: 'Conical flask' }, cap: ml });
   v.grabY = 0.085 * k; return v;
 }
 export function measuringCylinder(ml = 10, o = {}) {
   const [r, h] = ml === 10 ? [0.0072, 0.115] : [0.012, 0.17];
   const prof = [[0, 0.006], [r, 0.006], [r, h - 0.002], [r + 0.002, h]];
-  const v = new Vessel('cylinder', prof, { ...o, name: o.name || { en: `Measuring cylinder (${ml} mL)`, hi: `मापक सिलिंडर (${ml} mL)`, hg: `Measuring cylinder (${ml} mL)` }, cap: ml });
+  const v = new Vessel('cylinder', prof, { ...o, name: o.name || { en: `Measuring cylinder (${ml} mL)`, hi: `मेज़रिंग सिलिंडर (${ml} mL)`, hg: `Measuring cylinder (${ml} mL)` }, cap: ml });
   const base = new THREE.Mesh(new THREE.CylinderGeometry(r * 2.4, r * 2.6, 0.006, 6), glassMat({ opacity: 0.25 })); base.position.y = 0.003; base.renderOrder = 6; v.g.add(base);
   addGrad(v, ml, ml / 10); v.grabY = h * 0.6; return v;
 }
 export function chinaDish(o = {}) {
   const prof = []; for (let i = 0; i <= 10; i++) { const a = (i / 10) * 1.2; prof.push([Math.sin(a) * 0.05, 0.05 - Math.cos(a) * 0.05 + 0.002]); }
-  const v = new Vessel('dish', prof, { ...o, wall: 0.002, noRim: true, name: o.name || { en: 'China dish', hi: 'चीनी मिट्टी की प्याली', hg: 'China dish' },
+  const v = new Vessel('dish', prof, { ...o, wall: 0.002, noRim: true, name: o.name || { en: 'China dish', hi: 'चाइना डिश', hg: 'China dish' },
     glassMat: new THREE.MeshStandardMaterial({ color: 0xf4f2ec, roughness: 0.35, side: THREE.DoubleSide }) });
   v.glass.renderOrder = 0; v.grabY = 0.02; return v;
 }
@@ -172,7 +172,7 @@ export function reagentBottle(label, o = {}) {
   const v = new Vessel('bottle', prof, { ...o, wall: 0.0018, name: o.name || { en: label.name, hi: label.name, hg: label.name },
     glass: { color: amber ? 0x9a5a1e : 0xffffff, opacity: amber ? 0.45 : 0.12, edge: amber ? 0.92 : 0.8 }, cap: 125 });
   const tex = labelTex([{ t: label.formula, size: 92 }, { t: label.name, size: 42, w: 600 }, ...(label.extra ? [{ t: label.extra, size: 32, w: 400, c: '#6b5a40' }] : [])], { band: label.band ?? '#2c5d8a', hazard: label.hazard });
-  const lab = new THREE.Mesh(new THREE.CylinderGeometry(0.0284, 0.0284, 0.038, 32, 1, true, -1.15, 2.3), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 }));
+  const lab = new THREE.Mesh(new THREE.CylinderGeometry(0.0284, 0.0284, 0.038, 32, 1, true, -1.15, 2.3), crispText(new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 })));
   lab.position.y = 0.038; v.g.add(lab); // label faces the student (+z)
   // ground-glass stopper
   const st = new THREE.Group();
@@ -186,7 +186,7 @@ export function dropperBottle(label, o = {}) {
   const prof = [[0, 0], [0.017, 0], [0.018, 0.003], [0.018, 0.05], [0.009, 0.058], [0.0075, 0.06], [0.0075, 0.068]];
   const v = new Vessel('dropbottle', prof, { ...o, wall: 0.0015, name: o.name || { en: label.name, hi: label.name, hg: label.name }, glass: { color: 0x7a4a1c, opacity: 0.5, edge: 0.95 }, cap: 30 });
   const tex = labelTex([{ t: label.formula, size: 70 }, { t: label.name, size: 40, w: 600 }], { band: label.band ?? '#7a3a8a' });
-  const lab = new THREE.Mesh(new THREE.CylinderGeometry(0.0183, 0.0183, 0.028, 32, 1, true, -1.2, 2.4), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 }));
+  const lab = new THREE.Mesh(new THREE.CylinderGeometry(0.0183, 0.0183, 0.028, 32, 1, true, -1.2, 2.4), crispText(new THREE.MeshStandardMaterial({ map: tex, roughness: 0.7 })));
   lab.position.y = 0.025; v.g.add(lab);
   const drop = new THREE.Group();
   const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.0085, 16, 12), new THREE.MeshStandardMaterial({ color: 0x1b1b1b, roughness: 0.6 })); bulb.scale.y = 1.6; bulb.position.y = 0.022;
@@ -196,7 +196,7 @@ export function dropperBottle(label, o = {}) {
 
 // ------------------------------------------------------------------ holders and heaters
 export function rack(n = 6, o = {}) {
-  const it = new Item('rack', { ...o, name: { en: 'Test tube rack', hi: 'परखनली स्टैंड', hg: 'Test tube stand' } });
+  const it = new Item('rack', { ...o, name: { en: 'Test tube rack', hi: 'टेस्ट ट्यूब स्टैंड', hg: 'Test tube stand' } });
   const w = 0.04 * n + 0.03, d = 0.075, mat = new THREE.MeshStandardMaterial({ map: woodTex('#a0703f'), roughness: 0.65 });
   const box = (sx, sy, sz, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz), mat); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; it.g.add(m); return m; };
   box(w, 0.012, d, 0, 0.006, 0); box(0.012, 0.11, d, -w / 2 + 0.006, 0.055, 0); box(0.012, 0.11, d, w / 2 - 0.006, 0.055, 0);
@@ -252,7 +252,7 @@ export function spiritLamp(o = {}) {
   return it;
 }
 export function bunsen(o = {}) {
-  const it = new Item('bunsen', { ...o, name: { en: 'Bunsen burner', hi: 'बुनसेन बर्नर', hg: 'Bunsen burner' } });
+  const it = new Item('bunsen', { ...o, name: { en: 'Bunsen burner', hi: 'बुन्सन बर्नर', hg: 'Bunsen burner' } });
   let top = 0.132; const real = model('bunsen_burner'); // the real scanned-style model when it has loaded
   if (real) { real.traverse((o) => { if (o.name === 'burner_stand') o.visible = false; }); it.g.add(real); top = 0.172; } // our own tripod is used instead of the model's ring stand
   else {
@@ -270,7 +270,7 @@ export function bunsen(o = {}) {
   return it;
 }
 export function tripod(o = {}) {
-  const it = new Item('tripod', { ...o, name: { en: 'Tripod stand with wire gauze', hi: 'त्रिपाद स्टैंड और तार की जाली', hg: 'Tripod stand + wire gauze' } });
+  const it = new Item('tripod', { ...o, name: { en: 'Tripod stand with wire gauze', hi: 'ट्राइपॉड स्टैंड और जाली', hg: 'Tripod stand + wire gauze' } });
   const metal = new THREE.MeshStandardMaterial({ color: 0x2c2f33, metalness: 0.7, roughness: 0.45 });
   const ring = new THREE.Mesh(new THREE.TorusGeometry(0.05, 0.0035, 8, 32), metal); ring.rotation.x = Math.PI / 2; ring.position.y = 0.2; it.g.add(ring);
   for (let i = 0; i < 3; i++) {
@@ -289,7 +289,7 @@ export function tripod(o = {}) {
   it.top = 0.205; it.height = 0.205; it.radius = 0.07; it.grabY = 0.1; return it;
 }
 export function holder(o = {}) { // wooden test-tube holder
-  const it = new Item('holder', { ...o, name: { en: 'Test tube holder', hi: 'परखनली होल्डर', hg: 'Test tube holder' } });
+  const it = new Item('holder', { ...o, name: { en: 'Test tube holder', hi: 'टेस्ट ट्यूब होल्डर', hg: 'Test tube holder' } });
   const wood = new THREE.MeshStandardMaterial({ map: woodTex('#b98a55'), roughness: 0.6 });
   const metal = new THREE.MeshStandardMaterial({ color: 0xb0b4b8, metalness: 0.9, roughness: 0.3 });
   const handle = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.012, 0.13), wood); handle.position.z = 0.09; it.g.add(handle);
@@ -342,7 +342,7 @@ export function splint(o = {}) {
   return it;
 }
 export function nail(o = {}) {
-  const it = new Item('nail', { ...o, name: { en: 'Iron nail', hi: 'लोहे की कील', hg: 'Iron ki keel' } });
+  const it = new Item('nail', { ...o, name: { en: 'Iron nail', hi: 'लोहे की कील', hg: 'Lohe ki keel' } });
   const mat = new THREE.MeshStandardMaterial({ color: 0x8d9196, metalness: 0.9, roughness: 0.35 });
   const s = new THREE.Mesh(new THREE.CylinderGeometry(0.0017, 0.0017, 0.05, 12), mat); s.position.y = 0.025; it.g.add(s);
   const pt = new THREE.Mesh(new THREE.ConeGeometry(0.0017, 0.006, 12), mat); pt.rotation.x = Math.PI; pt.position.y = -0.003; it.g.add(pt);
@@ -424,7 +424,7 @@ export function ribbon(o = {}) { // magnesium ribbon
   m.position.y = 0.035; it.g.add(m); it.mat = m.material; it.height = 0.07; it.radius = 0.003; it.grabY = 0.005; return it;
 }
 export function thermometer(o = {}) {
-  const it = new Item('thermo', { ...o, name: { en: 'Thermometer', hi: 'तापमापी', hg: 'Thermometer' } });
+  const it = new Item('thermo', { ...o, name: { en: 'Thermometer', hi: 'थर्मामीटर', hg: 'Thermometer' } });
   const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0035, 0.26, 12), glassMat({ opacity: 0.22 })); tube.position.y = 0.13; tube.renderOrder = 6; it.g.add(tube);
   const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.0042, 12, 10), new THREE.MeshStandardMaterial({ color: 0xc8202a, roughness: 0.3 })); bulb.scale.y = 1.8; bulb.position.y = 0.006; it.g.add(bulb);
   const col = new THREE.Mesh(new THREE.CylinderGeometry(0.0011, 0.0011, 1, 6), new THREE.MeshBasicMaterial({ color: 0xd8242e })); col.position.y = 0.01; it.g.add(col);
@@ -460,7 +460,7 @@ export { shade };
 // ------------------------------------------------------------------ batch 2: funnel, torch, straw, chromatography paper, beaker label
 export function funnel(o = {}) { // glass funnel (stands upside down over a dish for sublimation); a white deposit can grow inside
   const prof = [[0.004, 0], [0.004, 0.05], [0.006, 0.055], [0.04, 0.095], [0.0412, 0.097]];
-  const it = new Item('funnel', { ...o, name: { en: 'Glass funnel', hi: 'काँच की कीप', hg: 'Glass funnel (keep)' } });
+  const it = new Item('funnel', { ...o, name: { en: 'Glass funnel', hi: 'काँच की कीप (फ़नल)', hg: 'Glass funnel' } });
   const glass = new THREE.Mesh(new THREE.LatheGeometry(prof.map(([r, y]) => V2(r, y)), SEG), glassMat({ opacity: 0.12 })); glass.renderOrder = 6; it.g.add(glass);
   const dep = new THREE.Mesh(new THREE.LatheGeometry(prof.slice(1).map(([r, y]) => V2(Math.max(0.001, r - 0.0012), y)), SEG), new THREE.MeshStandardMaterial({ color: 0xf8f8f4, roughness: 0.9, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
   dep.renderOrder = 5; dep.userData.noHit = true; it.g.add(dep);
@@ -493,7 +493,7 @@ export function straw(o = {}) {
 }
 // filter-paper strip for chromatography: water climbs, and the black ink spot splits into coloured bands
 export function chromaStrip(o = {}) {
-  const it = new Item('chroma', { ...o, name: { en: 'Filter paper strip with ink spot', hi: 'स्याही के धब्बे वाली फ़िल्टर पेपर पट्टी', hg: 'Filter paper strip (ink spot)' } });
+  const it = new Item('chroma', { ...o, name: { en: 'Filter paper strip with ink spot', hi: 'स्याही के धब्बे वाली फ़िल्टर पेपर की पट्टी', hg: 'Filter paper strip (ink spot)' } });
   const W = 64, H = 384; const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
   const m = new THREE.Mesh(new THREE.PlaneGeometry(0.02, 0.12), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.95, side: THREE.DoubleSide })); m.position.y = 0.06; it.g.add(m);

@@ -5,28 +5,28 @@ import { EXPERIMENTS, subjOf, classOrder } from './experiments.js';
 const N = (en, hi, hg) => ({ en, hi, hg });
 export const TOPICS = {
   chemistry: [
-    ['matter', N('Matter, water and solutions', 'पदार्थ, जल और विलयन', 'Matter, paani aur solutions'), /States of Water|Particulate|Solutes|Materials Around Us/],
-    ['separate', N('Mixtures and their separation', 'मिश्रण और उनका पृथक्करण', 'Mixtures aur unko alag karna'), /Separation|Mixtures|Pure\?|Nature of Matter/],
-    ['acid', N('Acids, bases and salts', 'अम्ल, क्षार और लवण', 'Acid, base aur salt'), /Acid/],
+    ['matter', N('Matter, water and solutions', 'पदार्थ, पानी और घोल', 'Matter, paani aur solutions'), /States of Water|Particulate|Solutes|Materials Around Us/],
+    ['separate', N('Mixtures and their separation', 'मिश्रण और उन्हें अलग करना', 'Mixtures aur unko alag karna'), /Separation|Mixtures|Pure\?|Nature of Matter/],
+    ['acid', N('Acids, bases and salts', 'एसिड, बेस और लवण', 'Acid, base aur salt'), /Acid/],
     ['metal', N('Metals and non-metals', 'धातु और अधातु', 'Metals aur non-metals'), /Metals/],
-    ['react', N('Chemical reactions and changes', 'रासायनिक अभिक्रियाएँ और परिवर्तन', 'Chemical reactions aur changes'), /Chemical Reactions|Changes|Atomic Foundations/],
-    ['fire', N('Combustion and flame', 'दहन और ज्वाला', 'Combustion aur flame'), /Combustion/],
-    ['elec', N('Electricity and chemicals', 'विद्युत और रसायन', 'Bijli aur chemicals'), /Electric Current/],
+    ['react', N('Chemical reactions and changes', 'केमिकल रिएक्शन और बदलाव', 'Chemical reactions aur changes'), /Chemical Reactions|Changes|Atomic Foundations/],
+    ['fire', N('Combustion and flame', 'दहन और लौ', 'Combustion aur flame'), /Combustion/],
+    ['elec', N('Electricity and chemicals', 'बिजली और केमिकल', 'Bijli aur chemicals'), /Electric Current/],
     ['carbon', N('Carbon and its compounds', 'कार्बन और उसके यौगिक', 'Carbon aur uske compounds'), /Carbon/],
   ],
   physics: [
     ['measure', N('Measurement and motion', 'मापन और गति', 'Measurement aur motion'), /Measurement of (Length|Time)|Moving Things/],
     ['force', N('Force, pressure and energy', 'बल, दाब और ऊर्जा', 'Force, pressure aur energy'), /Forces|Pressure|Work, Energy/],
     ['magnet', N('Magnets and magnetism', 'चुंबक और चुंबकत्व', 'Magnets aur magnetism'), /Magnets|Magnetic Effects of Electric/],
-    ['elec', N('Electricity and circuits', 'विद्युत और परिपथ', 'Bijli aur circuits'), /Electric/],
+    ['elec', N('Electricity and circuits', 'बिजली और सर्किट', 'Bijli aur circuits'), /Electric/],
     ['light', N('Light', 'प्रकाश', 'Light (prakash)'), /Light|Human Eye/],
-    ['heat', N('Heat and temperature', 'ऊष्मा और ताप', 'Heat aur temperature'), /Temperature|Heat/],
+    ['heat', N('Heat and temperature', 'गर्मी और तापमान', 'Heat aur temperature'), /Temperature|Heat/],
     ['sound', N('Sound', 'ध्वनि', 'Sound (dhwani)'), /Sound/],
     ['sky', N('Earth and sky', 'पृथ्वी और आकाश', 'Earth aur aasmaan'), /Earth, Moon|Skies/],
     ['matter', N('Materials and floating', 'पदार्थ और तैरना', 'Materials aur tairna'), /Materials|Solutes/],
   ],
 };
-const OPEN = ['open', N('Open lab: try anything', 'खुली प्रयोगशाला: कुछ भी आज़माइए', 'Open lab: kuch bhi try kijiye')];
+const OPEN = ['open', N('Open lab: try anything', 'ओपन लैब: कुछ भी करके देखिए', 'Open lab: kuch bhi try kijiye')];
 const OTHER = ['other', N('More experiments', 'और प्रयोग', 'Aur experiments')];
 // experiments whose chapter name does not say the topic (lab manual, CBSE practicals, older books) or that belong better elsewhere
 const BY_ID = {

@@ -58,7 +58,7 @@ export function battery9V(o = {}) {
 
 // ------------------------------------------------------------------ lamps and a switch
 export function bulb(o = {}) {
-  const it = new Item('bulb', { ...o, name: { en: 'Torch bulb in a holder', hi: 'होल्डर में टॉर्च का बल्ब', hg: 'Holder mein torch bulb' } });
+  const it = new Item('bulb', { ...o, name: { en: 'Torch bulb in a holder', hi: 'होल्डर में लगा टॉर्च का बल्ब', hg: 'Holder mein laga torch bulb' } });
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.01, 0.03), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); base.position.y = 0.005; it.g.add(base);
   const sock = new THREE.Mesh(new THREE.CylinderGeometry(0.0058, 0.0058, 0.012, 20), metal(0xb0b4b8, 0.4)); sock.position.y = 0.016; it.g.add(sock);
   const glass = new THREE.Mesh(new THREE.SphereGeometry(0.0088, 24, 16), glassMat({ opacity: 0.28 })); glass.position.y = 0.0305; glass.renderOrder = 7; it.g.add(glass);
@@ -75,7 +75,7 @@ export function bulb(o = {}) {
   it.height = 0.04; it.radius = 0.025; it.grabY = 0.02; return it;
 }
 export function led(o = {}) {
-  const it = new Item('led', { ...o, name: { en: 'LED in a holder', hi: 'होल्डर में LED', hg: 'Holder mein LED' } });
+  const it = new Item('led', { ...o, name: { en: 'LED in a holder', hi: 'होल्डर में लगी LED', hg: 'Holder mein lagi LED' } });
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.034, 0.008, 0.024), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); base.position.y = 0.004; it.g.add(base);
   const eM = new THREE.MeshPhysicalMaterial({ color: 0xd8262a, roughness: 0.15, transmission: 0.2, transparent: true, opacity: 0.85, emissive: 0xff2020, emissiveIntensity: 0 });
   const body = new THREE.Mesh(new THREE.CylinderGeometry(0.0026, 0.0028, 0.0045, 20), eM); body.position.y = 0.0225; it.g.add(body);
@@ -138,7 +138,7 @@ export function probe(color, o = {}) { // the bare end of a tester wire
 }
 // two electrodes held together: iron nails standing up from a cork (put inside a beaker), or carbon rods hanging from a card
 export function electrodePair(kind = 'nail', o = {}) {
-  const up = kind === 'nail'; const it = new Item('epair', { ...o, name: o.name || (up ? { en: 'Cork with two iron nails', hi: 'दो लोहे की कीलों वाला कॉर्क', hg: 'Do iron keelon wala cork' } : { en: 'Two carbon electrodes fixed in a card', hi: 'कार्ड में लगे दो कार्बन इलेक्ट्रोड', hg: 'Card mein lage do carbon electrodes' }) });
+  const up = kind === 'nail'; const it = new Item('epair', { ...o, name: o.name || (up ? { en: 'Cork with two iron nails', hi: 'लोहे की दो कीलों वाला कॉर्क', hg: 'Lohe ki do keelon wala cork' } : { en: 'Two carbon electrodes fixed in a card', hi: 'कार्ड में लगे दो कार्बन इलेक्ट्रोड', hg: 'Card mein lage do carbon electrodes' }) });
   const dx = o.dx ?? (up ? 0.0075 : 0.008); it.tipsA = []; it.tipsB = [];
   if (up) {
     const cork = new THREE.Mesh(new THREE.CylinderGeometry(0.0165, 0.0175, 0.012, 24), new THREE.MeshStandardMaterial({ color: 0xb08850, roughness: 0.95 })); cork.position.y = 0.006; it.g.add(cork);
@@ -207,7 +207,7 @@ export function stand(h = 0.032, o = {}) { // two wooden blocks that lift the mu
 // ------------------------------------------------------------------ test tube that collects gas upside down (closed end at the top)
 export function gasTube(o = {}) {
   const r = o.r ?? 0.0055, h = o.h ?? 0.075, w = 0.0007, ri = r - w;
-  const it = new Item('gtube', { ...o, name: o.name || { en: 'Test tube', hi: 'परखनली', hg: 'Test tube' } });
+  const it = new Item('gtube', { ...o, name: o.name || { en: 'Test tube', hi: 'टेस्ट ट्यूब', hg: 'Test tube' } });
   const pts = [V2(r + 0.0006, 0), V2(r, 0.0012), V2(r, h - r)]; for (let i = 1; i <= 10; i++) { const a = (i / 10) * Math.PI / 2; pts.push(V2(Math.max(0.0001, Math.cos(a) * r), h - r + Math.sin(a) * r)); }
   const glass = new THREE.Mesh(new THREE.LatheGeometry(pts, 28), glassMat({ opacity: 0.22 })); glass.renderOrder = 6; it.g.add(glass);
   const wM = new THREE.MeshPhysicalMaterial({ color: 0xcfe6fb, roughness: 0.05, transparent: true, opacity: 0.38, depthWrite: false });
@@ -284,7 +284,7 @@ export function whiteTile(w = 0.4, d = 0.09, o = {}) {
 // ends[0] is joined (through the lamp) to the + terminal, ends[1] to the − terminal. Each end: { item, tips: [local points] }.
 export class Circuit extends Item {
   constructor(spec) {
-    super('circuit', { name: { en: 'Circuit', hi: 'परिपथ', hg: 'Circuit' } });
+    super('circuit', { name: { en: 'Circuit', hi: 'सर्किट', hg: 'Circuit' } });
     Object.assign(this, { src: spec.source, lamp: spec.lamp || null, sw: spec.key || null, ends: spec.ends, wires: [] });
     this.G = 0; this.I = 0; this.bright = 0; this.cKey = null; this.stable = 0; this.rep = false; this.height = 0.001; this.radius = 0.001;
   }

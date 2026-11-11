@@ -17,7 +17,7 @@ export const EXPERIMENTS3 = [
       const A3 = K.A3;
       const plate = K.place(A3.steelPlate(), -0.38, -0.62); K.lab.fill(plate, 'water', 5);
       const c1 = K.place(A3.bottleCap({ name: { en: 'Bottle cap 1', hi: 'बोतल का ढक्कन 1', hg: 'Bottle cap 1' } }), -0.2, -0.62); K.lab.fill(c1, 'water', 5);
-      const c2 = K.place(A3.bottleCap({ name: { en: 'Bottle cap 2 (shade)', hi: 'बोतल का ढक्कन 2 (छाया)', hg: 'Bottle cap 2 (chhaya)' } }), 0.04, -0.62); K.lab.fill(c2, 'water', 5);
+      const c2 = K.place(A3.bottleCap({ name: { en: 'Bottle cap 2 (shade)', hi: 'बोतल का ढक्कन 2 (छाँव में)', hg: 'Bottle cap 2 (chhaon mein)' } }), 0.04, -0.62); K.lab.fill(c2, 'water', 5);
       const lamp = K.lamp3(0.16, -0.66); const c3 = K.place(A3.bottleCap({ color: 0xc9442f, name: { en: 'Bottle cap 3 (in the light)', hi: 'बोतल का ढक्कन 3 (रोशनी में)', hg: 'Bottle cap 3 (roshni mein)' } }), 0.28, -0.66); K.lab.fill(c3, 'water', 5);
       const wg = K.add(K.A.watchGlass(), 0.0, -0.46); K.lab.fill(wg, 'spirit', 2); wg.name = X('Watch glass with spirit');
       for (const v of [plate, c1, c2, c3, wg]) v.evapOpen = true; c3.sunBy = lamp;
@@ -278,7 +278,7 @@ export const EXPERIMENTS3 = [
     kind: X('Ignition temperature'),
     setup(K) {
       const A3 = K.A3; const cd = K.place(A3.candle(), 0.16, -0.62);
-      const e = K.place(A3.paperCup({ name: { en: 'Empty paper cup', hi: 'खाली कागज़ का कप', hg: 'Khaali paper cup' } }), -0.28, -0.6);
+      const e = K.place(A3.paperCup({ name: { en: 'Empty paper cup', hi: 'कागज़ का खाली कप', hg: 'Khaali paper cup' } }), -0.28, -0.6);
       const w = K.place(A3.paperCup({ name: { en: 'Paper cup with water', hi: 'पानी वाला कागज़ का कप', hg: 'Paani wala paper cup' } }), -0.06, -0.6); K.lab.fill(w, 'water', 40);
       return { cd, e, w };
     },

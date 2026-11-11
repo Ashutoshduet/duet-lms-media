@@ -62,7 +62,7 @@ export function droplets(v, o = {}) {
 // ------------------------------------------------------------------ a thistle funnel: acid poured in runs down its long stem into the flask
 export function thistleFunnel(o = {}) {
   const stem = o.stem ?? 0.16; const prof = [[0.0028, 0], [0.0028, stem], [0.006, stem + 0.004], [0.012, stem + 0.012], [0.0135, stem + 0.022], [0.012, stem + 0.03], [0.0095, stem + 0.034]];
-  const v = new Vessel('thistle', prof, { ...o, wall: 0.0008, name: o.name || { en: 'Thistle funnel', hi: 'थिसिल कीप', hg: 'Thistle funnel' }, cap: 6 });
+  const v = new Vessel('thistle', prof, { ...o, wall: 0.0008, name: o.name || { en: 'Thistle funnel', hi: 'थिसल फ़नल', hg: 'Thistle funnel' }, cap: 6 });
   v.drainFast = true; v.grabY = stem + 0.015; v.noGrab = true; return v;
 }
 // ------------------------------------------------------------------ a small steel dish with a substance that burns; sooty (yellow, smoky) or clean (blue)
@@ -108,7 +108,7 @@ export function lumFlame() { const g = new THREE.Group(); const f = candleFlame(
 // ------------------------------------------------------------------ a piece of metal (copper strip, aluminium foil, zinc strip) that is held in a flame
 const METAL = {
   cu: { c: 0xc06a3e, shine: 0xd98a5a, w: 0.008, h: 0.05, d: 0.0006, name: { en: 'Copper strip', hi: 'ताँबे की पट्टी', hg: 'Copper strip' } },
-  al: { c: 0xd8dbdf, shine: 0xeef0f2, w: 0.016, h: 0.045, d: 0.0003, name: { en: 'Aluminium foil', hi: 'एल्युमिनियम पन्नी', hg: 'Aluminium foil' } },
+  al: { c: 0xd8dbdf, shine: 0xeef0f2, w: 0.016, h: 0.045, d: 0.0003, name: { en: 'Aluminium foil', hi: 'एल्युमिनियम फ़ॉइल', hg: 'Aluminium foil' } },
   zn: { c: 0xa9adb0, shine: 0xcfd3d6, w: 0.008, h: 0.045, d: 0.0009, name: { en: 'Zinc strip', hi: 'ज़िंक की पट्टी', hg: 'Zinc strip' } },
 };
 export function metalPiece(kind, o = {}) {
@@ -159,7 +159,7 @@ export function clothStrip(o = {}) {
 }
 // ------------------------------------------------------------------ a 15 cm scale (ruler) to measure the height of the lather
 export function ruler(o = {}) {
-  const it = new Item('ruler', { ...o, name: o.name || { en: 'Scale (15 cm)', hi: 'पैमाना (15 सेमी)', hg: 'Scale (15 cm)' } });
+  const it = new Item('ruler', { ...o, name: o.name || { en: 'Scale (15 cm)', hi: 'स्केल (15 सेमी)', hg: 'Scale (15 cm)' } });
   const tex = canvasTex(128, 1024, (x, w, h) => { x.fillStyle = '#f3ecd2'; x.fillRect(0, 0, w, h); x.fillStyle = '#222'; x.font = '600 34px sans-serif';
     for (let mm = 0; mm <= 150; mm++) { const y = h - 12 - (mm / 150) * (h - 24); const L = mm % 10 === 0 ? 60 : mm % 5 === 0 ? 40 : 24; x.fillRect(0, y - 1, L, 2); if (mm % 10 === 0 && mm > 0) x.fillText(String(mm / 10), 68, y + 12); } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(0.022, 0.16, 0.002), [new THREE.MeshStandardMaterial({ color: 0xe8dfc2 }), new THREE.MeshStandardMaterial({ color: 0xe8dfc2 }), new THREE.MeshStandardMaterial({ color: 0xe8dfc2 }), new THREE.MeshStandardMaterial({ color: 0xe8dfc2 }), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6 }), new THREE.MeshStandardMaterial({ color: 0xe8dfc2 })]);
@@ -167,14 +167,14 @@ export function ruler(o = {}) {
 }
 // ------------------------------------------------------------------ a black paper cover that keeps light away from a dish
 export function cover(o = {}) {
-  const it = new Item('cover', { ...o, name: o.name || { en: 'Black paper cover', hi: 'काले कागज़ का ढक्कन', hg: 'Kaale kaagaz ka dhakkan' } });
+  const it = new Item('cover', { ...o, name: o.name || { en: 'Black paper cover', hi: 'काले कागज़ का कवर', hg: 'Kaale kaagaz ka cover' } });
   const m = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.058, 0.05, 32, 1, true), new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.95, side: THREE.DoubleSide })); m.position.y = 0.025; it.g.add(m);
   const top = new THREE.Mesh(new THREE.CircleGeometry(0.05, 32), new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.95 })); top.rotation.x = -Math.PI / 2; top.position.y = 0.05; it.g.add(top);
   it.height = 0.05; it.radius = 0.058; it.grabY = 0.045; return it;
 }
 // ------------------------------------------------------------------ the cake of soap made in the lab (cut from the set curd)
 export function soapCake(o = {}) {
-  const it = new Item('soapcake', { ...o, name: o.name || { en: 'Cake of soap (made in the lab)', hi: 'साबुन की टिकिया (प्रयोगशाला में बनी)', hg: 'Saabun ki tikiya (lab mein bani)' } });
+  const it = new Item('soapcake', { ...o, name: o.name || { en: 'Cake of soap (made in the lab)', hi: 'साबुन की टिकिया (लैब में बनी)', hg: 'Saabun ki tikiya (lab mein bani)' } });
   const tex = canvasTex(128, 128, (x, w, h) => { x.fillStyle = '#efe4c4'; x.fillRect(0, 0, w, h); for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(${Math.random() < 0.5 ? '255,250,236' : '214,200,160'},0.35)`; x.fillRect(rnd(0, w), rnd(0, h), rnd(1, 3), rnd(1, 3)); } });
   const g = new THREE.BoxGeometry(0.05, 0.018, 0.034, 6, 2, 4); const p = g.attributes.position; for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i), z = p.getZ(i); const k = 1 - 0.08 * (Math.abs(x) / 0.025) ** 4 - 0.08 * (Math.abs(z) / 0.017) ** 4; p.setXYZ(i, x * k, y, z * k); } g.computeVertexNormals();
   const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ map: tex, roughness: 0.55 })); m.position.y = 0.009; it.g.add(m);

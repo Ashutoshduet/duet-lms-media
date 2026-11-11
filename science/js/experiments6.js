@@ -13,8 +13,8 @@ const C1 = N('Ch 1 · Chemical Reactions and Equations', 'अध्याय 1 �
 const C2 = N('Ch 2 · Acids, Bases and Salts', 'अध्याय 2 · अम्ल, क्षारक एवं लवण', 'Ch 2 · Acids, Bases aur Salts');
 const C3 = N('Ch 3 · Metals and Non-metals', 'अध्याय 3 · धातु एवं अधातु', 'Ch 3 · Metals aur Non-metals');
 const C4 = N('Ch 4 · Carbon and its Compounds', 'अध्याय 4 · कार्बन एवं उसके यौगिक', 'Ch 4 · Carbon aur uske Compounds');
-const CL = N('NCERT Lab Manual, Class 10', 'NCERT प्रयोगशाला पुस्तिका, कक्षा 10', 'NCERT Lab Manual, Class 10');
-const CP = N('CBSE practical, Class 10', 'CBSE प्रायोगिक, कक्षा 10', 'CBSE practical, Class 10');
+const CL = N('NCERT Lab Manual, Class 10', 'NCERT लैब मैनुअल, कक्षा 10', 'NCERT Lab Manual, Class 10');
+const CP = N('CBSE practical, Class 10', 'CBSE प्रैक्टिकल, कक्षा 10', 'CBSE practical, Class 10');
 // stand a vessel inside a bath (on a tripod); it then follows the bath's temperature
 async function intoBathAt(K, v, bath) { const b = bath.g.localToWorld(V(K, 0, bath.inner[0].y + 0.002, 0)); await K.moveTo(v, b.clone().setY(b.y + 0.1), new K.THREE.Quaternion(), 0.8); await K.tween(0.6, (k) => { v.g.position.y = b.y + 0.1 * (1 - k); }); v.bath = bath; v.home = { p: v.g.position.clone(), q: v.g.quaternion.clone() }; K.lab.emit('bath', { v: v.id, in: bath.id }); }
 // a thermometer that stays in a vessel and shows its temperature, with a read-out above it

@@ -4,6 +4,8 @@
 import * as THREE from 'three';
 import { BENCH_Y, BENCH } from './room.js';
 import { matchstick } from './apparatus.js';
+import { crispText } from './mats.js';
+import { FONT } from './strings.js';
 
 const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3(), tq = new THREE.Quaternion();
 const FLAT = ['splint', 'strip', 'thermo', 'tongs', 'rod', 'spatula'];
@@ -67,8 +69,11 @@ export class XRInput {
     if (it.kind === 'matchbox' && !h.held) { this.takeMatch(h, it); return; } // a match out of the box, into the hand
     if (r.state === 'todo' && r.target() === it) { this.pulse(h, 0.5, 40); r.doStep(); return; }
     if (it.kind === 'key' && it.setOn) { it.setOn(!it.on); this.app.lab.emit('key', { v: it.id, on: it.on }); this.app.audio.tone(it.on ? 1500 : 900, 0.04, 0.06, 'square'); this.pulse(h, 0.4, 30); return; } // a switch: press it
-    if (it.setLit) { // put out a lamp yourself; lighting it needs a match (when there is a matchbox on the bench)
-      if (!it.lit && this.app.lab.items.some((x) => x.kind === 'matchbox')) { this.app.ui.toast(this.app.ui.lightHint(true) || '', 6000); this.pulse(h, 0.2, 20); return; }
+    if (it.setLit) { // a lamp or burner: trigger at it lights it with a match from the box (you can also strike a match yourself), or puts it out
+      if (!it.lit && this.app.lab.items.some((x) => x.kind === 'matchbox')) {
+        if (!it._lighting) { it._lighting = true; this.pulse(h, 0.3, 30); const L = this.app.lang; this.app.ui.toast({ en: 'Lighting it with a match…', hi: 'माचिस की तीली से जला रहे हैं…', hg: 'Maachis ki teeli se jala rahe hain…' }[L] || 'Lighting it with a match…', 2200);
+          Promise.resolve(this.app.runner.K.light(it)).catch(() => it.setLit(true)).finally(() => { it._lighting = false; }); }
+        return; }
       it.setLit(!it.lit); this.app.lab.emit(it.lit ? 'lit' : 'unlit', { obj: it.id }); if (it.lit) this.app.audio.whoosh(); this.pulse(h, 0.4, 40);
     }
   }
@@ -82,7 +87,7 @@ export class XRInput {
     const m = h.held; if (!m || m.burning) return; const L = this.app.lang;
     if (m.spent) { if (byTrigger) this.app.ui.toast({ en: 'This match has burnt out. Take a new one from the box.', hi: 'यह तीली जल चुकी है। डिब्बी से नई तीली लीजिए।', hg: 'Ye teeli jal chuki hai. Dibbi se nayi teeli lijiye.' }[L] || '', 4000); return; }
     const tip = m.g.localToWorld(tmp.copy(m.tipLocal));
-    if (!this.boxNear(tip, byTrigger ? 0.08 : 0.035)) { if (byTrigger) this.app.ui.toast({ en: 'Bring the head of the match to the brown side of the matchbox, then pull the trigger to strike it.', hi: 'तीली का मसाला माचिस की भूरी पट्टी के पास लाइए, फिर ट्रिगर दबाकर रगड़िए।', hg: 'Teeli ka masala maachis ki brown patti ke paas laiye, phir trigger dabakar ragadiye.' }[L] || '', 4500); return; }
+    if (!this.boxNear(tip, byTrigger ? 0.08 : 0.035)) { if (byTrigger) this.app.ui.toast({ en: 'Bring the head of the match to the brown side of the matchbox, then pull the trigger to strike it.', hi: 'तीली का मसाला माचिस की भूरी पट्टी के पास लाइए, फिर ट्रिगर दबाकर रगड़िए।', hg: 'Teeli ka masala maachis ki brown patti ke paas laaiye, phir trigger dabaakar ragadiye.' }[L] || '', 4500); return; }
     m.setFlame(true); this.app.audio.burst(0.18, 3200, 0.18, 'highpass'); setTimeout(() => this.app.audio.whoosh(), 120); this.pulse(h, 0.7, 60); this.app.lab.emit('match_lit', { obj: m.id });
   }
   // ------------------------------------------------------------ grip: pick up and put down
@@ -190,7 +195,7 @@ export class XRInput {
       h.angVel.lerp(ax, k); h.lp.copy(hpos); h.lq.copy(hq);
       // hand tracking: show finger tips
       if (h.src.hand) { const tipJ = ['index-finger-tip', 'thumb-tip']; tipJ.forEach((n, k) => { const j = h.hand.joints && h.hand.joints[n]; if (j && j.visible !== false) { h.tips[k].visible = true; j.getWorldPosition(h.tips[k].position); } }); }
-      const hit = h.held ? null : this.cast(h);
+      const hit = h.held ? null : this.cast(h); h.hovIt = hit && hit.item && !hit.panel ? hit.item : null;
       const len = hit ? hit.d : 1.2; h.line.scale.z = len; h.dot.visible = !!hit; if (hit) h.dot.position.copy(hit.p);
       const hp = hit && hit.panel ? hit.panel : null; const id = hp ? hp.hitUV(hit.uv) : null;
       if (h.hoverPanel && (h.hoverPanel !== hp || h.hoverPanel.hover !== id)) { h.hoverPanel.hover = null; ui.dirty = true; }
@@ -209,5 +214,36 @@ export class XRInput {
         for (const f of lab.items) if (f.lit && f.heatPoint && f.g.localToWorld(tmp2.copy(f.heatPoint)).distanceTo(tip) < 0.04) { it.setFlame(true); it.popped = false; this.app.audio.whoosh(); lab.emit('splint_lit', { obj: it.id }); }
       }
     }
+    this.tag(dt);
+  }
+  // ------------------------------------------------------------ point at a thing (or hold a vessel) to read what it is and what is in it:
+  // name, each liquid with how many mL, any precipitate, the temperature once it is warm, "empty", "lit"
+  tag(dt) {
+    let it = null; for (const h of this.hands) if (h.src && h.hovIt) { it = h.hovIt; break; }
+    if (!it) for (const h of this.hands) if (h.src && h.held && h.held.mix) { it = h.held; break; }
+    const T = this.tagS || (this.tagS = this.makeTag());
+    if (it !== T.it) { T.it = it; T.t = 0; T.drawn = -1; }
+    T.t += dt; const show = !!it && T.t > 0.3;
+    T.mesh.visible = show; if (!show) return;
+    if (T.t - T.drawn > 0.5) { T.drawn = T.t; this.drawTag(T, this.app.describe(it)); }
+    const top = it.rimY ?? it.height ?? 0.08; it.g.getWorldPosition(tmp); tmp.y += top + 0.05 + T.h / 2;
+    T.mesh.position.copy(tmp); this.app.renderer.xr.getCamera().getWorldPosition(tmp2); T.mesh.lookAt(tmp2);
+  }
+  makeTag() {
+    const cv = document.createElement('canvas'); cv.width = 640; cv.height = 320; const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 16;
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), crispText(new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthTest: false, depthWrite: false }), -0.9));
+    mesh.renderOrder = 70; mesh.visible = false; mesh.userData.noHit = true; this.app.scene.add(mesh);
+    return { cv, tex, mesh, it: null, t: 0, drawn: -1, h: 0.05 };
+  }
+  drawTag(T, d) {
+    const x = T.cv.getContext('2d'); const W = T.cv.width; const lines = (d.lines || []).slice(0, 5).map(String);
+    const H = Math.min(T.cv.height, 76 + lines.length * 46); x.clearRect(0, 0, W, T.cv.height);
+    x.fillStyle = 'rgba(15,21,34,0.88)'; const r = 26; x.beginPath(); x.moveTo(r, 0); x.arcTo(W, 0, W, H, r); x.arcTo(W, H, 0, H, r); x.arcTo(0, H, 0, 0, r); x.arcTo(0, 0, W, 0, r); x.fill();
+    x.fillStyle = '#f0a65a'; x.fillRect(0, 18, 8, H - 36);
+    const fit = (t, f) => { x.font = f; let s = t; while (s.length > 4 && x.measureText(s).width > W - 56) s = s.slice(0, -2); return s === t ? t : s + '…'; };
+    x.fillStyle = '#f3f5f8'; x.textBaseline = 'top'; x.fillText(fit(d.name || '', `600 40px ${FONT}`), 30, 16);
+    x.fillStyle = '#c9d3e0'; lines.forEach((l, i) => x.fillText(fit(l, `500 34px ${FONT}`), 30, 70 + i * 46));
+    T.tex.needsUpdate = true; const w = 0.22; T.h = w * H / W; T.mesh.scale.set(w, T.h, 1);
+    const uv = T.mesh.geometry.attributes.uv; const v0 = 1 - H / T.cv.height; uv.setXY(0, 0, 1); uv.setXY(1, 1, 1); uv.setXY(2, 0, v0); uv.setXY(3, 1, v0); uv.needsUpdate = true;
   }
 }

@@ -107,7 +107,7 @@ export const EXPERIMENTS4 = [
       const b = K.beaker(0.0, -0.62, 'water', 200, 250); b.name = X('Beaker with distilled water');
       const cs = K.solid('cuso4d', -0.22, -0.48); const rod = K.rod(-0.1, -0.44); const acid = K.bottle('h2so4', 0.22, -0.8, { dropper: true });
       const sp = K.place(A3.sandpaper(), 0.36, -0.5); const lid = K.add(A4.cardLid(), -0.32, -0.6);
-      const pA = K.lay(A4.copperPlate({ name: N('Copper plate 1 (to +)', 'ताँबे की प्लेट 1 (+ से)', 'Copper plate 1 (+ se)') }), 0.17, -0.55), pB = K.lay(A4.copperPlate({ name: N('Copper plate 2 (to −)', 'ताँबे की प्लेट 2 (− से)', 'Copper plate 2 (− se)') }), 0.26, -0.55);
+      const pA = K.lay(A4.copperPlate({ name: N('Copper plate 1 (to +)', 'ताँबे की प्लेट 1 (+ से जुड़ी)', 'Copper plate 1 (+ se judi)') }), 0.17, -0.55), pB = K.lay(A4.copperPlate({ name: N('Copper plate 2 (to −)', 'ताँबे की प्लेट 2 (− से जुड़ी)', 'Copper plate 2 (− se judi)') }), 0.26, -0.55);
       const cells = K.add(A4.cellPack(2), -0.4, -0.8); const key = K.add(A4.plugKey(), -0.22, -0.8);
       const ckt = K.circuit({ source: cells, key, ends: [{ item: pA, tips: pA.tips }, { item: pB, tips: pB.tips }] }, [[[cells, '+'], [key, 'a'], RED], [[key, 'b'], [pA, 'w'], RED], [[cells, '-'], [pB, 'w'], BLACK]]);
       return { b, cs, rod, acid, sp, lid, pA, pB, cells, key, ckt };
@@ -145,7 +145,7 @@ export const EXPERIMENTS4 = [
       const b = K.beaker(0.0, -0.62, null, 0, 250); b.name = X('Beaker');
       const jug = K.beaker(-0.3, -0.68, 'water', 320, 500); jug.name = X('Water');
       const acid = K.bottle('h2so4', 0.24, -0.8, { dropper: true }); const bat = K.add(A4.battery9V(), 0.2, -0.5);
-      const t1 = K.lay(A4.gasTube({ name: N('Test tube 1', 'परखनली 1', 'Test tube 1') }), 0.32, -0.6, 0.1), t2 = K.lay(A4.gasTube({ name: N('Test tube 2', 'परखनली 2', 'Test tube 2') }), 0.38, -0.6, 0.1);
+      const t1 = K.lay(A4.gasTube({ name: N('Test tube 1', 'टेस्ट ट्यूब 1', 'Test tube 1') }), 0.32, -0.6, 0.1), t2 = K.lay(A4.gasTube({ name: N('Test tube 2', 'टेस्ट ट्यूब 2', 'Test tube 2') }), 0.38, -0.6, 0.1);
       const cd = K.place(A3.candle(), -0.28, -0.46);
       const ckt = K.circuit({ source: bat, ends: [{ item: bat, tips: bat.tipsP }, { item: bat, tips: bat.tipsN }] });
       return { b, jug, acid, bat, t1, t2, cd, ckt };
@@ -187,7 +187,7 @@ export const EXPERIMENTS4 = [
       const A4 = K.A4; const chems = ['salt', 'cuso4d', 'sugar', 'camphor', 'naph']; const o = {};
       chems.forEach((c, i) => { o['s' + (i + 1)] = K.solid(c, -0.4 + i * 0.12, -0.47); });
       chems.forEach((c, i) => { const b = K.beaker(-0.4 + i * 0.12, -0.64, 'water', 30, 50); b.name = N(`Beaker ${i + 1} (water)`, `बीकर ${i + 1} (पानी)`, `Beaker ${i + 1} (paani)`); o['b' + (i + 1)] = b; });
-      o.rk = K.rack(0.33, -0.76); chems.forEach((c, i) => { const t = K.tube(o.rk, i, 'kerosene', 8); t.name = N(`Tube ${i + 1} (kerosene)`, `नली ${i + 1} (केरोसिन)`, `Tube ${i + 1} (kerosene)`); o['k' + (i + 1)] = t; });
+      o.rk = K.rack(0.33, -0.76); chems.forEach((c, i) => { const t = K.tube(o.rk, i, 'kerosene', 8); t.name = N(`Tube ${i + 1} (kerosene)`, `ट्यूब ${i + 1} (केरोसिन)`, `Tube ${i + 1} (kerosene)`); o['k' + (i + 1)] = t; });
       o.pair = K.add(A4.electrodePair('carbon'), 0.27, -0.5); o.bat = K.add(A4.battery9V(), 0.42, -0.52); o.lamp = K.add(A4.bulb(), 0.42, -0.62);
       o.ckt = K.circuit({ source: o.bat, lamp: o.lamp, ends: [{ item: o.pair, tips: o.pair.tipsA }, { item: o.pair, tips: o.pair.tipsB }] }, [[[o.bat, '+'], [o.lamp, 'b'], RED], [[o.lamp, 'a'], [o.pair, 'a'], RED], [[o.bat, '-'], [o.pair, 'b'], BLACK]]);
       return o;
@@ -226,7 +226,7 @@ export const EXPERIMENTS4 = [
       const st = K.add(A4.stand(0.032), 0.0, -0.62); const mug = K.add(A4.mug(), 0.0, -0.62, { y: BENCH_Y + 0.032 });
       const jug = K.beaker(-0.3, -0.6, 'water', 450, 500); jug.name = X('Water');
       const acid = K.bottle('h2so4', 0.24, -0.8, { dropper: true });
-      const t1 = K.lay(A4.gasTube({ r: 0.0075, h: 0.1, name: N('Test tube 1', 'परखनली 1', 'Test tube 1') }), 0.22, -0.5, 0.1), t2 = K.lay(A4.gasTube({ r: 0.0075, h: 0.1, name: N('Test tube 2', 'परखनली 2', 'Test tube 2') }), 0.3, -0.5, 0.1);
+      const t1 = K.lay(A4.gasTube({ r: 0.0075, h: 0.1, name: N('Test tube 1', 'टेस्ट ट्यूब 1', 'Test tube 1') }), 0.22, -0.5, 0.1), t2 = K.lay(A4.gasTube({ r: 0.0075, h: 0.1, name: N('Test tube 2', 'टेस्ट ट्यूब 2', 'Test tube 2') }), 0.3, -0.5, 0.1);
       const cd = K.place(A3.candle(), 0.36, -0.66);
       const cells = K.add(A4.cellPack(4), -0.4, -0.8); const key = K.add(A4.plugKey(), -0.2, -0.82);
       const ckt = K.circuit({ source: cells, key, ends: [{ item: mug, tips: mug.tipsA }, { item: mug, tips: mug.tipsB }] }, [[[cells, '+'], [key, 'a'], RED], [[key, 'b'], [mug, 'a'], RED], [[cells, '-'], [mug, 'b'], BLACK]]);
@@ -303,7 +303,7 @@ export const EXPERIMENTS4 = [
       const A4 = K.A4; const o = tester(K, { cells: 3, ax: 0.16, ax2: 0.24, az: -0.46, bx: -0.42, lx: -0.24 });
       o.nacl = K.solid('salt', -0.32, -0.56); o.ki = K.solid('kis', -0.2, -0.56); o.ba = K.solid('bacl2s', -0.08, -0.56);
       o.bn = K.burner(0.06, -0.7); o.sp = K.lay(A4.flameSpatula(), -0.02, -0.45, -0.3);
-      o.rk = K.rack(0.33, -0.72); o.tw = K.tube(o.rk, 0, 'water', 10); o.tw.name = N('Test tube 1: water', 'परखनली 1: पानी', 'Test tube 1: paani'); o.tk = K.tube(o.rk, 2, 'kerosene', 10); o.tk.name = N('Test tube 2: kerosene', 'परखनली 2: केरोसिन', 'Test tube 2: kerosene'); o.tk.tag = '2';
+      o.rk = K.rack(0.33, -0.72); o.tw = K.tube(o.rk, 0, 'water', 10); o.tw.name = N('Test tube 1: water', 'टेस्ट ट्यूब 1: पानी', 'Test tube 1: paani'); o.tk = K.tube(o.rk, 2, 'kerosene', 10); o.tk.name = N('Test tube 2: kerosene', 'टेस्ट ट्यूब 2: केरोसिन', 'Test tube 2: kerosene'); o.tk.tag = '2';
       return o;
     },
     steps: [

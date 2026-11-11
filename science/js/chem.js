@@ -6,139 +6,189 @@ const C = (h) => new THREE.Color(h);
 // liquids / solutions. h = equivalents of acid (+) or base (-) per litre; pH = pH of the pure solution
 export const SUBS = {
   water: { f: 'H₂O', n: { en: 'Water', hi: 'पानी', hg: 'Paani' }, c: '#dceeff', a: 0.16, pH: 7 },
-  hcl: { f: 'HCl', n: { en: 'Dilute hydrochloric acid', hi: 'तनु हाइड्रोक्लोरिक अम्ल', hg: 'Dilute hydrochloric acid' }, c: '#e8f2ff', a: 0.18, h: 1, pH: 0.3 },
-  h2so4: { f: 'H₂SO₄', n: { en: 'Dilute sulphuric acid', hi: 'तनु सल्फ्यूरिक अम्ल', hg: 'Dilute sulphuric acid' }, c: '#eef3ff', a: 0.18, h: 2, pH: 0.2 },
-  naoh: { f: 'NaOH', n: { en: 'Sodium hydroxide solution', hi: 'सोडियम हाइड्रॉक्साइड विलयन', hg: 'Sodium hydroxide solution' }, c: '#eef6ff', a: 0.18, h: -1, pH: 13.5 },
-  vinegar: { f: 'CH₃COOH', n: { en: 'Vinegar (acetic acid)', hi: 'सिरका (एसीटिक अम्ल)', hg: 'Sirka (acetic acid)' }, c: '#f6f1df', a: 0.2, h: 0.8, pH: 2.8, weak: true },
+  hcl: { f: 'HCl', n: { en: 'Dilute hydrochloric acid', hi: 'डाइल्यूट हाइड्रोक्लोरिक एसिड', hg: 'Dilute hydrochloric acid' }, c: '#e8f2ff', a: 0.18, h: 1, pH: 0.3 },
+  h2so4: { f: 'H₂SO₄', n: { en: 'Dilute sulphuric acid', hi: 'डाइल्यूट सल्फ़्यूरिक एसिड', hg: 'Dilute sulphuric acid' }, c: '#eef3ff', a: 0.18, h: 2, pH: 0.2 },
+  naoh: { f: 'NaOH', n: { en: 'Sodium hydroxide solution', hi: 'सोडियम हाइड्रॉक्साइड का घोल', hg: 'Sodium hydroxide solution' }, c: '#eef6ff', a: 0.18, h: -1, pH: 13.5 },
+  vinegar: { f: 'CH₃COOH', n: { en: 'Vinegar (acetic acid)', hi: 'सिरका (एसीटिक एसिड)', hg: 'Sirka (acetic acid)' }, c: '#f6f1df', a: 0.2, h: 0.8, pH: 2.8, weak: true },
   lemon: { f: 'Lemon juice', n: { en: 'Lemon juice', hi: 'नींबू का रस', hg: 'Nimbu ka ras' }, c: '#f1ea9e', a: 0.42, h: 0.9, pH: 2.3, weak: true, cloud: 0.18, cloudC: '#f7f1c8' },
-  soap: { f: 'Soap solution', n: { en: 'Soap solution', hi: 'साबुन का घोल', hg: 'Sabun ka ghol' }, c: '#eef0ee', a: 0.45, h: -0.02, pH: 10, weak: true, cloud: 0.32, cloudC: '#f4f5f2' },
+  soap: { f: 'Soap solution', n: { en: 'Soap solution', hi: 'साबुन का घोल', hg: 'Saabun ka ghol' }, c: '#eef0ee', a: 0.45, h: -0.02, pH: 10, weak: true, cloud: 0.32, cloudC: '#f4f5f2' },
   bakingsoda: { f: 'NaHCO₃', n: { en: 'Baking soda solution', hi: 'खाने के सोडे का घोल', hg: 'Baking soda solution' }, c: '#f2f6fa', a: 0.2, h: -0.05, pH: 8.3, weak: true },
-  washingsoda: { f: 'Na₂CO₃', n: { en: 'Washing soda solution', hi: 'धोने के सोडे का घोल', hg: 'Washing soda solution' }, c: '#f2f6fa', a: 0.2, h: -0.3, pH: 11.5, weak: true },
+  washingsoda: { f: 'Na₂CO₃', n: { en: 'Washing soda solution', hi: 'वॉशिंग सोडा का घोल', hg: 'Washing soda solution' }, c: '#f2f6fa', a: 0.2, h: -0.3, pH: 11.5, weak: true },
   milkmag: { f: 'Mg(OH)₂', n: { en: 'Milk of magnesia', hi: 'मिल्क ऑफ़ मैग्नेशिया', hg: 'Milk of magnesia' }, c: '#f7f7f4', a: 0.6, h: -0.2, pH: 10.5, weak: true, cloud: 0.85, cloudC: '#f8f8f5' },
-  limewater: { f: 'Ca(OH)₂', n: { en: 'Lime water', hi: 'चूने का पानी', hg: 'Lime water' }, c: '#f2f6fa', a: 0.18, h: -0.04, pH: 12.4, weak: true },
-  cuso4: { f: 'CuSO₄', n: { en: 'Copper sulphate solution', hi: 'कॉपर सल्फेट विलयन', hg: 'Copper sulphate solution' }, c: '#1f7fe0', a: 0.62, pH: 4.2, weak: true, h: 0.002, tint: 4 },
-  feso4: { f: 'FeSO₄', n: { en: 'Ferrous sulphate solution', hi: 'फेरस सल्फेट विलयन', hg: 'Ferrous sulphate solution' }, c: '#a8d29a', a: 0.38, pH: 4, weak: true, h: 0.002 },
-  znso4: { f: 'ZnSO₄', n: { en: 'Zinc sulphate solution', hi: 'जिंक सल्फेट विलयन', hg: 'Zinc sulphate solution' }, c: '#eef4fa', a: 0.18, pH: 5, weak: true, h: 0.001 },
-  zncl2: { f: 'ZnCl₂', n: { en: 'Zinc chloride solution', hi: 'जिंक क्लोराइड विलयन', hg: 'Zinc chloride solution' }, c: '#eef4fa', a: 0.18, pH: 5, weak: true },
-  fecl2: { f: 'FeCl₂', n: { en: 'Iron(II) chloride solution', hi: 'फेरस क्लोराइड विलयन', hg: 'Ferrous chloride solution' }, c: '#cfe5bf', a: 0.3, pH: 4, weak: true },
-  mgcl2: { f: 'MgCl₂', n: { en: 'Magnesium chloride solution', hi: 'मैग्नीशियम क्लोराइड विलयन', hg: 'Magnesium chloride solution' }, c: '#eef4fa', a: 0.18, pH: 6.5, weak: true },
+  limewater: { f: 'Ca(OH)₂', n: { en: 'Lime water', hi: 'चूने का पानी (लाइम वॉटर)', hg: 'Lime water' }, c: '#f2f6fa', a: 0.18, h: -0.04, pH: 12.4, weak: true },
+  cuso4: { f: 'CuSO₄', n: { en: 'Copper sulphate solution', hi: 'कॉपर सल्फ़ेट का घोल', hg: 'Copper sulphate solution' }, c: '#1f7fe0', a: 0.62, pH: 4.2, weak: true, h: 0.002, tint: 4 },
+  feso4: { f: 'FeSO₄', n: { en: 'Ferrous sulphate solution', hi: 'फ़ेरस सल्फ़ेट का घोल', hg: 'Ferrous sulphate solution' }, c: '#a8d29a', a: 0.38, pH: 4, weak: true, h: 0.002 },
+  znso4: { f: 'ZnSO₄', n: { en: 'Zinc sulphate solution', hi: 'ज़िंक सल्फ़ेट का घोल', hg: 'Zinc sulphate solution' }, c: '#eef4fa', a: 0.18, pH: 5, weak: true, h: 0.001 },
+  zncl2: { f: 'ZnCl₂', n: { en: 'Zinc chloride solution', hi: 'ज़िंक क्लोराइड का घोल', hg: 'Zinc chloride solution' }, c: '#eef4fa', a: 0.18, pH: 5, weak: true },
+  fecl2: { f: 'FeCl₂', n: { en: 'Iron(II) chloride solution', hi: 'फ़ेरस क्लोराइड का घोल', hg: 'Ferrous chloride solution' }, c: '#cfe5bf', a: 0.3, pH: 4, weak: true },
+  mgcl2: { f: 'MgCl₂', n: { en: 'Magnesium chloride solution', hi: 'मैग्नीशियम क्लोराइड का घोल', hg: 'Magnesium chloride solution' }, c: '#eef4fa', a: 0.18, pH: 6.5, weak: true },
   nacl: { f: 'NaCl', n: { en: 'Salt solution', hi: 'नमक का घोल', hg: 'Namak ka ghol' }, c: '#e6f1fb', a: 0.17, pH: 7 },
-  pbno3: { f: 'Pb(NO₃)₂', n: { en: 'Lead nitrate solution', hi: 'लेड नाइट्रेट विलयन', hg: 'Lead nitrate solution' }, c: '#eef4fa', a: 0.18, pH: 4.5, weak: true },
-  ki: { f: 'KI', n: { en: 'Potassium iodide solution', hi: 'पोटैशियम आयोडाइड विलयन', hg: 'Potassium iodide solution' }, c: '#f2f6f8', a: 0.18, pH: 7 },
-  kno3: { f: 'KNO₃', n: { en: 'Potassium nitrate solution', hi: 'पोटैशियम नाइट्रेट विलयन', hg: 'Potassium nitrate solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
-  bacl2: { f: 'BaCl₂', n: { en: 'Barium chloride solution', hi: 'बेरियम क्लोराइड विलयन', hg: 'Barium chloride solution' }, c: '#eef4fa', a: 0.18, pH: 7 },
-  na2so4: { f: 'Na₂SO₄', n: { en: 'Sodium sulphate solution', hi: 'सोडियम सल्फेट विलयन', hg: 'Sodium sulphate solution' }, c: '#eef4fa', a: 0.18, pH: 7 },
-  agno3: { f: 'AgNO₃', n: { en: 'Silver nitrate solution', hi: 'सिल्वर नाइट्रेट विलयन', hg: 'Silver nitrate solution' }, c: '#f2f5f8', a: 0.18, pH: 6 },
+  pbno3: { f: 'Pb(NO₃)₂', n: { en: 'Lead nitrate solution', hi: 'लेड नाइट्रेट का घोल', hg: 'Lead nitrate solution' }, c: '#eef4fa', a: 0.18, pH: 4.5, weak: true },
+  ki: { f: 'KI', n: { en: 'Potassium iodide solution', hi: 'पोटैशियम आयोडाइड का घोल', hg: 'Potassium iodide solution' }, c: '#f2f6f8', a: 0.18, pH: 7 },
+  kno3: { f: 'KNO₃', n: { en: 'Potassium nitrate solution', hi: 'पोटैशियम नाइट्रेट का घोल', hg: 'Potassium nitrate solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
+  bacl2: { f: 'BaCl₂', n: { en: 'Barium chloride solution', hi: 'बेरियम क्लोराइड का घोल', hg: 'Barium chloride solution' }, c: '#eef4fa', a: 0.18, pH: 7 },
+  na2so4: { f: 'Na₂SO₄', n: { en: 'Sodium sulphate solution', hi: 'सोडियम सल्फ़ेट का घोल', hg: 'Sodium sulphate solution' }, c: '#eef4fa', a: 0.18, pH: 7 },
+  agno3: { f: 'AgNO₃', n: { en: 'Silver nitrate solution', hi: 'सिल्वर नाइट्रेट का घोल', hg: 'Silver nitrate solution' }, c: '#f2f5f8', a: 0.18, pH: 6 },
   oil: { f: 'Oil', n: { en: 'Oil layer', hi: 'तेल की परत', hg: 'Tel ki layer' }, c: '#e9c86a', a: 0.4, pH: 7, float: true },
   sugar: { f: 'C₁₂H₂₂O₁₁', n: { en: 'Sugar solution', hi: 'चीनी का घोल', hg: 'Cheeni ka ghol' }, c: '#f2f6f8', a: 0.17, pH: 7 },
   milk: { f: 'Milk + water', n: { en: 'Dilute milk (colloid)', hi: 'पतला दूध (कोलॉइड)', hg: 'Patla doodh (colloid)' }, c: '#eef2f7', a: 0.5, pH: 6.7, cloud: 0.42, cloudC: '#eef2f8', colloid: true },
   kmno4: { f: 'KMnO₄', n: { en: 'Potassium permanganate (dissolved)', hi: 'पोटैशियम परमैंगनेट (घुला हुआ)', hg: 'Potassium permanganate (ghula hua)' }, c: '#9b2fae', a: 0.8, pH: 7, dye: 900 },
-  h2so4c: { f: 'H₂SO₄ (conc.)', n: { en: 'Concentrated sulphuric acid', hi: 'सांद्र सल्फ्यूरिक अम्ल', hg: 'Concentrated sulphuric acid' }, c: '#f4f1e6', a: 0.22, h: 6, pH: 0 },
+  h2so4c: { f: 'H₂SO₄ (conc.)', n: { en: 'Concentrated sulphuric acid', hi: 'कंसन्ट्रेटेड सल्फ़्यूरिक एसिड', hg: 'Concentrated sulphuric acid' }, c: '#f4f1e6', a: 0.22, h: 6, pH: 0 },
   // batch 3: household samples, spirit, sulphurous acid
   amla: { f: 'Amla juice', n: { en: 'Amla juice', hi: 'आँवले का रस', hg: 'Amla ka ras' }, c: '#e9eec8', a: 0.35, h: 0.25, pH: 2.8, weak: true, cloud: 0.2, cloudC: '#eef2d2' },
   tamarind: { f: 'Tamarind water', n: { en: 'Tamarind water', hi: 'इमली का पानी', hg: 'Imli ka paani' }, c: '#8a5a2a', a: 0.55, h: 0.2, pH: 3, weak: true, cloud: 0.22, cloudC: '#9a6a3a' },
-  washpowder: { f: 'Washing powder solution', n: { en: 'Washing powder solution', hi: 'कपड़े धोने के पाउडर का घोल', hg: 'Washing powder ka ghol' }, c: '#eef2f6', a: 0.4, h: -0.08, pH: 10.5, weak: true, cloud: 0.3, cloudC: '#f2f4f6' },
+  washpowder: { f: 'Washing powder solution', n: { en: 'Washing powder solution', hi: 'वॉशिंग पाउडर का घोल', hg: 'Washing powder ka ghol' }, c: '#eef2f6', a: 0.4, h: -0.08, pH: 10.5, weak: true, cloud: 0.3, cloudC: '#f2f4f6' },
   tapwater: { f: 'Tap water', n: { en: 'Tap water', hi: 'नल का पानी', hg: 'Nal ka paani' }, c: '#dceeff', a: 0.16, pH: 7.1 },
   spirit: { f: 'C₂H₅OH', n: { en: 'Spirit (alcohol)', hi: 'स्पिरिट (अल्कोहल)', hg: 'Spirit (alcohol)' }, c: '#e8f4ff', a: 0.14, pH: 7, volatile: 8 },
-  so2aq: { f: 'H₂SO₃', n: { en: 'Sulphurous acid (sulphur dioxide in water)', hi: 'सल्फ्यूरस अम्ल (पानी में सल्फर डाइऑक्साइड)', hg: 'Sulphurous acid (paani mein SO₂)' }, c: '#eef3f8', a: 0.17, h: 0.2, pH: 2.2, weak: true },
+  so2aq: { f: 'H₂SO₃', n: { en: 'Sulphurous acid (sulphur dioxide in water)', hi: 'सल्फ़्यूरस एसिड (पानी में घुली सल्फ़र डाइऑक्साइड)', hg: 'Sulphurous acid (paani mein SO₂)' }, c: '#eef3f8', a: 0.17, h: 0.2, pH: 2.2, weak: true },
   // batch 4: non-electrolytes and a non-polar solvent
-  glucose: { f: 'C₆H₁₂O₆', n: { en: 'Glucose solution', hi: 'ग्लूकोज़ विलयन', hg: 'Glucose solution' }, c: '#f2f6f8', a: 0.17, pH: 7 },
-  alcohol: { f: 'C₂H₅OH', n: { en: 'Alcohol solution', hi: 'ऐल्कोहॉल विलयन', hg: 'Alcohol solution' }, c: '#eef6ff', a: 0.15, pH: 7 },
+  glucose: { f: 'C₆H₁₂O₆', n: { en: 'Glucose solution', hi: 'ग्लूकोज़ का घोल', hg: 'Glucose solution' }, c: '#f2f6f8', a: 0.17, pH: 7 },
+  alcohol: { f: 'C₂H₅OH', n: { en: 'Alcohol solution', hi: 'अल्कोहल का घोल', hg: 'Alcohol solution' }, c: '#eef6ff', a: 0.15, pH: 7 },
   kerosene: { f: 'Kerosene', n: { en: 'Kerosene', hi: 'मिट्टी का तेल (केरोसिन)', hg: 'Kerosene (mitti ka tel)' }, c: '#efe3b8', a: 0.22, pH: 7 },
   // batch 5
-  thio: { f: 'Na₂S₂O₃', n: { en: 'Sodium thiosulphate solution', hi: 'सोडियम थायोसल्फ़ेट विलयन', hg: 'Sodium thiosulphate solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
+  thio: { f: 'Na₂S₂O₃', n: { en: 'Sodium thiosulphate solution', hi: 'सोडियम थायोसल्फ़ेट का घोल', hg: 'Sodium thiosulphate solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
   ink: { f: 'Ink', n: { en: 'Blue ink', hi: 'नीली स्याही', hg: 'Blue ink' }, c: '#1d3d9a', a: 0.85, pH: 7, dye: 60 },
-  acetone: { f: 'CH₃COCH₃', n: { en: 'Acetone', hi: 'ऐसीटोन', hg: 'Acetone' }, c: '#eef6ff', a: 0.14, pH: 7, volatile: 6 },
-  milkfull: { f: 'Milk', n: { en: 'Full-cream milk', hi: 'फुल क्रीम दूध', hg: 'Full-cream doodh' }, c: '#f7f4ec', a: 0.9, pH: 6.7, cloud: 0.95, cloudC: '#fbf8ef' },
+  acetone: { f: 'CH₃COCH₃', n: { en: 'Acetone', hi: 'एसीटोन', hg: 'Acetone' }, c: '#eef6ff', a: 0.14, pH: 7, volatile: 6 },
+  milkfull: { f: 'Milk', n: { en: 'Full-cream milk', hi: 'फ़ुल क्रीम दूध', hg: 'Full-cream doodh' }, c: '#f7f4ec', a: 0.9, pH: 6.7, cloud: 0.95, cloudC: '#fbf8ef' },
   skim: { f: 'Skimmed milk', n: { en: 'Skimmed milk', hi: 'मलाई निकला दूध', hg: 'Skimmed milk' }, c: '#dfe8f0', a: 0.6, pH: 6.7, cloud: 0.6, cloudC: '#dbe6f0' },
   moil: { f: 'Mustard oil', n: { en: 'Mustard oil', hi: 'सरसों का तेल', hg: 'Sarson ka tel' }, c: '#d9b23a', a: 0.6, pH: 7, float: true },
   // batch 6 (Class 10)
-  cucl2: { f: 'CuCl₂', n: { en: 'Copper(II) chloride solution', hi: 'कॉपर(II) क्लोराइड विलयन', hg: 'Copper(II) chloride solution' }, c: '#1f9c86', a: 1.4, pH: 4, weak: true, h: 0.002, tint: 3 },
+  cucl2: { f: 'CuCl₂', n: { en: 'Copper(II) chloride solution', hi: 'कॉपर(II) क्लोराइड का घोल', hg: 'Copper(II) chloride solution' }, c: '#1f9c86', a: 1.4, pH: 4, weak: true, h: 0.002, tint: 3 },
   ethanol: { f: 'C₂H₅OH', n: { en: 'Ethanol', hi: 'एथेनॉल', hg: 'Ethanol' }, c: '#eef6ff', a: 0.14, pH: 7, volatile: 5 },
-  ethanoic: { f: 'CH₃COOH', n: { en: 'Dilute ethanoic acid', hi: 'तनु एथेनॉइक अम्ल', hg: 'Dilute ethanoic acid' }, c: '#f2f5f2', a: 0.16, h: 0.1, pH: 2.9, weak: true },
-  glacial: { f: 'CH₃COOH (glacial)', n: { en: 'Glacial ethanoic acid', hi: 'ग्लेशियल एथेनॉइक अम्ल', hg: 'Glacial ethanoic acid' }, c: '#f4f6f2', a: 0.16, h: 0.5, pH: 2.4, weak: true },
+  ethanoic: { f: 'CH₃COOH', n: { en: 'Dilute ethanoic acid', hi: 'डाइल्यूट एथेनॉइक एसिड', hg: 'Dilute ethanoic acid' }, c: '#f2f5f2', a: 0.16, h: 0.1, pH: 2.9, weak: true },
+  glacial: { f: 'CH₃COOH (glacial)', n: { en: 'Glacial ethanoic acid', hi: 'ग्लेशियल एथेनॉइक एसिड', hg: 'Glacial ethanoic acid' }, c: '#f4f6f2', a: 0.16, h: 0.5, pH: 2.4, weak: true },
   ester: { f: 'CH₃COOC₂H₅', n: { en: 'Ethyl ethanoate (an ester)', hi: 'एथिल एथेनोएट (एक एस्टर)', hg: 'Ethyl ethanoate (ester)' }, c: '#f2f6f8', a: 0.15, pH: 7, float: true },
-  kmno4alk: { f: 'KMnO₄ + NaOH', n: { en: 'Alkaline potassium permanganate', hi: 'क्षारीय पोटैशियम परमैंगनेट', hg: 'Alkaline potassium permanganate' }, c: '#7a1f8f', a: 0.8, pH: 12, weak: true, h: -0.05, dye: 250 },
+  kmno4alk: { f: 'KMnO₄ + NaOH', n: { en: 'Alkaline potassium permanganate', hi: 'एल्कलाइन पोटैशियम परमैंगनेट', hg: 'Alkaline potassium permanganate' }, c: '#7a1f8f', a: 0.8, pH: 12, weak: true, h: -0.05, dye: 250 },
   vanilla: { f: 'Vanilla essence', n: { en: 'Vanilla essence', hi: 'वनीला एसेंस', hg: 'Vanilla essence' }, c: '#5a3418', a: 0.7, pH: 7, dye: 6 },
   clove: { f: 'Clove oil', n: { en: 'Clove oil', hi: 'लौंग का तेल', hg: 'Laung ka tel (clove oil)' }, c: '#c9a24a', a: 0.5, pH: 7, dye: 5 },
-  hardwater: { f: 'Hard water (Ca²⁺, Mg²⁺)', n: { en: 'Hard water', hi: 'कठोर जल', hg: 'Hard water (khaara paani)' }, c: '#dceeff', a: 0.16, pH: 7.3 },
-  detergent: { f: 'Detergent solution', n: { en: 'Detergent solution', hi: 'अपमार्जक (डिटर्जेंट) का घोल', hg: 'Detergent ka ghol' }, c: '#e9f0f5', a: 0.3, h: -0.005, pH: 8, weak: true, cloud: 0.12, cloudC: '#f2f5f7' },
+  hardwater: { f: 'Hard water (Ca²⁺, Mg²⁺)', n: { en: 'Hard water', hi: 'हार्ड वॉटर (कठोर जल)', hg: 'Hard water' }, c: '#dceeff', a: 0.16, pH: 7.3 },
+  detergent: { f: 'Detergent solution', n: { en: 'Detergent solution', hi: 'डिटर्जेंट का घोल', hg: 'Detergent ka ghol' }, c: '#e9f0f5', a: 0.3, h: -0.005, pH: 8, weak: true, cloud: 0.12, cloudC: '#f2f5f7' },
   castor: { f: 'Castor oil', n: { en: 'Castor oil', hi: 'अरंडी का तेल', hg: 'Arandi ka tel (castor oil)' }, c: '#efe2a8', a: 0.55, pH: 7, float: true },
-  naoh20: { f: 'NaOH (20%)', n: { en: '20% sodium hydroxide solution', hi: '20% सोडियम हाइड्रॉक्साइड विलयन', hg: '20% sodium hydroxide solution' }, c: '#eef6ff', a: 0.2, h: -5, pH: 14 },
+  naoh20: { f: 'NaOH (20%)', n: { en: '20% sodium hydroxide solution', hi: '20% सोडियम हाइड्रॉक्साइड का घोल', hg: '20% sodium hydroxide solution' }, c: '#eef6ff', a: 0.2, h: -5, pH: 14 },
   soapmix: { f: 'Soap + glycerol', n: { en: 'Soap mixture (soap and glycerol)', hi: 'साबुन का मिश्रण (साबुन और ग्लिसरॉल)', hg: 'Saabun ka mixture (saabun aur glycerol)' }, c: '#f3ead0', a: 0.9, pH: 10, weak: true, h: -0.02, cloud: 0.92, cloudC: '#f5edd4' },
   lye: { f: 'Glycerol + salt + NaOH', n: { en: 'Liquid left below the soap (glycerol, salt, alkali)', hi: 'साबुन के नीचे बचा द्रव (ग्लिसरॉल, नमक, क्षार)', hg: 'Saabun ke neeche bacha liquid' }, c: '#efe8cc', a: 0.3, h: -1, pH: 13, cloud: 0.18, cloudC: '#f2ecd6' },
+  // salts that form when an acid and a base neutralise each other, or a precipitate dissolves in an acid
+  cacl2aq: { f: 'CaCl₂', n: { en: 'Calcium chloride solution', hi: 'कैल्शियम क्लोराइड का घोल', hg: 'Calcium chloride solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
+  caso4aq: { f: 'CaSO₄', n: { en: 'Calcium sulphate solution', hi: 'कैल्शियम सल्फ़ेट का घोल', hg: 'Calcium sulphate solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
+  mgso4aq: { f: 'MgSO₄', n: { en: 'Magnesium sulphate solution', hi: 'मैग्नीशियम सल्फ़ेट का घोल', hg: 'Magnesium sulphate solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
+  naac: { f: 'CH₃COONa', n: { en: 'Sodium ethanoate solution', hi: 'सोडियम एथेनोएट का घोल', hg: 'Sodium ethanoate solution' }, c: '#eef4fa', a: 0.17, pH: 8.4, weak: true },
+  nano3: { f: 'NaNO₃', n: { en: 'Sodium nitrate solution', hi: 'सोडियम नाइट्रेट का घोल', hg: 'Sodium nitrate solution' }, c: '#eef4fa', a: 0.17, pH: 7 },
+  fecl3: { f: 'FeCl₃', n: { en: 'Iron(III) chloride solution', hi: 'फ़ेरिक क्लोराइड का घोल', hg: 'Ferric chloride solution' }, c: '#c99a3a', a: 0.5, pH: 2.5, weak: true, h: 0.002, tint: 2 },
+  fe2so43: { f: 'Fe₂(SO₄)₃', n: { en: 'Iron(III) sulphate solution', hi: 'फ़ेरिक सल्फ़ेट का घोल', hg: 'Ferric sulphate solution' }, c: '#d0a84e', a: 0.45, pH: 2.5, weak: true, h: 0.002, tint: 2 },
+  zincate: { f: 'Na₂ZnO₂', n: { en: 'Sodium zincate solution', hi: 'सोडियम ज़िंकेट का घोल', hg: 'Sodium zincate solution' }, c: '#eef4fa', a: 0.17, pH: 12, weak: true },
+  saltaq: { f: 'Salt solution', n: { en: 'Salt solution (made by neutralisation)', hi: 'लवण का घोल (न्यूट्रलाइज़ेशन से बना)', hg: 'Salt ka solution (neutralisation se bana)' }, c: '#eef4fa', a: 0.17, pH: 7 },
   // indicators (strong colour, small amounts)
-  phenol: { f: 'Phenolphthalein', n: { en: 'Phenolphthalein', hi: 'फीनॉलफ्थेलिन', hg: 'Phenolphthalein' }, c: '#f8f8f8', a: 0.12, ind: 'phenol' },
+  phenol: { f: 'Phenolphthalein', n: { en: 'Phenolphthalein', hi: 'फ़ीनॉलफ़्थेलिन', hg: 'Phenolphthalein' }, c: '#f8f8f8', a: 0.12, ind: 'phenol' },
   methylorange: { f: 'Methyl orange', n: { en: 'Methyl orange', hi: 'मेथिल ऑरेंज', hg: 'Methyl orange' }, c: '#f08a24', a: 0.8, ind: 'mo' },
-  litmus: { f: 'Litmus', n: { en: 'Litmus solution', hi: 'लिटमस विलयन', hg: 'Litmus solution' }, c: '#7a4f9a', a: 0.8, ind: 'litmus' },
-  redlitmus: { f: 'Red litmus', n: { en: 'Red litmus solution', hi: 'लाल लिटमस विलयन', hg: 'Red litmus solution' }, c: '#c8404a', a: 0.8, ind: 'litmus', pHself: 3 },
-  bluelitmus: { f: 'Blue litmus', n: { en: 'Blue litmus solution', hi: 'नीला लिटमस विलयन', hg: 'Blue litmus solution' }, c: '#3a5fc6', a: 0.8, ind: 'litmus', pHself: 9 },
-  universal: { f: 'Universal indicator', n: { en: 'Universal indicator', hi: 'सार्वत्रिक सूचक', hg: 'Universal indicator' }, c: '#3e9d4a', a: 0.8, ind: 'ui' },
+  litmus: { f: 'Litmus', n: { en: 'Litmus solution', hi: 'लिटमस का घोल', hg: 'Litmus solution' }, c: '#7a4f9a', a: 0.8, ind: 'litmus' },
+  redlitmus: { f: 'Red litmus', n: { en: 'Red litmus solution', hi: 'लाल लिटमस का घोल', hg: 'Red litmus solution' }, c: '#c8404a', a: 0.8, ind: 'litmus', pHself: 3 },
+  bluelitmus: { f: 'Blue litmus', n: { en: 'Blue litmus solution', hi: 'नीले लिटमस का घोल', hg: 'Blue litmus solution' }, c: '#3a5fc6', a: 0.8, ind: 'litmus', pHself: 9 },
+  universal: { f: 'Universal indicator', n: { en: 'Universal indicator', hi: 'यूनिवर्सल इंडिकेटर', hg: 'Universal indicator' }, c: '#3e9d4a', a: 0.8, ind: 'ui' },
   turmeric: { f: 'Turmeric', n: { en: 'Turmeric solution', hi: 'हल्दी का घोल', hg: 'Haldi ka ghol' }, c: '#e8b422', a: 0.75, ind: 'turmeric' },
-  chinarose: { f: 'China rose', n: { en: 'China rose indicator', hi: 'गुड़हल सूचक', hg: 'China rose (gudhal) indicator' }, c: '#c8507a', a: 0.7, ind: 'chinarose' },
-  rose: { f: 'Red rose extract', n: { en: 'Red rose extract (indicator)', hi: 'लाल गुलाब का अर्क (सूचक)', hg: 'Lal gulab ka ark (indicator)' }, c: '#b3446c', a: 0.72, ind: 'rose' },
+  chinarose: { f: 'China rose', n: { en: 'China rose indicator', hi: 'गुड़हल का इंडिकेटर', hg: 'China rose (gudhal) indicator' }, c: '#c8507a', a: 0.7, ind: 'chinarose' },
+  rose: { f: 'Red rose extract', n: { en: 'Red rose extract (indicator)', hi: 'लाल गुलाब का अर्क (इंडिकेटर)', hg: 'Laal gulaab ka ark (indicator)' }, c: '#b3446c', a: 0.72, ind: 'rose' },
 };
 // how well each liquid carries an electric current (ions per volume, relative): pure water, sugar, glucose, alcohol and kerosene have
 // no ions; weak acids (lemon, vinegar) only a few; strong acids, bases and salts many. Tap water has a few dissolved salts.
 const ION = { hcl: 2.5, h2so4: 3, h2so4c: 0.6, naoh: 2.2, nacl: 3, kno3: 1.8, ki: 1.8, bacl2: 1.8, na2so4: 1.8, agno3: 1.5, pbno3: 1.5, cuso4: 1.6, feso4: 1.2, znso4: 1.2,
   zncl2: 1.4, fecl2: 1.2, mgcl2: 1.5, washingsoda: 1.2, bakingsoda: 0.5, limewater: 0.35, soap: 0.15, milkmag: 0.05, vinegar: 0.05, lemon: 0.07, amla: 0.04, tamarind: 0.05,
-  so2aq: 0.08, tapwater: 0.012, milk: 0.04, cucl2: 1.6, ethanoic: 0.05, glacial: 0.01, kmno4alk: 1, hardwater: 0.05, detergent: 0.3, naoh20: 3, lye: 2.5 };
+  so2aq: 0.08, tapwater: 0.012, milk: 0.04, cucl2: 1.6, ethanoic: 0.05, glacial: 0.01, kmno4alk: 1, hardwater: 0.05, detergent: 0.3, naoh20: 3, lye: 2.5,
+  cacl2aq: 2.5, caso4aq: 1, mgso4aq: 1.6, naac: 1.4, nano3: 1.8, fecl3: 2, fe2so43: 2, zincate: 1.6, saltaq: 1.5 };
 export function conductance(mix) { const tot = mix.ml(); if (tot <= 0.05) return 0; let g = 0; for (const k in mix.liq) g += (ION[k] || 0) * mix.liq[k]; return g / tot; }
 // precipitates
 export const PPT = {
-  baso4: { f: 'BaSO₄', c: '#f6f6f2', n: { en: 'white precipitate of barium sulphate', hi: 'बेरियम सल्फेट का सफ़ेद अवक्षेप', hg: 'barium sulphate ka white precipitate' } },
-  pbi2: { f: 'PbI₂', c: '#f2cd20', n: { en: 'yellow precipitate of lead iodide', hi: 'लेड आयोडाइड का पीला अवक्षेप', hg: 'lead iodide ka yellow precipitate' } },
-  caco3: { f: 'CaCO₃', c: '#f7f7f4', n: { en: 'white calcium carbonate (milkiness)', hi: 'कैल्शियम कार्बोनेट (दूधियापन)', hg: 'calcium carbonate (milkiness)' } },
-  agcl: { f: 'AgCl', c: '#f2f2ee', n: { en: 'white curdy precipitate of silver chloride', hi: 'सिल्वर क्लोराइड का सफ़ेद दही जैसा अवक्षेप', hg: 'silver chloride ka white curdy precipitate' } },
-  cuoh2: { f: 'Cu(OH)₂', c: '#79b4ea', n: { en: 'pale blue precipitate of copper hydroxide', hi: 'कॉपर हाइड्रॉक्साइड का हल्का नीला अवक्षेप', hg: 'copper hydroxide ka light blue precipitate' } },
+  baso4: { f: 'BaSO₄', c: '#f6f6f2', n: { en: 'white precipitate of barium sulphate', hi: 'बेरियम सल्फ़ेट का सफ़ेद ठोस (अवक्षेप)', hg: 'barium sulphate ka safed precipitate' } },
+  pbi2: { f: 'PbI₂', c: '#f2cd20', n: { en: 'yellow precipitate of lead iodide', hi: 'लेड आयोडाइड का पीला ठोस (अवक्षेप)', hg: 'lead iodide ka peela precipitate' } },
+  caco3: { f: 'CaCO₃', c: '#f7f7f4', n: { en: 'white calcium carbonate (milkiness)', hi: 'सफ़ेद कैल्शियम कार्बोनेट (दूधियापन)', hg: 'safed calcium carbonate (doodhiyapan)' } },
+  agcl: { f: 'AgCl', c: '#f2f2ee', n: { en: 'white curdy precipitate of silver chloride', hi: 'सिल्वर क्लोराइड का सफ़ेद, दही जैसा ठोस (अवक्षेप)', hg: 'silver chloride ka safed, dahi jaisa precipitate' } },
+  cuoh2: { f: 'Cu(OH)₂', c: '#79b4ea', n: { en: 'pale blue precipitate of copper hydroxide', hi: 'कॉपर हाइड्रॉक्साइड का हल्का नीला ठोस (अवक्षेप)', hg: 'copper hydroxide ka halka neela precipitate' } },
   chalk: { f: 'CaCO₃', c: '#eeece6', settle: 0.035, n: { en: 'chalk powder (not dissolved)', hi: 'चॉक पाउडर (घुला नहीं)', hg: 'chalk powder (ghula nahi)' } },
   sand: { f: 'SiO₂', c: '#c2a878', settle: 1.4, n: { en: 'sand (settled at the bottom)', hi: 'रेत (नीचे बैठ गई)', hg: 'ret (neeche baith gayi)' } },
-  caoh2: { f: 'Ca(OH)₂', c: '#f6f5f0', n: { en: 'slaked lime (milky)', hi: 'बुझा हुआ चूना (दूधिया)', hg: 'slaked lime (milky)' } },
+  caoh2: { f: 'Ca(OH)₂', c: '#f6f5f0', n: { en: 'slaked lime (milky)', hi: 'बुझा हुआ चूना (दूधिया)', hg: 'slaked lime (doodhiya)' } },
   mud: { f: 'Mud', c: '#7a5a35', n: { en: 'mud (sand and soil particles)', hi: 'कीचड़ (रेत और मिट्टी के कण)', hg: 'keechad (ret aur mitti ke kan)' } },
-  scol: { f: 'S', c: '#f3ecbf', colloid: true, settle: 0.00002, n: { en: 'colloidal sulphur (it does not settle)', hi: 'कोलॉइडी सल्फ़र (नीचे नहीं बैठता)', hg: 'colloidal sulphur (neeche nahi baithta)' } },
-  mno2: { f: 'MnO₂', c: '#5b3a1e', settle: 0.012, n: { en: 'brown precipitate of manganese dioxide', hi: 'मैंगनीज़ डाइऑक्साइड का भूरा अवक्षेप', hg: 'manganese dioxide ka brown precipitate' } },
-  scum: { f: '(C₁₇H₃₅COO)₂Ca', c: '#efece4', settle: 0.004, n: { en: 'white curdy scum (calcium and magnesium soap)', hi: 'सफ़ेद दही जैसा मैल (कैल्शियम और मैग्नीशियम साबुन)', hg: 'white curdy scum (calcium/magnesium saabun)' } },
-  slush: { f: 'Ba(OH)₂ + NH₄Cl', c: '#f2f2ee', settle: 0, n: { en: 'wet white slush of crystals', hi: 'क्रिस्टलों का गीला सफ़ेद घोल', hg: 'crystals ka geela safed slush' } },
+  scol: { f: 'S', c: '#f3ecbf', colloid: true, settle: 0.00002, n: { en: 'colloidal sulphur (it does not settle)', hi: 'कोलॉइडल सल्फ़र (नीचे नहीं बैठता)', hg: 'colloidal sulphur (neeche nahi baithta)' } },
+  mno2: { f: 'MnO₂', c: '#5b3a1e', settle: 0.012, n: { en: 'brown precipitate of manganese dioxide', hi: 'मैंगनीज़ डाइऑक्साइड का भूरा ठोस (अवक्षेप)', hg: 'manganese dioxide ka bhoora precipitate' } },
+  scum: { f: '(C₁₇H₃₅COO)₂Ca', c: '#efece4', settle: 0.004, n: { en: 'white curdy scum (calcium and magnesium soap)', hi: 'सफ़ेद, दही जैसा मैल (कैल्शियम और मैग्नीशियम वाला साबुन)', hg: 'safed, dahi jaisa scum (calcium/magnesium saabun)' } },
+  slush: { f: 'Ba(OH)₂ + NH₄Cl', c: '#f2f2ee', settle: 0, n: { en: 'wet white slush of crystals', hi: 'गीले सफ़ेद क्रिस्टलों का गाढ़ा मिश्रण', hg: 'crystals ka geela safed slush' } },
   clay: { f: 'Clay', c: '#9a7b52', n: { en: 'fine clay particles', hi: 'मिट्टी के बारीक कण', hg: 'mitti ke baareek kan' } },
+  // precipitates of free mixing (whatever a student pours together)
+  cuo: { f: 'CuO', c: '#1f1d1c', settle: 0.03, n: { en: 'black copper oxide (the copper hydroxide turned black when hot)', hi: 'काला कॉपर ऑक्साइड (गरम होने पर कॉपर हाइड्रॉक्साइड काला हो गया)', hg: 'kaala copper oxide (garam hone par copper hydroxide kaala ho gaya)' } },
+  feoh2: { f: 'Fe(OH)₂', c: '#6f8a5a', n: { en: 'dirty green precipitate of iron(II) hydroxide', hi: 'आयरन(II) हाइड्रॉक्साइड का मटमैला हरा ठोस (अवक्षेप)', hg: 'iron(II) hydroxide ka matmaila hara precipitate' } },
+  feoh3: { f: 'Fe(OH)₃', c: '#8a4a1e', n: { en: 'reddish-brown precipitate of iron(III) hydroxide', hi: 'आयरन(III) हाइड्रॉक्साइड का लाल-भूरा ठोस (अवक्षेप)', hg: 'iron(III) hydroxide ka laal-bhoora precipitate' } },
+  znoh2: { f: 'Zn(OH)₂', c: '#f4f4f0', n: { en: 'white jelly-like precipitate of zinc hydroxide', hi: 'ज़िंक हाइड्रॉक्साइड का सफ़ेद, जेली जैसा ठोस (अवक्षेप)', hg: 'zinc hydroxide ka safed, jelly jaisa precipitate' } },
+  mgoh2: { f: 'Mg(OH)₂', c: '#f6f6f3', n: { en: 'white precipitate of magnesium hydroxide', hi: 'मैग्नीशियम हाइड्रॉक्साइड का सफ़ेद ठोस (अवक्षेप)', hg: 'magnesium hydroxide ka safed precipitate' } },
+  pbcl2: { f: 'PbCl₂', c: '#f6f6f2', n: { en: 'white precipitate of lead chloride', hi: 'लेड क्लोराइड का सफ़ेद ठोस (अवक्षेप)', hg: 'lead chloride ka safed precipitate' } },
+  pbso4: { f: 'PbSO₄', c: '#f7f7f4', n: { en: 'white precipitate of lead sulphate', hi: 'लेड सल्फ़ेट का सफ़ेद ठोस (अवक्षेप)', hg: 'lead sulphate ka safed precipitate' } },
+  pboh2: { f: 'Pb(OH)₂', c: '#f4f4f0', n: { en: 'white precipitate of lead hydroxide', hi: 'लेड हाइड्रॉक्साइड का सफ़ेद ठोस (अवक्षेप)', hg: 'lead hydroxide ka safed precipitate' } },
+  agoh: { f: 'Ag₂O', c: '#5a4532', n: { en: 'brown precipitate of silver oxide', hi: 'सिल्वर ऑक्साइड का भूरा ठोस (अवक्षेप)', hg: 'silver oxide ka bhoora precipitate' } },
+  cuco3: { f: 'CuCO₃', c: '#5fae9c', n: { en: 'blue-green precipitate of copper carbonate', hi: 'कॉपर कार्बोनेट का नीला-हरा ठोस (अवक्षेप)', hg: 'copper carbonate ka neela-hara precipitate' } },
+  baco3: { f: 'BaCO₃', c: '#f6f6f2', n: { en: 'white precipitate of barium carbonate', hi: 'बेरियम कार्बोनेट का सफ़ेद ठोस (अवक्षेप)', hg: 'barium carbonate ka safed precipitate' } },
 };
+// ------------------------------------------------------------------ free mixing: what really happens when solutions meet
+// double displacement: [a, b, precipitate, salt, a used, b used, precipitate made, salt made, extra water] per unit of reaction.
+// The first five are the book reactions (kept exactly as they were); lime water is dilute, so much of it gives a little precipitate.
+export const PAIRS = [
+  ['bacl2', 'na2so4', 'baso4', 'nacl'], ['pbno3', 'ki', 'pbi2', 'kno3'], ['agno3', 'nacl', 'agcl', 'kno3'], ['agno3', 'hcl', 'agcl', 'kno3'], ['cuso4', 'naoh', 'cuoh2', 'na2so4'],
+  ['cucl2', 'naoh', 'cuoh2', 'nacl'], ['feso4', 'naoh', 'feoh2', 'na2so4'], ['fecl2', 'naoh', 'feoh2', 'nacl'], ['fecl3', 'naoh', 'feoh3', 'nacl'], ['fe2so43', 'naoh', 'feoh3', 'na2so4'],
+  ['znso4', 'naoh', 'znoh2', 'na2so4'], ['zncl2', 'naoh', 'znoh2', 'nacl'], ['mgcl2', 'naoh', 'mgoh2', 'nacl'], ['mgso4aq', 'naoh', 'mgoh2', 'na2so4'], ['agno3', 'naoh', 'agoh', 'nano3'], ['pbno3', 'naoh', 'pboh2', 'nano3'],
+  ['cuso4', 'limewater', 'cuoh2', 'caso4aq', 0.04, 1, 0.1, 1], ['cucl2', 'limewater', 'cuoh2', 'cacl2aq', 0.04, 1, 0.1, 1], ['feso4', 'limewater', 'feoh2', 'caso4aq', 0.04, 1, 0.1, 1],
+  ['znso4', 'limewater', 'znoh2', 'caso4aq', 0.04, 1, 0.1, 1], ['mgcl2', 'limewater', 'mgoh2', 'cacl2aq', 0.04, 1, 0.1, 1], ['washingsoda', 'limewater', 'caco3', 'naoh', 0.13, 1, 0.1, 1],
+  ['bacl2', 'h2so4', 'baso4', 'hcl', 1, 0.5, 1, 1, 0.5], ['bacl2', 'cuso4', 'baso4', 'cucl2', 1, 1, 1, 1.6], ['bacl2', 'znso4', 'baso4', 'zncl2', 1, 1, 1, 1.6], ['bacl2', 'feso4', 'baso4', 'fecl2', 1, 1, 1, 1.6],
+  ['bacl2', 'mgso4aq', 'baso4', 'mgcl2', 1, 1, 1, 1.6], ['bacl2', 'caso4aq', 'baso4', 'cacl2aq', 1, 1, 1, 1.6], ['bacl2', 'washingsoda', 'baco3', 'nacl', 1, 1, 1, 1.6],
+  ['agno3', 'bacl2', 'agcl', 'saltaq', 1, 1, 1, 1.6], ['agno3', 'cacl2aq', 'agcl', 'saltaq', 1, 1, 1, 1.6], ['agno3', 'mgcl2', 'agcl', 'saltaq', 1, 1, 1, 1.6], ['agno3', 'zncl2', 'agcl', 'saltaq', 1, 1, 1, 1.6], ['agno3', 'fecl2', 'agcl', 'saltaq', 1, 1, 1, 1.6],
+  ['pbno3', 'nacl', 'pbcl2', 'nano3', 1, 1, 1, 1.6], ['pbno3', 'na2so4', 'pbso4', 'nano3', 1, 1, 1, 1.6],
+  ['washingsoda', 'cacl2aq', 'caco3', 'nacl', 1, 1, 1, 1.6], ['washingsoda', 'hardwater', 'caco3', 'saltaq', 0.02, 1, 0.05, 0.02, 1], ['washingsoda', 'cuso4', 'cuco3', 'na2so4', 1, 1, 1, 1.6],
+];
+// an acid and a base: which salt they make (the base's metal + the acid's part)
+export const NEUT_A = { hcl: 'Cl', h2so4: 'SO4', h2so4c: 'SO4', vinegar: 'Ac', ethanoic: 'Ac', glacial: 'Ac', lemon: 'Org', amla: 'Org', tamarind: 'Org', so2aq: 'SO3' };
+export const NEUT_B = { naoh: 'Na', naoh20: 'Na', limewater: 'Ca', milkmag: 'Mg' };
+const NEUT_S = { NaCl: 'nacl', NaSO4: 'na2so4', NaAc: 'naac', CaCl: 'cacl2aq', CaSO4: 'caso4aq', MgCl: 'mgcl2', MgSO4: 'mgso4aq' };
+// precipitates an acid dissolves (hydroxides and oxides give a salt; carbonates also fizz with carbon dioxide)
+const PPT_ACID = {
+  cuoh2: { Cl: 'cucl2', SO4: 'cuso4' }, cuo: { Cl: 'cucl2', SO4: 'cuso4', slow: 0.3 }, caoh2: { Cl: 'cacl2aq', SO4: 'caso4aq' }, mgoh2: { Cl: 'mgcl2', SO4: 'mgso4aq' },
+  znoh2: { Cl: 'zncl2', SO4: 'znso4' }, feoh2: { Cl: 'fecl2', SO4: 'feso4' }, feoh3: { Cl: 'fecl3', SO4: 'fe2so43' }, pboh2: { Cl: 'pbcl2!', SO4: 'pbso4!' }, agoh: { Cl: 'agcl!' },
+  caco3: { Cl: 'cacl2aq', SO4: 'caso4aq', Ac: 'saltaq', Org: 'saltaq', co2: 1 }, chalk: { Cl: 'cacl2aq', SO4: 'caso4aq', Ac: 'saltaq', Org: 'saltaq', co2: 1, slow: 0.5 },
+  cuco3: { Cl: 'cucl2', SO4: 'cuso4', co2: 1 }, baco3: { Cl: 'bacl2', SO4: 'baso4!', co2: 1 },
+};
+const PPT_ACIDS = ['hcl', 'h2so4', 'vinegar', 'ethanoic', 'lemon'];
 // solids that can be put into vessels
 export const SOLIDS = {
   zn: { f: 'Zn', n: { en: 'Zinc granules', hi: 'ज़िंक के दाने', hg: 'Zinc granules' }, color: 0xb4b6b2, tex: 'zngran', metal: 0.75, react: 1 },
   mg: { f: 'Mg', n: { en: 'Magnesium ribbon', hi: 'मैग्नीशियम रिबन', hg: 'Magnesium ribbon' }, color: 0xc9ccd0, react: 3 },
   fe: { f: 'Fe', n: { en: 'Iron', hi: 'लोहा', hg: 'Iron (loha)' }, color: 0x8d9196, react: 0.35 },
   al: { f: 'Al', n: { en: 'Aluminium', hi: 'एल्युमिनियम', hg: 'Aluminium' }, color: 0xd5d8dc, react: 1.4 },
-  cu: { f: 'Cu', n: { en: 'Copper turnings', hi: 'ताँबे के टुकड़े', hg: 'Copper turnings' }, color: 0xb86a3c, react: 0 },
+  cu: { f: 'Cu', n: { en: 'Copper turnings', hi: 'ताँबे की छीलन', hg: 'Copper turnings' }, color: 0xb86a3c, react: 0 },
   na2co3: { f: 'Na₂CO₃', n: { en: 'Sodium carbonate', hi: 'सोडियम कार्बोनेट', hg: 'Sodium carbonate' }, color: 0xf7f7f3, carb: 2.4, tex: 'nahco3', dis: 'washingsoda', disK: 1.6 },
   nahco3: { f: 'NaHCO₃', n: { en: 'Sodium hydrogencarbonate (baking soda)', hi: 'सोडियम हाइड्रोजन कार्बोनेट (खाने का सोडा)', hg: 'Baking soda (NaHCO₃)' }, tex: 'nahco3', color: 0xfafaf7, carb: 3, dis: 'bakingsoda', disK: 1.6, spoonG: 2, solub: (T) => 9.6 + 0.165 * (T - 20) },
   caco3: { f: 'CaCO₃', n: { en: 'Marble chips', hi: 'संगमरमर के टुकड़े', hg: 'Marble chips' }, color: 0xeeebe4, carb: 0.8, tex: 'marble' },
   cao: { f: 'CaO', n: { en: 'Quick lime', hi: 'बिना बुझा चूना', hg: 'Quick lime (chuna)' }, color: 0xf2efe6, tex: 'cao' },
-  cuso4x: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x1f8fd0, tex: 'cuso4' },
-  feso4x: { f: 'FeSO₄·7H₂O', n: { en: 'Ferrous sulphate crystals', hi: 'फेरस सल्फेट के क्रिस्टल', hg: 'Ferrous sulphate crystals' }, color: 0x78bfa4, tex: 'feso4' },
+  cuso4x: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फ़ेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x1f8fd0, tex: 'cuso4' },
+  feso4x: { f: 'FeSO₄·7H₂O', n: { en: 'Ferrous sulphate crystals', hi: 'फ़ेरस सल्फ़ेट के क्रिस्टल', hg: 'Ferrous sulphate crystals' }, color: 0x78bfa4, tex: 'feso4' },
   sugar: { f: 'C₁₂H₂₂O₁₁', n: { en: 'Sugar', hi: 'चीनी', hg: 'Cheeni' }, color: 0xfbfbf8, tex: 'sugar', dis: 'sugar', disK: 1.6, stages: ['#fbfbf8', '#f1d58a', '#8b5a2b', '#1a1a1a'] },
   salt: { f: 'NaCl', n: { en: 'Common salt', hi: 'नमक', hg: 'Namak' }, color: 0xfafafa, tex: 'salt', dis: 'nacl', disK: 1.8, spoonG: 5, solub: (T) => 35.7 + 0.04 * (T - 20) },
   chalk: { f: 'CaCO₃', n: { en: 'Chalk powder', hi: 'चॉक पाउडर', hg: 'Chalk powder' }, color: 0xf3f1ea, tex: 'chalk', insol: 'chalk' },
   sand: { f: 'SiO₂', n: { en: 'Sand', hi: 'रेत', hg: 'Ret (sand)' }, color: 0xd2b080, tex: 'sand', insol: 'sand' },
   kmno4: { f: 'KMnO₄', n: { en: 'Potassium permanganate crystal', hi: 'पोटैशियम परमैंगनेट का क्रिस्टल', hg: 'Potassium permanganate crystal' }, color: 0x2a1f3a, tex: 'kmno4', dis: 'kmno4', disK: 0.3, still: true },
   nh4cl: { f: 'NH₄Cl', n: { en: 'Ammonium chloride', hi: 'अमोनियम क्लोराइड', hg: 'Ammonium chloride' }, color: 0xf7f7f4, tex: 'nh4cl', sub: true },
-  cacl2: { f: 'CaCl₂', n: { en: 'Anhydrous calcium chloride', hi: 'निर्जल कैल्शियम क्लोराइड', hg: 'Anhydrous calcium chloride' }, color: 0xf6f5f0, tex: 'cacl2' },
+  cacl2: { f: 'CaCl₂', n: { en: 'Anhydrous calcium chloride', hi: 'एनहाइड्रस कैल्शियम क्लोराइड', hg: 'Anhydrous calcium chloride' }, color: 0xf6f5f0, tex: 'cacl2' },
   soil: { f: 'Soil', n: { en: 'Soil', hi: 'मिट्टी', hg: 'Mitti' }, color: 0x6b4a2a, tex: 'soil', insol: 'soil' },
-  alum: { f: 'KAl(SO₄)₂·12H₂O', n: { en: 'Potash alum (fitkari)', hi: 'फिटकरी', hg: 'Fitkari (alum)' }, color: 0xf2f1ec, tex: 'salt', alum: true },
+  alum: { f: 'KAl(SO₄)₂·12H₂O', n: { en: 'Potash alum (fitkari)', hi: 'फ़िटकरी (पोटाश एलम)', hg: 'Fitkari (alum)' }, color: 0xf2f1ec, tex: 'salt', alum: true },
   // batch 6
   agcl: { f: 'AgCl', n: { en: 'Silver chloride', hi: 'सिल्वर क्लोराइड', hg: 'Silver chloride' }, color: 0xf7f7f2, tex: 'chalk', light: true },
   baoh2: { f: 'Ba(OH)₂·8H₂O', n: { en: 'Barium hydroxide crystals', hi: 'बेरियम हाइड्रॉक्साइड के क्रिस्टल', hg: 'Barium hydroxide crystals' }, color: 0xf5f5f1, tex: 'nh4cl' },
-  cupow: { f: 'Cu', n: { en: 'Copper powder', hi: 'ताँबे का चूर्ण', hg: 'Copper powder' }, color: 0xb87333, cuOx: true },
+  cupow: { f: 'Cu', n: { en: 'Copper powder', hi: 'ताँबे का पाउडर', hg: 'Copper powder' }, color: 0xb87333, cuOx: true },
   cuo: { f: 'CuO', n: { en: 'Copper(II) oxide (black)', hi: 'कॉपर(II) ऑक्साइड (काला)', hg: 'Copper(II) oxide (kaala)' }, color: 0x232120 },
   naohs: { f: 'NaOH', n: { en: 'Sodium hydroxide pellets', hi: 'सोडियम हाइड्रॉक्साइड की गोलियाँ', hg: 'NaOH ki goliyan' }, color: 0xf7f7f4, tex: 'naoh', dis: 'naoh', disK: 0.9, disMl: 2, heatDis: 7 },
   na: { f: 'Na', n: { en: 'Sodium (a small piece)', hi: 'सोडियम (एक छोटा टुकड़ा)', hg: 'Sodium (chhota tukda)' }, color: 0xcfcfc8, alkali: 1 },
   ca: { f: 'Ca', n: { en: 'Calcium granules', hi: 'कैल्शियम के दाने', hg: 'Calcium ke daane' }, color: 0xd6d4cc, alkali: 0.3 },
   // batch 5
-  femix: { f: 'Fe + S', n: { en: 'Mixture of iron filings and sulphur', hi: 'लोहे के बुरादे और सल्फ़र का मिश्रण', hg: 'Iron ke buraade aur sulphur ka mixture' }, color: 0xffffff, tex: 'femix', react: 0.4, rough: 1, heatFeS: true },
+  femix: { f: 'Fe + S', n: { en: 'Mixture of iron filings and sulphur', hi: 'लोहे के बुरादे और सल्फ़र का मिश्रण', hg: 'Lohe ke buraade aur sulphur ka mixture' }, color: 0xffffff, tex: 'femix', react: 0.4, rough: 1, heatFeS: true },
   fes: { f: 'FeS', n: { en: 'Iron sulphide (black)', hi: 'आयरन सल्फ़ाइड (काला)', hg: 'Iron sulphide (kaala)' }, color: 0x2c2926, tex: 'fes' },
-  filings: { f: 'Fe', n: { en: 'Iron filings', hi: 'लोहे का बुरादा', hg: 'Iron ka buraada' }, color: 0x55585c, tex: 'filings' },
+  filings: { f: 'Fe', n: { en: 'Iron filings', hi: 'लोहे का बुरादा', hg: 'Lohe ka buraada' }, color: 0x55585c, tex: 'filings' },
   spow: { f: 'S', n: { en: 'Sulphur powder', hi: 'सल्फ़र पाउडर', hg: 'Sulphur powder' }, color: 0xf0d02a, tex: 'sulphur' },
   cuso4i: { f: 'CuSO₄·5H₂O', n: { en: 'Impure copper sulphate', hi: 'अशुद्ध कॉपर सल्फ़ेट', hg: 'Impure copper sulphate' }, color: 0x2f86c8, tex: 'cuso4', dis: 'cuso4', disK: 1.4, disMl: 1.5, spoonG: 3, imp: 0.04, solub: (T) => 32 + 0.75 * (T - 20) },
   // batch 4
-  cuso4d: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x1f8fd0, tex: 'cuso4', dis: 'cuso4', disK: 2.2, disMl: 4 },
+  cuso4d: { f: 'CuSO₄·5H₂O', n: { en: 'Copper sulphate crystals', hi: 'कॉपर सल्फ़ेट के क्रिस्टल', hg: 'Copper sulphate crystals' }, color: 0x1f8fd0, tex: 'cuso4', dis: 'cuso4', disK: 2.2, disMl: 4 },
   kis: { f: 'KI', n: { en: 'Potassium iodide', hi: 'पोटैशियम आयोडाइड', hg: 'Potassium iodide' }, color: 0xf8f8f4, tex: 'ki', dis: 'ki', disK: 2 },
   bacl2s: { f: 'BaCl₂', n: { en: 'Barium chloride', hi: 'बेरियम क्लोराइड', hg: 'Barium chloride' }, color: 0xf6f6f2, tex: 'bacl2', dis: 'bacl2', disK: 1.6 },
   camphor: { f: 'C₁₀H₁₆O', n: { en: 'Camphor', hi: 'कपूर', hg: 'Kapoor (camphor)' }, color: 0xf7f7f2, tex: 'nh4cl', kero: 'kerosene', floats: true },
@@ -244,6 +294,28 @@ export class Mix {
 }
 
 // ------------------------------------------------------------------ reactions
+const pptSum = (m) => { let s = 0; for (const k in m.ppt) s += m.ppt[k]; return s; };
+// the precipitate got less: the cloudiness and the layer at the bottom go down with it
+function clearBy(m, before) { if (before <= 1e-9) return; const f = Math.max(0, Math.min(1, pptSum(m) / before)); m.cloud *= f; m.sed *= f; }
+// an acid meets a precipitate it dissolves. Without dt: is there such a pair? With dt: let it react.
+function pptAcid(v, carb, dt, E) {
+  const m = v.mix; let any = false;
+  for (const p in PPT_ACID) {
+    const R = PPT_ACID[p]; if (!!R.co2 !== carb || !((m.ppt[p] || 0) > 0.01)) continue;
+    for (const a of PPT_ACIDS) {
+      const salt = R[NEUT_A[a]]; if (!salt || !m.has(a, 0.02)) continue;
+      if (!dt) return true;
+      any = true; const h = SUBS[a].h; const before = pptSum(m);
+      const k = (1 + Math.max(0, m.temp - 27) / 20) * (v.stirT > 0 || v.shaking ? 1.6 : 1) * (SUBS[a].weak ? 0.4 : 1) * (R.slow ?? 1);
+      const d = Math.min(m.ppt[p], m.liq[a] * h, dt * E.lapse * 4 * k); m.ppt[p] -= d; m.liq[a] -= d / h;
+      if (salt.endsWith('!')) { const q = salt.slice(0, -1); m.ppt[q] = (m.ppt[q] || 0) + d; } else { m.add(salt, d * 1.2); clearBy(m, before); }
+      if (R.co2) { E.fx.bubbles_(v, 40, dt, { size: 0.001 }); v.gasOut && v.gasOut('CO2', d * 1.5); E.note(v, 'co2', {}); }
+      E.note(v, 'ppt_dissolve', { ppt: p });
+      break;
+    }
+  }
+  return any;
+}
 // Each rule looks at one vessel; dt is real time, k is the time-lapse factor for slow reactions.
 export const RULES = [
   // metal + acid -> salt + hydrogen
@@ -307,16 +379,28 @@ export const RULES = [
       for (const s of v.solids) { if (s.chem !== 'zn' || !s.under) continue; const k = E.lapse * dt * 0.003; const d = Math.min(v.mix.liq.feso4, k * v.mix.ml()); v.mix.liq.feso4 -= d; v.mix.add('znso4', d); s.coat = Math.min(1, (s.coat || 0) + k * 1.5); s.onCoat && s.onCoat(s.coat, 0x3a3c40); }
     } },
   // double displacement precipitates (fast)
-  { id: 'ppt', test: (v) => (v.mix.has('bacl2', 0.01) && v.mix.has('na2so4', 0.01)) || (v.mix.has('pbno3', 0.01) && v.mix.has('ki', 0.01)) || (v.mix.has('agno3', 0.01) && (v.mix.has('nacl', 0.01) || v.mix.has('hcl', 0.01))) || (v.mix.has('cuso4', 0.01) && v.mix.has('naoh', 0.01)),
+  { id: 'ppt', test: (v) => PAIRS.some(([a, b]) => v.mix.has(a, 0.01) && v.mix.has(b, 0.01)),
     run(v, dt, E) {
-      const pairs = [['bacl2', 'na2so4', 'baso4', 'nacl'], ['pbno3', 'ki', 'pbi2', 'kno3'], ['agno3', 'nacl', 'agcl', 'kno3'], ['agno3', 'hcl', 'agcl', 'kno3'], ['cuso4', 'naoh', 'cuoh2', 'na2so4']];
-      for (const [a, b, p, s] of pairs) {
+      for (const [a, b, p, s, ka = 1, kb = 1, kp = 1, ks = 1.6, kw = 0] of PAIRS) {
         if (!v.mix.has(a, 0.01) || !v.mix.has(b, 0.01)) continue;
-        const d = Math.min(v.mix.liq[a], v.mix.liq[b], dt * 6);
-        v.mix.liq[a] -= d; v.mix.liq[b] -= d; v.mix.ppt[p] = (v.mix.ppt[p] || 0) + d; v.mix.add(s, d * 1.6);
-        v.mix.cloud = Math.min(0.92, v.mix.cloud + d * 0.35); E.fx.flakes_(v, 25, dt, PPT[p].c); E.note(v, 'ppt', { ppt: p });
+        const d = Math.min(v.mix.liq[a] / ka, v.mix.liq[b] / kb, dt * 6);
+        v.mix.liq[a] -= d * ka; v.mix.liq[b] -= d * kb; v.mix.ppt[p] = (v.mix.ppt[p] || 0) + d * kp; v.mix.add(s, d * ks); if (kw) v.mix.add('water', d * kw);
+        v.mix.cloud = Math.min(0.92, v.mix.cloud + d * kp * 0.35); E.fx.flakes_(v, 25, dt, PPT[p].c); E.note(v, 'ppt', { ppt: p });
       }
     } },
+  // an acid dissolves a hydroxide, oxide or carbonate precipitate: the cloudiness clears and the salt colours the liquid
+  // (copper hydroxide in hydrochloric acid: blue-green copper chloride); carbonates fizz with carbon dioxide
+  { id: 'ppt_acid', test: (v) => pptAcid(v, false), run(v, dt, E) { pptAcid(v, false, dt, E); } },
+  { id: 'carbppt_acid', test: (v) => pptAcid(v, true), run(v, dt, E) { pptAcid(v, true, dt, E); } },
+  // copper hydroxide in hot liquid (about 70 °C and above) loses water: the pale blue precipitate turns black (copper oxide)
+  { id: 'cuoh2_heat', test: (v) => (v.mix.ppt.cuoh2 || 0) > 0.01 && v.mix.temp > 70 && v.mix.ml() > 0.2,
+    run(v, dt, E) { const m = v.mix; const d = Math.min(m.ppt.cuoh2, dt * E.lapse * (0.02 * m.ppt.cuoh2 + 0.02) * (m.temp - 60) / 30); m.ppt.cuoh2 -= d; m.ppt.cuo = (m.ppt.cuo || 0) + d * 0.8; E.note(v, 'cuoh2_black', {}); } },
+  // iron(II) hydroxide takes up oxygen from the air: dirty green slowly turns reddish brown
+  { id: 'feoh2_air', test: (v) => (v.mix.ppt.feoh2 || 0) > 0.01 && !v.noAir,
+    run(v, dt, E) { const m = v.mix; const d = Math.min(m.ppt.feoh2, dt * E.lapse * 0.004 * m.ppt.feoh2 + dt * 0.0005); m.ppt.feoh2 -= d; m.ppt.feoh3 = (m.ppt.feoh3 || 0) + d; E.note(v, 'feoh2_air', {}); } },
+  // zinc hydroxide dissolves again in more sodium hydroxide (it is amphoteric): the white precipitate disappears
+  { id: 'znoh2_base', test: (v) => (v.mix.ppt.znoh2 || 0) > 0.01 && v.mix.has('naoh', 0.05) && !v.mix.has('znso4', 0.01) && !v.mix.has('zncl2', 0.01),
+    run(v, dt, E) { const m = v.mix; const before = pptSum(m); const d = Math.min(m.ppt.znoh2, m.liq.naoh / 2, dt * 2); m.ppt.znoh2 -= d; m.liq.naoh -= d * 2; m.add('zincate', d * 2); clearBy(m, before); E.note(v, 'znoh2_dissolve', {}); } },
   // quick lime + water: hissing, hot, milky slaked lime
   { id: 'cao_water', test: (v) => v.solids.some((s) => s.chem === 'cao' && s.amount > 0 && s.under) && v.mix.has('water', 0.5),
     run(v, dt, E) {
@@ -488,9 +572,19 @@ export const RULES = [
   // silver chloride in sunlight: grey silver forms on the surface; a covered sample stays white
   { id: 'agcl_light', test: (v) => v.sunBy && v.sunBy.on && !v.dark && v.solids.some((s) => s.chem === 'agcl'),
     run(v, dt, E) { for (const s of v.solids) if (s.chem === 'agcl') { s.grey = Math.min(1, (s.grey || 0) + dt * E.lapse * 0.0009); if (s.mat) s.mat.color.setHex(0xf7f7f2).lerp(new THREE.Color(0x6f6a7a), s.grey); E.note(v, 'agcl_grey', { k: s.grey }); } } },
-  // an acid and a base neutralise each other and give out heat (about 7 °C for 20 mL + 20 mL)
-  { id: 'neut_heat', test: (v) => v.mix.has('hcl', 0.02) && v.mix.has('naoh', 0.02),
-    run(v, dt, E) { const m = v.mix; const d = Math.min(m.liq.hcl, m.liq.naoh, dt * 40); m.liq.hcl -= d; m.liq.naoh -= d; m.add('nacl', d * 2); m.temp += d * 13.6 / Math.max(1, m.ml()); E.note(v, 'neutral_heat', { t: m.temp }); } },
+  // an acid and a base neutralise each other and give out heat (about 7 °C for 20 mL + 20 mL of the dilute acid and alkali):
+  // any acid with sodium hydroxide, lime water or milk of magnesia, in proportion to their strength; the salt stays in the water
+  { id: 'neut_heat', test: (v) => Object.keys(NEUT_A).some((a) => v.mix.has(a, 0.02)) && Object.keys(NEUT_B).some((b) => v.mix.has(b, 0.02)),
+    run(v, dt, E) {
+      const m = v.mix; let budget = dt * 0.04; // equivalents per second: mixing alone is enough, it is fast
+      for (const b in NEUT_B) for (const a in NEUT_A) {
+        if (budget <= 1e-9 || !((m.liq[a] || 0) > 1e-6) || !((m.liq[b] || 0) > 1e-6) || !m.has(a, 0.02) && !m.has(b, 0.02)) continue;
+        const ha = SUBS[a].h, hb = -SUBS[b].h; const eq = Math.min(m.liq[a] * ha / 1000, m.liq[b] * hb / 1000, budget); if (eq <= 0) continue; budget -= eq;
+        const va = Math.min(m.liq[a], eq * 1000 / ha), vb = Math.min(m.liq[b], eq * 1000 / hb); m.liq[a] -= va; m.liq[b] -= vb;
+        m.add(NEUT_S[NEUT_B[b] + NEUT_A[a]] || 'saltaq', va + vb);
+        m.temp += eq * 1000 * (SUBS[a].weak ? 11.5 : 13.6) / Math.max(1, m.ml()); E.note(v, 'neutral_heat', { t: m.temp });
+      }
+    } },
   // barium hydroxide + ammonium chloride (two solids, stirred): they turn slushy, ammonia is given off and it gets very cold
   { id: 'endo', test: (v) => v.solids.some((s) => s.chem === 'baoh2' && s.amount > 0.02) && v.solids.some((s) => s.chem === 'nh4cl' && s.amount > 0.02) && (v.stirT > 0 || v.endoK > 0),
     run(v, dt, E) {
@@ -576,8 +670,8 @@ export const RULES = [
       const k = Math.min(1, (v.saltG || 0) / 1.5); const d = Math.min(m.liq.soapmix, dt * E.lapse * 0.02 * k); m.liq.soapmix -= d; m.add('lye', d * 0.6); v.curdG = (v.curdG || 0) + d;
       v.setCurd && v.setCurd(Math.min(1, v.curdG / 30)); E.note(v, 'curd', { k: v.curdG }); } },
   // sodium carbonate / hydrogencarbonate solution + acid: fizzing carbon dioxide
-  { id: 'carbsol_acid', test: (v) => (v.mix.has('washingsoda', 0.05) || v.mix.has('bakingsoda', 0.05)) && ['hcl', 'h2so4', 'ethanoic', 'vinegar'].some((a) => v.mix.has(a, 0.05)),
-    run(v, dt, E) { const m = v.mix; const c = m.has('washingsoda', 0.05) ? 'washingsoda' : 'bakingsoda'; const a = ['hcl', 'h2so4', 'ethanoic', 'vinegar'].find((x) => m.has(x, 0.05));
+  { id: 'carbsol_acid', test: (v) => (v.mix.has('washingsoda', 0.05) || v.mix.has('bakingsoda', 0.05)) && ['hcl', 'h2so4', 'ethanoic', 'vinegar', 'lemon'].some((a) => v.mix.has(a, 0.05)),
+    run(v, dt, E) { const m = v.mix; const c = m.has('washingsoda', 0.05) ? 'washingsoda' : 'bakingsoda'; const a = ['hcl', 'h2so4', 'ethanoic', 'vinegar', 'lemon'].find((x) => m.has(x, 0.05));
       const d = Math.min(m.liq[c], m.liq[a], dt * 1.5); m.liq[c] -= d; m.liq[a] -= d * 0.5; m.add('nacl', d * 0.8); E.fx.bubbles_(v, 60, dt, { size: 0.001 }); v.gasOut('CO2', d * 2.5); E.note(v, 'co2', {}); } },
   // a thistle funnel: what is poured in runs down at once into the flask
   { id: 'drain_fast', test: (v) => v.drainFast && v.drainTo && v.ml > 0.01,
@@ -593,9 +687,16 @@ function heatTick0(v, dt, E) {
   const m = v.mix;
   // liquids warm up and boil
   if (m.ml() > 0.2) {
-    m.temp = Math.min(v.maxT ?? 100, m.temp + dt * 9 * (8 / Math.max(4, m.ml()))); // maxT: a water bath kept at about 60 °C by turning the flame down
-    if (m.temp >= 99) { const d = Math.min(m.liq.water || 0, dt * 0.15 * (v.evapK ?? 1)); if (d > 0) m.liq.water -= d; E.fx.bubbles_(v, 50, dt, { size: 0.0013 }); if (Math.random() < dt * 6) E.fx.puff(v.mouthWorld(), '#ffffff', { alpha: 0.3, size: 0.01, grow: 0.06 }); E.note(v, 'boil', {}); }
-    else if (m.temp > 70) E.fx.bubbles_(v, 8, dt, { size: 0.0006 });
+    const ml = m.ml(); m.temp = Math.min(v.maxT ?? 100, m.temp + dt * Math.max(9 * (8 / Math.max(4, ml)), ml > 40 ? 110 / ml : 0)); // maxT: a water bath kept at about 60 °C by turning the flame down; a big beaker takes minutes, as on a real burner
+    const T = m.temp;
+    if (T >= 99) { const d = Math.min(m.liq.water || 0, dt * 0.15 * (v.evapK ?? 1)); if (d > 0) m.liq.water -= d; E.fx.bubbles_(v, 50, dt, { size: 0.0013 }); if (Math.random() < dt * 6) E.fx.puff(v.mouthWorld(), '#ffffff', { alpha: 0.3, size: 0.01, grow: 0.06 }); E.note(v, 'boil', {}); }
+    else {
+      // as it warms you can see it: tiny bubbles of air form on the bottom (from about 40 °C), more and bigger near boiling,
+      // and wisps of steam rise from the surface (from about 55 °C)
+      if (T > 40) E.fx.bubbles_(v, 2 + (T - 40) * (T > 70 ? 0.35 : 0.12), dt, { size: T > 80 ? 0.0008 : 0.0005 });
+      if (T > 55 && Math.random() < dt * (T - 55) / 14) E.fx.puff(v.mouthWorld(), '#ffffff', { alpha: 0.08 + (T - 55) / 240, size: 0.008, grow: 0.05, life: 2.2 });
+      if (T > 45) E.note(v, 'warming', { t: T });
+    }
   }
   // the last of the water boils away: dissolved salt is left behind as a white crust
   if (m.temp >= 99 && (m.liq.water || 0) < 0.25 && (m.liq.nacl || 0) > 0.01 && !v.dry) {

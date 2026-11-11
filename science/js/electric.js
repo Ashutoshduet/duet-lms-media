@@ -37,7 +37,7 @@ export function meter(kind = 'A', max = 1.5, o = {}) {
 }
 // ------------------------------------------------------------------ a length of resistance wire (nichrome) wound on a board, two terminals
 export function resistorBoard(R = 4, o = {}) {
-  const it = new Item('resistor', { ...o, name: o.name || { en: `Resistance wire (nichrome), R = ${R} Ω`, hi: `प्रतिरोध तार (नाइक्रोम), R = ${R} Ω`, hg: `Resistance wire (nichrome), R = ${R} Ω` } });
+  const it = new Item('resistor', { ...o, name: o.name || { en: `Resistance wire (nichrome), R = ${R} Ω`, hi: `रेज़िस्टेंस तार (नाइक्रोम), R = ${R} Ω`, hg: `Resistance wire (nichrome), R = ${R} Ω` } });
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.01, 0.035), new THREE.MeshStandardMaterial({ map: woodTex('#9a6a3c'), roughness: 0.7 })); base.position.y = 0.005; it.g.add(base);
   const pts = []; for (let i = 0; i <= 200; i++) { const t = i / 200; const a = t * Math.PI * 2 * 16; pts.push(V3(-0.035 + t * 0.07, 0.016 + Math.sin(a) * 0.004, Math.cos(a) * 0.004)); }
   const coilM = new THREE.MeshStandardMaterial({ color: 0x8d8f91, metalness: 0.85, roughness: 0.35, emissive: 0xff4010, emissiveIntensity: 0 });
@@ -51,7 +51,7 @@ export function resistorBoard(R = 4, o = {}) {
 }
 // ------------------------------------------------------------------ a rheostat: a coil on a tube with a sliding contact; used as a variable resistance (end a to slider c)
 export function rheostat(Rmax = 20, o = {}) {
-  const it = new Item('rheostat', { ...o, name: o.name || { en: `Rheostat (0–${Rmax} Ω)`, hi: `धारा नियंत्रक (रिओस्टेट, 0–${Rmax} Ω)`, hg: `Rheostat (0–${Rmax} Ω)` } });
+  const it = new Item('rheostat', { ...o, name: o.name || { en: `Rheostat (0–${Rmax} Ω)`, hi: `रिओस्टेट (0–${Rmax} Ω)`, hg: `Rheostat (0–${Rmax} Ω)` } });
   const L = 0.16; const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, L, 32), new THREE.MeshStandardMaterial({ map: canvasTex(256, 64, (x, w, h) => { x.fillStyle = '#c9c2b0'; x.fillRect(0, 0, w, h); x.strokeStyle = '#7b7a76'; x.lineWidth = 1.4; for (let i = 0; i < w; i += 3) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i + 2, h); x.stroke(); } }), metalness: 0.4, roughness: 0.5 }));
   tube.rotation.z = Math.PI / 2; tube.position.y = 0.03; it.g.add(tube);
   for (const s of [-1, 1]) { const end = new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.05, 0.03), new THREE.MeshStandardMaterial({ color: 0x2b2f35, roughness: 0.5 })); end.position.set(s * (L / 2 + 0.003), 0.025, 0); it.g.add(end); }
@@ -68,7 +68,7 @@ export function rheostat(Rmax = 20, o = {}) {
 }
 // ------------------------------------------------------------------ a 12 V, 10 W bulb in a bigger holder (kind 'bulb': the solver lights it by the power it takes)
 export function lampBulb(o = {}) {
-  const it = new Item('bulb', { ...o, name: o.name || { en: 'Bulb (12 V, 10 W) in a holder', hi: 'होल्डर में बल्ब (12 V, 10 W)', hg: 'Holder mein bulb (12 V, 10 W)' } });
+  const it = new Item('bulb', { ...o, name: o.name || { en: 'Bulb (12 V, 10 W) in a holder', hi: 'होल्डर में लगा बल्ब (12 V, 10 W)', hg: 'Holder mein laga bulb (12 V, 10 W)' } });
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.012, 0.045), new THREE.MeshStandardMaterial({ map: woodTex('#8a5a33'), roughness: 0.7 })); base.position.y = 0.006; it.g.add(base);
   const sock = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.018, 24), new THREE.MeshStandardMaterial({ color: 0xece8de, roughness: 0.5 })); sock.position.y = 0.021; it.g.add(sock);
   const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.0085, 0.0085, 0.01, 24), metal(0xb8bcc0, 0.35)); cap.position.y = 0.034; it.g.add(cap);
@@ -89,7 +89,7 @@ export function lampBulb(o = {}) {
 export const RHO = { nichrome: 1.1e-6, copper: 1.72e-8 };
 export function wireSample(o = {}) {
   const len = o.len ?? 0.15, dmm = o.d ?? 0.274, mat = o.mat ?? 'nichrome'; const A = Math.PI * (dmm / 2000) ** 2; const R = (RHO[mat] * len) / A;
-  const it = new Item('resistor', { ...o, name: o.name || { en: `${mat === 'copper' ? 'Copper' : 'Nichrome'} wire, ${Math.round(len * 100)} cm`, hi: `${mat === 'copper' ? 'ताँबे' : 'नाइक्रोम'} का तार, ${Math.round(len * 100)} सेमी`, hg: `${mat === 'copper' ? 'Copper' : 'Nichrome'} wire, ${Math.round(len * 100)} cm` } });
+  const it = new Item('resistor', { ...o, name: o.name || { en: `${mat === 'copper' ? 'Copper' : 'Nichrome'} wire, ${Math.round(len * 100)} cm`, hi: `${mat === 'copper' ? 'ताँबे' : 'नाइक्रोम'} का तार, ${Math.round(len * 100)} cm`, hg: `${mat === 'copper' ? 'Copper' : 'Nichrome'} wire, ${Math.round(len * 100)} cm` } });
   const L = len + 0.03; const board = new THREE.Mesh(new THREE.BoxGeometry(L, 0.008, 0.026), new THREE.MeshStandardMaterial({ map: woodTex('#a77445'), roughness: 0.7 })); board.position.y = 0.004; it.g.add(board);
   if (o.label) { const t = canvasTex(512, 64, (x, w, h) => { x.fillStyle = '#f4efe2'; x.fillRect(0, 0, w, h); x.fillStyle = '#1d1d1d'; x.font = '700 40px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(o.label, w / 2, h / 2 + 2); }); const tg = new THREE.Mesh(new THREE.PlaneGeometry(0.064, 0.008), new THREE.MeshStandardMaterial({ map: t, roughness: 0.9 })); tg.rotation.x = -Math.PI / 2; tg.position.set(0, 0.0082, 0.0075); it.g.add(tg); }
   const wr = Math.max(0.00035, (dmm / 2000) * 1.5); const wM = new THREE.MeshStandardMaterial({ color: mat === 'copper' ? 0xc8743a : 0x8d8f91, metalness: 0.9, roughness: 0.3, emissive: 0xff4010, emissiveIntensity: 0 });

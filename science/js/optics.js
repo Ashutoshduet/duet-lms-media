@@ -13,7 +13,7 @@ const AXIS_Y = 0.16; // height of the optical axis above the bench
 
 // ------------------------------------------------------------------ the bench: a 1 m wooden scale (in cm) on two feet
 export function opticalBench(len = 1.0, o = {}) {
-  const it = new Item('obench', { ...o, name: o.name || { en: 'Optical bench (metre scale)', hi: 'प्रकाशीय बेंच (मीटर पैमाना)', hg: 'Optical bench (metre scale)' } });
+  const it = new Item('obench', { ...o, name: o.name || { en: 'Optical bench (metre scale)', hi: 'ऑप्टिकल बेंच (मीटर स्केल)', hg: 'Optical bench (metre scale)' } });
   const tex = canvasTex(4096, 128, (x, w, h) => { x.fillStyle = '#e9dcb4'; x.fillRect(0, 0, w, h); x.fillStyle = '#1d1d1d'; x.font = '600 44px sans-serif';
     const n = Math.round(len * 1000); for (let mm = 0; mm <= n; mm++) { const px = 8 + (mm / n) * (w - 16); const L = mm % 100 === 0 ? 90 : mm % 10 === 0 ? 64 : mm % 5 === 0 ? 44 : 26; x.fillRect(px - (mm % 10 === 0 ? 1.5 : 0.8), 0, mm % 10 === 0 ? 3 : 1.6, L); if (mm % 50 === 0) { const t = String(mm / 10); x.fillText(t, px - x.measureText(t).width / 2, 124); } } });
   const top = new THREE.Mesh(new THREE.BoxGeometry(len + 0.02, 0.012, 0.05), [woodM(), woodM(), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.6 }), woodM(), woodM(), woodM()]);
@@ -33,7 +33,7 @@ function rider(it, h) {
 // ------------------------------------------------------------------ a thin lens in a ring holder (convex: f > 0, concave: f < 0)
 export function lensOnStand(f = 0.15, o = {}) {
   const conv = f > 0; const R = 0.03; const t = conv ? 0.006 : 0.0015;
-  const it = new Item('lens', { ...o, name: o.name || (conv ? { en: `Convex lens (f ≈ ${Math.round(f * 100)} cm)`, hi: `उत्तल लेंस (f ≈ ${Math.round(f * 100)} सेमी)`, hg: `Convex lens (f ≈ ${Math.round(f * 100)} cm)` } : { en: 'Concave lens', hi: 'अवतल लेंस', hg: 'Concave lens' }) });
+  const it = new Item('lens', { ...o, name: o.name || (conv ? { en: `Convex lens (f ≈ ${Math.round(f * 100)} cm)`, hi: `उत्तल लेंस (f ≈ ${Math.round(f * 100)} cm)`, hg: `Convex lens (f ≈ ${Math.round(f * 100)} cm)` } : { en: 'Concave lens', hi: 'अवतल लेंस', hg: 'Concave lens' }) });
   rider(it, AXIS_Y - 0.02 - R + 0.004);
   const pts = []; for (let i = 0; i <= 16; i++) { const r = (i / 16) * R; const sag = conv ? (t / 2) * (1 - (r / R) ** 2) + 0.0006 : 0.0006 + t * (r / R) ** 2; pts.push(V2(r, sag)); } for (let i = 16; i >= 0; i--) { const p = pts[i]; pts.push(V2(p.x, -p.y)); }
   const lens = new THREE.Mesh(new THREE.LatheGeometry(pts.map((p) => V2(p.x, p.y)).reverse(), 48), glassMat({ opacity: 0.32, edge: 0.6 })); lens.rotation.z = Math.PI / 2; lens.position.y = AXIS_Y; lens.renderOrder = 6; it.g.add(lens);
@@ -43,7 +43,7 @@ export function lensOnStand(f = 0.15, o = {}) {
 // ------------------------------------------------------------------ a spherical mirror in a holder; it faces -x (towards the candle on its left)
 export function mirrorOnStand(f = -0.15, o = {}) {
   const conc = f < 0; const R = 0.03; const Rc = Math.abs(2 * f);
-  const it = new Item('mirror', { ...o, name: o.name || (conc ? { en: `Concave mirror (f ≈ ${Math.round(-f * 100)} cm)`, hi: `अवतल दर्पण (f ≈ ${Math.round(-f * 100)} सेमी)`, hg: `Concave mirror (f ≈ ${Math.round(-f * 100)} cm)` } : { en: 'Convex mirror', hi: 'उत्तल दर्पण', hg: 'Convex mirror' }) });
+  const it = new Item('mirror', { ...o, name: o.name || (conc ? { en: `Concave mirror (f ≈ ${Math.round(-f * 100)} cm)`, hi: `अवतल दर्पण (f ≈ ${Math.round(-f * 100)} cm)`, hg: `Concave mirror (f ≈ ${Math.round(-f * 100)} cm)` } : { en: 'Convex mirror', hi: 'उत्तल दर्पण', hg: 'Convex mirror' }) });
   rider(it, AXIS_Y - 0.02 - R + 0.004);
   const a = Math.asin(R / Rc); const g = new THREE.SphereGeometry(Rc, 48, 12, 0, Math.PI * 2, 0, a); // a cap of a sphere
   const front = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: 0xe8eef2, metalness: 1, roughness: 0.06, side: conc ? THREE.BackSide : THREE.FrontSide }));
@@ -53,14 +53,14 @@ export function mirrorOnStand(f = -0.15, o = {}) {
 }
 // ------------------------------------------------------------------ a black card with a pinhole, on a holder
 export function pinholeOnStand(o = {}) {
-  const it = new Item('pinhole', { ...o, name: o.name || { en: 'Black card with a pinhole', hi: 'पिनहोल वाला काला कार्ड', hg: 'Pinhole wala black card' } });
+  const it = new Item('pinhole', { ...o, name: o.name || { en: 'Black card with a pinhole', hi: 'पिनहोल वाला काला कार्ड', hg: 'Pinhole wala kaala card' } });
   rider(it, AXIS_Y - 0.06); const sh = new THREE.Shape(); sh.moveTo(-0.05, -0.04); sh.lineTo(0.05, -0.04); sh.lineTo(0.05, 0.04); sh.lineTo(-0.05, 0.04); sh.closePath(); const h = new THREE.Path(); h.absarc(0, 0, 0.0012, 0, Math.PI * 2, true); sh.holes.push(h);
   const g = new THREE.ExtrudeGeometry(sh, { depth: 0.002, bevelEnabled: false }); g.rotateY(Math.PI / 2); const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: 0x15171b, roughness: 0.9 })); m.position.y = AXIS_Y; it.g.add(m);
   it.optic = 'pinhole'; it.aperture = 0.0012; it.height = AXIS_Y + 0.04; it.radius = 0.05; it.grabY = AXIS_Y; return it;
 }
 // ------------------------------------------------------------------ a white screen on a holder: the image is painted on it every frame
 export function screenOnStand(o = {}) {
-  const it = new Item('screen', { ...o, name: o.name || { en: 'White screen', hi: 'सफ़ेद पर्दा', hg: 'White screen' } });
+  const it = new Item('screen', { ...o, name: o.name || { en: 'White screen', hi: 'सफ़ेद पर्दा', hg: 'Safed parda' } });
   rider(it, AXIS_Y - 0.06);
   const W = 0.1, H = 0.08; const c = document.createElement('canvas'); c.width = 256; c.height = 205; const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
   const card = new THREE.Mesh(new THREE.BoxGeometry(0.002, H, W), [new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.25 }), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 0.25 }), ...[0, 0, 0, 0].map(() => new THREE.MeshStandardMaterial({ color: 0xe6e3da, roughness: 0.9 }))]);

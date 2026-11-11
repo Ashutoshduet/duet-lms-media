@@ -28,15 +28,15 @@ export const EXPERIMENTS5 = [
       const fe = K.solid('filings', -0.38, -0.5), s = K.solid('spow', -0.26, -0.5); const rod = K.rod(-0.14, -0.44);
       const dish = K.add(K.A.chinaDish(), -0.06, -0.68); const tp = K.tripod(0.14, -0.68); const bn = K.burner(0.36, -0.64);
       const mg = K.place(K.A3.magnet(), 0.22, -0.42); const rk = K.rack(-0.32, -0.76); const t1 = K.tube(rk, 1); const t2 = K.tube(rk, 4);
-      t1.name = N('Test tube 1 (sample A)', 'परखनली 1 (नमूना A)', 'Test tube 1 (sample A)'); t2.name = N('Test tube 2 (sample B)', 'परखनली 2 (नमूना B)', 'Test tube 2 (sample B)');
+      t1.name = N('Test tube 1 (sample A)', 'टेस्ट ट्यूब 1 (सैंपल A)', 'Test tube 1 (sample A)'); t2.name = N('Test tube 2 (sample B)', 'टेस्ट ट्यूब 2 (सैंपल B)', 'Test tube 2 (sample B)');
       const hcl = K.bottle('hcl', -0.08, -0.82); const lamp = K.lamp(0.42, -0.8); const sp = K.splint(0.05, -0.44);
-      const pb = K.add(K.A.strip(0xf3f2ea, { name: N('Lead acetate paper (moist)', 'लेड ऐसीटेट पत्र (गीला)', 'Lead acetate paper (geela)') }), 0.14, -0.44); pb.g.rotation.set(-Math.PI / 2, 0, 0.3); pb.g.position.y = BENCH_Y + 0.001; pb.home = { p: pb.g.position.clone(), q: pb.g.quaternion.clone() };
+      const pb = K.add(K.A.strip(0xf3f2ea, { name: N('Lead acetate paper (moist)', 'लेड एसीटेट पेपर (गीला)', 'Lead acetate paper (geela)') }), 0.14, -0.44); pb.g.rotation.set(-Math.PI / 2, 0, 0.3); pb.g.position.y = BENCH_Y + 0.001; pb.home = { p: pb.g.position.clone(), q: pb.g.quaternion.clone() };
       return { fe, s, rod, dish, tp, bn, mg, rk, t1, t2, hcl, lamp, sp, pb };
     },
     steps: [
       { do: X('Mix the iron filings and the sulphur powder well on the watch glass with a glass rod. This is sample A.'), target: 'rod', act: async (K, o) => { o.A = await K.mixPowders(o.fe, o.s, o.rod, 'femix'); }, ev: { type: 'mixed' },
         see: X('You can still see grey bits of iron and yellow bits of sulphur side by side. The mixture is not the same everywhere.') },
-      { do: X('Spread a little of sample A on a sheet of paper and move the magnet over it.'), target: 'mg', act: async (K, o) => { o.mixSheet = K.place(K.A3.filingsMix({ baseColor: 0xe8c838, baseTex: 'sulphur', n: 220, name: N('Sample A on paper', 'कागज़ पर नमूना A', 'Kaagaz par sample A') }), 0.3, -0.5); await K.sleep(0.4); await K.sweepMagnet(o.mg, o.mixSheet, 3); },
+      { do: X('Spread a little of sample A on a sheet of paper and move the magnet over it.'), target: 'mg', act: async (K, o) => { o.mixSheet = K.place(K.A3.filingsMix({ baseColor: 0xe8c838, baseTex: 'sulphur', n: 220, name: N('Sample A on paper', 'कागज़ पर सैंपल A', 'Kaagaz par sample A') }), 0.3, -0.5); await K.sleep(0.4); await K.sweepMagnet(o.mg, o.mixSheet, 3); },
         see: X('The iron filings jump up and cling to the magnet. The yellow sulphur is left behind.'), why: X('In a mixture each part keeps its own properties: iron is still magnetic, sulphur is not.') },
       { do: X('Put half of sample A in the china dish, place it on the tripod and heat it strongly (time-lapse).'), target: 'dish',
         act: async (K, o) => { await K.spoonful(o.A, o.dish); await K.spoonful(o.A, o.dish); await K.onTripod(o.dish, o.tp, o.bn); await K.light(o.bn); await K.wait(12, 22); }, ev: { type: 'lit' },
@@ -64,10 +64,10 @@ export const EXPERIMENTS5 = [
     aim: X('To prepare a colloid of sulphur, a true solution of salt and a suspension of chalk, and to tell them apart by light, filtering and settling.'),
     kind: X('True solution, colloid and suspension'),
     setup(K) {
-      const bA = K.beaker(-0.38, -0.64, 'thio', 40, 100); bA.name = N('Beaker A: sodium thiosulphate solution', 'बीकर A: सोडियम थायोसल्फ़ेट विलयन', 'Beaker A: sodium thiosulphate solution');
+      const bA = K.beaker(-0.38, -0.64, 'thio', 40, 100); bA.name = N('Beaker A: sodium thiosulphate solution', 'बीकर A: सोडियम थायोसल्फ़ेट का घोल', 'Beaker A: sodium thiosulphate solution');
       const bB = K.beaker(-0.22, -0.64, 'water', 40, 100); bB.name = N('Beaker B: water', 'बीकर B: पानी', 'Beaker B: paani'); const bC = K.beaker(-0.06, -0.64, 'water', 40, 100); bC.name = N('Beaker C: water', 'बीकर C: पानी', 'Beaker C: paani');
       const hcl = K.bottle('hcl', -0.4, -0.82); const salt = K.solid('salt', -0.24, -0.47); const chalk = K.solid('chalk', -0.1, -0.47); const rod = K.rod(0.02, -0.44); const tc = K.place(K.A.torch(), 0.1, -0.5);
-      const fA = K.beaker(0.2, -0.7, null, 0, 100); fA.name = N('Filtrate of A', 'A का निस्यंद', 'A ka filtrate'); const fC = K.beaker(0.38, -0.7, null, 0, 100); fC.name = N('Filtrate of C', 'C का निस्यंद', 'C ka filtrate');
+      const fA = K.beaker(0.2, -0.7, null, 0, 100); fA.name = N('Filtrate of A', 'A का छना हुआ घोल', 'A ka filtrate'); const fC = K.beaker(0.38, -0.7, null, 0, 100); fC.name = N('Filtrate of C', 'C का छना हुआ घोल', 'C ka filtrate');
       const fuA = K.filterOver(fA), fuC = K.filterOver(fC);
       return { bA, bB, bC, hcl, salt, chalk, rod, tc, fA, fC, fuA, fuC };
     },
@@ -96,7 +96,7 @@ export const EXPERIMENTS5 = [
     aim: X('To obtain pure crystals of copper sulphate from an impure sample by crystallisation.'),
     kind: X('Separation by crystallisation'),
     setup(K) {
-      const tp = K.tripod(0.06, -0.68); const bn = K.burner(0.32, -0.64); const bath = K.beaker(-0.2, -0.7, 'water', 220, 500); bath.name = N('Water bath', 'जल ऊष्मक', 'Water bath');
+      const tp = K.tripod(0.06, -0.68); const bn = K.burner(0.32, -0.64); const bath = K.beaker(-0.2, -0.7, 'water', 220, 500); bath.name = N('Water bath', 'वॉटर बाथ', 'Water bath');
       const b = K.beaker(-0.38, -0.56, 'water', 25, 100); b.name = N('Beaker with 25 mL water', '25 mL पानी वाला बीकर', '25 mL paani wala beaker');
       const cs = K.solid('cuso4i', -0.24, -0.47); const rod = K.rod(-0.12, -0.44); const acid = K.bottle('h2so4', -0.44, -0.8, { dropper: true });
       const c = K.beaker(0.36, -0.5, null, 0, 100); c.name = N('Clean beaker', 'साफ़ बीकर', 'Saaf beaker'); c.coolLapse = true; const fu = K.filterOver(c); K.A5.crystalBed(c);
@@ -159,13 +159,13 @@ export const EXPERIMENTS5 = [
     kind: X('Separation of a mixture of three solids'),
     setup(K) {
       const tp = K.tripod(0.08, -0.68); const bn = K.burner(0.32, -0.64);
-      const dish = K.add(K.A.chinaDish(), -0.2, -0.64); dish.name = N('China dish with the mixture', 'मिश्रण वाली चीनी मिट्टी की प्याली', 'Mixture wali china dish');
+      const dish = K.add(K.A.chinaDish(), -0.2, -0.64); dish.name = N('China dish with the mixture', 'मिश्रण वाली चाइना डिश', 'Mixture wali china dish');
       const sand = K.lab.add(K.A.granules(0xd2b080, { n: 14, metal: 0, rough: 1, tex: 'sand' }), 0, 0); sand.chem = 'sand'; sand.amount = 1; K.lab.putSolid(sand, dish); sand.g.scale.set(1.5, 0.6, 1.5);
       const salt = K.lab.add(K.A.heap(0xfafafa, { tex: 'salt', r: 0.008, h: 0.005 }), 0, 0); salt.chem = 'salt'; salt.amount = 1; K.lab.putSolid(salt, dish); salt.g.position.x += 0.008;
       const ac = K.lab.add(K.A.heap(0xf7f7f4, { tex: 'nh4cl', r: 0.008, h: 0.005 }), 0, 0); ac.chem = 'nh4cl'; ac.amount = 1; K.lab.putSolid(ac, dish); ac.g.position.x -= 0.008;
       const fn = K.add(K.A.funnel(), -0.42, -0.66); const w = K.beaker(-0.4, -0.48, 'water', 60, 100); w.name = N('Water', 'पानी', 'Paani'); const rod = K.rod(-0.26, -0.44);
-      const fl = K.beaker(0.38, -0.52, null, 0, 100); fl.name = N('Beaker for the filtrate', 'निस्यंद के लिए बीकर', 'Filtrate ke liye beaker'); const fu = K.filterOver(fl);
-      const dish2 = K.add(K.A.chinaDish(), 0.2, -0.46); dish2.name = N('Second china dish', 'दूसरी चीनी मिट्टी की प्याली', 'Doosri china dish');
+      const fl = K.beaker(0.38, -0.52, null, 0, 100); fl.name = N('Beaker for the filtrate', 'छने हुए घोल के लिए बीकर', 'Filtrate ke liye beaker'); const fu = K.filterOver(fl);
+      const dish2 = K.add(K.A.chinaDish(), 0.2, -0.46); dish2.name = N('Second china dish', 'दूसरी चाइना डिश', 'Doosri china dish');
       return { tp, bn, dish, sand, salt, ac, fn, w, rod, fl, fu, dish2 };
     },
     steps: [
@@ -196,14 +196,14 @@ export const EXPERIMENTS5 = [
     kind: X('Separation by distillation'),
     setup(K) {
       const A5 = K.A5; const x = -0.12, z = -0.66; const tp = K.tripod(x, z); const bn = K.add(K.A.bunsen(), x, z);
-      const top = tp.g.localToWorld(V(K, 0, tp.top + 0.001, 0)); const bath = K.add(K.A.beaker(500), x, z, { y: top.y }); K.lab.fill(bath, 'water', 250); bath.name = N('Water bath', 'जल ऊष्मक', 'Water bath'); bath.onTripod = { over: bn }; bath.evapK = 0.15;
+      const top = tp.g.localToWorld(V(K, 0, tp.top + 0.001, 0)); const bath = K.add(K.A.beaker(500), x, z, { y: top.y }); K.lab.fill(bath, 'water', 250); bath.name = N('Water bath', 'वॉटर बाथ', 'Water bath'); bath.onTripod = { over: bn }; bath.evapK = 0.15;
       const fl = K.add(A5.rbFlask(), x, z, { y: bath.g.localToWorld(V(K, 0, bath.inner[0].y, 0)).y + 0.012 }); fl.bath = bath; fl.coolLapse = true;
       const st = K.add(A5.labStand(0.42), x, z - 0.1); st.clamp(fl.g.position.y - BENCH_Y + 0.1, 0.1);
       fl.g.updateMatrixWorld(true); const from = fl.g.localToWorld(fl.armEnd.clone()); const dir = V(K, 0.95, -0.31, 0).normalize(); const to = from.clone().addScaledVector(dir, 0.22);
       const cd = K.add(A5.condenser(from, to), 0, 0); cd.g.position.copy(cd.p0); cd.g.quaternion.copy(cd.q0);
-      const bh = Math.max(0.02, to.y - BENCH_Y - 0.1 - 0.025); const blk = K.add(A5.block(0.08, bh, 0.08), to.x, z); const rc = K.add(K.A.conicalFlask(100), to.x, z, { y: BENCH_Y + bh }); rc.name = N('Receiver flask', 'ग्राही फ्लास्क', 'Receiver flask');
+      const bh = Math.max(0.02, to.y - BENCH_Y - 0.1 - 0.025); const blk = K.add(A5.block(0.08, bh, 0.08), to.x, z); const rc = K.add(K.A.conicalFlask(100), to.x, z, { y: BENCH_Y + bh }); rc.name = N('Receiver flask', 'रिसीवर फ़्लास्क', 'Receiver flask');
       fl.distTo = rc; fl.dripFrom = () => cd.endWorld.clone();
-      const mix = K.beaker(-0.42, -0.5, 'water', 40, 100); K.lab.fill(mix, 'acetone', 40); mix.name = N('Acetone + water mixture', 'ऐसीटोन + पानी का मिश्रण', 'Acetone + paani ka mixture');
+      const mix = K.beaker(-0.42, -0.5, 'water', 40, 100); K.lab.fill(mix, 'acetone', 40); mix.name = N('Acetone + water mixture', 'एसीटोन + पानी का मिश्रण', 'Acetone + paani ka mixture');
       return { tp, bn, bath, fl, st, cd, blk, rc, mix };
     },
     steps: [
@@ -232,8 +232,8 @@ export const EXPERIMENTS5 = [
     kind: X('Separation by centrifugation'),
     setup(K) {
       const cf = K.add(K.A5.centrifuge(), 0.08, -0.64); const rk = K.rack(-0.28, -0.68); const small = (i) => { const t = K.add(K.A.testTube({ r: 0.0075, h: 0.09 }), rk.g.position.x + rk.slots[i].x, rk.g.position.z + rk.slots[i].z, { y: BENCH_Y + rk.slots[i].y }); t.rack = rk; return t; }; const t1 = small(1); const t2 = small(3);
-      t1.name = N('Tube 1', 'नली 1', 'Tube 1'); t2.name = N('Tube 2', 'नली 2', 'Tube 2'); K.A5.creamLayer(t1); K.A5.creamLayer(t2);
-      const milk = K.beaker(-0.42, -0.5, 'milkfull', 60, 100); milk.name = N('Full-cream milk', 'फुल क्रीम दूध', 'Full-cream doodh');
+      t1.name = N('Tube 1', 'ट्यूब 1', 'Tube 1'); t2.name = N('Tube 2', 'ट्यूब 2', 'Tube 2'); K.A5.creamLayer(t1); K.A5.creamLayer(t2);
+      const milk = K.beaker(-0.42, -0.5, 'milkfull', 60, 100); milk.name = N('Full-cream milk', 'फ़ुल क्रीम दूध', 'Full-cream doodh');
       return { cf, rk, t1, t2, milk };
     },
     steps: [
@@ -258,7 +258,7 @@ export const EXPERIMENTS5 = [
     aim: X('To separate the coloured dye in ink from the liquid it is dissolved in, by evaporation.'),
     kind: X('Separation by evaporation'),
     setup(K) {
-      const tp = K.tripod(0.06, -0.66); const bn = K.burner(0.32, -0.62); const b = K.beaker(-0.22, -0.64, 'water', 120, 250); b.name = N('Beaker half full of water', 'आधे पानी वाला बीकर', 'Aadhe paani wala beaker'); b.evapK = 0.1;
+      const tp = K.tripod(0.06, -0.66); const bn = K.burner(0.32, -0.62); const b = K.beaker(-0.22, -0.64, 'water', 120, 250); b.name = N('Beaker half full of water', 'आधा पानी भरा बीकर', 'Aadha paani bhara beaker'); b.evapK = 0.1;
       const wg = K.add(K.A.watchGlass(), -0.38, -0.5); wg.name = N('Watch glass', 'वॉच ग्लास', 'Watch glass'); K.A5.residueSpot(wg, 0.018); wg.evapOpen = true;
       const ink = K.bottle('ink', -0.42, -0.8, { dropper: true });
       return { tp, bn, b, wg, ink };
@@ -288,7 +288,7 @@ export const EXPERIMENTS5 = [
       const bal = K.add(K.A5.balance(), 0.0, -0.62);
       const b = K.beaker(-0.3, -0.56, null, 0, 100); b.name = N('Dry beaker', 'सूखा बीकर', 'Sookha beaker'); b.glassG = 48.62;
       const jug = K.beaker(-0.44, -0.72, 'water', 70, 100); jug.name = N('Water', 'पानी', 'Paani'); const salt = K.solid('salt', -0.18, -0.46); const rod = K.rod(-0.08, -0.44);
-      const fl = K.flask(0.24, -0.56); fl.name = N('Conical flask', 'शंक्वाकार फ्लास्क', 'Conical flask'); fl.glassG = 81.37; const vin = K.bottle('vinegar', 0.4, -0.78);
+      const fl = K.flask(0.24, -0.56); fl.name = N('Conical flask', 'कोनिकल फ़्लास्क', 'Conical flask'); fl.glassG = 81.37; const vin = K.bottle('vinegar', 0.4, -0.78);
       const bl = K.place(K.A5.balloon(), 0.38, -0.5); bl.glassG = 2.15;
       const ob = K.beaker(0.26, -0.82, 'vinegar', 20, 100); ob.name = N('Open beaker with vinegar', 'सिरके वाला खुला बीकर', 'Sirke wala khula beaker'); ob.glassG = 50.08; const soda = K.solid('nahco3', 0.12, -0.46);
       return { bal, b, jug, salt, rod, fl, vin, bl, ob, soda };
@@ -347,7 +347,7 @@ export const EXPERIMENTS5 = [
     kind: X('Melting point and boiling point'),
     setup(K) {
       const tp = K.tripod(0.06, -0.66); const bn = K.burner(0.32, -0.62);
-      const b = K.beaker(-0.24, -0.62, 'water', 20, 250); b.name = N('Beaker with crushed ice', 'पिसी हुई बर्फ़ वाला बीकर', 'Crushed ice wala beaker'); K.A3.iceCubes(b, 12); b.ice = 80; b.ice0 = 80; b.mix.temp = 1; b.placeIce(); b.evapK = 0.15;
+      const b = K.beaker(-0.24, -0.62, 'water', 20, 250); b.name = N('Beaker with crushed ice', 'कुटी हुई बर्फ़ वाला बीकर', 'Crushed ice wala beaker'); K.A3.iceCubes(b, 12); b.ice = 80; b.ice0 = 80; b.mix.temp = 1; b.placeIce(); b.evapK = 0.15;
       const th = K.add(K.A.thermometer(), 0.0, -0.46); th.g.rotation.set(Math.PI / 2, 0, -0.4); th.g.position.y = BENCH_Y + 0.004; th.home = { p: th.g.position.clone(), q: th.g.quaternion.clone() };
       return { tp, bn, b, th };
     },
@@ -375,9 +375,9 @@ export const EXPERIMENTS5 = [
     aim: X('To carry out five reactions and decide for each whether it is a physical or a chemical change.'),
     kind: X('Physical and chemical changes'),
     setup(K) {
-      const rk = K.rack(-0.24, -0.76); const t1 = K.tube(rk, 0, 'cuso4', 10); t1.name = N('Test tube 1: copper sulphate solution', 'परखनली 1: कॉपर सल्फ़ेट विलयन', 'Test tube 1: copper sulphate solution');
-      const t3 = K.tube(rk, 2, null, 0, { boiling: true }); t3.name = N('Boiling tube 3', 'क्वथन नली 3', 'Boiling tube 3'); const t4 = K.tube(rk, 3, null, 0, { boiling: true }); t4.name = N('Boiling tube 4 (dry)', 'क्वथन नली 4 (सूखी)', 'Boiling tube 4 (sookhi)');
-      const t5 = K.tube(rk, 4, 'na2so4', 3); t5.name = N('Test tube 5: sodium sulphate', 'परखनली 5: सोडियम सल्फ़ेट', 'Test tube 5: sodium sulphate'); const t6 = K.tube(rk, 5, 'bacl2', 3); t6.name = N('Test tube 6: barium chloride', 'परखनली 6: बेरियम क्लोराइड', 'Test tube 6: barium chloride');
+      const rk = K.rack(-0.24, -0.76); const t1 = K.tube(rk, 0, 'cuso4', 10); t1.name = N('Test tube 1: copper sulphate solution', 'टेस्ट ट्यूब 1: कॉपर सल्फ़ेट का घोल', 'Test tube 1: copper sulphate solution');
+      const t3 = K.tube(rk, 2, null, 0, { boiling: true }); t3.name = N('Boiling tube 3', 'बॉयलिंग ट्यूब 3', 'Boiling tube 3'); const t4 = K.tube(rk, 3, null, 0, { boiling: true }); t4.name = N('Boiling tube 4 (dry)', 'बॉयलिंग ट्यूब 4 (सूखी)', 'Boiling tube 4 (sookhi)');
+      const t5 = K.tube(rk, 4, 'na2so4', 3); t5.name = N('Test tube 5: sodium sulphate', 'टेस्ट ट्यूब 5: सोडियम सल्फ़ेट', 'Test tube 5: sodium sulphate'); const t6 = K.tube(rk, 5, 'bacl2', 3); t6.name = N('Test tube 6: barium chloride', 'टेस्ट ट्यूब 6: बेरियम क्लोराइड', 'Test tube 6: barium chloride');
       const nail = K.solid('fe', -0.44, -0.56); const rb = K.solid('mg', -0.32, -0.5); const tg = K.tongs(-0.16, -0.46); const zn = K.solid('zn', -0.06, -0.5); const cr = K.solid('cuso4x', 0.06, -0.5);
       const acid = K.bottle('h2so4', 0.14, -0.8); const w = K.bottle('water', 0.26, -0.8, { dropper: true }); w.name = X('Water (dropper)'); const lamp = K.lamp(0.3, -0.6); const sp = K.splint(0.18, -0.44); K.holder(0.42, -0.5);
       return { rk, t1, t3, t4, t5, t6, nail, rb, tg, zn, cr, acid, w, lamp, sp };

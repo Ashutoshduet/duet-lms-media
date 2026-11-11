@@ -20,7 +20,7 @@ function textSprite(w = 256, h = 96) {
 }
 // a read-out that follows a value: readout(() => vessel.mix.temp, '°C', () => position)
 export function readout(get, unit, at, o = {}) {
-  const it = new Item('readout', { name: { en: 'Reading', hi: 'पाठ्यांक', hg: 'Reading' } }); const sp = textSprite(); sp.scale.set(o.w ?? 0.06, (o.w ?? 0.06) * 0.375, 1); it.g.add(sp);
+  const it = new Item('readout', { name: { en: 'Reading', hi: 'रीडिंग', hg: 'Reading' } }); const sp = textSprite(); sp.scale.set(o.w ?? 0.06, (o.w ?? 0.06) * 0.375, 1); it.g.add(sp);
   let last = null; it.height = 0.001; it.radius = 0.001; it.noGrab = true;
   it.update = () => { const p = at(); if (p) it.g.position.copy(p); const v = get(); const t = v == null ? '—' : `${v.toFixed(o.dec ?? 0)} ${unit}`; if (t !== last) { last = t; sp.draw(t, o.fg || '#ffd27a'); } };
   return it;
@@ -28,7 +28,7 @@ export function readout(get, unit, at, o = {}) {
 
 // ------------------------------------------------------------------ digital balance (0.01 g); things put on its pan are weighed
 export function balance(o = {}) {
-  const it = new Item('balance', { ...o, name: { en: 'Digital balance', hi: 'डिजिटल तुला', hg: 'Digital balance' } });
+  const it = new Item('balance', { ...o, name: { en: 'Digital balance', hi: 'डिजिटल बैलेंस', hg: 'Digital balance' } });
   const body = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.03, 0.16), new THREE.MeshStandardMaterial({ color: 0xe6e8ea, roughness: 0.45 })); body.position.y = 0.015; it.g.add(body);
   const front = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.022, 0.03), new THREE.MeshStandardMaterial({ color: 0x2a3038, roughness: 0.5 })); front.position.set(0, 0.011, 0.082); front.rotation.x = -0.35; it.g.add(front);
   const pan = new THREE.Mesh(new THREE.CylinderGeometry(0.058, 0.058, 0.004, 40), steel(0xd0d4d8, 0.25)); pan.position.set(0, 0.032, -0.008); it.g.add(pan);
@@ -59,7 +59,7 @@ export function balloon(o = {}) {
 // ------------------------------------------------------------------ separating funnel with a stopcock; the lower layer runs out first
 export function sepFunnel(o = {}) {
   const prof = [[0.0028, 0], [0.0028, 0.05], [0.0045, 0.058], [0.018, 0.075], [0.029, 0.105], [0.026, 0.135], [0.012, 0.155], [0.0095, 0.165], [0.0095, 0.178], [0.0108, 0.18]];
-  const v = new Vessel('sepfunnel', prof, { ...o, wall: 0.0012, name: o.name || { en: 'Separating funnel', hi: 'पृथक्कारी कीप', hg: 'Separating funnel' }, cap: 100 });
+  const v = new Vessel('sepfunnel', prof, { ...o, wall: 0.0012, name: o.name || { en: 'Separating funnel', hi: 'सेपरेटिंग फ़नल', hg: 'Separating funnel' }, cap: 100 });
   const cock = new THREE.Group(); cock.position.y = 0.04; v.g.add(cock);
   const barrel = new THREE.Mesh(new THREE.CylinderGeometry(0.0042, 0.0042, 0.018, 14), glassMat({ opacity: 0.4 })); barrel.rotation.z = Math.PI / 2; barrel.renderOrder = 6; cock.add(barrel);
   const key = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.016, 0.003), new THREE.MeshStandardMaterial({ color: 0x2b6cc4, roughness: 0.4 })); key.position.x = 0.012; cock.add(key);
@@ -95,7 +95,7 @@ export function sepFunnel(o = {}) {
 }
 // laboratory stand with a ring (for the separating funnel) or a clamp (for a flask)
 export function labStand(h = 0.3, o = {}) {
-  const it = new Item('stand', { ...o, name: { en: 'Laboratory stand', hi: 'प्रयोगशाला स्टैंड', hg: 'Lab stand' } });
+  const it = new Item('stand', { ...o, name: { en: 'Laboratory stand', hi: 'लैब स्टैंड', hg: 'Lab stand' } });
   const base = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.01, 0.16), new THREE.MeshStandardMaterial({ color: 0x2b2f35, roughness: 0.6 })); base.position.y = 0.005; it.g.add(base);
   const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.0045, 0.0045, h, 12), steel()); rod.position.set(-0.03, h / 2, -0.05); it.g.add(rod);
   it.ring = (y, r, x = 0.0, z = 0) => { const arm = new THREE.Mesh(new THREE.BoxGeometry(0.004, 0.004, 0.05 + z), steel()); arm.position.set(-0.03, y, -0.025 + z / 2); it.g.add(arm); const ring = new THREE.Mesh(new THREE.TorusGeometry(r, 0.0022, 8, 32), steel()); ring.rotation.x = Math.PI / 2; ring.position.set(x, y, z); it.g.add(ring); return ring; };
@@ -108,13 +108,13 @@ export function rbFlask(o = {}) {
   const R = 0.034; const prof = [];
   for (let i = 0; i <= 14; i++) { const a = -Math.PI / 2 + (i / 14) * (Math.PI / 2 + 1.25); prof.push([Math.max(0.0001, Math.cos(a) * R), R + Math.sin(a) * R]); }
   prof.push([0.0105, 0.084], [0.0105, 0.14], [0.0115, 0.142]);
-  const v = new Vessel('rbflask', prof, { ...o, wall: 0.0014, name: o.name || { en: 'Distillation flask', hi: 'आसवन फ्लास्क', hg: 'Distillation flask' }, cap: 150 });
+  const v = new Vessel('rbflask', prof, { ...o, wall: 0.0014, name: o.name || { en: 'Distillation flask', hi: 'डिस्टिलेशन फ़्लास्क', hg: 'Distillation flask' }, cap: 150 });
   const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0035, 0.05, 12), glassMat({ opacity: 0.28 })); arm.position.set(0.024, 0.122, 0); arm.rotation.z = -1.89; arm.renderOrder = 6; v.g.add(arm);
   const cork = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.0095, 0.014, 16), new THREE.MeshStandardMaterial({ color: 0xb08850, roughness: 0.9 })); cork.position.y = 0.138; v.g.add(cork);
   v.armEnd = V3(0.047, 0.113, 0); v.cork = cork; cork.visible = false; v.grabY = 0.1; return v;
 }
 export function condenser(from, to, o = {}) { // a straight glass tube in a water jacket, from one world point to another
-  const it = new Item('condenser', { ...o, name: { en: 'Liebig condenser (cold water flows in the jacket)', hi: 'लीबिग संघनित्र (बाहरी नली में ठंडा पानी बहता है)', hg: 'Liebig condenser (jacket mein thanda paani)' } });
+  const it = new Item('condenser', { ...o, name: { en: 'Liebig condenser (cold water flows in the jacket)', hi: 'लीबिग कंडेंसर (बाहरी नली में ठंडा पानी बहता है)', hg: 'Liebig condenser (jacket mein thanda paani behta hai)' } });
   const d = to.clone().sub(from); const L = d.length(); const mid = from.clone().add(to).multiplyScalar(0.5); const q = new THREE.Quaternion().setFromUnitVectors(V3(0, 1, 0), d.clone().normalize());
   const inner = new THREE.Mesh(new THREE.CylinderGeometry(0.0034, 0.0034, L, 12, 1, true), glassMat({ opacity: 0.3 })); inner.renderOrder = 7; it.g.add(inner);
   const jacket = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, L * 0.72, 20, 1, true), glassMat({ opacity: 0.18 })); jacket.renderOrder = 6; it.g.add(jacket);
@@ -126,7 +126,7 @@ export function condenser(from, to, o = {}) { // a straight glass tube in a wate
 
 // ------------------------------------------------------------------ centrifuge: tubes spin fast and the heavier part is pushed to the bottom
 export function centrifuge(o = {}) {
-  const it = new Item('centrifuge', { ...o, name: { en: 'Centrifuge machine', hi: 'अपकेंद्रण मशीन (सेंट्रीफ्यूज)', hg: 'Centrifuge machine' } });
+  const it = new Item('centrifuge', { ...o, name: { en: 'Centrifuge machine', hi: 'सेंट्रीफ़्यूज मशीन', hg: 'Centrifuge machine' } });
   const body = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.08, 0.07, 40), new THREE.MeshStandardMaterial({ color: 0xe8ebee, roughness: 0.4 })); body.position.y = 0.035; it.g.add(body);
   const bowl = new THREE.Mesh(new THREE.CylinderGeometry(0.064, 0.064, 0.004, 40), new THREE.MeshStandardMaterial({ color: 0x3a4048, roughness: 0.5 })); bowl.position.y = 0.0705; it.g.add(bowl);
   const panel = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.03, 0.01), new THREE.MeshStandardMaterial({ color: 0x2a3038, roughness: 0.5 })); panel.position.set(0, 0.03, 0.079); it.g.add(panel);

@@ -11,7 +11,7 @@ const steel = (c = 0x9aa0a6, r = 0.35) => new THREE.MeshStandardMaterial({ color
 export const G = 9.8;
 
 // ------------------------------------------------------------------ a board with a surface on top: wood, glass, sandpaper or cloth (static / sliding friction)
-export const SURF = { wood: { ms: 0.42, mk: 0.34, en: 'Wooden board', hi: 'लकड़ी का तख़्ता', hg: 'Lakdi ka board' }, glass: { ms: 0.24, mk: 0.19, en: 'Glass sheet', hi: 'काँच की शीट', hg: 'Glass sheet' }, sand: { ms: 0.72, mk: 0.6, en: 'Sandpaper', hi: 'रेगमाल (सैंडपेपर)', hg: 'Sandpaper (regmaal)' }, cloth: { ms: 0.55, mk: 0.47, en: 'Cotton cloth', hi: 'सूती कपड़ा', hg: 'Cotton kapda' } };
+export const SURF = { wood: { ms: 0.42, mk: 0.34, en: 'Wooden board', hi: 'लकड़ी का तख़्ता', hg: 'Lakdi ka board' }, glass: { ms: 0.24, mk: 0.19, en: 'Glass sheet', hi: 'काँच की शीट', hg: 'Glass sheet' }, sand: { ms: 0.72, mk: 0.6, en: 'Sandpaper', hi: 'सैंडपेपर (रेगमाल)', hg: 'Sandpaper (regmaal)' }, cloth: { ms: 0.55, mk: 0.47, en: 'Cotton cloth', hi: 'सूती कपड़ा', hg: 'Cotton kapda' } };
 export function surfaceBoard(kind = 'wood', o = {}) {
   const S = SURF[kind]; const it = new Item('board', { ...o, name: o.name || { en: S.en, hi: S.hi, hg: S.hg } });
   const L = o.len ?? 0.5, W = 0.12; const base = new THREE.Mesh(new THREE.BoxGeometry(L, 0.012, W), new THREE.MeshStandardMaterial({ map: woodTex('#9a6a3c'), roughness: 0.7 })); base.position.y = 0.006; it.g.add(base);
@@ -29,7 +29,7 @@ export function hookBlock(o = {}) {
   it.mass = 0.4; it.hookLocal = V3(0.06, 0.02, 0); it.height = 0.045; it.radius = 0.06; it.grabY = 0.03; return it;
 }
 export function slottedMass(g = 200, o = {}) {
-  const it = new Item('smass', { ...o, name: o.name || { en: `Slotted mass (${g} g)`, hi: `खाँचेदार बाट (${g} ग्राम)`, hg: `Slotted mass (${g} g)` } });
+  const it = new Item('smass', { ...o, name: o.name || { en: `Slotted mass (${g} g)`, hi: `स्लॉटेड मास (${g} g)`, hg: `Slotted mass (${g} g)` } });
   const h = g >= 200 ? 0.014 : 0.008; const m = new THREE.Mesh(new THREE.CylinderGeometry(0.024, 0.024, h, 28), steel(0x8a8f96, 0.45)); m.position.y = h / 2; it.g.add(m);
   const t = canvasTex(128, 32, (x, w, hh) => { x.fillStyle = '#8a8f96'; x.fillRect(0, 0, w, hh); x.fillStyle = '#1b1b1b'; x.font = '700 22px sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(`${g} g`, w / 2, hh / 2); });
   const lab = new THREE.Mesh(new THREE.CircleGeometry(0.012, 20), new THREE.MeshStandardMaterial({ map: t, roughness: 0.5 })); lab.rotation.x = -Math.PI / 2; lab.position.y = h + 0.0003; it.g.add(lab);
@@ -37,7 +37,7 @@ export function slottedMass(g = 200, o = {}) {
 }
 // ------------------------------------------------------------------ a tray of loose sand; a dropped ball leaves a crater (deeper from a greater height)
 export function sandTray(o = {}) {
-  const it = new Item('sandtray', { ...o, name: o.name || { en: 'Tray of loose sand', hi: 'भुरभुरी रेत से भरी ट्रे', hg: 'Bhurbhuri ret wali tray' } });
+  const it = new Item('sandtray', { ...o, name: o.name || { en: 'Tray of loose sand', hi: 'भुरभुरी रेत वाली ट्रे', hg: 'Bhurbhuri ret wali tray' } });
   const W = 0.36, D = 0.26, H = 0.06; const wm = new THREE.MeshStandardMaterial({ map: woodTex('#7a5230'), roughness: 0.75 });
   for (const [w, d, x, z] of [[W, 0.012, 0, D / 2], [W, 0.012, 0, -D / 2], [0.012, D, W / 2, 0], [0.012, D, -W / 2, 0]]) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, H, d), wm); m.position.set(x, H / 2, z); it.g.add(m); }
   const fl = new THREE.Mesh(new THREE.BoxGeometry(W, 0.006, D), wm); fl.position.y = 0.003; it.g.add(fl);
@@ -55,7 +55,7 @@ export function heavyBall(o = {}) {
 }
 // ------------------------------------------------------------------ a calorimeter (copper cup in an insulating jacket) with a lid, a stirrer and a thermometer; it cools by Newton's law
 export function calorimeter(o = {}) {
-  const it = new Item('calorimeter', { ...o, name: o.name || { en: 'Calorimeter with stirrer and thermometer', hi: 'विलोडक और तापमापी सहित कैलोरीमीटर', hg: 'Stirrer aur thermometer wala calorimeter' } });
+  const it = new Item('calorimeter', { ...o, name: o.name || { en: 'Calorimeter with stirrer and thermometer', hi: 'स्टिरर और थर्मामीटर लगा कैलोरीमीटर', hg: 'Stirrer aur thermometer wala calorimeter' } });
   const jacket = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.12, 40, 1, true), new THREE.MeshStandardMaterial({ color: 0x5b4636, roughness: 0.85, side: THREE.DoubleSide })); jacket.position.y = 0.06; it.g.add(jacket);
   const jb = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.01, 40), new THREE.MeshStandardMaterial({ color: 0x5b4636, roughness: 0.85 })); jb.position.y = 0.005; it.g.add(jb);
   const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.042, 0.042, 0.1, 40, 1, true), new THREE.MeshStandardMaterial({ color: 0xc8743a, metalness: 0.9, roughness: 0.3, side: THREE.DoubleSide })); cup.position.y = 0.065; it.g.add(cup);
@@ -75,7 +75,7 @@ export function calorimeter(o = {}) {
 }
 // ------------------------------------------------------------------ a slinky stretched along the table: N coils, a 2D wave on a chain (along x: longitudinal, along z: transverse)
 export function slinky(o = {}) {
-  const it = new Item('slinky', { ...o, name: o.name || { en: 'Slinky (a long soft spring)', hi: 'स्लिंकी (लंबी नरम कमानी)', hg: 'Slinky (lambi soft spring)' } });
+  const it = new Item('slinky', { ...o, name: o.name || { en: 'Slinky (a long soft spring)', hi: 'स्लिंकी (लंबी, नरम स्प्रिंग)', hg: 'Slinky (lambi, soft spring)' } });
   const n = o.n ?? 90, L = o.len ?? 1.2, R = 0.032; const dx = L / (n - 1);
   const geo = new THREE.TorusGeometry(R, 0.0011, 5, 28); const mat = steel(0xc8ccd2, 0.25); const im = new THREE.InstancedMesh(geo, mat, n); im.frustumCulled = false; it.g.add(im);
   const mark = new THREE.Mesh(new THREE.TorusGeometry(R + 0.0015, 0.0022, 6, 28), new THREE.MeshStandardMaterial({ color: 0xd32f2f, roughness: 0.5 })); it.g.add(mark); it.markI = o.mark ?? Math.round(n * 0.45);
@@ -109,7 +109,7 @@ export function drum(o = {}) {
 }
 // ------------------------------------------------------------------ a balloon rocket: a straw on a long thread with a balloon taped under it
 export function balloonRocket(o = {}) {
-  const it = new Item('brocket', { ...o, name: o.name || { en: 'Balloon taped to a straw on a thread', hi: 'धागे पर स्ट्रॉ से चिपका गुब्बारा', hg: 'Dhaage par straw se chipka balloon' } });
+  const it = new Item('brocket', { ...o, name: o.name || { en: 'Balloon taped to a straw on a thread', hi: 'धागे में पिरोई स्ट्रॉ पर टेप से चिपका गुब्बारा', hg: 'Dhaage mein piroyi straw par chipka balloon' } });
   const straw = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0035, 0.08, 12, 1, true), new THREE.MeshStandardMaterial({ color: 0xf2f2f2, roughness: 0.4, side: THREE.DoubleSide })); straw.rotation.z = Math.PI / 2; it.g.add(straw);
   const bal = new THREE.Group(); bal.position.y = -0.006; it.g.add(bal); const bm = new THREE.MeshPhysicalMaterial({ color: 0xd83a3a, roughness: 0.25, clearcoat: 0.6, transparent: true, opacity: 0.95 });
   const body = new THREE.Mesh(new THREE.SphereGeometry(1, 28, 18), bm); bal.add(body); const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.003, 0.005, 0.016, 10), bm); neck.rotation.z = Math.PI / 2; bal.add(neck);
@@ -120,7 +120,7 @@ export function balloonRocket(o = {}) {
 }
 // ------------------------------------------------------------------ an inclined plank on a stack of books, and a toy cart
 export function inclinePlank(o = {}) {
-  const it = new Item('incline', { ...o, name: o.name || { en: 'Plank on a stack of books (inclined plane)', hi: 'किताबों पर रखा तख़्ता (आनत तल)', hg: 'Kitaabon par rakha plank (inclined plane)' } });
+  const it = new Item('incline', { ...o, name: o.name || { en: 'Plank on a stack of books (inclined plane)', hi: 'किताबों के ढेर पर रखा तख़्ता (ढलान, आनत तल)', hg: 'Kitaabon par rakha plank (inclined plane)' } });
   const L = o.len ?? 0.8, h = o.h ?? 0.4; const ang = Math.asin(h / L);
   const books = [0xb3262b, 0x2e6da4, 0x2e7d4f, 0xc9a24a, 0x6a4c93]; let y = 0; let i = 0; while (y < h - 0.002) { const t = Math.min(0.04, h - y); const b = new THREE.Mesh(new THREE.BoxGeometry(0.16, t, 0.22), new THREE.MeshStandardMaterial({ color: books[i++ % 5], roughness: 0.75 })); b.position.set(L * Math.cos(ang) / 2 + 0.06, y + t / 2, 0); it.g.add(b); y += t; }
   const pl = new THREE.Group(); pl.position.set(-L * Math.cos(ang) / 2, 0, 0); pl.rotation.z = ang; it.g.add(pl);
@@ -144,7 +144,7 @@ export function soundPipe(o = {}) {
   it.L = L; it.height = 0.044; it.radius = L / 2; it.grabY = 0.022; return it; // the pipe runs from the item's origin along local +x
 }
 export function hardBoard(o = {}) {
-  const it = new Item('hboard', { ...o, name: o.name || { en: 'Hard board (reflecting surface)', hi: 'कठोर बोर्ड (परावर्तक सतह)', hg: 'Hard board (reflecting surface)' } });
+  const it = new Item('hboard', { ...o, name: o.name || { en: 'Hard board (reflecting surface)', hi: 'सख़्त बोर्ड (रिफ़्लेक्ट करने वाली सतह)', hg: 'Hard board (reflecting surface)' } });
   const m = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.16, 0.012), new THREE.MeshStandardMaterial({ map: woodTex('#6b4a2e'), roughness: 0.6 })); m.position.y = 0.08; it.g.add(m);
   const ft = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.012, 0.06), new THREE.MeshStandardMaterial({ map: woodTex('#6b4a2e'), roughness: 0.6 })); ft.position.set(0, 0.006, 0.02); it.g.add(ft);
   it.height = 0.16; it.radius = 0.15; it.grabY = 0.08; return it;

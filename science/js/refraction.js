@@ -12,7 +12,7 @@ export const N_GLASS = 1.5;
 // ------------------------------------------------------------------ board + paper. Paper coordinates are in metres, origin at the centre, +u to the right, +v away from the student
 export function drawingBoard(o = {}) {
   const W = o.w ?? 0.34, H = o.h ?? 0.26; const PX = 3200; // pixels per metre on the sheet
-  const it = new Item('board', { ...o, name: o.name || { en: 'Drawing board with a white sheet', hi: 'सफ़ेद कागज़ लगा ड्रॉइंग बोर्ड', hg: 'White sheet laga drawing board' } });
+  const it = new Item('board', { ...o, name: o.name || { en: 'Drawing board with a white sheet', hi: 'सफ़ेद कागज़ लगा ड्रॉइंग बोर्ड', hg: 'Safed sheet laga drawing board' } });
   const base = new THREE.Mesh(new THREE.BoxGeometry(W + 0.04, 0.012, H + 0.04), new THREE.MeshStandardMaterial({ map: woodTex('#b98a55'), roughness: 0.7 })); base.position.y = 0.006; it.g.add(base);
   const c = document.createElement('canvas'); c.width = Math.round(W * PX); c.height = Math.round(H * PX); const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
   const paper = new THREE.Mesh(new THREE.PlaneGeometry(W, H), new THREE.MeshStandardMaterial({ map: tex, roughness: 0.95 })); paper.rotation.x = -Math.PI / 2; paper.position.y = 0.0123; it.g.add(paper);
@@ -78,7 +78,7 @@ export function pencil(o = {}) {
   it.height = 0.145; it.radius = 0.004; it.grabY = 0.08; it.layH = 0.0035; return it;
 }
 export function protractor(o = {}) {
-  const it = new Item('protractor', { ...o, name: o.name || { en: 'Protractor', hi: 'चाँदा', hg: 'Protractor (chanda)' } });
+  const it = new Item('protractor', { ...o, name: o.name || { en: 'Protractor', hi: 'चाँदा', hg: 'Protractor (chaanda)' } });
   const R = 0.05; const c = document.createElement('canvas'); c.width = 512; c.height = 256; const x = c.getContext('2d'); x.clearRect(0, 0, 512, 256); x.fillStyle = 'rgba(200,230,255,0.35)'; x.beginPath(); x.arc(256, 250, 250, Math.PI, 0); x.fill();
   x.strokeStyle = '#123'; x.fillStyle = '#123'; x.font = '600 20px sans-serif'; x.textAlign = 'center'; for (let a = 0; a <= 180; a++) { const q = Math.PI + (a * Math.PI) / 180; const L = a % 10 === 0 ? 26 : a % 5 === 0 ? 18 : 10; x.lineWidth = a % 10 ? 1 : 2; x.beginPath(); x.moveTo(256 + Math.cos(q) * 248, 250 + Math.sin(q) * 248); x.lineTo(256 + Math.cos(q) * (248 - L), 250 + Math.sin(q) * (248 - L)); x.stroke(); if (a % 20 === 0) x.fillText(String(a), 256 + Math.cos(q) * 200, 256 + Math.sin(q) * 200); }
   const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace;
