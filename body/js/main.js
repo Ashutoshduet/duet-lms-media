@@ -112,6 +112,7 @@ class App {
     this.applyLayers();
     this.vrui = new VRUI(this); this.world.add(this.vrui.group);
     this.setupXR();
+    if (window.DuetGate) { DuetGate.init({ app: 'body', title: 'Human Body 360', lang: () => this.lang }); DuetGate.attachVR({ THREE, renderer: this.renderer, scene: this.scene, camera: this.camera }); }
     this.buildHTML();
     this.bindInput();
     addEventListener('resize', () => this.onResize());
@@ -906,6 +907,7 @@ class App {
     return this.raycaster;
   }
   onSelect(c) {
+    if (window.DuetGate && DuetGate.active) return;
     this.audio.unlock();
     const rc = this.rayFrom(c);
     const ph = rc.intersectObjects(this.vrui.panels(), false)[0];
@@ -918,9 +920,11 @@ class App {
     this.pointAt(rc);
   }
   onSelectEnd(c) {
+    if (window.DuetGate && DuetGate.active) return;
     if (c.userData.drag) { c.userData.drag = null; this.onDrop(this.dis.release()); this.selPiece = null; }
   }
   grabStart(c) {
+    if (window.DuetGate && DuetGate.active) return;
     if (this.mode === 'game') { this.onSelect(c); return; }
     c.userData.grab = { cpos: new THREE.Vector3().setFromMatrixPosition(c.matrixWorld), pos: this.vrBody.pos.clone(), yaw: this.vrBody.yaw, cyaw: this.ctrlYaw(c), labYaw: this.lab.userYaw };
   }

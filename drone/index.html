@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="./duetgate.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a1017">
@@ -4484,6 +4485,7 @@ const xrCtl = [0, 1].map(i => {
   c.addEventListener('select', (ev) => { if (onXRSelect(c)) { const g = ev.data && ev.data.gamepad, a = g && g.hapticActuators && g.hapticActuators[0]; try { if (a && a.pulse) a.pulse(0.3, 25); } catch (e) { } } });
   return c;
 });
+if (window.DuetGate) { DuetGate.init({ app: 'drone', title: 'Drone Simulator' }); DuetGate.attachVR({ THREE, renderer, scene, parent: rig, camera }); }
 const _xrRc = new THREE.Raycaster(), _xrRot = new THREE.Matrix4(), _xrE = new THREE.Euler();
 function menuHit(c) {
   if (!xrMenu.visible || !c.visible) return null;
@@ -4536,6 +4538,7 @@ function xrPadNav(dir) {
 }
 function xrPadPress() { const b = XRM.buttons[XRM.focus]; if (b && !b.off) xrAction(b.id); else xrPadFocus(); }
 function onXRSelect(c) {
+  if (window.DuetGate && DuetGate.active) return false;
   if (!XRM.menuOpen) return false;
   const h = menuHit(c); if (!h || h.i < 0) return false;
   xrAction(XRM.buttons[h.i].id); return true;
@@ -4651,7 +4654,7 @@ renderer.setAnimationLoop(() => {
   const now = performance.now(); let dt = (now - last) / 1000; last = now; if (dt > 0.1) dt = 0.1;
   if (renderer.xr.isPresenting) pollXR();
   const input = readInputs(dt);
-  const paused = sim.menu || sim.userPause || !$('#help').hidden || !$('#settings').hidden || !$('#gallery').hidden || replay.on;
+  const paused = sim.menu || sim.userPause || !!(window.DuetGate && DuetGate.active) || !$('#help').hidden || !$('#settings').hidden || !$('#gallery').hidden || replay.on;
   sim.paused = paused;
   updateWind(dt);
   if (!paused) {

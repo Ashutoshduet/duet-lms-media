@@ -2,6 +2,16 @@
  "v": 1,
  "note": "DUET STEM subscription codes: hashes only",
  "codes": {
+  "38bfb6786964791a7b98a859a67ad75e4ec92756e55f8e1559013f2f89a36bca": {
+   "u": "2027-12-31",
+   "a": [
+    "body",
+    "space",
+    "drone"
+   ],
+   "n": 0,
+   "e": "RX8NCnftI2eSIuRpBpFOHh3nHhSX3HKZ50b1UDlFROlZCUK9lMNKSqotHF3nqkiEm/UCY52V0E1ggA+uCqwW4vtS"
+  },
   "9f2c7ab614f3df7c8bd3042fc66449b1ed96d8e750dd75323f4454448492e3e2": {
    "u": "2027-12-31",
    "a": [

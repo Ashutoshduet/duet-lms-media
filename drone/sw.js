@@ -1,15 +1,15 @@
 // DUET Drone Simulator offline support. Page and code: network first, but never wait more than 2.5 s
 // (school Wi-Fi often has no internet). Libraries, fonts and icons: cache first.
-const VERSION = 'dsim-v4';
+const VERSION = 'dsim-v5';
 const CORE = [
   './', './index.html', './manifest.webmanifest',
   './lib/three.module.js', './lib/addons/objects/Sky.js', './lib/addons/controls/OrbitControls.js', './lib/addons/utils/BufferGeometryUtils.js',
   './fonts/chakra-petch-latin-600-normal.woff2', './fonts/chakra-petch-latin-700-normal.woff2',
   './fonts/ibm-plex-sans-latin-400-normal.woff2', './fonts/ibm-plex-sans-latin-500-normal.woff2', './fonts/ibm-plex-sans-latin-600-normal.woff2',
   './fonts/ibm-plex-mono-latin-500-normal.woff2', './fonts/ibm-plex-mono-latin-700-normal.woff2',
-  './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png', './brand/duet-stem-logo-light.png',
+  './icons/icon-192.png', './icons/icon-512.png', './icons/maskable-512.png', './icons/apple-touch-icon.png', './brand/duet-stem-logo-light.png', './duetgate.js',
 ];
-const NETWORK_FIRST = /\.(html|webmanifest)$|\/$/;
+const NETWORK_FIRST = /\.(html|webmanifest)$|\/$|duetgate\.js$/;
 // cache: 'reload' so a new version never copies stale files out of the browser's own HTTP cache
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => {

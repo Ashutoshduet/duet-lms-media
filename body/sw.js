@@ -11,7 +11,7 @@ const CORE = [
   './models/body.glb', './models/paths.json', './models/meta3.json', './models/objects.json', './models/content.json', './models/kidney.glb',
   './fonts/nsd-latin-400.woff2', './fonts/nsd-latin-600.woff2', './fonts/nsd-latin-700.woff2',
   './fonts/nsd-deva-400.woff2', './fonts/nsd-deva-600.woff2', './fonts/nsd-deva-700.woff2',
-  './icons/icon-192.png', './icons/icon-512.png', './brand/duet-stem-logo-light.png',
+  './icons/icon-192.png', './icons/icon-512.png', './brand/duet-stem-logo-light.png', './duetgate.js',
 ];
 const NETWORK_FIRST = /\.(js|json|html|webmanifest)$|\/$/;
 

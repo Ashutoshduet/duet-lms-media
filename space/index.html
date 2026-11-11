@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="duetgate.js"></script><script>DuetGate.init({app:"space",title:"Solar System 360"})</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -2851,13 +2852,15 @@ function SaurXR(stage,menuEl,opt){
   const showRay=c=>(mode==="vr"||mode==="ar")&&c.userData.mode==="tracked-pointer";
   const grab={c:null,off:new T.Matrix4()},gm=new T.Matrix4(),gp=new T.Vector3(),gq=new T.Quaternion(),gs=new T.Vector3(),ge=new T.Euler(0,0,0,"YXZ");
   const ctrls=[0,1].map(i=>{const c=R.xr.getController(i);c.addEventListener("select",()=>onXRSelect(c));
-    c.addEventListener("selectstart",()=>{if(mode==="vr"&&SPACE&&SPACE.hold)SPACE.hold(c,true)});c.addEventListener("selectend",()=>{if(SPACE&&SPACE.hold)SPACE.hold(c,false)});
-    c.addEventListener("squeezestart",()=>{if(!R.xr.isPresenting||!W.visible)return;W.updateMatrixWorld();c.updateMatrixWorld();grab.c=c;grab.off.copy(c.matrixWorld).invert().multiply(W.matrixWorld);hideHint()});
+    c.addEventListener("selectstart",()=>{if(window.DuetGate&&DuetGate.active)return;if(mode==="vr"&&SPACE&&SPACE.hold)SPACE.hold(c,true)});c.addEventListener("selectend",()=>{if(SPACE&&SPACE.hold)SPACE.hold(c,false)});
+    c.addEventListener("squeezestart",()=>{if(!R.xr.isPresenting||!W.visible||(window.DuetGate&&DuetGate.active))return;W.updateMatrixWorld();c.updateMatrixWorld();grab.c=c;grab.off.copy(c.matrixWorld).invert().multiply(W.matrixWorld);hideHint()});
     c.addEventListener("squeezeend",()=>{if(grab.c===c)grab.c=null});
     const ln=new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(),new T.Vector3(0,0,-1)]),new T.LineBasicMaterial({color:0xffb347,transparent:true,opacity:.8}));ln.scale.z=4;ln.visible=false;c.add(ln);c.userData.ln=ln;
     c.addEventListener("connected",e=>{c.userData.mode=e.data&&e.data.targetRayMode;c.userData.hand=e.data&&e.data.handedness;ln.visible=showRay(c)});
     c.addEventListener("disconnected",()=>{ln.visible=false;if(grab.c===c)grab.c=null});S.add(c);return c});
+  if(window.DuetGate)DuetGate.attachVR({THREE:T,renderer:R,scene:S,camera:cam});
   function onXRSelect(c){
+    if(window.DuetGate&&DuetGate.active)return;
     if(mode==="vr"&&SPACE){SPACE.select(c);return}
     if(bar.visible){const id=barHit(ctrlRay(c));if(id){barPress(id);return}}
     if(mode==="ar"&&!placed){if(reticle.visible)placeAt(reticle.matrix);return}
