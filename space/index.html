@@ -8039,7 +8039,7 @@ PADCTX.land={look3d:true,
 /* save the big files (panoramas + self-hosted videos) for offline use */
 function landSaveInit(){
   const b=$("#landSave"),st=$("#landSaveSt");if(landSaveInit.done)return;landSaveInit.done=true;
-  if(EMB||!("caches" in window)||!("serviceWorker" in navigator)||location.protocol==="file:"){b.parentNode.hidden=true;return}
+  if(EMB||window.DuetNative||!("caches" in window)||!("serviceWorker" in navigator)||location.protocol==="file:"){b.parentNode.hidden=true;return}
   const big=PANO8K&&(/OculusBrowser|Quest/i.test(navigator.userAgent)||!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
   const urls=[...PANOS.flatMap(p=>big?[`pano/${p.id}-4k.jpg`,`pano/${p.id}-8k.jpg`]:[`pano/${p.id}-4k.jpg`]),...LANDINGS.flatMap(m=>m.videos.filter(v=>v.src).flatMap(v=>[v.src,v.poster]))];
   // the app saves all of these by itself now; the button only shows while something is still missing
@@ -8481,6 +8481,7 @@ else if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting()
 (function(){
   var els=[].slice.call(document.querySelectorAll("[data-off]"));
   function show(t,ok){els.forEach(function(el){el.textContent=t;el.classList.toggle("ok",!!ok);el.hidden=false})}
+  if(window.DuetNative)return; // the Android app carries every file inside the install
   if(location.protocol==="file:"){show("Opened as a file: 3D and offline saving need http(s)://. See README.");return}
   if(!("serviceWorker" in navigator)){show("This browser cannot save the site for offline use");return}
   var secure=location.protocol==="https:"||/^(localhost|127\.0\.0\.1)$/.test(location.hostname);

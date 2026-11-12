@@ -1244,6 +1244,7 @@ class App {
 
   // ------------------------------------------------------------ offline
   setupOffline() {
+    if (window.DuetNative) { this.offline = { have: 1, total: 1, busy: false }; this.showOffline(); return; } // the Android app carries every file
     if (!('serviceWorker' in navigator) || Q.has('shot')) return;
     navigator.serviceWorker.addEventListener('message', (e) => {
       const d = e.data || {};

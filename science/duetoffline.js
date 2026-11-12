@@ -2,7 +2,7 @@
 // The first time the app opens with internet it saves every file on the device (sw.js does the work);
 // this card shows the progress until it is done, then says it now works without internet and goes away.
 (() => {
-  if (!('serviceWorker' in navigator) || /[?&](test|shot)\b/.test(location.search) || window.DUET_NATIVE) return;
+  if (!('serviceWorker' in navigator) || /[?&](test|shot)\b/.test(location.search) || window.DUET_NATIVE || window.DuetNative) return;
   const SW = navigator.serviceWorker;
   let st = null, card = null, bar = null, l1 = null, l2 = null, hideT = 0, shownBusy = false;
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { /* not offered */ }
