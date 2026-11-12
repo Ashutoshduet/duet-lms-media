@@ -390,6 +390,11 @@ export class App {
     } catch (e) { this.setAR(false); this.xrErr = `${e.name}: ${e.message}`; if (Q.get('app') === 'vr') document.body.classList.add('xr-wait'); if (user) this.ui.toast('AR: ' + e.message); }
     this._starting = 0;
   }
+  // from inside the headset: leave VR for AR (the real room) or back; if the headset wants a tap first, the big buttons show
+  switchXR() {
+    const s = this.renderer.xr.getSession(); const toAR = !this.ar; if (!s) { if (toAR) this.startAR(true); else this.startVR(true); return; }
+    this._vrEnded = true; s.addEventListener('end', () => setTimeout(() => { document.body.classList.add('xr-wait'); if (toAR) this.startAR(false); else this.startVR(false); }, 400)); s.end();
+  }
   setAR(on) {
     this.ar = on; document.body.classList.toggle('in-ar', on);
     if (on) { this._bg = this._bg || this.scene.background; this.scene.background = null; this.renderer.setClearAlpha(0); } else if (this._bg) { this.scene.background = this._bg; this.renderer.setClearAlpha(1); }

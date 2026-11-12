@@ -176,10 +176,12 @@ export class UI {
     P.btn('voice', 748, 1270, 212, 84, (a.audio.voice ? '🔊 ' : '🔇 ') + this.t('voice'), { size: 26, align: 'center' });
     // eye height in the headset: lower / raise the view, or let it set itself
     const eh = a.renderer.xr.isPresenting ? a.eyeY() : 0; const HL = { en: 'Eye height', hi: 'आँखों की ऊँचाई', hg: 'Aankhon ki height' };
-    P.btn('hgt_dn', 40, 1376, 150, 84, '▼', { size: 34, align: 'center' });
-    P.x.font = `600 26px ${FONT}`; const hl = `${HL[L] || HL.en} ${eh ? eh.toFixed(2) + (L === 'hi' ? ' मी' : ' m') : ''}`; P.text(hl, 350 - P.x.measureText(hl).width / 2, 1404, 26, '#e2dccf', 600);
-    P.btn('hgt_up', 510, 1376, 150, 84, '▲', { size: 34, align: 'center' });
-    P.btn('hgt_auto', 676, 1376, 284, 84, { en: 'Auto height', hi: 'ऊँचाई अपने-आप', hg: 'Auto height' }[L] || 'Auto height', { size: 26, align: 'center', active: a._hgtAuto });
+    const AR = !!a.canAR; // a headset that can show the real room: one more button, to switch between VR and AR (passthrough)
+    P.btn('hgt_dn', 40, 1376, AR ? 110 : 150, 84, '▼', { size: 34, align: 'center' });
+    P.x.font = `600 ${AR ? 22 : 26}px ${FONT}`; const hl = `${HL[L] || HL.en} ${eh ? eh.toFixed(2) + (L === 'hi' ? ' मी' : ' m') : ''}`; P.text(hl, (AR ? 285 : 350) - P.x.measureText(hl).width / 2, AR ? 1406 : 1404, AR ? 22 : 26, '#e2dccf', 600);
+    P.btn('hgt_up', AR ? 420 : 510, 1376, AR ? 110 : 150, 84, '▲', { size: 34, align: 'center' });
+    P.btn('hgt_auto', AR ? 546 : 676, 1376, AR ? 214 : 284, 84, { en: 'Auto height', hi: 'ऊँचाई अपने-आप', hg: 'Auto height' }[L] || 'Auto height', { size: AR ? 22 : 26, align: 'center', active: a._hgtAuto });
+    if (AR) P.btn('xr_switch', 776, 1376, 184, 84, a.ar ? 'VR' : 'AR', { size: 30, align: 'center', primary: true });
     P.commit();
     if (a.codeVR) { this.drawCodeVR(); return; }
     // story
@@ -305,6 +307,7 @@ export class UI {
     if (id.startsWith('ck_')) { a.codeKey(id.slice(3)); this.dirty = true; return; }
     if (id === 'code') { a.askCode(null); this.dirty = true; return; }
     if (id === 'hgt_dn' || id === 'hgt_up') { a.setHeight((a.hgt || 0) + (id === 'hgt_up' ? 0.05 : -0.05)); setTimeout(() => { this.dirty = true; }, 150); return; }
+    if (id === 'xr_switch') { a.switchXR(); return; }
     if (id === 'hgt_auto') { try { localStorage.removeItem('sl360.hgt'); } catch (e) {} a._hgtAuto = true; a.autoHeight(); setTimeout(() => { this.dirty = true; }, 150); return; }
     if (id.startsWith('sub_')) { this.setSubject(id.slice(4)); }
     else if (id === 'view_topic') this.setView('topic'); else if (id === 'top_back') { this.topic = null; this.page = 0; } else if (id.startsWith('top_')) this.setTopic(id.slice(4));
