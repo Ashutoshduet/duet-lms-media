@@ -24,6 +24,12 @@ WHAT IS INSIDE
                      Brain and nerves (5), Bones and muscles (4).
   Take apart         Organs or bones float out of the body, labelled; point at any piece.
   Put back game      Drag (or grab in VR) each organ or bone back to its place in the body.
+  Hands-on           Take any part out of the body: in VR squeeze the grip on it (or pinch and hold);
+                     turn it in your hand, leave it in the air, resize it with both hands, bring it
+                     near its place to put it back. On a screen: pick a part, Take out, then drag it.
+  Cut                VR: a see-through blade in your hand cuts away everything between your hand and
+                     the blade (trigger leaves it in place). Screen: a slice from the front, side or
+                     top that moves deeper with a button.
   Teacher voice      Recorded offline narration in English, Hindi and Hinglish; voice and
                      sound effects can each be switched on/off.
 

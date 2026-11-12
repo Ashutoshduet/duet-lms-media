@@ -1,0 +1,10 @@
+{
+  "name": "duet-devtools",
+  "private": true,
+  "description": "Build, test and narration tools for the DUET STEM web apps (not part of any app).",
+  "type": "module",
+  "dependencies": {
+    "iwer": "^2.6.0",
+    "puppeteer-core": "^25.15.0"
+  }
+}
