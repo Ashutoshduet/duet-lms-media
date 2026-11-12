@@ -12,6 +12,7 @@ import { VRUI } from './vrui.js';
 import { ZoomStand } from './zoom.js';
 import { Lab, LABS, LAB_IDS } from './lab.js';
 import { Dismantle } from './dismantle.js';
+import { Handson, Cutter, OUT } from './handson.js';
 import { JOURNEYS, SYSTEMS, T } from './data.js';
 import { LANGS, C, tx, partInfo, hasAudio, loadContent } from './content.js';
 
@@ -19,6 +20,7 @@ const Q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);
 const clock = new THREE.Clock();
 const V3 = (a) => new THREE.Vector3(a[0], a[1], a[2]);
+const t0 = (k, l) => tx(T[k], l) || '';
 
 if (!LAYERS.digestive.includes('rectum')) LAYERS.digestive.push('rectum');
 const FINE = ['arteries_minor', 'veins_minor', 'nerves_minor'];
@@ -93,6 +95,9 @@ class App {
     this.zoom = new ZoomStand(this); this.world.add(this.zoom.group);
     this.lab = new Lab(this); this.world.add(this.lab.group); this.lab.group.position.set(0, 1.12, 0);
     this.dis = new Dismantle(this); this.bodyRoot.add(this.dis.group);
+    this.hands = new Handson(this); this.bodyRoot.add(this.hands.group);
+    this.hands.onBack = (p) => { if (this.sel && this.sel.pid === p.userData.pid) this.makePickLabel(); this.audio.chime(); this.refreshUI(); };
+    this.cut = new Cutter(this);
 
     this.setLoading(0.02);
     const [, paths, meta3, objects] = await Promise.all([
@@ -287,6 +292,7 @@ class App {
     this.playing = false; this.journey = null; this.step = null;
     this.flows.set([]); this.tracer.stop(); this.mag.show(null); this.zoom.hide();
     this.clearSel(); this.showAll(true); this.clearLabels();
+    this.hands.clear(); if (this.cut.on) this.cut.set(false);
     if (this.mode === 'lab') { this.lab.close(); this.labId = null; this.labSel = null; }
     if (this.mode === 'dismantle' || this.mode === 'game') { this.dis.clear(); this.selPiece = null; this.restoreGroups(); }
     this.bodyRoot.visible = true;
@@ -403,7 +409,7 @@ class App {
     if (this.isolated && this.isolated !== pid) this.isolate(pid);
     const center = pm ? V3(pm.center) : this.anchorFor(group);
     const size = pm ? Math.max(pm.max[0] - pm.min[0], pm.max[1] - pm.min[1], pm.max[2] - pm.min[2]) : 0.2;
-    this.sel = { pid, group, center, size, point: opts.point ? opts.point.clone() : this.anchorOnPart(pid, center) };
+    this.sel = { pid, group, center, size, oid: opts.oid ?? -1, point: opts.point ? opts.point.clone() : this.anchorOnPart(pid, center) };
     this.makePickLabel();
     if (opts.from === 'list' && this.mode !== 'journey') { this.body.focus([group], 0.1); this.setSkin(0.4); }
     if (opts.from === 'list' || opts.zoom) this.focusSel();
@@ -810,12 +816,12 @@ class App {
     for (const h of hits) {
       const g = h.object.userData.part;
       const oid = this.body.oidAtHit(h);
-      if (oid >= 0 && (this.body.state.flags(oid) & 3)) continue;
+      if (oid >= 0 && (this.body.state.flags(oid) & (3 | OUT))) continue;
       if (g === 'skin') { skin ||= { h, oid }; continue; }
       const pid = oid >= 0 ? this.body.objects[oid].part : g;
-      return { hit: h, pid, point: this.bodyRoot.worldToLocal(h.point.clone()) };
+      return { hit: h, pid, oid, point: this.bodyRoot.worldToLocal(h.point.clone()) };
     }
-    if (skin && skin.oid >= 0 && this.body.layerOn.skin) return { hit: skin.h, pid: this.body.objects[skin.oid].part, point: this.bodyRoot.worldToLocal(skin.h.point.clone()) };
+    if (skin && skin.oid >= 0 && this.body.layerOn.skin) return { hit: skin.h, pid: this.body.objects[skin.oid].part, oid: skin.oid, point: this.bodyRoot.worldToLocal(skin.h.point.clone()) };
     return null;
   }
   // one click / trigger press, in any mode
@@ -823,8 +829,18 @@ class App {
     if (this.mode === 'lab') { const h = this.lab.pick(rc); if (h) this.selectLabPart(h.pid, h.point); return; }
     if (this.mode === 'dismantle') { const h = this.dis.pick(rc); this.selectPiece(h ? h.piece : null); return; }
     if (this.mode === 'game') return;
+    const hp = this.hands.pick(rc); if (hp) { this.selectOut(hp.piece); return; }
     const h = this.pickBody(rc);
-    if (h) this.selectPart(h.pid, { point: h.point });
+    if (h) this.selectPart(h.pid, { point: h.point, oid: h.oid });
+  }
+  // a part that is out of the body: its card, its name on the piece
+  selectOut(p) { this.selectPart(p.userData.pid, { point: p.position.clone() }); }
+  viewerInBody() { const v = this.inXR() ? this.headPose().pos.clone() : this.camera.position.clone(); return this.bodyRoot.worldToLocal(v); }
+  takeOut() {
+    const s = this.sel; if (!s) return;
+    const p = this.hands.take(s.pid, s.oid); if (!p) return;
+    this.hands.floatOut(p, this.viewerInBody());
+    this.audio.chime(); this.refreshUI();
   }
   setHover(pid) {
     if (pid === this.hoverPid) return;
@@ -916,7 +932,18 @@ class App {
     this.audio.unlock();
     const rc = this.rayFrom(c);
     const ph = rc.intersectObjects(this.vrui.panels(), false)[0];
-    if (ph) { const id = ph.object.userData.panel.hitUV(ph.uv); if (id) this.action(id); return; }
+    if (ph) { const id = ph.object.userData.panel.hitUV(ph.uv); if (id) { this.lastCtrl = c; this.action(id); } return; }
+    if (this.mode === 'explore' || this.mode === 'part') {
+      // the hand holding the blade: leave it where it is / pick it up again
+      if (this.cut.on && this.cut.hand === c) { this.cut.freeze(); this.refreshUI(); return; }
+      // a piece in the air: hold it with the trigger (or a pinch)
+      const hp = this.hands.pick(rc);
+      if (hp) { this.hands.grab(hp.piece, c); c.userData.holdSel = true; this.selectOut(hp.piece); return; }
+      // a part in the body: its name and job now; keep holding to pull it out
+      const h = this.pickBody(rc);
+      if (h) { this.selectPart(h.pid, { point: h.point, oid: h.oid }); c.userData.pend = { pid: h.pid, oid: h.oid, t: 0 }; }
+      return;
+    }
     if (this.mode === 'game') {
       const h = this.dis.pick(rc);
       if (h) { this.dis.grab(h.piece, h.point); this.lastHeld = h.piece; c.userData.drag = { dist: h.distance }; this.selPiece = h.piece; this.holding(h.piece); }
@@ -925,15 +952,44 @@ class App {
     this.pointAt(rc);
   }
   onSelectEnd(c) {
+    c.userData.pend = null;
+    if (c.userData.holdSel) { c.userData.holdSel = false; this.letGo(c); }
     if (window.DuetGate && DuetGate.active) return;
     if (c.userData.drag) { c.userData.drag = null; this.onDrop(this.dis.release()); this.selPiece = null; }
   }
   grabStart(c) {
     if (window.DuetGate && DuetGate.active) return;
     if (this.mode === 'game') { this.onSelect(c); return; }
+    if (this.mode === 'explore' || this.mode === 'part') {
+      // grip on a piece in the air, or on any part of the body (within reach): it comes out into the hand
+      const rc = this.rayFrom(c);
+      if (!rc.intersectObjects(this.vrui.panels(), false).length) {
+        const hp = this.hands.pick(rc);
+        if (hp) { this.hands.grab(hp.piece, c); c.userData.holdGrip = true; this.selectOut(hp.piece); return; }
+        const h = this.pickBody(rc);
+        if (h && h.hit.distance < 2.5 && this.pullOut(h.pid, h.oid, c, h.point)) { c.userData.holdGrip = true; return; }
+      }
+    }
     c.userData.grab = { cpos: new THREE.Vector3().setFromMatrixPosition(c.matrixWorld), pos: this.vrBody.pos.clone(), yaw: this.vrBody.yaw, cyaw: this.ctrlYaw(c), labYaw: this.lab.userYaw };
   }
-  grabEnd(c) { if (c.userData.drag) this.onSelectEnd(c); c.userData.grab = null; }
+  grabEnd(c) { if (c.userData.holdGrip) { c.userData.holdGrip = false; this.letGo(c); } if (c.userData.drag) this.onSelectEnd(c); c.userData.grab = null; }
+  // VR: the part comes out of the body into this hand
+  pullOut(pid, oid, c, point) {
+    // the part's card first (in the free demo this also checks that the part is open)
+    if (!this.sel || this.sel.pid !== pid) { this.selectPart(pid, { point, oid }); if (!this.sel || this.sel.pid !== pid) return false; }
+    const p = this.hands.take(pid, oid); if (!p) return false;
+    this.hands.grab(p, c, true);
+    this.makePickLabel();
+    this.audio.chime(); this.refreshUI();
+    const src = c.userData.src; try { src && src.gamepad && src.gamepad.hapticActuators && src.gamepad.hapticActuators[0] && src.gamepad.hapticActuators[0].pulse(0.4, 60); } catch (e) {}
+    return true;
+  }
+  letGo(c) {
+    const r = this.hands.release(c);
+    if (r === 'back') this.feedbackToast(tx(T.backInPlace, this.lang));
+    this.refreshUI();
+  }
+  feedbackToast(msg) { if (this.inXR()) { this.feedback = msg; } else this.toast(msg, 2200); }
   ctrlYaw(c) { const d = new THREE.Vector3(0, 0, -1).applyQuaternion(c.getWorldQuaternion(new THREE.Quaternion())); return Math.atan2(d.x, d.z); }
   xrInput(dt) {
     // both grips held: pull the hands apart to zoom in, bring them together to zoom out
@@ -948,6 +1004,12 @@ class App {
       this.pinch = null;
       for (const c of this.controllers) if (c.userData.grab) this.grabStart(c); // keep the other hand's grab from jumping
     }
+    for (const c of this.controllers) {
+      // trigger / pinch held on a part for a moment: it comes out into the hand
+      const pd = c.userData.pend;
+      if (pd) { pd.t += dt; if (pd.t > 0.45) { c.userData.pend = null; if (this.pullOut(pd.pid, pd.oid, c)) c.userData.holdSel = true; } }
+    }
+    this.hands.follow();
     for (const c of this.controllers) {
       if (!c.userData.src) continue;
       const rc = this.rayFrom(c);
@@ -976,6 +1038,7 @@ class App {
       if (gp && gp.axes) {
         const ax = gp.axes.length >= 4 ? gp.axes[2] : gp.axes[0], ay = gp.axes.length >= 4 ? gp.axes[3] : gp.axes[1];
         if (c.userData.drag) { if (Math.abs(ay) > 0.35) c.userData.drag.dist = THREE.MathUtils.clamp(c.userData.drag.dist - ay * dt * 0.8, 0.2, 3); }
+        else if (this.hands.holding(c)) { if (Math.abs(ay) > 0.35) this.hands.reach(c, -ay * dt * 0.8); }
         else if (Math.abs(ay) > 0.6 && Math.abs(ay) > Math.abs(ax) * 1.5) {
           // thumbstick up = zoom in, down = zoom out (every mode, museum too)
           const f = Math.exp(-ay * dt * 0.9);
@@ -1031,6 +1094,16 @@ class App {
     else if (id === 'zoom') this.focusSel();
     else if (id === 'openlab') { const l = this.sel && this.labFor(this.sel.pid); if (l) this.openLab(l, 0, true); }
     else if (id === 'tour') { this.labSel = null; this.lab.select(null); this.lab.pickLabel(null); this.speakLabStep(); }
+    else if (id === 'takeout') this.takeOut();
+    else if (id === 'putback') { const p = this.sel && this.hands.find(this.sel.pid); if (p) this.hands.putBack(p); }
+    else if (id === 'putall') this.hands.putAllBack();
+    else if (id === 'turn') { const p = this.sel && this.hands.find(this.sel.pid); if (p) this.hands.turn(p); }
+    else if (id === 'cut') { if (this.cut.on) this.cut.set(false); else { this.cut.set(true, this.inXR() ? (this.lastCtrl || this.controllers[1] || this.controllers[0]) : null); if (!this.inXR()) this.cut.depth = 0.06; this.clearSel(); if (this.mode === 'part') this.mode = 'explore'; this.zoom.hide(); this.narrate('ui-cut', t0(this.inXR() ? 'cutHintVR' : 'cutHintScreen', this.lang)); } }
+    else if (id === 'cut_off') this.cut.set(false);
+    else if (id === 'cut_in') this.cut.deeper(0.02);
+    else if (id === 'cut_out') this.cut.deeper(-0.02);
+    else if (id === 'cut_axis') this.cut.nextAxis();
+    else if (id === 'cut_freeze') this.cut.freeze();
     else if (id === 'deselect') { this.clearSel(); if (this.mode === 'part') this.mode = 'explore'; this.zoom.hide(); this.audio.stopSpeech(); }
     else if (id.startsWith('l_')) { const k = id.slice(2); if (k === 'fine') this.toggleFine(); else this.toggleLayer(k); }
     else if (id.startsWith('lang_')) this.setLang(id.slice(5));
@@ -1084,13 +1157,27 @@ class App {
       return { kicker: `${t('assemble')} · ${t(this.dis.set === 'bones' ? 'bonesSet' : 'organsSet')}`, color: '#9fd17a', title: `${this.dis.placed} / ${this.dis.total()} ${t('placed')}`, text: this.feedback || t('assembleHint'),
         buttons: [{ id: 'hint', label: t('hint'), primary: true }, { id: 'restart', label: t('restart') }, { id: 'explore', label: t('home') }] };
     }
+    if (this.cut.on && !this.sel) {
+      const ax = t('cutAxes').split('|');
+      const b = this.inXR() && this.cut.hand ? [{ id: 'cut_freeze', label: this.cut.frozen ? t('cutTake') : t('cutHold'), primary: true }, { id: 'cut_off', label: t('cutClose') }]
+        : [{ id: 'cut_out', label: t('cutBack') }, { id: 'cut_in', label: t('cutDeeper'), primary: true }, { id: 'cut_axis', label: t('cutAxis') + ax[this.cut.axis] }];
+      const b2 = this.inXR() && this.cut.hand ? [] : [{ id: 'cut_off', label: t('cutClose') }];
+      if (this.hands.count()) b2.unshift({ id: 'putall', label: t('putAllBack') });
+      return { kicker: t('explore') + ' · ' + t('cut'), color: '#7fd1ff', title: t('cutTitle'), text: t(this.inXR() && this.cut.hand ? 'cutHintVR' : 'cutHintScreen'), buttons: b, buttons2: b2 };
+    }
     if (this.sel) {
       const p = partInfo(this.sel.pid, L); const sys = C.parts[p.id] && C.parts[p.id].sys; const lab = this.labFor(this.sel.pid);
+      const col = sys && SYSTEMS[sys] ? SYSTEMS[sys].color : '#d9d2c3', kick = `${t('organs')}${sys && SYSTEMS[sys] ? ' · ' + tx(SYSTEMS[sys], L) : ''}`;
+      if (this.hands.isOut(this.sel.pid)) {
+        const b2 = []; if (this.hands.count() > 1) b2.push({ id: 'putall', label: t('putAllBack') }); if (lab) b2.push({ id: 'openlab', label: t('openLab') }); b2.push({ id: 'deselect', label: '✕' });
+        return { kicker: kick, color: col, title: p.name, text: this.infoText(p), buttons: [{ id: 'replay', label: t('listen') }, { id: 'turn', label: t('turnIt') }, { id: 'putback', label: t('putBack'), primary: true }], buttons2: b2 };
+      }
       const b = [{ id: 'replay', label: t('listen') }, this.isolated ? { id: 'showall', label: t('showAll') } : { id: 'isolate', label: t('isolate') }, { id: 'zoom', label: t('zoomIn') }];
-      const b2 = []; if (lab) b2.push({ id: 'openlab', label: t('openLab'), primary: true }); b2.push({ id: 'deselect', label: '✕' });
-      return { kicker: `${t('organs')}${sys && SYSTEMS[sys] ? ' · ' + tx(SYSTEMS[sys], L) : ''}`, color: sys && SYSTEMS[sys] ? SYSTEMS[sys].color : '#d9d2c3', title: p.name, text: this.infoText(p), buttons: b, buttons2: b2 };
+      const b2 = [{ id: 'takeout', label: t('takeOut'), primary: true }]; if (lab) b2.push({ id: 'openlab', label: t('openLab') }); b2.push({ id: 'cut', label: t('cut'), active: this.cut.on }); b2.push({ id: 'deselect', label: '✕' });
+      return { kicker: kick, color: col, title: p.name, text: this.infoText(p), buttons: b, buttons2: b2 };
     }
-    return { kicker: t('explore'), color: '#d9d2c3', title: t('title'), text: t('exploreHint') + ' ' + t('pickOrgan'), buttons: [] };
+    const eb = [{ id: 'cut', label: t('cut'), active: this.cut.on }]; if (this.hands.count()) eb.push({ id: 'putall', label: t('putAllBack') });
+    return { kicker: t('explore'), color: '#d9d2c3', title: t('title'), text: t('exploreHint') + ' ' + t('pickOrgan') + '\n' + t(this.inXR() ? 'handsHintVR' : 'handsHintScreen'), buttons: eb };
   }
 
   // ------------------------------------------------------------ HTML UI
@@ -1182,6 +1269,16 @@ class App {
     const ray = (e) => { const rc = new THREE.Raycaster(); rc.setFromCamera(new THREE.Vector2(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1), this.camera); return rc; };
     el.addEventListener('pointerdown', (e) => {
       down = { x: e.clientX, y: e.clientY, t: performance.now() }; this.audio.unlock();
+      if ((this.mode === 'explore' || this.mode === 'part') && this.hands.count()) {
+        // a part that is out of the body: drag it anywhere (a tap shows its card)
+        const h = this.hands.pick(ray(e));
+        if (h) {
+          this.controls.enabled = false; const p = h.piece; p.userData.anim = null;
+          const n = new THREE.Vector3(); this.camera.getWorldDirection(n);
+          this.pieceDrag = { p, plane: new THREE.Plane().setFromNormalAndCoplanarPoint(n.negate(), h.point), off: p.position.clone().sub(this.hands.toBody(h.point)), x: e.clientX, y: e.clientY };
+          el.setPointerCapture(e.pointerId); return;
+        }
+      }
       if (this.mode === 'game') {
         const h = this.dis.pick(ray(e));
         if (h) {
@@ -1194,6 +1291,7 @@ class App {
     });
     el.addEventListener('pointermove', (e) => {
       if (this.dragPlane) { const p = new THREE.Vector3(); if (ray(e).ray.intersectPlane(this.dragPlane, p)) this.dis.moveTo(p); return; }
+      if (this.pieceDrag) { const d = this.pieceDrag, w = new THREE.Vector3(); if (ray(e).ray.intersectPlane(d.plane, w)) d.p.position.copy(this.hands.toBody(w)).add(d.off); return; }
       if (e.pointerType !== 'mouse' || down) return;
       const now = performance.now(); if (now - (this._hov || 0) < 140) return; this._hov = now;
       if (this.mode === 'explore' || this.mode === 'part' || this.mode === 'journey') { const h = this.pickBody(ray(e)); this.setHover(h ? h.pid : null); el.style.cursor = h ? 'pointer' : ''; }
@@ -1201,6 +1299,12 @@ class App {
     });
     el.addEventListener('pointerup', (e) => {
       if (this.dragPlane) { this.dragPlane = null; this.controls.enabled = true; this.onDrop(this.dis.release()); this.selPiece = null; down = null; return; }
+      if (this.pieceDrag) {
+        const d = this.pieceDrag; this.pieceDrag = null; this.controls.enabled = true; down = null;
+        if (Math.hypot(e.clientX - d.x, e.clientY - d.y) < 6) this.selectOut(d.p);
+        else if (this.hands.nearHome(d.p)) { this.hands.putBack(d.p); this.toast(tx(T.backInPlace, this.lang), 2200); }
+        return;
+      }
       if (!down) return;
       const moved = Math.hypot(e.clientX - down.x, e.clientY - down.y);
       if (moved < 6 && performance.now() - down.t < 500) this.pointAt(ray(e));
@@ -1302,6 +1406,8 @@ class App {
     this.zoom.update(cam, scale);
     this.lab.update(dtA, t, scale, 1);
     this.dis.update(dt, t);
+    this.hands.update(dt, t); this.cut.update();
+    if (this.sel && this.pickLabel) { const p = this.hands.find(this.sel.pid); if (p) { this.pickLabel.position.copy(p.position); this.pickLabel.position.y += p.userData.height * 0.5 * p.scale.x; } }
     if (this.confPts) {
       this.confT += dt; const a = this.confPts.geometry.attributes.position;
       this.conf.forEach((c, i) => { c.v.y -= 2.2 * dt; c.p.addScaledVector(c.v, dt); a.setXYZ(i, c.p.x, c.p.y, c.p.z); }); a.needsUpdate = true;

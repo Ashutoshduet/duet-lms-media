@@ -138,7 +138,8 @@ export function partify(mat, state) {
     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>' + FRAG_HEAD)
       .replace('#include <color_fragment>', `#include <color_fragment>
         float pflag = floor(vPInfo.a * 255.0 + 0.5);
-        if (mod(pflag, 2.0) > 0.5) discard;
+        if (mod(pflag, 2.0) > 0.5 || mod(floor(pflag / 32.0), 2.0) > 0.5) discard;
+        if (!gl_FrontFacing) diffuseColor.rgb *= 0.62;
         if (mod(floor(pflag / 4.0), 2.0) > 0.5) diffuseColor.rgb = mix(diffuseColor.rgb, vPInfo.rgb, 0.85);
         if (mod(floor(pflag / 2.0), 2.0) > 0.5) diffuseColor.a *= 0.1;`)
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
@@ -146,7 +147,7 @@ export function partify(mat, state) {
         float hhov = max(1.0 - step(0.5, abs(vPart - uHover)), mod(floor(pflag / 16.0), 2.0));
         totalEmissiveRadiance += uHiColor * (hsel * (0.3 + 0.2 * sin(uPTime * 4.0)) + hhov * 0.22);`);
   };
-  mat.customProgramCacheKey = () => 'part-v3b' + (prev ? '+w' : '');
+  mat.customProgramCacheKey = () => 'part-v3c' + (prev ? '+w' : '');
   mat.userData.partified = true;
   return mat;
 }
@@ -158,17 +159,21 @@ export function makeSkinMaterial(state) {
       uOpacity: { value: 1.0 }, uFace: { value: 0.035 }, uEdge: { value: 0.55 }, ...state.u,
     },
     vertexShader: `${VERT_HEAD}
+      #include <clipping_planes_pars_vertex>
       varying vec3 vN; varying vec3 vV;
       void main(){
         ${VERT_BODY}
-        vec4 mv = modelViewMatrix * vec4(position,1.0);
-        vN = normalize(normalMatrix * normal); vV = normalize(-mv.xyz);
-        gl_Position = projectionMatrix * mv;
+        vec4 mvPosition = modelViewMatrix * vec4(position,1.0);
+        vN = normalize(normalMatrix * normal); vV = normalize(-mvPosition.xyz);
+        gl_Position = projectionMatrix * mvPosition;
+        #include <clipping_planes_vertex>
       }`,
     fragmentShader: `${FRAG_HEAD}
+      #include <clipping_planes_pars_fragment>
       uniform vec3 uBase; uniform vec3 uRim; uniform float uOpacity; uniform float uFace; uniform float uEdge;
       varying vec3 vN; varying vec3 vV;
       void main(){
+        #include <clipping_planes_fragment>
         float pflag = floor(vPInfo.a * 255.0 + 0.5);
         if (mod(pflag, 2.0) > 0.5) discard;
         float ndv = abs(dot(normalize(vN), normalize(vV)));
@@ -180,7 +185,7 @@ export function makeSkinMaterial(state) {
         col = mix(col, uHiColor, hsel * 0.6 + hhov * 0.35); a = max(a, (hsel * 0.45 + hhov * 0.25) * uOpacity);
         gl_FragColor = vec4(col, a);
       }`,
-    transparent: true, depthWrite: false, side: THREE.DoubleSide,
+    transparent: true, depthWrite: false, side: THREE.DoubleSide, clipping: true,
   });
 }
 
