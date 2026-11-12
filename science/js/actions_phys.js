@@ -15,6 +15,7 @@ import * as L2 from './light2.js';
 import * as M5 from './mech5.js';
 import * as M6 from './mech6.js';
 import * as M7 from './mech7.js';
+import * as MT from './mathlab.js';
 import * as A4 from './apparatus4.js';
 import { Item } from './apparatus.js';
 import { BENCH_Y } from './room.js';
@@ -23,7 +24,7 @@ const ease = (k) => (k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2);
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 
 Object.assign(Kit.prototype, {
-  OP, EL, RF, MG, O2, MC, M2, M3, M4, L2, M5, M6, M7,
+  OP, EL, RF, MG, O2, MC, M2, M3, M4, L2, M5, M6, M7, MT,
   // a hidden item whose update runs a solver every frame (optics images, circuit currents)
   solver(fn) { const it = new Item('solver', { name: { en: 'solver', hi: 'solver', hg: 'solver' } }); it.noGrab = true; it.height = 0.001; it.radius = 0.001; it.update = fn; this.lab.add(it, 0, -2); return it; },
   // ---------------------------------------------------------- optical bench
@@ -89,4 +90,4 @@ Object.assign(Kit.prototype, {
   // ---------------------------------------------------------- magnets
   async tapSheet(sh, n = 3) { this.busy++; const p = sh.g.position.clone(); for (let i = 0; i < n; i++) { await this.tween(0.12, (k) => { sh.g.position.y = p.y + Math.sin(Math.PI * k) * 0.003; }); sh.tap(this.lab.items); this.app.audio && this.app.audio.tone && this.app.audio.tone(300, 0.05, 0.05, 'triangle'); await this.sleep(0.25); } sh.g.position.copy(p); this.lab.emit('tap', { obj: sh.id }); this.busy--; },
 });
-export { OP, EL, RF, MG, O2, MC, M2, M3, M4, L2, M5, M6, M7 };
+export { OP, EL, RF, MG, O2, MC, M2, M3, M4, L2, M5, M6, M7, MT };

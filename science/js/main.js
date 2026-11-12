@@ -211,7 +211,8 @@ export class App {
       const t = this.recent.get(it.id); if (t != null && this.t - t < 3.5) set.add(it);
     }
     const cv = this.lab.items.find((it) => it.camView && it.g.parent === this.scene); // an experiment can ask for a particular point of view (e.g. low, just over the rim of a bowl)
-    if (cv) { const p = cv.g.position.clone().add(cv.camView.p), t = cv.g.position.clone().add(cv.camView.t); if (!(this.camGoal && this.camGoal.p.distanceTo(p) < 0.003)) this.camGoal = { p, t, slow: true }; return; }
+    // (a phone held upright steps back, so the whole board fits across)
+    if (cv) { const sc = Math.max(1, 1 / Math.max(0.3, innerWidth / innerHeight)); const p = cv.g.position.clone().add(cv.camView.p.clone().multiplyScalar(sc)), t = cv.g.position.clone().add(cv.camView.t); if (!(this.camGoal && this.camGoal.p.distanceTo(p) < 0.003)) this.camGoal = { p, t, slow: true }; return; }
     if (!set.size) return;
     const b = new THREE.Box3(); for (const it of set) b.expandByObject(it.g);
     const c = b.getCenter(new THREE.Vector3()); const size = Math.max(0.3, b.max.x - b.min.x, (b.max.y - b.min.y) * 1.3);
@@ -341,13 +342,18 @@ export class App {
     const b = document.getElementById('xr-btn'); let ok = false; b.hidden = true;
     await this.lic; // VR only after the subscription code
     try { ok = !!navigator.xr && await navigator.xr.isSessionSupported('immersive-vr'); } catch (e) {}
+    // AR: the bench and the experiment in the real room (passthrough on a Quest; a phone camera in Chrome with ARCore)
+    let okAR = false; try { okAR = !!navigator.xr && !window.DuetNative && await navigator.xr.isSessionSupported('immersive-ar'); } catch (e) {}
+    const ba = document.getElementById('ar-btn'), ga = document.getElementById('xr-go-ar'); ba.hidden = !okAR; ga.hidden = !okAR; this.canAR = okAR;
+    ba.textContent = tx(T.enterAR, this.lang); ga.textContent = tx(T.enterAR, 'en') + ' · ' + tx(T.enterAR, 'hi');
+    ba.onclick = () => { if (this.renderer.xr.isPresenting) this.renderer.xr.getSession().end(); else this.startAR(true); }; ga.onclick = () => this.startAR(true);
     b.hidden = !ok; if (!ok) return;
     b.onclick = async () => {
       this.audio.unlock();
       if (this.renderer.xr.isPresenting) { this.renderer.xr.getSession().end(); return; }
       try {
         const s = await navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'hand-tracking'] });
-        await this.renderer.xr.setSession(s); this.enterVR(s);
+        this.renderer.xr.setReferenceSpaceType('local-floor'); await this.renderer.xr.setSession(s); this.enterVR(s);
       } catch (e) { this.ui.toast('VR: ' + e.message); }
     };
     if (Q.has('vr')) setTimeout(() => b.click(), 300);
@@ -366,12 +372,31 @@ export class App {
     this.audio.unlock(); document.body.classList.remove('xr-wait');
     try {
       const s = await navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'hand-tracking'] });
-      await this.renderer.xr.setSession(s); this.enterVR(s);
+      this.renderer.xr.setReferenceSpaceType('local-floor'); await this.renderer.xr.setSession(s); this.enterVR(s);
     } catch (e) { this.xrErr = `${e.name}: ${e.message}`; document.body.classList.add('xr-wait'); if (user) this.ui.toast('VR: ' + e.message); }
     this._starting = 0;
   }
-  enterVR(s) {
-    document.body.classList.add('in-vr'); this.ui.vr.visible = true; this.ui.layoutVR(); this.ui.dirty = true;
+  // AR: the real room is seen (headset passthrough, or the phone camera); only the bench and the experiment are drawn
+  async startAR(user) {
+    if ((this._starting && performance.now() - this._starting < 10000) || this.renderer.xr.isPresenting) return; this._starting = performance.now();
+    this.audio.unlock(); document.body.classList.remove('xr-wait');
+    try {
+      const s = await navigator.xr.requestSession('immersive-ar', { optionalFeatures: ['local-floor', 'hand-tracking', 'dom-overlay'], domOverlay: { root: document.body } });
+      const floor = !s.enabledFeatures || [...s.enabledFeatures].includes('local-floor');
+      this.renderer.xr.setReferenceSpaceType(floor ? 'local-floor' : 'local');
+      this.setAR(true); await this.renderer.xr.setSession(s); this.enterVR(s, !!s.domOverlayState);
+      if (!floor) { this._hgtAuto = false; try { this.renderer.xr.setReferenceSpace(this.baseRef.getOffsetReferenceSpace(new XRRigidTransform({ x: 0, y: -(BENCH_Y + 0.35), z: 0.15 }))); } catch (e) { this.xrErr = 'ar: ' + e.message; } } // a phone: the bench a little below and in front of it
+      s.addEventListener('end', () => this.setAR(false));
+    } catch (e) { this.setAR(false); this.xrErr = `${e.name}: ${e.message}`; if (Q.get('app') === 'vr') document.body.classList.add('xr-wait'); if (user) this.ui.toast('AR: ' + e.message); }
+    this._starting = 0;
+  }
+  setAR(on) {
+    this.ar = on; document.body.classList.toggle('in-ar', on);
+    if (on) { this._bg = this._bg || this.scene.background; this.scene.background = null; this.renderer.setClearAlpha(0); } else if (this._bg) { this.scene.background = this._bg; this.renderer.setClearAlpha(1); }
+    for (const c of this.roomInfo.room.children) if (!c.userData.ar) c.visible = !on;
+  }
+  enterVR(s, overlay) { // overlay: a phone in AR shows the page's own buttons over the camera view (no panels in the scene)
+    if (!overlay) { document.body.classList.add('in-vr'); this.ui.vr.visible = true; this.ui.layoutVR(); this.ui.dirty = true; }
     try { const fr = s.supportedFrameRates; if (fr && s.updateTargetFrameRate) { const want = [...fr].filter((x) => x <= 90).sort((a, b) => b - a)[0]; if (want) s.updateTargetFrameRate(want).catch(() => {}); } } catch (e) {} // smooth 90 Hz where the headset offers it (after a restart a Quest may start at 72 Hz)
     this.baseRef = this.renderer.xr.getReferenceSpace(); this._hgtT = this.t; this._hgtAuto = store.get('hgt') === null; this.setHeight(+(store.get('hgt') || 0), true);
     this._cam = { p: this.camera.position.clone(), t: this.controls.target.clone() };

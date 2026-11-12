@@ -54,6 +54,7 @@ export function buildRoom(scene) {
   }
 
   // ---------------- main work bench (in front of the student)
+  const nBench = room.children.length; // everything from here to the gas cock is the bench: it stays in AR (the rest of the room is hidden there)
   const B = BENCH; const bw = B.x1 - B.x0, bd = B.z1 - B.z0, cx = (B.x0 + B.x1) / 2, cz = (B.z0 + B.z1) / 2;
   const top = box(room, bw, 0.03, bd, cx, BENCH_Y - 0.015, cz, epoxy); top.name = 'benchTop';
   box(room, bw - 0.04, BENCH_Y - 0.13, bd - 0.06, cx, (BENCH_Y - 0.13) / 2 + 0.1, cz - 0.01, cab);
@@ -86,6 +87,7 @@ export function buildRoom(scene) {
   // gas cock
   const gas = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.06, 12), new THREE.MeshStandardMaterial({ color: 0xc9a227, metalness: 0.8, roughness: 0.3 }));
   gas.position.set(B.x0 + 0.2, BENCH_Y + 0.03, B.z0 + 0.2); room.add(gas);
+  for (let i = nBench; i < room.children.length; i++) room.children[i].userData.ar = true;
 
   // ---------------- chalkboard (shows the reaction) and posters
   const board = new THREE.Group(); board.position.set(0, 1.85, zf + 0.03); room.add(board);

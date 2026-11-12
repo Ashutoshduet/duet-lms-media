@@ -25,7 +25,7 @@ export const T = {
   vrHint: { en: 'Point at the glowing item and pull the trigger — or grab things with the grip button and do it yourself.', hi: 'चमकती चीज़ की तरफ़ पॉइंट करके ट्रिगर दबाइए — या ग्रिप बटन से चीज़ें पकड़कर ख़ुद कीजिए।', hg: 'Chamakti cheez par point karke trigger dabaiye — ya grip button se cheezein pakadkar khud kijiye.' },
   doing: { en: 'Doing…', hi: 'हो रहा है…', hg: 'Ho raha hai…' },
   voice: { en: 'Voice', hi: 'आवाज़', hg: 'Voice' }, sound: { en: 'Sounds', hi: 'साउंड', hg: 'Sounds' },
-  enterVR: { en: 'Enter VR', hi: 'VR में जाइए', hg: 'VR mein jaaiye' }, exitVR: { en: 'Exit VR', hi: 'VR से बाहर', hg: 'VR se bahar' },
+  enterVR: { en: 'Enter VR', hi: 'VR में जाइए', hg: 'VR mein jaaiye' }, exitVR: { en: 'Exit VR', hi: 'VR से बाहर', hg: 'VR se bahar' }, enterAR: { en: 'AR: in your room', hi: 'AR: अपने कमरे में', hg: 'AR: apne kamre mein' },
   timelapse: { en: 'Time-lapse', hi: 'टाइम-लैप्स', hg: 'Time-lapse' },
   menu: { en: 'Menu', hi: 'मेनू', hg: 'Menu' }, recenter: { en: 'Recentre', hi: 'बीच में लाइए', hg: 'Recentre' },
   pickExp: { en: 'Choose an experiment', hi: 'एक प्रयोग चुनिए', hg: 'Ek experiment chuniye' },

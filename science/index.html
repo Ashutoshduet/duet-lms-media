@@ -137,7 +137,13 @@ body.ready #loader{opacity:0;pointer-events:none}
 @keyframes ld{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
 #xr-wait{position:fixed;inset:0;z-index:35;display:none;place-items:center;background:rgba(10,13,19,.7)}
 body.xr-wait #xr-wait{display:grid}
-#xr-go{font-size:26px;padding:22px 40px;border-radius:16px}
+#xr-go,#xr-go-ar{font-size:26px;padding:22px 40px;border-radius:16px}
+.xr-gos{display:flex;flex-direction:column;gap:18px;align-items:center}
+.xr.ar{background:#7fc8ff;margin-right:6px}
+/* AR: the camera / passthrough shows behind the page; only the bench and the experiment are drawn */
+html:has(body.in-ar),body.in-ar{background:transparent!important}
+body.in-ar #stage{visibility:hidden}
+body.in-ar #list{display:none}
 body.pv-open #s-text,body.pv-open #s-dots{display:none}
 body.pv-open #story{border-top-color:var(--acc)}
 body.in-vr #top,body.in-vr #list,body.in-vr #story,body.in-vr #notebook{display:none}
@@ -173,7 +179,7 @@ body.in-vr #top,body.in-vr #list,body.in-vr #story,body.in-vr #notebook{display:
   <div id="brand" class="panel"><button id="b-menu" class="ib" aria-label="Experiments">☰</button><img id="logo" src="brand/duet-stem-logo-light.png" alt="DUET STEM"><span id="title">Science Lab 360</span></div>
   <nav id="subjects" class="panel" aria-label="Subjects"></nav>
   <div class="sp"></div>
-  <div id="tools" class="panel"><div id="langs" class="seg" role="group" aria-label="Language"></div><button id="b-voice" class="ib" aria-label="Voice">🔊</button><button id="xr-btn" class="xr" hidden>Enter VR</button></div>
+  <div id="tools" class="panel"><div id="langs" class="seg" role="group" aria-label="Language"></div><button id="b-voice" class="ib" aria-label="Voice">🔊</button><button id="ar-btn" class="xr ar" hidden>AR</button><button id="xr-btn" class="xr" hidden>Enter VR</button></div>
 </header>
 <aside id="list" class="panel"><h3 id="list-h">Experiments</h3><div id="classes"></div><div id="prog"></div><div id="explist"></div></aside>
 <div id="classpick"><div class="box panel"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h2 id="cp-h"></h2><p id="cp-sub"></p><div id="cp-btns"></div><button id="cp-all" class="cp-all"></button> · <button id="cp-top" class="cp-all"></button><p id="cp-lic"></p></div></div>
@@ -184,7 +190,7 @@ body.in-vr #top,body.in-vr #list,body.in-vr #story,body.in-vr #notebook{display:
 <aside id="notebook" class="panel"></aside>
 <div id="tip" class="panel"></div>
 <div id="toast" class="panel"></div>
-<div id="xr-wait"><button id="xr-go" class="xr">Enter VR</button></div>
+<div id="xr-wait"><div class="xr-gos"><button id="xr-go" class="xr">Enter VR</button><button id="xr-go-ar" class="xr ar" hidden>AR</button></div></div>
 <div id="loader"><div class="box"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h1>Science Lab 360</h1><p>Chemistry · Class 6–10</p><div class="bar"><i></i></div></div></div>
 <script type="module" src="js/main.js"></script>
 <script src="./duetoffline.js" defer></script>
