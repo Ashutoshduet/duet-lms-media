@@ -4692,6 +4692,7 @@ renderer.setAnimationLoop(() => {
 window.DUET_SIM = { drone, S, sim, inp, mission, terrainH, GATES, PRESETS_REF: PRESETS, renderer, camera, controls, loadMap, LINK, recorder, replay, ghost, net, TARGETS, capture, MAPS, world, startFlight, takePhoto, VAL, toggleReplay, updateSensing, updateLink, smartRth, selectDrone, DJIRC, connectDjiRc, readInputs, XRM, startXR, switchXR, exitXR, xrAction, openXRMenu, closeXRMenu, drawXRMenu, ARF, IS_APP, rig, xrMenu, scene };
 </script>
 
+<script src="./duetoffline.js" defer></script>
 </body>
 <script>
 if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) navigator.serviceWorker.register('./sw.js').catch(() => {});
