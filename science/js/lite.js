@@ -5,6 +5,7 @@
 //  - glass that uses transmission (an extra full render of the scene per eye) becomes plain see-through glass
 //  - shadows use a cheaper filter and are redrawn every third frame
 //  - the room's fixed furniture is merged into a few meshes (fewer draw calls per eye)
+//  - see-through two-sided glass is drawn in a single pass
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 export const LITE = (() => {
@@ -23,7 +24,11 @@ export function liteItem(root) {
   root.traverse((o) => {
     if ((o.isPointLight || o.isSpotLight) && !o.castShadow && o.distance > 0 && o.distance <= 1.5) lockOff(o);
     if (o.isMesh) for (const m of [].concat(o.material)) {
-      if (m && m.transmission > 0) { m.transmission = 0; m.transparent = true; m.opacity = Math.min(m.opacity == null ? 1 : m.opacity, 0.5); m.depthWrite = false; m.needsUpdate = true; }
+      if (!m) continue;
+      if (m.transmission > 0) { m.transmission = 0; m.transparent = true; m.opacity = Math.min(m.opacity == null ? 1 : m.opacity, 0.5); m.depthWrite = false; m.needsUpdate = true; }
+      // see-through two-sided glass is drawn in one pass, not back faces then front faces: half the draw calls, and three.js
+      // no longer re-selects the shader twice per object per eye every frame (the largest CPU cost measured on a Quest 3S)
+      if (m.transparent && m.side === THREE.DoubleSide && !m.forceSinglePass) m.forceSinglePass = true;
     }
   });
 }
