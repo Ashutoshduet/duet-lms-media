@@ -1,7 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>/* WebXR: ask for 72 Hz, a rate the app holds steadily on every Quest (Meta VRC.Quest.Performance.1) */window.duetXR72=function(s){try{var f=s&&s.supportedFrameRates;if(!f||!s.updateTargetFrameRate)return;var r=[].slice.call(f).filter(function(x){return x>=72}).sort(function(a,b){return a-b})[0];if(r)s.updateTargetFrameRate(r).catch(function(){})}catch(e){}};</script>
+<script>/* WebXR: ask for 72 Hz, a rate the app holds steadily on every Quest (Meta VRC.Quest.Performance.1) */window.duetXR72=function(s){try{var f=s&&s.supportedFrameRates;if(!f||!s.updateTargetFrameRate)return;var r=[].slice.call(f).filter(function(x){return x>=72}).sort(function(a,b){return a-b})[0];if(r)s.updateTargetFrameRate(r).catch(function(){})}catch(e){}};
+/* a model that never moves on its own: its parts are merged into one mesh per look (material), so the headset draws a few
+   meshes instead of dozens (draw calls limit the frame rate in the rocket row and the spacecraft museum) */
+window.duetMergeStatic=function(g){const T=THREE;g.updateMatrixWorld(true);const inv=new T.Matrix4().copy(g.matrixWorld).invert(),by=new Map(),M=new T.Matrix4();
+    g.traverse(o=>{if(!o.isMesh||!o.visible||Array.isArray(o.material)||o.material.visible===false||o.userData.pick||o.isInstancedMesh||o.isSkinnedMesh)return;
+      M.multiplyMatrices(inv,o.matrixWorld);if(M.determinant()<=0)return;const mt=o.material,hex=c=>c&&c.getHexString?c.getHexString():"";
+      const k=[mt.type,hex(mt.color),hex(mt.emissive),mt.map?mt.map.uuid:"",mt.normalMap?mt.normalMap.uuid:"",mt.roughness,mt.metalness,mt.transparent,mt.opacity,mt.side,mt.flatShading,mt.envMap?mt.envMap.uuid:"",mt.vertexColors,mt.depthWrite].join("|");if(!by.has(k))by.set(k,[]);by.get(k).push(o)});
+    for(const list of by.values()){if(list.length<2)continue;const names=Object.keys(list[0].geometry.attributes).sort().join();
+      if(list.some(o=>Object.keys(o.geometry.attributes).sort().join()!==names||Object.keys(o.geometry.morphAttributes||{}).length||Object.values(o.geometry.attributes).some(a=>!(a.array instanceof Float32Array)||a.isInterleavedBufferAttribute)))continue;
+      const parts=list.map(o=>{const ge=o.geometry.index?o.geometry.toNonIndexed():o.geometry.clone();ge.applyMatrix4(M.multiplyMatrices(inv,o.matrixWorld));return ge});
+      const mg=new T.BufferGeometry();for(const nm of names.split(",")){const sz=parts[0].attributes[nm].itemSize;let len=0;parts.forEach(q=>len+=q.attributes[nm].array.length);const arr=new Float32Array(len);let off=0;parts.forEach(q=>{arr.set(q.attributes[nm].array,off);off+=q.attributes[nm].array.length});mg.setAttribute(nm,new T.BufferAttribute(arr,sz))}
+      mg.computeBoundingSphere();const m=new T.Mesh(mg,list[0].material);m.castShadow=list[0].castShadow;m.receiveShadow=list[0].receiveShadow;m.renderOrder=list[0].renderOrder;g.add(m);
+      list.forEach(o=>o.parent.remove(o));parts.forEach(q=>q.dispose())}};
+</script>
 <script src="duetgate.js"></script><script>DuetGate.init({app:"space",title:"Solar System 360",demo:{en:"The 3D Solar System, Earth and the Moon",hi:"3D सौरमंडल, पृथ्वी और चंद्रमा",hg:"3D Solar System, Earth aur Moon"}})</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -3901,8 +3914,12 @@ function SpaceScene(H){
   CRAFTS.forEach(c=>{const hostId=c.where==="l2"||c.where==="l1"||c.where==="moon"?"earth":c.where;const hp=PL.find(p=>p.b.id===hostId);if(hp)c.pk.host=hp.h});
   function fitTo(o,fit){const box=new T.Box3().setFromObject(o),sz=new T.Vector3(),ct=new T.Vector3();box.getSize(sz);box.getCenter(ct);const k=fit/Math.max(sz.x,sz.y,sz.z,1e-6);o.position.copy(ct).multiplyScalar(-k);o.scale.setScalar(k);const w=new T.Group();w.add(o);return w}
   function loadCrafts(){if(typeof loadModel!=="function")return;CRAFTS.forEach(c=>{if(c.loaded)return;c.loaded=true;const ii=c.pk.info;
-    if(ii.india&&!ii.rs){try{c.g.add(fitTo(makeIsroSat(c.id),c.size))}catch(e){}return}
-    loadModel(ii.india?"rs/models/"+ii.rs+".glb":"models/craft/"+c.id+"."+EXT,c.size,m=>{if(m){if(ii.india&&typeof RS!=="undefined")try{RS.ENHANCE(ii.rs,m)}catch(e){}c.g.add(m)}})})}
+    if(ii.india&&!ii.rs){try{c.m=fitTo(makeIsroSat(c.id),c.size);duetMergeStatic(c.m);c.g.add(c.m)}catch(e){}return}
+    /* the space walk uses light copies of the spacecraft (models/craft/lod: about 10k triangles each); the Spacecraft gallery keeps the full models */
+    loadModel(ii.india?"rs/models/"+ii.rs+".glb":"models/craft/lod/"+c.id+"."+EXT,c.size,m=>{if(m){if(ii.india&&typeof RS!=="undefined")try{RS.ENHANCE(ii.rs,m)}catch(e){}c.m=m;c.g.add(m)}})})}
+  /* a spacecraft too far away to make out (under about 1° across) is not drawn; its name label stays. Keeps the headset at a steady frame rate */
+  const cvA=new T.Vector3(),cvB=new T.Vector3(),cvS=new T.Vector3();
+  function updCraftVis(){cam.getWorldPosition(cvA);for(const c of CRAFTS){if(!c.m)continue;c.g.getWorldPosition(cvB);const s=c.g.getWorldScale(cvS).x*c.size;c.m.visible=cvA.distanceTo(cvB)<Math.max(.6,s*60)}}
 
   /* ---------- cards ---------- */
   function statsFor(b){
@@ -3987,7 +4004,7 @@ function SpaceScene(H){
       if(st.welcome&&--st.welcome===0){home(false);H.hint("Welcome to space",HELP,16);H.say("ui-solar")}
       sim+=SPEEDS[st.sp][0]*dt;
       const kT=st.real?1:0;if(st.k!==kT){st.k=Math.max(0,Math.min(1,st.k+(kT>st.k?1:-1)*dt/2.5))}
-      updFly(dt);updFollow();rig.updateMatrixWorld(true);layout(dt);updLabels();updDust()},
+      updFly(dt);updFollow();rig.updateMatrixWorld(true);layout(dt);updLabels();updDust();if(st.craft)updCraftVis()},
     sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:baseSpeed(),onMove:stopTravel})},
     onMove:stopTravel,
     picks:()=>picks.filter(p=>p.kind!=="craft"||st.craft).map(p=>p.hit),
@@ -4194,11 +4211,14 @@ function SolarScenes(H){
         const it={c,g,holder,hit,lab,ped,top,a,pos,model:null,loaded:false,india,RR};hit.userData.pick=it;items.push(it);g.lookAt(0,0,0)}}
     function fitTo(o,fit){const box=new T.Box3().setFromObject(o),sz=new T.Vector3(),ct=new T.Vector3();box.getSize(sz);box.getCenter(ct);const k=fit/Math.max(sz.x,sz.y,sz.z,1e-6);o.position.copy(ct).multiplyScalar(-k);o.scale.setScalar(k);const w=new T.Group();w.add(o);return w}
     function loadAll(){if(typeof loadModel!=="function")return;items.forEach(it=>{if(it.loaded)return;it.loaded=true;
-      if(it.india&&!it.c.rs){try{const m=fitTo(makeIsroSat(it.c.id),FIT);it.model=m;it.holder.add(m)}catch(e){}return}
-      loadModel(it.india?"rs/models/"+it.c.rs+".glb":"models/craft/"+it.c.id+"."+EXT,FIT,m=>{if(!m)return;if(it.india&&typeof RS!=="undefined")try{RS.ENHANCE(it.c.rs,m)}catch(e){}it.model=m;it.holder.add(m);
-      if(env)m.traverse(n=>{if(n.isMesh)(Array.isArray(n.material)?n.material:[n.material]).forEach(mt=>{if("envMap" in mt&&!mt.envMap){mt.envMap=env;mt.needsUpdate=true}})})})})}
+      if(it.india&&!it.c.rs){try{const m=fitTo(makeIsroSat(it.c.id),FIT);duetMergeStatic(m);it.model=m;it.holder.add(m)}catch(e){}return}
+      /* the ring shows light copies (models/craft/lod); the full model is loaded for the one you make real size or pick up */
+      loadModel(it.india?"rs/models/"+it.c.rs+".glb":"models/craft/lod/"+it.c.id+"."+EXT,FIT,m=>{if(!m)return;if(it.india&&typeof RS!=="undefined")try{RS.ENHANCE(it.c.rs,m)}catch(e){}if(it.india)duetMergeStatic(m);if(it.full&&it.model)return;it.model=m;it.holder.add(m);envOn(m)})})}
+    function envOn(m){if(env)m.traverse(n=>{if(n.isMesh)(Array.isArray(n.material)?n.material:[n.material]).forEach(mt=>{if("envMap" in mt&&!mt.envMap){mt.envMap=env;mt.needsUpdate=true}})})}
+    function upgrade(it){if(!it||it.india||it.full||typeof loadModel!=="function")return;it.full=true;
+      loadModel("models/craft/"+it.c.id+"."+EXT,FIT,m=>{if(!m)return;if(it.model&&it.model.parent)it.model.parent.remove(it.model);it.model=m;it.holder.add(m);envOn(m)})}
     function setReal(it){if(real){const r=real;r.holder.scale.setScalar(1);r.holder.position.set(0,.55+FIT/2+.08,0);items.forEach(x=>{x.g.visible=true});real=null;if(r===it){card(it);return}}
-      if(!it)return;real=it;const m=REALM[it.c.id]||it.c.m||FIT,k=m/FIT;items.forEach(x=>{if(x!==it)x.g.visible=false});
+      if(!it)return;real=it;upgrade(it);const m=REALM[it.c.id]||it.c.m||FIT,k=m/FIT;items.forEach(x=>{if(x!==it)x.g.visible=false});
       it.holder.scale.setScalar(k);it.holder.position.set(0,Math.max(.55+FIT/2,m*.32),-(Math.max(0,m*.55-it.RR+1.8)));card(it)}
     function card(it){const c=it.c,isReal=real===it;
       H.showCard({kicker:it.india?"Spacecraft · India":"Spacecraft",title:c.name,hi:c.hi||"",color:it.india?"#ff9933":"#8ec5ff",rows:[["Agency",c.ag],["Launched",c.yr],["Where now",c.where],["Size",c.size||((REALM[c.id]||"")+" m")]],cols:2,text:c.fact+(it.india&&!c.rs?" (Model built to its real shape and proportions.)":""),say:"craft-"+c.id,
@@ -4211,7 +4231,7 @@ function SolarScenes(H){
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:1.6,flat:true,noUp:true})},
       picks:()=>items.filter(it=>it.g.visible).map(it=>it.hit),
       pick(it){card(it)},empty(){H.hideCard()},
-      grab(it){return {obj:it.holder,mode:"free",minS:it===real?it.holder.scale.x*.3:.3,maxS:it===real?it.holder.scale.x*2:4,onStart:()=>{it.spinStop=true}}},
+      grab(it){return {obj:it.holder,mode:"free",minS:it===real?it.holder.scale.x*.3:.3,maxS:it===real?it.holder.scale.x*2:4,onStart:()=>{it.spinStop=true;upgrade(it)}}},
       menu:()=>[{id:"normal",label:"All back to museum size",disabled:!real},{id:"centre",label:"Back to the middle"}],
       menuPress(id){if(id==="normal"&&real)setReal(real);else H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2))},
       btnB:()=>{if(real)setReal(real);else if(H.cardData())H.hideCard();else H.go("lobby")},
@@ -5725,9 +5745,12 @@ const R3 = (() => {
       return R;
     };
   }
+  // in a headset the rocket bodies use fewer rings and sides (a steady 72 fps with a whole row of rockets; Meta VRC.Quest.Performance.1)
+  const LITE_R = /OculusBrowser|Quest/i.test(navigator.userAgent);
   function lathe(rf, L, segs, phiStart, phiLen, closeBottom = true, closeTop = true) {
     const pts = [];
-    const N = Math.max(12, Math.min(48, Math.round(L * 3)));
+    const N = LITE_R ? Math.max(10, Math.min(28, Math.round(L * 1.6))) : Math.max(12, Math.min(48, Math.round(L * 3)));
+    if (LITE_R) segs = Math.min(segs || 48, 32);
     if (closeBottom) pts.push(new THREE.Vector2(0.0001, 0));
     for (let i = 0; i <= N; i++) { const y = L * i / N; pts.push(new THREE.Vector2(Math.max(0.0001, rf(y)), y)); }
     if (closeTop) pts.push(new THREE.Vector2(0.0001, L));
@@ -6736,7 +6759,7 @@ function RocketScenes(H){
     function build(){built=true;root.add(ground(900,140));root.add(new T.HemisphereLight(0xc8d8ff,0x2a2420,.6));const key=new T.DirectionalLight(0xfff1de,1.25);key.position.set(-60,120,90);root.add(key);
       const items=ROCKETS.map(r=>({kind:"rocket",r,h:r.height})).concat([{kind:"qutub",h:72.5}]).sort((a,b)=>a.h-b.h);
       let x=0;items.forEach(it=>{let g,w;
-        if(it.kind==="rocket"){g=buildRocket(it.r).g;const b=new T.Box3().setFromObject(g);w=Math.max(b.max.x-b.min.x,b.max.z-b.min.z)}else{g=qutub();w=16}
+        if(it.kind==="rocket"){g=buildRocket(it.r).g;duetMergeStatic(g);const b=new T.Box3().setFromObject(g);w=Math.max(b.max.x-b.min.x,b.max.z-b.min.z)}else{g=qutub();duetMergeStatic(g);w=16}
         x+=w/2;g.position.set(x,0,0);root.add(g);
         const lab=label(it.kind==="rocket"?it.r.name:"Qutub Minar",fmt(it.h,1)+" m",it.kind==="rocket"?(it.r.country==="india"?"#ff9933":"#8ec5ff"):"#e8c27a",.15);lab.position.set(x,it.h+6,0);root.add(lab);
         const hit=new T.Mesh(new T.BoxGeometry(Math.max(w,4),it.h,Math.max(w,4)),new T.MeshBasicMaterial({visible:false}));hit.position.set(0,it.h/2,0);hit.userData.pick=it;g.add(hit);hits.push(hit);it.g=g;
@@ -7014,6 +7037,7 @@ function Ch3Scene(H){
   const SL=-69.373560,SO=32.319750,R0=1737400;
   const VIEW={pos:new T.Vector3(4.2,1.6,3.6),look:new T.Vector3(0,1.1,0)};
   const groundMats=[];let D=null,loading=null,built=false,rideBuilt=false,mode="story",saved={},failed=false;
+  const HQ=/OculusBrowser|Quest/i.test(navigator.userAgent); // a headset: lighter terrain (see build)
 
   /* ---------------- the story (real dates and facts from ISRO) ---------------- */
   const STEPS=[
@@ -7098,7 +7122,9 @@ function Ch3Scene(H){
     const locG=grid(L.rows,L.cols,i=>L.lat0+i*L.dlat,j=>L.lon0+j*L.dlon,(i,j)=>D.lh[i*L.cols+j],(a,b,c,d,i,j)=>inTile(i,j));
     W.add(new T.Mesh(locG,holeMat(tex("ch3/loc_wac.jpg"))));
     const hc=(k,j)=>D.lh[k*L.cols+j];
-    D.tiles.forEach(t=>{const n=t.sub,rows=(t.k1-t.k0)*n+1,cols=(t.j1-t.j0)*n+1,pos=new Float32Array(rows*cols*3),uv=new Float32Array(rows*cols*2),idx=[];
+    /* in a headset the photo tiles use fewer sub-cells: the heights are interpolated from the coarse grid anyway, so the
+       ground looks the same with far fewer triangles (a steady 72 fps; Meta VRC.Quest.Performance.1) */
+    D.tiles.forEach(t=>{const n=HQ?Math.min(t.sub,t.sub>6?4:2):t.sub,rows=(t.k1-t.k0)*n+1,cols=(t.j1-t.j0)*n+1,pos=new Float32Array(rows*cols*3),uv=new Float32Array(rows*cols*2),idx=[];
       for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const fk=t.k0+r/n,fj=t.j0+c/n,k0=Math.min(L.rows-2,Math.floor(fk)),j0=Math.min(L.cols-2,Math.floor(fj)),a=fk-k0,b=fj-j0;
         const h=hc(k0,j0)*(1-a)*(1-b)+hc(k0,j0+1)*(1-a)*b+hc(k0+1,j0)*a*(1-b)+hc(k0+1,j0+1)*a*b,i=r*cols+c;
         ll(L.lat0+fk*L.dlat,L.lon0+fj*L.dlon,h,pos,i*3);uv[i*2]=c/(cols-1);uv[i*2+1]=1-r/(rows-1)}
@@ -7123,7 +7149,7 @@ function Ch3Scene(H){
       for(let i=0;i<nr;i++)for(let k=0;k<na;k++){const a=i*(na+1)+k;idx.push(a,a+1,a+na+1,a+1,a+na+2,a+na+1)}
       const g=new T.BufferGeometry();g.setAttribute("position",new T.Float32BufferAttribute(pos,3));g.setAttribute("uv",new T.Float32BufferAttribute(uv,2));g.setAttribute("color",new T.Float32BufferAttribute(col,4));g.setIndex(idx);g.computeBoundingSphere();return g};
     // fine square grid near you (0.26 m) so the real 4 m crater and small bumps look right; slopes are shaded by the real low Sun
-    {const n=200,half=26,pos=[],uv=[],col=[],idx=[];const hgt=(x,z)=>gY(x,z)+.035+crater(x,z);
+    {const n=HQ?150:200,half=26,pos=[],uv=[],col=[],idx=[];const hgt=(x,z)=>gY(x,z)+.035+crater(x,z);
       const sd=sunDir.clone(),flat=Math.max(.05,sd.y);
       for(let i=0;i<=n;i++)for(let k=0;k<=n;k++){const x=-half+2*half*k/n,z=-half+2*half*i/n,y=hgt(x,z);pos.push(x,y,z);uv.push(x/TS,-z/TS);
         let c=1;if(Math.hypot(x-C3.x,z-C3.z)<C3.r*1.7){const e=.05,nx=-(hgt(x+e,z)-hgt(x-e,z))/(2*e),nz=-(hgt(x,z+e)-hgt(x,z-e))/(2*e),nl=Math.hypot(nx,1,nz);
