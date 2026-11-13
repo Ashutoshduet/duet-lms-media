@@ -63,7 +63,7 @@ class App {
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.05;
     r.outputColorSpace = THREE.SRGBColorSpace;
     r.localClippingEnabled = true;
-    r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(0.1); r.xr.setFramebufferScaleFactor(1.35);
+    r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(1); r.xr.setFramebufferScaleFactor(1.0); // a steady 72 fps on Quest (Meta VRC.Quest.Performance.1): 1.35x with light foveation dropped below 60
     $('#stage').appendChild(r.domElement);
 
     const scene = this.scene = new THREE.Scene();
@@ -892,6 +892,8 @@ class App {
     if (!session) return false;
     this.xrMode = mode;
     await this.renderer.xr.setSession(session);
+    // ask for 72 Hz, the rate this app holds steadily on every Quest (a Quest 3 may otherwise start at 90 Hz)
+    try { const fr = session.supportedFrameRates && [...session.supportedFrameRates].filter((x) => x >= 72).sort((a, b) => a - b)[0]; if (fr && session.updateTargetFrameRate) session.updateTargetFrameRate(fr).catch(() => {}); } catch (e) { /* older browsers */ }
     return true;
   }
   onXRStart() {
@@ -1433,7 +1435,8 @@ class App {
       this.autoFrac = Math.min(1, this.stepT / due);
       if (this.stepT > due) this.next();
     } else this.autoFrac = 0;
-    if ((this._pf = (this._pf || 0) + dt) > 0.25) { this._pf = 0; const e = document.getElementById('s-prog'); if (e) e.style.transform = `scaleX(${this.autoFrac || 0})`; if (xr && this.playing) this.vrui.dirty = true; }
+    if ((this._pf = (this._pf || 0) + dt) > 0.25) { this._pf = 0; const e = document.getElementById('s-prog'); if (e) e.style.transform = `scaleX(${this.autoFrac || 0})`; }
+    if (xr) this.vrui.setProgress(this.autoFrac || 0); // a mesh bar: no canvas redraw while playing
     this.renderer.render(this.scene, this.camera);
     if (Q.has('shot') && !this._shotDone) {
       this._frames = (this._frames || 0) + 1;

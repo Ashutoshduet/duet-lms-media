@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>/* WebXR: ask for 72 Hz, a rate the app holds steadily on every Quest (Meta VRC.Quest.Performance.1) */window.duetXR72=function(s){try{var f=s&&s.supportedFrameRates;if(!f||!s.updateTargetFrameRate)return;var r=[].slice.call(f).filter(function(x){return x>=72}).sort(function(a,b){return a-b})[0];if(r)s.updateTargetFrameRate(r).catch(function(){})}catch(e){}};</script>
 <script src="duetgate.js"></script><script>DuetGate.init({app:"space",title:"Solar System 360",demo:{en:"The 3D Solar System, Earth and the Moon",hi:"3D सौरमंडल, पृथ्वी और चंद्रमा",hg:"3D Solar System, Earth aur Moon"}})</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -3030,6 +3031,7 @@ function SaurXR(stage,menuEl,opt){
     try{await s.requestReferenceSpace("local-floor")}catch(e){type="local";floorless=true}
     R.xr.setReferenceSpaceType(type);
     try{await R.xr.setSession(s)}catch(e){try{s.end()}catch(_){}toast("The immersive view could not start on this device.");return}
+    duetXR72(s);
     hitSrc=null;hitReq=false;
     s.addEventListener("end",()=>{hitSrc=null;hitReq=false;reticle.visible=false;setMode("preview")});
     setMode(kind);
@@ -3136,7 +3138,7 @@ function SaurXR(stage,menuEl,opt){
     R.setScissor(w/2,0,w/2,h);R.setViewport(w/2-dx,0,w/2,h);R.render(S,stereo.cameraR);
     R.setScissorTest(false);R.setViewport(0,0,w,h)}
   let last=0;const camW=new T.Vector3(),qd=new T.Quaternion(),eulL=new T.Euler(0,0,0,"YXZ"),btnPrev={};
-  if(R.xr.setFoveation)R.xr.setFoveation(.5);
+  if(R.xr.setFoveation)R.xr.setFoveation(1);
   function frame(t,xf){
     const dt=last?Math.min(.05,(t-last)/1000):0;last=t;
     if(mode==="vr"&&SPACE&&R.xr.isPresenting){xrFrames++;padPoll(dt);SPACE.frame(dt);R.render(S,cam);return}
@@ -8003,7 +8005,7 @@ function initPano(){
     R.render(S,cam)}
   const PADX_PANO_VR={immersive:true,look:(x,y,dt)=>{rig.rotation.y-=x*1.2*dt},next:()=>show(cur+1),prev:()=>show(cur-1),a:()=>show(cur+1),dpad:d=>{if(d==="left")show(cur-1);else if(d==="right")show(cur+1);return true},helpXR:()=>vrLabel("LB / RB or A: next place · stick: turn")};
   async function vrOn(){
-    try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);
+    try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);duetXR72(s);
       rig.rotation.y=-view.yaw;lastXR=0;R.setAnimationLoop(xrFrame);s.addEventListener("end",()=>{R.setAnimationLoop(null);rig.rotation.y=0;resize()});setTimeout(()=>vrLabel(PANOS[cur].name+" · trigger: next place"),400)}
     catch(e){PAD.say("VR could not start here. Open the site in the Meta Quest Browser.",4000)}}
   $("#panoVR").onclick=e=>{if(e.currentTarget.dataset.app){openXRApp("vr","land360");return}vrOn()};
@@ -8321,7 +8323,7 @@ function ch3Build(D,firstPhase){
      rows.forEach(([k,v],i)=>{g.fillStyle="#8a8ea6";g.font='500 26px "IBM Plex Mono", ui-monospace, monospace';g.fillText(k.toUpperCase(),36,150+i*62);g.fillStyle="#ece7da";g.font='500 36px "IBM Plex Sans", system-ui, sans-serif';g.fillText(v,380,150+i*62)});
      g.fillStyle="#8a8ea6";g.font='500 22px "IBM Plex Mono", ui-monospace, monospace';g.fillText("TRIGGER play/pause · GRIP change view · STICK skip",36,400);t.needsUpdate=true}}
   async function xrStart(){
-    try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);
+    try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);duetXR72(s);
       XR.panel=true;rig.add(XR.mesh);XR.mesh.position.set(0,-.35,-1.1);XR.mesh.rotation.x=-.35;XR.mesh.visible=true;XR.view=st.view==="site"?"site":"vikram";hud(true);
       s.addEventListener("end",()=>{XR.panel=null;XR.mesh.visible=false;rig.position.set(0,0,0);rig.quaternion.identity();resize()})}
     catch(e){PAD.say("VR could not start here. Open the site in the Meta Quest Browser.",4000)}}
@@ -8382,7 +8384,7 @@ function ch3Stereo(){
     const S=new T.Scene(),cam=new T.PerspectiveCamera(70,1,.05,100),TL=new T.TextureLoader();
     const plane=(u,layer)=>{const t=TL.load(u);t.encoding=T.sRGBEncoding;const m=new T.Mesh(new T.PlaneGeometry(2.4,2.4),new T.MeshBasicMaterial({map:t}));m.position.set(0,0,-2.4);m.layers.set(layer);S.add(m);return m};
     plane("ch3/vikram_L.jpg",1);plane("ch3/vikram_R.jpg",2);cam.layers.enable(1);
-    try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);
+    try{const s=await navigator.xr.requestSession("immersive-vr",{optionalFeatures:["local-floor"]});R.xr.setReferenceSpaceType("local");await R.xr.setSession(s);duetXR72(s);
       R.setAnimationLoop(()=>R.render(S,cam));const ctl=R.xr.getController(0);ctl.addEventListener("select",()=>s.end());S.add(ctl);
       s.addEventListener("end",()=>{R.setAnimationLoop(null);R.dispose();try{R.forceContextLoss()}catch(e){}})}
     catch(e){R.dispose();PAD.say("VR could not start here. Open the site in the Meta Quest Browser.",4000)}}
