@@ -7,6 +7,7 @@ import { FX } from './fx.js';
 import { Chem, SUBS, PPT } from './chem.js';
 import { Lab } from './lab.js';
 import { Runner } from './runner.js';
+import { Kit } from './actions.js';
 import { BY_ID } from './experiments.js';
 import { I18N, DICT } from './exp_i18n.js';
 import { Audio } from './audio.js';
@@ -21,6 +22,9 @@ import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './
 import { demoIds } from './topics.js';
 import { LIQ_TIME } from './mats.js';
 import { LITE, liteMerge } from './lite.js';
+// experiments whose apparatus, taken together, use every shader of the chemistry and maths experiments (see warmShaders)
+const WARM_IDS = ['solubility', 'evaporate_salt', 'condensation', 'filtration', 'open_chem', 'sulphur_burn', 'candle_o2', 'phys_change', 'metal_nonmetal', 'kmno4_diffuse', 'conduct_liquids', 'electrolysis9v', 'chromatography', 'crystallise', 'mass_closed', 'metals_air', 'mg_burn', 'zn_acid',
+  'm6_symmetry', 'm6_same_perimeter', 'm7_parallel_lines', 'm9_coin_probability', 'm10_cone_volume', 'm10_flagpole_height'];
 
 const Q = new URLSearchParams(location.search);
 if (Q.has('iwer')) { try { await (await import('../test-iwer.js')).default(); } catch (e) { console.warn('no test hook', e); } } // test only
@@ -83,6 +87,7 @@ export class App {
     await Promise.all([loadModels((k) => { if (bar) { bar.style.animation = 'none'; bar.style.width = Math.round(k * 100) + '%'; bar.style.transform = 'none'; } }), loadLabHDR(this.renderer, this.scene)]);
     furnish(this.roomInfo.room, this.roomInfo);
     if (LITE) this.liteRoom = liteMerge(this.roomInfo.room); // headset: the fixed furniture in a few meshes
+    if (LITE && !Q.has('nowarm')) await this.warmShaders();
     const pm = loadPhysModels(); if (Q.has('test')) await pm; // real physics apparatus models load in the background
     const php = initPhysics(this).then((p) => { this.phys = p; if (p) { this.lab.surfaceY = (x, z) => p.surfaceY(x, z); this.lab.phys = p; const c0 = this.lab.clear.bind(this.lab); this.lab.clear = () => { c0(); p.clear(); }; } }); if (Q.has('test')) await php; // falling, throwing and breaking
     const first = Q.get('exp');
@@ -90,6 +95,19 @@ export class App {
     if (first && BY_ID[first]) this.openExp(first, { auto: Q.has('auto') });
     else if (!Q.has('test') && !Q.get('cls') && !store.get('cls')) this.ui.showPicker(true); // first visit: which class are you in?
     requestAnimationFrame(() => requestAnimationFrame(() => { document.body.classList.add('ready'); document.title = Q.has('test') ? 'READY' : document.title; }));
+  }
+  // headset: compile the shaders of the usual apparatus while the lab loads. The Quest browser compiles a shader only when it is
+  // first drawn (it has no KHR_parallel_shader_compile), which froze the headset for about a second when the first experiment
+  // opened. These experiments together bring every shader the chemistry and maths experiments use (counted per experiment)
+  async warmShaders() {
+    const R = this.renderer, t0 = performance.now(); let n = 0;
+    for (const id of WARM_IDS) {
+      const e = BY_ID[id]; if (!e) continue; const K = new Kit(this);
+      try { e.setup(K); for (const it of this.lab.items) if (it.setLit) { try { it.setLit(true); } catch (x) { /* not lit here */ } } R.compile(this.scene, this.camera); n++; } catch (x) { /* skip this one */ }
+      try { K.dispose(); } catch (x) { /* nothing to remove */ } this.lab.clear();
+      await new Promise((z) => setTimeout(z, 40)); // a few frames between them: no single long stall
+    }
+    this.warmInfo = { n, ms: Math.round(performance.now() - t0), progs: R.info.programs.length };
   }
   // ------------------------------------------------------------ text helpers
   expText(e, key) { const tr = I18N[e.id] && I18N[e.id][key]; const L = this.lang; return (tr && tr[L]) || (e[key] && (e[key][L] || e[key].en)) || ''; }
@@ -455,7 +473,9 @@ export class App {
     this.xr.update(dt); this.walkKeys(dt); if (this.wireDot && this.wireDot.visible) { const t = this.wireDot.userData.t; this.wireDot.position.copy(t.local); t.item.g.localToWorld(this.wireDot.position); }
     this.audio.frame(this.audio.pourT > 0, this.fx.bubbles.length); this.audio.pourT = Math.max(0, this.audio.pourT - dt);
     if (this.lapseShown !== this._lapse) { this._lapse = this.lapseShown; this.ui.renderStory(); }
-    if (xr && this.t - (this._solT || 0) > 0.5) { this._solT = this.t; if (this.lab.vessels.some((v) => v.solLog)) this.ui.dirtyStory = true; } // the dissolving read-out in the headset stays current
+    // the dissolving read-out in the headset stays current: redrawn only when its text changes (each redraw uploads the
+    // whole panel, which costs a frame on a Quest)
+    if (xr && this.t - (this._solT || 0) > (LITE ? 1 : 0.5)) { this._solT = this.t; if (this.lab.vessels.some((v) => v.solLog)) { const sig = this.ui.solStatus().map((l) => l.t + l.c).join('|'); if (sig !== this._solSig) { this._solSig = sig; this.ui.dirtyStory = true; } } }
     if (xr && this._hgtAuto && this._hgtT != null && this.t - this._hgtT > 1.5) { this._hgtT = null; this.autoHeight(); }
     if (xr && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { if (this.ui.drawVR() !== false) { this.ui.dirty = false; this.ui.dirtyStory = false; } this._vrDraw = this.t; }
     else if (xr && this.ui.dirtyStory && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR('story'); this.ui.dirtyStory = false; this._vrDraw = this.t; }
