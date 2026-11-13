@@ -140,7 +140,8 @@ export class App {
     const draw = this.roomInfo.drawBoard;
     if (!e) { draw('DUET STEM · ' + tx(T[(this.ui && this.ui.subj) || 'chemistry'], this.lang), [{ t: tx(T.appTitle, this.lang), size: 54, c: 'rgba(240,166,90,0.95)' }, { t: tx(T.pickExp, this.lang), size: 44 }]); return; }
     const w0 = e.eq.word; const word = typeof w0 === 'object' && w0 ? (w0[this.lang] || w0.en) : (DICT[w0] && DICT[w0][this.lang]) || w0; // open labs give the word in all three languages
-    const lines = [{ t: e.eq.sym, size: 64, w: 700 }, { t: word, size: 44, c: 'rgba(240,166,90,0.95)' }, { t: this.expText(e, 'kind'), size: 40, c: 'rgba(200,220,210,0.85)' }];
+    const sym = (DICT[e.eq.sym] && DICT[e.eq.sym][this.lang]) || e.eq.sym;
+    const lines = [{ t: sym, size: 64, w: 700 }, { t: word, size: 44, c: 'rgba(240,166,90,0.95)' }, { t: this.expText(e, 'kind'), size: 40, c: 'rgba(200,220,210,0.85)' }];
     const ph = PHOTOS[e.id] || []; const L = this.lang;
     draw(this.expText(e, 'title'), lines);
     if (ph.length) Promise.all(ph.map((p) => photoImage(p.f))).then((imgs) => { if (this.runner.exp === e && this.lang === L) draw(this.expText(e, 'title'), lines, ph.map((p, i) => ({ img: imgs[i], cap: p.cap[L] || p.cap.en }))); });
@@ -448,9 +449,10 @@ export class App {
     this.xr.update(dt); this.walkKeys(dt); if (this.wireDot && this.wireDot.visible) { const t = this.wireDot.userData.t; this.wireDot.position.copy(t.local); t.item.g.localToWorld(this.wireDot.position); }
     this.audio.frame(this.audio.pourT > 0, this.fx.bubbles.length); this.audio.pourT = Math.max(0, this.audio.pourT - dt);
     if (this.lapseShown !== this._lapse) { this._lapse = this.lapseShown; this.ui.renderStory(); }
-    if (xr && this.t - (this._solT || 0) > 0.5) { this._solT = this.t; if (this.lab.vessels.some((v) => v.solLog)) this.ui.dirty = true; } // the dissolving read-out in the headset stays current
+    if (xr && this.t - (this._solT || 0) > 0.5) { this._solT = this.t; if (this.lab.vessels.some((v) => v.solLog)) this.ui.dirtyStory = true; } // the dissolving read-out in the headset stays current
     if (xr && this._hgtAuto && this._hgtT != null && this.t - this._hgtT > 1.5) { this._hgtT = null; this.autoHeight(); }
-    if (xr && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR(); this.ui.dirty = false; this._vrDraw = this.t; }
+    if (xr && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { if (this.ui.drawVR() !== false) { this.ui.dirty = false; this.ui.dirtyStory = false; } this._vrDraw = this.t; }
+    else if (xr && this.ui.dirtyStory && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR('story'); this.ui.dirtyStory = false; this._vrDraw = this.t; }
     this.updPourTag();
     if (FAST && ++this._fc % 24) return; // test mode: simulate quickly, draw only now and then
     this.renderer.render(this.scene, this.camera);

@@ -8,10 +8,10 @@ Hindi and Hinglish, and plays a recorded voice (English and Hindi).
 
 | File | What it holds |
 |---|---|
-| `science/js/mathlab.js`, `mathlab2.js` | the maths apparatus: paper shapes, tiles, cubes, cones, a clinometer… Each export returns an `Item` (or a `Vessel` for things that hold water) with methods the steps call (`place(i, k)`, `fold(k)`, `at(name)`…) |
-| `science/js/experiments_m1.js`, `experiments_m2.js` | the activities (5 to 7 per batch) |
-| `science/js/exp_i18n_m.js`, `exp_i18n_m2.js` | Hindi (`hi`) and Hinglish (`hg`) for every English sentence, keyed by the English text |
-| `science/js/actions_phys.js` | registers apparatus modules on the kit (`K.MT`, `K.MT2`…) |
+| `science/js/mathlab.js`, `mathlab2.js`, `mathlab3.js` | the maths apparatus (drawing helpers such as `paper`, `flat`, `outline`, `dashed`, `board`, `topLabel` are exported from `mathlab2.js`): paper shapes, tiles, cubes, cones, a clinometer… Each export returns an `Item` (or a `Vessel` for things that hold water) with methods the steps call (`place(i, k)`, `fold(k)`, `at(name)`…) |
+| `science/js/experiments_m1.js` … `experiments_m3.js` | the activities (2 to 7 per batch) |
+| `science/js/exp_i18n_m.js` … `exp_i18n_m3.js` | Hindi (`hi`) and Hinglish (`hg`) for every English sentence, keyed by the English text |
+| `science/js/actions_phys.js` | registers apparatus modules on the kit (`K.MT`, `K.MT2`, `K.MT3`…) |
 | `science/js/experiments.js` | imports each batch and pushes it onto `EXPERIMENTS` |
 | `science/js/topics.js` | maths topics (numbers, algebra, geometry, mensuration, data) matched by chapter name |
 | `science/voice/` | narration clips, named by a hash of the text (`devtools/tts`) |
@@ -35,6 +35,8 @@ Copy the shape of the activities in `experiments_m2.js`:
 }
 ```
 
+- `eq.sym` is shown as it is in every language: keep it to symbols and numbers. If it must contain words, add it to the batch's Hindi/Hinglish dictionary (it is looked up there), and give `eq.word` an entry too.
+- In narrated sentences (`do`, `see`, `why`, `aim`, `result.concl`) write comparisons in words ("more than", not ">"); the voice reads +, −, ×, =, ², °, ½ and cm² correctly.
 - Every `act` must emit the event named in `ev` (`K.lab.emit(type, …)`), or the step never completes.
 - Useful kit calls: `K.add(item, x, z)`, `K.tween(seconds, (k) => …)`, `K.sleep(s)`, `K.showTag(text, worldPoint, offset, seconds)`,
   `K.beaker(x, z, 'water', ml, size)`, `K.pour(from, to, ml)`, `K.lab.fill(vessel, 'ink', ml)`.

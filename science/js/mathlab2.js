@@ -186,3 +186,6 @@ export function poleAndClinometer(o = {}) {
   it.at = (k) => k === 'top' ? W(P[0], H + 0.01, -P[1]) : k === 'clin' ? W(P[0] - it.d, EYE + 0.035, -P[1]) : k === 'tape' ? W(P[0] - it.d / 2, 0.012, -(P[1] - 0.03)) : k === 'mid' ? W(P[0] - it.d / 2, (EYE + H) / 2 + 0.02, -P[1]) : W(P[0], H / 2, -P[1]);
   it.noGrab = true; it.height = H; it.radius = 0.22; it.grabY = 0.01; return it;
 }
+
+// shared with later maths batches
+export { paper, ink, flat, outline, dashed, ease, lerp, clamp01, rect, board, topLabel };

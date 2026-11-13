@@ -3430,8 +3430,15 @@ function VRHub(o){
     const m=new T.Mesh(new T.PlaneGeometry(wm,hm),new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,depthTest:!!opt.depth,side:T.DoubleSide}));
     m.renderOrder=opt.depth?5:40+(opt.order||0);
     const p={mesh:m,c,t,W,H:Hh,buttons:[],hover:null,draw,onPress:opt.onPress||null,data:opt.data||null};
-    p.redraw=()=>{const g=c.getContext("2d");g.clearRect(0,0,W,Hh);p.buttons=[];draw(g,p);t.needsUpdate=true};
-    p.btn=(g,id,x,y,w,h,label,st)=>{st=st||{};const hov=p.hover===id,on=!!st.on,pri=!!st.primary,dis=!!st.disabled;
+    /* the pointer highlight is a small mesh over the button, so pointing never redraws or re-uploads the canvas (steady 72 fps) */
+    const hl=new T.Group();hl.visible=false;m.add(hl);
+    const hlF=new T.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.16,depthWrite:false,depthTest:!!opt.depth,side:T.DoubleSide}),hlL=new T.LineBasicMaterial({color:0xffffff,transparent:true,opacity:.95,depthWrite:false,depthTest:!!opt.depth});
+    p.setHL=id=>{for(const o of [...hl.children]){o.geometry.dispose();hl.remove(o)}const b=id&&p.buttons.find(q=>q.id===id);if(!b){hl.visible=false;return}
+      const X=u=>(u/W-.5)*wm,Y=v=>(.5-v/Hh)*hm,x0=X(b.x),x1=X(b.x+b.w),y0=Y(b.y+b.h),y1=Y(b.y),r=Math.min(16/W*wm,(y1-y0)/2),sh=new T.Shape();
+      sh.moveTo(x0+r,y0);sh.lineTo(x1-r,y0);sh.quadraticCurveTo(x1,y0,x1,y0+r);sh.lineTo(x1,y1-r);sh.quadraticCurveTo(x1,y1,x1-r,y1);sh.lineTo(x0+r,y1);sh.quadraticCurveTo(x0,y1,x0,y1-r);sh.lineTo(x0,y0+r);sh.quadraticCurveTo(x0,y0,x0+r,y0);
+      const f=new T.Mesh(new T.ShapeGeometry(sh,4),hlF),l=new T.LineLoop(new T.BufferGeometry().setFromPoints(sh.getPoints(4)),hlL);f.position.z=.001;l.position.z=.0015;f.renderOrder=m.renderOrder+1;l.renderOrder=m.renderOrder+2;hl.add(f,l);hl.visible=true};
+    p.redraw=()=>{const g=c.getContext("2d");g.clearRect(0,0,W,Hh);p.buttons=[];draw(g,p);t.needsUpdate=true;p.setHL(p.hover)};
+    p.btn=(g,id,x,y,w,h,label,st)=>{st=st||{};const hov=false,on=!!st.on,pri=!!st.primary,dis=!!st.disabled;
       rr(g,x,y,w,h,st.r||16);g.fillStyle=dis?"rgba(255,255,255,.03)":pri?(hov?"#ffd08a":ORANGE):on?(hov?"rgba(255,179,71,.42)":"rgba(255,179,71,.22)"):(hov?"rgba(255,255,255,.2)":"rgba(255,255,255,.07)");g.fill();
       g.lineWidth=hov?5:2;g.strokeStyle=dis?"rgba(255,255,255,.1)":hov?"#ffffff":(pri||on)?ORANGE:"rgba(255,255,255,.26)";g.stroke();
       const fs=st.fs||Math.min(40,Math.round(h*.4));g.fillStyle=dis?"#5c6075":pri?"#14100a":INK;g.textAlign=st.align||"center";g.textBaseline="middle";
@@ -3468,7 +3475,7 @@ function VRHub(o){
       const len=a?a.dist:40;if(ln){ln.visible=true;ln.scale.z=Math.max(.02,len/Math.max(1e-6,rig.scale.x))}
       if(a){d.visible=true;d.position.copy(a.point);const s=Math.max(.006,Math.min(.6,a.dist*.009))*(a.btn?1.5:1);d.scale.setScalar(s);d.material.color.set(a.btn?0xffffff:a.pick?0x8ec5ff:0xffb347);
         if(a.panel)hov.set(a.panel,(hov.get(a.panel)||a.btn&&a.btn.id)||null)}else d.visible=false});
-    for(const p of panels){const h=hov.has(p)?hov.get(p):null;if(p.hover!==h){p.hover=h;p.redraw()}}}
+    for(const p of panels){const h=hov.has(p)?hov.get(p):null;if(p.hover!==h){p.hover=h;p.setHL(h)}}}
   function press(a,c){
     if(!a)return false;H.lastHit=a;
     if(a.panel){if(a.btn&&a.panel.onPress){a.panel.onPress(a.btn.id,c);haptic(c)}return true}
@@ -3483,7 +3490,7 @@ function VRHub(o){
   const GZ={key:null,t:0,fired:false},DWELL_BTN=1.3,DWELL_PICK=1.8;
   const gazeKey=a=>!a?null:a.panel?(a.btn?"b:"+a.panel.mesh.id+":"+a.btn.id:null):a.pick?"p:"+a.pick.id:null;
   function updGaze(dt){if(!gz)return;const a=H.aimFrom(gz);gz.userData.aim=a;
-    for(const p of panels){const h=a&&a.panel===p&&a.btn?a.btn.id:null;if(p.hover!==h){p.hover=h;p.redraw()}}
+    for(const p of panels){const h=a&&a.panel===p&&a.btn?a.btn.id:null;if(p.hover!==h){p.hover=h;p.setHL(h)}}
     const key=gazeKey(a),need=a&&a.btn?DWELL_BTN:DWELL_PICK;
     const now=performance.now();
     if(key!==GZ.key||G||holds.get(gz)||gz.userData.busy){GZ.key=key;GZ.t0=now;GZ.t=0;GZ.fired=false}

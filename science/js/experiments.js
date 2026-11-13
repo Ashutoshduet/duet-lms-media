@@ -21,6 +21,7 @@ import { EXPERIMENTS_P11 } from './experiments_p11.js';
 import { EXPERIMENTS_FREE } from './experiments_free.js';
 import { EXPERIMENTS_M1 } from './experiments_m1.js';
 import { EXPERIMENTS_M2 } from './experiments_m2.js';
+import { EXPERIMENTS_M3 } from './experiments_m3.js';
 import { DICT } from './exp_i18n.js';
 const X = (en) => ({ en, ...(DICT[en] || {}) });
 
@@ -338,7 +339,7 @@ export const EXPERIMENTS = [
   },
 ];
 
-EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3, ...EXPERIMENTS_P4, ...EXPERIMENTS_P5, ...EXPERIMENTS_P6, ...EXPERIMENTS_P7, ...EXPERIMENTS_P8, ...EXPERIMENTS_P9, ...EXPERIMENTS_P10, ...EXPERIMENTS_P11, ...EXPERIMENTS_FREE, ...EXPERIMENTS_M1, ...EXPERIMENTS_M2);
+EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3, ...EXPERIMENTS_P4, ...EXPERIMENTS_P5, ...EXPERIMENTS_P6, ...EXPERIMENTS_P7, ...EXPERIMENTS_P8, ...EXPERIMENTS_P9, ...EXPERIMENTS_P10, ...EXPERIMENTS_P11, ...EXPERIMENTS_FREE, ...EXPERIMENTS_M1, ...EXPERIMENTS_M2, ...EXPERIMENTS_M3);
 EXPERIMENTS.sort((a, b) => a.cls - b.cls); // stable: keeps the book order inside each class
 export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));
 // a class's experiments in book order: chapter by chapter (older-NCERT chapters after the current book), then any from other classes

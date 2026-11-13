@@ -8,6 +8,8 @@ import { topicGroups } from './topics.js';
 import { licenceInfo, licText } from './licence.js';
 import { SOLIDS, SUBS } from './chem.js';
 import { expectFor } from './chemcheck.js';
+import { DICT } from './exp_i18n.js';
+const symText = (e, L) => (DICT[e.eq.sym] && DICT[e.eq.sym][L]) || e.eq.sym; // equation lines with words are translated
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
@@ -108,7 +110,7 @@ export class UI {
     $('#s-title').textContent = this.app.expText(e, 'title');
     let h = '';
     if (r.state === 'finished') {
-      const okF = r.incomplete().ok; h = (okF ? `<p class="fin">✓ ${esc(this.t('finished'))}</p>` : `<p class="see"><b>⚠ ${esc(this.incompleteText())}</b></p>`) + `${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}${this.diffs().length ? `<p class="see"><b>⚠ ${esc(tx(YOURS, L))}:</b></p>${this.diffs().map(([k, t]) => `<p class="see">${esc(this.t('step'))} ${k + 1}: ${esc(t)}</p>`).join('')}<p><b>${esc(tx(INBOOK, L))}:</b> ${esc(r.baseText('result.obs', L))} ${esc(r.baseText('result.concl', L))}</p>` : `<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p>`}<p class="eq">${esc(e.eq.sym)}</p>`;
+      const okF = r.incomplete().ok; h = (okF ? `<p class="fin">✓ ${esc(this.t('finished'))}</p>` : `<p class="see"><b>⚠ ${esc(this.incompleteText())}</b></p>`) + `${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}${this.diffs().length ? `<p class="see"><b>⚠ ${esc(tx(YOURS, L))}:</b></p>${this.diffs().map(([k, t]) => `<p class="see">${esc(this.t('step'))} ${k + 1}: ${esc(t)}</p>`).join('')}<p><b>${esc(tx(INBOOK, L))}:</b> ${esc(r.baseText('result.obs', L))} ${esc(r.baseText('result.concl', L))}</p>` : `<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p>`}<p class="eq">${esc(symText(e, L))}</p>`;
       const c = this.cls || e.cls; if (okF && !this.classLeft(c).length) h += `<p class="fin">🎉 ${esc(this.fill('classDone', c))}</p>`;
     } else if (s) {
       h = `<p class="stepn">${esc(this.t('step'))} ${r.i + 1} ${esc(this.t('of'))} ${n}</p><p><b>${esc(this.t('doLabel'))}:</b> ${esc(r.text(`steps.${r.i}.do`, L))}</p>`;
@@ -142,7 +144,7 @@ export class UI {
       <h4>${esc(this.t('needs'))}</h4><p>${esc(uniq.join(' · '))}</p>
       ${(PHOTOS[e.id] || []).length ? `<h4>${esc(this.t('realPhoto'))}</h4><div class="prods">${PHOTOS[e.id].map((p) => `<figure class="ph"><img src="${p.f}" alt="" loading="lazy"><figcaption>${esc(p.cap[L] || p.cap.en)}</figcaption></figure>`).join('')}</div>` : ''}
       <h4>${esc(this.t('obs'))}</h4><table><tbody>${rows || `<tr><td colspan="3" class="mute">—</td></tr>`}</tbody></table>
-      <h4>${esc(this.t('eq'))}</h4><p>${esc(r.text('eq.word', L) || e.eq.word)}</p><p class="eq">${esc(e.eq.sym)}</p>
+      <h4>${esc(this.t('eq'))}</h4><p>${esc(r.text('eq.word', L) || e.eq.word)}</p><p class="eq">${esc(symText(e, L))}</p>
       ${r.state === 'finished' ? `<h4>${esc(this.t('concl'))}</h4><p>${esc(r.text('result.concl', L))}</p>` : ''}
       <h4>${esc(this.t('safety'))}</h4><p>${esc(r.text('result.safety', L))}</p>
       <h4>${esc(this.t('viva'))}</h4>${e.result.viva.map((v, i) => `<div class="q"><p>${i + 1}. ${esc(r.text(`result.viva.${i}.q`, L))}</p><button class="ans">${esc(this.t('showAns'))}<span>${esc(r.text(`result.viva.${i}.a`, L))}</span></button></div>`).join('')}`;
@@ -153,8 +155,10 @@ export class UI {
     this.menu.mesh.position.set(-0.8, y, -0.6); this.menu.mesh.rotation.set(-0.1, 0.62, 0, 'YXZ');
     this.story.mesh.position.set(0.8, y, -0.6); this.story.mesh.rotation.set(-0.1, -0.62, 0, 'YXZ');
   }
-  drawVR() {
+  // the two headset panels are redrawn one per call (one canvas upload per frame); returns true when both are done
+  drawVR(part) {
     const a = this.app, r = a.runner, L = this.L();
+    if (part !== 'story' && this._next !== 'story') {
     // menu
     const P = this.menu; P.bg('#f0a65a'); P.logo(40, 34, 40); const tv = this.view === 'topic';
     const head = `${this.t(this.subj)} · ${tv ? this.t('topics') : this.cls ? `${this.t('cls')} ${this.cls}` : this.t('all')}`; P.x.font = `700 40px ${FONT}`; const hs = Math.max(26, Math.min(40, (40 * 640) / Math.max(1, P.x.measureText(head).width))); P.text(head, 40, 92 + (40 - hs) / 2, hs, '#f3eee6', 700);
@@ -182,8 +186,10 @@ export class UI {
     P.btn('hgt_up', AR ? 420 : 510, 1376, AR ? 110 : 150, 84, '▲', { size: 34, align: 'center' });
     P.btn('hgt_auto', AR ? 546 : 676, 1376, AR ? 214 : 284, 84, { en: 'Auto height', hi: 'ऊँचाई अपने-आप', hg: 'Auto height' }[L] || 'Auto height', { size: AR ? 22 : 26, align: 'center', active: a._hgtAuto });
     if (AR) P.btn('xr_switch', 776, 1376, 184, 84, a.ar ? 'VR' : 'AR', { size: 30, align: 'center', primary: true });
-    P.commit();
-    if (a.codeVR) { this.drawCodeVR(); return; }
+    P.commit(); this._next = 'story'; return false;
+    }
+    this._next = 'menu';
+    if (a.codeVR) { this.drawCodeVR(); return true; }
     // story
     const S = this.story; S.bg('#7fd1ff'); S.logo(40, 34, 40);
     const e = r.exp; const X = S.x;
@@ -196,7 +202,7 @@ export class UI {
       const dif = this.diffs(); // what the student actually got, when it was not the book's result
       if (dif.length) { S.text('⚠ ' + tx(YOURS, L), 40, y, 30, '#f0a65a', 700); y += 44; dif.slice(0, 2).forEach(([k, t]) => para(`${this.t('step')} ${k + 1}`, t, '#f6c08a')); para(tx(INBOOK, L), r.baseText('result.concl', L)); }
       else para(this.t('concl'), r.text('result.concl', L));
-      S.text(e.eq.sym, 40, y, 30, '#f0a65a', 700); y += 50; }
+      S.text(symText(e, L), 40, y, 30, '#f0a65a', 700); y += 50; }
     else if (s) {
       S.text(`${this.t('step')} ${r.i + 1} ${this.t('of')} ${e.steps.length}`, 40, y, 28, '#a49d90', 600); y += 46;
       para(this.t('doLabel'), r.text(`steps.${r.i}.do`, L), '#f3eee6');
@@ -225,7 +231,7 @@ export class UI {
     S.btn('auto', 40, by + 110, 330, 80, r.auto ? '❚❚ ' + this.t('pause') : '▶▶ ' + this.t('autoplay'), { size: 28, align: 'center', active: r.auto });
     S.btn('speed', 385, by + 110, 280, 80, `${this.t('speed')} ${a.speed}×`, { size: 28, align: 'center' });
     S.btn('reset', 680, by + 110, 380, 80, '↺ ' + this.t('reset'), { size: 28, align: 'center' });
-    S.commit();
+    S.commit(); return true;
   }
   amounts() { // how much goes in at this step, worked out from the method itself (chem_expect.json): mL, drops or a spoonful, and the level now
     const r = this.app.runner, e = r.exp, L = this.L(); if (!e || !r.o || (r.state !== 'todo' && r.state !== 'doing')) return [];

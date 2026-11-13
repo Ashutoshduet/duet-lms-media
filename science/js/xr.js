@@ -198,8 +198,8 @@ export class XRInput {
       const hit = h.held ? null : this.cast(h); h.hovIt = hit && hit.item && !hit.panel ? hit.item : null;
       const len = hit ? hit.d : 1.2; h.line.scale.z = len; h.dot.visible = !!hit; if (hit) h.dot.position.copy(hit.p);
       const hp = hit && hit.panel ? hit.panel : null; const id = hp ? hp.hitUV(hit.uv) : null;
-      if (h.hoverPanel && (h.hoverPanel !== hp || h.hoverPanel.hover !== id)) { h.hoverPanel.hover = null; ui.dirty = true; }
-      if (hp && hp.hover !== id) { hp.hover = id; ui.dirty = true; if (id) this.pulse(h, 0.15, 10); }
+      if (h.hoverPanel && (h.hoverPanel !== hp || h.hoverPanel.hover !== id)) { h.hoverPanel.hover = null; h.hoverPanel.setHL(null); }
+      if (hp && hp.hover !== id) { hp.hover = id; hp.setHL(id); if (id) this.pulse(h, 0.15, 10); }
       h.hoverPanel = hp;
       // a match rubbed quickly along the side of the box strikes; a burning match or splint held at a wick lights the lamp
       const it = h.held;
