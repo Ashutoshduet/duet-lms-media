@@ -75,6 +75,8 @@ export class Runner {
     // a lamp or burner on the bench: a box of matches beside it, to light it yourself
     const lamp = this.app.lab.items.find((it) => it.setLit && it.heatPoint);
     if (lamp && !this.app.lab.items.some((it) => it.kind === 'matchbox')) { const p = lamp.g.getWorldPosition(new THREE.Vector3()); this.K.add(A.matchbox(), Math.max(-1.15, Math.min(1.15, p.x + (p.x > 0.9 ? -0.13 : 0.13))), -0.45); }
+    // compile the new apparatus' shaders in the background so the first frames with it do not stall (no freeze in the headset)
+    try { const R = this.app.renderer; if (R.compileAsync) R.compileAsync(this.app.scene, this.app.camera).catch(() => {}); } catch (e) { /* older three */ }
     this.pend = null; this.base = snapAll(this.o); if (this.isChem()) loadExpect(); if (this.app.recHook) this.app.recHook(this, true);
     // vessels named "Beaker A — …" / "Test tube B — …" get a sticker with their letter
     for (const it of this.app.lab.vessels) { const n = it.name && it.name.en; const m = n && n.match(/^(?:Beaker|Test tube|Tube)\s+([A-E1-5])\b/); if (m && !it.stickerMesh) this.K.sticker(it, m[1]); else if (it.tag && !it.stickerMesh) this.K.sticker(it, it.tag); }

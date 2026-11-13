@@ -1,6 +1,7 @@
 // Visual effects shared by all experiments: gas bubbles, falling precipitate flakes, fumes/smoke,
 // a pouring stream, drops, flashes and sparks. All pooled so the frame rate stays steady on a headset.
 import * as THREE from 'three';
+import { LITE, lockOff } from './lite.js';
 
 const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3(), mtx = new THREE.Matrix4(), qI = new THREE.Quaternion(), sc = new THREE.Vector3();
 
@@ -29,7 +30,7 @@ export class FX {
     g.setAttribute('size', new THREE.BufferAttribute(size, 1)); g.setAttribute('alpha', new THREE.BufferAttribute(alpha, 1));
     this.smat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, uniforms: { map: { value: softTex() }, scale: { value: 600 } },
       vertexShader: `attribute float size; attribute float alpha; attribute vec3 color; varying vec3 vC; varying float vA; uniform float scale;
-        void main(){ vC = color; vA = alpha; vec4 mv = modelViewMatrix*vec4(position,1.0); gl_PointSize = size*scale/(-mv.z); gl_Position = projectionMatrix*mv; }`,
+        void main(){ vC = color; vA = alpha; vec4 mv = modelViewMatrix*vec4(position,1.0); gl_PointSize = min(size*scale/(-mv.z), 140.0); gl_Position = projectionMatrix*mv; }`,
       fragmentShader: `uniform sampler2D map; varying vec3 vC; varying float vA; void main(){ vec4 t = texture2D(map, gl_PointCoord); gl_FragColor = vec4(vC, t.a*vA); }` });
     this.smoke = new THREE.Points(g, this.smat); this.smoke.frustumCulled = false; this.smoke.renderOrder = 8; scene.add(this.smoke);
     this.puffs = [];
@@ -41,6 +42,7 @@ export class FX {
     this.dropGeo = new THREE.SphereGeometry(0.0022, 10, 8);
     // flash light
     this.flash = new THREE.PointLight(0xffffff, 0, 3, 2); scene.add(this.flash); this.flashT = 0; this.flashMax = 0;
+    if (LITE) lockOff(this.flash); // headset: the flash shows as the glare sprite only
     this.glare = new THREE.Sprite(new THREE.SpriteMaterial({ map: softTex(), color: 0xffffff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
     this.glare.visible = false; this.glare.renderOrder = 10; scene.add(this.glare);
   }

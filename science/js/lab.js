@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import { Mix, SOLIDS, SUBS, heatTick, stripColor, CTX } from './chem.js';
 import { BENCH_Y } from './room.js';
+import { liteItem } from './lite.js';
 
 const SOFT_GLASS = ['cylinder', 'measuring', 'bottle', 'dropbottle', 'jar']; // ordinary (soda-lime) glass cracks in a flame; test tubes, beakers and flasks are heat-proof glass
 const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3(), tmpQ = new THREE.Quaternion();
@@ -22,6 +23,7 @@ export class Lab {
     if (item.inner) { item.mix = item.mix || new Mix(); item.gas = item.gas || {}; item.gasIn = item.gasIn || {}; this.vessels.push(item);
       item.gasOut = (type, amt) => { if (item.pipeTo) { item.pipeTo.gasIn[type] = (item.pipeTo.gasIn[type] || 0) + amt; } else item.gas[type] = (item.gas[type] || 0) + amt; if (!item.holdGas && type === 'CO2') item.ledger = (item.ledger || 0) - amt * 0.0063; }; } // gas that escapes takes its mass away (ledger: grams on a balance)
     item.g.traverse((m) => { if (m.isMesh && !m.material.transparent) { m.castShadow = true; m.receiveShadow = true; } });
+    liteItem(item.g); // headset: no small glow lights, no transmission glass
     return item;
   }
   clear() {

@@ -20,6 +20,7 @@ import { T, tx, LANGS, FONT } from './strings.js';
 import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './licence.js';
 import { demoIds } from './topics.js';
 import { LIQ_TIME } from './mats.js';
+import { LITE } from './lite.js';
 
 const Q = new URLSearchParams(location.search);
 if (Q.has('iwer')) { try { await (await import('../test-iwer.js')).default(); } catch (e) { console.warn('no test hook', e); } } // test only
@@ -37,7 +38,8 @@ export class App {
     const r = this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
     r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.setSize(innerWidth, innerHeight);
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.0; r.outputColorSpace = THREE.SRGBColorSpace;
-    r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap;
+    r.shadowMap.enabled = true; r.shadowMap.type = LITE ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
+    if (LITE) r.shadowMap.autoUpdate = false; // headset: shadows are redrawn every third frame (see frame())
     r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(1); r.xr.setFramebufferScaleFactor(1.0); // measured on a Quest 3S: 1.3 + light foveation ran at 11 fps, 1.0 + full foveation at 84
     document.getElementById('stage').appendChild(r.domElement);
     this.scene = new THREE.Scene(); this.scene.background = new THREE.Color(0xdfe3e6);
@@ -434,6 +436,7 @@ export class App {
   // ------------------------------------------------------------ the loop
   frame() {
     const dt = Math.min(0.05, this.clock.getDelta()); this.t += dt; LIQ_TIME.value = this.t;
+    if (LITE && (this._shN = (this._shN || 0) + 1) % 3 === 1) this.renderer.shadowMap.needsUpdate = true;
     const xr = this.renderer.xr.isPresenting;
     if (!xr) {
       if (this.t - (this._voT || 0) > 0.25) { this._voT = this.t; this.viewOffset(); }
