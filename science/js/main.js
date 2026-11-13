@@ -20,7 +20,7 @@ import { T, tx, LANGS, FONT } from './strings.js';
 import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './licence.js';
 import { demoIds } from './topics.js';
 import { LIQ_TIME } from './mats.js';
-import { LITE } from './lite.js';
+import { LITE, liteMerge } from './lite.js';
 
 const Q = new URLSearchParams(location.search);
 if (Q.has('iwer')) { try { await (await import('../test-iwer.js')).default(); } catch (e) { console.warn('no test hook', e); } } // test only
@@ -82,6 +82,7 @@ export class App {
     const bar = document.querySelector('#loader .bar i');
     await Promise.all([loadModels((k) => { if (bar) { bar.style.animation = 'none'; bar.style.width = Math.round(k * 100) + '%'; bar.style.transform = 'none'; } }), loadLabHDR(this.renderer, this.scene)]);
     furnish(this.roomInfo.room, this.roomInfo);
+    if (LITE) this.liteRoom = liteMerge(this.roomInfo.room); // headset: the fixed furniture in a few meshes
     const pm = loadPhysModels(); if (Q.has('test')) await pm; // real physics apparatus models load in the background
     const php = initPhysics(this).then((p) => { this.phys = p; if (p) { this.lab.surfaceY = (x, z) => p.surfaceY(x, z); this.lab.phys = p; const c0 = this.lab.clear.bind(this.lab); this.lab.clear = () => { c0(); p.clear(); }; } }); if (Q.has('test')) await php; // falling, throwing and breaking
     const first = Q.get('exp');
