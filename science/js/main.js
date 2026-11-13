@@ -347,7 +347,9 @@ export class App {
     try { ok = !!navigator.xr && await navigator.xr.isSessionSupported('immersive-vr'); } catch (e) {}
     // AR: the bench and the experiment in the real room (passthrough on a Quest; a phone camera in Chrome with ARCore)
     let okAR = false; try { okAR = !!navigator.xr && !window.DuetNative && await navigator.xr.isSessionSupported('immersive-ar'); } catch (e) {}
-    const ba = document.getElementById('ar-btn'), ga = document.getElementById('xr-go-ar'); ba.hidden = !okAR; ga.hidden = !okAR; this.canAR = okAR;
+    const ba = document.getElementById('ar-btn'), ga = document.getElementById('xr-go-ar'); ba.hidden = !okAR; ga.hidden = !okAR;
+    // the installed headset app (?app=vr) closes when its immersive session ends, so inside it there is no VR↔AR switch (it would end the session)
+    this.canAR = okAR && Q.get('app') !== 'vr';
     ba.textContent = tx(T.enterAR, this.lang); ga.textContent = tx(T.enterAR, 'en') + ' · ' + tx(T.enterAR, 'hi');
     ba.onclick = () => { if (this.renderer.xr.isPresenting) this.renderer.xr.getSession().end(); else this.startAR(true); }; ga.onclick = () => this.startAR(true);
     b.hidden = !ok; if (!ok) return;
