@@ -30,9 +30,9 @@ own hands and, where it makes sense, stands inside the shape.
 | 7 | P2 2 Operations with Integers | w7_integer_frog | |
 | 7 | P2 3 Finding Common Ground | w7_frog_lcm | |
 | 7 | P2 4 Another Peek Beyond the Point | w7_decimal_area | |
-| 7 | P2 5 Connecting the Dots | — | |
-| 7 | P2 6 Constructions and Tilings | — | tile a floor around you |
-| 7 | P2 7 Finding the Unknown | — | a balance scale: x + 3 = 7 by hand |
+| 7 | P2 5 Connecting the Dots | w7_rain_week | |
+| 7 | P2 6 Constructions and Tilings | w7_tiling | |
+| 7 | P2 7 Finding the Unknown | w7_balance_unknown | |
 | 8 | 1 A Square and A Cube | m8_cube_numbers | |
 | 8 | 2 Power Play | w8_fold_moon | |
 | 8 | 3 A Story of Numbers | w8_count_sheep | |
