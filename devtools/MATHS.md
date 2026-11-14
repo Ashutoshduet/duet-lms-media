@@ -8,10 +8,10 @@ Hindi and Hinglish, and plays a recorded voice (English and Hindi).
 
 | File | What it holds |
 |---|---|
-| `science/js/mathlab.js`, `mathlab2.js`, `mathlab3.js` | the maths apparatus (drawing helpers such as `paper`, `flat`, `outline`, `dashed`, `board`, `topLabel` are exported from `mathlab2.js`): paper shapes, tiles, cubes, cones, a clinometer… Each export returns an `Item` (or a `Vessel` for things that hold water) with methods the steps call (`place(i, k)`, `fold(k)`, `at(name)`…) |
-| `science/js/experiments_m1.js` … `experiments_m3.js` | the activities (2 to 7 per batch) |
-| `science/js/exp_i18n_m.js` … `exp_i18n_m3.js` | Hindi (`hi`) and Hinglish (`hg`) for every English sentence, keyed by the English text |
-| `science/js/actions_phys.js` | registers apparatus modules on the kit (`K.MT`, `K.MT2`, `K.MT3`…) |
+| `science/js/mathlab.js` … `mathlab4.js` | the maths apparatus (drawing helpers such as `paper`, `flat`, `outline`, `dashed`, `board`, `topLabel` are exported from `mathlab2.js`): paper shapes, tiles, cubes, cones, a clinometer… Each export returns an `Item` (or a `Vessel` for things that hold water) with methods the steps call (`place(i, k)`, `fold(k)`, `at(name)`…) |
+| `science/js/experiments_m1.js` … `experiments_m4.js` | the activities (2 to 7 per batch) |
+| `science/js/exp_i18n_m.js` … `exp_i18n_m4.js` | Hindi (`hi`) and Hinglish (`hg`) for every English sentence, keyed by the English text |
+| `science/js/actions_phys.js` | registers apparatus modules on the kit (`K.MT` … `K.MT4`) |
 | `science/js/experiments.js` | imports each batch and pushes it onto `EXPERIMENTS` |
 | `science/js/topics.js` | maths topics (numbers, algebra, geometry, mensuration, data) matched by chapter name |
 | `science/voice/` | narration clips, named by a hash of the text (`devtools/tts`) |

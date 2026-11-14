@@ -8,7 +8,7 @@ own hands and, where it makes sense, stands inside the shape.
 
 | Class | Chapter | Activities | Ideas still to build |
 |---|---|---|---|
-| 6 | 1 Patterns in Mathematics | w6_odd_squares | triangular numbers with balls |
+| 6 | 1 Patterns in Mathematics | w6_odd_squares, m6_triangular_numbers | |
 | 6 | 2 Lines and Angles | w6_angle_turn | |
 | 6 | 3 Number Play | w6_kaprekar | |
 | 6 | 4 Data Handling and Presentation | w6_fruit_bars | |
@@ -51,7 +51,7 @@ own hands and, where it makes sense, stands inside the shape.
 | 9 | 2 Introduction to Linear Polynomials | w9_linear_tank | |
 | 9 | 3 The World of Numbers | w9_root_spiral | |
 | 9 | 4 Exploring Algebraic Identities | m9_difference_squares, w9_identity_cube | |
-| 9 | 5 I'm Up and Down, and Round and Round | w9_circle_angles | |
+| 9 | 5 I'm Up and Down, and Round and Round | w9_circle_angles, m9_chord_bisector | |
 | 9 | 6 Measuring Space: Perimeter and Area | w9_lean_field, m9_parallelogram_area | |
 | 9 | 7 The Mathematics of Maybe | w9_spinner, m9_coin_probability | |
 | 9 | 8 Predicting What Comes Next | w9_grow_patterns | |
