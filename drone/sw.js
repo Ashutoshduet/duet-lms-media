@@ -118,7 +118,9 @@ self.addEventListener('fetch', (e) => {
     // newest code when the internet answers within 2.5 s; otherwise the saved copy at once (school Wi-Fi often has no internet)
     e.respondWith((async () => {
       if (Date.now() < netDownUntil) { const m = await fromCache(p); if (m) return m; } // the internet just failed: no waiting on every file
-      const net = fetch(r).then((res) => { netDownUntil = 0; return res.ok ? res : null; }).catch(() => { netDownUntil = Date.now() + 30000; return null; });
+      // no-cache: ask the server whether the file changed (a quick 304 if not), so a page never mixes new and old code
+      // files that the browser's own cache still holds (GitHub Pages lets it keep them for 10 minutes)
+      const net = fetch(r.url, { cache: 'no-cache', credentials: 'same-origin' }).then((res) => { netDownUntil = 0; return res.ok ? res : null; }).catch(() => { netDownUntil = Date.now() + 30000; return null; });
       const first = await Promise.race([net, sleep(2500).then(() => null)]);
       if (first) return first;
       netDownUntil = Math.max(netDownUntil, Date.now() + 30000);
