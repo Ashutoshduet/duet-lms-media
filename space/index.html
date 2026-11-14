@@ -6805,6 +6805,7 @@ function RocketScenes(H){
       const lab=label(m.name,m.size||"",m.country==="india"?"#ff9933":"#8ec5ff",.14);lab.position.y=(floating?h+3:h+2.5)+(overhead?8:0);g.add(lab);
       const it={m,g,pos,h,floating,overhead,lab,loaded:false,hit:null};items.push(it);if(!overhead)g.lookAt(0,pos.y,0)}
     function pump(){while(loading<2&&queue.length){const it=queue.shift();loading++;loadGLB(it.m.id,o=>{loading--;if(o){
+        duetMergeStatic(o); // each exhibit's parts in one mesh per look: about 1,180 draw calls became a few hundred (a headset held only 41 fps here)
         const b=new T.Box3().setFromObject(o),c=b.getCenter(new T.Vector3()),sz=b.getSize(new T.Vector3());
         const pv=new T.Group();it.pv=pv;
         if(it.floating||it.overhead){o.position.sub(c);pv.position.y=it.floating?sz.y/2+1.6:0}else{o.position.x-=c.x;o.position.z-=c.z;o.position.y-=b.min.y}
