@@ -15,8 +15,9 @@ export const PLACES = {
   kitchen: { img: 'kiara_interior', h: 1.45, r: 9, sun: [0.702, 0.184, -0.688], sunI: 0.8, sky: 0.35, env: 1.0, table: true, name: { en: 'Kitchen', hi: 'रसोई', hg: 'Kitchen' } },
   quad: { img: 'quadrangle_sunny', h: 1.7, r: 60, sun: [0.42, 0.855, 0.305], sunI: 2.4, sky: 0.25, env: 1.0, name: { en: 'School courtyard', hi: 'स्कूल का आँगन', hg: 'School courtyard' } },
   rail: { img: 'bloem_train_track_clear', h: 1.6, r: 60, yaw: 2.119, sun: [0.796, 0.156, 0.585], sunI: 2.0, sky: 0.3, env: 1.0, name: { en: 'Railway line', hi: 'रेल की पटरी', hg: 'Railway line' } }, // turned so the track runs straight ahead (rails at x = −0.48 and +0.61, gauge 1.067 m)
-  farm: { img: 'citrus_orchard_road', h: 1.6, r: 60, sun: [0.712, 0.603, 0.359], sunI: 1.1, sky: 0.45, env: 1.0, name: { en: 'Farm', hi: 'खेत', hg: 'Khet' } },
-  field: { img: 'suburban_football_field', h: 1.7, r: 60, sun: [0.069, 0.767, 0.638], sunI: 0.9, sky: 0.5, env: 1.1, name: { en: 'Playground', hi: 'खेल का मैदान', hg: 'Khel ka maidan' } },
+  farm: { img: 'citrus_orchard_road', h: 1.6, r: 60, yaw: 1.492, sun: [0.712, 0.603, 0.359], sunI: 1.1, sky: 0.45, env: 1.0, name: { en: 'Farm', hi: 'फ़ार्म', hg: 'Farm' } }, // turned so the farm road runs straight ahead,
+  khet: { img: 'farm_field', h: 1.6, r: 60, sun: [0.505, 0.779, 0.372], sunI: 1.3, sky: 0.45, env: 1.0, name: { en: 'Field', hi: 'खेत', hg: 'Khet' } },
+  field: { img: 'suburban_football_field', h: 1.7, r: 60, yaw: -0.094, sun: [0.069, 0.767, 0.638], sunI: 0.9, sky: 0.5, env: 1.1, name: { en: 'Playground', hi: 'खेल का मैदान', hg: 'Khel ka maidan' } }, // turned so the pitch line runs straight ahead (it is the y-axis)
 };
 
 const sunDir = (P) => new THREE.Vector3(...P.sun).normalize().applyAxisAngle(new THREE.Vector3(0, 1, 0), P.yaw || 0);

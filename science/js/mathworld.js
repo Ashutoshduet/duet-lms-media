@@ -7,6 +7,9 @@ import * as THREE from 'three';
 import { Item } from './apparatus.js';
 import { canvasTex } from './mats.js';
 import { ease, lerp, clamp01 } from './mathlab2.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
 const FONT = '"Noto Sans Devanagari", "Noto Sans", system-ui, sans-serif';
@@ -250,4 +253,282 @@ export function rotiSectors(o = {}) {
   const W = (u, v, up = 0.05) => it.g.localToWorld(V(u, up, -v));
   it.at = (k) => ({ roti: W(C[0], C[1] + 0.02, 0.09), len: W(base[0] + 4.4 * s, base[1] - 0.04, 0.05), ht: W(base[0] + 8.5 * s + 0.07, base[1] + r / 2, 0.05), area: W(0.17, 0.1, 0.12) }[k]);
   it.noGrab = true; it.noPhys = true; it.height = 0.03; it.radius = 0.3; it.grabY = 0.01; return it;
+}
+
+// ------------------------------------------------------------------ shared: real models, paint on the ground, cones, wheat
+const MDIR = '../maths/models/';
+let gltf = null; const glbs = {};
+// a scanned model from maths/models (Poly Haven, CC0), loaded once and copied for each use
+export function glb(name) {
+  if (!glbs[name]) { gltf ||= new GLTFLoader().setMeshoptDecoder(MeshoptDecoder); glbs[name] = gltf.loadAsync(MDIR + name).then((g) => g.scene); }
+  return glbs[name].then((s) => s.clone(true));
+}
+// scale a model so its largest side is `size` m, centred on x and z, standing on y = 0 (or centred on y)
+function fit(s, size, centreY = false) {
+  const b = new THREE.Box3().setFromObject(s), d = b.getSize(V(0, 0, 0)), k = size / Math.max(d.x, d.y, d.z), c = b.getCenter(V(0, 0, 0));
+  s.scale.multiplyScalar(k); s.position.set(-c.x * k, centreY ? -c.y * k : -b.min.y * k, -c.z * k);
+  s.traverse((m) => { if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; m.userData.noHit = true; } }); return s;
+}
+// a painted stripe on the ground from a to b (w wide): pitch lines, axes
+const STRIPE = new THREE.BoxGeometry(1, 0.004, 1);
+export function stripe(a, b, w, mat, y = 0.007) { const m = new THREE.Mesh(STRIPE, mat); m.userData.w = w; m.userData.y = y; m.userData.noHit = true; m.receiveShadow = true; setStripe(m, a, b); return m; }
+export function setStripe(m, a, b) {
+  const dx = b.x - a.x, dz = b.z - a.z, L = Math.hypot(dx, dz);
+  m.position.set((a.x + b.x) / 2, m.userData.y, (a.z + b.z) / 2); m.rotation.set(0, -Math.atan2(dz, dx), 0); m.scale.set(Math.max(1e-4, L), 1, m.userData.w); m.visible = L > 1e-3;
+}
+// an orange traffic cone with a white band (about 50 cm tall)
+export function trafficCone(h = 0.5) {
+  const g = new THREE.Group(), r0 = 0.13, r1 = 0.02, rAt = (f) => r0 - (r0 - r1) * f;
+  const or = new THREE.MeshStandardMaterial({ color: 0xff5a14, roughness: 0.5 }), wh = new THREE.MeshStandardMaterial({ color: 0xf4f4f0, roughness: 0.3 });
+  const base = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.03, 0.34), new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.85 })); base.position.y = 0.015;
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(r1, r0, h, 24, 1, true), or); body.position.y = 0.03 + h / 2;
+  const band = new THREE.Mesh(new THREE.CylinderGeometry(rAt(0.62) + 0.002, rAt(0.42) + 0.002, 0.2 * h, 24, 1, true), wh); band.position.y = 0.03 + 0.52 * h;
+  for (const m of [base, body, band]) { m.castShadow = true; m.receiveShadow = true; m.userData.noHit = true; g.add(m); }
+  return g;
+}
+// wheat grains, close up (tiles seamlessly)
+let WHEAT = null;
+function wheatTex() {
+  if (WHEAT) return WHEAT;
+  WHEAT = canvasTex(512, 512, (x, W) => {
+    x.fillStyle = '#9c6c2c'; x.fillRect(0, 0, W, W);
+    const grain = (px, py, a, l, c) => {
+      x.save(); x.translate(px, py); x.rotate(a);
+      x.fillStyle = `rgb(${c[0]},${c[1]},${c[2]})`; x.beginPath(); x.ellipse(0, 0, l, l * 0.56, 0, 0, 7); x.fill();
+      x.fillStyle = 'rgba(255,240,200,0.28)'; x.beginPath(); x.ellipse(-l * 0.2, -l * 0.16, l * 0.5, l * 0.2, 0, 0, 7); x.fill();
+      x.strokeStyle = 'rgba(95,58,20,0.45)'; x.lineWidth = 1.2; x.beginPath(); x.moveTo(-l * 0.75, l * 0.06); x.lineTo(l * 0.75, l * 0.06); x.stroke(); x.restore();
+    };
+    for (let i = 0; i < 4200; i++) {
+      const px = Math.random() * W, py = Math.random() * W, a = Math.random() * Math.PI, l = 6 + Math.random() * 3, v = Math.random();
+      const c = [Math.round(196 + v * 40), Math.round(140 + v * 40), Math.round(62 + v * 28)];
+      for (const ox of [-W, 0, W]) for (const oy of [-W, 0, W]) if (px + ox > -12 && px + ox < W + 12 && py + oy > -12 && py + oy < W + 12) grain(px + ox, py + oy, a, l, c);
+    }
+  });
+  WHEAT.wrapS = WHEAT.wrapT = THREE.RepeatWrapping; return WHEAT;
+}
+const wheatMat = (rx, ry = rx) => { const t = wheatTex().clone(); t.repeat.set(rx, ry); t.needsUpdate = true; return new THREE.MeshStandardMaterial({ map: t, roughness: 0.92 }); };
+// a stream of falling grains: flow(from, velocity, floorY) while pouring, stop() after; tick(dt) every frame
+function grainStream(n = 200) {
+  const geo = new THREE.SphereGeometry(0.0042, 6, 4); geo.scale(1, 1.8, 1);
+  const m = new THREE.InstancedMesh(geo, new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.7 }), n);
+  m.frustumCulled = false; m.userData.noHit = true; m.castShadow = false;
+  const P = new Float32Array(n * 3), Vl = new Float32Array(n * 3), live = new Uint8Array(n), Q = [];
+  const M = new THREE.Matrix4(), Z = new THREE.Matrix4().makeScale(0, 0, 0), pos = V(0, 0, 0), one = V(1, 1, 1), col = new THREE.Color();
+  for (let i = 0; i < n; i++) { Q.push(new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.random() * 6, Math.random() * 6, Math.random() * 6))); m.setMatrixAt(i, Z); const v = Math.random(); m.setColorAt(i, col.setRGB(0.78 + v * 0.16, 0.55 + v * 0.15, 0.24 + v * 0.1)); }
+  const st = { on: false, src: V(0, 0, 0), vel: V(0, 0, 0), floor: 0 }; let acc = 0, alive = 0; m.visible = false;
+  m.flow = (src, vel, floor) => { st.on = true; st.src.copy(src); st.vel.copy(vel); st.floor = floor; };
+  m.stop = () => { st.on = false; };
+  m.tick = (dt) => {
+    if (!st.on && !alive) { m.visible = false; return; }
+    dt = Math.min(dt || 0.016, 0.05); m.visible = true;
+    if (st.on) { acc += dt * 520; while (acc >= 1) { acc -= 1; const i = live.indexOf(0); if (i < 0) { acc = 0; break; } live[i] = 1; alive++;
+      P[i * 3] = st.src.x + (Math.random() - 0.5) * 0.03; P[i * 3 + 1] = st.src.y; P[i * 3 + 2] = st.src.z + (Math.random() - 0.5) * 0.03;
+      Vl[i * 3] = st.vel.x + (Math.random() - 0.5) * 0.08; Vl[i * 3 + 1] = st.vel.y; Vl[i * 3 + 2] = st.vel.z + (Math.random() - 0.5) * 0.08; } }
+    for (let i = 0; i < n; i++) {
+      if (!live[i]) continue;
+      Vl[i * 3 + 1] -= 9.8 * dt; P[i * 3] += Vl[i * 3] * dt; P[i * 3 + 1] += Vl[i * 3 + 1] * dt; P[i * 3 + 2] += Vl[i * 3 + 2] * dt;
+      if (P[i * 3 + 1] < st.floor) { live[i] = 0; alive--; m.setMatrixAt(i, Z); continue; }
+      M.compose(pos.set(P[i * 3], P[i * 3 + 1], P[i * 3 + 2]), Q[i], one); m.setMatrixAt(i, M);
+    }
+    m.instanceMatrix.needsUpdate = true;
+  };
+  return m;
+}
+const seg = (k, a, b) => clamp01((k - a) / (b - a));
+
+// ------------------------------------------------------------------ Class 9: coordinates on the playground
+// The playground is painted as a coordinate plane: the x-axis across, the y-axis straight ahead (on the pitch line of the
+// photo), the origin O 5 m in front of the student, a mark every metre. A football and traffic cones are the points.
+export function coordField(o = {}) {
+  const it = new Item('wcoord', { ...o, name: { en: 'Coordinate plane on the playground', hi: 'खेल के मैदान पर निर्देशांक तल', hg: 'Playground par coordinate plane' } });
+  const g = it.g, OZ = o.oz ?? -5, XS = [-6, 6], YS = [-4, 5];
+  const P = (x, y, h = 0) => V(x, h, OZ - y); it.P = P;
+  const paint = new THREE.MeshStandardMaterial({ color: 0xf7f7f2, roughness: 0.9 });
+  // the axes: four half-lines that grow out of O, a mark and a number every metre
+  const halves = [[XS[1], 0], [XS[0], 0], [0, YS[1]], [0, YS[0]]].map(([x, y]) => { const m = stripe(P(0, 0), P(x, y), 0.1, paint); m.visible = false; g.add(m); return { m, x, y, L: Math.abs(x || y) }; });
+  const ticks = [];
+  const num = (n, at) => { const s = sign(String(n).replace('-', '−'), 0.26, { bg: 'rgba(12,16,24,0.6)' }); s.position.copy(at); s.visible = false; g.add(s); return s; };
+  for (let x = XS[0]; x <= XS[1]; x++) if (x) { const m = stripe(P(x, -0.22), P(x, 0.22), 0.06, paint); m.visible = false; g.add(m); ticks.push({ h: x > 0 ? 0 : 1, d: Math.abs(x), m, s: num(x, P(x, -0.55, 0.2)) }); }
+  for (let y = YS[0]; y <= YS[1]; y++) if (y) { const m = stripe(P(-0.22, y), P(0.22, y), 0.06, paint); m.visible = false; g.add(m); ticks.push({ h: y > 0 ? 2 : 3, d: Math.abs(y), m, s: num(y, P(-0.6, y, 0.2)) }); }
+  const names = [['x', P(XS[1] + 0.6, 0, 0.3)], ['y', P(0, YS[1] + 0.6, 0.3)]].map(([t, at]) => { const s = sign(t, 0.42, { color: '#ffd23f' }); s.position.copy(at); s.visible = false; g.add(s); return s; });
+  // a string grid, one metre apart
+  const parts = [];
+  for (let x = XS[0]; x <= XS[1]; x++) if (x) { const b = new THREE.BoxGeometry(0.025, 0.002, YS[1] - YS[0]); b.translate(x, 0.004, OZ - (YS[0] + YS[1]) / 2); parts.push(b); }
+  for (let y = YS[0]; y <= YS[1]; y++) if (y) { const b = new THREE.BoxGeometry(XS[1] - XS[0], 0.002, 0.025); b.translate(0, 0.004, OZ - y); parts.push(b); }
+  const grid = new THREE.Mesh(mergeGeometries(parts), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, depthWrite: false, toneMapped: false })); grid.visible = false; grid.userData.noHit = true; g.add(grid);
+  // the four quadrants, tinted
+  const QC = [0x8be07a, 0x5ec8ff, 0xff8a3d, 0xc58bff];
+  it.quadMeshes = [[1, 1], [-1, 1], [-1, -1], [1, -1]].map(([sx, sy], i) => {
+    const w = sx > 0 ? XS[1] : -XS[0], d = sy > 0 ? YS[1] : -YS[0];
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, d).rotateX(-Math.PI / 2), glow(QC[i], 0.2)); m.position.copy(P((sx * w) / 2, (sy * d) / 2, 0.005)); m.visible = false; m.userData.noHit = true; g.add(m); return m;
+  });
+  // the points: a football at A, cones at B, C and D
+  const PTS = o.points || [{ n: 'A', x: 4, y: 3, ball: true }, { n: 'B', x: -3, y: 4 }, { n: 'C', x: -4, y: -2 }, { n: 'D', x: 3, y: -3 }]; it.PTS = PTS;
+  const mX = glow(COL.base), mY = glow(COL.up), BR = 0.11;
+  for (const p of PTS) {
+    p.r1 = rod(P(0, 0, 0.03), P(0, 0, 0.03), 0.03, mX); p.r2 = rod(P(0, 0, 0.03), P(0, 0, 0.03), 0.03, mY); p.r1.visible = p.r2.visible = false; g.add(p.r1, p.r2);
+    p.obj = new THREE.Group(); p.obj.visible = false; g.add(p.obj);
+    if (p.ball) {
+      p.spin = new THREE.Group(); p.spin.position.y = BR; p.obj.add(p.spin);
+      const tmp = new THREE.Mesh(new THREE.SphereGeometry(BR, 24, 16), new THREE.MeshStandardMaterial({ color: 0xf0f0f0, roughness: 0.6 })); tmp.castShadow = true; p.spin.add(tmp);
+      glb('football.glb').then((s) => { p.spin.remove(tmp); p.spin.add(fit(s, 2 * BR, true)); }).catch(() => { /* keep the plain ball */ });
+    } else p.obj.add(trafficCone());
+    p.walker = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.22, 32).rotateX(-Math.PI / 2), glow(0xffffff, 0.9)); p.walker.visible = false; p.walker.userData.noHit = true; g.add(p.walker);
+    p.dot = new THREE.Mesh(new THREE.CircleGeometry(0.1, 24).rotateX(-Math.PI / 2), glow(0xffffff)); p.dot.position.copy(P(p.x, p.y, 0.012)); p.dot.visible = false; p.dot.userData.noHit = true; g.add(p.dot);
+  }
+  // the straight line from O to the ball
+  const oa = rod(P(0, 0, 0.05), P(0, 0, 0.05), 0.035, glow(COL.ok)); oa.visible = false; g.add(oa);
+  it.axes = (k) => {
+    const e = ease(clamp01(k)); for (const h of halves) { setStripe(h.m, P(0, 0), P(h.x * e, h.y * e)); h.m.visible = e > 0.001; }
+    for (const t of ticks) { const on = e * halves[t.h].L >= t.d - 0.01; t.m.visible = on; t.s.visible = on; }
+    for (const s of names) s.visible = e > 0.98; grid.visible = e > 0.98;
+  };
+  it.place = (i, k) => {
+    const p = PTS[i], e = ease(clamp01(k / 0.86)), L1 = Math.abs(p.x), L2 = Math.abs(p.y), d = e * (L1 + L2), a = Math.min(d, L1), b = Math.max(0, d - L1), sx = Math.sign(p.x), sy = Math.sign(p.y);
+    setRod(p.r1, P(0, 0, 0.03), P(sx * a, 0, 0.03)); p.r1.visible = a > 0.01;
+    setRod(p.r2, P(p.x, 0, 0.03), P(p.x, sy * b, 0.03)); p.r2.visible = b > 0.01;
+    const cur = P(sx * a, sy * b, 0);
+    if (p.ball) { p.obj.visible = k > 0; p.obj.position.copy(cur); p.spin.rotation.set((-sy * b) / BR, 0, (-sx * a) / BR); }
+    else { p.walker.visible = k > 0 && k < 0.9; p.walker.position.copy(cur).setY(0.015); const f = seg(k, 0.86, 1); p.obj.visible = k > 0.86; p.obj.position.copy(P(p.x, p.y, (1 - f) * (1 - f) * 1.4)); }
+    p.dot.visible = k >= 1;
+  };
+  it.quads = (on) => it.quadMeshes.forEach((m) => { m.visible = on; });
+  it.straight = (k) => { const A = PTS[0]; setRod(oa, P(0, 0, 0.05), P(0, 0, 0.05).lerp(P(A.x, A.y, 0.05), ease(clamp01(k)))); oa.visible = k > 0.01; };
+  it.at = (k) => {
+    const p = PTS.find((q) => q.n === k); if (p) return P(p.x, p.y, p.ball ? 0.75 : 1.0);
+    return { O: P(-0.9, -0.9, 0.7), q1: P(4.5, 1.6, 0.6), q2: P(-4.5, 1.6, 0.6), q3: P(-2.2, -3.2, 0.6), q4: P(1.6, -1.4, 0.6), OA: P(2.0, 1.5, 0.9), top: P(5.4, 1.2, 0.9) }[k] || P(0, 0, 1);
+  };
+  it.noGrab = true; it.noPhys = true; it.height = 0.1; it.radius = 6; it.base = 0; return it;
+}
+
+// ------------------------------------------------------------------ Class 6: the same rope, different fields (a farm)
+// A farmer has 24 m of rope and four posts. The rope goes round the posts; the posts can be moved. The area inside is
+// counted in squares of 1 m.
+export function fencePlot(o = {}) {
+  const it = new Item('wfence', { ...o, name: { en: 'Rope fence round a plot', hi: 'खेत के टुकड़े के चारों ओर रस्सी की बाड़', hg: 'Plot ke chaaron or rassi ki fence' } });
+  const g = it.g, C = V(0, 0, o.cz ?? -6.5), PER = 24;
+  const wt = new THREE.TextureLoader().load('../maths/tex/wood_table_diff.jpg'); wt.colorSpace = THREE.SRGBColorSpace; wt.wrapS = wt.wrapT = THREE.RepeatWrapping; wt.repeat.set(0.25, 1.6);
+  const wood = new THREE.MeshStandardMaterial({ map: wt, color: 0x9c7a58, roughness: 0.88 });
+  const PH = 1.05, postGeo = new THREE.CylinderGeometry(0.045, 0.055, PH, 10); postGeo.translate(0, PH / 2, 0);
+  const capGeo = new THREE.ConeGeometry(0.046, 0.07, 10); capGeo.translate(0, PH + 0.035, 0);
+  const posts = [0, 1, 2, 3].map(() => { const p = new THREE.Group(); const a = new THREE.Mesh(postGeo, wood), b = new THREE.Mesh(capGeo, wood); for (const m of [a, b]) { m.castShadow = true; m.receiveShadow = true; m.userData.noHit = true; p.add(m); } g.add(p); return p; });
+  const ropeM = new THREE.MeshStandardMaterial({ color: 0xd6c08a, roughness: 0.95 });
+  const ropes = []; for (const hy of [0.92, 0.5]) for (let s = 0; s < 4; s++) { const r = rod(V(0, 0, 0), V(0, 0, 0), 0.011, ropeM); r.castShadow = true; r.visible = false; g.add(r); ropes.push({ r, hy, s }); }
+  // the coil of rope that unwinds
+  const coil = new THREE.Group(); for (let i = 0; i < 4; i++) { const t = new THREE.Mesh(new THREE.TorusGeometry(0.17 - i * 0.012, 0.016, 6, 28).rotateX(Math.PI / 2), ropeM); t.position.y = 0.018 + i * 0.03; t.castShadow = true; coil.add(t); } g.add(coil);
+  // squares of 1 m
+  const tiles = new THREE.InstancedMesh(new THREE.PlaneGeometry(0.9, 0.9).rotateX(-Math.PI / 2), glow(0xb6f27a, 0.42), 40); tiles.count = 0; tiles.frustumCulled = false; tiles.userData.noHit = true; g.add(tiles);
+  it.a = o.a ?? 10; it.b = PER / 2 - it.a; it.ropeK = 0; it.labels = [];
+  const corners = () => { const a = it.a, b = it.b; return [V(-a / 2, 0, C.z + b / 2), V(a / 2, 0, C.z + b / 2), V(a / 2, 0, C.z - b / 2), V(-a / 2, 0, C.z - b / 2)]; };
+  const update = () => {
+    const c = corners(), L = [it.a, it.b, it.a, it.b], cum = [0, it.a, it.a + it.b, 2 * it.a + it.b], run = it.ropeK * PER;
+    posts.forEach((p, i) => { const k = ease(clamp01((run - cum[i] + 1.5) / 1.5)); p.position.copy(c[i]); p.scale.set(1, Math.max(0.001, k), 1); p.visible = k > 0.001; });
+    for (const { r, hy, s } of ropes) { const len = Math.min(L[s], Math.max(0, run - cum[s])); const a = c[s].clone().setY(hy), b = c[(s + 1) % 4].clone().setY(hy); setRod(r, a, a.clone().lerp(b, len / L[s])); r.visible = len > 0.01; }
+    coil.position.copy(c[0]).add(V(-0.45, 0, 0.35)); const ck = 1 - it.ropeK; coil.scale.set(1, Math.max(0.001, ck), 1); coil.visible = ck > 0.02;
+  };
+  update();
+  it.fence = (k) => { it.ropeK = clamp01(k); update(); };
+  it.tiles = (k) => {
+    const n = Math.round(it.a * it.b), m = Math.floor(clamp01(k) * n + 1e-6), M = new THREE.Matrix4(); tiles.count = m;
+    for (let i = 0; i < m; i++) { const row = Math.floor(i / it.a), col = i % it.a; M.makeTranslation(-it.a / 2 + col + 0.5, 0.02, C.z + it.b / 2 - row - 0.5); tiles.setMatrixAt(i, M); }
+    tiles.instanceMatrix.needsUpdate = true;
+  };
+  it.morph = (a0, a1, k) => { it.a = lerp(a0, a1, ease(clamp01(k))); it.b = PER / 2 - it.a; tiles.count = 0; update(); if (k >= 1) { it.a = a1; it.b = PER / 2 - a1; update(); } };
+  it.sides = (on) => {
+    for (const s of it.labels) g.remove(s); it.labels = []; if (!on) return;
+    const a = Math.round(it.a), b = Math.round(it.b);
+    const s1 = sign(`${a} m`, 0.36, { color: '#ffd23f' }); s1.position.set(0, 0.4, C.z + b / 2 + 0.55);
+    const s2 = sign(`${b} m`, 0.36, { color: '#5ec8ff' }); s2.position.set(a / 2 + 0.75, 0.4, C.z);
+    g.add(s1, s2); it.labels.push(s1, s2);
+  };
+  it.at = (k) => ({ top: V(0, 2.1, C.z), area: V(0, 1.55, C.z), note: V(0, 2.7, C.z), rope: V(-it.a / 2 - 1.2, 1.4, C.z + it.b / 2) }[k] || V(0, 1.5, C.z));
+  it.noGrab = true; it.noPhys = true; it.height = 1; it.radius = 6; it.base = 0; return it;
+}
+
+// ------------------------------------------------------------------ Class 10: a cone of wheat and a drum (a farm)
+// A cone-shaped measure and a steel drum with the same radius (30 cm) and height (70 cm). The cone is filled with wheat
+// from a bucket and emptied into the drum: three cones fill it. Then the same rule finds the wheat in a heap.
+export function grainScene(o = {}) {
+  const it = new Item('wgrain', { ...o, name: { en: 'Wheat, a cone and a drum', hi: 'गेहूँ, शंकु और ड्रम', hg: 'Gehun, cone aur drum' } });
+  const g = it.g, R = 0.3, H = 0.7, Z = -2.1, DX = 0.5, CX = -0.45, RIM = 0.84;
+  it.R = R; it.H = H;
+  const steel = new THREE.MeshStandardMaterial({ color: 0xc3c9cf, metalness: 0.85, roughness: 0.36 });
+  const steelIn = new THREE.MeshStandardMaterial({ color: 0x9aa1a8, metalness: 0.8, roughness: 0.45, side: THREE.BackSide });
+  const brass = new THREE.MeshStandardMaterial({ color: 0xd2a856, metalness: 0.88, roughness: 0.3, side: THREE.DoubleSide });
+  const iron = new THREE.MeshStandardMaterial({ color: 0x34383c, metalness: 0.6, roughness: 0.55 });
+  const sh = (m) => { m.castShadow = true; m.receiveShadow = true; m.userData.noHit = true; return m; };
+  // the drum, open at the top
+  const drum = new THREE.Group(); drum.position.set(DX, 0, Z); g.add(drum);
+  const wall = sh(new THREE.Mesh(new THREE.CylinderGeometry(R, R, H, 48, 1, true), steel)); wall.position.y = H / 2;
+  const wallIn = sh(new THREE.Mesh(new THREE.CylinderGeometry(R - 0.004, R - 0.004, H, 48, 1, true), steelIn)); wallIn.position.y = H / 2;
+  const floor = sh(new THREE.Mesh(new THREE.CircleGeometry(R, 48).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x8d949b, metalness: 0.8, roughness: 0.5 }))); floor.position.y = 0.008;
+  const rimT = sh(new THREE.Mesh(new THREE.TorusGeometry(R + 0.002, 0.011, 8, 48).rotateX(Math.PI / 2), steel)); rimT.position.y = H;
+  const rimB = sh(new THREE.Mesh(new THREE.TorusGeometry(R + 0.004, 0.014, 8, 48).rotateX(Math.PI / 2), steel)); rimB.position.y = 0.014;
+  drum.add(wall, wallIn, floor, rimT, rimB);
+  const dfillGeo = new THREE.CylinderGeometry(R - 0.006, R - 0.006, 1, 48); dfillGeo.translate(0, 0.5, 0);
+  const dfill = sh(new THREE.Mesh(dfillGeo, wheatMat(3))); dfill.visible = false; drum.add(dfill);
+  const marks = [1, 2].map((n) => { const m = new THREE.Mesh(new THREE.TorusGeometry(R - 0.004, 0.005, 6, 48).rotateX(Math.PI / 2), glow(COL.ok)); m.position.y = (H * n) / 3; m.visible = false; m.userData.noHit = true; drum.add(m); return m; });
+  // the cone-shaped measure (brass, point down) in a three-legged stand
+  const home = V(CX, RIM, Z);
+  const cone = new THREE.Group(); cone.position.copy(home); g.add(cone); // origin: the centre of its rim
+  cone.add(sh(new THREE.Mesh(new THREE.LatheGeometry([new THREE.Vector2(0.004, -H), new THREE.Vector2(R, 0), new THREE.Vector2(R + 0.01, 0.006)], 48), brass)));
+  cone.add(sh(new THREE.Mesh(new THREE.TorusGeometry(R + 0.006, 0.007, 6, 48).rotateX(Math.PI / 2), brass)));
+  const cfillGeo = new THREE.ConeGeometry(R - 0.004, H, 48); cfillGeo.rotateX(Math.PI); cfillGeo.translate(0, H / 2, 0);
+  const cfill = sh(new THREE.Mesh(cfillGeo, wheatMat(2))); cfill.position.y = -H; cfill.visible = false; cone.add(cfill);
+  const stand = new THREE.Group(); stand.position.set(CX, 0, Z); g.add(stand);
+  stand.add(sh(new THREE.Mesh(new THREE.TorusGeometry(R + 0.02, 0.012, 6, 40).rotateX(Math.PI / 2), iron))); stand.children[0].position.y = RIM - 0.014;
+  for (let i = 0; i < 3; i++) { const a = (i / 3) * Math.PI * 2 + 0.5; stand.add(sh(rod(V(Math.cos(a) * (R + 0.02), RIM - 0.014, Math.sin(a) * (R + 0.02)), V(Math.cos(a) * (R + 0.16), 0, Math.sin(a) * (R + 0.16)), 0.012, iron))); }
+  // a steel bucket full of wheat
+  const BH = 0.3, B0 = 0.12, B1 = 0.15, bhome = V(-1.15, 0, Z - 0.15);
+  const bucket = new THREE.Group(); bucket.position.copy(bhome); g.add(bucket);
+  bucket.add(sh(new THREE.Mesh(new THREE.LatheGeometry([new THREE.Vector2(0, 0.003), new THREE.Vector2(B0, 0), new THREE.Vector2(B1, BH), new THREE.Vector2(B1 + 0.008, BH + 0.004)], 40), new THREE.MeshStandardMaterial({ color: 0xc8ced4, metalness: 0.85, roughness: 0.34, side: THREE.DoubleSide }))));
+  const handle = sh(new THREE.Mesh(new THREE.TorusGeometry(B1, 0.005, 6, 24, Math.PI), iron)); handle.position.y = BH; handle.rotation.y = Math.PI / 2; bucket.add(handle);
+  const bf = BH * 0.86; const bfillGeo = new THREE.CylinderGeometry(B0 + (B1 - B0) * 0.86 - 0.006, B0 - 0.004, bf, 40); bfillGeo.translate(0, bf / 2, 0);
+  bucket.add(sh(new THREE.Mesh(bfillGeo, wheatMat(1.5))));
+  // the heap of wheat on the threshing floor: a cone with a rounded top
+  const HP = V(-2.6, 0, -4.9), HR = 1.5, HHt = 1.0; it.HR = HR; it.HH = HHt;
+  const prof = [[HR + 0.1, 0], [HR, 0.04]]; for (let i = 1; i <= 10; i++) { const t = i / 10; prof.push([HR * (1 - t) + 0.02, 0.04 + (HHt - 0.06) * t - (t > 0.85 ? (t - 0.85) * 0.06 : 0)]); } prof.push([0, HHt]);
+  const hg = new THREE.LatheGeometry(prof.map(([r, y]) => new THREE.Vector2(r, y)), 96);
+  { const p = hg.attributes.position; for (let i = 0; i < p.count; i++) { const x = p.getX(i), y = p.getY(i), z = p.getZ(i), r = Math.hypot(x, z); if (r < 0.05 || y < 0.03) continue; const a = Math.atan2(z, x), t = y / HHt;
+    const d = (Math.sin(a * 7 + y * 9) * 0.6 + Math.sin(a * 19 - y * 23) * 0.3 + Math.sin(a * 41 + y * 47) * 0.15) * 0.028 * Math.sin(Math.PI * Math.min(1, t * 1.15)); p.setX(i, (x / r) * (r + d)); p.setZ(i, (z / r) * (r + d)); } hg.computeVertexNormals(); }
+  const hm = wheatMat(12, 4); hm.color.set(0xf2dcb0);
+  const heap = sh(new THREE.Mesh(hg, hm)); heap.position.copy(HP); g.add(heap);
+  const xr = (c) => { const m = glow(c); m.depthTest = false; return m; };
+  const hLine = rod(HP.clone().setY(0.02), HP.clone().setY(HHt), 0.018, xr(COL.up)), rLine = rod(HP.clone().setY(0.03), HP.clone().add(V(HR, 0.03, 0)), 0.018, xr(COL.base));
+  for (const m of [hLine, rLine]) { m.renderOrder = 30; m.visible = false; g.add(m); }
+  // radius and height of the cone and the drum
+  const dims = new THREE.Group(); dims.visible = false; g.add(dims);
+  dims.add(rod(V(DX, H + 0.03, Z), V(DX + R, H + 0.03, Z), 0.008, glow(COL.base)), rod(V(DX + R + 0.07, 0, Z), V(DX + R + 0.07, H, Z), 0.008, glow(COL.up)));
+  dims.add(rod(V(CX, RIM + 0.03, Z), V(CX - R, RIM + 0.03, Z), 0.008, glow(COL.base)), rod(V(CX, RIM - H, Z), V(CX, RIM, Z).add(V(0, 0, 0)), 0.008, xr(COL.up)));
+  dims.children[3].renderOrder = 30;
+  // falling grain
+  const stream = grainStream(); g.add(stream);
+  it.coneF = 0; it.drumF = 0;
+  const setCone = (f) => { it.coneF = f; cfill.visible = f > 0.002; const s = Math.cbrt(Math.max(0.002, f)); cfill.scale.setScalar(s); };
+  const setDrum = (f) => { it.drumF = f; dfill.visible = f > 0.002; dfill.scale.y = Math.max(0.001, f * (H - 0.012)); dfill.position.y = 0.01; };
+  it.dims = (on) => { dims.visible = on; };
+  // the bucket is lifted over the cone, tipped, and pours until the cone is full
+  const lipB = V(B1, BH, 0), TB = 1.75; const rz = (v, th) => V(v.x * Math.cos(th) + v.y * Math.sin(th), -v.x * Math.sin(th) + v.y * Math.cos(th), v.z);
+  const bPour = V(CX - 0.06, RIM + 0.16, Z).sub(rz(lipB, TB));
+  it.fillCone = (k, f0 = 0) => {
+    const up = ease(seg(k, 0, 0.2)), tilt = ease(seg(k, 0.2, 0.34)) * (1 - ease(seg(k, 0.84, 0.92))), back = ease(seg(k, 0.88, 1)), th = tilt * TB;
+    const p = bhome.clone().lerp(bPour, up * (1 - back)); p.y += Math.sin(Math.PI * up) * 0.12 * (1 - back); bucket.position.copy(p); bucket.rotation.z = -th;
+    const f = lerp(f0, 1, seg(k, 0.34, 0.84)); setCone(f);
+    if (k > 0.3 && k < 0.84) stream.flow(p.clone().add(rz(lipB, th)), V(0.35, 0, 0), RIM - H + H * Math.cbrt(Math.max(0.01, f)) - 0.02); else stream.stop();
+  };
+  // the cone is lifted out of its stand, carried over the drum and tipped; the wheat runs into the drum
+  const lipC = V(R, 0, 0), TC = 2.15, cPour = V(DX - 0.08, H + 0.12, Z).sub(rz(lipC, TC));
+  it.pour = (n, k) => {
+    const lift = ease(seg(k, 0, 0.14)), over = ease(seg(k, 0.1, 0.3)), tilt = ease(seg(k, 0.26, 0.42)) * (1 - ease(seg(k, 0.84, 0.92))), back = ease(seg(k, 0.88, 1)), th = tilt * TC;
+    const up = home.clone().add(V(0, 0.8, 0)), p = home.clone().lerp(up, lift).lerp(cPour, over); if (back > 0) p.copy(cPour.clone().lerp(up, Math.min(1, back * 2)).lerp(home, Math.max(0, back * 2 - 1)));
+    cone.position.copy(p); cone.rotation.z = -th;
+    const f = 1 - seg(k, 0.4, 0.84); setCone(k >= 1 ? 0 : f); const D = (n - 1 + seg(k, 0.44, 0.88)) / 3; setDrum(D);
+    if (k > 0.38 && k < 0.84) stream.flow(p.clone().add(rz(lipC, th)), V(0.25, 0, 0), H * D + 0.005); else stream.stop();
+    if (k >= 1) { cone.position.copy(home); cone.rotation.z = 0; }
+  };
+  it.mark = (n, on) => { if (marks[n - 1]) marks[n - 1].visible = on; };
+  it.heapMeasure = (on) => { hLine.visible = rLine.visible = on; };
+  it.update = (dt) => stream.tick(dt);
+  it.at = (k) => ({ drum: V(DX, H + 0.35, Z), drumR: V(DX + R / 2, H + 0.16, Z), drumH: V(DX + R + 0.3, H / 2, Z), cone: V(CX, RIM + 0.4, Z), coneR: V(CX - R / 2, RIM + 0.16, Z), coneH: V(CX - 0.45, RIM - H / 2, Z), m1: V(DX + R + 0.35, H / 3, Z), m2: V(DX + R + 0.35, (2 * H) / 3, Z), full: V(DX, H + 0.55, Z), heap: V(HP.x + 0.3, HHt + 0.42, HP.z + 0.3), heapR: V(HP.x + HR / 2, 0.35, HP.z + 0.4), heapH: V(HP.x - 0.45, HHt / 2 + 0.1, HP.z + 0.3), calc: V(-0.8, 1.9, -3.4) }[k] || V(0, 1.2, Z));
+  it.noGrab = true; it.noPhys = true; it.height = 1; it.radius = 3; it.base = 0; return it;
 }
