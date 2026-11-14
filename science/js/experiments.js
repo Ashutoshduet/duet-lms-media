@@ -31,6 +31,7 @@ import { EXPERIMENTS_W6 } from './experiments_w6.js';
 import { EXPERIMENTS_W7 } from './experiments_w7.js';
 import { EXPERIMENTS_W8 } from './experiments_w8.js';
 import { EXPERIMENTS_W9 } from './experiments_w9.js';
+import { EXPERIMENTS_W10 } from './experiments_w10.js';
 import { DICT } from './exp_i18n.js';
 import { MATHS } from './mode.js';
 const X = (en) => ({ en, ...(DICT[en] || {}) });
@@ -349,7 +350,7 @@ export const EXPERIMENTS = [
   },
 ];
 
-EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3, ...EXPERIMENTS_P4, ...EXPERIMENTS_P5, ...EXPERIMENTS_P6, ...EXPERIMENTS_P7, ...EXPERIMENTS_P8, ...EXPERIMENTS_P9, ...EXPERIMENTS_P10, ...EXPERIMENTS_P11, ...EXPERIMENTS_FREE, ...EXPERIMENTS_M1, ...EXPERIMENTS_M2, ...EXPERIMENTS_M3, ...EXPERIMENTS_W1, ...EXPERIMENTS_W2, ...EXPERIMENTS_W3, ...EXPERIMENTS_W4, ...EXPERIMENTS_W5, ...EXPERIMENTS_W6, ...EXPERIMENTS_W7, ...EXPERIMENTS_W8, ...EXPERIMENTS_W9);
+EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3, ...EXPERIMENTS_P4, ...EXPERIMENTS_P5, ...EXPERIMENTS_P6, ...EXPERIMENTS_P7, ...EXPERIMENTS_P8, ...EXPERIMENTS_P9, ...EXPERIMENTS_P10, ...EXPERIMENTS_P11, ...EXPERIMENTS_FREE, ...EXPERIMENTS_M1, ...EXPERIMENTS_M2, ...EXPERIMENTS_M3, ...EXPERIMENTS_W1, ...EXPERIMENTS_W2, ...EXPERIMENTS_W3, ...EXPERIMENTS_W4, ...EXPERIMENTS_W5, ...EXPERIMENTS_W6, ...EXPERIMENTS_W7, ...EXPERIMENTS_W8, ...EXPERIMENTS_W9, ...EXPERIMENTS_W10);
 // every activity, for the tools (narration, tests); the app itself shows EXPERIMENTS
 export const ALL_EXPERIMENTS = EXPERIMENTS.slice();
 // the Maths Lab app shows the real-place activities (world: true) in place of the table-top ones they stand for

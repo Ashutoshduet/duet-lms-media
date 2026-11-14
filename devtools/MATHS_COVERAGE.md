@@ -18,14 +18,14 @@ own hands and, where it makes sense, stands inside the shape.
 | 6 | 8 Playing with Constructions | — | compass and ruler on the playground |
 | 6 | 9 Symmetry | m6_symmetry | |
 | 6 | 10 The Other Side of Zero | w6_lift_integers | |
-| 7 | 1 Large Numbers Around Us | — | how big is a lakh, a crore: walk among cubes of them |
-| 7 | 2 Arithmetic Expressions | — | |
+| 7 | 1 Large Numbers Around Us | w7_crore_cube | |
+| 7 | 2 Arithmetic Expressions | w7_shop_bill | |
 | 7 | 3 A Peek Beyond the Point | w7_decimal_zoom | |
-| 7 | 4 Expressions using Letter-Numbers | — | matchstick patterns that grow |
+| 7 | 4 Expressions using Letter-Numbers | w7_matchsticks | |
 | 7 | 5 Parallel and Intersecting Lines | w7_rail_lines | |
-| 7 | 6 Number Play | — | |
+| 7 | 6 Number Play | w7_magic_square | |
 | 7 | 7 A Tale of Three Intersecting Lines | m7_angle_sum, m7_triangle_inequality | |
-| 7 | 8 Working with Fractions | — | a fraction of a fraction: cut a roti |
+| 7 | 8 Working with Fractions | w7_fraction_barfi | |
 | 7 | P2 1 Geometric Twins | — | flip and turn triangles onto each other (congruence) |
 | 7 | P2 2 Operations with Integers | — | |
 | 7 | P2 3 Finding Common Ground | — | |
