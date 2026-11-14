@@ -36,7 +36,7 @@ function plate(lines, w, h, o = {}) {
 const fmtInt = (n) => (n > 0 ? '+' + n : n < 0 ? '−' + -n : '0');
 
 // a knob that is pushed along a short path, or simply clicked / pinched: each push counts once, and it springs back
-function pushKnob(knob, o) {
+export function pushKnob(knob, o) {
   let k0 = 0, fired = false, wasHeld = false;
   handle(knob, { path: o.path, active: o.active, keepVisible: o.keepVisible,
     move: (k) => { k0 = k; if (k > 0.7 && !fired) { fired = true; o.press(); } if (k < 0.25) fired = false; },

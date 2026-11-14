@@ -2,7 +2,7 @@
 
 Books: Classes 6–8 *Ganita Prakash* (Class 7 and 8 in two parts), Class 9 *Ganita Manjari* Part 1 (2026–27; Part 2 not
 published yet), Class 10 the rationalised NCERT book. `w…` activities are hands-on, at real size or in a real place
-(`experiments_w1.js` … `experiments_w3.js`, apparatus in `mathworld*.js`); `m…` activities are table-top
+(`experiments_w*.js`, apparatus in `mathworld*.js`); `m…` activities are table-top
 (`experiments_m*.js`). The goal is at least one hands-on 3D activity per chapter, where the student does it with their
 own hands and, where it makes sense, stands inside the shape.
 
@@ -55,17 +55,17 @@ own hands and, where it makes sense, stands inside the shape.
 | 9 | 6 Measuring Space: Perimeter and Area | m9_parallelogram_area | |
 | 9 | 7 The Mathematics of Maybe | m9_coin_probability | |
 | 9 | 8 Predicting What Comes Next | — | a staircase built step by step (sequences) |
-| 10 | 1 Real Numbers | — | |
+| 10 | 1 Real Numbers | w10_hcf_tiles | |
 | 10 | 2 Polynomials | — | |
 | 10 | 3 Pair of Linear Equations | — | |
 | 10 | 4 Quadratic Equations | — | a ball thrown in the playground: its path is a parabola |
-| 10 | 5 Arithmetic Progressions | — | climb a staircase: aₙ = a + (n − 1)d |
-| 10 | 6 Triangles | — | shadows of a stick and a pole: similar triangles |
+| 10 | 5 Arithmetic Progressions | w10_ap_logs | |
+| 10 | 6 Triangles | w10_bpt | |
 | 10 | 7 Coordinate Geometry | — | distance between two points on the playground grid |
 | 10 | 8 Introduction to Trigonometry | w10_ladder_trig | |
 | 10 | 9 Some Applications of Trigonometry | w10_flagpole | |
-| 10 | 10 Circles | — | a bicycle wheel on the road: the tangent is at right angles to the radius |
+| 10 | 10 Circles | w10_tangents | |
 | 10 | 11 Areas Related to Circles | w10_roti_area, w10_circle_rings | |
 | 10 | 12 Surface Areas and Volumes | m10_sphere_volume, w10_grain_cone, w10_cylinder_net | |
 | 10 | 13 Statistics | — | |
-| 10 | 14 Probability | — | |
+| 10 | 14 Probability | w10_dice | |

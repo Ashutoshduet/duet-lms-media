@@ -25,7 +25,7 @@ export function liveSign(h = 0.2, w = 4) {
   return sp;
 }
 // a knob that is carried round a centre: its angle (clockwise from straight ahead, −z, in degrees) is followed, unwrapped
-function turnKnob(knob, o) {
+export function turnKnob(knob, o) {
   knob.noGrab = false; knob.noPhys = true; knob.dragLift = 0;
   let last = null;
   const ang = (p) => Math.atan2(p.x - o.centre.x, -(p.z - o.centre.z)) / DEG;
