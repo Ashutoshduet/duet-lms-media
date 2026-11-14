@@ -56,16 +56,16 @@ own hands and, where it makes sense, stands inside the shape.
 | 9 | 7 The Mathematics of Maybe | m9_coin_probability | |
 | 9 | 8 Predicting What Comes Next | — | a staircase built step by step (sequences) |
 | 10 | 1 Real Numbers | w10_hcf_tiles | |
-| 10 | 2 Polynomials | — | |
-| 10 | 3 Pair of Linear Equations | — | |
-| 10 | 4 Quadratic Equations | — | a ball thrown in the playground: its path is a parabola |
+| 10 | 2 Polynomials | w10_poly_graph | |
+| 10 | 3 Pair of Linear Equations | w10_two_lines | |
+| 10 | 4 Quadratic Equations | w10_ball_throw | |
 | 10 | 5 Arithmetic Progressions | w10_ap_logs | |
 | 10 | 6 Triangles | w10_bpt | |
-| 10 | 7 Coordinate Geometry | — | distance between two points on the playground grid |
+| 10 | 7 Coordinate Geometry | w10_distance | |
 | 10 | 8 Introduction to Trigonometry | w10_ladder_trig | |
 | 10 | 9 Some Applications of Trigonometry | w10_flagpole | |
 | 10 | 10 Circles | w10_tangents | |
 | 10 | 11 Areas Related to Circles | w10_roti_area, w10_circle_rings | |
 | 10 | 12 Surface Areas and Volumes | m10_sphere_volume, w10_grain_cone, w10_cylinder_net | |
-| 10 | 13 Statistics | — | |
+| 10 | 13 Statistics | w10_mean_balance | |
 | 10 | 14 Probability | w10_dice | |
