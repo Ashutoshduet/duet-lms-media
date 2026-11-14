@@ -120,7 +120,9 @@ export function bindRangoliHands(rf, lever, knob, app, s = { unfold: 1, turn: 3 
   pushKnob(lever, { path: () => rf.leverPath(), active: () => stepNow(app, s.unfold) && rf.fold > 0 && !anim, keepVisible: () => app.runner.i === s.unfold,
     press: () => { anim = true; let t = 1; const id = setInterval(() => { t -= 0.04; rf.setFold(Math.max(0, t)); if (t <= 0) { clearInterval(id); anim = false; done.unfold && done.unfold(); } }, 30); } });
   const sync = slideKnob(knob, { path: () => rf.knobPath(), active: () => stepNow(app, s.turn), keepVisible: () => app.runner.i === s.turn, k: () => rf.ang / 360,
-    set: (k) => { rf.hideAll(); let a = clamp01(k) * 360; const n = Math.round(a / 90) * 90; if (Math.abs(a - n) < 5) a = n; rf.setAng(a); if (rf.matches.size >= 4) done.turn && done.turn(); } });
+    set: (k) => { rf.hideAll(); let a = clamp01(k) * 360; const n = Math.round(a / 90) * 90; if (Math.abs(a - n) < 5) a = n;
+      const lo = Math.min(rf.ang, a), hi = Math.max(rf.ang, a); for (let m = 90; m <= 360; m += 90) if (m > lo && m <= hi) rf.matches.add(m / 90); // a quick hand still counts every quarter turn it passes
+      rf.setAng(a); if (rf.matches.size >= 4) done.turn && done.turn(); } });
   const s0 = rf.setAng; rf.setAng = (a) => { s0(a); sync(); };
 }
 
