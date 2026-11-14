@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Write sw.js (offline worker with the full file list and hashes) for DUET STEM web apps.
 Usage: build_sw.py <repo> [app ...]   (default apps: science body drone)"""
-import hashlib, json, os, subprocess, sys
+import hashlib, json, os, re, subprocess, sys
 APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360'}
 MANIFEST_ONLY = {'space'}  # keeps its own offline worker; only the file list for the Android app
 SKIP_DIRS = {'tools', 'store-art', 'test', '.git', '__pycache__'}
@@ -40,11 +40,35 @@ def build(repo, app):
     if not os.path.exists(mp) or open(mp).read() != man: open(mp, 'w').write(man)
     path = os.path.join(root, 'sw.js')
     if app in MANIFEST_ONLY:
-        print(f'{app}: {len(files)} files, {sum(v[1] for v in files.values())/1e6:.1f} MB (file list only)'); return
+        sv = space_version(root, files) if app == 'space' else ''
+        print(f'{app}: {len(files)} files, {sum(v[1] for v in files.values())/1e6:.1f} MB (file list only){sv}'); return
     old = open(path).read() if os.path.exists(path) else ''
     if old != src: open(path, 'w').write(src)
     mb = sum(v[1] for v in files.values()) / 1e6
     print(f'{app}: {len(files)} files, {mb:.1f} MB, {ver}{"" if old != src else " (unchanged)"}')
+
+def space_version(root, files):
+    # Space keeps its own worker (sw.js: CORE files saved at install, MEDIA filled in behind). It opens from the saved copy,
+    # so a changed file reaches a device only when VERSION changes: VERSION follows the content of every listed file, and
+    # HASH (md5, which tells the worker what it can copy across from the older version) is refreshed. Files on the website
+    # that the lists miss (such as new models) are added to MEDIA.
+    path = os.path.join(root, 'sw.js'); s = open(path).read()
+    core = json.loads(re.search(r'const CORE=(\[.*?\]);', s).group(1)); media = json.loads(re.search(r'const MEDIA=(\[.*?\]);', s).group(1))
+    listed = set(core) | set(media)
+    for p in sorted(files):
+        if p not in listed and p.startswith('models/') and p.endswith('.glb'): media.append(p)
+    media = [p for p in media if p in files]
+    md5 = lambda p: hashlib.md5(open(os.path.join(root, p), 'rb').read()).hexdigest()[:12]
+    H = {p: md5(p) for p in media}
+    h = hashlib.sha1()
+    for p in core: h.update(((p if p != './' else 'index.html') + ':' + md5(p if p != './' else 'index.html') + ';').encode())
+    for p in media: h.update((p + ':' + H[p] + ';').encode())
+    ver = 'solarsystem-' + h.hexdigest()[:10]
+    t = re.sub(r'const VERSION="[^"]*";', lambda m: f'const VERSION="{ver}";', s, count=1)
+    t = re.sub(r'const MEDIA=\[.*?\];', lambda m: 'const MEDIA=' + json.dumps(media) + ';', t, count=1)
+    t = re.sub(r'const HASH=\{.*?\};', lambda m: 'const HASH=' + json.dumps(H, separators=(',', ':')) + ';', t, count=1)
+    if t != s: open(path, 'w').write(t)
+    return f', worker {ver}' + ('' if t != s else ' (unchanged)')
 
 if __name__ == '__main__':
     repo = sys.argv[1]; apps = sys.argv[2:] or [a for a in APPS if a not in MANIFEST_ONLY]

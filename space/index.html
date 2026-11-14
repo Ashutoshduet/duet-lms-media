@@ -3635,7 +3635,7 @@ function VRHub(o){
     if(H.scene&&H.scene.exit)H.scene.exit();H.hush();H.hideCard();H.hideHint();
     H.scene=next;rig.position.set(0,0,0);rig.rotation.set(0,0,0);rig.scale.setScalar(1);rig.updateMatrixWorld(true);
     H.setSky(next.sky||"milky");H.ambient(next.ambient===undefined?(next.sky==="none"?null:"ambient"):next.ambient);endGrab(null);next.enter(arg);menu.redraw()}
-  H.go=go;
+  H.go=go;window.duetHub=H; // (the headset checks open scenes through this)
 
   /* ---------- grab: hold on an object to turn it any way, carry it (games) or zoom it ---------- */
   let G=null;const qa=new T.Quaternion(),qb=new T.Quaternion(),qc=new T.Quaternion(),va=new T.Vector3();
