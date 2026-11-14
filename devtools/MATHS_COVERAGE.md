@@ -26,10 +26,10 @@ own hands and, where it makes sense, stands inside the shape.
 | 7 | 6 Number Play | w7_magic_square | |
 | 7 | 7 A Tale of Three Intersecting Lines | m7_angle_sum, m7_triangle_inequality | |
 | 7 | 8 Working with Fractions | w7_fraction_barfi | |
-| 7 | P2 1 Geometric Twins | — | flip and turn triangles onto each other (congruence) |
-| 7 | P2 2 Operations with Integers | — | |
-| 7 | P2 3 Finding Common Ground | — | |
-| 7 | P2 4 Another Peek Beyond the Point | — | |
+| 7 | P2 1 Geometric Twins | w7_twin_triangles | |
+| 7 | P2 2 Operations with Integers | w7_integer_frog | |
+| 7 | P2 3 Finding Common Ground | w7_frog_lcm | |
+| 7 | P2 4 Another Peek Beyond the Point | w7_decimal_area | |
 | 7 | P2 5 Connecting the Dots | — | |
 | 7 | P2 6 Constructions and Tilings | — | tile a floor around you |
 | 7 | P2 7 Finding the Unknown | — | a balance scale: x + 3 = 7 by hand |
