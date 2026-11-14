@@ -35,18 +35,18 @@ own hands and, where it makes sense, stands inside the shape.
 | 7 | P2 7 Finding the Unknown | — | a balance scale: x + 3 = 7 by hand |
 | 8 | 1 A Square and A Cube | m8_cube_numbers | |
 | 8 | 2 Power Play | w8_fold_moon | |
-| 8 | 3 A Story of Numbers | — | |
-| 8 | 4 Quadrilaterals | — | cut the corners of a field and join them: 360° |
-| 8 | 5 Number Play | — | |
+| 8 | 3 A Story of Numbers | w8_count_sheep | |
+| 8 | 4 Quadrilaterals | w8_field_corners | |
+| 8 | 5 Number Play | w8_nine_trick | |
 | 8 | 6 We Distribute, Yet Things Multiply | m8_square_identity | |
 | 8 | 7 Proportional Reasoning-1 | w8_train_speed | |
-| 8 | P2 1 Fractions in Disguise | — | a floor of 100 tiles: percentages |
+| 8 | P2 1 Fractions in Disguise | w8_percent_floor | |
 | 8 | P2 2 The Baudhayana-Pythagoras Theorem | m8_pythagoras, w8_pythagoras_water | |
 | 8 | P2 3 Proportional Reasoning-2 | — | |
 | 8 | P2 4 Exploring Some Geometric Themes | — | |
 | 8 | P2 5 Tales by Dots and Lines | — | |
 | 8 | P2 6 Algebra Play | — | |
-| 8 | P2 7 Area | — | a trapezium field cut and turned into a rectangle |
+| 8 | P2 7 Area | w8_trapezium_field | |
 | 9 | 1 Orienting Yourself: The Use of Coordinates | w9_field_coords | |
 | 9 | 2 Introduction to Linear Polynomials | w9_linear_tank | |
 | 9 | 3 The World of Numbers | w9_root_spiral | |
