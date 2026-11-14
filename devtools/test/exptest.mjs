@@ -4,7 +4,7 @@ const [,, out, ids, q = 'mute&speed=4&fast'] = process.argv;
 const browser = await puppeteer.launch({ executablePath: process.env.CHROME || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', headless: true,
   args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--no-sandbox', '--autoplay-policy=no-user-gesture-required'] });
 const page = await browser.newPage(); await page.setViewport({ width: 1280, height: 800 });
-const logs = []; page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning') logs.push(m.type() + ': ' + m.text()); });
+const logs = []; page.on('console', (m) => { if (m.type() === 'error' || m.type() === 'warning' || (m.type() === 'warn' && /step failed/.test(m.text()))) logs.push(m.type() + ': ' + m.text()); });
 page.on('pageerror', (e) => logs.push('PAGEERR: ' + e.message));
 await page.goto(`http://localhost:${process.env.PORT||8766}${process.env.APPDIR||""}/index.html?test&${q}`, { waitUntil: 'load', timeout: 120000 });
 await page.waitForFunction(() => document.title === 'READY', { timeout: 120000 });

@@ -28,7 +28,7 @@ export const TOPICS = {
   maths: [
     ['numbers', N('Numbers and patterns', 'संख्याएँ और पैटर्न', 'Numbers aur patterns'), /Square and A Cube|Number|Patterns|Power|Zero|Point|Fraction|Proportional|Integer|Decimal|Progression/],
     ['algebra', N('Algebra and identities', 'बीजगणित और सर्वसमिकाएँ', 'Algebra aur identities'), /Distribute|Algebraic|Identit|Polynomial|Equation/],
-    ['geometry', N('Geometry: shapes, angles, symmetry', 'ज्यामिति: आकृतियाँ, कोण, सममिति', 'Geometry: shapes, angles, symmetry'), /Lines|Triangle|Pythagoras|Quadrilateral|Angles|Symmetry|Trigonometry|Coordinate|· Circles$/],
+    ['geometry', N('Geometry: shapes, angles, symmetry', 'ज्यामिति: आकृतियाँ, कोण, सममिति', 'Geometry: shapes, angles, symmetry'), /Lines|Triangle|Pythagoras|Quadrilateral|Angles|Symmetry|Trigonometry|Coordinate|· Circles$|Round and Round/],
     ['mensuration', N('Area and volume', 'क्षेत्रफल और आयतन', 'Area aur volume'), /Area|Volume|Perimeter/],
     ['data', N('Data and probability', 'आँकड़े और प्रायिकता', 'Data aur probability'), /Probability|Data|Statistics/],
   ],

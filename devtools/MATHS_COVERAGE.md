@@ -48,13 +48,13 @@ own hands and, where it makes sense, stands inside the shape.
 | 8 | P2 6 Algebra Play | — | |
 | 8 | P2 7 Area | — | a trapezium field cut and turned into a rectangle |
 | 9 | 1 Orienting Yourself: The Use of Coordinates | w9_field_coords | |
-| 9 | 2 Introduction to Linear Polynomials | — | |
-| 9 | 3 The World of Numbers | — | |
+| 9 | 2 Introduction to Linear Polynomials | w9_linear_tank | |
+| 9 | 3 The World of Numbers | w9_root_spiral | |
 | 9 | 4 Exploring Algebraic Identities | m9_difference_squares, w9_identity_cube | |
-| 9 | 5 I'm Up and Down, and Round and Round | — | |
+| 9 | 5 I'm Up and Down, and Round and Round | w9_circle_angles | |
 | 9 | 6 Measuring Space: Perimeter and Area | m9_parallelogram_area | |
 | 9 | 7 The Mathematics of Maybe | m9_coin_probability | |
-| 9 | 8 Predicting What Comes Next | — | a staircase built step by step (sequences) |
+| 9 | 8 Predicting What Comes Next | w9_grow_patterns | |
 | 10 | 1 Real Numbers | w10_hcf_tiles | |
 | 10 | 2 Polynomials | w10_poly_graph | |
 | 10 | 3 Pair of Linear Equations | w10_two_lines | |
