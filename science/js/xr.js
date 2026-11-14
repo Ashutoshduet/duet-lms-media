@@ -136,6 +136,7 @@ export class XRInput {
   release(h) {
     const it = h.held; if (!it) return; h.held = null; it.held = null;
     this.app.scene.attach(it.g); const lab = this.app.lab, K = this.app.runner.K;
+    if (it.onRelease) { it.onRelease(); return; } // a handle (cutter, rope end) stays on its path
     if (this.dropSolid(it)) return; // a solid let go over an open vessel falls in
     if (it.stopper) it.stopper.visible = true;
     // paper, splints, tongs and thermometers go back to their place

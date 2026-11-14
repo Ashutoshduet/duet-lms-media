@@ -536,3 +536,124 @@ export function grainScene(o = {}) {
   it.at = (k) => ({ drum: V(DX, H + 0.35, Z), drumR: V(DX + R / 2, H + 0.16, Z), drumH: V(DX + R + 0.3, H / 2, Z), cone: V(CX, RIM + 0.4, Z), coneR: V(CX - R / 2, RIM + 0.16, Z), coneH: V(CX - 0.45, RIM - H / 2, Z), m1: V(DX + R + 0.35, H / 3, Z), m2: V(DX + R + 0.35, (2 * H) / 3, Z), full: V(DX, H + 0.55, Z), heap: V(HP.x + 0.3, HHt + 0.42, HP.z + 0.3), heapR: V(HP.x + HR / 2, 0.35, HP.z + 0.4), heapH: V(HP.x - 0.45, HHt / 2 + 0.1, HP.z + 0.3), calc: V(-0.8, 1.9, -3.4) }[k] || V(0, 1.2, Z));
   it.noGrab = true; it.noPhys = true; it.height = 1; it.radius = 3; it.base = 0; return it;
 }
+
+// ------------------------------------------------------------------ hands-on: things the student moves along a path
+// A handle is an item the student grabs (mouse drag, or a hand / controller in the headset) and moves along a path from A
+// to B; how far along it is (k, 0…1) drives the activity. With the mouse it stays on the path; in a hand it follows the hand
+// and k comes from the nearest point of the path. Let go: it stays where the work has got to.
+function handle(it, o) {
+  const v = V(0, 0, 0), ab = V(0, 0, 0), ap = V(0, 0, 0);
+  it.noGrab = false; it.noPhys = true; it.k = 0;
+  const kOf = (p) => { const [A, B] = o.path(); ab.subVectors(B, A); ap.subVectors(p, A); const L2 = ab.lengthSq() || 1; const k = clamp01(ap.dot(ab) / L2); const off = ap.addScaledVector(ab, -k).setY(0).length(); return { k, off }; };
+  const upd0 = it.update;
+  it.update = (dt, t) => {
+    if (upd0) upd0(dt, t);
+    const on = o.active(); it.g.visible = on || !!o.keepVisible?.();
+    if (it.pulse) it.pulse.scale.setScalar(1 + 0.25 * Math.sin((t || performance.now() / 1000) * 5) * (on && !it.held ? 1 : 0));
+    if (!it.held || !on) return;
+    if (it.held === 'pointer' && it._set && it.g.position.distanceToSquared(it._set) < 1e-10) return; // the mouse has not moved
+    const p = it.g.getWorldPosition(v), r = kOf(p);
+    if (it.held !== 'pointer' && r.off > 0.25) return; // a hand far from the path does nothing
+    o.move(r.k, p.clone());
+    if (it.held === 'pointer') { it.g.position.copy(o.at()); it._set = it.g.position.clone(); }
+  };
+  it.onRelease = () => { const q = o.at(); const p0 = it.g.position.clone(), q0 = it.g.quaternion.clone(), q1 = new THREE.Quaternion();
+    let n = 0; const step = () => { n++; const e = Math.min(1, n / 12); it.g.position.lerpVectors(p0, o.at(), e); it.g.quaternion.slerpQuaternions(q0, q1, e); if (e < 1 && !it.held) requestAnimationFrame(step); }; void q; step(); };
+  return it;
+}
+// a round mat made of rings of coloured rope, one inside the other (radius R, n rings), lying on the table. It can be cut
+// along a radius (the cut faces the student) and its rings straightened: each ring keeps its length 2πρ and lies straight,
+// the longest nearest the student, so together they make a triangle with base 2πR and height R.
+let ROPE = null;
+const ropeTex = () => ROPE || (ROPE = (() => { const t = canvasTex(128, 32, (x, W, H) => {
+  const g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#9a948a'); g.addColorStop(0.25, '#f2eee6'); g.addColorStop(0.5, '#ffffff'); g.addColorStop(0.75, '#f2eee6'); g.addColorStop(1, '#9a948a'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  x.strokeStyle = 'rgba(60,45,30,0.38)'; x.lineWidth = 3; for (let i = -2; i < 10; i++) { x.beginPath(); x.moveTo(i * 16, H); x.lineTo(i * 16 + 22, 0); x.stroke(); }
+  x.strokeStyle = 'rgba(255,255,255,0.35)'; x.lineWidth = 2; for (let i = -2; i < 10; i++) { x.beginPath(); x.moveTo(i * 16 + 6, H); x.lineTo(i * 16 + 28, 0); x.stroke(); } }); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t; })());
+export function ringMat(o = {}) {
+  const it = new Item('wringmat', { ...o, name: { en: 'Round rope mat', hi: 'रस्सी की गोल चटाई', hg: 'Rassi ki gol chatai' } });
+  const R = o.r ?? 0.2, S = 72, COLS = [0xc8382c, 0xe9a92b, 0x2e7d4f, 0x2c5fa8, 0xefe6d2];
+  const mats = COLS.map((c) => new THREE.MeshStandardMaterial({ map: ropeTex(), color: c, roughness: 0.88 }));
+  it.R = R; it.cutK = 0; it.unK = 0; it.rings = []; it.n = 0;
+  const holder = new THREE.Group(); it.g.add(holder);
+  const geo = () => { const g = new THREE.BufferGeometry(), n = (S + 1) * 2; const nor = new Float32Array(n * 3); for (let i = 0; i < n; i++) nor[i * 3 + 1] = 1;
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 3), 3)); g.setAttribute('normal', new THREE.BufferAttribute(nor, 3)); g.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(n * 2), 2));
+    const idx = []; for (let j = 0; j < S; j++) { const a = j * 2, b = a + 1, c = a + 2, d = a + 3; idx.push(a, b, c, b, d, c); } g.setIndex(idx); return g; };
+  const build = (n) => {
+    for (const r of it.rings) { holder.remove(r.m); r.m.geometry.dispose(); }
+    it.rings = []; it.n = n; const w = R / n;
+    for (let i = 0; i < n; i++) { const m = new THREE.Mesh(geo(), mats[i % COLS.length]); m.castShadow = true; m.receiveShadow = true; m.frustumCulled = false; holder.add(m); it.rings.push({ m, rho: (i + 0.5) * w, w: w * (n > 20 ? 0.98 : 0.9), y: 0.004 + i * 0.0004 }); }
+    draw();
+  };
+  // ring i: an arc of fixed length 2πρ that opens from a full circle (k = 0) into a straight line (k = 1) around its cut
+  const draw = () => {
+    const k = it.unK, cutAt = it.cutK * (R + 0.012);
+    for (const r of it.rings) {
+      const p = r.m.geometry.attributes.position.array, uv = r.m.geometry.attributes.uv.array, L = 2 * Math.PI * r.rho, cut = cutAt >= r.rho + r.w / 2 || k > 0;
+      const gap = cut ? 0.0025 : 0, zm = -r.rho + 2 * r.rho * ease(k), straight = 1 - k < 1e-4, Rk = r.rho / Math.max(1e-4, 1 - k);
+      for (let j = 0; j <= S; j++) {
+        const s = -L / 2 + gap + ((L - 2 * gap) * j) / S; let px, pz, nx, nz;
+        if (straight) { px = s; pz = zm; nx = 0; nz = 1; } else { const f = s / Rk; px = Rk * Math.sin(f); pz = zm + Rk * (1 - Math.cos(f)); nx = -Math.sin(f); nz = Math.cos(f); }
+        const h = r.w / 2, a = j * 6;
+        p[a] = px - nx * h; p[a + 1] = r.y; p[a + 2] = pz - nz * h; p[a + 3] = px + nx * h; p[a + 4] = r.y; p[a + 5] = pz + nz * h;
+        uv[j * 4] = (s + L / 2) / 0.03; uv[j * 4 + 1] = 0; uv[j * 4 + 2] = (s + L / 2) / 0.03; uv[j * 4 + 3] = 1;
+      }
+      r.m.geometry.attributes.position.needsUpdate = true; r.m.geometry.attributes.uv.needsUpdate = true; r.m.geometry.computeBoundingSphere();
+    }
+  };
+  build(o.n ?? 10);
+  // the cut line (a radius) and the measuring lines of the triangle
+  const cutLine = rod(V(0, 0.012, 0), V(0, 0.012, 0), 0.0015, glow(0xffffff, 0.9)); cutLine.visible = false; it.g.add(cutLine);
+  const base = rod(V(-Math.PI * R, 0.012, R + 0.012), V(Math.PI * R, 0.012, R + 0.012), 0.0025, glow(COL.base)), ht = rod(V(0, 0.014, R), V(0, 0.014, 0), 0.0025, glow(COL.up));
+  base.visible = ht.visible = false; it.g.add(base, ht);
+  it.cut = (k) => { it.cutK = Math.max(it.cutK, clamp01(k)); const L = it.cutK * (R + 0.012); setRod(cutLine, V(0, 0.012, 0), V(0, 0.012, L)); cutLine.visible = it.cutK > 0.01 && it.unK < 0.05; draw(); if (it.cutK >= 0.98 && it.onCut) it.onCut(); };
+  it.unroll = (k) => { if (it.cutK < 0.98) return; it.unK = clamp01(k); cutLine.visible = it.unK < 0.05; draw(); if (it.unK >= 0.985 && it.onStraight) { it.unK = 1; draw(); it.onStraight(); } };
+  it.rebuild = (n) => { build(n); };
+  it.measures = (on) => { base.visible = ht.visible = on; };
+  // where things are, in the room
+  const W = (x, y, z) => it.g.localToWorld(V(x, y, z));
+  it.cutterAt = () => W(0, 0, it.cutK * (R + 0.012)); // the cutter's wheel touches the mat here
+  it.cutPath = () => [W(0, 0, 0), W(0, 0, R + 0.012)];
+  it.endAt = () => { const r = it.rings[it.rings.length - 1], L = 2 * Math.PI * r.rho, k = it.unK; if (1 - k < 1e-4) return W(L / 2 + 0.012, 0.006, -r.rho + 2 * r.rho * ease(k)); const Rk = r.rho / (1 - k), f = L / 2 / Rk; return W(Rk * Math.sin(f) + 0.012, 0.006, -r.rho + 2 * r.rho * ease(k) + Rk * (1 - Math.cos(f))); };
+  it.pullPath = () => [W(0, 0.006, R), W(Math.PI * R + 0.012, 0.006, R)];
+  // how far the rings are straightened when the end of the outer ring is pulled to (world) point p: the end's x grows with k
+  it.kForEnd = (p) => { const x = it.g.worldToLocal(p.clone()).x - 0.012, r = it.rings[it.rings.length - 1], L = 2 * Math.PI * r.rho;
+    const ex = (k) => (1 - k < 1e-4 ? L / 2 : (r.rho / (1 - k)) * Math.sin((L / 2) * (1 - k) / r.rho)); if (x <= 0) return 0; if (x >= L / 2) return 1;
+    let lo = 0, hi = 1; for (let i = 0; i < 22; i++) { const m = (lo + hi) / 2; if (ex(m) < x) lo = m; else hi = m; } return (lo + hi) / 2; };
+  it.at = (k) => ({ cut: W(0.07, 0.05, R / 2), base: W(0, 0.03, R + 0.06), ht: W(-0.05, 0.04, R / 2), area: W(0, 0.12, -0.02), area2: W(0, 0.075, -0.02), tri: W(0, 0.09, R / 2), circle: W(0, 0.07, -R - 0.03) }[k] || W(0, 0.1, 0));
+  it.noGrab = true; it.noPhys = true; it.height = 0.02; it.radius = R; it.grabY = 0.01; return it;
+}
+// a pizza cutter: its wheel rolls along the cut
+export function pizzaCutter(o = {}) {
+  const it = new Item('wcutter', { ...o, name: { en: 'Cutter', hi: 'कटर', hg: 'Cutter' } });
+  const steel = new THREE.MeshStandardMaterial({ color: 0xdfe3e8, metalness: 0.9, roughness: 0.25 }), red = new THREE.MeshStandardMaterial({ color: 0xc8322a, roughness: 0.5 });
+  const wheel = new THREE.Group(); wheel.position.y = 0.032; it.g.add(wheel);
+  const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.0025, 36), steel); disc.rotation.z = Math.PI / 2; wheel.add(disc);
+  const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.012, 16), steel); hub.rotation.z = Math.PI / 2; wheel.add(hub);
+  const fork = rod(V(0.008, 0.032, 0), V(0.008, 0.07, 0.04), 0.003, steel); it.g.add(fork);
+  const grip = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.013, 0.1, 16), red); grip.position.set(0.008, 0.105, 0.077); grip.rotation.x = Math.PI / 4; it.g.add(grip);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.02, 0.003, 8, 32), glow(0xffd23f, 0.85)); ring.position.copy(grip.position); ring.rotation.x = Math.PI / 4 + Math.PI / 2; ring.userData.noHit = true; it.g.add(ring); it.pulse = ring;
+  for (const m of [disc, hub, grip]) { m.castShadow = true; }
+  it.spin = (d) => { wheel.rotation.x -= d / 0.032; };
+  it.height = 0.15; it.radius = 0.04; it.grabY = 0.1; it.base = 0; return it;
+}
+// a glowing knob at the cut end of the outer ring: pull it to straighten the rings
+export function pullTab(o = {}) {
+  const it = new Item('wpull', { ...o, name: { en: 'End of the rope', hi: 'रस्सी का सिरा', hg: 'Rassi ka sira' } });
+  const knob = new THREE.Mesh(new THREE.SphereGeometry(0.014, 20, 14), new THREE.MeshStandardMaterial({ color: 0xffd23f, emissive: 0x7a5a00, roughness: 0.4 })); knob.position.y = 0.012; it.g.add(knob);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.026, 0.003, 8, 32), glow(0xffd23f, 0.85)); ring.rotation.x = Math.PI / 2; ring.position.y = 0.006; ring.userData.noHit = true; it.g.add(ring); it.pulse = ring;
+  it.height = 0.03; it.radius = 0.02; it.grabY = 0.012; it.base = 0; return it;
+}
+// joins the cutter and the rope end to the mat: each works only in its own step of the activity
+export function bindRingHands(mat, cutter, tab, app, steps = { cut: 0, pull: 1 }) {
+  const now = (i) => { const r = app.runner; return r.exp && r.i === i && r.state === 'todo'; };
+  let last = 0;
+  handle(cutter, { path: () => mat.cutPath(), active: () => now(steps.cut) && mat.cutK < 0.98, keepVisible: () => mat.cutK < 0.98,
+    move: (k) => { const before = mat.cutK; mat.cut(k); cutter.spin((mat.cutK - before) * (mat.R + 0.012)); }, at: () => mat.cutterAt() });
+  handle(tab, { path: () => mat.pullPath(), active: () => now(steps.pull) && mat.cutK >= 0.98 && mat.unK < 0.985, keepVisible: () => mat.cutK >= 0.98 && mat.unK < 0.985,
+    move: (k, p) => { mat.unroll(mat.kForEnd(p)); }, at: () => mat.endAt() });
+  // follow the mat when the activity moves them (the Do it button)
+  const c0 = mat.cut, u0 = mat.unroll;
+  mat.cut = (k) => { const before = mat.cutK; c0(k); if (!cutter.held) { cutter.g.position.copy(mat.cutterAt()); cutter.spin((mat.cutK - before) * (mat.R + 0.012)); } };
+  mat.unroll = (k) => { u0(k); if (!tab.held) tab.g.position.copy(mat.endAt()); };
+  cutter.g.position.copy(mat.cutterAt()); tab.g.position.copy(mat.endAt()); void last;
+}

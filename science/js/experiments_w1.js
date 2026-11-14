@@ -26,7 +26,7 @@ const fresh = (K) => { for (const s of K._stepLabels || []) K.app.scene.remove(s
 // words drawn on the board and in labels
 const W = {
   board: X('Height of the flagpole'), d: X('d = 15 m (to the foot of the pole)'), eye: X('eye height = 1.5 m'), angle: X('angle of elevation θ = 30°'),
-  land: X('The square holds the most land'),
+  land: X('The square holds the most land'), tri: X('The rings make a triangle!'),
   h: X('h = height above your eye'), total: X('Height = h + eye height'), check: X('Check from 5 m: θ = 60°'),
 };
 
@@ -270,6 +270,55 @@ export const EXPERIMENTS_W1 = [
       viva: [{ q: X('A cone has a radius of 7 cm and a height of 12 cm. Find its volume (π = 22/7).'), a: X('⅓ × 22/7 × 7 × 7 × 12 = 616 cubic centimetres.') },
         { q: X('How many cones fill a cylinder with the same radius and height?'), a: X('Three.') },
         { q: X('The height of a heap doubles but its radius stays the same. What happens to its volume?'), a: X('It doubles, because the volume is proportional to the height.') }],
+    },
+  },
+  {
+    id: 'w10_circle_rings', subj: 'maths', cls: 10, ch: C10c, world: true, place: 'room', table: true,
+    title: X('Area of a circle: cut it, straighten it, make a triangle'),
+    aim: X('To cut a round mat of rope rings along a radius, straighten the rings into a triangle with your own hands, and see why the area of a circle is πr².'),
+    kind: X('Area of a circle'),
+    setup(K) {
+      const mat = K.add(MW.ringMat(), 0, -0.82);
+      const cutter = K.add(MW.pizzaCutter(), 0, -0.82), tab = K.add(MW.pullTab(), 0, -0.62);
+      MW.bindRingHands(mat, cutter, tab, K.app);
+      mat.camView = { p: V3(K, 0, 0.95, 1.05), t: V3(K, 0, 0.0, 0.0) };
+      // the same end to each step, done by hand or with the Do it button
+      const once = (f) => { let d = false; return () => { if (!d) { d = true; f(); } }; };
+      const fin = {
+        cut: once(() => { label(K, 'r = 20 cm', mat.at('cut'), 0.03, 0, { color: '#ffffff', edge: '#ffd23f', step: true }); K.lab.emit('cut', { obj: mat.id }); }),
+        pull: once(() => { label(K, tl(K, W.tri), mat.at('tri'), 0.03, 0, { color: '#8be07a', edge: '#8be07a', step: true }); K.lab.emit('straighten', { obj: mat.id }); }),
+      };
+      mat.onCut = fin.cut; mat.onStraight = fin.pull;
+      return { mat, cutter, tab, fin };
+    },
+    steps: [
+      { do: X('This round mat is made of 10 rings of rope, one inside the other. Its radius is 20 cm. Hold the cutter and roll it from the centre to the edge, to cut the mat along a radius.'), target: 'mat',
+        act: async (K, o) => { await K.tween(2.6, (k) => o.mat.cut(k)); o.fin.cut(); await K.sleep(0.8); },
+        ev: { type: 'cut' }, see: X('Every ring is now cut at one point. The cut is a radius of the circle: r = 20 cm.') },
+      { do: X('Now hold the cut end of the outer ring and pull it to the right. All the rings open up and become straight.'), target: 'mat',
+        act: async (K, o) => { await K.tween(4.2, (k) => o.mat.unroll(k)); o.mat.unroll(1); o.fin.pull(); await K.sleep(1); },
+        ev: { type: 'straighten' }, see: X('Each ring has become a straight piece of rope. The longest is nearest you and the shortest is at the top. Together they make a triangle!'),
+        why: X('A ring keeps its length when it is straightened, and nothing is added or lost. So the triangle has exactly the same area as the circle.') },
+      { do: X('Measure the base and the height of the triangle.'), target: 'mat',
+        act: async (K, o) => { fresh(K); o.mat.measures(true); K.lab.emit('measure', { obj: o.mat.id }); label(K, '2πr', o.mat.at('base'), 0.035, 0, { color: '#ffd23f', step: true }); await K.sleep(0.6); label(K, 'r', o.mat.at('ht'), 0.035, 0, { color: '#5ec8ff', step: true }); await K.sleep(1.4); },
+        ev: { type: 'measure' }, see: X('The base is the outer ring, which went all the way round the circle: it is the circumference, 2πr. The height is the radius, r.') },
+      { do: X('Work out the area of the triangle.'), target: 'mat',
+        act: async (K, o) => { K.lab.emit('calc', { obj: o.mat.id }); label(K, 'A = ½ × 2πr × r = πr²', o.mat.at('area'), 0.04, 0, { color: '#8be07a', edge: '#8be07a' }); await K.sleep(1.2); label(K, '3.14 × 20 × 20 = 1256 cm²', o.mat.at('area2'), 0.032, 0, { color: '#ffffff' }); await K.sleep(1.6); },
+        ev: { type: 'calc' }, see: X('Area = ½ × base × height = ½ × 2πr × r = πr². For this mat: 3.14 × 20 × 20 = 1256 square centimetres.'),
+        why: X('The area of the circle is the area of this triangle. That is why the area of every circle is πr².') },
+      { do: X('Try it with a mat of many thin rings.'), target: 'mat',
+        act: async (K, o) => { o.mat.measures(false); o.mat.rebuild(40); o.mat.unK = 0; o.mat.cut(1); await K.sleep(0.8); await K.tween(3.5, (k) => o.mat.unroll(k)); o.mat.unroll(1); o.mat.measures(true); K.lab.emit('thin', { obj: o.mat.id }); await K.sleep(1.2); },
+        ev: { type: 'thin' }, see: X('With thin rings the little steps on the sides disappear, and the shape is a perfect triangle. Its area is still πr².'),
+        why: X('The thinner the rings, the closer the shape is to a true triangle. Archimedes used this same idea more than 2,000 years ago.') },
+    ],
+    eq: { word: 'Area of a circle', sym: 'A = ½ × 2πr × r = πr²' },
+    result: {
+      obs: X('The 10 rope rings, cut along a radius and straightened, made a triangle with base 2πr, the circumference, and height r.'),
+      concl: X('A circle has the same area as a triangle with base 2πr and height r: A = ½ × 2πr × r = πr².'),
+      safety: X('Use the cutter only on the mat, and keep your fingers away from its wheel.'),
+      viva: [{ q: X('A round field has a radius of 14 m. Find its area (π = 22/7).'), a: X('22/7 × 14 × 14 = 616 square metres.') },
+        { q: X('Why is the base of the triangle 2πr?'), a: X('The outer ring is the edge of the circle, so straightened it is as long as the circumference, 2πr.') },
+        { q: X('Which ring becomes the top of the triangle?'), a: X('The smallest ring, nearest the centre.') }],
     },
   },
 ];

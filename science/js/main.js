@@ -25,7 +25,7 @@ import { LITE, liteMerge } from './lite.js';
 import { MATHS } from './mode.js';
 import { Places } from './places.js';
 // experiments whose apparatus, taken together, use every shader of the chemistry and maths experiments (see warmShaders)
-const MATHS_WARM = ['w10_flagpole', 'w7_rail_lines', 'w10_roti_area', 'w9_field_coords', 'w6_fence_rope', 'w10_grain_cone']; // Maths Lab: its real-size activities
+const MATHS_WARM = ['w10_flagpole', 'w7_rail_lines', 'w10_roti_area', 'w9_field_coords', 'w6_fence_rope', 'w10_grain_cone', 'w10_circle_rings']; // Maths Lab: its real-size activities
 const WARM_IDS = ['solubility', 'evaporate_salt', 'condensation', 'filtration', 'open_chem', 'sulphur_burn', 'candle_o2', 'phys_change', 'metal_nonmetal', 'kmno4_diffuse', 'conduct_liquids', 'electrolysis9v', 'chromatography', 'crystallise', 'mass_closed', 'metals_air', 'mg_burn', 'zn_acid',
   'm6_symmetry', 'm6_same_perimeter', 'm7_parallel_lines', 'm9_coin_probability', 'm10_cone_volume', 'm10_flagpole_height'];
 
@@ -272,10 +272,11 @@ export class App {
     };
     let drag = null; const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); const hp = new THREE.Vector3();
     const canGrab = (it) => it && this.phys && !it.noGrab && !it.broken && !['rack', 'tripod', 'circuit'].includes(it.kind) && !this.renderer.xr.isPresenting;
-    const startDrag = (it) => { if (!down || it.held) return; drag = { it, y: it.g.position.y + 0.06, hist: [] }; this.controls.enabled = false; it.held = 'pointer'; if (it.follow) it.follow = null; it.g.position.y = drag.y; this.lab.emit('grab', { obj: it.id }); this.audio.clink(); this.hint('drag'); };
+    const startDrag = (it) => { if (!down || it.held) return; drag = { it, y: it.g.position.y + 0.06, hist: [] }; this.controls.enabled = false; it.held = 'pointer'; if (it.follow) it.follow = null; it.g.position.y = drag.y; this.lab.emit('grab', { obj: it.id }); this.audio.clink(); if (!it.onRelease) this.hint('drag'); };
     const moveDrag = (e) => { const rc = el.getBoundingClientRect(); ndc.set(((e.clientX - rc.left) / rc.width) * 2 - 1, -((e.clientY - rc.top) / rc.height) * 2 + 1); ray.setFromCamera(ndc, this.camera); plane.constant = -drag.y; if (!ray.ray.intersectPlane(plane, hp)) return;
       const g = drag.it.g.position; const lim = 3.4; g.set(Math.max(-lim, Math.min(lim, hp.x)), drag.y, Math.max(-lim, Math.min(lim, hp.z))); const now = performance.now(); drag.hist.push({ p: g.clone(), t: now }); while (drag.hist.length > 2 && now - drag.hist[0].t > 90) drag.hist.shift(); };
-    const endDrag = () => { const it = drag.it; it.held = null; this.controls.enabled = true; const H = drag.hist; let v = null; if (H.length > 1) { const a = H[0], b = H[H.length - 1]; const dt = Math.max(0.016, (b.t - a.t) / 1000); v = b.p.clone().sub(a.p).divideScalar(dt); if (v.length() < 0.25) v.set(0, 0, 0); v.y = Math.min(2, v.length() * 0.25); }
+    const endDrag = () => { const it = drag.it; it.held = null; this.controls.enabled = true; if (it.onRelease) { drag = null; it.onRelease(); return; } // a handle (cutter, rope end) stays on its path
+      const H = drag.hist; let v = null; if (H.length > 1) { const a = H[0], b = H[H.length - 1]; const dt = Math.max(0.016, (b.t - a.t) / 1000); v = b.p.clone().sub(a.p).divideScalar(dt); if (v.length() < 0.25) v.set(0, 0, 0); v.y = Math.min(2, v.length() * 0.25); }
       drag = null; if (this.xr.dropSolid(it)) return; if (!this.phys.drop(it, v, null)) { it.g.position.y -= 0.06; } }; // a solid let go over a vessel falls in
     el.addEventListener('wheel', (e) => { if (!drag) return; e.preventDefault(); const it = drag.it; if (e.shiftKey) { drag.y = Math.max(0.05, Math.min(2.2, drag.y - e.deltaY * 0.0006)); it.g.position.y = drag.y; return; } const axis = new THREE.Vector3(1, 0, 0).applyQuaternion(this.camera.quaternion).setY(0).normalize(); it.g.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(axis, e.deltaY * 0.0025)); }, { passive: false });
     el.addEventListener('pointerdown', (e) => { this.audio.unlock(); down = { x: e.clientX, y: e.clientY, t: performance.now() }; const it = pick(e); if (canGrab(it)) { const d0 = down; d0.timer = setTimeout(() => { if (down === d0) startDrag(it); }, e.pointerType === 'mouse' ? 160 : 380); } });
