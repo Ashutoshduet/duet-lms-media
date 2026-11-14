@@ -69,8 +69,12 @@ export function chalkboard(o = {}) {
   it.lines = [];
   it.draw = (title) => {
     const x = c.getContext('2d'), W = c.width, Hc = c.height;
-    x.fillStyle = '#21402f'; x.fillRect(0, 0, W, Hc);
-    for (let i = 0; i < 1800; i++) { x.fillStyle = `rgba(255,255,255,${Math.random() * 0.03})`; x.fillRect(Math.random() * W, Math.random() * Hc, 3 + Math.random() * 46, 2 + Math.random() * 8); }
+    if (!it.bg) { // the board's dusty green, drawn once
+      it.bg = document.createElement('canvas'); it.bg.width = W; it.bg.height = Hc; const b = it.bg.getContext('2d');
+      b.fillStyle = '#21402f'; b.fillRect(0, 0, W, Hc);
+      for (let i = 0; i < 1800; i++) { b.fillStyle = `rgba(255,255,255,${Math.random() * 0.03})`; b.fillRect(Math.random() * W, Math.random() * Hc, 3 + Math.random() * 46, 2 + Math.random() * 8); }
+    }
+    x.drawImage(it.bg, 0, 0);
     x.textBaseline = 'top'; let y = 46;
     if (title || it.title) { x.fillStyle = 'rgba(255,214,120,0.95)'; x.font = `700 74px ${FONT}`; x.fillText(title || it.title, 56, y, W - 100); y += 110; }
     for (const l of it.lines) { const big = l.big ? 84 : 66; x.font = `${l.big ? 700 : 600} ${big}px ${FONT}`; x.fillStyle = l.c || 'rgba(244,240,226,0.95)'; x.fillText(l.t, 64, y, W - 120); y += big * 1.42; }
@@ -140,7 +144,7 @@ export function flagpoleScene(o = {}) {
   // state
   it.tapeK = 0; it.aimK = 0; it.sightK = 0;
   const update = () => {
-    const L = D * it.tapeK; tape.visible = L > 0.01; tape.scale.x = Math.max(0.01, L); tape.position.set(E.x - 0.12, 0.012, E.z - L / 2); tapeT.repeat.set(Math.max(0.001, it.tapeK), 1); tapeT.needsUpdate = true;
+    const L = D * it.tapeK; tape.visible = L > 0.01; tape.scale.x = Math.max(0.01, L); tape.position.set(E.x - 0.12, 0.012, E.z - L / 2); tapeT.repeat.set(Math.max(0.001, it.tapeK), 1); // (only the texture's repeat changes: no new upload)
     tilt.rotation.z = ((ANG * Math.PI) / 180) * ease(clamp01(it.aimK)); // the straw tilts up towards the top; the plumb line stays vertical
     setRod(sight, E, E.clone().lerp(T, ease(clamp01(it.sightK)))); sight.visible = it.sightK > 0;
   };
