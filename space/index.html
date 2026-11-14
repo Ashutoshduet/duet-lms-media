@@ -6819,14 +6819,21 @@ function RocketScenes(H){
     const MLOD=new Set(["europe_ariane5","india_nisar","india_pslv_g","intl_apollo_soyuz","intl_iss","nz_electron","usa_apollo11_cm","usa_apollo_lm","usa_atlas_mercury","usa_crew_dragon","usa_curiosity","usa_falcon9","usa_gemini","usa_hubble","usa_jwst","usa_orion_artemis2","usa_perseverance","usa_saturnv","usa_shuttle_discovery","usa_space_shuttle_stack","ussr_sputnik1"]),cp=new T.Vector3(),wp=new T.Vector3();let fT=0;
     function place(it,o){const b=new T.Box3().setFromObject(o),c=b.getCenter(new T.Vector3()),sz=b.getSize(new T.Vector3());
       if(it.floating||it.overhead)o.position.sub(c);else{o.position.x-=c.x;o.position.z-=c.z;o.position.y-=b.min.y}return sz}
+    // further than about 10 m an exhibit is drawn with simple (Lambert) shading: on a Quest 3S the full metal-and-light shading
+    // of every exhibit alone took the museum past its frame time; close up it keeps the real look
+    const LAM=new Map();const lam=mt=>{if(!mt||!mt.isMeshStandardMaterial)return mt;let l=LAM.get(mt);if(!l){l=new T.MeshLambertMaterial({color:mt.color,map:mt.map,emissive:mt.emissive,emissiveMap:mt.emissiveMap,transparent:mt.transparent,opacity:mt.opacity,side:mt.side,alphaTest:mt.alphaTest,depthWrite:mt.depthWrite,vertexColors:mt.vertexColors});LAM.set(mt,l)}return l};
+    function shade(o,far){o.traverse(m=>{if(!m.isMesh)return;if(!m.userData.std)m.userData.std=m.material;m.material=far?lam(m.userData.std):m.userData.std})}
     function detail(){if((fT++)%20)return;H.cam.getWorldPosition(cp);
-      for(const it of items){if(!it.lod)continue;it.pv.getWorldPosition(wp);const d=cp.distanceTo(wp)-it.rad,near=d<(it.full&&it.full.visible?16:10);
-        if(near&&!it.full&&!it.fullLoading){it.fullLoading=true;loadGLB(it.m.id,o2=>{it.fullLoading=false;if(!o2){it.lod=null;return}duetMergeStatic(o2);place(it,o2);o2.visible=false;it.pv.add(o2);it.full=o2})}
-        if(it.full){it.full.visible=near;it.lod.visible=!near}}}
+      for(const it of items){if(!it.pv)continue;it.pv.getWorldPosition(wp);const d=cp.distanceTo(wp)-it.rad,near=d<((it.full&&it.full.visible)||it.near?16:10);
+        if(it.lod){
+          if(near&&!it.full&&!it.fullLoading){it.fullLoading=true;loadGLB(it.m.id,o2=>{it.fullLoading=false;if(!o2){shade(it.lod,false);it.lod=null;return}duetMergeStatic(o2);place(it,o2);o2.visible=false;it.pv.add(o2);it.full=o2})}
+          if(it.full){it.full.visible=near;it.lod.visible=!near}}
+        else if(it.model&&it.near!==near)shade(it.model,!near);
+        it.near=near}}
     function pump(){while(loading<2&&queue.length){const it=queue.shift();loading++;const lod=MLOD.has(it.m.id);loadGLB(lod?"lod/"+it.m.id:it.m.id,o=>{loading--;if(o){
         duetMergeStatic(o); // each exhibit's parts in one mesh per look: about 1,180 draw calls became a few hundred (a headset held only 41 fps here)
         const pv=new T.Group();it.pv=pv;const sz=place(it,o);if(it.floating||it.overhead)pv.position.y=it.floating?sz.y/2+1.6:0;
-        if(lod){it.lod=o;it.rad=Math.max(sz.x,sz.y,sz.z)/2}
+        it.rad=Math.max(sz.x,sz.y,sz.z)/2;if(lod){it.lod=o;shade(o,true)}else{it.model=o;it.near=false;shade(o,true)}
         pv.add(o);it.g.add(pv);const hb=new T.Mesh(new T.BoxGeometry(Math.max(sz.x,1.5),Math.max(sz.y,1.5),Math.max(sz.z,1.5)),new T.MeshBasicMaterial({visible:false}));hb.position.y=it.overhead?0:(it.floating?sz.y/2+1.6:sz.y/2);hb.userData.pick=it;it.g.add(hb);it.hit=hb;
         it.lab.position.y=(it.overhead?sz.y/2+4:(it.floating?sz.y+2.6:sz.y+2))}
         it.loaded=true;pump()})}}
