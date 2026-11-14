@@ -338,7 +338,7 @@ function grainStream(n = 200) {
   };
   return m;
 }
-const seg = (k, a, b) => clamp01((k - a) / (b - a));
+export const seg = (k, a, b) => clamp01((k - a) / (b - a));
 
 // ------------------------------------------------------------------ Class 9: coordinates on the playground
 // The playground is painted as a coordinate plane: the x-axis across, the y-axis straight ahead (on the pitch line of the
@@ -541,9 +541,9 @@ export function grainScene(o = {}) {
 // A handle is an item the student grabs (mouse drag, or a hand / controller in the headset) and moves along a path from A
 // to B; how far along it is (k, 0…1) drives the activity. With the mouse it stays on the path; in a hand it follows the hand
 // and k comes from the nearest point of the path. Let go: it stays where the work has got to.
-function handle(it, o) {
+export function handle(it, o) {
   const v = V(0, 0, 0), ab = V(0, 0, 0), ap = V(0, 0, 0);
-  it.noGrab = false; it.noPhys = true; it.k = 0;
+  it.noGrab = false; it.noPhys = true; it.k = 0; it.dragLift = 0; // the mouse moves it at its own height, so it stays under the pointer
   const kOf = (p) => { const [A, B] = o.path(); ab.subVectors(B, A); ap.subVectors(p, A); const L2 = ab.lengthSq() || 1; const k = clamp01(ap.dot(ab) / L2); const off = ap.addScaledVector(ab, -k).setY(0).length(); return { k, off }; };
   const upd0 = it.update;
   it.update = (dt, t) => {
@@ -557,7 +557,8 @@ function handle(it, o) {
     o.move(r.k, p.clone());
     if (it.held === 'pointer') { it.g.position.copy(o.at()); it._set = it.g.position.clone(); }
   };
-  it.onRelease = () => { const q = o.at(); const p0 = it.g.position.clone(), q0 = it.g.quaternion.clone(), q1 = new THREE.Quaternion();
+  it.onRelease = () => { if (o.active() && !(it._set && it.g.position.distanceToSquared(it._set) < 1e-10)) { const p = it.g.getWorldPosition(v), r = kOf(p); if (r.off < 0.25 || it.held === 'pointer') o.move(r.k, p.clone()); } // where it was let go counts too
+    const q = o.at(); const p0 = it.g.position.clone(), q0 = it.g.quaternion.clone(), q1 = new THREE.Quaternion();
     let n = 0; const step = () => { n++; const e = Math.min(1, n / 12); it.g.position.lerpVectors(p0, o.at(), e); it.g.quaternion.slerpQuaternions(q0, q1, e); if (e < 1 && !it.held) requestAnimationFrame(step); }; void q; step(); };
   return it;
 }
