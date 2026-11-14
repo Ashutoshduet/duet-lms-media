@@ -25,7 +25,7 @@ import { LITE, liteMerge } from './lite.js';
 import { MATHS } from './mode.js';
 import { Places } from './places.js';
 // experiments whose apparatus, taken together, use every shader of the chemistry and maths experiments (see warmShaders)
-const MATHS_WARM = ['w10_flagpole', 'w7_rail_lines', 'w10_roti_area', 'w9_field_coords', 'w6_fence_rope', 'w10_grain_cone', 'w10_circle_rings', 'w9_identity_cube', 'w6_triangle_inside', 'w8_pythagoras_water', 'w8_train_speed', 'w6_lift_integers', 'w7_decimal_zoom', 'w8_fold_moon', 'w10_cylinder_net']; // Maths Lab: its real-size activities
+const MATHS_WARM = ['w10_flagpole', 'w7_rail_lines', 'w10_roti_area', 'w9_field_coords', 'w6_fence_rope', 'w10_grain_cone', 'w10_circle_rings', 'w9_identity_cube', 'w6_triangle_inside', 'w8_pythagoras_water', 'w8_train_speed', 'w6_lift_integers', 'w7_decimal_zoom', 'w8_fold_moon', 'w10_cylinder_net', 'w10_ladder_trig', 'w6_angle_turn', 'w6_odd_squares']; // Maths Lab: its real-size activities
 const WARM_IDS = ['solubility', 'evaporate_salt', 'condensation', 'filtration', 'open_chem', 'sulphur_burn', 'candle_o2', 'phys_change', 'metal_nonmetal', 'kmno4_diffuse', 'conduct_liquids', 'electrolysis9v', 'chromatography', 'crystallise', 'mass_closed', 'metals_air', 'mg_burn', 'zn_acid',
   'm6_symmetry', 'm6_same_perimeter', 'm7_parallel_lines', 'm9_coin_probability', 'm10_cone_volume', 'm10_flagpole_height'];
 

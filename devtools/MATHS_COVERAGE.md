@@ -8,8 +8,8 @@ own hands and, where it makes sense, stands inside the shape.
 
 | Class | Chapter | Activities | Ideas still to build |
 |---|---|---|---|
-| 6 | 1 Patterns in Mathematics | — | triangular and square numbers: build them with balls, see 1 + 3 + 5 + … = n² |
-| 6 | 2 Lines and Angles | — | stand at the vertex and swing a giant arm: right angle, straight angle, full turn |
+| 6 | 1 Patterns in Mathematics | w6_odd_squares | triangular numbers with balls |
+| 6 | 2 Lines and Angles | w6_angle_turn | |
 | 6 | 3 Number Play | — | — |
 | 6 | 4 Data Handling and Presentation | — | a class survey turned into 3D bars in the courtyard |
 | 6 | 5 Prime Time | — | arrange chairs in rectangles: primes make only one row |
@@ -62,7 +62,7 @@ own hands and, where it makes sense, stands inside the shape.
 | 10 | 5 Arithmetic Progressions | — | climb a staircase: aₙ = a + (n − 1)d |
 | 10 | 6 Triangles | — | shadows of a stick and a pole: similar triangles |
 | 10 | 7 Coordinate Geometry | — | distance between two points on the playground grid |
-| 10 | 8 Introduction to Trigonometry | — | slide a ladder against a wall: sin, cos and tan change |
+| 10 | 8 Introduction to Trigonometry | w10_ladder_trig | |
 | 10 | 9 Some Applications of Trigonometry | w10_flagpole | |
 | 10 | 10 Circles | — | a bicycle wheel on the road: the tangent is at right angles to the radius |
 | 10 | 11 Areas Related to Circles | w10_roti_area, w10_circle_rings | |
