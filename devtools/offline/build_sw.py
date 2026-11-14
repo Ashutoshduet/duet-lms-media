@@ -56,7 +56,7 @@ def space_version(root, files):
     core = json.loads(re.search(r'const CORE=(\[.*?\]);', s).group(1)); media = json.loads(re.search(r'const MEDIA=(\[.*?\]);', s).group(1))
     listed = set(core) | set(media)
     for p in sorted(files):
-        if p not in listed and p.startswith('models/') and p.endswith('.glb'): media.append(p)
+        if p not in listed and p.endswith('.glb'): media.append(p)
     media = [p for p in media if p in files]
     md5 = lambda p: hashlib.md5(open(os.path.join(root, p), 'rb').read()).hexdigest()[:12]
     H = {p: md5(p) for p in media}

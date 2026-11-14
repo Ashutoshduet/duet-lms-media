@@ -6814,11 +6814,19 @@ function RocketScenes(H){
       if(floating){const ped=new T.Mesh(new T.CylinderGeometry(1.1,1.3,.5,40),new T.MeshStandardMaterial({color:0x1d2230,roughness:.5,metalness:.4}));ped.position.y=.25;g.add(ped)}
       const lab=label(m.name,m.size||"",m.country==="india"?"#ff9933":"#8ec5ff",.14);lab.position.y=(floating?h+3:h+2.5)+(overhead?8:0);g.add(lab);
       const it={m,g,pos,h,floating,overhead,lab,loaded:false,hit:null};items.push(it);if(!overhead)g.lookAt(0,pos.y,0)}
-    function pump(){while(loading<2&&queue.length){const it=queue.shift();loading++;loadGLB(it.m.id,o=>{loading--;if(o){
+    // light copies (rs/models/lod, about 10,000 triangles each) stand in the museum; the full model loads and takes over when you
+    // walk up to an exhibit. All full models together are about 1.3 million triangles: a Quest 3S drew the museum at about 50 fps
+    const MLOD=new Set(["europe_ariane5","india_nisar","india_pslv_g","intl_apollo_soyuz","intl_iss","nz_electron","usa_apollo11_cm","usa_apollo_lm","usa_atlas_mercury","usa_crew_dragon","usa_curiosity","usa_falcon9","usa_gemini","usa_hubble","usa_jwst","usa_orion_artemis2","usa_perseverance","usa_saturnv","usa_shuttle_discovery","usa_space_shuttle_stack","ussr_sputnik1"]),cp=new T.Vector3(),wp=new T.Vector3();let fT=0;
+    function place(it,o){const b=new T.Box3().setFromObject(o),c=b.getCenter(new T.Vector3()),sz=b.getSize(new T.Vector3());
+      if(it.floating||it.overhead)o.position.sub(c);else{o.position.x-=c.x;o.position.z-=c.z;o.position.y-=b.min.y}return sz}
+    function detail(){if((fT++)%20)return;H.cam.getWorldPosition(cp);
+      for(const it of items){if(!it.lod)continue;it.pv.getWorldPosition(wp);const d=cp.distanceTo(wp)-it.rad,near=d<(it.full&&it.full.visible?16:10);
+        if(near&&!it.full&&!it.fullLoading){it.fullLoading=true;loadGLB(it.m.id,o2=>{it.fullLoading=false;if(!o2){it.lod=null;return}duetMergeStatic(o2);place(it,o2);o2.visible=false;it.pv.add(o2);it.full=o2})}
+        if(it.full){it.full.visible=near;it.lod.visible=!near}}}
+    function pump(){while(loading<2&&queue.length){const it=queue.shift();loading++;const lod=MLOD.has(it.m.id);loadGLB(lod?"lod/"+it.m.id:it.m.id,o=>{loading--;if(o){
         duetMergeStatic(o); // each exhibit's parts in one mesh per look: about 1,180 draw calls became a few hundred (a headset held only 41 fps here)
-        const b=new T.Box3().setFromObject(o),c=b.getCenter(new T.Vector3()),sz=b.getSize(new T.Vector3());
-        const pv=new T.Group();it.pv=pv;
-        if(it.floating||it.overhead){o.position.sub(c);pv.position.y=it.floating?sz.y/2+1.6:0}else{o.position.x-=c.x;o.position.z-=c.z;o.position.y-=b.min.y}
+        const pv=new T.Group();it.pv=pv;const sz=place(it,o);if(it.floating||it.overhead)pv.position.y=it.floating?sz.y/2+1.6:0;
+        if(lod){it.lod=o;it.rad=Math.max(sz.x,sz.y,sz.z)/2}
         pv.add(o);it.g.add(pv);const hb=new T.Mesh(new T.BoxGeometry(Math.max(sz.x,1.5),Math.max(sz.y,1.5),Math.max(sz.z,1.5)),new T.MeshBasicMaterial({visible:false}));hb.position.y=it.overhead?0:(it.floating?sz.y/2+1.6:sz.y/2);hb.userData.pick=it;it.g.add(hb);it.hit=hb;
         it.lab.position.y=(it.overhead?sz.y/2+4:(it.floating?sz.y+2.6:sz.y+2))}
         it.loaded=true;pump()})}}
@@ -6827,7 +6835,7 @@ function RocketScenes(H){
       enter(){if(!built)build();root.visible=true;outdoor(true,300,1500);home();
         H.hint("3D museum · real size",[["Near you","landers, rovers and capsules"],["Further out","rockets, Hubble, JWST, the Shuttle"],["Look up","the Space Station overhead"],["Trigger / pinch","its story"]],8)},
       exit(){root.visible=false;outdoor(false)},
-      frame(){followSky()},
+      frame(){followSky();detail()},
       sticks(mx,my,tx,ty,boost,dt){H.move(mx,my,tx,ty,boost,dt,{speed:5})},
       picks:()=>items.filter(it=>it.hit).map(it=>it.hit),
       pick(it){const m=it.m;H.showCard({kicker:(CN[m.country]||{}).en+" · "+(m.group||""),title:m.name,hi:m.hi,color:m.country==="india"?"#ff9933":"#8ec5ff",rows:[["Size",m.size||"—"],["Where it worked",m.ground==="pad"?"Launch pad":m.ground==="space"?"Space":m.ground==="moon"?"The Moon":"Mars"]],cols:2,text:m.about+(m.note?" "+m.note:""),say:"mu-"+m.id},H.lastHit&&H.lastHit.point?H.lastHit.point.clone():null)},
