@@ -1,9 +1,10 @@
 // Interface text in English, Hindi and Hinglish.
+import { MATHS } from './mode.js';
 export const LANGS = ['en', 'hi', 'hg'];
 export const LANG_LABEL = { en: 'English', hi: 'हिंदी', hg: 'Hinglish' };
 export const FONT = '"Noto Sans Devanagari", "Noto Sans", system-ui, sans-serif';
 export const T = {
-  appTitle: { en: 'Science Lab 360', hi: 'साइंस लैब 360', hg: 'Science Lab 360' },
+  appTitle: MATHS ? { en: 'Maths Lab 360', hi: 'मैथ्स लैब 360', hg: 'Maths Lab 360' } : { en: 'Science Lab 360', hi: 'साइंस लैब 360', hg: 'Science Lab 360' },
   chemistry: { en: 'Chemistry', hi: 'रसायन विज्ञान', hg: 'Chemistry' },
   physics: { en: 'Physics', hi: 'भौतिक विज्ञान', hg: 'Physics' }, maths: { en: 'Maths', hi: 'गणित', hg: 'Maths' }, biology: { en: 'Biology', hi: 'जीव विज्ञान', hg: 'Biology' },
   astronomy: { en: 'Astronomy', hi: 'खगोल विज्ञान', hg: 'Astronomy' }, robotics: { en: 'Robotics', hi: 'रोबोटिक्स', hg: 'Robotics' }, nature: { en: 'Nature', hi: 'प्रकृति', hg: 'Nature' },

@@ -22,7 +22,10 @@ import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './
 import { demoIds } from './topics.js';
 import { LIQ_TIME } from './mats.js';
 import { LITE, liteMerge } from './lite.js';
+import { MATHS } from './mode.js';
+import { Places } from './places.js';
 // experiments whose apparatus, taken together, use every shader of the chemistry and maths experiments (see warmShaders)
+const MATHS_WARM = []; // Maths Lab: its real-size activities (filled in as they are added)
 const WARM_IDS = ['solubility', 'evaporate_salt', 'condensation', 'filtration', 'open_chem', 'sulphur_burn', 'candle_o2', 'phys_change', 'metal_nonmetal', 'kmno4_diffuse', 'conduct_liquids', 'electrolysis9v', 'chromatography', 'crystallise', 'mass_closed', 'metals_air', 'mg_burn', 'zn_acid',
   'm6_symmetry', 'm6_same_perimeter', 'm7_parallel_lines', 'm9_coin_probability', 'm10_cone_volume', 'm10_flagpole_height'];
 
@@ -55,6 +58,8 @@ export class App {
     this.controls.update(); this.controls.addEventListener('start', () => { this.camGoal = null; this.userCam = true; });
     this.world = new THREE.Group(); this.scene.add(this.world);
     this.roomInfo = buildRoom(this.world);
+    // DUET Maths Lab 360: no chemistry room; each activity happens in a real place (a 360° photo) on a wooden table or at real size
+    if (MATHS) { this.roomInfo.room.visible = false; this.places = new Places(this); this.camera.far = 400; this.camera.updateProjectionMatrix(); this.controls.maxDistance = 45; this.controls.maxPolarAngle = Math.PI * 0.62; }
     this.audio = new Audio(); this.audio.voice = store.get('voice') !== '0' && !Q.has('mute');
     this.fx = new FX(this.scene); this.chem = new Chem(this.fx, this.audio); this.lab = new Lab(this.scene, this.fx, this.chem, this.audio);
     this.runner = new Runner(this);
@@ -84,11 +89,14 @@ export class App {
   }
   async boot() { // real models and the 360° lab light load first (the loader screen shows progress)
     const bar = document.querySelector('#loader .bar i');
+    if (MATHS) await this.places.set('room'); // the Maths Lab opens in a real room; no lab furniture or lab light to load
+    else {
     await Promise.all([loadModels((k) => { if (bar) { bar.style.animation = 'none'; bar.style.width = Math.round(k * 100) + '%'; bar.style.transform = 'none'; } }), loadLabHDR(this.renderer, this.scene)]);
     furnish(this.roomInfo.room, this.roomInfo);
+    }
     if (LITE) this.liteRoom = liteMerge(this.roomInfo.room); // headset: the fixed furniture in a few meshes
     if (LITE && !Q.has('nowarm')) await this.warmShaders();
-    const pm = loadPhysModels(); if (Q.has('test')) await pm; // real physics apparatus models load in the background
+    const pm = MATHS ? null : loadPhysModels(); if (pm && Q.has('test')) await pm; // real physics apparatus models load in the background
     const php = initPhysics(this).then((p) => { this.phys = p; if (p) { this.lab.surfaceY = (x, z) => p.surfaceY(x, z); this.lab.phys = p; const c0 = this.lab.clear.bind(this.lab); this.lab.clear = () => { c0(); p.clear(); }; } }); if (Q.has('test')) await php; // falling, throwing and breaking
     const first = Q.get('exp');
     if (Q.get('cls')) this.ui.setClass(+Q.get('cls') || 0);
@@ -101,7 +109,7 @@ export class App {
   // opened. These experiments together bring every shader the chemistry and maths experiments use (counted per experiment)
   async warmShaders() {
     const R = this.renderer, t0 = performance.now(); let n = 0;
-    for (const id of WARM_IDS) {
+    for (const id of MATHS ? WARM_IDS.filter((x) => /^m\d/.test(x)).concat(MATHS_WARM) : WARM_IDS) {
       const e = BY_ID[id]; if (!e) continue; const K = new Kit(this);
       try { e.setup(K); for (const it of this.lab.items) if (it.setLit) { try { it.setLit(true); } catch (x) { /* not lit here */ } } R.compile(this.scene, this.camera); n++; } catch (x) { /* skip this one */ }
       try { K.dispose(); } catch (x) { /* nothing to remove */ } this.lab.clear();
@@ -212,6 +220,9 @@ export class App {
   }
   // ------------------------------------------------------------ camera
   focusBench() {
+    // an activity at real size in a real place (Maths Lab) chooses its own point of view
+    const cvw = this.runner.exp && this.runner.exp.world && this.lab.items.find((it) => it.camView && it.g.parent === this.scene);
+    if (cvw) { this.camGoal = { p: cvw.g.position.clone().add(cvw.camView.p), t: cvw.g.position.clone().add(cvw.camView.t), slow: true }; return; }
     const b = new THREE.Box3();
     for (const it of this.lab.items) { if (it.g.position.y > BENCH_Y + 0.15 || it.g.parent !== this.scene) continue; b.expandByObject(it.g); }
     if (b.isEmpty()) return;
@@ -423,6 +434,7 @@ export class App {
     this.ar = on; document.body.classList.toggle('in-ar', on);
     if (on) { this._bg = this._bg || this.scene.background; this.scene.background = null; this.renderer.setClearAlpha(0); } else if (this._bg) { this.scene.background = this._bg; this.renderer.setClearAlpha(1); }
     for (const c of this.roomInfo.room.children) if (!c.userData.ar) c.visible = !on;
+    if (this.places) this.places.root.visible = !on; // AR: the real room instead of the photo
   }
   enterVR(s, overlay) { // overlay: a phone in AR shows the page's own buttons over the camera view (no panels in the scene)
     if (!overlay) { document.body.classList.add('in-vr'); this.ui.vr.visible = true; this.ui.layoutVR(); this.ui.dirty = true; }
@@ -495,4 +507,4 @@ export class App {
   follow() { for (const it of this.lab.items) if (it.follow && it.setTemp && it.follow.mix) it.setTemp(it.follow.mix.temp); }
 }
 new App();
-if ('serviceWorker' in navigator && !Q.has('test') && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('./sw.js').catch(() => {});
+if ('serviceWorker' in navigator && !Q.has('test') && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register(MATHS ? '../maths/sw.js' : './sw.js', MATHS ? { scope: '../maths/' } : undefined).catch(() => {});

@@ -24,7 +24,7 @@ void EXPERIMENTS;
 
 export class UI {
   constructor(app) {
-    this.app = app; this.subj = store.get('subj') || 'chemistry'; if (!hasSubject(this.subj)) this.subj = 'chemistry'; this.cls = +(store.get('cls') || 0) || 0; this.view = store.get('view') === 'topic' ? 'topic' : 'class'; this.topic = null; this.nbOpen = false; this.done = new Set((store.get('done') || '').split(',').filter(Boolean));
+    this.app = app; this.subj = store.get('subj') || 'chemistry'; if (!hasSubject(this.subj)) this.subj = hasSubject('chemistry') ? 'chemistry' : 'maths'; this.cls = +(store.get('cls') || 0) || 0; this.view = store.get('view') === 'topic' ? 'topic' : 'class'; this.topic = null; this.nbOpen = false; this.done = new Set((store.get('done') || '').split(',').filter(Boolean));
     this.buildDOM();
     // headset panels
     this.menu = new Panel(1000, 1490, 0.51); this.story = new Panel(1100, 1150, 0.58); // a little bigger than before: easier to read in the headset

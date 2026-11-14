@@ -10,7 +10,8 @@ const NET_FIRST = /\.(js|mjs|json|html|webmanifest)$/; // code and text: newest 
 const SCOPE = self.registration.scope;
 const PATHS = Object.keys(FILES);
 const TOTAL_BYTES = PATHS.reduce((s, p) => s + FILES[p][1], 0);
-const url = (p) => SCOPE + encodeURI(p);
+const ROOT = new URL('../', SCOPE).href; // the folder with every DUET app: an app may also use files of a neighbour (../science/…)
+const url = (p) => new URL(encodeURI(p), SCOPE).href;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 let state = { have: 0, total: PATHS.length, bytes: 0, bytesTotal: TOTAL_BYTES, ready: false, offline: false };
 
@@ -105,8 +106,11 @@ async function ranged(r, p) {
   return new Response(b.slice(s, e + 1), { status: 206, headers: { 'Content-Type': m.headers.get('Content-Type') || 'application/octet-stream', 'Content-Range': `bytes ${s}-${e}/${b.size}`, 'Content-Length': String(e - s + 1), 'Accept-Ranges': 'bytes' } });
 }
 self.addEventListener('fetch', (e) => {
-  const r = e.request; if (r.method !== 'GET' || !r.url.startsWith(SCOPE)) return;
-  let p = decodeURI(new URL(r.url).pathname.slice(new URL(SCOPE).pathname.length));
+  const r = e.request; if (r.method !== 'GET') return;
+  let p;
+  if (r.url.startsWith(SCOPE)) p = decodeURI(new URL(r.url).pathname.slice(new URL(SCOPE).pathname.length));
+  else if (r.url.startsWith(ROOT)) p = '../' + decodeURI(new URL(r.url).pathname.slice(new URL(ROOT).pathname.length));
+  else return;
   if (p === '' || p.endsWith('/')) p += 'index.html';
   if (!(p in FILES)) return; // not part of the app: the browser handles it as usual
   if (r.headers.has('range')) { e.respondWith(ranged(r, p)); return; }

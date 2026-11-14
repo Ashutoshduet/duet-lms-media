@@ -1,5 +1,5 @@
 #!/bin/sh
 # keep each app's offline file list (sw.js, offline.json) in step with its files
 top="$(git rev-parse --show-toplevel)"
-python3 "$top/devtools/offline/build_sw.py" "$top" science body drone space >/dev/null || exit 1
-git add science/sw.js body/sw.js drone/sw.js space/sw.js science/offline.json body/offline.json drone/offline.json space/offline.json
+python3 "$top/devtools/offline/build_sw.py" "$top" science body drone space maths >/dev/null || exit 1
+git add science/sw.js body/sw.js drone/sw.js space/sw.js maths/sw.js maths/index.html maths/voices.json science/offline.json body/offline.json drone/offline.json space/offline.json maths/offline.json

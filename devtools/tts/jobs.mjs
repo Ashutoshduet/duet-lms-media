@@ -1,7 +1,7 @@
 // Builds the narration job list (every sentence the app can speak) for English and Hindi.
 import fs from 'fs';
 const ROOT = new URL('../../science/', import.meta.url);
-const { EXPERIMENTS } = await import(new URL('js/experiments.js', ROOT));
+const { ALL_EXPERIMENTS: EXPERIMENTS } = await import(new URL('js/experiments.js', ROOT));
 const { T, tx } = await import(new URL('js/strings.js', ROOT));
 const vkey = (s) => { let h = 5381; for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; return h.toString(36); };
 const jobs = new Map();

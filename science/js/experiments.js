@@ -22,7 +22,9 @@ import { EXPERIMENTS_FREE } from './experiments_free.js';
 import { EXPERIMENTS_M1 } from './experiments_m1.js';
 import { EXPERIMENTS_M2 } from './experiments_m2.js';
 import { EXPERIMENTS_M3 } from './experiments_m3.js';
+import { EXPERIMENTS_W1 } from './experiments_w1.js';
 import { DICT } from './exp_i18n.js';
+import { MATHS } from './mode.js';
 const X = (en) => ({ en, ...(DICT[en] || {}) });
 
 export const EXPERIMENTS = [
@@ -339,7 +341,13 @@ export const EXPERIMENTS = [
   },
 ];
 
-EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3, ...EXPERIMENTS_P4, ...EXPERIMENTS_P5, ...EXPERIMENTS_P6, ...EXPERIMENTS_P7, ...EXPERIMENTS_P8, ...EXPERIMENTS_P9, ...EXPERIMENTS_P10, ...EXPERIMENTS_P11, ...EXPERIMENTS_FREE, ...EXPERIMENTS_M1, ...EXPERIMENTS_M2, ...EXPERIMENTS_M3);
+EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3, ...EXPERIMENTS_P4, ...EXPERIMENTS_P5, ...EXPERIMENTS_P6, ...EXPERIMENTS_P7, ...EXPERIMENTS_P8, ...EXPERIMENTS_P9, ...EXPERIMENTS_P10, ...EXPERIMENTS_P11, ...EXPERIMENTS_FREE, ...EXPERIMENTS_M1, ...EXPERIMENTS_M2, ...EXPERIMENTS_M3, ...EXPERIMENTS_W1);
+// every activity, for the tools (narration, tests); the app itself shows EXPERIMENTS
+export const ALL_EXPERIMENTS = EXPERIMENTS.slice();
+// the Maths Lab app shows the real-place activities (world: true) in place of the table-top ones they stand for
+// (replaces); Science Lab keeps the table-top ones (the real places are the Maths Lab's own files)
+{ const repl = new Set(EXPERIMENTS.filter((e) => e.world && e.replaces).map((e) => e.replaces));
+  for (let i = EXPERIMENTS.length - 1; i >= 0; i--) { const e = EXPERIMENTS[i]; if (MATHS ? repl.has(e.id) : e.world) EXPERIMENTS.splice(i, 1); } }
 EXPERIMENTS.sort((a, b) => a.cls - b.cls); // stable: keeps the book order inside each class
 export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));
 // a class's experiments in book order: chapter by chapter (older-NCERT chapters after the current book), then any from other classes
@@ -347,7 +355,7 @@ export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));
 const ORD = { p10_reflection: 1, p10_mirror_f: 2, p10_mirror_images: 3, p10_convex_mirror: 4, p10_coin_bowl: 5, p10_slab: 6, p10_lens_f: 7, p10_lens_images: 8, p10_concave_lens: 9, p10_prism: 1, p10_dispersion: 2, p10_ohm: 1, p10_components: 2, p10_resistance: 3, p10_series_iv: 4, p10_series: 5, p10_parallel: 6 };
 const chNum = (e) => { if (e.id.startsWith('open_')) return -1; const m = /^Ch (\d+)/.exec(e.ch.en); return m ? +m[1] : 100; }; // the open lab comes first
 export const subjOf = (e) => e.subj || 'chemistry'; // every experiment belongs to one subject (chemistry when not set)
-export const hasSubject = (sub) => EXPERIMENTS.some((e) => subjOf(e) === sub);
+export const hasSubject = (sub) => (!MATHS || sub === 'maths') && EXPERIMENTS.some((e) => subjOf(e) === sub); // the Maths Lab app shows maths only
 export function classGroups(cls, sub = 'chemistry') {
   const own = EXPERIMENTS.filter((e) => (e.cls === cls || (cls && e.id.startsWith('open_'))) && subjOf(e) === sub).map((e, i) => ({ e, i, n: chNum(e), c: e.ch.en }));
   own.sort((a, b) => a.n - b.n || (a.c < b.c ? -1 : a.c > b.c ? 1 : 0) || (ORD[a.e.id] ?? 50) - (ORD[b.e.id] ?? 50) || a.i - b.i);

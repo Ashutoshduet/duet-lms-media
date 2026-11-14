@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Write sw.js (offline worker with the full file list and hashes) for DUET STEM web apps.
-Usage: build_sw.py <repo> [app ...]   (default apps: science body drone)"""
+Usage: build_sw.py <repo> [app ...]   (default apps: science body drone maths)"""
 import hashlib, json, os, re, subprocess, sys
-APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360'}
+APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360', 'maths': 'ml360'}
 MANIFEST_ONLY = {'space'}  # keeps its own offline worker; only the file list for the Android app
 SKIP_DIRS = {'tools', 'store-art', 'test', '.git', '__pycache__'}
 SKIP_FILES = {'sw.js', 'offline.json', '.DS_Store'}
@@ -30,8 +30,44 @@ def files_of(root):
             out[rel] = [hashlib.sha1(data).hexdigest()[:12], len(data)]
     return out
 
+# DUET Maths Lab 360 (maths/) runs the Science Lab's code (maths/index.html is science/index.html with <base href="../science/">):
+# its worker also saves the Science Lab files it uses, as ../science/…, but only the maths narration (maths/voices.json)
+MATHS_FROM_SCIENCE = ('js/', 'lib/', 'fonts/', 'brand/', 'tex/', 'duetoffline.js', 'voice/manifest.json')
+
+def maths_index(repo):
+    src = open(os.path.join(repo, 'science', 'index.html'), encoding='utf-8').read()
+    t = src.replace('<head>', '<head>\n<base href="../science/">\n<script>window.DUET_APP = \'maths\'</script>', 1)
+    t = re.sub(r'<title>[^<]*</title>', '<title>DUET Maths Lab 360</title>', t, count=1)
+    t = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Maths in real places, in 3D and VR: measure a flagpole in a school courtyard, find parallel lines on a railway track, cut a roti to find the area of a circle. NCERT Class 6–10, in English, Hindi and Hinglish.">', t, count=1)
+    t = t.replace('<link rel="icon" href="icons/icon-192.png">', '<link rel="icon" href="../maths/icons/icon-192.png">', 1)
+    t = t.replace('<link rel="manifest" href="manifest.webmanifest">', '<link rel="manifest" href="../maths/manifest.webmanifest">', 1)
+    t = t.replace('<h1>Science Lab 360</h1><p>Chemistry · Class 6–10</p>', '<h1>Maths Lab 360</h1><p>Maths in real places · Class 6–10</p>', 1)
+    t = t.replace('</style>', '#subjects{display:none!important}\n</style>', 1)
+    out = os.path.join(repo, 'maths', 'index.html')
+    if not os.path.exists(out) or open(out, encoding='utf-8').read() != t: open(out, 'w', encoding='utf-8').write(t)
+
+def maths_extra(repo):
+    sci = os.path.join(repo, 'science'); allf = files_of(sci); out = {}
+    try: voices = set(json.load(open(os.path.join(repo, 'maths', 'voices.json'))))
+    except Exception: voices = None
+    for p, v in allf.items():
+        if p.startswith(MATHS_FROM_SCIENCE) or (p.startswith('voice/') and p.endswith('.mp3') and (voices is None or p[6:-4] in voices)):
+            out['../science/' + p] = v
+    lic = os.path.join(repo, 'licences.json')
+    if os.path.exists(lic): d = open(lic, 'rb').read(); out['../licences.json'] = [hashlib.sha1(d).hexdigest()[:12], len(d)]
+    return out
+
 def build(repo, app):
-    root = os.path.join(repo, app); files = files_of(root)
+    root = os.path.join(repo, app)
+    if app == 'maths':
+        try: subprocess.run(['node', os.path.join(repo, 'devtools', 'tts', 'maths_voices.mjs')], capture_output=True, timeout=120)
+        except Exception: pass
+        maths_index(repo)
+    files = files_of(root)
+    if app == 'maths':
+        files.update(maths_extra(repo))
+        for g in ('index.html', 'voices.json'):  # written just now: listed even before git has them
+            d = open(os.path.join(root, g), 'rb').read(); files[g] = [hashlib.sha1(d).hexdigest()[:12], len(d)]
     ver = APPS[app] + '-' + hashlib.sha1(json.dumps(files, sort_keys=True).encode()).hexdigest()[:10]
     src = open(TEMPLATE).read().replace('__PREFIX__', APPS[app]).replace('__VERSION__', ver).replace('__FILES__', json.dumps(files, separators=(',', ':')))
     # the same list for the Android app, which updates its bundled copy from it
