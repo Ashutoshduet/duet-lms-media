@@ -14,9 +14,9 @@ own hands and, where it makes sense, stands inside the shape.
 | 6 | 4 Data Handling and Presentation | w6_fruit_bars | |
 | 6 | 5 Prime Time | w6_prime_chairs | |
 | 6 | 6 Perimeter and Area | w6_fence_rope, w6_triangle_inside | |
-| 6 | 7 Fractions | m6_fraction_wall | |
+| 6 | 7 Fractions | w6_roti_share, m6_fraction_wall | |
 | 6 | 8 Playing with Constructions | w6_rope_compass | |
-| 6 | 9 Symmetry | m6_symmetry | |
+| 6 | 9 Symmetry | w6_rangoli_symmetry, m6_symmetry | |
 | 6 | 10 The Other Side of Zero | w6_lift_integers | |
 | 7 | 1 Large Numbers Around Us | w7_crore_cube | |
 | 7 | 2 Arithmetic Expressions | w7_shop_bill | |
@@ -24,7 +24,7 @@ own hands and, where it makes sense, stands inside the shape.
 | 7 | 4 Expressions using Letter-Numbers | w7_matchsticks | |
 | 7 | 5 Parallel and Intersecting Lines | w7_rail_lines | |
 | 7 | 6 Number Play | w7_magic_square | |
-| 7 | 7 A Tale of Three Intersecting Lines | m7_angle_sum, m7_triangle_inequality | |
+| 7 | 7 A Tale of Three Intersecting Lines | w7_three_sticks, m7_angle_sum, m7_triangle_inequality | |
 | 7 | 8 Working with Fractions | w7_fraction_barfi | |
 | 7 | P2 1 Geometric Twins | w7_twin_triangles | |
 | 7 | P2 2 Operations with Integers | w7_integer_frog | |
@@ -33,12 +33,12 @@ own hands and, where it makes sense, stands inside the shape.
 | 7 | P2 5 Connecting the Dots | w7_rain_week | |
 | 7 | P2 6 Constructions and Tilings | w7_tiling | |
 | 7 | P2 7 Finding the Unknown | w7_balance_unknown | |
-| 8 | 1 A Square and A Cube | m8_cube_numbers | |
+| 8 | 1 A Square and A Cube | w8_cube_stack, m8_cube_numbers | |
 | 8 | 2 Power Play | w8_fold_moon | |
 | 8 | 3 A Story of Numbers | w8_count_sheep | |
 | 8 | 4 Quadrilaterals | w8_field_corners | |
 | 8 | 5 Number Play | w8_nine_trick | |
-| 8 | 6 We Distribute, Yet Things Multiply | m8_square_identity | |
+| 8 | 6 We Distribute, Yet Things Multiply | w8_garden_beds, m8_square_identity | |
 | 8 | 7 Proportional Reasoning-1 | w8_train_speed | |
 | 8 | P2 1 Fractions in Disguise | w8_percent_floor | |
 | 8 | P2 2 The Baudhayana-Pythagoras Theorem | m8_pythagoras, w8_pythagoras_water | |
@@ -52,8 +52,8 @@ own hands and, where it makes sense, stands inside the shape.
 | 9 | 3 The World of Numbers | w9_root_spiral | |
 | 9 | 4 Exploring Algebraic Identities | m9_difference_squares, w9_identity_cube | |
 | 9 | 5 I'm Up and Down, and Round and Round | w9_circle_angles | |
-| 9 | 6 Measuring Space: Perimeter and Area | m9_parallelogram_area | |
-| 9 | 7 The Mathematics of Maybe | m9_coin_probability | |
+| 9 | 6 Measuring Space: Perimeter and Area | w9_lean_field, m9_parallelogram_area | |
+| 9 | 7 The Mathematics of Maybe | w9_spinner, m9_coin_probability | |
 | 9 | 8 Predicting What Comes Next | w9_grow_patterns | |
 | 10 | 1 Real Numbers | w10_hcf_tiles | |
 | 10 | 2 Polynomials | w10_poly_graph | |

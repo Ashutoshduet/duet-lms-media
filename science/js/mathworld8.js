@@ -183,7 +183,7 @@ export function percentFloor(o = {}) {
   const g = it.g, S = 0.22, O = V(-1.1, 0.012, -1.0); // the near-left corner of the floor; rows go away from the student
   const tileG = new THREE.BoxGeometry(S * 0.94, 0.02, S * 0.94);
   const im = new THREE.InstancedMesh(tileG, new THREE.MeshStandardMaterial({ roughness: 0.4 }), 100); im.frustumCulled = false; g.add(im);
-  const base = new THREE.Color(0xe8e2d6), paint = new THREE.Color(0x3fa7ff), paint2 = new THREE.Color(0xff9a4a);
+  const base = new THREE.Color(0xd2cbbd), paint = new THREE.Color(0x3fa7ff), paint2 = new THREE.Color(0xff9a4a);
   const pos = (n) => { const r = Math.floor(n / 10), c = n % 10; return V(O.x + (c + 0.5) * S, O.y, O.z - (r + 0.5) * S); };
   const mtx = new THREE.Matrix4(); for (let n = 0; n < 100; n++) { const p = pos(n); im.setMatrixAt(n, mtx.makeTranslation(p.x, p.y, p.z)); im.setColorAt(n, base); }
   // a coarser 5 × 5 grid of "big tiles" (2 × 2 each), shown for the last step
