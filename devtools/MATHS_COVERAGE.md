@@ -42,10 +42,10 @@ own hands and, where it makes sense, stands inside the shape.
 | 8 | 7 Proportional Reasoning-1 | w8_train_speed | |
 | 8 | P2 1 Fractions in Disguise | w8_percent_floor | |
 | 8 | P2 2 The Baudhayana-Pythagoras Theorem | m8_pythagoras, w8_pythagoras_water | |
-| 8 | P2 3 Proportional Reasoning-2 | — | |
-| 8 | P2 4 Exploring Some Geometric Themes | — | |
-| 8 | P2 5 Tales by Dots and Lines | — | |
-| 8 | P2 6 Algebra Play | — | |
+| 8 | P2 3 Proportional Reasoning-2 | w8_harvest_workers | |
+| 8 | P2 4 Exploring Some Geometric Themes | w8_sierpinski | |
+| 8 | P2 5 Tales by Dots and Lines | w8_level_stacks | |
+| 8 | P2 6 Algebra Play | w8_think_number | |
 | 8 | P2 7 Area | w8_trapezium_field | |
 | 9 | 1 Orienting Yourself: The Use of Coordinates | w9_field_coords | |
 | 9 | 2 Introduction to Linear Polynomials | w9_linear_tank | |
