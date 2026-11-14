@@ -31,11 +31,11 @@ PHYS = {'en': [(r'Ω m\b', ' ohm metre'), (r'(\d)\s*Ω', r'\1 ohms'), (r'Ω', ' 
                (r'(\d)\s*cm³', r'\1 घन सेंटीमीटर'), (r'g/cm³', 'ग्राम प्रति घन सेंटीमीटर'), (r'kg/m³', 'किलोग्राम प्रति घन मीटर'), (r's²/m', 'वर्ग सेकंड प्रति मीटर'), (r'm/s²', 'मीटर प्रति वर्ग सेकंड'), (r'(\d)\s*cm\b', r'\1 सेंटीमीटर'), (r'(\d)\s*mm\b', r'\1 मिलीमीटर'), (r'(\d)\s*kg\b', r'\1 किलोग्राम'), (r'(\d)\s*g\b', r'\1 ग्राम'), (r'(\d)\s*s\b', r'\1 सेकंड'), (r'(\d)\s*m\b', r'\1 मीटर'),
                (r'(\d)\s*सेमी', r'\1 सेंटीमीटर'), (r'∠', 'कोण '), (r'²', ' वर्ग'), (r'³', ' घन'), (r'≈', ' लगभग '), (r'−', ' माइनस '), (r'×', ' गुणा '), (r'÷', ' भाग '), (r'°', ' डिग्री'), (r'₁', ' 1'), (r'₂', ' 2'), (r'₃', ' 3'), (r'′', ' डैश'), (r'…', ' से '), (r'√', 'वर्गमूल ')]}
 # maths: symbols said as words (applied before the physics list)
-MATH = {'en': [(r'⅔ × ', 'two thirds of '), (r'⅔', 'two thirds'), (r'4/3', 'four thirds'), (r'(\d)ab\b', r'\1 a b'), (r'\bab\b', 'a b'), (r'θ', 'theta'), (r'⅓ πr²h', 'one third pi r squared h'), (r'πr²', 'pi r squared'), (r'πr', 'pi r'), (r'π', 'pi'), (r'⅓', 'one third'), (r'½', 'one half'), (r'¾', 'three quarters'), (r'¼', 'one quarter'), (r'⅛', 'one eighth'), (r'\)/\(', ') by ('), (r'(\d+)/(\d+)', r'\1 by \2'),
+MATH = {'en': [(r'⅔ × ', 'two thirds of '), (r'⅔', 'two thirds'), (r'4/3', 'four thirds'), (r'(\d)ab\b', r'\1 a b'), (r'\bab\b', 'a b'), (r'θ', 'theta'), (r'⅓ πr²h', 'one third pi r squared h'), (r'πr²h', 'pi r squared h'), (r'πr²', 'pi r squared'), (r'πr', 'pi r'), (r'π', 'pi'), (r'⅓', 'one third'), (r'½', 'one half'), (r'¾', 'three quarters'), (r'¼', 'one quarter'), (r'⅛', 'one eighth'), (r'\)/\(', ') by ('), (r'(\d+)/(\d+)', r'\1 by \2'),
                (r'(\d)\s*cm²', r'\1 square centimetres'), (r'\bn³', 'n cubed'), (r' \+ ', ' plus '), (r' = ', ' equals '), (r'…\s*', ', and so on. ')],
-        'hi': [(r'⅔', 'दो-तिहाई'), (r'4/3', 'चार-तिहाई'), (r'(\d)ab\b', r'\1 ए बी'), (r'\bab\b', 'ए बी'), (r'θ', 'थीटा'), (r'\btan\b', 'टैन'), (r'⅓ πr²h', 'एक-तिहाई पाई आर वर्ग एच'), (r'πr²', 'पाई आर वर्ग'), (r'πr', 'पाई आर'), (r'π', 'पाई'), (r'⅓', 'एक-तिहाई'), (r'½', 'एक बटा दो'), (r'¾', 'तीन बटा चार'), (r'¼', 'एक बटा चार'), (r'⅛', 'एक बटा आठ'), (r'\)/\(', ') बटा ('), (r'(\d+)/(\d+)', r'\1 बटा \2'),
+        'hi': [(r'⅔', 'दो-तिहाई'), (r'4/3', 'चार-तिहाई'), (r'(\d)ab\b', r'\1 ए बी'), (r'\bab\b', 'ए बी'), (r'θ', 'थीटा'), (r'\btan\b', 'टैन'), (r'⅓ πr²h', 'एक-तिहाई पाई आर वर्ग एच'), (r'πr²h', 'पाई आर वर्ग एच'), (r'πr²', 'पाई आर वर्ग'), (r'πr', 'पाई आर'), (r'π', 'पाई'), (r'⅓', 'एक-तिहाई'), (r'½', 'एक बटा दो'), (r'¾', 'तीन बटा चार'), (r'¼', 'एक बटा चार'), (r'⅛', 'एक बटा आठ'), (r'\)/\(', ') बटा ('), (r'(\d+)/(\d+)', r'\1 बटा \2'),
                (r'(\d)\s*cm²', r'\1 वर्ग सेंटीमीटर'), (r' \+ ', ' प्लस '), (r' = ', ' बराबर '), (r'…\s*', ', इसी तरह आगे। ')]}
-LETTERS_HI = {'a': 'ए', 'b': 'बी', 'c': 'सी', 'd': 'डी', 'x': 'एक्स', 'h': 'एच', 'n': 'एन', 'r': 'आर', 'A': 'ए', 'B': 'बी', 'C': 'सी', 'H': 'एच', 'V': 'वी', 'P': 'पी'}
+LETTERS_HI = {'a': 'ए', 'b': 'बी', 'c': 'सी', 'd': 'डी', 'x': 'एक्स', 'y': 'वाई', 'h': 'एच', 'l': 'एल', 'm': 'एम', 'n': 'एन', 'r': 'आर', 't': 'टी', 'A': 'ए', 'B': 'बी', 'C': 'सी', 'D': 'डी', 'H': 'एच', 'O': 'ओ', 'P': 'पी', 'Q': 'क्यू', 'V': 'वी'}
 def speak(t, L):
     MULT = '×' in t
     t = FORMULA_IN_PARENS.sub('', t)  # "oxygen molecules (O₂)" -> "oxygen molecules"
@@ -45,7 +45,7 @@ def speak(t, L):
     for a, b in PHYS[L]: t = re.sub(a, b, t)
     t = re.sub(r'\s+', ' ', t).strip()
     for a, b in FIX[L]: t = t.replace(a, b)
-    if L == 'hi': t = re.sub(r'(?<![A-Za-z])ABC(?![A-Za-z])', 'ए बी सी', t); t = re.sub(r'(?<![A-Za-z])([abcdxhnrABCHVP])(?![A-Za-z])', lambda m: LETTERS_HI[m.group(1)], t)
+    if L == 'hi': t = re.sub(r'(?<![A-Za-z])ABC(?![A-Za-z])', 'ए बी सी', t); t = re.sub(r'(?<![A-Za-z])([abcdxyhlmnrtABCDHOPQV])(?![A-Za-z])', lambda m: LETTERS_HI[m.group(1)], t)
     if L == 'en': t = re.sub(r'(?<![A-Za-z])(Mg|Fe|Cu|Zn|Al|Pb|Na|Cl|Ba|Ca|[OHCIKSN])(?![A-Za-z₀-₉])', lambda m: ATOMS[L][m.group(1)], t) if re.search(r'\b(?:atoms?|ions?|molecules?)\b', t) else t
     else: t = re.sub(r'(?<![A-Za-z])(Mg|Fe|Cu|Zn|Al|Pb|Na|Cl|Ba|Ca|[OHCIKSN])(?![A-Za-z₀-₉])', lambda m: ATOMS[L][m.group(1)], t) if re.search(r'(परमाणु|आयन|अणु|एटम|मॉलिक्यूल|आयनों)', t) else re.sub(r'(?<![A-Za-z])(Mg|Fe|Cu|Zn|Al|Pb|Na|Cl|Ba|Ca)(?![A-Za-z₀-₉])', lambda m: ATOMS[L][m.group(1)], t) # single letters (I, N, O, S, C …) are physics symbols unless atoms are being talked about
     t = re.sub(r'\bion (ions?)\b', r'\1', t); t = t.replace('आयन आयनों', 'आयनों').replace('आयन आयन', 'आयन')
