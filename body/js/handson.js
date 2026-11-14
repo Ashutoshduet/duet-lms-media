@@ -187,9 +187,10 @@ export class Cutter {
     this.on = on; this.frozen = false; this.hand = hand; this.depth = 0;
     for (const mat of this.materials()) {
       mat.clippingPlanes = on ? this.planes : null;
-      if (!mat.isShaderMaterial) { if (on) { mat.userData.side0 ??= mat.side; mat.side = THREE.DoubleSide; } else if (mat.userData.side0 != null) mat.side = mat.userData.side0; }
+      if (!mat.isShaderMaterial) { if (on) mat.userData.side0 ??= mat.side; else if (mat.userData.side0 != null) mat.side = mat.userData.side0; }
       mat.needsUpdate = true;
     }
+    this._k = 0;
     this.app.flows.points.visible = !on;
     if (this.blade.parent) this.blade.parent.remove(this.blade);
     this.blade.visible = false;
@@ -214,6 +215,7 @@ export class Cutter {
       const n = new THREE.Vector3(0, 0, -1).transformDirection(this.blade.matrixWorld);
       const p = new THREE.Vector3().setFromMatrixPosition(this.blade.matrixWorld);
       this.plane.setFromNormalAndCoplanarPoint(n, p);
+      this.sides();
       return;
     }
     const centre = app.bodyRoot.localToWorld(app.stepView ? app.stepView.at.clone() : new THREE.Vector3(0, 0.95, 0));
@@ -224,6 +226,22 @@ export class Cutter {
     const half = this.axis === 2 ? 0.95 : this.axis === 1 ? 0.3 : 0.18;
     const p = centre.clone().addScaledVector(n, -half + this.depth);
     this.plane.setFromNormalAndCoplanarPoint(n, p);
+    this.sides();
+  }
+  // only an organ or bone the blade passes through shows its inside (both faces drawn); the rest keeps one face. Drawing
+  // both faces of everything with the cut on held a Quest 3S at about 50 fps (Meta VRC.Quest.Performance.1); body-wide
+  // systems (vessels, nerves, muscles, skin: thin tubes and sheets) keep one face too
+  sides() {
+    if ((this._k = (this._k || 0) + 1) % 4 !== 1) return;
+    const S = this._s || (this._s = new THREE.Sphere());
+    for (const mesh of Object.values(this.app.body.parts)) {
+      const m = mesh.material; if (!m || m.isShaderMaterial) continue;
+      const g = mesh.geometry; if (!g.boundingSphere) g.computeBoundingSphere();
+      S.copy(g.boundingSphere).applyMatrix4(mesh.matrixWorld);
+      const through = g.boundingSphere.radius < 0.5 && Math.abs(this.plane.distanceToPoint(S.center)) <= S.radius; // (size measured on the model: about 1.7 m tall)
+      const side = through ? THREE.DoubleSide : (m.userData.side0 ?? THREE.FrontSide);
+      if (m.side !== side) { m.side = side; m.needsUpdate = true; }
+    }
   }
   deeper(d) { this.depth = THREE.MathUtils.clamp(this.depth + d, 0, this.axis === 2 ? 1.9 : this.axis === 1 ? 0.6 : 0.4); }
   nextAxis() { this.axis = (this.axis + 1) % 3; this.depth = this.axis === 2 ? 0.3 : 0.06; }
