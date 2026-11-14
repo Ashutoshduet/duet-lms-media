@@ -10,12 +10,12 @@ own hands and, where it makes sense, stands inside the shape.
 |---|---|---|---|
 | 6 | 1 Patterns in Mathematics | w6_odd_squares | triangular numbers with balls |
 | 6 | 2 Lines and Angles | w6_angle_turn | |
-| 6 | 3 Number Play | — | — |
-| 6 | 4 Data Handling and Presentation | — | a class survey turned into 3D bars in the courtyard |
-| 6 | 5 Prime Time | — | arrange chairs in rectangles: primes make only one row |
+| 6 | 3 Number Play | w6_kaprekar | |
+| 6 | 4 Data Handling and Presentation | w6_fruit_bars | |
+| 6 | 5 Prime Time | w6_prime_chairs | |
 | 6 | 6 Perimeter and Area | w6_fence_rope, w6_triangle_inside | |
 | 6 | 7 Fractions | m6_fraction_wall | |
-| 6 | 8 Playing with Constructions | — | compass and ruler on the playground |
+| 6 | 8 Playing with Constructions | w6_rope_compass | |
 | 6 | 9 Symmetry | m6_symmetry | |
 | 6 | 10 The Other Side of Zero | w6_lift_integers | |
 | 7 | 1 Large Numbers Around Us | w7_crore_cube | |
