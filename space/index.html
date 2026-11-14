@@ -7,13 +7,23 @@
 window.duetMergeStatic=function(g){const T=THREE;g.updateMatrixWorld(true);const inv=new T.Matrix4().copy(g.matrixWorld).invert(),by=new Map(),M=new T.Matrix4();
     g.traverse(o=>{if(!o.isMesh||!o.visible||Array.isArray(o.material)||o.material.visible===false||o.userData.pick||o.isInstancedMesh||o.isSkinnedMesh)return;
       M.multiplyMatrices(inv,o.matrixWorld);if(M.determinant()<=0)return;const mt=o.material,hex=c=>c&&c.getHexString?c.getHexString():"";
-      const k=[mt.type,hex(mt.color),hex(mt.emissive),mt.map?mt.map.uuid:"",mt.normalMap?mt.normalMap.uuid:"",mt.roughness,mt.metalness,mt.transparent,mt.opacity,mt.side,mt.flatShading,mt.envMap?mt.envMap.uuid:"",mt.vertexColors,mt.depthWrite].join("|");if(!by.has(k))by.set(k,[]);by.get(k).push(o)});
-    for(const list of by.values()){if(list.length<2)continue;const names=Object.keys(list[0].geometry.attributes).sort().join();
-      if(list.some(o=>Object.keys(o.geometry.attributes).sort().join()!==names||Object.keys(o.geometry.morphAttributes||{}).length||Object.values(o.geometry.attributes).some(a=>!(a.array instanceof Float32Array)||a.isInterleavedBufferAttribute)))continue;
-      const parts=list.map(o=>{const ge=o.geometry.index?o.geometry.toNonIndexed():o.geometry.clone();ge.applyMatrix4(M.multiplyMatrices(inv,o.matrixWorld));return ge});
-      const mg=new T.BufferGeometry();for(const nm of names.split(",")){const sz=parts[0].attributes[nm].itemSize;let len=0;parts.forEach(q=>len+=q.attributes[nm].array.length);const arr=new Float32Array(len);let off=0;parts.forEach(q=>{arr.set(q.attributes[nm].array,off);off+=q.attributes[nm].array.length});mg.setAttribute(nm,new T.BufferAttribute(arr,sz))}
+      const k=[mt.type,hex(mt.color),hex(mt.emissive),mt.map?mt.map.uuid:"",mt.normalMap?mt.normalMap.uuid:"",mt.roughness,mt.metalness,mt.transparent,mt.opacity,mt.side,mt.flatShading,mt.envMap?mt.envMap.uuid:"",mt.vertexColors,mt.depthWrite,Object.keys(o.geometry.attributes).sort().join()].join("|");if(!by.has(k))by.set(k,[]);by.get(k).push(o)});
+    // attributes may be quantized and interleaved (gltfpack / meshopt models): read each into plain floats, keep the index
+    const scale=(a,src)=>!a.normalized?1:src instanceof Int8Array?1/127:src instanceof Uint8Array?1/255:src instanceof Int16Array?1/32767:src instanceof Uint16Array?1/65535:1;
+    const floats=(a)=>{const il=!!a.isInterleavedBufferAttribute,src=il?a.data.array:a.array,st=il?a.data.stride:a.itemSize,of=il?a.offset:0,sz=a.itemSize,n=a.count,k=scale(a,src),out=new Float32Array(n*sz);
+      for(let i=0;i<n;i++)for(let c=0;c<sz;c++){let x=src[i*st+of+c]*k;if(k!==1&&x<-1)x=-1;out[i*sz+c]=x}return out};
+    for(const list of by.values()){if(list.length<2)continue;const names=Object.keys(list[0].geometry.attributes).sort();
+      if(list.some(o=>Object.keys(o.geometry.morphAttributes||{}).length||names.some(nm=>o.geometry.attributes[nm].itemSize!==list[0].geometry.attributes[nm].itemSize)))continue;
+      let nv=0,ni=0;for(const o of list){const ge=o.geometry;nv+=ge.attributes.position.count;ni+=ge.index?ge.index.count:ge.attributes.position.count}
+      const mg=new T.BufferGeometry(),A={};for(const nm of names)A[nm]=new Float32Array(nv*list[0].geometry.attributes[nm].itemSize);const I=nv>65535?new Uint32Array(ni):new Uint16Array(ni);
+      let vo=0,io=0;for(const o of list){const ge=o.geometry,part=new T.BufferGeometry();for(const nm of names)part.setAttribute(nm,new T.BufferAttribute(floats(ge.attributes[nm]),ge.attributes[nm].itemSize));
+        part.applyMatrix4(M.multiplyMatrices(inv,o.matrixWorld));const cnt=ge.attributes.position.count;
+        for(const nm of names)A[nm].set(part.attributes[nm].array,vo*part.attributes[nm].itemSize);
+        if(ge.index){const ix=ge.index.array;for(let q=0;q<ix.length;q++)I[io++]=ix[q]+vo}else for(let q=0;q<cnt;q++)I[io++]=q+vo;
+        vo+=cnt;part.dispose()}
+      for(const nm of names)mg.setAttribute(nm,new T.BufferAttribute(A[nm],list[0].geometry.attributes[nm].itemSize));mg.setIndex(new T.BufferAttribute(I,1));
       mg.computeBoundingSphere();const m=new T.Mesh(mg,list[0].material);m.castShadow=list[0].castShadow;m.receiveShadow=list[0].receiveShadow;m.renderOrder=list[0].renderOrder;g.add(m);
-      list.forEach(o=>o.parent.remove(o));parts.forEach(q=>q.dispose())}};
+      list.forEach(o=>o.parent.remove(o))}};
 </script>
 <script src="duetgate.js"></script><script>DuetGate.init({app:"space",title:"Solar System 360",demo:{en:"The 3D Solar System, Earth and the Moon",hi:"3D सौरमंडल, पृथ्वी और चंद्रमा",hg:"3D Solar System, Earth aur Moon"}})</script>
 <meta charset="utf-8">
