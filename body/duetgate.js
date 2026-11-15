@@ -36,9 +36,9 @@
   const put = (k, v) => { try { if (v) localStorage.setItem(k, JSON.stringify(v)); else localStorage.removeItem(k); } catch (e) {} };
   // never wait more than 10 s for the list: on a slow school network the screen says so instead of hanging
   let CLAIM = ''; // the DUET STEM register's address, from the list
-  async function fetchList() {
+  async function fetchList(live) { // live: a code being typed in now needs the newest list (the Android app otherwise answers at once from its saved copy)
     const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 10000);
-    try { const r = await fetch(LIST + '?t=' + Date.now(), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); const j = await r.json(); CLAIM = j.claim || ''; return j.codes || {}; }
+    try { const r = await fetch(LIST + '?t=' + Date.now() + (live ? '&live=1' : ''), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); const j = await r.json(); CLAIM = j.claim || ''; return j.codes || {}; }
     finally { if (tm) clearTimeout(tm); }
   }
   // this device, the same every time inside this app (Android: from the system, so a reinstall keeps it)
@@ -110,7 +110,7 @@
     },
     async check(code) {
       if (norm(code).length < 12) return { ok: false, key: 'short' };
-      let list; try { list = await fetchList(); } catch (err) { return { ok: false, key: 'net' }; }
+      let list; try { list = await fetchList(true); } catch (err) { return { ok: false, key: 'net' }; }
       const h = await codeHash(code); const e = list[h];
       if (!e || e.r) return { ok: false, key: 'bad' };
       if (!covers(e.a, this.app)) return { ok: false, key: 'app' };

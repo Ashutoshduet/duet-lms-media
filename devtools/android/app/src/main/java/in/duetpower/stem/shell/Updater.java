@@ -59,7 +59,7 @@ final class Updater {
             Map<String, String> bfiles = readFiles(bundledText);
             Active act = active(ctx, bv);
             File root = new File(ctx.getFilesDir(), "content");
-            if (rv.equals(bv)) { new File(root, "current.json").delete(); File[] ds = root.listFiles(); if (ds != null) for (File d : ds) if (d.isDirectory()) deleteTree(d); return; } // the install itself is current
+            if (rv.equals(bv)) { new File(root, "current.json").delete(); return; } // the install itself is the newest: the saved update is dropped (its folder goes at the next start)
             // only a version built after the one inside this install: an older website must never roll the app back
             long bt = new JSONObject(bundledText).optLong("t", 0), rt = remote.optLong("t", 0);
             if (rt <= bt) return;
@@ -70,22 +70,63 @@ final class Updater {
                 String p = it.next(), h = rfiles.get(p);
                 if (h.equals(bfiles.get(p))) continue;                     // same as the bundled copy
                 File out = new File(stage, p);
-                if (out.exists() && h.equals(sha12(readFile(out)))) continue;   // saved on an earlier try
-                byte[] data = null;
-                if (act != null && h.equals(act.files.get(p))) { File f = new File(act.dir, p); if (f.exists()) data = readFile(f); }
-                if (data == null) data = get(base + encode(p) + "?v=" + h, 30000);
-                if (!h.equals(sha12(data))) return;                        // the site is mid-update: try next time
+                if (out.exists() && h.equals(sha12(out))) continue;            // saved on an earlier try
                 out.getParentFile().mkdirs();
-                try (OutputStream os = new FileOutputStream(out)) { os.write(data); }
+                boolean ok = false;
+                if (act != null && h.equals(act.files.get(p))) { File f = new File(act.dir, p); if (f.exists()) ok = copy(new FileInputStream(f), out, h); }
+                if (!ok) ok = download(base + encode(p) + "?v=" + h, out, h);
+                if (!ok) return;                                               // offline, or the site is mid-update: try next time
             }
             try (OutputStream os = new FileOutputStream(new File(stage, "offline.json"))) { os.write(remoteText.getBytes("UTF-8")); }
             File tmp = new File(root, "current.tmp");
             try (OutputStream os = new FileOutputStream(tmp)) { os.write(new JSONObject().put("v", rv).put("base", bv).put("dir", stage.getName()).toString().getBytes("UTF-8")); }
             if (!tmp.renameTo(new File(root, "current.json"))) return;
-            File[] olds = root.listFiles();
-            if (olds != null) for (File f : olds) if (f.isDirectory() && !f.getName().equals(stage.getName())) deleteTree(f);
+            // older folders are removed at the next start (cleanup), never while the app may still be reading from one
         } catch (Exception e) { /* no internet or a hiccup: the current copy keeps working */ }
     }
+
+    /** at start, before anything is served: removes saved folders that are no longer the current update */
+    static void cleanup(Context ctx) {
+        try {
+            File root = new File(ctx.getFilesDir(), "content");
+            File[] ds = root.listFiles(); if (ds == null) return;
+            String keep = null;
+            File cur = new File(root, "current.json");
+            if (cur.exists()) keep = new JSONObject(new String(readFile(cur), "UTF-8")).optString("dir", null);
+            File partial = null; // the newest other folder may be an update still coming in: it is kept to finish later
+            for (File d : ds) if (d.isDirectory() && !d.getName().equals(keep) && (partial == null || d.lastModified() > partial.lastModified())) partial = d;
+            for (File d : ds) if (d.isDirectory() && !d.getName().equals(keep) && d != partial) deleteTree(d);
+        } catch (Exception e) { /* keep what is there */ }
+    }
+
+    /** streams a file to disk (never the whole file in memory) and keeps it only if its hash matches */
+    static boolean download(String url, File out, String h) {
+        try {
+            HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
+            c.setConnectTimeout(30000); c.setReadTimeout(30000); c.setUseCaches(false);
+            try { if (c.getResponseCode() != 200) return false; return copy(c.getInputStream(), out, h); } finally { c.disconnect(); }
+        } catch (Exception e) { return false; }
+    }
+    static boolean copy(InputStream in, File out, String h) {
+        File tmp = new File(out.getPath() + ".part");
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            try (InputStream i = in; OutputStream os = new FileOutputStream(tmp)) {
+                byte[] b = new byte[65536]; int n;
+                while ((n = i.read(b)) > 0) { md.update(b, 0, n); os.write(b, 0, n); }
+            }
+            if (!h.equals(hex6(md.digest()))) { tmp.delete(); return false; }
+            out.delete(); return tmp.renameTo(out);
+        } catch (Exception e) { tmp.delete(); return false; }
+    }
+    static String sha12(File f) {
+        try (InputStream in = new FileInputStream(f)) {
+            MessageDigest md = MessageDigest.getInstance("SHA-1"); byte[] b = new byte[65536]; int n;
+            while ((n = in.read(b)) > 0) md.update(b, 0, n);
+            return hex6(md.digest());
+        } catch (Exception e) { return ""; }
+    }
+    static String hex6(byte[] h) { StringBuilder s = new StringBuilder(); for (int i = 0; i < 6; i++) s.append(String.format("%02x", h[i])); return s.toString(); }
 
     static Map<String, String> readFiles(String text) {
         Map<String, String> m = new HashMap<>();

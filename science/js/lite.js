@@ -1,5 +1,6 @@
-// Headset mode (Meta Quest and other standalone headsets): the same lab with less GPU work, for a steady 72 fps
-// (Meta VRC.Quest.Performance.1). Turn it on or off for a test with ?lite=1 / ?lite=0.
+// Light mode for headsets (Meta Quest and other standalone headsets) and for phones and tablets: the same lab with less
+// GPU work, for a steady 72 fps on a Quest (Meta VRC.Quest.Performance.1) and no freezes on a phone when a burner is lit.
+// Turn it on or off for a test with ?lite=1 / ?lite=0.
 //  - small "glow" lights of burners, bulbs and flames are left out: every extra light makes every lit surface in the
 //    room more expensive, and adding one while the lab runs recompiles every material (a visible freeze)
 //  - glass that uses transmission (an extra full render of the scene per eye) becomes plain see-through glass
@@ -8,9 +9,11 @@
 //  - see-through two-sided glass is drawn in a single pass
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+export const HEADSET = /OculusBrowser|Quest|Pico|Vive|Wolvic/i.test(navigator.userAgent || '');
 export const LITE = (() => {
   try { const q = new URLSearchParams(location.search).get('lite'); if (q != null) return q !== '0'; } catch (e) { /* no URL */ }
-  return /OculusBrowser|Quest|Pico|Vive|Wolvic/i.test(navigator.userAgent || '');
+  const ua = navigator.userAgent || '';
+  return /OculusBrowser|Quest|Pico|Vive|Wolvic/i.test(ua) || (typeof window !== 'undefined' && !!window.DuetNative) || /Android|iPhone|iPad|iPod|Mobi/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
 })();
 // a light that is never drawn: visible stays false whatever the experiment code sets
 export function lockOff(L) {

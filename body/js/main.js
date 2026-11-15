@@ -68,7 +68,7 @@ class App {
 
   async init() {
     const r = this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: Q.has('shot') });
-    r.setPixelRatio(Math.min(devicePixelRatio, 2));
+    if (window.DuetPerf) DuetPerf.watch(r); else r.setPixelRatio(Math.min(devicePixelRatio, 2)); // phones: lighter picture, follows the frame rate
     r.setSize(innerWidth, innerHeight);
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.05;
     r.outputColorSpace = THREE.SRGBColorSpace;

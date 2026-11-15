@@ -22,7 +22,7 @@ import { T, tx, LANGS, FONT } from './strings.js';
 import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './licence.js';
 import { demoIds } from './topics.js';
 import { LIQ_TIME } from './mats.js';
-import { LITE, liteMerge } from './lite.js';
+import { LITE, HEADSET, liteMerge } from './lite.js';
 import { MATHS } from './mode.js';
 import { Places } from './places.js';
 import { ClassUI } from './classui.js';
@@ -48,10 +48,10 @@ export class App {
     this.lang = Q.get('lang') || store.get('lang') || 'en'; if (!LANGS.includes(this.lang)) this.lang = 'en';
     this.speed = +(Q.get('speed') || 1); this.muted = false; this.hideMarker = false; this.lapseShown = 0; this.t = 0; this.simT = 0; this._fc = 0;
     const r = this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-    r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.setSize(innerWidth, innerHeight);
+    if (window.DuetPerf) DuetPerf.watch(r); else r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.setSize(innerWidth, innerHeight); // phones: lighter picture, follows the frame rate
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.0; r.outputColorSpace = THREE.SRGBColorSpace;
     r.shadowMap.enabled = true; r.shadowMap.type = LITE ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
-    if (LITE) r.shadowMap.autoUpdate = false; // headset: shadows are redrawn every third frame (see frame())
+    if (LITE) r.shadowMap.autoUpdate = false; // headsets and phones: shadows are redrawn every third frame (see frame())
     r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(1); r.xr.setFramebufferScaleFactor(1.0); // measured on a Quest 3S: 1.3 + light foveation ran at 11 fps, 1.0 + full foveation at 84
     document.getElementById('stage').appendChild(r.domElement);
     this.scene = new THREE.Scene(); this.scene.background = new THREE.Color(0xdfe3e6);
@@ -132,7 +132,7 @@ export class App {
     furnish(this.roomInfo.room, this.roomInfo);
     }
     if (LITE) this.liteRoom = liteMerge(this.roomInfo.room); // headset: the fixed furniture in a few meshes
-    if (LITE && !Q.has('nowarm')) await this.warmShaders();
+    if (LITE && (HEADSET || Q.has('warm')) && !Q.has('nowarm')) await this.warmShaders(); // phones compile while the lab is used (no lights are added, so few)
     const pm = MATHS ? null : loadPhysModels(); if (pm && Q.has('test')) await pm; // real physics apparatus models load in the background
     const php = initPhysics(this).then((p) => { this.phys = p; if (p) { this.lab.surfaceY = (x, z) => p.surfaceY(x, z); this.lab.phys = p; const c0 = this.lab.clear.bind(this.lab); this.lab.clear = () => { c0(); p.clear(); }; } }); if (Q.has('test')) await php; // falling, throwing and breaking
     const first = Q.get('exp');

@@ -32,9 +32,13 @@ final class ContentServer {
     private final Map<String, String> bundled;   // path -> hash of the copy inside the install
     private final Map<String, String> overlay;   // path -> hash of the newer saved copy (empty if none)
     private final File overlayDir;
+    private final File lastList;                 // the code list as last seen online
+    private final android.net.ConnectivityManager net;
 
     ContentServer(Context ctx) {
         assets = ctx.getAssets();
+        lastList = new File(ctx.getFilesDir(), "licences-last.json");
+        net = (android.net.ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         String bt = Updater.readAsset(assets, "app/offline.json");
         bundled = Updater.readFiles(bt);
         String bv = ""; try { bv = new JSONObject(bt).getString("v"); } catch (Exception ignored) { /* none */ }
@@ -47,7 +51,7 @@ final class ContentServer {
         String path = req.getUrl().getPath();
         if (path == null) return null;
         try {
-            if (path.equals("/licences.json")) return licences();
+            if (path.equals("/licences.json")) return licences("1".equals(req.getUrl().getQueryParameter("live")));
             if (!path.startsWith("/app/")) return notFound();
             String rel = path.substring(5);
             if (rel.isEmpty() || rel.endsWith("/")) rel += "index.html";
@@ -90,20 +94,48 @@ final class ContentServer {
         return new WebResourceResponse(mime(rel), null, 200, "OK", h, in);
     }
 
-    /** the live list of school codes (renewals, new schools) when online; the bundled one otherwise */
-    private WebResourceResponse licences() {
+    /** The list of school codes (renewals, new schools). The app's own checks get, at once, the last list seen online (or the
+     *  bundled one) while a newer one is fetched in the background for next time: starting never waits for the network.
+     *  A code being typed in (live) gets the list from the internet, with a time limit, and the saved copy if that fails. */
+    private WebResourceResponse licences(boolean live) {
         byte[] body = null;
-        try {
-            HttpURLConnection c = (HttpURLConnection) new URL(BuildConfig.REMOTE_BASE + "licences.json?t=" + System.currentTimeMillis()).openConnection();
-            c.setConnectTimeout(4000); c.setReadTimeout(5000); c.setUseCaches(false);
-            if (c.getResponseCode() == 200) { try (InputStream in = c.getInputStream()) { body = Updater.readAll(in); } new JSONObject(new String(body, "UTF-8")); }
-            c.disconnect();
-        } catch (Exception e) { body = null; }
+        if (live) body = fetchList();
+        else if (refreshing.compareAndSet(false, true)) new Thread(() -> { try { fetchList(); } finally { refreshing.set(false); } }, "duet-list").start();
+        if (body == null && lastList.exists()) try { body = Updater.readFile(lastList); new JSONObject(new String(body, "UTF-8")); } catch (Exception e) { body = null; }
         if (body == null) {
             try (InputStream in = assets.open("licences.json")) { body = Updater.readAll(in); } catch (IOException e) { return notFound(); }
         }
         Map<String, String> h = new HashMap<>(); h.put("Cache-Control", "no-store");
         return new WebResourceResponse("application/json", "utf-8", 200, "OK", h, new ByteArrayInputStream(body));
+    }
+
+    private final java.util.concurrent.atomic.AtomicBoolean refreshing = new java.util.concurrent.atomic.AtomicBoolean();
+    /** the list from the internet, saved for the next start; null when offline or it takes too long */
+    private byte[] fetchList() {
+        if (!online()) return null;
+        try {
+            HttpURLConnection c = (HttpURLConnection) new URL(BuildConfig.REMOTE_BASE + "licences.json?t=" + System.currentTimeMillis()).openConnection();
+            c.setConnectTimeout(4000); c.setReadTimeout(4000); c.setUseCaches(false);
+            byte[] body = null;
+            if (c.getResponseCode() == 200) { try (InputStream in = c.getInputStream()) { body = Updater.readAll(in); } new JSONObject(new String(body, "UTF-8")); }
+            c.disconnect();
+            if (body != null) {
+                File tmp = new File(lastList.getPath() + ".tmp");
+                try (java.io.OutputStream os = new java.io.FileOutputStream(tmp)) { os.write(body); }
+                if (!tmp.renameTo(lastList)) tmp.delete();
+            }
+            return body;
+        } catch (Exception e) { return null; }
+    }
+
+    /** a network that reaches the internet (Wi-Fi without internet, or no network at all: false) */
+    private boolean online() {
+        try {
+            if (net == null) return true;
+            android.net.Network n = net.getActiveNetwork(); if (n == null) return false;
+            android.net.NetworkCapabilities c = net.getNetworkCapabilities(n);
+            return c != null && c.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET) && c.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+        } catch (Exception e) { return true; }
     }
 
     private static WebResourceResponse notFound() {

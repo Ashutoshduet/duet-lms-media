@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <script src="./duetgate.js"></script>
+<script src="./duetperf.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a1017">
@@ -529,7 +530,7 @@ const MISSIONS = {
    ========================================================= */
 const container = $('#view');
 const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-renderer.setPixelRatio(Math.min(devicePixelRatio, QP.pr));
+if (window.DuetPerf) DuetPerf.watch(renderer, QP.pr); else renderer.setPixelRatio(Math.min(devicePixelRatio, QP.pr)); // phones: the picture follows the frame rate
 renderer.setSize(innerWidth, innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -3575,7 +3576,7 @@ const osd = $('#osd'), octx = osd.getContext('2d');
 const mini = $('#mini'), mctx = mini.getContext('2d');
 let DPR = 1;
 function resize() {
-  const w = innerWidth, h = innerHeight; DPR = Math.min(devicePixelRatio || 1, 2);
+  const w = innerWidth, h = innerHeight; DPR = Math.min(devicePixelRatio || 1, window.DuetPerf && DuetPerf.phone ? 1.5 : 2); // the flight display: phones draw fewer pixels every frame
   renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
   osd.width = w * DPR; osd.height = h * DPR;
   const ms = mini.getBoundingClientRect().width || 150; mini.width = ms * DPR; mini.height = ms * DPR;

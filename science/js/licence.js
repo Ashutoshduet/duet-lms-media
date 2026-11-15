@@ -25,9 +25,9 @@ const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'
 const save = (v) => { try { if (v) localStorage.setItem(KEY, JSON.stringify(v)); else localStorage.removeItem(KEY); } catch (e) {} };
 // never wait more than 10 s for the list: on a slow school network the screen says so instead of hanging
 let CLAIM = ''; // the DUET STEM register's address, from the list
-async function fetchList() {
+async function fetchList(live) { // live: a code being typed in now needs the newest list (the Android app otherwise answers at once from its saved copy)
   const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 10000);
-  try { const r = await fetch(LIST.href + '?t=' + Date.now(), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); const j = await r.json(); CLAIM = j.claim || ''; return j.codes || {}; }
+  try { const r = await fetch(LIST.href + '?t=' + Date.now() + (live ? '&live=1' : ''), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); const j = await r.json(); CLAIM = j.claim || ''; return j.codes || {}; }
   finally { if (tm) clearTimeout(tm); }
 }
 // this device, the same every time inside this app (Android: from the system, so a reinstall keeps it)
@@ -78,7 +78,7 @@ const fmt = (d, L) => { const [y, m, dd] = d.split('-').map(Number); return new 
 // the same check without the code screen (the headset draws its own): { ok, info } or { ok: false, key: 'bad' | 'app' | 'exp' | 'net', d }
 export async function checkCode(app, code) {
   if (normCode(code).length < 8) return { ok: false, key: 'bad' };
-  let list; try { list = await fetchList(); } catch (err) { return { ok: false, key: 'net' }; }
+  let list; try { list = await fetchList(true); } catch (err) { return { ok: false, key: 'net' }; }
   const h = await codeHash(code); const e = list[h];
   if (!e || e.r) return { ok: false, key: 'bad' };
   if (!covers(e.a, app)) return { ok: false, key: 'app' };
@@ -143,7 +143,7 @@ export function licenceGate(app, getLang, onMsg, opt = {}) { // opt.demo: offer 
     const go = async () => {
       const code = $('#lic-in').value; if (normCode(code).length < 8) { msg(tl(S.bad), 'e'); return; }
       $('.go').disabled = true; msg(tl(S.wait));
-      let list; try { list = await fetchList(); } catch (err) { $('.go').disabled = false; msg(tl(S.net), 'e'); return; }
+      let list; try { list = await fetchList(true); } catch (err) { $('.go').disabled = false; msg(tl(S.net), 'e'); return; }
       const h = await codeHash(code); const e = list[h]; $('.go').disabled = false;
       if (!e || e.r) { msg(tl(S.bad), 'e'); return; }
       if (!covers(e.a, app)) { msg(tl(S.app), 'e'); return; }

@@ -2124,6 +2124,8 @@ body:has(.xr-full) .padchip{display:none}
   <div class="lb-cap"><b id="lbTitle"></b><p id="lbText"></p><small id="lbCredit"></small></div>
 </div>
 
+<script src="duetperf.js"></script>
+<script>/* phones: a lighter picture that follows the frame rate (duetperf.js) */function PR2(){return window.DuetPerf?DuetPerf.pr():Math.min(devicePixelRatio,2)}function PRW(r){if(window.DuetPerf)DuetPerf.watch(r);else r.setPixelRatio(Math.min(devicePixelRatio,2));return r}</script>
 <script src="vendor/three.min.js"></script>
 <script src="vendor/GLTFLoader.js"></script>
 <script src="vendor/meshopt_decoder.js"></script>
@@ -2377,6 +2379,8 @@ $("#wIn").addEventListener("input",renderTools);$("#aIn").addEventListener("inpu
 /* ================= 3D: shared ================= */
 const HAS3D = (()=>{try{if(!window.THREE)return false;const c=document.createElement("canvas");return !!(c.getContext("webgl")||c.getContext("experimental-webgl"))}catch(e){return false}})();
 let loader, texCache={};
+/* phones: the overview of the Solar System uses 1024 px planet maps (the planets are small there; 4x less memory) */
+const otx=u=>window.DuetPerf&&DuetPerf.phone?u.replace(/^tex\/(?!sun)([a-z]+)\.jpg$/,"tex/1k/$1.jpg"):u;
 function tex(url,srgb=true){if(texCache[url])return texCache[url];const t=loader.load(url,()=>{needsRender=true});if(srgb)t.encoding=THREE.sRGBEncoding;t.anisotropy=4;texCache[url]=t;return t}
 let needsRender=true;
 function glowTexture(inner,mid){const c=document.createElement("canvas");c.width=c.height=256;const g=c.getContext("2d");const gr=g.createRadialGradient(128,128,0,128,128,128);gr.addColorStop(0,inner);gr.addColorStop(.22,inner);gr.addColorStop(.42,mid);gr.addColorStop(1,"rgba(0,0,0,0)");g.fillStyle=gr;g.fillRect(0,0,256,256);const t=new THREE.CanvasTexture(c);return t}
@@ -2418,7 +2422,7 @@ class Orbit{
 const O={on:false};
 function initOrrery(){
   const canvas=$("#orreryCanvas"),stage=$("#orrery");
-  const R=new THREE.WebGLRenderer({canvas,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;
+  const R=new THREE.WebGLRenderer({canvas,antialias:true});PRW(R);R.outputEncoding=THREE.sRGBEncoding;
   const S=new THREE.Scene();const cam=new THREE.PerspectiveCamera(45,1,.1,5000);
   const stars=skyMesh(1600,"sky/milkyway_4k.jpg","ecliptic");S.add(stars);
   S.add(new THREE.AmbientLight(0x404a66,.55));const sunLight=new THREE.PointLight(0xfff4e0,1.7,0);S.add(sunLight);
@@ -2432,14 +2436,14 @@ function initOrrery(){
     const r=sceneDist(o.a);const pts=[];for(let i=0;i<=256;i++){const a=i/256*Math.PI*2;pts.push(new THREE.Vector3(r*Math.cos(a),0,-r*Math.sin(a)))}
     const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),orbitMat);og.add(line);
     const holder=new THREE.Group();og.add(holder);const tilt=new THREE.Group();tilt.rotation.z=b.tilt*Math.PI/180;holder.add(tilt);
-    const mesh=new THREE.Mesh(new THREE.SphereGeometry(o.size,48,32),new THREE.MeshPhongMaterial({map:tex(b.tex),shininess:6,color:0xffffff}));mesh.userData.id=id;tilt.add(mesh);pickables.push(mesh);
+    const mesh=new THREE.Mesh(new THREE.SphereGeometry(o.size,48,32),new THREE.MeshPhongMaterial({map:tex(otx(b.tex)),shininess:6,color:0xffffff}));mesh.userData.id=id;tilt.add(mesh);pickables.push(mesh);
     if(b.ring)tilt.add(ringMesh(o.size*1.2,o.size*2.3,tex("tex/saturn_ring.png")));
     if(b.thinRing)tilt.add(ringMesh(o.size*1.6,o.size*2.0,null,.18));
     if(b.glow)holder.add(atmosphere(o.size*1.06,b.glow[0],b.glow[1]*.8));
     P[id]={o,r,holder,mesh,line,b};
   });
   // Moon around Earth
-  const moonPivot=new THREE.Group();P.earth.holder.add(moonPivot);const moon=new THREE.Mesh(new THREE.SphereGeometry(.28,32,24),new THREE.MeshPhongMaterial({map:tex("tex/moon.jpg"),shininess:2}));moon.position.set(1.9,0,0);moon.userData.id="moon";moonPivot.add(moon);pickables.push(moon);
+  const moonPivot=new THREE.Group();P.earth.holder.add(moonPivot);const moon=new THREE.Mesh(new THREE.SphereGeometry(.28,32,24),new THREE.MeshPhongMaterial({map:tex(otx("tex/moon.jpg")),shininess:2}));moon.position.set(1.9,0,0);moon.userData.id="moon";moonPivot.add(moon);pickables.push(moon);
   const moonLine=new THREE.Line(new THREE.BufferGeometry().setFromPoints(Array.from({length:129},(_,i)=>{const a=i/128*Math.PI*2;return new THREE.Vector3(1.9*Math.cos(a),0,1.9*Math.sin(a))})),orbitMat);P.earth.holder.add(moonLine);
 
   // labels
@@ -2498,7 +2502,7 @@ function initOrrery(){
 const G={};
 function initGlobe(){
   const canvas=$("#globeCanvas"),stage=$("#gstage");
-  const R=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;R.setClearColor(0x000000,0);
+  const R=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});PRW(R);R.outputEncoding=THREE.sRGBEncoding;R.setClearColor(0x000000,0);
   const S=new THREE.Scene();const cam=new THREE.PerspectiveCamera(35,1,.05,100);
   const sunDir=new THREE.Vector3(-3,1.4,2.6).normalize();
   const light=new THREE.DirectionalLight(0xffffff,1.25);light.position.copy(sunDir).multiplyScalar(10);S.add(light);S.add(new THREE.AmbientLight(0x2a3050,.5));
@@ -2785,7 +2789,7 @@ function SaurXR(stage,menuEl,opt){
 
   /* ---------- renderer + scene ---------- */
   const R=new T.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
-  R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=T.sRGBEncoding;R.xr.enabled=true;R.setClearColor(0x000000,1);
+  R.setPixelRatio(PR2());R.outputEncoding=T.sRGBEncoding;R.xr.enabled=true;R.setClearColor(0x000000,1);
   const S=new T.Scene();const cam=new T.PerspectiveCamera(60,1,.01,200);cam.focus=2;S.add(cam);
   const LD=new T.TextureLoader(),TX={};
   const tex=n=>{if(TX[n])return TX[n];const t=LD.load("tex/"+n);t.encoding=T.sRGBEncoding;t.anisotropy=4;return TX[n]=t};
@@ -2999,7 +3003,7 @@ function SaurXR(stage,menuEl,opt){
     let hub=false;
     if((m==="vr"||(m==="cardboard"&&!opt.basicBox))&&typeof VRHub==="function"){try{SPACE=SPACE||VRHub({R,S,cam,ctrls,tex,LD,gaze:gctrl,lite:PHONE,onExit:()=>exitLook(),onRecenter:()=>{look.needCal=true;look.yaw=0;look.pitch=0}});W.visible=false;stars.visible=false;SPACE.enter(VRGO,{gaze:m==="cardboard"});hub=true}catch(e){console.error(e);SPACE=null;W.visible=true}}
     if(m==="cardboard"&&hub&&PHONE){bq=0;bqWin={n:0,slow:0,t:0};bqBad=0;bqGood=0;bqLast=0}
-    R.setPixelRatio(m==="cardboard"&&hub?(PHONE?BQ[bq]:Math.min(devicePixelRatio,1.25)):Math.min(devicePixelRatio,2));
+    R.setPixelRatio(m==="cardboard"&&hub?(PHONE?BQ[bq]:Math.min(devicePixelRatio,1.25)):PR2());
     R.setClearColor(0x000000,(m==="camar"||m==="ar")?0:1);
     hint3.visible=false;bar.visible=false;barHover=null;grab.c=null;xrFrames=0;arT0=performance.now();padHelpXR=false;
     stage.classList.toggle("xr-full",m==="cardboard"||m==="camar");
@@ -5988,7 +5992,7 @@ const R3 = (() => {
       try { this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: false }); } catch (e) { ok = false; }
       if (!ok || !this.renderer.getContext()) { this.failed = true; host.classList.add('no-webgl'); return; }
       const rd = this.renderer;
-      rd.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      PRW(rd);
       rd.outputEncoding = THREE.sRGBEncoding;
       rd.toneMapping = THREE.ACESFilmicToneMapping; rd.toneMappingExposure = 1.05;
       rd.shadowMap.enabled = true; rd.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -7715,7 +7719,7 @@ function addOrreryMoons(P,labelsEl){
 const SKY={on:false};
 function initSky(){
   const st=$("#skyStage"),cv=$("#skyCanvas"),labEl=$("#skyLabels");
-  const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;
+  const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});PRW(R);R.outputEncoding=THREE.sRGBEncoding;
   const S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(75,1,.1,1000);
   const url=skyURL(R);const sky=skyMesh(400,url,"equatorial");S.add(sky);
   const t=tex(url);t.anisotropy=R.capabilities.getMaxAnisotropy();
@@ -7800,7 +7804,7 @@ function initSky(){
 const NEAR={on:false};
 function initNear(){
   const st=$("#nearStage"),cv=$("#nearCanvas"),labEl=$("#nearLabels");
-  const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;
+  const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});PRW(R);R.outputEncoding=THREE.sRGBEncoding;
   const S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(50,1,.1,2000);
   S.add(skyMesh(900,"sky/milkyway_4k.jpg","equatorial"));
   const ctl=new Orbit(cam,cv,{theta:.7,phi:1.05,r:52,min:6,max:140,auto:.035});
@@ -7843,7 +7847,7 @@ function initNear(){
 const CRAFTV={on:false};
 function initCraft(){
   const st=$("#craftStage"),cv=$("#craftCanvas");
-  const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;
+  const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});PRW(R);R.outputEncoding=THREE.sRGBEncoding;
   R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.05;R.physicallyCorrectLights=true;
   const S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(40,1,.01,500);
   const sk=skyMesh(200,"sky/milkyway_4k.jpg","equatorial");sk.material.color.setScalar(.5);sk.material.toneMapped=false;S.add(sk);
@@ -8000,7 +8004,7 @@ function openLand(sub){
 const PANO={on:false};
 function initPano(){
   const st=$("#panoStage"),cv=$("#panoCanvas");
-  const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;R.xr.enabled=true;
+  const R=new THREE.WebGLRenderer({canvas:cv,antialias:true});PRW(R);R.outputEncoding=THREE.sRGBEncoding;R.xr.enabled=true;
   const S=new THREE.Scene(),cam=new THREE.PerspectiveCamera(75,1,.1,1200);S.add(cam);
   const rig=new THREE.Group();S.add(rig);
   const big=PANO8K&&R.capabilities.maxTextureSize>=8192&&(/OculusBrowser|Quest/i.test(navigator.userAgent)||!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
@@ -8199,7 +8203,7 @@ async function ch3Start(firstPhase){
 function ch3Build(D,firstPhase){
   const T=THREE,cv=$("#ch3Canvas"),stage=$("#ch3Stage");
   const R=new T.WebGLRenderer({canvas:cv,antialias:true,logarithmicDepthBuffer:true});CH3.R=R;
-  R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=T.sRGBEncoding;R.xr.enabled=true;R.setClearColor(0x000000,1);
+  R.setPixelRatio(PR2());R.outputEncoding=T.sRGBEncoding;R.xr.enabled=true;R.setClearColor(0x000000,1);
   const S=new T.Scene();const cam=new T.PerspectiveCamera(60,1,1,4e6);
   const rig=new T.Group();rig.add(cam);S.add(rig);
   const RAD=Math.PI/180,R0=1737400,TL=new T.TextureLoader(),aniso=Math.min(8,R.capabilities.getMaxAnisotropy());
