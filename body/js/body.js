@@ -227,7 +227,9 @@ export class Body {
     if (name === 'skin') { mat = makeSkinMaterial(this.state); mesh.renderOrder = 10; }
     else {
       const [c, r, op] = lookFor(name);
-      mat = new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: 0.0, envMapIntensity: 0.9 });
+      // soft tissue looks moist and catches the room's light; bone and teeth stay matte
+      const soft = !LAYERS.skeleton.includes(name) && !['cartilage', 'larynx'].includes(name);
+      mat = new THREE.MeshStandardMaterial({ color: c, roughness: soft ? r * 0.62 : r, metalness: 0.0, envMapIntensity: soft ? 1.25 : 0.9 });
       if (op < 1) { mat.transparent = true; mat.opacity = op; mat.depthWrite = false; mesh.renderOrder = 5; }
       if (name === 'muscles') { mat.transparent = true; mat.opacity = 0.55; mat.depthWrite = false; mesh.renderOrder = 6; }
       mat.userData.baseOpacity = mat.opacity; mat.userData.baseColor = mat.color.clone();

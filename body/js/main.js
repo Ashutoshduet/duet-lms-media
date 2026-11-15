@@ -2,6 +2,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { buildAnatomyRoom } from './room.js';
+import { setupHands } from './xrhands.js';
 import { Body, LAYERS, asset } from './body.js';
 import { FlowSystem, PathCurve, Tracer } from './flows.js';
 import { OrganAnimator } from './anim.js';
@@ -67,10 +69,10 @@ class App {
     $('#stage').appendChild(r.domElement);
 
     const scene = this.scene = new THREE.Scene();
-    this.bg = new THREE.Color('#0a0d13'); scene.background = this.bg;
+    this.bg = new THREE.Color('#d9d5cd'); scene.background = this.bg;
     const pm = new THREE.PMREMGenerator(r);
     scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.add(new THREE.HemisphereLight('#e4ecff', '#2a1d16', 0.55));
+    scene.add(new THREE.HemisphereLight('#f4f6ff', '#8a6a4a', 0.85)); // a bright room: light from the ceiling panels and the window
     const key = new THREE.DirectionalLight('#ffffff', 1.35); key.position.set(1.2, 2.4, 2.6); scene.add(key);
     const rim = new THREE.DirectionalLight('#9fc4ff', 0.55); rim.position.set(-2, 1.5, -2.5); scene.add(rim);
 
@@ -79,7 +81,7 @@ class App {
     this.controls = new OrbitControls(this.camera, r.domElement);
     this.controls.target.set(0, 0.9, 0);
     this.controls.enableDamping = true; this.controls.dampingFactor = 0.08;
-    this.controls.minDistance = 0.08; this.controls.maxDistance = 6;
+    this.controls.minDistance = 0.08; this.controls.maxDistance = 4.2; // stay inside the room
     this.controls.addEventListener('start', () => { this.camTween = null; });
 
     // world = the room. In VR it is placed where the user stood when VR started, and it never moves on a click.
@@ -152,14 +154,16 @@ class App {
     const tex = new THREE.CanvasTexture(c);
     const floor = new THREE.Mesh(new THREE.CircleGeometry(2.6, 64), new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false }));
     floor.rotation.x = -Math.PI / 2; floor.position.y = 0.001; floor.renderOrder = -1;
-    room.add(floor);
+    floor.visible = false; // the anatomy room's own floor and mat are used instead
     const sky = new THREE.Mesh(new THREE.SphereGeometry(30, 32, 16), new THREE.ShaderMaterial({
       side: THREE.BackSide, depthWrite: false,
       vertexShader: 'varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }',
       fragmentShader: 'varying vec3 vP; void main(){ float h = normalize(vP).y; vec3 a = vec3(0.035,0.045,0.07); vec3 b = vec3(0.09,0.11,0.16); vec3 c = mix(b, a, smoothstep(-0.1, 0.6, h)); c = mix(vec3(0.05,0.045,0.05), c, smoothstep(-0.35, 0.0, h)); gl_FragColor = vec4(c,1.); }',
     }));
-    sky.renderOrder = -2; room.add(sky);
-    this.sky = sky; this.floor = floor;
+    sky.renderOrder = -2;
+    // a bright, real-looking anatomy room (room.js); it is hidden in passthrough AR
+    this.anat = buildAnatomyRoom(); room.add(this.anat);
+    this.sky = this.anat; this.floor = new THREE.Group(); void sky;
     const logo = new THREE.TextureLoader().load('./brand/duet-stem-logo-light.png'); logo.colorSpace = THREE.SRGBColorSpace; logo.anisotropy = 8;
     const plaque = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.9 * 165 / 1024), new THREE.MeshBasicMaterial({ map: logo, transparent: true, opacity: 0.85, depthWrite: false }));
     plaque.rotation.x = -Math.PI / 2; plaque.position.set(0, 0.003, 0.62);
@@ -709,6 +713,7 @@ class App {
   placeFloor() {
     const p = this.exhibitPos();
     this.bodyFloor.position.set(p.x, 0, p.z);
+    if (this.anat) this.anat.position.set(p.x, 0, p.z); // the room is centred on the body
     this.museumSet.position.set(p.x, 0, p.z); this.museumSet.visible = this.inXR() && this.museum;
     this.bodyFloor.visible = !(this.mode === 'lab' && !this.inXR());
   }
@@ -873,6 +878,7 @@ class App {
       this.scene.add(grip);
       this.controllers.push(c);
     }
+    this.xrHands = setupHands(r, this.scene); // real hands and Quest controllers
     this.raycaster = new THREE.Raycaster();
     r.xr.addEventListener('sessionstart', () => this.onXRStart());
     r.xr.addEventListener('sessionend', () => this.onXREnd());
@@ -1378,7 +1384,9 @@ class App {
   frame() {
     const dt = Math.min(clock.getDelta(), 0.05);
     const t = clock.elapsedTime;
+    if (this.anat) this.anat.userData.tick();
     const xr = this.inXR();
+    if (xr && this.xrHands) this.xrHands.update();
     const dtA = (this.mode === 'journey' || this.mode === 'lab') ? dt * Math.min(this.speed, 3) : dt;
     this.anim.update(dtA);
     const D = this.flows.drivers;
