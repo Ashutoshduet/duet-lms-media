@@ -1,6 +1,6 @@
 # Maths Lab 360: NCERT chapters and the activities that cover them
 
-Books: Classes 6–8 *Ganita Prakash* (Class 7 and 8 in two parts), Class 9 *Ganita Manjari* Part 1 (2026–27; Part 2 not
+Books: Classes 3–5 *Maths Mela* (2024–25), Classes 6–8 *Ganita Prakash* (Class 7 and 8 in two parts), Class 9 *Ganita Manjari* Part 1 (2026–27; Part 2 not
 published yet), Class 10 the rationalised NCERT book. `w…` activities are hands-on, at real size or in a real place
 (`experiments_w*.js`, apparatus in `mathworld*.js`); `m…` activities are table-top
 (`experiments_m*.js`). The goal is at least one hands-on 3D activity per chapter, where the student does it with their
@@ -8,6 +8,49 @@ own hands and, where it makes sense, stands inside the shape.
 
 | Class | Chapter | Activities | Ideas still to build |
 |---|---|---|---|
+| 3 | 1 What's in a Name? | w3_mango_tally | |
+| 3 | 2 Toy Joy | w3_toy_roll | |
+| 3 | 3 Double Century | w3_stick_bundles | |
+| 3 | 4 Vacation with My Nani Maa | w3_nani_laddoos | |
+| 3 | 5 Fun with Shapes | w3_tangram | |
+| 3 | 6 House of Hundreds – I | w3_abacus | |
+| 3 | 7 Raksha Bandhan | w3_rakhi_groups | |
+| 3 | 8 Fair Share | w3_fair_share | |
+| 3 | 9 House of Hundreds – II | w3_brick_add | |
+| 3 | 10 Fun at Class Party! | w3_party_share | |
+| 3 | 11 Filling and Lifting | w3_litre_kilo | |
+| 3 | 12 Give and Take | w3_number_jumps | |
+| 3 | 13 Time Goes On | w3_big_clock | |
+| 3 | 14 The Surajkund Fair | w3_fair_pot | |
+| 4 | 1 Shapes Around Us | w4_cube_frame |  |
+| 4 | 2 Hide and Seek | w4_house_views |  |
+| 4 | 3 Pattern Around Us | w4_odd_even |  |
+| 4 | 4 Thousands Around Us | w4_thousand_blocks |  |
+| 4 | 5 Sharing and Measuring | w4_ribbon_quarters |  |
+| 4 | 6 Measuring Length | w4_room_tape |  |
+| 4 | 7 The Cleanest Village | w4_village_bins |  |
+| 4 | 8 Weigh it, Pour it | w4_rice_weights |  |
+| 4 | 9 Equal Groups | w4_egg_trays |  |
+| 4 | 10 Elephants, Tigers, and Leopards | w4_tiger_round |  |
+| 4 | 11 Fun with Symmetry | w4_mirror_butterfly |  |
+| 4 | 12 Ticking Clocks and Turning Calendar | w4_station_clock |  |
+| 4 | 13 The Transport Museum | w4_museum_tickets |  |
+| 4 | 14 Data Handling | w4_school_bars |  |
+| 5 | 1 We the Travellers — I | | in progress |
+| 5 | 2 Fractions | | in progress |
+| 5 | 3 Angles as Turns | | in progress |
+| 5 | 4 We the Travellers — II | | in progress |
+| 5 | 5 Far and Near | | in progress |
+| 5 | 6 The Dairy Farm | | in progress |
+| 5 | 7 Shapes and Patterns | | in progress |
+| 5 | 8 Weight and Capacity | | in progress |
+| 5 | 9 Coconut Farm | | in progress |
+| 5 | 10 Symmetrical Designs | | in progress |
+| 5 | 11 Grandmother's Quilt | | in progress |
+| 5 | 12 Racing Seconds | | in progress |
+| 5 | 13 Animal Jumps | | in progress |
+| 5 | 14 Maps and Locations | | in progress |
+| 5 | 15 Data Through Pictures | | in progress |
 | 6 | 1 Patterns in Mathematics | w6_odd_squares, m6_triangular_numbers | |
 | 6 | 2 Lines and Angles | w6_angle_turn | |
 | 6 | 3 Number Play | w6_kaprekar | |

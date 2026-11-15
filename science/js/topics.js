@@ -30,6 +30,7 @@ export const TOPICS = {
     ['algebra', N('Algebra and identities', 'बीजगणित और सर्वसमिकाएँ', 'Algebra aur identities'), /Distribute|Algebraic|Identit|Polynomial|Equation/],
     ['geometry', N('Geometry: shapes, angles, symmetry', 'ज्यामिति: आकृतियाँ, कोण, सममिति', 'Geometry: shapes, angles, symmetry'), /Lines|Triangle|Pythagoras|Quadrilateral|Angles|Symmetry|Trigonometry|Coordinate|· Circles$|Round and Round/],
     ['mensuration', N('Area and volume', 'क्षेत्रफल और आयतन', 'Area aur volume'), /Area|Volume|Perimeter/],
+    ['measure', N('Measuring: length, weight, time, money', 'मापना: लंबाई, वज़न, समय, पैसे', 'Measuring: lambai, wazan, time, paise'), /Filling and Lifting|Time Goes On|Surajkund|Measuring Length|Weigh it|Ticking Clocks|Racing Seconds|Far and Near|Weight and Capacity/],
     ['data', N('Data and probability', 'आँकड़े और प्रायिकता', 'Data aur probability'), /Probability|Data|Statistics/],
   ],
 };
@@ -52,7 +53,7 @@ export function topicOf(e) {
 // the free demo (no code): every open lab and the first experiment of each class, chemistry and physics
 export function demoIds() {
   const s = new Set(EXPERIMENTS.filter((e) => e.id.startsWith('open_')).map((e) => e.id));
-  for (const sub of ['chemistry', 'physics', 'maths']) for (const c of [6, 7, 8, 9, 10]) { const e = classOrder(c, sub).find((x) => !x.id.startsWith('open_') && x.cls === c); if (e) s.add(e.id); }
+  for (const sub of ['chemistry', 'physics', 'maths']) for (const c of [3, 4, 5, 6, 7, 8, 9, 10]) { const e = classOrder(c, sub).find((x) => !x.id.startsWith('open_') && x.cls === c); if (e) s.add(e.id); }
   return s;
 }
 // [{ k, n, items }] in a fixed topic order; inside a topic, experiments go by class and book order

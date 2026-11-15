@@ -16,7 +16,8 @@ const esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<'
 const classOrder = (c, sub) => order0(c, sub);
 const SUBJECTS = ['chemistry', 'physics', 'maths', 'biology', 'astronomy', 'robotics', 'nature'];
 const store = { get(k) { try { return localStorage.getItem('sl360.' + k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem('sl360.' + k, v); } catch (e) {} } };
-const CLASSES = [6, 7, 8, 9, 10];
+// the classes a subject has (Maths starts at Class 3, the sciences at Class 6)
+const classesOf = (sub) => [...new Set(EXPERIMENTS.filter((e) => subjOf(e) === sub && !e.id.startsWith('open_')).map((e) => e.cls))].filter((c) => c >= 1 && c <= 12).sort((x, y) => x - y);
 const YOURS = { en: 'Your result was different from the book', hi: 'आपका नतीजा किताब से अलग आया', hg: 'Aapka result kitaab se alag aaya' };
 const HOWMUCH = { en: 'How much', hi: 'कितना डालना है', hg: 'Kitna daalna hai' };
 const INBOOK = { en: 'In the book', hi: 'किताब में', hg: 'Kitaab mein' };
@@ -78,7 +79,7 @@ export class UI {
   renderPicker() {
     $('#cp-h').textContent = this.t('pickClass'); $('#cp-sub').textContent = this.t('pickClassSub'); $('#cp-all').textContent = this.t('allClasses'); $('#cp-top').textContent = this.t('byTopic');
     const li = licenceInfo('science'); const L = this.L(); $('#cp-lic').textContent = li ? `${{ en: 'DUET STEM subscription', hi: 'DUET STEM सब्सक्रिप्शन', hg: 'DUET STEM subscription' }[L]}${li.name ? ' · ' + li.name : ''} · ${((d) => ({ en: `valid until ${d}`, hi: `${d} तक मान्य`, hg: `${d} tak valid` }[L]))(new Date(li.until).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }))}` : '';
-    $('#cp-btns').innerHTML = CLASSES.map((c) => { const n = classOrder(c, this.subj).length, d = n - this.classLeft(c).length; return `<button data-c="${c}">${c}<small>${esc(this.t('cls'))} ${c} · ${d ? `${d}/${n} ✓` : `${n}`}</small></button>`; }).join('');
+    $('#cp-btns').innerHTML = classesOf(this.subj).map((c) => { const n = classOrder(c, this.subj).length, d = n - this.classLeft(c).length; return `<button data-c="${c}">${c}<small>${esc(this.t('cls'))} ${c} · ${d ? `${d}/${n} ✓` : `${n}`}</small></button>`; }).join('');
   }
   renderTop() {
     const L = this.L(); document.documentElement.lang = L === 'hi' ? 'hi' : 'en';
@@ -89,7 +90,7 @@ export class UI {
     $('#xr-btn').textContent = this.t('enterVR');
   }
   renderList() {
-    const cs = [0, ...CLASSES]; const c = this.cls; const tv = this.view === 'topic';
+    const cs = [0, ...classesOf(this.subj)]; const c = this.cls; const tv = this.view === 'topic';
     $('#classes').innerHTML = `<button data-c="t" class="tp ${tv ? 'on' : ''}">${esc(this.t('topics'))}</button>` + cs.map((k) => `<button data-c="${k}" class="${!tv && k === c ? 'on' : ''}">${k ? k : this.t('all')}</button>`).join('');
     $('#list-h').textContent = tv ? `${this.t('topics')} · ${this.t(this.subj)}` : c ? `${this.t('cls')} ${c} · ${this.t(this.subj)}` : this.t('experiments');
     const cur = this.app.runner.exp?.id; const order = tv ? classOrder(0, this.subj) : classOrder(c, this.subj); const d = order.filter((e) => this.done.has(e.id)).length;
@@ -165,7 +166,7 @@ export class UI {
     SUBJECTS.filter((x) => hasSubject(x)).forEach((x, i, arr) => P.btn('sub_' + x, 960 - (arr.length - i) * 214, 18, 200, 58, this.t(x), { size: 26, align: 'center', active: this.subj === x })); // subject tabs, top right
     // class-wise (Topics | All | 6 … 10) or topic-wise: pick a topic, then its experiments from every class
     P.btn('view_topic', 40, 160, 160, 70, this.t('topics'), { size: 26, align: 'center', active: tv });
-    [0, 6, 7, 8, 9, 10].forEach((c, i) => P.btn('cls_' + c, 212 + i * 125, 160, 113, 70, c ? `${c}` : this.t('all'), { size: 28, align: 'center', active: !tv && this.cls === c }));
+    { const cl = [0, ...classesOf(this.subj)], w = Math.min(125, Math.floor(748 / cl.length)); cl.forEach((c, i) => P.btn('cls_' + c, 212 + i * w, 160, w - 12, 70, c ? `${c}` : this.t('all'), { size: w < 100 ? 26 : 28, align: 'center', active: !tv && this.cls === c })); }
     const gs = tv ? topicGroups(this.subj) : null; const g = gs ? gs.find((x) => x.k === this.topic) || null : null;
     const pool = tv ? (g ? g.items : gs.flatMap((x) => x.items)) : classOrder(this.cls, this.subj);
     const dn = pool.filter((e) => this.done.has(e.id)).length; const dl = `${dn}/${pool.length} ${this.t('doneW')}`; P.x.font = `700 30px ${FONT}`; P.text(dl, 960 - P.x.measureText(dl).width, 98, 30, '#9fd17a', 700);
