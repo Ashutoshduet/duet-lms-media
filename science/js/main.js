@@ -87,6 +87,7 @@ export class App {
     this.pxr = new PhoneXR(this, { onCamera: (tex) => { this._camTex = tex; },
       onStart: (m) => { this.camGoal = null; if (m === 'cam') { this.setAR(true); document.body.classList.remove('in-ar'); if (this._camTex) this.scene.background = this._camTex; } this.ui.dirty = true; },
       onStop: () => { if (this.ar) this.setAR(false); this._voKey = null; this.ui.dirty = true; },
+      prev: () => this.runner.prev(), next: () => this.runner.next(), // a Bluetooth controller's LB / RB
       eyeBox: () => new THREE.Vector3(0, 1.5 + (this.hgt || 0), 0.05), eyeCam: () => new THREE.Vector3(0, BENCH_Y + 0.42 + (this.hgt || 0) * 0.5, 0.1) });
     this.particles = new ParticleView(this); this.hasParticles = HAS_PARTICLES;
     this.clock = new THREE.Clock();

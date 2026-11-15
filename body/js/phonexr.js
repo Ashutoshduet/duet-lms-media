@@ -140,18 +140,30 @@ export class PhoneXR {
     const local = v.applyQuaternion(this.rig.quaternion.clone().invert()); this.gaze.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, -1), local); this.gaze.updateMatrixWorld(true);
     this.press(); this.gaze.quaternion.identity(); this.gaze.updateMatrixWorld(true);
   }
-  // a Bluetooth game controller or VR-box remote: any face button or trigger presses, Start (or the stick pressed) re-centres
-  padTick() {
+  // a Bluetooth game controller or VR-box remote: A / X / RT press what you look at; B goes back (or presses); LB / RB the
+  // previous / next step; Y, Start or a stick pressed re-centres; the sticks and the D-pad turn the view, so a student
+  // sitting down can look all round without turning on the chair
+  padTick(dt = 1 / 60) {
     const gs = navigator.getGamepads ? navigator.getGamepads() : []; if (!gs) return;
-    for (const g of gs) { if (!g) continue; const was = this.pads[g.index] || [];
+    const o = this.o;
+    for (const g of gs) { if (!g || g.mapping === 'xr-standard') continue; const was = this.pads[g.index] || [];
       const now = g.buttons.map((b) => !!(b && (b.pressed || b.value > 0.6)));
       const edge = (i) => now[i] && !was[i];
-      if (this.box && [0, 1, 2, 3, 5, 7].some(edge)) this.press();
-      if (edge(9) || edge(10) || edge(11)) this.recentre && this.recentre();
+      if (edge(4)) { if (o.prev) o.prev(); else if (this.box) this.press(); }
+      if (edge(5)) { if (o.next) o.next(); else if (this.box) this.press(); }
+      if (this.box && [0, 2, 6, 7].some(edge)) this.press();
+      if (this.box && edge(1)) { if (o.back) o.back(); else this.press(); }
+      if (edge(3) || edge(9) || edge(10) || edge(11)) this.recentre && this.recentre();
+      const ax = (i) => { const v = g.axes[i] || 0; return Math.abs(v) > 0.2 ? v : 0; };
+      const tx = ax(0) + ax(2) + (now[15] ? 1 : 0) - (now[14] ? 1 : 0), ty = ax(1) + ax(3) + (now[13] ? 1 : 0) - (now[12] ? 1 : 0);
+      if (tx || ty) {
+        if (this.ori) this.yaw0 += Math.max(-1, Math.min(1, tx)) * 1.4 * dt;   // with the gyro: turn left / right
+        else { this.drag.yaw -= tx * 1.4 * dt; this.drag.pitch = Math.max(-1.4, Math.min(1.4, this.drag.pitch - ty * 1.0 * dt)); }
+      }
       this.pads[g.index] = now; }
   }
   gazeTick(dt) {
-    this.padTick();
+    this.padTick(dt || 1 / 60);
     if (this.o.dwellKey) { // the app says what the gaze is on (a button, or nothing to press by looking)
       if (!this.box && !this.o.gazeInCam) { this.fill.visible = false; return; }
       const key = this.o.dwellKey(this.gaze);

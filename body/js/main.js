@@ -959,6 +959,7 @@ class App {
         this.onXRStart(); if (m === 'cam' && this._camTex) this.scene.background = this._camTex; },
       onStop: () => { this.controllers = this.controllers.filter((c) => c !== gz()); gz().userData = {}; this.onXREnd(); this.onResize(); },
       select: (c) => { this.onSelect(c); setTimeout(() => this.onSelectEnd(c), 160); },
+      prev: () => this.prev(), next: () => this.next(), // a Bluetooth controller's LB / RB
       dwellKey: (c) => { const rc = this.rayFrom(c); const ph = rc.intersectObjects(this.vrui.panels(), false)[0]; const id = ph && ph.object.userData.panel.hitUV(ph.uv); return id ? 'p:' + id : null; } });
   }
   async autoXR() {
