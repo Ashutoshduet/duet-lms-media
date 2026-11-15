@@ -109,9 +109,9 @@ final class Updater {
     }
     static boolean copy(InputStream in, File out, String h) {
         File tmp = new File(out.getPath() + ".part");
-        try {
+        try (InputStream i = in) {
             MessageDigest md = MessageDigest.getInstance("SHA-1");
-            try (InputStream i = in; OutputStream os = new FileOutputStream(tmp)) {
+            try (OutputStream os = new FileOutputStream(tmp)) {
                 byte[] b = new byte[65536]; int n;
                 while ((n = i.read(b)) > 0) { md.update(b, 0, n); os.write(b, 0, n); }
             }

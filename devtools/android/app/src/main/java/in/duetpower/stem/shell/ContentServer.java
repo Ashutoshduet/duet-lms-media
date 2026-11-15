@@ -111,7 +111,7 @@ final class ContentServer {
 
     private final java.util.concurrent.atomic.AtomicBoolean refreshing = new java.util.concurrent.atomic.AtomicBoolean();
     /** the list from the internet, saved for the next start; null when offline or it takes too long */
-    private byte[] fetchList() {
+    private synchronized byte[] fetchList() {
         if (!online()) return null;
         try {
             HttpURLConnection c = (HttpURLConnection) new URL(BuildConfig.REMOTE_BASE + "licences.json?t=" + System.currentTimeMillis()).openConnection();

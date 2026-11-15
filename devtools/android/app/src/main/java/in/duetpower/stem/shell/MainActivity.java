@@ -46,7 +46,6 @@ public class MainActivity extends ComponentActivity {
         super.onCreate(saved);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-        Updater.cleanup(this);                 // folders of older updates (never removed while the app reads them)
         server = new ContentServer(this);
         web = new WebView(this);
         web.setBackgroundColor(Color.parseColor(BuildConfig.BG));
@@ -87,12 +86,13 @@ public class MainActivity extends ComponentActivity {
         });
         setContentView(web);
         hideBars();
-        if (saved != null) web.restoreState(saved); else web.loadUrl(ContentServer.START);
+        web.loadUrl(ContentServer.START); // always a fresh start (a restored web view can come back blank)
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override public void handleOnBackPressed() { if (web.canGoBack()) web.goBack(); else finish(); }
         });
         // look for newer lessons in the background; they are used from the next start
-        Thread t = new Thread(() -> { try { Thread.sleep(20000); } catch (InterruptedException e) { return; } Updater.run(getApplicationContext()); }, "duet-update");
+        // first the folders of older updates go (never one the app reads), then, once the app has started, the check
+        Thread t = new Thread(() -> { Updater.cleanup(getApplicationContext()); try { Thread.sleep(20000); } catch (InterruptedException e) { return; } Updater.run(getApplicationContext()); }, "duet-update");
         t.setPriority(Thread.MIN_PRIORITY); t.start();
     }
 
@@ -115,10 +115,12 @@ public class MainActivity extends ComponentActivity {
     }
 
     @Override public void onWindowFocusChanged(boolean hasFocus) { super.onWindowFocusChanged(hasFocus); if (hasFocus) hideBars(); }
-    @Override protected void onSaveInstanceState(Bundle out) { super.onSaveInstanceState(out); web.saveState(out); }
     @Override protected void onPause() { super.onPause(); web.onPause(); web.pauseTimers(); }   // in the background: no 3D, no timers
     @Override protected void onResume() { super.onResume(); web.onResume(); web.resumeTimers(); }
-    @Override protected void onDestroy() { if (web != null) { web.destroy(); } super.onDestroy(); }
+    @Override protected void onDestroy() {
+        if (web != null) { web.loadUrl("about:blank"); if (web.getParent() instanceof android.view.ViewGroup) ((android.view.ViewGroup) web.getParent()).removeView(web); web.destroy(); web = null; }
+        super.onDestroy();
+    }
 
     /** lets the page know it runs inside the Android app */
     final class Bridge {

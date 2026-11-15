@@ -40,7 +40,13 @@ export function liteItem(root) {
 // the number of lights never changes while the lab runs (a change recompiles every material: a freeze of about a second)
 if (LITE) {
   const add0 = THREE.Object3D.prototype.add;
-  THREE.Object3D.prototype.add = function (...objs) { const r = add0.apply(this, objs); for (const o of objs) if (o && o.isObject3D && o !== this) liteItem(o); return r; };
+  // only for what joins the scene itself: a model being put together piece by piece is looked at once, when it is added to the scene
+  THREE.Object3D.prototype.add = function (...objs) {
+    const r = add0.apply(this, objs);
+    let top = this; while (top.parent) top = top.parent;
+    if (top.isScene) for (const o of objs) if (o && o.isObject3D && o !== this) liteItem(o);
+    return r;
+  };
 }
 
 // headset mode: merge the room's fixed furniture into one mesh per look (material, shadows, AR group): about 45 draw calls
