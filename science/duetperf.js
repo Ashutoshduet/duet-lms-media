@@ -58,6 +58,7 @@
     });
     quietUntil = performance.now() + 3000; // let the new size settle before measuring again
     log.push(Math.round(performance.now() / 1000) + 's:' + pr);
+    try { console.info('[DuetPerf] pixel ratio ' + pr + ' (fps ' + DP.fps + ')'); } catch (e) { /* no console */ } // shows in the phone's log (adb logcat)
     if (log.length > 20) log.shift();
   }
   function tick(now) {

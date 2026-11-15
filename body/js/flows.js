@@ -168,6 +168,11 @@ class Stream {
   }
 }
 
+// only the particles in use are sent to the graphics chip each frame (not the whole pool): much less to upload on a phone
+function upload(geom, used) {
+  for (const k of ['position', 'aColor', 'aSize', 'aAlpha']) { const at = geom.attributes[k]; at.clearUpdateRanges(); at.addUpdateRange(0, used * at.itemSize); at.needsUpdate = true; }
+}
+
 export class FlowSystem {
   constructor(max = 9000) {
     this.max = max;
@@ -226,8 +231,8 @@ export class FlowSystem {
         this.active.delete(id);
       }
     }
-    this.geom.setDrawRange(0, this.used);
-    for (const k of ['position', 'aColor', 'aSize', 'aAlpha']) this.geom.attributes[k].needsUpdate = true;
+    this.geom.setDrawRange(0, this.used); this.points.visible = this.used > 0; // nothing to draw: no empty draw call
+    if (this.used > 0) upload(this.geom, this.used);
   }
 }
 
@@ -340,7 +345,7 @@ export class Tracer {
       tr.size[this.trailIdx + i] = 0.006 * (1 - i / this.trailN * 0.7);
     }
     tr.geom.setDrawRange(0, tr.used);
-    for (const k of ['position', 'aColor', 'aSize', 'aAlpha']) tr.geom.attributes[k].needsUpdate = true;
+    if (tr.used > 0) upload(tr.geom, tr.used);
   }
   position() { return this.v; }
 }

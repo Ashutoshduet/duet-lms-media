@@ -46,6 +46,9 @@ const LAB_GROUPS = {
   kidney: ['kidney_l', 'kidney_r', 'renal_pelvis', 'ureters'], tooth: ['teeth'], skin: ['skin'],
   mouth: ['mouth', 'tongue', 'salivary'], gut: ['small_intestine', 'large_intestine', 'duodenum'], liver: ['liver', 'gallbladder', 'bile_ducts'], knee: ['patella'],
 };
+// phones: the same body with about half the triangles in its thin vessels, nerves and large organs (shape error under a
+// millimetre; measured: the full model ran at about 14 frames a second on a Snapdragon 680 phone). ?full=1 / ?lite=1 to test.
+const BODY_GLB = /[?&]lite=1/.test(location.search) || (window.DuetPerf && DuetPerf.phone && !/[?&]full=1/.test(location.search)) ? './models/body_lite.glb' : './models/body.glb';
 const LAB_PARTS = { heart: ['coronary_arteries', 'aorta_arch', 'heart', 'venae_cavae'], eye: ['optic_nerve', 'eye'], ear: ['hearing_nerve', 'outer_ear'], brain: ['brain'], lungs: ['right_lung', 'left_lung'], kidney: ['kidneys', 'renal_arteries', 'renal_veins'], skin: ['skin'], knee: ['patella', 'femur', 'tibia', 'fibula'], liver: ['liver', 'gallbladder'] };
 
 class App {
@@ -112,7 +115,7 @@ class App {
 
     this.setLoading(0.02);
     const [, paths, meta3, objects] = await Promise.all([
-      this.body.load(asset('./models/body.glb'), (f) => this.setLoading(0.05 + 0.8 * f)),
+      this.body.load(asset(BODY_GLB), (f) => this.setLoading(0.05 + 0.8 * f)),
       fetch('./models/paths.json').then((x) => x.json()),
       fetch('./models/meta3.json').then((x) => x.json()),
       fetch('./models/objects.json').then((x) => x.json()),

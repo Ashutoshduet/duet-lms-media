@@ -47,6 +47,9 @@ public class MainActivity extends ComponentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         server = new ContentServer(this);
+        // a phone with USB debugging switched on (a developer's test phone) lets a computer measure the 3D inside the app
+        // (Chrome DevTools: frame rate, memory, errors); students' phones normally have it off
+        try { if (android.provider.Settings.Global.getInt(getContentResolver(), android.provider.Settings.Global.ADB_ENABLED, 0) == 1) WebView.setWebContentsDebuggingEnabled(true); } catch (Exception ignored) { /* setting not readable */ }
         web = new WebView(this);
         web.setBackgroundColor(Color.parseColor(BuildConfig.BG));
         WebSettings s = web.getSettings();

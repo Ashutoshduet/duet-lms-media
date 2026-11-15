@@ -424,6 +424,7 @@ const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) * 2;
    ========================================================= */
 const isTouch = matchMedia('(pointer: coarse)').matches || ('ontouchstart' in window && navigator.maxTouchPoints > 0);
 const IS_QUEST = /OculusBrowser|Quest|Pacific/i.test(navigator.userAgent);
+const IS_PHONE = !IS_QUEST && !!(window.DuetPerf && DuetPerf.phone); // phones and tablets: the light graphics and no picture-in-picture by default
 const PER_DEF = {
   racer: { mode: 'angle', tilt: 25, fov: 118, rc: 200, rm: 670, re: 0.54, maxA: 55, video: 'digital' },
   camera: { mode: 'normal', tilt: -5, fov: 84, rc: 120, rm: 300, re: 0.3, maxA: 32, video: 'digital' },
@@ -432,9 +433,9 @@ const PER_DEF = {
 const DEF = {
   map: 'village', drone: 'racer', mission: 'free', view: 'chase', stickMode: 2, throttleStyle: 'real', padThrottle: 'easy', deadzone: 0.05,
   rcMap: null, crash: 'real', infBattery: false, wind: 3, windDir: 300, gust: 0.4, tod: 'morning',
-  quality: IS_QUEST ? 'quest' : isTouch ? 'low' : 'high', osd: true, remote: true, minimap: true, volume: 0.55, losZoom: true, vrComfort: true,
-  pip: !IS_QUEST, oa: true, rthAlt: 60, altLimit: true, linkSim: true, ghost: true, mp: true,
-  per: PER_DEF, best: {}, ghosts: {}, v: 3,
+  quality: IS_QUEST ? 'quest' : IS_PHONE ? 'phone' : isTouch ? 'low' : 'high', osd: true, remote: true, minimap: true, volume: 0.55, losZoom: true, vrComfort: true,
+  pip: !IS_QUEST && !IS_PHONE, oa: true, rthAlt: 60, altLimit: true, linkSim: true, ghost: true, mp: true,
+  per: PER_DEF, best: {}, ghosts: {}, v: 4,
 };
 function loadS() {
   let o = {};
@@ -446,6 +447,9 @@ function loadS() {
     s.throttleStyle = 'real'; s.v = 3; s.migrated = true;
     if ('sticks' in o) s.remote = o.sticks;
     const best = {}; for (const k in s.best) best[k.includes('.') ? k : 'village.race.' + k] = s.best[k]; s.best = best;
+  }
+  if (!o.v || o.v < 4) {                 // v4: phones move to the light graphics (measured: the medium set ran at about 9 fps on a Snapdragon 680 phone)
+    if (IS_PHONE && (s.quality === 'low' || s.quality === 'high')) { s.quality = 'phone'; s.pip = false; } s.v = 4;
   }
   if (s.throttleStyle === 'spring') s.throttleStyle = 'easy'; if (s.throttleStyle === 'hold') s.throttleStyle = 'real';
   const cm = s.per.camera.mode; if (cm === 'gps' || cm === 'acro') s.per.camera.mode = 'normal';
@@ -462,6 +466,7 @@ const PD = () => S.per[S.drone];
 const QUALITY = {
   high: { pr: 2, shadow: 2048, shadowOn: true, shadowR: 45, near: 1, cards: 1, grass: 42000, grassR: 80, lc: 2048, leafTex: 512, clouds: 34, chunk: 150, stride: 1, far: 1 },
   low: { pr: 1.25, shadow: 1024, shadowOn: true, shadowR: 30, near: 0.6, cards: 0.65, grass: 15000, grassR: 50, lc: 1024, leafTex: 256, clouds: 18, chunk: 220, stride: 2, far: 0.6 },
+  phone: { pr: 1.25, shadow: 1024, shadowOn: true, shadowR: 24, near: 0.4, cards: 0.5, grass: 5000, grassR: 34, lc: 1024, leafTex: 256, clouds: 8, chunk: 400, stride: 2, far: 0.35 },
   quest: { pr: 1, shadow: 1024, shadowOn: false, shadowR: 30, near: 0.45, cards: 0.5, grass: 9000, grassR: 38, lc: 1024, leafTex: 256, clouds: 10, chunk: 400, stride: 2, far: 0.45 },
 };
 const QP = QUALITY[S.quality] || QUALITY.high;
@@ -4245,7 +4250,7 @@ const FIELDS = () => {
     { id: 'wMp', label: 'Show other pilots (multiplayer)', type: 'check', get: () => S.mp, set: v => { S.mp = v; net.joinMap(); } },
     { id: 'wGhost', label: 'Race ghost', type: 'check', get: () => S.ghost, set: v => { S.ghost = v; if (mission.race) ghost.prepare(); } },
     { sec: 'Display and sound' },
-    { id: 'dQual', label: 'Graphics quality (reload to apply)', type: 'select', opts: [['high', 'High (PC)'], ['low', 'Medium (laptops, phones)'], ['quest', 'Meta Quest']], get: () => S.quality, set: v => S.quality = v },
+    { id: 'dQual', label: 'Graphics quality (reload to apply)', type: 'select', opts: [['high', 'High (PC)'], ['low', 'Medium (laptops, tablets)'], ['phone', 'Light (phones)'], ['quest', 'Meta Quest']], get: () => S.quality, set: v => S.quality = v },
     { id: 'dOsd', label: 'On-screen display', type: 'check', get: () => S.osd, set: v => S.osd = v },
     { id: 'dPip', label: 'Camera picture-in-picture (outside views)', type: 'check', get: () => S.pip, set: v => S.pip = v },
     { id: 'dMini', label: 'Map', type: 'check', get: () => S.minimap, set: v => S.minimap = v },
