@@ -34,7 +34,7 @@ export const T = {
   more: { en: 'More', hi: 'और', hg: 'Aur' },
   inside: { en: 'See it inside', hi: 'अंदर से देखिए', hg: 'Andar se dekhiye' }, closeView: { en: 'Close', hi: 'बंद कीजिए', hg: 'Band kijiye' },
   pickClass: { en: 'Which class are you in?', hi: 'आप किस कक्षा में हैं?', hg: 'Aap kis class mein hain?' },
-  pickClassSub: { en: 'You will see the chemistry experiments of your book, chapter by chapter.', hi: 'आपको अपनी किताब के रसायन विज्ञान के प्रयोग, एक-एक चैप्टर करके दिखेंगे।', hg: 'Aapko apni kitaab ke chemistry experiments, ek-ek chapter karke dikhenge.' },
+  pickClassSub: { en: 'You will see the {s} activities of your book, chapter by chapter.', hi: 'आपको अपनी किताब की {s} की गतिविधियाँ, एक-एक चैप्टर करके दिखेंगी।', hg: 'Aapko apni kitaab ki {s} activities, ek-ek chapter karke dikhengi.' },
   allClasses: { en: 'Teacher: all classes', hi: 'टीचर: सभी कक्षाएँ', hg: 'Teacher: sabhi classes' },
   changeClass: { en: 'Change class', hi: 'कक्षा बदलिए', hg: 'Class badliye' },
   doneW: { en: 'done', hi: 'पूरे', hg: 'done' },

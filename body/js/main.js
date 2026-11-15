@@ -401,7 +401,9 @@ class App {
     this.sel = null;
   }
   selectPart(pid, opts = {}) {
-    if (window.DuetGate && !DuetGate.allow(/^heart/.test(pid) || (this.mode === 'journey' && this.journey && this.journey.id === 'heart') || (this.mode === 'lab' && this.labId === 'heart'))) return;
+    // the free demo opens the heart: the whole heart and each of its parts (chambers, valves, its own muscle)
+    const o0 = (this.body.partObjs[pid] || [])[0], g0 = o0 != null && this.body.objects[o0] ? this.body.objects[o0].group : '';
+    if (window.DuetGate && !DuetGate.allow(/^heart/.test(pid) || /^(heart_|valve_|papillary)/.test(g0) || (this.mode === 'journey' && this.journey && this.journey.id === 'heart') || (this.mode === 'lab' && this.labId === 'heart'))) return;
     const oids = this.body.partObjs[pid];
     if (!oids || !partInfo(pid, this.lang)) return;
     if (this.mode !== 'explore' && this.mode !== 'part' && (this.mode !== 'journey' || opts.from === 'list')) this.explore();
