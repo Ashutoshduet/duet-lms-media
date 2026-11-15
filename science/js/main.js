@@ -50,7 +50,7 @@ export class App {
     const r = this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
     if (window.DuetPerf) DuetPerf.watch(r); else r.setPixelRatio(Math.min(devicePixelRatio, 2)); r.setSize(innerWidth, innerHeight); // phones: lighter picture, follows the frame rate
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.0; r.outputColorSpace = THREE.SRGBColorSpace;
-    r.shadowMap.enabled = true; r.shadowMap.type = LITE ? THREE.PCFShadowMap : THREE.PCFSoftShadowMap;
+    r.shadowMap.enabled = true; r.shadowMap.type = LITE ? (HEADSET ? THREE.PCFShadowMap : THREE.BasicShadowMap) : THREE.PCFSoftShadowMap; // phones: one-sample shadows (measured on a Snapdragon 680: filtered shadows took a third of each frame)
     if (LITE) r.shadowMap.autoUpdate = false; // headsets and phones: shadows are redrawn every third frame (see frame())
     r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(1); r.xr.setFramebufferScaleFactor(1.0); // measured on a Quest 3S: 1.3 + light foveation ran at 11 fps, 1.0 + full foveation at 84
     document.getElementById('stage').appendChild(r.domElement);

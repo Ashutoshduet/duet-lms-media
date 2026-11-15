@@ -466,7 +466,7 @@ const PD = () => S.per[S.drone];
 const QUALITY = {
   high: { pr: 2, shadow: 2048, shadowOn: true, shadowR: 45, near: 1, cards: 1, grass: 42000, grassR: 80, lc: 2048, leafTex: 512, clouds: 34, chunk: 150, stride: 1, far: 1 },
   low: { pr: 1.25, shadow: 1024, shadowOn: true, shadowR: 30, near: 0.6, cards: 0.65, grass: 15000, grassR: 50, lc: 1024, leafTex: 256, clouds: 18, chunk: 220, stride: 2, far: 0.6 },
-  phone: { pr: 1.25, shadow: 1024, shadowOn: true, shadowR: 24, near: 0.4, cards: 0.5, grass: 5000, grassR: 34, lc: 1024, leafTex: 256, clouds: 8, chunk: 400, stride: 2, far: 0.35 },
+  phone: { pr: 1.25, shadow: 1024, shadowOn: false, shadowR: 24, near: 0.32, cards: 0.45, grass: 3500, grassR: 30, lc: 1024, leafTex: 256, clouds: 6, chunk: 400, stride: 2, far: 0.22 }, // measured on a Snapdragon 680 phone: 14 fps with shadows, 25 without
   quest: { pr: 1, shadow: 1024, shadowOn: false, shadowR: 30, near: 0.45, cards: 0.5, grass: 9000, grassR: 38, lc: 1024, leafTex: 256, clouds: 10, chunk: 400, stride: 2, far: 0.45 },
 };
 const QP = QUALITY[S.quality] || QUALITY.high;
