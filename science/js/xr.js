@@ -6,6 +6,27 @@ import { BENCH_Y, BENCH } from './room.js';
 import { matchstick } from './apparatus.js';
 import { crispText } from './mats.js';
 import { FONT } from './strings.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+// real-looking hands and controllers in the headset (models: WebXR Input Profiles, MIT licence, in lib/xr/)
+const JOINTS = ['wrist', 'thumb-metacarpal', 'thumb-phalanx-proximal', 'thumb-phalanx-distal', 'thumb-tip',
+  ...['index-finger', 'middle-finger', 'ring-finger', 'pinky-finger'].flatMap((f) => ['metacarpal', 'phalanx-proximal', 'phalanx-intermediate', 'phalanx-distal', 'tip'].map((p) => `${f}-${p}`))];
+let GL = null; const gltf = (url, ok) => { (GL || (GL = new GLTFLoader())).load(url, ok, undefined, (e) => console.warn('xr model', url, e && e.message)); };
+const HAND_MAT = new THREE.MeshStandardMaterial({ color: 0xeef1f6, roughness: 0.4, metalness: 0, transparent: true, opacity: 0.9, emissive: 0x1a1d22 });
+// a soft white glove-like hand that follows your own fingers (hand tracking)
+function attachHand(h, side) {
+  if (h.handSide === side) return; h.handSide = side;
+  if (h.handObj) { h.hand.remove(h.handObj); h.handObj = null; } h.bones = [];
+  gltf(`lib/xr/hand-${side}.glb`, (g) => { if (h.handSide !== side) return; const o = g.scene.children[0] || g.scene;
+    o.traverse((m) => { if (m.isSkinnedMesh || m.isMesh) { m.frustumCulled = false; m.material = HAND_MAT; m.renderOrder = 40; m.userData.noHit = true; } });
+    h.bones = JOINTS.map((n) => { const b = o.getObjectByName(n); if (b) b.jointName = n; return b; }).filter(Boolean); h.handObj = o; h.hand.add(o); });
+}
+// the real Quest Touch Plus controller in place of the simple stand-in
+function attachPad(h, side) {
+  if (h.padSide === side) return; h.padSide = side;
+  gltf(`lib/xr/touch-${side}.glb`, (g) => { if (h.padSide !== side) return; if (h.padObj) h.grip.remove(h.padObj);
+    const o = g.scene; o.traverse((m) => { if (m.isMesh) m.userData.noHit = true; }); h.padObj = o; h.grip.add(o); h.model.visible = false; o.visible = !(h.src && h.src.hand); });
+}
 
 const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3(), tq = new THREE.Quaternion();
 const FLAT = ['splint', 'strip', 'thermo', 'tongs', 'rod', 'spatula'];
@@ -32,7 +53,9 @@ export class XRInput {
       const model = controllerModel(); grip.add(model);
       const tips = [0, 1].map(() => { const m = new THREE.Mesh(new THREE.SphereGeometry(0.007, 10, 8), new THREE.MeshStandardMaterial({ color: 0xf3eee6, roughness: 0.6 })); m.visible = false; app.scene.add(m); return m; });
       const h = { i, c, grip, hand, line, dot, model, tips, held: null, src: null, hover: null, hoverPanel: null };
-      c.addEventListener('connected', (e) => { h.src = e.data; const isHand = !!e.data.hand; model.visible = !isHand; line.visible = true; });
+      c.addEventListener('connected', (e) => { h.src = e.data; const isHand = !!e.data.hand; const side = e.data.handedness === 'left' ? 'left' : 'right';
+        model.visible = !isHand && !h.padObj; if (h.padObj) h.padObj.visible = !isHand; if (h.handObj) h.handObj.visible = isHand; line.visible = true;
+        if (isHand) attachHand(h, side); else attachPad(h, side); });
       c.addEventListener('disconnected', () => { this.release(h); h.src = null; line.visible = false; dot.visible = false; });
       c.addEventListener('selectstart', () => this.select(h));
       c.addEventListener('selectend', () => { if (h.src && h.src.hand && h.held) this.release(h); });
@@ -195,7 +218,10 @@ export class XRInput {
       const dq = h.lq.clone().invert().premultiply(hq); const ang = 2 * Math.acos(Math.min(1, Math.abs(dq.w))); const ax = new THREE.Vector3(dq.x, dq.y, dq.z); if (ax.lengthSq() > 1e-10) ax.normalize().multiplyScalar((dq.w < 0 ? -1 : 1) * ang / Math.max(dt, 1e-3)); else ax.set(0, 0, 0);
       h.angVel.lerp(ax, k); h.lp.copy(hpos); h.lq.copy(hq);
       // hand tracking: show finger tips
-      if (h.src.hand) { const tipJ = ['index-finger-tip', 'thumb-tip']; tipJ.forEach((n, k) => { const j = h.hand.joints && h.hand.joints[n]; if (j && j.visible !== false) { h.tips[k].visible = true; j.getWorldPosition(h.tips[k].position); } }); }
+      if (h.src.hand && h.bones && h.bones.length && h.hand.joints) { // the hand model's bones follow your real joints
+        for (const bn of h.bones) { const J = h.hand.joints[bn.jointName]; if (J && J.visible !== false) { bn.position.copy(J.position); bn.quaternion.copy(J.quaternion); } }
+        if (h.handObj) h.handObj.visible = true; h.tips[0].visible = h.tips[1].visible = false;
+      } else if (h.src.hand) { const tipJ = ['index-finger-tip', 'thumb-tip']; tipJ.forEach((n, k) => { const j = h.hand.joints && h.hand.joints[n]; if (j && j.visible !== false) { h.tips[k].visible = true; j.getWorldPosition(h.tips[k].position); } }); }
       const hit = h.held ? null : this.cast(h); h.hovIt = hit && hit.item && !hit.panel ? hit.item : null;
       const len = hit ? hit.d : 1.2; h.line.scale.z = len; h.dot.visible = !!hit; if (hit) h.dot.position.copy(hit.p);
       const hp = hit && hit.panel ? hit.panel : null; const id = hp ? hp.hitUV(hit.uv) : null;
