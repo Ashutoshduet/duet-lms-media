@@ -15,7 +15,7 @@ const smooth = (x) => x * x * (3 - 2 * x);
 const win = (u, a, b) => (u < a || u > b ? 0 : Math.sin(((u - a) / (b - a)) * Math.PI));
 
 // ---------------------------------------------------------------- lab catalogue
-export const LAB_IDS = ['heart', 'eye', 'ear', 'brain', 'lungs', 'kidney', 'tooth', 'skin'];
+export const LAB_IDS = ['heart', 'eye', 'ear', 'brain', 'lungs', 'kidney', 'tooth', 'skin', 'mouth', 'gut', 'liver', 'knee'];
 export const LABS = {
   heart: { n: 10, color: '#e0414b', title: { en: 'Heart', hi: 'हृदय (दिल)', hg: 'Heart' }, frame: ['right_atrium', 'right_ventricle', 'left_atrium', 'left_ventricle'], disp: 0.4 },
   eye: { n: 8, color: '#7fd1c7', title: { en: 'Eye', hi: 'आँख', hg: 'Eye' }, frame: ['sclera'], disp: 0.34 },
@@ -25,6 +25,11 @@ export const LABS = {
   kidney: { n: 6, color: '#e5b04a', title: { en: 'Kidney', hi: 'वृक्क (गुर्दा)', hg: 'Kidney' }, frame: ['renal_capsule'], disp: 0.36 },
   tooth: { n: 6, color: '#f2efe6', title: { en: 'Tooth', hi: 'दाँत', hg: 'Tooth' }, frame: null },
   skin: { n: 6, color: '#f3c9ae', title: { en: 'Skin', hi: 'त्वचा', hg: 'Skin' }, frame: null },
+  // NIH Human Reference Atlas organs (CC BY 4.0)
+  mouth: { n: 6, color: '#ff8f8a', title: { en: 'Mouth', hi: 'मुँह (मुख)', hg: 'Mouth' }, frame: ['mandible', 'teeth'], disp: 0.34 },
+  gut: { n: 6, color: '#f0a65a', title: { en: 'Intestines', hi: 'आँतें', hg: 'Intestines' }, frame: ['jejunum', 'ileum', 'ascending_colon', 'transverse_colon', 'descending_colon'], disp: 0.44 },
+  liver: { n: 5, color: '#c0604a', title: { en: 'Liver', hi: 'यकृत (लिवर)', hg: 'Liver' }, frame: ['liver_right_lobe', 'liver_left_lobe'], disp: 0.42 },
+  knee: { n: 5, color: '#e9dfc9', title: { en: 'Knee joint', hi: 'घुटने का जोड़', hg: 'Knee joint' }, frame: ['femur', 'tibia', 'patella'], disp: 0.36 },
 };
 
 // colour, opacity, roughness
@@ -67,6 +72,24 @@ const PAL = {
     renal_capsule: ['#b0563f', 1, 0.45], renal_cortex: ['#c4614c', 1, 0.5], renal_columns: ['#d07a62', 1, 0.5], renal_medulla: ['#8f2f3a', 1, 0.5],
     renal_papillae: ['#e3a07a', 1, 0.5], renal_calyces: ['#f0cf86', 1, 0.45], renal_pelvis: ['#e8c06d', 1, 0.45], ureters: ['#e9cf7a', 1, 0.45],
     renal_artery: ['#e0333d', 1, 0.4], renal_vein: ['#3557c4', 1, 0.4],
+  },
+  mouth: {
+    teeth: ['#f4efe2', 1, 0.3], gums: ['#e98a92', 1, 0.5], tongue: ['#d8676f', 1, 0.55], taste_buds: ['#f6b2b6', 1, 0.5], hard_palate: ['#eba4a8', 1, 0.5],
+    soft_palate: ['#d97b86', 1, 0.5], parotid_gland: ['#e9b48f', 1, 0.6], submandibular_gland: ['#e4ab86', 1, 0.6], sublingual_gland: ['#dda27e', 1, 0.6],
+    cheek_lining: ['#e9969c', 0.14, 0.5], mouth_floor: ['#da8c94', 1, 0.5], mandible: ['#e9dfc9', 0.35, 0.6],
+  },
+  gut: {
+    duodenum: ['#eab08c', 1, 0.5], bile_opening: ['#b7d84d', 1, 0.45], jejunum: ['#eeaaa4', 1, 0.5], ileum: ['#e59a98', 1, 0.5], ileocecal_valve: ['#ffd27a', 1, 0.45],
+    caecum: ['#d4a07c', 1, 0.55], appendix: ['#d9776b', 1, 0.5], ascending_colon: ['#d6a27e', 1, 0.55], transverse_colon: ['#d29c78', 1, 0.55],
+    descending_colon: ['#cc9672', 1, 0.55], sigmoid_colon: ['#c58f6c', 1, 0.55], rectum: ['#bb8564', 1, 0.55],
+  },
+  liver: {
+    liver_right_lobe: ['#8a3b2e', 1, 0.4, 1], liver_left_lobe: ['#97422f', 1, 0.4, 1], // [3]: each segment its own shade caudate_lobe: ['#bf6249', 1, 0.45], quadrate_lobe: ['#c96d52', 1, 0.45],
+    liver_ligaments: ['#f2e3c8', 1, 0.5], porta_hepatis: ['#6f86ff', 1, 0.4], liver_impressions: ['#e0a07a', 1, 0.5],
+  },
+  knee: {
+    femur: ['#ece3cf', 1, 0.55], femoral_condyles: ['#e6dcc4', 1, 0.55], tibia: ['#ece3cf', 1, 0.55], fibula: ['#e2d8c0', 1, 0.55], patella: ['#f2e9d6', 1, 0.5],
+    meniscus: ['#cfe3f0', 1, 0.4], knee_cartilage: ['#bfe0ea', 1, 0.3], cruciate_ligaments: ['#ff8a6a', 1, 0.45], collateral_ligaments: ['#ffb36a', 1, 0.45], knee_tendons: ['#f1e6cf', 1, 0.4],
   },
 };
 
@@ -135,15 +158,50 @@ const STEPS = {
     { yaw: 0, cut: true, dim: true, focus: ['renal_artery', 'renal_vein'], flows: ['in', 'out', 'blood'], labels: ['renal_artery', 'renal_vein'] },
     { yaw: -0.3, cut: true, flows: ['in', 'out', 'blood', 'urine'], labels: ['renal_cortex', 'renal_pelvis', 'ureters'] },
   ],
+  mouth: [
+    { yaw: 0.6, labels: ['teeth', 'tongue', 'hard_palate', 'soft_palate', 'gums'] },
+    { yaw: 0.35, dim: true, focus: ['teeth', 'gums', 'mandible'], labels: ['teeth', 'gums', 'mandible'] },
+    { yaw: 1.1, dim: true, focus: ['parotid_gland', 'submandibular_gland', 'sublingual_gland'], flows: ['saliva'], labels: ['parotid_gland', 'submandibular_gland', 'sublingual_gland'] },
+    { yaw: 0.3, pitch: 0.35, dim: true, focus: ['tongue', 'taste_buds'], labels: ['tongue', 'taste_buds'] },
+    { yaw: 1.4, cut: true, dim: true, focus: ['hard_palate', 'soft_palate'], labels: ['hard_palate', 'soft_palate', 'tongue'] },
+    { yaw: 1.4, cut: true, focus: ['tongue', 'soft_palate'], flows: ['bolus'], labels: ['tongue', 'soft_palate'] },
+  ],
+  gut: [
+    { yaw: 0, flows: ['food'], labels: ['duodenum', 'jejunum', 'ileum', 'ascending_colon', 'transverse_colon', 'descending_colon', 'rectum'] },
+    { yaw: 0.35, dim: true, focus: ['duodenum', 'bile_opening'], flows: ['food_d', 'bile'], labels: ['duodenum', 'bile_opening'] },
+    { yaw: 0, dim: true, focus: ['jejunum', 'ileum'], micro: 'villi', flows: ['food_s'], labels: ['jejunum', 'ileum'] },
+    { yaw: -0.45, dim: true, focus: ['ileocecal_valve', 'caecum', 'appendix', 'ileum'], labels: ['ileocecal_valve', 'caecum', 'appendix'] },
+    { yaw: 0, dim: true, focus: ['ascending_colon', 'transverse_colon', 'descending_colon'], flows: ['colon'], labels: ['ascending_colon', 'transverse_colon', 'descending_colon'] },
+    { yaw: 0.2, dim: true, focus: ['sigmoid_colon', 'rectum'], flows: ['colon_end'], labels: ['sigmoid_colon', 'rectum'] },
+  ],
+  liver: [
+    { yaw: 0, labels: ['liver_right_lobe', 'liver_left_lobe', 'liver_ligaments'] },
+    { yaw: 3.14, pitch: 0.5, labels: ['caudate_lobe', 'quadrate_lobe', 'liver_right_lobe', 'liver_left_lobe'] },
+    { yaw: 3.14, pitch: 0.5, dim: true, focus: ['porta_hepatis'], labels: ['porta_hepatis'] },
+    { yaw: 0.4, micro: 'bile', labels: ['liver_right_lobe', 'porta_hepatis'] },
+    { yaw: 3.14, pitch: 0.5, dim: true, focus: ['liver_impressions'], labels: ['liver_impressions'] },
+  ],
+  knee: [
+    { yaw: 0.5, labels: ['femur', 'tibia', 'fibula', 'patella'] },
+    { yaw: 0.9, dim: true, focus: ['knee_cartilage', 'femoral_condyles', 'meniscus'], hide: ['patella'], labels: ['knee_cartilage', 'meniscus', 'femoral_condyles'] },
+    { yaw: 2.6, dim: true, focus: ['cruciate_ligaments', 'collateral_ligaments'], labels: ['cruciate_ligaments', 'collateral_ligaments'] },
+    { yaw: 1.57, bend: true, labels: ['patella', 'knee_tendons', 'femur', 'tibia'] },
+    { yaw: 0.6, bend: true, labels: ['meniscus', 'knee_cartilage'] },
+  ],
 };
 
 const CUT = {
+  mouth: { n: [1, 0, 0], c: 0.0, parts: ['cheek_lining', 'mandible', 'gums', 'teeth', 'parotid_gland', 'submandibular_gland', 'sublingual_gland', 'mouth_floor', 'tongue', 'hard_palate', 'soft_palate'] },
   heart: { n: [0, 0.18, 1], c: -0.014, parts: [...H_CH, 'interventricular_septum', 'aorta_arch', 'pulmonary_trunk', 'superior_vena_cava', 'inferior_vena_cava', 'coronary_arteries', 'cardiac_veins', 'coronary_sinus', 'pulmonary_arteries', 'pulmonary_veins'] },
   eye: { n: [1, 0, 0], c: null, parts: '*' },
   kidney: { n: [0, 0, 1], c: 0.004, parts: ['renal_capsule', 'renal_cortex', 'renal_columns', 'renal_medulla', 'renal_papillae', 'renal_calyces', 'renal_pelvis'] },
 };
 // how each organ comes apart in the lab: radial (parts move out from the middle), axis (layers in a row) or custom offsets (in organ sizes)
 const EXPLODE = {
+  mouth: { mode: 'radial', k: 1.1 },
+  gut: { mode: 'radial', k: 0.55 },
+  liver: { mode: 'radial', k: 0.7 },
+  knee: { mode: 'custom', yaw: 0.5, off: { femur: [0, 0.38, 0], femoral_condyles: [0, 0.3, 0], knee_cartilage: [0, 0.14, 0.04], meniscus: [0, -0.04, 0.06], tibia: [0, -0.3, 0], fibula: [0.12, -0.3, 0], patella: [0, 0.1, 0.4], cruciate_ligaments: [0, 0, -0.25], collateral_ligaments: [0.3, 0, 0], knee_tendons: [0, 0.1, 0.5] } },
   heart: { mode: 'radial', k: 1.25 },
   brain: { mode: 'radial', k: 1.1 },
   lungs: { mode: 'radial', k: 0.75 },
@@ -272,8 +330,9 @@ export class Lab {
     for (const o of list) {
       const pid = o.name.replace(/_\d+$/, '');
       bakeMesh(o);
-      const [c, op, r] = pal[pid] || ['#cccccc', 1, 0.5];
+      const [c, op, r, vary] = pal[pid] || ['#cccccc', 1, 0.5];
       const m = new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: 0, transparent: true, opacity: op, depthWrite: op > 0.99, side: THREE.DoubleSide, envMapIntensity: 0.9 });
+      if (vary) { const k = (L.parts[pid] || []).length; m.color.offsetHSL(((k * 0.29) % 1 - 0.5) * 0.035, 0.04 * ((k % 2) * 2 - 1), ((k % 3) - 1) * 0.045); } // segments of one lobe in slightly different shades
       o.userData.pid = pid; o.material = m; o.frustumCulled = false;
       L.group.add(o); this.register(L, pid, o, m);
     }
@@ -417,6 +476,24 @@ export class Lab {
       const mk = (pid, p, col) => { const m = new THREE.Mesh(new THREE.SphereGeometry(0.004, 12, 10), new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.4, transparent: true, opacity: 0.9 })); m.position.copy(p); reg(pid, m); return m; };
       X.markers = [mk('bronchioles', L.centers.bronchioles, '#fff6e0'), mk('alveoli', L.centers.alveoli, '#ff9fb0')];
     }
+    if (id === 'knee' && meta.axis) {
+      // the hinge: the shin bones (and the menisci on them) turn about a line across the back of the thigh bone's knuckles
+      const a = V3(meta.axis[0]), b = V3(meta.axis[1]); X.kneeP = a.clone().lerp(b, 0.5); X.kneeAx = b.clone().sub(a).normalize(); X.bend = 0;
+      X.shin = ['tibia', 'fibula', 'meniscus'].flatMap((pid) => L.parts[pid] || []); X.cap = L.parts.patella || [];
+      // the tendons of the kneecap: from the thigh muscle down to the kneecap, and from the kneecap to the front of the shin bone
+      const pts = (pid) => { const out = []; for (const m of L.parts[pid] || []) { const a = m.geometry.attributes.position; for (let i = 0; i < a.count; i += 3) out.push(new THREE.Vector3().fromBufferAttribute(a, i)); } return out; };
+      const pat = pts('patella'), tib = pts('tibia');
+      if (pat.length && tib.length) {
+        const by = (arr, f) => arr.reduce((b, p) => (f(p) > f(b) ? p : b));
+        const pLow = by(pat, (p) => -p.y), pTop = by(pat, (p) => p.y);
+        const tTop = by(tib, (p) => p.y).y; const tub = by(tib.filter((p) => p.y > tTop - 0.05 && p.y < tTop - 0.02), (p) => p.z);
+        const mat = new THREE.MeshStandardMaterial({ color: '#f1e6cf', roughness: 0.4, transparent: true });
+        const rod = (r) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r * 1.2, 1, 12, 1), mat); m.frustumCulled = false; return m; };
+        X.tendons = [{ m: rod(0.0055), a: pLow.clone().add(new THREE.Vector3(0, 0.003, -0.004)), b: tub.clone().add(new THREE.Vector3(0, 0, -0.003)), sa: 'cap', sb: 'shin' },
+          { m: rod(0.0065), a: pTop.clone().add(new THREE.Vector3(0, 0.05, -0.014)), b: pTop.clone().add(new THREE.Vector3(0, -0.003, -0.004)), sa: null, sb: 'cap' }];
+        const g = new THREE.Group(); for (const t of X.tendons) g.add(t.m); g.children.forEach((m) => { this.register(L, 'knee_tendons', m, mat); }); add(g);
+      }
+    }
     if (id === 'kidney') {
       const m = new THREE.Mesh(new THREE.SphereGeometry(0.0035, 12, 10), new THREE.MeshStandardMaterial({ color: '#ffd27a', emissive: '#ffd27a', emissiveIntensity: 0.5 }));
       const cor = L.centers.renal_cortex; m.position.copy(cor).add(new THREE.Vector3(0.026, 0.02, 0.006)); reg('nephron', m); L.centers.nephron = m.position.clone();
@@ -503,6 +580,22 @@ export class Lab {
       def('blood', () => [{ curves: num('art').map((p) => cur(p.slice(-4), 0.0015)), color: RED, size: ps * 0.7, speed: sp * 0.3, density: 120 / s, spread: 0.5, drive: 'beat' },
         { curves: num('vein').map((p) => cur(p.slice(0, 4), 0.0015)), color: BLUE, size: ps * 0.7, speed: sp * 0.25, density: 120 / s, spread: 0.5 }]);
       def('urine', () => [{ curves: num('urine').map((p) => cur(p, 0.0015)), color: YEL, size: ps * 0.8, speed: sp * 0.2, density: 120 / s, spread: 0.5 }, { curves: [cur(P.ureter, 0.0015)], color: YEL, size: ps * 0.8, speed: sp * 0.25, density: 120 / s, spread: 0.5 }]);
+    }
+    if (id === 'gut') {
+      const CHY = '#e8c46a', STOOL = '#9c6b3d', BILE = '#b7d84d';
+      const tail = (p, f) => p.slice(Math.floor(p.length * f));
+      const fl = (pts, col, k = 1) => ({ curves: [cur(pts, 0.004)], color: col, size: ps * 1.2, speed: sp * 0.22 * k, density: 90 / s, spread: 0.5 });
+      def('food', () => [fl(P.duodenum, CHY), fl(P.jejunum, CHY), fl(P.ileum, CHY), fl(P.colon, STOOL, 0.8)]);
+      def('food_d', () => fl(P.duodenum, CHY));
+      def('food_s', () => [fl(P.jejunum, CHY), fl(P.ileum, CHY)]);
+      def('colon', () => fl(P.colon, STOOL, 0.8));
+      def('colon_end', () => fl(tail(P.colon, 0.7), STOOL, 0.8));
+      def('bile', () => ({ curves: [cur(P.bile, 0.002)], color: BILE, size: ps, speed: sp * 0.25, density: 160 / s, spread: 0.5 }));
+    }
+    if (id === 'mouth') {
+      const SAL = '#bfe8ff';
+      def('saliva', () => ({ curves: Object.keys(P).filter((k) => k.startsWith('saliva_')).map((k) => cur(P[k], 0.0015)), color: SAL, size: ps * 0.9, speed: sp * 0.25, density: 220 / s, spread: 0.5 }));
+      def('bolus', () => ({ curves: [cur(P.bolus, 0.002)], color: '#e8b46a', size: ps * 1.6, speed: sp * 0.2, density: 60 / s, spread: 0.4 }));
     }
     if (L.fx.proc && L.fx.proc.flows) for (const [k, fn] of Object.entries(L.fx.proc.flows)) def(k, () => fn(cur, ps, sp, s));
   }
@@ -675,6 +768,14 @@ export class Lab {
     this.t += dt;
     const L = this.L, X = L.fx, st = this.st || {};
     for (const m of L.meshes) if (m.userData.exA) m.position.sub(m.userData.exA);
+    if (X.shin) { // the knee bends and straightens (about 70 degrees), the kneecap glides with it
+      const want = st.bend && !this.exploded ? 0.62 * (1 - Math.cos(this.t * 1.1)) : 0; X.bend += (want - X.bend) * Math.min(1, dt * 4);
+      const turn = (list, ang) => { const q = new THREE.Quaternion().setFromAxisAngle(X.kneeAx, ang); for (const m of list) { m.quaternion.copy(q); m.position.copy(X.kneeP).sub(X.kneeP.clone().applyQuaternion(q)); } };
+      turn(X.shin, X.bend); turn(X.cap, X.bend * 0.45);
+      if (X.tendons) { const q = { shin: new THREE.Quaternion().setFromAxisAngle(X.kneeAx, X.bend), cap: new THREE.Quaternion().setFromAxisAngle(X.kneeAx, X.bend * 0.45) };
+        const at = (p, k) => (k ? p.clone().sub(X.kneeP).applyQuaternion(q[k]).add(X.kneeP) : p.clone());
+        for (const t of X.tendons) { const a = at(t.a, t.sa), b = at(t.b, t.sb), d = b.clone().sub(a); t.m.position.copy(a).add(b).multiplyScalar(0.5); t.m.scale.set(1, d.length(), 1); t.m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()); } }
+    }
     // view: smooth turn to the step's angle (+ user's own turn)
     const kk = 1 - Math.exp(-dt * 2.5);
     this.yaw += (this.yawT + this.userYaw - this.yaw) * kk; this.pitch += (this.pitchT - this.pitch) * kk;

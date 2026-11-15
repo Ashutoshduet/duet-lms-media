@@ -44,8 +44,9 @@ const LAB_GROUPS = {
   heart: ['heart_ra', 'heart_rv', 'heart_la', 'heart_lv', 'valve_tricuspid', 'valve_mitral', 'valve_pulmonary', 'valve_aortic', 'papillary', 'cardiac_veins', 'pulm_arteries', 'pulm_veins'],
   eye: ['eyes'], ear: ['ear'], brain: ['cerebrum', 'cerebellum', 'brainstem', 'brain_deep', 'pituitary'], lungs: ['lung_r', 'lung_l', 'bronchi', 'trachea'],
   kidney: ['kidney_l', 'kidney_r', 'renal_pelvis', 'ureters'], tooth: ['teeth'], skin: ['skin'],
+  mouth: ['mouth', 'tongue', 'salivary'], gut: ['small_intestine', 'large_intestine', 'duodenum'], liver: ['liver', 'gallbladder', 'bile_ducts'], knee: ['patella'],
 };
-const LAB_PARTS = { heart: ['coronary_arteries', 'aorta_arch', 'heart', 'venae_cavae'], eye: ['optic_nerve', 'eye'], ear: ['hearing_nerve', 'outer_ear'], brain: ['brain'], lungs: ['right_lung', 'left_lung'], kidney: ['kidneys', 'renal_arteries', 'renal_veins'], skin: ['skin'] };
+const LAB_PARTS = { heart: ['coronary_arteries', 'aorta_arch', 'heart', 'venae_cavae'], eye: ['optic_nerve', 'eye'], ear: ['hearing_nerve', 'outer_ear'], brain: ['brain'], lungs: ['right_lung', 'left_lung'], kidney: ['kidneys', 'renal_arteries', 'renal_veins'], skin: ['skin'], knee: ['patella', 'femur', 'tibia', 'fibula'], liver: ['liver', 'gallbladder'] };
 
 class App {
   constructor() {

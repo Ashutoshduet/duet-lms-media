@@ -58,7 +58,8 @@ ON A LAPTOP OR PHONE
 
 CREDITS (keep these when sharing)
   3D anatomy: Z-Anatomy (Gauthier Kervyn, Marcin Zielinski), based on BodyParts3D, CC BY-SA 4.0.
-  Kidney close-up: NIH Human Reference Atlas (HuBMAP) 3D reference organs, CC BY 4.0.
+  Kidney close-up and the Organ Labs for the heart, eye, kidney, mouth, intestines, liver and knee: NIH Human Reference
+  Atlas (HuBMAP) 3D reference organs (humanatlas.io), CC BY 4.0.
   three.js (MIT). Noto Sans Devanagari (SIL OFL).
   Teacher voices: Piper TTS (MIT). English LJSpeech voice (public domain). Hindi / Hinglish
   Priyamvada voice by PravalX on AI4Bharat data, CC BY-NC-SA 4.0 (non-commercial use).

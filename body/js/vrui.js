@@ -177,12 +177,13 @@ export class VRUI {
     const P = this.menu, a = this.app, L = this.L(); P.bg('#e0414b');
     this.header(P, this.t('labs')); this.back(P);
     let y = 170;
+    const rows = Math.ceil(LAB_IDS.length / 2), rh = rows > 4 ? 104 : 150; // more labs: shorter rows, so they all fit
     LAB_IDS.forEach((id, i) => {
-      const x = 40 + (i % 2) * 470, yy = y + Math.floor(i / 2) * 150;
-      P.btn('lab_' + id, x, yy, 450, 132, tx(LABS[id].title, L), { size: 36, swatch: LABS[id].color, active: a.mode === 'lab' && a.labId === id });
+      const x = 40 + (i % 2) * 470, yy = y + Math.floor(i / 2) * rh;
+      P.btn('lab_' + id, x, yy, 450, rh - 16, tx(LABS[id].title, L), { size: rows > 4 ? 32 : 36, swatch: LABS[id].color, active: a.mode === 'lab' && a.labId === id });
     });
     P.x.font = `500 26px ${FONT}`; P.x.fillStyle = '#a49d90';
-    wrap(P.x, this.t('labHint'), 900).forEach((l, i) => P.text(l, 44, y + 4 * 150 + 10 + i * 38, 26, '#a49d90', 500));
+    wrap(P.x, this.t('labHint'), 900).forEach((l, i) => P.text(l, 44, y + rows * rh + 6 + i * 36, 26, '#a49d90', 500));
   }
   drawParts() {
     const P = this.menu, a = this.app, L = this.L(); P.bg('#7fd1c7');
