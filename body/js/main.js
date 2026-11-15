@@ -18,6 +18,9 @@ import { Handson, Cutter, OUT } from './handson.js';
 import { Splitter, UNITS, unitOf, unitParts, subPieces } from './split.js';
 import { JOURNEYS, SYSTEMS, T } from './data.js';
 import { LANGS, C, tx, partInfo, hasAudio, loadContent } from './content.js';
+import { ClassUI } from './classui.js';
+import { bodyQuiz } from './quizgen.js';
+import { bodyDocs, bodySuggest } from './tutordocs.js';
 
 const Q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);
@@ -120,6 +123,14 @@ class App {
     this.body.layerOn.muscles = false;
     this.applyLayers();
     this.vrui = new VRUI(this); this.world.add(this.vrui.group);
+    // classroom: join the teacher's class, quizzes ("name the glowing part"), results (classui.js)
+    this.cls = new ClassUI({ app: 'body', lang: () => this.lang, setLang: (l) => this.setLang(l), renderer: this.renderer, scene: this.scene, camera: this.camera,
+      mount: document.getElementById('tools'), side: true, dirty: () => { this.vrui.dirty = true; },
+      status: () => this.classStatus(), current: () => this.classCurrent(), open: (id) => this.classOpen(id), quiz: (id) => bodyQuiz(id, this),
+      docs: () => bodyDocs(), suggest: () => bodySuggest(this), here: () => { const h = [this.classCurrent()]; const p = this.sel && partInfo(this.sel.pid, 'en'); if (p) h.push('part:' + p.id); return h; },
+      freeze: (on) => { if (on) { this.playing = false; this.audio.stopSpeech(); } this.refreshUI(); },
+      onQuizShow: (q) => this.quizShow(q && q.part), onQuizEnd: () => this.quizShow(null),
+      answer: (ok) => { try { this.audio.tone ? this.audio.tone(ok ? 880 : 220, 0.15) : 0; } catch (e) {} } });
     this.setupXR();
     if (window.DuetGate) { DuetGate.init({ app: 'body', title: 'Human Body 360', lang: () => this.lang, demo: { en: 'The heart: its Organ Lab, its journey and its parts', hi: 'हृदय: इसकी ऑर्गन लैब, यात्रा और भाग', hg: 'Heart: uski Organ Lab, journey aur parts' } }); DuetGate.attachVR({ THREE, renderer: this.renderer, scene: this.scene, camera: this.camera }); }
     this.buildHTML();
@@ -1120,7 +1131,46 @@ class App {
   }
 
   // ------------------------------------------------------------ actions (HTML and VR)
+  // ---- classroom: what the teacher's page shows for this student, and what it can open
+  classStatus() {
+    const m = this.mode;
+    if (m === 'journey' && this.journey) return { act: 'journey:' + this.journey.id, title: this.journey.title.en, step: this.stepIdx, of: this.journey.steps.length, mode: m };
+    if (m === 'lab' && this.labId) return { act: 'lab:' + this.labId, title: LABS[this.labId].title.en, step: this.lab.step, of: LABS[this.labId].n, mode: m };
+    const u = this.splitter.set && this.unitKey(); if (u) return { act: 'split:' + u, title: UNITS[u].name.en, mode: 'split' };
+    if (this.sel) { const p = partInfo(this.sel.pid, 'en'); return { act: '', title: p ? p.name : this.sel.pid, mode: m }; }
+    return { act: '', title: '', mode: m };
+  }
+  classCurrent() {
+    if (this.mode === 'journey' && this.journey) return 'journey:' + this.journey.id; if (this.mode === 'lab' && this.labId) return 'lab:' + this.labId;
+    const u = this.sel && this.unitKey(); if (u) return 'split:' + u;
+    if (this.sel) { const p = partInfo(this.sel.pid, 'en'); const sys = p && C.parts[p.id] && C.parts[p.id].sys; if (sys) return 'sys:' + sys; }
+    return 'all';
+  }
+  journeySys(id) { const j = JOURNEYS.find((x) => x.id === id); return j && j.sys; }
+  classOpen(id) {
+    const [k, v] = String(id).split(':');
+    if (k === 'journey') this.startJourney(v, 0, true);
+    else if (k === 'lab' && LABS[v]) this.openLab(v, 0, true);
+    else if (k === 'sys') { const j = JOURNEYS.find((x) => x.sys === v); if (j) this.startJourney(j.id, 0, true); else this.explore(); }
+    else if (k === 'part') { const pid = this.body.partObjs[v] ? v : Object.keys(this.body.partObjs).find((x) => (partInfo(x, 'en') || {}).id === v); if (pid) { if (this.mode !== 'explore' && this.mode !== 'part') this.explore(); this.selectPart(pid, { from: 'list' }); } }
+    else if (k === 'split' && UNITS[v]) { const pid = unitParts(v, this.partMeta).find((p) => this.body.partObjs[p]); if (pid) { this.explore(); this.selectPart(pid, { from: 'list' }); this.splitUnit(); } }
+    this.refreshUI();
+  }
+  // a quiz question about a part: it glows on the body (the rest fades) and the view turns to it, without its name
+  quizShow(pid) {
+    if (!pid) { if (this._quizPart) { this._quizPart = null; this.body.state.clearBit(8); this.body.state.clearBit(4); this.body.focus([]); this.setSkin(1); this.zoom.hide(); this.refreshUI(); } return; }
+    const oids = this.body.partObjs[pid]; if (!oids) return;
+    if (this.mode !== 'explore') this.explore(); this.clearSel();
+    this.body.state.clearBit(8); this.body.state.clearBit(4);
+    const tint = new THREE.Color('#5ce8ff'); for (const o of oids) this.body.state.set(o, this.body.state.flags(o) | 12, tint);
+    const group = this.body.objects[oids[0]].group; this.ensureVisible(group); this.body.focus([group], 0.1); this.setSkin(0.3);
+    const pm = this.partMeta[pid]; const center = pm ? V3(pm.center) : this.anchorFor(group); const size = pm ? Math.max(pm.max[0] - pm.min[0], pm.max[1] - pm.min[1], pm.max[2] - pm.min[2]) : 0.2;
+    this._quizPart = pid;
+    if (this.inXR()) this.zoom.show([group], center, THREE.MathUtils.clamp(size * 0.75, 0.04, 0.45));
+    else { this.stepView = { at: center.clone(), z: THREE.MathUtils.clamp(0.6 / Math.max(size, 0.05), 1, 8), side: center.x > 0.05 ? 0.5 : center.x < -0.05 ? -0.5 : 0 }; this.goView(false); }
+  }
   action(id) {
+    if (id.startsWith('cl_') && this.cls) { this.cls.vrClick(id); this.refreshUI(); return; }
     const V = this.vrui;
     if (id === 'explore') this.explore();
     else if (id.startsWith('j_')) this.startJourney(id.slice(2), 0, true);
@@ -1199,7 +1249,7 @@ class App {
     if (this.mode === 'journey' && this.step) {
       const j = this.journey, s = this.step;
       return { kicker: `${tx(j.title, L)} · ${t('step')} ${this.stepIdx + 1} ${t('of')} ${j.steps.length}`, color: SYSTEMS[j.sys].color, title: tx(s.title, L), text: tx(s.text, L),
-        dots: { n: j.steps.length, i: this.stepIdx }, progress: this.playing ? this.autoFrac || 0 : null, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, { id: 'explore', label: t('explore') }] };
+        dots: { n: j.steps.length, i: this.stepIdx }, progress: this.playing ? this.autoFrac || 0 : null, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, { id: 'cl_quiz', label: '📝 ' + t('quizBtn') }, { id: 'explore', label: t('explore') }] };
     }
     if (this.mode === 'lab') {
       const d = LABS[this.labId]; const head = `${t('labs')} · ${tx(d.title, L)}`;
@@ -1208,7 +1258,7 @@ class App {
       if (this.labSel) { const p = partInfo(this.labSel, L); return { kicker: head, color: d.color, title: p.name, text: this.infoText(p), dots: { n: d.n, i: this.lab.step }, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, apart, { id: 'tour', label: t('tour') }, { id: 'explore', label: t('home') }] }; }
       if (this.lab.exploded) return { kicker: `${head} · ${t('dismantle')}`, color: d.color, title: tx(d.title, L), text: t('labApartHint'), buttons: nav, buttons2: [apart, { id: 'explore', label: t('home') }] };
       const s = this.labStepText();
-      return { kicker: `${head} · ${t('step')} ${this.lab.step + 1} ${t('of')} ${d.n}`, color: d.color, title: s.title, text: s.text, dots: { n: d.n, i: this.lab.step }, progress: this.playing ? this.autoFrac || 0 : null, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, apart, { id: 'explore', label: t('home') }] };
+      return { kicker: `${head} · ${t('step')} ${this.lab.step + 1} ${t('of')} ${d.n}`, color: d.color, title: s.title, text: s.text, dots: { n: d.n, i: this.lab.step }, progress: this.playing ? this.autoFrac || 0 : null, buttons: nav, buttons2: [{ id: 'replay', label: t('listen') }, apart, { id: 'cl_quiz', label: '📝 ' + t('quizBtn') }, { id: 'explore', label: t('home') }] };
     }
     if (this.mode === 'dismantle') {
       const p = this.selPiece && partInfo(this.selPiece.userData.cid, L);
@@ -1247,7 +1297,7 @@ class App {
       const b2 = [{ id: 'takeout', label: t('takeOut'), primary: true }]; if (subs) b2.push({ id: 'subsplit', label: t('subParts') }); if (lab) b2.push({ id: 'openlab', label: t('openLab') }); b2.push({ id: 'cut', label: t('cut'), active: this.cut.on }); b2.push({ id: 'deselect', label: '✕' });
       return { kicker: kick, color: col, title: p.name, text: this.infoText(p), buttons: b, buttons2: b2 };
     }
-    const eb = [{ id: 'cut', label: t('cut'), active: this.cut.on }]; if (this.hands.count()) eb.push({ id: 'putall', label: t('putAllBack') });
+    const eb = [{ id: 'cut', label: t('cut'), active: this.cut.on }, { id: 'cl_quiz', label: '📝 ' + t('quizBtn') }]; if (this.hands.count()) eb.push({ id: 'putall', label: t('putAllBack') });
     return { kicker: t('explore'), color: '#d9d2c3', title: t('title'), text: t('exploreHint') + ' ' + t('pickOrgan') + '\n' + t(this.inXR() ? 'handsHintVR' : 'handsHintScreen'), buttons: eb };
   }
 
@@ -1446,6 +1496,7 @@ class App {
   // ------------------------------------------------------------ frame
   frame() {
     const dt = Math.min(clock.getDelta(), 0.05);
+    if (this.cls) { try { this.cls.frame(dt); } catch (e) {} } // the classroom link first: nothing later in the frame can stop it
     const t = clock.elapsedTime;
     if (this.anat) this.anat.userData.tick();
     const xr = this.inXR();

@@ -21,6 +21,7 @@ const classesOf = (sub) => [...new Set(EXPERIMENTS.filter((e) => subjOf(e) === s
 const YOURS = { en: 'Your result was different from the book', hi: 'आपका नतीजा किताब से अलग आया', hg: 'Aapka result kitaab se alag aaya' };
 const HOWMUCH = { en: 'How much', hi: 'कितना डालना है', hg: 'Kitna daalna hai' };
 const INBOOK = { en: 'In the book', hi: 'किताब में', hg: 'Kitaab mein' };
+const QUIZ = { en: 'Take the quiz', hi: 'क्विज़ दीजिए', hg: 'Quiz dijiye' };
 void EXPERIMENTS;
 
 export class UI {
@@ -43,7 +44,7 @@ export class UI {
     $('#classes').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.c === 't') this.setView('topic'); else this.setClass(+b.dataset.c); };
     $('#cp-btns').onclick = (e) => { const b = e.target.closest('button'); if (b) this.setClass(+b.dataset.c); }; $('#cp-all').onclick = () => this.setClass(0); $('#cp-top').onclick = () => { this.showPicker(false); this.setView('topic'); };
     $('#prog').onclick = (e) => { if (e.target.closest('button')) this.showPicker(true); };
-    $('#story').addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b) return; if (b.dataset.act === 'start') this.startClass(); else if (b.dataset.act === 'nextexp') this.nextExp(); });
+    $('#story').addEventListener('click', (e) => { const b = e.target.closest('[data-act]'); if (!b) return; if (b.dataset.act === 'start') this.startClass(); else if (b.dataset.act === 'nextexp') this.nextExp(); else if (b.dataset.act === 'quiz' && a.cls) a.cls.startQuiz(null, 'self'); });
     $('#explist').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.code) a.askCode(null); else a.openExp(b.dataset.id); };
     $('#b-do').onclick = () => a.primary(); $('#b-next').onclick = () => (a.runner.state === 'finished' ? this.nextExp() : a.runner.next()); $('#b-back').onclick = () => a.runner.prev();
     $('#b-auto').onclick = () => (a.runner.auto ? a.runner.pause() : a.runner.play()); $('#b-reset').onclick = () => a.runner.reset();
@@ -113,6 +114,7 @@ export class UI {
     if (r.state === 'finished') {
       const okF = r.incomplete().ok; h = (okF ? `<p class="fin">✓ ${esc(this.t('finished'))}</p>` : `<p class="see"><b>⚠ ${esc(this.incompleteText())}</b></p>`) + `${this.app.hasParticles(e.id) ? `<p class="hint">🔬 ${esc(this.t('insideHint'))}</p>` : ''}${this.diffs().length ? `<p class="see"><b>⚠ ${esc(tx(YOURS, L))}:</b></p>${this.diffs().map(([k, t]) => `<p class="see">${esc(this.t('step'))} ${k + 1}: ${esc(t)}</p>`).join('')}<p><b>${esc(tx(INBOOK, L))}:</b> ${esc(r.baseText('result.obs', L))} ${esc(r.baseText('result.concl', L))}</p>` : `<p><b>${esc(this.t('obs'))}:</b> ${esc(r.text('result.obs', L))}</p><p><b>${esc(this.t('concl'))}:</b> ${esc(r.text('result.concl', L))}</p>`}<p class="eq">${esc(symText(e, L))}</p>`;
       const c = this.cls || e.cls; if (okF && !this.classLeft(c).length) h += `<p class="fin">🎉 ${esc(this.fill('classDone', c))}</p>`;
+      if (this.app.cls) h += `<p><button class="quizbtn" data-act="quiz">📝 ${esc(tx(QUIZ, L))}</button></p>`;
     } else if (s) {
       h = `<p class="stepn">${esc(this.t('step'))} ${r.i + 1} ${esc(this.t('of'))} ${n}</p><p><b>${esc(this.t('doLabel'))}:</b> ${esc(r.text(`steps.${r.i}.do`, L))}</p>`;
       if (r.state === 'done' || r.state === 'finished') {
@@ -191,8 +193,9 @@ export class UI {
     }
     this._next = 'menu';
     if (a.codeVR) { this.drawCodeVR(); return true; }
+    if (a.cls && a.cls.drawVR(this.story, wrap)) { this.story.commit(); return true; } // the class pages and quizzes
     // story
-    const S = this.story; S.bg('#7fd1ff'); S.logo(40, 34, 40);
+    const S = this.story; S.bg('#7fd1ff'); S.logo(40, 34, 40); if (a.cls) { a.cls.vrChip(S, 790, 22, 270, 62); a.cls.vrAsk(S, 560, 22, 216, 62); }
     const e = r.exp; const X = S.x;
     if (!e) { S.text(this.t('pickExp'), 40, 110, 46, '#f3eee6', 700); X.font = `500 32px ${FONT}`; const wl = wrap(X, this.cls ? this.fill('classWelcome', this.cls, classOrder(this.cls, this.subj).length) : this.t('welcome'), 1000); wl.forEach((l, i) => S.text(l, 40, 190 + i * 46, 32, '#e2dccf', 500)); if (this.cls) S.btn('start', 40, 220 + wl.length * 46, 400, 90, '▶ ' + this.t('startW'), { size: 34, align: 'center', primary: true }); if (a.demo) S.btn('code', 40, 960, 1020, 110, '🔑 ' + licText('enter', L), { size: 32, align: 'center', primary: true }); S.commit(); return; }
     S.text(`${this.t('cls')} ${e.cls} · ${a.expText(e, 'kind')}`, 40, 96, 28, '#7fd1ff', 700);
@@ -229,7 +232,8 @@ export class UI {
     const inside = r.state === 'finished' && a.hasParticles(e.id); const pv = a.particles && a.particles.g.visible;
     S.btn('do', 305, by, 490, 90, inside ? (pv ? '✕ ' + this.t('closeView') : '🔬 ' + this.t('inside')) : r.state === 'done' ? this.t('next') + ' ›' : r.state === 'doing' ? this.t('doing') : '▶ ' + this.t('doIt'), { size: 34, align: 'center', primary: true });
     S.btn('next', 810, by, 250, 90, (r.state === 'finished' ? this.t('nextExp') : this.t('next')) + ' ›', { size: r.state === 'finished' ? 24 : 30, align: 'center', primary: r.state === 'finished' && !inside });
-    S.btn('auto', 40, by + 110, 330, 80, r.auto ? '❚❚ ' + this.t('pause') : '▶▶ ' + this.t('autoplay'), { size: 28, align: 'center', active: r.auto });
+    if (r.state === 'finished' && a.cls) S.btn('cl_quiz', 40, by + 110, 330, 80, '📝 ' + tx(QUIZ, L), { size: 28, align: 'center', primary: true }); // after the experiment: its quiz
+    else S.btn('auto', 40, by + 110, 330, 80, r.auto ? '❚❚ ' + this.t('pause') : '▶▶ ' + this.t('autoplay'), { size: 28, align: 'center', active: r.auto });
     S.btn('speed', 385, by + 110, 280, 80, `${this.t('speed')} ${a.speed}×`, { size: 28, align: 'center' });
     S.btn('reset', 680, by + 110, 380, 80, '↺ ' + this.t('reset'), { size: 28, align: 'center' });
     S.commit(); return true;
@@ -311,6 +315,7 @@ export class UI {
   }
   vrClick(id) {
     const a = this.app, r = a.runner;
+    if (a.cls && a.cls.vrClick(id)) { this.dirty = true; return; }
     if (id.startsWith('ck_')) { a.codeKey(id.slice(3)); this.dirty = true; return; }
     if (id === 'code') { a.askCode(null); this.dirty = true; return; }
     if (id === 'hgt_dn' || id === 'hgt_up') { a.setHeight((a.hgt || 0) + (id === 'hgt_up' ? 0.05 : -0.05)); setTimeout(() => { this.dirty = true; }, 150); return; }

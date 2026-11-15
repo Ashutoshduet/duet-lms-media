@@ -8,6 +8,7 @@ export const LANG_SHORT = { en: 'EN', hi: 'हिं', hg: 'HG' };
 // UI words (merged with content.json "ui")
 Object.assign(T, {
   title: { en: 'Human Body 360', hi: 'मानव शरीर 360', hg: 'Human Body 360' },
+  quizBtn: { en: 'Quiz', hi: 'क्विज़', hg: 'Quiz' },
   organs: { en: 'Body parts', hi: 'शरीर के अंग', hg: 'Body parts' },
   labs: { en: 'Organ Lab', hi: 'अंग प्रयोगशाला', hg: 'Organ Lab' },
   labHint: { en: 'A big, detailed model. Take the guided tour or point at any part.', hi: 'बड़ा, विस्तृत मॉडल। गाइडेड टूर लें या किसी भी हिस्से पर इशारा करें।', hg: 'Bada, detailed model. Guided tour lo ya kisi bhi part par point karo.' },

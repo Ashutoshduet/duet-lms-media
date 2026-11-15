@@ -154,7 +154,7 @@ export class VRUI {
     P.text(this.t('assemble'), 44, y + 6, 26, '#a49d90', 600); y += 44;
     P.btn('game_organs', 40, y, 450, 90, this.t('organsSet'), { size: 32, active: a.mode === 'game' && a.dis.set === 'organs' });
     P.btn('game_bones', 510, y, 450, 90, this.t('bonesSet'), { size: 32, active: a.mode === 'game' && a.dis.set === 'bones' }); y += 116;
-    P.btn('museum', 40, y, 920, 96, '◎ ' + this.t('museum'), { size: 32, active: a.museum, color: '#7fd1ff' }); y += 112;
+    P.btn('museum', 40, y, a.cls ? 420 : 920, 96, '◎ ' + this.t('museum'), { size: 28, active: a.museum, color: '#7fd1ff' }); if (a.cls) { a.cls.vrAsk(P, 476, y, 230, 96); a.cls.vrChip(P, 722, y, 238, 96); } y += 112;
     // language + settings row
     LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, y, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
     P.btn('page_settings', 748, y, 212, 84, '⚙ ' + this.t('settings'), { size: 26, align: 'center' }); y += 104;
@@ -234,6 +234,7 @@ export class VRUI {
   }
 
   drawStory() {
+    if (this.app.cls && this.app.cls.drawVR(this.story, wrap)) return; // the class pages and quizzes
     const P = this.story, m = this.app.storyModel(), L = this.L();
     P.bg(m.color);
     const X = P.x;

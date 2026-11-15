@@ -24,6 +24,9 @@ import { LIQ_TIME } from './mats.js';
 import { LITE, liteMerge } from './lite.js';
 import { MATHS } from './mode.js';
 import { Places } from './places.js';
+import { ClassUI } from './classui.js';
+import { quizFor } from './quizgen.js';
+import { scienceDocs, scienceSuggest } from './tutordocs.js';
 // experiments whose apparatus, taken together, use every shader of the chemistry and maths experiments (see warmShaders)
 const MATHS_WARM = ['w10_flagpole', 'w7_rail_lines', 'w10_roti_area', 'w9_field_coords', 'w6_fence_rope', 'w10_grain_cone', 'w10_circle_rings', 'w9_identity_cube', 'w6_triangle_inside', 'w8_pythagoras_water', 'w8_train_speed', 'w6_lift_integers', 'w7_decimal_zoom', 'w8_fold_moon', 'w10_cylinder_net', 'w10_ladder_trig', 'w6_angle_turn', 'w6_odd_squares', 'w10_hcf_tiles', 'w10_ap_logs', 'w10_bpt', 'w10_tangents', 'w10_dice', 'w10_poly_graph', 'w10_two_lines', 'w10_ball_throw', 'w10_distance', 'w10_mean_balance', 'w9_linear_tank', 'w9_root_spiral', 'w9_circle_angles', 'w9_grow_patterns', 'w8_count_sheep', 'w8_field_corners', 'w8_nine_trick', 'w8_percent_floor', 'w8_trapezium_field', 'w8_harvest_workers', 'w8_sierpinski', 'w8_level_stacks', 'w8_think_number', 'w7_crore_cube', 'w7_shop_bill', 'w7_matchsticks', 'w7_magic_square', 'w7_fraction_barfi', 'w7_twin_triangles', 'w7_integer_frog', 'w7_frog_lcm', 'w7_decimal_area', 'w7_rain_week', 'w7_tiling', 'w7_balance_unknown', 'w6_kaprekar', 'w6_fruit_bars', 'w6_prime_chairs', 'w6_rope_compass', 'w6_roti_share', 'w6_rangoli_symmetry', 'w7_three_sticks', 'w8_cube_stack', 'w8_garden_beds', 'w9_lean_field', 'w9_spinner', 'w3_mango_tally', 'w3_toy_roll', 'w3_stick_bundles', 'w3_nani_laddoos', 'w3_tangram', 'w3_abacus', 'w3_rakhi_groups', 'w3_fair_share', 'w3_brick_add', 'w3_party_share', 'w3_litre_kilo', 'w3_number_jumps', 'w3_big_clock', 'w3_fair_pot', 'w4_cube_frame', 'w4_house_views', 'w4_odd_even', 'w4_thousand_blocks', 'w4_ribbon_quarters', 'w4_room_tape', 'w4_village_bins', 'w4_rice_weights', 'w4_egg_trays', 'w4_tiger_round', 'w4_mirror_butterfly', 'w4_station_clock', 'w4_museum_tickets', 'w4_school_bars', 'w5_odometer_lakh', 'w5_juice_fractions', 'w5_compass_turns', 'w5_sleeper_train', 'w5_trundle_wheel', 'w5_dairy_cans', 'w5_floor_tiles', 'w5_bucket_mugs', 'w5_coconut_rows', 'w5_fold_cut', 'w5_quilt_area', 'w5_race_seconds', 'w5_animal_jumps', 'w5_village_map', 'w5_mango_pictograph']; // Maths Lab: its real-size activities
 const WARM_IDS = ['solubility', 'evaporate_salt', 'condensation', 'filtration', 'open_chem', 'sulphur_burn', 'candle_o2', 'phys_change', 'metal_nonmetal', 'kmno4_diffuse', 'conduct_liquids', 'electrolysis9v', 'chromatography', 'crystallise', 'mass_closed', 'metals_air', 'mg_burn', 'zn_acid',
@@ -64,6 +67,13 @@ export class App {
     this.fx = new FX(this.scene); this.chem = new Chem(this.fx, this.audio); this.lab = new Lab(this.scene, this.fx, this.chem, this.audio);
     this.runner = new Runner(this);
     this.ui = new UI(this); this.ui.layoutVR();
+    // classroom: join the teacher's class, quizzes, results (classui.js)
+    this.cls = new ClassUI({ app: MATHS ? 'maths' : 'science', lang: () => this.lang, setLang: (l) => this.setLang(l), renderer: this.renderer, scene: this.scene, camera: this.camera,
+      mount: document.getElementById('tools'), dirty: () => { this.ui.dirtyStory = true; this.ui.dirty = this.ui.dirty || false; },
+      status: () => { const r = this.runner, e = r.exp; return e ? { act: e.id, title: (e.title && e.title.en) || e.id, step: r.i, of: e.steps.length, state: r.state, mode: r.auto ? 'auto' : '' } : { mode: '' }; },
+      current: () => this.runner.exp && this.runner.exp.id, open: (id) => { if (BY_ID[id]) this.openExp(id); }, quiz: (id) => quizFor(id),
+      docs: () => scienceDocs(), suggest: () => (this.runner.exp ? scienceSuggest(this.runner.exp.id, this.runner.i) : []), here: () => (this.runner.exp ? [this.runner.exp.id] : []),
+      freeze: (on) => { if (on) { this.runner.pause(); this.audio.stop(); } this.ui.dirty = true; }, answer: (ok) => (ok ? this.audio.tone(880, 0.12, 0.08, 'sine', 1320) : this.audio.tone(220, 0.18, 0.08, 'triangle')) });
     this.runner.on(() => { this.ui.renderStory(); this.ui.renderList(); this.ui.renderNotebook(); if (this.runner.i !== this._lastI) { this._lastI = this.runner.i; this.userCam = false; } });
     this.recent = new Map(); // item id -> time it last took part in something (the camera keeps those in view)
     this.lab.listeners.push((e) => { for (const k of ['to', 'from', 'v', 'in', 'obj', 'by']) if (e[k]) this.recent.set(e[k], this.t); });
@@ -170,7 +180,7 @@ export class App {
     this.audio.unlock(); document.body.classList.remove('list-open');
     if (this.particles.g.visible) this.particles.close();
     const sj = (BY_ID[id] && BY_ID[id].subj) || 'chemistry'; if (this.ui && this.ui.subj !== sj) { this.ui.subj = sj; this.ui.renderSubjects(); this.ui.renderPicker(); } // opening a physics experiment switches the list to physics
-    this.userCam = false; this.recent.clear(); this.runner.load(id, o); this.focusBench();
+    this.userCam = false; this.recent.clear(); this.runner.load(id, o); this.focusBench(); this._expT0 = Date.now();
   }
   primary() { // the big button: do the step, or after the experiment open/close the particle view
     const r = this.runner;
@@ -231,6 +241,7 @@ export class App {
     this.ui.dirty = true;
   }
   onFinished(r) {
+    if (this.cls && r.exp) { const inc = r.incomplete(); this.cls.activityDone({ id: r.exp.id, title: (r.exp.title && r.exp.title.en) || r.exp.id, steps: r.exp.steps.length, done: r.exp.steps.length - inc.skipped.length, ok: inc.ok, secs: Math.round((Date.now() - (this._expT0 || Date.now())) / 1000) }); }
     if (!r.incomplete().ok) { // steps skipped or done differently: not complete, and not ticked off in the class list
       this.ui.renderStory(); const t = this.ui.incompleteText(); this.ui.toast('⚠ ' + t, 7000); this.narrate([t], true); return; }
     this.ui.markDone(r.exp.id); this.ui.renderStory();
@@ -490,6 +501,7 @@ export class App {
   // ------------------------------------------------------------ the loop
   frame() {
     const dt = Math.min(0.05, this.clock.getDelta()); this.t += dt; LIQ_TIME.value = this.t;
+    if (this.cls) { try { this.cls.frame(dt); } catch (e) {} } // the classroom link first: nothing later in the frame can stop it (the picture for the teacher's page draws the scene itself)
     if (LITE && (this._shN = (this._shN || 0) + 1) % 3 === 1) this.renderer.shadowMap.needsUpdate = true;
     const xr = this.renderer.xr.isPresenting;
     if (!xr) {
