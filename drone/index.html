@@ -794,7 +794,24 @@ function buildTerrain() {
   diffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.93, 0.95, 1.0) * (0.9 + 0.12 * d1), snowK);`);
   };
   mat.customProgramCacheKey = () => 'duet-terrain2';
-  const tm = new THREE.Mesh(geo, mat); tm.receiveShadow = true; world.add(tm);
+  // the ground in pieces that share one set of points: pieces outside the view are not drawn (about half of the ground,
+  // which was the largest single cost on a phone: 125k triangles)
+  const K = [5, 4, 2, 1].find((k) => NN % k === 0), cs = NN / K;
+  for (let cj = 0; cj < K; cj++) for (let ci = 0; ci < K; ci++) {
+    const ix = new Uint32Array(cs * cs * 6); let q = 0, y0 = 1e9, y1 = -1e9;
+    for (let j = cj * cs; j < (cj + 1) * cs; j++) for (let i = ci * cs; i < (ci + 1) * cs; i++) {
+      const a = j * W + i, b = a + 1, c = a + W, d = c + 1;
+      ix[q++] = a; ix[q++] = c; ix[q++] = b; ix[q++] = b; ix[q++] = c; ix[q++] = d;
+      for (const v of [a, b, c, d]) { const y = pos[v * 3 + 1]; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', geo.attributes.position); g.setAttribute('normal', geo.attributes.normal); g.setAttribute('color', geo.attributes.color);
+    g.setIndex(new THREE.BufferAttribute(ix, 1));
+    const span = cs * st * T_CELL, x0 = -T_HALF + ci * span, z0 = -T_HALF + cj * span;
+    g.boundingBox = new THREE.Box3(new THREE.Vector3(x0, y0, z0), new THREE.Vector3(x0 + span, y1, z0 + span));
+    g.boundingSphere = g.boundingBox.getBoundingSphere(new THREE.Sphere());
+    const tm = new THREE.Mesh(g, mat); tm.receiveShadow = true; tm.userData.ground = true; world.add(tm);
+  }
 }
 
 /* =========================================================

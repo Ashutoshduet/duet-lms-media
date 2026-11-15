@@ -1,7 +1,7 @@
 /* DUET STEM: smooth 3D on phones and tablets. Same file in every app.
    - Phones start with a lighter picture: pixel ratio 1.5 at most (instead of 2-3: almost the same sharpness, about half the
      pixels to draw), and never more than about 1.3 million pixels for the whole screen (an unfolded Galaxy Z Fold is large).
-   - The sharpness then follows the frame rate: below ~40 frames a second it steps down (1.25, 1, 0.85); when it runs smoothly
+   - The sharpness then follows the frame rate: below ~50 frames a second it steps down (1.25, 1, 0.85); when it runs smoothly
      for a while it steps back up, but never to a step that already failed twice.
    - Phones with 120 Hz screens draw at most 60 frames a second: the same smooth movement, half the heat and battery.
    Renderers that another part of the app sizes itself (for example the VR box mode) are left alone, and nothing changes
@@ -72,11 +72,11 @@
     var med = iv[iv.length >> 1] || 0, p90 = iv[Math.floor(iv.length * 0.9)] || 0; iv = [];
     DP.fps = Math.round(fps);
     // (an even 30 fps is not treated as a power-saving limit: on a 60 Hz screen a picture that is a little too slow
-    // also shows as exactly 30 fps; measured on an OPPO F21s Pro)
-    if (fps < 40) {
+    // also shows as exactly 30 fps; measured on an OPPO F21s Pro, where 45 fps still looked uneven, hence 50)
+    if (fps < 50) {
       good = 0;
       if (++bad >= 2 && step < STEPS.length - 1) { bad = 0; fails[step]++; step++; apply(); }
-    } else if (fps > 55) {
+    } else if (fps > 57) {
       bad = 0;
       if (++good >= 5 && step > 0 && fails[step - 1] < 2) { good = 0; step--; apply(); }
     } else { bad = 0; good = 0; }
