@@ -32,7 +32,7 @@ def files_of(root):
 
 # DUET Maths Lab 360 (maths/) runs the Science Lab's code (maths/index.html is science/index.html with <base href="../science/">):
 # its worker also saves the Science Lab files it uses, as ../science/…, but only the maths narration (maths/voices.json)
-MATHS_FROM_SCIENCE = ('js/', 'lib/', 'fonts/', 'brand/', 'tex/', 'duetoffline.js', 'voice/manifest.json')
+MATHS_FROM_SCIENCE = ('js/', 'lib/', 'fonts/', 'brand/', 'tex/', 'duetoffline.js', 'duetperf.js', 'voice/manifest.json')
 
 def maths_index(repo):
     src = open(os.path.join(repo, 'science', 'index.html'), encoding='utf-8').read()
