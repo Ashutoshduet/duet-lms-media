@@ -352,6 +352,7 @@ tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
 .xr-side{padding:32px max(16px,env(safe-area-inset-right,0px)) 32px 32px;display:flex;flex-direction:column;gap:14px;background:var(--deep);min-width:0}
 @media (max-width:960px){.xr-side{padding:26px var(--gut-r) 30px var(--gut-l)}}
 .xr-modes{display:flex;flex-direction:column;gap:10px}
+.xr-pulse{animation:xrPulse 1.4s ease-in-out 4;border-color:var(--sun,#ffb347)!important}@keyframes xrPulse{50%{box-shadow:0 0 0 4px rgba(255,179,71,.45)}}
 .xr-mode{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:2px;padding:14px 16px;cursor:pointer;color:var(--star)}
 .xr-mode:hover:not(:disabled){border-color:var(--corona)}
 .xr-mode:disabled{cursor:not-allowed}
@@ -2775,6 +2776,9 @@ const XR_MOON={id:"moon",name:"Moon",hi:"चंद्रमा",type:"Earth's sa
 function openXRApp(kind,go){const pkg="in.duetpower.solarsystem360."+(kind==="mr"?"mr":"vr");const q="?app="+kind+(go?"&go="+encodeURIComponent(go):"");
   location.href="intent://"+location.host+location.pathname+q+"#Intent;scheme=https;package="+pkg+";end"}
 const XR_APP_HANDOFF=/OculusBrowser|Quest/i.test(navigator.userAgent)&&window.isSecureContext;
+/* the Android app (a web view) has no WebXR: AR on the floor opens this page in Chrome, which has it (ARCore) */
+const ANDROID_APP=!!(window.DuetNative&&DuetNative.openExternal);
+function openInChromeAR(){const u="https://ashutoshduet.github.io/duet-lms-media/space/?app=ar";try{if(DuetNative.openChrome)DuetNative.openChrome(u);else DuetNative.openExternal(u)}catch(e){location.href=u}}
 function SaurXR(stage,menuEl,opt){
   opt=opt||{};
   const T=THREE,EMB=!!opt.embedded,RM=matchMedia("(prefers-reduced-motion: reduce)").matches,D2R=Math.PI/180;
@@ -3082,11 +3086,11 @@ function SaurXR(stage,menuEl,opt){
   const st={ar:"wait",vr:"wait",cardboard:"ok",camar:"wait"};
   function renderMenu(){
     if(!menuEl)return;
-    const lab={ok:"Ready",wait:"Checking…",no:"Not on this device",host:"Needs your website",https:"Needs https://",app:"Opens the VR app",appmr:"Opens the MR app"};
-    menuEl.innerHTML=MODES.map(m=>{const s0=st[m.id],ok=s0==="ok"||s0==="app";return `<button type="button" class="xr-mode" data-mode="${m.id}" ${ok?"":"disabled"}><b>${m.t}</b><span class="xr-st ${ok?"ok":""}">${lab[s0==="app"&&m.id==="ar"?"appmr":s0]}</span><span class="d">${m.d}</span></button>`}).join("")+
+    const lab={ok:"Ready",wait:"Checking…",no:"Not on this device",host:"Needs your website",https:"Needs https://",app:"Opens the VR app",appmr:"Opens the MR app",chrome:"Opens in Chrome (internet)",box:"In the app: use Phone VR box ↓"};
+    menuEl.innerHTML=MODES.map(m=>{const s0=st[m.id],ok=s0==="ok"||s0==="app"||s0==="chrome";return `<button type="button" class="xr-mode" data-mode="${m.id}" ${ok?"":"disabled"}><b>${m.t}</b><span class="xr-st ${ok?"ok":""}">${lab[s0==="app"&&m.id==="ar"?"appmr":s0]}</span><span class="d">${m.d}</span></button>`}).join("")+
       (QUEST?`<p class="xr-ctrls"><b>VR Space Lab:</b> a lobby with the DUET STEM Solar System and Rocket Shala. Point and pull the trigger, or pinch with your fingers · left stick fly · right stick turn · hold the trigger on empty space to fly that way · B back · Y hand menu (lobby, narration English / हिंदी / off)<br><b>Mixed reality:</b> trigger open a planet · grip move · thumbstick resize · A/X speed · B/Y bring it back · Meta button: exit</p>`:"");
   }
-  if(menuEl)menuEl.addEventListener("click",e=>{const b=e.target.closest("[data-mode]");if(!b||b.disabled)return;const m=b.dataset.mode;if(st[m]==="app"){openXRApp(m==="ar"?"mr":"vr");return}if(m==="ar"||m==="vr")startXR(m,e.isTrusted);else enterLook(m)});
+  if(menuEl)menuEl.addEventListener("click",e=>{const b=e.target.closest("[data-mode]");if(!b||b.disabled)return;const m=b.dataset.mode;if(st[m]==="app"){openXRApp(m==="ar"?"mr":"vr");return}if(st[m]==="chrome"){openInChromeAR();return}if(m==="ar"||m==="vr")startXR(m,e.isTrusted);else enterLook(m)});
   renderMenu();
   (async()=>{
     const secure=window.isSecureContext;
@@ -3097,6 +3101,7 @@ function SaurXR(stage,menuEl,opt){
     st.vr=vr?"ok":(EMB?"host":(!secure?"https":"no"));
     st.camar=EMB?"host":(!secure?"https":(cam?"ok":"no"));
     if(QUEST&&!EMB&&secure){if(!vr)st.vr="app";if(!ar)st.ar="app"}
+    if(ANDROID_APP&&!QUEST){if(!ar)st.ar="chrome";if(!vr)st.vr="box"} // the Android app has no WebXR: AR opens in Chrome, VR is the VR box mode
     renderMenu();if(opt.onStatus)opt.onStatus({...st});
   })();
 
@@ -8473,7 +8478,7 @@ function setNav(key){
   document.querySelectorAll(".nav a").forEach(a=>{if(a.dataset.nav===key)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
 }
 // Quest VR / MR apps open with ?app=vr or ?app=mr: go straight into the immersive view
-const APPXR=(()=>{try{const a=new URLSearchParams(location.search).get("app");return a==="vr"||a==="mr"||a==="box"?a:""}catch(e){return ""}})();
+const APPXR=(()=>{try{const a=new URLSearchParams(location.search).get("app");return a==="vr"||a==="mr"||a==="box"||a==="ar"?a:""}catch(e){return ""}})();
 // the installed Quest window app has no close button of its own: offer one
 (()=>{const q=/OculusBrowser|Quest/i.test(navigator.userAgent),app=matchMedia("(display-mode: standalone)").matches||/^android-app:/.test(document.referrer)||/[?&]app=/.test(location.search);
   const b=$("#appExit");if(!b||!q||!app)return;b.hidden=false;
@@ -8539,6 +8544,7 @@ if(APPXR==="box"){const bs=$("#boxStart");bs.hidden=false;
   addEventListener("keydown",e=>{if(bs.hidden||e.repeat)return;const c=e.code||e.key;if(c==="Enter"||c==="NumpadEnter"||c==="Space"||c==="MediaPlayPause"||c==="Select"){e.preventDefault();go()}},true);
   const was=new Map();setInterval(()=>{const ps=navigator.getGamepads?[...navigator.getGamepads()].filter(g=>g&&g.mapping!=="xr-standard"&&!/oculus|quest|meta/i.test(g.id||"")):[];
     for(const g of ps){const on=[0,1,9].some(i=>g.buttons[i]&&g.buttons[i].pressed);if(on&&was.get(g.index)===false&&!bs.hidden)go();was.set(g.index,on)}},90)}
+else if(APPXR==="ar"){setTimeout(()=>{const b=document.querySelector('#xrModes [data-mode="ar"]');if(b){b.scrollIntoView({block:"center"});b.classList.add("xr-pulse")}const n=$("#xrNote");if(n)n.textContent="Tap “AR · Place on your floor”, then point the phone at the floor: the Solar System appears in your room."},1200)}
 else if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting())XR.enter(APPXR)},2500)}
 </script>
 

@@ -138,6 +138,15 @@ public class MainActivity extends ComponentActivity {
             } catch (Exception e) { return ""; }
         }
         @JavascriptInterface public String deviceName() { return (android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL).trim(); }
+        // AR on the floor needs Chrome (WebXR with ARCore); another browser only if Chrome is missing
+        @JavascriptInterface public void openChrome(String url) {
+            if (url == null || !url.startsWith("https://")) return;
+            runOnUiThread(() -> {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                try { startActivity(new Intent(i).setPackage("com.android.chrome")); }
+                catch (Exception e) { try { startActivity(i); } catch (Exception ignored) { /* no browser */ } }
+            });
+        }
         @JavascriptInterface public void openExternal(String url) {
             runOnUiThread(() -> { try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception ignored) { /* none */ } });
         }
