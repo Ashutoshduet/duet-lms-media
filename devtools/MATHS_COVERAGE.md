@@ -36,21 +36,21 @@ own hands and, where it makes sense, stands inside the shape.
 | 4 | 12 Ticking Clocks and Turning Calendar | w4_station_clock |  |
 | 4 | 13 The Transport Museum | w4_museum_tickets |  |
 | 4 | 14 Data Handling | w4_school_bars |  |
-| 5 | 1 We the Travellers — I | | in progress |
-| 5 | 2 Fractions | | in progress |
-| 5 | 3 Angles as Turns | | in progress |
-| 5 | 4 We the Travellers — II | | in progress |
-| 5 | 5 Far and Near | | in progress |
-| 5 | 6 The Dairy Farm | | in progress |
-| 5 | 7 Shapes and Patterns | | in progress |
-| 5 | 8 Weight and Capacity | | in progress |
-| 5 | 9 Coconut Farm | | in progress |
-| 5 | 10 Symmetrical Designs | | in progress |
-| 5 | 11 Grandmother's Quilt | | in progress |
-| 5 | 12 Racing Seconds | | in progress |
-| 5 | 13 Animal Jumps | | in progress |
-| 5 | 14 Maps and Locations | | in progress |
-| 5 | 15 Data Through Pictures | | in progress |
+| 5 | 1 We the Travellers — I | w5_odometer_lakh | |
+| 5 | 2 Fractions | w5_juice_fractions | |
+| 5 | 3 Angles as Turns | w5_compass_turns | |
+| 5 | 4 We the Travellers — II | w5_sleeper_train | |
+| 5 | 5 Far and Near | w5_trundle_wheel | |
+| 5 | 6 The Dairy Farm | w5_dairy_cans | |
+| 5 | 7 Shapes and Patterns | w5_floor_tiles | |
+| 5 | 8 Weight and Capacity | w5_bucket_mugs | |
+| 5 | 9 Coconut Farm | w5_coconut_rows | |
+| 5 | 10 Symmetrical Designs | w5_fold_cut | |
+| 5 | 11 Grandmother's Quilt | w5_quilt_area | |
+| 5 | 12 Racing Seconds | w5_race_seconds | |
+| 5 | 13 Animal Jumps | w5_animal_jumps | |
+| 5 | 14 Maps and Locations | w5_village_map | |
+| 5 | 15 Data Through Pictures | w5_mango_pictograph | |
 | 6 | 1 Patterns in Mathematics | w6_odd_squares, m6_triangular_numbers | |
 | 6 | 2 Lines and Angles | w6_angle_turn | |
 | 6 | 3 Number Play | w6_kaprekar | |

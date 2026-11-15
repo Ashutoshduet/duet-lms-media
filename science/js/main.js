@@ -25,7 +25,7 @@ import { LITE, liteMerge } from './lite.js';
 import { MATHS } from './mode.js';
 import { Places } from './places.js';
 // experiments whose apparatus, taken together, use every shader of the chemistry and maths experiments (see warmShaders)
-const MATHS_WARM = ['w10_flagpole', 'w7_rail_lines', 'w10_roti_area', 'w9_field_coords', 'w6_fence_rope', 'w10_grain_cone', 'w10_circle_rings', 'w9_identity_cube', 'w6_triangle_inside', 'w8_pythagoras_water', 'w8_train_speed', 'w6_lift_integers', 'w7_decimal_zoom', 'w8_fold_moon', 'w10_cylinder_net', 'w10_ladder_trig', 'w6_angle_turn', 'w6_odd_squares', 'w10_hcf_tiles', 'w10_ap_logs', 'w10_bpt', 'w10_tangents', 'w10_dice', 'w10_poly_graph', 'w10_two_lines', 'w10_ball_throw', 'w10_distance', 'w10_mean_balance', 'w9_linear_tank', 'w9_root_spiral', 'w9_circle_angles', 'w9_grow_patterns', 'w8_count_sheep', 'w8_field_corners', 'w8_nine_trick', 'w8_percent_floor', 'w8_trapezium_field', 'w8_harvest_workers', 'w8_sierpinski', 'w8_level_stacks', 'w8_think_number', 'w7_crore_cube', 'w7_shop_bill', 'w7_matchsticks', 'w7_magic_square', 'w7_fraction_barfi', 'w7_twin_triangles', 'w7_integer_frog', 'w7_frog_lcm', 'w7_decimal_area', 'w7_rain_week', 'w7_tiling', 'w7_balance_unknown', 'w6_kaprekar', 'w6_fruit_bars', 'w6_prime_chairs', 'w6_rope_compass', 'w6_roti_share', 'w6_rangoli_symmetry', 'w7_three_sticks', 'w8_cube_stack', 'w8_garden_beds', 'w9_lean_field', 'w9_spinner', 'w3_mango_tally', 'w3_toy_roll', 'w3_stick_bundles', 'w3_nani_laddoos', 'w3_tangram', 'w3_abacus', 'w3_rakhi_groups', 'w3_fair_share', 'w3_brick_add', 'w3_party_share', 'w3_litre_kilo', 'w3_number_jumps', 'w3_big_clock', 'w3_fair_pot', 'w4_cube_frame', 'w4_house_views', 'w4_odd_even', 'w4_thousand_blocks', 'w4_ribbon_quarters', 'w4_room_tape', 'w4_village_bins', 'w4_rice_weights', 'w4_egg_trays', 'w4_tiger_round', 'w4_mirror_butterfly', 'w4_station_clock', 'w4_museum_tickets', 'w4_school_bars']; // Maths Lab: its real-size activities
+const MATHS_WARM = ['w10_flagpole', 'w7_rail_lines', 'w10_roti_area', 'w9_field_coords', 'w6_fence_rope', 'w10_grain_cone', 'w10_circle_rings', 'w9_identity_cube', 'w6_triangle_inside', 'w8_pythagoras_water', 'w8_train_speed', 'w6_lift_integers', 'w7_decimal_zoom', 'w8_fold_moon', 'w10_cylinder_net', 'w10_ladder_trig', 'w6_angle_turn', 'w6_odd_squares', 'w10_hcf_tiles', 'w10_ap_logs', 'w10_bpt', 'w10_tangents', 'w10_dice', 'w10_poly_graph', 'w10_two_lines', 'w10_ball_throw', 'w10_distance', 'w10_mean_balance', 'w9_linear_tank', 'w9_root_spiral', 'w9_circle_angles', 'w9_grow_patterns', 'w8_count_sheep', 'w8_field_corners', 'w8_nine_trick', 'w8_percent_floor', 'w8_trapezium_field', 'w8_harvest_workers', 'w8_sierpinski', 'w8_level_stacks', 'w8_think_number', 'w7_crore_cube', 'w7_shop_bill', 'w7_matchsticks', 'w7_magic_square', 'w7_fraction_barfi', 'w7_twin_triangles', 'w7_integer_frog', 'w7_frog_lcm', 'w7_decimal_area', 'w7_rain_week', 'w7_tiling', 'w7_balance_unknown', 'w6_kaprekar', 'w6_fruit_bars', 'w6_prime_chairs', 'w6_rope_compass', 'w6_roti_share', 'w6_rangoli_symmetry', 'w7_three_sticks', 'w8_cube_stack', 'w8_garden_beds', 'w9_lean_field', 'w9_spinner', 'w3_mango_tally', 'w3_toy_roll', 'w3_stick_bundles', 'w3_nani_laddoos', 'w3_tangram', 'w3_abacus', 'w3_rakhi_groups', 'w3_fair_share', 'w3_brick_add', 'w3_party_share', 'w3_litre_kilo', 'w3_number_jumps', 'w3_big_clock', 'w3_fair_pot', 'w4_cube_frame', 'w4_house_views', 'w4_odd_even', 'w4_thousand_blocks', 'w4_ribbon_quarters', 'w4_room_tape', 'w4_village_bins', 'w4_rice_weights', 'w4_egg_trays', 'w4_tiger_round', 'w4_mirror_butterfly', 'w4_station_clock', 'w4_museum_tickets', 'w4_school_bars', 'w5_odometer_lakh', 'w5_juice_fractions', 'w5_compass_turns', 'w5_sleeper_train', 'w5_trundle_wheel', 'w5_dairy_cans', 'w5_floor_tiles', 'w5_bucket_mugs', 'w5_coconut_rows', 'w5_fold_cut', 'w5_quilt_area', 'w5_race_seconds', 'w5_animal_jumps', 'w5_village_map', 'w5_mango_pictograph']; // Maths Lab: its real-size activities
 const WARM_IDS = ['solubility', 'evaporate_salt', 'condensation', 'filtration', 'open_chem', 'sulphur_burn', 'candle_o2', 'phys_change', 'metal_nonmetal', 'kmno4_diffuse', 'conduct_liquids', 'electrolysis9v', 'chromatography', 'crystallise', 'mass_closed', 'metals_air', 'mg_burn', 'zn_acid',
   'm6_symmetry', 'm6_same_perimeter', 'm7_parallel_lines', 'm9_coin_probability', 'm10_cone_volume', 'm10_flagpole_height'];
 
@@ -86,6 +86,25 @@ export class App {
     r.setAnimationLoop(() => this.frame());
     window.app = this;
     this.boot();
+  }
+  // Science Lab: an activity in a real place (world: true, the physics ones) uses the Maths Lab's places (360° photos and
+  // built rooms) in place of the lab; the lab, its light and its camera limits come back for the next lab experiment
+  setWorld(on) {
+    on = !!on; if (MATHS || on === !!this.worldOn) return; this.worldOn = on;
+    const sc = this.scene, C = this.controls;
+    if (on) {
+      this.labLook = { bg: sc.background, env: sc.environment, envI: sc.environmentIntensity, far: this.camera.far, maxD: C.maxDistance, maxP: C.maxPolarAngle,
+        lights: this.world.children.filter((l) => l.isLight).map((l) => ({ l, i: l.intensity, p: l.position.clone(), t: l.target ? l.target.position.clone() : null,
+          sh: l.castShadow && l.shadow ? { ...['left', 'right', 'top', 'bottom', 'near', 'far'].reduce((o, k) => ({ ...o, [k]: l.shadow.camera[k] }), {}) } : null })) };
+      if (!this.places) this.places = new Places(this);
+      this.places.root.visible = true; this.roomInfo.room.visible = false; this.camera.far = 400; C.maxDistance = 45; C.maxPolarAngle = Math.PI * 0.62;
+    } else {
+      const L = this.labLook; this.places.root.visible = false; this.places.table.visible = false; this.places.cur = null; this.roomInfo.room.visible = true;
+      if (L) { sc.background = L.bg; sc.environment = L.env; sc.environmentIntensity = L.envI; if (sc.environmentRotation) sc.environmentRotation.set(0, 0, 0); this.camera.far = L.far; C.maxDistance = L.maxD; C.maxPolarAngle = L.maxP;
+        for (const s of L.lights) { s.l.intensity = s.i; s.l.position.copy(s.p); if (s.t && s.l.target) { s.l.target.position.copy(s.t); s.l.target.updateMatrixWorld(); } } }
+      if (L) for (const s of L.lights) if (s.sh) { Object.assign(s.l.shadow.camera, s.sh); s.l.shadow.camera.updateProjectionMatrix(); }
+    }
+    this.camera.updateProjectionMatrix(); if (this.renderer.shadowMap) this.renderer.shadowMap.needsUpdate = true;
   }
   async boot() { // real models and the 360° lab light load first (the loader screen shows progress)
     const bar = document.querySelector('#loader .bar i');

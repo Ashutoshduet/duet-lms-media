@@ -41,6 +41,9 @@ import { EXPERIMENTS_J1 } from './experiments_j1.js';
 import { EXPERIMENTS_J2 } from './experiments_j2.js';
 import { EXPERIMENTS_J3 } from './experiments_j3.js';
 import { EXPERIMENTS_J4 } from './experiments_j4.js';
+import { EXPERIMENTS_J5 } from './experiments_j5.js';
+import { EXPERIMENTS_J6 } from './experiments_j6.js';
+import { EXPERIMENTS_PW1 } from './experiments_pw1.js';
 import { DICT } from './exp_i18n.js';
 import { MATHS } from './mode.js';
 const X = (en) => ({ en, ...(DICT[en] || {}) });
@@ -359,13 +362,13 @@ export const EXPERIMENTS = [
   },
 ];
 
-EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3, ...EXPERIMENTS_P4, ...EXPERIMENTS_P5, ...EXPERIMENTS_P6, ...EXPERIMENTS_P7, ...EXPERIMENTS_P8, ...EXPERIMENTS_P9, ...EXPERIMENTS_P10, ...EXPERIMENTS_P11, ...EXPERIMENTS_FREE, ...EXPERIMENTS_M1, ...EXPERIMENTS_M2, ...EXPERIMENTS_M3, ...EXPERIMENTS_M4, ...EXPERIMENTS_W1, ...EXPERIMENTS_W2, ...EXPERIMENTS_W3, ...EXPERIMENTS_W4, ...EXPERIMENTS_W5, ...EXPERIMENTS_W6, ...EXPERIMENTS_W7, ...EXPERIMENTS_W8, ...EXPERIMENTS_W9, ...EXPERIMENTS_W10, ...EXPERIMENTS_W11, ...EXPERIMENTS_W12, ...EXPERIMENTS_W13, ...EXPERIMENTS_W14, ...EXPERIMENTS_J1, ...EXPERIMENTS_J2, ...EXPERIMENTS_J3, ...EXPERIMENTS_J4);
+EXPERIMENTS.push(...EXPERIMENTS2, ...EXPERIMENTS3, ...EXPERIMENTS4, ...EXPERIMENTS5, ...EXPERIMENTS6, ...EXPERIMENTS_P1, ...EXPERIMENTS_P2, ...EXPERIMENTS_P3, ...EXPERIMENTS_P4, ...EXPERIMENTS_P5, ...EXPERIMENTS_P6, ...EXPERIMENTS_P7, ...EXPERIMENTS_P8, ...EXPERIMENTS_P9, ...EXPERIMENTS_P10, ...EXPERIMENTS_P11, ...EXPERIMENTS_FREE, ...EXPERIMENTS_M1, ...EXPERIMENTS_M2, ...EXPERIMENTS_M3, ...EXPERIMENTS_M4, ...EXPERIMENTS_W1, ...EXPERIMENTS_W2, ...EXPERIMENTS_W3, ...EXPERIMENTS_W4, ...EXPERIMENTS_W5, ...EXPERIMENTS_W6, ...EXPERIMENTS_W7, ...EXPERIMENTS_W8, ...EXPERIMENTS_W9, ...EXPERIMENTS_W10, ...EXPERIMENTS_W11, ...EXPERIMENTS_W12, ...EXPERIMENTS_W13, ...EXPERIMENTS_W14, ...EXPERIMENTS_J1, ...EXPERIMENTS_J2, ...EXPERIMENTS_J3, ...EXPERIMENTS_J4, ...EXPERIMENTS_J5, ...EXPERIMENTS_J6, ...EXPERIMENTS_PW1);
 // every activity, for the tools (narration, tests); the app itself shows EXPERIMENTS
 export const ALL_EXPERIMENTS = EXPERIMENTS.slice();
 // the Maths Lab app shows the real-place activities (world: true) in place of the table-top ones they stand for
-// (replaces); Science Lab keeps the table-top ones (the real places are the Maths Lab's own files)
+// (replaces); Science Lab keeps the table-top ones, and shows its own real-place activities (physics) in the Maths Lab's places
 { const repl = new Set(EXPERIMENTS.filter((e) => e.world && e.replaces).map((e) => e.replaces));
-  for (let i = EXPERIMENTS.length - 1; i >= 0; i--) { const e = EXPERIMENTS[i]; if (MATHS ? repl.has(e.id) : e.world) EXPERIMENTS.splice(i, 1); } }
+  for (let i = EXPERIMENTS.length - 1; i >= 0; i--) { const e = EXPERIMENTS[i]; if (MATHS ? repl.has(e.id) : e.world && e.subj === 'maths') EXPERIMENTS.splice(i, 1); } }
 EXPERIMENTS.sort((a, b) => a.cls - b.cls); // stable: keeps the book order inside each class
 export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));
 // a class's experiments in book order: chapter by chapter (older-NCERT chapters after the current book), then any from other classes

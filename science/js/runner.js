@@ -2,6 +2,7 @@
 // performs it on "Do it" / click / auto-play, or completes it when the student does it by hand in VR.
 import * as THREE from 'three';
 import { BENCH_Y } from './room.js';
+import { MATHS } from './mode.js';
 import * as A from './apparatus.js';
 import { Kit } from './actions.js';
 import { EXPERIMENTS, BY_ID, subjOf } from './experiments.js';
@@ -67,7 +68,8 @@ export class Runner {
     this.K = new Kit(this.app); this.K.speed = this.app.speed || 1; this.auto = false; // a fresh kit: actions of the old bench simply stop
     this.gen = (this.gen || 0) + 1; this.app.lab.clear(); this.app.fx.glow(null, false);
     this.exp = BY_ID[id]; this.i = 0; this.state = 'todo'; this.done = new Set(); this.hand = new Set(); this.evAcc = 0; this.res = {};
-    if (this.app.places) { this.app.places.set(this.exp.place || 'room', { table: this.exp.table }); this.app.places.shadowBox(this.exp.shadowBox || 0); } // Maths Lab: the activity's real place
+    if (this.app.setWorld) this.app.setWorld(!!this.exp.world); // Science Lab: a real-place activity leaves the lab for its place
+    if (this.app.places && (MATHS || this.exp.world)) { this.app.places.set(this.exp.place || 'room', { table: this.exp.table }); this.app.places.shadowBox(this.exp.shadowBox || 0); } // the activity's real place
     this.o = this.exp.setup(this.K); for (const k in this.o) { if (this.o[k] && this.o[k].g) this.o[k].key = k; }
     // a real lab keeps its common reagents on the shelf: if this experiment leaves the shelves empty, stock them (they can be picked up and used too)
     if (this.isChem() && !id.startsWith('open_') && !this.app.lab.items.some((it) => it.g.position.y > BENCH_Y + 0.15)) {
