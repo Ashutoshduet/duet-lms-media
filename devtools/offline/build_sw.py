@@ -57,6 +57,16 @@ def maths_extra(repo):
     if os.path.exists(lic): d = open(lic, 'rb').read(); out['../licences.json'] = [hashlib.sha1(d).hexdigest()[:12], len(d)]
     return out
 
+# the Science Lab's activities in real places (physics, biology) use the Maths Lab's 360° photos and table textures
+# (../maths/places/, ../maths/tex/): its worker saves them too, so they work offline
+def science_extra(repo):
+    out = {}
+    for sub in ('places', 'tex'):
+        d = os.path.join(repo, 'maths', sub)
+        if not os.path.isdir(d): continue
+        for p, v in files_of(d).items(): out['../maths/' + sub + '/' + p] = v
+    return out
+
 def build(repo, app):
     root = os.path.join(repo, app)
     if app == 'maths':
@@ -64,6 +74,7 @@ def build(repo, app):
         except Exception: pass
         maths_index(repo)
     files = files_of(root)
+    if app == 'science': files.update(science_extra(repo))
     if app == 'maths':
         files.update(maths_extra(repo))
         for g in ('index.html', 'voices.json'):  # written just now: listed even before git has them

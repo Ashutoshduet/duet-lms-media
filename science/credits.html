@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Science Lab 360 · credits</title>
+<style>body{margin:0;background:#15181d;color:#e8e2d6;font:15px/1.6 system-ui,"Noto Sans",sans-serif}main{max-width:860px;margin:0 auto;padding:24px 16px 60px}h1{font-size:22px;margin:0 0 6px}h2{font-size:17px;margin:26px 0 8px;color:#f0a65a}
+p{color:#b9b2a6}table{width:100%;border-collapse:collapse;font-size:13.5px}td,th{padding:7px 8px;border-bottom:1px solid #2a2f36;vertical-align:top;text-align:left}th{color:#9a9488;font-weight:600}a{color:#9fd0ff}small{color:#9a9488}</style></head>
+<body><main><h1>Science Lab 360 · 3D models, photos and their licences</h1>
+<p>Everything not listed here (rooms, apparatus, water, plants drawn in code, boards, textures, sounds and voices) is made by DUET STEM. The models and photos below are used under their open licences; we have reduced, repainted, posed and animated them, as noted. CC BY and CC BY-SA licences: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; CC0: <a href="https://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.</p>
+<h2>Biology in real places: animals, plants and places</h2><table id="eco"><tr><th>Model</th><th>By</th><th>Licence</th><th>Our changes</th></tr></table>
+<h2>Lab and physics models</h2><table id="lab"><tr><th>Model</th><th>By</th><th>Licence</th></tr></table>
+<p><small>360° photos of places for the Maths Lab and physics: Poly Haven (CC0).</small></p></main>
+<script>
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const row = (c, ch) => `<tr><td><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a></td><td>${esc(Object.keys(c.authors || {}).join(', ') || c.user || '')}</td><td>${esc(c.license)}</td>${ch ? `<td><small>${esc(c.changes || '')}</small></td>` : ''}</tr>`;
+fetch('models/eco/credits.json').then((r) => r.json()).then((a) => { document.getElementById('eco').insertAdjacentHTML('beforeend', a.map((c) => row(c, true)).join('')); }).catch(() => {});
+fetch('models/credits.json').then((r) => r.json()).then((a) => { document.getElementById('lab').insertAdjacentHTML('beforeend', a.map((c) => row(c, false)).join('')); }).catch(() => {});
+</script></body></html>

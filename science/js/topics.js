@@ -25,6 +25,10 @@ export const TOPICS = {
     ['sky', N('Earth and sky', 'पृथ्वी और आकाश', 'Earth aur aasmaan'), /Earth, Moon|Skies/],
     ['matter', N('Materials and floating', 'पदार्थ और तैरना', 'Materials aur tairna'), /Materials|Solutes/],
   ],
+  biology: [
+    ['eco', N('Ecosystems, food chains and energy', 'पारितंत्र, आहार श्रृंखला और ऊर्जा', 'Ecosystem, food chain aur energy'), /Our Environment|Ecosystem/],
+    ['living', N('Living things and their characteristics', 'सजीव और उनकी विशेषताएँ', 'Living things aur unki khoobiyan'), /Living|Diversity/],
+  ],
   maths: [
     ['numbers', N('Numbers and patterns', 'संख्याएँ और पैटर्न', 'Numbers aur patterns'), /Square and A Cube|Number|Patterns|Power|Zero|Point|Fraction|Proportional|Integer|Decimal|Progression/],
     ['algebra', N('Algebra and identities', 'बीजगणित और सर्वसमिकाएँ', 'Algebra aur identities'), /Distribute|Algebraic|Identit|Polynomial|Equation/],
@@ -53,7 +57,7 @@ export function topicOf(e) {
 // the free demo (no code): every open lab and the first experiment of each class, chemistry and physics
 export function demoIds() {
   const s = new Set(EXPERIMENTS.filter((e) => e.id.startsWith('open_')).map((e) => e.id));
-  for (const sub of ['chemistry', 'physics', 'maths']) for (const c of [3, 4, 5, 6, 7, 8, 9, 10]) { const e = classOrder(c, sub).find((x) => !x.id.startsWith('open_') && x.cls === c); if (e) s.add(e.id); }
+  for (const sub of ['chemistry', 'physics', 'maths', 'biology']) for (const c of [3, 4, 5, 6, 7, 8, 9, 10]) { const e = classOrder(c, sub).find((x) => !x.id.startsWith('open_') && x.cls === c); if (e) s.add(e.id); }
   return s;
 }
 // [{ k, n, items }] in a fixed topic order; inside a topic, experiments go by class and book order

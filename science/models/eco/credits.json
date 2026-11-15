@@ -1,0 +1,296 @@
+[
+ {
+  "id": "bluegill",
+  "name": "Model 70A - Bluegill",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/3f4665f558fc4bcab1b460e5f33666d3",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "bass",
+  "name": "Model 67A - Largemouth Bass",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/e60c457636b640629747c19feac4906c",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "turtle",
+  "name": "Model 64A - Eastern Painted Turtle",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/154214dec4c14e959e975aa8d17b1578",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "frog",
+  "name": "アズマヒキガエル Japanese Toad, Bufo japonicus formosus",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/cd026838b474474cb1b960e04ca80061",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "kingfisher",
+  "name": "Common Kingfisher",
+  "authors": {
+   "Alejandro Guzmán": "All"
+  },
+  "user": "Glifo",
+  "license": "CC BY-SA 4.0",
+  "url": "https://sketchfab.com/3d-models/9dcdf52fc1fc4d8dbbbabfff3b6ef887",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "strider",
+  "name": "アメンボ ♀ Water Strider, Aquarius paludum",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/64e742a4b5e54943907595ee75ef41a8",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "dragonfly",
+  "name": "オニヤンマ ♀ Golden-ringed dragonfly A. sieboldii",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/a2b49d2142c1498cb91566bd0841200b",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "snail",
+  "name": "オオタニシ Freshwater Snail, Bellamya japonica",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/c2aaa710316143a79e9e9c8ac20189f6",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "locust",
+  "name": "ショウリョウバッタ ♂ Longheaded Locust, Acrida cinerea",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/ea89b3edda084ebe9fb0afb671446350",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "ratsnake",
+  "name": "アオダイショウ Japanese Rat Snake, Elaphe climacophora",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/1ddff22506aa4bef8e3cfa883d592f6a",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "hawk",
+  "name": "Red-tailed Hawk",
+  "authors": {
+   "Innovation Studio": "All"
+  },
+  "user": "cmp_innovation_studio",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/a0154c1dde464e54a8017998c1afd4f3",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "owl",
+  "name": "Common Barn Owl",
+  "authors": {
+   "Innovation Studio": "All"
+  },
+  "user": "cmp_innovation_studio",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/19c989a6681145bc999c332699eb852e",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "parasol",
+  "name": "Shaggy Parasol Mushroom (Mature + Young)",
+  "authors": {
+   "Thomas Flynn": "All"
+  },
+  "user": "nebulousflynn",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/7987d22903294567842a5304fcd542f5",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "birchfungus",
+  "name": "Model 2 - Birch fungus",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/fafcf9111f69426ca93c9dae1d36e7bb",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "beetle",
+  "name": "イキヒラタクワガタ ♀ Iki Hirata Stag Beetle",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/a8a5597d17a44a73bf5e4c12c339f814",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "crow",
+  "name": "American Crow",
+  "authors": {
+   "Innovation Studio": "All"
+  },
+  "user": "cmp_innovation_studio",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/56e3d41fcab24b6699abf536419b7c47",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "hare",
+  "name": "Arctic Hare",
+  "authors": {
+   "Innovation Studio": "All"
+  },
+  "user": "cmp_innovation_studio",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/48caf8a64509421b9d8845e8b95bdac1",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Repainted from an arctic hare's white winter coat to the grizzled brown of an Indian hare; reduced; WebP textures."
+ },
+ {
+  "id": "grass_medium_02",
+  "name": "Grass Medium 02",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/grass_medium_02",
+  "source": "Poly Haven",
+  "changes": "Reduced, cut-out (alpha) put into the colour map, WebP, meshopt-compressed; a dry-grass version made from its own dry colour map."
+ },
+ {
+  "id": "fern_02",
+  "name": "Fern 02",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/fern_02",
+  "source": "Poly Haven",
+  "changes": "Reduced, cut-out (alpha) put into the colour map where it has one, WebP, meshopt-compressed."
+ },
+ {
+  "id": "dead_tree_trunk",
+  "name": "Dead Tree Trunk",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/dead_tree_trunk",
+  "source": "Poly Haven",
+  "changes": "Reduced, cut-out (alpha) put into the colour map where it has one, WebP, meshopt-compressed."
+ },
+ {
+  "id": "tree_stump_01",
+  "name": "Tree Stump 01",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/tree_stump_01",
+  "source": "Poly Haven",
+  "changes": "Reduced, cut-out (alpha) put into the colour map where it has one, WebP, meshopt-compressed."
+ },
+ {
+  "id": "bark_debris_01",
+  "name": "Bark Debris 01",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/bark_debris_01",
+  "source": "Poly Haven",
+  "changes": "Reduced, cut-out (alpha) put into the colour map where it has one, WebP, meshopt-compressed."
+ },
+ {
+  "id": "dandelion_01",
+  "name": "Dandelion 01",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/dandelion_01",
+  "source": "Poly Haven",
+  "changes": "Reduced, cut-out (alpha) put into the colour map where it has one, WebP, meshopt-compressed."
+ },
+ {
+  "id": "weed_plant_02",
+  "name": "Weed Plant 02",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/weed_plant_02",
+  "source": "Poly Haven",
+  "changes": "Reduced, cut-out (alpha) put into the colour map where it has one, WebP, meshopt-compressed."
+ },
+ {
+  "id": "limpopo_golf_course",
+  "name": "Limpopo Golf Course (360° photo)",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/limpopo_golf_course",
+  "source": "Poly Haven",
+  "changes": "Resized to 4096 × 2048."
+ },
+ {
+  "id": "countrytrax_midday",
+  "name": "Countrytrax Midday (360° photo)",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/countrytrax_midday",
+  "source": "Poly Haven",
+  "changes": "Resized to 4096 × 2048."
+ },
+ {
+  "id": "river_walk_1",
+  "name": "River Walk 1 (360° photo)",
+  "authors": {},
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/river_walk_1",
+  "source": "Poly Haven",
+  "changes": "Resized to 4096 × 2048."
+ }
+]

@@ -20,6 +20,10 @@ export const PLACES = {
   farm: { img: 'citrus_orchard_road', h: 1.6, r: 60, yaw: 1.492, sun: [0.712, 0.603, 0.359], sunI: 1.1, sky: 0.45, env: 1.0, name: { en: 'Farm', hi: 'फ़ार्म', hg: 'Farm' } }, // turned so the farm road runs straight ahead,
   khet: { img: 'farm_field', h: 1.6, r: 60, sun: [0.505, 0.779, 0.372], sunI: 1.3, sky: 0.45, env: 1.0, name: { en: 'Field', hi: 'खेत', hg: 'Khet' } },
   field: { img: 'suburban_football_field', h: 1.7, r: 60, yaw: -0.094, sun: [0.069, 0.767, 0.638], sunI: 0.9, sky: 0.5, env: 1.1, name: { en: 'Playground', hi: 'खेल का मैदान', hg: 'Khel ka maidan' } }, // turned so the pitch line runs straight ahead (it is the y-axis)
+  // ecosystems (Science Lab biology): a village pond (deep: the pond is dug below the photo's ground), a grassland at noon, a forest path
+  pond: { img: 'limpopo_golf_course', h: 1.6, r: 60, yaw: 1.32, sun: [0.716, 0.461, 0.524], sunI: 2.0, sky: 0.32, env: 1.0, deep: true, name: { en: 'Village pond', hi: 'गाँव का तालाब', hg: 'Gaon ka talaab' } },
+  grass: { img: 'countrytrax_midday', h: 1.6, r: 60, yaw: 0.4, sun: [0.229, 0.959, 0.166], sunI: 2.2, sky: 0.3, env: 1.0, name: { en: 'Grassland', hi: 'घास का मैदान', hg: 'Ghaas ka maidan' } },
+  forest: { img: 'river_walk_1', h: 1.6, r: 30, yaw: 1.571, sun: [0.691, 0.323, 0.647], sunI: 0.7, sky: 0.55, env: 1.15, name: { en: 'Forest', hi: 'जंगल', hg: 'Jungle' } },
 };
 
 const sunDir = (P) => (P.light ? P.light.dir.clone() : new THREE.Vector3(...P.sun)).normalize().applyAxisAngle(new THREE.Vector3(0, 1, 0), P.yaw || 0);
@@ -49,7 +53,7 @@ export class Places {
         new RGBELoader().loadAsync(DIR + 'places/' + P.img + '_1k.hdr').catch(() => null),
       ]);
       tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 2;
-      const sky = new GroundedSkybox(tex, P.h, P.r, 64); sky.position.y = P.h - 0.002; sky.rotation.y = P.yaw || 0; sky.material.toneMapped = false; sky.renderOrder = -10; sky.material.depthTest = true;
+      const sky = new GroundedSkybox(tex, P.h, P.r, 64); sky.position.y = P.h - 0.002; sky.rotation.y = P.yaw || 0; sky.material.toneMapped = false; sky.renderOrder = -10; sky.material.depthTest = true; if (P.deep) sky.material.depthWrite = false; // a pond or a pit dug into the ground stays visible
       let env = null; if (hdr) { hdr.mapping = THREE.EquirectangularReflectionMapping; env = this.pm.fromEquirectangular(hdr).texture; hdr.dispose(); }
       return { sky, env };
     })();
