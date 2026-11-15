@@ -29,6 +29,14 @@
   }
   steps();
 
+  // phones: no frosted-glass blur behind the panels. The blur is redrawn over the moving 3D picture every frame and
+  // was the largest cost left (measured on a Snapdragon 680: the Science Lab ran at 48 fps with its panels, 60 with
+  // them hidden). The panels get a more solid background instead (each app sets it for html.duet-phone).
+  if (PHONE) {
+    document.documentElement.classList.add('duet-phone');
+    try { var st = document.createElement('style'); st.textContent = '*,*::before,*::after{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}'; (document.head || document.documentElement).appendChild(st); } catch (e) { /* no styles */ }
+  }
+
   // 120 Hz phones: every second screen refresh is skipped (90 Hz and 60 Hz screens are not changed)
   if (PHONE && !FULL && window.requestAnimationFrame) {
     var raf0 = window.requestAnimationFrame.bind(window), caf0 = window.cancelAnimationFrame.bind(window);
