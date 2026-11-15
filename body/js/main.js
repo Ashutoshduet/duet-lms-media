@@ -81,9 +81,11 @@ class App {
 
     const scene = this.scene = new THREE.Scene();
     this.bg = new THREE.Color('#d9d5cd'); scene.background = this.bg;
-    const pm = new THREE.PMREMGenerator(r);
-    scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
-    scene.add(new THREE.HemisphereLight('#f4f6ff', '#8a6a4a', 0.85)); // a bright room: light from the ceiling panels and the window
+    // phones: no reflection map (measured on a Snapdragon 680: 35 fps with it, 52 without); a brighter sky light makes up for it
+    const NOENV = /[?&]noenv=1/.test(location.search) || (window.DuetPerf && DuetPerf.phone && !/[?&]env=1/.test(location.search));
+    if (!NOENV) { const pm = new THREE.PMREMGenerator(r); scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture; }
+    scene.add(new THREE.HemisphereLight('#f4f6ff', '#8a6a4a', NOENV ? +(new URLSearchParams(location.search).get('hemi') || 2.4) : 0.85)); // a bright room: light from the ceiling panels and the window
+    if (NOENV) scene.add(new THREE.AmbientLight('#fff8f0', +(new URLSearchParams(location.search).get('amb') || 1.6))); // tuned so the body, walls and floor come within ~7% of the brightness with the map
     const key = new THREE.DirectionalLight('#ffffff', 1.35); key.position.set(1.2, 2.4, 2.6); scene.add(key);
     const rim = new THREE.DirectionalLight('#9fc4ff', 0.55); rim.position.set(-2, 1.5, -2.5); scene.add(rim);
 
