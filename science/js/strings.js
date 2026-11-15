@@ -1,7 +1,9 @@
 // Interface text in English, Hindi and Hinglish.
 import { MATHS } from './mode.js';
-export const LANGS = ['en', 'hi', 'hg'];
-export const LANG_LABEL = { en: 'English', hi: 'हिंदी', hg: 'Hinglish' };
+import { XLANGS, XLABEL } from './xlang.js';
+export const MAIN_LANGS = ['en', 'hi', 'hg']; // with their own buttons; the 8 other Indian languages are in the language menu
+export const LANGS = [...MAIN_LANGS, ...XLANGS];
+export const LANG_LABEL = { en: 'English', hi: 'हिंदी', hg: 'Hinglish', ...XLABEL };
 export const FONT = '"Noto Sans Devanagari", "Noto Sans", system-ui, sans-serif';
 export const T = {
   appTitle: MATHS ? { en: 'Maths Lab 360', hi: 'मैथ्स लैब 360', hg: 'Maths Lab 360' } : { en: 'Science Lab 360', hi: 'साइंस लैब 360', hg: 'Science Lab 360' },

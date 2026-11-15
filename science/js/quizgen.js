@@ -7,6 +7,7 @@
 // A chapter quiz mixes the questions of every activity of one chapter.
 import { EXPERIMENTS, BY_ID, subjOf } from './experiments.js';
 import { makeQ, shuffled } from './classroom.js';
+import { joinT } from './xlang.js';
 
 const STOP = new Set('the a an of to in on is are was were what which why how does do did you your it its this that with for and or by from at as be when where who name give can will there their they into than then get gets got about after before each one two three four five'.split(' '));
 const words = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter((w) => w.length > 2 && !STOP.has(w));
@@ -74,7 +75,8 @@ function stepQ(st) {
   const score = (c) => { const j = jac(c.w, st.w); if (j > 0.4) return -1e9; return j * 3 + (1 - Math.abs(c.len - st.len) / Math.max(c.len, st.len)) * 1.2 + (c.e.cls === st.e.cls ? 0.2 : 0); };
   const wrong = pickWrong(pool, st.see, 3, score); if (wrong.length < 2) return null;
   const d = st.do, cut = (s) => (String(s || '').length > 240 ? String(s).slice(0, 237) + '…' : String(s || ''));
-  const q = {}; for (const l of ['en', 'hi', 'hg']) q[l] = `${cut(d[l] || d.en)}\n${SEE_Q[l]}`;
+  const dc = { en: cut(d.en) }; for (const l of ['hi', 'hg']) dc[l] = cut(d[l] || d.en); Object.setPrototypeOf(dc, { get bn() { return d.bn && cut(d.bn); }, get mr() { return d.mr && cut(d.mr); }, get ta() { return d.ta && cut(d.ta); }, get te() { return d.te && cut(d.te); }, get gu() { return d.gu && cut(d.gu); }, get kn() { return d.kn && cut(d.kn); }, get ml() { return d.ml && cut(d.ml); }, get or() { return d.or && cut(d.or); } });
+  const q = joinT([dc, SEE_Q], '\n');
   return makeQ(q, st.see, wrong, { kind: 'see', from: st.e.id }, rnd() * 1e9);
 }
 const CON_Q = { en: 'What does this activity show?', hi: 'यह गतिविधि क्या दिखाती है?', hg: 'Ye activity kya dikhati hai?' };
@@ -84,7 +86,7 @@ function conclQ(e) {
   // other chapters of the same class: what they show is clearly not what this activity shows (a sibling's conclusion can be true here too)
   const score = (c) => (c.e.ch && e.ch && c.e.ch.en === e.ch.en ? -3 : 0) + (c.e.cls === e.cls ? 1.5 : 0) + (1 - Math.abs(c.len - me.len) / Math.max(c.len, me.len)) - (jac(c.w, me.w) > 0.3 ? 1e9 : 0);
   const wrong = pickWrong(pool, me.c, 3, score); if (wrong.length < 2) return null;
-  const t = X3(e.title); const q = {}; for (const l of ['en', 'hi', 'hg']) q[l] = `${t[l] || t.en}\n${CON_Q[l]}`;
+  const q = joinT([X3(e.title), CON_Q], '\n');
   return makeQ(q, me.c, wrong, { kind: 'concl', from: e.id }, rnd() * 1e9);
 }
 

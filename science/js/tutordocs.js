@@ -1,10 +1,10 @@
 // What the tutor knows in Science Lab 360 and Maths Lab 360: every activity's viva questions and answers, what is seen
 // at each step and why, its conclusion and its safety notes, in English, Hindi and Hinglish.
 import { EXPERIMENTS, BY_ID } from './experiments.js';
+import { joinT } from './xlang.js';
 
 const X3 = (o) => (o && typeof o === 'object' ? o : { en: String(o || '') });
-const LS = ['en', 'hi', 'hg'];
-const join = (parts, sep = ' ') => { const o = {}; for (const l of LS) o[l] = parts.filter(Boolean).map((p) => (typeof p === 'string' ? p : X3(p)[l] || X3(p).en)).filter(Boolean).join(sep); return o; };
+const join = (parts, sep = ' ') => joinT(parts.filter(Boolean).map((p) => (typeof p === 'string' ? p : X3(p))), sep);
 const WHY = { en: 'Why:', hi: 'क्यों:', hg: 'Kyun:' };
 const WHYW = { en: 'why', hi: 'क्यों', hg: 'kyun' };
 let DOCS = null;

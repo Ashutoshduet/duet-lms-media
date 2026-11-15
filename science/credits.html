@@ -5,6 +5,7 @@ p{color:#b9b2a6}table{width:100%;border-collapse:collapse;font-size:13.5px}td,th
 <body><main><h1>Science Lab 360 · 3D models, photos and their licences</h1>
 <p>Everything not listed here (rooms, apparatus, water, plants drawn in code, boards, textures, sounds and voices) is made by DUET STEM. The models and photos below are used under their open licences; we have reduced, repainted, posed and animated them, as noted. CC BY and CC BY-SA licences: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>; CC0: <a href="https://creativecommons.org/publicdomain/zero/1.0/">public domain</a>.</p>
 <h2>Biology in real places: animals, plants and places</h2><table id="eco"><tr><th>Model</th><th>By</th><th>Licence</th><th>Our changes</th></tr></table>
+<h2>Under the microscope: real photographs and films</h2><p><small>What students see in the eyepiece comes from real microscope photographs and films. For low power some cells or organisms are cut out of a photograph and spread over its own background, as a real slide looks.</small></p><table id="micro"><tr><th>Photo or film</th><th>By</th><th>Licence</th><th>Our changes</th></tr></table>
 <h2>Lab and physics models</h2><table id="lab"><tr><th>Model</th><th>By</th><th>Licence</th></tr></table>
 <p><small>360° photos of places for the Maths Lab and physics: Poly Haven (CC0).</small></p>
 <h2>Software</h2><p><small>three.js (MIT licence, © three.js authors) draws the 3D scenes. PeerJS (MIT licence, © Michelle Bu and Eric Zhang) connects the app to the teacher's class page; the class page and the apps talk directly over WebRTC, and the free public PeerJS server only introduces them.</small></p></main>
@@ -12,5 +13,6 @@ p{color:#b9b2a6}table{width:100%;border-collapse:collapse;font-size:13.5px}td,th
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const row = (c, ch) => `<tr><td><a href="${esc(c.url)}" target="_blank" rel="noopener">${esc(c.name)}</a></td><td>${esc(Object.keys(c.authors || {}).join(', ') || c.user || '')}</td><td>${esc(c.license)}</td>${ch ? `<td><small>${esc(c.changes || '')}</small></td>` : ''}</tr>`;
 fetch('models/eco/credits.json').then((r) => r.json()).then((a) => { document.getElementById('eco').insertAdjacentHTML('beforeend', a.map((c) => row(c, true)).join('')); }).catch(() => {});
+fetch('micro/credits.json').then((r) => r.json()).then((a) => { document.getElementById('micro').insertAdjacentHTML('beforeend', a.map((c) => row(c, true)).join('')); }).catch(() => {});
 fetch('models/credits.json').then((r) => r.json()).then((a) => { document.getElementById('lab').insertAdjacentHTML('beforeend', a.map((c) => row(c, false)).join('')); }).catch(() => {});
 </script></body></html>

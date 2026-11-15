@@ -1,0 +1,3 @@
+// the web app itself (all files, narration, models): delivered with the install, so it works offline at once
+plugins { id 'com.android.asset-pack' }
+assetPack { packName = 'webcontent'; dynamicDelivery { deliveryType = 'install-time' } }

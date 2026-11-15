@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Write sw.js (offline worker with the full file list and hashes) for DUET STEM web apps.
 Usage: build_sw.py <repo> [app ...]   (default apps: science body drone maths)"""
-import hashlib, json, os, re, subprocess, sys
+import hashlib, json, os, re, subprocess, sys, time
 APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360', 'maths': 'ml360'}
 MANIFEST_ONLY = {'space'}  # keeps its own offline worker; only the file list for the Android app
 SKIP_DIRS = {'tools', 'store-art', 'test', '.git', '__pycache__'}
@@ -82,8 +82,15 @@ def build(repo, app):
     ver = APPS[app] + '-' + hashlib.sha1(json.dumps(files, sort_keys=True).encode()).hexdigest()[:10]
     src = open(TEMPLATE).read().replace('__PREFIX__', APPS[app]).replace('__VERSION__', ver).replace('__FILES__', json.dumps(files, separators=(',', ':')))
     # the same list for the Android app, which updates its bundled copy from it
-    man = json.dumps({'v': ver, 'files': files}, separators=(',', ':'))
+    # 't': when this version was first built. The Android app only takes a published version that is newer than the
+    # one inside the install, so an older website can never roll a newer app back.
     mp = os.path.join(root, 'offline.json')
+    t = int(time.time())
+    try:
+        prev = json.load(open(mp))
+        if prev.get('v') == ver and prev.get('t'): t = prev['t']
+    except Exception: pass
+    man = json.dumps({'v': ver, 't': t, 'files': files}, separators=(',', ':'))
     if not os.path.exists(mp) or open(mp).read() != man: open(mp, 'w').write(man)
     path = os.path.join(root, 'sw.js')
     if app in MANIFEST_ONLY:

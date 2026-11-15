@@ -131,8 +131,8 @@
       if (!el) {
         el = document.createElement('div'); el.id = 'duet-gate';
         el.innerHTML = `<style>
-#duet-gate{position:fixed;inset:0;z-index:2147483000;background:radial-gradient(ellipse at 50% 20%,#1b2436,#0c111b 70%);display:flex;align-items:center;justify-content:center;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#f3eee6;padding:16px;box-sizing:border-box}
-#duet-gate .bx{width:min(560px,100%);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:28px 26px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+#duet-gate{position:fixed;inset:0;z-index:2147483000;background:radial-gradient(ellipse at 50% 20%,#1b2436,#0c111b 70%);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#f3eee6;padding:16px;box-sizing:border-box}
+#duet-gate .bx{margin:auto 0;width:min(560px,100%);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:28px 26px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 #duet-gate img{height:42px;margin-bottom:6px}#duet-gate .ap{color:#9aa6b8;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
 #duet-gate h1{font-size:23px;margin:10px 0 6px;font-weight:800}#duet-gate p{color:#b9c1cf;font-size:14.5px;margin:0 0 16px}
 #duet-gate input{width:100%;box-sizing:border-box;font-size:24px;letter-spacing:.08em;text-align:center;padding:14px 12px;border-radius:14px;border:2px solid rgba(255,255,255,.18);background:#0b0f17;color:#fff;text-transform:uppercase;outline:none}
@@ -140,6 +140,8 @@
 #duet-gate .go:disabled{opacity:.6}#duet-gate .m{min-height:22px;margin-top:12px;font-size:14.5px;font-weight:600}#duet-gate .m.e{color:#ff9b8a}#duet-gate .m.k{color:#9fd17a}
 #duet-gate .alt{margin-top:10px;width:100%;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:transparent;color:#e6ecf5;font-size:15.5px;font-weight:700;cursor:pointer}#duet-gate .alt small{display:block;font-weight:500;color:#9aa6b8;font-size:12.5px;margin-top:3px}
 #duet-gate .hp{display:block;margin-top:14px;color:#9aa6b8;font-size:13px;text-decoration:none}#duet-gate .hp:hover{color:#f0a65a}
+@media (max-height:540px) and (min-width:600px){#duet-gate{padding:10px 16px}#duet-gate .bx{width:min(820px,100%);display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:dense;column-gap:24px;align-items:center;text-align:left;padding:16px 22px;border-radius:18px}#duet-gate .bx>img,#duet-gate .ap,#duet-gate h1,#duet-gate .bx>p,#duet-gate .hp{grid-column:1}#duet-gate input,#duet-gate .go,#duet-gate .m,#duet-gate .alt{grid-column:2}#duet-gate img{height:28px;margin-bottom:2px}#duet-gate h1{font-size:19px;margin:4px 0}#duet-gate .bx>p{font-size:13px;margin:0}#duet-gate input{font-size:19px;padding:10px}#duet-gate .go{margin-top:8px;padding:10px;font-size:16px}#duet-gate .m{min-height:0;margin-top:4px}#duet-gate .alt{margin-top:6px;padding:9px}#duet-gate .hp{margin-top:8px}}
+@media (max-height:540px) and (max-width:599px){#duet-gate .bx{padding:16px 16px}#duet-gate h1{font-size:19px}#duet-gate input{font-size:19px;padding:10px}}
 </style><div class="bx"><img src="${LOGO}" alt="DUET STEM"><div class="ap"></div><h1></h1><p></p>
 <input autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="DUET-XXXX-XXXX-XXXX" maxlength="24"><button class="go"></button><div class="m"></div><button class="alt"></button><a class="hp" target="_blank" rel="noopener" href="${HELP}"></a></div>`;
         document.body.appendChild(el);

@@ -7,9 +7,11 @@ import { C, partInfo } from './content.js';
 import { SYSTEMS } from './data.js';
 import { UNITS, unitParts } from './split.js';
 import { makeQ, shuffled } from './classroom.js';
+import { fillT } from './xlang.js';
 
 const NAMEQ = { en: 'What is the glowing part called?', hi: 'चमकते हुए हिस्से का नाम क्या है?', hg: 'Chamakte hue part ka naam kya hai?' };
-const jobQ = (n) => ({ en: `What does the ${n.en} do?`, hi: `${n.hi || n.en} का क्या काम है?`, hg: `${n.hg || n.en} ka kya kaam hai?` });
+const JOBQ = { en: 'What does the {x} do?', hi: '{x} का क्या काम है?', hg: '{x} ka kya kaam hai?' };
+const jobQ = (n) => fillT(JOBQ, { x: n });
 const LAB_UNIT = { heart: 'heart', eye: 'eye', ear: 'ear', brain: 'brain', lungs: 'lungs', kidney: 'kidney', tooth: 'teeth' };
 const LAB_SYS = { heart: 'circulatory', eye: 'senses', ear: 'senses', brain: 'nervous', lungs: 'respiratory', kidney: 'urinary', tooth: 'digestive', skin: 'skin' };
 const SYS_EXTRA = { senses: { en: 'Sense organs', hi: 'ज्ञानेंद्रियाँ', hg: 'Sense organs' }, lymphatic: { en: 'Lymph and immunity', hi: 'लसीका और प्रतिरक्षा', hg: 'Lymph aur immunity' }, endocrine: { en: 'Glands and hormones', hi: 'ग्रंथियाँ और हार्मोन', hg: 'Glands aur hormones' } };
@@ -41,7 +43,8 @@ function build(pool, wider, n) {
 }
 const sysTitle = (s) => { const b = SYSTEMS[s] || SYS_EXTRA[s]; if (!b) return { en: s }; return { en: b.en, hi: (C.systems && C.systems[s] && C.systems[s].hi) || b.hi || b.en, hg: (C.systems && C.systems[s] && C.systems[s].hg) || b.hg || b.en }; };
 const QZ = { en: 'Name the parts', hi: 'हिस्सों के नाम', hg: 'Parts ke naam' };
-const withQ = (t) => ({ en: `${QZ.en}: ${t.en}`, hi: `${QZ.hi}: ${t.hi || t.en}`, hg: `${QZ.hg}: ${t.hg || t.en}` });
+const QZT = { en: 'Name the parts: {x}', hi: 'हिस्सों के नाम: {x}', hg: 'Parts ke naam: {x}' };
+const withQ = (t) => fillT(QZT, { x: t });
 
 export function bodyQuiz(id, app, n = 8) {
   id = String(id || 'all');

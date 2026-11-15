@@ -90,14 +90,16 @@ export function licenceGate(app, getLang, onMsg, opt = {}) { // opt.demo: offer 
     // the code screen
     const el = document.createElement('div'); el.id = 'lic';
     el.innerHTML = `<style>
-#lic{position:fixed;inset:0;z-index:99999;background:radial-gradient(ellipse at 50% 20%,#1b2436,#0c111b 70%);display:flex;align-items:center;justify-content:center;font-family:inherit;color:#f3eee6;padding:16px}
-#lic .bx{width:min(560px,100%);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:30px 28px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+#lic{position:fixed;inset:0;z-index:99999;background:radial-gradient(ellipse at 50% 20%,#1b2436,#0c111b 70%);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;font-family:inherit;color:#f3eee6;padding:16px;box-sizing:border-box}
+#lic .bx{margin:auto 0;width:min(560px,100%);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:22px;padding:30px 28px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 #lic img{height:44px;margin-bottom:10px}#lic h1{font-size:23px;margin:8px 0 6px;font-weight:800}#lic p{color:#b9c1cf;font-size:14.5px;line-height:1.5;margin:0 0 18px}
 #lic input{width:100%;box-sizing:border-box;font-size:24px;letter-spacing:.08em;text-align:center;padding:14px 12px;border-radius:14px;border:2px solid rgba(255,255,255,.18);background:#0b0f17;color:#fff;text-transform:uppercase;outline:none}
 #lic input:focus{border-color:#f0a65a}#lic .go{margin-top:14px;width:100%;padding:14px;border-radius:14px;border:0;background:#f0a65a;color:#14100a;font-size:18px;font-weight:800;cursor:pointer}
 #lic .go:disabled{opacity:.6}#lic .m{min-height:22px;margin-top:14px;font-size:14.5px;font-weight:600}#lic .m.e{color:#ff9b8a}#lic .m.k{color:#9fd17a}
 #lic .alt{margin-top:10px;width:100%;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,.18);background:transparent;color:#e6ecf5;font-size:15.5px;font-weight:700;cursor:pointer}#lic .alt small{display:block;font-weight:500;color:#9aa6b8;font-size:12.5px;margin-top:3px}
 #lic .lg{margin-top:16px;display:flex;gap:6px;justify-content:center}#lic .lg button{background:rgba(255,255,255,.07);border:0;color:#cfd7e4;padding:6px 12px;border-radius:9px;cursor:pointer;font-size:13px}
+@media (max-height:540px) and (min-width:600px){#lic{padding:10px 16px}#lic .bx{width:min(820px,100%);display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:dense;column-gap:24px;align-items:center;text-align:left;padding:16px 22px;border-radius:18px}#lic .bx>img,#lic h1,#lic .bx>p,#lic .lg{grid-column:1}#lic input,#lic .go,#lic .m,#lic .alt{grid-column:2}#lic .lg{justify-content:flex-start;margin-top:8px}#lic img{height:28px;margin-bottom:2px}#lic h1{font-size:19px;margin:4px 0}#lic .bx>p{font-size:13px;margin:0}#lic input{font-size:19px;padding:10px}#lic .go{margin-top:8px;padding:10px;font-size:16px}#lic .m{min-height:0;margin-top:4px}#lic .alt{margin-top:6px;padding:9px}}
+@media (max-height:540px) and (max-width:599px){#lic .bx{padding:16px}#lic h1{font-size:19px}#lic input{font-size:19px;padding:10px}}
 </style><div class="bx"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h1></h1><p></p>
 <input id="lic-in" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="DUET-XXXX-XXXX-XXXX" maxlength="24"><button class="go"></button><div class="m"></div>${opt.demo || opt.locked ? '<button class="alt"></button>' : ''}
 <div class="lg"><button data-l="en">English</button><button data-l="hi">हिंदी</button><button data-l="hg">Hinglish</button></div></div>`;

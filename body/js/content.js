@@ -1,9 +1,11 @@
 // Language layer: English / Hindi / Hinglish text for UI, journeys, labs and every body part.
 import { JOURNEYS, PARTS as BASE, SYSTEMS, T } from './data.js';
 
-export const LANGS = ['en', 'hi', 'hg'];
-export const LANG_LABEL = { en: 'English', hi: 'हिंदी', hg: 'Hinglish' };
-export const LANG_SHORT = { en: 'EN', hi: 'हिं', hg: 'HG' };
+import { XLANGS, XLABEL } from './xlang.js';
+export const MAIN_LANGS = ['en', 'hi', 'hg']; // with their own buttons; the 8 other Indian languages are in the language menu
+export const LANGS = [...MAIN_LANGS, ...XLANGS];
+export const LANG_LABEL = { en: 'English', hi: 'हिंदी', hg: 'Hinglish', ...XLABEL };
+export const LANG_SHORT = { en: 'EN', hi: 'हिं', hg: 'HG', ...XLABEL };
 
 // UI words (merged with content.json "ui")
 Object.assign(T, {

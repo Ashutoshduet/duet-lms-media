@@ -1,4 +1,5 @@
 // Body sounds (heartbeat, breathing) and the teacher narration (recorded mp3, with the device voice as a fallback).
+import { BCP } from './xlang.js';
 const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
 
 export class Audio {
@@ -90,7 +91,7 @@ export class Audio {
       if (!this.voice || !('speechSynthesis' in window) || !text) return res(false);
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      const want = lang === 'en' ? ['en-IN', 'en-GB', 'en-US', 'en'] : ['hi-IN', 'hi'];
+      const want = lang === 'en' ? ['en-IN', 'en-GB', 'en-US', 'en'] : lang === 'hi' || lang === 'hg' ? ['hi-IN', 'hi'] : [(BCP[lang] || 'hi-IN'), lang]; // the other Indian languages: only a voice of that language (none: the text stays on the screen)
       const v = want.map((w) => this.voices.find((x) => x.lang && x.lang.replace('_', '-').startsWith(w))).find(Boolean);
       if (!v) return res(false);
       u.voice = v; u.lang = v.lang;

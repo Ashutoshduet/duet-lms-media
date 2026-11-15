@@ -2,7 +2,7 @@
 # keep each app's offline file list (sw.js, offline.json) in step with its files
 top="$(git rev-parse --show-toplevel)"
 # the classroom code is shared: science/js is the master copy, Human Body 360 gets a copy
-for f in js/classroom.js js/classui.js js/tutor.js lib/peerjs.min.js; do
+for f in js/classroom.js js/classui.js js/tutor.js js/xlang.js js/phonexr.js lib/peerjs.min.js; do
   if ! cmp -s "$top/science/$f" "$top/body/$f"; then cp "$top/science/$f" "$top/body/$f"; fi
   git add "body/$f"
 done

@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { buildAnatomyRoom } from './room.js';
 import { setupHands } from './xrhands.js';
+import { PhoneXR, phoneXRWanted } from './phonexr.js';
 import { Body, LAYERS, asset } from './body.js';
 import { FlowSystem, PathCurve, Tracer } from './flows.js';
 import { OrganAnimator } from './anim.js';
@@ -17,7 +18,8 @@ import { Dismantle } from './dismantle.js';
 import { Handson, Cutter, OUT } from './handson.js';
 import { Splitter, UNITS, unitOf, unitParts, subPieces } from './split.js';
 import { JOURNEYS, SYSTEMS, T } from './data.js';
-import { LANGS, C, tx, partInfo, hasAudio, loadContent } from './content.js';
+import { LANGS, MAIN_LANGS, C, tx, partInfo, hasAudio, loadContent, LANG_LABEL } from './content.js';
+import { isX, loadLang, ready as langReady, langMenu, XLABEL } from './xlang.js';
 import { ClassUI } from './classui.js';
 import { bodyQuiz } from './quizgen.js';
 import { bodyDocs, bodySuggest } from './tutordocs.js';
@@ -50,6 +52,7 @@ class App {
     this.lang = store.get('hb_lang') || ((navigator.language || '').startsWith('hi') ? 'hi' : 'en');
     if (Q.get('lang')) this.lang = Q.get('lang');
     if (!LANGS.includes(this.lang)) this.lang = 'en';
+    if (isX(this.lang)) loadLang(this.lang).then(() => { document.documentElement.lang = this.lang; try { this.buildHTML(); this.refreshUI(); } catch (e) {} }); // a language from the menu: its texts load now
     this.mode = 'explore'; this.journey = null; this.stepIdx = 0; this.playing = false; this.fine = false;
     this.sel = null; this.isolated = null; this.labId = null; this.labSel = null; this.selPiece = null;
     this.audio = new Audio();
@@ -759,15 +762,15 @@ class App {
     dy = Math.atan2(Math.sin(f.yaw - g.rotation.y), Math.cos(f.yaw - g.rotation.y)); g.rotation.y += dy * k;
   }
   headPose() {
-    const cam = this.renderer.xr.getCamera();
+    const cam = this.renderer.xr.isPresenting ? this.renderer.xr.getCamera() : this.camera;
     const pos = new THREE.Vector3(), q = new THREE.Quaternion();
     cam.getWorldPosition(pos); cam.getWorldQuaternion(q);
     if (pos.lengthSq() === 0) pos.set(0, 1.5, 0);
     const dir = new THREE.Vector3(0, 0, -1).applyQuaternion(q); dir.y = 0; if (dir.lengthSq() < 1e-4) dir.set(0, 0, -1); dir.normalize();
     return { pos, dir };
   }
-  inXR() { return this.renderer.xr.isPresenting; }
-  viewCamera() { return this.inXR() ? this.renderer.xr.getCamera() : this.camera; }
+  inXR() { return this.renderer.xr.isPresenting || !!(this.pxr && this.pxr.on); }
+  viewCamera() { return this.renderer.xr.isPresenting ? this.renderer.xr.getCamera() : this.camera; }
 
   // ------------------------------------------------------------ labels
   clearLabels() { this.labelGroup.clear(); this.stepLabels = []; }
@@ -943,6 +946,16 @@ class App {
     this.raycaster = new THREE.Raycaster();
     r.xr.addEventListener('sessionstart', () => this.onXRStart());
     r.xr.addEventListener('sessionend', () => this.onXREnd());
+    // a phone without WebXR (the Android app, most phones): VR box (split screen, look to press) and camera AR, with
+    // the same panels as in a headset (phonexr.js)
+    const gz = () => this.pxr.gaze;
+    this.pxr = new PhoneXR(this, { sceneUI: true, eyeBox: () => new THREE.Vector3(0, 1.5, 0), eyeCam: () => new THREE.Vector3(0, 1.35, 0.8),
+      onCamera: (tex) => { this._camTex = tex; },
+      onStart: (m) => { this.xrMode = m === 'cam' ? 'immersive-ar' : 'immersive-vr'; gz().userData.src = { gamepad: null }; if (!this.controllers.includes(gz())) this.controllers.push(gz());
+        this.onXRStart(); if (m === 'cam' && this._camTex) this.scene.background = this._camTex; },
+      onStop: () => { this.controllers = this.controllers.filter((c) => c !== gz()); gz().userData = {}; this.onXREnd(); this.onResize(); },
+      select: (c) => { this.onSelect(c); setTimeout(() => this.onSelectEnd(c), 160); },
+      dwellKey: (c) => { const rc = this.rayFrom(c); const ph = rc.intersectObjects(this.vrui.panels(), false)[0]; const id = ph && ph.object.userData.panel.hitUV(ph.uv); return id ? 'p:' + id : null; } });
   }
   async autoXR() {
     document.body.classList.add('app-xr');
@@ -1225,11 +1238,14 @@ class App {
     else if (id === 'size_up') this.zoomBy(1.25);
     else if (id === 'size_dn') this.zoomBy(0.8);
     else if (id === 'save_all') this.saveAll();
-    else if (id === 'exit') { const s = this.renderer.xr.getSession(); s && s.end(); }
+    else if (id === 'exit') { if (this.pxr && this.pxr.on) { this.pxr.stop(); return; } const s = this.renderer.xr.getSession(); s && s.end(); }
     this.refreshUI();
   }
   setLang(l) {
-    this.lang = l; store.set('hb_lang', l);
+    if (!LANGS.includes(l)) return;
+    if (!langReady(l)) { this.toast('…', 1500); loadLang(l).then((ok) => { if (ok) this.setLang(l); else this.toast('⚠ offline'); }); return; } // the texts of the language first
+    if (this.vrui && this.vrui.page === 'lang') this.vrui.page = 'home';
+    this.lang = l; store.set('hb_lang', l); if (this._pxrBtns) this._pxrBtns();
     document.documentElement.lang = l;
     this.mag.setLang(l); this.lab.setLang(l);
     if (this.mode === 'journey' && this.step) this.showStep(this.stepIdx);
@@ -1237,7 +1253,7 @@ class App {
     else if (this.sel) { this.makePickLabel(); this.speakPart(this.sel.pid); if (this.zoom.active) this.focusSel(); }
     else if (this.mode === 'dismantle') { this.dis.makeLabels(); if (this.selPiece) this.speakPart(this.selPiece.userData.cid); }
     else if (this.mode === 'game') this.feedback = tx(this.inXR() ? T.assembleVR : T.assembleDesk, l);
-    this.splitter.relabel();
+    this.splitter.relabel(); if (this.cls) { this.cls.renderChip(); this.cls.renderPage(); }
     setTimeout(() => this.prefetchAudio([l]), 2000);
     this.buildHTML(); this.refreshUI();
   }
@@ -1306,7 +1322,8 @@ class App {
     const L = this.lang;
     document.documentElement.lang = L;
     $('#title').textContent = tx(T.title, L);
-    for (const l of LANGS) $('#lang-' + l).classList.toggle('on', L === l);
+    for (const l of MAIN_LANGS) $('#lang-' + l).classList.toggle('on', L === l);
+    { const mb = $('#lang-more'); if (mb) { mb.classList.toggle('on', isX(L)); mb.textContent = isX(L) ? `${XLABEL[L]} ▾` : '🌐 ▾'; } }
     const narrow = innerWidth < 520; $('#btn-vr').textContent = narrow ? 'VR' : tx(T.enterVR, L); $('#btn-ar').textContent = narrow ? 'AR' : tx(T.enterAR, L);
     $('#jlabel').textContent = tx(T.journeys, L); $('#llabel').textContent = tx(T.layers, L);
     $('#lablabel').textContent = tx(T.labs, L); $('#dislabel').textContent = tx(T.dismantle, L); $('#gamelabel').textContent = tx(T.assemble, L);
@@ -1432,13 +1449,23 @@ class App {
       down = null;
     });
     el.addEventListener('pointerleave', () => this.setHover(null));
-    for (const l of LANGS) $('#lang-' + l).onclick = () => { this.audio.unlock(); this.setLang(l); };
+    for (const l of MAIN_LANGS) $('#lang-' + l).onclick = () => { this.audio.unlock(); this.setLang(l); };
+    if ($('#lang-more')) $('#lang-more').onclick = (e) => { this.audio.unlock(); langMenu(e.currentTarget, this.lang, LANG_LABEL, (l) => this.setLang(l), { en: 'The 8 other Indian languages are machine translated.', hi: 'बाकी 8 भारतीय भाषाएँ मशीन से अनुवादित हैं।', hg: 'Baaki 8 Indian languages machine se translate hui hain.' }[this.lang] || 'The 8 other Indian languages are machine translated.'); };
     $('#btn-sfx').onclick = () => { this.audio.unlock(); this.action('sfx'); };
     $('#btn-organs').onclick = () => document.body.classList.toggle('organs-open');
     $('#psearch').oninput = () => this.buildPartList();
     $('#btn-vr').onclick = () => this.enterXR('immersive-vr');
     $('#xr-go').onclick = () => this.enterXR(this.appMode === 'ar' ? 'immersive-ar' : 'immersive-vr');
     $('#btn-ar').onclick = () => this.enterXR('immersive-ar');
+    if (phoneXRWanted() && this.appMode !== 'vr' && this.appMode !== 'ar') { // a phone: VR box, and camera AR where the browser has no real (ARCore) AR
+      const PT = { box: { en: 'VR box', hi: 'VR बॉक्स', hg: 'VR box' }, cam: { en: 'Camera AR', hi: 'कैमरा AR', hg: 'Camera AR' } };
+      const mk = (id, k) => { let b = $('#' + id); if (!b) { b = document.createElement('button'); b.id = id; b.className = 'xr pxr'; $('#btn-ar').parentNode.insertBefore(b, $('#btn-ar')); }
+        b.onclick = () => { this.audio.unlock(); if (this.pxr.on) this.pxr.stop(); else this.pxr.start(k); }; return b; };
+      this._pxrBtns = () => { mk('pxr-box', 'box').textContent = '🥽 ' + tx(PT.box, this.lang); mk('pxr-cam', 'cam').textContent = '📷 ' + tx(PT.cam, this.lang); };
+      this._pxrBtns();
+      const real = navigator.xr ? navigator.xr.isSessionSupported('immersive-ar').catch(() => false) : Promise.resolve(false);
+      real.then((ok) => { $('#pxr-cam').hidden = !!ok || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia); if (!ok) { $('#btn-ar').hidden = true; } if (!navigator.xr) $('#btn-vr').hidden = true; });
+    }
     $('#btn-voice').onclick = () => { this.audio.unlock(); this.action('voice'); };
     $('#btn-reset').onclick = () => { this.controls.autoRotate = false; $('#btn-spin').classList.remove('on'); this.goView(false); };
     $('#btn-zin').onclick = () => this.zoomBy(1.25); $('#btn-zout').onclick = () => this.zoomBy(0.8);
@@ -1458,6 +1485,7 @@ class App {
     } else { $('#btn-vr').classList.add('dim'); $('#btn-ar').classList.add('dim'); }
   }
   onResize() {
+    if (this.pxr && this.pxr.on) { this.renderer.setSize(innerWidth, innerHeight); return; } // the phone AR/VR modes set their own view
     this.camera.aspect = innerWidth / innerHeight;
     const card = document.getElementById('story');
     const d = card ? Math.round((card.getBoundingClientRect().height + 24) * 0.5) : 0;
@@ -1499,8 +1527,8 @@ class App {
     if (this.cls) { try { this.cls.frame(dt); } catch (e) {} } // the classroom link first: nothing later in the frame can stop it
     const t = clock.elapsedTime;
     if (this.anat) this.anat.userData.tick();
-    const xr = this.inXR();
-    if (xr && this.xrHands) this.xrHands.update();
+    const xr = this.inXR(); const px = !!(this.pxr && this.pxr.on);
+    if (xr && !px && this.xrHands) this.xrHands.update();
     const dtA = (this.mode === 'journey' || this.mode === 'lab') ? dt * Math.min(this.speed, 3) : dt;
     this.anim.update(dtA);
     const D = this.flows.drivers;
@@ -1513,7 +1541,7 @@ class App {
     this.tracer.update(dtA, t, 0.4 + 1.5 * this.anim.beat);
     this.body.state.u.uPTime.value = t; this.body.state.commit();
     let scale;
-    if (xr) {
+    if (xr && !px) {
       const cam = this.renderer.xr.getCamera(); const sub = cam.cameras && cam.cameras[0];
       const h = sub && sub.viewport ? sub.viewport.w : 1800;
       scale = h * 0.5 * (sub ? sub.projectionMatrix.elements[5] : 1.2);
@@ -1561,7 +1589,7 @@ class App {
     } else this.autoFrac = 0;
     if ((this._pf = (this._pf || 0) + dt) > 0.25) { this._pf = 0; const e = document.getElementById('s-prog'); if (e) e.style.transform = `scaleX(${this.autoFrac || 0})`; }
     if (xr) this.vrui.setProgress(this.autoFrac || 0); // a mesh bar: no canvas redraw while playing
-    this.renderer.render(this.scene, this.camera);
+    if (px) this.pxr.render(dt); else this.renderer.render(this.scene, this.camera);
     if (Q.has('shot') && !this._shotDone) {
       this._frames = (this._frames || 0) + 1;
       if (this._frames > (+Q.get('shot') || 90)) { this._shotDone = true; document.title = 'READY'; }

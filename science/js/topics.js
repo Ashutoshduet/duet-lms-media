@@ -28,6 +28,10 @@ export const TOPICS = {
   biology: [
     ['eco', N('Ecosystems, food chains and energy', 'पारितंत्र, आहार श्रृंखला और ऊर्जा', 'Ecosystem, food chain aur energy'), /Our Environment|Ecosystem/],
     ['living', N('Living things and their characteristics', 'सजीव और उनकी विशेषताएँ', 'Living things aur unki khoobiyan'), /Living|Diversity/],
+    ['cells', N('Cells and the microscope', 'कोशिकाएँ और सूक्ष्मदर्शी', 'Cells aur microscope'), /Cell/],
+    ['micro', N('Microorganisms', 'सूक्ष्मजीव', 'Microorganisms (sookshmjeev)'), /Invisible Living/],
+    ['tissue', N('Tissues', 'ऊतक', 'Tissues (ootak)'), /Tissue/],
+    ['repro', N('Reproduction', 'जनन', 'Reproduction (janan)'), /Reproduc/],
   ],
   maths: [
     ['numbers', N('Numbers and patterns', 'संख्याएँ और पैटर्न', 'Numbers aur patterns'), /Square and A Cube|Number|Patterns|Power|Zero|Point|Fraction|Proportional|Integer|Decimal|Progression/],

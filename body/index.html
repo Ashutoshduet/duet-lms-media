@@ -15,6 +15,28 @@
 @font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/nsd-deva-400.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
 @font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/nsd-deva-600.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
 @font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/nsd-deva-700.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+/* the scripts of the other Indian languages (Noto Sans, OFL), under the same family name: each file loads only when its letters are used */
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-beng-400.woff2) format("woff2");unicode-range:U+0980-09FE}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-beng-600.woff2) format("woff2");unicode-range:U+0980-09FE}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-beng-700.woff2) format("woff2");unicode-range:U+0980-09FE}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-taml-400.woff2) format("woff2");unicode-range:U+0B82-0BFA}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-taml-600.woff2) format("woff2");unicode-range:U+0B82-0BFA}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-taml-700.woff2) format("woff2");unicode-range:U+0B82-0BFA}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-telu-400.woff2) format("woff2");unicode-range:U+0C00-0C7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-telu-600.woff2) format("woff2");unicode-range:U+0C00-0C7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-telu-700.woff2) format("woff2");unicode-range:U+0C00-0C7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-gujr-400.woff2) format("woff2");unicode-range:U+0A80-0AFF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-gujr-600.woff2) format("woff2");unicode-range:U+0A80-0AFF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-gujr-700.woff2) format("woff2");unicode-range:U+0A80-0AFF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-knda-400.woff2) format("woff2");unicode-range:U+0C80-0CF3}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-knda-600.woff2) format("woff2");unicode-range:U+0C80-0CF3}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-knda-700.woff2) format("woff2");unicode-range:U+0C80-0CF3}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-mlym-400.woff2) format("woff2");unicode-range:U+0D00-0D7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-mlym-600.woff2) format("woff2");unicode-range:U+0D00-0D7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-mlym-700.woff2) format("woff2");unicode-range:U+0D00-0D7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-orya-400.woff2) format("woff2");unicode-range:U+0B01-0B77}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-orya-600.woff2) format("woff2");unicode-range:U+0B01-0B77}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-orya-700.woff2) format("woff2");unicode-range:U+0B01-0B77}
 :root{color-scheme:dark;--bg:#0a0d13;--panel:rgba(13,17,25,.74);--line:rgba(255,255,255,.09);--ink:#f2ede4;--mute:#a49d90;--c:#d9d2c3;--r:16px}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari",system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
@@ -70,7 +92,7 @@ body.organs-open #organ-drawer{display:block}
 #s-title{font-size:23px;font-weight:700;margin:4px 0 6px;line-height:1.2}
 #s-text{font-size:16.5px;line-height:1.6;color:#e2dccf;max-height:30vh;overflow:auto}
 #s-text p{margin:0 0 6px}#s-text b{color:var(--c,#d9d2c3);font-weight:700}
-html[lang=hi] #s-text{font-size:17.5px;line-height:1.75}
+html:is([lang=hi],[lang=mr],[lang=bn],[lang=ta],[lang=te],[lang=gu],[lang=kn],[lang=ml],[lang=or]) #s-text{font-size:17.5px;line-height:1.75}
 #s-dots i{flex:1;max-width:46px;height:5px;border-radius:3px;background:rgba(255,255,255,.14);cursor:pointer}
 #s-dots i.on{background:var(--c)}
 .cbtn{padding:9px 14px;border-radius:10px;font-weight:700;font-size:14px;background:rgba(255,255,255,.08)}
@@ -123,13 +145,23 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
   .xr{white-space:nowrap;padding:8px 11px}#tools{gap:2px}#btn-info{display:none}.ib{width:34px;height:34px}
   #tools .xr.ar,#btn-reset{display:none}
   #s-title{font-size:19px}#s-text{font-size:15px;max-height:24vh}
-  html[lang=hi] #s-text{font-size:16px}
+  html:is([lang=hi],[lang=mr],[lang=bn],[lang=ta],[lang=te],[lang=gu],[lang=kn],[lang=ml],[lang=or]) #s-text{font-size:16px}
+}
+/* a phone held sideways (short screen): a small story card at the bottom, so the body stays in view */
+@media (max-height:520px){
+  #btn-panels{display:grid}.rail{display:none;top:64px;max-height:calc(100% - 190px)}body.panels-open .rail{display:block}
+  #tools .xr.ar,#btn-reset,#btn-zout,#btn-zin,#btn-spin,#btn-info{display:none}#tools .xr{padding:7px 10px;font-size:13px}.ib{width:34px;height:34px}
+  #top{gap:8px}#brand{padding:6px 12px}#title{font-size:15px;white-space:nowrap}#logo{height:11px}#tools{gap:3px}.seg button{padding:6px 8px;font-size:13px}#tools>button:not(.ib):not(.xr){padding:6px 9px;font-size:13px}
+  #story{padding:8px 14px 8px;width:min(600px,calc(100% - 28px));bottom:6px}
+  #s-kicker{font-size:11.5px}#s-title,#story.explore #s-title{font-size:16px;margin:1px 0 3px}
+  #s-text,html:is([lang=hi],[lang=mr],[lang=bn],[lang=ta],[lang=te],[lang=gu],[lang=kn],[lang=ml],[lang=or]) #s-text{font-size:13.5px;line-height:1.45;max-height:15vh}
+  #s-buttons{margin-top:6px;gap:6px}#s-buttons button{padding:5px 10px;font-size:13px}#s-dots{margin-top:6px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <script src="./duetgate.js"></script>
 <script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/addons/"}}</script>
-<style>.duet-native .xr{display:none!important}</style><script>if(window.DuetNative)document.documentElement.className+=" duet-native"</script>
+<style>.duet-native .xr:not(.pxr){display:none!important}</style><script>if(window.DuetNative)document.documentElement.className+=" duet-native"</script>
 </head>
 <body>
 <div id="stage"></div>
@@ -138,7 +170,7 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
   <div class="sp"></div>
   <div id="tools" class="panel">
     <button id="btn-panels" class="ib" title="Menu" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-    <div class="seg"><button id="lang-en">EN</button><button id="lang-hi">हिंदी</button><button id="lang-hg">Hinglish</button></div>
+    <div class="seg"><button id="lang-en">EN</button><button id="lang-hi">हिंदी</button><button id="lang-hg">Hinglish</button><button id="lang-more" aria-haspopup="menu" title="Bengali, Marathi, Tamil, Telugu, Gujarati, Kannada, Malayalam, Odia">🌐 ▾</button></div>
     <button id="btn-voice" class="ib" title="Voice" aria-label="Voice"></button>
     <button id="btn-sfx" class="ib" title="Sounds" aria-label="Sound effects"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h3l3-7 4 14 3-7h5"/></svg></button>
     <button id="btn-zout" class="ib" title="Zoom out" aria-label="Zoom out"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M7.5 10.5h6"/></svg></button>

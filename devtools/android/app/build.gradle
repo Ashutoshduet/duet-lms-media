@@ -1,0 +1,30 @@
+plugins { id 'com.android.application' }
+def cfg = new Properties(); file('../app.properties').withInputStream { cfg.load(it) }
+def keys = new Properties(); def kf = file(cfg.getProperty('keyProps', '/root/work/android-keys/upload.properties')); if (kf.exists()) kf.withInputStream { keys.load(it) }
+android {
+  namespace 'in.duetpower.stem.shell'
+  compileSdk 36
+  defaultConfig {
+    applicationId cfg.getProperty('applicationId')
+    minSdk 26
+    targetSdk 36
+    versionCode Integer.parseInt(cfg.getProperty('versionCode'))
+    versionName cfg.getProperty('versionName')
+    resValue 'string', 'app_name', cfg.getProperty('appName')
+    buildConfigField 'String', 'APP_DIR', '"' + cfg.getProperty('appDir') + '"'
+    buildConfigField 'String', 'REMOTE_BASE', '"https://ashutoshduet.github.io/duet-lms-media/"'
+    buildConfigField 'String', 'BG', '"' + cfg.getProperty('bg', '#0b0f17') + '"'
+    manifestPlaceholders = [orientation: cfg.getProperty('orientation', 'sensorLandscape')]
+  }
+  signingConfigs { upload { if (kf.exists()) { storeFile file(keys.getProperty('storeFile')); storePassword keys.getProperty('storePassword'); keyAlias keys.getProperty('keyAlias'); keyPassword keys.getProperty('keyPassword') } } }
+  buildTypes { release { minifyEnabled false; if (kf.exists()) signingConfig signingConfigs.upload } }
+  buildFeatures { buildConfig true; resValues true }
+  assetPacks = [':webcontent']
+  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
+  androidResources { noCompress += ['mp3', 'mp4', 'webm', 'glb', 'png', 'jpg', 'webp', 'woff2', 'hdr', 'wasm', 'ogg'] }
+}
+dependencies {
+  implementation 'androidx.webkit:webkit:1.14.0'
+  implementation 'androidx.core:core:1.16.0'
+  implementation 'androidx.activity:activity:1.10.1'
+}

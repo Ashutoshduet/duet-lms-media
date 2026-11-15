@@ -5,7 +5,8 @@
 import * as THREE from 'three';
 import { FONT } from './labels.js';
 import { JOURNEYS, SYSTEMS, T } from './data.js';
-import { LANGS, LANG_LABEL, tx } from './content.js';
+import { LANGS, MAIN_LANGS, LANG_LABEL, tx } from './content.js';
+import { isX, XLABEL } from './xlang.js';
 import { LABS, LAB_IDS } from './lab.js';
 
 const LOGO = new Image();
@@ -129,7 +130,7 @@ export class VRUI {
     if (!this._dm) { this.drawStory(); this.story.commit(); this._ds = false; return; }
     this._dm = false;
     const pg = this.page;
-    if (pg === 'journeys') this.drawJourneys(); else if (pg === 'labs') this.drawLabs(); else if (pg === 'parts') this.drawParts(); else if (pg === 'settings') this.drawSettings(); else if (pg === 'labparts') this.drawLabParts(); else this.drawHome();
+    if (pg === 'lang') this.drawLang(); else if (pg === 'journeys') this.drawJourneys(); else if (pg === 'labs') this.drawLabs(); else if (pg === 'parts') this.drawParts(); else if (pg === 'settings') this.drawSettings(); else if (pg === 'labparts') this.drawLabParts(); else this.drawHome();
     this.menu.commit();
   }
   header(P, title) {
@@ -156,7 +157,8 @@ export class VRUI {
     P.btn('game_bones', 510, y, 450, 90, this.t('bonesSet'), { size: 32, active: a.mode === 'game' && a.dis.set === 'bones' }); y += 116;
     P.btn('museum', 40, y, a.cls ? 420 : 920, 96, '◎ ' + this.t('museum'), { size: 28, active: a.museum, color: '#7fd1ff' }); if (a.cls) { a.cls.vrAsk(P, 476, y, 230, 96); a.cls.vrChip(P, 722, y, 238, 96); } y += 112;
     // language + settings row
-    LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, y, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
+    MAIN_LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 170, y, 160, 84, LANG_LABEL[l], { size: 26, align: 'center', active: L === l, color: '#f3eee6' }));
+    P.btn('page_lang', 550, y, 186, 84, isX(L) ? XLABEL[L] : '🌐 ▾', { size: 26, align: 'center', active: isX(L), color: '#f3eee6' });
     P.btn('page_settings', 748, y, 212, 84, '⚙ ' + this.t('settings'), { size: 26, align: 'center' }); y += 104;
     // zoom row (also: thumbstick up/down, or hold both grips and pull hands apart)
     P.text(this.t('zoomRow'), 44, y + 6, 26, '#a49d90', 600); y += 44;
@@ -217,6 +219,12 @@ export class VRUI {
     });
     if (pages > 1) { P.btn('pp_prev', 40, 1388, 200, 76, '‹', { size: 40, align: 'center' }); P.text(`${this.pp + 1} / ${pages}`, 440, 1408, 32, '#a49d90'); P.btn('pp_next', 760, 1388, 200, 76, '›', { size: 40, align: 'center' }); }
   }
+  drawLang() { // every language, two columns
+    const P = this.menu, L = this.L(); P.bg('#7fd1ff'); this.header(P, '🌐 ' + ({ en: 'Language', hi: 'भाषा', hg: 'Language' }[L] || tx({ en: 'Language', hi: 'भाषा', hg: 'Language' }, L))); this.back(P);
+    LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + (i % 2) * 470, 180 + Math.floor(i / 2) * 106, 450, 94, LANG_LABEL[l], { size: 34, align: 'center', active: L === l, color: '#f3eee6' }));
+    const note = tx({ en: 'The 8 other Indian languages are machine translated; the narrator speaks them where the device has a voice for them.', hi: 'बाकी 8 भारतीय भाषाएँ मशीन से अनुवादित हैं; जिन भाषाओं की आवाज़ डिवाइस में है, उनमें कथावाचक बोलता भी है।', hg: 'Baaki 8 Indian languages machine se translate hui hain; jin languages ki voice device mein hai, unmein narrator bolta bhi hai.' }, L);
+    P.x.font = `500 24px ${FONT}`; wrap(P.x, note, 900).slice(0, 3).forEach((ln, i) => P.text(ln, 44, 830 + i * 34, 24, '#a49d90', 500));
+  }
   drawSettings() {
     const P = this.menu, a = this.app, L = this.L(); P.bg('#a49d90');
     this.header(P, this.t('settings')); this.back(P);
@@ -224,7 +232,8 @@ export class VRUI {
     const row = (id, label, on) => { P.btn(id, 40, y, 920, 100, `${label}: ${this.t(on ? 'on' : 'off')}`, { size: 34, active: on, color: '#7fd1ff' }); y += 116; };
     row('voice', this.t('voice'), a.audio.voice);
     row('sfx', this.t('sfx'), a.audio.sfx);
-    LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 310, y, 290, 92, LANG_LABEL[l], { size: 32, align: 'center', active: L === l, color: '#f3eee6' })); y += 116;
+    MAIN_LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 230, y, 220, 92, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
+    P.btn('page_lang', 730, y, 230, 92, isX(L) ? XLABEL[L] : '🌐 ▾', { size: 30, align: 'center', active: isX(L), color: '#f3eee6' }); y += 116;
     P.btn('recenter', 40, y, 920, 100, '⟳ ' + this.t('recenter'), { size: 34 }); y += 116;
     P.btn('size_dn', 40, y, 450, 100, '－ ' + (L === 'en' ? 'Smaller' : L === 'hi' ? 'छोटा' : 'Chhota'), { size: 34, align: 'center' });
     P.btn('size_up', 510, y, 450, 100, '＋ ' + (L === 'en' ? 'Bigger' : L === 'hi' ? 'बड़ा' : 'Bada'), { size: 34, align: 'center' }); y += 116;
@@ -244,7 +253,7 @@ export class VRUI {
     { const X = P.x, cx = 1100 - 90, cy = 58; X.strokeStyle = X.fillStyle = '#f3eee6'; X.lineWidth = 4; X.lineCap = 'round';
       X.beginPath(); X.moveTo(cx - 24, cy - 9); X.lineTo(cx - 14, cy - 9); X.lineTo(cx - 2, cy - 20); X.lineTo(cx - 2, cy + 20); X.lineTo(cx - 14, cy + 9); X.lineTo(cx - 24, cy + 9); X.closePath(); X.fill();
       X.beginPath(); if (this.app.audio.voice) { X.arc(cx + 2, cy, 12, -0.9, 0.9); X.moveTo(cx + 10, cy - 18); X.arc(cx + 2, cy, 22, -0.9, 0.9); } else { X.moveTo(cx + 8, cy - 10); X.lineTo(cx + 26, cy + 10); X.moveTo(cx + 26, cy - 10); X.lineTo(cx + 8, cy + 10); } X.stroke(); }
-    LANGS.forEach((l, i) => P.btn('lang_' + l, 1100 - 160 - (3 - i) * 152, 26, 142, 64, LANG_LABEL[l], { size: 24, align: 'center', active: L === l, color: '#f3eee6' }));
+    MAIN_LANGS.forEach((l, i) => P.btn('lang_' + l, 1100 - 160 - (3 - i) * 152, 26, 142, 64, isX(L) && l === 'hg' ? XLABEL[L] : LANG_LABEL[l], { size: 24, align: 'center', active: L === l || (isX(L) && l === 'hg'), color: '#f3eee6' }));
     P.btn('zoom_out', 250, 26, 96, 64, '−', { size: 44, align: 'center' }); P.btn('zoom_in', 354, 26, 96, 64, '+', { size: 44, align: 'center' });
     X.font = `700 28px ${FONT}`; X.fillStyle = m.color || '#d9d2c3'; X.textBaseline = 'top';
     X.fillText(m.kicker || '', 40, 112);

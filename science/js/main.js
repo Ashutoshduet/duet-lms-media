@@ -13,6 +13,7 @@ import { I18N, DICT } from './exp_i18n.js';
 import { Audio } from './audio.js';
 import { UI } from './ui.js';
 import { XRInput } from './xr.js';
+import { PhoneXR, phoneXRWanted } from './phonexr.js';
 import { loadModels, loadLabHDR, furnish, loadPhysModels } from './models.js';
 import { initPhysics } from './physics.js';
 import { ParticleView, HAS_PARTICLES } from './particles.js';
@@ -27,6 +28,7 @@ import { Places } from './places.js';
 import { ClassUI } from './classui.js';
 import { quizFor } from './quizgen.js';
 import { scienceDocs, scienceSuggest } from './tutordocs.js';
+import { isX, loadLang, ready as langReady } from './xlang.js';
 // experiments whose apparatus, taken together, use every shader of the chemistry and maths experiments (see warmShaders)
 const MATHS_WARM = ['w10_flagpole', 'w7_rail_lines', 'w10_roti_area', 'w9_field_coords', 'w6_fence_rope', 'w10_grain_cone', 'w10_circle_rings', 'w9_identity_cube', 'w6_triangle_inside', 'w8_pythagoras_water', 'w8_train_speed', 'w6_lift_integers', 'w7_decimal_zoom', 'w8_fold_moon', 'w10_cylinder_net', 'w10_ladder_trig', 'w6_angle_turn', 'w6_odd_squares', 'w10_hcf_tiles', 'w10_ap_logs', 'w10_bpt', 'w10_tangents', 'w10_dice', 'w10_poly_graph', 'w10_two_lines', 'w10_ball_throw', 'w10_distance', 'w10_mean_balance', 'w9_linear_tank', 'w9_root_spiral', 'w9_circle_angles', 'w9_grow_patterns', 'w8_count_sheep', 'w8_field_corners', 'w8_nine_trick', 'w8_percent_floor', 'w8_trapezium_field', 'w8_harvest_workers', 'w8_sierpinski', 'w8_level_stacks', 'w8_think_number', 'w7_crore_cube', 'w7_shop_bill', 'w7_matchsticks', 'w7_magic_square', 'w7_fraction_barfi', 'w7_twin_triangles', 'w7_integer_frog', 'w7_frog_lcm', 'w7_decimal_area', 'w7_rain_week', 'w7_tiling', 'w7_balance_unknown', 'w6_kaprekar', 'w6_fruit_bars', 'w6_prime_chairs', 'w6_rope_compass', 'w6_roti_share', 'w6_rangoli_symmetry', 'w7_three_sticks', 'w8_cube_stack', 'w8_garden_beds', 'w9_lean_field', 'w9_spinner', 'w3_mango_tally', 'w3_toy_roll', 'w3_stick_bundles', 'w3_nani_laddoos', 'w3_tangram', 'w3_abacus', 'w3_rakhi_groups', 'w3_fair_share', 'w3_brick_add', 'w3_party_share', 'w3_litre_kilo', 'w3_number_jumps', 'w3_big_clock', 'w3_fair_pot', 'w4_cube_frame', 'w4_house_views', 'w4_odd_even', 'w4_thousand_blocks', 'w4_ribbon_quarters', 'w4_room_tape', 'w4_village_bins', 'w4_rice_weights', 'w4_egg_trays', 'w4_tiger_round', 'w4_mirror_butterfly', 'w4_station_clock', 'w4_museum_tickets', 'w4_school_bars', 'w5_odometer_lakh', 'w5_juice_fractions', 'w5_compass_turns', 'w5_sleeper_train', 'w5_trundle_wheel', 'w5_dairy_cans', 'w5_floor_tiles', 'w5_bucket_mugs', 'w5_coconut_rows', 'w5_fold_cut', 'w5_quilt_area', 'w5_race_seconds', 'w5_animal_jumps', 'w5_village_map', 'w5_mango_pictograph']; // Maths Lab: its real-size activities
 const WARM_IDS = ['solubility', 'evaporate_salt', 'condensation', 'filtration', 'open_chem', 'sulphur_burn', 'candle_o2', 'phys_change', 'metal_nonmetal', 'kmno4_diffuse', 'conduct_liquids', 'electrolysis9v', 'chromatography', 'crystallise', 'mass_closed', 'metals_air', 'mg_burn', 'zn_acid',
@@ -67,6 +69,7 @@ export class App {
     this.fx = new FX(this.scene); this.chem = new Chem(this.fx, this.audio); this.lab = new Lab(this.scene, this.fx, this.chem, this.audio);
     this.runner = new Runner(this);
     this.ui = new UI(this); this.ui.layoutVR();
+    if (isX(this.lang)) loadLang(this.lang).then(() => { this.ui.renderAll(); this.boardFor(this.runner.exp); this.ui.dirty = true; }); // a language from the menu: its texts load now
     // classroom: join the teacher's class, quizzes, results (classui.js)
     this.cls = new ClassUI({ app: MATHS ? 'maths' : 'science', lang: () => this.lang, setLang: (l) => this.setLang(l), renderer: this.renderer, scene: this.scene, camera: this.camera,
       mount: document.getElementById('tools'), dirty: () => { this.ui.dirtyStory = true; this.ui.dirty = this.ui.dirty || false; },
@@ -80,6 +83,11 @@ export class App {
     this.lab.listeners.push((e) => this.explain(e)); // when something goes wrong (or differently), say what happened and why
     this.initPourTag();
     this.xr = new XRInput(this);
+    // a phone without WebXR (the Android app, most phones): a VR box mode and a camera AR mode (phonexr.js)
+    this.pxr = new PhoneXR(this, { onCamera: (tex) => { this._camTex = tex; },
+      onStart: (m) => { this.camGoal = null; if (m === 'cam') { this.setAR(true); document.body.classList.remove('in-ar'); if (this._camTex) this.scene.background = this._camTex; } this.ui.dirty = true; },
+      onStop: () => { if (this.ar) this.setAR(false); this._voKey = null; this.ui.dirty = true; },
+      eyeBox: () => new THREE.Vector3(0, 1.5 + (this.hgt || 0), 0.05), eyeCam: () => new THREE.Vector3(0, BENCH_Y + 0.42 + (this.hgt || 0) * 0.5, 0.1) });
     this.particles = new ParticleView(this); this.hasParticles = HAS_PARTICLES;
     this.clock = new THREE.Clock();
     // DUET STEM subscription: nothing opens without a valid code (local tests only skip it)
@@ -90,7 +98,7 @@ export class App {
       : licenceGate('science', () => this.lang, (m) => this.ui && this.ui.toast(m, 9000), { demo: true });
     this.demoSet = demoIds(); this.demo = false; this.lic.then((r) => { this.demo = !(r && r.ok); if (this.ui) this.ui.renderAll(); });
     this.initPointer(); this.initXRButton(); this.initKeys();
-    addEventListener('resize', () => { this.camera.aspect = innerWidth / innerHeight; this.camera.updateProjectionMatrix(); r.setSize(innerWidth, innerHeight); });
+    addEventListener('resize', () => { r.setSize(innerWidth, innerHeight); if (this.pxr && this.pxr.on) return; this.camera.aspect = innerWidth / innerHeight; this.camera.updateProjectionMatrix(); });
     this.loadVoice();
     document.fonts && document.fonts.ready.then(() => { this.boardFor(this.runner.exp); this.ui.dirty = true; });
     r.setAnimationLoop(() => this.frame());
@@ -148,7 +156,9 @@ export class App {
   }
   // ------------------------------------------------------------ text helpers
   expText(e, key) { const tr = I18N[e.id] && I18N[e.id][key]; const L = this.lang; return (tr && tr[L]) || (e[key] && (e[key][L] || e[key].en)) || ''; }
-  setLang(l) { if (!LANGS.includes(l)) return; const v0 = this.voiceLang(); this.lang = l; store.set('lang', l); if (this.voiceLang() !== v0) this.prefetchVoice(); this.audio.stop(); this.ui.renderAll(); this.boardFor(this.runner.exp); }
+  setLang(l) { if (!LANGS.includes(l)) return;
+    if (!langReady(l)) { this.ui.toast('…'); loadLang(l).then((ok) => { if (ok) this.setLang(l); else this.ui.toast('⚠ offline'); }); return; } // the texts of the language first
+    const v0 = this.voiceLang(); this.lang = l; store.set('lang', l); if (this._pxrBtns) this._pxrBtns(); if (this.voiceLang() !== v0) this.prefetchVoice(); this.audio.stop(); this.ui.renderAll(); this.boardFor(this.runner.exp); if (this.cls) { this.cls.renderChip(); this.cls.renderPage(); } }
   toggleVoice() { this.audio.voice = !this.audio.voice; store.set('voice', this.audio.voice ? '1' : '0'); if (!this.audio.voice) this.audio.stop(); this.ui.renderTop(); this.ui.dirty = true; }
   cycleSpeed() { this.speed = SPEEDS[(SPEEDS.indexOf(this.speed) + 1) % SPEEDS.length] || 1; this.runner.K.speed = this.speed; this.audio.rate = Math.min(1.5, 0.75 + this.speed * 0.25); this.ui.renderStory(); }
   isLocked(id) { return this.demo && !this.demoSet.has(id); } // free demo: only the demo experiments open without a code
@@ -213,7 +223,7 @@ export class App {
     if (!this.voiceSet || !('serviceWorker' in navigator)) return; const L = this.voiceLang();
     navigator.serviceWorker.ready.then((reg) => setTimeout(() => { const sw = navigator.serviceWorker.controller || reg.active; sw && sw.postMessage({ type: 'prefetch', urls: [...this.voiceSet].filter((k) => k.startsWith(L + '/')).map((k) => `./voice/${k}.mp3`) }); }, 8000)).catch(() => {});
   }
-  voiceLang() { return this.lang === 'en' ? 'en' : 'hi'; } // Hinglish students hear the Hindi voice
+  voiceLang() { return this.lang === 'en' ? 'en' : this.lang === 'hi' || this.lang === 'hg' ? 'hi' : this.lang; } // Hinglish students hear the Hindi voice; the other Indian languages, the device's own voice if it has one
   voiceUrl(text) { const L = this.voiceLang(); const k = vkey(text); return this.voiceSet && this.voiceSet.has(L + '/' + k) ? `voice/${L}/${k}.mp3` : null; }
   narrate(units, queue = false) {
     units = units.filter(Boolean); if (!units.length || this.muted) return;
@@ -410,6 +420,13 @@ export class App {
     // AR: the bench and the experiment in the real room (passthrough on a Quest; a phone camera in Chrome with ARCore)
     let okAR = false; try { okAR = !!navigator.xr && !window.DuetNative && await navigator.xr.isSessionSupported('immersive-ar'); } catch (e) {}
     const ba = document.getElementById('ar-btn'), ga = document.getElementById('xr-go-ar'); ba.hidden = !okAR; ga.hidden = !okAR;
+    if (phoneXRWanted() && Q.get('app') !== 'vr') { // a phone: VR box always; camera AR where the browser has no real (ARCore) AR
+      const T2 = { box: { en: 'VR box', hi: 'VR बॉक्स', hg: 'VR box' }, cam: { en: 'Camera AR', hi: 'कैमरा AR', hg: 'Camera AR' } };
+      const mk = (id, k, on) => { let b2 = document.getElementById(id); if (!b2) { b2 = document.createElement('button'); b2.id = id; b2.className = 'xr ar'; document.getElementById('tools').insertBefore(b2, ba); }
+        b2.textContent = (k === 'box' ? '🥽 ' : '📷 ') + tx(T2[k], this.lang); b2.hidden = !on; b2.onclick = () => { if (this.pxr.on) this.pxr.stop(); else this.pxr.start(k); }; return b2; };
+      this._pxrBtns = () => { mk('pxr-box', 'box', true); mk('pxr-cam', 'cam', !okAR && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)); };
+      this._pxrBtns();
+    }
     // the installed headset app (?app=vr) closes when its immersive session ends, so inside it there is no VR↔AR switch (it would end the session)
     this.canAR = okAR && Q.get('app') !== 'vr';
     ba.textContent = tx(T.enterAR, this.lang); ga.textContent = tx(T.enterAR, 'en') + ' · ' + tx(T.enterAR, 'hi');
@@ -503,8 +520,8 @@ export class App {
     const dt = Math.min(0.05, this.clock.getDelta()); this.t += dt; LIQ_TIME.value = this.t;
     if (this.cls) { try { this.cls.frame(dt); } catch (e) {} } // the classroom link first: nothing later in the frame can stop it (the picture for the teacher's page draws the scene itself)
     if (LITE && (this._shN = (this._shN || 0) + 1) % 3 === 1) this.renderer.shadowMap.needsUpdate = true;
-    const xr = this.renderer.xr.isPresenting;
-    if (!xr) {
+    const xr = this.renderer.xr.isPresenting; const px = this.pxr && this.pxr.on; const vrUI = xr || (px && this.pxr.box);
+    if (!xr && !px) {
       if (this.t - (this._voT || 0) > 0.25) { this._voT = this.t; this.viewOffset(); }
       if (this.t - (this._dirT || 0) > 0.3) { this._dirT = this.t; this.director(); }
       if (this.camGoal) { const k = 1 - Math.exp(-dt * (this.camGoal.slow ? 1.8 : 3.2)); this.camera.position.lerp(this.camGoal.p, k); this.controls.target.lerp(this.camGoal.t, k); if (this.camera.position.distanceTo(this.camGoal.p) < 0.003) this.camGoal = null; }
@@ -522,14 +539,15 @@ export class App {
     // whole panel, which costs a frame on a Quest)
     if (xr && this.t - (this._solT || 0) > (LITE ? 1 : 0.5)) { this._solT = this.t; if (this.lab.vessels.some((v) => v.solLog)) { const sig = this.ui.solStatus().map((l) => l.t + l.c).join('|'); if (sig !== this._solSig) { this._solSig = sig; this.ui.dirtyStory = true; } } }
     if (xr && this._hgtAuto && this._hgtT != null && this.t - this._hgtT > 1.5) { this._hgtT = null; this.autoHeight(); }
-    if (xr && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { if (this.ui.drawVR() !== false) { this.ui.dirty = false; this.ui.dirtyStory = false; } this._vrDraw = this.t; }
-    else if (xr && this.ui.dirtyStory && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR('story'); this.ui.dirtyStory = false; this._vrDraw = this.t; }
+    if (vrUI && this.ui.dirty && this.t - (this._vrDraw || 0) > 0.08) { if (this.ui.drawVR() !== false) { this.ui.dirty = false; this.ui.dirtyStory = false; } this._vrDraw = this.t; }
+    else if (vrUI && this.ui.dirtyStory && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR('story'); this.ui.dirtyStory = false; this._vrDraw = this.t; }
     this.updPourTag();
     if (FAST && ++this._fc % 24) return; // test mode: simulate quickly, draw only now and then
-    this.renderer.render(this.scene, this.camera);
+    if (px) this.pxr.render(dt); else this.renderer.render(this.scene, this.camera);
   }
   // keep the bench centred in the part of the screen not covered by the list, step card and notebook
   viewOffset() {
+    if (this.pxr && this.pxr.on) return;
     const w = innerWidth, h = innerHeight; const wide = w > 860;
     const lw = wide ? document.getElementById('list').offsetWidth + 12 : 0;
     const nbw = wide && document.body.classList.contains('nb-open') ? document.getElementById('notebook').offsetWidth + 12 : 0;

@@ -294,7 +294,8 @@ function msgDlg(roll) {
     (x, b) => { if (x === 'pre') { $('#mtxt').value = b.textContent; return; } if (x === 'go') { const v = $('#mtxt').value.trim(); if (!v) return; const n = sendTo(roll, { t: 'cmd', do: 'msg', text: v }); toast(t('sentTo', { n })); closeDlg(); } });
   setTimeout(() => { const m = $('#mtxt'); if (m) m.focus(); }, 30);
 }
-function langDlg() { openDlg('🌐 ' + t('lang'), `<div class="chips">${[['en', 'English'], ['hi', 'हिंदी'], ['hg', 'Hinglish']].map(([l, n]) => `<button data-x="l" data-v="${l}">${n}</button>`).join('')}</div>`, (x, b) => { if (x === 'l') { const n = broadcast({ t: 'cmd', do: 'lang', l: b.dataset.v }); toast(t('sentTo', { n })); closeDlg(); } }); }
+const LANG_ALL = [['en', 'English'], ['hi', 'हिंदी'], ['hg', 'Hinglish'], ['bn', 'বাংলা'], ['mr', 'मराठी'], ['ta', 'தமிழ்'], ['te', 'తెలుగు'], ['gu', 'ગુજરાતી'], ['kn', 'ಕನ್ನಡ'], ['ml', 'മലയാളം'], ['or', 'ଓଡ଼ିଆ']];
+function langDlg() { openDlg('🌐 ' + t('lang'), `<div class="chips">${LANG_ALL.map(([l, n]) => `<button data-x="l" data-v="${l}">${n}</button>`).join('')}</div>`, (x, b) => { if (x === 'l') { const n = broadcast({ t: 'cmd', do: 'lang', l: b.dataset.v }); toast(t('sentTo', { n })); closeDlg(); } }); }
 function eyesDlg() {
   openDlg('👀 ' + t('eyes'), `<label style="font-weight:600">${esc(t('eyesMsg'))}</label><textarea id="etxt" maxlength="120" style="min-height:60px"></textarea><div style="margin-top:10px"><button class="btn warn" data-x="go">👀 ${esc(t('eyes'))}</button></div>`,
     (x) => { if (x === 'go') { S.frozen = { msg: $('#etxt').value.trim() }; broadcast({ t: 'cmd', do: 'freeze', msg: S.frozen.msg }); closeDlg(); render(); } });

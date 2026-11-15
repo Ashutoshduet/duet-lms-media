@@ -195,5 +195,14 @@
   "license": "Apache-2.0",
   "url": "https://rapier.rs",
   "id": "lib_rapier"
+ },
+ {
+  "name": "Industrial Microscope (split into stage, turret and knobs)",
+  "authors": {
+   "Poly Haven": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/industrial_microscope",
+  "id": "industrial_microscope"
  }
 ]

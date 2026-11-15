@@ -1,6 +1,7 @@
 // Screen UI (experiment list, step card, lab notebook) and the matching headset panels.
 import * as THREE from 'three';
-import { T, tx, LANGS, LANG_LABEL, FONT } from './strings.js';
+import { T, tx, LANGS, MAIN_LANGS, LANG_LABEL, FONT } from './strings.js';
+import { XLANGS, XLABEL, langMenu, isX } from './xlang.js';
 import { Panel, wrap } from './vrpanels.js';
 import { EXPERIMENTS, classGroups, classOrder as order0, hasSubject, subjOf } from './experiments.js';
 import { PHOTOS } from './photos.js';
@@ -22,6 +23,8 @@ const YOURS = { en: 'Your result was different from the book', hi: 'आपका
 const HOWMUCH = { en: 'How much', hi: 'कितना डालना है', hg: 'Kitna daalna hai' };
 const INBOOK = { en: 'In the book', hi: 'किताब में', hg: 'Kitaab mein' };
 const QUIZ = { en: 'Take the quiz', hi: 'क्विज़ दीजिए', hg: 'Quiz dijiye' };
+const MORE_NOTE = { en: 'The 8 other Indian languages are machine translated; the narrator speaks them where the device has a voice for them.', hi: 'बाकी 8 भारतीय भाषाएँ मशीन से अनुवादित हैं; जिन भाषाओं की आवाज़ डिवाइस में है, उनमें कथावाचक बोलता भी है।', hg: 'Baaki 8 Indian languages machine se translate hui hain; jin languages ki voice device mein hai, unmein narrator bolta bhi hai.' };
+const LANGW = { en: 'Language', hi: 'भाषा', hg: 'Language' };
 void EXPERIMENTS;
 
 export class UI {
@@ -39,8 +42,8 @@ export class UI {
     const a = this.app;
     this.renderSubjects();
     $('#subjects').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; if (hasSubject(b.dataset.sub)) this.setSubject(b.dataset.sub); else this.toast(`${this.t(b.dataset.sub)} — ${this.t('soon')}`); };
-    $('#langs').innerHTML = LANGS.map((l) => `<button data-l="${l}"><span class="lf">${LANG_LABEL[l]}</span><span class="ls">${{ en: 'EN', hi: 'हि', hg: 'HG' }[l]}</span></button>`).join('');
-    $('#langs').onclick = (e) => { const b = e.target.closest('button'); if (b) a.setLang(b.dataset.l); };
+    $('#langs').innerHTML = MAIN_LANGS.map((l) => `<button data-l="${l}"><span class="lf">${LANG_LABEL[l]}</span><span class="ls">${{ en: 'EN', hi: 'हि', hg: 'HG' }[l]}</span></button>`).join('') + '<button data-more="1" class="more" aria-haspopup="menu" title="Bengali, Marathi, Tamil, Telugu, Gujarati, Kannada, Malayalam, Odia">🌐 ▾</button>';
+    $('#langs').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.more) langMenu(b, this.L(), LANG_LABEL, (l) => a.setLang(l), MORE_NOTE[this.L()] || MORE_NOTE.en); else a.setLang(b.dataset.l); };
     $('#classes').onclick = (e) => { const b = e.target.closest('button'); if (!b) return; if (b.dataset.c === 't') this.setView('topic'); else this.setClass(+b.dataset.c); };
     $('#cp-btns').onclick = (e) => { const b = e.target.closest('button'); if (b) this.setClass(+b.dataset.c); }; $('#cp-all').onclick = () => this.setClass(0); $('#cp-top').onclick = () => { this.showPicker(false); this.setView('topic'); };
     $('#prog').onclick = (e) => { if (e.target.closest('button')) this.showPicker(true); };
@@ -83,9 +86,10 @@ export class UI {
     $('#cp-btns').innerHTML = classesOf(this.subj).map((c) => { const n = classOrder(c, this.subj).length, d = n - this.classLeft(c).length; return `<button data-c="${c}">${c}<small>${esc(this.t('cls'))} ${c} · ${d ? `${d}/${n} ✓` : `${n}`}</small></button>`; }).join('');
   }
   renderTop() {
-    const L = this.L(); document.documentElement.lang = L === 'hi' ? 'hi' : 'en';
+    const L = this.L(); document.documentElement.lang = L === 'hi' || isX(L) ? L : 'en';
     $('#title').textContent = this.t('appTitle');
-    document.querySelectorAll('#langs button').forEach((b) => b.classList.toggle('on', b.dataset.l === L));
+    document.querySelectorAll('#langs button').forEach((b) => b.classList.toggle('on', b.dataset.l === L || (!!b.dataset.more && isX(L))));
+    { const mb = document.querySelector('#langs .more'); if (mb) mb.textContent = isX(L) ? `${XLABEL[L]} ▾` : '🌐 ▾'; }
     this.renderSubjects();
     $('#b-voice').classList.toggle('off', !this.app.audio.voice); $('#b-voice').title = this.t('voice');
     $('#xr-btn').textContent = this.t('enterVR');
@@ -163,6 +167,10 @@ export class UI {
     const a = this.app, r = a.runner, L = this.L();
     if (part !== 'story' && this._next !== 'story') {
     // menu
+    if (this.langPage) { const P = this.menu; P.bg('#f0a65a'); P.logo(40, 34, 40); P.text('🌐 ' + tx(LANGW, L), 40, 96, 44, '#f3eee6', 700); // every language, two columns
+      LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + (i % 2) * 470, 176 + Math.floor(i / 2) * 104, 450, 92, LANG_LABEL[l], { size: 34, align: 'center', active: L === l, color: '#f3eee6' }));
+      P.x.font = `500 24px ${FONT}`; wrap(P.x, tx(MORE_NOTE, L), 900).slice(0, 3).forEach((ln, i) => P.text(ln, 44, 820 + i * 34, 24, '#a49d90', 500));
+      P.btn('lang_back', 40, 1360, 920, 96, '‹ ' + this.t('back'), { size: 32, align: 'center' }); P.commit(); this._next = 'story'; return false; }
     const P = this.menu; P.bg('#f0a65a'); P.logo(40, 34, 40); const tv = this.view === 'topic';
     const head = `${this.t(this.subj)} · ${tv ? this.t('topics') : this.cls ? `${this.t('cls')} ${this.cls}` : this.t('all')}`; P.x.font = `700 40px ${FONT}`; const hs = Math.max(26, Math.min(40, (40 * 640) / Math.max(1, P.x.measureText(head).width))); P.text(head, 40, 92 + (40 - hs) / 2, hs, '#f3eee6', 700);
     SUBJECTS.filter((x) => hasSubject(x)).forEach((x, i, arr) => P.btn('sub_' + x, 960 - (arr.length - i) * 214, 18, 200, 58, this.t(x), { size: 26, align: 'center', active: this.subj === x })); // subject tabs, top right
@@ -179,7 +187,8 @@ export class UI {
     const pages = Math.max(1, Math.ceil(rows.length / per)); this.page = Math.min(this.page, pages - 1);
     rows.slice(this.page * per, this.page * per + per).forEach((x, k) => P.btn(x.id, 40, y0 + k * 90, 920, 82, x.label, { size: 28, active: x.on }));
     if (pages > 1) { P.btn('pg_prev', 40, 1160, 300, 80, '‹', { size: 40, align: 'center' }); P.text(`${this.page + 1} / ${pages}`, 440, 1178, 34, '#a49d90', 600); P.btn('pg_next', 660, 1160, 300, 80, '›', { size: 40, align: 'center' }); }
-    LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 236, 1270, 222, 84, LANG_LABEL[l], { size: 30, align: 'center', active: L === l, color: '#f3eee6' }));
+    MAIN_LANGS.forEach((l, i) => P.btn('lang_' + l, 40 + i * 170, 1270, 160, 84, LANG_LABEL[l], { size: 26, align: 'center', active: L === l, color: '#f3eee6' }));
+    P.btn('lang_more', 550, 1270, 186, 84, isX(L) ? XLABEL[L] : '🌐 ▾', { size: 26, align: 'center', active: isX(L) || this.langPage, color: '#f3eee6' });
     P.btn('voice', 748, 1270, 212, 84, (a.audio.voice ? '🔊 ' : '🔇 ') + this.t('voice'), { size: 26, align: 'center' });
     // eye height in the headset: lower / raise the view, or let it set itself
     const eh = a.renderer.xr.isPresenting ? a.eyeY() : 0; const HL = { en: 'Eye height', hi: 'आँखों की ऊँचाई', hg: 'Aankhon ki height' };
@@ -327,7 +336,8 @@ export class UI {
     else if (id === 'start') this.startClass();
     else if (id.startsWith('exp_')) a.openExp(id.slice(4));
     else if (id === 'pg_prev') this.page = Math.max(0, this.page - 1); else if (id === 'pg_next') this.page++;
-    else if (id.startsWith('lang_')) a.setLang(id.slice(5)); else if (id === 'voice') a.toggleVoice();
+    else if (id === 'lang_more') this.langPage = !this.langPage; else if (id === 'lang_back') this.langPage = false;
+    else if (id.startsWith('lang_')) { this.langPage = false; a.setLang(id.slice(5)); } else if (id === 'voice') a.toggleVoice();
     else if (id === 'do') a.primary(); else if (id === 'next') (r.state === 'finished' ? this.nextExp() : r.next()); else if (id === 'back') r.prev();
     else if (id === 'auto') (r.auto ? r.pause() : r.play()); else if (id === 'speed') a.cycleSpeed(); else if (id === 'reset') r.reset();
     this.dirty = true;

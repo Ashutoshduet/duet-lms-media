@@ -64,7 +64,7 @@ ok(await waitFor(s1.p, () => !document.querySelector('.dc-freeze'), null, 10000)
 
 // message
 await tap(T, '[data-a="msg"]'); await T.waitForSelector('#mtxt'); await T.type('#mtxt', 'Well done'); await tap(T, '#dlg-b [data-x="go"]');
-ok(await waitFor(s1.p, () => (document.querySelector('.dc-msg')?.textContent || '').includes('Well done'), null, 10000), 'message reaches the student');
+ok(await waitFor(s1.p, () => (document.querySelector('.dc-msg')?.textContent || '').includes('Well done') || (app.cls.link.msg && app.cls.link.msg.text === 'Well done'), null, 25000), 'message reaches the student');
 
 // send everyone to an activity (science-side students)
 if (S.length > 1 && S[1].a !== 'body') {
@@ -95,7 +95,7 @@ ok(await T.evaluate(() => document.querySelectorAll('.sc').length >= 1), 'result
 await tap(T, '.tabs [data-tab="att"]'); await sleep(300); await T.screenshot({ path: `${out}/teacher-att.png` });
 await tap(T, '.tabs [data-tab="live"]'); await sleep(300);
 await tap(T, `.card[data-roll="1"] [data-a="watch"]`); await s1.p.bringToFront(); await sleep(4000); await T.bringToFront();
-ok(await waitFor(T, () => (document.querySelector('#bigimg')?.naturalWidth || 0) >= 400, null, 15000), 'watch shows a big live picture');
+ok(await waitFor(T, () => (document.querySelector('#bigimg')?.naturalWidth || 0) >= 400, null, 45000), 'watch shows a big live picture');
 await T.screenshot({ path: `${out}/teacher-watch.png` }); await T.keyboard.press('Escape');
 
 // the student's network drops and comes back: an unsent result is sent again

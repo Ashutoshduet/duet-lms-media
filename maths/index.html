@@ -17,6 +17,28 @@
 @font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/nsd-deva-400.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
 @font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/nsd-deva-600.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
 @font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/nsd-deva-700.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+/* the scripts of the other Indian languages (Noto Sans, OFL), under the same family name: each file loads only when its letters are used */
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-beng-400.woff2) format("woff2");unicode-range:U+0980-09FE}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-beng-600.woff2) format("woff2");unicode-range:U+0980-09FE}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-beng-700.woff2) format("woff2");unicode-range:U+0980-09FE}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-taml-400.woff2) format("woff2");unicode-range:U+0B82-0BFA}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-taml-600.woff2) format("woff2");unicode-range:U+0B82-0BFA}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-taml-700.woff2) format("woff2");unicode-range:U+0B82-0BFA}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-telu-400.woff2) format("woff2");unicode-range:U+0C00-0C7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-telu-600.woff2) format("woff2");unicode-range:U+0C00-0C7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-telu-700.woff2) format("woff2");unicode-range:U+0C00-0C7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-gujr-400.woff2) format("woff2");unicode-range:U+0A80-0AFF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-gujr-600.woff2) format("woff2");unicode-range:U+0A80-0AFF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-gujr-700.woff2) format("woff2");unicode-range:U+0A80-0AFF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-knda-400.woff2) format("woff2");unicode-range:U+0C80-0CF3}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-knda-600.woff2) format("woff2");unicode-range:U+0C80-0CF3}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-knda-700.woff2) format("woff2");unicode-range:U+0C80-0CF3}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-mlym-400.woff2) format("woff2");unicode-range:U+0D00-0D7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-mlym-600.woff2) format("woff2");unicode-range:U+0D00-0D7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-mlym-700.woff2) format("woff2");unicode-range:U+0D00-0D7F}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/ns-orya-400.woff2) format("woff2");unicode-range:U+0B01-0B77}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/ns-orya-600.woff2) format("woff2");unicode-range:U+0B01-0B77}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/ns-orya-700.woff2) format("woff2");unicode-range:U+0B01-0B77}
 :root{color-scheme:dark;--bg:#0a0d13;--panel:rgba(13,17,25,.82);--line:rgba(255,255,255,.1);--ink:#f2ede4;--mute:#a49d90;--txt:#e2dccf;--acc:#f0a65a;--blue:#7fd1ff;--green:#9fd17a;--r:16px;--listw:300px;--nbw:380px}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari",system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent}
@@ -40,6 +62,7 @@ button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .seg{display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px}
 .seg button{padding:6px 10px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--mute);white-space:nowrap}
 .seg button.on{background:var(--ink);color:#12100c}
+#langs .more{font-size:13px}
 .ib{width:38px;height:38px;border-radius:10px;font-size:17px;display:grid;place-items:center}
 .ib:hover{background:rgba(255,255,255,.08)}
 .ib.off{opacity:.45}
@@ -94,8 +117,8 @@ body.nb-open #story{right:calc(var(--nbw) + 24px)}
 #s-text .fin{color:var(--green);font-weight:700;font-size:17px}
 #s-text .quizbtn{margin-top:4px;height:40px;padding:0 16px;border-radius:12px;background:var(--blue);color:#0b1520;font-weight:700;font-size:15px;border:0;cursor:pointer}
 #s-text .eq{font-size:18px;font-weight:700;color:var(--acc)}
-html[lang=hi] #s-text{font-size:17px;line-height:1.7}
-html[lang=hi] #list h3,html[lang=hi] #notebook h4,html[lang=hi] #s-text .stepn{letter-spacing:0;text-transform:none}
+html:is([lang=hi],[lang=mr],[lang=bn],[lang=ta],[lang=te],[lang=gu],[lang=kn],[lang=ml],[lang=or]) #s-text{font-size:17px;line-height:1.7}
+html:is([lang=hi],[lang=mr],[lang=bn],[lang=ta],[lang=te],[lang=gu],[lang=kn],[lang=ml],[lang=or]) #list h3,html:is([lang=hi],[lang=mr],[lang=bn],[lang=ta],[lang=te],[lang=gu],[lang=kn],[lang=ml],[lang=or]) #notebook h4,html:is([lang=hi],[lang=mr],[lang=bn],[lang=ta],[lang=te],[lang=gu],[lang=kn],[lang=ml],[lang=or]) #s-text .stepn{letter-spacing:0;text-transform:none}
 #story.intro #s-text{font-size:16.5px}
 #s-dots{display:flex;gap:5px;margin-top:8px}
 #s-dots i{flex:1;max-width:46px;height:5px;border-radius:3px;background:rgba(255,255,255,.14)}
@@ -164,6 +187,20 @@ body.in-vr #top,body.in-vr #list,body.in-vr #story,body.in-vr #notebook{display:
   .cbtn{padding:8px 10px;font-size:13px}.cbtn.primary{min-width:0;flex:1}
   #notebook{left:8px;right:8px;width:auto;top:68px;bottom:8px;z-index:8}
   #top{left:8px;right:8px;gap:6px}
+}
+/* a phone held sideways (short screen): the experiment list opens from the menu button and the step card stays small,
+   so the bench stays in view */
+@media (max-height:520px){
+  #b-menu{display:grid}
+  #subjects{display:none}
+  #list{top:58px;left:8px;width:min(340px,46vw);bottom:8px;max-height:none;display:none;z-index:8}
+  body.list-open #list{display:flex}
+  #story{left:8px;right:8px;max-width:620px;bottom:6px;padding:8px 12px 8px}
+  #s-title,#story.intro #s-title{font-size:16px}#s-text,#story.intro #s-text{font-size:13.5px;line-height:1.45;max-height:13vh}#story.intro #s-text{max-height:30vh}
+  .cbtn{padding:6px 9px;font-size:12.5px}.cbtn.primary{min-width:0}
+  #notebook{left:auto;right:8px;width:min(420px,60vw);top:58px;bottom:8px;z-index:8}
+  #top{left:8px;right:8px;gap:6px;top:6px}#brand{padding:6px 10px}#logo{height:13px}#title{display:none}
+  #tools{gap:3px;padding:3px}.seg button{padding:5px 7px;font-size:12.5px}.xr{padding:6px 9px;font-size:12.5px}
 }
 .ls{display:none}
 @media (max-width:520px){

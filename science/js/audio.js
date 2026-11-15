@@ -1,4 +1,5 @@
 // Lab sounds made in WebAudio (no files): pouring, glass clink, hydrogen pop, lamp lighting, fizz, crackle, hiss.
+import { BCP } from './xlang.js';
 // Narration uses recorded mp3 files when present, otherwise the device voice.
 const SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
 
@@ -50,8 +51,9 @@ export class Audio {
       const res = () => { if (this._res === res) this._res = null; res0(); }; this._res = res;
       const fallback = () => {
         if (tok !== this.tok || !('speechSynthesis' in window) || !text) return res();
-        const u = new SpeechSynthesisUtterance(text); u.lang = lang === 'en' ? 'en-IN' : 'hi-IN'; u.rate = 0.95 * this.rate;
+        const u = new SpeechSynthesisUtterance(text); u.lang = BCP[lang] || 'hi-IN'; u.rate = 0.95 * this.rate;
         const v = speechSynthesis.getVoices().find((x) => x.lang && x.lang.toLowerCase().startsWith(u.lang.slice(0, 2))); if (v) u.voice = v;
+        else if (lang !== 'en' && lang !== 'hi') return res(); // no voice for this language on this device: the text stays on the screen
         u.onend = u.onerror = () => res(); speechSynthesis.speak(u);
       };
       if (!url) return fallback();
