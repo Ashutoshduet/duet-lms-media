@@ -9,6 +9,8 @@ APPS = {
   'body':    dict(id='in.duetpower.stem.humanbody', name='Human Body 360', icon=REPO + '/body/icons/icon-512.png', fit=1.0, bg='#0b0f17'),
   'space':   dict(id='in.duetpower.stem.solarsystem', name='Solar System 360', icon=REPO + '/space/icons/maskable-512.png', fit=1.0, bg='#05060c'),
   'drone':   dict(id='in.duetpower.stem.dronesim', name='Drone Simulator', icon=REPO + '/drone/icons/maskable-512.png', fit=1.0, bg='#0b0f17'),
+  # Maths Lab 360 runs the Science Lab's code: inside the app the files sit at app/science/ and app/maths/ as on the website
+  'maths':   dict(id='in.duetpower.stem.mathslab', name='Maths Lab 360', icon=REPO + '/maths/icons/icon-512.png', fit=1.0, bg='#0d1118', updates=False),
 }
 DENS = {'mdpi': 1, 'hdpi': 1.5, 'xhdpi': 2, 'xxhdpi': 3, 'xxxhdpi': 4}
 
@@ -30,17 +32,34 @@ def icons(c):
 
 def content(app):
     dst = os.path.join(R, 'webcontent/src/main/assets'); shutil.rmtree(dst, ignore_errors=True); os.makedirs(dst + '/app')
+    if app == 'maths': return content_maths(dst)
     man = json.load(open(f'{REPO}/{app}/offline.json'))
     for p in man['files']:
         os.makedirs(os.path.dirname(f'{dst}/app/{p}'), exist_ok=True); shutil.copy2(f'{REPO}/{app}/{p}', f'{dst}/app/{p}')
     shutil.copy2(f'{REPO}/{app}/offline.json', f'{dst}/app/offline.json'); shutil.copy2(f'{REPO}/licences.json', f'{dst}/licences.json')
     return man
 
+def content_maths(dst):
+    man = json.load(open(f'{REPO}/maths/offline.json')); files = {}
+    for p, v in man['files'].items():
+        if p.startswith('../science/'): rel = 'science/' + p[len('../science/'):]
+        elif p.startswith('../'): continue                      # the code list is served by the app itself
+        else: rel = 'maths/' + p
+        src = os.path.normpath(f'{REPO}/maths/{p}')
+        os.makedirs(os.path.dirname(f'{dst}/app/{rel}'), exist_ok=True); shutil.copy2(src, f'{dst}/app/{rel}'); files[rel] = v
+    # the start page opens the maths page (its <base> points at ../science/)
+    open(f'{dst}/app/index.html', 'w').write('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<style>html,body{margin:0;background:#0d1118}</style><script>location.replace("maths/index.html")</script>')
+    files['index.html'] = ['start', 0]
+    out = {'v': man['v'], 't': man.get('t', 0), 'files': files}
+    json.dump(out, open(f'{dst}/app/offline.json', 'w')); shutil.copy2(f'{REPO}/licences.json', f'{dst}/licences.json')
+    return out
+
 def main():
     app = sys.argv[1]; vc = sys.argv[2] if len(sys.argv) > 2 else '1'; vn = sys.argv[3] if len(sys.argv) > 3 else '1.0.0'; c = APPS[app]
-    subprocess.run(['python3', REPO + '/devtools/offline/build_sw.py', REPO, app], check=True)
+    subprocess.run(['python3', REPO + '/devtools/offline/build_sw.py', REPO] + (['science', 'maths'] if app == 'maths' else [app]), check=True)
     man = content(app); icons(c)
-    open(os.path.join(R, 'app.properties'), 'w').write(f"applicationId={c['id']}\nappName={c['name']}\nappDir={app}\nversionCode={vc}\nversionName={vn}\norientation=sensorLandscape\nbg={c['bg']}\n")
+    open(os.path.join(R, 'app.properties'), 'w').write(f"applicationId={c['id']}\nappName={c['name']}\nappDir={app}\nversionCode={vc}\nversionName={vn}\norientation=sensorLandscape\nbg={c['bg']}\nupdates={'false' if c.get('updates') is False else 'true'}\n")
     subprocess.run(['/opt/gradle/bin/gradle', '-q', '--no-daemon', ':app:bundleRelease'], cwd=R, check=True)
     od = f'{OUT}/{app}'; os.makedirs(od, exist_ok=True)
     aab = f'{od}/{c["id"]}-{vn}-{vc}.aab'; shutil.copy2(os.path.join(R, 'app/build/outputs/bundle/release/app-release.aab'), aab)

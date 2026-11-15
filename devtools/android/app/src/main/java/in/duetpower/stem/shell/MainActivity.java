@@ -95,7 +95,7 @@ public class MainActivity extends ComponentActivity {
         });
         // look for newer lessons in the background; they are used from the next start
         // first the folders of older updates go (never one the app reads), then, once the app has started, the check
-        Thread t = new Thread(() -> { Updater.cleanup(getApplicationContext()); try { Thread.sleep(20000); } catch (InterruptedException e) { return; } Updater.run(getApplicationContext()); }, "duet-update");
+        Thread t = new Thread(() -> { Updater.cleanup(getApplicationContext()); if (!BuildConfig.UPDATES) return; try { Thread.sleep(20000); } catch (InterruptedException e) { return; } Updater.run(getApplicationContext()); }, "duet-update");
         t.setPriority(Thread.MIN_PRIORITY); t.start();
     }
 

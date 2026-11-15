@@ -14,6 +14,7 @@ android {
     buildConfigField 'String', 'APP_DIR', '"' + cfg.getProperty('appDir') + '"'
     buildConfigField 'String', 'REMOTE_BASE', '"https://ashutoshduet.github.io/duet-lms-media/"'
     buildConfigField 'String', 'BG', '"' + cfg.getProperty('bg', '#0b0f17') + '"'
+    buildConfigField 'boolean', 'UPDATES', cfg.getProperty('updates', 'true')
     manifestPlaceholders = [orientation: cfg.getProperty('orientation', 'sensorLandscape')]
   }
   signingConfigs { upload { if (kf.exists()) { storeFile file(keys.getProperty('storeFile')); storePassword keys.getProperty('storePassword'); keyAlias keys.getProperty('keyAlias'); keyPassword keys.getProperty('keyPassword') } } }

@@ -51,11 +51,11 @@ final class ContentServer {
         String path = req.getUrl().getPath();
         if (path == null) return null;
         try {
-            if (path.equals("/licences.json")) return licences("1".equals(req.getUrl().getQueryParameter("live")));
+            if (path.equals("/licences.json") || path.equals("/app/licences.json")) return licences("1".equals(req.getUrl().getQueryParameter("live"))); // (Maths Lab: its pages sit one folder deeper)
             if (!path.startsWith("/app/")) return notFound();
             String rel = path.substring(5);
             if (rel.isEmpty() || rel.endsWith("/")) rel += "index.html";
-            if (rel.equals("sw.js")) return notFound(); // the app itself keeps the files: no service worker
+            if (rel.equals("sw.js") || rel.endsWith("/sw.js")) return notFound(); // the app itself keeps the files: no service worker
             InputStream in; long size;
             String oh = overlay.get(rel);
             if (oh != null && overlayDir != null && !oh.equals(bundled.get(rel))) {
