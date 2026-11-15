@@ -125,6 +125,17 @@ public class MainActivity extends ComponentActivity {
         @JavascriptInterface public String platform() { return "android"; }
         @JavascriptInterface public String version() { return BuildConfig.VERSION_NAME; }
         @JavascriptInterface public void vrMode(boolean on) { vrBox = on; }
+        // this device for the school-code register: the system's id for this app (it stays the same after a reinstall),
+        // hashed so the id itself never leaves the device
+        @JavascriptInterface public String deviceId() {
+            try {
+                String a = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+                if (a == null || a.isEmpty()) return "";
+                byte[] d = java.security.MessageDigest.getInstance("SHA-256").digest(("duet-device|" + a).getBytes(java.nio.charset.StandardCharsets.UTF_8));
+                StringBuilder b = new StringBuilder(); for (int i = 0; i < 16; i++) b.append(String.format("%02x", d[i])); return b.toString();
+            } catch (Exception e) { return ""; }
+        }
+        @JavascriptInterface public String deviceName() { return (android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL).trim(); }
         @JavascriptInterface public void openExternal(String url) {
             runOnUiThread(() -> { try { startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception ignored) { /* none */ } });
         }

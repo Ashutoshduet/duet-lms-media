@@ -41,7 +41,7 @@ export function energyPyramid(o = {}) {
   const grass2 = ecoModel('grass_medium_02', { k: 1.2, face: [-1, 0.3] }); grass2.position.copy(at(0, 0.6, 0)); g.add(grass2);
   const hopper = ecoModel('locust', { face: [1, 0.4], k: 1.8 }); hopper.position.copy(at(1, 0.25, 0)); g.add(hopper);
   const frog = ecoModel('frog', { face: [0.4, 1], k: 1.3 }); frog.position.copy(at(2, -0.22, 0)); g.add(frog);
-  const snake = ecoModel('ratsnake', { face: [0.5, 1], len: 0.3 }); snake.position.copy(at(3, 0, 0)); g.add(snake);
+  const snake = ecoModel('ratsnake', { face: [0.5, 1], len: 0.2 }); snake.position.copy(at(3, 0, 0)); g.add(snake);
   const hawk = ecoModel('hawk', { face: [0, 1], h: 0.62 }); hawk.position.copy(at(4, 0, 0)); g.add(hawk);
   it.who = [grass, hopper, frog, snake, hawk];
   // others that live in the grassland: a hare in the grass, a crow looking for insects

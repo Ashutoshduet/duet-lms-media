@@ -24,10 +24,33 @@ const covers = (a, app) => Array.isArray(a) && (a.includes('*') || a.includes(ap
 const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } };
 const save = (v) => { try { if (v) localStorage.setItem(KEY, JSON.stringify(v)); else localStorage.removeItem(KEY); } catch (e) {} };
 // never wait more than 10 s for the list: on a slow school network the screen says so instead of hanging
+let CLAIM = ''; // the DUET STEM register's address, from the list
 async function fetchList() {
   const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 10000);
-  try { const r = await fetch(LIST.href + '?t=' + Date.now(), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); return (await r.json()).codes || {}; }
+  try { const r = await fetch(LIST.href + '?t=' + Date.now(), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); const j = await r.json(); CLAIM = j.claim || ''; return j.codes || {}; }
   finally { if (tm) clearTimeout(tm); }
+}
+// this device, the same every time inside this app (Android: from the system, so a reinstall keeps it)
+function deviceId() {
+  try { if (window.DuetNative && DuetNative.deviceId) { const v = String(DuetNative.deviceId() || '').toLowerCase().replace(/[^0-9a-z]/g, ''); if (v.length >= 8) return 'a' + v.slice(0, 40); } } catch (e) {}
+  let v = null; try { v = localStorage.getItem('duet.dev.v1'); } catch (e) {}
+  if (!v) { v = hex(crypto.getRandomValues(new Uint8Array(12))); try { localStorage.setItem('duet.dev.v1', v); } catch (e) {} }
+  return 'w' + v;
+}
+const model = () => { try { if (window.DuetNative && DuetNative.deviceName) return String(DuetNative.deviceName()); } catch (e) {} const u = navigator.userAgent || ''; if (/OculusBrowser|Quest/i.test(u)) return 'Meta Quest'; const m = u.match(/Android[^;)]*;\s*([^;)]+)/); return m ? m[1].trim() : /iPhone|iPad/.test(u) ? 'iPhone/iPad' : 'Computer'; };
+// a code sold for a number of devices: ask the register for a place for this device ({ ok } or { ok: false, err: 'used', max })
+async function claim(h, app, k, name) {
+  const q = new URLSearchParams({ h, a: app, d: deviceId(), m: model().slice(0, 60), k: k || '', s: (name || '').slice(0, 80) });
+  const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 20000);
+  try { const r = await fetch(CLAIM + '?' + q, { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('claim ' + r.status); return await r.json(); }
+  finally { if (tm) clearTimeout(tm); }
+}
+// a valid code from the list: take a place for this device when the code is for a number of devices
+async function takePlace(app, code, h, e, name) {
+  if (!(+e.n > 0 && CLAIM)) return null;
+  let c; try { c = await claim(h, app, normCode(code).slice(-4), name); } catch (err) { return { ok: false, key: 'net' }; }
+  if (!c || !c.ok) return c && c.err === 'used' ? { ok: false, key: 'used', m: c.max || e.n } : { ok: false, key: c && c.err === 'app' ? 'app' : 'bad' };
+  return null;
 }
 
 const S = {
@@ -38,6 +61,7 @@ const S = {
   bad: { en: 'This code is not valid. Please check it and try again.', hi: 'यह कोड सही नहीं है। कृपया देखकर दोबारा डालिए।', hg: 'Yeh code sahi nahi hai. Check karke dobara daaliye.' },
   app: { en: 'This code does not include this app.', hi: 'यह कोड इस ऐप के लिए नहीं है।', hg: 'Yeh code is app ke liye nahi hai.' },
   exp: { en: 'This subscription ended on {d}. Please renew it with DUET STEM.', hi: 'यह सब्सक्रिप्शन {d} को ख़त्म हो गया। कृपया DUET STEM से इसे रिन्यू करवाइए।', hg: 'Yeh subscription {d} ko khatam ho gaya. DUET STEM se renew karwaiye.' },
+  used: { en: 'This code is already in use on another device. Each code works on {m} device(s) only. For this device, ask DUET STEM for its own code: info@duetpower.in', hi: 'यह कोड पहले से किसी दूसरे डिवाइस पर चल रहा है। हर कोड सिर्फ़ {m} डिवाइस पर चलता है। इस डिवाइस के लिए DUET STEM से अलग कोड लीजिए: info@duetpower.in', hg: 'Yeh code pehle se kisi doosre device par chal raha hai. Har code sirf {m} device par chalta hai. Is device ke liye DUET STEM se alag code lijiye: info@duetpower.in' },
   net: { en: 'No internet. Connect to Wi-Fi once to activate the code.', hi: 'इंटरनेट नहीं है। कोड चालू करने के लिए एक बार वाई-फ़ाई से जुड़िए।', hg: 'Internet nahi hai. Code chalu karne ke liye ek baar Wi-Fi se judiye.' },
   gone: { en: 'This code is no longer active. Please contact DUET STEM.', hi: 'यह कोड अब चालू नहीं है। कृपया DUET STEM से संपर्क कीजिए।', hg: 'Yeh code ab active nahi hai. DUET STEM se contact kijiye.' },
   ok: { en: 'Activated{n} · valid until {d}', hi: 'चालू हो गया{n} · {d} तक चलेगा', hg: 'Activate ho gaya{n} · {d} tak valid' },
@@ -60,15 +84,21 @@ export async function checkCode(app, code) {
   if (!covers(e.a, app)) return { ok: false, key: 'app' };
   if (e.u < today()) return { ok: false, key: 'exp', d: e.u };
   const name = e.e ? await openName(code, e.e) : '';
-  save({ h, u: e.u, a: e.a, n: name, t: Date.now() }); return { ok: true, info: licenceInfo(app) };
+  const no = await takePlace(app, code, h, e, name); if (no) return no;
+  save({ h, u: e.u, a: e.a, n: name, k: normCode(code).slice(-4), t: Date.now() }); return { ok: true, info: licenceInfo(app) };
 }
 // a code-screen text in the chosen language ({d} = a date, {n} = the school's name)
-export function licText(key, L, d = {}) { const o = S[key]; if (!o) return ''; return (o[L] || o.en).replace('{d}', d.d ? fmt(d.d, L) : '').replace('{n}', d.n || ''); }
+export function licText(key, L, d = {}) { const o = S[key]; if (!o) return ''; return (o[L] || o.en).replace('{d}', d.d ? fmt(d.d, L) : '').replace('{n}', d.n || '').replace('{m}', d.m ?? ''); }
 export function licenceExpired(app) { const v = load(); return v && covers(v.a, app) && v.u < today() ? v.u : null; }
 // online, a saved licence is looked at again (renewed, changed or withdrawn); offline the app carries on
 export function recheckLicence(app) {
   const have = load(); if (!have) return;
-  fetchList().then((list) => { const e = list[have.h]; if (!e || e.r) { save(null); location.reload(); return; } if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { save({ ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, app)) location.reload(); } }).catch(() => {});
+  fetchList().then(async (list) => {
+    const e = list[have.h]; if (!e || e.r) { save(null); location.reload(); return; }
+    if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { save({ ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, app)) { location.reload(); return; } }
+    // a code for a number of devices: this device must still hold one of its places (a code passed on stops here)
+    if (+e.n > 0 && CLAIM) { const c = await claim(have.h, app, have.k, have.n).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { save(null); location.reload(); } }
+  }).catch(() => {});
 }
 
 // the licence now: { ok, until, name } or null
@@ -119,7 +149,9 @@ export function licenceGate(app, getLang, onMsg, opt = {}) { // opt.demo: offer 
       if (!covers(e.a, app)) { msg(tl(S.app), 'e'); return; }
       if (e.u < today()) { msg(tl(S.exp, { d: fmt(e.u, lang) }), 'e'); return; }
       const name = e.e ? await openName(code, e.e) : '';
-      save({ h, u: e.u, a: e.a, n: name, t: Date.now() }); msg(tl(S.ok, { n: name ? ' · ' + name : '', d: fmt(e.u, lang) }), 'k');
+      $('.go').disabled = true; const no = await takePlace(app, code, h, e, name); $('.go').disabled = false;
+      if (no) { msg(tl(S[no.key] || S.bad, { d: '' }).replace('{m}', no.m ?? ''), 'e'); return; }
+      save({ h, u: e.u, a: e.a, n: name, k: normCode(code).slice(-4), t: Date.now() }); msg(tl(S.ok, { n: name ? ' · ' + name : '', d: fmt(e.u, lang) }), 'k');
       setTimeout(() => { el.remove(); resolve(licenceInfo(app)); }, 1400);
     };
     const alt = $('.alt'); if (alt) alt.onclick = () => { el.remove(); resolve(opt.locked ? null : { ok: false, demo: true }); };

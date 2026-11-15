@@ -35,9 +35,25 @@
   const get = (k) => { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } };
   const put = (k, v) => { try { if (v) localStorage.setItem(k, JSON.stringify(v)); else localStorage.removeItem(k); } catch (e) {} };
   // never wait more than 10 s for the list: on a slow school network the screen says so instead of hanging
+  let CLAIM = ''; // the DUET STEM register's address, from the list
   async function fetchList() {
     const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 10000);
-    try { const r = await fetch(LIST + '?t=' + Date.now(), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); return (await r.json()).codes || {}; }
+    try { const r = await fetch(LIST + '?t=' + Date.now(), { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('list ' + r.status); const j = await r.json(); CLAIM = j.claim || ''; return j.codes || {}; }
+    finally { if (tm) clearTimeout(tm); }
+  }
+  // this device, the same every time inside this app (Android: from the system, so a reinstall keeps it)
+  function deviceId() {
+    try { if (window.DuetNative && DuetNative.deviceId) { const v = String(DuetNative.deviceId() || '').toLowerCase().replace(/[^0-9a-z]/g, ''); if (v.length >= 8) return 'a' + v.slice(0, 40); } } catch (e) {}
+    let v = null; try { v = localStorage.getItem('duet.dev.v1'); } catch (e) {}
+    if (!v) { v = hex(crypto.getRandomValues(new Uint8Array(12))); try { localStorage.setItem('duet.dev.v1', v); } catch (e) {} }
+    return 'w' + v;
+  }
+  const model = () => { try { if (window.DuetNative && DuetNative.deviceName) return String(DuetNative.deviceName()); } catch (e) {} const u = navigator.userAgent || ''; if (/OculusBrowser|Quest/i.test(u)) return 'Meta Quest'; const m = u.match(/Android[^;)]*;\s*([^;)]+)/); return m ? m[1].trim() : /iPhone|iPad/.test(u) ? 'iPhone/iPad' : 'Computer'; };
+  // a code sold for a number of devices: ask the register for a place for this device ({ ok } or { ok: false, err: 'used', max })
+  async function claim(h, app, k, name) {
+    const q = new URLSearchParams({ h, a: app, d: deviceId(), m: model().slice(0, 60), k: k || '', s: (name || '').slice(0, 80) });
+    const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 20000);
+    try { const r = await fetch(CLAIM + '?' + q, { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('claim ' + r.status); return await r.json(); }
     finally { if (tm) clearTimeout(tm); }
   }
   const fmtDate = (d, L) => { const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); };
@@ -54,6 +70,7 @@
     bad: { en: 'This code is not valid. Please check it and try again.', hi: 'यह कोड मान्य नहीं है। कृपया जाँचकर फिर से डालिए।', hg: 'Yeh code valid nahi hai. Check karke dobara daaliye.' },
     app: { en: 'This code does not include this app.', hi: 'यह कोड इस ऐप के लिए नहीं है।', hg: 'Yeh code is app ke liye nahi hai.' },
     exp: { en: 'This subscription ended on {d}. Please renew it with DUET STEM.', hi: 'यह सदस्यता {d} को समाप्त हो गई। कृपया DUET STEM से नवीनीकरण कराइए।', hg: 'Yeh subscription {d} ko khatam ho gaya. DUET STEM se renew karaiye.' },
+    used: { en: 'This code is already in use on another device. Each code works on {m} device(s) only. For this device, ask DUET STEM for its own code: info@duetpower.in', hi: 'यह कोड पहले से किसी दूसरे डिवाइस पर चल रहा है। हर कोड सिर्फ़ {m} डिवाइस पर चलता है। इस डिवाइस के लिए DUET STEM से अलग कोड लीजिए: info@duetpower.in', hg: 'Yeh code pehle se kisi doosre device par chal raha hai. Har code sirf {m} device par chalta hai. Is device ke liye DUET STEM se alag code lijiye: info@duetpower.in' },
     net: { en: 'No internet. Connect to Wi-Fi once to activate the code.', hi: 'इंटरनेट नहीं है। कोड चालू करने के लिए एक बार Wi-Fi से जुड़िए।', hg: 'Internet nahi hai. Code chalu karne ke liye ek baar Wi-Fi se judiye.' },
     ok: { en: 'Activated{n} · valid until {d}', hi: 'चालू हो गया{n} · {d} तक मान्य', hg: 'Activate ho gaya{n} · {d} tak valid' },
     demo: { en: 'Try the free demo', hi: 'मुफ़्त डेमो आज़माइए', hg: 'Free demo try kijiye' },
@@ -83,10 +100,12 @@
     // online, a saved code is looked at again (renewed, changed or withdrawn); offline the app carries on
     recheck() {
       const have = get(KEY); if (!have) return;
-      fetchList().then((list) => {
+      fetchList().then(async (list) => {
         const e = list[have.h];
         if (!e || e.r) { put(KEY, null); location.reload(); return; }
-        if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { put(KEY, { ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, this.app)) location.reload(); }
+        if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { put(KEY, { ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, this.app)) { location.reload(); return; } }
+        // a code for a number of devices: this device must still hold one of its places (a code passed on stops here)
+        if (+e.n > 0 && CLAIM) { const c = await claim(have.h, this.app, have.k, have.n).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { put(KEY, null); location.reload(); } }
       }).catch(() => {});
     },
     async check(code) {
@@ -97,11 +116,15 @@
       if (!covers(e.a, this.app)) return { ok: false, key: 'app' };
       if (e.u < today()) return { ok: false, key: 'exp', d: e.u };
       const name = e.e ? await openName(code, e.e) : '';
-      put(KEY, { h, u: e.u, a: e.a, n: name, t: Date.now() });
+      if (+e.n > 0 && CLAIM) { // the register gives this device one of the code's places, or says they are all taken
+        let c; try { c = await claim(h, this.app, norm(code).slice(-4), name); } catch (err) { return { ok: false, key: 'net' }; }
+        if (!c || !c.ok) return c && c.err === 'used' ? { ok: false, key: 'used', m: c.max || e.n } : { ok: false, key: c && c.err === 'app' ? 'app' : 'bad' };
+      }
+      put(KEY, { h, u: e.u, a: e.a, n: name, k: norm(code).slice(-4), t: Date.now() });
       return { ok: true, until: e.u, name };
     },
     t(key, d = {}) { const L = this.lang(); const o = S[key]; return o ? (o[L] || o.en).replace('{d}', d.d ? fmtDate(d.d, L) : '').replace('{n}', d.n || '').replace('{m}', d.m ?? '') : ''; },
-    msgFor(r) { return r.ok ? this.t('ok', { n: r.name ? ' · ' + r.name : '', d: r.until }) : this.t(r.key, { d: r.d }); },
+    msgFor(r) { return r.ok ? this.t('ok', { n: r.name ? ' · ' + r.name : '', d: r.until }) : this.t(r.key, { d: r.d, m: r.m }); },
     presenting() { return !!(this.vr && this.vr.renderer.xr.isPresenting); },
     open(mode) {
       if (this.state === 'ok') return;

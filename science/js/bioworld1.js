@@ -25,7 +25,7 @@ const ang = (x, z) => Math.atan2(-z, x); // heading of (x, z) as a turn about y 
 export const ECO = {
   bluegill: { len: 0.16, head: [0, 1], clip: 1 }, bass: { len: 0.34, head: [0, 1], clip: 1 }, turtle: { len: 0.2, head: [0, 1], clip: 1 },
   frog: { len: 0.11, head: [-1, 0] }, kingfisher: { h: 0.24, head: [-1, 0] }, strider: { len: 0.05, head: [-1, 0] }, dragonfly: { len: 0.1, head: [-1, 0] },
-  snail: { len: 0.045, head: [0, 1] }, locust: { len: 0.08, head: [1, 0] }, ratsnake: { len: 0.62, head: [0.7, 0.7] }, hawk: { h: 0.78, head: [0, 1] },
+  snail: { len: 0.045, head: [0, 1] }, locust: { len: 0.08, head: [1, 0] }, ratsnake: { len: 0.42, head: [0.7, 0.7] }, hawk: { h: 0.78, head: [0, 1] }, hawk_low: { h: 0.52, head: [0, 1] },
   hare: { h: 0.4, head: [-0.86, 0.5] }, owl: { h: 0.42, head: [1, 0] }, crow: { len: 0.5, head: [-0.7, -0.7] }, parasol: { h: 0.2, head: [0, 1] },
   birchfungus: { len: 0.32, head: [0, 1] }, beetle: { len: 0.05, head: [-1, 0] },
   // plants and wood (Poly Haven, CC0): already real size

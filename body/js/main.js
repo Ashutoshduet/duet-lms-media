@@ -653,7 +653,7 @@ class App {
       target.lerp(mp, 0.48);
     }
     const pos = target.clone().addScaledVector(dir, dist);
-    this.labelK = dist * (innerWidth < 900 ? 1.25 : 0.95);
+    this.labelK = dist * (innerWidth < 900 ? 1.25 : 0.95) * (aspect < 1 ? Math.max(0.36, aspect * 0.8) : 1); // a phone held upright: smaller name cards, so they fit across
     this.relabel();
     if (instant) { this.camera.position.copy(pos); this.controls.target.copy(target); this.camTween = null; }
     else this.camTween = { p0: this.camera.position.clone(), t0: this.controls.target.clone(), p1: pos, t1: target, t: 0 };
@@ -1314,7 +1314,10 @@ class App {
       return { kicker: kick, color: col, title: p.name, text: this.infoText(p), buttons: b, buttons2: b2 };
     }
     const eb = [{ id: 'cut', label: t('cut'), active: this.cut.on }, { id: 'cl_quiz', label: '📝 ' + t('quizBtn') }]; if (this.hands.count()) eb.push({ id: 'putall', label: t('putAllBack') });
-    return { kicker: t('explore'), color: '#d9d2c3', title: t('title'), text: t('exploreHint') + ' ' + t('pickOrgan') + '\n' + t(this.inXR() ? 'handsHintVR' : 'handsHintScreen'), buttons: eb };
+    // the guided journeys (food through the gut, a breath of oxygen…) and the organ labs, one tap away on a phone
+    const chips = [{ lbl: t('journeys') }, ...JOURNEYS.map((j) => ({ id: 'j_' + j.id, label: `${j.icon || ''} ${String(tx(j.title, L)).split(/[:：]/)[0]}`.trim(), c: SYSTEMS[j.sys].color })),
+      { lbl: t('labs') }, ...LAB_IDS.map((id) => ({ id: 'lab_' + id, label: '🔬 ' + tx(LABS[id].title, L), c: LABS[id].color }))];
+    return { kicker: t('explore'), color: '#d9d2c3', title: t('title'), text: t('exploreHint') + ' ' + t('pickOrgan') + '\n' + t(this.inXR() ? 'handsHintVR' : 'handsHintScreen'), buttons: eb, chips };
   }
 
   // ------------------------------------------------------------ HTML UI
@@ -1323,7 +1326,7 @@ class App {
     document.documentElement.lang = L;
     $('#title').textContent = tx(T.title, L);
     for (const l of MAIN_LANGS) $('#lang-' + l).classList.toggle('on', L === l);
-    { const mb = $('#lang-more'); if (mb) { mb.classList.toggle('on', isX(L)); mb.textContent = isX(L) ? `${XLABEL[L]} ▾` : '🌐 ▾'; } }
+    { const mb = $('#lang-more'); if (mb) { mb.classList.toggle('on', isX(L)); mb.textContent = isX(L) ? `${XLABEL[L]} ▾` : innerWidth <= 640 ? `🌐 ${L === 'en' ? 'EN' : LANG_LABEL[L]} ▾` : '🌐 ▾'; } }
     const narrow = innerWidth < 520; $('#btn-vr').textContent = narrow ? 'VR' : tx(T.enterVR, L); $('#btn-ar').textContent = narrow ? 'AR' : tx(T.enterAR, L);
     $('#jlabel').textContent = tx(T.journeys, L); $('#llabel').textContent = tx(T.layers, L);
     $('#lablabel').textContent = tx(T.labs, L); $('#dislabel').textContent = tx(T.dismantle, L); $('#gamelabel').textContent = tx(T.assemble, L);
@@ -1395,9 +1398,12 @@ class App {
       const e = document.createElement('button'); e.className = 'cbtn' + (b.primary ? ' primary' : ''); e.textContent = b.label;
       e.onclick = () => { this.audio.unlock(); this.action(b.id); }; bs.appendChild(e);
     }
+    { const ch = $('#s-chips'); ch.innerHTML = ''; ch.classList.toggle('has', !!(m.chips && m.chips.length));
+      for (const c of m.chips || []) { if (c.lbl) { const s = document.createElement('span'); s.className = 'lbl'; s.textContent = c.lbl; ch.appendChild(s); continue; }
+        const e = document.createElement('button'); e.textContent = c.label; if (c.c) e.style.setProperty('--cc', c.c); e.onclick = () => { this.audio.unlock(); this.action(c.id); }; ch.appendChild(e); } }
     $('#offline').textContent = this.offlineText();
     if (this.vrui) this.vrui.dirty = true;
-    if (!this.inXR()) requestAnimationFrame(() => { const d = Math.round((card.getBoundingClientRect().height + 24) * 0.5); if (d !== this._vo) { this._vo = d; this.camera.setViewOffset(innerWidth, innerHeight, 0, d, innerWidth, innerHeight); this.camera.updateProjectionMatrix(); } });
+    if (!this.inXR()) requestAnimationFrame(() => { const top = Math.min(innerHeight * 0.25, document.getElementById('top')?.getBoundingClientRect().bottom || 0), d = Math.round((card.getBoundingClientRect().height + 24 - top) * 0.5); if (d !== this._vo) { this._vo = d; this.camera.setViewOffset(innerWidth, innerHeight, 0, d, innerWidth, innerHeight); this.camera.updateProjectionMatrix(); } });
   }
   toast(msg, ms = 4200) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(this._tt); this._tt = setTimeout(() => t.classList.remove('show'), ms); }
 
@@ -1461,8 +1467,11 @@ class App {
       const PT = { box: { en: 'VR box', hi: 'VR बॉक्स', hg: 'VR box' }, cam: { en: 'Camera AR', hi: 'कैमरा AR', hg: 'Camera AR' } };
       const mk = (id, k) => { let b = $('#' + id); if (!b) { b = document.createElement('button'); b.id = id; b.className = 'xr pxr'; $('#btn-ar').parentNode.insertBefore(b, $('#btn-ar')); }
         b.onclick = () => { this.audio.unlock(); if (this.pxr.on) this.pxr.stop(); else this.pxr.start(k); }; return b; };
-      this._pxrBtns = () => { mk('pxr-box', 'box').textContent = '🥽 ' + tx(PT.box, this.lang); mk('pxr-cam', 'cam').textContent = '📷 ' + tx(PT.cam, this.lang); };
-      this._pxrBtns();
+      // on a phone held upright the top bar is full: the two buttons sit in a dock at the right edge instead
+      const place = () => { const dock = $('#xrdock'), up = matchMedia('(max-width: 640px)').matches;
+        for (const id of ['pxr-box', 'pxr-cam']) { const b = $('#' + id); if (!b) continue; if (up) { if (b.parentNode !== dock) dock.appendChild(b); } else if (b.parentNode === dock) $('#btn-ar').parentNode.insertBefore(b, $('#btn-ar')); } };
+      this._pxrBtns = () => { mk('pxr-box', 'box').textContent = '🥽 ' + tx(PT.box, this.lang); mk('pxr-cam', 'cam').textContent = '📷 ' + tx(PT.cam, this.lang); place(); };
+      this._pxrBtns(); addEventListener('resize', place);
       const real = navigator.xr ? navigator.xr.isSessionSupported('immersive-ar').catch(() => false) : Promise.resolve(false);
       real.then((ok) => { $('#pxr-cam').hidden = !!ok || !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia); if (!ok) { $('#btn-ar').hidden = true; } if (!navigator.xr) $('#btn-vr').hidden = true; });
     }

@@ -5,7 +5,7 @@ const HEART = ['heart_ra', 'heart_rv', 'heart_la', 'heart_lv'];
 const GUT = ['mouth', 'tongue', 'teeth', 'teeth_lower', 'salivary', 'pharynx', 'esophagus', 'stomach', 'duodenum', 'small_intestine', 'large_intestine', 'rectum', 'liver', 'gallbladder', 'pancreas', 'bile_ducts'];
 
 export const BREATHING = {
-  id: 'breathing', sys: 'respiratory',
+  id: 'breathing', sys: 'respiratory', icon: '🫁',
   title: { en: 'Breathing: the oxygen journey' },
   steps: [
     { view: { at: [0, 1.36, 0.02], z: 2.0 }, focus: RESP, anim: ['breathe'], flows: ['air_in'], labels: ['nasal_cavity', 'trachea', 'lung_r', 'lung_l', 'diaphragm'],
@@ -61,7 +61,7 @@ export const BREATHING = {
 };
 
 export const DIGESTION = {
-  id: 'digestion', sys: 'digestive',
+  id: 'digestion', sys: 'digestive', icon: '🍎',
   title: { en: 'Food: from mouth to energy' },
   steps: [
     { view: { at: [0, 1.22, 0.03], z: 1.4 }, focus: GUT, labels: ['esophagus', 'stomach', 'liver', 'small_intestine', 'large_intestine'],

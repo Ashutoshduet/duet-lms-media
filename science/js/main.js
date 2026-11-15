@@ -176,7 +176,7 @@ export class App {
       c.busy = true; c.msg = licText('wait', L); c.cls = '';
       checkCode('science', c.code).then((r) => {
         c.busy = false;
-        if (!r.ok) { c.msg = licText(r.key, L, { d: r.d }); c.cls = 'e'; }
+        if (!r.ok) { c.msg = licText(r.key, L, { d: r.d, m: r.m }); c.cls = 'e'; }
         else { const li = r.info || {}; c.msg = licText('ok', L, { n: li.name ? ' · ' + li.name : '', d: li.until }); c.cls = 'k'; c.done = true; this.demo = false;
           setTimeout(() => { const id = c.id; if (this.codeVR === c) this.codeVR = null; this.ui.renderAll(); if (id) this.openExp(id); this.ui.dirty = true; }, 1800); }
         this.ui.dirty = true;

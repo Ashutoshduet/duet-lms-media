@@ -1,4 +1,3 @@
-// WORK IN PROGRESS (not listed in the app yet): the snakes' scan base and the size of the grasshoppers still need work.
 // DUET Science Lab 360, biology in real places, batch BW2: a grassland food web. Take the frogs away and watch what
 // happens to everything else in the web over six months.
 import { DICT } from './exp_i18n.js';
@@ -22,13 +21,12 @@ export const EXPERIMENTS_BW2 = [
     setup(K) {
       const W = Wd(K);
       const gw = K.add(BW3.grassWeb({ W }), 0, 0, { y: 0 }), knob = K.add(MW.pullTab(), 0, -0.42);
-      gw.camView = { p: V3(K, 0, 0.95, -0.15), t: V3(K, 0, 0.12, -1.6) };
       BW3.bindWebHands(gw, knob, K.app, { m3: 1, m6: 3 }, { m3: () => K.lab.emit('m3', { obj: gw.id }), m6: () => K.lab.emit('m6', { obj: gw.id }) });
       return { gw, knob };
     },
     steps: [
-      { do: X('A patch of grassland. Look around: grass, grasshoppers in it, frogs on the ground, two rat snakes and a hawk on a stump.'), target: 'gw',
-        act: async (K, o) => { K.lab.emit('look', { obj: o.gw.id }); await K.sleep(2); }, ev: { type: 'look' },
+      { do: X('A patch of grassland. Look around: grass, grasshoppers in it, frogs on the ground, two rat snakes and a hawk on an old post.'), target: 'gw',
+        act: async (K, o) => { o.gw.camView = o.gw.views.frog(); K.lab.emit('look', { obj: o.gw.id }); await K.sleep(5); o.gw.camView = o.gw.views.over; }, ev: { type: 'look' },
         see: X('Grasshoppers eat grass, frogs eat grasshoppers, snakes eat frogs and the hawk eats snakes (and frogs too). The chains join into a web.') },
       { do: X('Slide the calendar on three months.'), target: 'knob',
         act: async (K, o) => { await K.tween(3, (k) => o.gw.setMonth(3 * k)); o.gw.setMonth(3); K.lab.emit('m3', { obj: o.gw.id }); }, ev: { type: 'm3' },
@@ -39,8 +37,8 @@ export const EXPERIMENTS_BW2 = [
       { do: X('Slide the calendar on six months without the frogs.'), target: 'knob',
         act: async (K, o) => { await K.tween(4, (k) => o.gw.setMonth(6 * k)); o.gw.setMonth(6); K.lab.emit('m6', { obj: o.gw.id }); }, ev: { type: 'm6' },
         see: X('With nobody eating them, the grasshoppers multiply to about 60 and eat most of the grass. The snakes find no frogs, go hungry and leave.') },
-      { do: X('Look at the grass and the stump.'), target: 'gw',
-        act: async (K, o) => { K.lab.emit('look2', { obj: o.gw.id }); await K.sleep(2); }, ev: { type: 'look2' },
+      { do: X('Look closely at the grass.'), target: 'gw',
+        act: async (K, o) => { o.gw.camView = o.gw.views.grass; K.lab.emit('look2', { obj: o.gw.id }); await K.sleep(3); }, ev: { type: 'look2' },
         see: X('Only about a third of the grass is left, and the hawk has fewer snakes to hunt. Taking away one animal changed the whole web.') },
     ],
     eq: { word: 'No frogs → more grasshoppers → less grass; fewer snakes', sym: 'grass ← grasshopper ← frog ← snake ← hawk' },

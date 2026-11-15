@@ -117,7 +117,7 @@
   "license": "CC BY 4.0",
   "url": "https://sketchfab.com/3d-models/1ddff22506aa4bef8e3cfa883d592f6a",
   "source": "Sketchfab via Objaverse (open licences only)",
-  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code; the white rock it was scanned on taken away, so the snake lies on the ground."
  },
  {
   "id": "hawk",
@@ -130,6 +130,18 @@
   "url": "https://sketchfab.com/3d-models/a0154c1dde464e54a8017998c1afd4f3",
   "source": "Sketchfab via Objaverse (open licences only)",
   "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "hawk_low",
+  "name": "Red-tailed Hawk",
+  "authors": {
+   "Innovation Studio": "All"
+  },
+  "user": "cmp_innovation_studio",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/a0154c1dde464e54a8017998c1afd4f3",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Colour-checker cube removed, mesh reduced, sat on the ground, WebP textures, meshopt-compressed; posed, placed and animated in code; the tall post it stands on cut down to a short stump."
  },
  {
   "id": "owl",

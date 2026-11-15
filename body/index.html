@@ -156,7 +156,28 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
   #s-kicker{font-size:11.5px}#s-title,#story.explore #s-title{font-size:16px;margin:1px 0 3px}
   #s-text,html:is([lang=hi],[lang=mr],[lang=bn],[lang=ta],[lang=te],[lang=gu],[lang=kn],[lang=ml],[lang=or]) #s-text{font-size:13.5px;line-height:1.45;max-height:15vh}
   #s-buttons{margin-top:6px;gap:6px}#s-buttons button{padding:5px 10px;font-size:13px}#s-dots{margin-top:6px}
+  /* the explore card keeps only its buttons and the journeys, so the whole body stays in view */
+  #story.explore:has(#s-chips.has) #s-text{display:none}#story.explore:has(#s-chips.has) #s-buttons{float:left;margin:6px 8px 0 0}#s-chips{margin-top:6px}#s-chips button{padding:6px 11px;font-size:13px}
 }
+/* journeys and organ labs as one scrolling row in the explore card, where the side lists are folded away */
+#s-chips{display:none;gap:7px;margin-top:10px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:1px 1px 3px}
+#s-chips::-webkit-scrollbar{display:none}
+#s-chips{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);padding-right:28px}
+#s-chips .lbl{flex:0 0 auto;align-self:center;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);font-weight:700;margin-left:4px}
+#s-chips button{flex:0 0 auto;padding:8px 13px;border-radius:999px;border:1px solid var(--cc,rgba(255,255,255,.25));background:rgba(255,255,255,.07);color:var(--ink);font-weight:700;font-size:13.5px;white-space:nowrap;cursor:pointer}
+@media (max-width:900px),(max-height:520px){#story.explore #s-chips.has{display:flex}}
+/* the phone VR box and camera AR, always in reach on a phone held upright */
+#xrdock{display:none;position:fixed;right:10px;top:calc(max(12px,env(safe-area-inset-top)) + 62px);z-index:5;flex-direction:column;align-items:flex-end;gap:8px}
+body.in-xr #xrdock,body.pxr-on #xrdock{display:none!important}
+@media (max-width:640px){
+  #xrdock{display:flex}#xrdock .xr{padding:10px 13px;font-size:14px;box-shadow:0 4px 16px rgba(0,0,0,.35)}#xrdock .xr+.xr{background:rgba(20,24,32,.82);color:var(--ink);border:1px solid rgba(255,255,255,.22)}
+  #top{gap:6px;left:10px;right:10px}#brand{padding:6px 10px}#logo{height:9px}#title{font-size:13px;white-space:nowrap}
+  #tools{gap:2px;padding:4px}#tools .seg button:not(#lang-more){display:none}#lang-more{white-space:nowrap}
+  #tools .dc-chip:not(.on){width:32px;padding:0 0 0 7px;overflow:hidden;justify-content:flex-start;gap:0}
+  #btn-sfx,#btn-zout,#btn-zin,#btn-spin,#btn-reset,#btn-info{display:none!important}
+  #story{max-height:46vh;overflow-y:auto}
+}
+@media (max-width:400px){#title{display:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <script src="./duetgate.js"></script>
@@ -182,6 +203,7 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
     <button id="btn-vr" class="xr">Enter VR</button>
   </div>
 </div>
+<div id="xrdock"></div>
 <div id="left" class="rail panel"><h3 id="jlabel">Journeys</h3><div id="journeys"></div>
   <h3 id="lablabel" class="sub">Organ Lab</h3><div id="labs" class="tgrid"></div>
   <h3 id="dislabel" class="sub">Take apart</h3><div id="dis" class="tgrid"></div>
@@ -195,6 +217,7 @@ body.app-xr-wait:not(.in-xr) #xr-wait{display:grid}
   <div id="s-dots"></div>
   <div id="s-progwrap"><div id="s-prog"></div></div>
   <div id="s-buttons"></div>
+  <div id="s-chips"></div>
 </div>
 <div id="toast" class="panel"></div>
 <div id="xr-wait"><button id="xr-go" class="xr">Enter VR · VR में जाएँ</button></div>

@@ -12,6 +12,7 @@ board, pesticide tester) and `bioworld2.js` (energy pyramid, forest floor, sorti
 | 10 | 13 Our Environment | bw10_pesticide: DDT from a field drain, tested in water, algae, small fish, big fish, kingfisher; 0.000003 → 25 ppm | pond (table) |
 | 10 | 13 Our Environment | bw10_energy_pyramid: grass, grasshopper, frog, snake, hawk on a five-step stand; energy passed up by hand, 10% law | grassland |
 | 10 | 13 Our Environment | bw10_decomposers: a forest floor slid through eight weeks; leaves and a dead beetle become humus, plastic stays | forest |
+| 10 | 13 Our Environment | bw10_food_web: a grassland patch with grass, grasshoppers, frogs, two rat snakes and a hawk; slide the calendar on, take the frogs out and watch grasshoppers triple, the grass go and the snakes leave | grassland |
 | 6 | 10 Living Creatures | bw6_living_sort: snail, stone, mushroom, dead bark, fern, bottle into living / non-living baskets | forest (table) |
 
 ## The 3D models (`science/models/eco/`)
@@ -27,12 +28,13 @@ How they were made ready (tools in a scratch folder, not in the repo; `@gltf-tra
   meshopt compression (the app has the decoder);
 - Poly Haven foliage: the alpha map is put into the colour map (their glTF has a JPEG without it), alpha MASK; the
   grassland uses Poly Haven's own dry-grass colour map;
-- the hare is repainted from an arctic hare's white winter coat to a grizzled brown Indian hare.
+- the hare is repainted from an arctic hare's white winter coat to a grizzled brown Indian hare;
+- the rat snake's white scanning rock is taken away (triangles under the rock's light, grey texture, smoothed over
+  neighbours, then the largest pieces of snake kept), and the hawk's tall post cut down to a short stump (`hawk_low`).
 In the app (`ECO` in `bioworld1.js`) each model has its real length or height and the way its head points, so it can be
 placed at real size facing any way; scans with their own animation (fish, turtle) play it.
 
 ## Next
 - Class 6: a pond and its plants and animals: adaptations (2 Diversity in the Living World).
-- Class 7: a forest food web: take the frogs away and watch grasshoppers multiply and snakes go hungry.
 - Class 8: microbes: curd, yeast in dough, a compost pit (2 Microorganisms).
 - Class 9 / 12: the water and carbon cycles at the pond; a pond's food web with decomposers.
