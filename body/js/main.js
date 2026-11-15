@@ -15,6 +15,7 @@ import { ZoomStand } from './zoom.js';
 import { Lab, LABS, LAB_IDS } from './lab.js';
 import { Dismantle } from './dismantle.js';
 import { Handson, Cutter, OUT } from './handson.js';
+import { Splitter, UNITS, unitOf, unitParts, subPieces } from './split.js';
 import { JOURNEYS, SYSTEMS, T } from './data.js';
 import { LANGS, C, tx, partInfo, hasAudio, loadContent } from './content.js';
 
@@ -98,7 +99,8 @@ class App {
     this.lab = new Lab(this); this.world.add(this.lab.group); this.lab.group.position.set(0, 1.12, 0);
     this.dis = new Dismantle(this); this.bodyRoot.add(this.dis.group);
     this.hands = new Handson(this); this.bodyRoot.add(this.hands.group);
-    this.hands.onBack = (p) => { if (this.sel && this.sel.pid === p.userData.pid) this.makePickLabel(); this.audio.chime(); this.refreshUI(); };
+    this.hands.onBack = (p) => { if (this.sel && this.sel.piece === p) this.sel.piece = null; if (this.sel && this.sel.pid === p.userData.pid) this.makePickLabel(); this.audio.chime(); this.refreshUI(); };
+    this.splitter = new Splitter(this);
     this.cut = new Cutter(this);
 
     this.setLoading(0.02);
@@ -296,7 +298,7 @@ class App {
     this.playing = false; this.journey = null; this.step = null;
     this.flows.set([]); this.tracer.stop(); this.mag.show(null); this.zoom.hide();
     this.clearSel(); this.showAll(true); this.clearLabels();
-    this.hands.clear(); if (this.cut.on) this.cut.set(false);
+    this.hands.clear(); this.splitter.close(); if (this.cut.on) this.cut.set(false);
     if (this.mode === 'lab') { this.lab.close(); this.labId = null; this.labSel = null; }
     if (this.mode === 'dismantle' || this.mode === 'game') { this.dis.clear(); this.selPiece = null; this.restoreGroups(); }
     this.bodyRoot.visible = true;
@@ -413,7 +415,7 @@ class App {
     if (this.isolated && this.isolated !== pid) this.isolate(pid);
     const center = pm ? V3(pm.center) : this.anchorFor(group);
     const size = pm ? Math.max(pm.max[0] - pm.min[0], pm.max[1] - pm.min[1], pm.max[2] - pm.min[2]) : 0.2;
-    this.sel = { pid, group, center, size, oid: opts.oid ?? -1, point: opts.point ? opts.point.clone() : this.anchorOnPart(pid, center) };
+    this.sel = { pid, group, center, size, oid: opts.oid ?? -1, point: opts.point ? opts.point.clone() : this.anchorOnPart(pid, center), piece: opts.piece || null };
     this.makePickLabel();
     if (opts.from === 'list' && this.mode !== 'journey') { this.body.focus([group], 0.1); this.setSkin(0.4); }
     if (opts.from === 'list' || opts.zoom) this.focusSel();
@@ -807,7 +809,8 @@ class App {
   makePickLabel() {
     this.removePickLabel();
     const s = this.sel; const info = s && partInfo(s.pid, this.lang); if (!info) return;
-    const lb = new Label([info.name, info.alt], { height: 0.034, offset: new THREE.Vector3(0.04, 0.05, 0.02), cx: 0, cy: 0.5, small: 22, border: 'rgba(255,214,140,0.8)' });
+    const sub = s.piece && s.piece.userData.sub;
+    const lb = new Label(sub ? [sub, info.name] : [info.name, info.alt], { height: 0.034, offset: new THREE.Vector3(0.04, 0.05, 0.02), cx: 0, cy: 0.5, small: 22, border: 'rgba(255,214,140,0.8)' });
     lb.position.copy(s.point); lb.setScale(this.labelScale());
     this.bodyRoot.add(lb); this.pickLabel = lb;
   }
@@ -839,7 +842,52 @@ class App {
     if (h) this.selectPart(h.pid, { point: h.point, oid: h.oid });
   }
   // a part that is out of the body: its card, its name on the piece
-  selectOut(p) { this.selectPart(p.userData.pid, { point: p.position.clone() }); }
+  selectOut(p) { this.selectPart(p.userData.pid, { point: p.position.clone(), piece: p }); }
+  // the selected part's piece out of the body (the very piece that was picked, when the part is in smaller pieces)
+  selPieceOut() { const s = this.sel; if (!s) return null; if (s.piece && this.hands.pieces.includes(s.piece)) return s.piece; return this.hands.find(s.pid); }
+  sideOf(s) { const ob = s.oid >= 0 && this.body.objects[s.oid]; if (ob && ob.side) return ob.side; const p = this.selPieceOut(); return p ? p.userData.side || '' : ''; }
+  // ---- split an organ into its parts, a part into its smaller parts
+  unitKey() { return this.sel ? unitOf(this.sel.pid, this.partMeta) : null; }
+  subsFor() {
+    const s = this.sel; if (!s) return [];
+    const p = this.selPieceOut(); if (p && p.userData.sub) return [];
+    const oids = p ? p.userData.oids : this.hands.usable(this.body.partObjs[s.pid] || [], this.sideOf(s));
+    return subPieces(oids, this.body.objects);
+  }
+  splitUnit() {
+    const s = this.sel, key = this.unitKey(); if (!key) return;
+    const U = UNITS[key]; let side = U.sided ? this.sideOf(s) || 'r' : '';
+    if (this.isolated) this.showAll(true);
+    for (const g of U.groups) this.ensureVisible(g);
+    if (this.cut.on) this.cut.set(false);
+    // pieces of other organs go back in; this organ's parts come out whole, on one side
+    for (const q of [...this.hands.pieces]) if (unitOf(q.userData.pid, this.partMeta) !== key) this.hands.putBack(q); else if (q.userData.sub || (q.userData.side || '') !== side) this.hands.restore(q, true);
+    const pieces = [];
+    for (const pid of unitParts(key, this.partMeta)) { const p = this.hands.take(pid, -1, side); if (p) pieces.push(p); }
+    if (!pieces.length) return;
+    this.splitter.open(tx(U.name, this.lang), pieces, this.viewerInBody());
+    this.zoom.hide(); this.frameSplit();
+    this.audio.chime(); this.feedbackToast(t0(this.inXR() ? 'splitHintVR' : 'splitHintScreen', this.lang)); this.refreshUI();
+  }
+  // on a screen the camera turns to the spread-out parts
+  frameSplit() {
+    const S = this.splitter.set; if (!S || this.inXR()) return;
+    this.stepView = { at: this.bodyRoot.localToWorld(S.D.clone()), z: THREE.MathUtils.clamp(3 / (S.R * 1.9), 1, 9), side: Math.atan2(S.dir.x, S.dir.z) }; this.goView(false);
+  }
+  subSplit() {
+    const s = this.sel; if (!s) return;
+    const subs = this.subsFor(); if (subs.length < 2) return;
+    const side = this.sideOf(s), cur = this.selPieceOut();
+    for (const q of [...this.hands.pieces]) if (q !== cur) this.hands.putBack(q);
+    if (cur) this.hands.restore(cur, true);
+    const info = partInfo(s.pid, this.lang), pieces = [];
+    for (const sp of subs) { const p = this.hands.takeList(s.pid, sp.oids, sp.name, side); if (p) pieces.push(p); }
+    if (!pieces.length) return;
+    s.piece = null;
+    this.splitter.open(info ? info.name : s.pid, pieces, this.viewerInBody());
+    this.zoom.hide(); this.makePickLabel(); this.frameSplit();
+    this.audio.chime(); this.feedbackToast(`${pieces.length} ${t0('smallerCount', this.lang)}`); this.refreshUI();
+  }
   viewerInBody() { const v = this.inXR() ? this.headPose().pos.clone() : this.camera.position.clone(); return this.bodyRoot.worldToLocal(v); }
   takeOut() {
     const s = this.sel; if (!s) return;
@@ -1103,9 +1151,12 @@ class App {
     else if (id === 'openlab') { const l = this.sel && this.labFor(this.sel.pid); if (l) this.openLab(l, 0, true); }
     else if (id === 'tour') { this.labSel = null; this.lab.select(null); this.lab.pickLabel(null); this.speakLabStep(); }
     else if (id === 'takeout') this.takeOut();
-    else if (id === 'putback') { const p = this.sel && this.hands.find(this.sel.pid); if (p) this.hands.putBack(p); }
+    else if (id === 'putback') { const p = this.selPieceOut(); if (p) this.hands.putBack(p); }
+    else if (id === 'split') this.splitUnit();
+    else if (id === 'join') this.splitter.toggle();
+    else if (id === 'subsplit') this.subSplit();
     else if (id === 'putall') this.hands.putAllBack();
-    else if (id === 'turn') { const p = this.sel && this.hands.find(this.sel.pid); if (p) this.hands.turn(p); }
+    else if (id === 'turn') { const p = this.selPieceOut(); if (p) this.hands.turn(p); }
     else if (id === 'cut') { if (this.cut.on) this.cut.set(false); else { this.cut.set(true, this.inXR() ? (this.lastCtrl || this.controllers[1] || this.controllers[0]) : null); if (!this.inXR()) this.cut.depth = 0.06; this.clearSel(); if (this.mode === 'part') this.mode = 'explore'; this.zoom.hide(); this.narrate('ui-cut', t0(this.inXR() ? 'cutHintVR' : 'cutHintScreen', this.lang)); } }
     else if (id === 'cut_off') this.cut.set(false);
     else if (id === 'cut_in') this.cut.deeper(0.02);
@@ -1134,6 +1185,7 @@ class App {
     else if (this.sel) { this.makePickLabel(); this.speakPart(this.sel.pid); if (this.zoom.active) this.focusSel(); }
     else if (this.mode === 'dismantle') { this.dis.makeLabels(); if (this.selPiece) this.speakPart(this.selPiece.userData.cid); }
     else if (this.mode === 'game') this.feedback = tx(this.inXR() ? T.assembleVR : T.assembleDesk, l);
+    this.splitter.relabel();
     setTimeout(() => this.prefetchAudio([l]), 2000);
     this.buildHTML(); this.refreshUI();
   }
@@ -1176,12 +1228,21 @@ class App {
     if (this.sel) {
       const p = partInfo(this.sel.pid, L); const sys = C.parts[p.id] && C.parts[p.id].sys; const lab = this.labFor(this.sel.pid);
       const col = sys && SYSTEMS[sys] ? SYSTEMS[sys].color : '#d9d2c3', kick = `${t('organs')}${sys && SYSTEMS[sys] ? ' · ' + tx(SYSTEMS[sys], L) : ''}`;
-      if (this.hands.isOut(this.sel.pid)) {
-        const b2 = []; if (this.hands.count() > 1) b2.push({ id: 'putall', label: t('putAllBack') }); if (lab) b2.push({ id: 'openlab', label: t('openLab') }); b2.push({ id: 'deselect', label: '✕' });
-        return { kicker: kick, color: col, title: p.name, text: this.infoText(p), buttons: [{ id: 'replay', label: t('listen') }, { id: 'turn', label: t('turnIt') }, { id: 'putback', label: t('putBack'), primary: true }], buttons2: b2 };
+      const unit = this.unitKey(), subs = this.subsFor().length > 1;
+      const out = this.selPieceOut();
+      if (out) {
+        const inSet = this.splitter.has(out), sub = out.userData.sub;
+        const b = [{ id: 'replay', label: t('listen') }, { id: 'turn', label: t('turnIt') }, { id: 'putback', label: t('putBack'), primary: true }];
+        if (inSet) b.push({ id: 'join', label: t(this.splitter.set.apart ? 'joinParts' : 'splitApart'), active: !this.splitter.set.apart });
+        else if (unit) b.push({ id: 'split', label: t('splitParts') });
+        const b2 = []; if (subs) b2.push({ id: 'subsplit', label: t('subParts') }); if (sub && unit) b2.push({ id: 'split', label: t('backToOrgan') });
+        if (this.hands.count() > 1) b2.push({ id: 'putall', label: t('putAllBack') }); if (lab) b2.push({ id: 'openlab', label: t('openLab') }); b2.push({ id: 'deselect', label: '✕' });
+        const one = sub && this.sel.piece === out, title = one ? sub : p.name, kicker = one ? `${p.name} · ${t('smallerPart')}` : kick;
+        return { kicker, color: col, title, text: this.infoText(p), buttons: b, buttons2: b2 };
       }
       const b = [{ id: 'replay', label: t('listen') }, this.isolated ? { id: 'showall', label: t('showAll') } : { id: 'isolate', label: t('isolate') }, { id: 'zoom', label: t('zoomIn') }];
-      const b2 = [{ id: 'takeout', label: t('takeOut'), primary: true }]; if (lab) b2.push({ id: 'openlab', label: t('openLab') }); b2.push({ id: 'cut', label: t('cut'), active: this.cut.on }); b2.push({ id: 'deselect', label: '✕' });
+      if (unit) b.push({ id: 'split', label: t('splitParts') });
+      const b2 = [{ id: 'takeout', label: t('takeOut'), primary: true }]; if (subs) b2.push({ id: 'subsplit', label: t('subParts') }); if (lab) b2.push({ id: 'openlab', label: t('openLab') }); b2.push({ id: 'cut', label: t('cut'), active: this.cut.on }); b2.push({ id: 'deselect', label: '✕' });
       return { kicker: kick, color: col, title: p.name, text: this.infoText(p), buttons: b, buttons2: b2 };
     }
     const eb = [{ id: 'cut', label: t('cut'), active: this.cut.on }]; if (this.hands.count()) eb.push({ id: 'putall', label: t('putAllBack') });
@@ -1416,8 +1477,10 @@ class App {
     this.zoom.update(cam, scale);
     this.lab.update(dtA, t, scale, 1);
     this.dis.update(dt, t);
-    this.hands.update(dt, t); this.cut.update();
-    if (this.sel && this.pickLabel) { const p = this.hands.find(this.sel.pid); if (p) { this.pickLabel.position.copy(p.position); this.pickLabel.position.y += p.userData.height * 0.5 * p.scale.x; } }
+    this.hands.update(dt, t); this.cut.update(); this.splitter.update();
+    { const sp = !!(this.splitter.set && this.splitter.set.apart); if (sp !== !!this._spFade) { this._spFade = sp; this.body.focus(sp ? ['__split'] : [], 0.22); } } // the body fades while an organ is spread out
+    if (this.sel && this.pickLabel) { const p = this.selPieceOut(); if (p) { this.pickLabel.position.copy(p.position); this.pickLabel.position.y += p.userData.height * 0.5 * p.scale.x; }
+      this.pickLabel.visible = !(p && this.splitter.set && this.splitter.set.apart && this.splitter.has(p)); }
     if (this.confPts) {
       this.confT += dt; const a = this.confPts.geometry.attributes.position;
       this.conf.forEach((c, i) => { c.v.y -= 2.2 * dt; c.p.addScaledVector(c.v, dt); a.setXYZ(i, c.p.x, c.p.y, c.p.z); }); a.needsUpdate = true;

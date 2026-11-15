@@ -24,17 +24,28 @@ export class Handson {
   isOut(pid) { return !!this.find(pid); }
 
   // a copy of the part (one side of the body when the part has two) replaces it
-  take(pid, oid = -1) {
+  take(pid, oid = -1, sideIn = null) {
     const have = this.find(pid); if (have) return have;
     const b = this.app.body;
-    const side = oid >= 0 && b.objects[oid] ? b.objects[oid].side : '';
-    const oids = (b.partObjs[pid] || []).filter((o) => {
+    const side = sideIn != null ? sideIn : oid >= 0 && b.objects[oid] ? b.objects[oid].side : '';
+    return this.build(pid, this.usable(b.partObjs[pid] || [], side), { side });
+  }
+  // a smaller part of a part: some of its objects, with the name they have in the anatomy model
+  takeList(pid, list, sub, side = '') { return this.build(pid, this.usable(list, side), { side, sub }); }
+  piecesOf(pid) { return this.pieces.filter((p) => p.userData.pid === pid); }
+  // the objects that can come out: drawn, not hidden, not skin, on this side (or on the middle line)
+  usable(list, side = '') {
+    const b = this.app.body;
+    return list.filter((o) => {
       const ob = b.objects[o]; const mesh = ob && b.parts[ob.group];
       if (!mesh || !mesh.visible || ob.group === 'skin' || !mesh.geometry.attributes.partId) return false;
-      if (b.state.flags(o) & 1) return false;
+      if (b.state.flags(o) & (1 | OUT)) return false;
       return !side || !ob.side || ob.side === side;
     });
+  }
+  build(pid, oids, extra = {}) {
     if (!oids.length) return null;
+    const b = this.app.body;
     const byGroup = {}; for (const o of oids) (byGroup[b.objects[o].group] ||= []).push(o);
     const piece = new THREE.Group(); const box = new THREE.Box3();
     for (const [g, list] of Object.entries(byGroup)) {
@@ -48,7 +59,7 @@ export class Handson {
     const home = box.getCenter(new THREE.Vector3()), size = box.getSize(new THREE.Vector3());
     for (const m of piece.children) m.position.sub(home);
     piece.position.copy(home);
-    piece.userData = { pid, oids, home: home.clone(), size: size.length(), height: size.y, anim: null };
+    piece.userData = { pid, oids, home: home.clone(), size: size.length(), height: size.y, anim: null, side: '', sub: null, ...extra };
     for (const o of oids) b.state.bit(o, OUT, true);
     this.group.add(piece); this.pieces.push(piece);
     return piece;
@@ -127,14 +138,14 @@ export class Handson {
     p.userData.anim = { p0: p.position.clone(), p1: p.userData.home.clone(), q0: p.quaternion.clone(), q1: ID, s0: p.scale.x, s1: 1, t: 0, dur: 0.6, back: true };
   }
   putAllBack() { for (const p of this.pieces) this.putBack(p); }
-  // the part is drawn in the body again
-  restore(p) {
+  // the part is drawn in the body again (quiet: no sound or card update, when it is swapped for other pieces)
+  restore(p, quiet = false) {
     const b = this.app.body;
     for (const o of p.userData.oids) b.state.bit(o, OUT, false);
     for (const m of p.children) { m.geometry.dispose(); m.material.dispose(); }
     this.group.remove(p); this.pieces = this.pieces.filter((x) => x !== p);
     for (const [c, h] of [...this.held]) if (h.piece === p) this.held.delete(c);
-    if (this.onBack) this.onBack(p);
+    if (this.onBack && !quiet) this.onBack(p);
   }
   clear() { for (const p of [...this.pieces]) this.restore(p); this.held.clear(); }
 
@@ -148,7 +159,7 @@ export class Handson {
 
   update(dt, t) {
     this._dt = dt;
-    const selPid = this.app.sel && this.app.sel.pid;
+    const selPid = this.app.sel && this.app.sel.pid, selP = this.app.sel && this.app.sel.piece;
     for (const p of [...this.pieces]) {
       const u = p.userData, A = u.anim;
       if (A) {
@@ -157,7 +168,7 @@ export class Handson {
         if (A.t >= A.dur) { u.anim = null; if (A.back) { this.restore(p); continue; } }
       }
       const near = this.isHeld(p) && this.nearHome(p);
-      const k = u.pid === selPid ? 0.18 + 0.12 * Math.sin(t * 4) : 0;
+      const k = (selP ? p === selP : u.pid === selPid) ? 0.18 + 0.12 * Math.sin(t * 4) : 0;
       for (const m of p.children) m.material.emissive.setRGB(near ? 0.1 : k, near ? 0.45 : k * 0.8, near ? 0.25 : k * 0.4);
     }
   }
