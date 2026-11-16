@@ -3403,6 +3403,9 @@ function makeIsroSat(id){
 /* phones (also in a VR box): no 8k pictures, they took seconds to load and slowed every frame (the Rocket Shala launch pad
    ran at 5 fps for its first 15 s on a Snapdragon 680) */
 const XRLITE=!/OculusBrowser|Quest|Pico/i.test(navigator.userAgent)&&/Android|iPhone|iPad|Mobi/i.test(navigator.userAgent);
+/* Phones in a VR box draw models without image-based light (see outdoor() in the VR hub): bare metal would look black,
+   so on XRLITE it gets a little paint instead, as each model arrives */
+function xrLitePaint(o){if(!XRLITE||!o)return;o.traverse(n=>{if(!n.isMesh)return;(Array.isArray(n.material)?n.material:[n.material]).forEach(m=>{if(!m||!m.isMeshStandardMaterial||m.userData.lite)return;m.userData.lite=1;if(m.metalness>.3)m.metalness=.3;if(m.envMap){m.envMap=null;m.needsUpdate=true}})})}
 function VRHub(o){
   const T=THREE,R=o.R,S=o.S,cam=o.cam,ctrls=o.ctrls,D2R=Math.PI/180;
   const H={T,R,S,cam,ctrls,tex:o.tex,LD:o.LD,D2R,scenes:{},scene:null};
@@ -5700,7 +5703,7 @@ const R3 = (() => {
 
   function groundTex(url, rep) {
     const key = 'g:' + url + ':' + rep; if (texCache.has(key)) return texCache.get(key);
-    const t = new THREE.TextureLoader().load(url); t.encoding = THREE.sRGBEncoding; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep, rep); t.anisotropy = 8;
+    const t = new THREE.TextureLoader().load(url); t.encoding = THREE.sRGBEncoding; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep, rep); t.anisotropy = typeof XRLITE !== 'undefined' && XRLITE ? 4 : 8;
     texCache.set(key, t); return t;
   }
   let mastMat = null;
@@ -6102,9 +6105,11 @@ const R3 = (() => {
       const padR = Math.max(maxR * 3.2, this.H * 0.42); this.padR = padR;
       const lit = !!(this.opts.sky || this.opts.env);
       this.scene.fog = new THREE.Fog(0xBDC8D8, this.H * 3, this.H * 3 + 1200);
-      const ground = new THREE.Mesh(new THREE.CircleGeometry(1500, 72), new THREE.MeshStandardMaterial({ map: groundTex('rs/env/aerial_grass_rock_1k.jpg', 110), roughness: 1, metalness: 0, color: lit ? 0xC9C2AE : 0x7A7566 }));
+      // phones in a VR box: plain (Lambert) ground, as in the hub's outdoor scenes (XRLITE, see outdoor())
+      const flat = (o) => (typeof XRLITE !== 'undefined' && XRLITE ? new THREE.MeshLambertMaterial({ map: o.map, color: o.color }) : new THREE.MeshStandardMaterial(o));
+      const ground = new THREE.Mesh(new THREE.CircleGeometry(1500, 72), flat({ map: groundTex('rs/env/aerial_grass_rock_1k.jpg', 110), roughness: 1, metalness: 0, color: lit ? 0xC9C2AE : 0x7A7566 }));
       ground.rotation.x = -Math.PI / 2; ground.position.y = -0.08; ground.receiveShadow = true; this.world.add(ground);
-      const pad = new THREE.Mesh(new THREE.CircleGeometry(padR, 64), new THREE.MeshStandardMaterial({ map: groundTex('rs/env/concrete_floor_worn_001_1k.jpg', Math.max(2, Math.round(padR / 5))), roughness: 0.95, color: lit ? 0xD9D6CF : 0x8C8A85 }));
+      const pad = new THREE.Mesh(new THREE.CircleGeometry(padR, 64), flat({ map: groundTex('rs/env/concrete_floor_worn_001_1k.jpg', Math.max(2, Math.round(padR / 5))), roughness: 0.95, color: lit ? 0xD9D6CF : 0x8C8A85 }));
       pad.rotation.x = -Math.PI / 2; pad.position.y = -0.03; pad.receiveShadow = true; this.world.add(pad);
       const trench = new THREE.Mesh(new THREE.PlaneGeometry(maxR * 2.2, padR * 0.85), new THREE.MeshStandardMaterial({ color: 0x1C1D20, roughness: 1 }));
       trench.rotation.x = -Math.PI / 2; trench.position.set(0, -0.01, padR * 0.5); this.world.add(trench);
@@ -6636,18 +6641,23 @@ function RocketScenes(H){
   function daySky(){if(SKY.dome)return SKY.dome;
     const t=H.loadTex(RP+(XRLITE?"env/sky_day_2k.jpg":"env/sky_day_4k.jpg"));const g=new T.SphereGeometry(1800,64,32);g.scale(-1,1,1);
     const m=new T.Mesh(g,new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,fog:false}));m.renderOrder=-9;m.frustumCulled=false;m.visible=false;S.add(m);SKY.dome=m;
-    new T.TextureLoader().load(RP+"env/sky_day_2k.jpg",tx=>{tx.encoding=T.sRGBEncoding;tx.mapping=T.EquirectangularReflectionMapping;try{const pm=new T.PMREMGenerator(R);SKY.env=pm.fromEquirectangular(tx).texture;pm.dispose();if(SKY.on)S.environment=SKY.env}catch(e){}});
+    new T.TextureLoader().load(RP+"env/sky_day_2k.jpg",tx=>{tx.encoding=T.sRGBEncoding;tx.mapping=T.EquirectangularReflectionMapping;if(XRLITE)return;try{const pm=new T.PMREMGenerator(R);SKY.env=pm.fromEquirectangular(tx).texture;pm.dispose();if(SKY.on)S.environment=SKY.env}catch(e){}});
     return m}
+  /* Phones in a VR box (XRLITE): no light from the sky photo (image-based light) on every surface and plain (Lambert) ground.
+     Measured on a Snapdragon 680 in the box: the launch pad 6 → 60 fps, the 3D museum 9 → 60, the rocket game 13 → 60.
+     Without that light, bare metal would look black: metals there get a little paint instead (litePaint). */
+  const litePaint=xrLitePaint;
   function outdoor(on,fogNear,fogFar){daySky();SKY.on=on;SKY.dome.visible=on;
-    if(on){SKY.prevEnv=S.environment;if(SKY.env)S.environment=SKY.env;SKY.fog=new T.Fog(0xbdc8d8,fogNear||200,fogFar||1400);S.fog=SKY.fog;setSkyK(0)}
+    if(on){SKY.prevEnv=S.environment;if(SKY.env&&!XRLITE)S.environment=SKY.env;if(XRLITE){S.environment=null;litePaint(S)}SKY.fog=new T.Fog(0xbdc8d8,fogNear||200,fogFar||1400);S.fog=SKY.fog;setSkyK(0)}
     else{S.environment=SKY.prevEnv||null;S.fog=null}}
   function setSkyK(k){SKY.k=k;if(!SKY.dome)return;SKY.dome.material.opacity=1-k;SKY.dome.visible=SKY.on&&k<.995;if(SKY.fog)SKY.fog.color.setRGB(lerp(.74,.01,k),lerp(.79,.012,k),lerp(.86,.03,k))}
-  function followSky(){if(SKY.dome&&SKY.dome.visible){H.headPos(v1);SKY.dome.position.copy(v1)}}
-  function ground(r,rep){const m=new T.Mesh(new T.CircleGeometry(r,72),new T.MeshStandardMaterial({map:RS.R3.groundTex(RP+"env/aerial_grass_rock_1k.jpg",rep||110),roughness:1,metalness:0,color:0xc9c2ae}));m.rotation.x=-Math.PI/2;m.position.y=-.08;return m}
+  function followSky(){if(SKY.dome&&SKY.dome.visible){H.headPos(v1);SKY.dome.position.copy(v1)}if(XRLITE&&SKY.on&&(SKY.lt=(SKY.lt||0)+1)%120===1)litePaint(S)}
+  const flatMat=o=>XRLITE?new T.MeshLambertMaterial({map:o.map,color:o.color}):new T.MeshStandardMaterial(o); // phones in a box: plain ground (see outdoor)
+  function ground(r,rep){const m=new T.Mesh(new T.CircleGeometry(r,72),flatMat({map:RS.R3.groundTex(RP+"env/aerial_grass_rock_1k.jpg",rep||110),roughness:1,metalness:0,color:0xc9c2ae}));m.rotation.x=-Math.PI/2;m.position.y=-.08;return m}
   function buildRocket(r){const lay=RS.R3.layout(r),g=new T.Group(),parts={};
     r.parts.forEach(p=>{const L=lay[p.id];const m=RS.R3.buildPart(p,{coreR:L.coreR,belowR:L.belowR});m.group.position.y=L.y;g.add(m.group);parts[p.id]=m});return {g,parts}}
-  function loadGLB(id,cb){H.gltf().load(RP+"models/"+id+".glb",gl=>{const o=gl.scene;o.traverse(m=>{if(m.isMesh&&m.material){const ms=Array.isArray(m.material)?m.material:[m.material];ms.forEach(mt=>{if(mt.map)mt.map.encoding=T.sRGBEncoding;if(!mt.map&&mt.roughness>.85)mt.roughness=.5})}});
-    try{RS.ENHANCE(id,o)}catch(e){}cb(o)},undefined,()=>cb(null))}
+  function loadGLB(id,cb){H.gltf().load(RP+"models/"+id+".glb",gl=>{const o=gl.scene;o.traverse(m=>{if(m.isMesh&&m.geometry&&!m.geometry.attributes.normal)m.geometry.computeVertexNormals(); /* the light copies (lod/) have no normals: lit, they drew black */if(m.isMesh&&m.material){const ms=Array.isArray(m.material)?m.material:[m.material];ms.forEach(mt=>{if(mt.map)mt.map.encoding=T.sRGBEncoding;if(!mt.map&&mt.roughness>.85)mt.roughness=.5})}});
+    try{RS.ENHANCE(id,o)}catch(e){}if(SKY.on)litePaint(o);cb(o)},undefined,()=>cb(null))}
   function rocketCard(r,extra){const c=CN[r.country]||{};
     return Object.assign({kicker:(c.en||r.country)+" · "+r.agency+" · "+r.status,title:r.name,hi:r.hi,color:r.country==="india"?"#ff9933":"#8ec5ff",
       rows:[["Height",fmt(r.height,1)+" m"],["Weight at liftoff",r.mass],["Carries",(r.payload&&r.payload[0])?r.payload[0][1]+" to "+r.payload[0][0].replace(/^Low Earth orbit$/,"LEO"):"—"],["Stages",r.stages],["First flight",r.first],["Flights",r.record]],cols:3,
@@ -6815,7 +6825,7 @@ function RocketScenes(H){
   H.scenes.museum=(()=>{
     const root=new T.Group();root.visible=false;S.add(root);let built=false,queue=[],loading=0;const items=[];
     function build(){built=true;root.add(ground(700,110));root.add(new T.HemisphereLight(0xc8d8ff,0x2a2420,.6));const key=new T.DirectionalLight(0xfff1de,1.2);key.position.set(-60,120,90);root.add(key);
-      const plaza=new T.Mesh(new T.CircleGeometry(22,72),new T.MeshStandardMaterial({map:RS.R3.groundTex(RP+"env/concrete_floor_worn_001_1k.jpg",8),roughness:.95,color:0xd9d6cf}));plaza.rotation.x=-Math.PI/2;plaza.position.y=-.03;root.add(plaza);
+      const plaza=new T.Mesh(new T.CircleGeometry(22,72),flatMat({map:RS.R3.groundTex(RP+"env/concrete_floor_worn_001_1k.jpg",8),roughness:.95,color:0xd9d6cf}));plaza.rotation.x=-Math.PI/2;plaza.position.y=-.03;root.add(plaza);
       const big=m=>(MODELS[m.id]||{}).h||5;
       const inner=MUSEUM.filter(m=>m.id!=="intl_iss"&&m.ground!=="pad"&&big(m)<=10),mid=MUSEUM.filter(m=>m.id!=="intl_iss"&&m.ground!=="pad"&&big(m)>10),outer=MUSEUM.filter(m=>m.ground==="pad"),iss=MUSEUM.find(m=>m.id==="intl_iss");
       const ring=(L,R,a0)=>L.forEach((m,i)=>{const a=a0+i/L.length*Math.PI*2;add(m,new T.Vector3(R*Math.sin(a),0,-R*Math.cos(a)))});
@@ -7242,7 +7252,7 @@ function Ch3Scene(H){
     // after sunset only faint earthshine lights the ground
     const day=.05+.95*sm(-.03,.04,el);groundMats.forEach(m=>m.color.setScalar(day));if(amb)amb.intensity=.25+.3*day}
   /* ---------------- Vikram and Pragyan ---------------- */
-  function loadModel(id,cb){H.gltf().load("rs/models/"+id+".glb",gl=>{const o=gl.scene;o.traverse(m=>{if(m.isMesh&&m.material){const ms=Array.isArray(m.material)?m.material:[m.material];ms.forEach(mt=>{if(mt.map)mt.map.encoding=T.sRGBEncoding})}});try{if(typeof RS!=="undefined")RS.ENHANCE(id,o)}catch(e){}cb(o)},undefined,()=>cb(null))}
+  function loadModel(id,cb){H.gltf().load("rs/models/"+id+".glb",gl=>{const o=gl.scene;o.traverse(m=>{if(m.isMesh&&m.material){const ms=Array.isArray(m.material)?m.material:[m.material];ms.forEach(mt=>{if(mt.map)mt.map.encoding=T.sRGBEncoding})}});try{if(typeof RS!=="undefined")RS.ENHANCE(id,o)}catch(e){}xrLitePaint(o);cb(o)},undefined,()=>cb(null))}
   function fitModel(o,size,byLen){o.updateMatrixWorld(true);const b=new T.Box3().setFromObject(o),sz=b.getSize(new T.Vector3());
     if(byLen&&sz.x>sz.z){o.rotation.y=Math.PI/2;o.updateMatrixWorld(true);b.setFromObject(o);b.getSize(sz)}
     const k=size/(byLen?Math.max(sz.x,sz.z):sz.y);o.scale.multiplyScalar(k);o.updateMatrixWorld(true);b.setFromObject(o);const c=b.getCenter(new T.Vector3());
@@ -7598,7 +7608,7 @@ let _gltf=null;const _models={};
 function loadModel(url,fit,cb){
   if(!window.THREE||!THREE.GLTFLoader){cb&&cb(null);return}
   if(!_gltf){_gltf=new THREE.GLTFLoader();if(window.MeshoptDecoder&&_gltf.setMeshoptDecoder)_gltf.setMeshoptDecoder(MeshoptDecoder)}
-  const done=src=>{if(!src){cb&&cb(null);return}const o=src.clone(true);const box=new THREE.Box3().setFromObject(o),sz=new THREE.Vector3(),ct=new THREE.Vector3();box.getSize(sz);box.getCenter(ct);const k=fit/Math.max(sz.x,sz.y,sz.z,1e-6);o.position.copy(ct).multiplyScalar(-k);const wrap=new THREE.Group();o.scale.setScalar(k);wrap.add(o);cb&&cb(wrap)};
+  const done=src=>{if(!src){cb&&cb(null);return}const o=src.clone(true);if(typeof xrLitePaint==="function")xrLitePaint(o);const box=new THREE.Box3().setFromObject(o),sz=new THREE.Vector3(),ct=new THREE.Vector3();box.getSize(sz);box.getCenter(ct);const k=fit/Math.max(sz.x,sz.y,sz.z,1e-6);o.position.copy(ct).multiplyScalar(-k);const wrap=new THREE.Group();o.scale.setScalar(k);wrap.add(o);cb&&cb(wrap)};
   if(_models[url]){if(_models[url].scene)done(_models[url].scene);else _models[url].wait.push(done);return}
   _models[url]={scene:null,wait:[done]};
   _gltf.load(url,g=>{g.scene.traverse(n=>{if(n.isMesh&&n.material){const ms=Array.isArray(n.material)?n.material:[n.material];ms.forEach(m=>{if(m.map)m.map.encoding=THREE.sRGBEncoding})}});_models[url].scene=g.scene;_models[url].wait.forEach(f=>f(g.scene));_models[url].wait=[]},undefined,()=>{_models[url].wait.forEach(f=>f(null));_models[url].wait=[]});
