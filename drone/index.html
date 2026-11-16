@@ -473,6 +473,8 @@ const QUALITY = {
   quest: { pr: 1, shadow: 1024, shadowOn: false, shadowR: 30, near: 0.45, cards: 0.5, grass: 9000, grassR: 38, lc: 1024, leafTex: 256, clouds: 10, chunk: 400, stride: 2, far: 0.45 },
 };
 const QP = QUALITY[S.quality] || QUALITY.high;
+// for measuring on a device: ?qp=chunk:1200,far:0.15 changes single values of the quality set
+try { const qq = new URLSearchParams(location.search).get('qp'); if (qq) for (const kv of qq.split(',')) { const [k, v] = kv.split(':'); if (k in QP) QP[k] = v === 'true' ? true : v === 'false' ? false : +v; } } catch (e) { /* no query */ }
 let MAP = null;          // the active map definition (see MAPS)
 
 /* =========================================================

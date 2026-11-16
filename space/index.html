@@ -4399,7 +4399,7 @@ function SolarScenes(H){
    Inside VR it runs without its own canvas: a stand-in renderer and camera controls, the VR renderer draws it. */
 const RS=(()=>{
 const RSCtl=function(cam){this.object=cam;this.target=new window.THREE.Vector3();this.enabled=true;this.update=()=>{};this.addEventListener=()=>{};this.removeEventListener=()=>{};this.dispose=()=>{}};
-const RSRd=function(){return {getContext:()=>({}),setPixelRatio(){},setSize(){},render(){},setClearColor(){},outputEncoding:0,toneMapping:0,toneMappingExposure:1,shadowMap:{enabled:false,type:0},domElement:document.createElement("canvas"),capabilities:{getMaxAnisotropy:()=>8,maxTextureSize:4096},dispose(){}}};
+const RSRd=function(){return {getContext:()=>({}),getPixelRatio:()=>1,setPixelRatio(){},setSize(){},render(){},setClearColor(){},outputEncoding:0,toneMapping:0,toneMappingExposure:1,shadowMap:{enabled:false,type:0},domElement:document.createElement("canvas"),capabilities:{getMaxAnisotropy:()=>8,maxTextureSize:4096},dispose(){}}};
 const THREE=Object.assign(Object.create(window.THREE),{OrbitControls:RSCtl,WebGLRenderer:RSRd});
 const NSC=a=>a instanceof Int16Array?1/32767:a instanceof Int8Array?1/127:a instanceof Uint16Array?1/65535:a instanceof Uint8Array?1/255:1;
 

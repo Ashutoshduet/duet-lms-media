@@ -58,6 +58,7 @@
     var pr = STEPS[step];
     list.forEach(function (r) {
       if (r.xr && r.xr.isPresenting) return;
+      if (typeof r.getPixelRatio !== 'function') return;
       if (r.__duetPR != null && Math.abs(r.getPixelRatio() - r.__duetPR) > 0.01) return; // the app sizes this one itself
       var v = Math.min(pr, r.__duetMax || 9);
       if (Math.abs(r.getPixelRatio() - v) > 0.01) r.setPixelRatio(v);
@@ -99,8 +100,9 @@
     phone: PHONE, cap: CAP, fps: 0,
     /** the pixel ratio to start a new renderer with */
     pr: function () { return STEPS[step]; },
-    /** follow this renderer: its pixel ratio is set now and adjusted with the frame rate (never above max, if given) */
-    watch: function (r, max) { if (!r || list.indexOf(r) >= 0) return r; list.push(r); r.__duetMax = max || 0; var v = Math.min(STEPS[step], max || 9); r.setPixelRatio(v); r.__duetPR = v; return r; },
+    /** follow this renderer: its pixel ratio is set now and adjusted with the frame rate (never above max, if given);
+        stand-ins that draw nothing (no getPixelRatio) are left out */
+    watch: function (r, max) { if (!r || typeof r.getPixelRatio !== 'function' || typeof r.setPixelRatio !== 'function' || list.indexOf(r) >= 0) return r; list.push(r); r.__duetMax = max || 0; var v = Math.min(STEPS[step], max || 9); r.setPixelRatio(v); r.__duetPR = v; return r; },
     unwatch: function (r) { var i = list.indexOf(r); if (i >= 0) list.splice(i, 1); },
     info: function () { return { phone: PHONE, cap: CAP, pr: STEPS[step], steps: STEPS, fps: DP.fps, renderers: list.length, log: log.join(' ') }; }
   };
