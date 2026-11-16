@@ -60,6 +60,8 @@
         // the planet names over the 3D: bigger letters (they are placed by the app's code, so they are not zoomed)
         + '.plabel{font-size:calc(11px*var(--dbz))!important;padding:calc(2px*var(--dbz)) calc(7px*var(--dbz))!important}.plabel.minor{font-size:calc(10px*var(--dbz))!important}' }
   };
+  // Robotics Lab 360: its part callout sits over the code panel; the bench's own tools are zoomed with the rest
+  CFG.robotics = { zoom: '#top,#strip,#drawer,#bar,#card,#side,#callout,#meter,#toast,#foot', avoid: '', xr: 'body.in-vr' };
   CFG.maths = CFG.science;
   // a new app (such as robotics/): add its line above for the bigger text; without one it still gets the pen and tools
   var SKIP = /label|tooltip|ghost|(^|[^a-z])tips?([^a-z]|$)/i; // label layers placed over the 3D by the app's own code, big background words

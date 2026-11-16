@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Write sw.js (offline worker with the full file list and hashes) for DUET STEM web apps.
-Usage: build_sw.py <repo> [app ...]   (default apps: science body drone maths)"""
+Usage: build_sw.py <repo> [app ...]   (default apps: science body drone maths robotics)"""
 import hashlib, json, os, re, subprocess, sys, time
-APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360', 'maths': 'ml360'}
+APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360', 'maths': 'ml360', 'robotics': 'rl360'}
 MANIFEST_ONLY = {'space'}  # keeps its own offline worker; only the file list for the Android app
 SKIP_DIRS = {'tools', 'store-art', 'test', '.git', '__pycache__'}
 SKIP_FILES = {'sw.js', 'offline.json', '.DS_Store'}

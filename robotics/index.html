@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Robotics Lab 360 · DUET STEM</title>
+<meta name="description" content="A real-looking 3D electronics bench: learn Arduino step by step. Place parts on a breadboard, wire them, write code and watch the circuit work as it really would. English, Hindi and Hinglish.">
+<meta name="theme-color" content="#0b0e13">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/nsd-latin-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/nsd-latin-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/nsd-latin-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(fonts/nsd-deva-400.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(fonts/nsd-deva-600.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(fonts/nsd-deva-700.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Plex Mono";font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Plex Mono";font-weight:700;font-display:swap;src:url(fonts/ibm-plex-mono-latin-700-normal.woff2) format("woff2")}
+:root{color-scheme:dark;--bg:#0b0e13;--panel:rgba(14,18,25,.84);--line:rgba(255,255,255,.1);--ink:#f2ede4;--mute:#a39c90;--txt:#e0dacd;--acc:#f0a65a;--blue:#7fd1ff;--green:#9fd17a;--red:#ff8a7a;--r:14px;
+  --top:58px;--strip:46px;--drw:178px;--side:404px;--mono:"Plex Mono",ui-monospace,Consolas,monospace}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari",system-ui,sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+#stage{position:fixed;inset:0}#stage canvas{display:block;touch-action:none}
+button,select,input{font:inherit;color:inherit}
+button{border:0;background:none;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 36px rgba(0,0,0,.28)}
+.seg{display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px}
+.seg button{padding:6px 10px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--mute);white-space:nowrap}
+.seg button.on{background:var(--ink);color:#12100c}
+.ib{width:38px;height:38px;border-radius:10px;font-size:17px;display:grid;place-items:center}
+.ib:hover{background:rgba(255,255,255,.08)}.ib.off{opacity:.45}
+.btn{padding:8px 13px;border-radius:10px;font-weight:700;font-size:14px;background:rgba(255,255,255,.08);white-space:nowrap}
+.btn:hover{background:rgba(255,255,255,.14)}.btn:disabled{opacity:.45;cursor:default}
+.btn.pri{background:var(--acc);color:#14100a}.btn.go{background:#3fae5a;color:#06140a}.btn.on{background:rgba(127,209,255,.22);color:var(--blue)}
+/* top bar */
+#top{position:fixed;top:max(10px,env(safe-area-inset-top));left:12px;right:12px;height:46px;display:flex;align-items:center;gap:10px;z-index:7;pointer-events:none}
+#top>*{pointer-events:auto}
+#brand{display:flex;align-items:center;gap:12px;padding:0 14px;height:46px}
+#logo{height:18px;width:auto;display:block}
+#title{font-size:18px;font-weight:700;white-space:nowrap}
+#modes{height:46px;align-items:center;padding:0 5px}
+#top .sp{flex:1}
+#tools{display:flex;align-items:center;gap:6px;padding:0 5px;height:46px}
+.xr{padding:8px 14px;border-radius:10px;font-weight:700;font-size:14px;background:var(--ink);color:#12100c;white-space:nowrap}
+#b-menu,#b-code{display:none}
+/* lesson strip */
+#strip{position:fixed;top:calc(max(10px,env(safe-area-inset-top)) + 54px);left:12px;right:calc(var(--side) + 24px);height:var(--strip);z-index:6;display:flex;gap:4px;padding:5px;overflow-x:auto;scrollbar-width:none;align-items:center}
+#strip::-webkit-scrollbar{display:none}
+.chip{flex:none;display:flex;align-items:center;gap:7px;padding:5px 10px 5px 5px;border-radius:10px;font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap;height:34px}
+.chip i{font-style:normal;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:12px;font-weight:800;background:rgba(127,209,255,.14);color:var(--blue)}
+.chip:hover{background:rgba(255,255,255,.06)}
+.chip.on{background:rgba(240,166,90,.18);box-shadow:inset 0 0 0 1px rgba(240,166,90,.55)}
+.chip.ok i{background:rgba(120,200,120,.22);color:var(--green)}
+.chip.lock{color:var(--mute)}.chip.lock i::after{content:"🔒";font-size:9px;margin-left:1px}
+body.free #strip{display:none}
+/* parts drawer */
+#drawer{position:fixed;left:12px;top:calc(max(10px,env(safe-area-inset-top)) + 108px);bottom:12px;width:var(--drw);z-index:5;display:flex;flex-direction:column;padding:10px 8px}
+body.free #drawer{top:calc(max(10px,env(safe-area-inset-top)) + 54px)}
+#drawer h3{margin:2px 6px 2px;font-size:11px;letter-spacing:.16em;color:var(--mute);font-weight:700;text-transform:uppercase}
+#drawer .hint{margin:0 6px 8px;font-size:11.5px;color:var(--mute);line-height:1.35}
+#plist{overflow:auto;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:6px;align-content:start;padding:2px}
+.pc{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 3px 6px;border-radius:11px;background:rgba(255,255,255,.045);border:1px solid transparent;touch-action:pan-y;cursor:grab;position:relative}
+.pc:hover{background:rgba(255,255,255,.09)}.pc.need{border-color:rgba(90,216,255,.7);box-shadow:0 0 0 2px rgba(90,216,255,.18)}
+.pc img{width:68px;height:52px;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+.pc span{font-size:11px;font-weight:600;line-height:1.2;text-align:center;color:var(--txt);pointer-events:none}
+.pc .cols{display:flex;gap:3px;margin-top:2px}.pc .cols b{width:12px;height:12px;border-radius:50%;border:2px solid transparent;cursor:pointer}.pc .cols b.on{border-color:#fff}
+#plist .none{grid-column:1/-1;font-size:12.5px;color:var(--mute);padding:6px}
+/* bench tools */
+#bar{position:fixed;left:calc(var(--drw) + 24px);top:calc(max(10px,env(safe-area-inset-top)) + 108px);z-index:5;display:flex;gap:6px;padding:5px;align-items:center;flex-wrap:wrap;max-width:calc(100% - var(--drw) - var(--side) - 48px)}
+body.free #bar{top:calc(max(10px,env(safe-area-inset-top)) + 54px)}
+#bar .tb{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:9px;font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap}
+#bar .tb.on{background:rgba(127,209,255,.2);color:var(--blue)}#bar .tb:hover{background:rgba(255,255,255,.07)}
+#bar .div{width:1px;height:24px;background:var(--line)}
+#bar label{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--mute);padding:0 6px}
+#bar input[type=range]{width:90px;accent-color:var(--acc)}
+#bar #b-repair{display:none;background:rgba(255,138,122,.18);color:var(--red)}body.burnt #bar #b-repair{display:flex}
+/* step card */
+#card{position:fixed;bottom:max(12px,env(safe-area-inset-bottom));left:calc(var(--drw) + 24px);right:calc(var(--side) + 24px);margin:0 auto;max-width:720px;padding:12px 16px 11px;z-index:5;border-top:3px solid var(--blue)}
+body.free #card{display:none}
+#c-k{font-size:12.5px;font-weight:700;color:var(--blue);letter-spacing:.02em}
+#c-t{font-size:19px;font-weight:700;margin:2px 0 6px;line-height:1.2}
+#c-x{font-size:15.5px;line-height:1.5;color:var(--txt);max-height:22vh;overflow:auto}
+#c-x p{margin:0 0 4px}#c-x .lb{display:inline-block;min-width:66px;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--acc);margin-right:6px}
+#c-x .see{color:var(--mute)}#c-x .see.ok{color:var(--txt)}#c-x .see.ok .lb{color:var(--green)}
+#c-x .msg{margin-top:6px;padding:7px 10px;border-radius:9px;font-size:14.5px;line-height:1.45}
+#c-x .msg.bad{background:rgba(255,120,100,.13);color:#ffc3b8;border-left:3px solid var(--red)}#c-x .msg.good{background:rgba(120,200,120,.13);color:#cdeebd;border-left:3px solid var(--green)}
+#c-x .fin{color:var(--green);font-weight:700;font-size:16px}
+html[lang=hi] #c-x{font-size:16.5px;line-height:1.65}html[lang=hi] #c-x .lb{letter-spacing:0}
+#c-d{display:flex;gap:4px;margin-top:8px}#c-d i{flex:1;max-width:40px;height:5px;border-radius:3px;background:rgba(255,255,255,.14)}#c-d i.on{background:var(--blue)}#c-d i.cur{box-shadow:0 0 0 2px rgba(240,166,90,.85)}
+#c-b{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px;align-items:center}#c-b .sp{flex:1}
+#b-next.pulse{animation:pl 1.2s ease-in-out infinite}@keyframes pl{50%{box-shadow:0 0 0 5px rgba(240,166,90,.35)}}
+/* code + serial */
+#side{position:fixed;right:12px;top:calc(max(10px,env(safe-area-inset-top)) + 54px);bottom:12px;width:var(--side);z-index:5;display:flex;flex-direction:column;overflow:hidden}
+#s-tabs{display:flex;align-items:center;gap:4px;padding:6px 6px 0}
+#s-tabs .tab{padding:7px 12px;border-radius:9px 9px 0 0;font-size:13.5px;font-weight:700;color:var(--mute)}
+#s-tabs .tab.on{color:var(--ink);background:rgba(255,255,255,.06)}#s-tabs .sp{flex:1}
+#runbar{display:flex;gap:6px;align-items:center;padding:7px 8px;background:rgba(255,255,255,.04);border-top:1px solid var(--line)}
+#runbar .st{font-size:12px;font-weight:700;color:var(--mute);display:flex;align-items:center;gap:5px;margin-left:auto}
+#runbar .st i{width:8px;height:8px;border-radius:50%;background:#666}#runbar .st.run i{background:#4bd66a;box-shadow:0 0 8px #4bd66a}#runbar .st.err i{background:#ff6b5a}
+#runbar select{background:rgba(255,255,255,.08);border:0;border-radius:8px;padding:6px 4px;font-size:12.5px}
+#codepane,#serpane{flex:1;display:flex;flex-direction:column;min-height:0}
+#serpane{display:none}#side.ser #serpane{display:flex}#side.ser #codepane{display:none}
+#side.both #serpane{display:flex;flex:0 0 38%;border-top:1px solid var(--line)}#side.both #codepane{display:flex}#side.both #s-tabs .tab{color:var(--ink)}
+.ed{flex:1;min-height:0;position:relative;display:flex;background:#0a0d12;font-family:var(--mono);font-size:13.5px;line-height:20px;overflow:hidden;-webkit-user-select:text;user-select:text}
+.ed-g{width:38px;flex:none;padding:8px 0;text-align:right;color:#5d6676;font-size:12px;border-right:1px solid rgba(255,255,255,.06);background:#0c1016;overflow:hidden}
+.ed-g div{height:20px;padding-right:7px}.ed-g div.e{background:rgba(255,90,70,.35);color:#fff}.ed-g div.r{color:#ffd76a}.ed-g div.m{color:var(--blue)}
+.ed-w{position:relative;flex:1;min-width:0;overflow:hidden}
+.ed-h,.ed-t{position:absolute;inset:0;margin:0;padding:8px 10px;white-space:pre;font:inherit;line-height:inherit;tab-size:2}
+.ed-h{pointer-events:none;color:#d8dee8}
+.ed-t{color:transparent;caret-color:#fff;background:transparent;border:0;outline:0;resize:none;overflow:auto;z-index:2}
+.ed-t::selection{background:rgba(127,209,255,.3);color:transparent}
+.ed-bars{position:absolute;left:0;right:0;top:0;pointer-events:none}.ed-bars i{position:absolute;left:0;right:0}
+.ed-bars i.r{background:rgba(255,215,106,.13);border-left:3px solid #ffd76a}.ed-bars i.e{background:rgba(255,90,70,.18);border-left:3px solid #ff6b5a}.ed-bars i.m{background:rgba(127,209,255,.1)}
+.k-kw{color:#ff9f7a}.k-type{color:#7fd1ff}.k-fn{color:#f6d36b}.k-num{color:#b8e986}.k-str{color:#c3e88d}.k-com{color:#6f7a8c;font-style:italic}.k-pre{color:#d59bff}.k-const{color:#f0a65a}
+#errs{max-height:30%;overflow:auto;font-size:13.5px;line-height:1.45}
+#errs div{padding:7px 10px;border-top:1px solid var(--line)}#errs .e{background:rgba(255,90,70,.12);color:#ffc9be}#errs .w{background:rgba(240,190,90,.1);color:#f4dca6}#errs .ok{color:#b9e6a8}
+#errs b{font-weight:800;margin-right:6px}#errs button{color:var(--blue);font-weight:700;font-size:12.5px;margin-left:6px}
+#serout{flex:1;min-height:0;overflow:auto;margin:0;padding:8px 10px;background:#06080b;font-family:var(--mono);font-size:13px;line-height:1.45;color:#9ff0b0;white-space:pre-wrap;word-break:break-all;-webkit-user-select:text;user-select:text}
+#serout .empty{color:#5d6676;font-family:"Noto Sans Devanagari",system-ui,sans-serif}
+#serin{display:flex;gap:6px;padding:6px;border-top:1px solid var(--line)}
+#serin input{flex:1;min-width:0;background:rgba(255,255,255,.07);border:0;border-radius:8px;padding:7px 9px;font-size:13px}
+#serin select{background:rgba(255,255,255,.07);border:0;border-radius:8px;font-size:12px}
+body.side-off #side{transform:translateX(calc(100% + 24px))}body.side-off{--side:0px}
+#side{transition:transform .3s}
+/* callout (part, board, wire) */
+/* the callout sits over the code panel, so it never hides the bench */
+#callout{position:fixed;top:calc(max(10px,env(safe-area-inset-top)) + 96px);right:18px;width:calc(var(--side) - 12px);max-height:calc(100% - 200px);min-height:120px;overflow:auto;z-index:7;padding:12px 14px;display:none;background:rgba(18,23,32,.97)}
+body.side-off #callout{width:340px}
+#callout.show{display:block}
+#callout h3{margin:0 26px 4px 0;font-size:17px;line-height:1.25}
+#callout .x{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:8px;font-size:18px;color:var(--mute)}
+#callout p{margin:0 0 8px;font-size:13.5px;line-height:1.5;color:var(--txt)}
+#callout h4{margin:10px 0 4px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+html[lang=hi] #callout h4{letter-spacing:0}
+#callout table{width:100%;border-collapse:collapse;font-size:12.5px}#callout td{padding:4px 2px;border-top:1px solid var(--line);vertical-align:top}#callout td:first-child{color:var(--mute);width:46%}
+#callout .live{font-family:var(--mono);font-size:13px;color:#9ff0b0;background:#06080b;border-radius:8px;padding:6px 9px;margin:4px 0 6px}
+#callout .row{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0}
+#callout .row label{font-size:12.5px;color:var(--mute);min-width:84px}
+#callout input[type=range]{flex:1;accent-color:var(--acc)}
+#callout select{background:rgba(255,255,255,.08);border:0;border-radius:8px;padding:6px 8px;font-size:13px}
+#callout .sw{width:24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,.2)}#callout .sw.on{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+#callout .pins div{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:3px 0;border-top:1px solid var(--line)}#callout .pins span{color:var(--mute);font-family:var(--mono);white-space:nowrap}
+/* multimeter */
+#meter{position:fixed;left:calc(var(--drw) + 24px);top:calc(max(10px,env(safe-area-inset-top)) + 162px);z-index:6;width:200px;padding:10px;display:none;background:linear-gradient(#2c2e33,#1c1e22);border:1px solid #454850}
+#meter.show{display:block}body.free #meter{top:calc(max(10px,env(safe-area-inset-top)) + 108px)}
+#meter .lcd{background:#a9b99a;color:#1b2414;font-family:var(--mono);font-weight:700;font-size:30px;text-align:right;padding:6px 10px;border-radius:6px;box-shadow:inset 0 2px 6px rgba(0,0,0,.4);letter-spacing:.02em}
+#meter .lcd small{font-size:15px;margin-left:4px}#meter .lab{font-size:11.5px;color:#c8ccd4;margin-top:6px;line-height:1.35}
+#meter .pr{display:flex;gap:6px;margin-top:6px;font-size:11.5px;color:#c8ccd4}#meter .pr i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
+/* hover tip, toast, loader */
+#tip{position:fixed;z-index:9;pointer-events:none;padding:7px 10px;border-radius:10px;font-size:13px;line-height:1.4;max-width:260px;opacity:0;transform:translateY(4px);transition:opacity .12s,transform .12s}
+#tip.show{opacity:1;transform:none}#tip b{display:block;font-size:13.5px}#tip span{display:block;color:var(--txt);font-size:12.5px}#tip .v{font-family:var(--mono);color:#9ff0b0}
+#tip svg{display:block;margin-top:4px}
+#toast{position:fixed;top:calc(max(10px,env(safe-area-inset-top)) + 112px);left:50%;transform:translate(-50%,-10px);opacity:0;transition:.3s;z-index:30;padding:10px 16px;max-width:min(620px,90%);font-size:14px;line-height:1.45;pointer-events:none}
+#toast.show{opacity:1;transform:translate(-50%,0)}#toast.bad{border-color:rgba(255,120,100,.6)}
+#loader{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:var(--bg);transition:opacity .7s .2s}
+body.ready #loader{opacity:0;pointer-events:none}
+#loader .box{text-align:center}#loader img{height:26px;margin-bottom:16px}#loader h1{font-size:28px;margin:0 0 6px}#loader p{color:var(--mute);margin:0;font-size:14px}
+#loader .bar{width:200px;height:3px;margin:18px auto 0;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}#loader .bar i{display:block;height:100%;width:40%;background:var(--acc);animation:ld 1.1s ease-in-out infinite}
+@keyframes ld{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+#foot{position:fixed;right:calc(var(--side) + 26px);bottom:2px;z-index:4;font-size:10.5px;color:rgba(255,255,255,.35)}#foot a{color:inherit}
+body.dragging,body.dragging *{cursor:grabbing!important}
+body.in-vr #top,body.in-vr #strip,body.in-vr #drawer,body.in-vr #bar,body.in-vr #card,body.in-vr #side,body.in-vr #callout,body.in-vr #meter{display:none}
+/* narrower screens: the code panel is a sheet that opens from the top bar */
+@media (max-width:1180px){:root{--side:360px;--drw:156px}#title{display:none}.pc img{width:58px;height:46px}}
+@media (max-width:980px){
+  :root{--side:0px}#b-code{display:grid}
+  #side{width:min(440px,86vw);transform:translateX(calc(100% + 24px));z-index:8}body.code-open #side{transform:none}
+  #strip{right:12px}#callout{right:12px;width:min(340px,44vw)}#foot{right:14px}
+}
+/* a phone held sideways (short screen): thin parts column, compact step card, lessons from the menu */
+@media (max-height:520px){
+  :root{--drw:84px;--top:40px}
+  #top{top:max(6px,env(safe-area-inset-top));height:38px;gap:6px;left:8px;right:8px}#brand,#modes,#tools{height:38px}#brand{padding:0 8px;gap:8px}#logo{height:13px}#title{display:none}
+  .seg button{padding:5px 8px;font-size:12px}.ib{width:32px;height:32px;font-size:15px}.xr{padding:6px 9px;font-size:12px}
+  #b-menu{display:grid}#strip{display:none;top:48px;left:8px;right:8px;height:auto;flex-wrap:wrap;max-height:calc(100% - 60px);overflow:auto;z-index:9}body.menu-open #strip{display:flex}
+  #drawer{top:50px;left:8px;bottom:8px;padding:6px 4px}body.free #drawer{top:50px}#drawer h3,#drawer .hint{display:none}
+  #plist{grid-template-columns:1fr;gap:4px}.pc{padding:3px 2px}.pc img{width:52px;height:36px}.pc span{font-size:9.5px}.pc .cols b{width:9px;height:9px}
+  #bar{top:50px;left:calc(var(--drw) + 16px);padding:3px;gap:3px;max-width:calc(100% - var(--drw) - 24px)}body.free #bar{top:50px}#bar .tb{padding:4px 7px;font-size:11.5px}#bar .tb .tl{display:none}#bar label span{display:none}#bar input[type=range]{width:64px}
+  #card{left:calc(var(--drw) + 16px);right:8px;bottom:max(6px,env(safe-area-inset-bottom));padding:7px 11px 7px;max-width:640px}
+  #c-x .goal{display:none}#c-k{font-size:11px}#c-t{font-size:14.5px;margin:1px 0 3px}#c-x{font-size:13px;line-height:1.4;max-height:17vh}html[lang=hi] #c-x{font-size:13.5px;line-height:1.5}#c-d{display:none}#c-b{margin-top:5px;gap:5px}.btn{padding:5px 9px;font-size:12px}
+  #side{top:48px;bottom:6px;right:8px}#callout{top:48px;right:8px;width:min(300px,42vw);max-height:calc(100% - 56px)}
+  #meter{top:92px;left:calc(var(--drw) + 16px);width:170px}#meter .lcd{font-size:22px}#toast{top:52px;font-size:12.5px}#foot{display:none}
+}
+/* teacher panels (duetboard.js): the bottom-right corner stays free for the round Teacher button */
+html.duet-board #side{bottom:66px}html.duet-board #foot{display:none}
+html.duet-phone{--panel:rgba(14,18,25,.94)} /* phones: solid panels instead of the blur (duetperf.js) */
+</style>
+<script src="./duetgate.js"></script>
+<script src="./duetperf.js"></script>
+<script src="./duetboard.js"></script>
+<script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/addons/"}}</script>
+</head>
+<body>
+<div id="stage"></div>
+<header id="top">
+  <div id="brand" class="panel"><button id="b-menu" class="ib" aria-label="Lessons">☰</button><img id="logo" src="brand/duet-stem-logo-light.png" alt="DUET STEM"><span id="title" data-t="title">Robotics Lab 360</span></div>
+  <div id="modes" class="panel seg" role="tablist"><button id="m-lessons" data-t="lessons">Lessons</button><button id="m-free" data-t="free">Free build</button></div>
+  <div class="sp"></div>
+  <div id="tools" class="panel"><div id="langs" class="seg" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="hi">हिंदी</button><button data-l="hg">Hinglish</button></div>
+    <button id="b-sound" class="ib" aria-label="Sound">🔊</button><button id="b-code" class="ib" aria-label="Code">{ }</button><button id="b-vr" class="xr" hidden data-t="vr">Enter VR</button></div>
+</header>
+<nav id="strip" class="panel" aria-label="Lessons"></nav>
+<aside id="drawer" class="panel"><h3 data-t="parts">Parts</h3><p class="hint" data-t="partsHint"></p><div id="plist"></div></aside>
+<div id="bar" class="panel">
+  <button class="tb on" data-tool="move">✋ <span class="tl" data-t="tSelect">Move</span></button><button class="tb" data-tool="wire">〰 <span class="tl" data-t="tWire">Wire</span></button><button class="tb" data-tool="probe">⏚ <span class="tl" data-t="tProbe">Multimeter</span></button>
+  <span class="div"></span>
+  <button class="tb" data-view="home">⌂ <span class="tl" data-t="tHome">Whole bench</span></button><button class="tb" data-view="bb">⊞ <span class="tl" data-t="tZoom">Breadboard</span></button><button class="tb" data-view="top">⊙ <span class="tl" data-t="tTop">Top view</span></button>
+  <span class="div"></span>
+  <label>💡 <span data-t="light">Room light</span><input id="r-light" type="range" min="0" max="100" value="75"></label>
+  <button class="tb" id="b-repair">⟲ <span class="tl" data-t="repair">Replace burnt parts</span></button>
+</div>
+<section id="card" class="panel" aria-live="polite"><div id="c-k"></div><div id="c-t"></div><div id="c-x"></div><div id="c-d"></div>
+  <div id="c-b"><button id="b-back" class="btn" data-t="back">‹ Back</button><button id="b-check" class="btn" data-t="check">Check my circuit</button><span class="sp"></span><button id="b-next" class="btn pri" data-t="next">Next ›</button></div></section>
+<aside id="side" class="panel both">
+  <div id="s-tabs"><button class="tab" data-tab="code" data-t="code">Code</button><button class="tab" data-tab="ser" data-t="serial">Serial Monitor</button><span class="sp"></span><button id="b-side" class="ib" aria-label="Close">›</button></div>
+  <div id="codepane"><div id="editor"></div><div id="errs"></div>
+    <div id="runbar"><button id="b-run" class="btn go" data-t="run">Run</button><button id="b-stop" class="btn" data-t="stop">Stop</button><button id="b-reset" class="btn" data-t="reset">Reset</button>
+      <select id="s-speed" aria-label="Speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option></select><span class="st" id="st"><i></i><span></span></span></div></div>
+  <div id="serpane"><pre id="serout"></pre><div id="serin"><input id="ser-txt" data-ph="sendPh"><button id="b-send" class="btn" data-t="send">Send</button><select id="ser-baud" aria-label="baud"><option>300</option><option>1200</option><option>2400</option><option>4800</option><option selected>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option></select><button id="b-sclear" class="btn" data-t="clear">Clear</button></div></div>
+</aside>
+<div id="callout" class="panel"></div>
+<div id="meter"><div class="lcd" id="m-lcd">– – –</div><div class="pr"><span><i style="background:#ff3b30"></i><b id="m-r">–</b></span><span><i style="background:#111;border:1px solid #888"></i><b id="m-b">GND</b></span></div><div class="lab" id="m-lab"></div></div>
+<div id="tip" class="panel"></div>
+<div id="toast" class="panel"></div>
+<div id="foot"><a href="credits.html" target="_blank" rel="noopener" data-t="credits">Credits and licences</a></div>
+<div id="loader"><div class="box"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h1>Robotics Lab 360</h1><p>Arduino · 3D · Class 6–12</p><div class="bar"><i></i></div></div></div>
+<script type="module" src="js/main.js"></script>
+<script src="./duetoffline.js" defer></script>
+</body>
+</html>
