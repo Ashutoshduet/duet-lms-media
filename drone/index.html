@@ -2321,8 +2321,10 @@ function propGroup(P, x, y, z, parent, mat, dir, opts = {}) {
   const pg = new THREE.Group(); pg.position.set(x, y, z); parent.add(pg);
   const blades = new THREE.Group(); pg.add(blades);
   const chord = P.key === 'camera' ? P.propR * 0.17 : P.propR * 0.24, geo = bladeGeo(P.propR, chord, P.propR * 0.12, dir);
-  for (let k = 0; k < P.props; k++) { const b = new THREE.Mesh(geo, mat); b.rotation.y = k / P.props * Math.PI * 2; blades.add(b); }
-  const hub = new THREE.Mesh(new THREE.CylinderGeometry(P.propR * 0.13, P.propR * 0.13, P.propR * 0.12, 12), mat); blades.add(hub);
+  // the blades and the hub as one mesh that turns (one draw call a propeller instead of four)
+  const parts = []; for (let k = 0; k < P.props; k++) parts.push(geo.clone().rotateY(k / P.props * Math.PI * 2));
+  parts.push(new THREE.CylinderGeometry(P.propR * 0.13, P.propR * 0.13, P.propR * 0.12, 12));
+  blades.add(new THREE.Mesh(BGU.mergeGeometries(parts.map((g) => (g.index ? g.toNonIndexed() : g)), false), mat));
   const disc = new THREE.Mesh(new THREE.CircleGeometry(P.propR, 32), new THREE.MeshBasicMaterial({ color: opts.tint || P.propColor, transparent: true, opacity: 0, depthWrite: false, side: THREE.DoubleSide }));
   disc.rotation.x = -Math.PI / 2; disc.userData.disc = true; pg.add(disc);
   return { blades, disc, mat, angle: Math.random() * 6 };
@@ -2449,7 +2451,7 @@ function animateModel(md, mo, dt, armed, crashed, blinkOn) {
   md.props.forEach((p, i) => {
     const m = mo[i] ?? mo, dir = (i === 0 || i === 3) ? -1 : 1;
     p.angle += dir * Math.min(m * 700, 42) * dt; p.blades.rotation.y = p.angle;
-    p.disc.material.opacity = clamp((m - 0.12) * 0.7, 0, 0.3);
+    p.disc.material.opacity = clamp((m - 0.12) * 0.7, 0, 0.3); p.disc.visible = p.disc.material.opacity > 0.004; // (not drawn when unseen)
     if (p.mat.transparent && p.mat.opacity !== undefined && !p.mat.isMeshBasicMaterial) p.mat.opacity = clamp(1.1 - (m - 0.15) * 3.2, 0.15, 0.95);
   });
   const on = armed ? true : blinkOn;
