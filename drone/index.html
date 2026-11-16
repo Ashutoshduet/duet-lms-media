@@ -974,16 +974,18 @@ function buildGates() {
     const fl = Math.hypot(fx, fz); fx /= fl; fz /= fl;
     const yaw = Math.atan2(-fx, -fz), gh = terrainH(x, z), c = Math.cos(yaw), s = Math.sin(yaw);
     const grp = new THREE.Group(); grp.position.set(x, gh, z); grp.rotation.y = yaw; world.add(grp);
-    const members = [];
-    const top = yc + GATE_H / 2 + GATE_B;
+    // the frame's bars are one mesh and the two feet another (2 draw calls a gate instead of 6: a phone counts each one)
+    const top = yc + GATE_H / 2 + GATE_B, bars = [], feet = [];
     const add = (lx, ly, w, hgt) => {
-      const m = mesh(new THREE.BoxGeometry(w, hgt, GATE_B), gateMat, lx, ly, 0, grp); members.push(m);
+      bars.push(new THREE.BoxGeometry(w, hgt, GATE_B).translate(lx, ly, 0));
       oboxCol(x + c * lx, gh + ly, z - s * lx, w / 2, hgt / 2, GATE_B / 2, yaw);
     };
     for (const sx of [-1, 1]) add(sx * (GATE_W / 2 + GATE_B / 2), top / 2, GATE_B, top);
     add(0, top - GATE_B / 2, GATE_W + 2 * GATE_B, GATE_B);
     if (yc - GATE_H / 2 > 0.35) add(0, yc - GATE_H / 2 - GATE_B / 2, GATE_W, GATE_B);
-    for (const sx of [-1, 1]) mesh(new THREE.BoxGeometry(0.5, 0.06, 0.5), MAT.dark, sx * (GATE_W / 2 + GATE_B / 2), 0.03, 0, grp);
+    for (const sx of [-1, 1]) feet.push(new THREE.BoxGeometry(0.5, 0.06, 0.5).translate(sx * (GATE_W / 2 + GATE_B / 2), 0.03, 0));
+    const members = [mesh(BGU.mergeGeometries(bars, false), gateMat, 0, 0, 0, grp)];
+    mesh(BGU.mergeGeometries(feet, false), MAT.dark, 0, 0, 0, grp);
     const num = canvasTex(128, 64, (g) => { g.fillStyle = '#10161d'; g.fillRect(0, 0, 128, 64); g.fillStyle = '#ffad1f'; g.font = '700 46px "Chakra Petch", Arial'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(String(i + 1), 64, 35); });
     const plate = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.35), new THREE.MeshStandardMaterial({ map: num, side: THREE.DoubleSide, roughness: 0.7 }));
     plate.position.set(0, top + 0.22, 0); grp.add(plate);
@@ -1084,11 +1086,12 @@ function buildVillage() {
   sm.position.set(-122, terrainH(-122, -75.4) + 5.6, -75.42); world.add(sm);
   // water tower (Jal Minar)
   { const x = -88, z = 40, h = terrainH(x, z), tall = 13;
-    for (const [lx, lz] of [[-2.4, -2.4], [2.4, -2.4], [-2.4, 2.4], [2.4, 2.4]]) { mesh(new THREE.CylinderGeometry(0.3, 0.38, tall, 10), MAT.concrete, x + lx, h + tall / 2, z + lz); cylCol(x + lx, z + lz, 0.4, h, h + tall); }
-    mesh(new THREE.BoxGeometry(5.2, 0.4, 5.2), MAT.concrete, x, h + tall * 0.55, z);
+    const conc = []; // the concrete parts as one mesh
+    for (const [lx, lz] of [[-2.4, -2.4], [2.4, -2.4], [-2.4, 2.4], [2.4, 2.4]]) { conc.push(new THREE.CylinderGeometry(0.3, 0.38, tall, 10).translate(x + lx, h + tall / 2, z + lz)); cylCol(x + lx, z + lz, 0.4, h, h + tall); }
+    conc.push(new THREE.BoxGeometry(5.2, 0.4, 5.2).translate(x, h + tall * 0.55, z));
     mesh(new THREE.CylinderGeometry(3.4, 3.0, 4.6, 28), new THREE.MeshStandardMaterial({ color: 0xdfe5e8, map: wallTexture('plaster', false, 8), roughness: 0.75 }), x, h + tall + 2.3, z);
     mesh(new THREE.CylinderGeometry(3.45, 3.45, 0.5, 28), new THREE.MeshStandardMaterial({ color: 0x2f6fb5, roughness: 0.6 }), x, h + tall + 3.6, z);
-    mesh(new THREE.ConeGeometry(3.5, 1.4, 28), MAT.concrete, x, h + tall + 5.3, z);
+    conc.push(new THREE.ConeGeometry(3.5, 1.4, 28).translate(x, h + tall + 5.3, z)); mesh(BGU.mergeGeometries(conc, false), MAT.concrete);
     cylCol(x, z, 3.5, h + tall - 0.1, h + tall + 6); }
   // mobile tower
   { const x = -40, z = 76, h = terrainH(x, z), H = 34;
@@ -2224,8 +2227,9 @@ function buildCommon() {
   MAT.water.color.set(MAP.key === 'valley' ? 0x58706a : MAP.key === 'solar' ? 0x56645a : 0x4f6253);
   addPad(HOME.x, HOME.z, padTexture('#8e8b84', '#ffc21a', 'H', '#f7f7f2'));
   addPad(PADB.x, PADB.z, padTexture('#1f5fa8', '#ffffff', 'B', '#ffffff'), 2.0);
-  const cone = new THREE.ConeGeometry(0.15, 0.4, 12);
-  for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2, x = Math.cos(a) * 3.4, z = Math.sin(a) * 3.4; mesh(cone, MAT.orange, x, terrainH(x, z) + 0.2, z); }
+  const cones = []; // the eight cones round the home pad as one mesh (one draw call instead of eight)
+  for (let i = 0; i < 8; i++) { const a = i / 8 * Math.PI * 2, x = Math.cos(a) * 3.4, z = Math.sin(a) * 3.4; cones.push(new THREE.ConeGeometry(0.15, 0.4, 12).translate(x, terrainH(x, z) + 0.2, z)); }
+  mesh(BGU.mergeGeometries(cones, false), MAT.orange);
   const ct = canvasTex(256, 128, (g) => {
     for (let i = 0; i < 26; i++) { const x = 40 + Math.random() * 176, y = 50 + Math.random() * 40, r = 18 + Math.random() * 30; const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, 'rgba(255,255,255,.55)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = gr; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill(); }
   });
