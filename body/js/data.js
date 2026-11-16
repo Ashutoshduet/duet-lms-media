@@ -1,4 +1,5 @@
 import { BREATHING, DIGESTION } from './journeys_bd.js';
+import { REFLEX, HORMONES } from './journeys_new.js';
 // Content: part names and functions (English / Hindi) and the guided journeys.
 
 export const SYSTEMS = {
@@ -247,6 +248,8 @@ export const JOURNEYS = [
         text: { en: 'More than 600 muscles cover the skeleton. Muscles can only pull, never push, so they work in pairs. When the biceps tightens the arm bends; when the triceps tightens it straightens.', hi: '600 से ज़्यादा मांसपेशियाँ कंकाल को ढकती हैं। मांसपेशियाँ सिर्फ़ खींच सकती हैं, धकेल नहीं सकतीं, इसलिए जोड़ों में काम करती हैं। बाइसेप्स सिकुड़ने पर बाँह मुड़ती है; ट्राइसेप्स सिकुड़ने पर सीधी होती है।' } },
     ],
   },
+  REFLEX,
+  HORMONES,
 ];
 
 // give every step a stable id: <journey>-<n>

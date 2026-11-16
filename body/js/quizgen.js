@@ -8,12 +8,13 @@ import { SYSTEMS } from './data.js';
 import { UNITS, unitParts } from './split.js';
 import { makeQ, shuffled } from './classroom.js';
 import { fillT } from './xlang.js';
+import { BANK } from './quizbank.js';
 
 const NAMEQ = { en: 'What is the glowing part called?', hi: 'चमकते हुए हिस्से का नाम क्या है?', hg: 'Chamakte hue part ka naam kya hai?' };
 const JOBQ = { en: 'What does the {x} do?', hi: '{x} का क्या काम है?', hg: '{x} ka kya kaam hai?' };
 const jobQ = (n) => fillT(JOBQ, { x: n });
 const LAB_UNIT = { heart: 'heart', eye: 'eye', ear: 'ear', brain: 'brain', lungs: 'lungs', kidney: 'kidney', tooth: 'teeth' };
-const LAB_SYS = { heart: 'circulatory', eye: 'senses', ear: 'senses', brain: 'nervous', lungs: 'respiratory', kidney: 'urinary', tooth: 'digestive', skin: 'skin' };
+const LAB_SYS = { heart: 'circulatory', eye: 'senses', ear: 'senses', brain: 'nervous', lungs: 'respiratory', kidney: 'urinary', tooth: 'digestive', skin: 'skin', urinary: 'urinary', pancreas: 'digestive', arm: 'muscles', leg: 'muscles', mouth: 'digestive', gut: 'digestive', liver: 'digestive', knee: 'skeleton' };
 const SYS_EXTRA = { senses: { en: 'Sense organs', hi: 'ज्ञानेंद्रियाँ', hg: 'Sense organs' }, lymphatic: { en: 'Lymph and immunity', hi: 'लसीका और प्रतिरक्षा', hg: 'Lymph aur immunity' }, endocrine: { en: 'Glands and hormones', hi: 'ग्रंथियाँ और हार्मोन', hg: 'Glands aur hormones' } };
 let seed = Date.now() % 1e6; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
 const norm = (s) => String(s || '').toLowerCase().replace(/\s*\(.*?\)\s*/g, '').replace(/[^a-z0-9ऀ-ॿ]/g, '');
@@ -48,6 +49,7 @@ const withQ = (t) => fillT(QZT, { x: t });
 
 export function bodyQuiz(id, app, n = 8) {
   id = String(id || 'all');
+  const bank = BANK[id]; // how-and-why questions for this lab or journey, mixed with the name questions
   if (id.startsWith('lab:')) { const l = id.slice(4); if (LAB_UNIT[l]) id = 'split:' + LAB_UNIT[l]; else if (LAB_SYS[l]) id = 'sys:' + LAB_SYS[l]; }
   if (id.startsWith('journey:')) { const s = app.journeySys && app.journeySys(id.slice(8)); id = s ? 'sys:' + s : 'all'; }
   let qs = [], title;
@@ -61,6 +63,11 @@ export function bodyQuiz(id, app, n = 8) {
     const ss = shuffled(Object.keys(SYSTEMS), rnd() * 1e9); for (const s of ss) { if (qs.length >= n) break; qs = qs.concat(build(entries(sysPids(s, app), app), [], 2)); }
     title = { en: 'The human body', hi: 'मानव शरीर', hg: 'Human body' }; id = 'all';
   }
+  if (bank) {
+    const cq = shuffled(bank.qs, rnd() * 1e9).map(([q, a, ...w]) => makeQ(q, a, w, { kind: 'concept' }, rnd() * 1e9));
+    const k = Math.min(cq.length, Math.max(4, n - Math.min(3, qs.length)));
+    qs = shuffled([...cq.slice(0, k), ...qs.slice(0, n - k)], rnd() * 1e9); title = bank.title;
+  }
   if (qs.length < 2) return null;
-  return { meta: { id, title, kind: 'parts' }, qs: qs.slice(0, n) };
+  return { meta: { id, title, kind: bank ? 'mixed' : 'parts' }, qs: qs.slice(0, n) };
 }

@@ -10,7 +10,7 @@ WHAT IS INSIDE
                      (in VR the body itself never moves or changes size).
   Body parts         350 parts grouped by system with search, each with name, job and detail in
                      English, Hindi and Hinglish.
-  Organ Lab          8 big, detailed models on a pedestal with guided tours (61 steps):
+  Organ Lab          16 big, detailed models on a pedestal with guided tours:
                      Heart (cut-away, 4 chambers, blood flow, valves lub-dub, SA/AV node and
                      Purkinje electric spark with ECG, coronary arteries), Eye (light rays,
                      pupil, lens focusing, retina, blind spot, optic nerve), Ear (sound waves,
@@ -18,10 +18,18 @@ WHAT IS INSIDE
                      (lobes, hemispheres, motor/sensory strips, brainstem, deep parts, neurons),
                      Lungs (bronchial tree, breathing muscles, alveoli, blood), Kidney (cut open,
                      nephron, urine path, blood in/out), Tooth (enamel, dentine, pulp, roots,
-                     cavities), Skin (layers, sweat, touch, goosebumps).
+                     cavities), Skin (layers, sweat, touch, goosebumps), Mouth, Intestines, Liver, Knee,
+                     Urinary system (both kidneys cut open, nephron, ureters, a bladder that fills
+                     and empties), Pancreas and spleen (head/body/tail, pancreatic juice, islets
+                     and insulin, blood filter), Arm muscles and reflex (a real arm that bends: the
+                     biceps shortens and bulges, the triceps lengthens; muscle fibres; touch a
+                     candle flame and watch the reflex arc pull the hand away), Leg muscles and knee
+                     jerk (hamstrings bend the knee, quadriceps straightens it through the kneecap;
+                     a reflex hammer taps the tendon and the leg kicks).
   Journeys           Breathing (15 steps, oxygen carried to every part of the body), Food to
                      energy (19), Blood circulation (7), Inside the heart (6), Kidneys (6),
-                     Brain and nerves (5), Bones and muscles (4).
+                     Brain and nerves (5), Bones and muscles (4), Reflex: touch a hot tawa (6),
+                     Hormones: the glands and their chemical messages (7).
   Take apart         Organs or bones float out of the body, labelled; point at any piece.
   Put back game      Drag (or grab in VR) each organ or bone back to its place in the body.
   Hands-on           Take any part out of the body: in VR squeeze the grip on it (or pinch and hold);
@@ -58,8 +66,10 @@ ON A LAPTOP OR PHONE
 
 CREDITS (keep these when sharing)
   3D anatomy: Z-Anatomy (Gauthier Kervyn, Marcin Zielinski), based on BodyParts3D, CC BY-SA 4.0.
-  Kidney close-up and the Organ Labs for the heart, eye, kidney, mouth, intestines, liver and knee: NIH Human Reference
-  Atlas (HuBMAP) 3D reference organs (humanatlas.io), CC BY 4.0.
+  Kidney close-up and the Organ Labs for the heart, eye, kidney, urinary system, mouth, intestines, liver, pancreas and
+  spleen, and knee: NIH Human Reference Atlas (HuBMAP) 3D reference organs and united male body (humanatlas.io), CC BY 4.0.
+  Organ Labs for the brain, ear, lungs, arm muscles and reflex, and leg muscles and knee jerk: Z-Anatomy, CC BY-SA 4.0
+  (arm and leg animation by DUET STEM).
   three.js (MIT). Noto Sans Devanagari (SIL OFL).
   Teacher voices: Piper TTS (MIT). English LJSpeech voice (public domain). Hindi / Hinglish
   Priyamvada voice by PravalX on AI4Bharat data, CC BY-NC-SA 4.0 (non-commercial use).

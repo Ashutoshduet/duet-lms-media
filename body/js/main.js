@@ -43,13 +43,17 @@ export const store = { get(k) { try { return localStorage.getItem(k); } catch (e
 const LAB_GROUPS = {
   heart: ['heart_ra', 'heart_rv', 'heart_la', 'heart_lv', 'valve_tricuspid', 'valve_mitral', 'valve_pulmonary', 'valve_aortic', 'papillary', 'cardiac_veins', 'pulm_arteries', 'pulm_veins'],
   eye: ['eyes'], ear: ['ear'], brain: ['cerebrum', 'cerebellum', 'brainstem', 'brain_deep', 'pituitary'], lungs: ['lung_r', 'lung_l', 'bronchi', 'trachea'],
-  kidney: ['kidney_l', 'kidney_r', 'renal_pelvis', 'ureters'], tooth: ['teeth'], skin: ['skin'],
+  kidney: ['kidney_l', 'kidney_r', 'renal_pelvis'], urinary: ['ureters', 'bladder', 'urethra'], pancreas: ['pancreas', 'spleen'], tooth: ['teeth'], skin: ['skin'],
   mouth: ['mouth', 'tongue', 'salivary'], gut: ['small_intestine', 'large_intestine', 'duodenum'], liver: ['liver', 'gallbladder', 'bile_ducts'], knee: ['patella'],
+  arm: ['humerus', 'radius', 'ulna'],
 };
 // phones: the same body with about half the triangles in its thin vessels, nerves and large organs (shape error under a
 // millimetre; measured: the full model ran at about 14 frames a second on a Snapdragon 680 phone). ?full=1 / ?lite=1 to test.
 const BODY_GLB = /[?&]lite=1/.test(location.search) || (window.DuetPerf && DuetPerf.phone && !/[?&]full=1/.test(location.search)) ? './models/body_lite.glb' : './models/body.glb';
-const LAB_PARTS = { heart: ['coronary_arteries', 'aorta_arch', 'heart', 'venae_cavae'], eye: ['optic_nerve', 'eye'], ear: ['hearing_nerve', 'outer_ear'], brain: ['brain'], lungs: ['right_lung', 'left_lung'], kidney: ['kidneys', 'renal_arteries', 'renal_veins'], skin: ['skin'], knee: ['patella', 'femur', 'tibia', 'fibula'], liver: ['liver', 'gallbladder'] };
+const LAB_PARTS = { heart: ['coronary_arteries', 'aorta_arch', 'heart', 'venae_cavae'], eye: ['optic_nerve', 'eye'], ear: ['hearing_nerve', 'outer_ear'], brain: ['brain'], lungs: ['right_lung', 'left_lung'], kidney: ['kidneys', 'renal_arteries', 'renal_veins'], skin: ['skin'], knee: ['patella', 'femur', 'tibia', 'fibula'], liver: ['liver', 'gallbladder'],
+  arm: ['biceps', 'triceps', 'brachialis', 'brachioradialis', 'humerus', 'radius', 'ulna', 'musculocutaneous_nerve'],
+  urinary: ['bladder', 'ureters', 'urethra'], pancreas: ['pancreas', 'spleen', 'pancreatic_duct'],
+  leg: ['quadriceps', 'hamstrings', 'gastrocnemius', 'soleus', 'achilles_tendon'] };
 
 class App {
   constructor() {
@@ -288,6 +292,18 @@ class App {
         { curves: [join([cr([cord, cord.clone().lerp(ms, 0.5), ms], 0.002), m], 0.0025)], color: '#ffb347', size: 0.005, speed: 0.35, density: 55 },
       ];
     });
+    // the reflex arc in the body: heat at the right fingertips, up the sensory nerve, across the spinal cord, out to the biceps, up to the brain
+    const reflexPts = () => { const sn = R.nerve_sensory_r, mn = R.nerve_motor_r, se = new THREE.Vector3(), ms = new THREE.Vector3(); sn.at(sn.length, se); mn.at(0, ms); return { sn, mn, se, ms, cord: new THREE.Vector3(0, se.y - 0.03, -0.028) }; };
+    def('hot', () => { const { sn } = reflexPts(); const tip = new THREE.Vector3(); sn.at(0, tip); const cs = []; for (let i = 0; i < 24; i++) { const a = tip.clone().add(new THREE.Vector3((Math.random() - 0.5) * 0.03, -0.012 + (Math.random() - 0.5) * 0.02, (Math.random() - 0.5) * 0.03)); cs.push(cr([a, a.clone().add(new THREE.Vector3(0, 0.012, 0)), a.clone().add(new THREE.Vector3((Math.random() - 0.5) * 0.01, 0.026, 0))], 0.001)); } return { curves: cs, color: '#ff8a3d', size: 0.0045, speed: 0.025, density: 300, fade: 0.35 }; });
+    def('reflex_in', () => { const { sn, se, cord } = reflexPts(); return { curves: [join([sn, cr([se, se.clone().lerp(cord, 0.5).add(new THREE.Vector3(0, -0.01, 0)), cord], 0.002)], 0.0025)], color: '#7fe8ff', size: 0.005, speed: 0.3, density: 45 }; });
+    def('reflex_out', () => { const { mn, ms, cord } = reflexPts(); return { curves: [join([cr([cord, cord.clone().lerp(ms, 0.5), ms], 0.002), mn], 0.0025)], color: '#ffb347', size: 0.005, speed: 0.3, density: 55 }; });
+    def('pain_up', () => { const { cord } = reflexPts(); const sc = R.spinal_cord, top = new THREE.Vector3(); sc.at(0, top); const brain = this.anchors.cerebrum.clone(); return { curves: [cr([cord, cord.clone().lerp(top, 0.5).setZ(cord.z), top, top.clone().lerp(brain, 0.5).add(new THREE.Vector3(0, 0.01, 0.01)), brain], 0.002)], color: '#d8b8ff', size: 0.005, speed: 0.12, density: 120 }; });
+    // hormones: sparks leave each gland and the blood carries them all over the body
+    const glandOut = (g, col, n = 36) => { const mesh = this.body.parts[g]; if (!mesh) return null; const pa = mesh.geometry.attributes.position; const c = new THREE.Vector3(); mesh.geometry.computeBoundingBox(); mesh.geometry.boundingBox.getCenter(c); const cs = []; const a = new THREE.Vector3(); for (let i = 0; i < n; i++) { a.fromBufferAttribute(pa, (Math.random() * pa.count) | 0); const d = a.clone().sub(c).normalize(); cs.push(cr([a.clone(), a.clone().addScaledVector(d, 0.012).add(new THREE.Vector3(0, 0.004, 0)), a.clone().addScaledVector(d, 0.026).add(new THREE.Vector3(0, 0.006, 0))], 0.001)); } return { curves: cs, color: col, size: 0.0042, speed: 0.02, density: 260, fade: 0.35 }; };
+    const inBlood = (col, k = 4) => ({ curves: [R.aorta_leg_l, R.aorta_head, R.aorta_arm_r, R.aorta_kidney_l, ...grp('arteries', false).filter((_, i) => i % k === 0)].filter(Boolean), color: col, size: 0.0038, speed: 0.12, density: 22, max: 1200 });
+    const HOR = { pit: ['pituitary', '#ff8fd0'], thy: ['thyroid', '#7fe0ff'], adr: ['adrenal', '#ffb347'], pan: ['pancreas', '#7fffb0'] };
+    for (const [k, [g, col]] of Object.entries(HOR)) def('hormone_' + k, () => [glandOut(g, col), inBlood(col)].filter(Boolean));
+    def('hormone_all', () => [...Object.values(HOR).map(([g, col]) => glandOut(g, col, 24)), inBlood('#ff8fd0', 8), inBlood('#7fe0ff', 8), inBlood('#ffb347', 8)].filter(Boolean));
     F.drivers = { beat: 1, in: 1, out: 1 };
   }
 
@@ -498,7 +514,7 @@ class App {
   placeLab() {
     if (this.inXR() && this.museum) { const p = this.exhibitPos(); this.lab.group.position.set(p.x, 1.15, p.z); this.lab.group.rotation.set(0, 0, 0); this.lab.group.scale.setScalar(this.vrLabScale * 2); }
     else if (this.inXR()) { this.lab.group.position.set(0, Math.max(0.95, this.eye - 0.2), -0.8); this.lab.group.rotation.set(0, 0, 0); this.lab.group.scale.setScalar(this.vrLabScale); }
-    else { this.lab.group.position.set(0, 1.12, 0); this.lab.group.scale.setScalar(1); this.stepView = { at: new THREE.Vector3(0, 1.14, 0), z: 1.55, side: 0, lab: true }; this.goView(false); }
+    else { const lv = (this.lab.def && this.lab.def.view) || {}; this.lab.group.position.set(0, 1.12, 0); this.lab.group.scale.setScalar(1); this.stepView = { at: new THREE.Vector3(0, lv.y ?? 1.14, 0), z: lv.z ?? 1.55, side: 0, lab: true }; this.goView(false); }
     this.lab.labelMul = this.inXR() ? (this.museum ? 0.9 : 1.15) : 2.1; this.lab.buildLabels(); this.placeFloor();
   }
   labStep(i) {
@@ -799,7 +815,8 @@ class App {
     const fixed = { arteries: () => onRoute('aorta_leg_l', 0.2), veins: () => onRoute('vein_leg_l', 0.86), nerves: () => onRoute('nerve_sensory_r', 0.55),
       pulm_arteries: () => onRoute('pulm_art_r', 0.7), pulm_veins: () => onRoute('pulm_vein_l', 0.3), spinal_cord: () => onRoute('spinal_cord', 0.35),
       ureters: () => onRoute('ureter_l', 0.5), urethra: () => onRoute('urethra', 0.5), esophagus: () => onRoute('esophagus', 0.4), bronchi: () => onRoute('bronchus_l', 0.45),
-      small_intestine: () => onRoute('small_intestine', 0.5), rectum: () => onRoute('rectum', 0.6) };
+      small_intestine: () => onRoute('small_intestine', 0.5), rectum: () => onRoute('rectum', 0.6),
+      median_nerve: () => onRoute('nerve_sensory_r', 0.3), biceps: () => onRoute('nerve_motor_r', 0.55), hand_bones: () => onRoute('nerve_sensory_r', 0.03), brachial_plexus: () => onRoute('nerve_sensory_r', 0.97) };
     if (fixed[p]) { const v = fixed[p](); if (v) return v; }
     if (this.partMeta[p] && !this.meta[p]) return this.anchorOnPart(p, V3(this.partMeta[p].center));
     const m = this.meta[p], mesh = this.body.parts[p];

@@ -505,7 +505,128 @@ function bile() {
     title: ['Fat and bile × 1000', 'वसा और पित्त × 1000', 'Fat aur bile × 1000'] };
 }
 
-const BUILDERS = { alveoli, villi, cell, capillary, nephron, kidney, neuron, stomach, bile };
+// skeletal muscle: a bundle of striped fibres; a nerve signal arrives, the filaments inside slide together and the fibres get
+// shorter and fatter, then relax (NCERT Class 9: striated muscle)
+function stripeTexture() {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 32; const x = c.getContext('2d');
+  for (let i = 0; i < 16; i++) { x.fillStyle = i % 2 ? '#b8423c' : '#e07a6e'; x.fillRect(i * 16, 0, 16, 32); x.fillStyle = 'rgba(80,10,10,0.35)'; x.fillRect(i * 16 + 7, 0, 2, 32); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+}
+function muscle() {
+  const g = new THREE.Group();
+  const tex = stripeTexture(); tex.repeat.set(1, 5);
+  const bundle = new THREE.Group(); bundle.position.set(0, 0.42, 0); g.add(bundle);
+  const fm = std('#ffffff', 0.55, '#000000', { map: tex });
+  const ring = [[0, 0]]; for (let i = 0; i < 6; i++) { const a = i / 6 * Math.PI * 2; ring.push([Math.cos(a) * 0.27, Math.sin(a) * 0.27]); }
+  ring.forEach(([y, z], i) => {
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.13, 1.7, 28, 1), fm); m.rotation.z = Math.PI / 2; m.position.set(0, y, z);
+    if (i === 0) { m.scale.set(1, 1.06, 1); } bundle.add(m);
+  });
+  // the sheath around the bundle
+  const sheath = new THREE.Mesh(new THREE.CylinderGeometry(0.43, 0.43, 1.74, 36, 1, true), glass('#f6d9cf', 0.06, 0.45)); sheath.rotation.z = Math.PI / 2; bundle.add(sheath);
+  // nerve ending on the top fibre, with signal sparks
+  const nerve = tube([V(-0.9, 1.0, 0.25), V(-0.5, 0.95, 0.2), V(-0.2, 0.84, 0.15), V(0.0, 0.7, 0.12)], 0.025, std('#f2d34b', 0.45, '#2a2000')); g.add(nerve);
+  const nc = nerve.userData.curve;
+  const spark = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTexture(), color: '#fff3a0', transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); spark.scale.setScalar(0.2); g.add(spark);
+  // a sarcomere: thick myosin filaments in the middle, thin actin filaments from the Z-lines at both ends
+  const sar = new THREE.Group(); sar.position.set(0, -0.55, 0.05); g.add(sar);
+  const myoM = std('#5b6fd6', 0.45, '#0a1240'), actM = std('#e6c15a', 0.45, '#2a2000'), zM = std('#f4efe6', 0.4);
+  for (let k = -1; k <= 1; k++) { const my = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.62, 10), myoM); my.rotation.z = Math.PI / 2; my.position.set(0, k * 0.13, 0); sar.add(my);
+    for (let h = 0; h < 8; h++) { const hd = new THREE.Mesh(new THREE.SphereGeometry(0.025, 8, 6), myoM); hd.position.set(-0.27 + h * 0.077 + (h > 3 ? 0.04 : -0.04) * 0, k * 0.13 + (h % 2 ? 0.045 : -0.045), 0); sar.add(hd); } }
+  const zl = [], acts = [];
+  for (const sd of [-1, 1]) {
+    const z = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.46, 0.2), zM); sar.add(z); zl.push(z);
+    for (let k = 0; k < 4; k++) { const a = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.42, 8), actM); a.rotation.z = Math.PI / 2; sar.add(a); acts.push({ a, sd, y: -0.195 + k * 0.13 }); }
+  }
+  let ph = 0;
+  return { group: g, update: (dt) => {
+    ph = (ph + dt / 4) % 1;
+    const c = ph < 0.12 ? 0 : ph < 0.4 ? THREE.MathUtils.smoothstep(ph, 0.12, 0.4) : ph < 0.62 ? 1 : 1 - THREE.MathUtils.smoothstep(ph, 0.62, 0.9);
+    const sx = 1 - 0.18 * c; bundle.scale.set(sx, 1 / Math.sqrt(sx), 1 / Math.sqrt(sx));
+    const f = ph / 0.12; spark.visible = ph < 0.14; if (spark.visible) nc.getPointAt(Math.min(1, f), spark.position);
+    fm.emissive.setRGB(0.3 * c, 0.05 * c, 0.02 * c);
+    const half = 0.5 - 0.13 * c; zl[0].position.x = -half; zl[1].position.x = half;
+    for (const o of acts) { o.a.position.set(o.sd * (half - 0.21), o.y + (o.y > 0 ? 0.0 : 0), 0); }
+  },
+    labels: [[['Muscle fibres (long cells)', 'मांसपेशी तंतु (लंबी कोशिकाएँ)', 'Muscle fibres (lambi cells)'], V(-0.45, 0.98, 0.35)], [['Stripes: striated muscle', 'धारियाँ: रेखित पेशी', 'Stripes: striated muscle'], V(0.62, 0.0, 0.45)],
+      [['Nerve signal', 'तंत्रिका संकेत', 'Nerve signal'], V(-0.95, 0.72, 0.3), '#fff3a0'], [['Filaments slide in: the fibre gets shorter', 'तंतु अंदर खिसकते हैं: रेशा छोटा होता है', 'Filaments andar slide karte hain: fibre chhota hota hai'], V(0, -0.98, 0.35), '#e6c15a']],
+    title: ['Muscle fibres × 500', 'मांसपेशी तंतु × 500', 'Muscle fibres × 500'] };
+}
+
+// spinal cord cut across: grey "butterfly" inside white matter; the reflex arc: sensory neuron (from the skin) → relay neuron → motor
+// neuron (to the muscle), and a message going up to the brain (NCERT Class 10, Fig. 7.2)
+function reflex() {
+  const g = new THREE.Group(); const movers = [];
+  const ell = (rx, ry, n = 64) => { const s = new THREE.Shape(); for (let i = 0; i <= n; i++) { const a = i / n * Math.PI * 2; const p = [Math.cos(a) * rx, Math.sin(a) * ry]; i ? s.lineTo(p[0], p[1]) : s.moveTo(p[0], p[1]); } return s; };
+  const ext = (sh, d) => { const geo = new THREE.ExtrudeGeometry(sh, { depth: d, bevelEnabled: true, bevelThickness: 0.02, bevelSize: 0.02, bevelSegments: 2, curveSegments: 24 }); geo.translate(0, 0, -d / 2); return geo; };
+  const cx = 0.25;
+  const white = new THREE.Mesh(ext(ell(0.58, 0.46), 0.3), std('#f1ebdd', 0.5)); white.position.x = cx; g.add(white);
+  // grey matter butterfly (dorsal horns up, ventral horns down)
+  const b = new THREE.Shape();
+  const pts = [[0, 0.07], [0.1, 0.12], [0.16, 0.3], [0.22, 0.36], [0.25, 0.3], [0.2, 0.12], [0.26, -0.04], [0.33, -0.2], [0.3, -0.3], [0.15, -0.27], [0.08, -0.1], [0, -0.08]];
+  const full = [...pts, ...pts.slice().reverse().map(([x, y]) => [-x, y])];
+  full.forEach(([x, y], i) => (i ? b.lineTo(x, y) : b.moveTo(x, y)));
+  const grey = new THREE.Mesh(ext(b, 0.32), std('#a8909a', 0.55, '#120608')); grey.position.set(cx, 0.02, 0.01); g.add(grey);
+  const canal = new THREE.Mesh(new THREE.CircleGeometry(0.025, 16), new THREE.MeshBasicMaterial({ color: '#33242a' })); canal.position.set(cx, 0.02, 0.19); g.add(canal);
+  // the left half's roots, ganglion and spinal nerve (the reflex side)
+  const dorsal = [V(cx - 0.21, 0.34, 0.12), V(cx - 0.42, 0.44, 0.12), V(-0.45, 0.42, 0.12)], gang = V(-0.55, 0.36, 0.12);
+  const ventral = [V(cx - 0.28, -0.26, 0.12), V(cx - 0.5, -0.3, 0.12), V(-0.55, -0.12, 0.12)];
+  const nerveEnd = V(-1.08, 0.02, 0.12), join = V(-0.75, 0.08, 0.12);
+  const nm = std('#f2d34b', 0.45, '#2a2000');
+  g.add(tube([...dorsal, gang], 0.035, nm), tube([gang, V(-0.66, 0.22, 0.12), join], 0.04, nm), tube([...ventral, join], 0.035, nm), tube([join, V(-0.92, 0.05, 0.12), nerveEnd], 0.055, nm));
+  const gm = new THREE.Mesh(new THREE.SphereGeometry(0.1, 20, 14), std('#f7c948', 0.45, '#3a2a00')); gm.scale.set(1.3, 0.8, 0.8); gm.position.copy(gang); g.add(gm);
+  // neuron cell bodies
+  const cell = (p, col) => { const m = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 12), std(col, 0.4, col)); m.material.emissiveIntensity = 0.25; m.position.copy(p); g.add(m); return m; };
+  const relayA = V(cx - 0.16, 0.24, 0.2), relayB = V(cx - 0.2, -0.16, 0.2), motorC = V(cx - 0.24, -0.2, 0.2);
+  cell(gang.clone().add(V(0, 0, 0.09)), '#7fe8ff'); cell(relayA.clone().lerp(relayB, 0.5), '#ffffff'); cell(motorC, '#ffb347');
+  const sens = new THREE.CatmullRomCurve3([nerveEnd.clone().add(V(0, 0.02, 0.08)), V(-0.9, 0.08, 0.2), join.clone().add(V(0, 0.03, 0.08)), V(-0.66, 0.24, 0.2), gang.clone().add(V(0, 0, 0.09)), V(-0.4, 0.44, 0.2), V(cx - 0.4, 0.43, 0.2), relayA]);
+  const relay = new THREE.CatmullRomCurve3([relayA, relayA.clone().lerp(relayB, 0.5).add(V(0.04, 0, 0)), relayB]);
+  const motor = new THREE.CatmullRomCurve3([motorC, V(cx - 0.42, -0.29, 0.2), V(-0.5, -0.12, 0.2), join.clone().add(V(0, -0.03, 0.08)), V(-0.92, 0.0, 0.2), nerveEnd.clone().add(V(0, -0.02, 0.08))]);
+  const up = new THREE.CatmullRomCurve3([relayA, V(cx - 0.05, 0.3, 0.25), V(cx + 0.02, 0.6, 0.3), V(cx + 0.05, 1.0, 0.3)]);
+  const line = (c, col) => { const m = new THREE.Mesh(new THREE.TubeGeometry(c, 60, 0.012, 6, false), std(col, 0.4, col)); m.material.emissiveIntensity = 0.2; g.add(m); };
+  line(sens, '#7fe8ff'); line(relay, '#ffffff'); line(motor, '#ffb347'); line(up, '#d8b8ff');
+  const arrow = new THREE.Mesh(new THREE.ConeGeometry(0.045, 0.1, 12), std('#d8b8ff', 0.4, '#d8b8ff')); arrow.position.copy(up.getPointAt(1)); g.add(arrow);
+  const pulse = (col) => { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTexture(), color: col, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); s.scale.setScalar(0.2); s.visible = false; g.add(s); return s; };
+  const P = [[sens, '#7fe8ff', 0, 0.4], [relay, '#ffffff', 0.4, 0.5], [motor, '#ffb347', 0.5, 0.85], [up, '#d8b8ff', 0.45, 0.95]].map(([c, col, a, bb]) => ({ c, a, b: bb, s: pulse(col) }));
+  let ph = 0;
+  return { group: g, update: (dt) => {
+    ph = (ph + dt / 3.4) % 1;
+    for (const p of P) { const f = (ph - p.a) / (p.b - p.a); p.s.visible = f >= 0 && f <= 1; if (p.s.visible) p.s.position.copy(p.c.getPointAt(f)); }
+  },
+    labels: [[['Grey matter', 'धूसर द्रव्य (ग्रे मैटर)', 'Grey matter'], V(cx + 0.3, 0.55, 0.3)], [['White matter', 'श्वेत द्रव्य (व्हाइट मैटर)', 'White matter'], V(cx + 0.5, -0.55, 0.3)],
+      [['Sensory neuron (from the skin)', 'संवेदी न्यूरॉन (त्वचा से)', 'Sensory neuron (skin se)'], V(-0.62, 0.72, 0.3), '#7fe8ff'], [['Relay neuron', 'रिले न्यूरॉन', 'Relay neuron'], V(cx + 0.42, 0.1, 0.4)],
+      [['Motor neuron (to the muscle)', 'प्रेरक न्यूरॉन (मांसपेशी तक)', 'Motor neuron (muscle tak)'], V(-0.55, -0.5, 0.3), '#ffb347'], [['To the brain', 'मस्तिष्क की ओर', 'Brain ki taraf'], V(cx + 0.38, 0.98, 0.3), '#d8b8ff']],
+    title: ['Spinal cord, cut across × 10', 'मेरुरज्जु का कटा हुआ भाग × 10', 'Spinal cord ka cross-section × 10'] };
+}
+
+// pancreas tissue: grape-like clusters of juice cells (enzymes into a duct) around an islet; beta cells release insulin into the blood,
+// and insulin lets glucose into a body cell (NCERT Class 10: hormones)
+function islets() {
+  const g = new THREE.Group(); const movers = [];
+  const ac = std('#e9a46a', 0.55, '#2a1200'), beta = std('#7fd18a', 0.45, '#0a2a10'), alpha = std('#f29ab8', 0.45, '#2a0a18');
+  const cellG = new THREE.SphereGeometry(0.075, 14, 10);
+  // juice-making cells (acini) in clusters around a small duct
+  const duct = tube([V(-1.0, -0.62, 0), V(-0.55, -0.7, 0.05), V(-0.1, -0.78, 0.05), V(0.3, -0.86, 0.0)], 0.05, glass('#fff2a8', 0.3, 0.9)); g.add(duct);
+  const acini = [V(-0.8, -0.38, 0.1), V(-0.45, -0.42, -0.1), V(-0.15, -0.5, 0.15), V(-0.85, 0.55, -0.1), V(-0.95, 0.1, 0.1)];
+  for (const c of acini) for (let i = 0; i < 9; i++) { const m = new THREE.Mesh(cellG, ac); m.position.copy(c).add(new THREE.Vector3().randomDirection().multiplyScalar(0.12)); g.add(m); }
+  // the islet: beta (green) and alpha (pink) cells around a capillary
+  const isC = V(-0.35, 0.12, 0);
+  for (let i = 0; i < 46; i++) { const d = new THREE.Vector3().randomDirection().multiplyScalar(Math.cbrt(Math.random()) * 0.3); const m = new THREE.Mesh(cellG, Math.random() < 0.72 ? beta : alpha); m.position.copy(isC).add(d); m.scale.setScalar(0.85); g.add(m); }
+  const cap = tube([V(-1.05, 0.25, 0.25), V(-0.6, 0.18, 0.22), V(-0.35, 0.12, 0.2), V(0.0, 0.18, 0.2), V(0.35, 0.3, 0.15), V(0.75, 0.45, 0.1), V(1.05, 0.5, 0.05)], 0.07, glass('#ff6a6a', 0.22, 0.85)); g.add(cap);
+  const capC = cap.userData.curve;
+  // a body cell that takes in sugar when insulin arrives
+  const body = new THREE.Mesh(new THREE.SphereGeometry(0.3, 28, 20), glass('#c9a7ff', 0.12, 0.7)); body.position.set(0.62, -0.25, 0); g.add(body);
+  const nucl = new THREE.Mesh(new THREE.SphereGeometry(0.09, 16, 12), std('#7a5ab8', 0.5)); nucl.position.set(0.68, -0.28, 0.05); g.add(nucl);
+  for (let i = 0; i < 9; i++) { const o = icon('I', '#7fffb0', '#06200f'); o.scale.setScalar(0.09); g.add(o); movers.push(new Mover(o, () => { const p = isC.clone().add(new THREE.Vector3().randomDirection().multiplyScalar(0.18)); const a = rand(0.35, 0.5); const pts = [p, capC.getPointAt(a)]; for (let k = 1; k <= 5; k++) pts.push(capC.getPointAt(a + (0.82 - a) * k / 5)); pts.push(V(0.62, 0.06, 0.12)); return new THREE.CatmullRomCurve3(pts); }, rand(3.5, 4.5))); }
+  for (let i = 0; i < 9; i++) { const o = icon('G', '#ffe68a', '#0d1118', 'hex'); o.scale.setScalar(0.085); g.add(o); movers.push(new Mover(o, () => { const pts = []; for (let k = 0; k <= 6; k++) pts.push(capC.getPointAt(0.05 + 0.75 * k / 6).clone().add(V(0, 0.02 * Math.sin(k), 0.03))); pts.push(V(0.6, 0.0, 0.1), V(0.62 + rand(-0.1, 0.1), -0.25 + rand(-0.1, 0.1), 0.05)); return new THREE.CatmullRomCurve3(pts); }, rand(4.5, 6))); }
+  for (let i = 0; i < 7; i++) { const o = icon('E', '#fff07a', '#2a2000', 'star'); o.scale.setScalar(0.08); g.add(o); movers.push(new Mover(o, () => { const c = acini[(Math.random() * 3) | 0]; return new THREE.CatmullRomCurve3([c.clone(), c.clone().add(V(0.05, -0.15, 0)), duct.userData.curve.getPointAt(rand(0.3, 0.6)), duct.userData.curve.getPointAt(1)]); }, rand(3, 4))); }
+  return { group: g, update: (dt) => movers.forEach((m) => m.update(dt)),
+    labels: [[['Islet (makes hormones)', 'आइलेट (हार्मोन बनाता है)', 'Islet (hormones banata hai)'], V(-0.35, 0.56, 0.35)], [['Insulin into the blood', 'इंसुलिन रक्त में', 'Insulin blood mein'], V(0.35, 0.72, 0.3), '#7fffb0'],
+      [['Sugar (G) enters the cell', 'शक्कर (G) कोशिका में जाती है', 'Sugar (G) cell mein jaati hai'], V(0.62, -0.68, 0.3), '#ffe68a'], [['Juice cells: enzymes (E)', 'रस वाली कोशिकाएँ: एंजाइम (E)', 'Juice wali cells: enzymes (E)'], V(-0.55, -0.98, 0.3), '#fff07a']],
+    title: ['Pancreas tissue × 400', 'अग्न्याशय का ऊतक × 400', 'Pancreas tissue × 400'] };
+}
+
+const BUILDERS = { alveoli, villi, cell, capillary, nephron, kidney, neuron, stomach, bile, muscle, reflex, islets };
 
 // The bubble frame that hosts a scene
 export class Magnifier {

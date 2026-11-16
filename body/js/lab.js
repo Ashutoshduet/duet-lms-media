@@ -15,7 +15,7 @@ const smooth = (x) => x * x * (3 - 2 * x);
 const win = (u, a, b) => (u < a || u > b ? 0 : Math.sin(((u - a) / (b - a)) * Math.PI));
 
 // ---------------------------------------------------------------- lab catalogue
-export const LAB_IDS = ['heart', 'eye', 'ear', 'brain', 'lungs', 'kidney', 'tooth', 'skin', 'mouth', 'gut', 'liver', 'knee'];
+export const LAB_IDS = ['heart', 'eye', 'ear', 'brain', 'lungs', 'kidney', 'urinary', 'tooth', 'skin', 'mouth', 'gut', 'liver', 'pancreas', 'knee', 'arm', 'leg'];
 export const LABS = {
   heart: { n: 10, color: '#e0414b', title: { en: 'Heart', hi: 'हृदय (दिल)', hg: 'Heart' }, frame: ['right_atrium', 'right_ventricle', 'left_atrium', 'left_ventricle'], disp: 0.4 },
   eye: { n: 8, color: '#7fd1c7', title: { en: 'Eye', hi: 'आँख', hg: 'Eye' }, frame: ['sclera'], disp: 0.34 },
@@ -30,6 +30,11 @@ export const LABS = {
   gut: { n: 6, color: '#f0a65a', title: { en: 'Intestines', hi: 'आँतें', hg: 'Intestines' }, frame: ['jejunum', 'ileum', 'ascending_colon', 'transverse_colon', 'descending_colon'], disp: 0.44 },
   liver: { n: 5, color: '#c0604a', title: { en: 'Liver', hi: 'यकृत (लिवर)', hg: 'Liver' }, frame: ['liver_right_lobe', 'liver_left_lobe'], disp: 0.42 },
   knee: { n: 5, color: '#e9dfc9', title: { en: 'Knee joint', hi: 'घुटने का जोड़', hg: 'Knee joint' }, frame: ['femur', 'tibia', 'patella'], disp: 0.36 },
+  urinary: { n: 6, color: '#e9cf5a', title: { en: 'Urinary system', hi: 'मूत्र तंत्र', hg: 'Urinary system' }, frame: ['renal_capsule', 'bladder', 'ureters'], disp: 0.5, lift: 0.06, magAt: [-0.34, -0.04, 0.04], view: { y: 1.18 } },
+  pancreas: { n: 6, color: '#f0b27a', title: { en: 'Pancreas & spleen', hi: 'अग्न्याशय और प्लीहा', hg: 'Pancreas aur spleen' }, frame: ['pancreas_head', 'pancreas_body', 'pancreas_tail', 'spleen', 'duodenum'], disp: 0.5, lift: 0.06, view: { y: 1.18 } },
+  // Z-Anatomy (CC BY-SA 4.0): the right arm with its muscles, nerves and the neck part of the spinal cord
+  leg: { n: 5, color: '#d9604e', title: { en: 'Leg muscles & knee jerk', hi: 'टाँग की मांसपेशियाँ और घुटने का झटका', hg: 'Leg muscles aur knee jerk' }, frame: ['femur', 'tibia', 'fibula', 'patella'], disp: 0.6, lift: 0.1, magAt: [0.42, 0.3, 0.02], magR: 0.17, view: { y: 1.3, z: 1.4 } },
+  arm: { n: 7, color: '#e0705a', title: { en: 'Arm muscles & reflex', hi: 'बाँह की मांसपेशियाँ और प्रतिवर्त', hg: 'Arm muscles aur reflex' }, frame: ['humerus', 'radius', 'ulna', 'hand_bones'], disp: 0.7, lift: 0.1, magAt: [-0.36, 0.16, 0.04], magR: 0.18, view: { y: 1.34, z: 1.4 } },
 };
 
 // colour, opacity, roughness
@@ -91,10 +96,35 @@ const PAL = {
     femur: ['#ece3cf', 1, 0.55], femoral_condyles: ['#e6dcc4', 1, 0.55], tibia: ['#ece3cf', 1, 0.55], fibula: ['#e2d8c0', 1, 0.55], patella: ['#f2e9d6', 1, 0.5],
     meniscus: ['#cfe3f0', 1, 0.4], knee_cartilage: ['#bfe0ea', 1, 0.3], cruciate_ligaments: ['#ff8a6a', 1, 0.45], collateral_ligaments: ['#ffb36a', 1, 0.45], knee_tendons: ['#f1e6cf', 1, 0.4],
   },
+  urinary: {
+    renal_capsule: ['#a8513d', 1, 0.45], renal_cortex: ['#c4614c', 1, 0.5], renal_columns: ['#d07a62', 1, 0.5], renal_medulla: ['#8f2f3a', 1, 0.5], renal_papillae: ['#e3a07a', 1, 0.5],
+    renal_pelvis: ['#e8c06d', 1, 0.45], ureters: ['#e9cf7a', 1, 0.45], bladder: ['#d99a86', 1, 0.5], urethra: ['#e3a882', 1, 0.5],
+    aorta: ['#d8323c', 1, 0.38], inferior_vena_cava: ['#3557c4', 1, 0.38], renal_arteries: ['#e0333d', 1, 0.38], renal_veins: ['#3d5fcc', 1, 0.38], iliac_veins: ['#3557c4', 0.5, 0.4],
+  },
+  pancreas: {
+    pancreas_head: ['#e8ad8a', 1, 0.62], pancreas_body: ['#e3a683', 1, 0.62], pancreas_tail: ['#dd9e7b', 1, 0.62], pancreatic_duct: ['#f6e27a', 1, 0.4],
+    bile_duct: ['#8fbf4a', 1, 0.4], gallbladder: ['#6f9e3a', 1, 0.4], bile_opening: ['#b7d84d', 1, 0.45], duodenum: ['#e9a993', 1, 0.5],
+    spleen: ['#7c2d3c', 1, 0.45], splenic_artery: ['#e0333d', 1, 0.38], splenic_vein: ['#3d5fcc', 1, 0.38], portal_vein: ['#6a55c8', 1, 0.38],
+  },
+  leg: {
+    hip_bone: ['#e6dcc6', 1, 0.6], femur: ['#ebe1cc', 1, 0.55], patella: ['#f0e7d4', 1, 0.5], tibia: ['#e8dec8', 1, 0.55], fibula: ['#e4dac3', 1, 0.55], foot_bones: ['#ebe1cc', 1, 0.55],
+    quadriceps: ['#b63a35', 1, 0.5], hamstrings: ['#a8352f', 1, 0.5], gastrocnemius: ['#ad4038', 1, 0.5], soleus: ['#9c3a33', 1, 0.55], achilles_tendon: ['#eee4d2', 1, 0.4],
+    femoral_obturator_nerves: ['#f2d34b', 1, 0.45], patellar_ligament: ['#efe6d6', 1, 0.4],
+  },
+  arm: {
+    humerus: ['#ebe1cc', 1, 0.55], radius: ['#e8dec8', 1, 0.55], ulna: ['#e4dac3', 1, 0.55], hand_bones: ['#ebe1cc', 1, 0.55], scapula: ['#e6dcc6', 1, 0.6], clavicle: ['#e6dcc6', 1, 0.6],
+    biceps: ['#b63a35', 1, 0.5], triceps: ['#a8352f', 1, 0.5], brachialis: ['#9c3a33', 1, 0.5], brachioradialis: ['#b0443b', 1, 0.5],
+    forearm_flexors: ['#ad4a42', 1, 0.55], forearm_extensors: ['#a3443d', 1, 0.55], deltoid: ['#a9463e', 1, 0.55],
+    spinal_cord: ['#f1ebdd', 1, 0.45], grey_matter: ['#b9a2a6', 1, 0.5], vertebrae: ['#e2d8c0', 0.3, 0.6], spinal_ganglion: ['#f2d34b', 1, 0.45],
+    spinal_nerves: ['#f2d34b', 1, 0.45], brachial_plexus: ['#f2d34b', 1, 0.45], musculocutaneous_nerve: ['#ffc24b', 1, 0.45], median_nerve: ['#f2e04b', 1, 0.45],
+    radial_nerve: ['#f2d34b', 1, 0.45], ulnar_nerve: ['#f2d34b', 1, 0.45],
+  },
 };
 
 // tour steps. focus: parts that glow; dim: other parts fade; cut: cut-away on; yaw/pitch: model view
-const H_CH = ['right_atrium', 'right_ventricle', 'left_atrium', 'left_ventricle'];
+const PAN = ['pancreas_head', 'pancreas_body', 'pancreas_tail'];
+const ARM_NERVE = ['spinal_cord', 'grey_matter', 'vertebrae', 'spinal_ganglion', 'spinal_nerves', 'brachial_plexus', 'musculocutaneous_nerve', 'median_nerve', 'radial_nerve', 'ulnar_nerve'];
+const H_CH =['right_atrium', 'right_ventricle', 'left_atrium', 'left_ventricle'];
 const H_VAL = ['tricuspid_valve', 'mitral_valve', 'pulmonary_valve', 'aortic_valve'];
 const STEPS = {
   heart: [
@@ -188,6 +218,38 @@ const STEPS = {
     { yaw: 1.57, bend: true, labels: ['patella', 'knee_tendons', 'femur', 'tibia'] },
     { yaw: 0.6, bend: true, labels: ['meniscus', 'knee_cartilage'] },
   ],
+  urinary: [
+    { yaw: 0, flows: ['blood', 'urine'], labels: ['kidneys', 'ureters', 'bladder', 'urethra', 'aorta', 'inferior_vena_cava'] },
+    { yaw: 0.35, dim: true, focus: ['renal_arteries', 'renal_veins', 'aorta', 'inferior_vena_cava', 'renal_capsule'], flows: ['blood'], labels: ['renal_arteries', 'renal_veins', 'aorta', 'inferior_vena_cava'] },
+    { yaw: 0, cut: true, flows: ['kurine'], labels: ['renal_cortex', 'renal_medulla', 'renal_papillae', 'renal_pelvis'] },
+    { yaw: 0, cut: true, dim: true, focus: ['renal_cortex', 'renal_medulla', 'renal_pelvis'], micro: 'nephron', flows: ['kurine'], labels: ['renal_cortex', 'nephron', 'renal_pelvis'] },
+    { yaw: 0.45, dim: true, focus: ['ureters', 'bladder', 'renal_pelvis'], flows: ['urine', 'kurine'], fill: 'fill', labels: ['ureters', 'bladder'] },
+    { yaw: 0.7, pitch: 0.1, dim: true, focus: ['bladder', 'urethra'], flows: ['urine', 'void'], fill: 'void', labels: ['bladder', 'urethra'] },
+  ],
+  pancreas: [
+    { yaw: 0.15, pitch: 0.2, labels: ['pancreas', 'spleen', 'duodenum', 'gallbladder', 'portal_vein'] },
+    { yaw: 0.15, pitch: 0.25, dim: true, focus: ['pancreas_head', 'pancreas_body', 'pancreas_tail'], labels: ['pancreas_head', 'pancreas_body', 'pancreas_tail', 'duodenum'] },
+    { yaw: 0.25, pitch: 0.25, dim: true, ghost: PAN, focus: ['pancreatic_duct', 'bile_duct', 'bile_opening', 'gallbladder'], flows: ['pjuice', 'bile', 'food'], labels: ['pancreatic_duct', 'bile_duct', 'bile_opening', 'duodenum'] },
+    { yaw: 0.15, pitch: 0.25, ghost: ['duodenum'], focus: ['pancreas_body', 'pancreas_tail', 'pancreas_head'], micro: 'islets', flows: ['insulin'], labels: ['pancreas_body', 'splenic_vein', 'portal_vein'], magAt: [-0.42, 0.3, 0.04] },
+    { yaw: -0.6, pitch: 0.15, dim: true, focus: ['spleen', 'splenic_artery', 'splenic_vein'], flows: ['spleen'], labels: ['spleen', 'splenic_artery', 'splenic_vein'] },
+    { yaw: 0.15, pitch: 0.2, flows: ['spleen', 'insulin', 'pjuice'], labels: ['pancreas', 'spleen', 'portal_vein'] },
+  ],
+  leg: [
+    { yaw: 0.6, pitch: 0.05, labels: ['quadriceps', 'hamstrings', 'gastrocnemius', 'patella', 'femur', 'tibia'] },
+    { yaw: 1.5708, dim: true, focus: ['hamstrings', 'femur', 'tibia', 'fibula', 'hip_bone'], hide: ['femoral_obturator_nerves'], flex: 'bend', extras: ['tag'], labels: ['hamstrings', 'quadriceps', 'knee_joint'] },
+    { yaw: 1.5708, focus: ['quadriceps', 'hamstrings'], hide: ['femoral_obturator_nerves'], flex: 'pair', extras: ['tag'], labels: ['quadriceps', 'hamstrings', 'patellar_ligament'] },
+    { yaw: 1.25, dim: true, focus: ['patella', 'patellar_ligament', 'quadriceps', 'femur', 'tibia'], hide: ['femoral_obturator_nerves'], flex: 'slow', labels: ['patella', 'patellar_ligament', 'quadriceps'] },
+    { yaw: 1.5708, pitch: -1.5708, reflex: true, extras: ['hammer', 'reflex'], micro: 'reflex', labels: ['patellar_ligament', 'quadriceps', 'femoral_obturator_nerves'] },
+  ],
+  arm: [
+    { yaw: 0.75, pitch: 0.05, hide: ARM_NERVE, labels: ['deltoid', 'biceps', 'triceps', 'brachioradialis', 'forearm_flexors', 'humerus', 'hand_bones'] },
+    { yaw: 1.5708, dim: true, focus: ['humerus', 'radius', 'ulna', 'hand_bones', 'scapula'], hide: [...ARM_NERVE, 'deltoid', 'forearm_flexors', 'forearm_extensors'], flex: 'slow', labels: ['humerus', 'elbow_joint', 'radius', 'ulna', 'scapula'] },
+    { yaw: 1.5708, dim: true, focus: ['biceps', 'radius', 'scapula'], hide: [...ARM_NERVE, 'deltoid', 'forearm_flexors', 'forearm_extensors'], flex: 'bend', extras: ['tag'], labels: ['biceps', 'triceps', 'radius'] },
+    { yaw: 1.5708, focus: ['biceps', 'triceps'], hide: [...ARM_NERVE, 'deltoid', 'forearm_flexors', 'forearm_extensors'], flex: 'pair', extras: ['tag'], labels: ['biceps', 'triceps', 'elbow_joint'] },
+    { yaw: 1.2, dim: true, focus: ['brachialis', 'brachioradialis', 'biceps'], hide: [...ARM_NERVE, 'deltoid', 'forearm_flexors', 'forearm_extensors'], flex: 'pair', extras: ['tag'], labels: ['brachialis', 'brachioradialis', 'biceps'] },
+    { yaw: 1.5708, focus: ['biceps'], hide: [...ARM_NERVE, 'deltoid', 'forearm_flexors', 'forearm_extensors'], flex: 'bend', micro: 'muscle', labels: ['biceps'] },
+    { yaw: -0.75, pitch: 0.12, hide: ['deltoid', 'radial_nerve', 'ulnar_nerve', 'forearm_extensors'], reflex: true, extras: ['candle', 'reflex'], labels: ['spinal_cord', 'biceps', 'median_nerve'], micro: 'reflex', magAt: [0.5, 0.02, 0.02], lift: -0.04 },
+  ],
 };
 
 const CUT = {
@@ -195,6 +257,7 @@ const CUT = {
   heart: { n: [0, 0.18, 1], c: -0.014, parts: [...H_CH, 'interventricular_septum', 'aorta_arch', 'pulmonary_trunk', 'superior_vena_cava', 'inferior_vena_cava', 'coronary_arteries', 'cardiac_veins', 'coronary_sinus', 'pulmonary_arteries', 'pulmonary_veins'] },
   eye: { n: [1, 0, 0], c: null, parts: '*' },
   kidney: { n: [0, 0, 1], c: 0.004, parts: ['renal_capsule', 'renal_cortex', 'renal_columns', 'renal_medulla', 'renal_papillae', 'renal_calyces', 'renal_pelvis'] },
+  urinary: { n: [0, 0, 1], c: 'meta', parts: ['renal_capsule', 'renal_cortex', 'renal_columns', 'renal_medulla', 'renal_papillae', 'renal_pelvis'] },
 };
 // how each organ comes apart in the lab: radial (parts move out from the middle), axis (layers in a row) or custom offsets (in organ sizes)
 const EXPLODE = {
@@ -209,10 +272,27 @@ const EXPLODE = {
   eye: { mode: 'axis', axis: [0, 0, 1], u: 0.33, yaw: -1.45, order: [['sclera', 'optic_nerve', 'eye_muscles', 'retinal_vessels'], ['choroid'], ['retina', 'macula', 'fovea', 'optic_disc'], ['vitreous'], ['ciliary_body', 'ciliary_zonules', 'lens'], ['iris', 'pupil', 'eye_drainage'], ['aqueous'], ['cornea'], ['conjunctiva']] },
   kidney: { mode: 'grid', yaw: 0, cells: [[['renal_capsule'], [-0.75, 0.55]], [['renal_cortex'], [0, 0.55]], [['renal_columns'], [0.75, 0.55]], [['renal_medulla'], [-0.75, -0.25]], [['renal_papillae', 'renal_calyces', 'nephron'], [0, -0.25]], [['renal_pelvis', 'ureters', 'renal_artery', 'renal_vein'], [0.75, -0.25]]] },
   tooth: { mode: 'custom', yaw: 0.5, off: { enamel: [0, 0.32, 0.12], dentin: [0, 0.08, 0.32], pulp: [0, 0, 0.62], tooth_nerves_vessels: [0, 0, 0.78], cementum: [0.42, -0.08, 0.22], periodontal_ligament: [0.7, -0.15, 0.12], tooth_socket: [0, -0.32, -0.3], gums: [0, -0.05, -0.55] } },
+  urinary: { mode: 'radial', k: 0.6 },
+  pancreas: { mode: 'radial', k: 0.9 },
+  leg: { mode: 'custom', yaw: 1.2, off: { hip_bone: [0, 0.14, -0.1], quadriceps: [0, 0.04, 0.3], hamstrings: [0, 0.04, -0.3], gastrocnemius: [0, -0.04, -0.28], soleus: [0, -0.06, -0.16], achilles_tendon: [0, -0.08, -0.2], foot_bones: [0, -0.1, 0.06], patella: [0, 0.02, 0.18] } },
+  arm: { mode: 'custom', yaw: 1.2, off: { scapula: [0, 0.12, -0.2], clavicle: [0, 0.2, -0.05], deltoid: [0, 0.24, 0.05], biceps: [0, 0.04, 0.3], brachialis: [0, 0, 0.17], triceps: [0, 0.04, -0.3],
+    brachioradialis: [0, -0.04, 0.26], forearm_flexors: [0, -0.08, 0.42], forearm_extensors: [0, -0.08, -0.36], hand_bones: [0, -0.12, 0] } },
   skin: { mode: 'custom', yaw: 0.5, off: { epidermis: [0, 0.42, 0], melanocytes: [0, 0.42, 0], sweat_pore: [0, 0.42, 0], hypodermis: [0, -0.42, 0], touch_receptors: [0.25, 0, 0.25], skin_blood_vessels: [0, 0, 0.3], skin_nerve_fibres: [0, -0.1, 0.4], sweat_gland: [0.15, 0, 0.2] } },
 };
 const CORTEX = ['frontal_lobe', 'parietal_lobe', 'temporal_lobe', 'occipital_lobe', 'motor_cortex', 'sensory_cortex', 'insula', 'limbic_lobe'];
 const LOBES = ['right_upper_lobe', 'right_middle_lobe', 'right_lower_lobe', 'left_upper_lobe', 'left_lower_lobe'];
+
+// limbs that bend at a hinge: distal parts turn with the joint, cap parts (kneecap) turn part of the way; pull: +1 bends, -1 straightens
+const LIMB = {
+  arm: { joint: 'elbow_joint', sign: -1, max: 1.95, fore: ['radius', 'ulna', 'hand_bones', 'forearm_flexors', 'forearm_extensors'], blend: ['median_nerve', 'radial_nerve', 'ulnar_nerve', 'musculocutaneous_nerve'],
+    pull: { biceps: 1, brachialis: 1, brachioradialis: 1, triceps: -1 }, r0: 1.15, r1: 2.1, ouchAt: [0.24, 0.02, 0.06], ouch: 'ouch',
+    tags: { bend: 'bendB', hold: 'holdB', straight: 'bendT', rest: 'rest' }, rtags: ['r1', 'r2', 'r3', 'r4', 'r5', 'r6'],
+    pulses: [['sensory', '#7fe8ff', 0.06, 0.31], ['relay', '#ffffff', 0.31, 0.35], ['motor', '#ffb347', 0.35, 0.5], ['pain', '#d8b8ff', 0.36, 0.62]] },
+  leg: { joint: 'knee_joint', sign: 1, max: 1.7, fore: ['tibia', 'fibula', 'foot_bones', 'soleus', 'achilles_tendon'], cap: ['patella'], capK: 0.55, capI: ['quadriceps'], blend: [],
+    pull: { hamstrings: 1, gastrocnemius: 1, quadriceps: -1 }, r0: 1.45, r1: 0.35, ouchAt: [0.26, 0.05, 0.06], ouch: 'kick', pulseK: 1.4,
+    tags: { bend: 'bendH', hold: 'holdH', straight: 'bendQ', rest: 'rest' }, rtags: ['k1', 'k2', 'k3', 'k4', 'k5', 'k5'],
+    pulses: [['sensory', '#7fe8ff', 0.06, 0.29], ['motor', '#ffb347', 0.31, 0.5]] },
+};
 
 // ---------------------------------------------------------------- small helpers
 function canvasSprite(draw, w = 128, h = 128) {
@@ -250,7 +330,7 @@ export class Lab {
     this.labels = new THREE.Group(); this.model.add(this.labels);
     this.extras = new THREE.Group(); this.model.add(this.extras);
     this.flows = new FlowSystem(5000); this.model.add(this.flows.points);
-    this.flows.drivers = { beat: 1, fill: 1, eject: 1, in: 1, out: 1, wave: 1 };
+    this.flows.drivers = { beat: 1, fill: 1, eject: 1, in: 1, out: 1, wave: 1, void: 1 };
     this.mag = new Magnifier(); this.mag.group.position.set(0.34, 0.06, 0.02); this.mag.group.scale.setScalar(0.13 / 1.28); this.group.add(this.mag.group);
     this.plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 1e6); // world-space cut plane (far away = off)
     this.localPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
@@ -293,7 +373,8 @@ export class Lab {
     this.model.add(L.group); this.group.add(L.side);
     this.model.position.copy(L.mid).negate();
     this.k = (this.def.disp || 0.42) / L.size;
-    this.root.scale.setScalar(this.k);
+    this.root.scale.setScalar(this.k); this.root.position.y = this.def.lift || 0;
+    this.mag.group.position.fromArray(this.def.magAt || [0.34, 0.06, 0.02]); this.mag.group.scale.setScalar((this.def.magR || 0.13) / 1.28);
     this.flows.mat.uniforms.uModel.value = this.k;
     this.defineFlows(L);
     this.group.visible = true;
@@ -494,6 +575,54 @@ export class Lab {
         const g = new THREE.Group(); for (const t of X.tendons) g.add(t.m); g.children.forEach((m) => { this.register(L, 'knee_tendons', m, mat); }); add(g);
       }
     }
+    if ((id === 'arm' || id === 'leg') && meta.axis) {
+      // the hinge (elbow or knee): the distal bones and the muscles riding on them turn about a side-to-side line
+      const K = X.limb = LIMB[id];
+      const a = V3(meta.axis[0]), b = V3(meta.axis[1]); X.elC = a.clone().lerp(b, 0.5); X.elAx = b.clone().sub(a).normalize(); X.flexA = 0; X.act = 0;
+      L.centers[K.joint] = X.elC.clone().add(new THREE.Vector3(0.012, 0, 0.004));
+      X.fore = K.fore.flatMap((pid) => L.parts[pid] || []); X.cap = (K.cap || []).flatMap((pid) => L.parts[pid] || []);
+      X.uRe = { value: new THREE.Matrix3() }; X.uRp = { value: new THREE.Matrix3() }; X.uC = { value: X.elC.clone() };
+      // each muscle that crosses the joint is stretched between its origin and insertion in the vertex shader: it gets shorter and
+      // fatter when it pulls (same volume), longer and thinner when the other muscle pulls; tendons (thin ends) are drawn white
+      X.mus = [];
+      for (const m of L.meshes) {
+        const mm = (meta.muscles || {})[m.name]; if (!mm) continue;
+        const pid = m.userData.pid, onCap = (K.capI || []).includes(pid);
+        const O = V3(mm.O), I = V3(m.name === 'biceps_2' ? meta.muscles.biceps_1.I : mm.I); // the short head joins the long head's tendon
+        const u = { uO: { value: O }, uI: { value: I }, uI2: { value: I.clone() }, uRot: { value: new THREE.Matrix3() }, uRe: onCap ? X.uRp : X.uRe, uC: X.uC, uBul: { value: 2.6 } };
+        patchMuscle(m.material, u); m.userData.deform = true; X.mus.push({ m, O, I, u, pid, onCap });
+      }
+      // nerves that cross the joint bend with it
+      for (const pid of K.blend || []) for (const m of L.parts[pid] || []) { patchBlend(m.material, { uRe: X.uRe, uC: X.uC }); m.userData.deform = true; }
+      X.reflexA = K.r0; const tq = new THREE.Quaternion().setFromAxisAngle(X.elAx, K.sign * X.reflexA);
+      if (id === 'arm') { // a lit candle under the fingertips (the reflex step)
+        const tip = V3(meta.tip).sub(X.elC).applyQuaternion(tq).add(X.elC); X.candle = candle(); X.candle.position.copy(tip).add(new THREE.Vector3(0.0, -0.034, -0.004)); X.candle.visible = false; add(X.candle);
+        X.flame = X.candle.userData.flame;
+      }
+      if (id === 'leg' && meta.tendon) { // the kneecap's tendon (patella to shin) and a reflex hammer
+        const mat = new THREE.MeshStandardMaterial({ color: '#efe6d6', roughness: 0.4, transparent: true });
+        const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.0075, 0.009, 1, 14, 1), mat); rod.frustumCulled = false; this.register(L, 'patellar_ligament', rod, mat); add(rod);
+        X.tendon = { m: rod, a: V3(meta.tendon[0]), b: V3(meta.tendon[1]) };
+        X.hammer = hammer(); X.tap = V3(meta.tap).sub(X.elC).applyQuaternion(tq).add(X.elC); X.hammer.position.copy(X.tap); X.hammer.visible = false; add(X.hammer);
+      }
+      // signals travel along the reflex arc as bright pulses (one-shot, timed against the movement)
+      const P2 = L.paths; X.rpath = {};
+      // paths that run below the joint are bent to the pose the reflex starts from
+      const bendPt = (p) => { const w = THREE.MathUtils.clamp((X.elC.y + 0.012 - p.y) / 0.04, 0, 1); return p.clone().lerp(p.clone().sub(X.elC).applyQuaternion(tq).add(X.elC), w); };
+      for (const k of ['sensory', 'relay', 'motor', 'pain']) if (P2[k]) X.rpath[k] = PathCurve.smoothJoin([PathCurve.fromPoints(P2[k].map(bendPt), 0.004)]);
+      const pulse = (col, s) => { const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTexture(), color: col, transparent: true, depthTest: false, depthWrite: false, blending: THREE.AdditiveBlending })); sp.scale.setScalar(s); sp.renderOrder = 12; sp.visible = false; add(sp); return sp; };
+      X.pulses = K.pulses.flatMap(([k, col, a1, b2]) => (X.rpath[k] ? [0, 1, 2].map((i) => ({ k, c: X.rpath[k], a: a1, b: b2, lag: i * 0.012, s: pulse(col, (0.026 - i * 0.006) * (K.pulseK || 1)) })) : []));
+      // what is happening now: a tag above the limb (stage space)
+      X.tag = new StepTag(); X.tag.sprite.position.set(0, 0.42, 0.18); X.tag.sprite.visible = false; L.side.add(X.tag.sprite);
+      X.ouch = new StepTag(420, 96, '#c0392b'); X.ouch.sprite.position.fromArray(K.ouchAt); X.ouch.sprite.visible = false; L.side.add(X.ouch.sprite);
+    }
+    if (id === 'urinary') {
+      L.centers.kidneys = V3(meta.kidneyL); L.centers.nephron = V3(meta.kidneyL).add(new THREE.Vector3(0.024, 0.026, 0.004));
+      X.bl = L.parts.bladder || []; X.blBase = V3(meta.bladderBase); X.fill = 0.55;
+    }
+    if (id === 'pancreas') {
+      const pb = L.centers.pancreas_body; if (pb) L.centers.pancreas = pb.clone().add(new THREE.Vector3(0, 0.006, 0.004));
+    }
     if (id === 'kidney') {
       const m = new THREE.Mesh(new THREE.SphereGeometry(0.0035, 12, 10), new THREE.MeshStandardMaterial({ color: '#ffd27a', emissive: '#ffd27a', emissiveIntensity: 0.5 }));
       const cor = L.centers.renal_cortex; m.position.copy(cor).add(new THREE.Vector3(0.026, 0.02, 0.006)); reg('nephron', m); L.centers.nephron = m.position.clone();
@@ -581,6 +710,21 @@ export class Lab {
         { curves: num('vein').map((p) => cur(p.slice(0, 4), 0.0015)), color: BLUE, size: ps * 0.7, speed: sp * 0.25, density: 120 / s, spread: 0.5 }]);
       def('urine', () => [{ curves: num('urine').map((p) => cur(p, 0.0015)), color: YEL, size: ps * 0.8, speed: sp * 0.2, density: 120 / s, spread: 0.5 }, { curves: [cur(P.ureter, 0.0015)], color: YEL, size: ps * 0.8, speed: sp * 0.25, density: 120 / s, spread: 0.5 }]);
     }
+    if (id === 'urinary') {
+      def('blood', () => [{ curves: [cur(P.aorta, 0.003), cur(P.art_l, 0.002), cur(P.art_r, 0.002)], color: RED, size: ps * 0.9, speed: sp * 0.35, density: 110 / s, spread: 0.6, drive: 'beat' },
+        { curves: [cur(P.vein_l, 0.002), cur(P.vein_r, 0.002), cur(P.ivc, 0.003)], color: BLUE, size: ps * 0.9, speed: sp * 0.3, density: 110 / s, spread: 0.6 }]);
+      def('urine', () => ({ curves: [cur(P.ureter_l, 0.0015), cur(P.ureter_r, 0.0015)], color: YEL, size: ps * 0.75, speed: sp * 0.18, density: 160 / s, spread: 0.5 }));
+      def('kurine', () => ({ curves: many('urine_').map((p) => cur(p, 0.002)), color: YEL, size: ps * 0.7, speed: sp * 0.12, density: 160 / s, spread: 0.5 }));
+      def('void', () => ({ curves: [cur(P.urethra, 0.0015)], color: YEL, size: ps * 0.8, speed: sp * 0.3, density: 220 / s, spread: 0.5, drive: 'void' }));
+    }
+    if (id === 'pancreas') {
+      def('pjuice', () => ({ curves: [cur(P.pjuice, 0.0012)], color: '#fff07a', size: ps * 0.75, speed: sp * 0.18, density: 220 / s, spread: 0.5 }));
+      def('bile', () => ({ curves: [cur(P.bile, 0.0012)], color: '#8fe05a', size: ps * 0.75, speed: sp * 0.18, density: 220 / s, spread: 0.5 }));
+      def('food', () => ({ curves: [cur(P.duodenum, 0.004)], color: '#e8c46a', size: ps * 1.1, speed: sp * 0.18, density: 90 / s, spread: 0.5 }));
+      def('insulin', () => ({ curves: [...many('insulin').map((p) => cur(p, 0.0015)), cur(P.portal, 0.002)], color: '#7fffb0', size: ps * 0.8, speed: sp * 0.22, density: 130 / s, spread: 0.5 }));
+      def('spleen', () => [{ curves: [cur(P.splenic_art, 0.0015)], color: RED, size: ps * 0.8, speed: sp * 0.3, density: 160 / s, spread: 0.5, drive: 'beat' },
+        { curves: [cur(P.splenic_vein, 0.0018), cur(P.portal, 0.002)], color: BLUE, size: ps * 0.8, speed: sp * 0.22, density: 160 / s, spread: 0.5 }]);
+    }
     if (id === 'gut') {
       const CHY = '#e8c46a', STOOL = '#9c6b3d', BILE = '#b7d84d';
       const tail = (p, f) => p.slice(Math.floor(p.length * f));
@@ -631,14 +775,16 @@ export class Lab {
     if (X.cortex) X.cortex.visible = this.extrasOn.has('cortex');
     if (L.splitU) L.splitU.uSplit.value = this.extrasOn.has('split') ? 1 : 0;
     if (X.skull) { X.skull.visible = this.id === 'brain' && this.step === 0; X.skull.material.opacity = 0; }
+    if (X.limb) { if (X.candle) X.candle.visible = this.extrasOn.has('candle'); if (X.hammer) X.hammer.visible = this.extrasOn.has('hammer'); X.tag.sprite.visible = this.extrasOn.has('tag') || this.extrasOn.has('reflex'); X.ouch.sprite.visible = false; for (const p of X.pulses) p.s.visible = false; }
     if (X.proc && X.proc.step) X.proc.step(this.step, this);
+    this.mag.group.position.fromArray(st.magAt || this.def.magAt || [0.34, 0.06, 0.02]);
     this.mag.show(st.micro || null, this.app.lang);
     this.buildLabels();
     // cut plane in model space
     const cut = CUT[this.id];
     if (cut) {
       const n = new THREE.Vector3(...cut.n).normalize();
-      const c = cut.c ?? (L.centers.lens ? L.centers.lens.x : 0);
+      const c = cut.c === 'meta' ? L.meta.cutc : cut.c ?? (L.centers.lens ? L.centers.lens.x : 0);
       this.localPlane.set(n.negate(), c);
       // which materials are cut
       for (const [pid, list] of Object.entries(L.parts)) for (const m of list) m.userData.cut = cut.parts === '*' || cut.parts.includes(pid);
@@ -652,6 +798,7 @@ export class Lab {
     if (st.dim && this.focus.size && !inFocus) op = Math.min(op, 0.12);
     if (st.ghostCortex && CORTEX.includes(pid)) op = 0.07;
     if (st.ghostLobes && LOBES.includes(pid)) op = 0.1;
+    if (st.ghost && st.ghost.includes(pid)) op = Math.min(op, 0.16);
     if (this.id === 'ear' && pid === 'temporal_bone') op = st.dim ? 0.06 : 0.14;
     if (this.id === 'eye' && pid === 'eye_muscles' && st.cut) op = 0;
     if (this.extrasOn && this.extrasOn.has('irisdisc') && (pid === 'iris' || pid === 'pupil')) op = 0;
@@ -685,10 +832,11 @@ export class Lab {
       this.flows.set([]); this.cutTarget = 0; this.focus = new Set(); this.hide = new Set(); this.extrasOn = new Set();
       const groups = cfg.mode === 'axis' ? cfg.order : cfg.mode === 'grid' ? cfg.cells.map((c) => c[0]) : null;
       const first = groups ? groups.map((g) => g.find((p) => L.parts[p] && partInfo(p, this.app.lang))).filter(Boolean) : null;
-      this.st = { ...(this.st || {}), dim: false, ghostCortex: false, ghostLobes: false, cut: false, labels: first || this.partList().filter((p) => partInfo(p, this.app.lang)), under: !!first };
+      this.st = { ...(this.st || {}), dim: false, ghostCortex: false, ghostLobes: false, ghost: null, cut: false, labels: first || this.partList().filter((p) => partInfo(p, this.app.lang)), under: !!first };
       for (const [pid, list] of Object.entries(L.parts)) for (const m of list) this.look(pid, m);
       const X = L.fx; for (const k of ['chords', 'chordMesh', 'conduction', 'rays', 'image', 'iris', 'sun', 'cortex']) if (X[k]) (X[k].mesh || X[k]).visible = false;
       if (X.ecg) X.ecg.mesh.visible = false; if (X.phase) X.phase.sprite.visible = false; if (X.rings) for (const r of X.rings) r.visible = false;
+      if (X.limb) { if (X.candle) X.candle.visible = false; if (X.hammer) X.hammer.visible = false; X.tag.sprite.visible = false; X.ouch.sprite.visible = false; for (const p of X.pulses) p.s.visible = false; }
       if (L.splitU) L.splitU.uSplit.value = 0;
       if (X.proc && X.proc.step) X.proc.step(-1, this);
       if (cfg.yaw != null) { this.yawT = cfg.yaw; this.pitchT = 0.1; }
@@ -746,7 +894,8 @@ export class Lab {
   // ------------------------------------------------------------ picking
   pick(raycaster) {
     if (!this.L) return null;
-    const ms = this.L.meshes.filter((m) => m.visible && m.material.opacity > 0.1);
+    const bent = this.L.fx.flexA > 0.15; // shader-bent muscles and nerves cannot be hit where they are drawn
+    const ms = this.L.meshes.filter((m) => m.visible && m.material.opacity > 0.1 && !(bent && m.userData.deform));
     const hits = raycaster.intersectObjects(ms, false).filter((h) => !this.plane || this.plane.constant > 1e5 || !h.object.userData.cut || this.plane.distanceToPoint(h.point) >= 0);
     if (!hits.length) return null;
     const h = hits[0];
@@ -776,6 +925,8 @@ export class Lab {
         const at = (p, k) => (k ? p.clone().sub(X.kneeP).applyQuaternion(q[k]).add(X.kneeP) : p.clone());
         for (const t of X.tendons) { const a = at(t.a, t.sa), b = at(t.b, t.sb), d = b.clone().sub(a); t.m.position.copy(a).add(b).multiplyScalar(0.5); t.m.scale.set(1, d.length(), 1); t.m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()); } }
     }
+    // a step may lower the model a little (so its top stays clear of the toolbar)
+    const ly = (this.def.lift || 0) + (st.lift || 0); this.root.position.y += (ly - this.root.position.y) * Math.min(1, dt * 3);
     // view: smooth turn to the step's angle (+ user's own turn)
     const kk = 1 - Math.exp(-dt * 2.5);
     this.yaw += (this.yawT + this.userYaw - this.yaw) * kk; this.pitch += (this.pitchT - this.pitch) * kk;
@@ -806,9 +957,18 @@ export class Lab {
     if (this.id === 'eye') this.eye(dt, t, st, X);
     if (this.id === 'ear') this.ear(dt, t, st, X, D);
     if (this.id === 'lungs') this.lungs(dt, t, st, X, D);
+    if (X.mus) this.arm(dt, t, st, X);
     if (X.skull && X.skull.visible) X.skull.material.opacity = Math.min(0.2, this.t * 0.05);
     if (L.splitU) L.splitU.uGap.value += ((this.extrasOn.has('split') ? L.size * 0.06 : 0) - L.splitU.uGap.value) * Math.min(1, dt * 1.5);
-    if (this.id === 'kidney') { D.beat = 0.4 + 1.4 * Math.max(0, Math.sin(t * 7.6)); }
+    if (this.id === 'kidney' || this.id === 'urinary' || this.id === 'pancreas') { D.beat = 0.4 + 1.4 * Math.max(0, Math.sin(t * 7.6)); }
+    if (X.bl) { // the bladder fills like a balloon, then empties through the urethra
+      let want = 0.55; D.void = 0.02;
+      if (st.fill === 'fill' && !this.exploded) want = Math.min(1, (this.t % 15) / 13);
+      else if (st.fill === 'void' && !this.exploded) { const u = (this.t % 12) / 12; want = u < 0.3 ? 1 : u < 0.72 ? 1 - smooth((u - 0.3) / 0.42) : 0.25 * smooth((u - 0.72) / 0.28); D.void = u > 0.3 && u < 0.72 ? 1.6 : 0.02; }
+      X.fill += (want - X.fill) * Math.min(1, dt * 3);
+      const sc = 0.72 + 0.4 * X.fill;
+      for (const m of X.bl) { m.scale.setScalar(sc); m.position.copy(X.blBase).multiplyScalar(1 - sc); }
+    }
     if (X.proc && X.proc.update) X.proc.update(dt, t, this);
     // parts move apart / back together smoothly
     this.exE += ((this.exploded ? 1 : 0) - this.exE) * Math.min(1, dt * 2.2);
@@ -901,6 +1061,58 @@ export class Lab {
     if (on('turn')) this.spin.rotation.y += Math.sin(this.t * 1.3) * 0.4;
   }
 
+  // the elbow or knee bends and straightens; the muscle that pulls glows and gets shorter and fatter
+  arm(dt, t, st, X) {
+    const K = X.limb, tr = (k) => ARM_T[k][this.app.lang] || ARM_T[k].en;
+    let want = 0, act = 0, tag = null, tagCol = null;
+    if (!this.exploded && (st.flex === 'bend' || st.flex === 'pair' || st.flex === 'slow')) {
+      const per = st.flex === 'slow' ? 7 : 6, u = (this.t % per) / per;
+      if (u < 0.32) { want = smooth(u / 0.32); act = 1; } else if (u < 0.5) { want = 1; act = 0.6; } else if (u < 0.82) { want = 1 - smooth((u - 0.5) / 0.32); act = -1; } else { want = 0; act = 0; }
+      if (st.flex === 'slow') act = 0;
+      tag = K.tags[act > 0.8 ? 'bend' : act > 0 ? 'hold' : act < 0 ? 'straight' : 'rest'];
+      tagCol = act > 0 ? 'rgba(170,40,40,0.92)' : act < 0 ? 'rgba(40,70,150,0.92)' : null;
+      if (st.flex === 'bend' && act < 0) { act = 0; tag = K.tags.rest; tagCol = null; } // in the bending step the limb is lowered gently, the other muscle not shown working
+      X.flexA = want * K.max; // follows the cycle exactly (the cycle itself is smooth)
+    } else if (st.reflex && !this.exploded) {
+      const per = 7.5, u = (this.t % per) / per; X.ru = u;
+      const R0 = K.r0, R1 = K.r1; // held in the starting pose, then jerked by the reflex
+      if (u < 0.5) want = R0; else if (u < 0.555) want = R0 + smooth((u - 0.5) / 0.055) * (R1 - R0); else if (u < 0.8) want = R1; else want = R1 - (R1 - R0) * smooth((u - 0.8) / 0.18);
+      X.flexA += (want - X.flexA) * Math.min(1, dt * 14); act = u > 0.47 && u < 0.62 ? Math.sign(R1 - R0) : 0;
+      const rt = K.rtags; tag = u < 0.06 ? rt[0] : u < 0.31 ? rt[1] : u < 0.35 ? rt[2] : u < 0.5 ? rt[3] : u < 0.64 ? rt[4] : rt[5];
+      tagCol = tag === rt[0] || tag === rt[4] ? 'rgba(190,80,20,0.92)' : tag === 'r6' ? 'rgba(110,70,160,0.92)' : null;
+      for (const p of X.pulses) { const f = (u - p.a - p.lag) / (p.b - p.a); const on = f >= 0 && f <= 1; p.s.visible = on; if (on) p.c.at(p.c.length * f, p.s.position); }
+      X.ouch.sprite.visible = u > 0.6 && u < 0.92; if (X.ouch.sprite.visible) X.ouch.set(tr(K.ouch));
+      if (X.flame) {
+        X.flame.scale.set(0.016 * (1 + 0.08 * Math.sin(t * 23)), 0.034 * (1 + 0.1 * Math.sin(t * 17)), 1);
+        X.candle.userData.glow.material.opacity = 0.45 + 0.15 * Math.sin(t * 13) + (u < 0.08 ? 0.3 : 0);
+      }
+      if (X.hammer) { // swing back, tap the tendon just below the kneecap, swing away
+        const sw = u < 0.03 ? 0.7 * (1 - u / 0.03) : u < 0.07 ? 0.7 * smooth((u - 0.03) / 0.04) : 0.7;
+        X.hammer.userData.arm.rotation.x = -sw;
+      }
+    } else X.flexA += (0 - X.flexA) * Math.min(1, dt * 3);
+    X.act = act;
+    if (X.tag.sprite.visible && tag) X.tag.set(tr(tag), tagCol);
+    // distal bones and muscles turn about the hinge; the kneecap turns part of the way; muscles crossing the joint follow in the shader
+    const q = (this._aq ||= new THREE.Quaternion()).setFromAxisAngle(X.elAx, K.sign * X.flexA);
+    const qc = (this._aqc ||= new THREE.Quaternion()).setFromAxisAngle(X.elAx, K.sign * X.flexA * (K.capK || 1));
+    const turn = (list, qq) => { for (const m of list) { m.quaternion.copy(qq); m.position.copy(X.elC).sub(X.elC.clone().applyQuaternion(qq)); } };
+    turn(X.fore, q); turn(X.cap, qc);
+    const M4 = (this._am ||= new THREE.Matrix4());
+    X.uRe.value.setFromMatrix4(M4.makeRotationFromQuaternion(q)); X.uRp.value.setFromMatrix4(M4.makeRotationFromQuaternion(qc));
+    if (X.tendon) { const T = X.tendon, A = T.a.clone().sub(X.elC).applyQuaternion(qc).add(X.elC), B = T.b.clone().sub(X.elC).applyQuaternion(q).add(X.elC), d = B.clone().sub(A);
+      T.m.position.copy(A).add(B).multiplyScalar(0.5); T.m.scale.set(1, d.length(), 1); T.m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize()); }
+    const qa = (this._qa ||= new THREE.Quaternion()), d0 = (this._d0 ||= new THREE.Vector3()), d1 = (this._d1 ||= new THREE.Vector3());
+    for (const mu of X.mus) {
+      mu.u.uI2.value.copy(mu.I).sub(X.elC).applyQuaternion(mu.onCap ? qc : q).add(X.elC);
+      qa.setFromUnitVectors(d0.copy(mu.I).sub(mu.O).normalize(), d1.copy(mu.u.uI2.value).sub(mu.O).normalize());
+      mu.u.uRot.value.setFromMatrix4(M4.makeRotationFromQuaternion(qa));
+      // the pulling muscle glows
+      const side = K.pull[mu.pid] || 0, pull = side > 0 ? Math.max(0, act) : side < 0 ? Math.max(0, -act) : 0;
+      if (pull > 0) mu.m.material.emissive.add(this._ec ? this._ec.setRGB(0.42 * pull, 0.1 * pull, 0.04 * pull) : (this._ec = new THREE.Color(0.42 * pull, 0.1 * pull, 0.04 * pull)));
+    }
+  }
+
   lungs(dt, t, st, X, D) {
     const deep = (st.breathe ?? 1) > 1.2, per = deep ? 5.6 : 4.2;
     const ph = (this.t % per) / per; const inh = ph < 0.42;
@@ -915,6 +1127,114 @@ export class Lab {
     D.in = inh ? 1.8 : 0.05; D.out = inh ? 0.05 : 1.6;
   }
 }
+
+// ---------------------------------------------------------------- arm helpers
+// a muscle stretched between origin uO and insertion (rest uI, now uI2): s = 0 at the origin, 1 at the insertion; the belly keeps its
+// volume (fatter when shorter); past the insertion the mesh turns with the forearm (uRe about uC); thin parts (tendons) look white
+function patchMuscle(mat, u) {
+  mat.onBeforeCompile = (sh) => {
+    Object.assign(sh.uniforms, u);
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nuniform vec3 uO; uniform vec3 uI; uniform vec3 uI2; uniform mat3 uRot; uniform mat3 uRe; uniform vec3 uC; uniform float uBul; varying float vTend;')
+      .replace('#include <beginnormal_vertex>', `#include <beginnormal_vertex>
+        vec3 mA = uI - uO; float mL = length(mA); vec3 ma = mA / mL;
+        float mS = dot(position - uO, ma) / mL; vec3 mR = position - (uO + ma * mS * mL);
+        float mL2 = length(uI2 - uO); float mSc = clamp(mS, 0.0, 1.0);
+        float mBul = 1.0 + uBul * (sqrt(mL / mL2) - 1.0) * pow(sin(3.14159 * mSc), 0.8);
+        float mWo = smoothstep(-0.03, 0.15, mS), mWi = smoothstep(0.9, 1.04, mS);
+        vec3 mPd = uO + (uRot * ma) * (mS * mL2) + uRot * (mR * mBul);
+        vec3 mP = mix(mix(position, mPd, mWo), uC + uRe * (position - uC), mWi);
+        objectNormal = normalize(mix(mix(objectNormal, uRot * objectNormal, mWo), uRe * objectNormal, mWi));
+        vTend = 1.0 - smoothstep(0.0035, 0.0065, length(mR));`)
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\ntransformed = mP;');
+    sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nvarying float vTend;')
+      .replace('#include <color_fragment>', '#include <color_fragment>\ndiffuseColor.rgb = mix(diffuseColor.rgb, vec3(0.93, 0.89, 0.8), vTend * 0.85);');
+  };
+  mat.customProgramCacheKey = () => 'armmuscle';
+}
+// thin things that cross the elbow (nerves): above the hinge they stay, below it they turn with the forearm
+function patchBlend(mat, u) {
+  mat.onBeforeCompile = (sh) => {
+    Object.assign(sh.uniforms, u);
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nuniform mat3 uRe; uniform vec3 uC;')
+      .replace('#include <beginnormal_vertex>', '#include <beginnormal_vertex>\nfloat bW = clamp((uC.y + 0.012 - position.y) / 0.04, 0.0, 1.0);\nobjectNormal = normalize(mix(objectNormal, uRe * objectNormal, bW));')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\ntransformed = mix(position, uC + uRe * (position - uC), bW);');
+  };
+  mat.customProgramCacheKey = () => 'armblend';
+}
+let _flameTex = null;
+function flameTexture() {
+  if (_flameTex) return _flameTex;
+  const c = document.createElement('canvas'); c.width = 64; c.height = 128; const x = c.getContext('2d');
+  const g = x.createRadialGradient(32, 84, 2, 32, 76, 46); g.addColorStop(0, 'rgba(255,255,235,1)'); g.addColorStop(0.25, 'rgba(255,226,120,0.95)'); g.addColorStop(0.6, 'rgba(255,140,40,0.55)'); g.addColorStop(1, 'rgba(255,80,20,0)');
+  x.fillStyle = g; x.beginPath(); x.moveTo(32, 4); x.bezierCurveTo(52, 50, 60, 92, 32, 122); x.bezierCurveTo(4, 92, 12, 50, 32, 4); x.fill();
+  _flameTex = new THREE.CanvasTexture(c); _flameTex.colorSpace = THREE.SRGBColorSpace; return _flameTex;
+}
+function candle() {
+  const g = new THREE.Group();
+  const wax = new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.012, 0.06, 24), new THREE.MeshStandardMaterial({ color: '#f4efe4', roughness: 0.5, emissive: '#3a2a10', emissiveIntensity: 0.25 }));
+  wax.position.y = -0.03; g.add(wax);
+  const wick = new THREE.Mesh(new THREE.CylinderGeometry(0.0008, 0.0008, 0.008, 6), new THREE.MeshBasicMaterial({ color: '#2a2018' })); wick.position.y = 0.003; g.add(wick);
+  const fl = new THREE.Sprite(new THREE.SpriteMaterial({ map: flameTexture(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  fl.scale.set(0.016, 0.034, 1); fl.center.set(0.5, 0.08); fl.position.y = 0.004; fl.renderOrder = 13; g.add(fl);
+  const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloTexture(), color: '#ffb347', transparent: true, opacity: 0.55, depthWrite: false, blending: THREE.AdditiveBlending }));
+  glow.scale.setScalar(0.07); glow.position.y = 0.016; glow.renderOrder = 12; g.add(glow);
+  const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.024, 0.004, 32), new THREE.MeshStandardMaterial({ color: '#c9a45c', roughness: 0.35, metalness: 0.5 })); plate.position.y = -0.062; g.add(plate);
+  g.userData.flame = fl; g.userData.glow = glow;
+  return g;
+}
+// a doctor's reflex hammer (rubber head on a steel handle) held from a pivot above; at rest its head touches the group's origin
+function hammer() {
+  const g = new THREE.Group(), arm = new THREE.Group(); arm.position.set(0, 0.16, 0.04); g.add(arm);
+  const head = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.05, 20), new THREE.MeshStandardMaterial({ color: '#d84a3a', roughness: 0.6 }));
+  head.rotation.x = Math.PI / 2; head.position.set(0, -0.16, -0.014); arm.add(head);
+  const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.0035, 0.0035, 0.16, 10), new THREE.MeshStandardMaterial({ color: '#c9ccd2', roughness: 0.3, metalness: 0.6 }));
+  handle.position.set(0, -0.08, -0.007); arm.add(handle);
+  g.userData.arm = arm;
+  return g;
+}
+// a coloured tag that says what is happening now (canvas sprite, redrawn only when its text changes)
+class StepTag {
+  constructor(w = 720, h = 84, bg = 'rgba(20,32,48,0.9)') {
+    this.c = document.createElement('canvas'); this.c.width = w; this.c.height = h; this.bg = bg;
+    this.tex = new THREE.CanvasTexture(this.c); this.tex.colorSpace = THREE.SRGBColorSpace;
+    this.sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: this.tex, depthTest: false, transparent: true }));
+    this.sprite.scale.set(0.34 * w / 720, 0.34 * h / 720, 1); this.sprite.renderOrder = 31; this.key = '';
+  }
+  set(text, col) {
+    const key = text + (col || ''); if (key === this.key) return; this.key = key;
+    const x = this.c.getContext('2d'), W = this.c.width, H = this.c.height; x.clearRect(0, 0, W, H);
+    x.fillStyle = col || this.bg; x.beginPath(); x.roundRect(2, 2, W - 4, H - 4, 26); x.fill();
+    x.strokeStyle = 'rgba(255,255,255,0.35)'; x.lineWidth = 3; x.stroke();
+    let fs = 34; x.font = `600 ${fs}px "Noto Sans Devanagari", "Noto Sans", sans-serif`;
+    while (x.measureText(text).width > W - 40 && fs > 20) { fs -= 2; x.font = `600 ${fs}px "Noto Sans Devanagari", "Noto Sans", sans-serif`; }
+    x.fillStyle = '#fff'; x.textBaseline = 'middle'; x.textAlign = 'center'; x.fillText(text, W / 2, H / 2 + 2);
+    this.tex.needsUpdate = true;
+  }
+}
+const ARM_T = {
+  bendB: { en: 'Biceps contracts (shorter, fatter): the arm bends', hi: 'बाइसेप्स सिकुड़ती है (छोटी और मोटी): बाँह मुड़ती है', hg: 'Biceps contract hoti hai (chhoti aur moti): arm mudti hai' },
+  holdB: { en: 'Biceps stays tight and holds the forearm up', hi: 'बाइसेप्स कसी रहकर अग्रबाहु को ऊपर थामे रखती है', hg: 'Biceps tight rehkar forearm ko upar thaame rakhti hai' },
+  bendT: { en: 'Triceps contracts, biceps relaxes: the arm straightens', hi: 'ट्राइसेप्स सिकुड़ती है, बाइसेप्स ढीली: बाँह सीधी होती है', hg: 'Triceps contract hoti hai, biceps relax: arm seedhi hoti hai' },
+  rest: { en: 'Both muscles relaxed', hi: 'दोनों मांसपेशियाँ ढीली', hg: 'Dono muscles relaxed' },
+  r1: { en: '1  Hot! Sense cells in the skin fire', hi: '१  गरम! त्वचा की संवेदी कोशिकाएँ जागती हैं', hg: '1  Garam! Skin ke sense cells signal dete hain' },
+  r2: { en: '2  Sensory nerve carries the signal to the spinal cord', hi: '२  संवेदी तंत्रिका संकेत मेरुरज्जु तक ले जाती है', hg: '2  Sensory nerve signal spinal cord tak le jaati hai' },
+  r3: { en: '3  Relay neuron in the spinal cord passes it on', hi: '३  मेरुरज्जु में रिले न्यूरॉन संकेत आगे देता है', hg: '3  Spinal cord mein relay neuron signal aage deta hai' },
+  r4: { en: '4  Motor nerve tells the biceps: pull!', hi: '४  प्रेरक तंत्रिका बाइसेप्स से कहती है: खींचो!', hg: '4  Motor nerve biceps ko kehti hai: kheencho!' },
+  r5: { en: '5  The hand jumps away from the flame', hi: '५  हाथ लौ से झटके से हट जाता है', hg: '5  Haath flame se jhatke se hat jaata hai' },
+  r6: { en: '6  Only now does the brain feel the pain', hi: '६  दर्द का पता मस्तिष्क को अब जाकर चलता है', hg: '6  Dard ka pata brain ko ab jaakar chalta hai' },
+  ouch: { en: 'Ouch!', hi: 'आउच!', hg: 'Ouch!' },
+  bendH: { en: 'Hamstrings contract: the knee bends', hi: 'हैमस्ट्रिंग सिकुड़ती हैं: घुटना मुड़ता है', hg: 'Hamstrings contract hoti hain: knee mudta hai' },
+  holdH: { en: 'Hamstrings stay tight and hold the leg bent', hi: 'हैमस्ट्रिंग कसी रहकर टाँग को मोड़े रखती हैं', hg: 'Hamstrings tight rehkar leg ko mode rakhti hain' },
+  bendQ: { en: 'Quadriceps contracts, hamstrings relax: the knee straightens', hi: 'क्वाड्रिसेप्स सिकुड़ती है, हैमस्ट्रिंग ढीली: घुटना सीधा होता है', hg: 'Quadriceps contract hoti hai, hamstrings relax: knee seedha hota hai' },
+  k1: { en: '1  Tap! The tendon below the kneecap is stretched', hi: '१  ठक! घुटने की टोपी के नीचे की कंडरा खिंचती है', hg: '1  Tap! Kneecap ke neeche ka tendon khinchta hai' },
+  k2: { en: '2  Stretch sensors send a signal up the sensory nerve', hi: '२  खिंचाव पहचानने वाले ग्राही संवेदी तंत्रिका से संकेत भेजते हैं', hg: '2  Stretch sensors sensory nerve se signal bhejte hain' },
+  k3: { en: '3  The spinal cord sends it straight back', hi: '३  मेरुरज्जु उसे सीधे वापस भेज देता है', hg: '3  Spinal cord use seedhe wapas bhej deta hai' },
+  k4: { en: '4  Motor nerve: quadriceps, pull!', hi: '४  प्रेरक तंत्रिका: क्वाड्रिसेप्स, खींचो!', hg: '4  Motor nerve: quadriceps, kheencho!' },
+  k5: { en: '5  The leg kicks forward by itself', hi: '५  टाँग अपने-आप आगे उछलती है', hg: '5  Leg apne-aap aage uchhalti hai' },
+  kick: { en: 'Kick!', hi: 'झटका!', hg: 'Kick!' },
+};
 
 // ---------------------------------------------------------------- heart helpers
 function mergeGeoms(list) {
