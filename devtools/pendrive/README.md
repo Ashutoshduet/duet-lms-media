@@ -13,9 +13,10 @@ node devtools/licence-server/duetlic.mjs issue --name "School name, District" --
 
 # 2. build the drive's contents into an empty folder (or straight onto the mounted USB drive)
 python3 devtools/pendrive/build_pendrive.py /path/to/out --code DUET-XXXX-XXXX-XXXX --school "School name, District" \
-    --apk-dir /mnt/user-data/outputs/apk109
+    --apk-dir /mnt/user-data/outputs/apk110
 
-# 3. copy everything inside /path/to/out to the root of the pen drive (FAT32 or exFAT, 4 GB or more), eject safely
+# 3. copy the ONE folder /path/to/out/DUET-STEM-Smart-Class to the pen drive (FAT32 or exFAT, 4 GB or more), eject
+#    safely: everything is inside it (START programs, guide, code, Android apps, the web apps)
 ```
 
 Build from a committed tree (after `python3 devtools/offline/build_sw.py .`, which also makes `maths/index.html`; the

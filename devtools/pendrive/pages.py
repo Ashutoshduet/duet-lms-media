@@ -150,7 +150,7 @@ def guide(code, school, until, apps=None):
     sections = [
         ('1', 'Start on a Windows computer or panel', 'Windows कंप्यूटर या पैनल पर शुरू करना', two(
             '''<ol><li>Plug the pen drive into the computer, or into the panel's USB port (the panel's Windows PC, "OPS", must be switched on: choose it as the input, often called <b>PC</b> or <b>OPS</b>).</li>
-<li>Open the pen drive: <b>File Explorer → This PC → the USB drive</b>.</li>
+<li>Open the pen drive: <b>File Explorer → This PC → the USB drive</b>, then the folder <b>DUET-STEM-Smart-Class</b> (everything is in this one folder).</li>
 <li>Double-click <b>START-DUET-STEM</b> (START-DUET-STEM.exe).</li>
 <li>A small black window opens. <b>Keep it open</b> while you teach (you may minimise it).</li>
 <li>The apps open in Chrome or Edge, already activated. Tap an app.</li>
@@ -158,7 +158,7 @@ def guide(code, school, until, apps=None):
 <p class="note">The first time, this computer becomes the pen drive's computer. The drive will not open the apps on any other computer.</p>
 <p class="note">Windows 7 or 8, or 32-bit Windows ("This app can't run on your PC"): open the folder <b>DUET-STEM → launcher</b> and double-click <b>START-DUET-STEM-old-Windows</b>.</p>''',
             '''<ol><li>पेन ड्राइव को कंप्यूटर में, या पैनल के USB पोर्ट में लगाइए (पैनल का Windows कंप्यूटर, "OPS", चालू होना चाहिए: इनपुट में <b>PC</b> या <b>OPS</b> चुनिए)।</li>
-<li>पेन ड्राइव खोलिए: <b>File Explorer → This PC → USB ड्राइव</b>।</li>
+<li>पेन ड्राइव खोलिए: <b>File Explorer → This PC → USB ड्राइव</b>, फिर <b>DUET-STEM-Smart-Class</b> फ़ोल्डर (सब कुछ इसी एक फ़ोल्डर में है)।</li>
 <li><b>START-DUET-STEM</b> पर दो बार क्लिक कीजिए।</li>
 <li>एक छोटी काली खिड़की खुलेगी। पढ़ाते समय <b>इसे खुला रहने दीजिए</b> (छोटा कर सकते हैं)।</li>
 <li>ऐप Chrome या Edge में खुलेंगे, पहले से चालू। किसी ऐप पर टैप कीजिए।</li>
@@ -179,10 +179,10 @@ def guide(code, school, until, apps=None):
 <li>ऐप खोलकर <b>CODE.txt</b> (इस गाइड के पहले पन्ने) वाला विद्यालय कोड हर ऐप में एक बार लिखिए।</li></ol>
 <p class="note">कोड बिना इंटरनेट के चलता है। जिस पैनल पर पहले लिखा जाए, कोड उसी का हो जाता है: वह पैनल जब कभी इंटरनेट से जुड़ेगा, DUET STEM में दर्ज हो जाएगा, और उसी कोड वाले दूसरे डिवाइस मना कर दिए जाएँगे।</p>''')),
         ('3', 'Linux or Mac computer', 'Linux या Mac कंप्यूटर', two(
-            '''<p><b>Linux</b> (Ubuntu, BOSS…): open the pen drive, right-click <b>START-DUET-STEM-Linux.sh</b> → <b>Run as a Program</b>. If that is not offered, open a Terminal and type <code>sh </code>, drag the file into the Terminal and press Enter.</p>
+            '''<p><b>Linux</b> (Ubuntu, BOSS…): open the pen drive and its folder <b>DUET-STEM-Smart-Class</b>, right-click <b>START-DUET-STEM-Linux.sh</b> → <b>Run as a Program</b>. If that is not offered, open a Terminal and type <code>sh </code>, drag the file into the Terminal and press Enter.</p>
 <p><b>Mac</b>: double-click <b>START-DUET-STEM-Mac.command</b>. If the Mac refuses, right-click it → <b>Open</b> → <b>Open</b>.</p>
 <p class="note">Keep the Terminal window open while you teach.</p>''',
-            '''<p><b>Linux</b> (Ubuntu, BOSS…): पेन ड्राइव खोलिए, <b>START-DUET-STEM-Linux.sh</b> पर राइट-क्लिक → <b>Run as a Program</b>। यह न दिखे तो Terminal खोलकर <code>sh </code> लिखिए, फ़ाइल को Terminal में खींचकर छोड़िए और Enter दबाइए।</p>
+            '''<p><b>Linux</b> (Ubuntu, BOSS…): पेन ड्राइव और उसका <b>DUET-STEM-Smart-Class</b> फ़ोल्डर खोलिए, <b>START-DUET-STEM-Linux.sh</b> पर राइट-क्लिक → <b>Run as a Program</b>। यह न दिखे तो Terminal खोलकर <code>sh </code> लिखिए, फ़ाइल को Terminal में खींचकर छोड़िए और Enter दबाइए।</p>
 <p><b>Mac</b>: <b>START-DUET-STEM-Mac.command</b> पर दो बार क्लिक कीजिए। Mac मना करे तो राइट-क्लिक → <b>Open</b> → <b>Open</b>।</p>
 <p class="note">पढ़ाते समय Terminal की खिड़की खुली रहने दीजिए।</p>''')),
         ('4', 'Teaching on the big screen: the teacher tools', 'बड़ी स्क्रीन पर पढ़ाना: शिक्षक के औज़ार', two(

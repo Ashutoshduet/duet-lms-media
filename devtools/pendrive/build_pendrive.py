@@ -19,7 +19,9 @@ Usage:
   --force      write into a folder that is not empty
   --untracked  also take the apps' files that are not in git yet (a test build before a commit; never for a drive)
 
-The layout of the drive:
+The layout of the drive: ONE folder, DUET-STEM-Smart-Class/ (--top), with everything inside it, so the drive's root
+holds nothing else and a teacher copies or finds a single folder:
+  DUET-STEM-Smart-Class/
   START-DUET-STEM.exe          Windows 10/11 (64-bit): double-click
   START-DUET-STEM-Linux.sh     Linux (x64 or ARM64)
   START-DUET-STEM-Mac.command  macOS
@@ -168,12 +170,12 @@ def write(dst, text, mode=None):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('outdir'); ap.add_argument('--code', default=''); ap.add_argument('--school', default='')
-    ap.add_argument('--apk-dir', default='/mnt/user-data/outputs/apk109'); ap.add_argument('--apps', default='')
+    ap.add_argument('--apk-dir', default='/mnt/user-data/outputs/apk110'); ap.add_argument('--top', default='DUET-STEM-Smart-Class', help='the one folder on the drive that holds everything'); ap.add_argument('--apps', default='')
     ap.add_argument('--link', action='store_true'); ap.add_argument('--launchers', default=''); ap.add_argument('--force', action='store_true')
     ap.add_argument('--untracked', action='store_true', help='also files not yet in git (a test build before a commit)')
     ap.add_argument('--licences', default=os.path.join(REPO, 'licences.json'), help=argparse.SUPPRESS)  # tests only: another code list
     a = ap.parse_args()
-    out = os.path.abspath(a.outdir); web = os.path.join(out, 'DUET-STEM')
+    out = os.path.join(os.path.abspath(a.outdir), a.top); web = os.path.join(out, 'DUET-STEM')  # everything in one folder
     # every app of apps.json whose folder is in the repo (or the ones asked for), in the order of apps.json
     asked = [x for x in a.apps.split(',') if x] or [x for x in APPS if os.path.exists(os.path.join(REPO, x, 'index.html'))]
     for x in list(asked):
@@ -271,7 +273,7 @@ def main():
     if big: print('WARNING: files of 4 GB or more (FAT32 cannot hold them; use exFAT):', big)
     print(f'done: {out}\n  {count} files, {total / 1e9:.2f} GB (web apps {nbytes / 1e9:.2f} GB), longest path {len(longest)} characters: {longest}')
     if code: print(f'  school code {code}' + (f' · {school}' if school else '') + (f' · valid until {valid_until}' if valid_until else ''))
-    print('  Copy everything in this folder to the root of the pen drive (FAT32 or exFAT), then eject it safely.' if not a.link else '  (test build with symlinks: not for a drive)')
+    print(f'  Copy the folder {a.top} to the pen drive (FAT32 or exFAT), then eject it safely.' if not a.link else '  (test build with symlinks: not for a drive)')
 
 if __name__ == '__main__':
     main()
