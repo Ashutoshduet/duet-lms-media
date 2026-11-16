@@ -144,16 +144,18 @@ def files_for(app, untracked=False):
         out.append(rel)
     return out
 
-def maths_index_now():
-    """maths/index.html made from science/index.html now (as devtools/offline/build_sw.py makes it), so the drive
-    has the Science Lab's newest page even when build_sw.py has not run since"""
+def subject_index_now(app):
+    """<app>/index.html (Maths, Physics, Chemistry or Biology Lab) made from science/index.html now (as
+    devtools/offline/build_sw.py makes it), so the drive has the Science Lab's newest page even when build_sw.py has not run since"""
     sys.path.insert(0, os.path.join(REPO, 'devtools', 'offline'))
     import build_sw
     with tempfile.TemporaryDirectory() as t:
-        os.makedirs(os.path.join(t, 'science')); os.makedirs(os.path.join(t, 'maths'))
+        os.makedirs(os.path.join(t, 'science')); os.makedirs(os.path.join(t, app))
         shutil.copy(os.path.join(REPO, 'science', 'index.html'), os.path.join(t, 'science', 'index.html'))
-        build_sw.maths_index(t)
-        return open(os.path.join(t, 'maths', 'index.html'), encoding='utf-8').read()
+        build_sw.subject_index(t, app)
+        return open(os.path.join(t, app, 'index.html'), encoding='utf-8').read()
+
+def maths_index_now(): return subject_index_now('maths')
 
 def put_file(src, dst, link):
     os.makedirs(os.path.dirname(dst), exist_ok=True)
@@ -198,7 +200,7 @@ def main():
         if e.get('r'): sys.exit(f'{code} is withdrawn in licences.json')
         if e.get('u', '') < datetime.date.today().isoformat(): sys.exit(f'{code} ended on {e.get("u")}')
         if not e.get('o'): print(f'WARNING: {code} is not a pen-drive code (o: 1): it will need the internet once to activate' + (' and works on only ' + str(e.get('n')) + ' device(s)' if e.get('n') else ''))
-        miss = [x for x in apps if not ('*' in e.get('a', []) or x in e.get('a', []) or (x == 'maths' and 'science' in e.get('a', [])))]
+        miss = [x for x in apps if not ('*' in e.get('a', []) or x in e.get('a', []) or (NEEDS.get(x) == 'science' and 'science' in e.get('a', [])))]
         if miss: print('WARNING: the code does not open: ' + ', '.join(miss))
         valid_until = e.get('u', '')
     else:
@@ -216,9 +218,8 @@ def main():
         src = os.path.join(REPO, rel)
         if not os.path.exists(src): print('  missing in the repo (skipped):', rel); continue
         put_file(src, os.path.join(web, rel), a.link); nbytes += os.path.getsize(src)
-    if 'maths' in apps:
-        t = maths_index_now()
-        write(os.path.join(web, 'maths', 'index.html'), t)
+    for app in apps:  # the one-subject labs: their page made from the Science Lab's page now
+        if NEEDS.get(app) == 'science': write(os.path.join(web, app, 'index.html'), subject_index_now(app))
     for app in apps: write(os.path.join(web, app, 'sw.js'), SW_STUB)
     put_file(a.licences, os.path.join(web, 'licences.json'), False)
     if os.path.exists(os.path.join(REPO, 'support.html')): put_file(os.path.join(REPO, 'support.html'), os.path.join(web, 'support.html'), False)

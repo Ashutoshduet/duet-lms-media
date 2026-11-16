@@ -81,7 +81,14 @@ export class Runner {
     // compile the new apparatus' shaders in the background so the first frames with it do not stall (no freeze in the headset)
     // (without KHR_parallel_shader_compile, as in the Quest browser, compileAsync would poll for ever: there a plain compile
     // starts the work early instead)
-    try { const R = this.app.renderer; if (R.extensions.has('KHR_parallel_shader_compile') && R.compileAsync) R.compileAsync(this.app.scene, this.app.camera).catch(() => {}); else R.compile(this.app.scene, this.app.camera); } catch (e) { /* older three */ }
+    // While the background compile runs the screen keeps its last picture (drawing now would compile on the spot and stall).
+    try {
+      const R = this.app.renderer;
+      if (R.extensions.has('KHR_parallel_shader_compile') && R.compileAsync) {
+        const p = R.compileAsync(this.app.scene, this.app.camera).catch(() => {}), app = this.app, free = () => { if (app.drawHold === p) app.drawHold = null; };
+        app.drawHold = p; p.then(free); setTimeout(free, 6000);
+      } else R.compile(this.app.scene, this.app.camera);
+    } catch (e) { /* older three */ }
     this.pend = null; this.base = snapAll(this.o); if (this.isChem()) loadExpect(); if (this.app.recHook) this.app.recHook(this, true);
     // vessels named "Beaker A — …" / "Test tube B — …" get a sticker with their letter
     for (const it of this.app.lab.vessels) { const n = it.name && it.name.en; const m = n && n.match(/^(?:Beaker|Test tube|Tube)\s+([A-E1-5])\b/); if (m && !it.stickerMesh) this.K.sticker(it, m[1]); else if (it.tag && !it.stickerMesh) this.K.sticker(it, it.tag); }

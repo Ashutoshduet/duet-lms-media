@@ -9,5 +9,5 @@ done
 # the teacher's class page: the list of activities it can send students to
 node "$top/devtools/class/catalog.mjs" "$top" >/dev/null || exit 1
 git add class/catalog.json
-python3 "$top/devtools/offline/build_sw.py" "$top" science body drone space maths robotics >/dev/null || exit 1
-git add science/sw.js body/sw.js drone/sw.js space/sw.js maths/sw.js maths/index.html maths/voices.json science/offline.json body/offline.json drone/offline.json space/offline.json maths/offline.json robotics/sw.js robotics/offline.json
+python3 "$top/devtools/offline/build_sw.py" "$top" science body drone space maths robotics physics chemistry biology >/dev/null || exit 1
+git add science/sw.js body/sw.js drone/sw.js space/sw.js maths/sw.js maths/index.html maths/voices.json science/offline.json body/offline.json drone/offline.json space/offline.json maths/offline.json robotics/sw.js robotics/offline.json $(for a in physics chemistry biology; do echo $a/sw.js $a/offline.json $a/index.html $a/voices.json $a/places.json; done)

@@ -23,7 +23,7 @@ import { licenceGate, licenceInfo, licenceExpired, checkCode, licText } from './
 import { demoIds } from './topics.js';
 import { LIQ_TIME } from './mats.js';
 import { LITE, HEADSET, liteMerge } from './lite.js';
-import { MATHS } from './mode.js';
+import { MATHS, ONLY } from './mode.js';
 import { Places } from './places.js';
 import { ClassUI } from './classui.js';
 import { quizFor } from './quizgen.js';
@@ -191,7 +191,24 @@ export class App {
     this.audio.unlock(); document.body.classList.remove('list-open');
     if (this.particles.g.visible) this.particles.close();
     const sj = (BY_ID[id] && BY_ID[id].subj) || 'chemistry'; if (this.ui && this.ui.subj !== sj) { this.ui.subj = sj; this.ui.renderSubjects(); this.ui.renderPicker(); } // opening a physics experiment switches the list to physics
-    this.userCam = false; this.recent.clear(); this.runner.load(id, o); this.focusBench(); this._expT0 = Date.now();
+    // The first time an experiment opens, its new apparatus can need new shaders (a lamp that casts shadows makes every lit
+    // material of the lab compile again) and new models: on a phone that is 1–4 s of work that cannot be split up (measured
+    // on a Snapdragon 680). "Opening …" is painted first, with a spinner that keeps turning, so the app never looks stuck.
+    const tok = this._openTok = (this._openTok || 0) + 1, seen = this._opened || (this._opened = new Set());
+    const go = () => {
+      if (tok !== this._openTok) return; // another experiment was picked meanwhile
+      this.userCam = false; this.recent.clear(); this.runner.load(id, o); this.focusBench(); this._expT0 = Date.now(); seen.add(id);
+      const hide = () => { if (tok === this._openTok) this.opening(null); };
+      if (this.drawHold) this.drawHold.then(() => requestAnimationFrame(hide)); else requestAnimationFrame(hide);
+    };
+    if (seen.has(id) || Q.has('test') || this.renderer.xr.isPresenting || (this.pxr && this.pxr.on)) { go(); return; }
+    this.opening(BY_ID[id]); requestAnimationFrame(() => requestAnimationFrame(go));
+  }
+  opening(e) {
+    const el = document.getElementById('opening'); if (!el) return;
+    if (!e) { el.classList.remove('show'); return; }
+    const L = this.lang, w = { hi: 'खुल रहा है', hg: 'Khul raha hai' }[L] || 'Opening', t = e.title ? (e.title[L] || e.title.en || '') : '';
+    el.textContent = `${w}: ${t}`; el.classList.add('show');
   }
   primary() { // the big button: do the step, or after the experiment open/close the particle view
     const r = this.runner;
@@ -544,6 +561,7 @@ export class App {
     else if (vrUI && this.ui.dirtyStory && this.t - (this._vrDraw || 0) > 0.08) { this.ui.drawVR('story'); this.ui.dirtyStory = false; this._vrDraw = this.t; }
     this.updPourTag();
     if (FAST && ++this._fc % 24) return; // test mode: simulate quickly, draw only now and then
+    if (this.drawHold && !xr) return; // new shaders are compiling in the background: keep the last picture until they are ready
     if (px) this.pxr.render(dt); else this.renderer.render(this.scene, this.camera);
   }
   // keep the bench centred in the part of the screen not covered by the list, step card and notebook
@@ -559,4 +577,4 @@ export class App {
   follow() { for (const it of this.lab.items) if (it.follow && it.setTemp && it.follow.mix) it.setTemp(it.follow.mix.temp); }
 }
 new App();
-if ('serviceWorker' in navigator && !Q.has('test') && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register(MATHS ? '../maths/sw.js' : './sw.js', MATHS ? { scope: '../maths/' } : undefined).catch(() => {});
+if ('serviceWorker' in navigator && !Q.has('test') && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register(ONLY ? `../${ONLY}/sw.js` : './sw.js', ONLY ? { scope: `../${ONLY}/` } : undefined).catch(() => {});

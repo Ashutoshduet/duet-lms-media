@@ -151,6 +151,10 @@ body.nb-open #notebook{transform:none}
 #tip b{display:block;font-size:14px}#tip span{display:block;color:var(--txt);font-size:12.5px}
 #toast{position:fixed;top:84px;left:50%;transform:translate(-50%,-10px);opacity:0;transition:.3s;z-index:30;padding:10px 16px;max-width:90%;font-size:14px;pointer-events:none}
 #toast.show{opacity:1;transform:translate(-50%,0)}
+#opening{position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);z-index:35;display:flex;align-items:center;gap:12px;padding:13px 20px;border-radius:999px;background:rgba(10,13,19,.9);border:1px solid rgba(240,166,90,.45);color:#f3eee6;font-size:15px;font-weight:600;pointer-events:none;opacity:0;transition:opacity .25s;max-width:86%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#opening.show{opacity:1;transition:none}
+#opening::before{content:"";flex:none;width:18px;height:18px;border-radius:50%;border:3px solid rgba(240,166,90,.25);border-top-color:#f0a65a;animation:opspin .8s linear infinite}
+@keyframes opspin{to{transform:rotate(360deg)}}
 #loader{position:fixed;inset:0;z-index:40;display:grid;place-items:center;background:var(--bg);transition:opacity .7s .2s}
 body.ready #loader{opacity:0;pointer-events:none}
 #loader .box{text-align:center}
@@ -232,7 +236,7 @@ html.duet-phone{--panel:rgba(13,17,25,.92)} /* phones: solid panels instead of t
 </section>
 <aside id="notebook" class="panel"></aside>
 <div id="tip" class="panel"></div>
-<div id="toast" class="panel"></div>
+<div id="toast" class="panel"></div><div id="opening" role="status" aria-live="polite"></div>
 <div id="xr-wait"><div class="xr-gos"><button id="xr-go" class="xr">Enter VR</button><button id="xr-go-ar" class="xr ar" hidden>AR</button></div></div>
 <div id="loader"><div class="box"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h1>Science Lab 360</h1><p>Chemistry · Class 6–10</p><div class="bar"><i></i></div></div></div>
 <script type="module" src="js/main.js"></script>

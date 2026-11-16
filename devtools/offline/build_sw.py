@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Write sw.js (offline worker with the full file list and hashes) for DUET STEM web apps.
-Usage: build_sw.py <repo> [app ...]   (default apps: science body drone maths robotics)"""
+Usage: build_sw.py <repo> [app ...]   (default apps: science body drone maths robotics physics chemistry biology)"""
 import hashlib, json, os, re, subprocess, sys, time
-APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360', 'maths': 'ml360', 'robotics': 'rl360'}
+APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360', 'maths': 'ml360', 'robotics': 'rl360',
+        'physics': 'pl360', 'chemistry': 'cl360', 'biology': 'bl360'}
 MANIFEST_ONLY = {'space'}  # keeps its own offline worker; only the file list for the Android app
 SKIP_DIRS = {'tools', 'store-art', 'test', '.git', '__pycache__'}
 SKIP_FILES = {'sw.js', 'offline.json', '.DS_Store'}
@@ -30,32 +31,68 @@ def files_of(root):
             out[rel] = [hashlib.sha1(data).hexdigest()[:12], len(data)]
     return out
 
-# DUET Maths Lab 360 (maths/) runs the Science Lab's code (maths/index.html is science/index.html with <base href="../science/">):
-# its worker also saves the Science Lab files it uses, as ../science/…, but only the maths narration (maths/voices.json)
-MATHS_FROM_SCIENCE = ('js/', 'lib/', 'fonts/', 'brand/', 'tex/', 'duetoffline.js', 'duetperf.js', 'duetboard.js', 'voice/manifest.json')
+# The one-subject apps run the Science Lab's code: <subject>/index.html is science/index.html with <base href="../science/">
+# and window.DUET_APP = '<subject>'. Their workers also save the Science Lab files they use, as ../science/…, with only their
+# own narration (<subject>/voices.json, written by devtools/tts/) and the 360° places their activities use (<subject>/places.json).
+SUBJECT_APPS = {
+  'maths': dict(title='DUET Maths Lab 360', h1='Maths Lab 360', tag='Maths in real places · Class 6–10', voices='maths_voices.mjs',
+                desc='Maths in real places, in 3D and VR: measure a flagpole in a school courtyard, find parallel lines on a railway track, cut a roti to find the area of a circle. NCERT Class 6–10, in English, Hindi and Hinglish.'),
+  'physics': dict(title='DUET Physics Lab 360', h1='Physics Lab 360', tag='Physics · Class 6–10', voices='subject_voices.mjs',
+                  desc='Physics in 3D and VR: light, sound, force, motion, electricity and magnets, on a real lab bench and in real places. NCERT Class 6–10, in English, Hindi and Hinglish.'),
+  'chemistry': dict(title='DUET Chemistry Lab 360', h1='Chemistry Lab 360', tag='Chemistry · Class 6–10', voices='subject_voices.mjs',
+                    desc='Chemistry in 3D and VR: real reactions, acids and bases, metals, carbon and salts on a real lab bench. NCERT Class 6–10, in English, Hindi and Hinglish.'),
+  'biology': dict(title='DUET Biology Lab 360', h1='Biology Lab 360', tag='Biology · Class 6–10', voices='subject_voices.mjs',
+                  desc='Biology in 3D and VR: cells under a real microscope, plants, food chains and ecosystems in real places. NCERT Class 6–10, in English, Hindi and Hinglish.'),
+}
+FROM_SCIENCE = ('js/', 'lib/', 'fonts/', 'brand/', 'tex/', 'duetoffline.js', 'duetperf.js', 'duetboard.js', 'voice/manifest.json')
+MATHS_FROM_SCIENCE = FROM_SCIENCE  # (kept for older scripts)
+# Physics, Chemistry and Biology Lab also need the lab's light, the languages, the shared models, the product photos and
+# the microscope plates. Only Biology Lab carries the ecosystem and plant models.
+LAB_FROM_SCIENCE = ('env/', 'i18n/', 'products/', 'micro/', 'models/credits.json')
+ONLY_FOR = {'models/eco/': 'biology', 'models/bio2/': 'biology', 'bio2/': 'biology', 'models/phys3/': 'physics'}
 
-def maths_index(repo):
-    src = open(os.path.join(repo, 'science', 'index.html'), encoding='utf-8').read()
-    t = src.replace('<head>', '<head>\n<base href="../science/">\n<script>window.DUET_APP = \'maths\'</script>', 1)
-    t = re.sub(r'<title>[^<]*</title>', '<title>DUET Maths Lab 360</title>', t, count=1)
-    t = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Maths in real places, in 3D and VR: measure a flagpole in a school courtyard, find parallel lines on a railway track, cut a roti to find the area of a circle. NCERT Class 6–10, in English, Hindi and Hinglish.">', t, count=1)
-    t = t.replace('<link rel="icon" href="icons/icon-192.png">', '<link rel="icon" href="../maths/icons/icon-192.png">', 1)
-    t = t.replace('<link rel="manifest" href="manifest.webmanifest">', '<link rel="manifest" href="../maths/manifest.webmanifest">', 1)
-    t = t.replace('<h1>Science Lab 360</h1><p>Chemistry · Class 6–10</p>', '<h1>Maths Lab 360</h1><p>Maths in real places · Class 6–10</p>', 1)
+def science_wants(app, p):
+    if p.startswith(FROM_SCIENCE): return True
+    if app == 'maths': return False
+    for k, a in ONLY_FOR.items():
+        if p.startswith(k): return a == app
+    if p.startswith(LAB_FROM_SCIENCE): return True
+    return p.startswith('models/') and p.count('/') == 1  # the shared models (glassware, microscope, torch …)
+
+def subject_index(repo, app):
+    c = SUBJECT_APPS[app]; src = open(os.path.join(repo, 'science', 'index.html'), encoding='utf-8').read()
+    t = src.replace('<head>', f'<head>\n<base href="../science/">\n<script>window.DUET_APP = \'{app}\'</script>', 1)
+    t = re.sub(r'<title>[^<]*</title>', f'<title>{c["title"]}</title>', t, count=1)
+    t = re.sub(r'<meta name="description" content="[^"]*">', lambda m: f'<meta name="description" content="{c["desc"]}">', t, count=1)
+    t = t.replace('<link rel="icon" href="icons/icon-192.png">', f'<link rel="icon" href="../{app}/icons/icon-192.png">', 1)
+    t = t.replace('<link rel="manifest" href="manifest.webmanifest">', f'<link rel="manifest" href="../{app}/manifest.webmanifest">', 1)
+    t = t.replace('<h1>Science Lab 360</h1><p>Chemistry · Class 6–10</p>', f'<h1>{c["h1"]}</h1><p>{c["tag"]}</p>', 1)
     t = t.replace('</style>', '#subjects{display:none!important}\n</style>', 1)
-    out = os.path.join(repo, 'maths', 'index.html')
+    out = os.path.join(repo, app, 'index.html')
     if not os.path.exists(out) or open(out, encoding='utf-8').read() != t: open(out, 'w', encoding='utf-8').write(t)
 
-def maths_extra(repo):
+def maths_index(repo): subject_index(repo, 'maths')
+
+def subject_extra(repo, app):
     sci = os.path.join(repo, 'science'); allf = files_of(sci); out = {}
-    try: voices = set(json.load(open(os.path.join(repo, 'maths', 'voices.json'))))
+    try: voices = set(json.load(open(os.path.join(repo, app, 'voices.json'))))
     except Exception: voices = None
     for p, v in allf.items():
-        if p.startswith(MATHS_FROM_SCIENCE) or (p.startswith('voice/') and p.endswith('.mp3') and (voices is None or p[6:-4] in voices)):
+        if science_wants(app, p) or (p.startswith('voice/') and p.endswith('.mp3') and (voices is None or p[6:-4] in voices)):
             out['../science/' + p] = v
+    if app != 'maths':  # the real places and the table textures, from the Maths Lab's folder
+        try: imgs = set(json.load(open(os.path.join(repo, app, 'places.json'))))
+        except Exception: imgs = set()
+        for sub in ('places', 'tex'):
+            d = os.path.join(repo, 'maths', sub)
+            if not os.path.isdir(d): continue
+            for p, v in files_of(d).items():
+                if sub == 'tex' or re.sub(r'(_1k)?\.(jpg|hdr)$', '', p) in imgs: out['../maths/' + sub + '/' + p] = v
     lic = os.path.join(repo, 'licences.json')
     if os.path.exists(lic): d = open(lic, 'rb').read(); out['../licences.json'] = [hashlib.sha1(d).hexdigest()[:12], len(d)]
     return out
+
+def maths_extra(repo): return subject_extra(repo, 'maths')
 
 # the Science Lab's activities in real places (physics, biology) use the Maths Lab's 360° photos and table textures
 # (../maths/places/, ../maths/tex/): its worker saves them too, so they work offline
@@ -69,16 +106,19 @@ def science_extra(repo):
 
 def build(repo, app):
     root = os.path.join(repo, app)
-    if app == 'maths':
-        try: subprocess.run(['node', os.path.join(repo, 'devtools', 'tts', 'maths_voices.mjs')], capture_output=True, timeout=120)
+    if app in SUBJECT_APPS:
+        c = SUBJECT_APPS[app]; args = [] if app == 'maths' else [app]
+        try: subprocess.run(['node', os.path.join(repo, 'devtools', 'tts', c['voices'])] + args, capture_output=True, timeout=120)
         except Exception: pass
-        maths_index(repo)
+        subject_index(repo, app)
     files = files_of(root)
     if app == 'science': files.update(science_extra(repo))
-    if app == 'maths':
-        files.update(maths_extra(repo))
-        for g in ('index.html', 'voices.json'):  # written just now: listed even before git has them
-            d = open(os.path.join(root, g), 'rb').read(); files[g] = [hashlib.sha1(d).hexdigest()[:12], len(d)]
+    if app in SUBJECT_APPS:
+        files.update(subject_extra(repo, app))
+        for g in ('index.html', 'voices.json', 'places.json'):  # written just now: listed even before git has them
+            f = os.path.join(root, g)
+            if not os.path.exists(f) or (g == 'places.json' and app == 'maths'): continue
+            d = open(f, 'rb').read(); files[g] = [hashlib.sha1(d).hexdigest()[:12], len(d)]
     ver = APPS[app] + '-' + hashlib.sha1(json.dumps(files, sort_keys=True).encode()).hexdigest()[:10]
     src = open(TEMPLATE).read().replace('__PREFIX__', APPS[app]).replace('__VERSION__', ver).replace('__FILES__', json.dumps(files, separators=(',', ':')))
     # the same list for the Android app, which updates its bundled copy from it

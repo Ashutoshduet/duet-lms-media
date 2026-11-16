@@ -1,12 +1,13 @@
 // Interface text in English, Hindi and Hinglish.
-import { MATHS } from './mode.js';
+import { APP } from './mode.js';
 import { XLANGS, XLABEL } from './xlang.js';
 export const MAIN_LANGS = ['en', 'hi', 'hg']; // with their own buttons; the 8 other Indian languages are in the language menu
 export const LANGS = [...MAIN_LANGS, ...XLANGS];
 export const LANG_LABEL = { en: 'English', hi: 'हिंदी', hg: 'Hinglish', ...XLABEL };
 export const FONT = '"Noto Sans Devanagari", "Noto Sans", system-ui, sans-serif';
 export const T = {
-  appTitle: MATHS ? { en: 'Maths Lab 360', hi: 'मैथ्स लैब 360', hg: 'Maths Lab 360' } : { en: 'Science Lab 360', hi: 'साइंस लैब 360', hg: 'Science Lab 360' },
+  appTitle: { maths: { en: 'Maths Lab 360', hi: 'मैथ्स लैब 360', hg: 'Maths Lab 360' }, physics: { en: 'Physics Lab 360', hi: 'फ़िज़िक्स लैब 360', hg: 'Physics Lab 360' },
+    chemistry: { en: 'Chemistry Lab 360', hi: 'केमिस्ट्री लैब 360', hg: 'Chemistry Lab 360' }, biology: { en: 'Biology Lab 360', hi: 'बायोलॉजी लैब 360', hg: 'Biology Lab 360' } }[APP] || { en: 'Science Lab 360', hi: 'साइंस लैब 360', hg: 'Science Lab 360' },
   chemistry: { en: 'Chemistry', hi: 'रसायन विज्ञान', hg: 'Chemistry' },
   physics: { en: 'Physics', hi: 'भौतिक विज्ञान', hg: 'Physics' }, maths: { en: 'Maths', hi: 'गणित', hg: 'Maths' }, biology: { en: 'Biology', hi: 'जीव विज्ञान', hg: 'Biology' },
   astronomy: { en: 'Astronomy', hi: 'खगोल विज्ञान', hg: 'Astronomy' }, robotics: { en: 'Robotics', hi: 'रोबोटिक्स', hg: 'Robotics' }, nature: { en: 'Nature', hi: 'प्रकृति', hg: 'Nature' },
