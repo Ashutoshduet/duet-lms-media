@@ -54,10 +54,17 @@ async function claim(h, app, k, name, dev) { // dev: the pen drive's computer (f
 // (null: the device may use it; { pending: true }: a pen-drive code offline, the place is taken when online)
 async function takePlace(app, code, h, e, name, dev) {
   if (!(+e.n > 0 && CLAIM)) return null;
+  // a pen-drive code never waits for the register: it works at once and takes its place in the background
+  // (unless this device was already told that another device holds it)
+  if (e.o) return usedHere().includes(h) ? { ok: false, key: 'used', m: e.n } : { pending: true };
   let c; try { c = await claim(h, app, normCode(code).slice(-4), name, dev); } catch (err) { return e.o ? { pending: true } : { ok: false, key: 'net' }; }
   if (!c || !c.ok) return c && c.err === 'used' ? { ok: false, key: 'used', m: c.max || e.n } : { ok: false, key: c && c.err === 'app' ? 'app' : 'bad' };
   return null;
 }
+// pen-drive codes this device was told are in use on another device (so typing one again is refused at once)
+const USED = 'duet.lic.used';
+function usedHere() { try { return JSON.parse(localStorage.getItem(USED) || '[]'); } catch (e) { return []; } }
+function markUsed(h) { try { const l = usedHere(); if (!l.includes(h)) l.push(h); localStorage.setItem(USED, JSON.stringify(l.slice(-20))); } catch (e) { /* no storage */ } }
 // a DUET STEM pen drive: its own code from the drive's launcher (a computer's own address only; elsewhere there is none)
 async function schoolCode() { // (no time limit: the drive's own server answers at once, but a panel can be busy for seconds while the 3D starts)
   if (!/^(127\.0\.0\.1|localhost|\[::1\])$/.test(location.hostname)) return null;
@@ -97,7 +104,7 @@ export async function checkCode(app, code, dev) { // dev: the pen drive's comput
   if (e.u < today()) return { ok: false, key: 'exp', d: e.u };
   const name = e.e ? await openName(code, e.e) : '';
   const no = await takePlace(app, code, h, e, name, dev); if (no && !no.pending) return no;
-  save({ h, u: e.u, a: e.a, n: name, k: normCode(code).slice(-4), t: Date.now(), ...(dev ? { d: dev } : {}), ...(no ? { p: 1 } : {}) }); return { ok: true, info: licenceInfo(app) };
+  save({ h, u: e.u, a: e.a, n: name, k: normCode(code).slice(-4), t: Date.now(), ...(dev ? { d: dev } : {}), ...(no ? { p: 1 } : {}) }); if (no) setTimeout(() => recheckLicence(app), 1500); return { ok: true, info: licenceInfo(app) };
 }
 // a code-screen text in the chosen language ({d} = a date, {n} = the school's name)
 export function licText(key, L, d = {}) { const o = S[key]; if (!o) return ''; return (o[L] || o.en).replace('{d}', d.d ? fmt(d.d, L) : '').replace('{n}', d.n || '').replace('{m}', d.m ?? ''); }
@@ -110,7 +117,7 @@ export function recheckLicence(app) {
     if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { save({ ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, app)) { location.reload(); return; } }
     // a code for a number of devices: this device must still hold one of its places (a code passed on stops here;
     // a pen-drive code activated offline takes its place now)
-    if (+e.n > 0 && CLAIM) { const c = await claim(have.h, app, have.k, have.n, have.d).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { save(null); location.reload(); return; } if (c && c.ok && have.p) { const v = load(); if (v && v.h === have.h) { delete v.p; save(v); } } }
+    if (+e.n > 0 && CLAIM) { const c = await claim(have.h, app, have.k, have.n, have.d).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { if (c.err === 'used' && e.o) markUsed(have.h); save(null); location.reload(); return; } if (c && c.ok && have.p) { const v = load(); if (v && v.h === have.h) { delete v.p; save(v); } } }
   }).catch(() => {});
 }
 
@@ -131,7 +138,7 @@ export function licenceGate(app, getLang, onMsg, opt = {}) { // opt.demo: offer 
       return;
     }
     // a DUET STEM pen drive gives its own code: no code screen
-    schoolCode().then(async (s) => { if (s) { const r = await checkCode(app, s.code, devOf(s)).catch(() => null); if (r && r.ok) { resolve(r.info); recheckLicence(app); return; } } screen(); });
+    schoolCode().then(async (s) => { if (s) { const r = await checkCode(app, s.code, devOf(s)).catch(() => null); if (r && r.ok) { resolve(r.info); return; } } screen(); });
     function screen() {
     const el = document.createElement('div'); el.id = 'lic';
     el.innerHTML = `<style>

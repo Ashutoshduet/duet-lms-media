@@ -1,0 +1,7 @@
+[
+ {"id": "science", "title": "Science Lab 360", "hi": "विज्ञान लैब 360", "about": "Chemistry, physics and biology experiments in 3D · Class 6–10", "about_hi": "रसायन, भौतिकी और जीव विज्ञान के प्रयोग 3D में · कक्षा 6–10", "classes": true, "apk": "ScienceLab360"},
+ {"id": "maths", "title": "Maths Lab 360", "hi": "गणित लैब 360", "about": "Maths in real places: measure, build and see · Class 6–10", "about_hi": "असली जगहों में गणित: नापिए, बनाइए, देखिए · कक्षा 6–10", "classes": true, "apk": "MathsLab360", "needs": "science"},
+ {"id": "body", "title": "Human Body 360", "hi": "मानव शरीर 360", "about": "Organs, systems and journeys inside the body in 3D", "about_hi": "अंग, तंत्र और शरीर के अंदर की यात्राएँ 3D में", "apk": "HumanBody360"},
+ {"id": "space", "title": "Solar System 360", "hi": "सौरमंडल 360", "about": "Planets, moons, stars, spacecraft and landings", "about_hi": "ग्रह, चंद्रमा, तारे, अंतरिक्ष यान और अवतरण", "apk": "SolarSystem360"},
+ {"id": "drone", "title": "Drone Simulator", "hi": "ड्रोन सिम्युलेटर", "about": "Learn to fly a drone safely: real physics, three places to fly", "about_hi": "ड्रोन उड़ाना सीखिए: असली भौतिकी, उड़ाने की तीन जगहें", "apk": "DroneSimulator"}
+]

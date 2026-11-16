@@ -60,6 +60,10 @@
     try { const r = await fetch(CLAIM + '?' + q, { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('claim ' + r.status); return await r.json(); }
     finally { if (tm) clearTimeout(tm); }
   }
+  // pen-drive codes this device was told are in use on another device (so typing one again is refused at once)
+  const USED = 'duet.lic.used';
+  function usedHere() { try { return JSON.parse(localStorage.getItem(USED) || '[]'); } catch (e) { return []; } }
+  function markUsed(h) { try { const l = usedHere(); if (!l.includes(h)) l.push(h); localStorage.setItem(USED, JSON.stringify(l.slice(-20))); } catch (e) { /* no storage */ } }
   // a DUET STEM pen drive: its own code from the drive's launcher (a computer's own address only; elsewhere there is none)
   async function schoolCode() { // (no time limit: the drive's own server answers at once, but a panel can be busy for seconds while the 3D starts)
     if (!/^(127\.0\.0\.1|localhost|\[::1\])$/.test(location.hostname)) return null;
@@ -103,7 +107,7 @@
       // a DUET STEM pen drive gives its own code: no code screen
       schoolCode().then((sc) => (sc ? this.check(sc.code, devOf(sc)).catch(() => null) : null)).then((r) => {
         if (!(r && r.ok)) { later(); return; }
-        this.state = 'ok'; this.recheck(); if (this.active) this.close(); else if (this.o.onChange) try { this.o.onChange(this.state); } catch (e) {}
+        this.state = 'ok'; if (this.active) this.close(); else if (this.o.onChange) try { this.o.onChange(this.state); } catch (e) {}
       });
     },
     // may the app open this? (a school code opens everything; without one only the free part)
@@ -121,7 +125,7 @@
         if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { put(KEY, { ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, this.app)) { location.reload(); return; } }
         // a code for a number of devices: this device must still hold one of its places (a code passed on stops here;
         // a pen-drive code activated offline takes its place now)
-        if (+e.n > 0 && CLAIM) { const c = await claim(have.h, this.app, have.k, have.n, have.d).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { put(KEY, null); location.reload(); return; } if (c && c.ok && have.p) { const v = get(KEY); if (v && v.h === have.h) { delete v.p; put(KEY, v); } } }
+        if (+e.n > 0 && CLAIM) { const c = await claim(have.h, this.app, have.k, have.n, have.d).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { if (c.err === 'used' && e.o) markUsed(have.h); put(KEY, null); location.reload(); return; } if (c && c.ok && have.p) { const v = get(KEY); if (v && v.h === have.h) { delete v.p; put(KEY, v); } } }
       }).catch(() => {});
     },
     async check(code, dev) { // dev: the pen drive's computer, when the code comes from its launcher
@@ -133,9 +137,12 @@
       if (e.u < today()) return { ok: false, key: 'exp', d: e.u };
       const name = e.e ? await openName(code, e.e) : '';
       if (+e.n > 0 && CLAIM) { // the register gives this device one of the code's places, or says they are all taken
-        let c; try { c = await claim(h, this.app, norm(code).slice(-4), name, dev); } catch (err) { if (!e.o) return { ok: false, key: 'net' }; c = { ok: true, pending: true }; } // a pen-drive code: the place is taken when online
+        // a pen-drive code never waits for the register: it works at once and takes its place in the background
+        // (unless this device was already told that another device holds it)
+        let c; if (e.o) c = usedHere().includes(h) ? { ok: false, err: 'used', max: e.n } : { ok: true, pending: true };
+        else try { c = await claim(h, this.app, norm(code).slice(-4), name, dev); } catch (err) { return { ok: false, key: 'net' }; }
         if (!c || !c.ok) return c && c.err === 'used' ? { ok: false, key: 'used', m: c.max || e.n } : { ok: false, key: c && c.err === 'app' ? 'app' : 'bad' };
-        if (c.pending) { put(KEY, { h, u: e.u, a: e.a, n: name, k: norm(code).slice(-4), t: Date.now(), ...(dev ? { d: dev } : {}), p: 1 }); return { ok: true, until: e.u, name }; }
+        if (c.pending) { put(KEY, { h, u: e.u, a: e.a, n: name, k: norm(code).slice(-4), t: Date.now(), ...(dev ? { d: dev } : {}), p: 1 }); setTimeout(() => this.recheck(), 1500); return { ok: true, until: e.u, name }; }
       }
       put(KEY, { h, u: e.u, a: e.a, n: name, k: norm(code).slice(-4), t: Date.now(), ...(dev ? { d: dev } : {}) });
       return { ok: true, until: e.u, name };
