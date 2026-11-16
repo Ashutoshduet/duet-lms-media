@@ -22,3 +22,16 @@ skip the register (codes work on any number of devices, as before).
   device model, status, last seen. Refused tries are listed too ("refused").
 - To move a code to a new device (a phone was lost or replaced): type `freed` in the Status of the old row.
 - To withdraw a code: `node duetlic.mjs revoke CODE` (the apps drop it the next time they are online).
+
+## Pen-drive codes (TFT panels)
+A DUET STEM pen drive carries its own code; nobody else gets it.
+- Issue one code per drive **before** building the APKs and the drives (the apps carry the code list):
+  `node duetlic.mjs issue --pendrive --name "School name" --until 2027-03-31 --apps '*'` → commit and push `licences.json`.
+- A pen-drive code (`"o": 1` in the list) works on one device and activates **without the internet**: the first
+  device keeps it and takes the code's place in the register the first time it is online. A device that finds the
+  place already taken by another device drops the code ("already in use on another device").
+- Windows / Linux panels: the drive's launcher serves `/school.json` (`{"code", "school", "dev"}`) only on the
+  computer the drive was first started on (`.duet-lock` on the drive), so the apps activate themselves (the code
+  screen never shows). `dev` (a hash of the computer's id) is the device in the register, so every browser on that
+  panel counts as one device. The apps read `school.json` only from 127.0.0.1 / localhost.
+- Android panels: install the APKs from the drive and type the code from `CODE.txt` once (no internet needed).

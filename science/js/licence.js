@@ -2,8 +2,13 @@
 // Codes are checked once online against licences.json (it holds only SHA-256 hashes of the codes, the end date, the
 // apps a code opens and the school's name encrypted with the code itself), then the app works offline until the end
 // date. Whenever it is online it checks again, so a renewed, changed or withdrawn code takes effect.
+// A pen-drive code (o: 1 in the list) also activates without the internet: the first device it is used on keeps it,
+// and that device takes the code's place in the DUET STEM register the first time it is online (another device that
+// already holds the place makes the code stop here). On a DUET STEM pen drive the drive's launcher hands the code to
+// the apps (school.json, only on the computer the drive belongs to), so the teacher never types it.
 const KEY = 'duet.lic.v1';
 const LIST = new URL('../../licences.json', import.meta.url);
+const SCHOOL = new URL('../../school.json', import.meta.url); // served by a DUET STEM pen drive's launcher
 const ALPHA = '0123456789ABCDEFGHJKMNPQRSTVWXYZ'; // Crockford base32: no I, L, O, U
 export function normCode(s) {
   let t = String(s || '').toUpperCase().replace(/[^0-9A-Z]/g, '').replace(/O/g, '0').replace(/[IL]/g, '1');
@@ -39,19 +44,26 @@ function deviceId() {
 }
 const model = () => { try { if (window.DuetNative && DuetNative.deviceName) return String(DuetNative.deviceName()); } catch (e) {} const u = navigator.userAgent || ''; if (/OculusBrowser|Quest/i.test(u)) return 'Meta Quest'; const m = u.match(/Android[^;)]*;\s*([^;)]+)/); return m ? m[1].trim() : /iPhone|iPad/.test(u) ? 'iPhone/iPad' : 'Computer'; };
 // a code sold for a number of devices: ask the register for a place for this device ({ ok } or { ok: false, err: 'used', max })
-async function claim(h, app, k, name) {
-  const q = new URLSearchParams({ h, a: app, d: deviceId(), m: model().slice(0, 60), k: k || '', s: (name || '').slice(0, 80) });
+async function claim(h, app, k, name, dev) { // dev: the pen drive's computer (from its launcher), else this browser or app
+  const q = new URLSearchParams({ h, a: app, d: dev || deviceId(), m: model().slice(0, 60), k: k || '', s: (name || '').slice(0, 80) });
   const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 20000);
   try { const r = await fetch(CLAIM + '?' + q, { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('claim ' + r.status); return await r.json(); }
   finally { if (tm) clearTimeout(tm); }
 }
 // a valid code from the list: take a place for this device when the code is for a number of devices
-async function takePlace(app, code, h, e, name) {
+// (null: the device may use it; { pending: true }: a pen-drive code offline, the place is taken when online)
+async function takePlace(app, code, h, e, name, dev) {
   if (!(+e.n > 0 && CLAIM)) return null;
-  let c; try { c = await claim(h, app, normCode(code).slice(-4), name); } catch (err) { return { ok: false, key: 'net' }; }
+  let c; try { c = await claim(h, app, normCode(code).slice(-4), name, dev); } catch (err) { return e.o ? { pending: true } : { ok: false, key: 'net' }; }
   if (!c || !c.ok) return c && c.err === 'used' ? { ok: false, key: 'used', m: c.max || e.n } : { ok: false, key: c && c.err === 'app' ? 'app' : 'bad' };
   return null;
 }
+// a DUET STEM pen drive: its own code from the drive's launcher (a computer's own address only; elsewhere there is none)
+async function schoolCode() { // (no time limit: the drive's own server answers at once, but a panel can be busy for seconds while the 3D starts)
+  if (!/^(127\.0\.0\.1|localhost|\[::1\])$/.test(location.hostname)) return null;
+  try { const r = await fetch(SCHOOL.href + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) return null; const j = await r.json(); return j && j.code ? j : null; } catch (err) { return null; }
+}
+const devOf = (s) => { const d = String((s && s.dev) || '').toLowerCase().replace(/[^0-9a-z]/g, ''); return d.length >= 8 ? 'p' + d.slice(0, 40) : ''; };
 
 const S = {
   title: { en: 'Enter your DUET STEM subscription code', hi: 'अपना DUET STEM सब्सक्रिप्शन कोड डालिए', hg: 'Apna DUET STEM subscription code daaliye' },
@@ -76,7 +88,7 @@ const S = {
 const fmt = (d, L) => { const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); };
 
 // the same check without the code screen (the headset draws its own): { ok, info } or { ok: false, key: 'bad' | 'app' | 'exp' | 'net', d }
-export async function checkCode(app, code) {
+export async function checkCode(app, code, dev) { // dev: the pen drive's computer, when the code comes from its launcher
   if (normCode(code).length < 8) return { ok: false, key: 'bad' };
   let list; try { list = await fetchList(true); } catch (err) { return { ok: false, key: 'net' }; }
   const h = await codeHash(code); const e = list[h];
@@ -84,8 +96,8 @@ export async function checkCode(app, code) {
   if (!covers(e.a, app)) return { ok: false, key: 'app' };
   if (e.u < today()) return { ok: false, key: 'exp', d: e.u };
   const name = e.e ? await openName(code, e.e) : '';
-  const no = await takePlace(app, code, h, e, name); if (no) return no;
-  save({ h, u: e.u, a: e.a, n: name, k: normCode(code).slice(-4), t: Date.now() }); return { ok: true, info: licenceInfo(app) };
+  const no = await takePlace(app, code, h, e, name, dev); if (no && !no.pending) return no;
+  save({ h, u: e.u, a: e.a, n: name, k: normCode(code).slice(-4), t: Date.now(), ...(dev ? { d: dev } : {}), ...(no ? { p: 1 } : {}) }); return { ok: true, info: licenceInfo(app) };
 }
 // a code-screen text in the chosen language ({d} = a date, {n} = the school's name)
 export function licText(key, L, d = {}) { const o = S[key]; if (!o) return ''; return (o[L] || o.en).replace('{d}', d.d ? fmt(d.d, L) : '').replace('{n}', d.n || '').replace('{m}', d.m ?? ''); }
@@ -96,8 +108,9 @@ export function recheckLicence(app) {
   fetchList().then(async (list) => {
     const e = list[have.h]; if (!e || e.r) { save(null); location.reload(); return; }
     if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { save({ ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, app)) { location.reload(); return; } }
-    // a code for a number of devices: this device must still hold one of its places (a code passed on stops here)
-    if (+e.n > 0 && CLAIM) { const c = await claim(have.h, app, have.k, have.n).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { save(null); location.reload(); } }
+    // a code for a number of devices: this device must still hold one of its places (a code passed on stops here;
+    // a pen-drive code activated offline takes its place now)
+    if (+e.n > 0 && CLAIM) { const c = await claim(have.h, app, have.k, have.n, have.d).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { save(null); location.reload(); return; } if (c && c.ok && have.p) { const v = load(); if (v && v.h === have.h) { delete v.p; save(v); } } }
   }).catch(() => {});
 }
 
@@ -117,7 +130,9 @@ export function licenceGate(app, getLang, onMsg, opt = {}) { // opt.demo: offer 
       recheckLicence(app);
       return;
     }
-    // the code screen
+    // a DUET STEM pen drive gives its own code: no code screen
+    schoolCode().then(async (s) => { if (s) { const r = await checkCode(app, s.code, devOf(s)).catch(() => null); if (r && r.ok) { resolve(r.info); recheckLicence(app); return; } } screen(); });
+    function screen() {
     const el = document.createElement('div'); el.id = 'lic';
     el.innerHTML = `<style>
 #lic{position:fixed;inset:0;z-index:99999;background:radial-gradient(ellipse at 50% 20%,#1b2436,#0c111b 70%);display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;-webkit-overflow-scrolling:touch;font-family:inherit;color:#f3eee6;padding:16px;box-sizing:border-box}
@@ -143,19 +158,14 @@ export function licenceGate(app, getLang, onMsg, opt = {}) { // opt.demo: offer 
     const go = async () => {
       const code = $('#lic-in').value; if (normCode(code).length < 8) { msg(tl(S.bad), 'e'); return; }
       $('.go').disabled = true; msg(tl(S.wait));
-      let list; try { list = await fetchList(true); } catch (err) { $('.go').disabled = false; msg(tl(S.net), 'e'); return; }
-      const h = await codeHash(code); const e = list[h]; $('.go').disabled = false;
-      if (!e || e.r) { msg(tl(S.bad), 'e'); return; }
-      if (!covers(e.a, app)) { msg(tl(S.app), 'e'); return; }
-      if (e.u < today()) { msg(tl(S.exp, { d: fmt(e.u, lang) }), 'e'); return; }
-      const name = e.e ? await openName(code, e.e) : '';
-      $('.go').disabled = true; const no = await takePlace(app, code, h, e, name); $('.go').disabled = false;
-      if (no) { msg(tl(S[no.key] || S.bad, { d: '' }).replace('{m}', no.m ?? ''), 'e'); return; }
-      save({ h, u: e.u, a: e.a, n: name, k: normCode(code).slice(-4), t: Date.now() }); msg(tl(S.ok, { n: name ? ' · ' + name : '', d: fmt(e.u, lang) }), 'k');
+      const r = await checkCode(app, code); $('.go').disabled = false;
+      if (!r.ok) { msg(tl(S[r.key] || S.bad, { d: r.d ? fmt(r.d, lang) : '' }).replace('{m}', r.m ?? ''), 'e'); return; }
+      msg(tl(S.ok, { n: r.info.name ? ' · ' + r.info.name : '', d: fmt(r.info.until, lang) }), 'k');
       setTimeout(() => { el.remove(); resolve(licenceInfo(app)); }, 1400);
     };
     const alt = $('.alt'); if (alt) alt.onclick = () => { el.remove(); resolve(opt.locked ? null : { ok: false, demo: true }); };
     $('.go').onclick = go; $('#lic-in').addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
     setTimeout(() => $('#lic-in').focus(), 300);
+    }
   });
 }

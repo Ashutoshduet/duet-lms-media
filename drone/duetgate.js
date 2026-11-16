@@ -4,6 +4,9 @@
    Codes are checked once online against ../licences.json (SHA-256 hashes, end date, the apps a code opens and
    the school's name encrypted with the code), then the app works offline until the end date. Online, it looks
    again, so a renewed, changed or withdrawn code takes effect.
+   A pen-drive code (o: 1 in the list) also activates without the internet: the first device it is used on keeps it
+   and takes the code's place in the DUET STEM register the first time it is online. On a DUET STEM pen drive the
+   drive's launcher hands its code to the app (../school.json, only on the computer the drive belongs to).
 
    DuetGate.init({ app: 'body', title: 'Human Body 360', lang: () => 'en', demo: { en: 'what is free' } })   once, at start
    DuetGate.attachVR({ THREE, renderer, scene, parent })                        when a three.js renderer exists: in the
@@ -16,6 +19,7 @@
   if (window.DuetGate) return;
   const SRC = (document.currentScript && document.currentScript.src) || location.href;
   const LIST = new URL('../licences.json', SRC).href;
+  const SCHOOL = new URL('../school.json', SRC).href; // served by a DUET STEM pen drive's launcher
   const LOGO = new URL('brand/duet-stem-logo-light.png', SRC).href;
   const HELP = new URL('../support.html', SRC).href;
   const KEY = 'duet.lic.v1';
@@ -50,12 +54,18 @@
   }
   const model = () => { try { if (window.DuetNative && DuetNative.deviceName) return String(DuetNative.deviceName()); } catch (e) {} const u = navigator.userAgent || ''; if (/OculusBrowser|Quest/i.test(u)) return 'Meta Quest'; const m = u.match(/Android[^;)]*;\s*([^;)]+)/); return m ? m[1].trim() : /iPhone|iPad/.test(u) ? 'iPhone/iPad' : 'Computer'; };
   // a code sold for a number of devices: ask the register for a place for this device ({ ok } or { ok: false, err: 'used', max })
-  async function claim(h, app, k, name) {
-    const q = new URLSearchParams({ h, a: app, d: deviceId(), m: model().slice(0, 60), k: k || '', s: (name || '').slice(0, 80) });
+  async function claim(h, app, k, name, dev) { // dev: the pen drive's computer (from its launcher), else this browser or app
+    const q = new URLSearchParams({ h, a: app, d: dev || deviceId(), m: model().slice(0, 60), k: k || '', s: (name || '').slice(0, 80) });
     const ac = typeof AbortController !== 'undefined' ? new AbortController() : null; const tm = ac && setTimeout(() => ac.abort(), 20000);
     try { const r = await fetch(CLAIM + '?' + q, { cache: 'no-store', signal: ac ? ac.signal : undefined }); if (!r.ok) throw new Error('claim ' + r.status); return await r.json(); }
     finally { if (tm) clearTimeout(tm); }
   }
+  // a DUET STEM pen drive: its own code from the drive's launcher (a computer's own address only; elsewhere there is none)
+  async function schoolCode() { // (no time limit: the drive's own server answers at once, but a panel can be busy for seconds while the 3D starts)
+    if (!/^(127\.0\.0\.1|localhost|\[::1\])$/.test(location.hostname)) return null;
+    try { const r = await fetch(SCHOOL + '?t=' + Date.now(), { cache: 'no-store' }); if (!r.ok) return null; const j = await r.json(); return j && j.code ? j : null; } catch (err) { return null; }
+  }
+  const devOf = (s) => { const d = String((s && s.dev) || '').toLowerCase().replace(/[^0-9a-z]/g, ''); return d.length >= 8 ? 'p' + d.slice(0, 40) : ''; };
   const fmtDate = (d, L) => { const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString(L === 'hi' ? 'hi-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); };
 
   const S = {
@@ -89,7 +99,12 @@
       if (this.licence()) { this.state = 'ok'; this.recheck(); return; }
       this.state = 'need'; this.watchSessions();
       const show = () => { if (this.state === 'need' && !this.active) this.open('start'); };
-      if (document.body) show(); else document.addEventListener('DOMContentLoaded', show);
+      const later = () => { if (document.body) show(); else document.addEventListener('DOMContentLoaded', show); };
+      // a DUET STEM pen drive gives its own code: no code screen
+      schoolCode().then((sc) => (sc ? this.check(sc.code, devOf(sc)).catch(() => null) : null)).then((r) => {
+        if (!(r && r.ok)) { later(); return; }
+        this.state = 'ok'; this.recheck(); if (this.active) this.close(); else if (this.o.onChange) try { this.o.onChange(this.state); } catch (e) {}
+      });
     },
     // may the app open this? (a school code opens everything; without one only the free part)
     allow(free) {
@@ -104,11 +119,12 @@
         const e = list[have.h];
         if (!e || e.r) { put(KEY, null); location.reload(); return; }
         if (e.u !== have.u || JSON.stringify(e.a) !== JSON.stringify(have.a)) { put(KEY, { ...have, u: e.u, a: e.a, t: Date.now() }); if (e.u < today() || !covers(e.a, this.app)) { location.reload(); return; } }
-        // a code for a number of devices: this device must still hold one of its places (a code passed on stops here)
-        if (+e.n > 0 && CLAIM) { const c = await claim(have.h, this.app, have.k, have.n).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { put(KEY, null); location.reload(); } }
+        // a code for a number of devices: this device must still hold one of its places (a code passed on stops here;
+        // a pen-drive code activated offline takes its place now)
+        if (+e.n > 0 && CLAIM) { const c = await claim(have.h, this.app, have.k, have.n, have.d).catch(() => null); if (c && c.ok === false && (c.err === 'used' || c.err === 'bad')) { put(KEY, null); location.reload(); return; } if (c && c.ok && have.p) { const v = get(KEY); if (v && v.h === have.h) { delete v.p; put(KEY, v); } } }
       }).catch(() => {});
     },
-    async check(code) {
+    async check(code, dev) { // dev: the pen drive's computer, when the code comes from its launcher
       if (norm(code).length < 12) return { ok: false, key: 'short' };
       let list; try { list = await fetchList(true); } catch (err) { return { ok: false, key: 'net' }; }
       const h = await codeHash(code); const e = list[h];
@@ -117,10 +133,11 @@
       if (e.u < today()) return { ok: false, key: 'exp', d: e.u };
       const name = e.e ? await openName(code, e.e) : '';
       if (+e.n > 0 && CLAIM) { // the register gives this device one of the code's places, or says they are all taken
-        let c; try { c = await claim(h, this.app, norm(code).slice(-4), name); } catch (err) { return { ok: false, key: 'net' }; }
+        let c; try { c = await claim(h, this.app, norm(code).slice(-4), name, dev); } catch (err) { if (!e.o) return { ok: false, key: 'net' }; c = { ok: true, pending: true }; } // a pen-drive code: the place is taken when online
         if (!c || !c.ok) return c && c.err === 'used' ? { ok: false, key: 'used', m: c.max || e.n } : { ok: false, key: c && c.err === 'app' ? 'app' : 'bad' };
+        if (c.pending) { put(KEY, { h, u: e.u, a: e.a, n: name, k: norm(code).slice(-4), t: Date.now(), ...(dev ? { d: dev } : {}), p: 1 }); return { ok: true, until: e.u, name }; }
       }
-      put(KEY, { h, u: e.u, a: e.a, n: name, k: norm(code).slice(-4), t: Date.now() });
+      put(KEY, { h, u: e.u, a: e.a, n: name, k: norm(code).slice(-4), t: Date.now(), ...(dev ? { d: dev } : {}) });
       return { ok: true, until: e.u, name };
     },
     t(key, d = {}) { const L = this.lang(); const o = S[key]; return o ? (o[L] || o.en).replace('{d}', d.d ? fmtDate(d.d, L) : '').replace('{n}', d.n || '').replace('{m}', d.m ?? '') : ''; },
