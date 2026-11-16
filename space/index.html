@@ -4250,7 +4250,7 @@ function SolarScenes(H){
       H.showCard({kicker:it.india?"Spacecraft · India":"Spacecraft",title:c.name,hi:c.hi||"",color:it.india?"#ff9933":"#8ec5ff",rows:[["Agency",c.ag],["Launched",c.yr],["Where now",c.where],["Size",c.size||((REALM[c.id]||"")+" m")]],cols:2,text:c.fact+(it.india&&!c.rs?" (Model built to its real shape and proportions.)":""),say:"craft-"+c.id,
         buttons:[{id:"real",label:isReal?"⤓  MUSEUM SIZE":"⤢  REAL SIZE",primary:!isReal}].concat(/^(chandrayaan-3|pragyan)$/.test(c.id)&&H.scenes.ch3?[{id:"ch3",label:"🇮🇳  ON THE MOON"}]:[]),onPress:b=>{if(b==="real")setReal(it);else if(b==="ch3")H.go("ch3")}},it.hit)}
     return {id:"craft",title:"Spacecraft",sky:"dim",flySpeed:1.6,
-      enter(){if(!built)build();root.visible=true;if(!env&&typeof studioEnv==="function"){try{env=studioEnv(R)}catch(e){}}loadAll();H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2));
+      enter(){if(!built)build();root.visible=true;if(!env&&typeof studioEnv==="function"&&!XRLITE){try{env=studioEnv(R)}catch(e){}}loadAll(); /* phones in a box: no studio reflections (see outdoor) */H.placeHead(new T.Vector3(0,1.6,1.2),new T.Vector3(0,1.6,-2));
         H.hint("Spacecraft museum",[["Inner ring","NASA spacecraft, real 3D models"],["Outer ring","India's satellites and Moon missions"],["Trigger / pinch","its card · Real size"],["Hold trigger","turn it · thumbstick: zoom"]],8)},
       exit(){root.visible=false;if(real)setReal(null)},
       frame(dt){items.forEach(it=>{if(it!==real&&!it.spinStop&&H.grabbing()!==it.holder)it.holder.rotation.y+=.25*dt})},
@@ -6649,8 +6649,13 @@ function RocketScenes(H){
   const litePaint=xrLitePaint;
   function outdoor(on,fogNear,fogFar){daySky();SKY.on=on;SKY.dome.visible=on;
     if(on){SKY.prevEnv=S.environment;if(SKY.env&&!XRLITE)S.environment=SKY.env;if(XRLITE){S.environment=null;litePaint(S)}SKY.fog=new T.Fog(0xbdc8d8,fogNear||200,fogFar||1400);S.fog=SKY.fog;setSkyK(0)}
-    else{S.environment=SKY.prevEnv||null;S.fog=null}}
-  function setSkyK(k){SKY.k=k;if(!SKY.dome)return;SKY.dome.material.opacity=1-k;SKY.dome.visible=SKY.on&&k<.995;if(SKY.fog)SKY.fog.color.setRGB(lerp(.74,.01,k),lerp(.79,.012,k),lerp(.86,.03,k))}
+    else{S.environment=SKY.prevEnv||null;S.fog=null;skyCover()}}
+  /* while the day sky covers everything (on the ground) the star sky behind it is not drawn, and the day sky is drawn
+     opaque: two full-screen layers fewer per eye (phones in a VR box are short of pixel power) */
+  function skyCover(){if(!H.skyMesh||!SKY.dome)return;const cover=SKY.on&&SKY.dome.visible&&SKY.k<.002,m=SKY.dome.material,tr=m.opacity<.999;
+    if(m.transparent!==tr){m.transparent=tr;m.needsUpdate=true}
+    if(cover&&H.skyMesh.visible){H.skyMesh.visible=false;SKY.hidStars=true}else if(!cover&&SKY.hidStars){H.skyMesh.visible=true;SKY.hidStars=false}}
+  function setSkyK(k){SKY.k=k;if(!SKY.dome)return;SKY.dome.material.opacity=1-k;SKY.dome.visible=SKY.on&&k<.995;skyCover();if(SKY.fog)SKY.fog.color.setRGB(lerp(.74,.01,k),lerp(.79,.012,k),lerp(.86,.03,k))}
   function followSky(){if(SKY.dome&&SKY.dome.visible){H.headPos(v1);SKY.dome.position.copy(v1)}if(XRLITE&&SKY.on&&(SKY.lt=(SKY.lt||0)+1)%120===1)litePaint(S)}
   const flatMat=o=>XRLITE?new T.MeshLambertMaterial({map:o.map,color:o.color}):new T.MeshStandardMaterial(o); // phones in a box: plain ground (see outdoor)
   function ground(r,rep){const m=new T.Mesh(new T.CircleGeometry(r,72),flatMat({map:RS.R3.groundTex(RP+"env/aerial_grass_rock_1k.jpg",rep||110),roughness:1,metalness:0,color:0xc9c2ae}));m.rotation.x=-Math.PI/2;m.position.y=-.08;return m}
