@@ -7,6 +7,7 @@ p{color:#b9b2a6}table{width:100%;border-collapse:collapse;font-size:13.5px}td,th
 <h2>Biology in real places: animals, plants and places</h2><table id="eco"><tr><th>Model</th><th>By</th><th>Licence</th><th>Our changes</th></tr></table>
 <h2>Under the microscope: real photographs and films</h2><p><small>What students see in the eyepiece comes from real microscope photographs and films. For low power some cells or organisms are cut out of a photograph and spread over its own background, as a real slide looks.</small></p><table id="micro"><tr><th>Photo or film</th><th>By</th><th>Licence</th><th>Our changes</th></tr></table>
 <h2>Biology at the bench: plants, leaves and food</h2><table id="bio2"><tr><th>Model or photo</th><th>By</th><th>Licence</th><th>Our changes</th></tr></table>
+<h2>Physics in real places: models, textures and a beach</h2><table id="phys3"><tr><th>Model, texture or photo</th><th>By</th><th>Licence</th><th>Our changes</th></tr></table>
 <h2>Lab and physics models</h2><table id="lab"><tr><th>Model</th><th>By</th><th>Licence</th></tr></table>
 <p><small>360° photos of places for the Maths Lab and physics: Poly Haven (CC0).</small></p>
 <h2>Software</h2><p><small>three.js (MIT licence, © three.js authors) draws the 3D scenes. PeerJS (MIT licence, © Michelle Bu and Eric Zhang) connects the app to the teacher's class page; the class page and the apps talk directly over WebRTC, and the free public PeerJS server only introduces them.</small></p></main>
@@ -16,5 +17,6 @@ const row = (c, ch) => `<tr><td><a href="${esc(c.url)}" target="_blank" rel="noo
 fetch('models/eco/credits.json').then((r) => r.json()).then((a) => { document.getElementById('eco').insertAdjacentHTML('beforeend', a.map((c) => row(c, true)).join('')); }).catch(() => {});
 fetch('micro/credits.json').then((r) => r.json()).then((a) => { document.getElementById('micro').insertAdjacentHTML('beforeend', a.map((c) => row(c, true)).join('')); }).catch(() => {});
 fetch('models/bio2/credits.json').then((r) => r.json()).then((a) => { document.getElementById('bio2').insertAdjacentHTML('beforeend', a.map((c) => row(c, true)).join('')); }).catch(() => {});
+fetch('models/phys3/credits.json').then((r) => r.json()).then((a) => { document.getElementById('phys3').insertAdjacentHTML('beforeend', a.map((c) => row(c, true)).join('')); }).catch(() => {});
 fetch('models/credits.json').then((r) => r.json()).then((a) => { document.getElementById('lab').insertAdjacentHTML('beforeend', a.map((c) => row(c, false)).join('')); }).catch(() => {});
 </script></body></html>
