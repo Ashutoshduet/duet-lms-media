@@ -41,6 +41,7 @@ export function ecoLoad(name) {
 export const ecoPreload = (names) => Promise.all(names.map((n) => ecoLoad(n).catch(() => null)));
 // a holder that fills with the real model when it has loaded. o: { len | h (override), face: [x, z] direction to face,
 // k: extra scale, play: run the scan's own animation, hit: the model can be picked (grab), onLoad(holder, model) }
+const BOX0 = new Map(), UPY = new THREE.Vector3(0, 1, 0); // each model's exact box in its own frame (ecoModel)
 export function ecoModel(name, o = {}) {
   const hold = new THREE.Group(); hold.name = 'eco-' + name; const S = ECO[name] || { raw: 1 };
   hold.userData.mixer = null; hold.tick = (dt) => { if (hold.userData.mixer) hold.userData.mixer.update(dt * (o.speed ?? 1)); };
@@ -51,11 +52,15 @@ export function ecoModel(name, o = {}) {
     const turn = new THREE.Group(); turn.add(m); // sized and centred on its own (no parent yet), then put in the holder
     if (S.clip && o.play !== false && g.animations.length) { const mx = new THREE.AnimationMixer(m); const a = mx.clipAction(g.animations[0]); a.play(); a.time = Math.random() * a.getClip().duration; hold.userData.mixer = mx; mx.update(0); }
     if (!S.raw) {
-      const head = S.head || [1, 0], face = o.face || [1, 0]; turn.rotation.y = ang(face[0], face[1]) - ang(head[0], head[1]);
-      turn.updateMatrixWorld(true); const b = new THREE.Box3().setFromObject(turn, true), s = b.getSize(new THREE.Vector3());
-      const want = o.h ?? S.h, len = o.len ?? S.len; const k = (want ? want / Math.max(1e-6, s.y) : len / Math.max(1e-6, s.x, s.z)) * (o.k ?? 1);
-      turn.scale.setScalar(k); turn.updateMatrixWorld(true); const b2 = new THREE.Box3().setFromObject(turn, true), c = b2.getCenter(new THREE.Vector3());
-      turn.position.set(-c.x, -b2.min.y, -c.z);
+      // The model's exact box is measured once per model, in its own frame (every vertex of a 12k–50k triangle scan, and
+      // of a skinned one through its bones: on a phone that was 4–5 s for the grassland's frogs, snakes and grasshoppers).
+      // The size comes from that unturned box (its true length / height); the turn and the centring follow from it.
+      const head = S.head || [1, 0], face = o.face || [1, 0], th = ang(face[0], face[1]) - ang(head[0], head[1]);
+      let b0 = BOX0.get(name); if (!b0) { turn.updateMatrixWorld(true); b0 = new THREE.Box3().setFromObject(turn, true); BOX0.set(name, b0); }
+      const s = b0.getSize(new THREE.Vector3()), want = o.h ?? S.h, len = o.len ?? S.len;
+      const k = (want ? want / Math.max(1e-6, s.y) : len / Math.max(1e-6, s.x, s.z)) * (o.k ?? 1);
+      const c = b0.getCenter(new THREE.Vector3()).applyAxisAngle(UPY, th).multiplyScalar(k);
+      turn.rotation.y = th; turn.scale.setScalar(k); turn.position.set(-c.x, -b0.min.y * k, -c.z);
     } else { if (o.k) turn.scale.setScalar(o.k); if (o.face) turn.rotation.y = ang(o.face[0], o.face[1]); }
     hold.add(turn); hold.userData.model = m; if (o.onLoad) o.onLoad(hold, m);
   }).catch((e) => console.warn('eco model', name, e));
