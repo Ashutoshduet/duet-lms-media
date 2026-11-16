@@ -4,7 +4,10 @@ Biology activities happen at real size in real places, like the physics ones (`P
 a village pond, in a grassland or on a forest path (Poly Haven 360° photos, CC0, in `maths/places/`) and works with real
 3D plants and animals in front of them. Scenes and apparatus are in `bioworld1.js` (model library, pond, food-chain
 board, pesticide tester) and `bioworld2.js` (energy pyramid, forest floor, sorting baskets); activities in
-`experiments_bw1.js`, Hindi and Hinglish in `exp_i18n_bw1.js`.
+`experiments_bw1.js`, Hindi and Hinglish in `exp_i18n_bw1.js`. Batch BW2 (the grassland food web) is in `bioworld3.js` /
+`experiments_bw2.js`; batch BW3 (nature and ecosystems, below) in `bioworld4.js` / `experiments_bw3.js` / `exp_i18n_bw3.js`.
+BW3 adds two places from its own module (`PLACES.desert`: Goegap, Namaqualand; `PLACES.snow`: a snowy forest path) and
+its models to `ECO` at load time, so `places.js` and the `ECO` table in `bioworld1.js` are not edited.
 
 | Class | Chapter (NCERT) | Activity | Place |
 |---|---|---|---|
@@ -14,6 +17,22 @@ board, pesticide tester) and `bioworld2.js` (energy pyramid, forest floor, sorti
 | 10 | 13 Our Environment | bw10_decomposers: a forest floor slid through eight weeks; leaves and a dead beetle become humus, plastic stays | forest |
 | 10 | 13 Our Environment | bw10_food_web: a grassland patch with grass, grasshoppers, frogs, two rat snakes and a hawk; slide the calendar on, take the frogs out and watch grasshoppers triple, the grass go and the snakes leave | grassland |
 | 6 | 10 Living Creatures | bw6_living_sort: snail, stone, mushroom, dead bark, fern, bottle into living / non-living baskets | forest (table) |
+| 6 | 2 Diversity in the Living World | bw6_pond_adapt: pour water from a lota on a lotus leaf (beads roll off) and a peepal leaf (it wets), cut a lotus stalk (air channels), push it under water (it floats), look at a fish (streamlined, gills) | pond (table) |
+| 6 | 2 Diversity in the Living World | bw6_desert: a thermometer on the sand (62 °C) and on a hook at a camel's body height (41 °C), cut a cactus stem (stored water), bag a leafy plant and a cactus in the sun for four hours (only the leafy one mists) | desert (table) |
+| 6 | 2 Diversity in the Living World | bw6_snow_trees: set a fir branch level, let it snow (it piles up, the branch bends and cracks), slope it down (snow slides off); needle leaves | snowy forest |
+| 6 | 8 A Journey through States of Water | bw6_water_cycle: cover a basin of muddy pond water with a sheet, a stone over a katori, bag a plant, slide 10 am → 3 pm: clean water drips into the katori (only with the stone); ice in a steel glass sweats | pond (table) |
+| 7 | 10 Life Processes in Plants | bw7_gas_balance: snails and Hydrilla dropped into tubes of carbon dioxide indicator, tube D in a black sleeve, six hours: yellow / purple / red / yellow follow what is in each tube | pond (table) |
+| 8 | 2 The Invisible Living World | bw8_curd: a spoonful of curd into warm milk (A, B), B into the ice box, C nothing; overnight only A sets; tested with the spoon | kitchen (table) |
+| 8 | 2 The Invisible Living World | bw8_yeast: yeast into one of two bottles of sugar water, balloons on both, two hours: one balloon blows up, its gas turns lime water milky; dough with yeast doubles | kitchen (table) |
+| 8 | 12 How Nature Works in Harmony | bw8_seeds: aak, drumstick and mango seeds let go in the wind from the student's hand (distance from where and how high they were let go), a coconut floats in a tub, a hare carried through a gokhru bush takes the burrs away | grassland |
+| 8 (10) | 12 How Nature Works in Harmony (10: 7 How do Organisms Reproduce?) | bw8_pollination: a scanned bumblebee carried from sunflower to sunflower; a flower gets seeds only if the bee came from another plant; the bagged flower stays empty after three weeks | field |
+| 8 | 12 How Nature Works in Harmony | bw8_erosion: pull the plants out of one of two plots on a forest slope, an hour of heavy rain: muddy runoff, gullies and a bucket of soil below the bare plot, little clear water below the other | forest |
+
+In BW3 each hands-on step works with the mouse, touch, a VR box controller or a Quest hand: things are carried and let go
+over a glowing ring (`carry()` in `bioworld4.js`), knobs are slid or pushed; "Do it" plays the same action. What happens is
+worked out from what the student actually did (which bowl got curd, which tube got a snail, the branch's angle, where a
+seed was let go, which flowers the bee visited, how many plants were pulled out); where it differs from the book a step's
+`check` shows what really happened and why.
 
 ## The 3D models (`science/models/eco/`)
 Real specimens scanned by museums and scientists, from Sketchfab through the Objaverse index (open licences only: CC0,
@@ -31,13 +50,20 @@ How they were made ready (tools in a scratch folder, not in the repo; `@gltf-tra
 - the hare is repainted from an arctic hare's white winter coat to a grizzled brown Indian hare;
 - the rat snake's white scanning rock is taken away (triangles under the rock's light, grey texture, smoothed over
   neighbours, then the largest pieces of snake kept), and the hawk's tall post cut down to a short stump (`hawk_low`).
+- BW3: the cactus scan's flower pot is cut away (triangles below the soil line; it stands in the sand or in a clay pot
+  drawn in code); only the stem and leaves of the CG sunflower are kept and the scanned sunflower head is put on them; one
+  of Poly Haven's three fir saplings is kept (needles are real geometry: reduced to 30k triangles they still read as a
+  young fir); the bumblebee is a museum scan (Virginia Tech), 2.2 cm long.
 In the app (`ECO` in `bioworld1.js`) each model has its real length or height and the way its head points, so it can be
 placed at real size facing any way; scans with their own animation (fish, turtle) play it.
 
 ## Next
-- Class 6: a pond and its plants and animals: adaptations (2 Diversity in the Living World).
-- Class 8: microbes: curd, yeast in dough, a compost pit (2 Microorganisms).
-- Class 9 / 12: the water and carbon cycles at the pond; a pond's food web with decomposers.
+- Class 8 (2 The Invisible Living World, Q4): two compost pits, peels with and without dry leaves, over four weeks (a
+  `deep: true` copy of the farm place, so the pits can go below the photo's ground).
+- Class 6 / 8: a habitats sorter (desert, mountain, pond, grassland) with the camel, fir, lotus, fish and frog models.
+- Class 8 (13): a sanctuary walk with camera traps; needs open-licence scans of a deer, a langur and a tiger (none good
+  in the Objaverse index; the yak and snow leopard there are cartoons).
+- Real scans still wanted: a camel without a saddle cloth, a lotus plant, Hydrilla, an aak (Calotropis) plant.
 
 # Biology at the bench, batch BIO2 (plants, food, respiration, osmosis, tropisms)
 

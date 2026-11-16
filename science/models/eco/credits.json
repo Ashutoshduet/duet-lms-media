@@ -304,5 +304,128 @@
   "url": "https://polyhaven.com/a/river_walk_1",
   "source": "Poly Haven",
   "changes": "Resized to 4096 × 2048."
+ },
+ {
+  "id": "camel",
+  "name": "camel",
+  "authors": { "omarme37": "All" },
+  "user": "omarme37",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/44ef2ea4b50a49e395e5e3ebbdc99f98",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced, sat on the ground, WebP textures, meshopt-compressed; sized to a real dromedary and placed in code."
+ },
+ {
+  "id": "cactus",
+  "name": "Tree-like Cactus Cereus peruvianus",
+  "authors": { "matousekfoto": "All" },
+  "user": "matousekfoto",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/8b1baf5ffe894d95b8411c6bfec9042b",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Flower pot cut away (the cactus stands in the sand or in our own pot), mesh reduced, WebP textures, meshopt-compressed; sized in code."
+ },
+ {
+  "id": "bumblebee",
+  "name": "Bee",
+  "authors": { "University Libraries at Virginia Tech": "All" },
+  "user": "VirginiaTechUnivLibraries",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/9f4e65d9773b4f80bfca6ac8a9c8b952",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced, centred, WebP textures, meshopt-compressed; real size, flown and dusted with pollen in code."
+ },
+ {
+  "id": "coconut",
+  "name": "Coconut",
+  "authors": { "matousekfoto": "All" },
+  "user": "matousekfoto",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/afe3221922ef4bdbb0cb25a2656e1afb",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced, WebP textures, meshopt-compressed; floated on water in code."
+ },
+ {
+  "id": "sunflower_head",
+  "name": "Sunflower",
+  "authors": { "Polygonal Miniatures": "All" },
+  "user": "Polygonal_Miniatures",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/569a71ccf4d94c1585c9573521fb998f",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced, WebP textures, meshopt-compressed; put on a stem, and its seeds and drying petals drawn over it in code."
+ },
+ {
+  "id": "sunflower_stem",
+  "name": "Sunflower",
+  "authors": { "RStorer152": "All" },
+  "user": "RStorer152",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/919e4213a414421d804a3a9f19454479",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Only the stem and leaves kept (the flower head is replaced by the scanned one above), mesh reduced, WebP textures, meshopt-compressed."
+ },
+ {
+  "id": "potted_plant_02",
+  "name": "Potted Plant 02",
+  "authors": { "Rico Cilliers": "All" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/potted_plant_02",
+  "source": "Poly Haven",
+  "changes": "Reduced, WebP textures, meshopt-compressed."
+ },
+ {
+  "id": "rooibos_bush",
+  "name": "Wild Rooibos Bush",
+  "authors": { "James Ray Cock": "modeling", "Jenelle van Heerden": "photography" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/wild_rooibos_bush",
+  "source": "Poly Haven",
+  "changes": "Reduced, WebP textures, meshopt-compressed."
+ },
+ {
+  "id": "boulder_04",
+  "name": "Namaqualand Boulder 04",
+  "authors": { "Jenelle van Heerden": "All" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/namaqualand_boulder_04",
+  "source": "Poly Haven",
+  "changes": "Reduced, WebP textures, meshopt-compressed."
+ },
+ {
+  "id": "dead_branch",
+  "name": "Dead Quiver Branch 01",
+  "authors": { "Greg Zaal": "photography", "Jenelle van Heerden": "modeling" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/dead_quiver_branch_01",
+  "source": "Poly Haven",
+  "changes": "Reduced, WebP textures, meshopt-compressed."
+ },
+ {
+  "id": "fir_sapling",
+  "name": "Fir Sapling",
+  "authors": { "Rob Tuytel": "photography", "Rico Cilliers": "modeling" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/fir_sapling",
+  "source": "Poly Haven",
+  "changes": "One of the three saplings kept, reduced, WebP textures, meshopt-compressed."
+ },
+ {
+  "id": "goegap",
+  "name": "Goegap (360° photo)",
+  "authors": { "Greg Zaal": "All" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/goegap",
+  "source": "Poly Haven",
+  "changes": "Resized to 4096 × 2048."
+ },
+ {
+  "id": "snowy_forest_path_01",
+  "name": "Snowy Forest Path 01 (360° photo)",
+  "authors": { "Oliksiy Yakovlyev": "All" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/snowy_forest_path_01",
+  "source": "Poly Haven",
+  "changes": "Resized to 4096 × 2048."
  }
 ]
