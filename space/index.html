@@ -3400,6 +3400,9 @@ function makeIsroSat(id){
    and scenes that each fill the whole headset: no web pages to scroll.
    Shared toolkit: rig + movement, laser pointers that stop on what they hit, buttons that
    light up, a menu on the left hand, info cards, spoken narration (English / Hindi / off). */
+/* phones (also in a VR box): no 8k pictures, they took seconds to load and slowed every frame (the Rocket Shala launch pad
+   ran at 5 fps for its first 15 s on a Snapdragon 680) */
+const XRLITE=!/OculusBrowser|Quest|Pico/i.test(navigator.userAgent)&&/Android|iPhone|iPad|Mobi/i.test(navigator.userAgent);
 function VRHub(o){
   const T=THREE,R=o.R,S=o.S,cam=o.cam,ctrls=o.ctrls,D2R=Math.PI/180;
   const H={T,R,S,cam,ctrls,tex:o.tex,LD:o.LD,D2R,scenes:{},scene:null};
@@ -3598,7 +3601,7 @@ function VRHub(o){
   /* ---------- sky ---------- */
   const SKYM=new T.Matrix4().set(-1,0,0,0, 0,0.9174820621,-0.3977771558,0, 0,-0.3977771558,-0.9174820621,0, 0,0,0,1);
   const SKYEQ=new T.Matrix4().makeRotationY(Math.PI);
-  const big=R.capabilities.maxTextureSize>=8192&&(!o.lite||(navigator.deviceMemory||0)>=8);   // phones with 8 GB get the sharp 8k sky too
+  const big=R.capabilities.maxTextureSize>=8192&&!o.lite&&!XRLITE;   // (phones: the 4k sky, even with 8 GB)
   const milky=o.LD.load(big?"sky/milkyway_8k.jpg":"sky/milkyway_4k.jpg");milky.encoding=T.sRGBEncoding;
   const skyGeo=new T.SphereGeometry(2400,64,32);skyGeo.scale(-1,1,1);
   const sky=new T.Mesh(skyGeo,new T.MeshBasicMaterial({map:milky,depthWrite:false,color:0xb8bccb}));sky.matrixAutoUpdate=false;sky.renderOrder=-10;sky.frustumCulled=false;S.add(sky);sky.visible=false;
@@ -4357,7 +4360,7 @@ function SolarScenes(H){
   /* ======================= LANDING SITES 360° ======================= */
   if(typeof PANOS!=="undefined"&&PANOS.length)H.scenes.land360=(()=>{
     const root=new T.Group();root.visible=false;S.add(root);let built=false,band=null,cur=0,tok=0,panel=null,mode="info",loading=false;
-    const big=(typeof PANO8K==="undefined"||PANO8K)&&R.capabilities.maxTextureSize>=8192;
+    const big=(typeof PANO8K==="undefined"||PANO8K)&&R.capabilities.maxTextureSize>=8192&&!XRLITE;
     const bgGeo=new T.SphereGeometry(600,48,24),bgCol=new Float32Array(bgGeo.attributes.position.count*3);bgGeo.setAttribute("color",new T.BufferAttribute(bgCol,3));
     const bg=new T.Mesh(bgGeo,new T.MeshBasicMaterial({vertexColors:true,side:T.BackSide,depthWrite:false}));bg.renderOrder=-6;bg.frustumCulled=false;root.add(bg);
     function setBg(p){const sky=new T.Color(p.world==="moon"?"#000000":p.sky).convertSRGBToLinear(),gr=new T.Color(p.ground).convertSRGBToLinear().multiplyScalar(.75),pos=bgGeo.attributes.position,c=new T.Color();
@@ -6427,7 +6430,7 @@ const R3 = (() => {
       if (!silent && this.r) this.setRocket(this.r);
     }
     puff(x, y, z, scale, vel, life, color = 0xDCDCE2) {
-      if (this.particles.length > 240) return;
+      if (this.particles.length > (typeof XRLITE !== 'undefined' && XRLITE ? 70 : 240)) return; // (phones: fewer big see-through puffs, each one is drawn on its own)
       const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: puffTex(), color, transparent: true, opacity: 0.0, depthWrite: false }));
       sp.position.set(x, y, z); sp.scale.setScalar(scale);
       this.world.add(sp);
@@ -6631,7 +6634,7 @@ function RocketScenes(H){
   /* ---------- shared outdoor world: day sky that fades to space, environment light ---------- */
   const SKY={dome:null,env:null,prevEnv:null,fog:null,k:0};
   function daySky(){if(SKY.dome)return SKY.dome;
-    const t=H.loadTex(RP+"env/sky_day_4k.jpg");const g=new T.SphereGeometry(1800,64,32);g.scale(-1,1,1);
+    const t=H.loadTex(RP+(XRLITE?"env/sky_day_2k.jpg":"env/sky_day_4k.jpg"));const g=new T.SphereGeometry(1800,64,32);g.scale(-1,1,1);
     const m=new T.Mesh(g,new T.MeshBasicMaterial({map:t,transparent:true,depthWrite:false,fog:false}));m.renderOrder=-9;m.frustumCulled=false;m.visible=false;S.add(m);SKY.dome=m;
     new T.TextureLoader().load(RP+"env/sky_day_2k.jpg",tx=>{tx.encoding=T.sRGBEncoding;tx.mapping=T.EquirectangularReflectionMapping;try{const pm=new T.PMREMGenerator(R);SKY.env=pm.fromEquirectangular(tx).texture;pm.dispose();if(SKY.on)S.environment=SKY.env}catch(e){}});
     return m}
