@@ -35,10 +35,19 @@ export const ECO = {
 };
 let GL = null; const CACHE = {};
 const LO = new Set(['frog', 'snail', 'locust']); // models/eco/<name>_lo.glb exists
+// Phones and headsets: grass and leaves (alpha-cut cards, many layers deep on screen) are drawn with plain Lambert shading
+// and cast no shadow. Measured on a Snapdragon 680 in the grassland food web: 17 fps with the scans' PBR leaves,
+// 42 with Lambert leaves, 60 without grass at all.
+const LEAF = new Map();
+function liteLeaf(o) {
+  const m = o.material; if (!m || Array.isArray(m) || !m.isMeshStandardMaterial || !(m.alphaTest > 0)) return;
+  let L = LEAF.get(m); if (!L) { L = new THREE.MeshLambertMaterial({ map: m.map, color: m.color, alphaTest: m.alphaTest, side: m.side, vertexColors: m.vertexColors }); L.name = m.name; LEAF.set(m, L); }
+  o.material = L; o.castShadow = false;
+}
 export function ecoLoad(name) {
   if (!CACHE[name]) { GL ||= new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
     // phones and headsets: the scans that have a light copy load it (frog 171k → 25k triangles, snail 111k → 12k)
-    CACHE[name] = GL.loadAsync('models/eco/' + (LITE && LO.has(name) ? name + '_lo' : name) + '.glb').then((g) => { g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; o.userData.noHit = true; if (o.material && o.material.map) o.material.map.anisotropy = 4; } }); return g; }); }
+    CACHE[name] = GL.loadAsync('models/eco/' + (LITE && LO.has(name) ? name + '_lo' : name) + '.glb').then((g) => { g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; o.userData.noHit = true; if (o.material && o.material.map) o.material.map.anisotropy = 4; if (LITE) liteLeaf(o); } }); return g; }); }
   return CACHE[name];
 }
 export const ecoPreload = (names) => Promise.all(names.map((n) => ecoLoad(n).catch(() => null)));
