@@ -5773,10 +5773,12 @@ const R3 = (() => {
   }
   // in a headset the rocket bodies use fewer rings and sides (a steady 72 fps with a whole row of rockets; Meta VRC.Quest.Performance.1)
   const LITE_R = /OculusBrowser|Quest/i.test(navigator.userAgent);
+  // FAR: set while building rockets that are only seen from far away (the rocket-sizes row on a phone): fewer rings and sides
+  let FAR = false;
   function lathe(rf, L, segs, phiStart, phiLen, closeBottom = true, closeTop = true) {
     const pts = [];
-    const N = LITE_R ? Math.max(10, Math.min(28, Math.round(L * 1.6))) : Math.max(12, Math.min(48, Math.round(L * 3)));
-    if (LITE_R) segs = Math.min(segs || 48, 32);
+    const N = FAR ? Math.max(6, Math.min(14, Math.round(L * 0.5))) : LITE_R ? Math.max(10, Math.min(28, Math.round(L * 1.6))) : Math.max(12, Math.min(48, Math.round(L * 3)));
+    if (FAR) segs = Math.min(segs || 48, 16); else if (LITE_R) segs = Math.min(segs || 48, 32);
     if (closeBottom) pts.push(new THREE.Vector2(0.0001, 0));
     for (let i = 0; i <= N; i++) { const y = L * i / N; pts.push(new THREE.Vector2(Math.max(0.0001, rf(y)), y)); }
     if (closeTop) pts.push(new THREE.Vector2(0.0001, L));
@@ -6607,7 +6609,7 @@ const R3 = (() => {
   function loop(now) { RocketView.all.forEach(v => v.frame(now)); requestAnimationFrame(loop); }
 
 
-  return { RocketView, layout, stageR, fairingR, boosterR, buildPart, groundTex, mast, flameTex, puffTex };
+  return { RocketView, layout, stageR, fairingR, boosterR, buildPart, groundTex, mast, flameTex, puffTex, far(v) { FAR = !!v; } };
 })();
 
 
@@ -6797,7 +6799,7 @@ function RocketScenes(H){
     function build(){built=true;root.add(ground(900,140));root.add(new T.HemisphereLight(0xc8d8ff,0x2a2420,.6));const key=new T.DirectionalLight(0xfff1de,1.25);key.position.set(-60,120,90);root.add(key);
       const items=ROCKETS.map(r=>({kind:"rocket",r,h:r.height})).concat([{kind:"qutub",h:72.5}]).sort((a,b)=>a.h-b.h);
       let x=0;items.forEach(it=>{let g,w;
-        if(it.kind==="rocket"){g=buildRocket(it.r).g;duetMergeStatic(g);const b=new T.Box3().setFromObject(g);w=Math.max(b.max.x-b.min.x,b.max.z-b.min.z)}else{g=qutub();duetMergeStatic(g);w=16}
+        if(it.kind==="rocket"){RS.R3.far(XRLITE);try{g=buildRocket(it.r).g}finally{RS.R3.far(false)}duetMergeStatic(g);const b=new T.Box3().setFromObject(g);w=Math.max(b.max.x-b.min.x,b.max.z-b.min.z)}else{g=qutub();duetMergeStatic(g);w=16}
         x+=w/2;g.position.set(x,0,0);root.add(g);
         const lab=label(it.kind==="rocket"?it.r.name:"Qutub Minar",fmt(it.h,1)+" m",it.kind==="rocket"?(it.r.country==="india"?"#ff9933":"#8ec5ff"):"#e8c27a",.15);lab.position.set(x,it.h+6,0);root.add(lab);
         const hit=new T.Mesh(new T.BoxGeometry(Math.max(w,4),it.h,Math.max(w,4)),new T.MeshBasicMaterial({visible:false}));hit.position.set(0,it.h/2,0);hit.userData.pick=it;g.add(hit);hits.push(hit);it.g=g;
