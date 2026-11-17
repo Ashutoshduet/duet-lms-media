@@ -14,6 +14,7 @@ import { liveSign } from './mathworld4.js';
 import { slideKnob } from './mathworld5.js';
 import { tag, animator, woodTex, M, rnd, tex, noHit, stepNow, V, FONT } from './mathworld_j1.js';
 import { BENCH_Y } from './room.js';
+import { LITE } from './lite.js';
 
 const TAU = Math.PI * 2;
 const done1 = (it, o) => { noHit(it.g); it.noGrab = true; it.noPhys = true; it.base = 0; Object.assign(it, o); return it; };
@@ -33,9 +34,11 @@ export const ECO = {
   bark_debris_01: { raw: 1 }, dandelion_01: { raw: 1 }, weed_plant_02: { raw: 1 },
 };
 let GL = null; const CACHE = {};
+const LO = new Set(['frog', 'snail', 'locust']); // models/eco/<name>_lo.glb exists
 export function ecoLoad(name) {
   if (!CACHE[name]) { GL ||= new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-    CACHE[name] = GL.loadAsync('models/eco/' + name + '.glb').then((g) => { g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; o.userData.noHit = true; if (o.material && o.material.map) o.material.map.anisotropy = 4; } }); return g; }); }
+    // phones and headsets: the scans that have a light copy load it (frog 171k → 25k triangles, snail 111k → 12k)
+    CACHE[name] = GL.loadAsync('models/eco/' + (LITE && LO.has(name) ? name + '_lo' : name) + '.glb').then((g) => { g.scene.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; o.userData.noHit = true; if (o.material && o.material.map) o.material.map.anisotropy = 4; } }); return g; }); }
   return CACHE[name];
 }
 export const ecoPreload = (names) => Promise.all(names.map((n) => ecoLoad(n).catch(() => null)));

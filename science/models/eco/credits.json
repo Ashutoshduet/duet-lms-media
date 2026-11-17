@@ -799,6 +799,18 @@
   "changes": "A lighter copy of the frog above: re-meshed to 25k triangles with its colour re-baked onto one 1024 px WebP, meshopt-compressed; placed and animated in code."
  },
  {
+  "id": "locust_lo",
+  "name": "ショウリョウバッタ ♂ Longheaded Locust, Acrida cinerea",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/ea89b3edda084ebe9fb0afb671446350",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "A lighter copy of the locust above for phones and headsets: re-meshed to 5k triangles with its colour re-baked onto one 512 px texture, meshopt-compressed; placed and animated in code."
+ },
+ {
   "id": "snail_lo",
   "name": "オオタニシ Freshwater Snail, Bellamya japonica",
   "authors": {
