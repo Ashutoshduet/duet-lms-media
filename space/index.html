@@ -8629,7 +8629,7 @@ else if(APPXR&&XR&&XR.enter){XR.enter(APPXR);setTimeout(()=>{if(!XR.presenting()
   SW.addEventListener("controllerchange",function(){if(had&&!reloaded){reloaded=true;location.reload()}else sync()});
   try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
   SW.register("sw.js",{updateViaCache:"none"}).then(function(reg){
-    try{reg.update()}catch(e){}   // look for a newer version every time the app opens
+    try{reg.update().catch(function(){})}catch(e){}   // look for a newer version every time the app opens (offline: nothing to do)
     SW.ready.then(function(){sync();setInterval(sync,120000)});
   }).catch(function(){show("Offline saving could not start in this browser")});
 })();

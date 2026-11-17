@@ -3,7 +3,7 @@
 Usage: build_sw.py <repo> [app ...]   (default apps: science body drone maths robotics physics chemistry biology)"""
 import hashlib, json, os, re, subprocess, sys, time
 APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360', 'maths': 'ml360', 'robotics': 'rl360',
-        'physics': 'pl360', 'chemistry': 'cl360', 'biology': 'bl360'}
+        'physics': 'pl360', 'chemistry': 'cl360', 'biology': 'bl360', 'hub': 'dh360'}
 MANIFEST_ONLY = {'space'}  # keeps its own offline worker; only the file list for the Android app
 SKIP_DIRS = {'tools', 'store-art', 'test', '.git', '__pycache__'}
 SKIP_FILES = {'sw.js', 'offline.json', '.DS_Store'}
@@ -144,14 +144,15 @@ def build(repo, app):
 def space_version(root, files):
     # Space keeps its own worker (sw.js: CORE files saved at install, MEDIA filled in behind). It opens from the saved copy,
     # so a changed file reaches a device only when VERSION changes: VERSION follows the content of every listed file, and
-    # HASH (md5, which tells the worker what it can copy across from the older version) is refreshed. Files on the website
-    # that the lists miss (such as new models) are added to MEDIA.
+    # HASH (md5, which tells the worker what it can copy across from the older version) is refreshed. Every other file on
+    # the website (narration, photos, 360 views, videos) is added to MEDIA too, so after the first full download the whole
+    # app runs offline, not only the scenes already visited. Small files first, so narration and photos are ready long
+    # before the big 360 views and videos.
     path = os.path.join(root, 'sw.js'); s = open(path).read()
     core = json.loads(re.search(r'const CORE=(\[.*?\]);', s).group(1)); media = json.loads(re.search(r'const MEDIA=(\[.*?\]);', s).group(1))
+    media = [p for p in media if p in files and p not in core]
     listed = set(core) | set(media)
-    for p in sorted(files):
-        if p not in listed and p.endswith('.glb'): media.append(p)
-    media = [p for p in media if p in files]
+    media += sorted((p for p in files if p not in listed and p != 'index.html'), key=lambda p: (files[p][1] > 4_000_000, files[p][1], p))
     md5 = lambda p: hashlib.md5(open(os.path.join(root, p), 'rb').read()).hexdigest()[:12]
     H = {p: md5(p) for p in media}
     h = hashlib.sha1()
