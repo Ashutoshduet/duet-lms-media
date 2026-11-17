@@ -49,3 +49,61 @@ ideas are noted here. We copy none of their pictures, models, films, text or nam
 4. **Cards always have a picture**: thumbnails rendered from our own scenes.
 5. **Age and class filters** next to the subject filters, plus a mode badge on every card (Screen, VR box, Quest, TFT).
 6. **Ocean and animals**: our next content gap, made from our own CC0 or CC-BY models.
+
+## Their catalogue vs ours (17 Nov 2026)
+
+- **Their catalogue:** 150 items, pulled from the phone's cached catalogue file. 61 are free and 91 premium.
+- **Their app:** 273 MB from the Play Store, plus 7–172 MB downloaded per item.
+- **Ways to use each item:** AR on their printed mat ("3D Pad"), a 6DOF controller, a VR headset, "3D", and red-cyan glasses (anaglyph). Most items allow all of these.
+- **Ours:** about 450 activities.
+  - Chemistry 86, physics 127, maths 128 and biology 54 (Science / Maths / Physics / Chemistry / Biology Lab).
+  - Human Body: 16 labs and 9 journeys.
+  - Solar System: 17 VR scenes.
+  - Robotics: 16 lessons.
+  - Drone simulator.
+
+| Their subject | Items | We have it (or better) | Partly | Missing |
+|---|---|---|---|---|
+| Biology | 39 | 22 | 9 | 8 |
+| Chemistry | 17 | 12 | 2 | 3 |
+| Physics | 53 | 38 | 4 | 11 |
+| Astronomy | 5 | 5 | 0 | 0 |
+| Mathematics | 14 | 10 | 1 | 3 (two are Class 11–12) |
+| Geography | 5 | 1 | 2 | 2 |
+| Games / misc. / simulations | 17 | drone, robotics, rocket game, space quiz | – | pre-primary (alphabet, numbers, fruits, vegetables), Harappa, excavator, brick builder |
+
+### Still to build so we have everything they have, plus more
+- **Physics:**
+  - devices: electric bell, DC motor, Van de Graaff generator, gold-leaf electroscope;
+  - weather: lightning and the lightning conductor, cyclone;
+  - light: total internal reflection (optical fibre), why the sky is blue (scattering), Newton's colour disc;
+  - motion and the eye: inertia (coin on a card), eye defects and their correcting lenses, regular vs diffuse reflection;
+  - space: the Goldilocks zone, Kepler's laws (from the Solar System orbits scene).
+- **Biology:**
+  - life cycles: butterfly, chicken;
+  - heredity and evolution: Mendel's pea plants, variation and natural selection, a dinosaur and fossil world;
+  - health: how diseases spread (germs, mosquitoes, washing hands);
+  - plants: meristems and plant growth, a parts-of-a-plant explorer;
+  - cells and body: a 3D cell with its organelles, adolescence, reproduction in animals (NCERT Class 8);
+  - a bird sanctuary.
+- **Chemistry:**
+  - a biogas plant;
+  - crystal lattices (simple, body-centred and face-centred cubic);
+  - fibre to fabric (weaving);
+  - density of a liquid (hydrometer);
+  - a molecule-model explorer.
+- **Geography:** rocks and minerals, landforms, how rivers shape the land, seasons (motion of the Earth).
+- **Maths:** sum of the first n squares, a³ − b³.
+
+### Ways to use the content: theirs vs ours
+- **Already ours:**
+  - the screen (touch, mouse);
+  - a phone VR box with a Bluetooth controller;
+  - Meta Quest (WebXR);
+  - 65/75-inch classroom panels (pen drive);
+  - Hindi, English and Hinglish.
+- **To add (in the new DUET STEM 360 hub app, without changing the old apps):**
+  - AR on a printed DUET pad and a hand-held DUET cube, scanned by the phone camera: our own printable design with ArUco markers, tracked in JavaScript;
+  - red-cyan 3D glasses (anaglyph);
+  - looking around by moving the phone (gyro 360);
+  - Bluetooth controller buttons in every view.
