@@ -3685,7 +3685,7 @@ function VRHub(o){
   function settle(){ST.on=true;ST.t0=performance.now();ST.step=0;ST.tex=null;ST.good=0}
   function settleDone(){ST.on=false;FD.busy=false;fadeTo(0);if(FD.next){const n=FD.next;FD.next=null;go(n[0],n[1])}}
   function settleTick(ms){const el=performance.now()-ST.t0;if(el>9000){settleDone();return}
-    if(ST.step===0){if(el>200&&!LDM.n&&!QP.n)ST.step=1;return}                       // the scene's files have arrived
+    if(ST.step===0){if(el>200&&!LDM.n&&!QP.n&&!(H.scene&&H.scene.pending&&H.scene.pending()>0))ST.step=1;return} // the scene's files have arrived
     if(ST.step===1){try{R.compile(S,cam)}catch(e){}ST.tex=texOf(S,[]);ST.step=2;return} // all its shaders, even out of view
     if(ST.step===2){const t0=performance.now();while(ST.tex.length&&performance.now()-t0<6){try{R.initTexture(ST.tex.pop())}catch(e){}}if(!ST.tex.length)ST.step=3;return}
     ST.good=ms<20?ST.good+1:0;if(ST.good>=8)settleDone()}                           // and frames are quick again
@@ -6911,6 +6911,7 @@ function RocketScenes(H){
         it.loaded=true;pump()})}}
     const home=()=>H.placeHead(new T.Vector3(0,1.6,6),new T.Vector3(0,1.6,-10));
     return {id:"museum",title:"3D museum",sky:"milky",ambient:null,flySpeed:5,
+      pending:()=>queue.length+loading+items.filter(i=>i.fullLoading).length,   // Quest: the loading fade waits for these
       enter(){if(!built)build();root.visible=true;outdoor(true,300,1500);home();
         H.hint("3D museum · real size",[["Near you","landers, rovers and capsules"],["Further out","rockets, Hubble, JWST, the Shuttle"],["Look up","the Space Station overhead"],["Trigger / pinch","its story"]],8)},
       exit(){root.visible=false;outdoor(false)},
