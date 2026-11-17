@@ -427,5 +427,398 @@
   "url": "https://polyhaven.com/a/snowy_forest_path_01",
   "source": "Poly Haven",
   "changes": "Resized to 4096 × 2048."
+ },
+ {
+  "id": "sponge",
+  "name": "Spongia graminea tampa (sponge), 3D scan",
+  "authors": {
+   "Smithsonian National Museum of Natural History": "All"
+  },
+  "license": "CC0",
+  "url": "https://3d-api.si.edu/voyager/3d_package:89605c8a-2341-4e46-9868-95ad6f1c9bf4",
+  "source": "Smithsonian Open Access 3D",
+  "changes": "Re-meshed to 25k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "braincoral",
+  "name": "Brain Coral - Platygyra daedalea",
+  "authors": {
+   "jordanmakesmaps": "All"
+  },
+  "user": "jordanmakesmaps",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/0e9aa3ac05034dba8ebd3d0b8f24357a",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 30k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 1024 px WebP); the scanned base sheet cut away, sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "braincoral_lo",
+  "name": "Brain Coral - Platygyra daedalea",
+  "authors": {
+   "jordanmakesmaps": "All"
+  },
+  "user": "jordanmakesmaps",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/0e9aa3ac05034dba8ebd3d0b8f24357a",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 5k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 256 px WebP); a light copy for the reef around the student, sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "pinkcoral_lo",
+  "name": "Coral",
+  "authors": {
+   "RISDNaturelab": "All"
+  },
+  "user": "RISDNaturelab",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/665e3b345c754e618ae931d6fc786f7a",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 5k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 256 px WebP); a light copy for the reef decor, sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "redcoral_lo",
+  "name": "Corallium sp.",
+  "authors": {
+   "Smithsonian": "All"
+  },
+  "user": "Smithsonian",
+  "license": "CC0",
+  "url": "https://sketchfab.com/3d-models/86a4945328034cc89f648dc4e3d36672",
+  "source": "Smithsonian Open Access, via Sketchfab and Objaverse",
+  "changes": "Re-meshed to 5k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 256 px WebP); a light copy for the reef decor, sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "fingercoral_lo",
+  "name": "Madracis auretenra (yellow pencil coral), 3D scan",
+  "authors": {
+   "Smithsonian National Museum of Natural History": "All"
+  },
+  "license": "CC0",
+  "url": "https://3d-api.si.edu/voyager/3d_package:66a50976-d9dc-4e7b-83a8-b9865f9ef50b",
+  "source": "Smithsonian Open Access 3D",
+  "changes": "Re-meshed to 5k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 256 px WebP); a light copy for the reef decor, sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "jellyfish",
+  "name": "Jellyfish_001",
+  "authors": {
+   "n-": "All"
+  },
+  "user": "n-",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/d89af687535340609df38ef3325b285a",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced to 30k triangles, WebP textures (512 px); turned upright, tentacles made see-through, sat on the ground at real size, meshopt-compressed; placed and animated in code."
+ },
+ {
+  "id": "octopus",
+  "name": "イイダコ Webfoot Octopus, Octopus ocellatus",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/04e13f6fc8304c34b7928a7c7879a39a",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 30k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 1024 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "turban",
+  "name": "サザエ Turban Shell, Turbo sazae",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/10fe2105327741c3bb61611cd8c71508",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 20k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "crab",
+  "name": "タイワンガザミ ♀ Blue Manna Crab, Portunus pelagicus",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/6aa525f1b8d64f829d6ef5eca03ed54c",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 40k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 1024 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "starfish",
+  "name": "イトマキヒトデ Starfish, Patiria pectinifera",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/14319712a5f445fe8a1eb461eadf6527",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 25k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 1024 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "brittlestar",
+  "name": "ニホンクモヒトデ Brittle Star, Ophioplocus japonicus",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/da1968d4e0434afd9fc0abb37b9c050d",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 30k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "parrotfish",
+  "name": "アオブダイ ♂ Knobsnout Parrotfish, Scarus ovifrons",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/dac672386dd741af8485fcab811b9db4",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 30k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 1024 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "puffer",
+  "name": "クサフグ Grass Puffer, Takifugu niphobles",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/12385c7b9f434a7b9d4023f581cb6faa",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 25k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "sardine_lo",
+  "name": "マイワシ Spotline Sardine, Sardinops melanostictus",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/3ca7caa7f6e14bbb8c5e17381d5d8c39",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 1.5k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 256 px WebP); drawn as one instanced shoal, sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "squid",
+  "name": "ケンサキイカ Swordtip Squid, Uroteuthis edulis",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/ff42bc83f0ac4a459199ed15e83975d2",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 30k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "lanternfish",
+  "name": "サンゴイワシ Shortfin Neoscopelid, N. microchir",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/3060eb2ab3724241aa0974c4f0860f2a",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 20k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "anglerfish",
+  "name": "ミドリフサアンコウ Anglerfish, Chaunax abei",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/e9594462c7944bc9b205d6e36653c744",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 25k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "halibut",
+  "name": "ヒラメ Bastard Halibut, Paralichthys olivaceus",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/abaafcb174bc44f1a0206e267925bc8f",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 25k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 1024 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "tadpole",
+  "name": "ツチガエル おたまじゃくし Tadpole, Glandirana rugosa",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/af5f1d0dd4854759aefa122520714a52",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 15k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "stickinsect",
+  "name": "トゲナナフシ Spined Stick Insects, Neohirasea japonica",
+  "authors": {
+   "ffishAsia-and-floraZia": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/d5b278d3353e4aaf9386e4cca6306df7",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Re-meshed to 25k triangles (simplified shape, new UV atlas, colour re-baked from the full scan onto one 512 px WebP), sat on the ground at real size, meshopt-compressed; posed, placed and animated in code."
+ },
+ {
+  "id": "dolphin",
+  "name": "Model 61A - Bottlenose Dolphin",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/2ec20f15b08c4c2fb16e4df5d837b893",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh and textures reduced (40k triangles, WebP 1024 px), unused normal and roughness maps removed, meshopt-compressed; its own swim clip kept; placed and moved in code."
+ },
+ {
+  "id": "shark",
+  "name": "Model 9A - Blacktip Shark",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/3bdfcf9c47134d4b9dc9888963622be9",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh and textures reduced (22k triangles, WebP 1024 px), unused normal and roughness maps removed, meshopt-compressed; its own swim clip kept; placed and moved in code."
+ },
+ {
+  "id": "whale",
+  "name": "Model 55A - Southern Right Whale",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/3bddfdfafc6c43758df9b94bc9e0fe9e",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh and textures reduced (36k triangles, WebP 512 px), unused normal and roughness maps removed; specular-glossiness materials converted to metal-roughness, meshopt-compressed; its own swim clip kept; placed and moved in code."
+ },
+ {
+  "id": "seaturtle",
+  "name": "Model 72B - Juvenile Green Sea Turtle",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/c90a930f8b2a4cc8bc516742a0df01d9",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh and textures reduced (27k triangles, WebP 1024 px), unused normal and roughness maps removed, meshopt-compressed; its own swim clip kept; placed and moved in code."
+ },
+ {
+  "id": "gecko",
+  "name": "Model 58A - House gecko",
+  "authors": {
+   "DigitalLife3D": "All"
+  },
+  "user": "DigitalLife3D",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/50eca44a12d84a39b500658f2f8d891e",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh and textures reduced (29k triangles, WebP 512 px), unused normal and roughness maps removed, meshopt-compressed; its own swim clip kept; placed and moved in code."
+ },
+ {
+  "id": "chameleon",
+  "name": "Chameleon",
+  "authors": {
+   "dashdu": "All"
+  },
+  "user": "dashdu",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/3877371976754df68d2b93a181bd4893",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced to 25k triangles, WebP textures (512 px), sat on the ground at real size, meshopt-compressed; placed and animated in code."
+ },
+ {
+  "id": "duck",
+  "name": "Redhead Duck",
+  "authors": {
+   "cmp_innovation_studio": "All"
+  },
+  "user": "cmp_innovation_studio",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/14f196c232d14b4d819c9377463169ff",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced to 25k triangles, WebP textures (512 px), sat on the ground at real size, meshopt-compressed; placed and animated in code."
+ },
+ {
+  "id": "woodpecker",
+  "name": "Pileated Woodpecker",
+  "authors": {
+   "cmp_innovation_studio": "All"
+  },
+  "user": "cmp_innovation_studio",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/4474051b2496481fa9e59d89531f3cbc",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced to 25k triangles, WebP textures (512 px), sat on the ground at real size, meshopt-compressed; placed and animated in code."
+ },
+ {
+  "id": "sparrow",
+  "name": "Golden Crowned Sparrow",
+  "authors": {
+   "ACEPrinceRupert": "All"
+  },
+  "user": "ACEPrinceRupert",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/a26980c498134a90bc92c847b1972ddf",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "Mesh reduced to 25k triangles, WebP textures (512 px), sat on the ground at real size, meshopt-compressed; placed and animated in code."
+ },
+ {
+  "id": "frog_lo",
+  "name": "アズマヒキガエル Japanese Toad, Bufo japonicus formosus",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/cd026838b474474cb1b960e04ca80061",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "A lighter copy of the frog above: re-meshed to 25k triangles with its colour re-baked onto one 1024 px WebP, meshopt-compressed; placed and animated in code."
+ },
+ {
+  "id": "snail_lo",
+  "name": "オオタニシ Freshwater Snail, Bellamya japonica",
+  "authors": {
+   "ffish.asia / floraZia.com": "All"
+  },
+  "user": "ffishAsia-and-floraZia",
+  "license": "CC BY 4.0",
+  "url": "https://sketchfab.com/3d-models/c2aaa710316143a79e9e9c8ac20189f6",
+  "source": "Sketchfab via Objaverse (open licences only)",
+  "changes": "A lighter copy of the snail above: re-meshed to 12k triangles with its colour re-baked onto one 512 px WebP, meshopt-compressed; placed in code."
+ },
+ {
+  "id": "seabed_sand",
+  "name": "Coast Sand 01 (texture)",
+  "authors": {
+   "Rob Tuytel": "All"
+  },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/coast_sand_01",
+  "source": "Poly Haven",
+  "changes": "Colour map only, resized to 1024 px WebP; used for the sea floor under water."
  }
 ]

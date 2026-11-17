@@ -32,6 +32,7 @@ export const TOPICS = {
     ['micro', N('Microorganisms', 'सूक्ष्मजीव', 'Microorganisms (sookshmjeev)'), /Invisible Living/],
     ['tissue', N('Tissues', 'ऊतक', 'Tissues (ootak)'), /Tissue/],
     ['repro', N('Reproduction', 'जनन', 'Reproduction (janan)'), /Reproduc/],
+    ['ocean', N('The ocean and animals', 'समुद्र और जीव-जंतु', 'Samudra aur jeev-jantu'), /^$/],
   ],
   maths: [
     ['numbers', N('Numbers and patterns', 'संख्याएँ और पैटर्न', 'Numbers aur patterns'), /Square and A Cube|Number|Patterns|Power|Zero|Point|Fraction|Proportional|Integer|Decimal|Progression/],

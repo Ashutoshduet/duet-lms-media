@@ -111,3 +111,72 @@ background, leaves turned petiole-down and packed into an atlas); the pot was re
 Curd setting and the yeast balloon (Class 8, Ch 2) are done in the kitchen by batch BW3 (`bw8_curd`, `bw8_yeast`), so
 they are not repeated here. Next for this bench: a hibiscus flower to dissect (needs a real flower scan with separable parts), Mendel's cross with
 round and wrinkled peas, vegetative propagation (potato eyes, Bryophyllum), pulse before and after exercise.
+
+# The ocean and animals, batch BW4
+
+Nine activities about life in the sea and the groups and adaptations of animals, in `experiments_bw4.js` (reef, shark
+and dolphin, ocean zones) and `experiments_bw4b.js` (the rest); scenes in `oceanworld1.js` (models, the two underwater
+places, the shared material, the zoom bubble, the reef and open-sea activities), `oceanworld2.js` (vertebrates, life
+cycles, birds, camouflage) and `oceanworld3.js` (the beach: salt pan, blubber); Hindi and Hinglish in `exp_i18n_bw4.js`.
+All are under the biology topic `ocean` ("The ocean and animals"). Every activity opens with one everyday question
+("Kyun? …"), narrated, and every hands-on step works with the mouse, touch, a VR box controller or a Quest hand
+(`carry()` for things that are carried and let go over a ring, `slideKnob` / `pushKnob` for levers, clocks and buttons).
+What happens follows what the student did, and each result step has a `check` that reads it.
+
+| Class | Chapter (NCERT) | Activity | Place |
+|---|---|---|---|
+| 9 (6) | 7 Diversity in Living Organisms (older NCERT) | bw9_reef_phyla: pick up a sponge, brain coral, jellyfish, octopus, turban snail, crab, starfish, brittle star, a parrotfish swimming round and a flatfish hidden on the sand, and put each in one of six phylum trays; a zoom bubble shows the feature (pores, polyps, tube feet…); a sea turtle comes past ("a backbone, but is it a fish?") | coral reef (built) |
+| 9 (6) | 7 Diversity in Living Organisms | bw9_shark_dolphin: let a glowing tag go on the tail of a swimming shark and a dolphin (the trail goes side to side / up and down, read from the bone the tag stuck to), hold a thermometer against each (26 / 36.5 °C), slide the clock 6 minutes (the dolphin blows every 2 minutes; the bubble shows the gill slits and the blowhole) | coral reef (built) |
+| 6 (8) | 2 Diversity in the Living World | bw6_ocean_zones: a submersible; a thermocol cup in the basket outside or on the shelf inside, a lever down to 200, 1000 and 3000 m (colour cards lose red first, light 1 % at 200 m, temperature and pressure gauges, sardines → squid and lanternfish → anglerfish with its lure), the lamp shows the anglerfish is red; back up, the cup outside has shrunk | open ocean (built) |
+| 9 (6) | 7 Diversity in Living Organisms | bw9_vertebrates: an infrared thermometer to a fish, frog, gecko, kingfisher and hare on a 15 °C morning, a hand lens on their skin (bubble), then each onto the mat of its class | pond (table) |
+| 8 (10) | 3 Health: The Ultimate Treasure | bw8_life_cycles: frog spawn into a tank of pond water, tip out a tyre or a pot of rain water, slide two weeks (wrigglers, pupae and mosquitoes only in what was left full), tip out the other, slide to 8 and 16 weeks (tadpoles grow back legs, then froglets climb out) | pond (table) |
+| 6 | 2 Diversity in the Living World | bw6_beaks_feet: carry grain, a fish, grubs in bark, a lizard and snails to a sparrow, kingfisher, woodpecker, hawk and duck; put "perching / swimming / climbing / catching prey" cards at their feet | pond (table) |
+| 6 | 2 Diversity in the Living World | bw6_camouflage: find a stick insect, a grasshopper, a gecko and a chameleon on a forest path, move two of them anywhere, push the button: a crow catches whatever sits on a background of another colour | forest |
+| 6 | 9 Methods of Separation in Everyday Life | bw6_sea_salt: lift the gate of a salt pan beside the sea, shut it at 10 cm (160 litres), slide 12 days (1 cm a day, brine turns pink, crystals at 26 %), rake the salt into a heap (35 g per litre: about 5.6 kg); a bowl of sea water and one of tap water dry on the table | beach |
+| 6 (7) | 2 Diversity in the Living World | bw6_blubber: a whale blows far out at sea; three cans of 37 °C water (bare, wrapped in fat, in a woollen sock) into a tub of ice water, slide 10 minutes: about 4, 32 and 17 °C | beach (table) |
+
+## The underwater places
+There is no open-licence underwater 360° photo, so `PLACES.reef` (a lagoon 3 m deep, as off Lakshadweep) and
+`PLACES.ocean` (the open Indian Ocean) are built in code (`buildWater()` in `oceanworld1.js`): a dome showing the bright
+surface from below (Snell's window) fading to the deep colour, drifting "marine snow" points, light shafts on desktop
+only, and on the reef a sand floor (Poly Haven coast_sand_01 colour map, CC0), sea grass and boulders with light coral
+copies on them. The water itself is not a layer: one shared material (`lm()`: MeshLambertMaterial + colour map + injected
+code, program key `bw4-uw-2`) loses each colour with depth (red first), hazes into the water's colour with distance, adds
+caustics on what faces up and a lamp at the eye, and makes fish swim, coral sway and jellyfish pulse in the vertex shader.
+All of it is uniforms, so the depth of the submersible, the lamp and the dry cabin change no program; only skinned,
+instanced and see-through meshes add a variant. No light is added, no shadow light, no PBR on big surfaces (the beach sea
+in `oceanworld3.js` uses the same Lambert material, not the standard one). The zoom bubble is a small render target drawn
+when its disc is drawn (every second frame on phones).
+
+## The 3D models (BW4)
+All from Sketchfab via the Objaverse index (CC BY 4.0; one CC0) or the Smithsonian Open Access 3D API (CC0), credited in
+`science/models/eco/credits.json` (shown on `credits.html`): sponge (Smithsonian, *Spongia graminea*), brain coral
+(jordanmakesmaps), coral and *Corallium* (RISD Nature Lab; Smithsonian), yellow pencil coral (Smithsonian, *Madracis
+auretenra*), jellyfish (n-), octopus, turban shell, crab, starfish, brittle star, parrotfish, puffer, sardine, squid,
+lanternfish, anglerfish, flatfish, tadpole and stick insect (ffishAsia & floraZia specimen scans), dolphin, blacktip
+shark, southern right whale, green sea turtle and house gecko with their own swim / walk clips (DigitalLife3D),
+chameleon (dashdu), redhead duck and pileated woodpecker (cmp_innovation_studio), golden-crowned sparrow (ACEPrinceRupert).
+The pond's frog and snail got lighter copies (`frog_lo`, `snail_lo`). Sizes: 12k–40k triangles, the decor corals and the
+shoal sardine 1.5k–5k; WebP 256–1024; meshopt.
+
+Most specimen scans are thousands of small texture islands, which stop ordinary simplification at about 110k
+triangles. They were rebuilt instead (`rebake.mjs`, scratch tool: gltf-transform, meshoptimizer, xatlas, three-mesh-bvh,
+sharp): weld by position and simplify the shape alone; unwrap a smoothed copy with xatlas (fewer, larger charts); for
+each texel of the new atlas cast a ray along the normal into the full scan (`MeshBVH` with `indirect: true`, so the
+index order, and with it each triangle's material, is kept) and take the colour there; dilate; one WebP. Other changes:
+the brain coral's scanned base sheet cut away, the jellyfish turned upright with see-through tentacles, the whale's
+specular-glossiness materials converted to metal-roughness, and normal / roughness maps the Lambert material does not
+use removed from the skinned models.
+
+## Not done yet (BW4)
+- Plankton under the microscope and an ocean food chain (Class 8 / 10): needs CC0 / CC BY micrographs of diatoms,
+  copepods and larvae (Wikimedia Commons was rate-limited while sourcing; the Biodiversity Heritage Library Flickr plates
+  are an option).
+- The three pond activities (vertebrates, life cycles, beaks and feet) stand in BW1's `pondScene`, which is heavy: in the
+  phone check (light mode, 1369×648, CPU slowed 4×) the first pond activity of a session freezes about 2 s while the
+  pond's own materials compile and its textures upload (BW3's bw6_pond_adapt: 2.0 s; bw9_vertebrates: 2.2 s), and draws
+  610k–880k triangles in 165–260 draw calls a frame. The other BW4 activities open in 0.1–0.9 s (the forest and beach
+  photos are most of it) with 30–80 draw calls. A lighter pond (fewer reeds and fish, the shared Lambert material) would
+  help every pond activity, BW1 and BW3 too.
+- A tide pool (sea anemones, barnacles, limpets) and a mangrove (mudskipper, breathing roots) would use the same water
+  material; real scans of an anemone and a mudskipper are still wanted.
