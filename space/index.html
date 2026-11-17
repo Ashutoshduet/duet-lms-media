@@ -6796,10 +6796,13 @@ function RocketScenes(H){
       const cap=new T.Mesh(new T.CylinderGeometry(1.2,2,3,16),buff);cap.position.y=y+1.5;g.add(cap);return g}
     function person(){const g=new T.Group(),m=new T.MeshStandardMaterial({color:0xff9933,roughness:.6});const body=new T.Mesh(new T.CylinderGeometry(.2,.17,.95,16),m);body.position.y=1;g.add(body);
       [-.09,.09].forEach(x=>{const l=new T.Mesh(new T.CylinderGeometry(.07,.07,.8,8),m);l.position.set(x,.4,0);g.add(l)});const h=new T.Mesh(new T.SphereGeometry(.13,16,12),m);h.position.y=1.6;g.add(h);return g}
+    // phones: the far-away row is lit with simple (Lambert) shading; the rockets cover much of the screen and PBR made it 26 fps
+    const LAMB=new Map();function lambert(g){const sw=m=>{if(!m||!m.isMeshStandardMaterial)return m;let L=LAMB.get(m);if(!L){L=new T.MeshLambertMaterial({map:m.map,color:m.color,emissive:m.emissive,emissiveMap:m.emissiveMap,transparent:m.transparent,opacity:m.opacity,side:m.side,alphaTest:m.alphaTest,vertexColors:m.vertexColors,depthWrite:m.depthWrite});L.name=m.name;LAMB.set(m,L)}return L};
+      g.traverse(o=>{if(o.isMesh)o.material=Array.isArray(o.material)?o.material.map(sw):sw(o.material)})}
     function build(){built=true;root.add(ground(900,140));root.add(new T.HemisphereLight(0xc8d8ff,0x2a2420,.6));const key=new T.DirectionalLight(0xfff1de,1.25);key.position.set(-60,120,90);root.add(key);
       const items=ROCKETS.map(r=>({kind:"rocket",r,h:r.height})).concat([{kind:"qutub",h:72.5}]).sort((a,b)=>a.h-b.h);
       let x=0;items.forEach(it=>{let g,w;
-        if(it.kind==="rocket"){RS.R3.far(XRLITE);try{g=buildRocket(it.r).g}finally{RS.R3.far(false)}duetMergeStatic(g);const b=new T.Box3().setFromObject(g);w=Math.max(b.max.x-b.min.x,b.max.z-b.min.z)}else{g=qutub();duetMergeStatic(g);w=16}
+        if(it.kind==="rocket"){RS.R3.far(XRLITE);try{g=buildRocket(it.r).g}finally{RS.R3.far(false)}if(XRLITE)lambert(g);duetMergeStatic(g);const b=new T.Box3().setFromObject(g);w=Math.max(b.max.x-b.min.x,b.max.z-b.min.z)}else{g=qutub();if(XRLITE)lambert(g);duetMergeStatic(g);w=16}
         x+=w/2;g.position.set(x,0,0);root.add(g);
         const lab=label(it.kind==="rocket"?it.r.name:"Qutub Minar",fmt(it.h,1)+" m",it.kind==="rocket"?(it.r.country==="india"?"#ff9933":"#8ec5ff"):"#e8c27a",.15);lab.position.set(x,it.h+6,0);root.add(lab);
         const hit=new T.Mesh(new T.BoxGeometry(Math.max(w,4),it.h,Math.max(w,4)),new T.MeshBasicMaterial({visible:false}));hit.position.set(0,it.h/2,0);hit.userData.pick=it;g.add(hit);hits.push(hit);it.g=g;
