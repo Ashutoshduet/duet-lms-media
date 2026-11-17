@@ -2798,7 +2798,7 @@ function SaurXR(stage,menuEl,opt){
   const S=new T.Scene();const cam=new T.PerspectiveCamera(60,1,.01,200);cam.focus=2;S.add(cam);
   const LD=new T.TextureLoader(),TX={};
   const tex=n=>{if(TX[n])return TX[n];const t=LD.load("tex/"+n);t.encoding=T.sRGBEncoding;t.anisotropy=4;return TX[n]=t};
-  const skyBig=R.capabilities.maxTextureSize>=8192&&(QUEST||!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent));
+  const skyBig=R.capabilities.maxTextureSize>=8192&&!QUEST&&!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);   // Quest: the 4k sky (an 8k upload stalls the headset for ~0.3 s, Meta VRC.Quest.Performance.1)
   const skyTex=LD.load(skyBig?"sky/milkyway_8k.jpg":"sky/milkyway_4k.jpg");skyTex.encoding=T.sRGBEncoding;
   const skyGeo=new T.SphereGeometry(80,64,32);skyGeo.scale(-1,1,1);
   const stars=new T.Mesh(skyGeo,new T.MeshBasicMaterial({map:skyTex,side:T.DoubleSide,depthWrite:false}));
@@ -3604,7 +3604,7 @@ function VRHub(o){
   /* ---------- sky ---------- */
   const SKYM=new T.Matrix4().set(-1,0,0,0, 0,0.9174820621,-0.3977771558,0, 0,-0.3977771558,-0.9174820621,0, 0,0,0,1);
   const SKYEQ=new T.Matrix4().makeRotationY(Math.PI);
-  const big=R.capabilities.maxTextureSize>=8192&&!o.lite&&!XRLITE;   // (phones: the 4k sky, even with 8 GB)
+  const big=R.capabilities.maxTextureSize>=8192&&!o.lite&&!XRLITE&&!/OculusBrowser|Quest/i.test(navigator.userAgent);   // (phones and Quest: the 4k sky; on Quest the 8k upload stalled the headset, Meta VRC.Quest.Performance.1)
   const milky=o.LD.load(big?"sky/milkyway_8k.jpg":"sky/milkyway_4k.jpg");milky.encoding=T.sRGBEncoding;
   const skyGeo=new T.SphereGeometry(2400,64,32);skyGeo.scale(-1,1,1);
   const sky=new T.Mesh(skyGeo,new T.MeshBasicMaterial({map:milky,depthWrite:false,color:0xb8bccb}));sky.matrixAutoUpdate=false;sky.renderOrder=-10;sky.frustumCulled=false;S.add(sky);sky.visible=false;
@@ -3657,7 +3657,43 @@ function VRHub(o){
     rim.onBeforeRender=()=>uni.uSun.value.copy(getSun());
     return {clouds:cl,halo,rim,parts:[cl,halo,rim]}};
   /* ---------- scenes ---------- */
-  function go(id,arg){const next=H.scenes[id];if(!next)return;
+  /* ---------- Quest: a full-screen fade while a scene loads ----------
+     Meta (VRC.Quest.Performance.1) needs 60+ fps all the time, except while a loading screen or a full-screen fade is
+     shown. So on Quest a scene change goes: fade to black, build the new scene, wait for its files, compile its shaders
+     and send its textures to the GPU a few per frame, then fade in. Models that arrive later get their textures sent a
+     few per frame before they are handed to the scene (prepObj), so nothing big is uploaded in one frame in view. */
+  const QFADE=/OculusBrowser|Quest|Pico/i.test(navigator.userAgent);
+  const FD={a:QFADE?1:0,to:QFADE?1:0,cb:null,busy:false,next:null,mesh:null,last:0};
+  if(QFADE){FD.mesh=new T.Mesh(new T.SphereGeometry(.3,16,8),new T.MeshBasicMaterial({color:0,side:T.BackSide,transparent:true,opacity:1,depthTest:false,depthWrite:false,fog:false}));
+    FD.mesh.renderOrder=1e9;FD.mesh.frustumCulled=false;cam.add(FD.mesh)}
+  function fadeTo(v,cb){FD.to=v;FD.cb=null;if(FD.a===v){if(cb)cb()}else FD.cb=cb||null}
+  function fadeStep(ms){const sp=Math.min(ms,50)/200;if(FD.a<FD.to)FD.a=Math.min(FD.to,FD.a+sp);else if(FD.a>FD.to)FD.a=Math.max(FD.to,FD.a-sp);
+    FD.mesh.material.opacity=FD.a;FD.mesh.visible=FD.a>.001;if(FD.a===FD.to&&FD.cb){const c=FD.cb;FD.cb=null;c()}}
+  const LDM=(()=>{const M=T.DefaultLoadingManager;if(!M.__duetN){const c={n:0},s0=M.itemStart.bind(M),e0=M.itemEnd.bind(M);M.__duetN=c;
+    M.itemStart=u=>{c.n++;s0(u)};M.itemEnd=u=>{c.n=Math.max(0,c.n-1);e0(u)}}return M.__duetN})();   // files still loading
+  const TEXK=["map","normalMap","roughnessMap","metalnessMap","aoMap","emissiveMap","alphaMap","bumpMap","lightMap","specularMap","displacementMap","clearcoatNormalMap"];
+  function texOf(root,out){const seen=out.seen||(out.seen=new Set());const add=t=>{if(t&&t.isTexture&&!t.isCubeTexture&&!t.isVideoTexture&&!t.isRenderTargetTexture&&t.image&&!seen.has(t)){seen.add(t);out.push(t)}};
+    root.traverse(o=>{const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[];for(const m of ms){if(!m)continue;for(const k of TEXK)add(m[k]);if(m.uniforms)for(const k in m.uniforms){const v=m.uniforms[k]&&m.uniforms[k].value;if(v&&v.isTexture)add(v)}}});return out}
+  const QP={n:0,q:[]};
+  function prepObj(obj,cb){if(!QFADE||!R.xr.isPresenting||!obj){cb();return}QP.n++;QP.q.push({tex:texOf(obj,[]),cb})}
+  function qpTick(){const t0=performance.now();while(QP.q.length&&performance.now()-t0<4){const j=QP.q[0];if(j.tex.length){try{R.initTexture(j.tex.pop())}catch(e){}continue}QP.q.shift();QP.n--;try{j.cb()}catch(e){console.warn(e)}}}
+  function qpFlush(){while(QP.q.length){const j=QP.q.shift();QP.n--;try{j.cb()}catch(e){console.warn(e)}}}
+  if(QFADE&&T.GLTFLoader&&!T.GLTFLoader.prototype.__qprep){const P=T.GLTFLoader.prototype,L0=P.load;P.__qprep=1;
+    P.load=function(url,onLoad,onP,onE){return L0.call(this,url,g=>{const f=window.__duetPrep;if(f)f(g&&(g.scene||(g.scenes&&g.scenes[0])),()=>onLoad&&onLoad(g));else if(onLoad)onLoad(g)},onP,onE)}}
+  window.__duetPrep=prepObj;H.fadeState=()=>({a:+FD.a.toFixed(2),to:FD.to,busy:FD.busy,on:ST.on,step:ST.step,files:LDM.n,prep:QP.n});
+  const ST={on:false,t0:0,step:0,tex:null,good:0};
+  function settle(){ST.on=true;ST.t0=performance.now();ST.step=0;ST.tex=null;ST.good=0}
+  function settleDone(){ST.on=false;FD.busy=false;fadeTo(0);if(FD.next){const n=FD.next;FD.next=null;go(n[0],n[1])}}
+  function settleTick(ms){const el=performance.now()-ST.t0;if(el>9000){settleDone();return}
+    if(ST.step===0){if(el>200&&!LDM.n&&!QP.n)ST.step=1;return}                       // the scene's files have arrived
+    if(ST.step===1){try{R.compile(S,cam)}catch(e){}ST.tex=texOf(S,[]);ST.step=2;return} // all its shaders, even out of view
+    if(ST.step===2){const t0=performance.now();while(ST.tex.length&&performance.now()-t0<6){try{R.initTexture(ST.tex.pop())}catch(e){}}if(!ST.tex.length)ST.step=3;return}
+    ST.good=ms<20?ST.good+1:0;if(ST.good>=8)settleDone()}                           // and frames are quick again
+  function go(id,arg){if(!H.scenes[id])return;
+    if(!(QFADE&&R.xr.isPresenting)){doGo(id,arg);return}
+    if(FD.busy){FD.next=[id,arg];return}
+    FD.busy=true;fadeTo(1,()=>{doGo(id,arg);settle()})}
+  function doGo(id,arg){const next=H.scenes[id];if(!next)return;
     if(H.scene&&H.scene.exit)H.scene.exit();H.hush();H.hideCard();H.hideHint();
     H.scene=next;rig.position.set(0,0,0);rig.rotation.set(0,0,0);rig.scale.setScalar(1);rig.updateMatrixWorld(true);
     H.setSky(next.sky||"milky");H.ambient(next.ambient===undefined?(next.sky==="none"?null:"ambient"):next.ambient);endGrab(null);next.enter(arg);menu.redraw()}
@@ -3740,6 +3776,9 @@ function VRHub(o){
     exit(){endGrab(null);if(gz){holds.delete(gz);if(gz.parent)gz.parent.remove(gz)}if(ret.parent)ret.parent.remove(ret);ret.visible=false;H.gazeMode=false;if(H.scene&&H.scene.exit)H.scene.exit();H.scene=null;H.hush();H.ambient(null);H.stopPlanet();S.add(cam);cam.position.set(0,0,0);cam.quaternion.identity();cam.near=saved.near||.01;cam.far=saved.far||200;cam.updateProjectionMatrix();
       ctrls.forEach(c=>{S.add(c);if(c.userData.ln)c.userData.ln.scale.z=4;c.userData.dot.visible=false});sky.visible=false;card.mesh.visible=false;menu.mesh.visible=false;board.mesh.visible=false;rig.position.set(0,0,0);rig.rotation.set(0,0,0)},
     frame(dt){frames++;
+      if(FD.mesh){const nt=performance.now(),ms=FD.last?nt-FD.last:16;FD.last=nt;
+        if(!R.xr.isPresenting){if(FD.a||FD.to){FD.a=FD.to=0;FD.mesh.visible=false;FD.cb=null}if(ST.on){ST.on=false;FD.busy=false}qpFlush()}
+        else{fadeStep(ms);if(ST.on&&FD.a>=1)settleTick(ms);qpTick()}}
       if(frames===3)go(H.scenes[H.pending]?H.pending:"lobby");
       if(!H.scene)return;
       input(dt);rig.updateMatrixWorld(true);
