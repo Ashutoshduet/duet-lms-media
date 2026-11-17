@@ -23,6 +23,7 @@ import { isX, loadLang, ready as langReady, langMenu, XLABEL } from './xlang.js'
 import { ClassUI } from './classui.js';
 import { bodyQuiz } from './quizgen.js';
 import { bodyDocs, bodySuggest } from './tutordocs.js';
+import { installQuestFade } from './questfade.js';
 
 const Q = new URLSearchParams(location.search);
 const $ = (s) => document.querySelector(s);
@@ -1634,4 +1635,4 @@ if ('serviceWorker' in navigator && !Q.has('shot') && (location.protocol === 'ht
 
 const app = new App();
 window.app = app;
-app.init().catch((e) => { console.error(e); const el = $('#loader .msg'); if (el) el.textContent = 'Error: ' + e.message; });
+app.init().then(() => { try { app.questFade = installQuestFade(app); } catch (e) { console.warn(e); } }).catch((e) => { console.error(e); const el = $('#loader .msg'); if (el) el.textContent = 'Error: ' + e.message; });
