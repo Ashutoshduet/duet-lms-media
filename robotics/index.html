@@ -56,6 +56,7 @@ button:focus-visible,select:focus-visible{outline:2px solid var(--ink);outline-o
 .chip.ok i{background:rgba(120,200,120,.22);color:var(--green)}
 .chip.lock{color:var(--mute)}.chip.lock i::after{content:"🔒";font-size:9px;margin-left:1px}
 body.free #strip{display:none}
+#strip .sg{flex:none;align-self:center;padding:0 3px 0 10px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);white-space:nowrap}#strip .sg:first-child{padding-left:5px}html[lang=hi] #strip .sg{letter-spacing:0}
 /* parts drawer */
 #drawer{position:fixed;left:12px;top:calc(max(10px,env(safe-area-inset-top)) + 108px);bottom:12px;width:var(--drw);z-index:5;display:flex;flex-direction:column;padding:10px 8px}
 body.free #drawer{top:calc(max(10px,env(safe-area-inset-top)) + 54px)}
@@ -162,6 +163,52 @@ body.ready #loader{opacity:0;pointer-events:none}
 @keyframes ld{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
 #foot{position:fixed;right:calc(var(--side) + 26px);bottom:2px;z-index:4;font-size:10.5px;color:rgba(255,255,255,.35)}#foot a{color:inherit}
 body.dragging,body.dragging *{cursor:grabbing!important}
+/* the robot / scene / micro:bit beside the bench (worlds.js, worlds3.js, mbworld5.js): its live panel under the parts
+   (a phone or narrow screen: on the right edge), its controls, and the labels on the robot (main.js renderWorld) */
+body.has-world{--drw:236px}
+#bar .wv{display:none}body.has-world #bar .wv{display:flex}
+#world{position:fixed;left:12px;bottom:12px;width:var(--drw);max-height:calc(100% - 290px);overflow:auto;z-index:5;display:none;padding:8px 10px 10px;scrollbar-width:thin}
+#world.show{display:block}
+#world .wh{display:flex;align-items:center;gap:6px;margin:0 0 3px}
+#w-t{flex:1;min-width:0;font-size:14.5px;font-weight:700;line-height:1.25}
+#w-min{width:28px;height:28px;font-size:13px;color:var(--mute);flex:none;transition:transform .2s}
+#world.min #w-min{transform:rotate(90deg)}#world.min #w-rows,#world.min #w-ctl{display:none}
+#w-rows div{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;column-gap:8px;font-size:12.5px;line-height:1.3;padding:3px 0;border-top:1px solid var(--line)}
+#w-rows span{color:var(--mute)}#w-rows b{margin-left:auto;font-family:var(--mono);font-weight:500;font-size:12.5px;color:#9ff0b0;text-align:right;min-width:0;max-width:100%;overflow-wrap:anywhere}
+#w-ctl .wc{margin-top:6px}
+#w-ctl label{display:block;font-size:12px;color:var(--mute);margin:2px 0 3px}#w-ctl label:empty{display:none}
+#w-ctl .wc-button .btn{width:100%;padding:9px 10px;white-space:normal;line-height:1.25}
+#w-ctl .wc-range{display:grid;grid-template-columns:1fr auto;gap:0 8px;align-items:center}#w-ctl .wc-range label{grid-column:1/-1}
+#w-ctl .wc-range input{width:100%;accent-color:var(--acc);margin:0}#w-ctl .wc-range span{font-family:var(--mono);font-size:12px;color:#9ff0b0;min-width:44px;text-align:right}
+#w-ctl .seg{gap:3px}#w-ctl .seg button{flex:1;min-width:0;padding:8px 4px;font-size:13px;line-height:1.2;white-space:normal;color:var(--txt)}#w-ctl .seg button:hover{background:rgba(255,255,255,.08)}#w-ctl .seg button.on{background:var(--ink);color:#12100c}
+#w-ctl .phone{margin-top:2px;padding:10px 10px 12px;border-radius:18px;background:#0a0d12;border:2px solid #2b3240;text-align:center}
+#w-ctl .wc-pad.live .phone{border-color:rgba(127,209,255,.55)}
+#w-ctl .ph-t{font-size:13.5px;font-weight:700}#w-ctl .ph-s{font-size:11.5px;color:var(--green);min-height:15px;margin-bottom:5px}
+#w-ctl .ph-pair{width:100%;margin-bottom:8px}
+#w-ctl .ph-pad{display:grid;grid-template-columns:repeat(3,46px);grid-template-rows:repeat(3,46px);gap:6px;justify-content:center;touch-action:none}
+#w-ctl .ph-pad button{border-radius:11px;background:rgba(255,255,255,.08);font-size:17px;color:var(--txt);touch-action:none}
+#w-ctl .ph-pad button.on{background:var(--acc);color:#14100a}
+#w-ctl .ph-pad [data-k=F]{grid-area:1/2}#w-ctl .ph-pad [data-k=L]{grid-area:2/1}#w-ctl .ph-pad [data-k=S]{grid-area:2/2}#w-ctl .ph-pad [data-k=R]{grid-area:2/3}#w-ctl .ph-pad [data-k=B]{grid-area:3/2}
+#wlabels{position:fixed;inset:0;pointer-events:none;z-index:4;overflow:hidden}
+#wlabels i{position:absolute;left:0;top:0;margin:-11px 0 0 12px;padding:2px 7px;border-radius:7px;font:600 12px/18px var(--mono);font-style:normal;color:#ffd76a;background:rgba(10,13,18,.8);border:1px solid rgba(255,215,106,.35);white-space:nowrap}
+body.in-vr #world,body.in-vr #wlabels{display:none}
+/* the installed headset app: if VR cannot start by itself (or after it ends), one big button */
+#xr-wait{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(10,13,19,.72)}
+body.xr-wait:not(.in-vr) #xr-wait{display:grid}
+#xr-go{font-weight:700;font-size:30px;line-height:1.2;font-family:inherit;padding:28px 48px;border-radius:18px;border:0;background:#f0a65a;color:#14100a;cursor:pointer;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+@media (max-width:1180px){body.has-world{--drw:204px}}
+@media (max-width:980px){
+  body.has-world{--drw:156px;--wpw:222px}
+  #world{left:auto;right:12px;width:var(--wpw);top:calc(max(10px,env(safe-area-inset-top)) + 108px);bottom:auto;max-height:calc(100% - 128px)}
+  body.has-world #card{right:calc(var(--wpw) + 24px)}body.has-world #bar{max-width:calc(100% - var(--drw) - var(--wpw) - 48px)}
+}
+@media (max-height:520px){
+  body.has-world{--drw:84px;--wpw:186px}
+  #world{top:50px;right:8px;max-height:calc(100% - 56px);padding:6px 8px 8px}#w-t{font-size:13px}#w-rows div{font-size:11.5px;padding:2px 0}#w-rows b{font-size:11.5px}
+  #w-ctl .wc{margin-top:4px}#w-ctl .seg button{padding:6px 2px;font-size:12px}#w-ctl .wc-button .btn{padding:6px 8px}
+  #w-ctl .ph-pad{grid-template-columns:repeat(3,38px);grid-template-rows:repeat(3,38px);gap:4px}
+  body.has-world #card{right:calc(var(--wpw) + 16px)}body.has-world #bar{max-width:calc(100% - var(--drw) - var(--wpw) - 32px)}
+}
 body.in-vr #top,body.in-vr #strip,body.in-vr #drawer,body.in-vr #bar,body.in-vr #card,body.in-vr #side,body.in-vr #callout,body.in-vr #meter{display:none}
 /* narrower screens: the code panel is a sheet that opens from the top bar */
 @media (max-width:1180px){:root{--side:360px;--drw:156px}#title{display:none}.pc img{width:58px;height:46px}}
@@ -175,7 +222,7 @@ body.in-vr #top,body.in-vr #strip,body.in-vr #drawer,body.in-vr #bar,body.in-vr 
   :root{--drw:84px;--top:40px}
   #top{top:max(6px,env(safe-area-inset-top));height:38px;gap:6px;left:8px;right:8px}#brand,#modes,#tools{height:38px}#brand{padding:0 8px;gap:8px}#logo{height:13px}#title{display:none}
   .seg button{padding:5px 8px;font-size:12px}.ib{width:32px;height:32px;font-size:15px}.xr{padding:6px 9px;font-size:12px}
-  #b-menu{display:grid}#strip{display:none;top:48px;left:8px;right:8px;height:auto;flex-wrap:wrap;max-height:calc(100% - 60px);overflow:auto;z-index:9}body.menu-open #strip{display:flex}
+  #b-menu{display:grid}#strip{display:none;top:48px;left:8px;right:8px;height:auto;flex-wrap:wrap;max-height:calc(100% - 60px);overflow:auto;z-index:9}body.menu-open #strip{display:flex}#strip .sg{flex-basis:100%;padding:6px 6px 1px}
   #drawer{top:50px;left:8px;bottom:8px;padding:6px 4px}body.free #drawer{top:50px}#drawer h3,#drawer .hint{display:none}
   #plist{grid-template-columns:1fr;gap:4px}.pc{padding:3px 2px}.pc img{width:52px;height:36px}.pc span{font-size:9.5px}.pc .cols b{width:9px;height:9px}
   #bar{top:50px;left:calc(var(--drw) + 16px);padding:3px;gap:3px;max-width:calc(100% - var(--drw) - 24px)}body.free #bar{top:50px}#bar .tb{padding:4px 7px;font-size:11.5px}#bar .tb .tl{display:none}#bar label span{display:none}#bar input[type=range]{width:64px}
@@ -191,6 +238,12 @@ html.duet-phone{--panel:rgba(14,18,25,.94)} /* phones: solid panels instead of t
 <script src="./duetgate.js"></script>
 <script src="./duetperf.js"></script>
 <script src="./duetboard.js"></script>
+<script>
+// Every 2D canvas of this app (the boards' printed artwork, the LCD and phone screens, the headset panel) keeps its picture
+// in memory, not on the GPU: when a phone or headset loses its GPU (memory pressure, the app sent to the background), a GPU
+// canvas comes back blank, and the 3D textures made from it would come back black. three.js uploads them again from these.
+(function () { if (/[?&]gpucanvas\b/.test(location.search)) return; /* (?gpucanvas: as before, for comparing) */ var g = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function (k, o) { return g.call(this, k, k === '2d' && !o ? { willReadFrequently: true } : o); }; })();
+</script>
 <script type="importmap">{"imports":{"three":"./lib/three.module.js","three/addons/":"./lib/addons/"}}</script>
 </head>
 <body>
@@ -204,10 +257,12 @@ html.duet-phone{--panel:rgba(14,18,25,.94)} /* phones: solid panels instead of t
 </header>
 <nav id="strip" class="panel" aria-label="Lessons"></nav>
 <aside id="drawer" class="panel"><h3 data-t="parts">Parts</h3><p class="hint" data-t="partsHint"></p><div id="plist"></div></aside>
+<aside id="world" class="panel"><div class="wh"><b id="w-t"></b><button id="w-min" class="ib" aria-label="Fold">▾</button></div><div id="w-rows"></div><div id="w-ctl"></div></aside>
+<div id="wlabels" aria-hidden="true"></div>
 <div id="bar" class="panel">
   <button class="tb on" data-tool="move">✋ <span class="tl" data-t="tSelect">Move</span></button><button class="tb" data-tool="wire">〰 <span class="tl" data-t="tWire">Wire</span></button><button class="tb" data-tool="probe">⏚ <span class="tl" data-t="tProbe">Multimeter</span></button>
   <span class="div"></span>
-  <button class="tb" data-view="home">⌂ <span class="tl" data-t="tHome">Whole bench</span></button><button class="tb" data-view="bb">⊞ <span class="tl" data-t="tZoom">Breadboard</span></button><button class="tb" data-view="top">⊙ <span class="tl" data-t="tTop">Top view</span></button>
+  <button class="tb" data-view="home">⌂ <span class="tl" data-t="tHome">Whole bench</span></button><button class="tb" data-view="bb">⊞ <span class="tl" data-t="tZoom">Breadboard</span></button><button class="tb" data-view="top">⊙ <span class="tl" data-t="tTop">Top view</span></button><button class="tb wv" data-view="robot">🏁 <span class="tl" data-t="tRobot">Robot</span></button>
   <span class="div"></span>
   <label>💡 <span data-t="light">Room light</span><input id="r-light" type="range" min="0" max="100" value="75"></label>
   <button class="tb" id="b-repair">⟲ <span class="tl" data-t="repair">Replace burnt parts</span></button>
@@ -226,6 +281,7 @@ html.duet-phone{--panel:rgba(14,18,25,.94)} /* phones: solid panels instead of t
 <div id="tip" class="panel"></div>
 <div id="toast" class="panel"></div>
 <div id="foot"><a href="credits.html" target="_blank" rel="noopener" data-t="credits">Credits and licences</a></div>
+<div id="xr-wait"><button id="xr-go">🥽 Enter VR · VR में जाइए</button></div>
 <div id="loader"><div class="box"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h1>Robotics Lab 360</h1><p>Arduino · 3D · Class 6–12</p><div class="bar"><i></i></div></div></div>
 <script type="module" src="js/main.js"></script>
 <script src="./duetoffline.js" defer></script>

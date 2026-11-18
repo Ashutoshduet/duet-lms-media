@@ -3,6 +3,8 @@
 // generator, so delay() only pauses the sketch (the page keeps running) and the lab runs it on a virtual clock.
 // The numbers behave as on an Arduino Uno (ATmega328P): int is 16 bits (32767 + 1 = -32768), long 32 bits, float 32 bits,
 // 7 / 2 = 3 with whole numbers. Errors are given in plain words, with the line number (texts: i18n.js, CPP_MSG).
+import { LIB4 } from './lib4.js'; // batch 4: the ESP32's and the Mega's libraries (WiFi, WebServer, BluetoothSerial, Serial1–3, touchRead …); hooks marked "batch 4"
+import { LIB3 } from './libs3.js'; // batch 3: the module libraries (LCD, OLED, DHT, IRremote, Keypad, Stepper, MFRC522); hooks marked "batch 3"
 
 // ------------------------------------------------------------------ types
 // scalar types: bool char byte int uint long ulong float str servo void; arrays: { arr: elemType, dims: [n, ...] }
@@ -44,7 +46,7 @@ function wrapVal(v, t) {
 const RANGE = { bool: [0, 1], char: [-128, 127], byte: [0, 255], int: [-32768, 32767], uint: [0, 65535], long: [-2147483648, 2147483647], ulong: [0, 4294967295] };
 const ARRAY_CTOR = { bool: 'Uint8Array', char: 'Int8Array', byte: 'Uint8Array', int: 'Int16Array', uint: 'Uint16Array', long: 'Int32Array', ulong: 'Uint32Array', float: 'Float32Array' };
 const TYPE_NAME = { bool: 'bool', char: 'char', byte: 'byte', int: 'int', uint: 'unsigned int', long: 'long', ulong: 'unsigned long', float: 'float', str: 'String', servo: 'Servo', void: 'void' };
-export const typeName = (t) => (t && t.arr ? TYPE_NAME[t.arr] + '[]' : TYPE_NAME[t] || String(t));
+export const typeName = (t) => (t && t.arr ? TYPE_NAME[t.arr] + '[]' : TYPE_NAME[t] || String(t).replace(/^o:/, '')); // (batch 3: o:DHT -> DHT)
 
 // ------------------------------------------------------------------ the Arduino names the lab knows
 export const CONSTS = {
@@ -54,6 +56,8 @@ export const CONSTS = {
   DEC: [10, 'int'], HEX: [16, 'int'], OCT: [8, 'int'], BIN: [2, 'int'], NULL: [0, 'int'], LSBFIRST: [0, 'int'], MSBFIRST: [1, 'int'],
   CHANGE: [1, 'int'], FALLING: [2, 'int'], RISING: [3, 'int'], DEFAULT: [1, 'int'], EXTERNAL: [0, 'int'], INTERNAL: [3, 'int'],
 };
+Object.assign(CONSTS, LIB3.consts); // batch 3
+Object.assign(CONSTS, LIB4.consts); // batch 4: WL_CONNECTED, HTTP_GET, T0–T9 …
 // name: [min args, max args, return type, emit(args) -> js, timed (needs yield*)]
 const A = (a) => a.map((x) => x.c);
 export const FUNCS = {
@@ -136,8 +140,10 @@ const STRM = {
   endsWith: [1, 1, 'bool', (o, a) => `(+${o}.endsWith(${a[0].c}))`],
   trim: [0, 0, 'void', null], toUpperCase: [0, 0, 'void', null], toLowerCase: [0, 0, 'void', null], // change the String itself
 };
+Object.assign(FUNCS, LIB4.funcs); // batch 4: touchRead, ledcWrite, analogReadMilliVolts … (the 6th item: the board must be an ESP32)
 export const KNOWN_NAMES = [...Object.keys(CONSTS), ...Object.keys(FUNCS), 'Serial', 'Servo', 'setup', 'loop', 'void', 'int', 'long', 'float', 'double', 'bool', 'boolean', 'byte', 'char', 'unsigned', 'const', 'String',
   'if', 'else', 'for', 'while', 'do', 'switch', 'case', 'break', 'continue', 'return', 'default', 'sizeof', 'include', 'define'];
+KNOWN_NAMES.push(...Object.keys(LIB3.types).filter(LIB3.isType), ...Object.keys(LIB3.globals), ...Object.keys(LIB3.funcs)); // batch 3
 
 // ------------------------------------------------------------------ errors
 class CErr extends Error { constructor(code, line, args) { super(code); this.code = code; this.line = line; this.args = args || {}; } }
@@ -180,7 +186,7 @@ function lex(src, info) {
       if (dir === 'include') {
         const h = /^[<"]\s*([\w./]+)\s*[>"]$/.exec(rest); if (!h) throw new CErr('E_INCLUDE', line, { text: rest });
         info.includes.push(h[1]);
-        if (!/^(Arduino\.h|Servo\.h|math\.h|stdlib\.h|SoftwareSerial\.h|Wire\.h)$/.test(h[1])) info.warnings.push({ code: 'W_LIBRARY', line, args: { lib: h[1] } });
+        if (!/^(Arduino\.h|Servo\.h|math\.h|stdlib\.h|SoftwareSerial\.h|Wire\.h)$/.test(h[1]) && !LIB3.includes.includes(h[1]) && !LIB4.includes.includes(h[1])) info.warnings.push({ code: 'W_LIBRARY', line, args: { lib: h[1] } });
       } else if (dir === 'define') {
         const d = /^([A-Za-z_]\w*)(\()?\s*(.*)$/.exec(rest); if (!d) throw new CErr('E_DEFINE', line);
         if (d[2]) throw new CErr('E_UNSUPPORTED', line, { what: '#define ' + d[1] + '(…)' });
@@ -197,6 +203,7 @@ function lex(src, info) {
       let j = i + 1; while (j < n && /\w/.test(src[j])) j++;
       const w = src.slice(i, j); i = j;
       if (macros[w]) { for (const t of macros[w]) toks.push(Object.assign({}, t, { line, macro: w })); continue; }
+      if (w === 'R' && src[i] === '"') { const r = /^"([^()\\\s"]{0,16})\(/.exec(src.slice(i, i + 20)); const end = r ? src.indexOf(')' + r[1] + '"', i) : -1; if (end < 0) throw new CErr('E_STRING', line); const str = src.slice(i + r[0].length, end); push('str', str); line += (str.match(/\n/g) || []).length; i = end + r[1].length + 2; continue; } // batch 4: a raw string R"(…)"
       if (/^B[01]{1,8}$/.test(w)) { push('num', parseInt(w.slice(1), 2), { ty: 'int' }); continue; } // Arduino's B1010
       push('id', w); continue;
     }
@@ -243,6 +250,8 @@ function esc(c) { return { n: '\n', t: '\t', r: '\r', '0': '\0', '\\': '\\', "'"
 // ------------------------------------------------------------------ parser
 const TYPE_WORDS = new Set(['void', 'bool', 'boolean', 'char', 'byte', 'int', 'short', 'long', 'float', 'double', 'unsigned', 'signed', 'word', 'String', 'size_t',
   'uint8_t', 'int8_t', 'uint16_t', 'int16_t', 'uint32_t', 'int32_t', 'const', 'static', 'volatile', 'Servo', 'unsigned', 'auto']);
+for (const k of Object.keys(LIB3.types)) if (LIB3.isType(k)) TYPE_WORDS.add(k); // batch 3: LiquidCrystal_I2C, DHT, Keypad, …
+for (const k of Object.keys(LIB4.types)) if (LIB4.isType(k)) TYPE_WORDS.add(k); // batch 4: WebServer, BluetoothSerial, …
 class Parser {
   constructor(toks) { this.toks = toks; this.p = 0; }
   get tok() { return this.toks[this.p]; }
@@ -280,9 +289,10 @@ class Parser {
       'long': 'long', 'long int': 'long', 'signed long': 'long', 'long long': 'long', 'int32_t': 'long', 'unsigned long': 'ulong', 'unsigned long int': 'ulong', 'uint32_t': 'ulong', 'unsigned long long': 'ulong',
       'float': 'float', 'double': 'float', 'long double': 'float', 'String': 'str', 'Servo': 'servo', 'auto': 'auto',
     };
-    let t = map[s];
+    let t = map[s] || (LIB3.isType(s) ? 'o:' + s : undefined); // batch 3: a library object
+    if (!t && LIB4.isType(s)) t = 'o4:' + s; // batch 4
     if (!t) throw new CErr('E_TYPE', line, { text: s });
-    if (ptr) { if (t === 'char' || t === 'byte') t = 'str'; else throw new CErr('E_UNSUPPORTED', line, { what: 'pointer (*)' }); }
+    if (ptr && !String(t).startsWith('o4:')) { if (t === 'char' || t === 'byte') t = 'str'; else throw new CErr('E_UNSUPPORTED', line, { what: 'pointer (*)' }); }
     return { t, isConst, line };
   }
   program() {
@@ -299,7 +309,7 @@ class Parser {
       }
       const ty = this.type();
       const name = this.ident('name');
-      if (this.is('(')) items.push(this.func(ty, name));
+      if (this.is('(') && !String(ty.t).startsWith('o:') && !String(ty.t).startsWith('o4:')) items.push(this.func(ty, name)); // (batch 3: `LiquidCrystal_I2C lcd(0x27, 16, 2);` is an object; batch 4: `WebServer server(80);`)
       else { items.push(this.decl(ty, name, true)); }
     }
     return items;
@@ -330,7 +340,7 @@ class Parser {
       if (this.eat('=')) init = this.is('{') ? this.initList() : this.assign();
       else if (this.is('(') && ty.t === 'servo') { this.next(); this.expect(')'); }
       else if (this.is('(')) { this.next(); ctorArgs = this.is(')') ? [] : this.args(); this.expect(')'); if (ctorArgs.length === 1) init = ctorArgs[0]; }
-      vars.push({ name: name.v, line: name.line, dims, init });
+      vars.push({ name: name.v, line: name.line, dims, init, ctorArgs }); // (batch 3: ctorArgs make library objects)
       if (!this.eat(',')) break;
       name = this.ident('name');
     }
@@ -423,6 +433,7 @@ class Parser {
   unary() {
     const t = this.tok;
     if (t.t === 'op' && ['-', '+', '!', '~', '++', '--'].includes(t.v)) { this.next(); const e = this.unary(); return t.v === '++' || t.v === '--' ? { k: 'pre', op: t.v, e, line: t.line } : { k: 'un', op: t.v, e, line: t.line }; }
+    if (t.t === 'op' && t.v === '&' && this.peek().t === 'id') { this.next(); return { k: 'addr', e: this.unary(), line: t.line }; } // batch 3: &Wire, &results (other & are refused by Gen)
     if (t.t === 'op' && (t.v === '&' || t.v === '*')) throw new CErr('E_UNSUPPORTED', t.line, { what: t.v === '&' ? 'address (&)' : 'pointer (*)' });
     if (t.t === 'op' && t.v === '(' && this.peek().t === 'id' && TYPE_WORDS.has(this.peek().v) && this.peek().v !== 'String') { // (int) x
       this.next(); const ty = this.type(); this.expect(')'); return { k: 'cast', to: ty.t, e: this.unary(), line: t.line };
@@ -456,11 +467,13 @@ class Parser {
       this.next();
       if (TYPE_WORDS.has(t.v) && this.is('(')) { // int(x), float(x), String(x)
         if (t.v === 'String') return { k: 'id', name: 'String', line: t.line };
+        if (LIB3.isType(t.v)) { this.next(); const args = this.is(')') ? [] : this.args(); this.expect(')'); return { k: 'ctor', ty: t.v, args, line: t.line }; } // batch 3: Keypad(…)
         const ty = new Parser([t, { t: 'eof', line: t.line }]).type(); this.expect('('); const e = this.expr(); this.expect(')'); return { k: 'cast', to: ty.t, e, line: t.line };
       }
       return { k: 'id', name: t.v, line: t.line };
     }
     if (t.t === 'op' && t.v === '(') { this.next(); const e = this.expr(); this.expect(')'); return e; }
+    if (t.t === 'op' && t.v === '[') return LIB4.lambda(this); // batch 4: [](){ … } for a web route
     if (t.t === 'eof') throw new CErr('E_EOF', (this.toks[this.p - 1] || t).line, { want: '' });
     throw new CErr('E_EXPR', t.line, { got: show(t) });
   }
@@ -592,6 +605,8 @@ class Gen {
       let initCode = null, k;
       if (t && t.arr) initCode = this.arrInit(t, v.init, v.line);
       else if (t === 'servo') { if (!this.info.includes.includes('Servo.h')) this.err('E_SERVO_INCLUDE', v.line); initCode = 'rt.servo()'; }
+      else if (String(t).startsWith('o:')) initCode = LIB3.decl(this, t.slice(2), v); // batch 3: a library object
+      else if (String(t).startsWith('o4:')) initCode = LIB4.decl(this, t.slice(3), v); // batch 4: WebServer server(80);
       else if (v.init) {
         if (v.init.k === 'list') this.err('E_LIST', v.line, { name: v.name });
         const e = this.ex(v.init); if (t === 'auto') t = e.t;
@@ -629,7 +644,8 @@ class Gen {
     if (t === 'void') return e.c;
     if (e.t === 'void') this.err('E_VOID_VALUE', line, { name: e.fname || '' });
     if (t === 'str') return e.t === 'str' ? e.c : `rt.S(${e.c},'${e.t}')`;
-    if (t === 'servo' || (t && t.arr)) { if (JSON.stringify(e.t) !== JSON.stringify(t)) this.err('E_ASSIGN_TYPE', line, { a: typeName(e.t), b: typeName(t) }); return e.c; }
+    if (t === 'servo' || (t && t.arr) || String(t).startsWith('o:')) { if (JSON.stringify(e.t) !== JSON.stringify(t)) this.err('E_ASSIGN_TYPE', line, { a: typeName(e.t), b: typeName(t) }); return e.c; }
+    if (String(e.t).startsWith('o:')) this.err('E_ASSIGN_TYPE', line, { a: typeName(e.t), b: typeName(t) }); // batch 3
     if (e.t === 'str') this.err('E_STR_TO_NUM', line, { t: typeName(t) });
     if (e.t && e.t.arr) this.err('E_ARRAY_VALUE', line);
     if (e.t === 'servo') this.err('E_ASSIGN_TYPE', line, { a: 'Servo', b: typeName(t) });
@@ -651,9 +667,12 @@ class Gen {
       case 'str': return { c: JSON.stringify(e.v), t: 'str', k: e.v };
       case 'id': {
         const v = this.lookup(e.name);
-        if (v) { if (v.k !== undefined) return { c: String(v.k), t: v.t, k: v.k, sym: v }; return { c: v.js, t: v.t, sym: v }; }
+        if (v) { if (v.k !== undefined) return { c: typeof v.k === 'string' ? JSON.stringify(v.k) : String(v.k), t: v.t, k: v.k, sym: v }; return { c: v.js, t: v.t, sym: v }; } // (batch 4: a const text, like const char* ssid = "…", stays in quotes)
+        { const bc = this.info.board && this.info.board.consts; if (bc && bc[e.name] !== undefined) return { c: String(bc[e.name]), t: 'int', k: bc[e.name] }; } // batch 4: A0 on a Mega is 54, LED_BUILTIN on an ESP32 is 2
         if (e.name in CONSTS) { const [val, ty] = CONSTS[e.name]; return { c: String(val), t: ty, k: val }; }
         if (e.name === 'Serial') return { c: '1', t: 'bool', k: 1 };
+        if (LIB3.globals[e.name]) return LIB3.global(this, e.name, e.line); // batch 3: IrReceiver, Wire, SPI
+        if (LIB4.globals[e.name]) return LIB4.global(this, e.name, e.line); // batch 4: WiFi, Serial1–3
         if (this.funcs.has(e.name) || FUNCS[e.name]) this.err('E_CALL_PARENS', e.line, { name: e.name });
         this.unknown(e.name, e.line, false);
       }
@@ -701,7 +720,11 @@ class Gen {
         return { c: `${a.c}[rt.ix(${a.c},${i.c},${JSON.stringify(exprName(e.a))})]`, t: rest.length ? { arr: a.t.arr, dims: rest } : a.t.arr, lv: { arr: a.c, idx: i.c, name: exprName(e.a) } };
       }
       case 'call': return this.call(e);
+      case 'addr': return LIB3.addr(this, e); // batch 3
+      case 'lambda': return LIB4.genLambda(this, e); // batch 4
+      case 'ctor': return { c: LIB3.ctor(this, e.ty, e.args, e.line), t: 'o:' + e.ty }; // batch 3
       case 'member': {
+        { const r = LIB3.member(this, e); if (r) return r; } // batch 3: rfid.uid.uidByte, IrReceiver.decodedIRData.command
         if (e.o.k === 'id' && e.o.name === 'Serial') this.err('E_CALL_PARENS', e.line, { name: 'Serial.' + e.m });
         this.err('E_MEMBER', e.line, { name: e.m });
       }
@@ -824,9 +847,11 @@ class Gen {
       return { c: `(yield* ${user.js}(${args}))`, t: user.ret, fname: name };
     }
     if (this.lookup(name)) this.err('E_NOT_FUNC', e.line, { name });
+    if (LIB3.funcs[name]) return LIB3.funcs[name](this, e); // batch 3: F(), makeKeymap(), isnan()
     const B = FUNCS[name];
     if (!B) this.unknown(name, e.line, true);
     const [mn, mx, ret] = B;
+    if (B[5] && this.info.board && !this.info.board[B[5]]) this.err('E_BOARD_FUNC', e.line, { name, board: this.info.board.short }); // batch 4: touchRead() on an Uno
     if (e.args.length < mn || e.args.length > mx) this.err('E_ARGS', e.line, { name, min: mn, max: mx, got: e.args.length });
     if (name === 'String') {
       const a = this.ex(e.args[0]);
@@ -874,6 +899,8 @@ class Gen {
       this.info.servo = true;
       return { c: B[3](obj.c, args), t: B[2] };
     }
+    if (String(obj.t).startsWith('o:')) return LIB3.method(this, e, obj, exprName(o)); // batch 3
+    if (String(obj.t).startsWith('o4:')) return LIB4.method(this, e, obj, exprName(o)); // batch 4
     if (obj.t === 'str') {
       const B = STRM[m]; if (!B) this.err('E_MEMBER', e.line, { name: m });
       if (e.args.length < B[0] || e.args.length > B[1]) this.err('E_ARGS', e.line, { name: m, min: B[0], max: B[1], got: e.args.length });
@@ -891,8 +918,8 @@ function eval1(x, op, y) { switch (op) { case '<': return x < y; case '>': retur
 function exprName(e) { if (!e || typeof e === 'string') return ''; if (e.k === 'id') return e.name; if (e.k === 'index') return exprName(e.a); if (e.k === 'member') return exprName(e.o) + '.' + e.m; return ''; }
 
 // ------------------------------------------------------------------ compile
-export function compile(src) {
-  const info = { macros: {}, includes: [], warnings: [], pins: new Set(), servo: false, serial: false };
+export function compile(src, board) { // board (batch 4): the board's def, so that its pin names and libraries are checked
+  const info = { macros: Object.assign({}, LIB4.macros), includes: [], warnings: [], pins: new Set(), servo: false, serial: false, board: board || null };
   try {
     const toks = lex(String(src || ''), info);
     const items = new Parser(toks).program();
@@ -906,6 +933,11 @@ export function compile(src) {
     return { ok: false, errors: [{ code: 'E_INTERNAL', line: 1, args: { msg: String((err && err.message) || err) } }], warnings: info.warnings };
   }
 }
+// batch 3: the sketch as a tree (for the block editor, blocks.js) -> { ok, items, includes, macros } or { ok: false, error }
+export function parse(src) {
+  const info = { macros: {}, includes: [], warnings: [], pins: new Set() };
+  try { const items = new Parser(lex(String(src || ''), info)).program(); return { ok: true, items, includes: info.includes, macros: info.macros }; } catch (err) { return { ok: false, error: err instanceof CErr ? { code: err.code, line: err.line, args: err.args } : { code: 'E_INTERNAL', line: 1, args: {} } }; }
+}
 // syntax colours for the editor: [kind, text] pieces of one line (kinds: kw type fn num str com pre const)
 const HL_KW = new Set(['if', 'else', 'for', 'while', 'do', 'switch', 'case', 'default', 'break', 'continue', 'return', 'sizeof', 'const', 'static', 'volatile']);
 const HL_TYPE = new Set(['void', 'bool', 'boolean', 'char', 'byte', 'int', 'short', 'long', 'float', 'double', 'unsigned', 'signed', 'word', 'String', 'size_t', 'uint8_t', 'int8_t', 'uint16_t', 'int16_t', 'uint32_t', 'int32_t', 'Servo']);
@@ -917,7 +949,7 @@ export function highlight(code) {
     else if (m[2]) out.push(['pre', m[2]]);
     else if (m[3]) out.push(['str', m[3]]);
     else if (m[4]) out.push(['num', m[4]]);
-    else if (m[5]) { const w = m[5]; out.push([HL_KW.has(w) ? 'kw' : HL_TYPE.has(w) ? 'type' : w in CONSTS ? 'const' : FUNCS[w] || w === 'Serial' || w === 'setup' || w === 'loop' ? 'fn' : 'id', w]); }
+    else if (m[5]) { const w = m[5]; out.push([HL_KW.has(w) ? 'kw' : HL_TYPE.has(w) || LIB3.isType(w) ? 'type' : w in CONSTS ? 'const' : FUNCS[w] || w === 'Serial' || w === 'setup' || w === 'loop' ? 'fn' : 'id', w]); }
     else out.push(['', m[0]]);
   }
   return out;

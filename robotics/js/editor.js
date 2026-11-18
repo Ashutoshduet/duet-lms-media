@@ -11,6 +11,7 @@ export class Editor {
     host.innerHTML = '<div class="ed-g" aria-hidden="true"></div><div class="ed-w"><pre class="ed-h" aria-hidden="true"></pre><textarea class="ed-t" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" aria-label="Arduino code"></textarea></div>';
     this.g = host.querySelector('.ed-g'); this.h = host.querySelector('.ed-h'); this.t = host.querySelector('.ed-t'); this.w = host.querySelector('.ed-w');
     this.err = null; this.run = 0; this.marks = [];
+    this.mode = null; // batch 5: another language (Python): { hl, open (a line that opens a block), ind (one indent) }
     this.t.addEventListener('input', () => { this.err = null; this.paint(); this.onChange(this.t.value); });
     this.t.addEventListener('scroll', () => this.sync());
     this.t.addEventListener('keydown', (e) => this.key(e));
@@ -19,10 +20,10 @@ export class Editor {
   set value(v) { this.t.value = v; this.err = null; this.paint(); }
   key(e) {
     const t = this.t;
-    if (e.key === 'Tab') { e.preventDefault(); this.insert('  '); return; }
+    if (e.key === 'Tab') { e.preventDefault(); this.insert(this.mode ? this.mode.ind : '  '); return; }
     if (e.key === 'Enter') { // keep the indent, one more after {
       e.preventDefault(); const s = t.selectionStart, before = t.value.slice(0, s); const line = before.slice(before.lastIndexOf('\n') + 1);
-      let ind = (line.match(/^\s*/) || [''])[0]; if (/\{\s*$/.test(line)) ind += '  ';
+      let ind = (line.match(/^\s*/) || [''])[0]; if ((this.mode ? this.mode.open : /\{\s*$/).test(line)) ind += this.mode ? this.mode.ind : '  ';
       this.insert('\n' + ind); return;
     }
     if (e.key === '}' ) { const s = t.selectionStart, before = t.value.slice(0, s); const line = before.slice(before.lastIndexOf('\n') + 1); if (/^\s+$/.test(line) && line.length >= 2) { t.setRangeText('', s - 2, s, 'end'); } }
@@ -37,7 +38,7 @@ export class Editor {
   paint() {
     const lines = this.t.value.split('\n');
     let html = '';
-    const toks = highlight(this.t.value); // across lines (block comments)
+    const toks = (this.mode ? this.mode.hl : highlight)(this.t.value); // across lines (block comments)
     for (const [k, txt] of toks) html += k ? `<span class="k-${k}">${esc(txt)}</span>` : esc(txt);
     this.h.innerHTML = html + '\n';
     this.g.innerHTML = lines.map((_, i) => `<div data-l="${i + 1}">${i + 1}</div>`).join('');

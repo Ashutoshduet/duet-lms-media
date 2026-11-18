@@ -2,7 +2,7 @@
 // editor and Serial Monitor, the lessons with their step card, languages, the school code and the headset view.
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { Stage } from './stage.js';
+import { Stage, nextFrame } from './stage.js';
 import { View } from './view.js';
 import { Lab } from './sim.js';
 import { compile } from './cpp.js';
@@ -15,11 +15,29 @@ import { Editor } from './editor.js';
 import { Sound } from './audio.js';
 import { XR } from './xr.js';
 import * as MD from './models.js';
+import { makeWorld } from './worlds.js';
+import { install4 } from './app4.js'; // batch 4: Nano, Mega, ESP32: the Board list and box, the phone and router, pin popups (app4.js)
+import { install3 } from './app3.js'; // batch 3: block coding beside the C++ (blocks.js), the school-lab modules' panels and scenes (app3.js)
 
 const Q = new URLSearchParams(location.search);
+const PADKEY = { ArrowUp: 'F', ArrowDown: 'B', ArrowLeft: 'L', ArrowRight: 'R' };
+const WORLD_PAIR = { en: 'Connect HC-05', hi: 'HC-05 से जोड़िए', hg: 'HC-05 se jodiye' };
+const WORLD_BT = { // why a letter from the phone did not reach the sketch
+  none: { en: 'There is no HC-05 on the bench.', hi: 'बेंच पर HC-05 नहीं है।', hg: 'Bench par HC-05 nahi hai.' },
+  off: { en: 'The HC-05 has no power: wire its VCC and GND.', hi: 'HC-05 को बिजली नहीं: इसके VCC और GND जोड़िए।', hg: 'HC-05 ko power nahi: iske VCC aur GND jodiye.' },
+  unpaired: { en: 'Connect the phone to the HC-05 first.', hi: 'पहले फ़ोन को HC-05 से जोड़िए।', hg: 'Pehle phone ko HC-05 se jodiye.' },
+  crossed: { en: 'TXD is on the Arduino\'s TX (pin 1): two talkers. Move it to RX (pin 0).', hi: 'TXD, Arduino के TX (पिन 1) पर है: दोनों बोल रहे हैं। इसे RX (पिन 0) पर लगाइए।', hg: 'TXD, Arduino ke TX (pin 1) par hai: dono bol rahe hain. Ise RX (pin 0) par lagaiye.' },
+  nowire: { en: 'The HC-05\'s TXD is not wired to the Arduino\'s RX (pin 0).', hi: 'HC-05 का TXD, Arduino के RX (पिन 0) से नहीं जुड़ा।', hg: 'HC-05 ka TXD, Arduino ke RX (pin 0) se nahi juda.' },
+  stopped: { en: 'The sketch is not running: press Run.', hi: 'स्केच नहीं चल रहा: "चलाइए" दबाइए।', hg: 'Sketch nahi chal raha: Run dabaiye.' },
+  nobegin: { en: 'The sketch never called Serial.begin(9600).', hi: 'स्केच ने Serial.begin(9600) नहीं बुलाया।', hg: 'Sketch ne Serial.begin(9600) nahi bulaya.' },
+  baud: { en: 'Wrong speed: the HC-05 talks at 9600 baud, the sketch listens at another. The letters come out as rubbish.', hi: 'ग़लत रफ़्तार: HC-05, 9600 बॉड पर बोलता है, स्केच दूसरी पर सुनता है। अक्षर बिगड़ जाते हैं।', hg: 'Galat speed: HC-05 9600 baud par bolta hai, sketch doosri par sunta hai. Letters bigad jaate hain.' },
+};
 const TEST = Q.has('test');
+const SIM_MS = (window.DuetPerf && DuetPerf.phone) || /OculusBrowser|Quest|Pico/i.test(navigator.userAgent) ? 9 : 40; // the most JS time a frame gives the simulation (phones, headsets: 9 ms; a computer is fast enough not to need it)
 const store = { get(k) { try { return localStorage.getItem('rl360.' + k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem('rl360.' + k, v); } catch (e) { /* private */ } } };
-const LITE = Q.has('lite') || (!!(window.DuetPerf && DuetPerf.phone) && !Q.has('full'));
+const APP_VR = Q.get('app') === 'vr' || /^android-app:/.test(document.referrer) || (/OculusBrowser|Quest/i.test(navigator.userAgent) && !!window.matchMedia && matchMedia('(display-mode: standalone)').matches); // the installed Quest app
+const QUEST = /OculusBrowser|Quest|Pico/i.test(navigator.userAgent); // a standalone headset: phone-light materials, no shadows, no bloom (72 fps)
+const LITE = Q.has('lite') || ((!!(window.DuetPerf && DuetPerf.phone) || QUEST) && !Q.has('full'));
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmtV = (v) => (v === null || v === undefined || Number.isNaN(v) ? '—' : (Math.abs(v) < 0.005 ? 0 : v).toFixed(2));
@@ -30,7 +48,7 @@ class App {
     this.lang = Q.get('lang') || store.get('lang') || 'en'; if (!LANGS.includes(this.lang)) this.lang = 'en';
     L.lang = this.lang; document.documentElement.lang = this.lang;
     MD.setLite(LITE);
-    this.stage = new Stage($('#stage'), { lite: LITE });
+    this.stage = new Stage($('#stage'), { lite: LITE, headset: QUEST });
     this.lab = new Lab('uno');
     this.view = new View(this.stage, this.lab);
     this.rt = new LessonRT(this);
@@ -48,6 +66,8 @@ class App {
     }
     this.stage.onFrame = (dt) => this.frame(dt);
     window.app = this;
+    install4(this); // batch 4
+    install3(this); // batch 3
     this.boot();
   }
   get licensed() { return !window.DuetGate || DuetGate.state === 'ok' || (DuetGate.licensedFor && DuetGate.licensedFor('robotics')); }
@@ -58,16 +78,46 @@ class App {
     const first = Q.get('lesson') || (Q.has('free') ? null : store.get('lesson')) || 'meet';
     if (Q.has('free')) this.openFree(); else this.openLesson(BY_ID[first] ? first : 'meet', true);
     this.layout();
-    requestAnimationFrame(() => requestAnimationFrame(() => { document.body.classList.add('ready'); if (TEST) document.title = 'READY'; }));
-    setTimeout(() => this.makeThumbs(), TEST ? 50 : 600);
+    nextFrame().then(nextFrame).then(() => { document.body.classList.add('ready'); if (TEST) document.title = 'READY'; }); // (stage.js: also when the installed app is already in VR)
+    setTimeout(() => this.makeThumbs(this.drawerList()), TEST ? 50 : 600);
+    setTimeout(() => this.warmParts(), TEST ? 2500 : 1500);
     this.xr.supported().then((ok) => { $('#b-vr').hidden = !ok; });
+    if (APP_VR) this.autoVR();
   }
+  // the installed headset app (Quest: ?app=vr, opened from its Android app, or a standalone window) has no page to look at
+  // first: it goes straight into VR. If the headset wants a click first, or after the session ends, one big Enter VR button
+  autoVR() {
+    document.body.classList.add('app-vr'); $('#xr-go').onclick = () => this.startVR(true);
+    const t0 = performance.now(); const tryVR = () => { if (this.xr.session || this.vrEnded) return; this.startVR(false); if (performance.now() - t0 < 180000) setTimeout(tryVR, 3000); };
+    tryVR(); // (the headset may need a moment: a session before this one can still be closing, the page may still be loading)
+    // back to the front (after the Meta button, or the headset taken off and put on): straight back into VR
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !this.xr.session) setTimeout(() => this.startVR(false), 600); });
+  }
+  async startVR(user) {
+    if (this.xr.session || (this._vrTry && performance.now() - this._vrTry < 10000)) return; this._vrTry = performance.now(); // (a request that never answers does not block the next try)
+    document.body.classList.remove('xr-wait'); this.sound.unlock && this.sound.unlock();
+    let ok = await this.xr.enter(true); // (a click right after a session ended: that one can still be closing, so a few tries)
+    for (let k = 0; !ok && user && k < 10; k++) { await new Promise((r) => setTimeout(r, 1000)); ok = await this.xr.enter(k < 9); } // (about 10 s: in the emulator a new session is refused for ~5 s after the last one ends)
+    this._vrTry = 0;
+    if (!ok) document.body.classList.add('xr-wait');
+  }
+  onVREnd() { if (APP_VR) { this.vrEnded = true; document.body.classList.add('xr-wait'); } } // (xr.js: the session is over)
   // ------------------------------------------------------------ every frame
   frame(dt) {
     const ms = dt * 1000; this.lab.speed = this.speed;
-    if (!(window.DuetGate && DuetGate.active)) this.lab.step(ms);
+    let wmoved = false; const W = this.world && this.world.ready ? this.world : null;
+    if (!(window.DuetGate && DuetGate.active)) {
+      if (W) { // the bench and the robot step together in slices of 10 ms (sim time): a sensor never lags the sketch by a slow frame
+        const real = Math.min(ms, 250), sim = real / 1000 * this.speed, n = Math.min(40, Math.max(1, Math.ceil(sim / 0.01)));
+        // a slow phone or headset: at most SIM_MS of each frame for the sketch and the robot together; the slices left over
+        // are skipped (both together, so they stay in step: the robot runs a little slower instead of the frame stopping)
+        const f0 = performance.now();
+        for (let i = 0; i < n; i++) { this.lab.step(real / n); if (W.update(sim / n)) wmoved = true; if (performance.now() - f0 > SIM_MS) break; }
+      } else this.lab.step(ms);
+    }
     for (const chunk of this.lab.mcu.ser.take()) this.serialIn(chunk);
     this.view.update(dt); this.view.pulse(performance.now());
+    if (wmoved || (this.world && !W)) { this.stage.anim = 1; this.stage.kick(); }
     this.sound.update(this.lab.sounds, this.speed);
     this.rt.update(dt * this.speed);
     this.xr.update(dt);
@@ -80,7 +130,9 @@ class App {
       this.renderStatus(); this.liveCallout(); this.liveMeter(); if (this.hoverEp || this.hoverPart) this.showTip(this.lastXY);
       const burnt = this.lab.parts.some((p) => p.state.burnt); document.body.classList.toggle('burnt', burnt);
       if (this.mode === 'lesson') this.renderCardLive();
+      this.renderWorld(false);
     }
+    if (this.world) this.placeLabels();
   }
   // ------------------------------------------------------------ lessons and free build
   openLesson(id, quiet) {
@@ -88,17 +140,20 @@ class App {
     if (!L0.free && window.DuetGate && !DuetGate.allow(false)) return;
     this.mode = 'lesson'; this.lessonId = id; store.set('lesson', id); document.body.classList.remove('free', 'menu-open');
     this.closeCallout(); this.cancelDrag(); if (this.tool !== 'move') this.setTool('move');
-    this.rt.open(id); this.setLight(this.lab.env.light);
+    this.rt.open(id); this.setLight(this.lab.env.light); this.setWorld(L0.world);
     this.editor.value = L0.code; this.ranSrc = null; this.clearErrs(); this.clearSerial();
     this.stage.userMoved = false; this.renderAll(); this.stage.setView(L0.view || 'home');
     if (L0.serial) this.sideTab('both');
     this.afterStep(); // the first step's camera and ghost
+    clearTimeout(this._preT); this._preT = setTimeout(() => this.prefetchThumbs(), 3000);
   }
+  // while a lesson is read, the next lesson's drawer pictures are made (one a frame), so it opens with them ready
+  prefetchThumbs() { if (!this.thumbs) return; if (this._warmKeep) this.thumbRenderer(); if (this.mode !== 'lesson') return; const k = LESSONS.findIndex((l) => l.id === this.lessonId); const nx = LESSONS[k + 1]; this.makeThumbs([...this.drawerList(), ...(nx ? nx.drawer : [])]); }
   openFree() {
     if (window.DuetGate && !DuetGate.allow(false)) return;
     this.mode = 'free'; this.lessonId = null; document.body.classList.add('free'); document.body.classList.remove('menu-open');
     this.closeCallout(); this.cancelDrag();
-    this.rt.lesson = null; this.lab.stop(); this.lab.clear(); this.lab.repair();
+    this.rt.lesson = null; this.lab.stop(); this.lab.clear(); this.lab.repair(); this.setWorld(null);
     const saved = store.get('freecode'); this.editor.value = saved || FREE_CODE; this.clearErrs(); this.clearSerial();
     this.stage.userMoved = false; this.renderAll(); this.stage.setView('home'); this.updateGhosts();
   }
@@ -121,15 +176,25 @@ class App {
   back() { const r = this.rt; if (!r.lesson || r.i === 0) return; r.go(r.i - 1); this.afterStep(); }
   afterStep() {
     const s = this.rt.step; this.renderCard(); this.updateGhosts(); if (s && s.k !== 'act') this.closeCallout();
+    this.stage.fitPts = this.stepPoints(s); this.layout(); // (the camera keeps the ghost or the wire's ends out from under the panels, as tall as this step's card is)
     if (s && s.code) this.editor.setMarks(s.code); else this.editor.setMarks([]);
     if (s && s.k === 'place') { const p = this.rt.lesson; this.renderDrawer(); void p; }
-    if (s && s.k === 'wire') { const ends = s.wire.map((x) => this.rt.pick(x, null) || ''); const wide = this.rt.lesson.view === 'wide' || ends.some((e) => e.startsWith('T:')); if (ends.some((e) => e.startsWith('B:'))) { this.stage.userMoved = false; this.stage.setView(wide ? 'wide' : 'home'); } if (this.tool !== 'wire') this.setTool('wire'); }
+    if (s && s.k === 'wire') { const ends = s.wire.map((x) => this.rt.pick(x, null) || ''); const wide = this.rt.lesson.view === 'wide' || ends.some((e) => e.startsWith('T:')); if (ends.some((e) => e.startsWith('B:')) || this.rt.lesson.wview) { this.stage.userMoved = false; this.stage.setView(this.rt.lesson.wview || (wide ? 'wide' : 'home')); } if (this.tool !== 'wire') this.setTool('wire'); }
     else if (s && this.tool === 'wire') this.setTool('move');
-    if (s && s.k === 'place') { this.stage.userMoved = false; this.stage.setView(s.place.at.hole ? (this.rt.lesson.view === 'board' ? 'bb' : 'bb') : 'wide'); }
+    if (s && s.k === 'place') { this.stage.userMoved = false; this.stage.setView(s.place.at.hole ? 'bb' : this.rt.lesson.wview || 'wide'); }
+    if (s && s.k === 'wire' && this.stage.fitPts && !this.stage.userMoved && this.stage.viewName) this.stage.setView(this.stage.viewName); // (a wire step that keeps the view: its ends in sight)
     if (s && s.k === 'tap' && s.region) this.stage.setView('board');
-    if (s && ['run', 'watch', 'act', 'check'].includes(s.k) && this.stage.viewName !== this.rt.lesson.view) { this.stage.userMoved = false; this.stage.setView(this.rt.lesson.view || 'home'); } // see what the circuit does
+    const want = s && ['run', 'watch', 'act'].includes(s.k) && this.rt.lesson.rview ? this.rt.lesson.rview : this.rt.lesson.view; // a robot on its floor is watched there
+    if (s && ['run', 'watch', 'act', 'check'].includes(s.k) && this.stage.viewName !== want) { this.stage.userMoved = false; this.stage.setView(want || 'home'); } // see what the circuit does
   }
   updateGhosts() { this.view.setLessonGhosts(this.mode === 'lesson' ? this.rt.ghosts() : []); }
+  stepPoints(s) { // bench points a place or wire step needs in view
+    try {
+      if (s && s.k === 'place') { const at = s.place.at; if (at.hole) { const h = holeAt(at.hole); return h ? [[this.lab.bb.x + h.x, BB.top, this.lab.bb.z + h.z]] : null; } return [[at.x - 15, 8, at.z - 15], [at.x + 15, 8, at.z + 15]]; }
+      if (s && s.k === 'wire') { const g = this.rt.ghostWire(s.wire); return g ? g.map((e) => this.lab.epPos(e)).filter(Boolean) : null; }
+    } catch (e) { /* no points */ }
+    return null;
+  }
   // ------------------------------------------------------------ the bench changed
   onLab(type, d) {
     if (type === 'parts' || type === 'wires') { this.rt.checkOk = false; this.updateGhosts(); if (this.sel) this.renderCallout(); }
@@ -149,7 +214,7 @@ class App {
   }
   run() {
     this.sound.unlock(); this._editWarned = false; this.closeCallout();
-    const src = this.code(); const r = compile(src);
+    const src = this.code(); const r = this.world && this.world.compile ? this.world.compile(src) : compile(src, this.lab.def); // (batch 4: the board's pin names and libraries; batch 5: a world with its own language, the micro:bit's Python)
     this.clearErrs(); this.editor.setError(null);
     if (!r.ok) { const e = r.errors[0]; this.showErr(e, 'e'); this.editor.setError({ line: e.line }); this.lab.stop(); this.renderStatus(); return false; }
     for (const w of r.warnings.slice(0, 3)) this.showErr(w, 'w');
@@ -196,6 +261,7 @@ class App {
     $('#b-sound').onclick = () => { this.sound.on = !this.sound.on; store.set('sound', this.sound.on ? '1' : '0'); this.sound.unlock(); if (!this.sound.on) this.sound.silence(); this.renderTop(); };
     $('#b-menu').onclick = () => document.body.classList.toggle('menu-open');
     $('#b-code').onclick = () => { document.body.classList.toggle('code-open'); };
+    $('#w-min').onclick = () => $('#world').classList.toggle('min');
     $('#b-side').onclick = () => { if (innerWidth <= 980) document.body.classList.remove('code-open'); else { document.body.classList.toggle('side-off'); this.layout(); } };
     $('#b-vr').onclick = () => this.xr.enter();
     $('#b-run').onclick = () => this.run(); $('#b-stop').onclick = () => this.stop(); $('#b-reset').onclick = () => this.resetBoard();
@@ -204,7 +270,7 @@ class App {
     $('#b-sclear').onclick = () => this.clearSerial(); $('#ser-baud').onchange = () => {};
     for (const b of document.querySelectorAll('#s-tabs .tab')) b.onclick = () => this.sideTab(this.sideMode === 'both' ? b.dataset.tab : this.sideMode === b.dataset.tab ? 'both' : b.dataset.tab);
     for (const b of document.querySelectorAll('#bar [data-tool]')) b.onclick = () => this.setTool(b.dataset.tool);
-    for (const b of document.querySelectorAll('#bar [data-view]')) b.onclick = () => { this.stage.userMoved = false; this.stage.setView(b.dataset.view === 'home' && this.mode === 'lesson' && this.rt.lesson && this.rt.lesson.view === 'wide' ? 'wide' : b.dataset.view); };
+    for (const b of document.querySelectorAll('#bar [data-view]')) b.onclick = () => { this.stage.userMoved = false; const Ls = this.mode === 'lesson' && this.rt.lesson; this.stage.setView(b.dataset.view === 'robot' ? (Ls && (Ls.rview || Ls.view)) || 'home' : b.dataset.view === 'home' && Ls && (Ls.view === 'wide' || Ls.view === 'side') ? Ls.view : b.dataset.view); };
     this.stage.controls.addEventListener('start', () => { this.stage.userMoved = true; this.stage.goal = null; });
     $('#r-light').oninput = (e) => this.setLight(e.target.value / 100);
     $('#b-repair').onclick = () => { this.lab.repair(); this.toast('✓'); };
@@ -230,8 +296,9 @@ class App {
     $('#b-sound').textContent = this.sound.on ? '🔊' : '🔇';
   }
   renderStrip() {
-    const s = $('#strip'); s.innerHTML = '';
+    const s = $('#strip'); s.innerHTML = ''; let g0 = null;
     for (const l of LESSONS) {
+      if (l.group && l.group !== g0) { g0 = l.group; const h = document.createElement('span'); h.className = 'sg'; h.textContent = t('grp_' + l.group); s.appendChild(h); } // a section: basics, robots, boards, modules, micro:bit
       const b = document.createElement('button'); const locked = !l.free && !this.licensed;
       b.className = 'chip' + (l.id === this.lessonId && this.mode === 'lesson' ? ' on' : '') + (this.progress[l.id] ? ' ok' : '') + (locked ? ' lock' : '');
       b.innerHTML = `<i>${this.progress[l.id] ? '✓' : l.n}</i>${esc(tx(l.title))}`; b.dataset.lesson = l.id;
@@ -239,10 +306,12 @@ class App {
     }
     const cur = s.querySelector('.chip.on'); if (cur && cur.scrollIntoView) cur.scrollIntoView({ block: 'nearest', inline: 'center' });
   }
+  drawerList() { const Ls = this.mode === 'lesson' ? this.rt.lesson : null; return Ls ? Ls.drawer : DRAWER; }
   renderDrawer() {
     const box = $('#plist'); box.innerHTML = '';
     const Ls = this.mode === 'lesson' ? this.rt.lesson : null;
-    const list = Ls ? Ls.drawer : DRAWER;
+    const list = this.drawerList();
+    if (this.thumbs && list.some((k) => !this.thumbs[k === 'led' ? 'led_red' : k])) { clearTimeout(this._thT); this._thT = setTimeout(() => this.makeThumbs(this.drawerList()), 250); }
     const need = Ls && this.rt.step && this.rt.step.k === 'place' ? this.rt.step.place.type : null;
     if (!list.length) { box.innerHTML = `<div class="none">${esc(t('noParts'))}</div>`; }
     this.ledColor = this.ledColor || 'red';
@@ -293,40 +362,84 @@ class App {
     clearTimeout(this._cm); this._cm = setTimeout(() => { this.checkMsg = null; this.renderCard(); }, 9000);
     this.renderCard();
   }
-  toast(m, kind, ms = 3500) { const el = $('#toast'); el.textContent = m; el.className = 'panel show' + (kind ? ' ' + kind : ''); clearTimeout(this._tt); this._tt = setTimeout(() => { el.className = 'panel'; }, ms); }
+  // (in the headset: on its panel too)
+  toast(m, kind, ms = 3500) { if (this.xr && this.xr.session && this.xr.ui) this.xr.ui.toast(String(m)); const el = $('#toast'); el.textContent = m; el.className = 'panel show' + (kind ? ' ' + kind : ''); clearTimeout(this._tt); this._tt = setTimeout(() => { el.className = 'panel'; }, ms); }
   // keep the 3D bench centred in the space between the panels
   layout() {
     const W = innerWidth, H = innerHeight; const vis = (s) => { const e = $(s); if (!e) return null; const r = e.getBoundingClientRect(); const cs = getComputedStyle(e); return cs.display === 'none' || r.width === 0 || r.right <= 0 || r.left >= W ? null : r; };
     const d = vis('#drawer'), s = vis('#side'), c = vis('#card');
     const st = vis('#strip'), tp = vis('#top'), br = vis('#bar');
-    const left = d ? d.right : 0, right = s ? W - s.left : 0, bottom = c ? H - c.top : 0, top = Math.max(br ? br.bottom : 0, st ? st.bottom : 0, tp ? tp.bottom : 0);
+    // the robot's panel: under the parts in the left column (computer), or on the right edge (phone: the code panel is folded away)
+    const wp = vis('#world'); const dr = $('#drawer'); const narrow = W <= 980;
+    if (dr) dr.style.bottom = wp && !narrow ? (H - wp.top + 10) + 'px' : '';
+    const left = d ? d.right : 0, right = Math.max(s ? W - s.left : 0, wp && narrow ? W - wp.left : 0), bottom = c ? H - c.top : 0, top = Math.max(br ? br.bottom : 0, st ? st.bottom : 0, tp ? tp.bottom : 0);
     const cam = this.stage.camera; if (this.stage.renderer.xr.isPresenting) return;
     this.stage.resize();
     cam.setViewOffset(W, H, (right - left) / 2, (bottom - top) / 2, W, H); cam.updateProjectionMatrix();
     const fw = Math.max(0.3, (W - left - right) / W), fh = Math.max(0.3, (H - top - bottom) / H);
     const changed = !this.stage.free || Math.abs(this.stage.free.fw - fw) > 0.01 || Math.abs(this.stage.free.fh - fh) > 0.01;
-    this.stage.free = { fw, fh }; if (changed && this.stage.viewName && !this.stage.userMoved) this.stage.setView(this.stage.viewName, !this._laidOut); this._laidOut = true;
+    this.stage.free = { fw, fh }; this.stage.freeRect = { l: left / W, r: right / W, t: top / H, b: bottom / H }; if (changed && this.stage.viewName && !this.stage.userMoved) this.stage.setView(this.stage.viewName, !this._laidOut); this._laidOut = true;
     this.stage.kick();
   }
   isPhoneish() { return innerHeight <= 520 || (navigator.maxTouchPoints > 0 && innerWidth < 980); }
   // ------------------------------------------------------------ drawer thumbnails (rendered once, from the real models)
-  makeThumbs() {
+  // drawer pictures, rendered from the real models, only for the parts a drawer shows (a lesson's few, or all in Free build).
+  // One small renderer is kept for them, and one picture is made a frame (a new part type's shaders compile then): a lesson
+  // with new parts opens without a freeze on a slow phone, and the drawer fills in as the pictures come.
+  makeThumbs(want) {
+    this.thumbs = this.thumbs || {}; const q = this._thq || (this._thq = []);
+    const kinds = (want || [...DRAWER.filter((k) => k !== 'led'), ...Object.keys(LED_COLORS).map((c) => 'led_' + c)]).flatMap((k) => (k === 'led' ? Object.keys(LED_COLORS).map((c) => 'led_' + c) : [k])).filter((k) => !this.thumbs[k]);
+    for (const k of kinds) if (!q.includes(k)) q.push(k);
+    if (!q.length || this._thBusy) return;
+    this._thBusy = true;
+    const pump = () => {
+      const k = q.shift(); if (!k) { this._thBusy = false; return; }
+      if (!this.thumbs[k]) { const u = this.thumbOne(k); if (u) { this.thumbs[k] = u; this.thumbShown(k); } else { q.length = 0; this._thBusy = false; return; } }
+      setTimeout(() => requestAnimationFrame(pump), 0);
+    };
+    requestAnimationFrame(pump);
+  }
+  thumbRenderer() { // the small renderer of the drawer pictures (made once, kept: the shaders of its parts stay compiled)
+    if (this._thr !== undefined) return this._thr;
     const w = 136, h = 104; let r;
-    try { r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true }); } catch (e) { return; }
+    try { r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true }); } catch (e) { this._thr = null; return null; }
     r.setSize(w, h); r.setPixelRatio(1); r.toneMapping = THREE.ACESFilmicToneMapping; r.outputColorSpace = THREE.SRGBColorSpace;
-    const sc = new THREE.Scene(); const pm = new THREE.PMREMGenerator(r); sc.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture; sc.environmentIntensity = 0.9;
+    const sc = new THREE.Scene(); const pm = new THREE.PMREMGenerator(r); sc.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture; sc.environmentIntensity = 0.9; pm.dispose();
     const dl = new THREE.DirectionalLight(0xffffff, 1.6); dl.position.set(-1, 2, 1.5); sc.add(dl);
-    const cam = new THREE.PerspectiveCamera(30, w / h, 1, 2000); this.thumbs = {};
-    const kinds = [...DRAWER.filter((k) => k !== 'led'), ...Object.keys(LED_COLORS).map((c) => 'led_' + c)];
-    for (const k of kinds) {
-      const type = k.startsWith('led_') ? 'led' : k; const def = PARTS[type];
-      const obj = MD.buildPart({ type, props: Object.assign({}, def.props, type === 'led' ? { color: k.slice(4) } : {}), rot: 0, state: Object.assign({}, def.state0 || {}) });
-      sc.add(obj); const box = new THREE.Box3().setFromObject(obj); const c = box.getCenter(new THREE.Vector3()); const sz = box.getSize(new THREE.Vector3()).length();
-      cam.position.set(c.x + sz * 0.62, c.y + sz * 0.72, c.z + sz * 1.25); cam.lookAt(c); r.render(sc, cam);
-      this.thumbs[k] = r.domElement.toDataURL('image/png'); sc.remove(obj);
+    return (this._thr = { r, sc, cam: new THREE.PerspectiveCamera(30, w / h, 1, 2000) });
+  }
+  thumbOne(k) { // one drawer picture (a data URL), or null when no WebGL can be had for it
+    const T = this.thumbRenderer(); if (!T) return null;
+    const type = k.startsWith('led_') ? 'led' : k; const def = PARTS[type]; const { r, sc, cam } = T;
+    const obj = MD.buildPart({ type, props: Object.assign({}, def.props, type === 'led' ? { color: k.slice(4) } : {}), rot: 0, state: Object.assign({}, def.state0 || {}) });
+    sc.add(obj); const box = new THREE.Box3().setFromObject(obj); const c = box.getCenter(new THREE.Vector3()); const sz = box.getSize(new THREE.Vector3()).length();
+    cam.position.set(c.x + sz * 0.62, c.y + sz * 0.72, c.z + sz * 1.25); cam.lookAt(c); r.render(sc, cam);
+    const u = r.domElement.toDataURL('image/png'); sc.remove(obj); obj.traverse((o) => { if (o.geometry && !o.geometry.userData.shared) o.geometry.dispose(); }); return u; // (its materials stay: their shaders are kept for the next picture)
+  }
+  thumbShown(k) { // a new picture: into the drawer's card (no rebuild of the drawer) and the headset's panel
+    const type = k.startsWith('led_') ? 'led' : k; if (type === 'led' && k !== 'led_' + (this.ledColor || 'red')) return;
+    const img = document.querySelector(`#plist .pc[data-type="${type}"] img`); if (img) img.src = this.thumbs[k];
+    if (this.xr && this.xr.ui) this.xr.ui.sig = '';
+  }
+  // the shaders of every part in the drawers, made while the first lesson is read, one part a frame: a later lesson's new
+  // parts then appear without a pause on a phone that cannot compile shaders in the background (a headset that can does
+  // them all in the background). The materials are kept (their shaders stay); the shapes are let go.
+  async warmParts() {
+    if (this._warmed) return; this._warmed = true; const g = new THREE.Group(); g.name = 'warm'; g.visible = false; this.stage.root.add(g);
+    const frame = nextFrame;
+    for (const type of new Set(DRAWER)) {
+      const def = PARTS[type]; try { g.add(MD.buildPart({ type, props: Object.assign({}, def.props), rot: 0, state: Object.assign({}, def.state0 || {}) })); } catch (e) { /* a part that needs the bench to be built */ }
+      await frame();
     }
-    pm.dispose(); r.dispose(); try { r.forceContextLoss(); } catch (e) { /* gone */ }
-    this.renderDrawer();
+    try { g.add(MD.buildWire([0, 0, 0], new THREE.Vector3(0, 1, 0), [30, 0, 0], new THREE.Vector3(0, 1, 0), 'red', 0)); } catch (e) { /* none */ }
+    if (this.view.halo) g.add(new THREE.Sprite(new THREE.SpriteMaterial({ map: this.view.halo, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false }))); // (an LED's glow: its shader stays when the last LED goes)
+    try { await this.stage.warm(g); } catch (e) { /* drawn when first needed */ }
+    this.stage.root.remove(g); g.traverse((o) => { if (o.geometry && !o.isSprite && !o.geometry.userData.shared) o.geometry.dispose(); }); this._warmKeep = g;
+    this.prefetchThumbs(); // (the pictures' own small renderer is made now too, not when a lesson with parts opens)
+  }
+  thumbImg(type) { // the drawer picture as an image (the headset's panel draws it)
+    const k = type === 'led' ? 'led_' + (this.ledColor || 'red') : type; const u = this.thumbs && this.thumbs[k]; if (!u) return null; this._ti = this._ti || {};
+    let im = this._ti[k]; if (!im) { im = new Image(); im.onload = () => { if (this.xr.ui) this.xr.ui.sig = ''; }; im.src = u; this._ti[k] = im; } return im;
   }
   // ------------------------------------------------------------ pointer: drag parts, wires, press, turn, probe
   ndc(x, y) { const r = this.stage.renderer.domElement.getBoundingClientRect(); return new THREE.Vector2((x - r.left) / r.width * 2 - 1, -((y - r.top) / r.height) * 2 + 1); }
@@ -358,12 +471,14 @@ class App {
       const part = this.lab.parts.find((p) => p.uid === hit.uid);
       if (hit.role === 'cap') { part.state.pressed = true; this.lab.rebuild(); this.sound.click(); this.drag = { kind: 'press', part }; this.block(e); return; }
       if (hit.role === 'knob') { this.drag = { kind: 'knob', part, x, y, pos: part.state.pos }; this.select({ part }); this.block(e); return; }
+      if (hit.role === 'stick') { this.drag = { kind: 'stick', part, x, y }; this.select({ part }); this.block(e); return; }
     }
     const occ = ep ? this.lab.occupant(ep) : null;
     const partOnTop = hit && hit.kind === 'part' && !(occ && occ.part && occ.part.uid === hit.uid && this.tool === 'wire');
     if (ep && (this.tool === 'wire' || !partOnTop) && !(hit && hit.kind === 'wire' && this.tool !== 'wire' && !(occ && occ.wire))) {
-      if (!occ || (occ.wire && this.tool !== 'wire')) {
-        if (occ && occ.wire) this.drag = { kind: 'wireEnd', wire: occ.wire, end: occ.wire.a === ep ? 'a' : 'b', from: occ.wire.a === ep ? occ.wire.b : occ.wire.a, x, y, moved: false };
+      const more = this.tool === 'wire' && occ && occ.wire && this.lab.endpointFree(ep); // a screw terminal takes a second wire
+      if (!occ || (occ.wire && this.tool !== 'wire') || more) {
+        if (occ && occ.wire && !more) this.drag = { kind: 'wireEnd', wire: occ.wire, end: occ.wire.a === ep ? 'a' : 'b', from: occ.wire.a === ep ? occ.wire.b : occ.wire.a, x, y, moved: false };
         else this.drag = { kind: 'wire', from: ep, x, y, moved: false, region: hit && hit.kind === 'region' ? hit.id : null };
         this.block(e); return;
       }
@@ -371,6 +486,7 @@ class App {
     if (hit && hit.kind === 'part') { const part = this.lab.parts.find((p) => p.uid === hit.uid); this.drag = { kind: 'maybe', part, x, y }; this.block(e); return; }
     if (hit && hit.kind === 'wire') { const w = this.lab.wires.find((q) => q.uid === hit.uid); this.select({ wire: w }); this.block(e); return; }
     if (hit && hit.kind === 'region') { this.drag = { kind: 'region', id: hit.id, x, y }; return; } // a drag over the board still turns the view
+    if (hit && hit.kind === 'world' && this.world && this.world.drag) { this.drag = { kind: 'wdrag', role: hit.role, x, y, lx: x }; this.block(e); return; }
     if (this.pendingWire) { this.pendingWire = null; this.view.showHover(null); }
   }
   startNew(e, type) {
@@ -391,8 +507,10 @@ class App {
       if (d.touch && Math.abs(dy) > Math.abs(dx) * 1.2) { this.drag = null; return; }
       d.kind = 'new'; document.body.classList.add('dragging'); this.toast(t('dropHere'));
     }
+    if (d.kind === 'stick') { this.stickTo(d.part, (x - d.x) / 90, -(y - d.y) / 90); return; }
+    if (d.kind === 'wdrag') { this.world.drag(-(x - d.lx) / 260); d.lx = x; return; }
     if (d.kind === 'knob') { const dv = ((x - d.x) - (y - d.y)) / 220; d.part.state.pos = Math.max(0, Math.min(1, d.pos + dv)); this.lab.stateV++; this.lab.instKey = null; this.stage.kick(); return; }
-    if (d.kind === 'maybe' && dist > 6) { d.kind = 'move'; d.rot = d.part.rot; document.body.classList.add('dragging'); const e2 = this.view.parts.get(d.part.uid); if (e2) e2.obj.visible = false; this.closeCallout(); }
+    if (d.kind === 'maybe' && dist > 6) { d.kind = 'move'; d.rot = d.part.rot; document.body.classList.add('dragging'); this.view.setHidden(d.part.uid, true); this.closeCallout(); }
     if (d.kind === 'move' || d.kind === 'new') { this.dragPart(x, y); return; }
     if (d.kind === 'wire' || d.kind === 'wireEnd') {
       if (dist > 5) d.moved = true;
@@ -415,11 +533,13 @@ class App {
       d.kind = 'new'; document.body.classList.add('dragging'); this.toast(t('dropHere'));
     }
     if (d.kind === 'knob') { this.renderCallout(); return; }
+    if (d.kind === 'stick') { this.stickTo(d.part, 0, 0); return; } // it springs back to the middle
+    if (d.kind === 'wdrag') return;
     if (d.kind === 'region') { if (Math.hypot(x - d.x, y - d.y) < 6) this.tapRegion(d.id); return; }
     if (d.kind === 'maybe') { this.select({ part: d.part }); return; }
     if (d.kind === 'move' || d.kind === 'new') {
       this.view.hideGhost(); const tgt = cancel ? null : d.target;
-      const e2 = d.part && this.view.parts.get(d.part.uid); if (e2) e2.obj.visible = true;
+      if (d.part) this.view.setHidden(d.part.uid, false);
       if (d.kind === 'new') {
         if (tgt && tgt.ok && this.overCanvas(x, y)) { const p = this.lab.addPart(d.type, d.props, tgt.at, d.rot); if (p) { p.tag = this.mode === 'lesson' ? this.rt.tagFor(p) : null; this.lab.emit('parts', p); this.sound.click(); this.select({ part: p }); } }
         else if (!cancel && this.overCanvas(x, y)) this.toast(t('noFit'), 'bad');
@@ -459,22 +579,24 @@ class App {
   }
   clearPreview() { if (this.previewObj) { this.stage.root.remove(this.previewObj); MD.dispose(this.previewObj); this.previewObj = null; this.stage.kick(); } }
   // where a dragged part would go: the nearest holes on the breadboard (or the mat, for free parts)
-  dragPart(x, y) {
+  dragPart(x, y) { const ndc = this.ndc(x, y); this.dragPartWith((yy) => this.view.planePoint(ndc, yy), 36); }
+  // pp(y): the point (bench mm) on the level y that the pointer is over (a mouse, a finger, or a ray in the headset)
+  dragPartWith(pp, lead = 36) {
     const d = this.drag; const type = d.kind === 'new' ? d.type : d.part.type; const def = PARTS[type];
     const fake = { type, props: d.kind === 'new' ? d.props : d.part.props, rot: d.rot, state: {} };
     const pins = pinsOf(fake); const cx = pins.reduce((s, p) => s + p.x, 0) / pins.length, cz = pins.reduce((s, p) => s + p.z, 0) / pins.length;
-    const ndc = this.ndc(x, y); let target = null;
+    let target = null;
     const step = this.mode === 'lesson' ? this.rt.step : null; const want = step && step.k === 'place' && step.place.type === type && !this.lab.byTag(step.place.tag) ? step.place : null;
     if (def.mount === 'bb') {
-      const p = this.view.planePoint(ndc, BB.top); if (!p) return;
+      const p = pp(BB.top); if (!p) return;
       const lx = p.x - this.lab.bb.x - cx, lz = p.z - this.lab.bb.z - cz;
       let best = null, bd = 9;
       for (const h of BB.holes.values()) { const dd = (h.x - lx) ** 2 + (h.z - lz) ** 2; if (dd < bd) { bd = dd; best = h; } }
       if (want && want.at.hole && d.rot === want.rot) { const g = holeAt(want.at.hole); if ((g.x - lx) ** 2 + (g.z - lz) ** 2 < 7.6 ** 2) best = g; } // close to the lesson's ghost: snap to it
       if (best) { const f = this.lab.fit(Object.assign({}, fake), best.id, d.part); target = { ok: f.ok, at: { hole: best.id } }; }
     } else {
-      const p = this.view.planePoint(ndc, 0); if (!p) return;
-      let at = { x: Math.round(p.x - cx), z: Math.round(p.z - cz + 36) };
+      const p = pp(0); if (!p) return;
+      let at = { x: Math.round(p.x - cx), z: Math.round(p.z - cz + lead) };
       if (want && !want.at.hole && Math.hypot(want.at.x - at.x, want.at.z - at.z) < 40) { at = { x: want.at.x, z: want.at.z }; d.rot = want.rot; }
       target = { ok: this.freeOk(at, type), at };
     }
@@ -490,14 +612,16 @@ class App {
     if (this.drag && (this.drag.kind === 'move' || this.drag.kind === 'new')) { this.drag.rot = ((this.drag.rot || 0) + 1) % 4; this.dragPart(this.lastXY.x, this.lastXY.y); return; }
     if (this.sel && this.sel.part) { const p = this.sel.part; const nr = (p.rot + 1) % 4; if (!this.lab.movePart(p, p.at, nr)) { if (!this.lab.movePart(p, p.at, (nr + 1) % 4)) this.toast(t('noFit'), 'bad'); } }
   }
-  cancelDrag() { if (this.drag) { this.view.hideGhost(); this.clearPreview(); const e2 = this.drag.part && this.view.parts.get(this.drag.part.uid); if (e2) e2.obj.visible = true; } this.drag = null; this.pendingWire = null; document.body.classList.remove('dragging'); }
+  cancelDrag() { if (this.drag) { this.view.hideGhost(); this.clearPreview(); if (this.drag.part) this.view.setHidden(this.drag.part.uid, false); } this.drag = null; this.pendingWire = null; document.body.classList.remove('dragging'); }
   initKeys() {
     addEventListener('keydown', (e) => {
       if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName)) { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); this.run(); } return; }
       if (e.key === 'r' || e.key === 'R') this.rotateDragOrSel();
       if ((e.key === 'Delete' || e.key === 'Backspace') && this.sel) this.removeSel();
       if (e.key === 'Escape') { this.cancelDrag(); this.closeCallout(); this.view.showHover(null); }
+      const k = PADKEY[e.key]; if (k && this.world && this.world.cfg.car === 'bt') { e.preventDefault(); if (!e.repeat) this.world.control('key', k); } // batch 2: the arrow keys are the phone pad's buttons
     });
+    addEventListener('keyup', (e) => { if (PADKEY[e.key] && this.world && this.world.cfg.car === 'bt') this.world.control('key', 'S'); });
   }
   // ------------------------------------------------------------ hover: what is under the pointer, and its voltage
   hover(x, y) {
@@ -567,7 +691,13 @@ class App {
       case 'ir': return `${s.dist} cm · OUT ${s.near ? 'LOW' : 'HIGH'}`;
       case 'lm35': return `${lab.env.temp} °C · OUT ${fmtV(lab.voltageAt(p.ep.OUT))} V`;
       case 'buzzer': return s.on ? '♪' : '—';
-      case 'battery': return `${fmtV(vd('P', 'N'))} V · ${fmtI(I)}`;
+      case 'battery': case 'bat18650': case 'psu5': return `${fmtV(vd('P', 'N'))} V · ${fmtI(I)}`;
+      case 'l298n': { const pc = (v) => (v ? (v > 0 ? '▲' : '▼') + Math.round(Math.abs(v) * 100) + '%' : '■'); return `A ${pc(s.a)} · B ${pc(s.b)} · ${fmtV(s.vs || 0)} V` + (s.logic === false ? ' · ⚠ GND' : ''); }
+      case 'bomotor': return `${Math.round(Math.abs(s.w || 0) / 48 * 60 / (2 * Math.PI))} rpm ${s.w > 1 ? '▲' : s.w < -1 ? '▼' : ''} · ${fmtI(s.i || 0)}`;
+      case 'mg996r': return `${Math.round(s.angle)}° · ${s.powered ? '5 V ✓' : '—'}${s.load ? ' · ✊' : ''}`;
+      case 'hcsr04f': return `${s.dist} cm · ${s.powered ? 'ON' : 'OFF'}`;
+      case 'joystick': return `VRx ${Math.round(s.x * 1023)} · VRy ${Math.round(s.y * 1023)}${s.pressed ? ' · ●' : ''}`;
+      case 'hc05': return !s.powered ? 'OFF' : s.paired ? 'paired ✓' : 'waiting…';
     }
     return '';
   }
@@ -625,11 +755,11 @@ class App {
       case 'resistor': return `<div class="row"><label>${esc(t('value'))}</label><select id="co-ohm">${RES_VALUES.map((v) => `<option value="${v}"${v === p.props.ohms ? ' selected' : ''}>${fmtOhm(v)}</option>`).join('')}</select></div><div class="row"><label>${esc(t('span'))}</label><select id="co-span">${[3, 4, 5, 6, 7].map((v) => `<option value="${v}"${v === p.props.span ? ' selected' : ''}>${v} × 2.54 mm</option>`).join('')}</select></div>`;
       case 'diode': return `<div class="row"><label>${esc(t('span'))}</label><select id="co-span">${[3, 4, 5, 6, 7].map((v) => `<option value="${v}"${v === p.props.span ? ' selected' : ''}>${v} × 2.54 mm</option>`).join('')}</select></div>`;
       case 'pot': return r('co-pos', t('knob'), 0, 100, Math.round(p.state.pos * 100));
-      case 'button': return `<div class="row"><button class="btn" id="co-press">● ${esc(t('press'))}</button></div>`;
+      case 'button': case 'joystick': return `<div class="row"><button class="btn" id="co-press">● ${esc(t('press'))}</button></div>`;
       case 'ldr': return r('co-light', t('light'), 0, 100, Math.round(this.lab.env.light * 100));
       case 'lm35': return r('co-temp', t('temp') + ' °C', 0, 100, this.lab.env.temp);
-      case 'hcsr04': return r('co-dist', t('dist') + ' (cm)', 2, 300, p.state.dist);
-      case 'ir': return r('co-dist', t('dist') + ' (cm)', 1, 40, p.state.dist) + r('co-thr', t('thr') + ' (cm)', 2, 30, p.state.thr);
+      case 'hcsr04': case 'hcsr04f': return p.state.ext ? '' : r('co-dist', t('dist') + ' (cm)', 2, 300, p.state.dist);
+      case 'ir': return p.state.ext ? '' : r('co-dist', t('dist') + ' (cm)', 1, 40, p.state.dist) + r('co-thr', t('thr') + ' (cm)', 2, 30, p.state.thr);
     }
     return '';
   }
@@ -652,6 +782,58 @@ class App {
     for (const sp of el.querySelectorAll('[data-ep]')) { const v = this.lab.voltageAt(sp.dataset.ep); sp.textContent = v === null ? '—' : fmtV(v) + ' V'; }
     for (const [id, f] of [['co-pos', (v) => v + '%'], ['co-light', (v) => v + '%'], ['co-temp', (v) => v + ' °C'], ['co-dist', (v) => v + ' cm'], ['co-thr', (v) => v + ' cm']]) { const i = el.querySelector('#' + id), o = el.querySelector('#' + id + '-v'); if (i && o) o.textContent = f(i.value); }
   }
+  // ------------------------------------------------------------ the robot next to the bench (worlds.js) and its panel
+  setWorld(cfg) {
+    if (this.world) { this.world.dispose(); this.world = null; }
+    this.view.worldPick = null; document.body.classList.toggle('has-world', !!cfg);
+    if (cfg) {
+      const w = this.world = (cfg.make || makeWorld)(this, cfg); this.view.worldPick = () => (this.world ? this.world.pickables() : []); // (batch 5: cfg.make, a world that makes itself: the micro:bit desk)
+      w.build().then(() => { if (this.world === w) { this.renderWorld(true); this.stage.kick(); } });
+    }
+    this.renderWorld(true);
+  }
+  // the panel: live rows, and the robot's own controls (a hand, a syringe, the phone's buttons, back to the start)
+  renderWorld(full) {
+    const el = $('#world'); if (!el) return; const W = this.world;
+    if (!W) { el.classList.remove('show'); $('#wlabels').innerHTML = ''; return; }
+    const h = W.hud(); el.classList.add('show');
+    if (full || this._wkey !== W) {
+      this._wkey = W; $('#w-t').textContent = tx(h.title);
+      const ctl = $('#w-ctl'); ctl.innerHTML = '';
+      for (const c of h.controls || []) {
+        const d = document.createElement('div'); d.className = 'wc wc-' + c.kind; d.dataset.id = c.id;
+        if (c.kind === 'button') { d.innerHTML = `<button class="btn">${esc(tx(c.label))}</button>`; d.firstChild.onclick = () => { this.sound.unlock(); W.control(c.id); this.renderWorld(false); }; }
+        if (c.kind === 'range') { d.innerHTML = `<label>${esc(tx(c.label))}</label><input type="range" min="${c.min}" max="${c.max}" value="${c.value}"><span></span>`; d.querySelector('input').oninput = (e) => { W.control(c.id, +e.target.value); this.stage.kick(); }; }
+        if (c.kind === 'seg') { d.innerHTML = `<label>${esc(tx(c.label))}</label><div class="seg">${c.options.map(([v, l]) => `<button data-v="${esc(v)}">${esc(tx(l))}</button>`).join('')}</div>`; for (const b of d.querySelectorAll('button')) b.onclick = () => { W.control(c.id, b.dataset.v); this.renderWorld(false); }; }
+        if (c.kind === 'pad') {
+          d.innerHTML = `<div class="phone"><div class="ph-t">${esc(tx(c.label))}</div><div class="ph-s"></div><button class="btn ph-pair"></button><div class="ph-pad">${[['F', '▲'], ['L', '◀'], ['S', '■'], ['R', '▶'], ['B', '▼']].map(([k, g]) => `<button data-k="${k}" aria-label="${k}">${g}</button>`).join('')}</div></div>`;
+          d.querySelector('.ph-pair').onclick = () => { W.control('pair'); this.renderWorld(false); };
+          for (const b of d.querySelectorAll('[data-k]')) {
+            const k = b.dataset.k; b.onpointerdown = (e) => { e.preventDefault(); b.classList.add('on'); W.control('key', k); };
+            const upk = () => { if (!b.classList.contains('on')) return; b.classList.remove('on'); if (k !== 'S') W.control('key', 'S'); }; b.onpointerup = upk; b.onpointerleave = upk; b.onpointercancel = upk;
+          }
+        }
+        ctl.appendChild(d);
+      }
+    }
+    $('#w-rows').innerHTML = h.rows.map(([k, v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('');
+    if (full) requestAnimationFrame(() => this.layout());
+    for (const c of h.controls || []) {
+      const d = $('#w-ctl').querySelector(`[data-id="${c.id}"]`); if (!d) continue;
+      if (c.kind === 'range') { const i = d.querySelector('input'); if (document.activeElement !== i) i.value = c.value; d.querySelector('span').textContent = c.value + (c.unit ? ' ' + c.unit : ''); }
+      if (c.kind === 'seg') for (const b of d.querySelectorAll('button')) b.classList.toggle('on', b.dataset.v === c.value);
+      if (c.kind === 'pad') { d.querySelector('.ph-s').textContent = c.status || ''; const pb = d.querySelector('.ph-pair'); pb.textContent = c.paired ? '✓ ' + c.status : tx(WORLD_PAIR); pb.disabled = !c.canPair || c.paired; d.classList.toggle('live', !!c.paired); }
+    }
+    this._wlabels = h.labels || [];
+  }
+  placeLabels() { // the arm's joint angles, next to the joints
+    const box = $('#wlabels'); const L = this._wlabels || []; if (this.stage.renderer.xr.isPresenting) { box.innerHTML = ''; return; }
+    while (box.children.length < L.length) box.appendChild(document.createElement('i')); while (box.children.length > L.length) box.lastChild.remove();
+    L.forEach(([txt, pos], i) => { const e = box.children[i]; const s = this.stage.toScreen(pos); if (e.textContent !== txt) e.textContent = txt; e.style.transform = `translate(${Math.round(s.x)}px,${Math.round(s.y)}px)`; e.style.display = s.z > 1 ? 'none' : ''; });
+  }
+  // the joystick's stick, pushed by dx, dy (−1 .. 1 from the middle)
+  stickTo(p, dx, dy) { p.state.x = Math.max(0, Math.min(1, 0.5 + dx / 2)); p.state.y = Math.max(0, Math.min(1, 0.5 + dy / 2)); this.lab.stateV++; this.lab.instKey = null; this.stage.kick(); }
+  onBT(r) { if (r !== 'ok' && WORLD_BT[r]) this.toast(tx(WORLD_BT[r]), 'bad', 4000); }
   removeSel() { const s = this.sel; if (!s) return; if (s.part) this.lab.removePart(s.part); if (s.wire) this.lab.removeWire(s.wire); this.closeCallout(); }
   // ------------------------------------------------------------ multimeter
   setProbe(ep) {
@@ -694,8 +876,28 @@ window.robo = {
   state() { const a = window.app, r = a.rt; return { lesson: a.lessonId, step: r.i, of: r.lesson ? r.lesson.steps.length : 0, kind: r.step && r.step.k, done: r.step ? r.stepDone(r.step) : false, complete: r.complete, mcu: a.lab.mcu.state, err: a.lab.mcu.err, parts: a.lab.parts.length, wires: a.lab.wires.length }; },
   ghosts() { return window.app.rt.ghosts(); },
   settled() { return !window.app.stage.goal; },
-  regionScreen(id) { const a = window.app; const r = BOARDS.uno.regions.find((q) => q.id === id); const s = a.stage.toScreen([a.lab.board.x + r.at[0], BOARDS.uno.pcbY + 1.6 + r.h * 0.8, a.lab.board.z + r.at[1]]); return { x: s.x, y: s.y }; },
+  regionScreen(id) { const a = window.app; const d = a.lab.def && a.lab.def.regions ? a.lab.def : BOARDS.uno; const r = d.regions.find((q) => q.id === id); if (!r) return null; const s = a.stage.toScreen([a.lab.board.x + r.at[0], (d.pcbY || 3) + 1.6 + r.h * 0.8, a.lab.board.z + r.at[1]]); return { x: s.x, y: s.y }; }, // (the board on the bench: Uno, Nano, Mega, ESP32)
   roleScreen(tag, role) { const a = window.app; const p = a.lab.byTag(tag); if (!p) return null; const e = a.view.parts.get(p.uid); let o = null; e.obj.traverse((q) => { if (q.userData.role === role) o = q; }); if (!o) return null; const box = new THREE.Box3().setFromObject(o); const c = box.getCenter(new THREE.Vector3()); c.y = box.max.y; const inv = new THREE.Matrix4().copy(a.stage.root.matrixWorld).invert(); c.applyMatrix4(inv); const s = a.stage.toScreen([c.x, c.y, c.z]); return { x: s.x, y: s.y }; },
   callout() { const el = document.getElementById('callout'); return el.classList.contains('show') ? el.querySelector('h3').textContent : null; },
   step() { return window.app.rt.step; },
+  // batch 2: the robot beside the bench
+  world() { const W = window.app.world; if (!W) return null; const h = W.ready ? W.hud() : { rows: [] }; return { kind: W.kind, ready: W.ready, buildMs: W.buildMs, flags: W.sim ? [...W.sim.flags] : [], rows: h.rows, vals: W.sim && { odo: W.sim.odo, laps: W.sim.lap && W.sim.lap.n, bumps: W.sim.bumps, x: W.sim.x, z: W.sim.z, h: W.sim.h } }; },
+  worldCtl(id, v) { const W = window.app.world; if (W) W.control(id, v); },
+  // the headset (devtools/test/roboxr.mjs drives an emulated Quest: IWER)
+  _pins(type, rot) { const pins = pinsOf({ type, props: Object.assign({}, PARTS[type].props), rot: rot || 0 }); return [pins.reduce((s, p) => s + p.x, 0) / pins.length, pins.reduce((s, p) => s + p.z, 0) / pins.length]; },
+  _hole(id) { const h = holeAt(id); return { x: h.x, z: h.z }; },
+  partWorld(tag) { const a = window.app; const p = a.lab.byTag(tag); if (!p) return null; const e = a.view.parts.get(p.uid); const b = new THREE.Box3().setFromObject(e.obj); const c = b.getCenter(new THREE.Vector3()); c.y = b.max.y - 0.2 * (b.max.y - b.min.y); return c.toArray(); },
+  roleWorld(tag, role) { const a = window.app; const p = a.lab.byTag(tag); if (!p) return null; const e = a.view.parts.get(p.uid); let o = null; e.obj.traverse((q) => { if (q.userData.role === role) o = q; }); if (!o) return null; const b = new THREE.Box3().setFromObject(o); const c = b.getCenter(new THREE.Vector3()); c.y = b.max.y; return c.toArray(); },
+  xrRay(i) { const r = window.app.xr.ui.rayOf(i); return r && { o: r.o.toArray(), d: r.d.toArray() }; },
+  toWorld(p) { const a = window.app; a.stage.root.updateMatrixWorld(true); return new THREE.Vector3(...p).applyMatrix4(a.stage.root.matrixWorld).toArray(); },
+  epWorld(ep) { return this.toWorld(window.app.lab.epPos(ep)); },
+  xrItem(id) { const ui = window.app.xr.ui; ui.sig = ''; ui.draw(); const it = ui.items.find((q) => q.id === id); if (!it) return null; ui.panel.updateMatrixWorld(true); const g = ui.panel.geometry.parameters; return new THREE.Vector3(((it.x + it.w / 2) / 1024 - 0.5) * g.width, (0.5 - (it.y + it.h / 2) / 1152) * g.height, 0).applyMatrix4(ui.panel.matrixWorld).toArray(); },
+  xrItems() { const ui = window.app.xr.ui; ui.sig = ''; ui.draw(); return ui.items.map((q) => q.id).filter(Boolean); },
+  xrShot() { // a picture of what the headset sees (the emulator draws its eyes elsewhere): one frame from the XR camera's pose
+    const a = window.app, r = a.stage.renderer; const xc = r.xr.getCamera(); const cam = new THREE.PerspectiveCamera(70, r.domElement.width / r.domElement.height, 0.02, 200);
+    xc.matrixWorld.decompose(cam.position, cam.quaternion, cam.scale); cam.scale.set(1, 1, 1); cam.updateMatrixWorld(true);
+    r.xr.enabled = false; r.setRenderTarget(null); r.render(a.stage.scene, cam); const url = r.domElement.toDataURL('image/jpeg', 0.85); r.xr.enabled = true; return url;
+  },
+  xrState() { const ui = window.app.xr.ui; return { on: !!window.app.xr.session, tab: ui.tab, inHand: ui.inHand && ui.inHand.ad.type, drag: ui.drag.map((d) => d && d.kind), pending: ui.pending || null, focus: window.app.xr.focus, presenting: window.app.stage.renderer.xr.isPresenting }; },
+  calls() { const r = window.app.stage.renderer; return { calls: r.info.render.calls, tris: r.info.render.triangles, progs: r.info.programs.length }; },
 };

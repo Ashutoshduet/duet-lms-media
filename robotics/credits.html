@@ -37,8 +37,52 @@ teach. Chip and sensor part numbers (ATmega328P, 2N2222, LM35, HC-SR04, SG90) ar
 <h2>Software</h2>
 <table>
 <tr><th>Library</th><th>By</th><th>Licence</th><th>Use</th></tr>
-<tr><td><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> r170 and its add-ons (OrbitControls, RoomEnvironment, RGBELoader, BufferGeometryUtils, EffectComposer, RenderPass, UnrealBloomPass, OutputPass, ShaderPass, MaskPass, CopyShader, LuminosityHighPassShader, OutputShader)</td><td>three.js authors</td><td>MIT (<a href="lib/LICENSE-three.txt">lib/LICENSE-three.txt</a>)</td><td>draws the 3D bench, the glow of the LEDs, the headset view</td></tr>
+<tr><td><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> r170 and its add-ons (OrbitControls, RoomEnvironment, RGBELoader, GLTFLoader, BufferGeometryUtils, EffectComposer, RenderPass, UnrealBloomPass, OutputPass, ShaderPass, MaskPass, CopyShader, LuminosityHighPassShader, OutputShader)</td><td>three.js authors</td><td>MIT (<a href="lib/LICENSE-three.txt">lib/LICENSE-three.txt</a>)</td><td>draws the 3D bench, the glow of the LEDs, the headset view</td></tr>
+<tr><td><a href="https://github.com/zeux/meshoptimizer" target="_blank" rel="noopener">meshoptimizer</a> decoder (lib/addons/libs/meshopt_decoder.module.js)</td><td>Arseny Kapoulkine</td><td>MIT</td><td>unpacks compressed 3D models</td></tr>
 </table>
+
+<h2>The robots (lessons 17 onwards)</h2>
+<p>The robot arm, the robot car and its track and room, and their parts (L298N motor driver, BO gear motors and wheels,
+18650 battery holder, HC-05 Bluetooth module, joystick module, MG996R and SG90 servos, 5 V adapter) are modelled in code by
+DUET STEM from the parts' datasheet sizes, with textures drawn in code. Part numbers are named only to describe the parts.
+The smart dustbin, its paper ball, the hydraulic arm and its syringes are modelled in code too.</p>
+<table>
+<tr><th>Asset</th><th>Author</th><th>Licence</th><th>Used for</th></tr>
+<tr><td><a href="https://sketchfab.com/3d-models/046563449b144c67a2f8cc54bf86835b" target="_blank" rel="noopener">Hand</a> (models/hand.glb)</td><td>DJMaesen (bumstrum on Sketchfab)</td><td><a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>; changed: simplified, textures made smaller, compressed (meshopt)</td><td>the hand that brings rubbish to the smart dustbin</td></tr>
+</table>
+
+<h2>More boards: Nano, Mega 2560, ESP32 (batch 4)</h2>
+<p>The Nano, Mega 2560 and ESP32 DevKit V1 boards, the ESP32-WROOM-32 module, the LED bar graph, the resistor network,
+the touch plate, the bar magnet and its clamp stand, the phone and the WiFi router are modelled in code by DUET STEM from
+the parts' datasheet sizes, with their printed artwork drawn in code. They are generic boards of our own design, compatible
+with the Arduino Nano, the Arduino Mega 2560 and the ESP32 DevKit V1; no Arduino, Espressif or other brand logo is used.
+"Arduino", "ESP32" and "ESP32-WROOM-32" are named only to say what the boards are compatible with. The phone's browser,
+WiFi and Bluetooth are simulated inside the app: nothing is sent over a real network.</p>
+
+<h2>The micro:bit lessons (batch 5)</h2>
+<p>The micro:bit board, the crocodile clips, the plant pot with its soil probes, the servo gate, the compass card, the
+battery pack, the strap and the other props are modelled in code by DUET STEM from published sizes (the board: 51.6 × 42 ×
+1.6 mm), with their printed artwork drawn in code. The board is a BBC micro:bit V2 compatible board of our own design; no
+micro:bit logo or other brand artwork is used. "BBC micro:bit" is a trademark of the Micro:bit Educational Foundation and is
+named only to say what the lessons teach. The Python interpreter, the 5 × 5 display font, the blocks and the simulation of
+the board (display, buttons, accelerometer, compass, sensors, radio, pins) are written by DUET STEM. The patterns of the
+built-in images (Image.HEART, Image.HAPPY, …) and the names and notes of the short built-in sound effects
+(music.BA_DING, POWER_UP, …) follow <a href="https://github.com/bbcmicrobit/micropython" target="_blank" rel="noopener">MicroPython for the BBC micro:bit</a>
+(Damien P. George and contributors, MIT licence), so that programs written for a real micro:bit show the same pictures;
+the longer tunes are our own transcriptions of old public-domain melodies. Chip part numbers (nRF52833, nRF52820,
+LSM303AGR, SG90) are named only to describe the parts.</p>
+
+<h2>School-lab modules and block coding (batch 3)</h2>
+<p>The 16×2 LCD with its I2C backpack, the 0.96" OLED, the 7-segment display, the DHT11, the soil probe, the PIR sensor,
+the relay module, the IR receiver and its remote, the 4×4 keypad, the 28BYJ-48 stepper and its ULN2003 board, the RC522
+reader with its card and key tag, the MQ-2 gas sensor, the pump, the battery box and the 230 V lamp and fan box are modelled
+in code by DUET STEM from the parts' datasheet sizes, with their printed artwork drawn in code. So are the rooms beside the
+bench (the window and the cup of chai, the tulsi pot and its water tank, the living room, the door and its latch, the
+locker, the kitchen with its gas cylinder, the pan-tilt head and its targets, the turntable); their wood is the Oak Veneer
+01 texture above. The libraries' behaviour (LiquidCrystal_I2C, Adafruit SSD1306 / GFX text and shapes, DHT, IRremote,
+Keypad, Stepper, MFRC522) is simulated by our own code; the 5×7 letters of the LCD and OLED follow the classic HD44780 /
+glcdfont pattern (Adafruit GFX glcdfont.c, BSD licence). The block editor is our own (no Blockly code). Part numbers
+(PCF8574, SSD1306, HC-SR501, VS1838B, ULN2003, 28BYJ-48, RC522, MQ-2) are named only to describe the parts.</p>
 
 <h2>Fonts</h2>
 <table>

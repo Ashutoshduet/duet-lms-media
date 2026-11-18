@@ -4,8 +4,12 @@
 // as they would on a real bench. Positions are in mm on the bench (x right, z towards the student, y up from the mat).
 import { BOARDS, BB, holeAt } from './boards.js';
 import { PARTS, pinsOf, MOTOR, PITCH } from './parts.js';
+import { BO } from './parts2.js';
 import { solve, anchored } from './solver.js';
 import { MCU } from './mcu.js';
+import { boardPlace, LAB_HOOKS } from './boards4.js'; // batch 4 (more boards): LAB_HOOKS add circuit elements and per-frame work for a board (esp32.js)
+import './esp32.js'; import './mcu4.js'; // batch 4: the ESP32's and the Mega's microcontrollers (they set BOARDS.esp32.mcuClass, …)
+export { LAB_HOOKS };
 
 export const LAYOUT = { board: { x: -92, z: -2 }, bb: { x: 40, z: 0 } };
 let UID = 0;
@@ -21,25 +25,42 @@ export class Lab {
     this.def = BOARDS[boardId];
     this.board = { x: LAYOUT.board.x, z: LAYOUT.board.z, usb: true, battery: false, fuse: 0, tripped: false };
     this.bb = { x: LAYOUT.bb.x, z: LAYOUT.bb.z };
+    { const pl = boardPlace(this.def, BB, this.bb); this.board.x = pl.x; this.board.z = pl.z; } // batch 4: the Mega sits further left, a Nano or ESP32 in the breadboard
     this.parts = []; this.wires = [];
     this.env = { light: 0.75, temp: 26 };
     this.speed = 1; this.version = 0; this.stateV = 0;
     this.listeners = [];
-    this.mcu = new MCU(this.def, {
+    this.mcu = new (this.def.mcuClass || MCU)(this.def, this.mcuIO = { lab: this,
       read: (pin, t) => this.readPin(pin, t),
       onWrite: (pin, lv, t) => this.onWrite(pin, lv, t),
-      onPin: () => { this.instKey = null; },
+      onPin: (p) => { // the circuit is solved again only when a pin really changed: a sketch that writes the same value every loop
+        // (a line follower's motors) would otherwise solve it again for every digitalRead (1 ms of JS per ms of sketch time)
+        const m = this.mcu, P = m.pins && m.pins[p]; if (this.sigOf !== m.pins) { this.sigOf = m.pins; this.pinSig = []; this.instKey = null; } // (a new run: new pins)
+        const s = P ? P.mode + (P.tone ? 4 : 0) + 8 * Math.round(P.level * 1e4) : NaN; if (!(this.pinSig[p] === s)) { this.pinSig[p] = s; this.instKey = null; }
+      },
       pulse: (pin, lv, t, to) => this.pulse(pin, lv, t, to),
       onNote: (n) => this.emit('note', n),
       onError: (e) => this.emit('error', e),
       vref: () => 5,
     });
+    this.mcu.lab = this; // batch 3: the module libraries find their modules on the bench (libs3.js)
     this.obs = this.freshObs(); this.V = null; this.els = []; this.sounds = [];
     this.rebuild();
   }
   on(fn) { this.listeners.push(fn); return () => { this.listeners = this.listeners.filter((f) => f !== fn); }; }
   emit(type, data) { for (const f of this.listeners) { try { f(type, data); } catch (e) { console.error(e); } } }
   get powered() { return (this.board.usb || this.board.battery) && !this.board.tripped; }
+  // batch 4: put another board on the bench (boards4.js). The parts stay; wires to the old board's pins go, and so does
+  // anything in the holes a breadboard board (Nano, ESP32) now covers.
+  setBoard(id) {
+    const def = BOARDS[id]; if (!def || def === this.def) return false;
+    this.mcu.stop(); this.def = def; this.mcu = new (def.mcuClass || MCU)(def, this.mcuIO); this.mcu.lab = this;
+    const pl = boardPlace(def, BB, this.bb); this.board.x = pl.x; this.board.z = pl.z; this.board.tripped = false; this.board.fuse = 0;
+    this.wires = this.wires.filter((w) => !w.a.startsWith('B:') && !w.b.startsWith('B:'));
+    if (def.bb) { const all = this.bbMap().all; this.wires = this.wires.filter((w) => ![w.a, w.b].some((e) => e.startsWith('H:') && all.has(e.slice(2)))); this.parts = this.parts.filter((p) => !Object.values(p.holes || {}).some((h) => all.has(h))); }
+    this.rebuild(); this.emit('board', def); this.emit('parts', null); this.emit('wires', null); return true;
+  }
+  bbMap() { const d = this.def; return d.bb ? d.bbMap || (d.bbMap = d.bbMapOf(d, BB)) : null; } // a breadboard board: pin -> hole, covered holes
 
   // ------------------------------------------------------------ parts and wires
   addPart(type, props, at, rot, tag) {
@@ -85,13 +106,14 @@ export class Lab {
   // what is in a hole / socket / terminal: a part's leg or a wire end
   occupant(ep) {
     for (const w of this.wires) if (w.a === ep || w.b === ep) return { wire: w };
+    if (ep.startsWith('H:') && this.def.bb) { const m = this.bbMap(), h = ep.slice(2); if (m.at.has(h)) return { board: m.at.get(h) }; if (m.cover.has(h)) return { board: '' }; } // batch 4: under a Nano / ESP32
     if (ep.startsWith('H:')) { const h = ep.slice(2); for (const p of this.parts) for (const k in p.holes) if (p.holes[k] === h) return { part: p, pin: k }; }
     return null;
   }
   endpointFree(ep) {
     if (ep.startsWith('H:')) return !!holeAt(ep.slice(2)) && !this.occupant(ep);
-    if (ep.startsWith('B:')) { const pin = this.def.pins.find((p) => p.id === ep.slice(2)); return !!pin && pin.net !== 'NC' && !this.occupant(ep); }
-    if (ep.startsWith('T:')) { const [, uid, pid] = ep.split(':'); const p = this.parts.find((x) => x.uid === uid); return !!p && PARTS[p.type].pins.some((q) => q.id === pid) && !this.occupant(ep); }
+    if (ep.startsWith('B:')) { const pin = this.def.pins.find((p) => p.id === ep.slice(2)); return !!pin && pin.net !== 'NC' && !this.def.bb && !this.occupant(ep); } // (batch 4: a Nano / ESP32 pin is in a hole: wire its strip)
+    if (ep.startsWith('T:')) { const [, uid, pid] = ep.split(':'); const p = this.parts.find((x) => x.uid === uid); const pin = p && PARTS[p.type].pins.find((q) => q.id === pid); return !!pin && (pin.multi || !this.occupant(ep)); } // a screw terminal takes two wires
     return false;
   }
   // can a breadboard part sit with its first leg in this hole? -> { ok, holes: {pin: hole}, why }
@@ -100,6 +122,7 @@ export class Lab {
     const holes = {}; const taken = new Set();
     for (const w of this.wires) { if (w.a.startsWith('H:')) taken.add(w.a.slice(2)); if (w.b.startsWith('H:')) taken.add(w.b.slice(2)); }
     for (const q of this.parts) if (q !== self && q !== p) for (const k in q.holes) taken.add(q.holes[k]);
+    if (this.def.bb) for (const h of this.bbMap().all) taken.add(h); // batch 4: the holes a Nano / ESP32 sits in or covers
     const pins = pinsOf(p);
     for (const pin of pins) {
       const x = h0.x + pin.x, z = h0.z + pin.z;
@@ -113,13 +136,14 @@ export class Lab {
   // ------------------------------------------------------------ positions (mm on the bench)
   epPos(ep) {
     if (ep.startsWith('H:')) { const h = holeAt(ep.slice(2)); return [this.bb.x + h.x, BB.top, this.bb.z + h.z]; }
+    if (ep.startsWith('B:') && this.def.bb) { const h = holeAt(this.bbMap().pin.get(ep.slice(2))); return h ? [this.bb.x + h.x, BB.top, this.bb.z + h.z] : [0, 0, 0]; } // batch 4: the pin is in a hole
     if (ep.startsWith('B:')) { const pin = this.def.pins.find((p) => p.id === ep.slice(2)); return [this.board.x + pin.at[0], this.def.pcbY + this.def.pcbT + this.def.hdrH, this.board.z + pin.at[1]]; }
     if (ep.startsWith('T:')) { const [, uid, pid] = ep.split(':'); const p = this.parts.find((x) => x.uid === uid); if (!p) return [0, 0, 0]; return this.termPos(p, pid); }
     return [0, 0, 0];
   }
   termPos(p, pid) {
     const pin = pinsOf(p).find((q) => q.id === pid); const T = PARTS[p.type].term || { y: 4 };
-    return [p.at.x + pin.x, T.y, p.at.z + pin.z];
+    return [p.at.x + pin.x, pin.def.y !== undefined ? pin.def.y : T.y, p.at.z + pin.z];
   }
   partPos(p) { // the part's origin on the bench
     if (PARTS[p.type].mount === 'free') return [p.at.x, 0, p.at.z];
@@ -130,6 +154,7 @@ export class Lab {
     this.version++; this.instKey = null;
     const uf = new UF(); this.uf = uf;
     for (const p of this.def.pins) uf.union('B:' + p.id, 'N:' + p.net);
+    if (this.def.bb) for (const [pid, h] of this.bbMap().pin) uf.union('B:' + pid, 'H:' + h); // batch 4: a Nano / ESP32 pin joins its breadboard strip
     for (const h of BB.holes.values()) uf.union('H:' + h.id, 'S:' + h.strip);
     for (const w of this.wires) uf.union(w.a, w.b);
     for (const p of this.parts) {
@@ -149,7 +174,7 @@ export class Lab {
     for (const p of this.parts) { p.N = {}; for (const k in p.ep) p.N[k] = nodeOf(p.ep[k]); }
     this.boardNode = (net) => nodeOf('N:' + net);
     for (const net of ['5V', '3V3', 'VIN', 'RESET', 'AREF']) this.boardNode(net);
-    for (let i = 0; i < this.def.gpio; i++) this.boardNode('G' + i);
+    for (let i = 0; i < this.def.gpio; i++) if (this.def.gpio <= 22 || this.used('N:G' + i)) this.boardNode('G' + i); // (a Mega or ESP32: only the pins in use, so the solver stays small)
     this.nodeCount = n; this.prevStates = null;
     if (this.board.tripped) this.board.cool = 1.5; // the fuse cools down; then the power comes back
   }
@@ -184,17 +209,18 @@ export class Lab {
   elements(pinState, levels, t, V) {
     const els = [], G = (net) => this.boardNode(net);
     if (this.powered) {
-      els.push({ type: 'V', a: G('5V'), b: 0, v: this.board.battery && !this.board.usb ? 5.0 : 4.96, r: 0.1, role: '5v' });
+      els.push({ type: 'V', a: G('5V'), b: 0, v: this.board.battery && !this.board.usb ? 5.0 : this.def.v5 || 4.96, r: 0.1, role: '5v' });
       els.push({ type: 'V', a: G('3V3'), b: 0, v: 3.3, r: 0.8, role: '3v3' });
       if (this.board.battery) els.push({ type: 'V', a: G('VIN'), b: 0, v: 8.4, r: 2, role: 'vin' });
       if (this.used('N:RESET')) els.push({ type: 'R', a: G('RESET'), b: G('5V'), r: 10000 });
       for (let i = 0; i < this.def.gpio; i++) {
         if (!this.used('N:G' + i)) continue;
         const s = pinState(i); if (!s) continue;
-        if (s.out) { const lv = levels && levels.has(i) ? levels.get(i) : s.duty; els.push({ type: 'V', a: G('G' + i), b: 0, v: 5 * lv, r: 25, role: 'pin', pin: i }); }
-        else if (s.pull) els.push({ type: 'R', a: G('G' + i), b: G('5V'), r: 35000, role: 'pull', pin: i });
+        if (s.out) { const lv = levels && levels.has(i) ? levels.get(i) : s.duty; els.push({ type: 'V', a: G('G' + i), b: 0, v: (this.def.vcc || 5) * lv, r: 25, role: 'pin', pin: i }); }
+        else if (s.pull) els.push({ type: 'R', a: G('G' + i), b: G(this.def.vcc === 3.3 ? '3V3' : '5V'), r: 35000, role: 'pull', pin: i });
       }
     }
+    for (const h of LAB_HOOKS) if (h.elements) h.elements(this, els, G, pinState); // batch 4: a board's own parts (the ESP32's pin clamps)
     for (const p of this.parts) {
       const list = PARTS[p.type].elec(p, p.N, this.env, V || this.V, t);
       for (const e of list) { e.part = p; els.push(e); }
@@ -206,7 +232,7 @@ export class Lab {
     if (!this.used('N:G' + pin)) return NaN;
     // the last solution is kept until a pin, a part or the wiring changes (onPin clears instKey)
     let echoBits = 0;
-    for (const p of this.parts) if (p.type === 'hcsr04' && p.state.echo) echoBits = echoBits * 2 + ((t >= p.state.echo.start && t < p.state.echo.end) ? 1 : 0) + 2;
+    for (const p of this.parts) if (PARTS[p.type].us && p.state.echo) echoBits = echoBits * 2 + ((t >= p.state.echo.start && t < p.state.echo.end) ? 1 : 0) + 2;
     const key = this.version * 1e9 + this.stateV * 1e4 + echoBits;
     if (key !== this.instKey) {
       const els = this.elements((i) => this.pinStateNow(i), null, t, this.V);
@@ -217,7 +243,8 @@ export class Lab {
     return this.instOk[nd] ? this.instV[nd] : NaN;
   }
   onWrite(pin, lv, t) {
-    for (const p of this.parts) if (p.type === 'hcsr04' && p.N.TRIG === this.boardNode('G' + pin) && this.used('N:G' + pin)) {
+    for (const p of this.parts) if (PARTS[p.type].onWrite) PARTS[p.type].onWrite(p, pin, lv, t, this); // batch 3: the stepper's driver follows each write
+    for (const p of this.parts) if (PARTS[p.type].us && p.N.TRIG === this.boardNode('G' + pin) && this.used('N:G' + pin)) {
       if (lv) p.state.trigAt = t;
       else if (p.state.trigAt !== undefined && t - p.state.trigAt >= 9 && p.state.powered) {
         const d = Math.max(2, p.state.dist); const us = d > 400 ? 38000 : d * 58.2 + (Math.random() - 0.5) * 12;
@@ -228,7 +255,7 @@ export class Lab {
   pulse(pin, lv, t, timeout) {
     if (!lv) return null;
     const nd = this.boardNode('G' + pin);
-    for (const p of this.parts) if (p.type === 'hcsr04' && p.N.ECHO === nd && p.state.echo) {
+    for (const p of this.parts) if (PARTS[p.type].us && p.N.ECHO === nd && p.state.echo) {
       const e = p.state.echo; if (e.end > t && e.start < t + timeout) return { start: Math.max(e.start, t), end: e.end };
     }
     return null;
@@ -238,7 +265,7 @@ export class Lab {
   run(code) { // code: a compiled sketch (cpp.js)
     this.mcu.load(code); this.board.tripped = false; this.board.fuse = 0;
     this.obs = this.freshObs();
-    for (const p of this.parts) { if (p.type === 'hcsr04') p.state.echo = null; }
+    for (const p of this.parts) { if (PARTS[p.type].us) p.state.echo = null; }
     this.mcu.stop(); this.frameSolve(0); this.dynamics(0); // the modules know whether they have power before the sketch starts
     if (this.powered) this.mcu.start();
     this.emit('run', null);
@@ -308,11 +335,13 @@ export class Lab {
       this.board.fuse += dt; if (this.board.fuse > 0.35) { this.board.tripped = true; this.board.cool = 1e9; this.mcu.stop(); this.emit('fuse', { mA: Math.round(Math.max(i5, i33) * 1000), pin: i33 > 0.25 ? '3V3' : '5V' }); }
     } else this.board.fuse = Math.max(0, this.board.fuse - dt);
     // the L LED on pin 13 (through the board's own buffer)
-    const v13 = this.powered && this.used('N:G13') ? vAt(this.boardNode('G13')) : this.powered ? 5 * this.pinLevelFrame(13) : 0;
-    this.ledL = Math.max(0, Math.min(1, (v13 - 1.6) / 2.6));
+    const lp = this.def.led, vk = (this.def.vcc || 5) / 5; // (batch 4: the board's own LED pin, and its logic voltage)
+    const v13 = this.powered && this.used('N:G' + lp) ? vAt(this.boardNode('G' + lp)) : this.powered ? 5 * vk * this.pinLevelFrame(lp) : 0;
+    this.ledL = Math.max(0, Math.min(1, (v13 - 1.6 * vk) / (2.6 * vk)));
     this.trackLed('L', this.ledL, 0.004 * this.ledL);
     for (const p of this.parts) {
       const els = byPart.get(p) || [];
+      if (PARTS[p.type].dyn) { PARTS[p.type].dyn(p, els, this, dt, vAt); continue; } // batch 3: the module does it itself (parts3.js)
       switch (p.type) {
         case 'led': case 'rgb': {
           if (p.state.burnt) { p.state.b = 0; break; }
@@ -335,12 +364,15 @@ export class Lab {
           if (Math.abs(s.w) > 15) this.sounds.push({ id: p.uid, kind: 'motor', f: Math.abs(s.w) / (2 * Math.PI) * 2, amp: Math.min(1, Math.abs(s.w) / 700) });
           break;
         }
-        case 'servo': {
+        case 'servo': case 'mg996r': {
           const s = p.state; const pow = vAt(p.N.VP) - vAt(p.N.GND); s.powered = pow > 4;
           let target = null;
           if (s.powered && this.mcu.state === 'running') for (const sv of this.mcu.servos) if (sv.pin >= 0 && this.boardNode('G' + sv.pin) === p.N.SIG && this.used('N:G' + sv.pin)) target = sv.angle();
+          const blocked = target !== null && s.limit != null && target > s.limit; // something in the gripper: it stops there and pushes
+          if (blocked) target = s.limit;
+          if (blocked !== !!s.load) { s.load = blocked; this.stateV++; }
           s.target = target;
-          if (target !== null) { const d = target - s.angle, step = 520 * dt; if (Math.abs(d) <= step) { s.angle = target; } else s.angle += Math.sign(d) * step; }
+          if (target !== null) { const d = target - s.angle, step = (PARTS[p.type].rate || 520) * dt; if (Math.abs(d) <= step) { s.angle = target; } else s.angle += Math.sign(d) * step; }
           const mv = target !== null && Math.abs(target - s.angle) > 0.5; if (mv !== !!s.moving) { s.moving = mv; this.stateV++; }
           const o = obs.servo[p.uid] || (obs.servo[p.uid] = { min: 999, max: -999, n: 0 }); if (target !== null) { o.min = Math.min(o.min, s.angle); o.max = Math.max(o.max, s.angle); o.n++; }
           if (mv) this.sounds.push({ id: p.uid, kind: 'servo', f: 120, amp: 0.5 });
@@ -352,13 +384,29 @@ export class Lab {
           else p.state.on = false;
           break;
         }
-        case 'hcsr04': case 'ir': case 'lm35': {
+        case 'bomotor': { // a gear motor: as the DC motor, with the BO's numbers (small steps: it answers in ~40 ms); the wheel turns 48 times slower
+          const e = els[0]; const s = p.state; const vm = e ? vAt(e.a) - vAt(e.b) : 0; const open = !e || !this.ok || !this.ok[e.a] || !this.ok[e.b];
+          const n = Math.max(1, Math.ceil(dt / 0.004)), h = dt / n; let I = 0;
+          for (let k = 0; k < n; k++) {
+            I = open ? 0 : (vm - BO.ke * s.w) / BO.r; const tq = BO.ke * I - BO.b * s.w;
+            if (Math.abs(s.w) < 3 && Math.abs(BO.ke * I) < BO.tf) { s.w = 0; continue; }
+            const w0 = s.w; s.w += (tq - BO.tf * Math.sign(s.w || I)) / BO.J * h; if (w0 && Math.sign(s.w) !== Math.sign(w0) && Math.abs(BO.ke * I) < BO.tf) s.w = 0; // friction stops it, it does not turn it back
+          }
+          s.w = Math.max(-1600, Math.min(1600, s.w)); s.i = I; s.a = (s.a + s.w / BO.gear * dt) % (Math.PI * 2);
+          const o = obs.motor[p.uid] || (obs.motor[p.uid] = { max: 0, levels: new Set(), fwd: 0, back: 0 });
+          o.max = Math.max(o.max, Math.abs(s.w)); if (Math.abs(s.w) > 20) o.levels.add(Math.round(Math.abs(s.w) / 100)); if (s.w > 150) o.fwd += dt; if (s.w < -150) o.back += dt;
+          if (Math.abs(s.w) > 25) this.sounds.push({ id: p.uid, kind: 'motor', f: 60 + Math.abs(s.w) * 0.35, amp: Math.min(0.8, Math.abs(s.w) / 900) });
+          break;
+        }
+        case 'hc05': { const pow = vAt(p.N.VCC) - vAt(p.N.GND) > 3.5; if (pow !== !!p.state.powered) { p.state.powered = pow; if (!pow) p.state.paired = false; this.stateV++; this.instKey = null; } break; }
+        case 'hcsr04': case 'hcsr04f': case 'ir': case 'lm35': {
           const pow = vAt(p.N.VCC !== undefined ? p.N.VCC : p.N.VS) - vAt(p.N.GND) > 4; if (pow !== !!p.state.powered) { p.state.powered = pow; this.stateV++; this.instKey = null; }
           if (p.type === 'ir') p.state.near = pow && p.state.dist <= p.state.thr;
           break;
         }
       }
     }
+    for (const h of LAB_HOOKS) if (h.dynamics) h.dynamics(this, dt); // batch 4
     if (this.rebuildSoon) { this.rebuildSoon = false; this.instKey = null; this.stateV++; }
   }
   pinLevelFrame(i) { const s = this.pinStateFrame(i); return s && s.out ? s.duty : 0; }
@@ -385,6 +433,16 @@ export class Lab {
     if (p.type === 'npn') return els[0].iAvg;
     if (p.type === 'rgb') return els.reduce((s, e) => s + Math.max(0, e.iAvg), 0);
     return Math.abs(els[0].iAvg || 0);
+  }
+  // a phone app sends letters through the HC-05: they reach the Arduino's RX (pin 0) only if its TXD is wired there
+  btSend(text) {
+    const bt = this.parts.find((p) => p.type === 'hc05'); if (!bt) return 'none';
+    if (!bt.state.powered) return 'off'; if (!bt.state.paired) return 'unpaired';
+    if (!this.conn(bt.ep.TXD, 'B:D0')) return this.conn(bt.ep.TXD, 'B:D1') ? 'crossed' : 'nowire';
+    if (this.mcu.state !== 'running') return 'stopped';
+    const ser = this.mcu.ser; if (!ser.on) return 'nobegin';
+    if (ser.baud !== 9600) { for (const c of String(text)) ser.rx.push((c.charCodeAt(0) * 7 + ser.baud) & 255); return 'baud'; } // the wrong speed: garbage letters
+    ser.send(text); return 'ok';
   }
   // reset what went wrong: burnt LEDs come back, the fuse cools
   repair() { for (const p of this.parts) if (p.state.burnt) { p.state.burnt = false; p.state.hot = 0; } this.board.tripped = false; this.board.fuse = 0; delete this.board.cool; this.rebuild(); this.emit('parts', null); }

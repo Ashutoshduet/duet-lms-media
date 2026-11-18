@@ -1,6 +1,7 @@
 // DUET Robotics Lab 360: boards and the breadboard, as data. A board lists its pins (where they are, what they do, which
 // net they belong to), its microcontroller and the parts a student can tap to learn about. Positions are in mm on the
 // board, x to the right, z towards the student, origin at the board's centre. New boards (ESP32, Pico, …) are added here.
+import { BOARDS4 } from './boards4.js'; // batch 4: Nano, Mega 2560, ESP32 DevKit V1
 const IN = 25.4;
 
 // UNO R3 header holes, in inches from the board's lower-left corner (USB on the left), as on the open UNO R3 layout
@@ -53,6 +54,8 @@ export const BOARDS = {
     later: true, // phase 2: a Nano that plugs into the breadboard
   },
 };
+
+Object.assign(BOARDS, BOARDS4); // batch 4: the Nano (in the breadboard) replaces the phase-2 placeholder above
 
 // the breadboard: 830 tie points. 63 columns × rows a–j (two halves of five, joined down each column) and four power rails
 // (+ and − at the back and at the front; each runs the whole length, 50 holes in groups of five). Pitch 2.54 mm.

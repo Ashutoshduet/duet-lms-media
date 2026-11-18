@@ -3,6 +3,7 @@
 // has moved on by that much (x speed), so delay(1000) takes one real second and never freezes the page.
 // Time in µs. Pins 0..13 digital, 14..19 = A0..A5 (Nano: 20, 21 = A6, A7, analog input only).
 // The electrical side (what a pin reads, what a module sends back) comes from the circuit (sim.js) through `io`.
+import { libRT } from './libs3.js'; // batch 3
 
 export class RtError extends Error { constructor(code, args, line) { super(code); this.code = code; this.args = args || {}; this.line = line; } }
 
@@ -24,7 +25,7 @@ export class MCU {
     this.reset();
   }
   reset() {
-    this.t = 0; this.until = 0; this.ops = 0; this.opMax = 400000; this.wallEnd = Infinity; this.wallOut = false; this.depth = 0; this.L = 0;
+    this.t = 0; this.until = 0; this.ops = 0; this.reads = 0; this.opMax = 400000; this.wallEnd = Infinity; this.wallOut = false; this.depth = 0; this.L = 0;
     this.pins = []; for (let i = 0; i < this.board.gpio; i++) this.pins.push({ mode: 0, level: 0, pwm: -1, tone: 0, toneEnd: 0, acc: 0, last: 0, writes: 0 });
     this.rnd = { s: 1 }; this.servos = []; this.adcMin = new Array(8).fill(1024); this.adcMax = new Array(8).fill(-1);
     this.ser = new SerialPort(this);
@@ -84,6 +85,9 @@ export class MCU {
     if ((++this.ops & 2047) === 0 && (typeof performance !== 'undefined' ? performance.now() : Date.now()) > this.wallEnd) this.wallOut = true;
     return this.t >= this.until || this.ops >= this.opMax || this.wallOut;
   }
+  // a pin read may solve the whole circuit again (a sketch that writes and reads pins in a tight loop): the frame's time
+  // budget is looked at after each one, not only every 2048 steps, so such a loop cannot hold up a phone's frame
+  heavy() { if (++this.reads % 8 === 0 && (typeof performance !== 'undefined' ? performance.now() : Date.now()) > this.wallEnd) this.wallOut = true; }
   enter(line) { if (++this.depth > 60) throw new RtError('R_STACK', {}, line); return this.k(); }
   idiv(a, b) { if (b === 0) throw new RtError('R_DIV0', {}, this.L); return Math.trunc(a / b); }
   imod(a, b) { if (b === 0) throw new RtError('R_DIV0', {}, this.L); return a % b; }
@@ -118,7 +122,7 @@ export class MCU {
   dr(p) {
     const P = this.pin(p, 'digitalRead'); this.t += 3.8;
     if (P.mode === 1 && P.pwm < 0) return P.level;
-    const v = this.io.read ? this.io.read(p, this.t) : NaN;
+    const v = this.io.read ? this.io.read(p, this.t) : NaN; this.heavy();
     if (Number.isNaN(v)) { if (!this.warned.has('float' + p)) { this.warned.add('float' + p); this.note('N_FLOATING', { pin: p }); } return this.hum(p) > 2.5 ? 1 : 0; }
     if (v >= 3.0) return 1; if (v <= 1.5) return 0;
     return this.hum(p) > v ? 0 : 1; // in between: it is not sure
@@ -129,7 +133,7 @@ export class MCU {
     let ch = p >= 14 ? p - 14 : p;
     if (!(ch >= 0 && ch < this.board.adc)) throw new RtError('R_ANALOG', { pin: p, board: this.board.short }, this.L);
     this.t += 112;
-    const v = this.io.read ? this.io.read(14 + ch, this.t, true) : NaN;
+    const v = this.io.read ? this.io.read(14 + ch, this.t, true) : NaN; this.heavy();
     if (Number.isNaN(v)) return Math.max(0, Math.min(1023, Math.round(this.hum(14 + ch) / 5 * 1023 * 0.7 + 150)));
     const vr = this.io.vref ? this.io.vref() : 5;
     const n = Math.max(0, Math.min(1023, Math.round(v / vr * 1023 + (Math.random() - 0.5) * 1.6)));
@@ -187,6 +191,7 @@ export class MCU {
   randomSeed(s) { if (s) this.rnd.s = s >>> 0; }
   shiftOut(dp, cp, order, val) { for (let i = 0; i < 8; i++) { const b = order ? (val >> (7 - i)) & 1 : (val >> i) & 1; this.dw(dp, b); this.dw(cp, 1); this.dw(cp, 0); } }
   servo() { const s = new ServoObj(this); this.servos.push(s); return s; }
+  lib(type, args, line) { return libRT(this, type, args, line); } // batch 3: LiquidCrystal_I2C, DHT, Keypad, … (libs3.js)
   // Strings and printing, as the Arduino does it
   S(v, t, d) {
     if (t === 'str') return String(v);
@@ -278,3 +283,6 @@ class ServoObj {
   angle() { return (this.us - 544) * 180 / (2400 - 544); } // where a standard servo turns to for this pulse
   tick() { /* pulses are continuous; the servo part reads angle() */ }
 }
+
+// batch 4: the boards with more serial ports (Mega: Serial1–3, ESP32: Serial2 and Bluetooth) make more of these (esp32.js)
+export { SerialPort };

@@ -1,5 +1,6 @@
 // DUET Robotics Lab 360: every word a student sees, in English, Hindi (spoken classroom Hindi, English technical words
 // in Devanagari) and Hinglish. t('key', {args}) picks the current language; {name} in a text is filled from args.
+import { SPEC2 } from './parts2.js';
 export const LANGS = ['en', 'hi', 'hg'];
 export const L = { lang: 'en' };
 const fill = (s, a) => String(s).replace(/\{(\w+)\}/g, (m, k) => (a && a[k] !== undefined && a[k] !== null ? a[k] : ''));
@@ -12,6 +13,11 @@ export const T = {
   sub: t3('Arduino step by step · Class 6–12', 'Arduino क़दम-दर-क़दम · कक्षा 6–12', 'Arduino step by step · Class 6–12'),
   loading: t3('Setting up the bench…', 'बेंच तैयार हो रही है…', 'Bench ready ho rahi hai…'),
   lessons: t3('Lessons', 'पाठ', 'Lessons'),
+  tRobot: t3('Robot', 'रोबोट', 'Robot'),
+  // the lesson strip's sections
+  grp_basics: t3('Arduino basics', 'Arduino की शुरुआत', 'Arduino basics'), grp_robots: t3('Robots', 'रोबोट', 'Robots'),
+  grp_boards: t3('Nano · Mega · ESP32', 'Nano · Mega · ESP32', 'Nano · Mega · ESP32'), grp_modules: t3('School-lab projects', 'स्कूल लैब प्रोजेक्ट', 'School lab projects'),
+  grp_microbit: t3('micro:bit · Python', 'micro:bit · Python', 'micro:bit · Python'),
   lessonN: t3('Lesson {n}', 'पाठ {n}', 'Lesson {n}'),
   free: t3('Free build', 'खुद बनाइए', 'Free build'),
   parts: t3('Parts', 'पुर्ज़े', 'Parts'),
@@ -102,6 +108,8 @@ export const SPEC = {
   vr: t3('Reverse voltage', 'रिवर्स वोल्टेज', 'Reverse voltage'), out: t3('Output', 'आउटपुट', 'Output'), range: t3('Range', 'रेंज', 'Range'), acc: t3('Accuracy', 'सटीकता', 'Accuracy'),
   speed: t3('Speed', 'रफ़्तार', 'Speed'), torque: t3('Torque', 'टॉर्क', 'Torque'), noload: t3('No load', 'बिना भार', 'Bina load'), stall: t3('Stalled', 'रुकी हुई', 'Ruki hui'), cap: t3('Capacity', 'क्षमता', 'Capacity'),
 };
+
+Object.assign(SPEC, SPEC2); // batch 2's parts
 
 // the parts of the board (labels, lesson 1)
 export const REGIONS = {

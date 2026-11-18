@@ -3,10 +3,13 @@
 // breadboard around them), burn with a puff of smoke, the servo horn turns, the fan spins, the board's own LEDs blink.
 // Also: the hover ring on a hole with its joined strip lit, ghost parts and ghost wires for the lesson's next step.
 import * as THREE from 'three';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { BB, holeAt, stripOf } from './boards.js';
-import { PARTS, pinsOf, LED_COLORS, RGB_CH } from './parts.js';
+import { PARTS, pinsOf, LED_COLORS, RGB_CH, rotXZ } from './parts.js';
 import * as MD from './models.js';
 import { radialTexture } from './tex.js';
+import { nextFrame } from './stage.js';
+import { buildBoard4 } from './models4.js'; // batch 4: Nano, Mega, ESP32
 
 const UP = new THREE.Vector3(0, 1, 0);
 const rotDir = (rot) => { const v = [[0, 1], [-1, 0], [0, -1], [1, 0]][((rot % 4) + 4) % 4]; return new THREE.Vector3(v[0], 0, v[1]); };
@@ -27,23 +30,36 @@ export class View {
     this.strip.renderOrder = 9; this.strip.count = 0; this.strip.frustumCulled = false; this.root.add(this.strip);
     this.probeMarks = [0xff3b30, 0x1e1e1e].map((c) => { const m = new THREE.Mesh(new THREE.ConeGeometry(1.4, 9, 12), new THREE.MeshStandardMaterial({ color: c, roughness: 0.4 })); m.rotation.x = Math.PI; m.visible = false; this.root.add(m); return m; });
     this.sel = null; this.ghostObj = null; this.ghostWire = null; this.lessonGhosts = [];
-    lab.on((type) => { if (type === 'parts' || type === 'wires' || type === 'burn') this.sync(); if (type === 'burn') this.kick(); });
+    lab.on((type) => { if (type === 'parts' || type === 'wires' || type === 'burn') this.syncSoon(); if (type === 'burn') this.kick(); });
+    lab.on((type) => { if (type === 'board') this.setBoard(); }); // batch 4
+    this.pickExtra = []; // batch 4: more things a tap or a ray can hit (the phone, the board box): their meshes have userData.region
     this.sync();
   }
   kick() { this.stage.kick(); }
+  // batch 4: another board on the bench (lab.setBoard): its model takes the old one's place (each is built once, then kept)
+  setBoard() {
+    const id = this.lab.def.id; this.boards = this.boards || { uno: this.board };
+    if (this.board) this.root.remove(this.board);
+    this.board = this.boards[id] || (this.boards[id] = buildBoard4(this.lab.def));
+    this.board.position.set(this.lab.board.x, 0, this.lab.board.z); this.root.add(this.board); this.kick();
+  }
+  // many changes at once (a lesson opening adds every part and wire): one sync after them
+  syncSoon() { if (this._sq) return; this._sq = true; queueMicrotask(() => { this._sq = false; this.sync(); }); }
   // ------------------------------------------------------------ keep the 3D in step with the lab
   sync() {
-    const lab = this.lab;
+    const lab = this.lab; let partsChanged = !this.partBatch; const t0 = performance.now(); let built = 0, later = false;
     const seen = new Set();
     for (const p of lab.parts) {
       seen.add(p.uid);
       let e = this.parts.get(p.uid);
       const sig = JSON.stringify([p.type, p.props, p.state.burnt]);
       if (e && e.sig !== sig) { this.root.remove(e.obj); MD.dispose(e.obj); this.disposeFx(e); e = null; }
-      if (!e) { e = this.makePart(p); e.sig = sig; this.parts.set(p.uid, e); }
-      this.placePart(p, e.obj);
+      if (!e && built && performance.now() - t0 > 14) { later = true; continue; } // many new parts (a lesson opening): a few per frame, so no long freeze
+      if (!e) { e = this.makePart(p); e.sig = sig; this.parts.set(p.uid, e); partsChanged = true; built++; }
+      this.placePart(p, e.obj); e.obj.updateMatrixWorld(true);
+      const pk = JSON.stringify([p.at, p.rot]); if (pk !== e.pk) { e.pk = pk; partsChanged = true; }
     }
-    for (const [uid, e] of this.parts) if (!seen.has(uid)) { this.root.remove(e.obj); MD.dispose(e.obj); this.disposeFx(e); this.parts.delete(uid); }
+    for (const [uid, e] of this.parts) if (!seen.has(uid)) { this.root.remove(e.obj); MD.dispose(e.obj); this.disposeFx(e); this.parts.delete(uid); partsChanged = true; }
     // wires: rebuilt when they or the parts they end on move
     const wseen = new Set();
     for (const w of lab.wires) {
@@ -54,10 +70,48 @@ export class View {
       if (!o) { o = MD.buildWire(a, this.epDir(w.a), b, this.epDir(w.b), w.color, hash(w.uid)); o.userData.sig = sig; o.userData.wire = w; o.traverse((m) => { m.userData.wireUid = w.uid; }); this.root.add(o); this.wires.set(w.uid, o); }
     }
     for (const [uid, o] of this.wires) if (!wseen.has(uid)) { this.root.remove(o); MD.dispose(o); this.wires.delete(uid); }
+    if (later) { nextFrame().then(() => this.sync()); this.batchWires(); this.kick(); return; } // (stage.js: also in a headset)
+    this.batchWires(); if (partsChanged) this.batchParts();
+    if (this.stage.renderer.shadowMap.enabled) this.stage.renderer.shadowMap.needsUpdate = true; // (the headset keeps its shadows until the bench changes)
     this.kick();
   }
+  // the still pieces of every part, drawn as one mesh per material across all parts (a part keeps its own meshes,
+  // hidden, for picking; the moving pieces, LEDs and labels stay its own). A part being dragged is left out.
+  batchParts() {
+    const old = this.partBatch; if (old) { this.root.remove(old); old.traverse((m) => { if (m.geometry) m.geometry.dispose(); }); this.partBatch = null; }
+    const piles = new Map(); const mtx = new THREE.Matrix4(); this.root.updateMatrixWorld(true); const inv = new THREE.Matrix4().copy(this.root.matrixWorld).invert();
+    for (const e of this.parts.values()) {
+      const kids = e.statics || (e.statics = e.obj.children.filter((m) => m.isMesh && !m.isSprite && !m.userData.keep && !Array.isArray(m.material) && m.geometry.attributes.uv && !m.geometry.index));
+      for (const m of kids) {
+        m.visible = !!e.hidden; if (e.hidden) continue; // (a hidden part: its own meshes are off too, see setHidden)
+        mtx.multiplyMatrices(inv, m.matrixWorld); const g = m.geometry.clone().applyMatrix4(mtx); for (const k of Object.keys(g.attributes)) if (!['position', 'normal', 'uv'].includes(k)) g.deleteAttribute(k);
+        if (!piles.has(m.material)) piles.set(m.material, { geos: [], cast: false }); const p = piles.get(m.material); p.geos.push(g); p.cast = p.cast || m.castShadow;
+      }
+    }
+    if (!piles.size) return;
+    const g = new THREE.Group(); g.name = 'partBatch';
+    for (const [mat, p] of piles) { const geo = mergeGeometries(p.geos, false); for (const x of p.geos) x.dispose(); if (!geo) continue; const mesh = new THREE.Mesh(geo, mat); mesh.castShadow = p.cast; mesh.receiveShadow = true; mesh.raycast = () => {}; g.add(mesh); }
+    this.root.add(g); this.partBatch = g;
+  }
+  setHidden(uid, h) { const e = this.parts.get(uid); if (!e || !!e.hidden === h) return; e.hidden = h; e.obj.visible = !h; for (const m of e.statics || []) m.visible = h; this.batchParts(); if (!h) for (const m of e.statics || []) m.visible = false; this.kick(); }
+  // all wires are drawn as one mesh per material (a few draw calls instead of three per wire); each wire keeps its own
+  // invisible mesh, so a tap still finds it (the raycaster does not skip hidden meshes)
+  batchWires() {
+    const old = this.wireBatch; if (old) { this.root.remove(old); old.traverse((m) => { if (m.geometry) m.geometry.dispose(); }); this.wireBatch = null; }
+    const piles = new Map();
+    for (const o of this.wires.values()) for (const m of o.children) { if (!m.isMesh) continue; m.visible = false; if (!piles.has(m.material)) piles.set(m.material, []); piles.get(m.material).push(m.geometry); }
+    if (!piles.size) return;
+    const g = new THREE.Group(); g.name = 'wires';
+    for (const [mat, geos] of piles) { const geo = mergeGeometries(geos, false); if (!geo) continue; const mesh = new THREE.Mesh(geo, mat); mesh.castShadow = true; mesh.raycast = () => {}; g.add(mesh); }
+    this.root.add(g); this.wireBatch = g;
+  }
   epDir(ep) {
-    if (ep.startsWith('T:')) { const p = this.lab.parts.find((x) => x.uid === ep.split(':')[1]); return p ? rotDir(p.rot || 0) : UP.clone(); }
+    if (ep.startsWith('T:')) {
+      const [, uid, pid] = ep.split(':'); const p = this.lab.parts.find((x) => x.uid === uid); if (!p) return UP.clone();
+      const d = PARTS[p.type].pins.find((q) => q.id === pid); if (d && d.up) return UP.clone(); // a header pin: the jumper goes on from above
+      if (d && d.dir) { const [x, z] = rotXZ(d.dir[0], d.dir[1], p.rot || 0); return new THREE.Vector3(x, 0, z); } // a screw terminal: the wire goes in from its side
+      return rotDir(p.rot || 0);
+    }
     return UP.clone();
   }
   makePart(p) {
@@ -90,7 +144,7 @@ export class View {
     const c = new THREE.Vector3(x, 0, z); if (p.type === 'hcsr04') c.x += pinsOf(p)[3].x / 2;
     c.addScaledVector(face, d);
     e.block.position.set(c.x, 0, c.z); e.block.rotation.y = Math.atan2(face.x, face.z);
-    e.block.visible = d < 330;
+    e.block.visible = d < 330 && !p.state.ext; // a sensor on a robot reads the robot's world, not the block
   }
   // ------------------------------------------------------------ every frame: what the circuit does
   update(dt) {
@@ -116,7 +170,7 @@ export class View {
           e.poolM.opacity = Math.min(0.55, b * 0.38) * (0.6 + 0.4 * (1 - this.stage.light * 0.5)); anim = true;
         }
       }
-      if (p.type === 'servo' && o.userData.horn) { const a = (s.angle - 90) * Math.PI / 180; if (Math.abs(o.userData.horn.rotation.y - a) > 0.001) { o.userData.horn.rotation.y = a; anim = true; } }
+      if ((p.type === 'servo' || p.type === 'mg996r') && o.userData.horn) { const a = (s.angle - 90) * Math.PI / 180; if (Math.abs(o.userData.horn.rotation.y - a) > 0.001) { o.userData.horn.rotation.y = a; anim = true; } }
       if (p.type === 'motor' && o.userData.fan) {
         const w = s.w || 0; if (Math.abs(w) > 0.5) anim = true;
         const vis = Math.abs(w) < 45 ? w : Math.sign(w) * (8 + Math.abs(w) * 0.012);
@@ -125,7 +179,12 @@ export class View {
       if (p.type === 'button' && o.userData.cap) { const y = s.pressed ? 4.38 : 4.75; if (o.userData.cap.position.y !== y) { o.userData.cap.position.y = y; anim = true; } }
       if (p.type === 'pot' && o.userData.knob) { const a = -(s.pos - 0.5) * 300 * Math.PI / 180; if (o.userData.knob.rotation.y !== a) { o.userData.knob.rotation.y = a; anim = true; } }
       if (p.type === 'ir' && o.userData.leds) { const pw = !!s.powered, nr = !!s.near; o.userData.leds.pwr.emissiveIntensity = pw ? 2.2 : 0; o.userData.leds.det.emissiveIntensity = nr ? 2.6 : 0; }
+      if (p.type === 'bomotor' && o.userData.wheel) { const w = s.w || 0; if (Math.abs(w) > 1) { o.userData.wheel.rotation.x = s.a; anim = true; } }
+      if (p.type === 'joystick' && o.userData.stick) { const ax = (s.y - 0.5) * 0.5, az = -(s.x - 0.5) * 0.5; if (o.userData.stick.rotation.x !== ax || o.userData.stick.rotation.z !== az) { o.userData.stick.rotation.set(ax, 0, az); anim = true; } }
+      if (p.type === 'l298n' && o.userData.leds) { const on = (s.vs || 0) > 6.8 ? 2.4 : 0; if (o.userData.leds.pwr.emissiveIntensity !== on) { o.userData.leds.pwr.emissiveIntensity = on; anim = true; } }
+      if (p.type === 'hc05' && o.userData.leds) { const t = performance.now() / 1000; const on = !s.powered ? 0 : s.paired ? (t % 2 < 0.2 || (t % 2 > 0.4 && t % 2 < 0.6) ? 2.4 : 0) : (t * 5 % 1 < 0.5 ? 2.4 : 0); o.userData.leds.st.emissiveIntensity = on; if (s.powered) anim = true; }
       if (e.block) this.placeBlock(p, e);
+      if (o.userData.update && o.userData.update(p, dt)) anim = true; // batch 4: a part that animates itself (bar graph, touch plate, magnet)
     }
     // smoke and sparks
     for (let i = this.fx.length - 1; i >= 0; i--) {
@@ -163,15 +222,30 @@ export class View {
     for (const p of lab.parts) if (PARTS[p.type].mount === 'free') for (const pin of PARTS[p.type].pins) tryEp('T:' + p.uid + ':' + pin.id, lab.termPos(p, pin.id));
     return best;
   }
-  pickObject(ndc) {
-    const rc = new THREE.Raycaster(); rc.setFromCamera(ndc, this.stage.camera);
-    const objs = [...[...this.parts.values()].map((e) => e.obj), ...this.wires.values(), this.board.getObjectByName('pick')];
+  pickObject(ndc) { const rc = new THREE.Raycaster(); rc.setFromCamera(ndc, this.stage.camera); return this.pickRay(rc); }
+  pickRay(rc) { // what a ray hits first (a mouse ray, or a controller's in the headset)
+    const wp = this.worldPick ? this.worldPick() : [];
+    const objs = [...[...this.parts.values()].map((e) => e.obj), ...this.wires.values(), this.board.getObjectByName('pick'), ...wp, ...this.pickExtra];
     const hits = rc.intersectObjects(objs, true);
     for (const h of hits) {
       let o = h.object; const ud = o.userData;
-      if (ud.region) return { kind: 'region', id: ud.region, point: h.point };
-      if (ud.wireUid) return { kind: 'wire', uid: ud.wireUid, point: h.point };
-      if (ud.partUid) { let role = null; for (let q = o; q; q = q.parent) { if (q.userData.role) { role = q.userData.role; break; } if (q.userData.partUid && q.parent === this.root) break; } return { kind: 'part', uid: ud.partUid, role, point: h.point }; }
+      if (ud.region) return { kind: 'region', id: typeof ud.region === 'function' ? ud.region(h) : ud.region, point: h.point, distance: h.distance }; // (batch 4: a function gives the place hit, e.g. on the phone's screen)
+      if (ud.role && !ud.partUid && wp.length) return { kind: 'world', role: ud.role, point: h.point, distance: h.distance }; // a handle on the robot (the syringe's plunger)
+      if (ud.wireUid) { const hd = this.handleBehind(hits, h); if (hd) return hd; return { kind: 'wire', uid: ud.wireUid, point: h.point, distance: h.distance }; }
+      if (ud.partUid) { let role = null; for (let q = o; q; q = q.parent) { if (q.userData.role) { role = q.userData.role; break; } if (q.userData.partUid && q.parent === this.root) break; } return { kind: 'part', uid: ud.partUid, role, point: h.point, distance: h.distance }; }
+    }
+    return null;
+  }
+  // a jumper that runs just in front of a knob, a joystick, a button or a keypad's key: that is what the student aims at (a wire is
+  // thin and can be taken anywhere along it), so a handle up to 40 mm behind the wire wins
+  handleBehind(hits, h) {
+    const inv = new THREE.Matrix4().copy(this.root.matrixWorld).invert(); const a = h.point.clone().applyMatrix4(inv);
+    for (const q of hits) {
+      if (q === h || !q.object.userData.partUid) continue; let role = null;
+      for (let o = q.object; o; o = o.parent) { if (o.userData.role) { role = o.userData.role; break; } if (o.userData.partUid && o.parent === this.root) break; }
+      if (!role || !(['knob', 'stick', 'cap'].includes(role) || role.startsWith('key3:'))) continue; // (key3: a key of the 4×4 keypad)
+      if (q.point.clone().applyMatrix4(inv).distanceTo(a) > 40) break;
+      return { kind: 'part', uid: q.object.userData.partUid, role, point: q.point, distance: q.distance };
     }
     return null;
   }

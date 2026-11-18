@@ -8,7 +8,12 @@
 // check: the circuit checks, in order; the first that fails is the message shown. done: the lesson is complete only when
 // the real circuit and code have worked (observed on the bench, not taken from the step list).
 // Helpers get S (lessonrt.js): conn(a, b), has(tag), part(tag), led(tag), servo(tag), adc(ch), lines(re), ...
+import { batch2 } from './lessons2.js';
+import { batch4 } from './lessons4.js'; // batch 4: Nano, Mega 2560, ESP32 (WiFi, Bluetooth, touch, Hall)
+import { batch3 } from './lessons3.js'; // batch 3: school-lab module projects
+import { batch5 } from './lessons5.js'; // batch 5: the BBC micro:bit V2 in Python (and blocks)
 const t3 = (en, hi, hg) => ({ en, hi, hg });
+const grp = (list, g) => { for (const l of list) l.group = l.group || g; return list; }; // a lesson's section in the lesson strip
 const P = (tag, type, props, hole, rot) => ({ tag, type, props: props || {}, at: { hole }, rot: rot || 0 });
 const F = (tag, type, props, x, z, rot) => ({ tag, type, props: props || {}, at: { x, z }, rot: rot || 0 });
 const RAILS = [['5V', 'rail:tp'], ['GND3', 'rail:tn']];
@@ -641,5 +646,15 @@ export const LESSONS = [
     check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('t1', N.lm), need('t1.VS', '5V', W.to5v, { x: t3('LM35\'s left leg (+Vs)', 'LM35 का बायाँ पैर (+Vs)', 'LM35 ka left pair (+Vs)') }), need('t1.OUT', 'A0', W.join, { a: t3('The LM35\'s middle leg', 'LM35 का बीच वाला पैर', 'LM35 ka beech wala pair'), b: 'A0' }), need('t1.GND', 'GND', W.toGnd, { x: t3('LM35\'s right leg', 'LM35 का दायाँ पैर', 'LM35 ka right pair') })],
     done: (S) => S.tempSeen(38) && S.tempSeen(20, 30) && S.ledLit('led1') },
 ];
+// batch 2: robots (lessons2.js)
+for (const l of LESSONS) l.group = 'basics'; // the lesson strip's sections (main.js renderStrip)
+LESSONS.push(...grp(batch2({ t3, P, F, W, need, has, noShort, N }), 'robots'));
+// batch 4: more boards (lessons4.js), numbered after the lessons before them
+LESSONS.push(...grp(batch4({ t3, P, F, W, need, has, noShort, N, unit, LEDU, merge, base: LESSONS.length + 1 }), 'boards'));
+// batch 3: projects with the school-lab modules (lessons3.js); numbered after the lessons above
+LESSONS.push(...grp(batch3({ t3, P, F, W, need, has, noShort, N, n0: LESSONS.length }), 'modules'));
+// batch 5: the micro:bit in Python (lessons5.js). They run on the micro:bit desk (microbit.js, mbworld5.js), so they are
+// listed in the page; the node checks of the Arduino sketches (robocore*.mjs) do not get them: robocore5.mjs runs them itself
+if (typeof document !== 'undefined') LESSONS.push(...grp(batch5({ t3, W }, LESSONS.length), 'microbit'));
 export const BY_ID = Object.fromEntries(LESSONS.map((l) => [l.id, l]));
 export { W as LESSON_WORDS, RAILS };

@@ -7,8 +7,11 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { BOARDS, BB } from './boards.js';
 import { LED_COLORS, PITCH as P } from './parts.js';
 import * as TX from './tex.js';
+import { buildPart2, setLite2 } from './models2.js';
+import { buildPart4, setLite4 } from './models4.js'; // batch 4: the new boards' parts (bar graph, resistor network, touch plate, magnet)
+import { buildPart3, setLite3 } from './models3.js'; // batch 3: the school-lab modules (LCD, OLED, relay, keypad, stepper, RFID…)
 
-let LITE = false; export function setLite(v) { LITE = v; TX.setLite(v); }
+let LITE = false; export function setLite(v) { LITE = v; TX.setLite(v); setLite2(v); setLite4(v); setLite3(v); }
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 
 // ------------------------------------------------------------------ materials (PBR)
@@ -50,20 +53,30 @@ export function mergeStatic(root) {
   root.updateMatrixWorld(true);
   const inv = new THREE.Matrix4().copy(root.matrixWorld).invert();
   const groups = new Map(); const remove = [];
+  const add = (mat, g, o) => { if (!groups.has(mat)) groups.set(mat, { geos: [], cast: false, recv: false }); const e = groups.get(mat); e.geos.push(g); e.cast = e.cast || o.castShadow; e.recv = e.recv || o.receiveShadow; };
   root.traverse((o) => {
-    if (!o.isMesh || o === root || Array.isArray(o.material)) return; // (a mesh with a material per face keeps its own)
+    if (!o.isMesh || o === root || o.isInstancedMesh || o.isSkinnedMesh) return;
     for (let q = o; q && q !== root; q = q.parent) if (q.userData.keep) return;
     const g0 = o.geometry; let g = g0.index ? g0.toNonIndexed() : g0.clone();
     for (const k of Object.keys(g.attributes)) if (!['position', 'normal', 'uv'].includes(k)) g.deleteAttribute(k);
     if (!g.attributes.uv) g.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(g.attributes.position.count * 2), 2));
     g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld));
-    const k = o.material; if (!groups.has(k)) groups.set(k, { geos: [], cast: false, recv: false }); const e = groups.get(k); e.geos.push(g); e.cast = e.cast || o.castShadow; e.recv = e.recv || o.receiveShadow;
+    // a mesh with a material per face (a chip with a printed top): each face goes to its own material's pile
+    if (Array.isArray(o.material)) { for (const gr of (g0.groups.length ? g0.groups : [{ start: 0, count: Infinity, materialIndex: 0 }])) { const m = o.material[gr.materialIndex]; if (m) add(m, sliceGeo(g, gr.start, Math.min(gr.count, g.attributes.position.count - gr.start)), o); } }
+    else add(o.material, g, o);
     remove.push(o);
   });
   for (const o of remove) o.parent.remove(o);
   for (const [mat, e] of groups) { const g = mergeGeometries(e.geos, false); if (!g) continue; const m = new THREE.Mesh(g, mat); m.castShadow = e.cast; m.receiveShadow = e.recv; root.add(m); }
   return root;
 }
+// vertices [start, start + count) of a non-indexed geometry, as a geometry of its own
+function sliceGeo(g, start, count) {
+  const out = new THREE.BufferGeometry();
+  for (const k of ['position', 'normal', 'uv']) { const a = g.attributes[k]; out.setAttribute(k, new THREE.BufferAttribute(a.array.slice(start * a.itemSize, (start + count) * a.itemSize), a.itemSize)); }
+  return out;
+}
+export { box, cyl, shadows };
 
 // ------------------------------------------------------------------ the bench: desk and cutting mat
 export function buildBench(texLoader) {
@@ -72,13 +85,18 @@ export function buildBench(texLoader) {
   const load = (f, srgb) => { const t = texLoader.load(f); if (srgb) t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(1600 / 1830 * 1.6, 1000 / 1830 * 1.6); t.anisotropy = 8; return t; };
   const deskMat = new THREE.MeshStandardMaterial({ map: load('tex/oak_diff.jpg', true), roughnessMap: LITE ? null : load('tex/oak_rough.jpg'), normalMap: LITE ? null : load('tex/oak_nor_gl.jpg'), roughness: LITE ? 0.55 : 0.9, color: 0xf0dfc8 });
   if (deskMat.normalMap) deskMat.normalScale.set(0.4, 0.4);
-  const desk = box(1800, 30, 1100, [deskMat, deskMat, deskMat, deskMat, deskMat, deskMat], -20, -3 - 15, 60); desk.receiveShadow = true;
-  // only the top needs the wood's maps: give the sides plain wood
-  const side = new THREE.MeshStandardMaterial({ color: 0x8a6440, roughness: 0.7 }); desk.material = [side, side, deskMat, side, side, side];
-  g.add(desk);
+  // only the top needs the wood's maps: the sides are plain wood (a top and a box: two draw calls, not six)
+  const side = new THREE.MeshStandardMaterial({ color: 0x8a6440, roughness: 0.7 });
+  const slab = (w, h, d, topM, sideM, x, y, z) => {
+    const s = new THREE.Group(); s.position.set(x, y, z);
+    const b = box(w, h - 0.05, d, sideM, 0, -0.025, 0); b.receiveShadow = true; s.add(b);
+    const t = new THREE.Mesh(new THREE.PlaneGeometry(w, d), topM); t.rotation.x = -Math.PI / 2; t.position.y = h / 2; t.receiveShadow = true; s.add(t);
+    return s;
+  };
+  g.add(slab(1800, 30, 1100, deskMat, side, -20, -3 - 15, 60));
   const matTex = TX.matTexture(); matTex.anisotropy = 8;
   const mTop = new THREE.MeshStandardMaterial({ map: matTex, roughness: 0.86 }), mSide = new THREE.MeshStandardMaterial({ color: 0x1a4433, roughness: 0.9 });
-  const mat = box(TX.MAT.w, 2.5, TX.MAT.d, [mSide, mSide, mTop, mSide, mSide, mSide], -15, -1.25, 20); mat.receiveShadow = true; mat.name = 'mat';
+  const mat = slab(TX.MAT.w, 2.5, TX.MAT.d, mTop, mSide, -15, -1.25, 20); mat.name = 'mat';
   g.add(mat);
   return g;
 }
@@ -101,14 +119,15 @@ export function buildUno() {
   g.add(board);
   const parts = new THREE.Group(); g.add(parts);
   const L = (x, z) => [x, z]; // board-local mm
-  // female headers (black, square openings on top)
+  // female headers (black, square openings on top): one top material for all four, the openings repeat along the u of
+  // each header's top (n per header), so they merge into a single draw call
   const hdrs = { dl: [], dh: [], pw: [], an: [] }; for (const p of B.pins) hdrs[p.hdr].push(p);
+  const topM = new THREE.MeshStandardMaterial({ map: M.socket, roughness: 0.6 });
   for (const k in hdrs) {
     const list = hdrs[k]; const xs = list.map((p) => p.at[0]); const x0 = Math.min(...xs), x1 = Math.max(...xs); const n = list.length;
-    const t = M.socket.clone(); t.needsUpdate = true; t.repeat.set(n, 1);
-    const topM = new THREE.MeshStandardMaterial({ map: t, roughness: 0.6 });
     const b = box(x1 - x0 + 2.54, B.hdrH, 2.54, [M.black, M.black, topM, M.black, M.black, M.black], (x0 + x1) / 2, top + B.hdrH / 2, list[0].at[1]);
-    b.castShadow = true; b.receiveShadow = true; b.userData.keep = true; g.add(b);
+    const uv = b.geometry.attributes.uv; for (let i = 0; i < uv.count; i++) uv.setX(i, uv.getX(i) * n);
+    parts.add(b);
   }
   // ICSP (male 2 × 3) near the chip and near the USB chip
   for (const [cx, cz] of [[29.2, 0], [-10.2, -20.3]]) {
@@ -133,10 +152,11 @@ export function buildUno() {
   parts.add(box(9, 0.3, 3.4, M.black, xt[0], top + 0.15, xt[1]));
   const rg = B.regions.find((r) => r.id === 'reg').at;
   parts.add(box(6.5, 1.7, 3.5, M.epoxy, rg[0], top + 0.85, rg[1] + 1.2)); parts.add(box(3.0, 0.3, 2.2, M.tin, rg[0], top + 0.15, rg[1] - 2.2)); parts.add(box(6.5, 0.4, 0.1, M.tin, rg[0], top + 1.2, rg[1] - 0.55));
+  const capTopM = new THREE.MeshStandardMaterial({ color: 0xbfc2c6, metalness: 1, roughness: 0.3 });
   for (const [cx, cz] of [[-15.5, 18.5], [-9.0, 18.5]]) {
     parts.add(box(6.6, 1.0, 6.6, M.black, cx, top + 0.5, cz));
     const can = cyl(3.1, 5.0, M.alu, cx, top + 1.0 + 2.5, cz, 24); parts.add(can);
-    const capTop = cyl(3.0, 0.08, new THREE.MeshStandardMaterial({ color: 0xbfc2c6, metalness: 1, roughness: 0.3 }), cx, top + 6.02, cz, 24); parts.add(capTop);
+    const capTop = cyl(3.0, 0.08, capTopM, cx, top + 6.02, cz, 24); parts.add(capTop);
     parts.add(box(1.2, 0.1, 5.8, M.black, cx - 2.2, top + 6.07, cz));
   }
   const rs = B.regions.find((r) => r.id === 'reset').at;
@@ -389,13 +409,13 @@ export function buildIR() {
   }, '#1b1d22');
   const pm = new THREE.MeshStandardMaterial({ map: pcb, roughness: 0.45 });
   const board = box(pw, 1.6, pl, [M.fr4, M.fr4, pm, M.fr4, M.fr4, M.fr4], 0, 4, -8 - pl / 2); g.add(board);
-  g.add(box(6.5, 4.6, 6.8, M.potBlue, 0, 4.8 + 2.3, -26)); g.add(cyl(1.4, 0.4, new THREE.MeshStandardMaterial({ color: 0xe8e0c8, metalness: 0.6, roughness: 0.4 }), 0, 9.6, -26, 12));
+  g.add(box(6.5, 4.6, 6.8, M.potBlue, 0, 4.8 + 2.3, -26)); g.add(cyl(1.4, 0.4, M.brass || (M.brass = new THREE.MeshStandardMaterial({ color: 0xe8e0c8, metalness: 0.6, roughness: 0.4 })), 0, 9.6, -26, 12));
   g.add(box(4, 1.5, 5, M.epoxy, 0, 5.5, -18));
-  const irLed = cyl(2.5, 5, new THREE.MeshPhysicalMaterial({ color: 0xd8d8ff, roughness: 0.15, transparent: true, opacity: 0.6 }), -3.2, 6, -44, 20); irLed.rotation.x = Math.PI / 2; g.add(irLed);
+  const irLed = cyl(2.5, 5, M.irClear || (M.irClear = new THREE.MeshStandardMaterial({ color: 0xd8d8ff, roughness: 0.15, transparent: true, opacity: 0.6 })), -3.2, 6, -44, 20); irLed.rotation.x = Math.PI / 2; g.add(irLed);
   const pd = cyl(2.5, 5, M.blackGloss, 3.2, 6, -44, 20); pd.rotation.x = Math.PI / 2; g.add(pd);
   const led = (col) => { const m = new THREE.MeshStandardMaterial({ color: 0xf2efe0, emissive: col, emissiveIntensity: 0, roughness: 0.3 }); const b = box(1.6, 0.7, 0.8, m, 0, 5.15, 0); b.userData.keep = true; return { b, m }; };
   const pwr = led(0xff2a1a); pwr.b.position.set(-3.5, 5.15, -14); g.add(pwr.b); const det = led(0x33ff55); det.b.position.set(3.5, 5.15, -14); g.add(det.b);
-  g.add(box(16, 3.2, 26, new THREE.MeshStandardMaterial({ color: 0x2a2a2c, roughness: 0.7 }), 0, 1.6, -22)); // a stand
+  g.add(box(16, 3.2, 26, M.black, 0, 1.6, -22)); // a stand
   g.userData.leds = { pwr: pwr.m, det: det.m }; g.userData.face = new THREE.Vector3(0, 0, -1); // it looks away from the student
   shadows(g); return g;
 }
@@ -406,8 +426,10 @@ export function buildObstacle() {
 }
 
 export function buildPart(part) {
-  let g;
-  switch (part.type) {
+  let g = buildPart2(part); // batch 2 (robots), and the plugs of servos that sit in a robot
+  if (!g) g = buildPart4(part); // batch 4
+  if (!g) g = buildPart3(part); // batch 3 (models3.js)
+  if (!g) switch (part.type) {
     case 'led': g = buildLED(part.props.color); break;
     case 'rgb': g = buildLED('white', true); break;
     case 'resistor': g = buildResistor(part.props.ohms, part.props.span); break;
@@ -464,7 +486,9 @@ export function dispose(obj) {
   obj.traverse((o) => {
     if (o.geometry && !o.geometry.userData.shared) o.geometry.dispose();
     const mats = o.material ? (Array.isArray(o.material) ? o.material : [o.material]) : [];
-    for (const m of mats) { if (shared.has(m) || m.userData.shared) continue; for (const k of ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'bumpMap']) if (m[k] && !m[k].userData.shared) m[k].dispose(); m.dispose(); }
+    // the pictures and shapes go; the material is only let go (not disposed): three.js keeps its compiled shader, so the next
+    // lesson with the same kind of material (a micro:bit desk, a room, an LED) does not compile it again (seconds on a phone)
+    for (const m of mats) { if (shared.has(m) || m.userData.shared) continue; for (const k of ['map', 'normalMap', 'roughnessMap', 'metalnessMap', 'bumpMap', 'emissiveMap', 'alphaMap']) if (m[k] && !m[k].userData.shared) m[k].dispose(); }
   });
 }
 export function ghostMaterial(ok = true) {

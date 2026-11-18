@@ -4,6 +4,9 @@
 //   elec   its electrical model: the circuit elements it adds (solver.js), given the node of each pin
 //   specs  label key (i18n SPEC) and value · info: what it is, in English, Hindi and Hinglish
 // The 3D model of each kind is made in models.js. New parts (sensors, drivers, displays) are added here.
+import { PARTS2, DRAWER2 } from './parts2.js';
+import { PARTS4, DRAWER4 } from './parts4.js'; // batch 4: LED bar graph, resistor network, touch plate, magnet (the new boards' lessons)
+import { PARTS3, DRAWER3 } from './parts3.js'; // batch 3: LCD, OLED, 7-segment, DHT11, soil, PIR, relay, IR, keypad, stepper, RFID, MQ-2
 const P = 2.54;
 export const PITCH = P;
 
@@ -200,7 +203,13 @@ export const PARTS = {
       'Computer se door motor aur robot chalane ke liye power. Iska − Arduino ke GND se jodiye, taaki dono ka 0 V ek hi rahe.'),
   },
 };
-export const DRAWER = ['led', 'rgb', 'resistor', 'button', 'pot', 'buzzer', 'ldr', 'lm35', 'hcsr04', 'ir', 'servo', 'npn', 'diode', 'motor', 'battery'];
+// batch 2 (robots): motor driver, gear motors, Li-ion battery, Bluetooth, joystick, servo supply, MG996R (parts2.js)
+Object.assign(PARTS, PARTS2);
+Object.assign(PARTS, PARTS3); // batch 3 (parts3.js)
+Object.assign(PARTS, PARTS4); // batch 4 (parts4.js)
+PARTS.hcsr04.us = true; PARTS.hcsr04f.specs = PARTS.hcsr04.specs; PARTS.hcsr04f.info = PARTS.hcsr04.info; // the same sensor, on a robot
+PARTS.servo.servo = true; PARTS.servo.rate = 520;
+export const DRAWER = ['led', 'rgb', 'resistor', 'button', 'pot', 'buzzer', 'ldr', 'lm35', 'hcsr04', 'ir', 'servo', 'npn', 'diode', 'motor', 'battery', ...DRAWER2, ...DRAWER3, ...DRAWER4];
 
 // pin position of a placed part (mm, part frame) after its rotation (0..3, quarter turns: +x -> +z -> -x -> -z)
 export function rotXZ(x, z, rot) {

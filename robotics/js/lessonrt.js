@@ -2,7 +2,7 @@
 // really done it on the bench or in the code), gives the circuit checks, and decides when the lesson is complete.
 // S (this object) is what the lessons ask: conn(a, b), has(tag), toggles('led1'), servoRange('sv1'), …
 import { PARTS, pinsOf } from './parts.js';
-import { holeAt, BB } from './boards.js';
+import { holeAt, BB, stripOf } from './boards.js';
 import { LESSONS, BY_ID, LESSON_WORDS as W } from './lessons.js';
 
 export class LessonRT {
@@ -17,6 +17,7 @@ export class LessonRT {
     const L = BY_ID[id]; if (!L) return;
     this.lesson = L; this.i = 0; this.reset();
     const lab = this.lab; lab.stop(); lab.clear(); lab.env.light = 0.75; lab.env.temp = 26;
+    lab.setBoard(L.board || 'uno'); // batch 4: the lesson's board (Nano, Mega, ESP32; the old lessons: the Uno)
     for (const p of L.setup.parts || []) lab.addPart(p.type, p.props, p.at, p.rot, p.tag);
     for (const [a, b] of L.setup.wires || []) lab.addWire(this.ep(a), this.ep(b));
     this.lab.repair();
@@ -80,7 +81,7 @@ export class LessonRT {
       const r = this.rgb[p.uid] || (this.rgb[p.uid] = { R: 0, G: 0, B: 0, mix: false }); const ch = p.state.ch;
       let on = 0; for (const k of ['R', 'G', 'B']) { r[k] = Math.max(r[k], ch[k] || 0); if ((ch[k] || 0) > 0.002) on++; } if (on >= 2) r.mix = true;
     }
-    for (const p of lab.parts) if (p.type === 'servo') { const o = lab.obs.servo[p.uid]; if (o && o.n) { const a = this.servoAll[p.uid] || (this.servoAll[p.uid] = { min: 999, max: -999 }); a.min = Math.min(a.min, o.min); a.max = Math.max(a.max, o.max); } }
+    for (const p of lab.parts) if (PARTS[p.type].servo) { const o = lab.obs.servo[p.uid]; if (o && o.n) { const a = this.servoAll[p.uid] || (this.servoAll[p.uid] = { min: 999, max: -999 }); a.min = Math.min(a.min, o.min); a.max = Math.max(a.max, o.max); } }
     for (const p of lab.parts) if (p.type === 'led') { const R = this.recent[p.uid] || (this.recent[p.uid] = []); R.push([this.t, p.state.i || 0]); while (R.length && R[0][0] < this.t - 2.5) R.shift(); }
     // step and lesson
     const s = this.step;
@@ -103,7 +104,7 @@ export class LessonRT {
     this.lines++;
     const m = String(line).match(/-?\d+(?:\.\d+)?/g); if (m) { this.nums.push(+m[m.length - 1]); if (this.nums.length > 400) this.nums.shift(); }
   }
-  onRun(src) { this.runSrc = src; this.lines = 0; this.nums = []; this.piano = new Set(); for (const k of ['pressLit', 'releaseDark', 'darkLit', 'brightDark', 'irAlarm', 'irQuiet']) this.flags.delete(k); this.rgb = {}; this.freshAt = this.t; }
+  onRun(src) { if (this.app.world) this.app.world.onRun(); this.runSrc = src; this.lines = 0; this.nums = []; this.piano = new Set(); for (const k of ['pressLit', 'releaseDark', 'darkLit', 'brightDark', 'irAlarm', 'irQuiet']) this.flags.delete(k); this.rgb = {}; this.freshAt = this.t; }
 
   // ------------------------------------------------------------ S: what the lessons ask
   conn(a, b) { return this.lab.conn(this.k(a), this.k(b)); }
@@ -131,6 +132,7 @@ export class LessonRT {
     return false;
   }
   running() { return this.lab.mcu.state === 'running' && this.lab.powered; }
+  board() { return this.lab.def.id; } // batch 4: which board is on the bench
   fresh() { return this.runSrc !== null; }
   id(tag) { if (tag === 'L') return 'L'; const p = this.part(tag); return p ? p.uid : null; }
   ob(tag) { const id = this.id(tag); return id ? this.lab.obs.leds[id] : null; }
@@ -156,6 +158,9 @@ export class LessonRT {
   distSeen(tag, lo, hi) { return this.nums.some((v) => v >= lo && v <= hi); }
   tempSeen(lo, hi = 999) { return this.nums.some((v) => v >= lo && v <= hi); }
   tonesHeard() { return this.lab.obs.tones.size; }
+  // the robot next to the bench (worlds.js): its flags ('touched', 'lap', 'bump', …) and values
+  w(flag) { const W = this.app.world; return !!(W && W.flag(flag)); }
+  wv(name) { const W = this.app.world; return W ? W.val(name) : undefined; }
 
   // ------------------------------------------------------------ the ghost for the current step
   ghosts() {
@@ -178,6 +183,7 @@ export class LessonRT {
       return out;
     };
     if (x.startsWith('rail:')) { const r = x.slice(5); return best([...BB.holes.values()].filter((h) => h.rail === r).map((h) => 'H:' + h.id)); }
+    if (lab.def.bb && (x === 'GND' || lab.def.pins.some((p) => p.id === x))) { const ids = x === 'GND' ? lab.def.pins.filter((p) => p.net === 'GND').map((p) => p.id) : [x]; return best(ids.flatMap((id) => stripOf(lab.bbMap().pin.get(id))).map((h) => 'H:' + h)); } // batch 4: a Nano / ESP32 pin: a free hole of its strip
     if (x === 'GND' || x === 'GND3' || x === 'GND1' || x === 'GND2') return best([x === 'GND' ? 'B:GND3' : 'B:' + x, 'B:GND3', 'B:GND1', 'B:GND2']);
     if (lab.def.pins.some((p) => p.id === x)) return 'B:' + x;
     if (x.includes('.')) {
