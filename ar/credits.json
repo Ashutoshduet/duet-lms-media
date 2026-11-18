@@ -1,0 +1,528 @@
+{
+ "v": 1,
+ "built": "2026-11-18",
+ "note": "Every outside source DUET AR uses: what, who, licence, where from, and what we changed. Only CC0 / public domain / MIT / BSD / Apache code and CC0 / CC BY / CC BY-SA assets (fonts: SIL OFL, as in the other DUET apps).",
+ "items": [
+  {
+   "id": "hubmap",
+   "kind": "model",
+   "what": "Human Body organ models: heart, eye, kidney, liver, mouth, knee, urinary system, intestines, pancreas (body/models/labs)",
+   "author": "NIH Human Reference Atlas (HuBMAP) 3D reference organs, as prepared by the DUET Human Body app",
+   "licence": "CC BY 4.0",
+   "link": "https://humanatlas.io/3d-reference-library",
+   "changes": "Referenced from its DUET app by relative path (not copied). DUET AR paints the parts with its own textbook colours (js/anatomy.js) and sizes them for each mode.",
+   "used": [
+    "heart",
+    "eye",
+    "kidney",
+    "liver",
+    "mouth",
+    "knee",
+    "urinary",
+    "gut",
+    "pancreas"
+   ]
+  },
+  {
+   "id": "zanatomy",
+   "kind": "model",
+   "what": "Human Body models: brain, lungs, ear, arm muscles, the whole body and its skeleton, digestive, circulatory and nervous systems (body/models)",
+   "author": "Z-Anatomy (Gauthier Kervyn, Marcin Zielinski), based on BodyParts3D, as prepared by the DUET Human Body app",
+   "licence": "CC BY-SA 4.0",
+   "link": "https://www.z-anatomy.com/",
+   "changes": "Referenced from its DUET app by relative path (not copied). Painted with our own colours (js/anatomy.js); see-through skin on the whole body. Share-alike: the adapted look stays CC BY-SA 4.0.",
+   "used": [
+    "brain",
+    "lungs",
+    "ear",
+    "arm",
+    "skeleton",
+    "digestive",
+    "circulatory",
+    "nervous",
+    "body"
+   ]
+  },
+  {
+   "id": "eco-frog",
+   "kind": "model",
+   "what": "アズマヒキガエル Japanese Toad, Bufo japonicus formosus (science/models/eco)",
+   "author": "ffish.asia / floraZia.com",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/cd026838b474474cb1b960e04ca80061",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "toad"
+   ]
+  },
+  {
+   "id": "eco-chameleon",
+   "kind": "model",
+   "what": "Chameleon (science/models/eco)",
+   "author": "dashdu",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/3877371976754df68d2b93a181bd4893",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "chameleon"
+   ]
+  },
+  {
+   "id": "eco-owl",
+   "kind": "model",
+   "what": "Common Barn Owl (science/models/eco)",
+   "author": "Innovation Studio",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/19c989a6681145bc999c332699eb852e",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "owl"
+   ]
+  },
+  {
+   "id": "eco-kingfisher",
+   "kind": "model",
+   "what": "Common Kingfisher (science/models/eco)",
+   "author": "Alejandro Guzmán",
+   "licence": "CC BY-SA 4.0",
+   "link": "https://sketchfab.com/3d-models/9dcdf52fc1fc4d8dbbbabfff3b6ef887",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "kingfisher"
+   ]
+  },
+  {
+   "id": "eco-shark",
+   "kind": "model",
+   "what": "Model 9A - Blacktip Shark (science/models/eco)",
+   "author": "DigitalLife3D",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/3bdfcf9c47134d4b9dc9888963622be9",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "shark"
+   ]
+  },
+  {
+   "id": "eco-dolphin",
+   "kind": "model",
+   "what": "Model 61A - Bottlenose Dolphin (science/models/eco)",
+   "author": "DigitalLife3D",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/2ec20f15b08c4c2fb16e4df5d837b893",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "dolphin"
+   ]
+  },
+  {
+   "id": "eco-whale",
+   "kind": "model",
+   "what": "Model 55A - Southern Right Whale (science/models/eco)",
+   "author": "DigitalLife3D",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/3bddfdfafc6c43758df9b94bc9e0fe9e",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "whale"
+   ]
+  },
+  {
+   "id": "eco-seaturtle",
+   "kind": "model",
+   "what": "Model 72B - Juvenile Green Sea Turtle (science/models/eco)",
+   "author": "DigitalLife3D",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/c90a930f8b2a4cc8bc516742a0df01d9",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "seaturtle"
+   ]
+  },
+  {
+   "id": "eco-gecko",
+   "kind": "model",
+   "what": "Model 58A - House gecko (science/models/eco)",
+   "author": "DigitalLife3D",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/50eca44a12d84a39b500658f2f8d891e",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "gecko"
+   ]
+  },
+  {
+   "id": "eco-octopus",
+   "kind": "model",
+   "what": "イイダコ Webfoot Octopus, Octopus ocellatus (science/models/eco)",
+   "author": "ffishAsia-and-floraZia",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/04e13f6fc8304c34b7928a7c7879a39a",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "octopus"
+   ]
+  },
+  {
+   "id": "eco-crab",
+   "kind": "model",
+   "what": "タイワンガザミ ♀ Blue Manna Crab, Portunus pelagicus (science/models/eco)",
+   "author": "ffishAsia-and-floraZia",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/6aa525f1b8d64f829d6ef5eca03ed54c",
+   "changes": "Referenced from its DUET app by relative path (not copied). Science Lab 360 made it lighter (mesh reduced, WebP textures, meshopt); DUET AR only sizes it and plays its own animation, if it has one.",
+   "used": [
+    "crab"
+   ]
+  },
+  {
+   "id": "ph-microscope",
+   "kind": "model",
+   "what": "Vintage Microscope (science/models)",
+   "author": "Luis José Fernández Rodríguez (Poly Haven)",
+   "licence": "CC0",
+   "link": "https://polyhaven.com/a/vintage_microscope",
+   "changes": "Referenced from its DUET app by relative path (not copied). Unchanged; sized for each mode.",
+   "used": [
+    "microscope"
+   ]
+  },
+  {
+   "id": "ph-bunsen",
+   "kind": "model",
+   "what": "Bunsen Burner (science/models)",
+   "author": "BKS (Poly Haven)",
+   "licence": "CC0",
+   "link": "https://polyhaven.com/a/bunsen_burner",
+   "changes": "Referenced from its DUET app by relative path (not copied). Unchanged; sized for each mode.",
+   "used": [
+    "bunsen"
+   ]
+  },
+  {
+   "id": "nasa-hubble",
+   "kind": "model",
+   "what": "Hubble Space Telescope (space/rs/models)",
+   "author": "NASA/JPL-Caltech (NASA's Eyes)",
+   "licence": "Public domain (NASA)",
+   "link": "https://science.nasa.gov/resource/hubble-space-telescope-3d-model/",
+   "changes": "Referenced from its DUET app by relative path (not copied). The Solar System app made the light copy (meshopt, WebP); DUET AR sizes it.",
+   "used": [
+    "hubble"
+   ]
+  },
+  {
+   "id": "nasa-iss",
+   "kind": "model",
+   "what": "International Space Station (space/rs/models)",
+   "author": "NASA/JPL-Caltech (NASA's Eyes)",
+   "licence": "Public domain (NASA)",
+   "link": "https://science.nasa.gov/resource/international-space-station-3d-model/",
+   "changes": "Referenced from its DUET app by relative path (not copied). The Solar System app made the light copy (meshopt, WebP); DUET AR sizes it.",
+   "used": [
+    "iss"
+   ]
+  },
+  {
+   "id": "nasa-curiosity",
+   "kind": "model",
+   "what": "Curiosity rover (Mars Science Laboratory) (space/rs/models)",
+   "author": "NASA/JPL-Caltech",
+   "licence": "Public domain (NASA)",
+   "link": "https://science.nasa.gov/resource/curiosity-rover-3d-model/",
+   "changes": "Referenced from its DUET app by relative path (not copied). The Solar System app made the light copy (meshopt, WebP); DUET AR sizes it.",
+   "used": [
+    "curiosity"
+   ]
+  },
+  {
+   "id": "cy3-vikram",
+   "kind": "model",
+   "what": "Vikram lander (modelled on Chandrayaan-2 Vikram; Chandrayaan-3 Vikram is visually near-identical) (space/rs/models)",
+   "author": "sohamr.sr",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/vikram-lander-a841f322833d4db29e5ab74cdb1c0d24",
+   "changes": "Referenced from its DUET app by relative path (not copied). The Solar System app made the light copy (meshopt, WebP); DUET AR sizes it.",
+   "used": [
+    "vikram"
+   ]
+  },
+  {
+   "id": "rk-lvm3",
+   "kind": "model",
+   "what": "LVM3 / GSLV Mk III (GSLV Mk3-D1 markings) (space/rs/models)",
+   "author": "Jainesh Pathak (Sketchfab user spectraut2)",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/gslv-mk3-0426922358b4444f9887bcd551d3a5cb",
+   "changes": "Referenced from its DUET app by relative path (not copied). The Solar System app made the light copy (meshopt, WebP); DUET AR sizes it.",
+   "used": [
+    "lvm3"
+   ]
+  },
+  {
+   "id": "rk-pslv",
+   "kind": "model",
+   "what": "PSLV-G (PSLV-C2, 1999, 6 strap-ons) (space/rs/models)",
+   "author": "satyajit26patil",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/pslv-c2-model-93081942b54a4612bebade20fea22e33",
+   "changes": "Referenced from its DUET app by relative path (not copied). The Solar System app made the light copy (meshopt, WebP); DUET AR sizes it.",
+   "used": [
+    "pslv"
+   ]
+  },
+  {
+   "id": "sss-tex",
+   "kind": "texture",
+   "what": "Planet surface maps: Earth, Moon, Mars, Jupiter, Saturn and Saturn's ring (space/tex)",
+   "author": "Solar System Scope (INOVE), based on NASA mission imagery, as listed in space/README.txt",
+   "licence": "CC BY 4.0",
+   "link": "https://www.solarsystemscope.com/textures/",
+   "changes": "Referenced from its DUET app by relative path (not copied). Wrapped on spheres by js/models.js; the ring strip is laid out from the inside edge outwards.",
+   "used": [
+    "sun",
+    "earth",
+    "moon",
+    "mars",
+    "jupiter",
+    "saturn"
+   ]
+  },
+  {
+   "id": "pano-stars",
+   "kind": "panorama",
+   "what": "Star sky for Gyro 360 / VR box with space models (space/tex/stars.jpg)",
+   "author": "NASA/Goddard Space Flight Center Scientific Visualization Studio (Deep Star Maps 2020)",
+   "licence": "Public domain (NASA)",
+   "link": "https://svs.gsfc.nasa.gov/4851",
+   "changes": "Referenced from its DUET app by relative path (not copied).",
+   "used": []
+  },
+  {
+   "id": "pano-mars",
+   "kind": "panorama",
+   "what": "Curiosity rover beside a Martian sand dune (space/rs/pano)",
+   "author": "NASA/JPL-Caltech/MSSS; mosaic by Kevin M. Gill",
+   "licence": "CC BY 2.0",
+   "link": "https://commons.wikimedia.org/wiki/File:MSL_Sol_1197_-_Equirectangular_(23984949771).jpg",
+   "changes": "Referenced from its DUET app by relative path (not copied). Shown round the Curiosity rover in Gyro 360 / VR box.",
+   "used": []
+  },
+  {
+   "id": "pano-a11",
+   "kind": "panorama",
+   "what": "Apollo 11 at Tranquility Base (space/rs/pano)",
+   "author": "NASA (photos by Buzz Aldrin; panorama by NASA Johnson Space Center)",
+   "licence": "Public domain (NASA)",
+   "link": "https://images.nasa.gov/details/jsc2007e045375",
+   "changes": "Referenced from its DUET app by relative path (not copied). Shown round the Vikram lander in Gyro 360 / VR box.",
+   "used": []
+  },
+  {
+   "id": "three",
+   "kind": "code",
+   "what": "three.js r170 with OrbitControls, GLTFLoader, RoomEnvironment (science/lib)",
+   "author": "three.js authors",
+   "licence": "MIT",
+   "link": "https://github.com/mrdoob/three.js",
+   "changes": "Used unchanged through the import map (the copy Science Lab 360 already ships).",
+   "used": []
+  },
+  {
+   "id": "meshopt",
+   "kind": "code",
+   "what": "meshoptimizer decoder (science/lib/addons/libs/meshopt_decoder.module.js)",
+   "author": "Arseny Kapoulkine",
+   "licence": "MIT",
+   "link": "https://github.com/zeux/meshoptimizer",
+   "changes": "Used unchanged.",
+   "used": []
+  },
+  {
+   "id": "js-aruco2",
+   "kind": "code",
+   "what": "js-aruco2 2.0.0: cv.js and aruco.js (ar/js/vendor/js-aruco2.js)",
+   "author": "Juan Mellado (js-aruco), Damiano Falcioni (js-aruco2); based on ArUco (BSD) and OpenCV (BSD)",
+   "licence": "MIT (+ BSD for the ArUco/OpenCV parts)",
+   "link": "https://github.com/damianofalcioni/js-aruco2",
+   "changes": "Wrapped as an ES module; the two big built-in dictionaries removed; our 12 codes registered; DUET replaces its grey, threshold and cell-reading steps with faster ones (js/detect.js). posit1/posit2/svd.js are not included (their references point at LGPL / Numerical Recipes code); DUET has its own pose solver (js/pose.js).",
+   "used": []
+  },
+  {
+   "id": "aruco-dict",
+   "kind": "data",
+   "what": "The 4×4 marker codes (12 of the 50 in DICT_4X4_50)",
+   "author": "ArUco / OpenCV",
+   "licence": "BSD-3-Clause",
+   "link": "https://github.com/opencv/opencv_contrib/tree/4.x/modules/aruco",
+   "changes": "12 codes chosen so that any two differ in at least 6 cells under every turn (js/markers.js).",
+   "used": []
+  },
+  {
+   "id": "dubois",
+   "kind": "method",
+   "what": "Least-squares red-cyan anaglyph colour matrices",
+   "author": "Eric Dubois, \"A projection method to generate anaglyph stereo images\", ICASSP 2001",
+   "licence": "Published research (numbers, not code)",
+   "link": "https://doi.org/10.1109/ICASSP.2001.941241",
+   "changes": "Our own shader in js/anaglyph.js uses the published matrices.",
+   "used": []
+  },
+  {
+   "id": "noto",
+   "kind": "font",
+   "what": "Noto Sans Devanagari (the web page and the printed pad and cube)",
+   "author": "Google / Noto project (the copy the DUET apps already ship in science/fonts)",
+   "licence": "SIL Open Font License 1.1",
+   "link": "https://fonts.google.com/noto/specimen/Noto+Sans+Devanagari",
+   "changes": "Used unchanged; subsets embedded in the PDFs.",
+   "used": []
+  },
+  {
+   "id": "duet",
+   "kind": "own",
+   "what": "Everything else: the DUET AR Cards, Pad and Cube artwork, the marker layouts, the maths solids, the molecules, the Sun shader, the tracker and the viewer",
+   "author": "DUET STEM",
+   "licence": "DUET STEM (own work)",
+   "link": "",
+   "changes": "",
+   "used": [
+    "water",
+    "co2",
+    "methane",
+    "ammonia",
+    "salt",
+    "cube",
+    "cuboid",
+    "cylinder",
+    "cone",
+    "sphere",
+    "hemisphere",
+    "pyramid",
+    "prism",
+    "hexprism"
+   ]
+  },
+  {
+   "id": "cy3-pragyan",
+   "kind": "model",
+   "what": "Pragyan rover (Chandrayaan-3) (space/rs/models/india_pragyan_rover.glb)",
+   "author": "sohamr.sr (Sketchfab)",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/pragyan-rover-2a84cfca3dc54359a3bd834fb279e9fd",
+   "changes": "Referenced from the Solar System app by relative path (not copied); sized to stand on the card.",
+   "used": [
+    "pragyan"
+   ]
+  },
+  {
+   "id": "eco-sunflower",
+   "kind": "model",
+   "what": "Sunflower (science/models/eco/sunflower_head.glb)",
+   "author": "Polygonal Miniatures (Sketchfab)",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/569a71ccf4d94c1585c9573521fb998f",
+   "changes": "As prepared by the Science Lab (reduced, WebP, meshopt); referenced, not copied.",
+   "used": [
+    "sunflower"
+   ]
+  },
+  {
+   "id": "eco-cactus",
+   "kind": "model",
+   "what": "Tree-like Cactus, Cereus peruvianus (science/models/eco/cactus.glb)",
+   "author": "matousekfoto (Sketchfab)",
+   "licence": "CC BY 4.0",
+   "link": "https://sketchfab.com/3d-models/8b1baf5ffe894d95b8411c6bfec9042b",
+   "changes": "As prepared by the Science Lab (pot cut away, reduced, WebP, meshopt); referenced, not copied.",
+   "used": [
+    "cactus"
+   ]
+  },
+  {
+   "id": "pano-pslv",
+   "kind": "picture",
+   "what": "PSLV-C42 on the First Launch Pad, Sriharikota: 360° picture for Gyro 360 / VR box (space/rs/pano)",
+   "author": "Indian Space Research Organisation (ISRO)",
+   "licence": "GODL-India (Government Open Data License – India)",
+   "link": "https://commons.wikimedia.org/wiki/File:PSLV_C42_First_Launch_Pad_Panorama.jpg",
+   "changes": "Referenced from the Solar System app."
+  },
+  {
+   "id": "pano-gslv",
+   "kind": "picture",
+   "what": "GSLV-F11 roll-out, Sriharikota: backdrop for the LVM3 card in Gyro 360 / VR box (space/rs/pano)",
+   "author": "Indian Space Research Organisation (ISRO)",
+   "licence": "GODL-India (Government Open Data License – India)",
+   "link": "https://commons.wikimedia.org/wiki/File:GSLV_F11_GSAT-7A_campaign-_Vehicle_roll_out_01.jpg",
+   "changes": "Referenced from the Solar System app."
+  },
+  {
+   "id": "duet-robo",
+   "kind": "model",
+   "what": "Robotics models: Arduino Uno, HC-SR04, IR sensor, SG90 servo, L298N, robot arm, obstacle-avoiding and line-follower cars, DC motor, DHT11, PIR (ar/models/robo_*.glb)",
+   "author": "DUET STEM (own work): the DUET Robotics Lab 360 builds them in code (robotics/js)",
+   "licence": "DUET STEM (own work)",
+   "link": "",
+   "changes": "Saved as GLB snapshots by devtools/ar/export_robo.mjs (the Robotics Lab code is only read); the robot arm posed ready to pick up; WebP textures, meshopt.",
+   "used": [
+    "uno",
+    "hcsr04",
+    "irsensor",
+    "servo",
+    "l298n",
+    "robotarm",
+    "car",
+    "linecar",
+    "dcmotor",
+    "dht11",
+    "pir"
+   ]
+  },
+  {
+   "id": "voice-body",
+   "kind": "audio",
+   "what": "Narration of the Human Body cards and of every tapped body part (body/audio/en, hi, hg)",
+   "author": "The DUET Human Body app: Piper TTS; English: LJSpeech voice; Hindi and Hinglish: Priyamvada voice",
+   "licence": "English: public domain (LJSpeech). Hindi and Hinglish: CC BY-NC-SA 4.0 (non-commercial; see the open items)",
+   "link": "https://huggingface.co/rhasspy/piper-voices",
+   "changes": "Played from the Human Body app by relative path (not copied)."
+  },
+  {
+   "id": "voice-space",
+   "kind": "audio",
+   "what": "Narration of the Space cards (space/audio/en, hi, hg)",
+   "author": "The DUET Solar System app",
+   "licence": "As in the Solar System app",
+   "link": "",
+   "changes": "Played from the Solar System app by relative path (not copied)."
+  },
+  {
+   "id": "voice-ar",
+   "kind": "audio",
+   "what": "English narration of the Science, Robotics and Maths cards and the whole-body card (ar/voice/en; transcript in ar/voice/en.json)",
+   "author": "DUET STEM, read by Piper TTS (MIT) with the LJSpeech voice",
+   "licence": "Public domain voice (LJSpeech); Piper: MIT",
+   "link": "https://github.com/rhasspy/piper",
+   "changes": "Made by devtools/ar/make_voice.py. Hindi and Hinglish for these cards are read by the device’s own voice (the Piper Hindi voices are non-commercial, so they are not used for new files)."
+  },
+  {
+   "id": "opencv-qr",
+   "kind": "code",
+   "what": "The QR codes on the cards and covers (made at print time, devtools/ar/make_cards.mjs)",
+   "author": "OpenCV QRCodeEncoder",
+   "licence": "Apache 2.0 (the code; the printed codes are our own data). QR Code is a trademark of DENSO WAVE.",
+   "link": "https://opencv.org/",
+   "changes": "Only used to make the print files; nothing of it is shipped."
+  },
+  {
+   "id": "card-dict",
+   "kind": "design",
+   "what": "The DUET AR Card markers: 72 codes of 5×5 cells (js/markers.js), and the card layout",
+   "author": "DUET STEM (own work)",
+   "licence": "DUET STEM (own work)",
+   "link": "",
+   "changes": "Picked by devtools/ar/card_codes.py: at least 8 cells apart under every turn, unlike any QR corner or pad/cube marker."
+  }
+ ]
+}

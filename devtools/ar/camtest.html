@@ -1,0 +1,3 @@
+<!doctype html><video id=v autoplay muted playsinline></video><script>
+navigator.mediaDevices.getUserMedia({video:{width:{ideal:1280},height:{ideal:720}}}).then(s=>{v.srcObject=s;setTimeout(()=>{document.title='OK '+v.videoWidth+'x'+v.videoHeight},2000)}).catch(e=>document.title='ERR '+e.name);
+</script>

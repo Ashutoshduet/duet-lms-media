@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f15">
+<title>DUET AR credits</title>
+<!-- Every outside source DUET AR uses, from credits.json: what, who, licence, link, what we changed, and which models. -->
+<link rel="stylesheet" href="css/ar.css">
+<style>
+body{background:var(--bg)}
+main{max-width:980px;margin:0 auto;padding:calc(16px + var(--safe-t)) 16px 40px}
+h1{margin:18px 0 6px}
+.lic{display:grid;gap:10px;margin-top:16px}
+.row{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.row b{font-size:14.5px}
+.row .l{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:11.5px;font-weight:700;background:rgba(242,107,29,.14);color:var(--acc2);border:1px solid rgba(242,107,29,.35)}
+.row p{margin:4px 0 0;color:var(--mute);font-size:13px;overflow-wrap:anywhere}
+.row a{color:#8fb4ff}
+</style>
+</head>
+<body>
+<main>
+  <header class="hd"><a class="lnk" href="./">← DUET AR</a></header>
+  <h1>Credits and licences</h1>
+  <p class="sub" id="note"></p>
+  <div class="lic" id="list"></div>
+</main>
+<script>
+(async () => {
+  const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  let c; try { c = await (await fetch('credits.json')).json(); } catch (e) { c = { items: [] }; }
+  document.getElementById('note').textContent = c.note || '';
+  document.getElementById('list').innerHTML = c.items.map((it) => `<div class="row"><b>${esc(it.what)}</b><span class="l">${esc(it.licence)}</span>
+    <p>${esc(it.author)}${it.link ? ` · <a href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.link)}</a>` : ''}</p>
+    ${it.changes ? `<p>${esc(it.changes)}</p>` : ''}${it.used && it.used.length ? `<p>Used for: ${esc(it.used.join(', '))}</p>` : ''}</div>`).join('');
+})();
+</script>
+</body>
+</html>

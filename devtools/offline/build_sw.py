@@ -3,7 +3,7 @@
 Usage: build_sw.py <repo> [app ...]   (default apps: science body drone maths robotics physics chemistry biology)"""
 import hashlib, json, os, re, subprocess, sys, time
 APPS = {'science': 'sl360', 'body': 'hb360', 'drone': 'dsim', 'space': 'ss360', 'maths': 'ml360', 'robotics': 'rl360',
-        'physics': 'pl360', 'chemistry': 'cl360', 'biology': 'bl360', 'hub': 'dh360'}
+        'physics': 'pl360', 'chemistry': 'cl360', 'biology': 'bl360', 'hub': 'dh360', 'ar': 'ar360'}
 MANIFEST_ONLY = {'space'}  # keeps its own offline worker; only the file list for the Android app
 SKIP_DIRS = {'tools', 'store-art', 'test', '.git', '__pycache__'}
 SKIP_FILES = {'sw.js', 'offline.json', '.DS_Store'}
@@ -113,6 +113,7 @@ def build(repo, app):
         subject_index(repo, app)
     files = files_of(root)
     if app == 'science': files.update(science_extra(repo))
+    if os.path.exists(os.path.join(root, 'borrow.json')): files.update({p: [hashlib.sha1(open(os.path.join(root, p), 'rb').read()).hexdigest()[:12], os.path.getsize(os.path.join(root, p))] for p in json.load(open(os.path.join(root, 'borrow.json')))})  # files an app uses from its neighbours (ar/borrow.json)
     if app in SUBJECT_APPS:
         files.update(subject_extra(repo, app))
         for g in ('index.html', 'voices.json', 'places.json'):  # written just now: listed even before git has them

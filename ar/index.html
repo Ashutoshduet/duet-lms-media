@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0f15">
+<meta name="description" content="DUET AR: scan a DUET AR card and its 3D model stands on the card. Human body, space, science, robotics and maths, in English, Hindi and Hinglish.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%23f26b1d' stroke-width='4'/%3E%3C/svg%3E">
+<title>DUET AR</title>
+<!-- DUET AR viewer: scan a printed DUET AR Card and its model stands on the card (?scan=1, or ?c=<id> from a card's QR
+     code); every DUET model on the printed DUET Pad, on the hand-held DUET Cube, in red-cyan 3D glasses, all around you
+     (gyro 360) or in a phone VR box: ?model=<id or path to a .glb>&mode=<screen|pad|cube|anaglyph|anaglyph-pad|gyro360|
+     vrbox>&lang=<en|hi|hg>. On Meta Quest: mixed reality on the real table (js/xr.js). Without a parameter it lists the
+     models. The modes are ES modules in js/ (see devtools/AR.md) that the DUET STEM 360 hub can load too.
+     Offline: sw.js (devtools/offline/build_sw.py . ar) saves this folder and every file of borrow.json. -->
+<link rel="stylesheet" href="css/ar.css">
+<script type="importmap">{"imports":{"three":"../science/lib/three.module.js","three/addons/":"../science/lib/addons/"}}</script>
+</head>
+<body>
+<main id="home" hidden></main>
+<section id="viewer" hidden>
+  <div id="stage"><canvas id="c"></canvas></div>
+  <div id="ui"></div>
+</section>
+<noscript>DUET AR needs JavaScript.</noscript>
+<script type="module" src="js/viewer.js"></script>
+<script src="./duetoffline.js" defer></script>
+</body>
+</html>

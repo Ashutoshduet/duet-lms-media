@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DUET AR: export the Robotics Lab models</title>
+<!-- Dev tool only. Builds the Robotics Lab's own models with its own code (robotics/js, read only, nothing changed) and
+     saves each as a GLB for DUET AR (devtools/ar/export_robo.mjs drives it, then compresses the files). -->
+<script type="importmap">{"imports":{"three":"/robotics/lib/three.module.js","three/addons/":"/robotics/lib/addons/","__exporter":"/__x/GLTFExporter.js"}}</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFExporter } from '__exporter';
+import * as M1 from '/robotics/js/models.js';
+import * as M2 from '/robotics/js/models2.js';
+import * as M3 from '/robotics/js/models3.js';
+// which model, built how; mm → m; turned so it faces the student (+z) and stands on y = 0
+const LIST = {
+  uno: () => M1.buildUno(),
+  hcsr04: () => M1.buildHCSR04(),
+  irsensor: () => M1.buildIR(),
+  servo: () => M1.buildServo(),
+  dcmotor: () => M1.buildMotor(),
+  l298n: () => M2.buildL298N(),
+  arm: () => { const g = M2.buildArm(), j = g.userData.j; j.yaw.rotation.y = 0.35; j.sh.rotation.x = -1.05; j.el.rotation.x = 1.45; return g; },   // shoulder up, elbow bent: ready to pick up
+  car: () => M2.buildCar('avoid'),
+  linecar: () => M2.buildCar('line'),
+  dht11: () => M3.buildDHT11(),
+  pir: () => M3.buildPIR(),
+};
+window.EXPORT = async (id) => {
+  const g = LIST[id]();
+  // the car's soft shadow blob and the moving parts' helpers are not needed: DUET AR draws its own shadow
+  const drop = []; g.traverse((o) => { if (o.isMesh && o.material && o.material.isMeshBasicMaterial && o.material.transparent && o.material.map && /blob|shadow/i.test(o.name || 'blob')) drop.push(o); });
+  for (const o of drop) o.parent.remove(o);
+  const root = new THREE.Group(); root.name = 'robo-' + id; root.add(g); root.scale.setScalar(0.001);
+  const ex = new GLTFExporter();
+  const buf = await ex.parseAsync(root, { binary: true, onlyVisible: true, maxTextureSize: 1024 });
+  let tris = 0; g.traverse((o) => { if (o.isMesh) tris += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3; });
+  const u8 = new Uint8Array(buf); let s = ''; for (let i = 0; i < u8.length; i += 0x8000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x8000));
+  return { b64: btoa(s), tris };
+};
+window.READY = true;
+</script>
+</body>
+</html>

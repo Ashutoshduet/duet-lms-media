@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DUET AR print sheets</title>
+<!-- Source page for the printable DUET Pad / DUET Cube / DUET AR Cards (?sheet=cards&set=body|space|science|robotics|maths|all). make_print.mjs opens it in headless Chrome and saves a vector PDF
+     (?sheet=pad-a4 | pad-a3 | cube). Everything is drawn from ar/js/markers.js, so the print and the tracker agree. -->
+<style>
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;src:url(/science/fonts/nsd-latin-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;src:url(/science/fonts/nsd-latin-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;src:url(/science/fonts/nsd-latin-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;src:url(/science/fonts/nsd-deva-400.woff2) format("woff2");unicode-range:U+0900-097F,U+200C-200D,U+25CC}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;src:url(/science/fonts/nsd-deva-600.woff2) format("woff2");unicode-range:U+0900-097F,U+200C-200D,U+25CC}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;src:url(/science/fonts/nsd-deva-700.woff2) format("woff2");unicode-range:U+0900-097F,U+200C-200D,U+25CC}
+html,body{margin:0;padding:0;background:#fff}
+svg{display:block}
+.pg{break-after:page;page-break-after:always}
+.pg:last-child{break-after:auto;page-break-after:auto}
+svg text{font-family:Poppins,"Noto Sans Devanagari",sans-serif}
+.hi{font-family:"Noto Sans Devanagari",Poppins,sans-serif}
+</style>
+</head>
+<body>
+<div id="sheet"></div>
+<script type="module" src="print.js"></script>
+</body>
+</html>
