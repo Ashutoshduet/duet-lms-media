@@ -46,7 +46,7 @@ export function installQuestFade(app) {
 
   // the actions that build a scene: black at once, run as before, settle
   const wrap = (name) => { const f = app[name]; if (typeof f !== 'function') return; app[name] = function (...args) {
-    if (!R.xr.isPresenting || F.depth) return f.apply(this, args);
+    if (!R.xr.isPresenting || F.depth || (name === 'openExp' && app.isLocked && app.isLocked(args[0]))) return f.apply(this, args); // a locked one only asks for the school code: nothing to load
     black(); F.depth++; let r; try { r = f.apply(this, args); } finally { F.depth--; F.t0 = performance.now(); } // the 8 s limit counts from when the action has run (in VR an experiment is built at once)
     if (r && typeof r.then === 'function') { const w = F.wait = Promise.resolve(r).catch(() => {}).then(() => { if (F.wait === w) F.wait = null; }); }
     return r;
