@@ -52,7 +52,7 @@ own hands and, where it makes sense, stands inside the shape.
 | 5 | 14 Maps and Locations | w5_village_map | |
 | 5 | 15 Data Through Pictures | w5_mango_pictograph | |
 | 6 | 1 Patterns in Mathematics | w6_odd_squares, m6_triangular_numbers | |
-| 6 | 2 Lines and Angles | w6_angle_turn | |
+| 6 | 2 Lines and Angles | w6_angle_turn, m6_paper_protractor | |
 | 6 | 3 Number Play | w6_kaprekar | |
 | 6 | 4 Data Handling and Presentation | w6_fruit_bars | |
 | 6 | 5 Prime Time | w6_prime_chairs | |
@@ -111,4 +111,4 @@ own hands and, where it makes sense, stands inside the shape.
 | 10 | 11 Areas Related to Circles | w10_roti_area, w10_circle_rings | |
 | 10 | 12 Surface Areas and Volumes | m10_sphere_volume, w10_grain_cone, w10_cylinder_net | |
 | 10 | 13 Statistics | w10_mean_balance | |
-| 10 | 14 Probability | w10_dice | |
+| 10 | 14 Probability | w10_dice, m10_ball_bag | |
