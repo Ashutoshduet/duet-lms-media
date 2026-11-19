@@ -2,7 +2,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
-import { buildAnatomyRoom } from './room.js';
+import { buildAnatomyRoom, lightenRoom } from './room.js';
+import { XRGuard } from './xrguard.js';
 import { setupHands } from './xrhands.js';
 import { PhoneXR, phoneXRWanted } from './phonexr.js';
 import { Body, LAYERS, asset } from './body.js';
@@ -50,7 +51,13 @@ const LAB_GROUPS = {
 };
 // phones: the same body with about half the triangles in its thin vessels, nerves and large organs (shape error under a
 // millimetre; measured: the full model ran at about 14 frames a second on a Snapdragon 680 phone). ?full=1 / ?lite=1 to test.
-const BODY_GLB = /[?&]lite=1/.test(location.search) || (window.DuetPerf && DuetPerf.phone && !/[?&]full=1/.test(location.search)) ? './models/body_lite.glb' : './models/body.glb';
+// Meta Quest: the same lighter body (a headset draws every frame twice, once per eye: about 0.4 million triangles instead of
+// 0.8 million, measured in the circulation journey). A Quest 2 has about half the graphics power of a Quest 3 / 3S, so it
+// also gets a slightly smaller eye picture and the plain room light of the phones (no reflection map). ?qlow=1 / ?qlow=0 to test.
+const UA = navigator.userAgent || '';
+export const QUEST = /OculusBrowser|Quest|Pacific/i.test(UA) && !(window.DuetPerf && DuetPerf.phone);
+export const QUEST_LOW = /[?&]qlow=1/.test(location.search) || (QUEST && !/[?&]qlow=0/.test(location.search) && !/Quest 3|Quest Pro|Eureka|Panther|Seacliff/i.test(UA));
+const BODY_GLB = /[?&]lite=1/.test(location.search) || (((window.DuetPerf && DuetPerf.phone) || QUEST) && !/[?&]full=1/.test(location.search)) ? './models/body_lite.glb' : './models/body.glb';
 const LAB_PARTS = { heart: ['coronary_arteries', 'aorta_arch', 'heart', 'venae_cavae'], eye: ['optic_nerve', 'eye'], ear: ['hearing_nerve', 'outer_ear'], brain: ['brain'], lungs: ['right_lung', 'left_lung'], kidney: ['kidneys', 'renal_arteries', 'renal_veins'], skin: ['skin'], knee: ['patella', 'femur', 'tibia', 'fibula'], liver: ['liver', 'gallbladder'],
   arm: ['biceps', 'triceps', 'brachialis', 'brachioradialis', 'humerus', 'radius', 'ulna', 'musculocutaneous_nerve'],
   urinary: ['bladder', 'ureters', 'urethra'], pancreas: ['pancreas', 'spleen', 'pancreatic_duct'],
@@ -81,16 +88,16 @@ class App {
     r.toneMapping = THREE.ACESFilmicToneMapping; r.toneMappingExposure = 1.05;
     r.outputColorSpace = THREE.SRGBColorSpace;
     r.localClippingEnabled = true;
-    r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(1); r.xr.setFramebufferScaleFactor(1.0); // a steady 72 fps on Quest (Meta VRC.Quest.Performance.1): 1.35x with light foveation dropped below 60
+    r.xr.enabled = true; r.xr.setReferenceSpaceType('local-floor'); r.xr.setFoveation(1); r.xr.setFramebufferScaleFactor(+(Q.get('fbs') || (QUEST_LOW ? 0.85 : 1.0))); // a steady 72 fps on Quest (Meta VRC.Quest.Performance.1): 1.35x with light foveation dropped below 60
     $('#stage').appendChild(r.domElement);
 
     const scene = this.scene = new THREE.Scene();
     this.bg = new THREE.Color('#d9d5cd'); scene.background = this.bg;
     // phones: no reflection map (measured on a Snapdragon 680: 35 fps with it, 52 without); a brighter sky light makes up for it
-    const NOENV = /[?&]noenv=1/.test(location.search) || (window.DuetPerf && DuetPerf.phone && !/[?&]env=1/.test(location.search));
+    const NOENV = /[?&]noenv=1/.test(location.search) || (((window.DuetPerf && DuetPerf.phone) || QUEST_LOW) && !/[?&]env=1/.test(location.search));
     if (!NOENV) { const pm = new THREE.PMREMGenerator(r); scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture; }
-    scene.add(new THREE.HemisphereLight('#f4f6ff', '#8a6a4a', NOENV ? +(new URLSearchParams(location.search).get('hemi') || 2.4) : 0.85)); // a bright room: light from the ceiling panels and the window
-    if (NOENV) scene.add(new THREE.AmbientLight('#fff8f0', +(new URLSearchParams(location.search).get('amb') || 1.6))); // tuned so the body, walls and floor come within ~7% of the brightness with the map
+    scene.add(this.hemi = new THREE.HemisphereLight('#f4f6ff', '#8a6a4a', NOENV ? +(new URLSearchParams(location.search).get('hemi') || 2.4) : 0.85)); // a bright room: light from the ceiling panels and the window
+    scene.add(this.amb = new THREE.AmbientLight('#fff8f0', NOENV ? +(new URLSearchParams(location.search).get('amb') || 1.6) : 0)); // (also there at 0 where a reflection map lights the room: the Quest frame-rate guard may switch to this light) // tuned so the body, walls and floor come within ~7% of the brightness with the map
     const key = new THREE.DirectionalLight('#ffffff', 1.35); key.position.set(1.2, 2.4, 2.6); scene.add(key);
     const rim = new THREE.DirectionalLight('#9fc4ff', 0.55); rim.position.set(-2, 1.5, -2.5); scene.add(rim);
 
@@ -146,6 +153,7 @@ class App {
       onQuizShow: (q) => this.quizShow(q && q.part), onQuizEnd: () => this.quizShow(null),
       answer: (ok) => { try { this.audio.tone ? this.audio.tone(ok ? 880 : 220, 0.15) : 0; } catch (e) {} } });
     this.setupXR();
+    if (QUEST) this.xrGuard = new XRGuard(this); // Meta Quest: frame-rate guard in VR (xrguard.js)
     if (window.DuetGate) { DuetGate.init({ app: 'body', title: 'Human Body 360', lang: () => this.lang, demo: { en: 'The heart: its Organ Lab, its journey and its parts', hi: 'हृदय: इसकी ऑर्गन लैब, यात्रा और भाग', hg: 'Heart: uski Organ Lab, journey aur parts' } }); DuetGate.attachVR({ THREE, renderer: this.renderer, scene: this.scene, camera: this.camera }); }
     this.buildHTML();
     this.bindInput();
@@ -190,6 +198,8 @@ class App {
     sky.renderOrder = -2;
     // a bright, real-looking anatomy room (room.js); it is hidden in passthrough AR
     this.anat = buildAnatomyRoom(); room.add(this.anat);
+    // Meta Quest: the room in plain shading (room.js, lightenRoom), its reflection light kept as a glow of its textures
+    if (QUEST && !Q.has('pbrroom')) { this.roomGlow = +(Q.get('roomglow') || 1.6); this.roomMats = lightenRoom(this.anat, this.scene.environment ? this.roomGlow : 0); }
     this.sky = this.anat; this.floor = new THREE.Group(); void sky;
     const logo = new THREE.TextureLoader().load('./brand/duet-stem-logo-light.png'); logo.colorSpace = THREE.SRGBColorSpace; logo.anisotropy = 8;
     const plaque = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.9 * 165 / 1024), new THREE.MeshBasicMaterial({ map: logo, transparent: true, opacity: 0.85, depthWrite: false }));
@@ -1005,6 +1015,7 @@ class App {
     const ar = this.xrMode === 'immersive-ar';
     this.scene.background = ar ? null : this.bg;
     this.sky.visible = !ar; this.floor.visible = !ar;
+    if (this.xrGuard) { this.xrGuard.reset(); this.xrGuard.set(this.xrGuard.level, 'session'); }
     document.body.classList.add('in-xr');
     this.vrui.group.add(this.mag.group, this.zoom.group);
     this.vrBody = { yaw: 0, scale: 1, pos: new THREE.Vector3(0, 0, BODY_Z), off: new THREE.Vector3() }; this.uiFollow = null;
@@ -1623,6 +1634,7 @@ class App {
     } else this.autoFrac = 0;
     if ((this._pf = (this._pf || 0) + dt) > 0.25) { this._pf = 0; const e = document.getElementById('s-prog'); if (e) e.style.transform = `scaleX(${this.autoFrac || 0})`; }
     if (xr) this.vrui.setProgress(this.autoFrac || 0); // a mesh bar: no canvas redraw while playing
+    if (xr && !px && this.xrGuard) this.xrGuard.tick(performance.now());
     if (px) this.pxr.render(dt); else this.renderer.render(this.scene, this.camera);
     if (Q.has('shot') && !this._shotDone) {
       this._frames = (this._frames || 0) + 1;

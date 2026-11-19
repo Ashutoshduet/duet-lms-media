@@ -119,3 +119,25 @@ export function buildAnatomyRoom() {
   g.userData.inside = { X0, X1, Z0, Z1, H };
   return g;
 }
+
+// Meta Quest: the room in plain (Lambert) shading instead of the physically based one. The room fills most of the view, so
+// its shading cost counts on every pixel (measured on a Quest 3S: about a quarter of the frame). The light the walls got from
+// the reflection map comes back as a soft glow of their own texture (emissive = texture x k), tuned so walls, floor and
+// ceiling keep their brightness; set k to 0 when the scene has no reflection map (the plain lights then carry the room).
+// Returns the new materials, so their glow can follow the reflection map.
+export function lightenRoom(g, k = 0.5) {
+  const done = new Map();
+  g.traverse((o) => {
+    const m = o.material; if (!m || !m.isMeshStandardMaterial) return;
+    let n = done.get(m);
+    if (!n) {
+      n = new THREE.MeshLambertMaterial({ color: m.color, map: m.map, side: m.side, transparent: m.transparent, opacity: m.opacity, depthWrite: m.depthWrite });
+      n.emissive.copy(m.color); n.emissiveIntensity = k; if (m.map) n.emissiveMap = m.map;
+      if (m.map) m.map.anisotropy = Math.min(m.map.anisotropy || 1, 4);
+      done.set(m, n);
+    }
+    o.material = n;
+  });
+  done.forEach((n, m) => m.dispose());
+  return [...done.values()];
+}
