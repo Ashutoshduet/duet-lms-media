@@ -459,10 +459,63 @@ export class VendScene extends Scene {
 }
 const WV = { door: t3('At the door', 'दरवाज़े पर', 'Darwaze par'), between: t3('between two doors!', 'दो खानों के बीच!', 'do khaanon ke beech!') };
 
+// ------------------------------------------------------------------ the dual-axis solar tracker (batch 24, Class 11)
+// The sun crosses the sky (az +60° in the morning to −60° in the evening, up to 70° high at noon: SUN.day seconds a day
+// when Play is on, still otherwise). The panel points where the pan servo (svP: az = angle − 90) and the tilt servo (svT:
+// elevation = angle − 90) put it. The 4-LDR sensor's cross shades the LDRs away from the sun: each quadrant's light is
+// 1000 lux × its share × cos(the panel's error), ±2 % flicker, + 25 lux of sky; it writes them to the ldr4 part (ext).
+// Flags: runaway (the pan at an end while the sun is > 40° away), locked (within 5° for 2 s), hunting (≥ 6 reversals of a
+// servo in 10 s while the sun stands still), calm (locked and < 2 reversals in 10 s), day (a whole day played), followed
+// (the day played with the panel never > 12° off). Energy: the tracker's and a fixed panel's (az 0, 30° up), res.gain %.
+export const SUN = { day: 60, fixed: { az: 0, el: 30 } };
+const dirOf = (az, el) => { const a = az * Math.PI / 180, e = el * Math.PI / 180; return [-Math.sin(a) * Math.cos(e), Math.sin(e), -Math.cos(a) * Math.cos(e)]; };
+const angBetween = (u, v) => Math.acos(clamp(u[0] * v[0] + u[1] * v[1] + u[2] * v[2], -1, 1)) * 180 / Math.PI;
+export class TrackerScene extends Scene {
+  constructor(cfg) { super(cfg); this.frac = 0.25; this.play = false; this.cloud = false; this.alT = 0; this.rev = []; this.res.eT = 0; this.res.eF = 0; this.maxErr = 0; this.sunPos(); }
+  sunPos() { this.az = +(60 - 120 * this.frac).toFixed(2); this.el = +(15 + 55 * Math.sin(Math.PI * this.frac)).toFixed(2); }
+  panel(lab) { const p = lab.byTag('svP'), t = lab.byTag('svT'); return { p: p ? p.state.angle : 90, t: t ? t.state.angle : 120 }; }
+  update(dt, lab) {
+    this.t += dt; const was = [this.az, this.el];
+    if (this.play && this.frac < 1) { this.frac = Math.min(1, this.frac + dt / SUN.day); this.sunPos(); if (this.frac >= 1) { this.flags.add('day'); if (this.maxErr < 12) this.flags.add('followed'); this.res.maxErr = +this.maxErr.toFixed(1); this.res.gain = this.res.eF > 0 ? Math.round((this.res.eT / this.res.eF - 1) * 100) : 0; this.play = false; } }
+    const { p, t } = this.panel(lab); const paz = p - 90, pel = t - 90; this.paz = paz; this.pel = pel;
+    const sun = dirOf(this.az, this.el), nrm = dirOf(paz, pel); const err = angBetween(sun, nrm); this.err = err;
+    const k = this.cloud ? 0.15 : 1; const dA = this.az - paz, dE = this.el - pel;
+    const g = (d) => clamp(0.5 + d / 24, 0.04, 1); const gx = [g(-dA), g(dA)], gy = [g(dE), g(-dE)]; // [left, right], [top, bottom]
+    const cosI = Math.max(0, Math.cos(err * Math.PI / 180));
+    const lux = [gx[0] * gy[0], gx[1] * gy[0], gx[0] * gy[1], gx[1] * gy[1]].map((f, i) => 25 + 1000 * k * f * 4 * cosI * (1 + 0.02 * Math.sin(this.t * (31 + i * 7) + i * 1.9)));
+    const s4 = lab.byTag('ldr4'); if (s4) { const old = s4.state.lux || []; if (!s4.state.ext || lux.some((v, i) => Math.abs(v - (old[i] || 0)) > Math.max(1, 0.004 * v))) { s4.state.ext = true; s4.state.lux = lux; lab.stateV = (lab.stateV || 0) + 1; } }
+    this.lux = lux;
+    // energy (sun strength × cos of the angle), the tracker's and a fixed panel's
+    if (this.play) { const fx = dirOf(SUN.fixed.az, SUN.fixed.el); this.res.eT += k * cosI * dt; this.res.eF += k * Math.max(0, Math.cos(angBetween(sun, fx) * Math.PI / 180)) * dt; if (this.t - (this.playAt || 0) > 3) this.maxErr = Math.max(this.maxErr, err); }
+    // the servos: locked, runaway, reversals while the sun stands still
+    if (Math.abs(dA) < 5 && Math.abs(dE) < 5) { this.alT += dt; if (this.alT > 2) this.flags.add('locked'); } else this.alT = 0;
+    if ((p <= 2 || p >= 178) && Math.abs(dA) > 40) { this.flags.add('runaway'); this.res.runawayAt = Math.round(p); }
+    for (const [key, a] of [['p', p], ['t', t]]) { const prev = this['last' + key]; if (prev !== undefined && Math.abs(a - prev) > 0.2) { const dir = Math.sign(a - prev); if (this['dir' + key] && dir !== this['dir' + key]) this.rev.push(this.t); this['dir' + key] = dir; } this['last' + key] = a; }
+    this.rev = this.rev.filter((x) => this.t - x < 10); this.res.rev10 = this.rev.length;
+    if (!this.play && this.t - (this.runAt || 0) > 10 && this.flags.has('locked')) { if (this.rev.length >= 6) this.flags.add('hunting'); else if (this.rev.length < 2 && this.alT > 2) this.flags.add('calm'); }
+    return this.play || was[0] !== this.az;
+  }
+  onRun() { super.onRun(); for (const k of ['runaway', 'locked', 'hunting', 'calm', 'day', 'followed']) this.flags.delete(k); this.alT = 0; this.rev = []; this.dirp = this.dirt = 0; }
+  control(id, v) {
+    if (id === 'day') { this.play = v === '1'; if (this.play) { if (this.frac >= 1) this.frac = 0; this.sunPos(); this.res.eT = 0; this.res.eF = 0; this.maxErr = 0; this.playAt = this.t; this.flags.delete('day'); this.flags.delete('followed'); } }
+    if (id === 'cloud') this.cloud = v === '1';
+  }
+  hud() {
+    const hh = 6 + 12 * this.frac; const time = `${Math.floor(hh)}:${String(Math.round((hh % 1) * 60) % 60).padStart(2, '0')}`; const L = this.lux || [0, 0, 0, 0];
+    return { title: t3('Solar tracker', 'सोलर ट्रैकर', 'Solar tracker'),
+      rows: [[tx(WT.sun), `${time} · ${tx(WT.az)} ${Math.round(this.az)}° · ${tx(WT.up)} ${Math.round(this.el)}°`], [tx(WT.panel), `${Math.round(this.paz || 0)}° · ${Math.round(this.pel || 0)}° · ${tx(WT.off)} ${(this.err || 0).toFixed(1)}°`],
+        ['LDR', `TL ${Math.round(L[0])} · TR ${Math.round(L[1])} · BL ${Math.round(L[2])} · BR ${Math.round(L[3])}`], [tx(WT.energy), this.res.eF ? `${Math.round(this.res.eT / Math.max(1e-6, this.res.eF) * 100)} % ${tx(WT.ofFixed)}` : '—']],
+      controls: [{ id: 'day', kind: 'seg', label: WT.day, options: [['0', WT.pause], ['1', WT.play]], value: this.play ? '1' : '0' }, { id: 'cloud', kind: 'seg', label: WT.cloud, options: [['0', WT.clear], ['1', WT.cloudy]], value: this.cloud ? '1' : '0' }] };
+  }
+}
+const WT = { sun: t3('Sun', 'सूरज', 'Sooraj'), az: t3('az', 'दिशा', 'disha'), up: t3('up', 'ऊँचाई', 'unchaai'), panel: t3('Panel', 'पैनल', 'Panel'), off: t3('off by', 'अंतर', 'antar'),
+  energy: t3('Energy', 'ऊर्जा', 'Urja'), ofFixed: t3('of a fixed panel', 'स्थिर पैनल का', 'fixed panel ka'), day: t3('The day', 'दिन', 'Din'), pause: t3('Paused', 'रुका', 'Ruka'), play: t3('Play (1 min)', 'चलाइए (1 मिनट)', 'Chalaiye (1 min)'),
+  cloud: t3('Sky', 'आसमान', 'Aasmaan'), clear: t3('Clear', 'साफ़', 'Saaf'), cloudy: t3('Cloud', 'बादल', 'Baadal') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

@@ -39,5 +39,25 @@ const MCP3008 = {
     'Raspberry Pi sirf on aur off pehchanta hai: usmein koi analog pin nahi. Yeh chip 0 V se VREF tak ke aath voltage tak naapti hai aur har ek ko 0 se 1023 tak ka number bana kar chaar SPI wires se bhejti hai. VREF 3.3 V ho, to 1.65 V kareeb 512 padhta hai.'),
 };
 
-export const PARTS24 = { mcp3008: MCP3008 };
-export const DRAWER24 = ['mcp3008'];
+// (batch 24, Class 11) the solar tracker's sensor: four LDRs in the corners of a small board, split by a black cross
+// (a shade wall), on the tracker's panel. Each LDR has its 10 kΩ on the board, so each output is a divider: brighter →
+// lower LDR resistance → higher voltage (about 4.7 V in full sun). When the sun is off to one side, the cross shades the
+// far LDRs. scenes3.js TrackerScene sets each one's light (state.lux: TL, TR, BL, BR) from the sun and the two servos;
+// with no scene, all four see the room. The cable runs from this plug on the mat to the panel.
+const ldrR = (lux) => Math.min(1e6, 15000 * Math.pow(Math.max(lux, 0.05) / 10, -0.7)); // (as parts.js's LDR)
+const Q4 = ['TL', 'TR', 'BL', 'BR'];
+const LDR4 = {
+  term: { y: 4 }, cat: 'in', mount: 'free', props: {}, state0: { lux: [300, 300, 300, 300] },
+  name: t3('4-LDR sun sensor (solar tracker)', '4-एलडीआर सूरज सेंसर (सोलर ट्रैकर)', '4-LDR sun sensor (solar tracker)'),
+  pins: [['VCC', t3('VCC: 5 V', 'VCC: 5 V', 'VCC: 5 V')], ['GND', t3('GND', 'GND', 'GND')], ['TL', t3('TL: top-left LDR (brighter = higher)', 'TL: ऊपर-बायाँ एलडीआर (ज़्यादा रोशनी = ज़्यादा)', 'TL: upar-left LDR (zyada roshni = zyada)')],
+    ['TR', t3('TR: top-right LDR', 'TR: ऊपर-दायाँ एलडीआर', 'TR: upar-right LDR')], ['BL', t3('BL: bottom-left LDR', 'BL: नीचे-बायाँ एलडीआर', 'BL: neeche-left LDR')], ['BR', t3('BR: bottom-right LDR', 'BR: नीचे-दायाँ एलडीआर', 'BR: neeche-right LDR')]]
+    .map(([id, name], k) => ({ id, at: [(k - 2.5) * P, 0], dir: [0, 1], name })),
+  elec: (p, N, env) => { const lx = p.state.ext ? p.state.lux : Q4.map(() => 30 + 970 * (env ? env.light : 0.75)); return Q4.flatMap((q, i) => [{ type: 'R', a: N.VCC, b: N[q], r: ldrR(lx[i]), role: 'ldr' }, { type: 'R', a: N[q], b: N.GND, r: 10000 }]); },
+  live: (p) => (p.state.ext ? 'lux ' + Q4.map((q, i) => `${q} ${Math.round(p.state.lux[i])}`).join(' · ') : 'the room\'s light on all four'),
+  specs: () => [['bright', '≈ 4.7 V out (1000 lux)'], ['dark', '≈ 0 V out'], ['out', '4 analog outputs, 0–5 V: four LDRs (GL5528), each with 10 kΩ to GND, split by a 20 mm black cross']],
+  info: t3('Four light sensors split by a black cross. Point it straight at the sun and all four see the same; turn it a little away and the cross throws a shadow on two of them. Comparing left with right, and top with bottom, tells a tracker which way to turn.',
+    'चार रोशनी सेंसर, बीच में एक काला क्रॉस। इसे सीधे सूरज की ओर कीजिए तो चारों बराबर देखते हैं; थोड़ा हटाइए तो क्रॉस दो पर छाया डालता है। बाएँ को दाएँ से, और ऊपर को नीचे से मिलाकर ट्रैकर जानता है कि किधर घूमना है।',
+    'Chaar roshni sensor, beech mein ek kaala cross. Ise seedhe sooraj ki taraf kijiye to chaaron barabar dekhte hain; thoda hataiye to cross do par chhaaya daalta hai. Left ko right se, aur upar ko neeche se milaakar tracker jaanta hai ki kidhar ghoomna hai.'),
+};
+export const PARTS24 = { mcp3008: MCP3008, ldr4: LDR4 };
+export const DRAWER24 = ['mcp3008', 'ldr4'];

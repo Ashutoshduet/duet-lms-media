@@ -1001,3 +1001,15 @@ heaters.
   juice at 105.6° (jam); 2048 ÷ 6 → 341 serves it at 119.9°; from 6 to 1 the tray goes −300° (longway); the short-way
   lines (moveSlots > 3 → −6, < −3 → +6) make it +60° (shortway). Keys pressed during the 2 s "Take your…" delay are
   missed, as on the real keypad. robocore24.mjs plays it. Class 11: 6 of 26.
+- Class 11 dual-axis solar tracker (batch 24, lessons24.js `tracker`; parts24.js `ldr4`, models24.js `buildLdr4`;
+  scenes3.js `TrackerScene`, worlds3.js `trackerSteps`): the 4-LDR sun sensor is a free part (a plug on the mat with
+  VCC, GND, TL, TR, BL, BR; each LDR with its 10 kΩ, so 4 dividers; `state.ext` + `state.lux[4]` from the scene, else
+  the room's light). The scene's sun goes from az +60° (9:00 at frac 0.25 starts at az 30°, 54° up) to −60°, 70° high at
+  noon, a day in SUN.day = 60 s when "Play" is on. The panel's az = pan − 90, elevation = tilt − 90 (svP pin 9, svT pin
+  10, mount 'pt'). Each quadrant's light: 25 + 1000 × share × 4 × cos(error) × (1 ± 2 % flicker); share from
+  clamp(0.5 ± d / 24) per axis (the cross's shade), so one degree is about 6 counts. The first program turns the pan the
+  wrong way (runaway to pan 1°); then with tol = 0 it hunts (hundreds of reversals in 10 s); tol = 25 (± 4°) is calm;
+  the day played keeps within about 5° and makes about 27 % more energy than a fixed panel (az 0, 30° up) from 9:00.
+  The 3D: the laser lesson's pan-tilt head with a 96 × 60 mm panel and the sensor on its top edge, the fixed panel
+  beside it, a glowing sun; the whole sky is drawn turned half round about the stand so the sun crosses in front and the
+  cells face the student. robocore24.mjs plays it. Class 11: 7 of 26.

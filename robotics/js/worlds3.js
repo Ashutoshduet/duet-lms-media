@@ -21,7 +21,7 @@ import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -90,14 +90,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt);
     }
     return false;
   }
@@ -428,6 +428,55 @@ class World3 {
     const e = this.app.view.parts.get(st.uid); const sh = e && e.obj.userData.shaft; if (!sh) return false;
     const p = this.partPoint('st', sh); const a = this.sim.ang || 0; const k = [p.x, p.z, a].map((x) => Math.round(x * 100)).join(); if (k === this._vk) return false; this._vk = k;
     this.vt.position.set(p.x, 0, p.z); this.vtray.rotation.y = -a * D2R; return true; // (a point at angle ψ turned by θ about y ends at ψ + θ: compartment k reaches the door, 0°, at a = (k − 1) × 60°)
+  }
+
+  // ================================================================== the dual-axis solar tracker (batch 24): the pan-tilt head of the
+  // laser lesson carries a solar panel with the 4-LDR sensor (its black cross) on its top edge; the sun crosses the sky
+  trackerSteps() {
+    const r = this.root, S = this.mat; const H = this.trHead = V3(300, 112, 40);
+    return [
+      () => { // the stand, a patch of roof, and the fixed panel beside it for comparison
+        const blk = S({ color: 0x1b1b1d, roughness: 0.4 }); const g = new THREE.Group(); g.add(box(60, 6, 60, blk, H.x, 3, H.z)); g.add(cyl(5, 72, S({ color: 0xc9ccd1, metalness: 1, roughness: 0.3 }), H.x, 42, H.z, 12)); g.add(box(30, 6, 30, blk, H.x, 80, H.z));
+        const roof = S({ color: 0xb9b2a6, roughness: 0.95 }); g.add(box(260, 2, 160, roof, H.x + 20, 1, H.z - 30));
+        this.still(g); this.blob(120, 120, H.x, H.z, 0.35);
+        // the fixed panel (az 0, 30° up) for comparison
+        const fx = new THREE.Group(); fx.position.set(H.x + 110, 0, H.z - 30); fx.add(box(4, 40, 4, blk, -30, 20, 10)); fx.add(box(4, 40, 4, blk, 30, 20, 10));
+        const fp = this.panelMesh(S); fp.position.set(0, 46, 0); fp.rotation.set(30 * D2R, Math.PI, 0, 'YXZ'); fx.add(fp); r.add(fx);
+        const C = canvas(256, 64); const c = C.getContext('2d'); c.fillStyle = '#333'; c.fillRect(0, 0, 256, 64); c.fillStyle = '#fff'; c.font = `700 30px ${TX.FONT}`; c.textAlign = 'center'; c.fillText('FIXED', 128, 44);
+        const lb = new THREE.Mesh(new THREE.PlaneGeometry(30, 7.5), S({ map: ctex(C), roughness: 0.6 })); lb.position.set(H.x + 110, 8, H.z - 4); r.add(lb);
+      },
+      () => { // the pan-tilt head and its panel
+        const pan = new THREE.Group(); pan.position.set(H.x, 83, H.z); r.add(pan); const b1 = M2.sg90Body(); b1.position.set(5.6, 0, 0); MD.mergeStatic(b1); pan.add(b1);
+        const yaw = new THREE.Group(); yaw.position.set(0, 29, 0); pan.add(yaw); this.trYaw = yaw; const alu = S({ color: 0x1b1b1d, roughness: 0.5 });
+        const br = new THREE.Group(); br.add(box(36, 3, 16, alu, 0, 0, 0)); for (const sgn of [-1, 1]) br.add(box(3, 30, 16, alu, sgn * 18, 15, 0)); const b2 = M2.sg90Body(); b2.rotation.z = Math.PI / 2; b2.position.set(-30, 20, 0); br.add(b2); MD.mergeStatic(br); yaw.add(br);
+        const pitch = new THREE.Group(); pitch.position.set(0, 34, 0); yaw.add(pitch); this.trPitch = pitch;
+        const pn = this.panelMesh(S); pn.position.set(0, 0, -6); pitch.add(pn);
+        // the 4-LDR sensor on the panel's top edge: a small white board, four orange LDR faces, the black cross between them
+        const sb = new THREE.Group(); sb.position.set(0, 36, -9); pitch.add(sb); sb.add(box(16, 16, 1.5, S({ color: 0xf2f2ee, roughness: 0.5 }), 0, 0, 0));
+        for (const [x, y] of [[-4, 4], [4, 4], [-4, -4], [4, -4]]) sb.add(cyl(2.2, 1, S({ color: 0xd8a94a, roughness: 0.4 }), x, y, -1, 12).rotateX(Math.PI / 2));
+        sb.add(box(16, 1.2, 8, alu, 0, 0, -4)); sb.add(box(1.2, 16, 8, alu, 0, 0, -4));
+        this.trSun = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex(), color: 0xffd060, transparent: true, opacity: 1, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); this.trSun.scale.setScalar(50); r.add(this.trSun);
+        this.trCore = new THREE.Mesh(new THREE.SphereGeometry(9, 16, 12), new THREE.MeshBasicMaterial({ color: 0xfff1b0, toneMapped: false })); r.add(this.trCore);
+      },
+      () => this.cables([['svP', [H.x + 8, 92, H.z]], ['svT', [H.x - 26, 120, H.z]], ['ldr4', [H.x, 132, H.z - 4]]]),
+    ];
+  }
+  panelMesh(S) { // a small 6 V panel: dark blue cells in a silver frame, facing −z
+    const C = canvas(256, 160); const c = C.getContext('2d'); c.fillStyle = '#c9ccd2'; c.fillRect(0, 0, 256, 160);
+    for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) { const x = 8 + i * 41, y = 8 + j * 37; c.fillStyle = '#16233f'; c.fillRect(x, y, 38, 34); c.strokeStyle = '#3c5486'; c.lineWidth = 1; c.strokeRect(x + 0.5, y + 0.5, 37, 33); }
+    const face = S({ map: ctex(C), roughness: 0.25, metalness: 0.2 }); const fr = S({ color: 0xd9dce0, metalness: 0.1, roughness: 0.6 }), back = S({ color: 0xb8bcc2, roughness: 0.7 });
+    return box(96, 60, 3, [fr, fr, fr, fr, back, face], 0, 0, 0);
+  }
+  trackerDraw() {
+    if (!this.trYaw) return false; const S = this.sim; const sv = this.part('svP'), st = this.part('svT'); const p = sv ? sv.state.angle : 90, t = st ? st.state.angle : 120;
+    const key = [p, t, S.az, S.el, S.cloud ? 1 : 0].map((x) => Math.round(x * 10)).join();
+    if (this.lab.version !== this._v) { this._v = this.lab.version; const H = this.trHead; this.cables([['svP', [H.x + 8, 92, H.z]], ['svT', [H.x - 26, 120, H.z]], ['ldr4', [H.x, 132, H.z - 4]]]); }
+    if (key === this._trk) return false; this._trk = key;
+    // (the whole sky is turned half round about the stand, so the sun crosses in front and the panel's cells face the student)
+    this.trYaw.rotation.y = (p - 90) * D2R + Math.PI; this.trPitch.rotation.x = (t - 90) * D2R;
+    const a = S.az * D2R, e = S.el * D2R; const d = V3(Math.sin(a) * Math.cos(e), Math.sin(e), Math.cos(a) * Math.cos(e)); const pos = this.trHead.clone().addScaledVector(d, 125);
+    this.trSun.position.copy(pos); this.trCore.position.copy(pos); this.trSun.material.opacity = S.cloud ? 0.25 : 1; this.trCore.visible = !S.cloud;
+    return true;
   }
 
   // ================================================================== the keypad locker

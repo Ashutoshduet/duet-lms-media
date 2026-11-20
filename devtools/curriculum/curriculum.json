@@ -5794,14 +5794,17 @@
    {
     "class": 11,
     "n": 17,
-    "kind": "I",
+    "kind": "L",
     "title": "Dual-axis solar tracker",
     "board": "uno",
-    "status": "planned",
-    "ref": "dual-axis-solar-tracker-uno",
+    "status": "live",
+    "ref": "tracker",
     "newparts": [],
-    "family": "machines",
-    "parts": [],
+    "family": "live-projects",
+    "parts": [
+     "servo",
+     "ldr4"
+    ],
     "strand": "Algorithmic thinking",
     "focus": "Mechanisms",
     "term": "Term 3 (October-December)"

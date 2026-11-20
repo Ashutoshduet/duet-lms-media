@@ -10,8 +10,13 @@
 //              (scenes3.js VendScene measures each move). The first program guesses 300 steps per compartment: item 3
 //              stops at 105°, between two doors (a jam). 2048 ÷ 6 = 341.3 → 341. Then from 6 to 1 the tray goes 300° the
 //              long way round; the student makes it take the short way (± 3 compartments at most: wrap with ± 6).
+//   tracker    a dual-axis solar tracker: a pan servo and a tilt servo carry a small panel with a 4-LDR sun sensor (its
+//              black cross shades the LDRs away from the sun; scenes3.js TrackerScene). The first program turns the pan the
+//              wrong way (the servo is mounted the other way round): the panel runs away from the sun. Then, aligned, it
+//              hunts: with no dead band (tol = 0) a one-count flicker moves a servo every loop, back and forth. tol = 25 calms
+//              it (± 4°). Then a whole day (1 minute): the panel follows the sun, and makes more energy than a fixed one.
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
-import { GLASS, CUR, VEND } from './scenes3.js';
+import { GLASS, CUR, VEND, SUN } from './scenes3.js';
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const pick = (lg, en, hi, hg) => (lg === 'hi' ? hi : lg === 'hg' ? hg : en);
@@ -166,6 +171,48 @@ void loop() {
 }
 `;
 
+const TRACK = `// Dual-axis solar tracker: four LDRs tell which way is brighter, and two servos turn the panel that way.
+#include <Servo.h>
+Servo pan;                      // turns the panel left and right
+Servo tilt;                     // turns it up and down
+int panA = 90;                  // the angles now
+int tiltA = 120;
+int tol = 0;                    // differences smaller than this are ignored
+
+void setup() {
+  pan.attach(9);
+  tilt.attach(10);
+  pan.write(panA);
+  tilt.write(tiltA);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int tl = analogRead(A0);      // the four LDRs: brighter = bigger
+  int tr = analogRead(A1);
+  int bl = analogRead(A2);
+  int br = analogRead(A3);
+  int dh = (tr + br) / 2 - (tl + bl) / 2;   // right minus left
+  int dv = (tl + tr) / 2 - (bl + br) / 2;   // top minus bottom
+  if (abs(dh) > tol) {
+    if (dh > 0) panA = panA - 1;            // the sun is to the right: turn right
+    else panA = panA + 1;
+  }
+  if (abs(dv) > tol) {
+    if (dv > 0) tiltA = tiltA + 1;          // the sun is higher: tilt up
+    else tiltA = tiltA - 1;
+  }
+  panA = constrain(panA, 0, 180);
+  tiltA = constrain(tiltA, 90, 180);
+  pan.write(panA);
+  tilt.write(tiltA);
+  Serial.print(dh);
+  Serial.print(" ");
+  Serial.println(dv);
+  delay(30);
+}
+`;
+
 export function batch24(K, n0) {
   const { F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -239,6 +286,37 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('st', t3('stepper driver', 'स्टेपर ड्राइवर', 'stepper driver')), ...STP.map(([id, pin]) => need('st.' + id, 'D' + pin, W.toPin, { x: id, p: pin })), need('st.GND', 'GND', W.toGnd, { x: t3('driver\'s −', 'ड्राइवर का −', 'driver ka −') }), need('st.VCC', '5V', W.to5v, { x: t3('driver\'s +', 'ड्राइवर का +', 'driver ka +') })],
     done: (S) => S.w('shortway') });
+  // 3 --------------------------------------------------------------------------------------------- dual-axis solar tracker
+  const LQ = [['TL', 'A0'], ['TR', 'A1'], ['BL', 'A2'], ['BR', 'A3']];
+  const okPan = (src) => /if\s*\(\s*dh\s*>\s*0\s*\)\s*panA\s*=\s*panA\s*\+\s*1\s*;/.test(src || '') && /else\s+panA\s*=\s*panA\s*-\s*1\s*;/.test(src || '');
+  const okTol = (src) => { const m = /int\s+tol\s*=\s*(\d+)\s*;/.exec(src || ''); return !!m && +m[1] >= 15 && +m[1] <= 40; };
+  L.push({ id: 'tracker', cls: '11', blocks: false, view: 'wide', rview: 'scene3pt', code: TRACK, drawer: ['ldr4'], serial: true, scene: { kind: 'tracker' },
+    title: t3('Dual-axis solar tracker', 'दो-अक्ष वाला सोलर ट्रैकर', 'Do-axis wala solar tracker'),
+    goal: t3('A solar panel makes the most power facing the sun. Four LDRs split by a black cross tell which way is brighter, and two servos turn the panel there: left-right (pan) and up-down (tilt). Fix the direction, add a dead band so it stops hunting, and see how much more energy it makes in a day than a fixed panel.', 'सोलर पैनल सूरज की ओर मुँह करके सबसे ज़्यादा बिजली बनाता है। काले क्रॉस से बँटे चार एलडीआर बताते हैं कि किधर ज़्यादा रोशनी है, और दो सर्वो पैनल को उधर घुमाते हैं: बाएँ-दाएँ (पैन) और ऊपर-नीचे (टिल्ट)। दिशा ठीक कीजिए, डेड बैंड जोड़िए ताकि यह हिलना बंद करे, और देखिए एक दिन में यह स्थिर पैनल से कितनी ज़्यादा ऊर्जा बनाता है।', 'Solar panel sooraj ki taraf munh karke sabse zyada bijli banata hai. Kaale cross se bante chaar LDR batate hain ki kidhar zyada roshni hai, aur do servo panel ko udhar ghumate hain: left-right (pan) aur upar-neeche (tilt). Disha theek kijiye, dead band jodiye taaki yeh hilna band kare, aur dekhiye ek din mein yeh fixed panel se kitni zyada urja banata hai.'),
+    setup: { parts: [F('svP', 'servo', { mount: 'pt' }, 178, 52, 1), F('svT', 'servo', { mount: 'pt' }, 178, 82, 1)], wires: [...POWER, ['T:svP:GND', 'H:bn40'], ['T:svP:VP', 'H:bp40'], ['T:svP:SIG', 'D9'], ['T:svT:GND', 'H:bn44'], ['T:svT:VP', 'H:bp44'], ['T:svT:SIG', 'D10']] },
+    steps: [
+      { k: 'info', do: t3('A panel facing the sun all day makes about a third more energy than one fixed on the roof. The pan servo (pin 9) and the tilt servo (pin 10) are already wired. The sensor on the panel\'s top edge has four LDRs, each with its 10 kΩ, so each gives a voltage: brighter is higher.', 'दिन भर सूरज की ओर मुँह किया पैनल छत पर लगे स्थिर पैनल से लगभग एक-तिहाई ज़्यादा ऊर्जा बनाता है। पैन सर्वो (पिन 9) और टिल्ट सर्वो (पिन 10) पहले से लगे हैं। पैनल के ऊपरी किनारे वाले सेंसर में चार एलडीआर हैं, हर एक के साथ 10 kΩ, तो हर एक वोल्टेज देता है: ज़्यादा रोशनी, ज़्यादा वोल्टेज।', 'Din bhar sooraj ki taraf munh kiya panel chhat par lage fixed panel se lagbhag ek-tihaai zyada urja banata hai. Pan servo (pin 9) aur tilt servo (pin 10) pehle se lage hain. Panel ke upar wale kinare ke sensor mein chaar LDR hain, har ek ke saath 10 kΩ, to har ek voltage deta hai: zyada roshni, zyada voltage.'), see: E },
+      { k: 'place', place: F('ldr4', 'ldr4', {}, -60, 160, 0), do: t3('Put the sun sensor\'s plug on the mat at the ghost (its cable goes up to the panel).', 'सूरज सेंसर के प्लग को मैट पर नीली आकृति पर रखिए (इसका तार पैनल तक जाता है)।', 'Sooraj sensor ke plug ko mat par neeli shape par rakhiye (iska taar panel tak jaata hai).'), see: E },
+      w3('ldr4.VCC', 'rail:bp', 'Wire its VCC to the front + rail.', 'इसका VCC आगे वाली + रेल से जोड़िए।', 'Iska VCC aage wali + rail se jodiye.'),
+      w3('ldr4.GND', 'rail:bn', 'Its GND to the front − rail.', 'इसका GND आगे वाली − रेल से।', 'Iska GND aage wali − rail se.'),
+      ...LQ.map(([q, a]) => w3('ldr4.' + q, a, `${q} to ${a}.`, `${q} को ${a} से।`, `${q} ko ${a} se.`)),
+      CHECK,
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && S.w('runaway'), do: t3('Watch the panel and the sun. (The sun stands still for now: the day is paused.)', 'पैनल और सूरज देखिए। (अभी सूरज रुका है: दिन रुका है।)', 'Panel aur sooraj dekhiye. (Abhi sooraj ruka hai: din ruka hai.)'),
+        see: t3('It tilts up nicely, but it turns away from the sun until the pan servo hits its end! On this stand the pan servo is fitted the other way round: a bigger angle turns the panel to the right.', 'यह ठीक से ऊपर झुकता है, पर सूरज से दूर घूमता जाता है जब तक पैन सर्वो अपने छोर पर न पहुँच जाए! इस स्टैंड पर पैन सर्वो उल्टा लगा है: बड़ा कोण पैनल को दाईं ओर घुमाता है।', 'Yeh theek se upar jhukta hai, par sooraj se door ghoomta jaata hai jab tak pan servo apne chhor par na pahunch jaaye! Is stand par pan servo ulta laga hai: bada angle panel ko right ghumata hai.') },
+      { k: 'edit', test: okPan, set: [[/if \(dh > 0\) panA = panA - 1;/, 'if (dh > 0) panA = panA + 1;'], [/else panA = panA \+ 1;/, 'else panA = panA - 1;']],
+        do: t3('Swap the pan\'s two directions: if (dh > 0) panA = panA + 1; and else panA = panA - 1; then Run.', 'पैन की दोनों दिशाएँ बदलिए: if (dh > 0) panA = panA + 1; और else panA = panA - 1; फिर "चलाइए"।', 'Pan ki dono dishayein badliye: if (dh > 0) panA = panA + 1; aur else panA = panA - 1; phir Run.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('locked'), do: t3('Watch it find the sun.', 'इसे सूरज ढूँढते देखिए।', 'Ise sooraj dhoondhte dekhiye.'), see: t3('All four LDRs see the same now: the panel faces the sun.', 'अब चारों एलडीआर बराबर देखते हैं: पैनल सूरज की ओर है।', 'Ab chaaron LDR barabar dekhte hain: panel sooraj ki taraf hai.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('hunting'), do: t3('Keep watching for 10 seconds: is it still?', '10 सेकंड और देखिए: क्या यह स्थिर है?', '10 second aur dekhiye: kya yeh sthir hai?'),
+        see: live((lg, R) => pick(lg, `It twitches back and forth: ${R.rev10 || 0} turn-arounds in 10 s. With tol = 0 a difference of one count, just flicker, moves a servo every 30 ms. That wears out gears and wastes the power the panel makes.`, `यह आगे-पीछे फड़कता है: 10 s में ${R.rev10 || 0} बार दिशा बदली। tol = 0 में एक गिनती का फ़र्क़, बस टिमटिमाहट, हर 30 ms में सर्वो हिला देता है। इससे गियर घिसते हैं और पैनल की बनाई बिजली बर्बाद होती है।`, `Yeh aage-peeche phadakta hai: 10 s mein ${R.rev10 || 0} baar disha badli. tol = 0 mein ek count ka farq, bas timtimahat, har 30 ms mein servo hila deta hai. Isse gear ghiste hain aur panel ki banayi bijli barbaad hoti hai.`)) },
+      { k: 'edit', test: okTol, set: [[/int tol = 0;/, 'int tol = 25;']], do: t3('Add a dead band: change int tol = 0; to int tol = 25; and press Run.', 'डेड बैंड जोड़िए: int tol = 0; को int tol = 25; कीजिए और "चलाइए" दबाइए।', 'Dead band jodiye: int tol = 0; ko int tol = 25; kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('calm'), do: t3('Watch it for 10 seconds again.', 'फिर 10 सेकंड देखिए।', 'Phir 10 second dekhiye.'),
+        see: t3('Still: it moves only when the sun is a few degrees off. Every real controller has a dead band like this (a room\'s thermostat too).', 'स्थिर: यह तभी हिलता है जब सूरज कुछ डिग्री हट जाए। हर असली कंट्रोलर में ऐसा डेड बैंड होता है (कमरे के थर्मोस्टैट में भी)।', 'Sthir: yeh tabhi hilta hai jab sooraj kuch degree hat jaaye. Har asli controller mein aisa dead band hota hai (room ke thermostat mein bhi).') },
+      { k: 'act', until: (S) => S.w('followed'), do: t3('Play the day (Sun panel: "Play"): a whole day in one minute.', 'दिन चलाइए (सूरज पैनल: "चलाइए"): पूरा दिन एक मिनट में।', 'Din chalaiye (sooraj panel: "Chalaiye"): poora din ek minute mein.'),
+        see: live((lg, R) => pick(lg, `The panel followed the sun all day (never more than ${R.maxErr ?? '?'}° off) and made ${R.gain ?? '?'} % more energy than the fixed panel facing south at 30°. Big solar farms in Rajasthan use trackers for exactly this.`, `पैनल दिन भर सूरज के पीछे चला (कभी ${R.maxErr ?? '?'}° से ज़्यादा नहीं हटा) और 30° पर दक्षिण की ओर लगे स्थिर पैनल से ${R.gain ?? '?'} % ज़्यादा ऊर्जा बनाई। राजस्थान के बड़े सोलर फ़ार्म ठीक इसी के लिए ट्रैकर लगाते हैं।`, `Panel din bhar sooraj ke peeche chala (kabhi ${R.maxErr ?? '?'}° se zyada nahi hata) aur 30° par south ki taraf lage fixed panel se ${R.gain ?? '?'} % zyada urja banayi. Rajasthan ke bade solar farm theek isi ke liye tracker lagate hain.`)) },
+    ],
+    check: [...rails, has('ldr4', t3('sun sensor', 'सूरज सेंसर', 'sooraj sensor')), need('ldr4.VCC', '5V', W.to5v, { x: 'VCC' }), need('ldr4.GND', 'GND', W.toGnd, { x: 'GND' }), ...LQ.map(([q, a]) => need('ldr4.' + q, a, W.join, { a: q, b: a }))],
+    done: (S) => S.w('followed') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }
