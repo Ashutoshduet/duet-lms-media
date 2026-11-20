@@ -16,12 +16,12 @@ import * as M2 from './models2.js';
 import * as TX from './tex.js';
 import { VIEWS, nextFrame } from './stage.js';
 import { rotXZ } from './parts.js';
-import { makeScene, PT_TARGETS, TANK, LIFT } from './scenes3.js';
+import { makeScene, PT_TARGETS, TANK, LIFT, CONV } from './scenes3.js';
 import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
-Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift']);
+Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] }, scene3cv: { tgt: [285, 30, 0], hw: 235, hd: 150, dir: [-0.2, 0.62, 0.76] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -90,14 +90,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt);
     }
     return false;
   }
@@ -514,6 +514,112 @@ class World3 {
     if (!this.liftCar) return false; const { X0, Z0, Y0, K } = this.liftAt; const h = this.sim.h ?? LIFT.h0; const k = Math.round(h * 20); if (k === this._lk) return false; this._lk = k;
     const y = Y0 + Math.max(-4, h) * K; this.liftCar.position.set(X0, y, Z0); const top = Y0 + 3 * LIFT.floor * K + 40 + 10, len = top - (y + 42);
     this.liftCable.scale.set(1, Math.max(1, len), 1); this.liftCable.position.set(X0, y + 42 + len / 2, Z0); return true;
+  }
+
+  // ================================================================== the conveyor belt (batch 24): a rubber belt on two rollers in an
+  // aluminium frame, the 28BYJ-48 on the drive roller's end, the IR sensor on the near rail looking across the belt, the
+  // stamp on its bridge (the SG90 pushes it down), cardboard boxes, the blue crate at the end
+  convSteps() {
+    const r = this.root, S = this.mat; const X0 = 232, Z0 = -6, YB = 40, R = CONV.roller / 2, Wd = 50, L = CONV.len; const YA = YB - R;
+    const zr = Z0 + Wd / 2 + 5; this.cvAt = { X0, Z0, YB, R, Wd, L, YA, zr };
+    return [
+      () => { // the frame: two side rails, legs, the crate at the end
+        const g = new THREE.Group(); const alu = S({ color: 0xbfc6ce, metalness: 0.7, roughness: 0.35 }), dark = S({ color: 0x2a2b2e, roughness: 0.5 });
+        for (const z of [Z0 - Wd / 2 - 5, zr]) { g.add(box(L + 2 * R + 14, 16, 5, alu, X0 + L / 2, YA, z)); g.add(box(L + 2 * R + 14, 2, 6, dark, X0 + L / 2, YA + 8.5, z)); } // the rails, their top edges
+        for (const x of [X0 + 6, X0 + L - 6]) for (const z of [Z0 - Wd / 2 - 5, zr]) { g.add(box(6, YA - 8, 6, alu, x, (YA - 8) / 2, z)); g.add(box(14, 2, 14, dark, x, 1, z)); }
+        g.add(box(6, 6, Wd + 16, alu, X0 + L / 2, 12, Z0)); // a cross-brace
+        // the blue crate after the drive roller
+        const blue = S({ color: 0x2a6fd0, roughness: 0.55 }); const cx = X0 + L + 48, cy = 0; const CW = 60, CD = 64, CH = 26;
+        g.add(box(CW, 2, CD, blue, cx, cy + 1, Z0)); for (const sx of [-1, 1]) g.add(box(2.5, CH, CD, blue, cx + sx * CW / 2, cy + CH / 2, Z0)); for (const sz of [-1, 1]) g.add(box(CW, CH, 2.5, blue, cx, cy + CH / 2, Z0 + sz * CD / 2));
+        this.cvCrate = { x: cx, y: cy + 2, z: Z0 };
+        this.still(g); this.blob(L + 120, Wd + 70, X0 + L / 2 + 20, Z0, 0.3);
+      },
+      () => { // the belt (its texture runs), the rollers (they turn)
+        const C = canvas(128, 64); const c = C.getContext('2d'); c.fillStyle = '#1d1e20'; c.fillRect(0, 0, 128, 64); grain(c, 128, 64, 0.08, 600);
+        c.strokeStyle = 'rgba(255,255,255,0.07)'; c.lineWidth = 6; for (let i = -1; i < 3; i++) { c.beginPath(); c.moveTo(i * 64, 0); c.lineTo(i * 64 + 32, 32); c.lineTo(i * 64, 64); c.stroke(); } // chevrons
+        const tex = ctex(C, [L / 40, 1]); this.cvBeltT = tex; const rub = S({ map: tex, roughness: 0.85 });
+        const top = new THREE.Mesh(new THREE.PlaneGeometry(L, Wd), rub); top.rotation.x = -Math.PI / 2; top.position.set(X0 + L / 2, YB, Z0); r.add(top);
+        const tex2 = tex.clone(); tex2.needsUpdate = true; this.cvBeltB = tex2; const bot = new THREE.Mesh(new THREE.PlaneGeometry(L, Wd), S({ map: tex2, roughness: 0.85 })); bot.rotation.x = Math.PI / 2; bot.position.set(X0 + L / 2, YA - R, Z0); r.add(bot);
+        const plain = S({ color: 0x1d1e20, roughness: 0.85 });
+        for (const [x, t0] of [[X0, Math.PI / 2], [X0 + L, -Math.PI / 2]]) { const sh = new THREE.Mesh(new THREE.CylinderGeometry(R, R, Wd, 24, 1, true, t0, Math.PI), plain); sh.rotation.x = Math.PI / 2; sh.position.set(x, YA, Z0); r.add(sh); } // round each roller
+        const RC = canvas(64, 64); const rc = RC.getContext('2d'); rc.fillStyle = '#9aa3ad'; rc.beginPath(); rc.arc(32, 32, 32, 0, 7); rc.fill(); rc.strokeStyle = '#5d646c'; rc.lineWidth = 5; for (let k = 0; k < 3; k++) { const a = k * 2.094; rc.beginPath(); rc.moveTo(32, 32); rc.lineTo(32 + 28 * Math.cos(a), 32 + 28 * Math.sin(a)); rc.stroke(); } rc.fillStyle = '#3a3f45'; rc.beginPath(); rc.arc(32, 32, 6, 0, 7); rc.fill();
+        const endM = S({ map: ctex(RC), roughness: 0.4, metalness: 0.5 }), side = S({ color: 0x9aa3ad, metalness: 0.6, roughness: 0.35 });
+        this.cvRollers = [X0, X0 + L].map((x) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(R - 1, R - 1, Wd + 9, 20), [side, endM, endM]); m.rotation.x = Math.PI / 2; const g = new THREE.Group(); g.position.set(x, YA, Z0); g.add(m); r.add(g); return g; });
+      },
+      () => { // the 28BYJ-48 on the drive roller's near end (its shaft along z), on a bracket
+        const mo = new THREE.Group(); mo.position.set(X0 + L, YA, zr + 3); r.add(mo); this.cvMotor = mo; const can = S({ color: 0xc9ced4, metalness: 0.8, roughness: 0.3 }), cap = S({ color: 0x2a62c8, roughness: 0.5 });
+        const body = new THREE.Group(); body.rotation.x = Math.PI / 2; body.position.z = 1; mo.add(body); // (its y is the motor's axis: along +z, away from the belt)
+        body.add(cyl(14, 19, can, 0, 9.5 + 1, -8, 28)); body.add(box(7, 0.8, 49, can, 0, 1, -8)); for (const sg of [-1, 1]) body.add(cyl(3.5, 0.8, can, 0, 1, -8 + sg * 21, 16));
+        body.add(cyl(14.2, 1.4, cap, 0, 20.3, -8, 28)); body.add(box(16, 6, 16, cap, 0, 13, 6.5));
+        mo.add(box(44, 30, 2, S({ color: 0xbfc6ce, metalness: 0.7, roughness: 0.35 }), -4, 0, 0)); // the bracket on the rail
+        this.cvWireAt = V3(X0 + L, YA - 8, zr + 30);
+      },
+      () => { // the stamp: a bridge over the belt, the SG90 on it, the stamp head on its rod (it moves)
+        const xs = X0 + CONV.stamp, alu = S({ color: 0xbfc6ce, metalness: 0.7, roughness: 0.35 }); const g = new THREE.Group(); const HB = YB + 78;
+        for (const z of [Z0 - Wd / 2 - 5, zr]) g.add(box(6, HB - YA, 6, alu, xs, (HB + YA) / 2, z)); g.add(box(14, 5, Wd + 16, alu, xs, HB, Z0));
+        const sv = M2.sg90Body(); sv.rotation.y = Math.PI / 2; sv.position.set(xs, HB + 2.5, Z0 + 4); g.add(sv);
+        g.add(box(3, 22, 3, S({ color: 0x8a96a3, metalness: 0.7, roughness: 0.35 }), xs - 8, HB - 12, Z0)); g.add(box(3, 22, 3, S({ color: 0x8a96a3, metalness: 0.7, roughness: 0.35 }), xs + 8, HB - 12, Z0)); // guide rods
+        this.still(g);
+        const head = new THREE.Group(); r.add(head); this.cvHead = head; const red = S({ color: 0xc8281c, roughness: 0.45 });
+        head.add(box(16, 3, 22, S({ color: 0x1b1b1d, roughness: 0.8 }), 0, 1.5, 0)); head.add(box(18, 9, 24, S({ color: 0x8b5a2b, roughness: 0.6 }), 0, 7.5, 0)); head.add(cyl(3, 22, red, 0, 23, 0, 12)); head.add(new THREE.Mesh(new THREE.SphereGeometry(5.5, 14, 10), red).translateY(35));
+        head.add(box(28, 2, 2, S({ color: 0x8a96a3, metalness: 0.7, roughness: 0.35 }), 0, 28, 0));
+        this.cvHeadAt = { x: xs, z: Z0, HB };
+      },
+      () => { // the IR sensor on the near rail: its board out over the rail, the two LEDs looking across the belt
+        const xi = X0 + CONV.ir, yi = YB + 12, z0 = Z0 + Wd / 2 + 1; const g = new THREE.Group(); g.position.set(xi, yi, z0); r.add(g);
+        const pcbC = canvas(64, 128); const pc = pcbC.getContext('2d'); pc.fillStyle = '#1b1d22'; pc.fillRect(0, 0, 64, 128); pc.fillStyle = '#ddd'; pc.font = `700 9px ${TX.FONT}`; pc.textAlign = 'center'; pc.fillText('IR', 32, 70); pc.fillText('VCC GND OUT', 32, 118);
+        g.add(box(14, 1.6, 32, [MD.materials().fr4, MD.materials().fr4, S({ map: ctex(pcbC), roughness: 0.45 }), MD.materials().fr4, MD.materials().fr4, MD.materials().fr4], 0, 0, 18));
+        g.add(box(6.5, 4.6, 6.8, S({ color: 0x2a62c8, roughness: 0.5 }), 0, 3, 24)); // the trimmer
+        const clear = S({ color: 0xd8d8ff, roughness: 0.15, transparent: true, opacity: 0.6 }); const ledA = cyl(2.5, 5, clear, -3.2, 2, 0, 16); ledA.rotation.x = Math.PI / 2; g.add(ledA);
+        const ledB = cyl(2.5, 5, S({ color: 0x111111, roughness: 0.2 }), 3.2, 2, 0, 16); ledB.rotation.x = Math.PI / 2; g.add(ledB);
+        this.cvDet = new THREE.MeshStandardMaterial({ color: 0xf2efe0, emissive: 0x33ff55, emissiveIntensity: 0, roughness: 0.3 }); this.cvPwr = new THREE.MeshStandardMaterial({ color: 0xf2efe0, emissive: 0xff2a1a, emissiveIntensity: 0, roughness: 0.3 });
+        g.add(box(1.6, 0.8, 0.9, this.cvDet, 3.5, 1.1, 12)); g.add(box(1.6, 0.8, 0.9, this.cvPwr, -3.5, 1.1, 12));
+        g.add(box(10, 14, 3, S({ color: 0x2a2b2e, roughness: 0.5 }), 0, -8, 30)); // its bracket on the rail
+        const beam = new THREE.Mesh(new THREE.PlaneGeometry(1.2, Wd), new THREE.MeshBasicMaterial({ color: 0xff3a6a, transparent: true, opacity: 0.18, depthWrite: false, toneMapped: false })); beam.rotation.x = -Math.PI / 2; beam.position.set(0, 0, -Wd / 2); g.add(beam); this.cvBeam = beam;
+        this.cvIrAt = V3(xi, yi, z0 + 34);
+      },
+      () => { // the boxes (cardboard, a strip of tape; a sheet on top for the stamps), the marks on the belt
+        const C = canvas(64, 64); const c = C.getContext('2d'); c.fillStyle = '#b98a55'; c.fillRect(0, 0, 64, 64); grain(c, 64, 64, 0.08, 300); c.strokeStyle = 'rgba(80,50,20,0.35)'; c.lineWidth = 2; c.strokeRect(1, 1, 62, 62);
+        const side = S({ map: ctex(C), roughness: 0.85 });
+        this.cvBoxes = Array.from({ length: CONV.n }, () => {
+          const g = new THREE.Group(); g.visible = false; r.add(g); g.add(box(CONV.box, CONV.boxH, 26, side, 0, CONV.boxH / 2, 0));
+          const TC = canvas(128, 112); const tex = ctex(TC); const top = new THREE.Mesh(new THREE.PlaneGeometry(CONV.box, 26), S({ map: tex, roughness: 0.8 })); top.rotation.x = -Math.PI / 2; top.position.y = CONV.boxH + 0.05; g.add(top);
+          return { g, TC, tex, n: -1, vis: false, showT: 0 };
+        });
+        const MC = canvas(64, 48); const mc = MC.getContext('2d'); this.stampMark(mc, 32, 24, 0, 1); const mm = new THREE.MeshBasicMaterial({ map: ctex(MC), transparent: true, depthWrite: false });
+        this.cvMarks = Array.from({ length: 16 }, () => { const m = new THREE.Mesh(new THREE.PlaneGeometry(14, 10.5), mm); m.rotation.x = -Math.PI / 2; m.visible = false; r.add(m); return m; });
+      },
+      () => this.cables([['st', [this.cvWireAt.x, this.cvWireAt.y, this.cvWireAt.z], 1.6, 0x2a62c8], ['sv', [X0 + CONV.stamp, YB + 82, Z0 + 18]], ['ir1', [this.cvIrAt.x, this.cvIrAt.y, this.cvIrAt.z]]]),
+    ];
+  }
+  stampMark(c, x, y, rot, a) { // a red "QC OK" stamp, 14 × 10 mm (at 64 × 48 px)
+    c.save(); c.translate(x, y); c.rotate(rot); c.globalAlpha = a; c.strokeStyle = '#c8141c'; c.lineWidth = 3; c.strokeRect(-28, -20, 56, 40); c.fillStyle = '#c8141c'; c.font = `800 17px ${TX.FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('QC OK', 0, 1); c.restore();
+  }
+  convDraw() {
+    if (!this.cvBoxes) return false; const S = this.sim, A = this.cvAt; const s = S.s || 0; let ch = false;
+    if (this.lab.version !== this._cvv) { this._cvv = this.lab.version; this.cables([['st', [this.cvWireAt.x, this.cvWireAt.y, this.cvWireAt.z], 1.6, 0x2a62c8], ['sv', [A.X0 + CONV.stamp, A.YB + 82, A.Z0 + 18]], ['ir1', [this.cvIrAt.x, this.cvIrAt.y, this.cvIrAt.z]]]); ch = true; }
+    if (s !== this._cvs) { this._cvs = s; this.cvBeltT.offset.x = -s / 40; this.cvBeltB.offset.x = s / 40; for (const g of this.cvRollers) g.rotation.z = -s / (A.R - 1); ch = true; }
+    const hum = !!S.hum; const j = hum ? (Math.random() - 0.5) * 0.8 : 0; if (hum || this._cvj) { this.cvMotor.position.y = A.YA + j; this._cvj = hum; ch = true; }
+    // the stamp head: up at 0°, on the belt at 90°
+    const a = S.ang || 0; if (a !== this._cva) { this._cva = a; const H = this.cvHeadAt; this.cvHead.position.set(H.x, A.YB + CONV.travel * (1 - Math.min(90, Math.max(0, a)) / 90), H.z); ch = true; }
+    // the IR sensor's LEDs
+    const ir = this.part('ir1'); const pw = !!(ir && ir.state.powered), nr = !!(ir && ir.state.near); const k = (pw ? 1 : 0) + (nr ? 2 : 0) + (ir ? 4 : 0);
+    if (k !== this._cvk) { this._cvk = k; this.cvPwr.emissiveIntensity = pw ? 2.2 : 0; this.cvDet.emissiveIntensity = nr ? 2.6 : 0; this.cvBeam.visible = pw; ch = true; }
+    // the boxes: on the belt, or in the crate
+    let inCrate = 0; const now = this.sim.t;
+    S.boxes.forEach((b, i) => {
+      const o = this.cvBoxes[i]; if (!o) return; const f = b.x0 + s; const back = f - CONV.box;
+      let vis = false, x = 0, y = A.YB, z = A.Z0;
+      if (b.gone) { const kk = inCrate++; vis = kk < 6; x = this.cvCrate.x + (kk % 2 ? 12 : -12); y = this.cvCrate.y + Math.floor(kk / 2) * CONV.boxH * 0.9; z = this.cvCrate.z + (kk % 4 < 2 ? -13 : 13); }
+      else if (back >= 2 && back <= CONV.len) { vis = true; x = A.X0 + f - CONV.box / 2; if (!o.vis) o.showT = now; const d = now - o.showT; if (d < 0.25) y += 14 * (1 - d / 0.25); }
+      if (vis !== o.vis) { o.vis = vis; o.g.visible = vis; ch = true; }
+      if (vis && (o.g.position.x !== x || o.g.position.y !== y || o.g.position.z !== z)) { o.g.position.set(x, y, z); ch = true; }
+      const key = b.st.length + ':' + S.gen; if (key !== o.n) { o.n = key; const c = o.TC.getContext('2d'); c.fillStyle = '#c69863'; c.fillRect(0, 0, 128, 112); c.fillStyle = 'rgba(230,205,150,0.75)'; c.fillRect(0, 44, 128, 24); // the tape
+        b.st.forEach((off, q) => this.stampMark(c, 64 + off * 128 / CONV.box, 56, ((q * 37) % 11 - 5) * 0.02, q ? 0.7 : 0.9)); o.tex.needsUpdate = true; ch = true; }
+    });
+    // the stamps on the bare belt (they ride on it)
+    this.cvMarks.forEach((m, i) => { const u = S.marks[i] !== undefined ? S.marks[i] + s : -1; const v = u >= 0 && u <= CONV.len; if (v) m.position.set(A.X0 + u, A.YB + 0.1, A.Z0); if (v !== m.visible) { m.visible = v; ch = true; } });
+    return ch;
   }
 
   // ================================================================== the keypad locker

@@ -550,10 +550,82 @@ export class LiftScene extends Scene {
 const WL = { height: t3('Car height', 'कार की ऊँचाई', 'Car ki unchaai'), at: t3('Floor', 'मंज़िल', 'Manzil'), between: t3('between floors!', 'मंज़िलों के बीच!', 'manzilon ke beech!'), sw: t3('Limit switch (pin 5)', 'लिमिट स्विच (पिन 5)', 'Limit switch (pin 5)'),
   pressed: t3('pressed', 'दबा', 'daba'), free: t3('free', 'खुला', 'khula'), call: t3('Call the lift', 'लिफ़्ट बुलाइए', 'Lift bulaiye') };
 
+// ------------------------------------------------------------------ the conveyor belt (batch 24, Class 11)
+// A rubber belt on two 30 mm rollers, 240 mm between them. The 28BYJ-48 (st) turns the drive roller, so the belt moves
+// π × 30 = 94.2 mm a turn (2.9 mm for 64 steps). Cardboard boxes (30 mm long) are put on the belt at the infeed end, 70 mm
+// apart. The IR sensor (ir1) on the near rail, CONV.ir mm along, sees a box while any part of it is in front (the scene
+// writes its distance, 1 cm or 40 cm). The stamp (sv: up at 0°, down on the belt at 90°) is CONV.stamp mm along: half a
+// box before the sensor, so a box that has just reached the sensor is centred under it. A box under the stamp stops the
+// servo at 36° (state.limit: it presses on the box). Flags: stall (the motor misses its steps and the belt has not moved),
+// moving, stamped (a box got a stamp), belt (the stamp came down on the bare belt), multi (a box went past the sensor with
+// more than one stamp: res.multi, with the belt's stamps so far), once (three boxes in a row went past stamped exactly once, and none twice), missed (one went past
+// with none). res: stamps, beltN, passed (each box's stamps), offs (where each stamp landed, mm from the box's middle), rate.
+export const CONV = { roller: 30, len: 240, box: 30, gap: 70, ir: 170, stamp: 155, first: 110, n: 12, boxH: 24, press: 36, travel: 40 };
+export class ConveyorScene extends Scene {
+  constructor(cfg) { super(cfg); this.a0 = null; this.s = 0; this.miss0 = 0; this.down = false; this.reset(); }
+  reset() { this.boxes = Array.from({ length: CONV.n }, (_, i) => ({ i, x0: CONV.first - i * CONV.gap, st: [], done: false, gone: false })); this.marks = []; this.okRun = 0; this.res = { stamps: 0, beltN: 0, passed: [], offs: [], times: [] }; this.gen = (this.gen || 0) + 1; }
+  belt(lab) { const st = lab.byTag('st'); if (!st) return this.s; if (this.a0 === null) this.a0 = st.state.angle || 0; return ((st.state.angle || 0) - this.a0) / 360 * Math.PI * CONV.roller; }
+  front(b) { return b.x0 + this.s; }
+  onBelt(b) { const f = this.front(b); return f - CONV.box >= 2 && f - CONV.box <= CONV.len; }
+  update(dt, lab) {
+    this.t += dt; const st = lab.byTag('st'); const was = this.s; this.s = this.belt(lab); if (Math.abs(this.s - was) > 0.01) this.turnT = this.t;
+    const ran = this.runAt !== undefined;
+    // the motor: turning, or humming (it misses its steps: too fast)
+    this.hum = !!st && st.state.missT !== undefined && lab.mcu && lab.mcu.state === 'running' && lab.mcu.t - st.state.missT < 60000;
+    if (ran && st && (st.state.miss || 0) - this.miss0 > 200 && Math.abs(this.s) < 1 && this.t - this.runAt > 1.5) this.flags.add('stall');
+    if (ran && this.s > 5) this.flags.add('moving');
+    // the IR sensor sees a box while any part of it is in front
+    const near = this.boxes.some((b) => this.onBelt(b) && this.front(b) >= CONV.ir && this.front(b) - CONV.box <= CONV.ir); this.near = near;
+    const ir = lab.byTag('ir1'); if (ir) { const d = near ? 1 : 40; if (!ir.state.ext || ir.state.dist !== d) { ir.state.ext = true; ir.state.dist = d; lab.stateV = (lab.stateV || 0) + 1; } }
+    // the stamp: a box under it stops the servo (it presses); with none, it comes down on the belt
+    const sv = lab.byTag('sv');
+    if (sv && !ran && !this.rested) { sv.state.angle = 0; this.rested = true; } // (it was left up)
+    const under = this.boxes.find((b) => this.onBelt(b) && this.front(b) >= CONV.stamp && this.front(b) - CONV.box <= CONV.stamp); this.under = under;
+    if (sv) { const lim = under ? CONV.press : null; if (sv.state.limit !== lim) sv.state.limit = lim; }
+    const a = sv ? sv.state.angle : 0; this.ang = a;
+    if (!this.down && ran && ((under && a >= CONV.press - 3) || (!under && a >= 85))) {
+      this.down = true;
+      if (under) { const off = +(CONV.stamp - (this.front(under) - CONV.box / 2)).toFixed(1); under.st.push(off); this.res.offs.push(off); this.res.stamps++; this.flags.add('stamped'); }
+      else { this.marks.push(CONV.stamp - this.s); this.res.beltN++; this.flags.add('belt'); }
+    } else if (this.down && a < 20) this.down = false;
+    // boxes past the stamp, and into the bin
+    for (const b of this.boxes) {
+      const f = this.front(b);
+      if (!b.done && f - CONV.box > CONV.ir + 2) { // (past the sensor too: the program is done with it)
+        b.done = true; const n = b.st.length; this.res.passed.push(n); this.res.times.push(this.t);
+        if (n === 0) this.flags.add('missed');
+        if (n > 1 && !this.res.multi) { this.res.multi = { n, belt: this.res.beltN }; this.flags.add('multi'); }
+        this.okRun = n === 1 ? this.okRun + 1 : 0;
+        if (this.okRun >= 3 && !this.flags.has('multi')) { this.flags.add('once'); const T = this.res.times.slice(-3); this.res.rate = Math.round(120 / Math.max(0.1, T[2] - T[0])); }
+      }
+      if (!b.gone && f - CONV.box > CONV.len) b.gone = true;
+    }
+    this.res.bin = this.boxes.filter((b) => b.gone).length;
+    return Math.abs(this.s - was) > 0.01 || this.hum;
+  }
+  onRun(lab) {
+    super.onRun(); const st = lab && lab.byTag('st'); this.a0 = st ? st.state.angle || 0 : 0; this.s = 0; this.miss0 = st ? st.state.miss || 0 : 0;
+    this.reset(); const sv = lab && lab.byTag('sv'); this.down = !!sv && sv.state.angle >= 30;
+    for (const k of ['stall', 'moving', 'stamped', 'belt', 'multi', 'once', 'missed']) this.flags.delete(k);
+  }
+  hud() {
+    const motor = this.hum ? tx(WC.hum) : this.t - (this.turnT ?? -9) < 0.25 ? tx(WC.turning) : tx(WC.still);
+    const last = this.boxes.filter((b) => b.done).slice(-4).map((b) => b.st.length).join(' · ');
+    return { title: t3('Conveyor belt', 'कन्वेयर बेल्ट', 'Conveyor belt'),
+      rows: [[tx(WC.moved), `${this.s.toFixed(1)} mm`], [tx(WC.motor), motor], [tx(WC.ir), this.near ? tx(WC.box) : tx(WC.clear)],
+        [tx(WC.stamp), this.ang >= 30 ? (this.under ? tx(WC.onBox) : tx(WC.onBelt)) : tx(WC.up)], [tx(WC.perBox), last || '—']],
+      controls: [] };
+  }
+}
+const WC = { moved: t3('Belt moved', 'बेल्ट चली', 'Belt chali'), motor: t3('Motor', 'मोटर', 'Motor'), hum: t3('humming, not turning: too fast!', 'गुनगुना रही है, घूम नहीं रही: बहुत तेज़!', 'gunguna rahi hai, ghoom nahi rahi: bahut tez!'),
+  turning: t3('turning', 'घूम रही है', 'ghoom rahi hai'), still: t3('still', 'रुकी', 'ruki'), ir: t3('IR sensor (pin 2)', 'आईआर सेंसर (पिन 2)', 'IR sensor (pin 2)'), box: t3('a box in front (LOW)', 'सामने डिब्बा (LOW)', 'saamne dabba (LOW)'),
+  clear: t3('clear (HIGH)', 'खाली (HIGH)', 'khaali (HIGH)'), stamp: t3('Stamp (pin 6)', 'ठप्पा (पिन 6)', 'Thappa (pin 6)'), up: t3('up', 'ऊपर', 'upar'), onBox: t3('down on a box', 'डिब्बे पर', 'dabbe par'),
+  onBelt: t3('down on the bare belt!', 'ख़ाली बेल्ट पर!', 'khaali belt par!'), perBox: t3('Stamps on each box', 'हर डिब्बे पर ठप्पे', 'Har dabbe par thappe') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

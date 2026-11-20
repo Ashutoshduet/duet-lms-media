@@ -126,7 +126,7 @@ export class View {
       e.pool = new THREE.Mesh(new THREE.PlaneGeometry(46, 46), e.poolM); e.pool.rotation.x = -Math.PI / 2; e.pool.position.set(L.cx, 0.12, 0); obj.add(e.pool);
       if (p.state.burnt) { L.domeM.color.set(0x2b1f17); L.domeM.opacity = 0.97; L.domeM.roughness = 0.85; L.domeM.emissiveIntensity = 0; }
     }
-    if (p.type === 'hcsr04' || p.type === 'ir') { e.block = MD.buildObstacle(); this.root.add(e.block); }
+    if ((p.type === 'hcsr04' || p.type === 'ir') && !(p.props && p.props.mount)) { e.block = MD.buildObstacle(); this.root.add(e.block); } // (a sensor mounted on a machine in the scene sees the machine, not a block)
     return e;
   }
   disposeFx(e) { if (e.block) { this.root.remove(e.block); MD.dispose(e.block); } }

@@ -5575,14 +5575,18 @@
    {
     "class": 11,
     "n": 5,
-    "kind": "I",
+    "kind": "L",
     "title": "Conveyor belt with a stepper",
     "board": "uno",
-    "status": "planned",
-    "ref": "conveyor-belt-with-a-stepper-uno",
+    "status": "live",
+    "ref": "conveyor",
     "newparts": [],
-    "family": "machines",
-    "parts": [],
+    "family": "live-projects",
+    "parts": [
+     "stepper",
+     "servo",
+     "ir"
+    ],
     "strand": "Algorithmic thinking",
     "focus": "Mechanisms",
     "term": "Term 1 (April-July)"

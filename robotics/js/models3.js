@@ -256,8 +256,9 @@ export function buildKeypad() {
 
 // ------------------------------------------------------------------ 28BYJ-48 stepper and its ULN2003 board (35 × 32 mm)
 export const STEPG = { motor: [110, -20], shaftOff: -8, shaftTop: 31 }; // the motor's centre (part frame) and its shaft (8 mm off-centre)
-export function buildStepper() {
+export function buildStepper(part) {
   const M = mats(); const g = new THREE.Group(); const top = 4.6, bx = 11.4, bz = -17;
+  const away = !!(part && part.props && part.props.mount); // (batch 24) the motor is on a machine in the scene: only its cable comes to the board
   g.add(pinsFlat(4, 0, 0, 7, M)); g.add(pinsFlat(2, 5.5 * P, 0, 7, M));
   const pm = pcbMat('uln', 35, 32, '#1d6b3a', (c) => { ['IN1', 'IN2', 'IN3', 'IN4'].forEach((t, i) => silk(c, t, 6 + i * P, 29.6, 0.95)); silk(c, '−', 6 + 5.5 * P, 29.6, 1.4); silk(c, '+', 6 + 6.5 * P, 29.6, 1.4); silk(c, '5-12V', 6 + 6 * P, 26.8, 1.1); ['A', 'B', 'C', 'D'].forEach((t, i) => silk(c, t, 9 + i * 5, 8.2, 1.3)); silk(c, 'ULN2003', 17.5, 22.5, 1.2); holes(c, [[2.2, 2.2], [32.8, 2.2], [2.2, 29.8], [32.8, 29.8]], 1.3); });
   g.add(slab(35, 32, 1.6, pm, M, bx, top, bz));
@@ -267,6 +268,13 @@ export function buildStepper() {
   g.add(cyl(3, 5, M.epoxy, bx + 12, top + 2.5, bz - 6, 16)); g.add(box(2 * P, 2.5, P, M.black, bx + 12, top + 1.25, bz + 8)); g.add(box(4.8, 4, 2.4, M.black, bx + 12, top + 3, bz + 8));
   const leds = [0, 1, 2, 3].map((i) => { const m = ledMat(0xff2a1a); const b = keep(cyl(1.5, 2.6, m, 3.4 + i * 5 + 0.6, top + 1.3, bz - 8, 12)); g.add(b); return m; });
   // the motor: can Ø28 × 19, ears 42 mm apart, a blue back cap, the shaft 8 mm off-centre
+  if (away) { // the motor's 5 wires leave the JST plug towards the machine
+    const wires = [N.blueW, N.pinkW, N.yellowW, N.orangeW, N.redW];
+    wires.forEach((m, i) => g.add(tube([V3(bx - 5 + i * 2.5, top + 5, bz - 15), V3(bx - 5 + i * 2.5, top + 3, bz - 22), V3(bx - 2.5 + i * 1.25, 2, bz - 34)], 0.75, m, 10, 5)));
+    g.userData.cableEnd = V3(bx, 2, bz - 34);
+    g.userData.update = (p) => { const s = p.state; let a = false; (s.led || [0, 0, 0, 0]).forEach((v, i) => { const e = v * 3; if (Math.abs(leds[i].emissiveIntensity - e) > 0.02) { leds[i].emissiveIntensity = e; a = true; } }); return a; };
+    shadows(g); return g;
+  }
   const [mx, mz] = STEPG.motor; const mo = new THREE.Group(); mo.position.set(mx, 0, mz); g.add(mo);
   mo.add(cyl(14, 19, N.canMetal, 0, 9.5, 0, 32)); mo.add(box(7, 0.8, 49, N.canMetal, 0, 19, 0)); for (const s of [-1, 1]) mo.add(cyl(3.5, 0.8, N.canMetal, 0, 19, s * 21, 16));
   mo.add(cyl(14.2, 1.2, N.relayBlue, 0, 0.6, 0, 32)); mo.add(box(16, 16, 6, N.relayBlue, 0, 8, 14.5)); mo.add(cyl(4.5, 1.5, N.canMetal, 0, 20, STEPG.shaftOff, 20));
@@ -358,7 +366,7 @@ export function buildPart3(part) {
     case 'relay': return buildRelay();
     case 'irrx': return buildIRRX();
     case 'keypad': return buildKeypad();
-    case 'stepper': return buildStepper();
+    case 'stepper': return buildStepper(part);
     case 'rfid': return buildRFID();
     case 'mq2': return buildMQ2();
     case 'aa4': return buildAA4();

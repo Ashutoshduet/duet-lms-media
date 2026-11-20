@@ -1022,3 +1022,16 @@ heaters.
   panel. The first program believes it starts at G: floor 1 stops at 85 mm (between). The student places the switch at
   40e (pin 5, GND) and adds homing in setup() (down 8 steps at a time while pin 5 is HIGH, then floorNow = 0): it stops
   at 0.3 mm, then 2 at 120.4 and 1 at 60.4. robocore24.mjs plays it. Class 11: 8 of 26.
+- Class 11 conveyor belt (batch 24, lessons24.js `conveyor`; scenes3.js `ConveyorScene`, worlds3.js `convSteps`, view
+  scene3cv): a rubber belt (its chevron texture runs) on two 30 mm rollers 240 mm apart in an aluminium frame, the
+  28BYJ-48 drawn on the drive roller's near end (the `stepper` part with props.mount shows only its ULN2003 board and the
+  5-wire cable; models3.js), the IR sensor on the near rail looking across the belt (the `ir` part with props.mount is a
+  3-pin plug on the mat; models2.js, and view.js skips its obstacle block), the stamp on a bridge (the SG90, `servo` with
+  mount: up at 0°, on the belt at 90°), cardboard boxes 30 mm long and 70 mm apart that drop on at the infeed end, the
+  blue crate at the end. The belt moves π × 30 mm a turn (2.9 mm for 64 steps); the IR (CONV.ir 170 mm) sees a box while
+  any part of it is in front; the stamp (CONV.stamp 155 mm) is half a box before it, so a box that has just reached the
+  sensor is centred under it, and a box under it stops the servo at 36° (state.limit). The first program asks 25 rpm:
+  a step every 1.2 ms, faster than the rotor follows (parts3.js STEP28.minUs 1.7 ms), so every step is missed: the
+  motor hums (it shakes in 3D) and the belt stays still (stall). At 12 rpm the box is stamped 5 times and the bare belt
+  5 more, counted 10 (the sensor stays LOW for 30 mm while each loop moves 2.9 mm). The fix waits while pin 2 is LOW:
+  one stamp per box, within 3 mm of its middle, about 13 boxes a minute. robocore24.mjs plays it. Class 11: 9 of 26.

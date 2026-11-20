@@ -87,6 +87,8 @@ export const FUNCS = {
   cos: [1, 1, 'float', (a) => `Math.cos(${A(a)})`],
   tan: [1, 1, 'float', (a) => `Math.tan(${A(a)})`],
   atan2: [2, 2, 'float', (a) => `Math.atan2(${A(a)})`],
+  asin: [1, 1, 'float', (a) => `Math.asin(${A(a)})`], acos: [1, 1, 'float', (a) => `Math.acos(${A(a)})`], atan: [1, 1, 'float', (a) => `Math.atan(${A(a)})`], // (batch 24: an arm's inverse kinematics)
+  degrees: [1, 1, 'float', (a) => `((${a[0].c})*${180 / Math.PI})`], radians: [1, 1, 'float', (a) => `((${a[0].c})*${Math.PI / 180})`],
   floor: [1, 1, 'float', (a) => `Math.floor(${A(a)})`],
   ceil: [1, 1, 'float', (a) => `Math.ceil(${A(a)})`],
   round: [1, 1, 'long', (a) => `Math.round(${A(a)})`],

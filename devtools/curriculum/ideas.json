@@ -55848,6 +55848,27 @@
 "note": null
 },
 {
+"id": "live-conveyor",
+"title": "Conveyor belt with a stepper",
+"family": "live",
+"board": "uno",
+"parts": [
+"stepper",
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "conveyor",
+"rule": null,
+"note": null
+},
+{
 "id": "live-lift",
 "title": "Mini lift with floor buttons",
 "family": "live",

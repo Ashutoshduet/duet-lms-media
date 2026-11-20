@@ -179,8 +179,8 @@ function play3(l, B, acts) {
   return ser;
 }
 const at = (...times) => { const done = new Set(); return (key) => (t, sim, lab) => { for (const T of times) if (!done.has(T) && t >= T) { done.add(T); sim.control(key, null, lab); } }; };
-const L24 = LESSONS.filter((l) => ['wateratm', 'vending', 'tracker', 'lift'].includes(l.id));
-ok(L24.length === 4, `${L24.length} Class 11 machine lessons`);
+const L24 = LESSONS.filter((l) => ['wateratm', 'vending', 'tracker', 'lift', 'conveyor'].includes(l.id));
+ok(L24.length === 5, `${L24.length} Class 11 machine lessons`);
 for (const l of L24) {
   const c = compile(l.code); ok(c.ok, `${l.id}: the sketch compiles` + (c.ok ? '' : ' ' + JSON.stringify(c.errors).slice(0, 200)));
   for (const s of l.steps) for (const k of ['do', 'see']) if (s[k]) for (const lg of ['en', 'hi', 'hg']) if (typeof s[k][lg] !== 'string') ok(false, `${l.id}: step ${s.k} has ${k}.${lg}`);
@@ -206,6 +206,10 @@ for (const l of L24) {
 { const l = L24.find((x) => x.id === 'tracker'); const B = build3(l);
   play3(l, B, [null, null, null, null, (t, sim) => { if (t < 0.05) sim.control('day', '1'); }]);
   ok(B.sim.res.gain > 10 && B.sim.res.maxErr < 12, `tracker: the day followed (never more than ${B.sim.res.maxErr}° off), ${B.sim.res.gain} % more energy than the fixed panel; it ran away to pan ${B.sim.res.runawayAt}° first`);
+}
+{ const l = L24.find((x) => x.id === 'conveyor'); const B = build3(l);
+  const ser = play3(l, B, [null, null, null]); const R = B.sim.res;
+  ok(R.passed.slice(-3).every((n) => n === 1) && R.offs.slice(-3).every((o) => Math.abs(o) <= 4), `conveyor: once each, in the middle (${R.offs.slice(-3).join(', ')} mm), ${R.rate} boxes a minute; the first fix-less box had ${JSON.stringify(R.multi)} · serial ${JSON.stringify(ser.slice(-60))}`);
 }
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

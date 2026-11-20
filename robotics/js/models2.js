@@ -196,6 +196,7 @@ export function buildPlug(cols) {
   shadows(g); return g;
 }
 export const PLUG_SERVO = () => ['#5a3a24', '#c8281c', '#f08a14'];
+export const PLUG_IR = () => ['#c8281c', '#1b1b1d', '#f0c018'];
 export const PLUG_US = () => ['#c8281c', '#2457c8', '#e8e8e4', '#1b1b1d'];
 const RIB = {};
 function ribbonMat(cols) { // a flat ribbon cable: the colours run along it (the tube's v goes round it)
@@ -567,6 +568,7 @@ export function buildPart2(part) {
     case 'psu5': return buildPSU5();
     case 'mg996r': return pr.mount ? buildPlug(PLUG_SERVO()) : buildMG996R(true);
     case 'servo': return pr.mount ? buildPlug(PLUG_SERVO()) : null;
+    case 'ir': return pr.mount ? buildPlug(PLUG_IR()) : null; // (batch 24: the sensor on a machine in the scene, its cable plugged in here)
     case 'hcsr04f': return buildPlug(PLUG_US());
   }
   return null;

@@ -20,6 +20,13 @@
 //              but the program believes it is at G: called to floor 1 it stops between floors. The student wires the limit
 //              switch at the bottom of the shaft (pin 5) and adds homing: in setup() the car goes down step by step until
 //              it presses the switch, and only then counts floors (every 3D printer and real lift does this at start).
+//   conveyor   a conveyor belt: the stepper turns the drive roller (30 mm: 94.2 mm of belt a turn), an IR sensor on the rail
+//              finds each cardboard box, and a servo stamp marks it "QC OK" (scenes3.js ConveyorScene). The first program
+//              runs the motor at 25 rpm: it hums and the belt stays still (the 28BYJ-48 cannot follow a step every 1.2 ms;
+//              about 15 rpm is its top speed at 5 V). At 12 rpm the belt runs, but the sensor stays LOW for the whole box
+//              while the loop moves only 2.9 mm at a time: one box is stamped again and again (and the bare belt behind it),
+//              and counted each time. The fix waits until the box has passed the sensor (count the box arriving, not the
+//              box being there): each box once, in the middle.
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
 import { GLASS, CUR, LIFT } from './scenes3.js';
 
@@ -264,6 +271,44 @@ void loop() {
 }
 `;
 
+const CONVC = `// Conveyor belt: the stepper drives the belt, the IR sensor finds each box, and the stamp marks it "QC OK".
+#include <Stepper.h>
+#include <Servo.h>
+
+Stepper belt(2048, 8, 10, 9, 11);      // 28BYJ-48: IN1-IN4 on pins 8-11 (the library wants IN1, IN3, IN2, IN4)
+Servo stamp;
+const int irPin = 2;                   // the IR sensor: LOW = a box in front of it
+int rpm = 25;                          // the belt motor's speed (turns a minute)
+int count = 0;                         // boxes stamped
+
+void setup() {
+  pinMode(irPin, INPUT);
+  stamp.attach(6);
+  stamp.write(0);                      // the stamp up
+  belt.setSpeed(rpm);
+  Serial.begin(9600);
+  Serial.println("Conveyor ready");
+}
+
+void stampBox() {
+  stamp.write(90);                     // bring the stamp down on the box
+  delay(400);
+  stamp.write(0);                      // and lift it
+  delay(400);
+}
+
+void loop() {
+  belt.step(64);                       // move the belt a little (64 steps = 2.9 mm)
+  if (digitalRead(irPin) == LOW) {     // a box in front of the sensor
+    stampBox();
+    count++;
+    Serial.print("Box ");
+    Serial.print(count);
+    Serial.println(" stamped");
+  }
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -394,6 +439,36 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('lim', t3('limit switch', 'लिमिट स्विच', 'limit switch')), need('lim.L1', 'D5', W.toPin, { x: t3('limit switch', 'लिमिट स्विच', 'limit switch'), p: 5 }), (S) => (S.conn('lim.L3', 'GND') || S.conn('lim.L4', 'GND') ? null : [W.toGnd, { x: t3('limit switch\'s other leg', 'लिमिट स्विच का दूसरा पैर', 'limit switch ka doosra pair') }])],
     done: (S) => S.w('homed') && S.w('floor2') && S.w('floor1') });
+  // 5 ------------------------------------------------------------------------------------------------------ conveyor belt
+  const okRpm = (src) => { const m = /int\s+rpm\s*=\s*(\d+)\s*;/.exec(src || ''); return !!m && +m[1] >= 5 && +m[1] <= 15; };
+  const okWait = (src) => /while\s*\(\s*digitalRead\s*\(\s*irPin\s*\)\s*==\s*LOW\s*\)\s*\{?\s*(\/\/[^\n]*\s*)?belt\.step\(\s*\d+\s*\)\s*;/.test(src || '');
+  const offs = (R) => (R.offs || []).slice(-3).map((o) => (o > 0 ? '+' : '') + o + ' mm').join(', ');
+  L.push({ id: 'conveyor', cls: '11', blocks: false, view: 'wide', rview: 'scene3cv', code: CONVC, drawer: ['ir'], serial: true, scene: { kind: 'conveyor' },
+    title: t3('Conveyor belt with a stepper', 'स्टेपर वाली कन्वेयर बेल्ट', 'Stepper wali conveyor belt'),
+    goal: t3('A factory conveyor: a stepper drives the belt, an IR sensor finds each box, and a servo stamps it "QC OK". Find the motor\'s top speed, then make every box get exactly one stamp and one count.', 'फ़ैक्टरी की कन्वेयर: स्टेपर बेल्ट चलाता है, आईआर सेंसर हर डिब्बा ढूँढता है, और सर्वो उस पर "QC OK" का ठप्पा लगाता है। मोटर की सबसे तेज़ रफ़्तार पता कीजिए, फिर हर डिब्बे पर ठीक एक ठप्पा और एक गिनती कराइए।', 'Factory ki conveyor: stepper belt chalata hai, IR sensor har dabba dhoondhta hai, aur servo us par "QC OK" ka thappa lagata hai. Motor ki sabse tez speed pata kijiye, phir har dabbe par theek ek thappa aur ek ginti karaiye.'),
+    setup: { parts: [F('st', 'stepper', { mount: 'belt' }, 96, 150, 0), F('sv', 'servo', { mount: 'stamp' }, 178, 62, 0)],
+      wires: [...POWER, ...[['IN1', 8], ['IN2', 9], ['IN3', 10], ['IN4', 11]].map(([id, pin]) => ['T:st:' + id, 'D' + pin]), ['T:st:GND', 'H:bn50'], ['T:st:VCC', 'H:bp50'],
+        ['T:sv:GND', 'H:bn40'], ['T:sv:VP', 'H:bp40'], ['T:sv:SIG', 'D6']] },
+    steps: [
+      { k: 'info', do: t3('Conveyor belts carry parcels, bottles and car parts past machines that check, fill or mark them. Here a 28BYJ-48 stepper turns the belt\'s drive roller (30 mm across, so one turn moves the belt 94 mm). Its driver (pins 8–11) and the stamp\'s servo (pin 6) are already wired.', 'कन्वेयर बेल्ट पार्सल, बोतलें और गाड़ी के पुर्ज़े उन मशीनों के आगे से ले जाती हैं जो उन्हें जाँचती, भरती या उन पर निशान लगाती हैं। यहाँ 28BYJ-48 स्टेपर बेल्ट का ड्राइव रोलर घुमाता है (30 mm मोटा, तो एक चक्कर में बेल्ट 94 mm चलती है)। इसका ड्राइवर (पिन 8–11) और ठप्पे का सर्वो (पिन 6) पहले से लगे हैं।', 'Conveyor belt parcel, bottle aur gaadi ke purze un machines ke aage se le jaati hai jo unhein jaanchti, bharti ya un par nishaan lagati hain. Yahan 28BYJ-48 stepper belt ka drive roller ghumata hai (30 mm mota, to ek chakkar mein belt 94 mm chalti hai). Iska driver (pin 8–11) aur thappe ka servo (pin 6) pehle se lage hain.'), see: E },
+      { k: 'place', place: F('ir1', 'ir', { mount: 'belt' }, 196, 120, 0), do: t3('Put the IR sensor\'s plug on the mat at the ghost (the sensor itself is on the belt\'s rail, looking across the belt).', 'आईआर सेंसर के प्लग को मैट पर नीली आकृति पर रखिए (सेंसर ख़ुद बेल्ट की रेलिंग पर है, बेल्ट के आर-पार देखता हुआ)।', 'IR sensor ke plug ko mat par neeli shape par rakhiye (sensor khud belt ki railing par hai, belt ke aar-paar dekhta hua).'), see: E },
+      w3('ir1.OUT', 'D2', 'Wire its OUT to pin 2.', 'इसका OUT पिन 2 से जोड़िए।', 'Iska OUT pin 2 se jodiye.'),
+      w3('ir1.VCC', 'rail:tp', 'Its VCC to the + rail.', 'इसका VCC + रेल से।', 'Iska VCC + rail se.'),
+      w3('ir1.GND', 'rail:tn', 'Its GND to the − rail.', 'इसका GND − रेल से।', 'Iska GND − rail se.', t3('OUT goes LOW while a box is in front of the sensor: its green light comes on.', 'सेंसर के सामने डिब्बा हो तो OUT LOW होता है: इसकी हरी बत्ती जलती है।', 'Sensor ke saamne dabba ho to OUT LOW hota hai: iski hari batti jalti hai.')),
+      CHECK,
+      RUN(t3('"Conveyor ready" in the Serial Monitor.', 'सीरियल मॉनिटर में "Conveyor ready"।', 'Serial Monitor mein "Conveyor ready".')),
+      { k: 'act', until: (S) => fresh(S) && S.w('stall'), do: t3('Watch the motor and the belt.', 'मोटर और बेल्ट देखिए।', 'Motor aur belt dekhiye.'),
+        see: t3('The driver\'s four LEDs flicker and the motor hums, but the belt does not move. At 25 rpm the program changes the coils every 1.2 ms; the 28BYJ-48\'s rotor (through its 64:1 gears) needs about 1.7 ms to follow each one, so it misses every step. At 5 V it manages about 15 turns a minute.', 'ड्राइवर की चारों एलईडी टिमटिमाती हैं और मोटर गुनगुनाती है, पर बेल्ट नहीं चलती। 25 rpm पर प्रोग्राम हर 1.2 ms में कॉइल बदलता है; 28BYJ-48 का रोटर (64:1 गियर के साथ) हर बार पीछे आने में लगभग 1.7 ms लेता है, तो हर क़दम छूट जाता है। 5 V पर यह लगभग 15 चक्कर एक मिनट में कर पाती है।', 'Driver ki chaaron LED timtimati hain aur motor gungunati hai, par belt nahi chalti. 25 rpm par program har 1.2 ms mein coil badalta hai; 28BYJ-48 ka rotor (64:1 gear ke saath) har baar peeche aane mein lagbhag 1.7 ms leta hai, to har kadam chhoot jaata hai. 5 V par yeh lagbhag 15 chakkar ek minute mein kar paati hai.') },
+      { k: 'edit', test: okRpm, set: [[/int rpm = 25;/, 'int rpm = 12;']], do: t3('Slow it down: change int rpm = 25; to int rpm = 12; and press Run.', 'इसे धीमा कीजिए: int rpm = 25; को int rpm = 12; कीजिए और "चलाइए" दबाइए।', 'Ise dheema kijiye: int rpm = 25; ko int rpm = 12; kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('multi'), do: t3('Watch the first box reach the stamp, and the Serial Monitor.', 'पहले डिब्बे को ठप्पे तक पहुँचते देखिए, और सीरियल मॉनिटर।', 'Pehle dabbe ko thappe tak pahunchte dekhiye, aur Serial Monitor.'),
+        see: live((lg, R) => (!R.multi ? '' : pick(lg, `One box went past and the program counted ${R.multi.n + R.multi.belt}: ${R.multi.n} stamps smudged on the box, and ${R.multi.belt} on the bare belt behind it. The sensor stays LOW for the whole 30 mm of the box, but each loop moves the belt only 2.9 mm, so the if is true again and again.`, `एक डिब्बा गुज़रा और प्रोग्राम ने ${R.multi.n + R.multi.belt} गिने: डिब्बे पर ${R.multi.n} धुँधले ठप्पे, और उसके पीछे ख़ाली बेल्ट पर ${R.multi.belt}। डिब्बे के पूरे 30 mm तक सेंसर LOW रहता है, पर हर loop बेल्ट को सिर्फ़ 2.9 mm चलाता है, तो if बार-बार सच होता है।`, `Ek dabba guzra aur program ne ${R.multi.n + R.multi.belt} gine: dabbe par ${R.multi.n} dhundhle thappe, aur uske peeche khaali belt par ${R.multi.belt}. Dabbe ke poore 30 mm tak sensor LOW rehta hai, par har loop belt ko sirf 2.9 mm chalata hai, to if baar-baar sach hota hai.`))) },
+      { k: 'edit', test: okWait, set: [[/(    Serial\.println\(" stamped"\);\n)/, '$1    while (digitalRead(irPin) == LOW) {   // wait until this box has gone past the sensor\n      belt.step(64);\n    }\n']],
+        do: t3('Count the box arriving, not the box being there: after Serial.println(" stamped"); add\n    while (digitalRead(irPin) == LOW) {\n      belt.step(64);\n    }\nand press Run.', 'डिब्बे का आना गिनिए, उसका वहाँ होना नहीं: Serial.println(" stamped"); के बाद लिखिए\n    while (digitalRead(irPin) == LOW) {\n      belt.step(64);\n    }\nऔर "चलाइए" दबाइए।', 'Dabbe ka aana giniye, uska wahan hona nahi: Serial.println(" stamped"); ke baad likhiye\n    while (digitalRead(irPin) == LOW) {\n      belt.step(64);\n    }\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('once'), do: t3('Watch three boxes go by.', 'तीन डिब्बे गुज़रते देखिए।', 'Teen dabbe guzarte dekhiye.'),
+        see: live((lg, R) => pick(lg, `One stamp on each box, in the middle (${offs(R)} from the centre), and one count each: about ${R.rate ?? '?'} boxes a minute. While the box is still in front of the sensor, the program only moves the belt on, so the next stamp waits for the next box. Every counter on a production line works this way.`, `हर डिब्बे पर एक ठप्पा, बीच में (केंद्र से ${offs(R)}), और हर एक की एक गिनती: लगभग ${R.rate ?? '?'} डिब्बे एक मिनट में। जब तक डिब्बा सेंसर के सामने है, प्रोग्राम बस बेल्ट को आगे चलाता है, तो अगला ठप्पा अगले डिब्बे का इंतज़ार करता है। प्रोडक्शन लाइन का हर काउंटर ऐसे ही काम करता है।`, `Har dabbe par ek thappa, beech mein (centre se ${offs(R)}), aur har ek ki ek ginti: lagbhag ${R.rate ?? '?'} dabbe ek minute mein. Jab tak dabba sensor ke saamne hai, program bas belt ko aage chalata hai, to agla thappa agle dabbe ka intezaar karta hai. Production line ka har counter aise hi kaam karta hai.`)) },
+    ],
+    check: [...rails, has('ir1', t3('IR sensor', 'आईआर सेंसर', 'IR sensor')), need('ir1.OUT', 'D2', W.toPin, { x: t3('IR sensor\'s OUT', 'आईआर सेंसर का OUT', 'IR sensor ka OUT'), p: 2 }), need('ir1.VCC', '5V', W.to5v, { x: 'VCC' }), need('ir1.GND', 'GND', W.toGnd, { x: 'GND' })],
+    done: (S) => S.w('once') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }
