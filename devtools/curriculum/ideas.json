@@ -27840,6 +27840,27 @@
 "note": null
 },
 {
+"id": "live-f_ivdrip_sms_esp",
+"title": "Saline drip bag almost empty: load cell with HX711 → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ivdrip_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_ivdrip_lcd_esp",
 "title": "Saline drip bag almost empty: load cell with HX711 → LCD (ESP32)",
 "family": "factory",
@@ -28376,6 +28397,28 @@
 "note": null
 },
 {
+"id": "live-f_fishseed_sms_esp",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishseed_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishseed_rgb_esp",
 "title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → colour LED (ESP32)",
 "family": "factory",
@@ -28665,6 +28708,28 @@
 "note": null
 },
 {
+"id": "live-f_milkcentre_sms_esp",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_milkcentre_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_milkcentre_neo_esp",
 "title": "Village milk cooler alarm: waterproof probe DS18B20 → RGB light stick (ESP32)",
 "family": "factory",
@@ -28785,6 +28850,28 @@
 "level": 10,
 "theme": "bank",
 "live": "f_coldbox_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_sms_esp",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coldbox_sms_esp",
 "rule": null,
 "note": null
 },
@@ -29686,6 +29773,27 @@
 "level": 10,
 "theme": "bank",
 "live": "f_fishermen_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_sms_esp",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishermen_sms_esp",
 "rule": null,
 "note": null
 },
@@ -30700,6 +30808,27 @@
 "note": null
 },
 {
+"id": "live-f_falldetect_sms_esp",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_falldetect_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_falldetect_rgb_esp",
 "title": "Fall alarm for an elderly person: motion sensor MPU-6050 → colour LED (ESP32)",
 "family": "factory",
@@ -31448,6 +31577,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_floodalert_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_sms_esp",
+"title": "Basement flood alarm: water level sensor → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floodalert_sms_esp",
 "rule": null,
 "note": null
 },
@@ -41662,6 +41812,27 @@
 "note": null
 },
 {
+"id": "live-f_elephant_sms_esp",
+"title": "Wild elephant early warning: PIR motion sensor → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_elephant_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_elephant_rgb_esp",
 "title": "Wild elephant early warning: PIR motion sensor → colour LED (ESP32)",
 "family": "factory",
@@ -41915,6 +42086,27 @@
 "level": 9,
 "theme": "bank",
 "live": "f_monkey_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_monkey_sms_esp",
+"title": "Terrace monkey alarm: PIR motion sensor → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_monkey_sms_esp",
 "rule": null,
 "note": null
 },
@@ -42546,6 +42738,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_elderhelp_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_elderhelp_sms_esp",
+"title": "Grandparent help button: push button → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_elderhelp_sms_esp",
 "rule": null,
 "note": null
 },
@@ -45046,6 +45259,27 @@
 "note": null
 },
 {
+"id": "live-f_farmgate_sms_esp",
+"title": "Farm gate animal alert: PIR motion sensor → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_farmgate_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_farmgate_rgb_esp",
 "title": "Farm gate animal alert: PIR motion sensor → colour LED (ESP32)",
 "family": "factory",
@@ -46431,6 +46665,27 @@
 "note": null
 },
 {
+"id": "live-f_grainstore_sms_esp",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainstore_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_grainstore_rgb_esp",
 "title": "Grain store humidity alert: DHT11 sensor (humidity) → colour LED (ESP32)",
 "family": "factory",
@@ -47109,6 +47364,27 @@
 "note": null
 },
 {
+"id": "live-f_frost_sms_esp",
+"title": "Frost alarm for crops: temperature sensor LM35 → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_frost_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frost_rgb_esp",
 "title": "Frost alarm for crops: temperature sensor LM35 → colour LED (ESP32)",
 "family": "factory",
@@ -47717,6 +47993,27 @@
 "note": null
 },
 {
+"id": "live-f_panic_sms_esp",
+"title": "Panic button for a shop: push button → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_panic_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panic_rgb_esp",
 "title": "Panic button for a shop: push button → colour LED (ESP32)",
 "family": "factory",
@@ -48211,6 +48508,27 @@
 "note": null
 },
 {
+"id": "live-f_intruder_sms_esp",
+"title": "Intruder alert screen: PIR motion sensor → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_intruder_sms_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_intruder_lcd_esp",
 "title": "Intruder alert screen: PIR motion sensor → LCD (ESP32)",
 "family": "factory",
@@ -48581,6 +48899,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_thirst_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_sms_esp",
+"title": "Plant thirst alarm: soil moisture sensor → SMS to a phone (GSM) (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sim800l",
+"psu5",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_thirst_sms_esp",
 "rule": null,
 "note": null
 },
@@ -50887,6 +51226,27 @@
 "note": null
 },
 {
+"id": "live-f_ivdrip_sms",
+"title": "Saline drip bag almost empty: load cell with HX711 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ivdrip_sms",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_ivdrip_lcd",
 "title": "Saline drip bag almost empty: load cell with HX711 → LCD",
 "family": "factory",
@@ -51319,6 +51679,28 @@
 "note": null
 },
 {
+"id": "live-f_fishseed_sms",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishseed_sms",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishseed_rgb",
 "title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → colour LED",
 "family": "factory",
@@ -51551,6 +51933,28 @@
 "note": null
 },
 {
+"id": "live-f_milkcentre_sms",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkcentre_sms",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_milkcentre_neo",
 "title": "Village milk cooler alarm: waterproof probe DS18B20 → RGB light stick",
 "family": "factory",
@@ -51652,6 +52056,28 @@
 "level": 9,
 "theme": "bank",
 "live": "f_coldbox_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_sms",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coldbox_sms",
 "rule": null,
 "note": null
 },
@@ -52360,6 +52786,27 @@
 "level": 9,
 "theme": "bank",
 "live": "f_fishermen_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_sms",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishermen_sms",
 "rule": null,
 "note": null
 },
@@ -53149,6 +53596,27 @@
 "level": 9,
 "theme": "bank",
 "live": "f_falldetect_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_falldetect_sms",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_falldetect_sms",
 "rule": null,
 "note": null
 },
@@ -54304,6 +54772,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_floodalert_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_sms",
+"title": "Basement flood alarm: water level sensor → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floodalert_sms",
 "rule": null,
 "note": null
 },
@@ -62836,6 +63325,27 @@
 "note": null
 },
 {
+"id": "live-f_elephant_sms",
+"title": "Wild elephant early warning: PIR motion sensor → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_elephant_sms",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_elephant_rgb",
 "title": "Wild elephant early warning: PIR motion sensor → colour LED",
 "family": "factory",
@@ -63038,6 +63548,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_monkey_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_monkey_sms",
+"title": "Terrace monkey alarm: PIR motion sensor → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_monkey_sms",
 "rule": null,
 "note": null
 },
@@ -63533,6 +64064,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_elderhelp_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_elderhelp_sms",
+"title": "Grandparent help button: push button → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_elderhelp_sms",
 "rule": null,
 "note": null
 },
@@ -64190,6 +64742,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_biogas_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_biogas_sms",
+"title": "Biogas plant leak watch: gas sensor MQ-2 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_biogas_sms",
 "rule": null,
 "note": null
 },
@@ -65589,6 +66162,27 @@
 "note": null
 },
 {
+"id": "live-f_farmgate_sms",
+"title": "Farm gate animal alert: PIR motion sensor → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_farmgate_sms",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_farmgate_rgb",
 "title": "Farm gate animal alert: PIR motion sensor → colour LED",
 "family": "factory",
@@ -65792,6 +66386,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_smoke_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_smoke_sms",
+"title": "Smoke alarm: gas sensor MQ-2 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_smoke_sms",
 "rule": null,
 "note": null
 },
@@ -66814,6 +67429,27 @@
 "note": null
 },
 {
+"id": "live-f_grainstore_sms",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainstore_sms",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_grainstore_rgb",
 "title": "Grain store humidity alert: DHT11 sensor (humidity) → colour LED",
 "family": "factory",
@@ -67413,6 +68049,27 @@
 "note": null
 },
 {
+"id": "live-f_frost_sms",
+"title": "Frost alarm for crops: temperature sensor LM35 → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_frost_sms",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frost_rgb",
 "title": "Frost alarm for crops: temperature sensor LM35 → colour LED",
 "family": "factory",
@@ -67894,6 +68551,27 @@
 "note": null
 },
 {
+"id": "live-f_panic_sms",
+"title": "Panic button for a shop: push button → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_panic_sms",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panic_rgb",
 "title": "Panic button for a shop: push button → colour LED",
 "family": "factory",
@@ -68282,6 +68960,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_intruder_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_intruder_sms",
+"title": "Intruder alert screen: PIR motion sensor → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_intruder_sms",
 "rule": null,
 "note": null
 },
@@ -68736,6 +69435,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_thirst_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_sms",
+"title": "Plant thirst alarm: soil moisture sensor → SMS to a phone (GSM)",
+"family": "factory",
+"board": "uno",
+"parts": [
+"sim800l",
+"psu5",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_thirst_sms",
 "rule": null,
 "note": null
 },
@@ -85637,12 +86357,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"gsm",
-"pir"
+"pir",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -85663,12 +86381,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"gsm",
-"pir"
+"pir",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91317,12 +92033,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"gsm",
-"mq2"
+"mq2",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91343,12 +92057,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"gsm",
-"mq2"
+"mq2",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95834,11 +96546,9 @@
 "board": "uno",
 "parts": [
 "flame",
-"gsm"
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -95860,11 +96570,9 @@
 "board": "esp32",
 "parts": [
 "flame",
-"gsm"
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -97051,12 +97759,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"gsm",
-"reed"
+"reed",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -97077,12 +97783,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"gsm",
-"reed"
+"reed",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -98396,12 +99100,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"gsm",
+"sim800l",
 "wlevel"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -98422,12 +99124,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"gsm",
+"sim800l",
 "wlevel"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -99992,12 +100692,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"gsm",
-"mpu6050"
+"mpu6050",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -100018,12 +100716,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"gsm",
-"mpu6050"
+"mpu6050",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -101749,11 +102445,10 @@
 "board": "uno",
 "parts": [
 "gps",
-"gsm"
+"sim800l"
 ],
 "newparts": [
-"gps",
-"gsm"
+"gps"
 ],
 "band": [
 12,
@@ -101776,11 +102471,10 @@
 "board": "esp32",
 "parts": [
 "gps",
-"gsm"
+"sim800l"
 ],
 "newparts": [
-"gps",
-"gsm"
+"gps"
 ],
 "band": [
 12,
@@ -108507,11 +109201,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"gsm",
-"max30102"
+"max30102",
+"sim800l"
 ],
 "newparts": [
-"gsm",
 "max30102"
 ],
 "band": [
@@ -108534,11 +109227,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"gsm",
-"max30102"
+"max30102",
+"sim800l"
 ],
 "newparts": [
-"gsm",
 "max30102"
 ],
 "band": [
@@ -108729,11 +109421,9 @@
 "board": "uno",
 "parts": [
 "anemo",
-"gsm"
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -108755,11 +109445,9 @@
 "board": "esp32",
 "parts": [
 "anemo",
-"gsm"
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -119893,12 +120581,11 @@
 "board": "uno",
 "parts": [
 "gps",
-"gsm",
-"hcsr04"
+"hcsr04",
+"sim800l"
 ],
 "newparts": [
-"gps",
-"gsm"
+"gps"
 ],
 "band": [
 11,
@@ -119917,12 +120604,11 @@
 "board": "esp32",
 "parts": [
 "gps",
-"gsm",
-"hcsr04"
+"hcsr04",
+"sim800l"
 ],
 "newparts": [
-"gps",
-"gsm"
+"gps"
 ],
 "band": [
 12,
@@ -120749,12 +121435,10 @@
 "board": "uno",
 "parts": [
 "abuzz",
-"gsm",
-"mq2"
+"mq2",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -120772,12 +121456,10 @@
 "board": "esp32",
 "parts": [
 "abuzz",
-"gsm",
-"mq2"
+"mq2",
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -120796,11 +121478,10 @@
 "parts": [
 "button",
 "gps",
-"gsm"
+"sim800l"
 ],
 "newparts": [
-"gps",
-"gsm"
+"gps"
 ],
 "band": [
 11,
@@ -120820,11 +121501,10 @@
 "parts": [
 "button",
 "gps",
-"gsm"
+"sim800l"
 ],
 "newparts": [
-"gps",
-"gsm"
+"gps"
 ],
 "band": [
 12,
@@ -120843,12 +121523,11 @@
 "board": "uno",
 "parts": [
 "gps",
-"gsm",
-"mpu6050"
+"mpu6050",
+"sim800l"
 ],
 "newparts": [
-"gps",
-"gsm"
+"gps"
 ],
 "band": [
 11,
@@ -120867,12 +121546,11 @@
 "board": "esp32",
 "parts": [
 "gps",
-"gsm",
-"mpu6050"
+"mpu6050",
+"sim800l"
 ],
 "newparts": [
-"gps",
-"gsm"
+"gps"
 ],
 "band": [
 12,
@@ -121303,12 +121981,10 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"gsm",
+"sim800l",
 "wlevel"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -121326,12 +122002,10 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"gsm",
+"sim800l",
 "wlevel"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -121843,11 +122517,9 @@
 "board": "uno",
 "parts": [
 "flame",
-"gsm"
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -121865,11 +122537,9 @@
 "board": "esp32",
 "parts": [
 "flame",
-"gsm"
+"sim800l"
 ],
-"newparts": [
-"gsm"
-],
+"newparts": [],
 "band": [
 11,
 12

@@ -6537,14 +6537,13 @@
     "status": "needs-part",
     "ref": "smart-walking-stick-with-gps-sos-uno",
     "newparts": [
-     "gps",
-     "gsm"
+     "gps"
     ],
     "family": "world-maker",
     "parts": [
      "gps",
-     "gsm",
-     "hcsr04"
+     "hcsr04",
+     "sim800l"
     ],
     "strand": "Decomposition",
     "focus": "Sensors",

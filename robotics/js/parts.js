@@ -11,6 +11,7 @@ import { PARTS6, DRAWER6 } from './parts6.js'; // batch 6: the active buzzer (Ra
 import { PARTS22, DRAWER22 } from './parts22.js';
 import { PARTS24, DRAWER24 } from './parts24.js';
 import { PARTS25, DRAWER25 } from './parts25.js'; // batch 25: FSR, flex sensor, NTC thermistor
+import { PARTS31, DRAWER31 } from './parts31.js'; // batch 31: the SIM800L GSM module
 import { PARTS30, DRAWER30 } from './parts30.js'; // batch 30: the load cell (HX711), the laser distance sensor
 import { PARTS29, DRAWER29 } from './parts29.js'; // batch 29: the flex glove and the robot hand
 import { PARTS28, DRAWER28 } from './parts28.js'; // batch 28: the DS18B20 probe, the WS2812 light stick
@@ -224,10 +225,11 @@ Object.assign(PARTS, PARTS26); // batch 26 (parts26.js)
 Object.assign(PARTS, PARTS28); // batch 28 (parts28.js)
 Object.assign(PARTS, PARTS29); // batch 29 (parts29.js)
 Object.assign(PARTS, PARTS30); // batch 30 (parts30.js)
+Object.assign(PARTS, PARTS31); // batch 31 (parts31.js)
 Object.assign(PARTS, PARTS12); // batch 12 (parts12.js)
 PARTS.hcsr04.us = true; PARTS.hcsr04f.specs = PARTS.hcsr04.specs; PARTS.hcsr04f.info = PARTS.hcsr04.info; // the same sensor, on a robot
 PARTS.servo.servo = true; PARTS.servo.rate = 520;
-export const DRAWER = ['led', 'rgb', 'resistor', 'button', 'pot', 'buzzer', 'ldr', 'lm35', 'hcsr04', 'ir', 'servo', 'npn', 'diode', 'motor', 'battery', ...DRAWER2, ...DRAWER3, ...DRAWER4, ...DRAWER6, ...DRAWER12, ...DRAWER22, ...DRAWER24, ...DRAWER25, ...DRAWER26, ...DRAWER28, ...DRAWER29, ...DRAWER30];
+export const DRAWER = ['led', 'rgb', 'resistor', 'button', 'pot', 'buzzer', 'ldr', 'lm35', 'hcsr04', 'ir', 'servo', 'npn', 'diode', 'motor', 'battery', ...DRAWER2, ...DRAWER3, ...DRAWER4, ...DRAWER6, ...DRAWER12, ...DRAWER22, ...DRAWER24, ...DRAWER25, ...DRAWER26, ...DRAWER28, ...DRAWER29, ...DRAWER30, ...DRAWER31];
 
 // pin position of a placed part (mm, part frame) after its rotation (0..3, quarter turns: +x -> +z -> -x -> -z)
 export function rotXZ(x, z, rot) {

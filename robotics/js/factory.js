@@ -10,6 +10,7 @@ import { KINDS22 } from './parts22.js'; // (batch 22: the digital sensor modules
 import { set26 } from './parts26.js'; // (batch 26: the I2C modules' controls)
 import { set28 } from './parts28.js'; // (batch 28: the probe's water)
 import { set30 } from './parts30.js'; // (batch 30: the load cell's weight, the laser sensor's card)
+import { smsDelivered } from './gsm31.js'; // (batch 31: what the bench's phone has received)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const P = (tag, type, props, hole, rot) => ({ tag, type, props: props || {}, at: { hole }, rot: rot || 0 });
@@ -125,6 +126,19 @@ OUT.neo = Object.assign({}, NEO_LINES, { pin: 6,
   parts: [F('neo', 'ws2812', {}, -95, 128, 0)], wires: [['T:neo:GND', 'H:tn12'], ['T:neo:VCC', 'H:tp12'], ['T:neo:DIN', 'D6']],
   ready: t3('The WS2812B light stick (8 colour lights) is already wired: GND to −, VCC to + (5 V), DIN to pin 6. All eight take their colour from that one wire.', 'WS2812B लाइट स्टिक (8 रंगीन लाइटें) पहले से लगी है: GND − पर, VCC + (5 V) पर, DIN पिन 6 पर। आठों अपना रंग उसी एक तार से लेती हैं।', 'WS2812B light stick (8 rangeen lights) pehle se lagi hai: GND − par, VCC + (5 V) par, DIN pin 6 par. Aathon apna rang usi ek taar se leti hain.'),
   decl: ['Adafruit_NeoPixel strip(8, 6, NEO_GRB + NEO_KHZ800);   // 8 lights, DIN on pin 6, colour order G R B'] });
+
+// (batch 31) an SMS to the bench's phone through a SIM800L on SoftwareSerial (RX 11, TX 12): once an alarm, not every loop
+const asc = (x) => String(x).replace(/[^\x20-\x7e]/g, '').replace(/"/g, "'");
+OUT.sms = { name: t3('SMS to a phone (GSM)', 'फ़ोन पर SMS (GSM)', 'Phone par SMS (GSM)'), pin: '11/12',
+  parts: [F('gsm', 'sim800l', { warm: true }, 145, 168, 0), F('psu', 'psu5', {}, 215, 150, 0)],
+  wires: [['T:psu:P', 'T:gsm:VCC'], ['T:gsm:GND', 'H:a60'], ['T:psu:N', 'H:b60'], ['H:c60', 'H:tn49'], ['T:gsm:TXD', 'D11'], ['T:gsm:RXD', 'D12']],
+  ready: t3('The GSM module (SIM800L) is already wired: its own 5 V 2 A adapter (its radio pulls 2 A in bursts, more than the Arduino can give), the two GNDs joined at column 60, its TXD to pin 11 and RXD to pin 12 (SoftwareSerial). Its NET light blinks every 3 s: it has the network. The phone on the bench is +91 90000 12345.', 'GSM मॉड्यूल (SIM800L) पहले से लगा है: इसका अपना 5 V 2 A एडैप्टर (इसका रेडियो झटकों में 2 A खींचता है, Arduino जितना दे सकता है उससे ज़्यादा), दोनों GND कॉलम 60 पर जुड़े, इसका TXD पिन 11 पर और RXD पिन 12 पर (SoftwareSerial)। इसकी NET लाइट हर 3 s में चमकती है: इसे नेटवर्क मिल गया है। बेंच का फ़ोन +91 90000 12345 है।', 'GSM module (SIM800L) pehle se laga hai: iska apna 5 V 2 A adapter (iska radio jhatkon mein 2 A kheenchta hai, Arduino jitna de sakta hai usse zyada), dono GND column 60 par jude, iska TXD pin 11 par aur RXD pin 12 par (SoftwareSerial). Iski NET light har 3 s mein chamakti hai: ise network mil gaya hai. Bench ka phone +91 90000 12345 hai.'),
+  onWords: t3('an SMS reaches the phone', 'फ़ोन पर SMS पहुँचता है', 'phone par SMS pahunchta hai'),
+  inc: ['#include <SoftwareSerial.h>'], decl: ['SoftwareSerial gsm(11, 12);  // RX 11 (from the module\'s TXD), TX 12 (to its RXD)', 'bool smsSent = false;        // one SMS for each alarm, not one every loop'],
+  fns: ['void sendSMS(String text) {', '  gsm.println("AT+CMGS=\\"+919000012345\\"");   // the phone\'s number', '  delay(500);                  // it answers "> "', '  gsm.print(text);', '  gsm.write(26);               // Ctrl+Z: send', '  delay(3000);                 // the network takes a moment', '}'],
+  setup: ['gsm.begin(9600);', 'delay(1000);', 'gsm.println("AT+CMGF=1");    // SMS in text mode', 'delay(500);'],
+  on: (j) => ['if (!smsSent) {', `  sendSMS("${asc(j.title.en).slice(0, 40)}: ${asc(j.on)}");`, '  smsSent = true;', '}'], off: ['smsSent = false;             // ready for the next alarm'],
+  isOn: (S, j) => { const now = S.lab.clock || 0; return smsDelivered(S.lab).some((m) => m.at > now - 8 && m.text.includes(asc(j.on))); } };
 
 // ------------------------------------------------------------------ sensors (the student places and wires them)
 // analog: the sketch compares a reading with `limit`; the edit makes it more sensitive (l0 -> l1) and the student proves
@@ -408,6 +422,11 @@ EOUT.neo = Object.assign({}, NEO_LINES, { pin: 18, // (batch 28: the stick on VI
   parts: [F('neo', 'ws2812', {}, -95, 128, 0)], wires: [['T:neo:GND', 'H:tn12'], ['T:neo:VCC', 'H:tp12'], ['T:neo:DIN', 'H:j12']],
   ready: t3('The WS2812B light stick (8 colour lights) is already wired: GND to −, VCC to the back + rail (5 V from VIN: it needs 5 V), DIN to GPIO 18.', 'WS2812B लाइट स्टिक (8 रंगीन लाइटें) पहले से लगी है: GND − पर, VCC पीछे वाली + रेल (VIN से 5 V: इसे 5 V चाहिए) पर, DIN GPIO 18 पर।', 'WS2812B light stick (8 rangeen lights) pehle se lagi hai: GND − par, VCC peeche wali + rail (VIN se 5 V: ise 5 V chahiye) par, DIN GPIO 18 par.'),
   decl: ['Adafruit_NeoPixel strip(8, 18, NEO_GRB + NEO_KHZ800);  // 8 lights, DIN on GPIO 18, colour order G R B'] });
+EOUT.sms = Object.assign({}, OUT.sms, { pin: '16/17', inc: [], wires: [['T:psu:P', 'T:gsm:VCC'], ['T:gsm:GND', 'H:a60'], ['T:psu:N', 'H:b60'], ['H:c60', 'H:tn49'], ['T:gsm:TXD', 'H:j9'], ['T:gsm:RXD', 'H:j10']], // (batch 31: Serial2; j9 / j10 are beside RX2 / TX2)
+  ready: t3('The GSM module (SIM800L) is already wired: its own 5 V 2 A adapter, the two GNDs joined at column 60, its TXD to RX2 (GPIO 16) and RXD to TX2 (GPIO 17): the ESP32\'s second hardware serial port. Its NET light blinks every 3 s: it has the network. The phone on the bench is +91 90000 12345.', 'GSM मॉड्यूल (SIM800L) पहले से लगा है: इसका अपना 5 V 2 A एडैप्टर, दोनों GND कॉलम 60 पर जुड़े, इसका TXD RX2 (GPIO 16) पर और RXD TX2 (GPIO 17) पर: ESP32 का दूसरा हार्डवेयर सीरियल पोर्ट। इसकी NET लाइट हर 3 s में चमकती है: इसे नेटवर्क मिल गया है। बेंच का फ़ोन +91 90000 12345 है।', 'GSM module (SIM800L) pehle se laga hai: iska apna 5 V 2 A adapter, dono GND column 60 par jude, iska TXD RX2 (GPIO 16) par aur RXD TX2 (GPIO 17) par: ESP32 ka doosra hardware serial port. Iski NET light har 3 s mein chamakti hai: ise network mil gaya hai. Bench ka phone +91 90000 12345 hai.'),
+  decl: ['bool smsSent = false;        // one SMS for each alarm, not one every loop'],
+  fns: ['void sendSMS(String text) {', '  Serial2.println("AT+CMGS=\\"+919000012345\\"");   // the phone\'s number', '  delay(500);                  // it answers "> "', '  Serial2.print(text);', '  Serial2.write(26);           // Ctrl+Z: send', '  delay(3000);                 // the network takes a moment', '}'],
+  setup: ['Serial2.begin(9600, SERIAL_8N1, 16, 17);   // RX2 = GPIO 16, TX2 = GPIO 17', 'delay(1000);', 'Serial2.println("AT+CMGF=1");   // SMS in text mode', 'delay(500);'] });
 EOUT.lcd = Object.assign({}, OUT.lcd, { pin: '21/22', wires: [['T:lcd:GND', 'H:tn10'], ['T:lcd:VCC', 'H:tp10'], ['T:lcd:SDA', 'H:j14'], ['T:lcd:SCL', 'H:j17']],
   ready: t3('The 16×2 LCD is already wired: VCC to the back + rail (5 V from VIN), SDA to GPIO 21, SCL to GPIO 22: the ESP32\'s I2C pins.', '16×2 एलसीडी पहले से लगी है: VCC पीछे वाली + रेल (VIN से 5 V) पर, SDA GPIO 21 पर, SCL GPIO 22 पर: ये ESP32 के I2C पिन हैं।', '16×2 LCD pehle se lagi hai: VCC peeche wali + rail (VIN se 5 V) par, SDA GPIO 21 par, SCL GPIO 22 par: yeh ESP32 ke I2C pin hain.') });
 
@@ -1240,6 +1259,9 @@ export const JOBS = [
   J('dustbinfull', 'tof', ['led', 'rgb'], 'Dustbin full alert', 'कूड़ेदान भरा अलर्ट', 'Koodedaan bhara alert', 'A sensor in the lid sees the rubbish come within 20 cm: time to empty the school bin.', 'ढक्कन में लगा सेंसर देखता है कि कूड़ा 20 cm के अंदर आ गया: स्कूल का कूड़ेदान ख़ाली करने का समय।', 'Dhakkan mein laga sensor dekhta hai ki kooda 20 cm ke andar aa gaya: school ka koodedaan khaali karne ka samay.', 'FULL', 'OK', 7),
   J('tapwater', 'tof', ['pump', 'led'], 'Touch-free water tap', 'बिना छुए पानी का नल', 'Bina chhuye paani ka nal', 'Hands under the tap start the water, hands away stop it: no tap left running in the school washroom.', 'नल के नीचे हाथ आते ही पानी चालू, हटते ही बंद: स्कूल के वॉशरूम में कोई नल खुला नहीं रहता।', 'Nal ke neeche haath aate hi paani chaalu, hat te hi band: school ke washroom mein koi nal khula nahi rehta.', 'WATER ON', 'Off', 8),
 ];
+// (batch 31) alarms that should reach someone far away: they get an SMS through the GSM module as one more output (Uno)
+const SMS_JOBS = new Set(['smoke', 'farmgate', 'monkey', 'elephant', 'frost', 'grainstore', 'intruder', 'panic', 'elderhelp', 'biogas', 'floodalert', 'falldetect', 'fishermen', 'ivdrip', 'coldbox', 'milkcentre', 'fishseed', 'thirst']);
+for (const j of JOBS) if (SMS_JOBS.has(j.key) && !j.outs.includes('sms')) j.outs.push('sms');
 // (batch 28) jobs that a strip of colour lights suits as well: they get the WS2812B stick as one more output
 const NEO_JOBS = new Set(['growlight', 'heatwave', 'shopsign', 'festival', 'lighthouse', 'speedwarn', 'occupied', 'soillamp', 'airlamp', 'roadair', 'classlux', 'umbrellasign']);
 for (const j of JOBS) if (NEO_JOBS.has(j.key) && !j.outs.includes('neo')) j.outs.push('neo');
@@ -1258,7 +1280,7 @@ function relayFor(out, job) { // the 230 V box the relay switches, in the words 
     decl: (out.decl || []).map((x) => x.replace('lamp on', 'heater on')), py: out.py && Object.assign({}, out.py, { decl: out.py.decl.map((x) => x.replace('lamp on', 'heater on')) }) });
   return out;
 }
-const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out === 'lcd' || out === 'relay' || out === 'web' || out === 'bt' || out === 'neo' ? 1 : 0)));
+const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out === 'lcd' || out === 'relay' || out === 'web' || out === 'bt' || out === 'neo' || out === 'sms' ? 1 : 0)));
 
 // ------------------------------------------------------------------ the sketch
 function sketch(job, ik, ok, board) {
@@ -1269,6 +1291,7 @@ function sketch(job, ik, ok, board) {
   const L = [`// ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `// ${job.why.en}`];
   const inc = [...(inp.inc || []), ...(out.inc || [])]; if (inc.length) L.push(...inc);
   L.push('', ...inp.decl, ...out.decl);
+  if (out.fns) L.push('', ...out.fns, ''); // (batch 31: the output's own helper, e.g. sendSMS)
   if (inp.analog) L.push(`int limit = ${inp.l0};             // ${inp.note}`);
   else L.push('unsigned long hold = 1000;    // stay on this long after it stops (ms)', 'unsigned long last = 0;       // when the sensor was last active');
   L.push('', 'void setup() {', ...[...inp.setup, ...out.setup].map((x) => '  ' + x));
@@ -1361,7 +1384,7 @@ function lesson(K, job, ik, ok, n, board) {
   const check = pi ? [(S) => (S.conn('5V', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : pico ? [(S) => (S.conn('VBUS', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : esp ? [(S) => (S.conn('VIN', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : [noShort(K.W), (S) => (S.conn('rail:tp', '5V') ? null : [K.W.vRail]), ...inp.checks(K)];
   const cls = pi ? Math.max(10, CLS(job, inp, ok) + 2) : pico ? Math.max(9, CLS(job, inp, ok) + 2) : esp ? Math.max(8, CLS(job, inp, ok) + 1) : CLS(job, inp, ok); const sfx = esp ? ' (ESP32)' : pico ? ' (Pico)' : pi ? ' (Raspberry Pi)' : '';
   return {
-    id, n, batch: 'F', phone: web || bt || undefined, factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar' && ok !== 'neo', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
+    id, n, batch: 'F', phone: web || bt || ok === 'sms' || undefined, factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar' && ok !== 'neo' && ok !== 'sms', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
     code, drawer: inp.drawer, serial: !!inp.analog, title: t3(`${job.title.en}: ${inp.name.en} → ${out.name.en}${sfx}`, `${job.title.hi}: ${inp.name.hi} → ${out.name.hi}${sfx}`, `${job.title.hg}: ${inp.name.hg} → ${out.name.hg}${sfx}`),
     goal, setup: { parts: [...out.parts, ...(inp.preParts || [])].map((p) => Object.assign({}, p)), wires: [...(esp ? ESP_POWER : pico ? PICO_POWER : pi ? PI_POWER : POWER), ...out.wires, ...(inp.preWires || [])] }, steps, check, tick,
     done: (S) => !!S.memRun.final,

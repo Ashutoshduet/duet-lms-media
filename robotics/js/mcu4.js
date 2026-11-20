@@ -3,12 +3,20 @@
 // Serial1–3 send on their TX pin: the bytes reach whatever RX pin is wired to it (a loopback wire, or another port).
 import { MCU, RtError, SerialPort } from './mcu.js';
 import { BOARDS4 } from './boards4.js';
+import { gsmIn, sameGround } from './gsm31.js'; // (batch 31: a SIM800L on a hardware serial port)
 
 // hardware serial ports other than the USB one: [{ ser, tx: board pin id, rx: board pin id }]. Called after each run().
 export function routeSerial(m, ports) {
   const lab = m.lab; if (!lab) return;
+  for (const P of ports) { // (batch 31) what a SIM800L answered, once its time has come
+    const q = P.ser && P.ser.pend; if (q && q.length) { while (q.length && q[0].t <= m.t) { const x = q.shift(); if (P.ser.on) P.ser.rx.push(x.b); } }
+  }
   for (const P of ports) {
     if (!P.ser) continue; P.ser.flushTo(m.t); const out = P.ser.take(); if (!out.length) continue;
+    for (const g of lab.parts) if (g.type === 'sim800l' && g.state.powered && lab.conn(g.ep.RXD, 'B:' + P.tx) && sameGround(lab, g)) { // (batch 31: the module on this port)
+      const bytes = []; for (const o of out) for (const b of o.bytes) bytes.push(o.baud >= 1200 && o.baud <= 115200 ? b : (b * 7 + 3) & 255);
+      gsmIn(lab, g, bytes, m.t, (t, txt) => { if (!lab.conn(g.ep.TXD, 'B:' + P.rx)) return; const bu = 10e6 / (P.ser.baud || 9600); const pend = P.ser.pend || (P.ser.pend = []); [...txt].forEach((c, i) => pend.push({ t: t + (i + 1) * bu, b: c.charCodeAt(0) & 255 })); pend.sort((a, c) => a.t - c.t); });
+    }
     P.ser.sent = (P.ser.sent || 0) + out.reduce((n, o) => n + o.bytes.length, 0);
     for (const Q of ports) {
       if (!Q.ser || !Q.ser.on || !lab.conn('B:' + P.tx, 'B:' + Q.rx)) continue;

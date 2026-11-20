@@ -49,7 +49,7 @@ OUT = {
     'plot':    ('live graph', [], 1),          # Serial plotter / Thonny plotter
     'ws2812':  ('RGB LED strip', ['ws2812'], 2),
     'max7219': ('scrolling LED sign', ['+max7219'], 2),
-    'sms':     ('SMS alert', ['+gsm'], 3),
+    'sms':     ('SMS alert', ['sim800l'], 3),
 }
 
 # ---------------------------------------------------------------- inputs
@@ -723,7 +723,7 @@ WORLD = [
     ('Laser harp', ['ldr', 'buzzer'], 9), ('Theremin with two distance sensors', ['hcsr04', 'buzzer'], 9), ('LED cube 3x3x3', ['led', 'resistor'], 9),
     ('Persistence-of-vision display', ['led', 'motor'], 10), ('Plant that tweets when thirsty', ['soil'], 10), ('Rubik cube colour scanner', ['+tcs3200'], 12),
     ('Ball-on-beam balancer (PID)', ['hcsr04', 'servo'], 12), ('Automatic cat or dog feeder', ['servo', 'rtc3231'], 9), ('Fish feeder on a timer', ['servo', 'rtc3231'], 9),
-    ('Weather vane and wind logger', ['anemo'], 10), ('Smart walking stick with GPS SOS', ['hcsr04', '+gps', '+gsm'], 11), ('Bionic hand with flex glove', ['servo', 'flex'], 11),
+    ('Weather vane and wind logger', ['anemo'], 10), ('Smart walking stick with GPS SOS', ['hcsr04', '+gps', 'sim800l'], 11), ('Bionic hand with flex glove', ['servo', 'flex'], 11),
     ('Drawing robot (turtle)', ['stepper', 'servo'], 10), ('Chess-move detector board', ['hall'], 12), ('Electronic voting machine model', ['button', 'lcd16'], 9),
     ('Interactive LED coffee table', ['ws2812', 'ir'], 11), ('Word clock', ['ws2812', 'rtc3231'], 11), ('Digital hourglass with tilt', ['+max7219', 'mpu6050'], 10),
     ('Air hockey score board', ['ir', 'seg7'], 9), ('Bowling pin counter', ['ir', 'lcd16'], 9), ('Marble run lift', ['stepper', 'ir'], 9),
@@ -738,20 +738,20 @@ for (t, p, lv) in WORLD:
 INDIA = [
     ('Crop guard: scare animals at night', ['pir', 'abuzz', 'led'], 8), ('Drip irrigation on a timer', ['rtc3231', 'pump', 'relay'], 9),
     ('Borewell rescue claw model', ['servo', 'stepper'], 10), ('Rail track crack detector trolley', ['ir', 'hcsr04', 'bomotor'], 10),
-    ('Smart ration shop: RFID card and grain weight', ['rfid', 'loadcell', 'lcd16'], 11), ('Manhole gas alarm for workers', ['mq2', 'abuzz', '+gsm'], 10),
-    ('Women safety band with SOS', ['button', '+gps', '+gsm'], 11), ('Bike accident alert', ['mpu6050', '+gps', '+gsm'], 11),
+    ('Smart ration shop: RFID card and grain weight', ['rfid', 'loadcell', 'lcd16'], 11), ('Manhole gas alarm for workers', ['mq2', 'abuzz', 'sim800l'], 10),
+    ('Women safety band with SOS', ['button', '+gps', 'sim800l'], 11), ('Bike accident alert', ['mpu6050', '+gps', 'sim800l'], 11),
     ('Kisan weather station for the panchayat', ['dht11', 'rain', 'anemo'], 10), ('Milk adulteration tester', ['+tds', 'lcd16'], 10),
     ('Vaccine cold-chain box monitor', ['ds18b20', 'abuzz'], 10), ('Toll plaza with RFID FASTag model', ['rfid', 'servo'], 9),
     ('Solar street light with auto dimming', ['solar', 'ldr', 'led'], 9), ('Anganwadi attendance with RFID', ['rfid', 'lcd16'], 9),
     ('Driver drowsiness alarm', ['ir', 'abuzz'], 10), ('Smart dustbin for Swachh Bharat', ['hcsr04', 'servo'], 7),
     ('Village water ATM model', ['rfid', 'pump', 'relay'], 10), ('Grain storage humidity guard', ['dht11', 'motor', 'abuzz'], 9),
-    ('Monsoon flood siren for a river bank', ['wlevel', 'buzzer', '+gsm'], 10), ('Smart school bell with periods', ['rtc3231', 'buzzer', 'lcd16'], 9),
+    ('Monsoon flood siren for a river bank', ['wlevel', 'buzzer', 'sim800l'], 10), ('Smart school bell with periods', ['rtc3231', 'buzzer', 'lcd16'], 9),
     ('Mid-day meal temperature check', ['ds18b20', 'lcd16'], 9), ('Cattle shed fan and water automation', ['dht11', 'motor', 'pump'], 9),
     ('Tractor reversing sensor', ['hcsr04', 'abuzz'], 8), ('Fog light that switches on in fog', ['ldr', 'led', 'relay'], 8),
     ('Electricity theft alarm model', ['+acs712', 'abuzz'], 11), ('Smart traffic for ambulances (green corridor)', ['rfid', 'led'], 10),
     ('Gas cylinder leak and level monitor', ['mq2', 'loadcell'], 11), ('Temple or school crowd counter', ['ir', 'seg7'], 8),
     ('Solar dryer for crops with fan control', ['dht11', 'motor', 'solar'], 10), ('Rainwater harvesting tank monitor', ['hcsr04', 'lcd16'], 9),
-    ('Smart parking for a market', ['ir', 'lcd16', 'servo'], 9), ('Fire alarm for a hut with a GSM call', ['flame', '+gsm'], 10),
+    ('Smart parking for a market', ['ir', 'lcd16', 'servo'], 9), ('Fire alarm for a hut with a GSM call', ['flame', 'sim800l'], 10),
     ('Pump dry-run protection for farmers', ['wlevel', 'relay'], 9), ('Mobile phone charging locker with RFID', ['rfid', 'servo', 'relay'], 10),
     ('Hand pump water flow counter', ['hall', 'lcd16'], 9), ('Bus arrival display for a village stop', ['+rf433', 'lcd16'], 10),
     ('Elephant or animal crossing alert on a road', ['pir', 'led', 'buzzer'], 9), ('Earthquake alert for a school', ['vibe', 'buzzer'], 9),
@@ -787,7 +787,7 @@ def live_lessons():
 LIVE = live_lessons()
 # factory lessons (robotics/js/factory.js) make planned sensor -> output ideas live: same job, sensor and output on the Uno
 F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas'], 'force': ['force'], 'flex': ['flex'], 'thermistor': ['ntc'], 'water': ['water'], 'uv': ['uv'], 'radar': ['radar'], 'air': ['air'], 'alcohol': ['alcohol'], 'mpu': ['tilt6'], 'rtc': ['clock'], 'lux': ['lux'], 'bmp': ['storm', 'alt'], 'ds18': ['probehot', 'probewarm', 'probecold'], 'weight': ['weight', 'weightsmall', 'weightlow'], 'tof': ['tof']} # (25, 26, 28, 30: the new sensors)
-F_OUT = {'led': 'led', 'rgb': 'rgb', 'buzzer': 'buzzer', 'abuzz': 'buzzer', 'servo': 'servo', 'relay': 'relay', 'pump': 'pump', 'lcd': 'lcd', 'ws2812': 'neo'}
+F_OUT = {'led': 'led', 'rgb': 'rgb', 'buzzer': 'buzzer', 'abuzz': 'buzzer', 'servo': 'servo', 'relay': 'relay', 'pump': 'pump', 'lcd': 'lcd', 'ws2812': 'neo', 'sms': 'sms'}
 FMAP = {}
 for l in LIVE:
     f = l.get('factory')

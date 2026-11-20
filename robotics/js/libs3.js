@@ -9,6 +9,7 @@
 // Our own code (MIT, DUET). The 5×7 font follows the classic HD44780 / glcdfont pattern (Adafruit GFX glcdfont.c, BSD).
 import { RtError } from './mcu.js';
 import { HX, TOF_MAX } from './parts30.js'; // (batch 30: the load cell's numbers, the card's reach)
+import { gsmIn, sameGround } from './gsm31.js'; // (batch 31: the SIM800L's AT commands)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 // a near name for a typo (as cpp.js does; kept here so that this file does not import the compiler)
@@ -113,8 +114,8 @@ export const LIB3 = {
     const [mn, mx, ret, fl = ''] = B;
     if (e.args.length < mn || e.args.length > mx) G.err('E_ARGS', e.line, { name: (oname || ty) + '.' + m, min: mn, max: mx, got: e.args.length });
     if (fl.includes('p')) {
-      const nl = m === 'println' ? '+"\\n"' : '';
-      if (!e.args.length) return { c: `${obj.c}.print("\\n")`, t: 'void' };
+      const crlf = ty === 'SoftwareSerial'; const nl = m === 'println' ? (crlf ? '+"\\r\\n"' : '+"\\n"') : ''; // (batch 31: a serial port ends a line with \r\n, as Serial does)
+      if (!e.args.length) return { c: `${obj.c}.print(${crlf ? '"\\r\\n"' : '"\\n"'})`, t: 'void' };
       const a = G.ex(e.args[0]); if (a.t === 'void') G.err('E_VOID_VALUE', e.line, { name: a.fname || '' });
       const f = e.args[1] ? G.ex(e.args[1]).c : 'undefined';
       return { c: `${obj.c}.print(rt.fmt(${a.c},'${typeof a.t === 'string' ? a.t : 'arr'}',${f})${nl})`, t: 'void' };
@@ -568,6 +569,42 @@ Object.assign(TYPES, {
 Object.assign(MAKERS, { HX711: (m) => new HX711rt(m), VL53L0X: (m) => new ToFrt(m) });
 LIB_INCLUDES.push('HX711.h', 'VL53L0X.h');
 GLOBALS.Wire[1].push('VL53L0X.h');
+
+// ------------------------------------------------------------------ batch 31: SoftwareSerial (a serial port on any two pins)
+//   SoftwareSerial gsm(RX, TX); begin(baud); print / println / write; available(), read(), peek(), readString(),
+//   readStringUntil(c), listen(), isListening(), overflow(). Bit-banged as on an Uno: sending holds the sketch for the
+//   bytes' time; 64 bytes of receive buffer (more are lost); at 57600 baud and up an Uno's SoftwareSerial garbles.
+//   What it sends reaches a SIM800L (gsm31.js) whose RXD is on its TX pin; the module answers into every SoftwareSerial
+//   whose RX pin is on the module's TXD.
+const SOFTS = new WeakMap(); // (the SoftwareSerial ports of one run of the sketch)
+class SoftSerRT {
+  constructor(m, [rx, tx]) { this.m = m; this.rxPin = rx | 0; this.txPin = tx | 0; this.baud = 0; this.q = []; this.over = false; this.lis = true; let L = SOFTS.get(m.ser); if (!L) { L = []; SOFTS.set(m.ser, L); } L.push(this); }
+  begin(b) { this.baud = +b || 9600; this.m.pinMode(this.txPin, 1); this.m.pinMode(this.rxPin, 0); }
+  end() { this.baud = 0; }
+  bad() { const L = labOf(this.m); return this.baud >= 57600 && L && L.def && L.def.id !== 'esp32'; }
+  byteUs() { return 10e6 / (this.baud || 9600); }
+  tx(bytes) {
+    const m = this.m; if (!this.baud) return; const t0 = m.t; busy(m, bytes.length * this.byteUs()); const L = labOf(m); if (!L) return;
+    const sent = this.bad() ? bytes.map((b, i) => ((i * 37 + b) % 9 === 0 ? (b * 7 + 13) & 255 : b)) : bytes;
+    for (const p of partsOf(m, 'sim800l')) if (p.state.powered && onPin(m, p, 'RXD', this.txPin) && sameGround(L, p)) gsmIn(L, p, sent, t0, (t, txt) => { for (const port of SOFTS.get(m.ser) || []) if (port.baud && onPin(m, p, 'TXD', port.rxPin)) port.feed(t, txt); });
+  }
+  feed(t, txt) { const bu = this.byteUs(); [...txt].forEach((c, i) => { let b = c.charCodeAt(0) & 255; if (this.bad() && (i * 31 + b) % 7 === 0) b = (b * 5 + 3) & 255; this.q.push({ t: t + (i + 1) * bu, b }); }); this.q.sort((a, c) => a.t - c.t); }
+  ready() { const m = this.m; let n = 0; for (const x of this.q) if (x.t <= m.t) n++; else break; if (n > 64) { this.q.splice(64, n - 64); this.over = true; n = 64; } return n; }
+  available() { busy(this.m, 6); return this.lis ? this.ready() : 0; }
+  read() { busy(this.m, 6); if (!this.lis || !this.ready()) return -1; return this.q.shift().b; }
+  peek() { return this.ready() ? this.q[0].b : -1; }
+  *readString() { let out = ''; let last = this.m.t; for (;;) { if (this.ready()) { out += String.fromCharCode(this.q.shift().b); last = this.m.t; continue; } if (this.m.t - last >= 1e6) return out; yield* this.m.delay(5); } }
+  *readStringUntil(c) { const ch = typeof c === 'number' ? c : String(c).charCodeAt(0); let out = ''; let last = this.m.t; for (;;) { if (this.ready()) { const b = this.q.shift().b; if (b === ch) return out; out += String.fromCharCode(b); last = this.m.t; continue; } if (this.m.t - last >= 1e6) return out; yield* this.m.delay(5); } }
+  print(s) { this.tx([...String(s)].map((c) => c.charCodeAt(0) & 255)); }
+  write(b) { if (typeof b === 'string') this.print(b); else this.tx([b & 255]); return 1; }
+  listen() { for (const p of SOFTS.get(this.m.ser) || []) p.lis = p === this; return 1; } isListening() { return this.lis ? 1 : 0; }
+  overflow() { const o = this.over; this.over = false; return o ? 1 : 0; }
+  flush() {}
+}
+Object.assign(TYPES, { SoftwareSerial: { inc: ['SoftwareSerial.h'], ctor: [2, 3], methods: { begin: [1, 1, 'void'], end: [0, 0, 'void'], ...PRINT, write: [1, 1, 'int'], available: [0, 0, 'int'], read: [0, 0, 'int'], peek: [0, 0, 'int'],
+  readString: [0, 0, 'str', 'y'], readStringUntil: [1, 1, 'str', 'y'], listen: [0, 0, 'bool'], isListening: [0, 0, 'bool'], overflow: [0, 0, 'bool'], flush: [0, 0, 'void'] } } });
+Object.assign(MAKERS, { SoftwareSerial: (m, a) => new SoftSerRT(m, a) });
+LIB_INCLUDES.push('SoftwareSerial.h');
 
 export function libRT(m, type, args, line) {
   if (type[0] === '@') { let g = ONE.get(m.ser); if (!g) { g = {}; ONE.set(m.ser, g); } return g[type] || (g[type] = MAKERS[type](m)); }

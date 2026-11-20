@@ -1225,3 +1225,13 @@ heaters.
     (setSignalRateLimit(0.1) × 1.6), timing budget; past its reach (1.2 m white, 0.9 grey, 0.55 black) 8190; none: 65535.
   factory.js: weight (> 1000 g), weightsmall (> 40 g), weightlow (< 100 g) on the Uno (DT 2, SCK 5) and the ESP32 (19, 23);
   tof (< 200 mm) on A4 / A5 and 21 / 22 (the LCD and OLED clash). 12 jobs, 94 lessons. 3,758 projects live.
+- Batch 31: SMS. SoftwareSerial (libs3.js SoftSerRT: any two pins, bit-banged send time, 64-byte receive buffer, garbles
+  at 57600 and up on an Uno, println ends with \r\n) and the SIM800L V2.0 board (parts31.js, models31.js, app31.js):
+  5V, GND, TXD, RXD; its own psu5 adapter, the GNDs joined at a breadboard column (no common ground: nothing gets
+  through); on the Arduino's 5V it browns out for ever (weak). gsm31.js speaks AT: echo (ATE0), PDU mode until
+  AT+CMGF=1 (else AT+CMGS answers ERROR), "> " then the text and Ctrl+Z (26; ESC cancels), +CMGS / OK 3 s later, before
+  the network (10 s after power-up; props.warm: already on a minute) +CMS ERROR: 500; the SMS reaches lab.sms.inbox 6–8 s
+  later if the number is the bench phone's (+91 90000 12345). mcu4.js routeSerial carries a hardware port (the ESP32's
+  Serial2) to the module the same way. phone4.js: a Messages app (badge, a toast on arrival). factory.js OUT.sms (Uno,
+  SoftwareSerial 11 / 12) and EOUT.sms (ESP32, Serial2 on 16 / 17), sketch helper sendSMS(), one SMS an alarm (smsSent);
+  ON = an SMS with the job's word delivered in the last 8 s. 18 jobs get it (SMS_JOBS): 34 lessons. 3,792 live.

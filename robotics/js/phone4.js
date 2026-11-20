@@ -8,6 +8,7 @@
 //   The router: a white box with two aerials and blinking lights; its sticker shows the WiFi name and password.
 import * as THREE from 'three';
 import { netOf, SCHOOL, parseUrl } from './esp32.js';
+import { smsDelivered, SMSW, GSM } from './gsm31.js'; // (batch 31: SMS from the SIM800L)
 import { materials, box, cyl } from './models.js';
 import * as TX from './tex.js';
 
@@ -244,6 +245,8 @@ export class Phone {
     if (this.holdUntil && this.t >= this.holdUntil) { this.holdUntil = 0; this.holdEnd(); } // (a tap on a hold button: let go after 0.4 s)
     if (this.appId === 'browser' && this.page && this.reloadAt && this.t >= this.reloadAt && !this.loading && !this.kb) { this.reloadAt = 0; const u = this.page.refresh && this.page.refresh.url; this.go(u ? (/^https?:/.test(u) ? u : 'http://' + parseUrl(this.url).host + u) : this.url); }
     const v = this.net.ver; if (v !== this.lastV) { this.lastV = v; this.dirty = true; }
+    { const box = smsDelivered(this.net.lab); if (box.length !== (this.smsN ?? 0)) { if (box.length > (this.smsN ?? 0)) { const m = box[box.length - 1]; m.wall = m.wall || new Date(); if (this.appId !== 'sms') this.smsToast = { text: m.text, until: this.t + 4 }; } this.smsN = box.length; this.dirty = true; } // (batch 31)
+      if (this.smsToast && this.t > this.smsToast.until) { this.smsToast = null; this.dirty = true; } }
     if (this.loading && Math.floor(this.t * 4) !== this._lt) { this._lt = Math.floor(this.t * 4); this.dirty = true; }
     const m = new Date().getMinutes(); if (m !== this._min) { this._min = m; this.dirty = true; }
     if (this.dirty) { this.draw(); return true; } return false;
@@ -254,7 +257,8 @@ export class Phone {
     const c = this.ctx; c.setTransform(this.k, 0, 0, this.k, 0, 0); this.items = [];
     const T = (o, a) => this.tx(o, a); const btn = (id, x, y, w, h, act, hold) => this.items.push({ id, x, y, w, h, act, hold });
     c.fillStyle = '#0f1115'; c.fillRect(0, 0, SW, SH);
-    if (this.appId === 'home') this.drawHome(c, T, btn); else if (this.appId === 'browser') this.drawBrowser(c, T, btn); else if (this.appId === 'bt') this.drawBT(c, T, btn); else this.drawWifi(c, T, btn);
+    if (this.appId === 'home') this.drawHome(c, T, btn); else if (this.appId === 'browser') this.drawBrowser(c, T, btn); else if (this.appId === 'bt') this.drawBT(c, T, btn); else if (this.appId === 'sms') this.drawSMS(c, T, btn); else this.drawWifi(c, T, btn);
+    if (this.smsToast) { const y = 54; c.fillStyle = '#212529'; rrect(c, 12, y, SW - 24, 92, 16); c.fill(); c.fillStyle = '#ffd43b'; c.font = `700 21px ${FONT}`; c.textBaseline = 'middle'; c.fillText('💬 ' + GSM.sim, 30, y + 28); c.fillStyle = '#fff'; c.font = `500 21px ${FONT}`; c.fillText(String(this.smsToast.text).slice(0, 34), 30, y + 62); c.textBaseline = 'alphabetic'; btn('smstoast', 12, y, SW - 24, 92, () => { this.smsToast = null; this.open('sms'); }); } // (batch 31: a new SMS)
     if (this.kb) this.drawKeyboard(c, T, btn);
     { const N = this.net, nn = N.noNet; // (batch 24) the ESP32's own WiFi has no internet: Android offers to stay, or goes back to a WiFi that has
       if (nn && (nn.msg || (N.phone.wifi === nn.ssid && !nn.stay))) { const y = 52; c.fillStyle = nn.msg ? '#c92a2a' : '#343a40'; rrect(c, 12, y, SW - 24, nn.msg ? 96 : 84, 16); c.fill(); c.fillStyle = '#fff'; c.font = `600 21px ${FONT}`; c.textBaseline = 'middle';
@@ -275,11 +279,13 @@ export class Phone {
     const g = c.createLinearGradient(0, 0, SW, SH); g.addColorStop(0, '#1b3a6b'); g.addColorStop(0.55, '#0e6e72'); g.addColorStop(1, '#122b3a'); c.fillStyle = g; c.fillRect(0, 0, SW, SH);
     const d = new Date(); c.fillStyle = '#ffffff'; c.textAlign = 'center'; c.font = `300 110px ${FONT}`; c.fillText(String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'), SW / 2, 230);
     c.font = `500 26px ${FONT}`; c.fillText('DUET STEM · ' + d.toDateString().slice(0, 10), SW / 2, 300);
-    const apps = [['browser', '🌐', PW.browser, '#1971c2'], ['bt', 'ᛒ', PW.bt, '#2b8a3e'], ['wifi', '📶', PW.wifi, '#5f3dc4']];
+    const apps = [['browser', '🌐', PW.browser, '#1971c2'], ['bt', 'ᛒ', PW.bt, '#2b8a3e'], ['wifi', '📶', PW.wifi, '#5f3dc4'], ['sms', '💬', SMSW.app, '#e67700']]; // (batch 31: Messages)
+    const unread = Math.max(0, smsDelivered(this.net.lab).length - (this.smsRead || 0));
     apps.forEach(([id, ic, name, colr], i) => {
-      const x = 60 + i * 160, y = 640; c.fillStyle = colr; rrect(c, x, y, 120, 120, 30); c.fill();
-      c.fillStyle = '#fff'; c.font = `700 60px ${FONT}`; c.textBaseline = 'middle'; c.fillText(ic, x + 60, y + 62); c.font = `600 22px ${FONT}`; c.fillText(T(name), x + 60, y + 150);
-      btn('app:' + id, x - 10, y - 10, 140, 180, () => this.open(id));
+      const x = 32 + i * 124, y = 640; c.fillStyle = colr; rrect(c, x, y, 104, 104, 26); c.fill();
+      c.fillStyle = '#fff'; c.font = `700 52px ${FONT}`; c.textBaseline = 'middle'; c.fillText(ic, x + 52, y + 54); c.font = `600 20px ${FONT}`; c.fillText(T(name), x + 52, y + 132);
+      if (id === 'sms' && unread) { c.fillStyle = '#e03131'; c.beginPath(); c.arc(x + 98, y + 6, 18, 0, Math.PI * 2); c.fill(); c.fillStyle = '#fff'; c.font = `700 20px ${FONT}`; c.fillText(String(unread), x + 98, y + 7); }
+      btn('app:' + id, x - 8, y - 10, 120, 164, () => this.open(id));
     });
     c.textAlign = 'left'; c.textBaseline = 'alphabetic';
   }
@@ -333,6 +339,16 @@ export class Phone {
     const macros = [['1', '1'], ['0', '0'], ['2', '2'], ['Hi', 'Hello']]; macros.forEach(([lab, val], i) => { const x = 18 + i * 128, yy = SH - 222; c.fillStyle = '#2b8a3e'; rrect(c, x, yy, 116, 74, 14); c.fill(); c.fillStyle = '#fff'; c.font = `700 32px ${FONT}`; c.textAlign = 'center'; c.fillText(lab, x + 58, yy + 39); c.textAlign = 'left'; btn('bt:send:' + val, x, yy, 116, 74, () => N.btSend(val)); });
     c.fillStyle = '#1c1f25'; rrect(c, 18, SH - 136, SW - 36, 58, 29); c.fill(); c.fillStyle = '#868e96'; c.font = `500 23px ${FONT}`; c.fillText(T(PW.type), 42, SH - 106);
     btn('bt:type', 18, SH - 136, SW - 36, 58, () => { this.kb = { text: '', done: (s) => { if (s) N.btSend(s); } }; });
+  }
+  drawSMS(c, T, btn) { // (batch 31) the SMS the GSM module sent here, newest at the bottom
+    this.smsRead = smsDelivered(this.net.lab).length;
+    c.fillStyle = '#f1f3f5'; c.fillRect(0, 46, SW, SH - 116); c.fillStyle = '#212529'; c.font = `700 30px ${FONT}`; c.textBaseline = 'middle'; c.fillText('💬 ' + T(SMSW.app), 26, 92);
+    c.font = `500 20px ${FONT}`; c.fillStyle = '#868e96'; c.fillText(GSM.sim, 26, 130);
+    const box = smsDelivered(this.net.lab).slice(-7); if (!box.length) { c.fillStyle = '#868e96'; c.font = `500 24px ${FONT}`; c.fillText(T(SMSW.none), 26, 220); c.textBaseline = 'alphabetic'; return; }
+    let y = 170; for (const m of box) { const lines = []; let cur = ''; for (const w of String(m.text).split(' ')) { if ((cur + ' ' + w).trim().length > 30) { lines.push(cur.trim()); cur = w; } else cur += ' ' + w; } if (cur.trim()) lines.push(cur.trim());
+      const h = 30 + lines.length * 30; c.fillStyle = '#ffffff'; rrect(c, 22, y, SW - 110, h, 20); c.fill(); c.fillStyle = '#212529'; c.font = `500 23px ${FONT}`; lines.forEach((ln, i) => c.fillText(ln, 42, y + 30 + i * 30));
+      const wt = m.wall || new Date(); c.fillStyle = '#868e96'; c.font = `400 17px ${FONT}`; c.fillText(String(wt.getHours()).padStart(2, '0') + ':' + String(wt.getMinutes()).padStart(2, '0'), 42, y + h + 14); y += h + 34; }
+    c.textBaseline = 'alphabetic';
   }
   drawWifi(c, T, btn) {
     const N = this.net; c.fillStyle = '#5f3dc4'; c.fillRect(0, 46, SW, 96); c.fillStyle = '#fff'; c.font = `700 30px ${FONT}`; c.textBaseline = 'middle'; c.fillText('📶  ' + T(PW.nets), 26, 94);
