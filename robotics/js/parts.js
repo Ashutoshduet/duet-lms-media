@@ -104,7 +104,7 @@ export const PARTS = {
     cat: 'in', mount: 'bb', props: {},
     name: t3('LDR (light sensor)', 'एलडीआर (रोशनी सेंसर)', 'LDR (light sensor)'),
     pins: [{ id: '1', at: [0, 0], name: t3('Leg 1', 'पैर 1', 'Pair 1') }, { id: '2', at: [2 * P, 0], name: t3('Leg 2', 'पैर 2', 'Pair 2') }],
-    elec: (p, N, env) => [{ type: 'R', a: N['1'], b: N['2'], r: ldrOhms(luxOf(env.light)), role: 'ldr' }],
+    elec: (p, N, env) => [{ type: 'R', a: N['1'], b: N['2'], r: ldrOhms(p.state.ext && p.state.lux !== undefined ? p.state.lux : luxOf(env.light)), role: 'ldr' }], // (batch 14: an LDR on a robot gets its own light)
     specs: () => [['bright', '≈ 600 Ω (1000 lux)'], ['dim', '≈ 15 kΩ (10 lux)'], ['dark', '≈ 1 MΩ']],
     info: t3('A light dependent resistor. In bright light it lets current through easily (low ohms); in the dark it hardly does (high ohms). Use the room light slider.',
       'यह रोशनी पर चलने वाला रेज़िस्टर है। तेज़ रोशनी में इसका प्रतिरोध कम होता है, अँधेरे में बहुत ज़्यादा। कमरे की रोशनी वाले स्लाइडर से जाँचिए।',

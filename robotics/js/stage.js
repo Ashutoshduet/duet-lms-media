@@ -23,6 +23,9 @@ export const VIEWS = {
   carbench: { tgt: [-40, 0, 68], hw: 178, hd: 118, dir: [0, 0.78, 0.62] },
   arena: { tgt: [2600, 0, 30], hw: 720, hd: 470, dir: [0, 0.82, 0.57] },
   arenabt: { tgt: [2600, 0, 170], hw: 720, hd: 470, dir: [0, 0.82, 0.57] }, // the Bluetooth car's yard: the car at its start and P both clear of the lesson card
+  arenaedge: { tgt: [2600, -120, -60], hw: 780, hd: 540, dir: [0.18, 0.62, 0.76] }, // batch 14: the table robot's desk, a little from the side so the drop shows
+  arenalight: { tgt: [2950, 0, -200], hw: 1000, hd: 640, dir: [0, 0.82, 0.57] }, // the light-seeker's room and its three torch spots
+  arenadance: { tgt: [2600, 0, -40], hw: 520, hd: 340, dir: [0, 0.8, 0.6] }, // the dance mat
   binside: { tgt: [400, 230, 0], hw: 400, hd: 760, dir: [-0.15, 0.38, 0.91] }, // the smart dustbin (tall) beside the bench
   hydside: { tgt: [470, 170, 0], hw: 340, hd: 600, dir: [-0.12, 0.36, 0.92] }, // the hydraulic arm beside the bench
   armjs: { tgt: [100, 85, 40], hw: 300, hd: 175, dir: [-0.04, 0.6, 0.8] }, // the joystick left of the board and the arm on the right, both in view (arm 5)

@@ -91,7 +91,14 @@ export const CAR_CFG = {
   line: { line: true, start: [-100, 330, Math.PI / 2], boxes: [] },
   avoid: { line: false, room: [2000, 1400], start: [-720, -300, Math.PI / 2], boxes: [[-300, 260, 170, 130, 150], [330, -210, 210, 150, 160], [560, 400, 150, 150, 150, 0.5]] },
   pi: { line: false, start: [-560, 300, Math.PI / 2], park: [195, -350, 230, 260], boxes: [[-250, -150, 140, 120, 120], [520, 120, 100, 100, 100, 0.4]] }, // batch 6: the Raspberry Pi car (a timed route that ends in P)
+  // batch 14 (Class 7): a table robot that must not fall off, a light-seeker, a dancer, and a lap counter
+  edge: { line: false, table: [1000, 700], room: [6000, 6000], start: [-120, -40, 1.27], boxes: [] }, // a school desk 1000 × 700 mm, 750 mm above the floor
+  light: { line: false, room: [2000, 1400], start: [-560, 60, 2.2], boxes: [], lamps: { A: [600, -360], B: [-600, -400], C: [0, -540] }, lamp0: 'A' }, // a torch on a stand at A, B or C
+  dance: { line: false, room: [1600, 1100], start: [0, -60, 0], boxes: [], dance: [0, -60, 300] }, // the dance mat: its centre spot and ring
+  lap: { line: true, start: [-100, 330, Math.PI / 2], boxes: [], marker: [150, 268, 46, 34] }, // the line track and a lap marker beside it (x, z, along, across)
 };
+// batch 14: where the extra sensors sit on the car (car mm: +x the car's left, +z forward)
+export const CAR14 = { edgeX: 50, edgeZ: 200, ldrX: 42, ldrZ: 172, ldrA: 32, markX: 58, markZ: 112, lampI: 40, amb: 4 }; // ldrA: each LDR looks this many degrees out; lampI: the torch's lux at 1 m
 export class CarSim {
   constructor(kind) {
     this.kind = kind; this.cfg = CAR_CFG[kind]; this.pts = this.cfg.line ? linePoints() : null;
@@ -105,6 +112,11 @@ export class CarSim {
   reset() {
     const [x, z, h] = this.cfg.start; this.x = x; this.z = z; this.h = h; this.vl = this.vr = 0; this.odo = 0; this.bumps = 0; this.bumpT = 0; this.flags = new Set();
     this.lap = { cp: 0, t: 0, best: null, n: 0 }; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
+    // batch 14
+    this.fell = null; this.fallT = 0; this.saves = 0; this.edgeOn = false; // the table robot: how it fell (null: it has not), edges it backed away from
+    this.lamp = this.cfg.lamp0; this.foundT = 0; this.found = new Set(); // the light-seeker: where the torch stands (back at A on each Run), the spots it reached
+    this.spin = 0; this.spinning = false; this.lastSpin = null; this.spins = []; // the dancer: the turn of the spin going on, and of the last ones (degrees)
+    this.marks = 0; this.onMark = false; // the lap counter: times the side sensor passed the marker
   }
   // local car point (lx, lz) -> arena (x, z). Forward is local +z; the car's left is local +x.
   world(lx, lz) { const c = Math.cos(this.h), s = Math.sin(this.h); return [this.x + lx * c + lz * s, this.z - lx * s + lz * c]; }
@@ -131,9 +143,23 @@ export class CarSim {
     }
     return best;
   }
+  // batch 14: off the table top? (the table robot)
+  offTable(x, z) { const T = this.cfg.table; return !!T && (Math.abs(x) > T[0] / 2 || Math.abs(z) > T[1] / 2); }
+  edgeSens() { const C = CAR14; return { L: this.offTable(...this.world(C.edgeX, C.edgeZ)), R: this.offTable(...this.world(-C.edgeX, C.edgeZ)) }; }
+  // the torch's light at an LDR on the car (lux): brighter the nearer it is (1 / d²) and the straighter it looks at it
+  lampAt() { const L = this.cfg.lamps && this.cfg.lamps[this.lamp]; return L || null; }
+  ldrLux(side) {
+    const C = CAR14, L = this.lampAt(); if (!L) return C.amb; const lx = side * C.ldrX; const [px, pz] = this.world(lx, C.ldrZ);
+    const a = this.h + side * C.ldrA * D2R; const dx = L[0] - px, dz = L[1] - pz; const d = Math.max(60, Math.hypot(dx, dz));
+    const cos = (Math.sin(a) * dx + Math.cos(a) * dz) / d; const k = Math.max(0, cos); const m = d / 1000;
+    return C.amb + C.lampI * Math.pow(k, 1.5) / (m * m);
+  }
+  lampDist() { const L = this.lampAt(); if (!L) return null; const [fx, fz] = this.world(0, CARG.usZ); return Math.round(Math.hypot(L[0] - fx, L[1] - fz)); }
+  markSens() { const M = this.cfg.marker; if (!M) return false; const [x, z] = this.world(CAR14.markX, CAR14.markZ); return Math.abs(x - M[0]) < M[2] / 2 && Math.abs(z - M[1]) < M[3] / 2; }
   // every frame: the wheels' speeds along the floor (mm/s, + is forward)
   update(dt, vl, vr) {
-    this.t += dt; this.vl = vl; this.vr = vr;
+    this.t += dt; if (this.fell) { this.fallT += dt; this.vl = this.vr = 0; return; } // (a robot that fell off the table lies on the floor)
+    this.vl = vl; this.vr = vr;
     const v = (vl + vr) / 2, w = (vr - vl) / CARG.track;
     // small steps, so a fast turn stays round
     const n = Math.max(1, Math.ceil(Math.abs(w * dt) / 0.05)); for (let i = 0; i < n; i++) { const d = dt / n; this.h += w * d; this.x += Math.sin(this.h) * v * d; this.z += Math.cos(this.h) * v * d; }
@@ -147,6 +173,28 @@ export class CarSim {
     if (this.pts) this.followLine(dt, v);
     if (this.cfg.park) { const [x, z, pw, pd] = this.cfg.park; const [cx, cz] = this.world(0, CARG.bodyZ * 0.6); const inside = Math.abs(cx - x) < pw / 2 - 30 && Math.abs(cz - z) < pd / 2 - 30; this.parkT = inside && Math.abs(v) < 15 ? this.parkT + dt : 0; if (this.parkT > 0.8) this.flags.add('parked'); }
     if (this.kind === 'avoid' && this.odo > 1500 && this.turns >= 2 && !this.flags.has('explored')) { this.flags.add('explored'); this.exploredBumps = this.bumps; } // bumps before it had explored
+    if (this.cfg.table) this.tableCheck();
+    if (this.cfg.lamps) this.lampCheck(dt, v);
+    if (this.cfg.dance) this.danceCheck(dt, v, w);
+    if (this.cfg.marker) { const on = this.markSens(); if (on && !this.onMark) { this.marks++; this.flags.add('mark'); } this.onMark = on; }
+  }
+  // batch 14: a wheel or the caster over the edge, and the robot falls; an edge seen and backed away from is a save
+  tableCheck() {
+    const sup = [[CARG.track / 2, 0, 'L'], [-CARG.track / 2, 0, 'R'], [0, 150, 'F']];
+    for (const [lx, lz, k] of sup) if (this.offTable(...this.world(lx, lz))) { this.fell = { k, x: this.x, z: this.z, h: this.h }; this.fallT = 0; this.flags.add('fell'); return; }
+    const s = this.edgeSens(); const any = s.L || s.R;
+    if (!any && this.edgeOn) { this.saves++; if (this.saves >= 3) this.flags.add('saved3'); }
+    if (any) this.flags.add('edge'); this.edgeOn = any;
+  }
+  lampCheck(dt, v) { // at the torch: the front within 600 mm of it, stopped for half a second (a shy robot stops more than 320 mm away)
+    const d = this.lampDist(); this.foundT = d < 600 && Math.abs(v) < 15 && Math.abs(this.vr - this.vl) < 15 ? this.foundT + dt : 0;
+    if (this.foundT > 0.5 && !this.found.has(this.lamp)) { this.found.add(this.lamp); this.foundD = d; this.flags.add('found'); this.flags.add('found' + this.lamp); if (d > 320) this.flags.add('foundFar'); }
+  }
+  danceCheck(dt, v, w) { // a spin: turning on the spot; when it ends, how far it turned
+    const sp = Math.abs(w) > 0.8 && Math.abs(v) < 40;
+    if (sp) { if (!this.spinning) { this.spinning = true; this.spin = 0; } this.spin += w * dt; }
+    else if (this.spinning && Math.abs(w) < 0.3) { this.spinning = false; const deg = Math.round(this.spin / D2R); if (Math.abs(deg) > 25) { this.lastSpin = deg; this.spins.push(deg); this.flags.add(deg > 0 ? 'spinL' : 'spinR'); if (Math.abs(Math.abs(deg) - 360) <= 20) this.flags.add('fullspin'); } }
+    const [cx, cz] = this.cfg.dance; this.fromSpot = Math.round(Math.hypot(this.x - cx, this.z - cz));
   }
   followLine(dt, v) {
     const near = nearLine(this.pts, ...this.world(0, CARG.sensZ * 0.6)); this.off = Math.round(near.d);
@@ -211,4 +259,16 @@ export class HydSim {
     const dx = qx - bx, dy = qy - by; return Math.abs(dx * (by - H.pivot[1]) - dy * (bx - H.pivot[0])) / Math.hypot(dx, dy);
   }
   solvePhi(L) { let lo = HYDG.phi0, hi = HYDG.phi1; for (let i = 0; i < 30; i++) { const m = (lo + hi) / 2; if (slaveLen(m) < L) lo = m; else hi = m; } return (lo + hi) / 2; }
+}
+
+// ------------------------------------------------------------------ batch 14: the car's extra sensors into the bench
+// The table robot's IR modules (irL, irR) see the table (near: OUT LOW) or nothing past the edge (OUT HIGH); the
+// light-seeker's LDRs (ldrL, ldrR) get the torch's lux; the lap counter's side IR (irM) sees the black marker.
+export function carFeed(sim, lab) {
+  const byTag = (t) => lab.byTag(t); const bump = () => { lab.stateV++; lab.instKey = null; };
+  const ir = (tag, black) => { const p = byTag(tag); if (!p) return; p.state.ext = true; const d = black ? 40 : 1; if (p.state.dist !== d) { p.state.dist = d; bump(); } };
+  const k = sim.kind;
+  if (k === 'edge' && !sim.fell) { const s = sim.edgeSens(); ir('irL', s.L); ir('irR', s.R); }
+  if (k === 'lap') { const s = sim.sensors(); ir('irL', s.L); ir('irR', s.R); ir('irM', sim.markSens()); }
+  if (k === 'light') for (const [tag, side] of [['ldrL', 1], ['ldrR', -1]]) { const p = byTag(tag); if (!p) continue; p.state.ext = true; const lx = Math.round(sim.ldrLux(side) * 10) / 10; if (p.state.lux !== lx) { p.state.lux = lx; bump(); } }
 }

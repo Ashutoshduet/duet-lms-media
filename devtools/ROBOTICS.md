@@ -743,3 +743,14 @@ heaters.
 - Last runs (20 Nov 2026): `robofactory.mjs` 6462 ok, `robofactorymb.mjs` 330 ok, `robocore.mjs`, `robocore12.mjs`,
   `robocore13.mjs`, `robocircuits.mjs` all passed; three micro:bit bank lessons checked in the browser (clips, check,
   run, servo gate, knob and LED).
+- The Class 7 robot cars (`lessons14.js`, group `robots`, tests `robocore14.mjs`): **edgecar** (a table robot on a
+  1000 × 700 mm desk 750 mm above the floor, `buildDeskArena`; two "cliff" IR modules on an acrylic bar 50 mm ahead of
+  the ball caster; a wheel or the caster past the edge and it falls, nose or side first, and lies on the floor until
+  Start. At speed 120 drive(0, 0) lets it coast to a stop in time; at 255 it rolls over; reversing at once saves it),
+  **lightcar** (two LDRs looking ±32°, their own lux on the bench: `p.state.ext` + `lux`, from a torch on a stand at A,
+  B or C (panel), 40 lux at 1 m, cos^1.5 / d²; it spins to look when both eyes read dark; near = 940 stops ~220 mm from
+  the torch, 860 ~380 mm; the torch is back at A on each Run), **dancecar** (a dance mat; `step()` routine; a spin is
+  measured from the start to the end of turning on the spot: 600 ms ≈ 162°, 1350 ms ≈ 355°), **lapcar** (the line
+  track with a black LAP marker inside the near straight; a third IR on the car's left at 58 mm sees only the marker;
+  laps timed with millis()). `carFeed(sim, lab)` in robots.js writes these sensors into the bench, for worlds.js and the
+  tests alike. Views `arenaedge`, `arenalight`, `arenadance`. Class 7 is complete: 211 of 300 sessions are live.

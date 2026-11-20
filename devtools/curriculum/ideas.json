@@ -21227,6 +21227,94 @@
 "note": null
 },
 {
+"id": "live-lapcar",
+"title": "Lap-counting race car",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "robots",
+"live": "lapcar",
+"rule": null,
+"note": null
+},
+{
+"id": "live-dancecar",
+"title": "Dancing robot (timed moves)",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "robots",
+"live": "dancecar",
+"rule": null,
+"note": null
+},
+{
+"id": "live-lightcar",
+"title": "Light-seeking robot",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "robots",
+"live": "lightcar",
+"rule": null,
+"note": null
+},
+{
+"id": "live-edgecar",
+"title": "Table robot that never falls off",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "robots",
+"live": "edgecar",
+"rule": null,
+"note": null
+},
+{
 "id": "live-u_simon",
 "title": "Simon says memory game",
 "family": "live",

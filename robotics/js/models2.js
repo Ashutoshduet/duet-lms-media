@@ -7,7 +7,7 @@
 import * as THREE from 'three';
 import { materials, mergeStatic, box, cyl, shadows } from './models.js';
 import * as TX from './tex.js';
-import { ARMG, CARG, SYR, HYDG } from './robots.js';
+import { ARMG, CARG, SYR, HYDG, CAR14 } from './robots.js';
 export { ARMG, SYR, HYDG };
 
 const P = 2.54;
@@ -392,6 +392,27 @@ export function buildCar(kind, parts) {
     head.add(box(48, 3, 14, M.white, 0, 1.5, 0)); const us = buildUSHead(); us.position.set(0, 14, 3); head.add(us); live.scan = head;
   }
   if (kind === 'bt') { const bt = buildHC05(); bt.scale.setScalar(1); bt.position.set(-6, top + 6, 140); still.add(bt); live.leds.bt = bt.userData.leds.st; }
+  // batch 14
+  if (kind === 'edge') { // two "cliff" IR modules on an acrylic bar out in front, at the corners
+    still.add(box(130, 3, 22, acr, 0, CAR.plateY + 1.5, 196)); still.add(box(10, 3, 50, acr, -30, CAR.plateY + 1.5, 160)); still.add(box(10, 3, 50, acr, 30, CAR.plateY + 1.5, 160));
+    for (const s of [-1, 1]) { const ir = irDown(); ir.position.set(s * CAR14.edgeX, 0, CAR14.edgeZ - 10); still.add(ir); live.leds['ir' + (s > 0 ? 'L' : 'R')] = ir.userData.det; }
+  }
+  if (kind === 'lap') { // the line sensors, and the lap sensor on the left side
+    for (const s of [-1, 1]) { const ir = irDown(); ir.position.set(s * CAR.sensX, 0, CAR.sensZ - 10); still.add(ir); live.leds['ir' + (s > 0 ? 'L' : 'R')] = ir.userData.det; }
+    still.add(box(36, 3, 14, acr, CAR14.markX - 14, CAR.plateY + 1.5, CAR14.markZ));
+    const im = irDown(); im.position.set(CAR14.markX, 0, CAR14.markZ - 10); still.add(im); live.leds.irM = im.userData.det;
+  }
+  if (kind === 'light') { // two LDR "eyes" on short posts at the front, one looking left, one right
+    const ldrM = S({ color: 0xc23a28, roughness: 0.4 }), face = S({ color: 0xe8d070, roughness: 0.5 });
+    for (const sd of [-1, 1]) { const e = new THREE.Group(); e.position.set(sd * CAR14.ldrX, top, CAR14.ldrZ); e.rotation.y = sd * CAR14.ldrA * Math.PI / 180;
+      e.add(cyl(1.2, 16, N.copper, -1.5, 8, 0, 6)); e.add(cyl(1.2, 16, N.copper, 1.5, 8, 0, 6));
+      const head = cyl(4.2, 2.2, ldrM, 0, 17, 0, 18); head.rotation.x = Math.PI / 2; head.position.set(0, 17, 1.5); e.add(head);
+      const f = new THREE.Mesh(new THREE.CircleGeometry(3.4, 18), face); f.position.set(0, 17, 2.7); e.add(f); still.add(e); }
+  }
+  if (kind === 'dance') { // a little flag on a mast: the dancer's ribbon
+    still.add(cyl(1.4, 120, N.alu, -40, top + 60, 20, 8));
+    const fl = new THREE.Mesh(new THREE.PlaneGeometry(46, 30), S({ color: 0xd0408a, roughness: 0.6, side: THREE.DoubleSide })); fl.position.set(-40 + 23, top + 104, 20); still.add(fl);
+  }
   live.leds.pwr = drv.userData.leds.pwr;
   // wheels (they turn)
   for (const s of [-1, 1]) { const w = keep(buildWheel(), 'wheel'); w.position.set(s * CAR.track / 2, 32.5, 0); g.add(w); live.motors.push(w); }
@@ -443,10 +464,19 @@ export function trackTexture(pts, opts = {}) {
   if (pts) { c.strokeStyle = '#151515'; c.lineWidth = 19 * s; c.lineJoin = 'round'; c.beginPath(); pts.forEach(([x, z], i) => (i ? c.lineTo(X(x), Y(z)) : c.moveTo(X(x), Y(z)))); c.closePath(); c.stroke(); }
   if (opts.start) { const [x, z] = opts.start; c.fillStyle = 'rgba(40,160,80,0.9)'; c.fillRect(X(x) - 50 * s, Y(z) - 2 * s, 100 * s, 4 * s); c.font = `800 ${22 * s}px ${TX.FONT}`; c.textAlign = 'center'; c.fillText('START', X(x), Y(z) + 30 * s); }
   if (opts.park) { const [x, z, w, d] = opts.park; c.strokeStyle = '#e8a020'; c.lineWidth = 6 * s; c.strokeRect(X(x - w / 2), Y(z - d / 2), w * s, d * s); c.fillStyle = '#e8a020'; c.font = `800 ${64 * s}px ${TX.FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('P', X(x), Y(z)); }
-  c.fillStyle = 'rgba(30,30,30,0.5)'; c.font = `700 ${16 * s}px ${TX.FONT}`; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.fillText('DUET STEM · ROBOT TRACK 1300 × 860 mm · TAPE 19 mm', 20 * s, (md - 16) * s);
+  if (opts.marker) { const [x, z, a, b] = opts.marker; c.fillStyle = '#121212'; c.fillRect(X(x - a / 2), Y(z - b / 2), a * s, b * s); c.fillStyle = 'rgba(20,20,20,0.75)'; c.font = `700 ${13 * s}px ${TX.FONT}`; c.textAlign = 'center'; c.fillText('LAP', X(x), Y(z - b / 2 - 8)); } // (batch 14: the lap marker)
+  if (opts.dance) { // (batch 14: the dance mat: rings, a spot, the four directions)
+    const [x, z, r] = opts.dance; c.lineWidth = 6 * s; c.strokeStyle = '#d0408a'; c.beginPath(); c.arc(X(x), Y(z), r * s, 0, Math.PI * 2); c.stroke();
+    c.lineWidth = 3 * s; c.strokeStyle = '#3a6ad0'; c.beginPath(); c.arc(X(x), Y(z), r * 0.62 * s, 0, Math.PI * 2); c.stroke();
+    c.fillStyle = '#f0b020'; c.beginPath(); c.arc(X(x), Y(z), 22 * s, 0, Math.PI * 2); c.fill();
+    c.fillStyle = 'rgba(40,40,40,0.75)'; c.font = `800 ${30 * s}px ${TX.FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle';
+    c.fillText('DANCE FLOOR', X(x), Y(z + r + 60)); for (const [dx, dz, t] of [[0, -1, '▲'], [0, 1, '▼'], [-1, 0, '◀'], [1, 0, '▶']]) c.fillText(t, X(x + dx * r * 0.8), Y(z + dz * r * 0.8));
+  }
+  c.fillStyle = 'rgba(30,30,30,0.5)'; c.font = `700 ${16 * s}px ${TX.FONT}`; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.fillText(opts.dance ? 'DUET STEM · DANCE MAT 1300 × 860 mm' : 'DUET STEM · ROBOT TRACK 1300 × 860 mm · TAPE 19 mm', 20 * s, (md - 16) * s);
   const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
 }
 export function buildArena(opts) {
+  if (opts.table) return buildDeskArena(opts.table);
   mats(); const g = new THREE.Group(); g.name = 'arena'; const A = ARENA; const [rw, rd] = opts.room || [A.w, A.d];
   const ft = tileTexture(); ft.repeat.set(rw * 1.8 / 600, rd * 1.8 / 600);
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(rw * 1.8, rd * 1.8), Lm({ map: ft })); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.5; g.add(floor);
@@ -458,6 +488,35 @@ export function buildArena(opts) {
   for (const o of opts.boxes || []) { const b = box(o[2], o[4] || 160, o[3], ob, o[0], (o[4] || 160) / 2, o[1]); b.rotation.y = o[5] || 0; walls.add(b); }
   mergeStatic(walls); g.add(walls);
   return g;
+}
+// batch 14: a school desk (its top at y = 0, 750 mm above the tiled floor) for the table robot
+export const DESK_H = 750;
+function buildDeskArena([w, d]) {
+  const M = mats(); const g = new THREE.Group(); g.name = 'arena';
+  const ft = tileTexture(); ft.repeat.set(4000 / 600, 3000 / 600);
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(4000, 3000), Lm({ map: ft })); floor.rotation.x = -Math.PI / 2; floor.position.y = -DESK_H; g.add(floor);
+  const C = document.createElement('canvas'); C.width = 512; C.height = 360; const c = C.getContext('2d'); // the laminate top: pale wood with grain
+  c.fillStyle = '#d9b98a'; c.fillRect(0, 0, 512, 360); for (let i = 0; i < 140; i++) { c.strokeStyle = `rgba(${120 + Math.random() * 40},${80 + Math.random() * 30},40,${0.08 + Math.random() * 0.1})`; c.lineWidth = 1 + Math.random() * 2; c.beginPath(); const y = Math.random() * 360; c.moveTo(0, y); c.bezierCurveTo(170, y + Math.random() * 14 - 7, 340, y + Math.random() * 14 - 7, 512, y + Math.random() * 10 - 5); c.stroke(); }
+  const tt = new THREE.CanvasTexture(C); tt.colorSpace = THREE.SRGBColorSpace; tt.anisotropy = 4;
+  const desk = new THREE.Group(); const top = Lm({ map: tt }), edge = Lm({ color: 0x8a6440 }), steel = M.steel || Lm({ color: 0x777b80 });
+  desk.add(box(w, 24, d, [edge, edge, top, edge, edge, edge], 0, -12, 0));
+  for (const [sx, sz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) desk.add(box(36, DESK_H - 24, 36, steel, sx * (w / 2 - 40), -DESK_H / 2 - 12, sz * (d / 2 - 40)));
+  desk.add(box(w - 80, 30, 20, steel, 0, -60, d / 2 - 40)); desk.add(box(w - 80, 30, 20, steel, 0, -60, -d / 2 + 40));
+  mergeStatic(desk); g.add(desk);
+  const sh = blobShadow(w * 1.1, d * 1.1, 0.35); sh.position.y = -DESK_H + 0.5; g.add(sh);
+  return g;
+}
+// batch 14: a torch on a little stand, its bulb lit, and its pool of light on the floor (the light-seeking robot's target)
+export function buildTorch() { // it shines along +z (the world turns it towards the room)
+  const M = mats(); const g = new THREE.Group(); g.name = 'torch';
+  g.add(cyl(34, 6, N.grey, 0, 3, 0, 24)); g.add(cyl(4, 92, M.steel, 0, 49, 0, 10)); g.add(new THREE.Mesh(new THREE.SphereGeometry(7, 12, 8), N.grey).translateY(96));
+  const head = new THREE.Group(); head.position.set(0, 100, 0); head.rotation.x = 0.22; g.add(head); // tilted a little down at the floor
+  const tubeM = cyl(13, 70, N.blackW, 0, 0, 0, 20); tubeM.rotation.x = Math.PI / 2; head.add(tubeM);
+  const lens = new THREE.Mesh(new THREE.CylinderGeometry(19, 13, 22, 24), N.blackW); lens.rotation.x = Math.PI / 2; lens.position.z = 44; head.add(lens);
+  const bulb = new THREE.Mesh(new THREE.CircleGeometry(17, 24), new THREE.MeshBasicMaterial({ color: 0xfff4c8, toneMapped: false })); bulb.position.z = 55.3; head.add(bulb);
+  const pool = new THREE.Mesh(new THREE.PlaneGeometry(1100, 1100), new THREE.MeshBasicMaterial({ map: TX.radialTexture('rgba(255,236,170,0.9)', 'rgba(255,236,170,0)'), transparent: true, depthWrite: false, opacity: 0.6, toneMapped: false }));
+  pool.rotation.x = -Math.PI / 2; pool.position.set(0, 0.8, 380); pool.renderOrder = -1; g.add(pool);
+  shadows(g, false, false); return g;
 }
 // a soft round shadow under a robot that stands still (no shadow maps in the robot scenes)
 export function blobShadow(w, d, a = 0.45) {
