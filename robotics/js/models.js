@@ -10,7 +10,7 @@ import * as TX from './tex.js';
 import { buildPart2, setLite2 } from './models2.js';
 import { buildPart4, setLite4 } from './models4.js'; // batch 4: the new boards' parts (bar graph, resistor network, touch plate, magnet)
 import { buildPart3, setLite3 } from './models3.js'; // batch 3: the school-lab modules (LCD, OLED, relay, keypad, stepper, RFID…)
-import { buildPart22 } from './models22.js'; import { buildPart24 } from './models24.js'; import { buildPart25 } from './models25.js'; import { buildPart26 } from './models26.js'; // batch 24: the MCP3008 chip // batch 22: the digital sensor modules
+import { buildPart22 } from './models22.js'; import { buildPart24 } from './models24.js'; import { buildPart25 } from './models25.js'; import { buildPart26 } from './models26.js'; import { buildPart28 } from './models28.js'; // batch 28 // batch 24: the MCP3008 chip // batch 22: the digital sensor modules
 import { buildPart6, setLite6 } from './models6.js'; // batch 6: the Pico, the Pi 4 (registered with models4.js), the active buzzer
 import { buildPart7 } from './models7.js'; // batch 7: the bulb / fan on a 230 V box, the sanitizer bottle around the pump
 import { buildPart12 } from './models12.js'; // batch 12: the test sample, the buzz wire, Newton's colour disc on the motor
@@ -440,6 +440,7 @@ export function buildPart(part) {
   if (!g) g = buildPart24(part); // batch 24 (models24.js)
   if (!g) g = buildPart25(part); // batch 25 (models25.js)
   if (!g) g = buildPart26(part); // batch 26 (models26.js)
+  if (!g) g = buildPart28(part); // batch 28 (models28.js)
   if (!g) switch (part.type) {
     case 'led': g = buildLED(part.props.color); break;
     case 'rgb': g = buildLED('white', true); break;

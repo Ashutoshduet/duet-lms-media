@@ -1192,3 +1192,17 @@ heaters.
   every 2 s: most answers are 0; edit delay(20000); rain 25 mm still posts 0 (GPIO 26 is ADC2, dead while WiFi is on);
   the student moves S to GPIO 34 and sets RAIN = 34; then about 2290; a storm (−25 hPa) shows on the pressure chart.
   robocore24.mjs plays it (about 20 s an act, as on a real channel). 3,573 projects live.
+- Batch 28: two parts (parts28.js, models28.js, app28.js) and their libraries (libs3.js):
+  - ds18b20: the waterproof probe on a 3-pin header (GND, DATA, VCC) in the breadboard, its cable to a steel tube in a
+    beaker on the mat (the callout sets the water; the tube follows with a 4 s time constant; the water's colour shows
+    it). OneWire + DallasTemperature: begin, getDeviceCount, setResolution (9–12 bits: 94–750 ms, steps 1/2–1/16 °C),
+    requestTemperatures (waits), getTempCByIndex / F. A probe answers only with a 1–10 kΩ pull-up from DATA to its VCC
+    (or a supply): otherwise -127. Read before any conversion since power-up: 85.
+  - ws2812: an 8-light WS2812B stick (free part: GND, VCC, DIN). Adafruit_NeoPixel: setPixelColor, Color, fill, clear,
+    setBrightness (applied at show), ColorHSV (Adafruit's), gamma32, numPixels, getPixelColor; show() sends the bytes in
+    the type's order and the chip reads G R B (NEO_RGB swaps red and green); lights past the count keep their colour;
+    NEO_KHZ400 garbles; below 3.5 V it stays dark. Each lit light glows (a sprite, brightness by its square root).
+  factory.js: probehot (> 40 °C), probewarm (> 8 °C), probecold (< 24 °C) on the Uno (pin 2, pull-up 41a → + rail) and
+  the ESP32 (GPIO 4, pull-up 41i → front + rail, 3.3 V), with a pull-up check; OUT.neo / EOUT.neo (pin 6 / GPIO 18, VCC
+  5 V), class +1 and never blocks; 8 new jobs and the stick added to 12 jobs (NEO_JOBS). sketchWeb's global reading takes
+  the reading's own type. 90 lessons; robofactory 23,407 ok. 3,663 projects live.

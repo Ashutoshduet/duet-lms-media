@@ -47,7 +47,7 @@ OUT = {
     'web':     ('web page on a phone', [], 2), # ESP32 / Pi WiFi
     'btapp':   ('Bluetooth phone app', [], 2),
     'plot':    ('live graph', [], 1),          # Serial plotter / Thonny plotter
-    'ws2812':  ('RGB LED strip', ['+ws2812'], 2),
+    'ws2812':  ('RGB LED strip', ['ws2812'], 2),
     'max7219': ('scrolling LED sign', ['+max7219'], 2),
     'sms':     ('SMS alert', ['+gsm'], 3),
 }
@@ -79,7 +79,7 @@ INP = {
     'reed':    ('door magnet switch', ['reed'], ['uno', 'esp32', 'pico', 'pi4', 'microbit'], 0),
     'vib':     ('vibration sensor', ['vibe'], ['uno', 'esp32', 'pico', 'pi4'], 1),
     'water':   ('water level sensor', ['wlevel'], ['uno', 'esp32', 'pico'], 1),
-    'ds18':    ('waterproof temperature probe', ['+ds18b20'], ['uno', 'esp32', 'pico'], 2),
+    'ds18':    ('waterproof temperature probe', ['ds18b20'], ['uno', 'esp32', 'pico'], 2),
     'lux':     ('lux meter sensor', ['bh1750'], ['uno', 'esp32', 'pico'], 2),
     'bmp':     ('air pressure sensor', ['bmp180'], ['uno', 'esp32', 'pico'], 2),
     'mpu':     ('motion sensor MPU6050', ['mpu6050'], ['uno', 'esp32', 'pico'], 3),
@@ -534,7 +534,7 @@ CLASSIC = [
     ('Diode one-way street', ['diode', 'led', 'resistor'], ['uno'], 6, 'science'),
     ('Transistor as a switch', ['npn', 'led', 'resistor'], ['uno'], 7, 'science'),
     ('PWM fan speed curve', ['motor', 'npn', 'diode', 'resistor'], ['uno', 'esp32'], 8, 'science'),
-    ('Rainbow on an RGB LED strip', ['+ws2812'], ['uno', 'esp32', 'pico', 'microbit'], 7, 'art'),
+    ('Rainbow on an RGB LED strip', ['ws2812'], ['uno', 'esp32', 'pico', 'microbit'], 7, 'art'),
     ('Scrolling name on an LED matrix', ['+max7219'], ['uno', 'esp32'], 8, 'art'),
     ('Hourglass on an LED matrix', ['+max7219'], ['uno'], 9, 'game'),
     ('Simon says memory game', ['led', 'resistor', 'button', 'buzzer'], ['uno', 'pico', 'microbit'], 7, 'game'),
@@ -630,7 +630,7 @@ for (t, lv) in ARM:
         add(t if b == 'uno' else t + ' (ESP32)', 'machines', b, ['servo', 'mg996r', 'psu5'] if 'arm' in t.lower() else [], 'factory', lv if b == 'uno' else lv + 1)
 
 # ---------------------------------------------------------------- 6. IoT on ESP32 and Raspberry Pi
-IOT_SENS = ['dht11', 'lm35', 'soil', 'ldr', 'pir', 'mq2', 'hcsr04', 'rain', 'flame', 'bmp180', 'bh1750', '+acs712', '+tds', 'wlevel', '+ds18b20']
+IOT_SENS = ['dht11', 'lm35', 'soil', 'ldr', 'pir', 'mq2', 'hcsr04', 'rain', 'flame', 'bmp180', 'bh1750', '+acs712', '+tds', 'wlevel', 'ds18b20']
 IOT_WAYS = [('dashboard on the school WiFi', 8), ('alert on the phone', 9), ('cloud logger with a graph', 10)]
 for s in IOT_SENS:
     nm = s.lstrip('+')
@@ -725,7 +725,7 @@ WORLD = [
     ('Ball-on-beam balancer (PID)', ['hcsr04', 'servo'], 12), ('Automatic cat or dog feeder', ['servo', 'rtc3231'], 9), ('Fish feeder on a timer', ['servo', 'rtc3231'], 9),
     ('Weather vane and wind logger', ['anemo'], 10), ('Smart walking stick with GPS SOS', ['hcsr04', '+gps', '+gsm'], 11), ('Bionic hand with flex glove', ['servo', 'flex'], 11),
     ('Drawing robot (turtle)', ['stepper', 'servo'], 10), ('Chess-move detector board', ['hall'], 12), ('Electronic voting machine model', ['button', 'lcd16'], 9),
-    ('Interactive LED coffee table', ['+ws2812', 'ir'], 11), ('Word clock', ['+ws2812', 'rtc3231'], 11), ('Digital hourglass with tilt', ['+max7219', 'mpu6050'], 10),
+    ('Interactive LED coffee table', ['ws2812', 'ir'], 11), ('Word clock', ['ws2812', 'rtc3231'], 11), ('Digital hourglass with tilt', ['+max7219', 'mpu6050'], 10),
     ('Air hockey score board', ['ir', 'seg7'], 9), ('Bowling pin counter', ['ir', 'lcd16'], 9), ('Marble run lift', ['stepper', 'ir'], 9),
     ('Musical stairs', ['ir', 'buzzer'], 8), ('Automatic chess clock', ['button', 'lcd16'], 8), ('Typing speed tester', ['lcd16'], 9),
     ('Drone flight controller basics (simulation)', ['mpu6050'], 12), ('Water rocket launch pad timer', ['button', 'seg7', 'servo'], 9),
@@ -741,12 +741,12 @@ INDIA = [
     ('Smart ration shop: RFID card and grain weight', ['rfid', '+hx711', 'lcd16'], 11), ('Manhole gas alarm for workers', ['mq2', 'abuzz', '+gsm'], 10),
     ('Women safety band with SOS', ['button', '+gps', '+gsm'], 11), ('Bike accident alert', ['mpu6050', '+gps', '+gsm'], 11),
     ('Kisan weather station for the panchayat', ['dht11', 'rain', 'anemo'], 10), ('Milk adulteration tester', ['+tds', 'lcd16'], 10),
-    ('Vaccine cold-chain box monitor', ['+ds18b20', 'abuzz'], 10), ('Toll plaza with RFID FASTag model', ['rfid', 'servo'], 9),
+    ('Vaccine cold-chain box monitor', ['ds18b20', 'abuzz'], 10), ('Toll plaza with RFID FASTag model', ['rfid', 'servo'], 9),
     ('Solar street light with auto dimming', ['solar', 'ldr', 'led'], 9), ('Anganwadi attendance with RFID', ['rfid', 'lcd16'], 9),
     ('Driver drowsiness alarm', ['ir', 'abuzz'], 10), ('Smart dustbin for Swachh Bharat', ['hcsr04', 'servo'], 7),
     ('Village water ATM model', ['rfid', 'pump', 'relay'], 10), ('Grain storage humidity guard', ['dht11', 'motor', 'abuzz'], 9),
     ('Monsoon flood siren for a river bank', ['wlevel', 'buzzer', '+gsm'], 10), ('Smart school bell with periods', ['rtc3231', 'buzzer', 'lcd16'], 9),
-    ('Mid-day meal temperature check', ['+ds18b20', 'lcd16'], 9), ('Cattle shed fan and water automation', ['dht11', 'motor', 'pump'], 9),
+    ('Mid-day meal temperature check', ['ds18b20', 'lcd16'], 9), ('Cattle shed fan and water automation', ['dht11', 'motor', 'pump'], 9),
     ('Tractor reversing sensor', ['hcsr04', 'abuzz'], 8), ('Fog light that switches on in fog', ['ldr', 'led', 'relay'], 8),
     ('Electricity theft alarm model', ['+acs712', 'abuzz'], 11), ('Smart traffic for ambulances (green corridor)', ['rfid', 'led'], 10),
     ('Gas cylinder leak and level monitor', ['mq2', '+hx711'], 11), ('Temple or school crowd counter', ['ir', 'seg7'], 8),
@@ -786,8 +786,8 @@ def live_lessons():
 
 LIVE = live_lessons()
 # factory lessons (robotics/js/factory.js) make planned sensor -> output ideas live: same job, sensor and output on the Uno
-F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas'], 'force': ['force'], 'flex': ['flex'], 'thermistor': ['ntc'], 'water': ['water'], 'uv': ['uv'], 'radar': ['radar'], 'air': ['air'], 'alcohol': ['alcohol'], 'mpu': ['tilt6'], 'rtc': ['clock'], 'lux': ['lux'], 'bmp': ['storm', 'alt']} # (25, 26: the new sensors)
-F_OUT = {'led': 'led', 'rgb': 'rgb', 'buzzer': 'buzzer', 'abuzz': 'buzzer', 'servo': 'servo', 'relay': 'relay', 'pump': 'pump', 'lcd': 'lcd'}
+F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas'], 'force': ['force'], 'flex': ['flex'], 'thermistor': ['ntc'], 'water': ['water'], 'uv': ['uv'], 'radar': ['radar'], 'air': ['air'], 'alcohol': ['alcohol'], 'mpu': ['tilt6'], 'rtc': ['clock'], 'lux': ['lux'], 'bmp': ['storm', 'alt'], 'ds18': ['probehot', 'probewarm', 'probecold']} # (25, 26, 28: the new sensors)
+F_OUT = {'led': 'led', 'rgb': 'rgb', 'buzzer': 'buzzer', 'abuzz': 'buzzer', 'servo': 'servo', 'relay': 'relay', 'pump': 'pump', 'lcd': 'lcd', 'ws2812': 'neo'}
 FMAP = {}
 for l in LIVE:
     f = l.get('factory')

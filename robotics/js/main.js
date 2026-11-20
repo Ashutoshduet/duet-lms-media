@@ -22,6 +22,7 @@ import { install3 } from './app3.js'; // batch 3: block coding beside the C++ (b
 import { install22 } from './app22.js'; // batch 22: the digital sensor modules' callout buttons
 import { install25 } from './app25.js'; // batch 25: the resistive sensors' sliders
 import { install26 } from './app26.js'; // batch 26: the I2C modules' controls
+import { install28 } from './app28.js'; // batch 28: the DS18B20 probe's water
 import { install6 } from './app6.js'; // batch 6: Raspberry Pi Pico and Pi 4: Python editor, Shell / Terminal, the Pi's screen (app6.js)
 
 const Q = new URLSearchParams(location.search);
@@ -77,6 +78,7 @@ class App {
     install22(this); // batch 22
     install25(this); // batch 25
     install26(this); // batch 26
+    install28(this); // batch 28
     this.boot();
   }
   get licensed() { return !window.DuetGate || DuetGate.state === 'ok' || (DuetGate.licensedFor && DuetGate.licensedFor('robotics')); }

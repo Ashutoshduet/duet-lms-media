@@ -94,7 +94,7 @@ export const LIB3 = {
     const T = TYPES[ty]; this.needInc(G, ty, T.inc, line);
     if (args.length < T.ctor[0] || args.length > T.ctor[1]) G.err('E_ARGS', line, { name: ty, min: T.ctor[0], max: T.ctor[1], got: args.length });
     const xs = args.map((a) => { const x = G.ex(a); if (x.t === 'void') G.err('E_VOID_VALUE', line, { name: x.fname || '' }); if (x.t === 'str' && ty !== 'DateTime') G.err('E_ARG_STR', line, { name: ty }); return x; }); // (batch 26: DateTime(F(__DATE__), F(__TIME__)))
-    for (const x of xs) if (x.k !== undefined && Number.isInteger(x.k) && x.k >= 0 && x.k < 20 && ty !== 'LiquidCrystal_I2C' && ty !== 'Adafruit_SSD1306') G.info.pins.add(x.k);
+    for (const x of ty === 'Adafruit_NeoPixel' ? xs.slice(1, 2) : xs) if (x.k !== undefined && Number.isInteger(x.k) && x.k >= 0 && x.k < 20 && ty !== 'LiquidCrystal_I2C' && ty !== 'Adafruit_SSD1306') G.info.pins.add(x.k); // (batch 28: a NeoPixel's first number is its count)
     (G.info.libs || (G.info.libs = new Set())).add(ty);
     return `rt.lib(${JSON.stringify(ty)},[${xs.map((x) => x.c)}],${line})`;
   },
@@ -440,6 +440,75 @@ Object.assign(MAKERS, { MPU6050: (m) => new MPUrt(m), RTC_DS3231: (m) => new RTC
 LIB_INCLUDES.push('MPU6050_light.h', 'RTClib.h', 'BH1750.h', 'Adafruit_BMP085.h');
 GLOBALS.Wire[1].push('MPU6050_light.h', 'RTClib.h', 'BH1750.h', 'Adafruit_BMP085.h');
 { const d = new Date(); CONSTS.__DATE__ = [JSON.stringify(`${MON[d.getMonth()]} ${String(d.getDate()).padStart(2, ' ')} ${d.getFullYear()}`), 'str']; CONSTS.__TIME__ = [JSON.stringify(d.toTimeString().slice(0, 8)), 'str']; }
+
+// ------------------------------------------------------------------ batch 28: the DS18B20 probe and the WS2812 light stick (parts28.js)
+//   OneWire + DallasTemperature: OneWire oneWire(2); DallasTemperature probe(&oneWire); begin(); requestTemperatures() (it
+//     waits for the conversion: 750 ms at 12 bits, 94 ms at 9); getTempCByIndex(0) °C in steps of 1/16 (or of 1/2 at 9 bits).
+//     As on the bench: a probe answers only with a pull-up (1 to 10 kΩ from DATA to its VCC or another supply); with none,
+//     or no probe, or no power, -127 (DEVICE_DISCONNECTED_C). Read before any conversion since power-up: 85 °C.
+//   Adafruit_NeoPixel: Adafruit_NeoPixel strip(8, 6, NEO_GRB + NEO_KHZ800); begin(); setPixelColor(i, c) or (i, r, g, b),
+//     Color(r, g, b), fill(c, first, count), clear(), setBrightness(0..255), ColorHSV, gamma32, numPixels, getPixelColor;
+//     show() sends the bytes in the order the type says. The WS2812B reads G, R, B: NEO_RGB makes red green. Nothing changes
+//     on the stick until show(); lights past the count keep their old colour; NEO_KHZ400 is the wrong speed for it.
+const pulledUp = (L, p) => L.parts.some((r) => r.type === 'resistor' && (r.props.ohms || 0) >= 1000 && (r.props.ohms || 0) <= 10000 && [['1', '2'], ['2', '1']].some(([a, b]) => L.conn(r.ep[a], p.ep.DATA) && (L.conn(r.ep[b], p.ep.VCC) || (L.voltageAt(r.ep[b]) || 0) > 2.7)));
+class OneWireRT { constructor(m, [pin]) { this.m = m; this.pin = pin | 0; } reset_search() {} }
+class DallasRT {
+  constructor(m, [ow]) { this.m = m; this.ow = ow; this.res = 12; }
+  probes() { const m = this.m, L = labOf(m); if (!L || !this.ow) return []; return partsOf(m, 'ds18b20').filter((p) => p.state.powered && onPin(m, p, 'DATA', this.ow.pin) && pulledUp(L, p)); }
+  begin() { busy(this.m, 2500); this.n = this.probes().length; }
+  getDeviceCount() { busy(this.m, 2500); return this.probes().length; }
+  setResolution(a, b) { const v = b === undefined ? a : b; this.res = Math.max(9, Math.min(12, v | 0)); }
+  getResolution() { return this.res; }
+  setWaitForConversion() {} isConversionComplete() { return 1; }
+  *requestTemperatures() {
+    const ps = this.probes(); busy(this.m, 1200); if (!ps.length) return; const q = 1 << (this.res - 8); // (steps of 1/q degree)
+    for (const p of ps) { p.state.conv = Math.round(p.state.tS * q) / q; p.state.fresh = false; p.state.reads = (p.state.reads || 0) + 1; }
+    yield* this.m.delay({ 9: 94, 10: 188, 11: 375, 12: 750 }[this.res]);
+  }
+  getTempCByIndex(i) { busy(this.m, 13000); const p = this.probes()[i | 0]; if (!p) return -127; return p.state.fresh || p.state.conv === undefined ? 85 : p.state.conv; }
+  getTempFByIndex(i) { const c = this.getTempCByIndex(i); return c === -127 ? -196.6 : c * 1.8 + 32; }
+}
+const NEO_ORDER = (t) => [(t >> 4) & 3, (t >> 2) & 3, t & 3]; // where R, G and B go among the three bytes sent
+class NeoRT {
+  constructor(m, [n, pin, type]) { this.m = m; this.n = Math.max(0, n | 0); this.pin = pin === undefined ? 6 : pin | 0; this.type = type === undefined ? 0x52 : type | 0; this.buf = Array.from({ length: this.n }, () => [0, 0, 0]); this.bright = 0; this.began = false; }
+  begin() { this.began = true; this.m.pinMode(this.pin, 1); }
+  updateLength(n) { this.n = Math.max(0, n | 0); this.buf = Array.from({ length: this.n }, () => [0, 0, 0]); }
+  setPin(p) { this.pin = p | 0; if (this.began) this.m.pinMode(this.pin, 1); }
+  Color(r, g, b) { return (((r & 255) << 16) | ((g & 255) << 8) | (b & 255)) >>> 0; }
+  setPixelColor(i, a, b, c) { i |= 0; if (i < 0 || i >= this.n) return; if (b === undefined) { const v = a >>> 0; this.buf[i] = [(v >> 16) & 255, (v >> 8) & 255, v & 255]; } else this.buf[i] = [a & 255, b & 255, c & 255]; }
+  fill(c = 0, first = 0, count = 0) { first |= 0; const end = count ? Math.min(this.n, first + (count | 0)) : this.n; for (let i = Math.max(0, first); i < end; i++) this.setPixelColor(i, c); }
+  clear() { for (const px of this.buf) px.fill(0); }
+  setBrightness(b) { this.bright = ((b | 0) & 255) + 1; }
+  getBrightness() { return this.bright ? this.bright - 1 : 255; }
+  numPixels() { return this.n; }
+  getPixelColor(i) { const px = this.buf[i | 0]; return px ? this.Color(...px) : 0; }
+  ColorHSV(h = 0, s = 255, v = 255) { // (Adafruit's: hue 0..65535 round the wheel)
+    h = ((h | 0) % 65536 + 65536) % 65536; h = Math.floor((h * 1530 + 32768) / 65536); let r, g, b;
+    if (h < 510) { b = 0; if (h < 255) { r = 255; g = h; } else { r = 510 - h; g = 255; } } else if (h < 1020) { r = 0; if (h < 765) { g = 255; b = h - 510; } else { g = 1020 - h; b = 255; } } else if (h < 1530) { g = 0; if (h < 1275) { r = h - 1020; b = 255; } else { r = 255; b = 1530 - h; } } else { r = 255; g = 0; b = 0; }
+    const v1 = 1 + (v & 255), s1 = 1 + (s & 255), s2 = 255 - (s & 255); const f = (x) => ((((x * s1) >> 8) + s2) * v1) >> 8; return this.Color(f(r), f(g), f(b));
+  }
+  gamma32(c) { const v = c >>> 0; const g = (x) => Math.round(Math.pow(x / 255, 2.6) * 255); return this.Color(g((v >> 16) & 255), g((v >> 8) & 255), g(v & 255)); }
+  show() {
+    const m = this.m; busy(m, 30 * this.n + 60); if (!this.began) return;
+    const p = partsOf(m, 'ws2812').find((q) => onPin(m, q, 'DIN', this.pin)); if (!p || !p.state.powered) return;
+    const [ro, go, bo] = NEO_ORDER(this.type); const k = this.bright ? this.bright : 256; const old = p.state.px || Array.from({ length: 8 }, () => [0, 0, 0]);
+    const px = old.map((c, i) => { if (i >= this.n) return c; // (the chips past the count keep what they had)
+      const [r, g, b] = this.buf[i].map((v) => (v * k) >> 8); const by = [0, 0, 0]; by[ro] = r; by[go] = g; by[bo] = b;
+      if (this.type & 0x100) return [(by[0] * 7 + i * 53) & 255, (by[1] * 3 + 91) & 255, (by[2] * 5 + i * 17) & 255]; // (400 kHz data to an 800 kHz chip: wrong bits)
+      return [by[1], by[0], by[2]]; }); // (the WS2812B reads G, R, B)
+    p.state.px = px; p.state.shows = (p.state.shows || 0) + 1; const L = labOf(m); if (L) { L.stateV = (L.stateV || 0) + 1; L.instKey = null; }
+  }
+}
+Object.assign(TYPES, {
+  OneWire: { inc: ['OneWire.h'], ctor: [1, 1], methods: { reset_search: [0, 0, 'void'] } },
+  DallasTemperature: { inc: ['DallasTemperature.h'], ctor: [1, 1], methods: { begin: [0, 0, 'void'], getDeviceCount: [0, 0, 'int'], setResolution: [1, 2, 'void'], getResolution: [0, 1, 'int'], requestTemperatures: [0, 0, 'void', 'y'],
+    getTempCByIndex: [1, 1, 'float'], getTempFByIndex: [1, 1, 'float'], setWaitForConversion: [1, 1, 'void'], isConversionComplete: [0, 0, 'bool'] } },
+  Adafruit_NeoPixel: { inc: ['Adafruit_NeoPixel.h'], ctor: [0, 3], methods: { begin: [0, 0, 'void'], show: [0, 0, 'void'], setPixelColor: [2, 5, 'void'], fill: [0, 3, 'void'], clear: [0, 0, 'void'], setBrightness: [1, 1, 'void'], getBrightness: [0, 0, 'int'],
+    numPixels: [0, 0, 'int'], getPixelColor: [1, 1, 'ulong'], Color: [3, 4, 'ulong'], ColorHSV: [0, 3, 'ulong'], gamma32: [1, 1, 'ulong'], updateLength: [1, 1, 'void'], setPin: [1, 1, 'void'] } },
+});
+Object.assign(MAKERS, { OneWire: (m, a) => new OneWireRT(m, a), DallasTemperature: (m, a) => new DallasRT(m, a), Adafruit_NeoPixel: (m, a) => new NeoRT(m, a) });
+Object.assign(CONSTS, { DEVICE_DISCONNECTED_C: [-127, 'float'], DEVICE_DISCONNECTED_F: [-196.6, 'float'], NEO_RGB: [0x06, 'int'], NEO_RBG: [0x09, 'int'], NEO_GRB: [0x52, 'int'], NEO_GBR: [0xa1, 'int'], NEO_BRG: [0x58, 'int'], NEO_BGR: [0xa4, 'int'], NEO_KHZ800: [0x0000, 'int'], NEO_KHZ400: [0x0100, 'int'] });
+LIB_INCLUDES.push('OneWire.h', 'DallasTemperature.h', 'Adafruit_NeoPixel.h');
 
 export function libRT(m, type, args, line) {
   if (type[0] === '@') { let g = ONE.get(m.ser); if (!g) { g = {}; ONE.set(m.ser, g); } return g[type] || (g[type] = MAKERS[type](m)); }

@@ -8,6 +8,7 @@
 import { lcdText } from './libs3.js';
 import { KINDS22 } from './parts22.js'; // (batch 22: the digital sensor modules)
 import { set26 } from './parts26.js'; // (batch 26: the I2C modules' controls)
+import { set28 } from './parts28.js'; // (batch 28: the probe's water)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const P = (tag, type, props, hole, rot) => ({ tag, type, props: props || {}, at: { hole }, rot: rot || 0 });
@@ -113,6 +114,16 @@ OUT.oled = {
   on: (j) => oledLines(j.title.en, j.on), off: (j) => oledLines(j.title.en, j.off),
   isOn: (S, j) => { const p = S.part('oled'); return !!p && !!p.state.on && String(p.state.text || '').includes(j.on); },
 };
+
+// (batch 28) the WS2812B stick: eight lights on one data wire (Adafruit_NeoPixel); red for the warning, dim green for all well
+const NEO_LINES = { inc: ['#include <Adafruit_NeoPixel.h>'], setup: ['strip.begin();', 'strip.setBrightness(60);    // 60 of 255: bright enough, and less current'],
+  on: ['strip.fill(strip.Color(255, 0, 0));   // all eight red: warning', 'strip.show();               // nothing changes until show()'], off: ['strip.fill(strip.Color(0, 150, 0));   // green: all well', 'strip.show();'],
+  isOn: (S) => { const p = S.part('neo'); const c = p && p.state.powered && p.state.px ? p.state.px[0] : null; return !!c && c[0] > 30 && c[1] < 10; },
+  onWords: t3('the light stick turns red', 'लाइट स्टिक लाल हो जाती है', 'light stick laal ho jaati hai'), name: t3('RGB light stick', 'RGB लाइट स्टिक', 'RGB light stick') };
+OUT.neo = Object.assign({}, NEO_LINES, { pin: 6,
+  parts: [F('neo', 'ws2812', {}, -95, 128, 0)], wires: [['T:neo:GND', 'H:tn12'], ['T:neo:VCC', 'H:tp12'], ['T:neo:DIN', 'D6']],
+  ready: t3('The WS2812B light stick (8 colour lights) is already wired: GND to −, VCC to + (5 V), DIN to pin 6. All eight take their colour from that one wire.', 'WS2812B लाइट स्टिक (8 रंगीन लाइटें) पहले से लगी है: GND − पर, VCC + (5 V) पर, DIN पिन 6 पर। आठों अपना रंग उसी एक तार से लेती हैं।', 'WS2812B light stick (8 rangeen lights) pehle se lagi hai: GND − par, VCC + (5 V) par, DIN pin 6 par. Aathon apna rang usi ek taar se leti hain.'),
+  decl: ['Adafruit_NeoPixel strip(8, 6, NEO_GRB + NEO_KHZ800);   // 8 lights, DIN on pin 6, colour order G R B'] });
 
 // ------------------------------------------------------------------ sensors (the student places and wires them)
 // analog: the sketch compares a reading with `limit`; the edit makes it more sensitive (l0 -> l1) and the student proves
@@ -392,6 +403,10 @@ EOUT.servo = Object.assign({}, OUT.servo, { pin: 13, wires: [['T:sv1:GND', 'H:tn
   inc: ['#include <ESP32Servo.h>'], decl: ['Servo arm;                  // the servo on GPIO 13'], setup: ['arm.attach(13);', 'arm.write(0);'] });
 EOUT.oled = Object.assign({}, OUT.oled, { pin: '21/22', parts: [P('oled', 'oled', {}, 'e22', 0)], wires: [['H:a22', 'H:tn22'], ['H:a23', 'H:bp23'], ['H:a24', 'H:j17'], ['H:a25', 'H:j14']],
   ready: t3('The OLED screen (128 × 64 dots) is already wired: GND, VCC to the front + rail (3.3 V: its I2C lines then stay at the ESP32\'s own 3.3 V), SCL to GPIO 22, SDA to GPIO 21. Address 0x3C.', 'ओएलईडी स्क्रीन (128 × 64 बिंदु) पहले से लगी है: GND, VCC आगे वाली + रेल (3.3 V: तब इसकी I2C लाइनें ESP32 के अपने 3.3 V पर रहती हैं) पर, SCL GPIO 22 पर, SDA GPIO 21 पर। पता 0x3C।', 'OLED screen (128 × 64 dots) pehle se lagi hai: GND, VCC aage wali + rail (3.3 V: tab iski I2C lines ESP32 ke apne 3.3 V par rehti hain) par, SCL GPIO 22 par, SDA GPIO 21 par. Address 0x3C.') });
+EOUT.neo = Object.assign({}, NEO_LINES, { pin: 18, // (batch 28: the stick on VIN's 5 V; the ESP32's 3.3 V data is enough for the first light)
+  parts: [F('neo', 'ws2812', {}, -95, 128, 0)], wires: [['T:neo:GND', 'H:tn12'], ['T:neo:VCC', 'H:tp12'], ['T:neo:DIN', 'H:j12']],
+  ready: t3('The WS2812B light stick (8 colour lights) is already wired: GND to −, VCC to the back + rail (5 V from VIN: it needs 5 V), DIN to GPIO 18.', 'WS2812B लाइट स्टिक (8 रंगीन लाइटें) पहले से लगी है: GND − पर, VCC पीछे वाली + रेल (VIN से 5 V: इसे 5 V चाहिए) पर, DIN GPIO 18 पर।', 'WS2812B light stick (8 rangeen lights) pehle se lagi hai: GND − par, VCC peeche wali + rail (VIN se 5 V: ise 5 V chahiye) par, DIN GPIO 18 par.'),
+  decl: ['Adafruit_NeoPixel strip(8, 18, NEO_GRB + NEO_KHZ800);  // 8 lights, DIN on GPIO 18, colour order G R B'] });
 EOUT.lcd = Object.assign({}, OUT.lcd, { pin: '21/22', wires: [['T:lcd:GND', 'H:tn10'], ['T:lcd:VCC', 'H:tp10'], ['T:lcd:SDA', 'H:j14'], ['T:lcd:SCL', 'H:j17']],
   ready: t3('The 16×2 LCD is already wired: VCC to the back + rail (5 V from VIN), SDA to GPIO 21, SCL to GPIO 22: the ESP32\'s I2C pins.', '16×2 एलसीडी पहले से लगी है: VCC पीछे वाली + रेल (VIN से 5 V) पर, SDA GPIO 21 पर, SCL GPIO 22 पर: ये ESP32 के I2C पिन हैं।', '16×2 LCD pehle se lagi hai: VCC peeche wali + rail (VIN se 5 V) par, SDA GPIO 21 par, SCL GPIO 22 par: yeh ESP32 ke I2C pin hain.') });
 
@@ -846,6 +861,43 @@ for (const [k, D] of Object.entries(I2C26)) {
     checks: (K) => [has(K.W, tg, nm), swapChk('D21', 'D22', 'GPIO 21', 'GPIO 22'), (S) => (S.conn(tg + '.' + vn, 'VIN') ? [XF.esp5v] : null), need(tg + '.' + vn, '3V3', K.W.join, { a: vn, b: '3V3' }), need(tg + '.GND', 'GND', K.W.toGnd, { x: 'GND' }), need(tg + '.SDA', 'D21', K.W.join, { a: 'SDA', b: 'GPIO 21' }), need(tg + '.SCL', 'D22', K.W.join, { a: 'SCL', b: 'GPIO 22' })] });
 }
 for (const o of ['lcd', 'oled']) if (OUT[o]) OUT[o].clash = [...(OUT[o].clash || []), ...Object.keys(I2C26)]; // (the LCD and the OLED would need A4 / A5 too)
+// ------------------------------------------------------------------ batch 28: the DS18B20 waterproof probe (parts28.js) on the Uno (pin 2) and the
+// ESP32 (GPIO 4), with its 4.7 kΩ pull-up from DATA to the + rail: hot water, a cold box warming up, water too cold
+const XDS = { pull: t3('The probe needs its pull-up: a 4.7 kΩ resistor from DATA (column 41) to the + rail. DATA is only ever pulled down by the chip; without the resistor nothing answers and the library says -127.', 'प्रोब को उसका पुल-अप चाहिए: DATA (कॉलम 41) से + रेल तक 4.7 kΩ रेज़िस्टर। चिप DATA को सिर्फ़ नीचे खींचती है; रेज़िस्टर के बिना कोई जवाब नहीं देता और लाइब्रेरी -127 कहती है।', 'Probe ko uska pull-up chahiye: DATA (column 41) se + rail tak 4.7 kΩ resistor. Chip DATA ko sirf neeche kheenchti hai; resistor ke bina koi jawaab nahi deta aur library -127 kehti hai.'),
+  ohms: t3('Use 4.7 kΩ for the pull-up (1 to 10 kΩ works; much more is too weak for 1-Wire).', 'पुल-अप के लिए 4.7 kΩ लीजिए (1 से 10 kΩ चलता है; उससे बहुत ज़्यादा 1-Wire के लिए बहुत कमज़ोर है)।', 'Pull-up ke liye 4.7 kΩ lijiye (1 se 10 kΩ chalta hai; usse bahut zyada 1-Wire ke liye bahut kamzor hai).') };
+const PROBE28 = {
+  probehot: { cond: '>', l0: 40, l1: 37, vals: [46, 33, 38.5], when: t3('the water gets too hot', 'पानी बहुत गर्म हो जाता है', 'paani bahut garam ho jaata hai'),
+    onDo: t3('Tap the probe and heat its water to 46 °C (the steel tube takes a few seconds to follow).', 'प्रोब को छूइए और उसका पानी 46 °C तक गर्म कीजिए (स्टील की नली को साथ आने में कुछ सेकंड लगते हैं)।', 'Probe ko touch karo aur uska paani 46 °C tak garam kijiye (steel ki nali ko saath aane mein kuch second lagte hain).'),
+    offDo: t3('Cool the water to 33 °C.', 'पानी 33 °C तक ठंडा कीजिए।', 'Paani 33 °C tak thanda kijiye.'), edgeDo: t3('Now 38.5 °C: warm, not yet hot.', 'अब 38.5 °C: गुनगुना, अभी गर्म नहीं।', 'Ab 38.5 °C: gunguna, abhi garam nahi.') },
+  probewarm: { cond: '>', l0: 8, l1: 6, vals: [12, 4, 7], when: t3('the box warms above the safe limit', 'डिब्बा सुरक्षित सीमा से ज़्यादा गर्म हो जाता है', 'dabba surakshit seema se zyada garam ho jaata hai'),
+    onDo: t3('The ice has melted: tap the probe and let its water warm to 12 °C.', 'बर्फ़ पिघल गई: प्रोब को छूइए और उसका पानी 12 °C तक गर्म होने दीजिए।', 'Barf pighal gayi: probe ko touch karo aur uska paani 12 °C tak garam hone dijiye.'),
+    offDo: t3('Fresh ice: back to 4 °C.', 'नई बर्फ़: वापस 4 °C।', 'Nayi barf: wapas 4 °C.'), edgeDo: t3('Now 7 °C.', 'अब 7 °C।', 'Ab 7 °C.') },
+  probecold: { cond: '<', l0: 24, l1: 26, vals: [20, 28, 25], when: t3('the water gets too cold', 'पानी बहुत ठंडा हो जाता है', 'paani bahut thanda ho jaata hai'),
+    onDo: t3('A cold night: tap the probe and cool its water to 20 °C.', 'ठंडी रात: प्रोब को छूइए और उसका पानी 20 °C तक ठंडा कीजिए।', 'Thandi raat: probe ko touch karo aur uska paani 20 °C tak thanda kijiye.'),
+    offDo: t3('Warm it back to 28 °C.', 'उसे वापस 28 °C तक गर्म कीजिए।', 'Use wapas 28 °C tak garam kijiye.'), edgeDo: t3('Now 25 °C.', 'अब 25 °C।', 'Ab 25 °C.') },
+};
+for (const [k, D] of Object.entries(PROBE28)) {
+  const nm = t3('waterproof probe DS18B20', 'वॉटरप्रूफ़ प्रोब DS18B20', 'waterproof probe DS18B20');
+  const setF = (B, key) => { const p = B.lab.byTag('ds'); if (p) set28(B.lab, p, 'water', D.vals[{ on: 0, off: 1, edge: 2 }[key]]); };
+  const pullChk = (vRail) => (S) => { const r = S.part('r47'); if (!r) return [XDS.pull]; if (!((S.conn('r47.1', 'ds.DATA') && S.conn('r47.2', vRail)) || (S.conn('r47.2', 'ds.DATA') && S.conn('r47.1', vRail)))) return [XDS.pull]; const o = r.props.ohms || 0; return o < 1000 || o > 10000 ? [XDS.ohms] : null; };
+  const base = { name: nm, tag: 'ds', drawer: ['ds18b20', 'resistor'], view: 'wide', lvl: 3, analog: true, inc: ['#include <OneWire.h>', '#include <DallasTemperature.h>'], setup: ['probe.begin();'],
+    readLines: ['probe.requestTemperatures();          // the probe measures: about 0.75 s', 'float temp = probe.getTempCByIndex(0);  // °C (-127 means: no probe answered)'],
+    v: 'temp', label: 'Water C', cond: `temp ${D.cond} limit`, l0: D.l0, l1: D.l1, note: D.cond === '>' ? 'warmer than this (°C): on' : 'colder than this (°C): on', delay: 250,
+    when: D.when, onDo: D.onDo, offDo: D.offDo, edgeDo: D.edgeDo, set: setF };
+  IN[k] = Object.assign({}, base, { decl: ['OneWire oneWire(2);          // the probe\'s DATA on pin 2 (pulled up by 4.7 kΩ)', 'DallasTemperature probe(&oneWire);'],
+    place: P('ds', 'ds18b20', {}, 'e40', 0), placeDo: t3('Plug the probe\'s header into 40e–42e: black (GND) in 40, yellow (DATA) in 41, red (VCC) in 42. Its steel tip stands in the beaker.', 'प्रोब का हेडर 40e–42e में लगाइए: काला (GND) 40 में, पीला (DATA) 41 में, लाल (VCC) 42 में। उसकी स्टील की नोक बीकर में खड़ी है।', 'Probe ka header 40e–42e mein lagaiye: kaala (GND) 40 mein, peela (DATA) 41 mein, laal (VCC) 42 mein. Uski steel ki nok beaker mein khadi hai.'),
+    place2: P('r47', 'resistor', { ohms: 4700 }, 'a41', 3), place2Do: t3('The pull-up: put the 4.7 kΩ resistor from 41a up to the + rail.', 'पुल-अप: 4.7 kΩ रेज़िस्टर 41a से ऊपर + रेल तक लगाइए।', 'Pull-up: 4.7 kΩ resistor 41a se upar + rail tak lagaiye.'),
+    wires: [w('ds.VCC', 'rail:tp', 'Wire column 42 (red, VCC) to the + rail.', 'कॉलम 42 (लाल, VCC) को + रेल से जोड़िए।', 'Column 42 (laal, VCC) ko + rail se jodiye.'), w('ds.GND', 'rail:tn', 'Column 40 (black, GND) to the − rail.', 'कॉलम 40 (काला, GND) को − रेल से।', 'Column 40 (kaala, GND) ko − rail se.'),
+      w('ds.DATA', 'D2', 'Column 41 (yellow, DATA) to pin 2.', 'कॉलम 41 (पीला, DATA) को पिन 2 से।', 'Column 41 (peela, DATA) ko pin 2 se.')],
+    checks: (K) => [has(K.W, 'ds', nm), need('ds.VCC', '5V', K.W.to5v, { x: 'VCC' }), need('ds.GND', 'GND', K.W.toGnd, { x: 'GND' }), need('ds.DATA', 'D2', K.W.toPin, { x: 'DATA', p: 2 }), pullChk('5V')] });
+  EIN[k] = Object.assign({}, base, { decl: ['OneWire oneWire(4);          // the probe\'s DATA on GPIO 4 (pulled up by 4.7 kΩ to 3.3 V)', 'DallasTemperature probe(&oneWire);'],
+    place: P('ds', 'ds18b20', {}, 'f40', 0), placeDo: t3('Plug the probe\'s header into 40f–42f: black (GND) in 40, yellow (DATA) in 41, red (VCC) in 42. Its steel tip stands in the beaker.', 'प्रोब का हेडर 40f–42f में लगाइए: काला (GND) 40 में, पीला (DATA) 41 में, लाल (VCC) 42 में। उसकी स्टील की नोक बीकर में खड़ी है।', 'Probe ka header 40f–42f mein lagaiye: kaala (GND) 40 mein, peela (DATA) 41 mein, laal (VCC) 42 mein. Uski steel ki nok beaker mein khadi hai.'),
+    place2: P('r47', 'resistor', { ohms: 4700 }, 'i41', 1), place2Do: t3('The pull-up: put the 4.7 kΩ resistor from 41i down to the front + rail (3.3 V).', 'पुल-अप: 4.7 kΩ रेज़िस्टर 41i से नीचे आगे वाली + रेल (3.3 V) तक लगाइए।', 'Pull-up: 4.7 kΩ resistor 41i se neeche aage wali + rail (3.3 V) tak lagaiye.'),
+    wires: [w('ds.VCC', 'rail:bp', 'Wire column 42 (red, VCC) to the front + rail (3.3 V).', 'कॉलम 42 (लाल, VCC) को आगे वाली + रेल (3.3 V) से जोड़िए।', 'Column 42 (laal, VCC) ko aage wali + rail (3.3 V) se jodiye.'), w('ds.GND', 'rail:bn', 'Column 40 (black, GND) to the front − rail.', 'कॉलम 40 (काला, GND) को आगे वाली − रेल से।', 'Column 40 (kaala, GND) ko aage wali − rail se.'),
+      w('ds.DATA', 'D4', 'Column 41 (yellow, DATA) to GPIO 4.', 'कॉलम 41 (पीला, DATA) को GPIO 4 से।', 'Column 41 (peela, DATA) ko GPIO 4 se.')],
+    checks: (K) => [has(K.W, 'ds', nm), (S) => (S.conn('ds.VCC', 'VIN') || S.conn('r47.1', 'VIN') || S.conn('r47.2', 'VIN') ? [XF.esp5v] : null), need('ds.VCC', '3V3', K.W.join, { a: 'VCC', b: '3V3' }), need('ds.GND', 'GND', K.W.toGnd, { x: 'GND' }), need('ds.DATA', 'D4', K.W.join, { a: 'DATA', b: 'GPIO 4' }), pullChk('3V3')] });
+}
+
 
 // ------------------------------------------------------------------ the jobs: [key, sensor, outputs, title (en, hi, hg), why (en, hi, hg), LCD on, LCD off, class]
 const J = (key, inp, outs, en, hi, hg, wen, whi, whg, on, off, cls) => ({ key, inp, outs, title: t3(en, hi, hg), why: t3(wen, whi, whg), on, off, cls });
@@ -1123,12 +1175,24 @@ export const JOBS = [
   J('parachute', 'alt', ['servo'], 'Model rocket parachute release', 'मॉडल रॉकेट पैराशूट रिलीज़', 'Model rocket parachute release', 'A school model rocket or balloon: past the planned height, a servo opens the hatch and the parachute comes out.', 'स्कूल का मॉडल रॉकेट या गुब्बारा: तय ऊँचाई पार होते ही सर्वो ढक्कन खोलता है और पैराशूट निकलता है।', 'School ka model rocket ya gubbaara: tay oonchaai paar hote hi servo dhakkan kholta hai aur parachute nikalta hai.', 'Chute out', 'Climbing', 10),
   J('dronelimit', 'alt', ['buzzer', 'rgb'], 'Drone height limit warning', 'ड्रोन ऊँचाई सीमा चेतावनी', 'Drone oonchaai seema chetaavni', 'Drones may fly only so high: past the limit the drone beeps and its light turns red so the pilot brings it down.', 'ड्रोन एक हद तक ही ऊँचा उड़ सकते हैं: सीमा पार होते ही ड्रोन बीप करता है और लाइट लाल हो जाती है ताकि पायलट उसे नीचे लाए।', 'Drone ek had tak hi ooncha ud sakte hain: seema paar hote hi drone beep karta hai aur light laal ho jaati hai taaki pilot use neeche laaye.', 'TOO HIGH', 'Height OK', 10),
   J('ropeway', 'alt', ['led', 'rgb'], 'Ropeway cabin top-station light', 'रोपवे केबिन टॉप स्टेशन लाइट', 'Ropeway cabin top station light', 'In a hill-station ropeway the cabin knows its height: near the top station the light tells passengers to get ready.', 'हिल स्टेशन के रोपवे में केबिन अपनी ऊँचाई जानता है: टॉप स्टेशन के पास लाइट यात्रियों को तैयार होने को कहती है।', 'Hill station ke ropeway mein cabin apni oonchaai jaanta hai: top station ke paas light yaatriyon ko taiyaar hone ko kehti hai.', 'Top: get ready', 'Going up', 8),
+  // (batch 28) the waterproof probe
+  J('babytub', 'probehot', ['buzzer', 'rgb', 'neo'], 'Baby bath tub thermometer', 'शिशु के टब का थर्मामीटर', 'Shishu ke tub ka thermometer', 'Bath water above 40 °C can scald a baby: a steel probe in the tub itself warns before the baby goes in.', '40 °C से ज़्यादा गर्म नहाने का पानी शिशु को जला सकता है: टब में ही रखा स्टील प्रोब शिशु को डालने से पहले चेताता है।', '40 °C se zyada garam nahaane ka paani shishu ko jala sakta hai: tub mein hi rakha steel probe shishu ko daalne se pehle chetaata hai.', 'TOO HOT', 'OK', 8),
+  J('hottap', 'probehot', ['led', 'lcd'], 'Hot tap scald warning', 'गर्म नल से जलने की चेतावनी', 'Garam nal se jalne ki chetaavni', 'In a school washroom the geyser\'s water can come out hot enough to burn small hands: a probe in the pipe lights a warning.', 'स्कूल के वॉशरूम में गीज़र का पानी छोटे हाथों को जलाने लायक़ गर्म निकल सकता है: पाइप में लगा प्रोब चेतावनी जलाता है।', 'School ke washroom mein geyser ka paani chhote haathon ko jalaane laayak garam nikal sakta hai: pipe mein laga probe chetaavni jalaata hai.', 'HOT WATER!', 'Safe', 8),
+  J('milkbottle', 'probehot', ['buzzer', 'led'], 'Baby milk bottle check', 'शिशु की दूध की बोतल जाँच', 'Shishu ki doodh ki bottle jaanch', 'Milk for a baby should be body-warm; above 40 °C it burns the mouth, so the bottle is tested first.', 'शिशु का दूध शरीर जितना गुनगुना होना चाहिए; 40 °C से ऊपर वह मुँह जलाता है, इसलिए बोतल पहले जाँची जाती है।', 'Shishu ka doodh shareer jitna gunguna hona chahiye; 40 °C se upar woh munh jalaata hai, isliye bottle pehle jaanchi jaati hai.', 'TOO HOT', 'OK', 8),
+  J('coldbox', 'probewarm', ['buzzer', 'lcd'], 'Vaccine cold box alarm', 'वैक्सीन कोल्ड बॉक्स अलार्म', 'Vaccine cold box alarm', 'Vaccines must stay between 2 and 8 °C all the way to the village; the health worker\'s cold box warns as soon as it warms up.', 'गाँव तक पूरे रास्ते वैक्सीन 2 से 8 °C के बीच रहनी चाहिए; स्वास्थ्य कार्यकर्ता का कोल्ड बॉक्स गर्म होते ही चेताता है।', 'Gaon tak poore raaste vaccine 2 se 8 °C ke beech rehni chahiye; swasthya karyakarta ka cold box garam hote hi chetaata hai.', 'TOO WARM', 'Cold OK', 9),
+  J('milkcentre', 'probewarm', ['buzzer', 'rgb', 'neo'], 'Village milk cooler alarm', 'गाँव के दूध कूलर का अलार्म', 'Gaon ke doodh cooler ka alarm', 'At the milk collection centre the milk must be cooled below 8 °C within hours, or it turns sour; the probe sits in the bulk cooler.', 'दूध संग्रह केंद्र पर दूध को कुछ ही घंटों में 8 °C से नीचे ठंडा करना होता है, वरना वह खट्टा हो जाता है; प्रोब बल्क कूलर में रहता है।', 'Doodh sangrah kendra par doodh ko kuch hi ghanton mein 8 °C se neeche thanda karna hota hai, warna woh khatta ho jaata hai; probe bulk cooler mein rehta hai.', 'MILK WARM', 'Milk cold', 9),
+  J('fishice', 'probewarm', ['led', 'lcd'], 'Fish ice box check', 'मछली की बर्फ़ पेटी जाँच', 'Machhli ki barf peti jaanch', 'Fish carried to the market must stay below 8 °C on ice; the probe tells the seller when to add ice.', 'बाज़ार ले जाई जा रही मछली बर्फ़ पर 8 °C से नीचे रहनी चाहिए; प्रोब बेचने वाले को बताता है कि कब बर्फ़ डालनी है।', 'Bazaar le jaayi ja rahi machhli barf par 8 °C se neeche rehni chahiye; probe bechne wale ko batata hai ki kab barf daalni hai.', 'ADD ICE', 'Ice OK', 8),
+  J('aquaheat', 'probecold', ['relay', 'led', 'neo'], 'Aquarium heater switch', 'एक्वेरियम हीटर स्विच', 'Aquarium heater switch', 'Tropical fish need 24 to 28 °C: when the tank cools at night, the heater comes on by itself.', 'उष्णकटिबंधीय मछलियों को 24 से 28 °C चाहिए: रात में टैंक ठंडा होने पर हीटर अपने-आप चालू हो जाता है।', 'Ushnakatibandhiya machhliyon ko 24 se 28 °C chahiye: raat mein tank thanda hone par heater apne aap chaalu ho jaata hai.', 'HEATER ON', 'Warm', 8),
+  J('fishseed', 'probecold', ['buzzer', 'rgb'], 'Fish seed hatchery water alarm', 'मछली बीज हैचरी पानी अलार्म', 'Machhli beej hatchery paani alarm', 'Tiny fish fry die if their water drops below 24 °C; the hatchery keeper is woken at night.', 'नन्ही मछलियाँ पानी 24 °C से नीचे जाने पर मर जाती हैं; हैचरी वाले को रात में जगाया जाता है।', 'Nanhi machhliyaan paani 24 °C se neeche jaane par mar jaati hain; hatchery wale ko raat mein jagaaya jaata hai.', 'TOO COLD', 'Water OK', 9),
 ];
+// (batch 28) jobs that a strip of colour lights suits as well: they get the WS2812B stick as one more output
+const NEO_JOBS = new Set(['growlight', 'heatwave', 'shopsign', 'festival', 'lighthouse', 'speedwarn', 'occupied', 'soillamp', 'airlamp', 'roadair', 'classlux', 'umbrellasign']);
+for (const j of JOBS) if (NEO_JOBS.has(j.key) && !j.outs.includes('neo')) j.outs.push('neo');
 // a job + output that is already a hand-made lesson in the app (lessons.js and the batches): not made again here
 const HAND_MADE = new Set(['nightlamp:led', 'toohot:led', 'parkbeep:buzzer', 'thirst:relay', 'gasleak:buzzer', 'roomlight:buzzer']);
 
 const FAN_JOBS = new Set(['coolfan', 'exhaust', 'serverroom', 'greenfan', 'coolroom', 'bathfan', 'fumehood', 'classfan', 'handdryer', 'fanmark', 'garagefumes', 'poultry', 'clothesdry', 'clapfan', 'icecream', 'cattleshade', 'examhall', 'teadryer', 'dehumid']);
-const HEAT_JOBS = new Set(['heaterset', 'thermostat', 'fishtank', 'incubator', 'brooder', 'mirror']);
+const HEAT_JOBS = new Set(['heaterset', 'thermostat', 'fishtank', 'incubator', 'brooder', 'mirror', 'aquaheat', 'fishseed']);
 function relayFor(out, job) { // the 230 V box the relay switches, in the words of the job
   if (FAN_JOBS.has(job.key)) return Object.assign({}, out, { name: t3('relay and fan', 'रिले और पंखा', 'relay aur pankha'), parts: out.parts.map((p) => (p.type === 'load230' ? Object.assign({}, p, { props: { kind: 'fan' } }) : p)),
     ready: fill(out.ready, (x, lg) => x.replace({ en: 'the 230 V lamp', hi: '230 V का बल्ब', hg: '230 V ka bulb' }[lg], { en: 'a 230 V fan', hi: '230 V का पंखा', hg: '230 V ka pankha' }[lg])),
@@ -1139,7 +1203,7 @@ function relayFor(out, job) { // the 230 V box the relay switches, in the words 
     decl: (out.decl || []).map((x) => x.replace('lamp on', 'heater on')), py: out.py && Object.assign({}, out.py, { decl: out.py.decl.map((x) => x.replace('lamp on', 'heater on')) }) });
   return out;
 }
-const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out === 'lcd' || out === 'relay' || out === 'web' || out === 'bt' ? 1 : 0)));
+const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out === 'lcd' || out === 'relay' || out === 'web' || out === 'bt' || out === 'neo' ? 1 : 0)));
 
 // ------------------------------------------------------------------ the sketch
 function sketch(job, ik, ok, board) {
@@ -1175,7 +1239,8 @@ function sketchWeb(job, ik) {
   const inp = EIN[ik]; const L = [`// ${job.title.en}: ${inp.name.en} and a web page on the phone`, `// ${job.why.en}`, '#include <WiFi.h>', '#include <WebServer.h>', ...(inp.inc || []), '',
     'const char* ssid = "DUET-School";', 'const char* password = "stem2026";', 'WebServer server(80);', ...inp.decl];
   const rd = (inp.readLines || [inp.read]); const v = inp.v;
-  if (inp.analog) L.push(`int limit = ${inp.l0};             // ${inp.note}`, `int ${v} = 0;                  // the last reading`);
+  const vt = ((/^(int|float|long) /.exec(rd.find((x) => new RegExp(`^(int|float|long) ${v} = `).test(x)) || '') || [])[1]) || 'int'; // (batch 28: the reading's own type)
+  if (inp.analog) L.push(`int limit = ${inp.l0};             // ${inp.note}`, `${vt} ${v} = 0;${' '.repeat(Math.max(1, 19 - vt.length - v.length))}// the last reading`);
   else L.push('unsigned long hold = 1000;    // stay on this long after it stops (ms)', 'unsigned long last = 0;       // when the sensor was last active');
   L.push('bool warn = false;', '', 'void handleRoot() {', '  String h = "<meta http-equiv=\\"refresh\\" content=\\"2\\">";   // the phone asks again every 2 s',
     `  h += "<h3>${htmlEsc(job.title.en)}</h3>";`);
@@ -1184,7 +1249,7 @@ function sketchWeb(job, ik) {
     'void setup() {', ...inp.setup.map((x) => '  ' + x), '  Serial.begin(115200);', '  WiFi.begin(ssid, password);', '  while (WiFi.status() != WL_CONNECTED) {', '    delay(500);', '    Serial.print(".");', '  }', '  Serial.println();',
     '  Serial.print("Open on the phone: http://");', '  Serial.println(WiFi.localIP());', '  server.on("/", handleRoot);', '  server.begin();', '}', '', 'unsigned long lastRead = 0;', '', 'void loop() {',
     '  server.handleClient();        // answer the phone', `  if (millis() - lastRead >= ${inp.delay || 200}) {`, '    lastRead = millis();');
-  if (inp.analog) { L.push(...rd.map((x) => '    ' + x.replace(new RegExp(`^int ${v} = `), `${v} = `)), `    Serial.print("${inp.label}: ");`, `    Serial.println(${v});`, `    warn = ${inp.cond};`); }
+  if (inp.analog) { L.push(...rd.map((x) => '    ' + x.replace(new RegExp(`^(int|float|long) ${v} = `), `${v} = `)), `    Serial.print("${inp.label}: ");`, `    Serial.println(${v});`, `    warn = ${inp.cond};`); }
   else L.push(`    if (${inp.trig}) {`, '      last = millis();           // active now: start the hold time again', '    }', '    warn = last > 0 && millis() - last < hold;');
   L.push('  }', '}', '');
   return L.join('\n');
@@ -1241,14 +1306,14 @@ function lesson(K, job, ik, ok, n, board) {
   const check = pi ? [(S) => (S.conn('5V', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : pico ? [(S) => (S.conn('VBUS', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : esp ? [(S) => (S.conn('VIN', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : [noShort(K.W), (S) => (S.conn('rail:tp', '5V') ? null : [K.W.vRail]), ...inp.checks(K)];
   const cls = pi ? Math.max(10, CLS(job, inp, ok) + 2) : pico ? Math.max(9, CLS(job, inp, ok) + 2) : esp ? Math.max(8, CLS(job, inp, ok) + 1) : CLS(job, inp, ok); const sfx = esp ? ' (ESP32)' : pico ? ' (Pico)' : pi ? ' (Raspberry Pi)' : '';
   return {
-    id, n, batch: 'F', phone: web || bt || undefined, factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
+    id, n, batch: 'F', phone: web || bt || undefined, factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar' && ok !== 'neo', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
     code, drawer: inp.drawer, serial: !!inp.analog, title: t3(`${job.title.en}: ${inp.name.en} → ${out.name.en}${sfx}`, `${job.title.hi}: ${inp.name.hi} → ${out.name.hi}${sfx}`, `${job.title.hg}: ${inp.name.hg} → ${out.name.hg}${sfx}`),
     goal, setup: { parts: [...out.parts, ...(inp.preParts || [])].map((p) => Object.assign({}, p)), wires: [...(esp ? ESP_POWER : pico ? PICO_POWER : pi ? PI_POWER : POWER), ...out.wires, ...(inp.preWires || [])] }, steps, check, tick,
     done: (S) => !!S.memRun.final,
   };
 }
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-const cmp = (ik, v, lim) => ({ pot: v > lim, ldr: v < lim, ldrb: v > lim, lm35: v > lim, cold: v < lim, dht: v > lim, hum: v > lim, sonar: v > 0 && v < lim, soil: v > lim, gas: v > lim, force: v > lim, flex: v < lim, ntc: v > lim, water: v > lim, uv: v > lim, air: v > lim, alcohol: v > lim, tilt6: v > lim, clock: v >= lim, lux: v < lim, storm: v < lim, alt: v > lim }[ik]); // (25: the resistive sensors, the modules)
+const cmp = (ik, v, lim) => ({ probehot: v > lim, probewarm: v > lim, probecold: v < lim, pot: v > lim, ldr: v < lim, ldrb: v > lim, lm35: v > lim, cold: v < lim, dht: v > lim, hum: v > lim, sonar: v > 0 && v < lim, soil: v > lim, gas: v > lim, force: v > lim, flex: v < lim, ntc: v > lim, water: v > lim, uv: v > lim, air: v > lim, alcohol: v > lim, tilt6: v > lim, clock: v >= lim, lux: v < lim, storm: v < lim, alt: v > lim }[ik]); // (25: the resistive sensors, the modules)
 
 // ------------------------------------------------------------------ all of them
 export function batchF(K, n0) {

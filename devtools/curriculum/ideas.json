@@ -27284,6 +27284,789 @@
 "note": null
 },
 {
+"id": "live-f_fishseed_bt_esp",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishseed_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishseed_web_esp",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishseed_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishseed_rgb_esp",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishseed_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishseed_buzzer_esp",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishseed_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_bt_esp",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_aquaheat_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_web_esp",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_aquaheat_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_neo_esp",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_aquaheat_neo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_led_esp",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_aquaheat_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_relay_esp",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → relay and heater lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_aquaheat_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_bt_esp",
+"title": "Fish ice box check: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishice_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_web_esp",
+"title": "Fish ice box check: waterproof probe DS18B20 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishice_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_oled_esp",
+"title": "Fish ice box check: waterproof probe DS18B20 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishice_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_lcd_esp",
+"title": "Fish ice box check: waterproof probe DS18B20 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishice_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_led_esp",
+"title": "Fish ice box check: waterproof probe DS18B20 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishice_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_bt_esp",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_milkcentre_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_web_esp",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_milkcentre_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_neo_esp",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_milkcentre_neo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_rgb_esp",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_milkcentre_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_buzzer_esp",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_milkcentre_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_bt_esp",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coldbox_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_web_esp",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coldbox_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_oled_esp",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coldbox_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_lcd_esp",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coldbox_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_buzzer_esp",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coldbox_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkbottle_bt_esp",
+"title": "Baby milk bottle check: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_milkbottle_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkbottle_web_esp",
+"title": "Baby milk bottle check: waterproof probe DS18B20 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_milkbottle_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkbottle_led_esp",
+"title": "Baby milk bottle check: waterproof probe DS18B20 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkbottle_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkbottle_buzzer_esp",
+"title": "Baby milk bottle check: waterproof probe DS18B20 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkbottle_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_bt_esp",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_hottap_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_web_esp",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_hottap_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_oled_esp",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_hottap_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_lcd_esp",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_hottap_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_led_esp",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_hottap_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_bt_esp",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babytub_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_web_esp",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babytub_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_neo_esp",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babytub_neo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_rgb_esp",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babytub_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_buzzer_esp",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babytub_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_ropeway_bt_esp",
 "title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → phone over Bluetooth (ESP32)",
 "family": "factory",
@@ -27614,6 +28397,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_umbrellasign_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_neo_esp",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_umbrellasign_neo_esp",
 "rule": null,
 "note": null
 },
@@ -28048,6 +28851,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_classlux_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_neo_esp",
+"title": "Classroom light check: light meter BH1750 → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_classlux_neo_esp",
 "rule": null,
 "note": null
 },
@@ -38368,6 +39191,27 @@
 "note": null
 },
 {
+"id": "live-f_festival_neo_esp",
+"title": "Festival lights at sunset: light sensor (LDR) → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_festival_neo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_festival_relay_esp",
 "title": "Festival lights at sunset: light sensor (LDR) → relay and lamp (ESP32)",
 "family": "factory",
@@ -39011,6 +39855,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_speedwarn_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_speedwarn_neo_esp",
+"title": "Over-speed warning: knob (potentiometer) → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_speedwarn_neo_esp",
 "rule": null,
 "note": null
 },
@@ -41167,6 +42031,26 @@
 "note": null
 },
 {
+"id": "live-f_occupied_neo_esp",
+"title": "Washroom occupied light: PIR motion sensor → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_occupied_neo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_occupied_rgb_esp",
 "title": "Washroom occupied light: PIR motion sensor → colour LED (ESP32)",
 "family": "factory",
@@ -42286,6 +43170,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_lighthouse_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_lighthouse_neo_esp",
+"title": "Lighthouse lamp: light sensor (LDR) → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_lighthouse_neo_esp",
 "rule": null,
 "note": null
 },
@@ -44075,6 +44980,27 @@
 "note": null
 },
 {
+"id": "live-f_shopsign_neo_esp",
+"title": "Shop sign that lights at dusk: light sensor (LDR) → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shopsign_neo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_shopsign_rgb_esp",
 "title": "Shop sign that lights at dusk: light sensor (LDR) → colour LED (ESP32)",
 "family": "factory",
@@ -44651,6 +45577,26 @@
 "note": null
 },
 {
+"id": "live-f_heatwave_neo_esp",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_heatwave_neo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_heatwave_buzzer_esp",
 "title": "Heat-wave warning: DHT11 sensor (temperature) → buzzer (ESP32)",
 "family": "factory",
@@ -44865,6 +45811,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_soillamp_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_soillamp_neo_esp",
+"title": "Soil health lamp: soil moisture sensor → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_soillamp_neo_esp",
 "rule": null,
 "note": null
 },
@@ -45513,6 +46479,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_growlight_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_growlight_neo_esp",
+"title": "Grow light for plants: light sensor (LDR) → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_growlight_neo_esp",
 "rule": null,
 "note": null
 },
@@ -48411,6 +49398,637 @@
 "note": null
 },
 {
+"id": "live-f_fishseed_bt",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishseed_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishseed_rgb",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishseed_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishseed_buzzer",
+"title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishseed_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_bt",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_aquaheat_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_neo",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_aquaheat_neo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_led",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_aquaheat_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_aquaheat_relay",
+"title": "Aquarium heater switch: waterproof probe DS18B20 → relay and heater lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_aquaheat_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_bt",
+"title": "Fish ice box check: waterproof probe DS18B20 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishice_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_oled",
+"title": "Fish ice box check: waterproof probe DS18B20 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fishice_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_lcd",
+"title": "Fish ice box check: waterproof probe DS18B20 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishice_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishice_led",
+"title": "Fish ice box check: waterproof probe DS18B20 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fishice_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_bt",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkcentre_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_neo",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkcentre_neo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_rgb",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkcentre_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkcentre_buzzer",
+"title": "Village milk cooler alarm: waterproof probe DS18B20 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkcentre_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_bt",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coldbox_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_oled",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coldbox_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_lcd",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coldbox_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldbox_buzzer",
+"title": "Vaccine cold box alarm: waterproof probe DS18B20 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coldbox_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkbottle_bt",
+"title": "Baby milk bottle check: waterproof probe DS18B20 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkbottle_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkbottle_led",
+"title": "Baby milk bottle check: waterproof probe DS18B20 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_milkbottle_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkbottle_buzzer",
+"title": "Baby milk bottle check: waterproof probe DS18B20 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_milkbottle_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_bt",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_hottap_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_oled",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_hottap_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_lcd",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_hottap_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hottap_led",
+"title": "Hot tap scald warning: waterproof probe DS18B20 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_hottap_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_bt",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babytub_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_neo",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babytub_neo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_rgb",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"ds18b20"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babytub_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babytub_buzzer",
+"title": "Baby bath tub thermometer: waterproof probe DS18B20 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ds18b20",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babytub_buzzer",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_ropeway_bt",
 "title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → phone over Bluetooth",
 "family": "factory",
@@ -48656,6 +50274,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_umbrellasign_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_neo",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_umbrellasign_neo",
 "rule": null,
 "note": null
 },
@@ -48988,6 +50626,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_classlux_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_neo",
+"title": "Classroom light check: light meter BH1750 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_classlux_neo",
 "rule": null,
 "note": null
 },
@@ -50003,6 +51661,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_roadair_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roadair_neo",
+"title": "Roadside air quality board: air quality sensor MQ-135 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_roadair_neo",
 "rule": null,
 "note": null
 },
@@ -58100,6 +59778,27 @@
 "note": null
 },
 {
+"id": "live-f_festival_neo",
+"title": "Festival lights at sunset: light sensor (LDR) → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_festival_neo",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_festival_relay",
 "title": "Festival lights at sunset: light sensor (LDR) → relay and lamp",
 "family": "factory",
@@ -58618,6 +60317,26 @@
 "level": 6,
 "theme": "bank",
 "live": "f_speedwarn_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_speedwarn_neo",
+"title": "Over-speed warning: knob (potentiometer) → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_speedwarn_neo",
 "rule": null,
 "note": null
 },
@@ -60349,6 +62068,26 @@
 "note": null
 },
 {
+"id": "live-f_occupied_neo",
+"title": "Washroom occupied light: PIR motion sensor → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_occupied_neo",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_occupied_rgb",
 "title": "Washroom occupied light: PIR motion sensor → colour LED",
 "family": "factory",
@@ -61300,6 +63039,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_lighthouse_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_lighthouse_neo",
+"title": "Lighthouse lamp: light sensor (LDR) → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_lighthouse_neo",
 "rule": null,
 "note": null
 },
@@ -62840,6 +64600,27 @@
 "note": null
 },
 {
+"id": "live-f_shopsign_neo",
+"title": "Shop sign that lights at dusk: light sensor (LDR) → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_shopsign_neo",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_shopsign_rgb",
 "title": "Shop sign that lights at dusk: light sensor (LDR) → colour LED",
 "family": "factory",
@@ -63297,6 +65078,26 @@
 "note": null
 },
 {
+"id": "live-f_heatwave_neo",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heatwave_neo",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_heatwave_buzzer",
 "title": "Heat-wave warning: DHT11 sensor (temperature) → buzzer",
 "family": "factory",
@@ -63421,6 +65222,26 @@
 "note": null
 },
 {
+"id": "live-f_airlamp_neo",
+"title": "Air quality lamp: gas sensor MQ-2 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_airlamp_neo",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_airlamp_rgb",
 "title": "Air quality lamp: gas sensor MQ-2 → colour LED",
 "family": "factory",
@@ -63502,6 +65323,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_soillamp_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_soillamp_neo",
+"title": "Soil health lamp: soil moisture sensor → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_soillamp_neo",
 "rule": null,
 "note": null
 },
@@ -64001,6 +65842,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_growlight_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_growlight_neo",
+"title": "Grow light for plants: light sensor (LDR) → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_growlight_neo",
 "rule": null,
 "note": null
 },
@@ -75979,9 +77841,7 @@
 "pot",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -76005,9 +77865,7 @@
 "pot",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -76031,9 +77889,7 @@
 "pot",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -76057,9 +77913,7 @@
 "pot",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 5,
 7
@@ -88445,9 +90299,7 @@
 "irrx",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -88471,9 +90323,7 @@
 "irrx",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -88497,9 +90347,7 @@
 "irrx",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90673,9 +92521,7 @@
 "joystick",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -90699,9 +92545,7 @@
 "joystick",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -90725,9 +92569,7 @@
 "joystick",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -91663,9 +93505,7 @@
 "sound",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -91689,9 +93529,7 @@
 "sound",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91715,9 +93553,7 @@
 "sound",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -91741,9 +93577,7 @@
 "sound",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 6,
 8
@@ -91767,9 +93601,7 @@
 "sound",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -94698,9 +96530,7 @@
 "ds18b20",
 "lcd16"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -94724,9 +96554,7 @@
 "ds18b20",
 "lcd16"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -94750,9 +96578,7 @@
 "ds18b20",
 "lcd16"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -94776,9 +96602,7 @@
 "ds18b20",
 "oled"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -94802,9 +96626,7 @@
 "ds18b20",
 "oled"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -94828,9 +96650,7 @@
 "ds18b20",
 "oled"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -94855,9 +96675,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -94882,9 +96700,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -94909,9 +96725,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -94936,9 +96750,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -94963,9 +96775,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -94990,9 +96800,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -95016,9 +96824,7 @@
 "ds18b20",
 "oled"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -95042,9 +96848,7 @@
 "ds18b20",
 "oled"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95068,9 +96872,7 @@
 "ds18b20",
 "oled"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95094,9 +96896,7 @@
 "buzzer",
 "ds18b20"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -95120,9 +96920,7 @@
 "buzzer",
 "ds18b20"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -95146,9 +96944,7 @@
 "buzzer",
 "ds18b20"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -95535,9 +97331,7 @@
 "bh1750",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -95561,9 +97355,7 @@
 "bh1750",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95587,9 +97379,7 @@
 "bh1750",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -100955,9 +102745,7 @@
 "mq135",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -100981,9 +102769,7 @@
 "mq135",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -101007,9 +102793,7 @@
 "mq135",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -107077,9 +108861,7 @@
 "parts": [
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -107098,9 +108880,7 @@
 "parts": [
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -107119,9 +108899,7 @@
 "parts": [
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -107140,9 +108918,7 @@
 "parts": [
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -112978,14 +114754,12 @@
 "parts": [
 "ds18b20"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
-9,
-11
+8,
+10
 ],
-"level": 9,
+"level": 8,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -112999,14 +114773,12 @@
 "parts": [
 "ds18b20"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
-10,
-12
+9,
+11
 ],
-"level": 10,
+"level": 9,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -113020,14 +114792,12 @@
 "parts": [
 "ds18b20"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
-11,
+10,
 12
 ],
-"level": 11,
+"level": 10,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -116468,9 +118238,7 @@
 "ir",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -116490,9 +118258,7 @@
 "ir",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -116512,9 +118278,7 @@
 "rtc3231",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -116534,9 +118298,7 @@
 "rtc3231",
 "ws2812"
 ],
-"newparts": [
-"ws2812"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -117358,9 +119120,7 @@
 "abuzz",
 "ds18b20"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -117380,9 +119140,7 @@
 "abuzz",
 "ds18b20"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -117776,9 +119534,7 @@
 "ds18b20",
 "lcd16"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -117798,9 +119554,7 @@
 "ds18b20",
 "lcd16"
 ],
-"newparts": [
-"ds18b20"
-],
+"newparts": [],
 "band": [
 10,
 12
