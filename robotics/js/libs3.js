@@ -8,6 +8,7 @@
 //   Keypad, Stepper, MFRC522 (UID read), Wire, SPI.
 // Our own code (MIT, DUET). The 5×7 font follows the classic HD44780 / glcdfont pattern (Adafruit GFX glcdfont.c, BSD).
 import { RtError } from './mcu.js';
+import { HX, TOF_MAX } from './parts30.js'; // (batch 30: the load cell's numbers, the card's reach)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 // a near name for a typo (as cpp.js does; kept here so that this file does not import the compiler)
@@ -509,6 +510,64 @@ Object.assign(TYPES, {
 Object.assign(MAKERS, { OneWire: (m, a) => new OneWireRT(m, a), DallasTemperature: (m, a) => new DallasRT(m, a), Adafruit_NeoPixel: (m, a) => new NeoRT(m, a) });
 Object.assign(CONSTS, { DEVICE_DISCONNECTED_C: [-127, 'float'], DEVICE_DISCONNECTED_F: [-196.6, 'float'], NEO_RGB: [0x06, 'int'], NEO_RBG: [0x09, 'int'], NEO_GRB: [0x52, 'int'], NEO_GBR: [0xa1, 'int'], NEO_BRG: [0x58, 'int'], NEO_BGR: [0xa4, 'int'], NEO_KHZ800: [0x0000, 'int'], NEO_KHZ400: [0x0100, 'int'] });
 LIB_INCLUDES.push('OneWire.h', 'DallasTemperature.h', 'Adafruit_NeoPixel.h');
+
+// ------------------------------------------------------------------ batch 30: the load cell's HX711 and the VL53L0X (parts30.js)
+//   HX711 (bogde): HX711 scale; begin(DT, SCK); read() (raw, about 430 counts a gram + the chip's zero + the platform),
+//     read_average(n), get_value(n) (minus the offset), get_units(n) (divided by the scale), tare(n), set_scale(f),
+//     get_scale(), set_offset(), get_offset(), is_ready(), wait_ready(), power_down(), power_up(). 10 readings a second, each
+//     waited for; with DT not on a powered HX711 the library waits for ever (the sketch stops there), as a real one does.
+//   VL53L0X (Pololu): VL53L0X tof; init() (false: nothing at 0x29); setTimeout(ms); readRangeSingleMillimeters() (33 ms),
+//     startContinuous(), readRangeContinuousMillimeters(), timeoutOccurred(), setMeasurementTimingBudget(µs: 200000 is
+//     slower and steadier), setSignalRateLimit(0.1: long range). 8190 past what it can see, 65535 with no sensor.
+const HXZ = 84213; // (this HX711's own zero, in counts)
+class HX711rt {
+  constructor(m) { this.m = m; this.dt = -1; this.sck = -1; this.scale = 1; this.offset = 0; this.gain = 128; this.down = false; }
+  dev() { const m = this.m; return partsOf(m, 'loadcell').find((p) => p.state.powered && onPin(m, p, 'DT', this.dt) && onPin(m, p, 'SCK', this.sck)) || null; }
+  begin(dt, sck, gain = 128) { this.dt = dt | 0; this.sck = sck | 0; this.gain = gain | 0; this.m.pinMode(this.sck, 1); this.m.pinMode(this.dt, 0); }
+  set_gain(g) { this.gain = g | 0; }
+  is_ready() { busy(this.m, 20); return this.dev() && !this.down ? 1 : 0; }
+  *wait_ready() { while (!this.dev() || this.down) yield* this.m.delay(100); }
+  *read() { // (one conversion: up to 100 ms; for ever with no HX711 answering)
+    yield* this.wait_ready(); yield* this.m.delay(100); const p = this.dev(); if (!p) return 0; p.state.reads = (p.state.reads || 0) + 1;
+    const k = this.gain === 64 ? 0.5 : this.gain === 32 ? 0.25 : 1; return Math.round((HXZ + ((p.state.grams || 0) + HX.platform) * HX.cal + gauss() * 120) * k);
+  }
+  *read_average(n = 10) { n = Math.max(1, n | 0); let s = 0; for (let i = 0; i < n; i++) s += yield* this.read(); return Math.round(s / n); }
+  *get_value(n = 1) { return (yield* this.read_average(n)) - this.offset; }
+  *get_units(n = 1) { return (yield* this.get_value(n)) / (this.scale || 1); }
+  *tare(n = 10) { this.offset = yield* this.read_average(n); }
+  set_scale(f = 1) { this.scale = +f || 1; } get_scale() { return this.scale; }
+  set_offset(o = 0) { this.offset = o | 0; } get_offset() { return this.offset; }
+  power_down() { this.down = true; } power_up() { this.down = false; }
+}
+class ToFrt {
+  constructor(m) { this.m = m; this.addr = 0x29; this.to = 0; this.tout = false; this.budget = 33000; this.rate = 0.25; this.cont = false; this.ok = false; }
+  dev() { return i2c(this.m, 'vl53l0x', this.addr); }
+  init() { busy(this.m, 40000); this.ok = !!this.dev(); return this.ok ? 1 : 0; }
+  setTimeout(ms) { this.to = ms | 0; } getTimeout() { return this.to; }
+  setAddress(a) { this.addr = a & 127; }
+  setMeasurementTimingBudget(us) { this.budget = Math.max(20000, us | 0); return 1; }
+  setSignalRateLimit(r) { this.rate = +r; return 1; }
+  startContinuous() { this.cont = true; } stopContinuous() { this.cont = false; }
+  timeoutOccurred() { const t = this.tout; this.tout = false; return t ? 1 : 0; }
+  *range() {
+    const p = this.dev(); if (!p || !this.ok) { yield* this.m.delay(Math.max(1, this.to || 500)); this.tout = true; return 65535; }
+    yield* this.m.delay(this.budget / 1000); p.state.reads = (p.state.reads || 0) + 1;
+    const max = (TOF_MAX[p.state.surface] || 1200) * (this.rate <= 0.15 ? 1.6 : 1) * (this.budget >= 100000 ? 1.15 : 1); const d = p.state.mm || 0;
+    if (d > max || d < 20) return 8190;
+    const sd = (2 + d * 0.012) * Math.sqrt(33000 / this.budget) * (d > 0.8 * max ? 2.5 : 1); return Math.max(20, Math.round(d + 10 + gauss() * sd)); // (its own offset is about +10 mm until calibrated)
+  }
+  *readRangeSingleMillimeters() { return yield* this.range(); }
+  *readRangeContinuousMillimeters() { return yield* this.range(); }
+}
+Object.assign(TYPES, {
+  HX711: { inc: ['HX711.h'], ctor: [0, 0], methods: { begin: [2, 3, 'void'], set_gain: [1, 1, 'void'], is_ready: [0, 0, 'bool'], wait_ready: [0, 1, 'void', 'y'], read: [0, 0, 'long', 'y'], read_average: [0, 1, 'long', 'y'],
+    get_value: [0, 1, 'float', 'y'], get_units: [0, 1, 'float', 'y'], tare: [0, 1, 'void', 'y'], set_scale: [0, 1, 'void'], get_scale: [0, 0, 'float'], set_offset: [0, 1, 'void'], get_offset: [0, 0, 'long'], power_down: [0, 0, 'void'], power_up: [0, 0, 'void'] } },
+  VL53L0X: { inc: ['VL53L0X.h'], ctor: [0, 0], methods: { init: [0, 1, 'bool'], setTimeout: [1, 1, 'void'], getTimeout: [0, 0, 'int'], setAddress: [1, 1, 'void'], setMeasurementTimingBudget: [1, 1, 'bool'], setSignalRateLimit: [1, 1, 'bool'],
+    startContinuous: [0, 1, 'void'], stopContinuous: [0, 0, 'void'], timeoutOccurred: [0, 0, 'bool'], readRangeSingleMillimeters: [0, 0, 'uint', 'y'], readRangeContinuousMillimeters: [0, 0, 'uint', 'y'] } },
+});
+Object.assign(MAKERS, { HX711: (m) => new HX711rt(m), VL53L0X: (m) => new ToFrt(m) });
+LIB_INCLUDES.push('HX711.h', 'VL53L0X.h');
+GLOBALS.Wire[1].push('VL53L0X.h');
 
 export function libRT(m, type, args, line) {
   if (type[0] === '@') { let g = ONE.get(m.ser); if (!g) { g = {}; ONE.set(m.ser, g); } return g[type] || (g[type] = MAKERS[type](m)); }

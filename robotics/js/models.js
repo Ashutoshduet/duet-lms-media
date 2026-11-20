@@ -13,6 +13,7 @@ import { buildPart3, setLite3 } from './models3.js'; // batch 3: the school-lab 
 import { buildPart22 } from './models22.js'; import { buildPart24 } from './models24.js'; import { buildPart25 } from './models25.js'; import { buildPart26 } from './models26.js'; // batch 24: the MCP3008 chip // batch 22: the digital sensor modules
 import { buildPart28 } from './models28.js'; // batch 28: the DS18B20 probe, the WS2812 stick
 import { buildPart29 } from './models29.js'; // batch 29: the flex glove, the robot hand
+import { buildPart30 } from './models30.js'; // batch 30: the load cell, the VL53L0X
 import { buildPart6, setLite6 } from './models6.js'; // batch 6: the Pico, the Pi 4 (registered with models4.js), the active buzzer
 import { buildPart7 } from './models7.js'; // batch 7: the bulb / fan on a 230 V box, the sanitizer bottle around the pump
 import { buildPart12 } from './models12.js'; // batch 12: the test sample, the buzz wire, Newton's colour disc on the motor
@@ -444,6 +445,7 @@ export function buildPart(part) {
   if (!g) g = buildPart26(part); // batch 26 (models26.js)
   if (!g) g = buildPart28(part); // batch 28 (models28.js)
   if (!g) g = buildPart29(part); // batch 29 (models29.js)
+  if (!g) g = buildPart30(part); // batch 30 (models30.js)
   if (!g) switch (part.type) {
     case 'led': g = buildLED(part.props.color); break;
     case 'rgb': g = buildLED('white', true); break;

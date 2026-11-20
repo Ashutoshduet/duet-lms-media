@@ -1214,3 +1214,14 @@ heaters.
   Both lie behind their 7-pin header, pointing away like the student's own right hand. The lesson: map(0, 1023) barely
   moves it and backwards → calibrate map(f, 290, 95, 0, 180) + constrain → the thumb opens in a fist → if (i == 0) angle
   = 180 − angle → fist, then peace. The servos run on their own 4×AA; the common ground goes through column 55.
+- Batch 30: two sensors (parts30.js, models30.js, app30.js) and their libraries (libs3.js):
+  - loadcell: a 5 kg bar load cell with its HX711 (VCC, GND, DT, SCK), a platform with brass weights (one a 500 g).
+    HX711 (bogde): raw = the chip's zero 84213 + (load + the 120 g platform) × 430 counts a gram; 10 readings a second,
+    each waited for (no HX711 on DT: the sketch waits for ever, as a real one does); tare(), set_scale(), set_offset(),
+    get_units(n) … A tare() with something on the platform zeroes that too (real): the factory sketches use
+    set_offset(135813), the empty platform measured once, so a restart under load still weighs right.
+  - vl53l0x: the laser distance sensor on I2C 0x29, standing by its ruler (a card slides on it; white, grey, black).
+    VL53L0X (Pololu): init(), setTimeout, readRangeSingleMillimeters (33 ms; ±(2 mm + 1.2 %), +10 mm offset), long range
+    (setSignalRateLimit(0.1) × 1.6), timing budget; past its reach (1.2 m white, 0.9 grey, 0.55 black) 8190; none: 65535.
+  factory.js: weight (> 1000 g), weightsmall (> 40 g), weightlow (< 100 g) on the Uno (DT 2, SCK 5) and the ESP32 (19, 23);
+  tof (< 200 mm) on A4 / A5 and 21 / 22 (the LCD and OLED clash). 12 jobs, 94 lessons. 3,758 projects live.

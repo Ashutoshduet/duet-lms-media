@@ -6556,15 +6556,13 @@
     "kind": "I",
     "title": "Smart ration shop: RFID card and grain weight",
     "board": "uno",
-    "status": "needs-part",
+    "status": "planned",
     "ref": "smart-ration-shop-rfid-card-and-grain-weight-uno",
-    "newparts": [
-     "hx711"
-    ],
+    "newparts": [],
     "family": "india-problems",
     "parts": [
-     "hx711",
      "lcd16",
+     "loadcell",
      "rfid"
     ],
     "strand": "Decomposition",

@@ -27284,6 +27284,1058 @@
 "note": null
 },
 {
+"id": "live-f_tapwater_bt_esp",
+"title": "Touch-free water tap: laser distance sensor VL53L0X → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tapwater_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tapwater_web_esp",
+"title": "Touch-free water tap: laser distance sensor VL53L0X → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tapwater_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tapwater_led_esp",
+"title": "Touch-free water tap: laser distance sensor VL53L0X → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tapwater_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tapwater_pump_esp",
+"title": "Touch-free water tap: laser distance sensor VL53L0X → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tapwater_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbinfull_bt_esp",
+"title": "Dustbin full alert: laser distance sensor VL53L0X → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dustbinfull_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbinfull_web_esp",
+"title": "Dustbin full alert: laser distance sensor VL53L0X → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dustbinfull_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbinfull_rgb_esp",
+"title": "Dustbin full alert: laser distance sensor VL53L0X → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dustbinfull_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbinfull_led_esp",
+"title": "Dustbin full alert: laser distance sensor VL53L0X → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dustbinfull_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_bt_esp",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_carstop_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_web_esp",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_carstop_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_neo_esp",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_carstop_neo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_buzzer_esp",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_carstop_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_rgb_esp",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_carstop_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchfree_bt_esp",
+"title": "Touch-free sanitiser dispenser: laser distance sensor VL53L0X → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_touchfree_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchfree_web_esp",
+"title": "Touch-free sanitiser dispenser: laser distance sensor VL53L0X → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_touchfree_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchfree_servo_esp",
+"title": "Touch-free sanitiser dispenser: laser distance sensor VL53L0X → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_touchfree_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchfree_pump_esp",
+"title": "Touch-free sanitiser dispenser: laser distance sensor VL53L0X → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_touchfree_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_petbowl_bt_esp",
+"title": "Pet food bowl empty: load cell with HX711 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_petbowl_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_petbowl_web_esp",
+"title": "Pet food bowl empty: load cell with HX711 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_petbowl_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_petbowl_led_esp",
+"title": "Pet food bowl empty: load cell with HX711 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_petbowl_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_petbowl_buzzer_esp",
+"title": "Pet food bowl empty: load cell with HX711 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_petbowl_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_birdfeeder_bt_esp",
+"title": "Bird feeder refill light: load cell with HX711 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_birdfeeder_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_birdfeeder_web_esp",
+"title": "Bird feeder refill light: load cell with HX711 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_birdfeeder_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_birdfeeder_neo_esp",
+"title": "Bird feeder refill light: load cell with HX711 → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_birdfeeder_neo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_birdfeeder_led_esp",
+"title": "Bird feeder refill light: load cell with HX711 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_birdfeeder_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_bt_esp",
+"title": "Saline drip bag almost empty: load cell with HX711 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ivdrip_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_web_esp",
+"title": "Saline drip bag almost empty: load cell with HX711 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ivdrip_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_oled_esp",
+"title": "Saline drip bag almost empty: load cell with HX711 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ivdrip_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_lcd_esp",
+"title": "Saline drip bag almost empty: load cell with HX711 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ivdrip_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_rgb_esp",
+"title": "Saline drip bag almost empty: load cell with HX711 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ivdrip_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_buzzer_esp",
+"title": "Saline drip bag almost empty: load cell with HX711 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ivdrip_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_postbox_bt_esp",
+"title": "Letter box: post has come: load cell with HX711 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_postbox_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_postbox_web_esp",
+"title": "Letter box: post has come: load cell with HX711 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_postbox_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_postbox_rgb_esp",
+"title": "Letter box: post has come: load cell with HX711 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_postbox_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_postbox_buzzer_esp",
+"title": "Letter box: post has come: load cell with HX711 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_postbox_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nestbox_bt_esp",
+"title": "Nest box egg detector: load cell with HX711 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nestbox_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nestbox_web_esp",
+"title": "Nest box egg detector: load cell with HX711 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nestbox_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nestbox_buzzer_esp",
+"title": "Nest box egg detector: load cell with HX711 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nestbox_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nestbox_led_esp",
+"title": "Nest box egg detector: load cell with HX711 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nestbox_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_bt_esp",
+"title": "Model lift overload alarm: load cell with HX711 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftload_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_web_esp",
+"title": "Model lift overload alarm: load cell with HX711 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftload_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_neo_esp",
+"title": "Model lift overload alarm: load cell with HX711 → RGB light stick (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ws2812",
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftload_neo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_led_esp",
+"title": "Model lift overload alarm: load cell with HX711 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftload_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_buzzer_esp",
+"title": "Model lift overload alarm: load cell with HX711 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftload_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shelfload_bt_esp",
+"title": "Shelf overload warning: load cell with HX711 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shelfload_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shelfload_web_esp",
+"title": "Shelf overload warning: load cell with HX711 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shelfload_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shelfload_rgb_esp",
+"title": "Shelf overload warning: load cell with HX711 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shelfload_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shelfload_buzzer_esp",
+"title": "Shelf overload warning: load cell with HX711 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shelfload_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_bt_esp",
+"title": "Post office parcel weigher: load cell with HX711 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parcelpost_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_web_esp",
+"title": "Post office parcel weigher: load cell with HX711 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parcelpost_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_oled_esp",
+"title": "Post office parcel weigher: load cell with HX711 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_parcelpost_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_led_esp",
+"title": "Post office parcel weigher: load cell with HX711 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_parcelpost_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_lcd_esp",
+"title": "Post office parcel weigher: load cell with HX711 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"loadcell"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parcelpost_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishseed_bt_esp",
 "title": "Fish seed hatchery water alarm: waterproof probe DS18B20 → phone over Bluetooth (ESP32)",
 "family": "factory",
@@ -49394,6 +50446,854 @@
 "level": 8,
 "theme": "bank",
 "live": "f_doorbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tapwater_bt",
+"title": "Touch-free water tap: laser distance sensor VL53L0X → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tapwater_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tapwater_led",
+"title": "Touch-free water tap: laser distance sensor VL53L0X → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tapwater_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tapwater_pump",
+"title": "Touch-free water tap: laser distance sensor VL53L0X → water pump",
+"family": "factory",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tapwater_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbinfull_bt",
+"title": "Dustbin full alert: laser distance sensor VL53L0X → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dustbinfull_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbinfull_rgb",
+"title": "Dustbin full alert: laser distance sensor VL53L0X → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dustbinfull_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbinfull_led",
+"title": "Dustbin full alert: laser distance sensor VL53L0X → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dustbinfull_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_bt",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_carstop_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_neo",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_carstop_neo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_buzzer",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_carstop_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carstop_rgb",
+"title": "Garage parking stop light: laser distance sensor VL53L0X → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_carstop_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchfree_bt",
+"title": "Touch-free sanitiser dispenser: laser distance sensor VL53L0X → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_touchfree_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchfree_servo",
+"title": "Touch-free sanitiser dispenser: laser distance sensor VL53L0X → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_touchfree_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchfree_pump",
+"title": "Touch-free sanitiser dispenser: laser distance sensor VL53L0X → water pump",
+"family": "factory",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"vl53l0x"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_touchfree_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_petbowl_bt",
+"title": "Pet food bowl empty: load cell with HX711 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_petbowl_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_petbowl_led",
+"title": "Pet food bowl empty: load cell with HX711 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_petbowl_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_petbowl_buzzer",
+"title": "Pet food bowl empty: load cell with HX711 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_petbowl_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_birdfeeder_bt",
+"title": "Bird feeder refill light: load cell with HX711 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_birdfeeder_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_birdfeeder_neo",
+"title": "Bird feeder refill light: load cell with HX711 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_birdfeeder_neo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_birdfeeder_led",
+"title": "Bird feeder refill light: load cell with HX711 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_birdfeeder_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_bt",
+"title": "Saline drip bag almost empty: load cell with HX711 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ivdrip_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_oled",
+"title": "Saline drip bag almost empty: load cell with HX711 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ivdrip_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_lcd",
+"title": "Saline drip bag almost empty: load cell with HX711 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ivdrip_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_rgb",
+"title": "Saline drip bag almost empty: load cell with HX711 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ivdrip_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ivdrip_buzzer",
+"title": "Saline drip bag almost empty: load cell with HX711 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ivdrip_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_postbox_bt",
+"title": "Letter box: post has come: load cell with HX711 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_postbox_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_postbox_rgb",
+"title": "Letter box: post has come: load cell with HX711 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_postbox_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_postbox_buzzer",
+"title": "Letter box: post has come: load cell with HX711 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_postbox_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nestbox_bt",
+"title": "Nest box egg detector: load cell with HX711 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nestbox_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nestbox_buzzer",
+"title": "Nest box egg detector: load cell with HX711 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nestbox_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nestbox_led",
+"title": "Nest box egg detector: load cell with HX711 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nestbox_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_bt",
+"title": "Model lift overload alarm: load cell with HX711 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftload_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_neo",
+"title": "Model lift overload alarm: load cell with HX711 → RGB light stick",
+"family": "factory",
+"board": "uno",
+"parts": [
+"ws2812",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftload_neo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_led",
+"title": "Model lift overload alarm: load cell with HX711 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftload_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftload_buzzer",
+"title": "Model lift overload alarm: load cell with HX711 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftload_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shelfload_bt",
+"title": "Shelf overload warning: load cell with HX711 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shelfload_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shelfload_rgb",
+"title": "Shelf overload warning: load cell with HX711 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shelfload_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shelfload_buzzer",
+"title": "Shelf overload warning: load cell with HX711 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shelfload_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_bt",
+"title": "Post office parcel weigher: load cell with HX711 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_parcelpost_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_oled",
+"title": "Post office parcel weigher: load cell with HX711 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_parcelpost_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_led",
+"title": "Post office parcel weigher: load cell with HX711 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"loadcell"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_parcelpost_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parcelpost_lcd",
+"title": "Post office parcel weigher: load cell with HX711 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"loadcell"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_parcelpost_lcd",
 "rule": null,
 "note": null
 },
@@ -98431,12 +100331,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"hx711",
-"lcd16"
+"lcd16",
+"loadcell"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -98457,12 +100355,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"hx711",
-"lcd16"
+"lcd16",
+"loadcell"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -98483,12 +100379,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"hx711",
+"loadcell",
 "oled"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -98509,12 +100403,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"hx711",
+"loadcell",
 "oled"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -98536,11 +100428,9 @@
 "board": "uno",
 "parts": [
 "abuzz",
-"hx711"
+"loadcell"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -98562,11 +100452,9 @@
 "board": "esp32",
 "parts": [
 "abuzz",
-"hx711"
+"loadcell"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -98587,13 +100475,11 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"hx711",
+"loadcell",
 "resistor",
 "rgb"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -98614,13 +100500,11 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"hx711",
+"loadcell",
 "resistor",
 "rgb"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -98641,12 +100525,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"hx711",
-"lcd16"
+"lcd16",
+"loadcell"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -98667,12 +100549,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"hx711",
-"lcd16"
+"lcd16",
+"loadcell"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -98693,11 +100573,9 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"hx711"
+"loadcell"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104423,9 +106301,7 @@
 "oled",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -104449,9 +106325,7 @@
 "oled",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104475,9 +106349,7 @@
 "oled",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104501,9 +106373,7 @@
 "lcd16",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -104527,9 +106397,7 @@
 "lcd16",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104553,9 +106421,7 @@
 "lcd16",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104580,9 +106446,7 @@
 "relay",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -104607,9 +106471,7 @@
 "relay",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104634,9 +106496,7 @@
 "relay",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104661,9 +106521,7 @@
 "rgb",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -104688,9 +106546,7 @@
 "rgb",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -104715,9 +106571,7 @@
 "rgb",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104742,9 +106596,7 @@
 "sip10",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -104769,9 +106621,7 @@
 "sip10",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104796,9 +106646,7 @@
 "sip10",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104822,9 +106670,7 @@
 "oled",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -104848,9 +106694,7 @@
 "oled",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -104874,9 +106718,7 @@
 "oled",
 "vl53l0x"
 ],
-"newparts": [
-"vl53l0x"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -118864,13 +120706,11 @@
 "family": "india-problems",
 "board": "uno",
 "parts": [
-"hx711",
 "lcd16",
+"loadcell",
 "rfid"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -118887,13 +120727,11 @@
 "family": "india-problems",
 "board": "esp32",
 "parts": [
-"hx711",
 "lcd16",
+"loadcell",
 "rfid"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -119800,12 +121638,10 @@
 "family": "india-problems",
 "board": "uno",
 "parts": [
-"hx711",
+"loadcell",
 "mq2"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -119822,12 +121658,10 @@
 "family": "india-problems",
 "board": "esp32",
 "parts": [
-"hx711",
+"loadcell",
 "mq2"
 ],
-"newparts": [
-"hx711"
-],
+"newparts": [],
 "band": [
 12,
 12

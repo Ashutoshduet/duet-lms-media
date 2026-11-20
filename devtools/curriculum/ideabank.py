@@ -84,7 +84,7 @@ INP = {
     'bmp':     ('air pressure sensor', ['bmp180'], ['uno', 'esp32', 'pico'], 2),
     'mpu':     ('motion sensor MPU6050', ['mpu6050'], ['uno', 'esp32', 'pico'], 3),
     'color':   ('colour sensor', ['+tcs3200'], ['uno', 'esp32'], 2),
-    'weight':  ('load cell', ['+hx711'], ['uno', 'esp32'], 3),
+    'weight':  ('load cell', ['loadcell'], ['uno', 'esp32'], 3),
     'pulse':   ('pulse sensor', ['+pulse'], ['uno', 'esp32', 'microbit'], 2),
     'volt':    ('voltage sensor', ['+voltsense'], ['uno', 'esp32'], 2),
     'current': ('current sensor', ['+acs712'], ['uno', 'esp32'], 3),
@@ -101,7 +101,7 @@ INP = {
     'dust':    ('dust (PM2.5) sensor', ['+pm25'], ['uno', 'esp32'], 3),
     'uv':      ('UV sensor', ['uvs'], ['uno', 'esp32', 'pico'], 2),
     'radar':   ('microwave radar sensor', ['rcwl'], ['uno', 'esp32', 'pico', 'pi4', 'microbit'], 1),
-    'tof':     ('laser distance sensor (ToF)', ['+vl53l0x'], ['uno', 'esp32', 'pico'], 3),
+    'tof':     ('laser distance sensor (ToF)', ['vl53l0x'], ['uno', 'esp32', 'pico'], 3),
     'flow':    ('water flow sensor', ['+flow'], ['uno', 'esp32'], 2),
     'flex':    ('flex sensor', ['flex', 'resistor'], ['uno', 'esp32', 'pico'], 2),
     'force':   ('pressure pad (FSR)', ['fsr', 'resistor'], ['uno', 'esp32', 'pico', 'microbit'], 1),
@@ -738,7 +738,7 @@ for (t, p, lv) in WORLD:
 INDIA = [
     ('Crop guard: scare animals at night', ['pir', 'abuzz', 'led'], 8), ('Drip irrigation on a timer', ['rtc3231', 'pump', 'relay'], 9),
     ('Borewell rescue claw model', ['servo', 'stepper'], 10), ('Rail track crack detector trolley', ['ir', 'hcsr04', 'bomotor'], 10),
-    ('Smart ration shop: RFID card and grain weight', ['rfid', '+hx711', 'lcd16'], 11), ('Manhole gas alarm for workers', ['mq2', 'abuzz', '+gsm'], 10),
+    ('Smart ration shop: RFID card and grain weight', ['rfid', 'loadcell', 'lcd16'], 11), ('Manhole gas alarm for workers', ['mq2', 'abuzz', '+gsm'], 10),
     ('Women safety band with SOS', ['button', '+gps', '+gsm'], 11), ('Bike accident alert', ['mpu6050', '+gps', '+gsm'], 11),
     ('Kisan weather station for the panchayat', ['dht11', 'rain', 'anemo'], 10), ('Milk adulteration tester', ['+tds', 'lcd16'], 10),
     ('Vaccine cold-chain box monitor', ['ds18b20', 'abuzz'], 10), ('Toll plaza with RFID FASTag model', ['rfid', 'servo'], 9),
@@ -749,7 +749,7 @@ INDIA = [
     ('Mid-day meal temperature check', ['ds18b20', 'lcd16'], 9), ('Cattle shed fan and water automation', ['dht11', 'motor', 'pump'], 9),
     ('Tractor reversing sensor', ['hcsr04', 'abuzz'], 8), ('Fog light that switches on in fog', ['ldr', 'led', 'relay'], 8),
     ('Electricity theft alarm model', ['+acs712', 'abuzz'], 11), ('Smart traffic for ambulances (green corridor)', ['rfid', 'led'], 10),
-    ('Gas cylinder leak and level monitor', ['mq2', '+hx711'], 11), ('Temple or school crowd counter', ['ir', 'seg7'], 8),
+    ('Gas cylinder leak and level monitor', ['mq2', 'loadcell'], 11), ('Temple or school crowd counter', ['ir', 'seg7'], 8),
     ('Solar dryer for crops with fan control', ['dht11', 'motor', 'solar'], 10), ('Rainwater harvesting tank monitor', ['hcsr04', 'lcd16'], 9),
     ('Smart parking for a market', ['ir', 'lcd16', 'servo'], 9), ('Fire alarm for a hut with a GSM call', ['flame', '+gsm'], 10),
     ('Pump dry-run protection for farmers', ['wlevel', 'relay'], 9), ('Mobile phone charging locker with RFID', ['rfid', 'servo', 'relay'], 10),
@@ -786,7 +786,7 @@ def live_lessons():
 
 LIVE = live_lessons()
 # factory lessons (robotics/js/factory.js) make planned sensor -> output ideas live: same job, sensor and output on the Uno
-F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas'], 'force': ['force'], 'flex': ['flex'], 'thermistor': ['ntc'], 'water': ['water'], 'uv': ['uv'], 'radar': ['radar'], 'air': ['air'], 'alcohol': ['alcohol'], 'mpu': ['tilt6'], 'rtc': ['clock'], 'lux': ['lux'], 'bmp': ['storm', 'alt'], 'ds18': ['probehot', 'probewarm', 'probecold']} # (25, 26, 28: the new sensors)
+F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas'], 'force': ['force'], 'flex': ['flex'], 'thermistor': ['ntc'], 'water': ['water'], 'uv': ['uv'], 'radar': ['radar'], 'air': ['air'], 'alcohol': ['alcohol'], 'mpu': ['tilt6'], 'rtc': ['clock'], 'lux': ['lux'], 'bmp': ['storm', 'alt'], 'ds18': ['probehot', 'probewarm', 'probecold'], 'weight': ['weight', 'weightsmall', 'weightlow'], 'tof': ['tof']} # (25, 26, 28, 30: the new sensors)
 F_OUT = {'led': 'led', 'rgb': 'rgb', 'buzzer': 'buzzer', 'abuzz': 'buzzer', 'servo': 'servo', 'relay': 'relay', 'pump': 'pump', 'lcd': 'lcd', 'ws2812': 'neo'}
 FMAP = {}
 for l in LIVE:
