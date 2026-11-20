@@ -835,3 +835,12 @@ heaters.
   (2, 0) → FINISH in 22 s, no bump; 255: the timed turn overshoots and it bumps; 150: clean again; maze B: it goes
   round and back to START (flag `loop`). The panel swaps the maze (the arena is built again). robocore18.mjs plays it.
   Class 9: 26 of 26. 1,544 projects.
+- The Class 10 robots on the Raspberry Pi 4 (batch 19, lessons19.js, gpiozero): the car's world takes `board: 'pi'`
+  (models2.js `buildCar(kind, parts, opt)` puts the Pi on the plate; `fixed: true` = the avoid car's HC-SR04 fixed on a
+  bracket, no servo). `pi_linecar`: two LineSensor eyes on GPIO 17 / 27 (3.3 V: the check refuses 5 V and swapped eyes),
+  Robot.value = (left, right); sleep(0.3) between looks runs off the tape (flag lost), sleep(0.02) laps clean.
+  `pi_avoidcar`: DistanceSensor (Trig 23, Echo through 1 kΩ / 2.2 kΩ to 24), random.choice of the side; safe = 30
+  (cm for m) only backs and turns (flags back, no fwd). `pi_wallcar`: CAR_CFG.mazeR = maze A with the side HC-SR04 on the
+  right (`CarSim.mazeSide()`, us2: Trig 16, Echo 26 through its own divider), a P controller (steer = kp × (right −
+  15)); kp 0.03 / 0.04 reach FINISH by the right-hand wall (no dead end); kp 0.5 oscillates: CarSim flag `wobble` = 25
+  hard left / right swings in a row, each within 0.7 s. robocore19.mjs plays them. Class 10: 17 of 26. 1,547 projects.

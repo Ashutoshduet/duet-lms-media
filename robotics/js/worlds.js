@@ -26,7 +26,7 @@ const W = {
   slave: t3('Lifts the arm (syringe)', 'बाँह उठाती है (सिरिंज)', 'Baanh uthati hai (syringe)'), fluid: t3('Inside the tube', 'नली के अंदर', 'Nali ke andar'), water: t3('Water', 'पानी', 'Paani'), air: t3('Air', 'हवा', 'Hawa'),
   armAngle: t3('Arm', 'बाँह', 'Baanh'), start: t3('Back to the start', 'शुरुआत पर वापस', 'Start par wapas'), speed: t3('Speed', 'रफ़्तार', 'Speed'), motors: t3('Motors L / R', 'मोटर बाएँ / दाएँ', 'Motor left / right'),
   irs: t3('IR left / right', 'IR बाएँ / दाएँ', 'IR left / right'), black: t3('black', 'काला', 'kaala'), white: t3('white', 'सफ़ेद', 'safed'), laps: t3('Laps', 'चक्कर', 'Chakkar'), lapT: t3('Lap time', 'एक चक्कर का समय', 'Lap time'),
-  aheadLeft: t3('Ahead / left', 'सामने / बाएँ', 'Saamne / left'), rooms: t3('Rooms gone through', 'कितने कमरों से गुज़रा', 'Kitne kamron se guzra'), maze: t3('Maze', 'भूलभुलैया', 'Bhool-bhulaiya'),
+  aheadLeft: t3('Ahead / left', 'सामने / बाएँ', 'Saamne / left'), aheadRight: t3('Ahead / right', 'सामने / दाएँ', 'Saamne / right'), rooms: t3('Rooms gone through', 'कितने कमरों से गुज़रा', 'Kitne kamron se guzra'), maze: t3('Maze', 'भूलभुलैया', 'Bhool-bhulaiya'),
   mazeA: t3('A: walls joined', 'A: दीवारें जुड़ी', 'A: deewarein judi'), mazeB: t3('B: FINISH in the middle', 'B: FINISH बीच में', 'B: FINISH beech mein'), outOf: t3('Out of the maze!', 'भूलभुलैया से बाहर!', 'Bhool-bhulaiya se bahar!'),
   roundAgain: t3('Back at START: round again', 'वापस START पर: फिर एक चक्कर', 'Wapas START par: phir ek chakkar'), deadEnd: t3('Dead end visited', 'बंद गली देखी', 'Band gali dekhi'),
   lost: t3('Line lost!', 'लाइन छूट गई!', 'Line chhoot gayi!'), ahead: t3('Ahead', 'सामने', 'Saamne'), bumps: t3('Bumps', 'टक्कर', 'Takkar'), dist: t3('Driven', 'चली', 'Chali'),
@@ -248,7 +248,7 @@ class CarWorld extends World {
     return [
       () => { this.buildArenaNow(this.sim.cfg);
         if (cfg.lamps) { this.torch = M2.buildTorch(); this.arena.add(this.torch); this.placeTorch(); } }, // (batch 14)
-      () => { this.car = M2.buildCar(this.cfg.car); this.car.rotation.order = 'YXZ'; this.arena.add(this.car); this.place(); },
+      () => { this.car = M2.buildCar(this.cfg.car, null, this.cfg); this.car.rotation.order = 'YXZ'; this.arena.add(this.car); this.place(); },
     ];
   }
   buildArenaNow(cfg) { // (batch 18: the maze robot's panel can swap maze A for maze B: the arena is built again)
@@ -270,15 +270,15 @@ class CarWorld extends World {
     // the sensors on the bench read what the car's sensors see
     if (this.cfg.car === 'line') { const s = S.sensors(); this.sens = s; for (const [tag, b] of [['irL', s.L], ['irR', s.R]]) { const p = this.part(tag); if (p) { p.state.ext = true; const d = b ? 40 : 1; if (p.state.dist !== d) { p.state.dist = d; this.lab.stateV++; this.lab.instKey = null; } if (live.leds['ir' + tag.slice(2)]) live.leds['ir' + tag.slice(2)].emissiveIntensity = p.state.near ? 2.6 : 0; } } }
     if (this.cfg.car === 'avoid') { const sv = this.part('sv1'); const sa = sv ? sv.state.angle : 90; if (live.scan) live.scan.rotation.y = (sa - 90) * D2R; const us = this.part('us1'); if (us) { us.state.ext = true; const d = S.usCm(sa); this.ahead = d; if (us.state.dist !== d) { us.state.dist = d; } } }
-    if (['edge', 'light', 'lap', 'maze'].includes(this.cfg.car)) { carFeed(S, this.lab); for (const t of ['irL', 'irR', 'irM']) { const p = this.part(t); if (p && live.leds[t]) live.leds[t].emissiveIntensity = p.state.powered !== false && p.state.near ? 2.6 : 0; } } // (batch 14)
+    if (['edge', 'light', 'lap', 'maze', 'mazeR'].includes(this.cfg.car)) { carFeed(S, this.lab); for (const t of ['irL', 'irR', 'irM']) { const p = this.part(t); if (p && live.leds[t]) live.leds[t].emissiveIntensity = p.state.powered !== false && p.state.near ? 2.6 : 0; } } // (batch 14)
     const drv = this.part('drv'); if (drv && live.leds.pwr) live.leds.pwr.emissiveIntensity = (drv.state.vs || 0) > 6.8 ? 2.4 : 0;
     const bt = this.part('bt'); if (bt && live.leds.bt) live.leds.bt.emissiveIntensity = !bt.state.powered ? 0 : bt.state.paired ? ((performance.now() / 1000) % 2 < 0.25 ? 2.4 : 0) : ((performance.now() / 100) % 2 < 1 ? 2.4 : 0);
     return Math.abs(vl) + Math.abs(vr) > 1 || !!bt || (S.fell && S.fallT < 1);
   }
-  onRun() { this.sim.reset(); this.place(); this.placeTorch(); if (this.cfg.car === 'maze') carFeed(this.sim, this.lab); }
+  onRun() { this.sim.reset(); this.place(); this.placeTorch(); if (this.sim.cfg.maze) carFeed(this.sim, this.lab); }
   control(id, v) {
     if (id === 'start') { this.sim.reset(); this.place(); this.placeTorch(); }
-    if (id === 'maze' && this.cfg.car === 'maze' && v !== this.sim.cfg.maze) { this.sim.setMaze(v); this.buildArenaNow(this.sim.cfg); this.place(); carFeed(this.sim, this.lab); this.stage.kick(); } // (batch 18)
+    if (id === 'maze' && this.sim.cfg.maze && v !== this.sim.cfg.maze) { this.sim.setMaze(v); this.buildArenaNow(this.sim.cfg); this.place(); carFeed(this.sim, this.lab); this.stage.kick(); } // (batch 18)
     if (id === 'lamp') { this.sim.lamp = v; this.sim.foundT = 0; this.placeTorch(); this.stage.kick(); } // (batch 14: move the torch)
     if (id === 'pair') { const bt = this.part('bt'); if (bt && bt.state.powered) { bt.state.paired = true; this.lab.stateV++; } }
     if (id === 'key') { const r = this.lab.btSend(v); this.lastSend = { k: v, r }; this.app.onBT && this.app.onBT(r); }
@@ -297,12 +297,12 @@ class CarWorld extends World {
       controls.unshift({ id: 'lamp', kind: 'seg', label: W.torch, options: [['A', 'A'], ['B', 'B'], ['C', 'C']], value: S.lamp }); }
     if (k === 'dance') { rows.push([tx(W.lastSpin), S.lastSpin === null ? '—' : `${Math.abs(S.lastSpin)}° ${S.lastSpin > 0 ? '↺' : '↻'}`]); rows.push([tx(W.fromSpot), `${Math.round((S.fromSpot || 0) / 10)} cm`]); }
     if (k === 'lap') { const s = this.sens || S.sensors(); rows.unshift([tx(W.irs), `${tx(s.L ? W.black : W.white)} / ${tx(s.R ? W.black : W.white)}`]); rows.push([tx(W.marker), `${S.marks} ${tx(W.passes)}`]); }
-    if (k === 'maze') { // (batch 18)
+    if (k === 'maze' || k === 'mazeR') { // (batch 18; 19: the wall follower, its sensor on the right)
       const f = this.part('us1'), l = this.part('us2'); const cm = (p) => (p && p.state.powered ? `${p.state.dist}` : '—');
-      rows.unshift([tx(W.aheadLeft), `${cm(f)} / ${cm(l)} cm`]); rows.push([tx(W.rooms), String(S.path.length)]); rows.push([tx(W.bumps), String(S.bumps)]);
+      rows.unshift([tx(k === 'mazeR' ? W.aheadRight : W.aheadLeft), `${cm(f)} / ${cm(l)} cm`]); rows.push([tx(W.rooms), String(S.path.length)]); rows.push([tx(W.bumps), String(S.bumps)]);
       if (S.flags.has('deadend') && S.cfg.maze === 'A') rows.push(['↩', tx(W.deadEnd)]); if (S.flags.has('solved')) rows.push(['★', `${tx(W.outOf)} ${S.solvedT.toFixed(1)} s`]); else if (S.loops) rows.push(['⚠', `${tx(W.roundAgain)} (${S.loops})`]);
       controls.unshift({ id: 'maze', kind: 'seg', label: W.maze, options: [['A', W.mazeA], ['B', W.mazeB]], value: S.cfg.maze });
-      return { title: t3('Maze-solving robot', 'भूलभुलैया सुलझाने वाला रोबोट', 'Maze solve karne wala robot'), rows, controls };
+      return { title: k === 'mazeR' ? t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot') : t3('Maze-solving robot', 'भूलभुलैया सुलझाने वाला रोबोट', 'Maze solve karne wala robot'), rows, controls };
     }
     const T14 = { edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
     if (T14[k]) return { title: T14[k], rows, controls };

@@ -117,6 +117,7 @@ export function mazeCfg(k = 'A') {
   return { line: false, room: [MAZE.cols * MAZE.cell, MAZE.rows * MAZE.cell], start: [sx, sz + 60, Math.PI], boxes: mazeWalls(k), finish: [fx, fz, MAZE.fin, MAZE.fin], maze: k };
 }
 CAR_CFG.maze = mazeCfg('A');
+CAR_CFG.mazeR = Object.assign(mazeCfg('A'), { side: 'R' }); // batch 19: the Pi's wall follower keeps the wall on its right
 // where the maze robot's sensors sit (car mm): the front HC-SR04, the left one (looking 90° left), the IR under the nose
 export const CAR18 = { usLX: 52, usLZ: 70, finZ: 150 };
 // batch 14: where the extra sensors sit on the car (car mm: +x the car's left, +z forward)
@@ -127,7 +128,7 @@ export class CarSim {
     this.walls(); this.reset();
   }
   // batch 18: the maze robot's maze, A or B (it stays chosen across Runs)
-  setMaze(k) { this.cfg = mazeCfg(k); this.dead = null; this.walls(); this.reset(); }
+  setMaze(k) { this.cfg = Object.assign(mazeCfg(k), this.cfg.side ? { side: this.cfg.side } : {}); this.dead = null; this.walls(); this.reset(); }
   walls() { // walls and boxes as segments (for the ultrasonic rays) and rectangles (for bumps)
     const [rw, rd] = this.cfg.room || [ROOM.w, ROOM.d]; this.room = [rw, rd]; const W = rw / 2, Dd = rd / 2; this.rects = [];
     for (const [x, z, w, d, , rot] of this.cfg.boxes) this.rects.push({ x, z, w, d, rot: rot || 0 });
@@ -142,7 +143,7 @@ export class CarSim {
     this.lamp = this.cfg.lamp0; this.foundT = 0; this.found = new Set(); // the light-seeker: where the torch stands (back at A on each Run), the spots it reached
     this.spin = 0; this.spinning = false; this.lastSpin = null; this.spins = []; // the dancer: the turn of the spin going on, and of the last ones (degrees)
     this.marks = 0; this.onMark = false; // the lap counter: times the side sensor passed the marker
-    this.cellK = null; this.path = []; this.cells = new Set(); this.loops = 0; this.outT = 0; this.onFin = false; this.solvedT = null; this.solvedBumps = null; // batch 18: the maze
+    this.cellK = null; this.path = []; this.cells = new Set(); this.loops = 0; this.outT = 0; this.swing = { last: 0, at: -9, run: 0 }; this.onFin = false; this.solvedT = null; this.solvedBumps = null; // batch 18: the maze
     if (this.cfg.maze && !this.dead) { const n = {}; const Z = MAZE[this.cfg.maze]; for (const [i, j, d] of Z.ways) { const b = d === 'E' ? [i + 1, j] : [i, j + 1]; for (const c of [[i, j], b]) n[c.join()] = (n[c.join()] || 0) + 1; } this.dead = new Set(Object.keys(n).filter((c) => n[c] === 1 && c !== MAZE.start.join() && c !== Z.finish.join())); }
   }
   // local car point (lx, lz) -> arena (x, z). Forward is local +z; the car's left is local +x.
@@ -193,6 +194,7 @@ export class CarSim {
   }
   mazeFront() { return this.usFrom(0, CARG.usZ, 0); }
   mazeLeft() { return this.usFrom(CAR18.usLX, CAR18.usLZ, 90); }
+  mazeSide() { return this.cfg.side === 'R' ? this.usFrom(-CAR18.usLX, CAR18.usLZ, -90) : this.mazeLeft(); } // (batch 19: or on the right)
   finSens() { const F = this.cfg.finish; if (!F) return false; const [x, z] = this.world(0, CAR18.finZ); return Math.abs(x - F[0]) < F[2] / 2 && Math.abs(z - F[1]) < F[3] / 2; }
   cellAt() { const M = MAZE; const [x, z] = this.world(0, CARG.bodyZ); return [Math.floor((x + M.cols * M.cell / 2) / M.cell), Math.floor((z + M.rows * M.cell / 2) / M.cell)]; }
   mazeCheck(dt, v) { // the cells it has been in (in order), a dead end reached, out on the FINISH square (and stopped there)
@@ -200,6 +202,7 @@ export class CarSim {
     if (k !== this.cellK) { this.cellK = k; this.path.push(k); this.cells.add(k); if (this.dead.has(k)) this.flags.add('deadend'); const F = MAZE[this.cfg.maze].finish; if (i === F[0] && j === F[1]) this.flags.add('atfinish');
       if (k === MAZE.start.join() && this.cells.size >= 8 && !this.flags.has('atfinish')) { this.flags.add('loop'); this.loops = (this.loops || 0) + 1; } } // back at START, all the way round, and no FINISH
     this.onFin = this.finSens(); if (this.onFin) this.flags.add('finline');
+    { const om = (this.vr - this.vl) / CARG.track, W = this.swing; if (Math.abs(om) > 1.2) { const sg = Math.sign(om); if (sg !== W.last) { W.run = this.t - W.at < 0.7 ? W.run + 1 : 0; W.last = sg; if (W.run >= 25) this.flags.add('wobble'); } W.at = this.t; } } // (batch 19: steering hard left, right, left… many times in a row: a controller that oscillates)
     this.outT = this.onFin && Math.abs(v) < 15 && Math.abs(this.vr - this.vl) < 15 ? this.outT + dt : 0;
     if (this.outT > 0.5 && !this.flags.has('solved')) { this.flags.add('solved'); this.solvedT = this.t; this.solvedBumps = this.bumps; }
   }
@@ -319,8 +322,8 @@ export function carFeed(sim, lab) {
   const k = sim.kind;
   if (k === 'edge' && !sim.fell) { const s = sim.edgeSens(); ir('irL', s.L); ir('irR', s.R); }
   if (k === 'lap') { const s = sim.sensors(); ir('irL', s.L); ir('irR', s.R); ir('irM', sim.markSens()); }
-  if (k === 'maze') { // batch 18: the front and left HC-SR04 hear the walls, the IR under the nose sees the black FINISH square
-    for (const [tag, d] of [['us1', sim.mazeFront()], ['us2', sim.mazeLeft()]]) { const p = byTag(tag); if (p) { p.state.ext = true; if (p.state.dist !== d) p.state.dist = d; } }
+  if (k === 'maze' || k === 'mazeR') { // batch 18: the front and left (19: or right) HC-SR04 hear the walls, the IR under the nose sees the black FINISH square
+    for (const [tag, d] of [['us1', sim.mazeFront()], ['us2', sim.mazeSide()]]) { const p = byTag(tag); if (p) { p.state.ext = true; if (p.state.dist !== d) p.state.dist = d; } }
     ir('irM', sim.finSens());
   }
   if (k === 'light') for (const [tag, side] of [['ldrL', 1], ['ldrR', -1]]) { const p = byTag(tag); if (!p) continue; p.state.ext = true; const lx = Math.round(sim.ldrLux(side) * 10) / 10; if (p.state.lux !== lx) { p.state.lux = lx; bump(); } }

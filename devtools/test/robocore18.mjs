@@ -57,7 +57,7 @@ function play(l, acts = {}) {
       if (!done) { log.push(`  flags ${[...B.sim.flags].join(',')} path ${B.sim.path.join(' ')} serial ${JSON.stringify(B.rt.serLines.slice(-3))}`); break; }
     }
   }
-  return { B, log, done: !!l.done(B.rt) };
+  return { B, log, done: !!l.done(B.rt) && !log.some((x) => /NOT DONE|check says|not what it asks/.test(x)) };
 }
 const T = {
   mazecar(l) {
