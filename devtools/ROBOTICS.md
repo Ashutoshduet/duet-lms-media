@@ -896,3 +896,9 @@ heaters.
   rain, wind and the spraying advice (raining() || kmh > 15: "Do not spray"). The first program counts the level (every
   loop() pass while the switch is closed: thousands of km/h); the edit counts the HIGH-to-LOW edge. cpp.js: on the
   ESP32 an int (and unsigned int) is 32 bits, as on the real chip (the Uno's stays 16). Class 10: 26 of 26. 1,701 projects.
+- Class 1 power without a battery (batch 22, circuits.js + parts22.js): `solar` (a 6 V panel: open-circuit 6.4 V and
+  about 170 mA short-circuit in full sun, a Thevenin model; its own Sunlight % slider and "Cover it": covered = 0 V) and
+  `lemon` (zinc nail −, copper coin +: 0.95 V with 600 Ω inside, so 1–3 lemons leave a red LED dark and 4 light it
+  faintly, about 0.85 mA). Lessons `c_solar` (sun, a cloud at 20 %, night, morning) and `c_lemon` (one lemon is dark; the
+  wire off; four in a row; a lemon turned round is named by the check). robocircuits.mjs plays them. Classes 1–10 are
+  complete: 248 of 300 sessions. 1,703 projects.

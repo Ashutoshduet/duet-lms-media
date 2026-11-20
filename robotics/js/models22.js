@@ -40,7 +40,36 @@ function buildAnemo() {
   shadows(g); return g;
 }
 
+// (batch 22) the solar panel on its little stand, tilted to the sky; a hand over it when it is covered
+function buildSolar() {
+  const Q = mats(), M = Q.M; const g = new THREE.Group();
+  const C = document.createElement('canvas'); C.width = 256; C.height = 160; const c = C.getContext('2d'); c.fillStyle = '#c9ccd2'; c.fillRect(0, 0, 256, 160);
+  for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) { const x = 8 + i * 41, y = 8 + j * 37; c.fillStyle = '#16233f'; c.fillRect(x, y, 38, 34); c.strokeStyle = '#3c5486'; c.lineWidth = 1; for (let k = 1; k < 4; k++) { c.beginPath(); c.moveTo(x + k * 9.5, y); c.lineTo(x + k * 9.5, y + 34); c.stroke(); } c.fillStyle = '#9aa3b5'; c.fillRect(x, y + 16, 38, 2); }
+  const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace;
+  const panel = new THREE.Group(); panel.position.set(P, 28, 50); panel.rotation.x = 0.55; g.add(panel); // in front of its leads, tilted to face the sky (and the student)
+  panel.add(box(110, 3, 70, [Q.steel, Q.steel, S({ map: t, roughness: 0.25, metalness: 0.2 }), M.black, Q.steel, Q.steel], 0, 0, 0));
+  panel.add(box(20, 6, 14, M.black, 0, -4, -24)); // the junction box under its back edge
+  const hand = box(70, 14, 60, S({ color: 0xc68a63, roughness: 0.7 }), 0, 10, 0); hand.userData.keep = true; hand.visible = false; panel.add(hand);
+  g.add(box(6, 26, 6, M.black, P - 40, 13, 50), box(6, 26, 6, M.black, P + 40, 13, 50), box(96, 3, 30, M.black, P, 1.5, 50)); // the stand
+  g.add(box(1.4, 1.4, 26, Q.red, 0, 1.2, 13), box(1.4, 1.4, 26, M.black, 2 * P, 1.2, 13)); // its two leads, from the junction box back to their ends
+  let last = null; g.userData.update = (p) => { const cov = (p.state.sun ?? 1) < 0.005; if (cov === last) return false; last = cov; hand.visible = cov; return true; };
+  g.userData.face = new THREE.Vector3(0, 0, -1);
+  shadows(g); return g;
+}
+// (batch 22) a lemon with a galvanised nail (−) and a copper coin (+) pushed into it, their tops the terminals
+function buildLemon() {
+  const Q = mats(), M = Q.M; const g = new THREE.Group();
+  const lem = new THREE.Mesh(new THREE.SphereGeometry(20, 24, 16), S({ color: 0xf2d132, roughness: 0.65 })); lem.scale.set(1.35, 0.95, 1); lem.position.y = 19; g.add(lem);
+  const tip = new THREE.Mesh(new THREE.SphereGeometry(4, 10, 8), S({ color: 0xe6c21f, roughness: 0.7 })); tip.position.set(27, 19, 0); g.add(tip);
+  g.add(cyl(1.1, 30, Q.steel, -9, 30, 0, 10)); g.add(cyl(2.4, 1.2, Q.steel, -9, 45, 0, 12)); // the nail and its head
+  const coin = cyl(6, 1.4, S({ color: 0xd08048, metalness: 0.35, roughness: 0.4, emissive: 0x2a1206 }), 9, 38, 0, 24); coin.rotation.x = Math.PI / 2; g.add(coin);
+  g.userData.face = new THREE.Vector3(0, 0, 1);
+  shadows(g); return g;
+}
+
 export function buildPart22(part) {
+  if (part.type === 'solar') return buildSolar();
+  if (part.type === 'lemon') return buildLemon();
   if (part.type === 'anemo') return buildAnemo();
   const K = KINDS22[part.type]; if (!K) return null;
   const Q = mats(), M = Q.M; const g = new THREE.Group(); const kind = part.type;

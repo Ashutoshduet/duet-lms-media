@@ -28968,6 +28968,47 @@
 "note": null
 },
 {
+"id": "live-c_lemon",
+"title": "Fruit battery: lemons light an LED",
+"family": "live",
+"board": "none",
+"parts": [
+"lemon",
+"led"
+],
+"newparts": [],
+"band": [
+1,
+3
+],
+"level": 1,
+"theme": "circuits",
+"live": "c_lemon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-c_solar",
+"title": "Solar panel lights an LED",
+"family": "live",
+"board": "none",
+"parts": [
+"solar",
+"led",
+"resistor"
+],
+"newparts": [],
+"band": [
+1,
+3
+],
+"level": 1,
+"theme": "circuits",
+"live": "c_solar",
+"rule": null,
+"note": null
+},
+{
 "id": "live-c_steady",
 "title": "Steady-hand game (no board)",
 "family": "live",
@@ -73257,9 +73298,7 @@
 "l298n",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -73281,9 +73320,7 @@
 "l298n",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -73305,9 +73342,7 @@
 "l298n",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -73329,9 +73364,7 @@
 "l298n",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -76841,9 +76874,7 @@
 "led",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 2,
 4
@@ -76863,9 +76894,7 @@
 "led",
 "lemon"
 ],
-"newparts": [
-"lemon"
-],
+"newparts": [],
 "band": [
 2,
 4
@@ -80050,9 +80079,7 @@
 "led",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -80073,9 +80100,7 @@
 "led",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -80730,9 +80755,7 @@
 "motor",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -80753,9 +80776,7 @@
 "motor",
 "solar"
 ],
-"newparts": [
-"solar"
-],
+"newparts": [],
 "band": [
 11,
 12

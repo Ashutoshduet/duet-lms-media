@@ -595,7 +595,7 @@ ROBOTS = [
     ('Gesture-controlled car', ['+mpu6050', 'hc05'], 10, 'robots'), ('Self-balancing robot', ['+mpu6050'], 12, 'robots'),
     ('Mecanum-wheel car (moves sideways)', ['+mecanum'], 10, 'robots'), ('Voice-controlled car (phone app)', ['hc05'], 9, 'robots'),
     ('Agriculture sprayer robot', ['pump', 'relay', 'ir'], 9, 'farm'), ('Floor-cleaning robot', ['hcsr04', 'fan'], 9, 'home'),
-    ('Solar-powered rover', ['+solar'], 10, 'energy'), ('Mars rover model with a rocker-bogie', ['servo'], 11, 'space'),
+    ('Solar-powered rover', ['solar'], 10, 'energy'), ('Mars rover model with a rocker-bogie', ['servo'], 11, 'space'),
     ('Wheelchair joystick model', ['joystick'], 9, 'health'), ('Railway track inspection robot', ['ir', 'hcsr04'], 10, 'traffic'),
 ]
 for (t, extra, lv, th) in ROBOTS:
@@ -676,7 +676,7 @@ CIRCUITS = [
     ('Diode: the one-way gate', ['aa4', 'led', 'diode', 'resistor'], 3), ('Colour mixing with three switches', ['aa4', 'rgb', 'resistor', 'button'], 2),
     ('Burglar alarm with a door wire', ['aa4', 'abuzz'], 2), ('Battery level by brightness', ['battery', 'led', 'resistor'], 2),
     ('Short circuit: what goes wrong and why', ['battery'], 1), ('Electromagnet crane (coil)', ['aa4', '+coil'], 3),
-    ('Solar cell lights an LED', ['+solar', 'led'], 2), ('Fruit battery (lemon cells)', ['+lemon', 'led'], 2),
+    ('Solar cell lights an LED', ['solar', 'led'], 2), ('Fruit battery (lemon cells)', ['lemon', 'led'], 2),
     ('Simple motor car with a switch', ['aa4', 'bomotor', 'button'], 2), ('Hand-crank generator lights an LED', ['+dynamo', 'led'], 3),
     ('Stair light with two switches', ['aa4', 'led', 'resistor', '+twoway'], 3), ('Flashing light with a 555 timer', ['+ne555', 'led', 'resistor'], 3),
 ]
@@ -742,7 +742,7 @@ INDIA = [
     ('Women safety band with SOS', ['button', '+gps', '+gsm'], 11), ('Bike accident alert', ['+mpu6050', '+gps', '+gsm'], 11),
     ('Kisan weather station for the panchayat', ['dht11', 'rain', 'anemo'], 10), ('Milk adulteration tester', ['+tds', 'lcd16'], 10),
     ('Vaccine cold-chain box monitor', ['+ds18b20', 'abuzz'], 10), ('Toll plaza with RFID FASTag model', ['rfid', 'servo'], 9),
-    ('Solar street light with auto dimming', ['+solar', 'ldr', 'led'], 9), ('Anganwadi attendance with RFID', ['rfid', 'lcd16'], 9),
+    ('Solar street light with auto dimming', ['solar', 'ldr', 'led'], 9), ('Anganwadi attendance with RFID', ['rfid', 'lcd16'], 9),
     ('Driver drowsiness alarm', ['ir', 'abuzz'], 10), ('Smart dustbin for Swachh Bharat', ['hcsr04', 'servo'], 7),
     ('Village water ATM model', ['rfid', 'pump', 'relay'], 10), ('Grain storage humidity guard', ['dht11', 'motor', 'abuzz'], 9),
     ('Monsoon flood siren for a river bank', ['+waterlevel', 'buzzer', '+gsm'], 10), ('Smart school bell with periods', ['+rtc', 'buzzer', 'lcd16'], 9),
@@ -750,7 +750,7 @@ INDIA = [
     ('Tractor reversing sensor', ['hcsr04', 'abuzz'], 8), ('Fog light that switches on in fog', ['ldr', 'led', 'relay'], 8),
     ('Electricity theft alarm model', ['+acs712', 'abuzz'], 11), ('Smart traffic for ambulances (green corridor)', ['rfid', 'led'], 10),
     ('Gas cylinder leak and level monitor', ['mq2', '+hx711'], 11), ('Temple or school crowd counter', ['ir', 'seg7'], 8),
-    ('Solar dryer for crops with fan control', ['dht11', 'motor', '+solar'], 10), ('Rainwater harvesting tank monitor', ['hcsr04', 'lcd16'], 9),
+    ('Solar dryer for crops with fan control', ['dht11', 'motor', 'solar'], 10), ('Rainwater harvesting tank monitor', ['hcsr04', 'lcd16'], 9),
     ('Smart parking for a market', ['ir', 'lcd16', 'servo'], 9), ('Fire alarm for a hut with a GSM call', ['flame', '+gsm'], 10),
     ('Pump dry-run protection for farmers', ['+waterlevel', 'relay'], 9), ('Mobile phone charging locker with RFID', ['rfid', 'servo', 'relay'], 10),
     ('Hand pump water flow counter', ['hall', 'lcd16'], 9), ('Bus arrival display for a village stop', ['+rf433', 'lcd16'], 10),

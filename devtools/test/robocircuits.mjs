@@ -43,6 +43,9 @@ const ACTS = {
   c_morse: [pattern(SOS)],
   c_battlevel: [null, unwire(['rail:tp', 'led1.A']), null],
   c_short: [null, null, unwire(['rail:tp', 'rail:tn'])],
+  // batch 22: the panel at full sun, then a cloud (20 %), covered, uncovered; the lemons: one is dark, its wire off, then four
+  c_solar: [null, (t, B) => { const p = B.lab.byTag('sol'); if (p && t > 0.2 && p.state.sun !== 0.2) { p.state.sun = 0.2; B.lab.stateV++; B.lab.instKey = null; } }, (t, B) => { const p = B.lab.byTag('sol'); if (p && t > 0.2 && p.state.sun !== 0) { p.state.sun = 0; B.lab.stateV++; B.lab.instKey = null; } }, (t, B) => { const p = B.lab.byTag('sol'); if (p && t > 0.2 && p.state.sun !== 1) { p.state.sun = 1; B.lab.stateV++; B.lab.instKey = null; } }],
+  c_lemon: [null, unwire(['lm1.ZN', 'led1.K']), null],
   c_light: [null], c_torch: [hold(true), hold(false)], c_doorbell: [hold(true), hold(false)], c_fan: [hold(true), hold(false)],
   c_series: [null, del('led2')], c_parallel: [null, del('led2')],
   c_dimmer: [(t, B) => { const p = B.lab.byTag('pot1'); const v = t < 1 ? 0 : t < 2 ? 1 : 0.5; if (p && p.state.pos !== v) { p.state.pos = v; B.lab.stateV++; B.lab.instKey = null; } }],
@@ -87,5 +90,13 @@ for (const l of CL) {
     const mm = B.lab.byTag('m1'); press('b1', true)(B); for (let f = 0; f < 60 * 3; f++) step(B, 1 / 60); press('b1', false)(B);
     let t = 0; while (Math.abs(mm.state.w || 0) > 3 && t < 30) { step(B, 1 / 60); t += 1 / 60; } return t; };
   const td = coast(true), tf = coast(false); ok(td > tf * 2, `the heavy disc coasts longer than the fan (${td.toFixed(1)} s vs ${tf.toFixed(1)} s)`); }
+// batch 22 mistakes: the second lemon turned round (its nail to the first nail): the check names it and the LED stays dark;
+// one, two, three lemons do not light the LED and four do; the solar panel covered gives nothing
+{ const l = BY_ID.c_lemon; const B = build(l, false);
+  for (const s of l.steps) { if (s.k === 'place') doStep(B, s); if (s.k === 'wire' && !(s.wire[0] === 'lm1.ZN' && s.wire[1] === 'led1.K')) { const w = s.wire[0] === 'lm1.ZN' && s.wire[1] === 'lm2.CU' ? ['lm1.ZN', 'lm2.ZN'] : s.wire[0] === 'lm2.ZN' ? ['lm2.CU', 'lm3.CU'] : s.wire; const g = B.rt.ghostWire(w); if (g) B.lab.addWire(g[0], g[1]); } }
+  for (let f = 0; f < 60; f++) step(B, 1 / 60); const r = B.rt.runCheck();
+  ok(!!r && /wrong way round/.test(r[0].en) && !B.rt.ledLit('led1'), 'lemons: one turned round -> the check says so, and the LED stays dark' + (r ? `: "${r[0].en.slice(0, 60)}"` : '')); }
+{ const B = build(BY_ID.c_solar, true); for (let f = 0; f < 30; f++) step(B, 1 / 60); const lit1 = B.rt.ledLit('led1'); const p = B.lab.byTag('sol'); p.state.sun = 0; B.lab.stateV++; B.lab.instKey = null;
+  for (let f = 0; f < 30; f++) step(B, 1 / 60); ok(lit1 && !B.rt.ledLit('led1'), 'the solar panel: lit in the sun, dark when covered'); }
 console.log(`circuits: ${passes} ok, ${fails} failed`);
 process.exit(fails ? 1 : 0);

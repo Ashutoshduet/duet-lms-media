@@ -378,18 +378,17 @@
    {
     "class": 1,
     "n": 22,
-    "kind": "I",
-    "title": "Solar cell lights an LED",
+    "kind": "L",
+    "title": "Solar panel lights an LED",
     "board": "none",
-    "status": "needs-part",
-    "ref": "solar-cell-lights-an-led-none",
-    "newparts": [
-     "solar"
-    ],
-    "family": "circuits",
+    "status": "live",
+    "ref": "c_solar",
+    "newparts": [],
+    "family": "live-circuits",
     "parts": [
+     "solar",
      "led",
-     "solar"
+     "resistor"
     ],
     "strand": "Abstraction",
     "focus": "Energy",
@@ -398,21 +397,19 @@
    {
     "class": 1,
     "n": 23,
-    "kind": "I",
-    "title": "Fruit battery (lemon cells)",
+    "kind": "L",
+    "title": "Fruit battery: lemons light an LED",
     "board": "none",
-    "status": "needs-part",
-    "ref": "fruit-battery-lemon-cells-none",
-    "newparts": [
-     "lemon"
-    ],
-    "family": "circuits",
+    "status": "live",
+    "ref": "c_lemon",
+    "newparts": [],
+    "family": "live-circuits",
     "parts": [
-     "led",
-     "lemon"
+     "lemon",
+     "led"
     ],
-    "strand": "Algorithmic thinking",
-    "focus": "Energy",
+    "strand": "Abstraction",
+    "focus": "Closed circuits",
     "term": "Term 3 (October-December)"
    },
    {

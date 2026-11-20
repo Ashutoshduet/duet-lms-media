@@ -123,7 +123,7 @@ CLASSES = {
 
 # Planned sessions that a live lesson now covers (batch 7 hand-made lessons, the project factory's lessons)
 REPL = {
- 1: {'I:Light an LED with a battery': 'L:c_light', 'I:Torch with a switch': 'L:c_torch', 'I:Doorbell with a buzzer': 'L:c_doorbell', 'I:Fan with a switch': 'L:c_fan', 'I:Two LEDs in series': 'L:c_series',
+ 1: {'I:Solar cell lights an LED': 'L:c_solar', 'I:Fruit battery (lemon cells)': 'L:c_lemon', 'I:Light an LED with a battery': 'L:c_light', 'I:Torch with a switch': 'L:c_torch', 'I:Doorbell with a buzzer': 'L:c_doorbell', 'I:Fan with a switch': 'L:c_fan', 'I:Two LEDs in series': 'L:c_series',
      'I:Which way round? LED polarity': 'L:c_polarity', 'I:Lighthouse model': 'L:c_lighthouse', 'I:Simple motor car with a switch': 'L:c_car', 'I:Burglar alarm with a door wire': 'L:c_burglar',
      'I:Electric quiz board': 'L:c_quiz', 'I:Colour mixing with three switches': 'L:c_rgbmix', 'I:Motor that runs both ways (swap wires)': 'L:c_bothways',
      'I:Short circuit: what goes wrong and why': 'L:c_short', 'I:Conductor or insulator tester': 'L:c_conductor', 'I:Spinning top with a motor': 'L:c_top',

@@ -1,4 +1,4 @@
-// DUET Robotics Lab 360: battery circuits for Classes 1-3 (19 lessons). No code: a 6 V battery box powers the parts, and the
+// DUET Robotics Lab 360: battery circuits for Classes 1-3 (19 lessons; batch 22: a solar panel and a lemon battery). No code: a 6 V battery box powers the parts, and the
 // circuit works (or fails) exactly as it would on a real bench: an LED without its resistor burns out, a series circuit
 // goes dark when one LED is taken out, a knob dims the light. The Arduino rests on the bench today.
 // Our own lessons; checked end to end by devtools/test/robofactory.mjs (circuits part).
@@ -448,6 +448,69 @@ export function batchC(K, n0) {
       join('bw.W', 'bat.P', t3('The wire terminal', 'तार वाला टर्मिनल', 'Wire wala terminal'), t3('the + rail', '+ रेल', '+ rail')),
       join('bw.R', 'ab1.P', t3('The ring\'s terminal', 'छल्ले वाला टर्मिनल', 'Chhalle wala terminal'), t3('the buzzer\'s + leg', 'बज़र का + पैर', 'Buzzer ka + pair'))],
     done: (S) => !!S.memRun.clean });
+
+  // batch 22 ---------------------------------------------------------------------------------------- a solar panel lights an LED
+  const sun = (S) => { const p = S.part('sol'); return p ? p.state.sun ?? 1 : 1; };
+  const SOL = t3('solar panel', 'सोलर पैनल', 'solar panel');
+  add({ id: 'c_solar', cls: '1', view: 'wide', drawer: ['solar', 'led', 'resistor'],
+    title: t3('Solar panel lights an LED', 'सोलर पैनल से एलईडी जलाइए', 'Solar panel se LED jalaiye'),
+    goal: t3('No battery today: sunlight makes the electricity. Light an LED from a small solar panel, then see what a cloud and the night do to it.', 'आज बैटरी नहीं: बिजली धूप बनाती है। छोटे सोलर पैनल से एलईडी जलाइए, फिर देखिए बादल और रात उसके साथ क्या करते हैं।', 'Aaj battery nahi: bijli dhoop banati hai. Chhote solar panel se LED jalaiye, phir dekhiye baadal aur raat uske saath kya karte hain.'),
+    setup: { parts: [], wires: [] },
+    tick: (S) => { const p = S.part('led1'); if (p && sun(S) >= 0.9 && lit(S, 'led1')) S.memRun.full = Math.max(S.memRun.full || 0, p.state.b || 0); if (p && sun(S) <= 0.3 && sun(S) > 0.005 && lit(S, 'led1')) S.memRun.cloud = p.state.b || 0; },
+    steps: [
+      info('A solar panel turns sunlight into electricity: about 6 V in full sun, from silicon cells and no fuel at all. Street lights and school roofs use big ones; ours is the size of a postcard.', 'सोलर पैनल धूप को बिजली में बदलता है: पूरी धूप में लगभग 6 V, सिलिकॉन सेलों से और बिना किसी ईंधन के। सड़क की बत्तियाँ और स्कूल की छतें बड़े पैनल लगाती हैं; हमारा पोस्टकार्ड जितना है।', 'Solar panel dhoop ko bijli mein badalta hai: poori dhoop mein lagbhag 6 V, silicon cells se aur bina kisi fuel ke. Sadak ki battiyan aur school ki chhatein bade panel lagati hain; hamara postcard jitna hai.'),
+      place(F('sol', 'solar', {}, -40, 92, 0), 'Put the solar panel on the mat at the ghost, facing the sky.', 'सोलर पैनल को मैट पर नीली आकृति पर रखिए, आसमान की ओर।', 'Solar panel ko mat par neeli shape par rakhiye, aasmaan ki or.'),
+      w('sol.P', 'rail:tp', 'Wire its red (+) wire to the + rail at the top.', 'इसके लाल (+) तार को ऊपर की + रेल से जोड़िए।', 'Iske laal (+) taar ko upar ki + rail se jodiye.'),
+      w('sol.N', 'rail:tn', 'Wire its black (−) wire to the − rail.', 'इसके काले (−) तार को − रेल से जोड़िए।', 'Iske kaale (−) taar ko − rail se jodiye.'),
+      place(LED1, 'Put the red LED at the ghost: its long leg (+) on the right, in column 23.', 'लाल एलईडी को नीली आकृति पर लगाइए: लंबा पैर (+) दाईं तरफ़, कॉलम 23 में।', 'Laal LED ko neeli shape par lagaiye: lamba pair (+) right taraf, column 23 mein.'),
+      place(R1, 'Put the 220 Ω resistor from column 22 down to the − rail.', '220 Ω रेज़िस्टर को कॉलम 22 से नीचे − रेल तक लगाइए।', '220 Ω resistor ko column 22 se neeche − rail tak lagaiye.', t3('6 V from the sun can burn an LED just like 6 V from a battery: the resistor is still needed.', 'धूप वाले 6 V भी बैटरी वाले 6 V की तरह एलईडी जला सकते हैं: रेज़िस्टर फिर भी चाहिए।', 'Dhoop wale 6 V bhi battery wale 6 V ki tarah LED jala sakte hain: resistor phir bhi chahiye.')),
+      w('rail:tp', 'led1.A', 'Close the loop: wire the + rail to the LED\'s long leg (column 23).', 'रास्ता बंद कीजिए: + रेल को एलईडी के लंबे पैर (कॉलम 23) से जोड़िए।', 'Raasta band kijiye: + rail ko LED ke lambe pair (column 23) se jodiye.'),
+      CHECK,
+      watch((S) => lit(S, 'led1') && sun(S) >= 0.9, 'Look at the LED.', 'एलईडी को देखिए।', 'LED ko dekhiye.', 'It glows, powered by sunlight alone!', 'यह चमक रही है, सिर्फ़ धूप से!', 'Yeh chamak rahi hai, sirf dhoop se!'),
+      act((S) => sun(S) <= 0.3 && sun(S) > 0.005 && lit(S, 'led1') && (S.memRun.cloud || 9) < (S.memRun.full || 0) - 0.05, 'A cloud comes over: tap the panel and set its sunlight to 20 %.', 'एक बादल आया: पैनल को छूइए और उसकी धूप 20 % कीजिए।', 'Ek baadal aaya: panel ko touch karo aur uski dhoop 20 % kijiye.', 'Dimmer: less light falls on the panel, so less electricity comes out.', 'मद्धम: पैनल पर कम रोशनी पड़ती है, इसलिए कम बिजली निकलती है।', 'Maddham: panel par kam roshni padti hai, isliye kam bijli nikalti hai.'),
+      act((S) => sun(S) < 0.005 && !lit(S, 'led1'), 'Night falls: press "✋ Cover it".', 'रात हो गई: "✋ इसे ढकिए" दबाइए।', 'Raat ho gayi: "✋ Ise dhakiye" dabaiye.', 'Dark: no light, no electricity. That is why a solar street light charges a battery all day and uses it at night.', 'अँधेरा: रोशनी नहीं, तो बिजली नहीं। इसीलिए सोलर स्ट्रीट लाइट दिन भर बैटरी चार्ज करती है और रात में उसे इस्तेमाल करती है।', 'Andhera: roshni nahi, to bijli nahi. Isiliye solar street light din bhar battery charge karti hai aur raat mein use istemaal karti hai.'),
+      act((S) => sun(S) >= 0.9 && lit(S, 'led1'), 'Morning: press "☀ Uncover it" and set the sunlight back to 100 %.', 'सुबह: "☀ इसे खोलिए" दबाइए और धूप फिर से 100 % कीजिए।', 'Subah: "☀ Ise kholiye" dabaiye aur dhoop phir se 100 % kijiye.', 'Bright again. Free electricity, every sunny day.', 'फिर से तेज़। हर धूप वाले दिन मुफ़्त बिजली।', 'Phir se tez. Har dhoop wale din muft bijli.')],
+    check: [(S) => (S.conn('sol.P', 'sol.N') ? [K.W.short] : null), has('sol', SOL), join('sol.P', 'rail:tp', t3('The panel\'s red wire', 'पैनल का लाल तार', 'Panel ka laal taar'), t3('the + rail', '+ रेल', '+ rail')),
+      join('sol.N', 'rail:tn', t3('The panel\'s black wire', 'पैनल का काला तार', 'Panel ka kaala taar'), t3('the − rail', '− रेल', '− rail')),
+      (S) => (S.has('led1') ? null : [K.W.missing, { x: t3('LED', 'एलईडी', 'LED') }]), (S) => (S.conn('led1.K', 'sol.P') ? [K.W.ledRev] : null),
+      join('led1.A', 'sol.P', t3('The LED\'s long leg', 'एलईडी का लंबा पैर', 'LED ka lamba pair'), t3('the + rail', '+ रेल', '+ rail'))],
+    done: (S) => lit(S, 'led1') && sun(S) >= 0.9 && S.memRun.cloud !== undefined });
+
+  // batch 22 ---------------------------------------------------------------------------------------- a lemon battery
+  const LEM = t3('lemon', 'नींबू', 'nimbu');
+  const lemonAt = (i) => F('lm' + i, 'lemon', {}, -150 + (i - 1) * 60, 128, 0);
+  const XL = { flip: t3('A lemon is the wrong way round: each copper coin (+) must go to the next lemon\'s zinc nail (−), like cells in a torch. Two the same way cancel out.', 'एक नींबू उल्टा है: हर ताँबे का सिक्का (+) अगले नींबू की ज़िंक कील (−) से जाना चाहिए, टॉर्च के सेलों की तरह। दो एक जैसे जुड़ें तो एक-दूसरे को काट देते हैं।', 'Ek nimbu ulta hai: har taambe ka sikka (+) agle nimbu ki zinc keel (−) se jaana chahiye, torch ke cells ki tarah. Do ek jaise judein to ek doosre ko kaat dete hain.') };
+  add({ id: 'c_lemon', cls: '1', view: 'wide', drawer: ['lemon', 'led'],
+    title: t3('Fruit battery: lemons light an LED', 'फल की बैटरी: नींबू से एलईडी', 'Phal ki battery: nimbu se LED'),
+    goal: t3('Make a battery from lemons, a nail and coins. Find out why one lemon is not enough, and how joining lemons in a row adds up their volts.', 'नींबू, कील और सिक्कों से बैटरी बनाइए। पता कीजिए कि एक नींबू काफ़ी क्यों नहीं, और नींबुओं को कतार में जोड़ने से उनके वोल्ट कैसे जुड़ते हैं।', 'Nimbu, keel aur sikkon se battery banaiye. Pata kijiye ki ek nimbu kaafi kyon nahi, aur nimbuon ko line mein jodne se unke volt kaise judte hain.'),
+    setup: { parts: [], wires: [] },
+    tick: (S, dt) => { if (S.has('led1') && S.conn('lm1.ZN', 'led1.K') && !lit(S, 'led1')) S.memRun.dark = (S.memRun.dark || 0) + dt; },
+    steps: [
+      info('Each lemon has a galvanised nail (coated with zinc) and a copper coin pushed into it. The sour juice is an acid: zinc and copper in an acid make a cell, like a tiny battery. The coin is +, the nail is −.', 'हर नींबू में एक जस्ती कील (ज़िंक की परत वाली) और एक ताँबे का सिक्का घुसा है। खट्टा रस एक अम्ल है: अम्ल में ज़िंक और ताँबा मिलकर एक सेल बनाते हैं, छोटी बैटरी जैसा। सिक्का + है, कील −।', 'Har nimbu mein ek jasti keel (zinc ki parat wali) aur ek taambe ka sikka ghusa hai. Khatta ras ek acid hai: acid mein zinc aur taamba milkar ek cell banate hain, chhoti battery jaisa. Sikka + hai, keel −.'),
+      place(lemonAt(1), 'Put the first lemon on the mat at the ghost.', 'पहला नींबू मैट पर नीली आकृति पर रखिए।', 'Pehla nimbu mat par neeli shape par rakhiye.'),
+      place(LED1, 'Put the red LED at the ghost: its long leg (+) on the right, in column 23.', 'लाल एलईडी को नीली आकृति पर लगाइए: लंबा पैर (+) दाईं तरफ़, कॉलम 23 में।', 'Laal LED ko neeli shape par lagaiye: lamba pair (+) right taraf, column 23 mein.'),
+      w('lm1.CU', 'led1.A', 'Clip the copper coin (+) to the LED\'s long leg (column 23).', 'ताँबे के सिक्के (+) को एलईडी के लंबे पैर (कॉलम 23) से जोड़िए।', 'Taambe ke sikke (+) ko LED ke lambe pair (column 23) se jodiye.'),
+      w('lm1.ZN', 'led1.K', 'Clip the zinc nail (−) to its short leg (column 22).', 'ज़िंक की कील (−) को इसके छोटे पैर (कॉलम 22) से जोड़िए।', 'Zinc ki keel (−) ko iske chhote pair (column 22) se jodiye.'),
+      watch((S) => (S.memRun.dark || 0) > 1.5, 'Look at the LED.', 'एलईडी को देखिए।', 'LED ko dekhiye.', 'Dark. The loop is closed, but one lemon makes only about 0.95 V, and a red LED needs about 1.8 V before it lights at all.', 'अँधेरा। रास्ता बंद है, पर एक नींबू सिर्फ़ लगभग 0.95 V बनाता है, और लाल एलईडी को जलने के लिए लगभग 1.8 V चाहिए।', 'Andhera. Raasta band hai, par ek nimbu sirf lagbhag 0.95 V banata hai, aur laal LED ko jalne ke liye lagbhag 1.8 V chahiye.'),
+      act((S) => !S.conn('lm1.ZN', 'led1.K'), 'Take off the wire from the nail to the LED\'s short leg (tap the wire, then delete it).', 'कील से एलईडी के छोटे पैर वाला तार हटाइए (तार को छूइए, फिर मिटाइए)।', 'Keel se LED ke chhote pair wala taar hataiye (taar ko touch karo, phir mitaiye).'),
+      place(lemonAt(2), 'Put a second lemon at the ghost.', 'दूसरा नींबू नीली आकृति पर रखिए।', 'Doosra nimbu neeli shape par rakhiye.'),
+      w('lm1.ZN', 'lm2.CU', 'Clip the first lemon\'s nail (−) to the second lemon\'s coin (+): a row, like cells in a torch.', 'पहले नींबू की कील (−) को दूसरे नींबू के सिक्के (+) से जोड़िए: एक कतार, टॉर्च के सेलों की तरह।', 'Pehle nimbu ki keel (−) ko doosre nimbu ke sikke (+) se jodiye: ek line, torch ke cells ki tarah.'),
+      place(lemonAt(3), 'And a third lemon.', 'और तीसरा नींबू।', 'Aur teesra nimbu.'),
+      w('lm2.ZN', 'lm3.CU', 'Second lemon\'s nail to the third one\'s coin.', 'दूसरे नींबू की कील तीसरे के सिक्के से।', 'Doosre nimbu ki keel teesre ke sikke se.'),
+      place(lemonAt(4), 'And a fourth.', 'और चौथा।', 'Aur chautha.'),
+      w('lm3.ZN', 'lm4.CU', 'Third lemon\'s nail to the fourth one\'s coin.', 'तीसरे नींबू की कील चौथे के सिक्के से।', 'Teesre nimbu ki keel chauthe ke sikke se.'),
+      w('lm4.ZN', 'led1.K', 'Close the loop: the last nail (−) to the LED\'s short leg (column 22).', 'रास्ता बंद कीजिए: आख़िरी कील (−) एलईडी के छोटे पैर (कॉलम 22) से।', 'Raasta band kijiye: aakhiri keel (−) LED ke chhote pair (column 22) se.'),
+      CHECK,
+      watch((S) => lit(S, 'led1'), 'Look at the LED. Turn the room light down to see it better.', 'एलईडी को देखिए। अच्छे से देखने के लिए कमरे की रोशनी कम कीजिए।', 'LED ko dekhiye. Achhe se dekhne ke liye kamre ki roshni kam kijiye.', 'A faint red glow! 4 × 0.95 = 3.8 V: cells in a row add their volts. A lemon gives so little current (about 1 mA) that no resistor is needed here, but never join a battery box straight to an LED.', 'हल्की लाल चमक! 4 × 0.95 = 3.8 V: कतार में जुड़े सेल अपने वोल्ट जोड़ते हैं। नींबू इतना कम करंट (लगभग 1 mA) देता है कि यहाँ रेज़िस्टर नहीं चाहिए, पर बैटरी बॉक्स को कभी सीधे एलईडी से मत जोड़िए।', 'Halki laal chamak! 4 × 0.95 = 3.8 V: line mein jude cells apne volt jodte hain. Nimbu itna kam current (lagbhag 1 mA) deta hai ki yahan resistor nahi chahiye, par battery box ko kabhi seedhe LED se mat jodiye.')],
+    check: [(S) => (['1', '2', '3', '4'].every((i) => S.has('lm' + i)) ? null : [K.W.missing, { x: LEM }]), (S) => (S.has('led1') ? null : [K.W.missing, { x: t3('LED', 'एलईडी', 'LED') }]),
+      (S) => ([['lm1.ZN', 'lm2.ZN'], ['lm2.ZN', 'lm3.ZN'], ['lm3.ZN', 'lm4.ZN'], ['lm1.CU', 'lm2.CU'], ['lm2.CU', 'lm3.CU'], ['lm3.CU', 'lm4.CU']].some(([a, b]) => S.conn(a, b)) ? [XL.flip] : null),
+      (S) => (S.conn('led1.K', 'lm1.CU') ? [K.W.ledRev] : null),
+      join('lm1.CU', 'led1.A', t3('The first lemon\'s coin', 'पहले नींबू का सिक्का', 'Pehle nimbu ka sikka'), t3('the LED\'s long leg', 'एलईडी का लंबा पैर', 'LED ka lamba pair')),
+      join('lm1.ZN', 'lm2.CU', t3('The first lemon\'s nail', 'पहले नींबू की कील', 'Pehle nimbu ki keel'), t3('the second lemon\'s coin', 'दूसरे नींबू का सिक्का', 'doosre nimbu ka sikka')),
+      join('lm2.ZN', 'lm3.CU', t3('The second lemon\'s nail', 'दूसरे नींबू की कील', 'Doosre nimbu ki keel'), t3('the third lemon\'s coin', 'तीसरे नींबू का सिक्का', 'teesre nimbu ka sikka')),
+      join('lm3.ZN', 'lm4.CU', t3('The third lemon\'s nail', 'तीसरे नींबू की कील', 'Teesre nimbu ki keel'), t3('the fourth lemon\'s coin', 'चौथे नींबू का सिक्का', 'chauthe nimbu ka sikka')),
+      join('lm4.ZN', 'led1.K', t3('The last nail', 'आख़िरी कील', 'Aakhiri keel'), t3('the LED\'s short leg', 'एलईडी का छोटा पैर', 'LED ka chhota pair'))],
+    done: (S) => lit(S, 'led1') && ['1', '2', '3', '4'].every((i) => S.has('lm' + i)) });
 
   return L;
 }

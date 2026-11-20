@@ -75,8 +75,37 @@ const ANEMO = {
     'तीन कप हवा पकड़कर हब घुमाते हैं; हब का चुंबक हर चक्कर में एक बार रीड स्विच बंद करता है। हवा जितनी तेज़, हर सेकंड उतनी बार बंद: गिनिए, और एक सेकंड में 1 बार मतलब 2.4 km/h। खेत और स्कूल के मौसम स्टेशन बिल्कुल यही इस्तेमाल करते हैं।',
     'Teen cup hawa pakadkar hub ghumate hain; hub ka chumbak har chakkar mein ek baar reed switch band karta hai. Hawa jitni tez, har second utni baar band: giniye, aur ek second mein 1 baar matlab 2.4 km/h. Khet aur school ke mausam station bilkul yahi istemaal karte hain.'),
 };
-export const PARTS22 = Object.fromEntries([...TYPES22.map((k) => [k, mk(k)]), ['anemo', ANEMO]]);
-export const DRAWER22 = [...TYPES22, 'anemo'];
+// (batch 22, Class 1) two power sources with no battery: a small solar panel and a lemon cell
+//   solar  6 V / 1 W panel: open-circuit about 6.4 V in full sun, short-circuit about 170 mA in full sun and less in a
+//          cloud (a Thevenin model, its resistance = Voc / Isc); covered, it gives nothing. Its own Sunlight slider.
+//   lemon  a galvanised nail (zinc, −) and a copper coin (+) in a lemon: about 0.95 V and very weak (600 Ω inside), so
+//          one lemon cannot light an LED (a red one needs about 1.8 V) and four in series light it faintly (about 1 mA)
+const SOLAR = {
+  term: { y: 3 }, cat: 'power', mount: 'free', props: {}, state0: { sun: 1 },
+  name: t3('Solar panel 6 V', 'सोलर पैनल 6 V', 'Solar panel 6 V'),
+  pins: [{ id: 'P', at: [0, 0], dir: [0, 1], name: t3('Red wire: +', 'लाल तार: +', 'Red wire: +') }, { id: 'N', at: [P * 2, 0], dir: [0, 1], name: t3('Black wire: −', 'काला तार: −', 'Black wire: −') }],
+  elec: (p, N) => { const sun = Math.max(0, Math.min(1, p.state.sun ?? 1)); if (sun < 0.005) return [{ type: 'R', a: N.P, b: N.N, r: 1e7, role: 'solar' }];
+    const voc = 6.4 * (0.82 + 0.18 * sun), isc = 0.17 * sun; return [{ type: 'V', a: N.P, b: N.N, v: voc, r: voc / isc, role: 'battery' }]; },
+  live: (p) => { const sun = p.state.sun ?? 1; return sun < 0.005 ? 'covered: no light, 0 V' : `${Math.round(sun * 100)} % sunlight`; },
+  specs: () => [['volt', '6 V (about 6.4 V with nothing joined)'], ['power', '1 W in full sun (about 170 mA)'], ['size', '110 × 70 mm']],
+  info: t3('Sunlight knocks electrons loose in the silicon cells, and they flow out of the red wire, round the circuit and back in. No battery, no fuel: but in a cloud it gives less, and at night nothing.',
+    'धूप सिलिकॉन सेलों में इलेक्ट्रॉन ढीले कर देती है, और वे लाल तार से निकलकर सर्किट में घूमकर वापस आते हैं। न बैटरी, न ईंधन: पर बादल में कम देता है, और रात में कुछ नहीं।',
+    'Dhoop silicon cells mein electrons dheele kar deti hai, aur woh laal taar se nikal kar circuit mein ghoom kar wapas aate hain. Na battery, na fuel: par baadal mein kam deta hai, aur raat mein kuch nahi.'),
+};
+const LEMON = {
+  term: { y: 44 }, cat: 'power', mount: 'free', props: {},
+  name: t3('Lemon cell (zinc nail, copper coin)', 'नींबू सेल (ज़िंक कील, ताँबे का सिक्का)', 'Lemon cell (zinc keel, taambe ka sikka)'),
+  pins: [{ id: 'ZN', at: [-9, 0], name: t3('Zinc nail: −', 'ज़िंक की कील: −', 'Zinc keel: −') }, { id: 'CU', at: [9, 0], name: t3('Copper coin: +', 'ताँबे का सिक्का: +', 'Taambe ka sikka: +') }],
+  elec: (p, N) => [{ type: 'V', a: N.CU, b: N.ZN, v: 0.95, r: 600, role: 'battery' }],
+  live: () => 'about 0.95 V (copper +, zinc −)',
+  specs: () => [['volt', 'about 0.9–1 V'], ['current', 'about 1 mA at most'], ['inside', 'zinc and copper in lemon juice (an acid)']],
+  info: t3('The zinc nail gives up electrons into the lemon\'s acid juice; they come out of the nail, round the circuit, and back into the copper coin. One lemon makes about 0.95 V, and so little current that four together only just light an LED.',
+    'ज़िंक की कील नींबू के खट्टे रस में इलेक्ट्रॉन छोड़ती है; वे कील से निकलकर, सर्किट में घूमकर, ताँबे के सिक्के में लौटते हैं। एक नींबू लगभग 0.95 V बनाता है, और करंट इतना कम कि चार मिलकर ही एलईडी को मुश्किल से जलाते हैं।',
+    'Zinc ki keel nimbu ke khatte ras mein electrons chhodti hai; woh keel se nikal kar, circuit mein ghoom kar, taambe ke sikke mein lautte hain. Ek nimbu lagbhag 0.95 V banata hai, aur current itna kam ki chaar milkar hi LED ko mushkil se jalate hain.'),
+};
+export const PARTS22 = Object.fromEntries([...TYPES22.map((k) => [k, mk(k)]), ['anemo', ANEMO], ['solar', SOLAR], ['lemon', LEMON]]);
+export const DRAWER22 = [...TYPES22, 'anemo', 'solar', 'lemon'];
+export function sun22(lab, p, v) { p.state.sun = Math.max(0, Math.min(1, +v)); touch(lab); }
 export function wind22(lab, p, kmh) { p.state.wind = Math.max(0, Math.min(ANEMO_MAX, +kmh || 0)); touch(lab); }
 // what the student does to it (the callout's button; tests call it too): a held one toggles, a short one is a pulse
 export function sense22(lab, p, on) {

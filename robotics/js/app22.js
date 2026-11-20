@@ -1,7 +1,7 @@
 // DUET Robotics Lab 360, batch 22: the app's side of the eight digital sensor modules (parts22.js): their live line and the
 // button in their callout that does what the sensor senses (a candle, a clap, a magnet, a tip, a knock, rain, closed eyes).
 import { tx } from './i18n.js';
-import { PARTS22, KINDS22, sense22, blink22, wind22, ANEMO_MAX } from './parts22.js';
+import { PARTS22, KINDS22, sense22, blink22, wind22, ANEMO_MAX, sun22 } from './parts22.js';
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -17,11 +17,13 @@ export const T22 = {
 };
 const BLINK = t3('😉 Blink', '😉 पलक झपकाइए', '😉 Palak jhapkaiye');
 const WIND = t3('🌬 Wind km/h', '🌬 हवा km/h', '🌬 Hawa km/h');
+const SUN = t3('☀ Sunlight %', '☀ धूप %', '☀ Dhoop %'), COVER = [t3('✋ Cover it', '✋ इसे ढकिए', '✋ Ise dhakiye'), t3('☀ Uncover it', '☀ इसे खोलिए', '☀ Ise kholiye')];
 export function install22(app) {
   const W = (name, f) => { const o = app[name].bind(app); app[name] = (...a) => f(o, ...a); };
   W('partLive', (o, p) => o(p) || (PARTS22[p.type] ? PARTS22[p.type].live(p) : ''));
   W('controlsFor', (o, p) => {
     const r = o(p); if (r) return r;
+    if (p.type === 'solar') { const v = Math.round((p.state.sun ?? 1) * 100); return `<div class="row"><label>${esc(tx(SUN))}</label><input type="range" id="co22-sun" min="0" max="100" step="5" value="${v}"><span id="co22-sun-v">${v}</span></div><div class="row"><button class="btn" id="co22-cover">${esc(tx(COVER[v < 1 ? 1 : 0]))}</button></div>`; }
     if (p.type === 'anemo') return `<div class="row"><label>${esc(tx(WIND))}</label><input type="range" id="co22-wind" min="0" max="${ANEMO_MAX}" step="1" value="${Math.round(p.state.wind || 0)}"><span id="co22-wind-v">${Math.round(p.state.wind || 0)}</span></div>`;
     if (!KINDS22[p.type]) return r;
     const L = T22[p.type]; const lab = L[p.state.trig && L[1] ? 1 : 0];
@@ -31,6 +33,8 @@ export function install22(app) {
   W('bindControls', (o, el) => {
     o(el); const p = app.sel && app.sel.part; const wi = el.querySelector('#co22-wind');
     if (p && wi) wi.oninput = (e) => { wind22(app.lab, p, e.target.value); const v = el.querySelector('#co22-wind-v'); if (v) v.textContent = e.target.value; app.stage.kick(); };
+    const su = el.querySelector('#co22-sun'); if (p && su) su.oninput = (e) => { sun22(app.lab, p, e.target.value / 100); const v = el.querySelector('#co22-sun-v'); if (v) v.textContent = e.target.value; app.stage.kick(); };
+    const cv = el.querySelector('#co22-cover'); if (p && cv) cv.onclick = () => { app.sound.click && app.sound.click(); if ((p.state.sun ?? 1) < 0.005) sun22(app.lab, p, p.state.sunWas || 1); else { p.state.sunWas = p.state.sun ?? 1; sun22(app.lab, p, 0); } app.stage.kick(); app.renderCallout(); };
     const b = el.querySelector('#co22-sense'); if (!p || !b) return;
     const bl = el.querySelector('#co22-blink'); if (bl) bl.onclick = () => { app.sound.click && app.sound.click(); blink22(app.lab, p); app.stage.kick(); };
     b.onclick = () => { app.sound.unlock && app.sound.unlock(); app.sound.click && app.sound.click(); sense22(app.lab, p); app.stage.kick(); if (KINDS22[p.type].hold) app.renderCallout(); };
