@@ -678,7 +678,7 @@ a tap puts the bench there at 1.5 × real size, then taps work the same panel. T
 Hindi: goal, parts, wiring table, steps), the code (`sketch.ino` / `main.py`), `wiring.csv`; `index.html` (search,
 class and board filter, offline) and `projects.csv` at the top.
 
-**Batch 12 (684 projects).**
+**Batch 12 (743 projects).**
 - Class 1 circuits (`circuits.js`, 22 now): a conductor-or-insulator tester (the new `sample` part: a spoon, coin, pencil,
   ruler, eraser or ice-cream stick between two crocodile clips, swapped in its callout), a spinning top with Newton's
   colour disc (`motor { disc: true }`: four times the fan's inertia, so it coasts like a top; the disc blurs to grey-white
@@ -689,10 +689,15 @@ class and board filter, offline) and `projects.csv` at the top.
   lights), diode one-way street (take it out, put it in backwards: dark while pin 7 is HIGH), transistor as a switch
   (a three-LED lamp of 40 mA switched by about 4 mA of base current; pin 9 straight to the base is named and the
   simulator warns about the pin), servo dance from an array of angles, and a resistor colour-code reader (a 10 kΩ divider,
-  snapped to the E12 series so a 1 kΩ that measures 988 Ω still reads brown, black, red). Tests: `robocore12.mjs`.
+  snapped to the E12 series so a 1 kΩ that measures 988 Ω still reads brown, black, red), an Ohm's law tester (A0 above
+  the resistor, A1 above a 100 Ω shunt: I = V(shunt) ÷ 100, R = V ÷ I) and Simon says (the pattern grows each round; the
+  test watches the lights and plays it back). Class 6 is complete (26 of 26). Tests: `robocore12.mjs`.
 - The factory (`factory.js`, 492 lessons): every LCD job also on the 0.96" OLED (Uno, ESP32); the ESP32 gets the RGB LED,
   the servo and the I2C LCD; the Pico gets the buzzer and the RGB LED. On the ESP32 the module covers breadboard rows
-  b–i, so its pre-wired outputs start in row a or j.
+  b–i, so its pre-wired outputs start in row a or j. The Raspberry Pi 4 (57 lessons, Class 10): button, PIR, IR obstacle
+  and DHT11 jobs in Python with gpiozero (Button, MotionSensor, DigitalInputDevice, adafruit_dht) to an LED, active
+  buzzer, relay, pump, AngularServo (0.5–2.5 ms for an SG90) or RGB LED; the hold is in seconds (time.monotonic()).
+  A lesson's `view` now takes effect (it sat behind a comment): wide for parts on the mat, else bb / esp4 / pi6w.
 - Simulator: `#include <Servo.h>` on an ESP32 stops as the real IDE does (`E_SERVO_ESP`; use ESP32Servo.h, which is
   refused on other boards); I2C modules answer on a board's own SDA / SCL (`consts.SDA / SCL`: ESP32 21 / 22, Mega 20 /
   21); a Pico PWM pin at 100 Hz–20 kHz is a note (a buzzer on it sounds, an LED on it keeps its duty); a buzzer takes the

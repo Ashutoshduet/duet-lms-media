@@ -63,7 +63,20 @@ function play(B, acts) {
 const after = (t0, f) => (t, B) => { if (t >= t0) f(t, B); };
 const delPart = (tag) => after(0.2, (t, B) => { const p = B.lab.byTag(tag); if (p) B.lab.removePart(p); });
 const ohms = (tag, v) => after(0.1, (t, B) => { const p = B.lab.byTag(tag); if (p && p.props.ohms !== v) B.lab.setProps(p, { ohms: v }); });
+const knob = (v) => (t, B) => { const p = B.lab.byTag('pot1'); if (p && p.state.pos !== v) { p.state.pos = v; B.lab.stateV++; B.lab.instKey = null; } };
+// Simon: watch the lights flash the round's pattern, then press the same buttons in order
+const simon = () => { let st = null; return (t, B) => {
+  if (!st) st = { prev: [false, false, false], seen: [], round: 0, press: null, i: 0, tNext: 0 };
+  let round = 0; for (const l of B.rt.serLines) { const m = /^Round (\d+)/.exec(l.trim()); if (m) round = +m[1]; }
+  if (round !== st.round) { st.round = round; st.seen = []; st.press = null; st.i = 0; }
+  const lit = [1, 2, 3].map((i) => B.rt.ledLit('led' + i));
+  if (!st.press) { lit.forEach((v, k) => { if (v && !st.prev[k]) st.seen.push(k); }); if (round && st.seen.length >= round && !lit.some(Boolean)) { st.press = st.seen.slice(0, round); st.tNext = t + 0.4; } }
+  st.prev = lit;
+  if (st.press && st.i < st.press.length) { const k = st.press[st.i]; const p = B.lab.byTag('b' + (k + 1)); const on = t >= st.tNext && t < st.tNext + 0.15; if (p && !!p.state.pressed !== on) { p.state.pressed = on; B.lab.rebuild(); } if (t >= st.tNext + 0.15) { st.i++; st.tNext = t + 0.9; } }
+}; };
 const ACTS = {
+  u_ohm: [knob(1), knob(0.5), (t, B) => { const p = B.lab.byTag('rt'); if (p && t > 0.1 && p.props.ohms !== 2200) B.lab.setProps(p, { ohms: 2200 }); knob(1)(t, B); }],
+  u_simon: [simon(), simon()],
   u_binary: [null, null], u_npn: [null, null], u_servodance: [null, null],
   u_diode: [null, delPart('d1'), null],
   u_colourcode: [null, ohms('rx', 220), ohms('rx', 100000)],
@@ -93,5 +106,10 @@ if (!only || only.includes('u_servodance')) { // the servo's red wire on 3.3 V: 
 if (!only || only.includes('u_colourcode')) { // no unknown resistor: named, and the sketch says so
   const B = build(BY.u_colourcode); B.lab.removePart(B.lab.byTag('rx'));
   const r = B.rt.runCheck(); ok(/not on the bench/.test(msg(r)), 'colour code: the missing resistor is named: ' + msg(r).slice(0, 50)); runFor(B, 2); ok(/No resistor/.test(B.ser || ''), 'and the reader prints "No resistor"'); }
+if (!only || only.includes('u_ohm')) { // A1 left off: named, and the tester cannot work out the current
+  const B = build(BY.u_ohm); unwireAny(B, 'B:A1'); const r = B.rt.runCheck(); ok(/A1/.test(JSON.stringify(r && r[1] || {})), 'ohm: A1 left off is named: ' + msg(r).slice(0, 40)); }
+if (!only || only.includes('u_simon')) { // two buttons swapped: named, and the red button lights yellow
+  const B = build(BY.u_simon); unwireAny(B, 'B:D8'); unwireAny(B, 'B:D9'); B.lab.addWire('B:D8', 'H:a46'); B.lab.addWire('B:D9', 'H:a40');
+  const r = B.rt.runCheck(); ok(/pin 8/.test(msg(r).replace('{p}', 8)) || /must be joined to pin/.test(msg(r)), 'simon: swapped buttons are named: ' + msg(r).slice(0, 50)); }
 console.log(fails ? `${fails} FAILED` : 'all passed');
 process.exit(fails ? 1 : 0);

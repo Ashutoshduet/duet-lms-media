@@ -134,6 +134,92 @@ void loop() {
 }
 `;
 
+const OHM = `// Ohm's law tester: measure V and I, and work out R = V / I
+const float shunt = 100.0;     // the 100 Ohm resistor that measures the current
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  float vTop = analogRead(A0) * 5.0 / 1023;     // above the resistor under test
+  float vShunt = analogRead(A1) * 5.0 / 1023;   // across the 100 Ohm shunt, below it
+  float v = vTop - vShunt;                       // the voltage across the resistor under test
+  float i = vShunt / shunt;                      // the same current flows through both (A)
+  Serial.print("V = ");
+  Serial.print(v, 2);
+  Serial.print(" V   I = ");
+  Serial.print(i * 1000, 2);
+  Serial.print(" mA   R = ");
+  if (i > 0.0002) {
+    Serial.println(v / i, 0);
+  } else {
+    Serial.println("?");
+  }
+  delay(500);
+}
+`;
+const SIMON = `// Simon says: watch the lights, then press the buttons in the same order
+const int leds[3] = {2, 3, 4};          // red, yellow, green
+const int buttons[3] = {8, 9, 10};      // the button for each light
+const int buzzer = 11;
+const int notes[3] = {262, 330, 392};   // a note for each light: C, E, G
+int seq[20];                            // the pattern so far
+int len = 0;
+int speed = 400;                        // how long each light shows (ms)
+
+void setup() {
+  for (int k = 0; k < 3; k++) {
+    pinMode(leds[k], OUTPUT);
+    pinMode(buttons[k], INPUT_PULLUP);
+  }
+  Serial.begin(9600);
+  randomSeed(analogRead(A0));           // a different game every time
+}
+
+void show(int k) {
+  digitalWrite(leds[k], HIGH);
+  tone(buzzer, notes[k]);
+  delay(speed);
+  digitalWrite(leds[k], LOW);
+  noTone(buzzer);
+  delay(200);
+}
+
+int waitPress() {                       // wait for a press, light it, and say which
+  while (true) {
+    for (int k = 0; k < 3; k++) {
+      if (digitalRead(buttons[k]) == LOW) {
+        show(k);
+        while (digitalRead(buttons[k]) == LOW) {}
+        return k;
+      }
+    }
+  }
+}
+
+void loop() {
+  seq[len] = random(0, 3);              // one more step
+  len++;
+  Serial.print("Round ");
+  Serial.println(len);
+  for (int i = 0; i < len; i++) {
+    show(seq[i]);
+  }
+  for (int i = 0; i < len; i++) {
+    if (waitPress() != seq[i]) {
+      Serial.println("Wrong! Game over");
+      tone(buzzer, 120, 800);
+      delay(1500);
+      len = 0;
+      return;
+    }
+  }
+  Serial.println("Correct!");
+  delay(800);
+}
+`;
+
 // ------------------------------------------------------------------ the lessons
 export function batch12(K, n0) {
   const { t3, P: PL, F, W, need, has, noShort, N, unit, LEDU, merge } = K;
@@ -268,9 +354,9 @@ export function batch12(K, n0) {
   add({ id: 'u_colourcode', view: 'bb', code: COLOUR, drawer: ['resistor'], serial: true,
     title: t3('Resistor colour-code reader', 'रेज़िस्टर रंग-कोड रीडर', 'Resistor rang-code reader'),
     goal: t3('Measure an unknown resistor with a known one and A0, then name its colour bands: the first two are digits, the third is how many zeros.', 'एक जाने-पहचाने रेज़िस्टर और A0 से अनजान रेज़िस्टर नापिए, फिर उसकी रंगीन पट्टियाँ बताइए: पहली दो अंक हैं, तीसरी बताती है कितने शून्य।', 'Ek jaane-pehchaane resistor aur A0 se anjaan resistor naapiye, phir uski rangeen pattiyan bataiye: pehli do ank hain, teesri batati hai kitne shunya.'),
-    setup: { parts: [PL('rk', 'resistor', { ohms: 10000 }, 'a40', 3)], wires: [...POWER, ['A0', 'H:c40']] },
+    setup: { parts: [PL('rk', 'resistor', { ohms: 10000 }, 'c36', 0)], wires: [...POWER, ['H:a36', rail('tp', 36)], ['A0', 'H:e40']] },
     steps: [
-      info('The known 10 kΩ resistor goes from the + rail down to column 40, and A0 reads column 40. The unknown one will go from column 40 to GND: the two share the 5 V, and A0 tells us how.', 'जाना-पहचाना 10 kΩ रेज़िस्टर + रेल से नीचे कॉलम 40 तक है, और A0 कॉलम 40 पढ़ता है। अनजान रेज़िस्टर कॉलम 40 से GND तक जाएगा: दोनों 5 V बाँटते हैं, और A0 बताता है कि कैसे।', 'Jaana-pehchaana 10 kΩ resistor + rail se neeche column 40 tak hai, aur A0 column 40 padhta hai. Anjaan resistor column 40 se GND tak jaayega: dono 5 V baant-te hain, aur A0 batata hai ki kaise.'),
+      info('The known 10 kΩ resistor lies along row c from column 36 (wired to the + rail) to column 40, and A0 reads column 40. The unknown one will go from column 40 to GND: the two share the 5 V, and A0 tells us how.', 'जाना-पहचाना 10 kΩ रेज़िस्टर पंक्ति c में कॉलम 36 (+ रेल से जुड़ा) से कॉलम 40 तक लेटा है, और A0 कॉलम 40 पढ़ता है। अनजान रेज़िस्टर कॉलम 40 से GND तक जाएगा: दोनों 5 V बाँटते हैं, और A0 बताता है कि कैसे।', 'Jaana-pehchaana 10 kΩ resistor row c mein column 36 (+ rail se juda) se column 40 tak leta hai, aur A0 column 40 padhta hai. Anjaan resistor column 40 se GND tak jaayega: dono 5 V baant-te hain, aur A0 batata hai ki kaise.'),
       place(PL('rx', 'resistor', { ohms: 4700 }, 'b40', 3), 'Put the unknown resistor (yellow, violet, red) from 40b up to the − rail.', 'अनजान रेज़िस्टर (पीला, बैंगनी, लाल) 40b से ऊपर − रेल तक लगाइए।', 'Anjaan resistor (peela, baingani, laal) 40b se upar − rail tak lagaiye.'),
       CHECK,
       info('Read the code: r = 10000 × V ÷ (5 − V) turns the voltage into ohms. The while loop keeps two digits and counts the zeros; E12[ ] snaps the reading to the nearest value resistors are made in (a 1 kΩ may measure 988 Ω); colours[ ] names each: 0 black, 1 brown, 2 red … 9 white.', 'कोड पढ़िए: r = 10000 × V ÷ (5 − V) वोल्टेज को ओम में बदलता है। while लूप दो अंक रखता है और शून्य गिनता है; E12[ ] रीडिंग को उस सबसे पास वाली क़ीमत पर ले आता है जिसमें रेज़िस्टर बनते हैं (1 kΩ का माप 988 Ω आ सकता है); colours[ ] हर एक का रंग बताता है: 0 काला, 1 भूरा, 2 लाल … 9 सफ़ेद।', 'Code padhiye: r = 10000 × V ÷ (5 − V) voltage ko ohm mein badalta hai. while loop do ank rakhta hai aur shunya ginta hai; E12[ ] reading ko us sabse paas wali keemat par le aata hai jismein resistor bante hain (1 kΩ ka maap 988 Ω aa sakta hai); colours[ ] har ek ka rang batata hai: 0 kaala, 1 bhoora, 2 laal … 9 safed.'),
@@ -283,6 +369,56 @@ export function batch12(K, n0) {
       (S) => ((S.conn('rx.1', 'A0') && S.conn('rx.2', 'GND')) || (S.conn('rx.2', 'A0') && S.conn('rx.1', 'GND')) ? null : [X.rxPlace]),
       (S) => ((S.conn('rk.1', 'A0') && S.conn('rk.2', '5V')) || (S.conn('rk.2', 'A0') && S.conn('rk.1', '5V')) ? null : [W.join, { a: t3('The 10 kΩ resistor', '10 kΩ रेज़िस्टर', '10 kΩ resistor'), b: t3('5V and A0', '5V और A0', '5V aur A0') }])],
     done: (S) => read(S, /ohms: brown, black, yellow/) });
+
+  // 6 ------------------------------------------------------------------------------------------ Ohm's law tester
+  const ohmLine = (S) => { for (let k = S.serLines.length - 1; k >= 0; k--) { const m = /V = ([\d.]+) V\s+I = ([\d.]+) mA\s+R = (\d+)/.exec(S.serLines[k]); if (m) return { v: +m[1], i: +m[2], r: +m[3] }; } return null; };
+  add({ id: 'u_ohm', view: 'bb', code: OHM, drawer: ['resistor', 'pot'], serial: true,
+    title: t3('Ohm\'s law tester', 'ओम के नियम का टेस्टर', 'Ohm ke niyam ka tester'),
+    goal: t3('Measure the voltage across a resistor and the current through it, and see that V ÷ I is the same every time: that number is its resistance.', 'एक रेज़िस्टर के आर-पार वोल्टेज और उसमें से जाता करंट नापिए, और देखिए कि V ÷ I हर बार वही रहता है: वही संख्या उसका प्रतिरोध है।', 'Ek resistor ke aar-paar voltage aur usmein se jaata current naapiye, aur dekhiye ki V ÷ I har baar wahi rehta hai: wahi number uska resistance hai.'),
+    setup: { parts: [PL('pot1', 'pot', {}, 'e45', 0), PL('rt', 'resistor', { ohms: 1000 }, 'c47', 0), PL('rs', 'resistor', { ohms: 100 }, 'b51', 3)], wires: [...POWER, ['H:a45', rail('tn', 45)], ['H:a49', rail('tp', 49)]] },
+    tick: (S) => { const R = S.memRun; if (!fresh(S)) return; const o = ohmLine(S); if (!o) return; const pos = S.part('pot1') ? S.part('pot1').state.pos : 0; if (pos > 0.95 && o.i > 3) R.full = o; if (pos > 0.4 && pos < 0.6 && o.i > 0.3 && o.i < 2) R.half = o; if (S.part('rt') && S.part('rt').props.ohms === 2200 && pos > 0.95 && o.r > 1900 && o.r < 2500) R.r22 = o; },
+    steps: [
+      info('The knob gives a voltage from 0 to 5 V on its middle leg (column 47). From there the current goes through the resistor under test (1 kΩ, columns 47–51), then through a small 100 Ω "shunt" to GND. The same current flows through both.', 'नॉब अपने बीच वाले पैर (कॉलम 47) पर 0 से 5 V तक वोल्टेज देता है। वहाँ से करंट जाँच वाले रेज़िस्टर (1 kΩ, कॉलम 47–51) से होकर, फिर एक छोटे 100 Ω "शंट" से GND तक जाता है। दोनों में वही करंट बहता है।', 'Knob apne beech wale pair (column 47) par 0 se 5 V tak voltage deta hai. Wahan se current jaanch wale resistor (1 kΩ, column 47–51) se hokar, phir ek chhote 100 Ω "shunt" se GND tak jaata hai. Dono mein wahi current behta hai.'),
+      wire('A0', 'rt.1', 'Wire A0 to the top of the resistor under test (column 47).', 'A0 को जाँच वाले रेज़िस्टर के ऊपर वाले सिरे (कॉलम 47) से जोड़िए।', 'A0 ko jaanch wale resistor ke upar wale sire (column 47) se jodiye.'),
+      wire('A1', 'rt.2', 'Wire A1 to its bottom (column 51), the top of the shunt.', 'A1 को इसके नीचे वाले सिरे (कॉलम 51), यानी शंट के ऊपर से जोड़िए।', 'A1 ko iske neeche wale sire (column 51), yaani shunt ke upar se jodiye.'),
+      CHECK,
+      info('Read the code: the voltage across the resistor is A0 − A1; the current is the shunt\'s voltage ÷ 100 Ω (Ohm\'s law on the shunt!). Then R = V ÷ I.', 'कोड पढ़िए: रेज़िस्टर के आर-पार वोल्टेज A0 − A1 है; करंट शंट का वोल्टेज ÷ 100 Ω है (शंट पर ओम का नियम!)। फिर R = V ÷ I।', 'Code padhiye: resistor ke aar-paar voltage A0 − A1 hai; current shunt ka voltage ÷ 100 Ω hai (shunt par Ohm ka niyam!). Phir R = V ÷ I.'),
+      RUN(),
+      act((S) => !!S.memRun.full, 'Tap the knob and turn it all the way up.', 'नॉब को छूइए और पूरा घुमा दीजिए।', 'Knob ko touch karo aur poora ghuma dijiye.',
+        live(S0, (lg, S) => { const o = S.memRun.full || {}; return pick(lg, `About ${o.v} V and ${o.i} mA: ${o.v} ÷ ${(o.i / 1000).toFixed(4)} A = ${o.r} Ω.`, `लगभग ${o.v} V और ${o.i} mA: ${o.v} ÷ ${(o.i / 1000).toFixed(4)} A = ${o.r} Ω।`, `Lagbhag ${o.v} V aur ${o.i} mA: ${o.v} ÷ ${(o.i / 1000).toFixed(4)} A = ${o.r} Ω.`); })),
+      act((S) => !!S.memRun.half, 'Now turn it to about halfway.', 'अब इसे लगभग आधा घुमाइए।', 'Ab ise lagbhag aadha ghumaiye.',
+        live(S0, (lg, S) => { const o = S.memRun.half || {}; return pick(lg, `Less voltage, less current (${o.i} mA), but V ÷ I is still about ${o.r} Ω: current goes up and down with the voltage. That is Ohm's law.`, `कम वोल्टेज, कम करंट (${o.i} mA), पर V ÷ I अब भी लगभग ${o.r} Ω: करंट वोल्टेज के साथ घटता-बढ़ता है। यही ओम का नियम है।`, `Kam voltage, kam current (${o.i} mA), par V ÷ I ab bhi lagbhag ${o.r} Ω: current voltage ke saath ghatta-badhta hai. Yahi Ohm ka niyam hai.`); })),
+      act((S) => !!S.memRun.r22, 'Tap the resistor under test and change it to 2.2 kΩ, then turn the knob all the way up again.', 'जाँच वाले रेज़िस्टर को छूइए और 2.2 kΩ कीजिए, फिर नॉब फिर से पूरा घुमाइए।', 'Jaanch wale resistor ko touch karo aur 2.2 kΩ karo, phir knob phir se poora ghumaiye.',
+        t3('The same 5 V now pushes only about half the current: more resistance, less current. And the tester reads about 2200 Ω.', 'वही 5 V अब लगभग आधा करंट ही धकेलता है: ज़्यादा प्रतिरोध, कम करंट। और टेस्टर लगभग 2200 Ω पढ़ता है।', 'Wahi 5 V ab lagbhag aadha current hi dhakelta hai: zyada resistance, kam current. Aur tester lagbhag 2200 Ω padhta hai.')),
+    ],
+    check: [...rails, has('pot1', N.pot), has('rt', N.r), has('rs', N.r), need('rt.1', 'A0', W.join, { a: t3('A0', 'A0', 'A0'), b: t3('the top of the resistor under test (column 47)', 'जाँच वाले रेज़िस्टर का ऊपर वाला सिरा (कॉलम 47)', 'jaanch wale resistor ka upar wala sira (column 47)') }),
+      need('rt.2', 'A1', W.join, { a: t3('A1', 'A1', 'A1'), b: t3('the bottom of the resistor under test (column 51)', 'जाँच वाले रेज़िस्टर का नीचे वाला सिरा (कॉलम 51)', 'jaanch wale resistor ka neeche wala sira (column 51)') })],
+    done: (S) => !!S.memRun.r22 });
+
+  // 7 ------------------------------------------------------------------------------------------ Simon says
+  const SIMON_U = merge(LEDU(1, 21, 'red', 2), LEDU(2, 24, 'yellow', 3), LEDU(3, 27, 'green', 4), { parts: [PL('bz1', 'buzzer', {}, 'e31', 0)], wires: [['D11', 'H:a31'], ['H:a34', rail('tn', 34)]] });
+  const BTNS = [[1, 40, 8], [2, 46, 9], [3, 52, 10]];
+  const rounds = (S) => S.serLines.filter((l) => /^Correct!/.test(l.trim())).length;
+  add({ id: 'u_simon', view: 'bb', code: SIMON, drawer: ['button'], serial: true,
+    title: t3('Simon says memory game', '"साइमन कहता है" याददाश्त का खेल', 'Simon says yaaddaasht ka khel'),
+    goal: t3('The lights flash a pattern that grows by one every round; repeat it on the buttons. One mistake and the game is over.', 'बत्तियाँ एक पैटर्न चमकाती हैं जो हर राउंड में एक बढ़ता है; बटनों पर उसे दोहराइए। एक गलती और खेल ख़त्म।', 'Battiyan ek pattern chamkaati hain jo har round mein ek badhta hai; buttons par use dohraiye. Ek galti aur khel khatam.'),
+    setup: { parts: [...SIMON_U.parts, ...BTNS.map(([i, c]) => PL('b' + i, 'button', {}, 'e' + c, 0))], wires: [...POWER, ...SIMON_U.wires, ...BTNS.map(([i, c]) => ['H:a' + (c + 2), rail('tn', c + 2)])] },
+    tick: (S) => { const R = S.memRun; if (!fresh(S)) return; R.best = Math.max(R.best || 0, rounds(S)); if (S.serLines.some((l) => /Game over/.test(l))) R.over = true; },
+    steps: [
+      info('The red, yellow and green lights (pins 2, 3, 4) and the buzzer (pin 11) are ready, and so are three buttons, one under each light, their right legs on GND. Wire their left legs to pins 8, 9 and 10.', 'लाल, पीली और हरी बत्तियाँ (पिन 2, 3, 4) और बज़र (पिन 11) तैयार हैं, और तीन बटन भी, हर बत्ती के लिए एक, उनके दाएँ पैर GND पर। उनके बाएँ पैर पिन 8, 9 और 10 से जोड़िए।', 'Laal, peeli aur hari battiyan (pin 2, 3, 4) aur buzzer (pin 11) taiyaar hain, aur teen button bhi, har batti ke liye ek, unke right pair GND par. Unke left pair pin 8, 9 aur 10 se jodiye.'),
+      wire('D8', 'b1.L1', 'Wire pin 8 to the red light\'s button (column 40).', 'पिन 8 को लाल बत्ती के बटन (कॉलम 40) से जोड़िए।', 'Pin 8 ko laal batti ke button (column 40) se jodiye.'),
+      wire('D9', 'b2.L1', 'Pin 9 to the yellow light\'s button (column 46).', 'पिन 9 को पीली बत्ती के बटन (कॉलम 46) से।', 'Pin 9 ko peeli batti ke button (column 46) se.'),
+      wire('D10', 'b3.L1', 'Pin 10 to the green light\'s button (column 52).', 'पिन 10 को हरी बत्ती के बटन (कॉलम 52) से।', 'Pin 10 ko hari batti ke button (column 52) se.'),
+      CHECK,
+      info('Read the code. seq[ ] remembers the pattern; every round random(0, 3) adds one more step. show() lights a light with its own note; waitPress() waits for a button and returns which one.', 'कोड पढ़िए। seq[ ] पैटर्न याद रखता है; हर राउंड random(0, 3) एक और क़दम जोड़ता है। show() एक बत्ती को उसके अपने सुर के साथ जलाता है; waitPress() बटन का इंतज़ार करता है और बताता है कौन-सा दबा।', 'Code padhiye. seq[ ] pattern yaad rakhta hai; har round random(0, 3) ek aur kadam jodta hai. show() ek batti ko uske apne sur ke saath jalata hai; waitPress() button ka intezaar karta hai aur batata hai kaun-sa daba.'),
+      RUN(),
+      act((S) => (S.memRun.best || 0) >= 3, 'Play: watch the pattern, then press the same buttons in the same order. Get through three rounds.', 'खेलिए: पैटर्न देखिए, फिर वही बटन उसी क्रम में दबाइए। तीन राउंड पार कीजिए।', 'Kheliye: pattern dekhiye, phir wahi button usi kram mein dabaiye. Teen round paar kijiye.',
+        t3('Three rounds! Each round the pattern is one step longer. Your short-term memory holds about 7 steps; a computer\'s holds millions.', 'तीन राउंड! हर राउंड में पैटर्न एक क़दम लंबा होता है। आपकी छोटी याददाश्त लगभग 7 क़दम रखती है; कंप्यूटर की लाखों।', 'Teen round! Har round mein pattern ek kadam lamba hota hai. Aapki chhoti yaaddaasht lagbhag 7 kadam rakhti hai; computer ki laakhon.')),
+      edit((src) => /int speed = 200;/.test(src), [[/int speed = 400;/, 'int speed = 200;']], 'Make it harder: change speed = 400 to speed = 200, and press Run.', 'इसे कठिन बनाइए: speed = 400 को speed = 200 कीजिए, और "चलाइए" दबाइए।', 'Ise kathin banaiye: speed = 400 ko speed = 200 karo, aur Run dabaiye.'),
+      act((S) => fresh(S) && (S.memRun.best || 0) >= 2, 'Play the fast game: get through two rounds.', 'तेज़ खेल खेलिए: दो राउंड पार कीजिए।', 'Tez khel kheliye: do round paar kijiye.', t3('Faster flashes are harder to follow: games get harder by changing just one number.', 'तेज़ चमक का पीछा करना मुश्किल है: सिर्फ़ एक संख्या बदलकर खेल कठिन हो जाते हैं।', 'Tez chamak ka peecha karna mushkil hai: sirf ek number badal kar khel kathin ho jaate hain.')),
+    ],
+    check: [...rails, unit('led1', 'r1', 2), unit('led2', 'r2', 3), unit('led3', 'r3', 4), ...BTNS.map(([i, , pin]) => (S) => (S.conn('b' + i + '.L1', 'D' + pin) || S.conn('b' + i + '.L2', 'D' + pin) ? null : [W.toPin, { x: t3(['the red light\'s button', 'the yellow light\'s button', 'the green light\'s button'][i - 1], ['लाल बत्ती का बटन', 'पीली बत्ती का बटन', 'हरी बत्ती का बटन'][i - 1], ['laal batti ka button', 'peeli batti ka button', 'hari batti ka button'][i - 1]), p: pin }]))],
+    done: (S) => (S.memRun.best || 0) >= 2 && /int speed = 200;/.test(S.runSrc || '') });
 
   batch12.rt = null; Object.defineProperty(S0, 'rt', { get: () => batch12.rt });
   for (const l of L) { const t0 = l.tick; l.tick = (S, dt) => { batch12.rt = S; if (t0) t0(S, dt); }; }

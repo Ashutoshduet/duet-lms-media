@@ -1,5 +1,979 @@
 [
 {
+"id": "live-f_bookdrop_buzzer_pi",
+"title": "Library book-drop alert: IR obstacle sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bookdrop_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bookdrop_led_pi",
+"title": "Library book-drop alert: IR obstacle sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bookdrop_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_soap_pump_pi",
+"title": "Automatic soap dispenser: IR obstacle sensor → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_soap_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_piggybank_buzzer_pi",
+"title": "Piggy bank coin chime: IR obstacle sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_piggybank_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_occupied_rgb_pi",
+"title": "Washroom occupied light: PIR motion sensor → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_occupied_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_corridor_relay_pi",
+"title": "Corridor night light: PIR motion sensor → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_corridor_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_corridor_led_pi",
+"title": "Corridor night light: PIR motion sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_corridor_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_afterhours_buzzer_pi",
+"title": "Shop after-hours alarm: PIR motion sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_afterhours_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_rgb_pi",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_rainsoon_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattlemist_pump_pi",
+"title": "Cattle shed mist cooler: DHT11 sensor (temperature) → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_cattlemist_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftcall_buzzer_pi",
+"title": "Lift call button: push button → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftcall_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftcall_led_pi",
+"title": "Lift call button: push button → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftcall_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolroom_relay_pi",
+"title": "Server cupboard cooler: DHT11 sensor (temperature) → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coolroom_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_booksdamp_buzzer_pi",
+"title": "Library damp alarm: DHT11 sensor (humidity) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_booksdamp_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_booksdamp_rgb_pi",
+"title": "Library damp alarm: DHT11 sensor (humidity) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_booksdamp_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_servo_pi",
+"title": "Turnstile gate: IR obstacle sensor → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_turnstile_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_handdryer_relay_pi",
+"title": "Hand dryer: IR obstacle sensor → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_handdryer_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_mailbox_buzzer_pi",
+"title": "Letter-box alert: IR obstacle sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_mailbox_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_mailbox_led_pi",
+"title": "Letter-box alert: IR obstacle sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_mailbox_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_exhibit_servo_pi",
+"title": "Museum exhibit that wakes up: PIR motion sensor → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_exhibit_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_exhibit_led_pi",
+"title": "Museum exhibit that wakes up: PIR motion sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_exhibit_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_farmgate_rgb_pi",
+"title": "Farm gate animal alert: PIR motion sensor → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_farmgate_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_farmgate_buzzer_pi",
+"title": "Farm gate animal alert: PIR motion sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_farmgate_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bathlight_rgb_pi",
+"title": "Bathroom light that switches off itself: PIR motion sensor → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bathlight_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bathlight_relay_pi",
+"title": "Bathroom light that switches off itself: PIR motion sensor → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bathlight_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_rgb_pi",
+"title": "Gate call for the watchman: push button → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_watchman_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_handwash_pump_pi",
+"title": "Push-button hand-wash tap: push button → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_handwash_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bathfan_relay_pi",
+"title": "Bathroom steam fan: DHT11 sensor (humidity) → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bathfan_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_rgb_pi",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainstore_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_buzzer_pi",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainstore_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greenfan_servo_pi",
+"title": "Greenhouse cooling: DHT11 sensor (temperature) → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_greenfan_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greenfan_relay_pi",
+"title": "Greenhouse cooling: DHT11 sensor (temperature) → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_greenfan_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_buzzer_pi",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_heatwave_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_rgb_pi",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_heatwave_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classfan_relay_pi",
+"title": "Classroom energy saver: PIR motion sensor → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_classfan_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bottle_pump_pi",
+"title": "Bottle filling station: IR obstacle sensor → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bottle_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panic_rgb_pi",
+"title": "Panic button for a shop: push button → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_panic_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panic_buzzer_pi",
+"title": "Panic button for a shop: push button → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_panic_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairs_led_pi",
+"title": "Stair light with a timer: push button → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stairs_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairs_relay_pi",
+"title": "Stair light with a timer: push button → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stairs_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_led_pi",
+"title": "Hospital bed call button: push button → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nurse_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_buzzer_pi",
+"title": "Hospital bed call button: push button → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nurse_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gate_servo_pi",
+"title": "Push-button gate: push button → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gate_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_servo_pi",
+"title": "Pedestrian crossing barrier: push button → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_crossing_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_lightswitch_relay_pi",
+"title": "Push-button light: push button → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_lightswitch_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_lightswitch_led_pi",
+"title": "Push-button light: push button → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_lightswitch_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchless_buzzer_pico",
+"title": "Contactless doorbell: IR obstacle sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_touchless_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bookdrop_buzzer_pico",
 "title": "Library book-drop alert: IR obstacle sensor → buzzer (Pico)",
 "family": "factory",
@@ -1464,6 +2438,191 @@
 "note": null
 },
 {
+"id": "live-f_levelcross_buzzer_pico",
+"title": "Railway level crossing: IR obstacle sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_levelcross_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_levelcross_servo_pico",
+"title": "Railway level crossing: IR obstacle sensor → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_levelcross_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_slot_led_pico",
+"title": "Parking slot sensor: IR obstacle sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_slot_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tap_servo_pico",
+"title": "Smart tap: IR obstacle sensor → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tap_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sanitiser_pump_pico",
+"title": "Automatic hand sanitiser: IR obstacle sensor → water pump (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sanitiser_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sanitiser_servo_pico",
+"title": "Automatic hand sanitiser: IR obstacle sensor → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sanitiser_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_servo_pico",
+"title": "Welcome greeter: PIR motion sensor → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_greeter_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roomlight_led_pico",
+"title": "Automatic room light: PIR motion sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_roomlight_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roomlight_relay_pico",
+"title": "Automatic room light: PIR motion sensor → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_roomlight_relay_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pumprelay_pump_pico",
 "title": "Farm pump switch: soil moisture sensor → water pump (Pico)",
 "family": "factory",
@@ -1791,6 +2950,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_lightswitch_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_buzzer_pico",
+"title": "Doorbell: push button → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_doorbell_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -10076,6 +11255,48 @@
 "note": null
 },
 {
+"id": "live-u_simon",
+"title": "Simon says memory game",
+"family": "live",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"buzzer",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "projects",
+"live": "u_simon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-u_ohm",
+"title": "Ohm's law tester",
+"family": "live",
+"board": "uno",
+"parts": [
+"pot",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "projects",
+"live": "u_ohm",
+"rule": null,
+"note": null
+},
+{
 "id": "live-u_colourcode",
 "title": "Resistor colour-code reader",
 "family": "live",
@@ -13305,7 +14526,7 @@
 ],
 "level": 5,
 "theme": "home",
-"live": "f_doorbell_buzzer_pico",
+"live": "f_doorbell_buzzer_pi",
 "rule": {
 "in": "button",
 "out": "buzzer",
@@ -23783,7 +25004,7 @@
 ],
 "level": 7,
 "theme": "home",
-"live": "f_roomlight_relay_pico",
+"live": "f_roomlight_relay_pi",
 "rule": {
 "in": "pir",
 "out": "relay",
@@ -23908,7 +25129,7 @@
 ],
 "level": 5,
 "theme": "home",
-"live": "f_roomlight_led_pico",
+"live": "f_roomlight_led_pi",
 "rule": {
 "in": "pir",
 "out": "led",
@@ -24692,7 +25913,7 @@
 ],
 "level": 7,
 "theme": "home",
-"live": "f_greeter_servo_pico",
+"live": "f_greeter_servo_pi",
 "rule": {
 "in": "pir",
 "out": "servo",
@@ -25508,7 +26729,7 @@
 ],
 "level": 7,
 "theme": "health",
-"live": "f_sanitiser_pump_pico",
+"live": "f_sanitiser_pump_pi",
 "rule": {
 "in": "ir",
 "out": "pump",
@@ -25636,7 +26857,7 @@
 ],
 "level": 7,
 "theme": "health",
-"live": "f_sanitiser_servo_pico",
+"live": "f_sanitiser_servo_pi",
 "rule": {
 "in": "ir",
 "out": "servo",
@@ -25886,7 +27107,7 @@
 ],
 "level": 7,
 "theme": "home",
-"live": "f_tap_servo_pico",
+"live": "f_tap_servo_pi",
 "rule": {
 "in": "ir",
 "out": "servo",
@@ -26497,7 +27718,7 @@
 ],
 "level": 5,
 "theme": "city",
-"live": "f_slot_led_pico",
+"live": "f_slot_led_pi",
 "rule": {
 "in": "ir",
 "out": "led",
@@ -26813,7 +28034,7 @@
 ],
 "level": 7,
 "theme": "traffic",
-"live": "f_levelcross_servo_pico",
+"live": "f_levelcross_servo_pi",
 "rule": {
 "in": "ir",
 "out": "servo",
@@ -26933,7 +28154,7 @@
 ],
 "level": 5,
 "theme": "traffic",
-"live": "f_levelcross_buzzer_pico",
+"live": "f_levelcross_buzzer_pi",
 "rule": {
 "in": "ir",
 "out": "buzzer",
@@ -27053,7 +28274,7 @@
 ],
 "level": 5,
 "theme": "home",
-"live": "f_touchless_buzzer_pico",
+"live": "f_touchless_buzzer_pi",
 "rule": {
 "in": "ir",
 "out": "buzzer",

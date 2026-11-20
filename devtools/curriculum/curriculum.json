@@ -2701,13 +2701,13 @@
    {
     "class": 6,
     "n": 7,
-    "kind": "I",
+    "kind": "L",
     "title": "Ohm's law tester",
     "board": "uno",
-    "status": "planned",
-    "ref": "ohm-s-law-tester-uno",
+    "status": "live",
+    "ref": "u_ohm",
     "newparts": [],
-    "family": "classic",
+    "family": "live-projects",
     "parts": [
      "pot",
      "resistor"
@@ -3081,18 +3081,18 @@
    {
     "class": 6,
     "n": 28,
-    "kind": "I",
+    "kind": "L",
     "title": "Simon says memory game",
     "board": "uno",
-    "status": "planned",
-    "ref": "simon-says-memory-game-uno",
+    "status": "live",
+    "ref": "u_simon",
     "newparts": [],
-    "family": "classic",
+    "family": "live-projects",
     "parts": [
-     "button",
-     "buzzer",
      "led",
-     "resistor"
+     "resistor",
+     "buzzer",
+     "button"
     ],
     "strand": "Algorithmic thinking",
     "focus": "Coding basics",
@@ -5123,15 +5123,19 @@
    {
     "class": 10,
     "n": 14,
-    "kind": "I",
-    "title": "Temperature-controlled fan in Python",
+    "kind": "L",
+    "title": "Greenhouse cooling: DHT11 sensor (temperature) → relay and fan (Raspberry Pi)",
     "board": "pi4",
-    "status": "planned",
-    "ref": "temperature-controlled-fan-in-python-pi4",
+    "status": "live",
+    "ref": "f_greenfan_relay_pi",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
-    "strand": "Abstraction",
+    "family": "live-bank",
+    "parts": [
+     "relay",
+     "load230",
+     "dht11"
+    ],
+    "strand": "Decomposition",
     "focus": "Python",
     "term": "Term 2 (July-September)"
    },

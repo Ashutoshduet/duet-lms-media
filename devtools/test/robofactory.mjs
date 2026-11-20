@@ -34,7 +34,7 @@ function step(B, dt) {
 }
 function start(B, src) { const { lab, app, rt } = B; const c = compile(src, lab.def); if (!c.ok) throw new Error('compile ' + JSON.stringify(c.errors).slice(0, 300)); app.src = src; lab.run(c); rt.onRun(src); B.ser = ''; B.buf = ''; }
 const acts = (l) => {
-  const inp = (l.board === 'esp32' ? FACTORY.EIN : l.board === 'pico' ? FACTORY.PIN : FACTORY.IN)[l.factory.inp]; const set = (k) => (t, B) => inp.set(B, k);
+  const inp = (l.board === 'esp32' ? FACTORY.EIN : l.board === 'pico' ? FACTORY.PIN : l.board === 'pi4' ? FACTORY.QIN : FACTORY.IN)[l.factory.inp]; const set = (k) => (t, B) => inp.set(B, k);
   return inp.analog ? [set('on'), set('off'), set('edge')] : [set('on'), set('off'), (t, B) => inp.set(B, t > 3 && t < 3.6 ? 'on' : 'off')]; // (a PIR ignores movement for a few seconds after its OUT falls);
 };
 function play(B) {
@@ -55,7 +55,7 @@ function play(B) {
 }
 // the mistake: the sensor's signal wire (to a board pin) is left out
 function mistake(l) {
-  const sig = l.steps.find((s) => s.k === 'wire' && s.wire.some((x) => /^(D\d+|A\d|GP\d+)$/.test(x)));
+  const sig = l.steps.find((s) => s.k === 'wire' && s.wire.some((x) => /^(D\d+|A\d|GP\d+|GPIO\d+)$/.test(x)));
   const B = build(l, (s) => s === sig); const r = B.rt.runCheck();
   ok(!!r, `${l.id}: without ${sig.wire.join('–')} the check complains` + (r ? `: "${r[0].en.slice(0, 50)}…"` : ''));
 }

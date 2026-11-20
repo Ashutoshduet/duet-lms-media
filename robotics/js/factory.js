@@ -392,6 +392,67 @@ POUT.relay = Object.assign({}, OUT.relay, { pin: 'GP17', wires: [['T:lamp:A', 'T
 POUT.pump = Object.assign({}, OUT.pump, { pin: 'GP17', wires: [['T:pump:N', 'T:bat:N'], ['T:bat:P', 'T:rl1:COM'], ['T:rl1:NO', 'T:pump:P'], ['T:rl1:S', 'H:a20'], ['T:rl1:VCC', 'H:tp20'], ['T:rl1:GND', 'H:tn20']],
   ready: t3('The pump is already wired with its own 6 V battery through a relay on GP17.', 'पंप पहले से अपनी 6 V बैटरी और GP17 के रिले से जुड़ा है।', 'Pump pehle se apni 6 V battery aur GP17 ke relay se juda hai.'),
   py: { decl: ['relay = Pin(17, Pin.OUT)    # GP17: the pump\'s relay, 1 = pump on'], on: ['relay.value(1)'], off: ['relay.value(0)'] } });
+// ------------------------------------------------------------------ (batch 12) the same jobs on the Raspberry Pi 4, in Python with gpiozero
+// Rails: back + = 5V, back − = GND; front + = 3V3, front − = GND. The Pi's GPIO pins are 3.3 V and it has no analog inputs,
+// so its sensors are the digital ones (button, PIR, IR obstacle) and the DHT11 (temperature, humidity: adafruit_dht).
+const PI_POWER = [['5V', 'H:tp30'], ['GND1', 'H:tn28'], ['3V3', 'H:bp30'], ['GND2', 'H:bn28']];
+const QIN = {}, QOUT = {};
+QIN.button = Object.assign({}, IN.button, {
+  wires: [w('GPIO17', 'b1.L1', 'Wire GPIO 17 (physical pin 11) to its top-left leg.', 'GPIO 17 (फ़िज़िकल पिन 11) को इसके ऊपर-बाएँ पैर से जोड़िए।', 'GPIO 17 (physical pin 11) ko iske upar-left pair se jodiye.'), w('b1.L3', 'rail:tn', 'Wire its top-right leg to the − rail (GND).', 'इसके ऊपर-दाएँ पैर को − रेल (GND) से जोड़िए।', 'Iske upar-right pair ko − rail (GND) se jodiye.')],
+  checks: (K) => [has(K.W, 'b1', t3('button', 'बटन', 'button')), need('b1.L1', 'GPIO17', K.W.join, { a: t3('The button', 'बटन', 'Button'), b: 'GPIO 17' }), (S) => (S.conn('b1.L3', 'GND') || S.conn('b1.L4', 'GND') ? null : [K.W.toGnd, { x: t3('The button\'s other leg', 'बटन का दूसरा पैर', 'Button ka doosra pair') }])],
+  pi: { imp: ['Button'], decl: ['button = Button(17)          # GPIO 17, to GND when pressed (its pull-up is inside the Pi)'], trig: 'button.is_pressed' } });
+QIN.pir = Object.assign({}, IN.pir, {
+  wires: [w('pir.VCC', 'rail:tp', 'Wire its VCC to the back + rail (5 V): a PIR needs 5 V, and its OUT gives only 3.3 V, safe for the Pi.', 'इसका VCC पीछे वाली + रेल (5 V) से जोड़िए: पीआईआर को 5 V चाहिए, और इसका OUT सिर्फ़ 3.3 V देता है, Pi के लिए सुरक्षित।', 'Iska VCC peeche wali + rail (5 V) se jodiye: PIR ko 5 V chahiye, aur iska OUT sirf 3.3 V deta hai, Pi ke liye surakshit.'),
+    w('pir.GND', 'rail:tn', 'Its GND to the back − rail.', 'इसका GND पीछे वाली − रेल से।', 'Iska GND peeche wali − rail se.'), w('pir.OUT', 'GPIO4', 'Its OUT to GPIO 4 (physical pin 7).', 'इसका OUT GPIO 4 (फ़िज़िकल पिन 7) से।', 'Iska OUT GPIO 4 (physical pin 7) se.')],
+  checks: (K) => [has(K.W, 'pir', t3('PIR sensor', 'पीआईआर सेंसर', 'PIR sensor')), need('pir.VCC', '5V', K.W.join, { a: 'PIR VCC', b: '5V' }), need('pir.GND', 'GND', K.W.toGnd, { x: 'GND' }), need('pir.OUT', 'GPIO4', K.W.join, { a: 'PIR OUT', b: 'GPIO 4' })],
+  pi: { imp: ['MotionSensor'], decl: ['pir = MotionSensor(4)        # GPIO 4: motion_detected while it sees someone move'], trig: 'pir.motion_detected' } });
+QIN.ir = Object.assign({}, IN.ir, {
+  wires: [w('ir1.VCC', 'rail:bp', 'Wire its VCC pin to the front + rail (3.3 V).', 'इसके VCC पिन को आगे वाली + रेल (3.3 V) से जोड़िए।', 'Iske VCC pin ko aage wali + rail (3.3 V) se jodiye.'), w('ir1.GND', 'rail:bn', 'Its GND pin to the front − rail.', 'इसका GND पिन आगे वाली − रेल से।', 'Iska GND pin aage wali − rail se.'), w('ir1.OUT', 'GPIO27', 'Its OUT pin to GPIO 27 (physical pin 13).', 'इसका OUT पिन GPIO 27 (फ़िज़िकल पिन 13) से।', 'Iska OUT pin GPIO 27 (physical pin 13) se.')],
+  checks: (K) => [has(K.W, 'ir1', t3('IR sensor', 'आईआर सेंसर', 'IR sensor')), need('ir1.VCC', '3V3', K.W.join, { a: 'IR VCC', b: '3V3' }), need('ir1.GND', 'GND', K.W.toGnd, { x: 'GND' }), need('ir1.OUT', 'GPIO27', K.W.join, { a: 'OUT', b: 'GPIO 27' })],
+  pi: { imp: ['DigitalInputDevice'], decl: ['ir = DigitalInputDevice(27)  # GPIO 27: the module pulls it to 0 when something is near'], trig: 'ir.value == 0' } });
+const dhtQ = { wires: [w('dht.VCC', 'rail:bp', 'Its middle pin (+) to the front + rail (3.3 V).', 'इसका बीच वाला पिन (+) आगे वाली + रेल (3.3 V) से।', 'Iska beech wala pin (+) aage wali + rail (3.3 V) se.'), w('dht.GND', 'rail:bn', 'Its right pin (−) to the front − rail.', 'इसका दायाँ पिन (−) आगे वाली − रेल से।', 'Iska right pin (−) aage wali − rail se.'), w('dht.DATA', 'GPIO4', 'Its left pin (DATA) to GPIO 4 (physical pin 7).', 'इसका बायाँ पिन (DATA) GPIO 4 (फ़िज़िकल पिन 7) से।', 'Iska left pin (DATA) GPIO 4 (physical pin 7) se.')],
+  checks: (K) => [has(K.W, 'dht', t3('DHT11', 'DHT11', 'DHT11')), need('dht.VCC', '3V3', K.W.join, { a: 'DHT11 +', b: '3V3' }), need('dht.GND', 'GND', K.W.toGnd, { x: 'DHT11 −' }), need('dht.DATA', 'GPIO4', K.W.join, { a: 'DATA', b: 'GPIO 4' })] };
+const dhtPi = (v, prop) => ({ mods: ['board', 'adafruit_dht'], decl: ['dht = adafruit_dht.DHT11(board.D4)   # the DHT11\'s DATA on GPIO 4'],
+  read: ['try:', `    ${v} = dht.${prop}`, 'except RuntimeError:              # a DHT11 sometimes misses a reading: try again', `    ${v} = None`] });
+QIN.dht = Object.assign({}, IN.dht, dhtQ, { pi: dhtPi('temp', 'temperature') });
+QIN.hum = Object.assign({}, IN.hum, dhtQ, { pi: dhtPi('hum', 'humidity') });
+QOUT.led = Object.assign({}, OUT.led, { pin: 'GPIO18', wires: [['GPIO18', 'H:a23']],
+  ready: t3('The red LED and its 220 Ω resistor are already wired to GPIO 18 (physical pin 12).', 'लाल एलईडी और उसका 220 Ω रेज़िस्टर पहले से GPIO 18 (फ़िज़िकल पिन 12) पर लगे हैं।', 'Laal LED aur uska 220 Ω resistor pehle se GPIO 18 (physical pin 12) par lage hain.'),
+  pi: { imp: ['LED'], decl: ['led = LED(18)                # GPIO 18: the LED (through its resistor)'], on: ['led.on()'], off: ['led.off()'] } });
+QOUT.buzzer = Object.assign({}, OUT.buzzer, { name: t3('buzzer', 'बज़र', 'buzzer'), pin: 'GPIO18', parts: [P('bz1', 'abuzz', {}, 'e30', 0)], wires: [['GPIO18', 'H:a30'], ['H:a33', 'H:tn27']],
+  ready: t3('An active buzzer is already wired to GPIO 18: it beeps by itself when its + leg gets 3.3 V, so gpiozero\'s Buzzer just switches it on and off.', 'एक एक्टिव बज़र पहले से GPIO 18 पर लगा है: इसके + पैर को 3.3 V मिलते ही यह ख़ुद बीप करता है, इसलिए gpiozero का Buzzer इसे बस चालू-बंद करता है।', 'Ek active buzzer pehle se GPIO 18 par laga hai: iske + pair ko 3.3 V milte hi yeh khud beep karta hai, isliye gpiozero ka Buzzer ise bas on-off karta hai.'),
+  pi: { imp: ['Buzzer'], decl: ['buzzer = Buzzer(18)          # GPIO 18: the active buzzer'], on: ['buzzer.on()'], off: ['buzzer.off()'] },
+  isOn: (S) => !!(S.part('bz1') && S.part('bz1').state.on) });
+QOUT.relay = Object.assign({}, OUT.relay, { pin: 'GPIO23', wires: [['T:lamp:A', 'T:rl1:COM'], ['T:lamp:B', 'T:rl1:NO'], ['T:rl1:S', 'GPIO23'], ['T:rl1:VCC', 'H:tp20'], ['T:rl1:GND', 'H:tn20']],
+  ready: t3('The relay is wired to GPIO 23 and to 5 V (its coil needs 5 V; its input switches on with the Pi\'s 3.3 V), and an electrician has wired the 230 V lamp to its COM and NO.', 'रिले GPIO 23 और 5 V से जुड़ा है (इसकी कॉइल को 5 V चाहिए; इसका इनपुट Pi के 3.3 V से चालू हो जाता है), और इलेक्ट्रीशियन ने 230 V का बल्ब उसके COM और NO से जोड़ा है।', 'Relay GPIO 23 aur 5 V se juda hai (iski coil ko 5 V chahiye; iska input Pi ke 3.3 V se on ho jaata hai), aur electrician ne 230 V ka bulb uske COM aur NO se joda hai.'),
+  pi: { imp: ['OutputDevice'], decl: ['relay = OutputDevice(23)     # GPIO 23: the relay, on = lamp on'], on: ['relay.on()'], off: ['relay.off()'] } });
+QOUT.pump = Object.assign({}, OUT.pump, { pin: 'GPIO23', wires: [['T:pump:N', 'T:bat:N'], ['T:bat:P', 'T:rl1:COM'], ['T:rl1:NO', 'T:pump:P'], ['T:rl1:S', 'GPIO23'], ['T:rl1:VCC', 'H:tp20'], ['T:rl1:GND', 'H:tn20']],
+  ready: t3('The pump is already wired with its own 6 V battery through a relay on GPIO 23: a pump needs about 200 mA, and a Pi pin only a few mA.', 'पंप पहले से अपनी 6 V बैटरी और GPIO 23 के रिले से जुड़ा है: पंप को लगभग 200 mA चाहिए, और Pi का पिन सिर्फ़ कुछ mA देता है।', 'Pump pehle se apni 6 V battery aur GPIO 23 ke relay se juda hai: pump ko lagbhag 200 mA chahiye, aur Pi ka pin sirf kuch mA deta hai.'),
+  pi: { imp: ['OutputDevice'], decl: ['relay = OutputDevice(23)     # GPIO 23: the pump\'s relay, on = pump on'], on: ['relay.on()'], off: ['relay.off()'] } });
+QOUT.servo = Object.assign({}, OUT.servo, { pin: 'GPIO12', wires: [['T:sv1:GND', 'H:tn40'], ['T:sv1:VP', 'H:tp40'], ['T:sv1:SIG', 'GPIO12']],
+  ready: t3('The servo is already wired: brown to −, red to the 5 V rail, orange (signal) to GPIO 12. An SG90 wants pulses from 0.5 to 2.5 ms, so the code tells AngularServo so.', 'सर्वो पहले से लगा है: भूरा − पर, लाल 5 V रेल पर, नारंगी (सिग्नल) GPIO 12 पर। SG90 को 0.5 से 2.5 ms की पल्स चाहिए, इसलिए कोड AngularServo को यही बताता है।', 'Servo pehle se laga hai: brown − par, laal 5 V rail par, orange (signal) GPIO 12 par. SG90 ko 0.5 se 2.5 ms ki pulse chahiye, isliye code AngularServo ko yahi batata hai.'),
+  pi: { imp: ['AngularServo'], decl: ['arm = AngularServo(12, min_angle=0, max_angle=180, min_pulse_width=0.0005, max_pulse_width=0.0025)   # GPIO 12', 'arm.angle = 0'], on: ['arm.angle = 90'], off: ['arm.angle = 0'] } });
+QOUT.rgb = Object.assign({}, OUT.rgb, rgbAt('GPIO5', 'GPIO6', 'GPIO13'), { pin: 'GPIO 5/6/13',
+  ready: t3('The RGB LED is already wired: red to GPIO 5, green to GPIO 6, blue to GPIO 13, each through its resistor (100 Ω for green and blue: at 3.3 V they need a smaller one). Green means all is well.', 'RGB एलईडी पहले से लगी है: लाल GPIO 5, हरा GPIO 6, नीला GPIO 13 पर, हर एक अपने रेज़िस्टर से होकर (हरे और नीले के लिए 100 Ω: 3.3 V पर उन्हें छोटा रेज़िस्टर चाहिए)। हरा मतलब सब ठीक।', 'RGB LED pehle se lagi hai: laal GPIO 5, hara GPIO 6, neela GPIO 13 par, har ek apne resistor se hokar (hare aur neele ke liye 100 Ω: 3.3 V par unhe chhota resistor chahiye). Hara matlab sab theek.'),
+  pi: { imp: ['LED'], decl: ['red = LED(5)                 # GPIO 5: the RGB LED\'s red', 'green = LED(6)               # GPIO 6: its green', 'blue = LED(13)               # GPIO 13: its blue (not used here)'], on: ['red.on()                     # red: warning', 'green.off()'], off: ['red.off()', 'green.on()                   # green: all well'] } });
+function sketchPi(job, ik, ok) {
+  const inp = QIN[ik], out = ok === 'relay' ? relayFor(QOUT[ok], job) : QOUT[ok], ip = inp.pi, op = out.pi;
+  const gz = [...new Set([...(ip.imp || []), ...(op.imp || [])])];
+  const L = [`# ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `# ${job.why.en}`];
+  if (gz.length) L.push(`from gpiozero import ${gz.join(', ')}`);
+  L.push('import time', ...(ip.mods || []).map((m) => 'import ' + m), '', ...ip.decl, ...op.decl);
+  if (inp.analog) L.push(`limit = ${inp.l0}                  # ${inp.note}`);
+  else L.push('hold = 1.0                  # stay on this long after it stops (seconds)', 'last = None                 # when the sensor was last active');
+  L.push('', 'while True:');
+  if (inp.analog) {
+    L.push(...ip.read.map((x) => '    ' + x), `    if ${inp.v} is None:`, '        time.sleep(2)', '        continue', `    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), '    time.sleep(2)              # a DHT11 answers once every 2 s');
+  } else {
+    L.push(`    if ${ip.trig}:`, '        last = time.monotonic()  # active now: start the hold time again', '    if last is not None and time.monotonic() - last < hold:', ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), '    time.sleep(0.05)');
+  }
+  L.push('');
+  return L.join('\n');
+}
+
 function sketchPy(job, ik, ok) {
   const inp = PIN[ik], out = ok === 'relay' ? relayFor(POUT[ok], job) : POUT[ok], ip = inp.py, op = out.py;
   const mods = ['Pin']; if (ip.read) mods.push('ADC'); if (op.decl.some((x) => x.includes('PWM('))) mods.push('PWM');
@@ -533,6 +594,7 @@ const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out 
 // ------------------------------------------------------------------ the sketch
 function sketch(job, ik, ok, board) {
   if (board === 'pico') return sketchPy(job, ik, ok);
+  if (board === 'pi4') return sketchPi(job, ik, ok);
   const esp = board === 'esp32', inp = (esp ? EIN : IN)[ik], out = ok === 'relay' ? relayFor((esp ? EOUT : OUT)[ok], job) : (esp ? EOUT : OUT)[ok];
   const on = typeof out.on === 'function' ? out.on(job) : out.on, off = typeof out.off === 'function' ? out.off(job) : out.off;
   const L = [`// ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `// ${job.why.en}`];
@@ -559,10 +621,10 @@ function sketch(job, ik, ok, board) {
 
 // ------------------------------------------------------------------ one lesson
 function lesson(K, job, ik, ok, n, board) {
-  const esp = board === 'esp32', pico = board === 'pico', inp = (esp ? EIN : pico ? PIN : IN)[ik], out0 = (esp ? EOUT : pico ? POUT : OUT)[ok];
+  const esp = board === 'esp32', pico = board === 'pico', pi = board === 'pi4', inp = (esp ? EIN : pico ? PIN : pi ? QIN : IN)[ik], out0 = (esp ? EOUT : pico ? POUT : pi ? QOUT : OUT)[ok];
   const out = ok === 'relay' ? relayFor(out0, job) : out0;
   const ON = (S) => out.isOn(S, job);
-  const id = `f_${job.key}_${ok}` + (esp ? '_esp' : pico ? '_pico' : '');
+  const id = `f_${job.key}_${ok}` + (esp ? '_esp' : pico ? '_pico' : pi ? '_pi' : '');
   const code = sketch(job, ik, ok, board);
   const wide = inp.view === 'wide' || ['servo', 'relay', 'lcd'].includes(ok);
   const when = fill(inp.when, (x) => x), onW = out.onWords;
@@ -580,27 +642,29 @@ function lesson(K, job, ik, ok, n, board) {
   steps.push({ k: 'act', until: (S) => fresh(S) && S.memRun.onSeen && !trig(S) && !ON(S), do: inp.offDo,
     see: t3(`And off again: the ${out.name.en} answers the sensor by itself.`, `और फिर बंद: ${out.name.hi} अपने-आप सेंसर का जवाब देता है।`, `Aur phir band: ${out.name.hg} apne aap sensor ka jawab deta hai.`) });
   if (inp.analog) {
-    const re = pico ? new RegExp(`^limit\\s*=\\s*${inp.l1}\\b`, 'm') : new RegExp(`int\\s+limit\\s*=\\s*${inp.l1}\\s*;`);
-    steps.push({ k: 'edit', test: (src) => re.test(src), set: pico ? [[new RegExp(`^limit = ${inp.l0}\\b`, 'm'), `limit = ${inp.l1}`]] : [[new RegExp(`int limit = ${inp.l0};`), `int limit = ${inp.l1};`]],
+    const py = pico || pi, re = py ? new RegExp(`^limit\\s*=\\s*${inp.l1}\\b`, 'm') : new RegExp(`int\\s+limit\\s*=\\s*${inp.l1}\\s*;`);
+    steps.push({ k: 'edit', test: (src) => re.test(src), set: py ? [[new RegExp(`^limit = ${inp.l0}\\b`, 'm'), `limit = ${inp.l1}`]] : [[new RegExp(`int limit = ${inp.l0};`), `int limit = ${inp.l1};`]],
       do: t3(`Make it more sensitive: change limit = ${inp.l0} to ${inp.l1} and press Run.`, `इसे ज़्यादा संवेदनशील बनाइए: limit = ${inp.l0} को ${inp.l1} कीजिए और "चलाइए" दबाइए।`, `Ise zyada sensitive banaiye: limit = ${inp.l0} ko ${inp.l1} karo aur Run dabaiye.`), see: t3('', '', '') });
     steps.push({ k: 'act', until: (S) => { const v = lastNum(S); const ok2 = fresh(S) && v !== null && cmp(ik, v, inp.l1) && !cmp(ik, v, inp.l0) && ON(S); if (ok2) S.memRun.final = true; return ok2; }, do: inp.edgeDo,
       see: t3(`Before your change this would not have switched it; now it does. Choosing the limit is how engineers tune a real ${job.title.en.toLowerCase()}.`, `आपके बदलाव से पहले यह इसे चालू नहीं करता; अब करता है। सीमा चुनकर ही इंजीनियर असली उपकरण को ठीक करते हैं।`, `Aapke badlaav se pehle yeh ise on nahi karta; ab karta hai. Limit chunkar hi engineer asli device ko tune karte hain.`) });
   } else {
-    steps.push({ k: 'edit', test: (src) => (pico ? /^hold\s*=\s*3000\b/m : /unsigned\s+long\s+hold\s*=\s*3000\s*;/).test(src), set: pico ? [[/^hold = 1000\b/m, 'hold = 3000']] : [[/unsigned long hold = 1000;/, 'unsigned long hold = 3000;']],
+    if (pi) steps.push({ k: 'edit', test: (src) => /^hold\s*=\s*3(\.0)?\b/m.test(src), set: [[/^hold = 1\.0\b/m, 'hold = 3.0']], // (the Pi counts seconds)
+      do: t3('Keep it on longer: change hold = 1.0 to 3.0 and press Run.', 'इसे ज़्यादा देर चालू रखिए: hold = 1.0 को 3.0 कीजिए और "चलाइए" दबाइए।', 'Ise zyada der on rakhiye: hold = 1.0 ko 3.0 karo aur Run dabaiye.'), see: t3('', '', '') });
+    else steps.push({ k: 'edit', test: (src) => (pico ? /^hold\s*=\s*3000\b/m : /unsigned\s+long\s+hold\s*=\s*3000\s*;/).test(src), set: pico ? [[/^hold = 1000\b/m, 'hold = 3000']] : [[/unsigned long hold = 1000;/, 'unsigned long hold = 3000;']],
       do: t3('Keep it on longer: change hold = 1000 to 3000 and press Run.', 'इसे ज़्यादा देर चालू रखिए: hold = 1000 को 3000 कीजिए और "चलाइए" दबाइए।', 'Ise zyada der on rakhiye: hold = 1000 ko 3000 karo aur Run dabaiye.'), see: t3('', '', '') });
     steps.push({ k: 'act', until: (S) => { const ok2 = fresh(S) && (S.memRun.afterMax || 0) >= 2.5; if (ok2) S.memRun.final = true; return ok2; }, do: inp.againDo,
-      see: t3(`It now stays on about 3 s after the sensor stops: millis() counts the time without stopping the board.`, `अब सेंसर रुकने के बाद यह लगभग 3 s चालू रहता है: millis() बोर्ड को रोके बिना समय गिनता है।`, `Ab sensor rukne ke baad yeh lagbhag 3 s on rehta hai: millis() board ko roke bina time ginta hai.`) });
+      see: ((c) => t3(`It now stays on about 3 s after the sensor stops: ${c} counts the time without stopping the board.`, `अब सेंसर रुकने के बाद यह लगभग 3 s चालू रहता है: ${c} बोर्ड को रोके बिना समय गिनता है।`, `Ab sensor rukne ke baad yeh lagbhag 3 s on rehta hai: ${c} board ko roke bina time ginta hai.`))(pi ? 'time.monotonic()' : pico ? 'time.ticks_ms()' : 'millis()') });
   }
   const tick = (S, dt) => { // the hold after a digital sensor stops: how long the output stayed on (this run)
     if (inp.analog) return; const R = S.memRun; if (!fresh(S)) return;
     if (!inp.active(S) && ON(S)) { R.after = (R.after || 0) + dt; R.afterMax = Math.max(R.afterMax || 0, R.after); } else R.after = 0;
   };
-  const check = pico ? [(S) => (S.conn('VBUS', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : esp ? [(S) => (S.conn('VIN', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : [noShort(K.W), (S) => (S.conn('rail:tp', '5V') ? null : [K.W.vRail]), ...inp.checks(K)];
-  const cls = pico ? Math.max(9, CLS(job, inp, ok) + 2) : esp ? Math.max(8, CLS(job, inp, ok) + 1) : CLS(job, inp, ok); const sfx = esp ? ' (ESP32)' : pico ? ' (Pico)' : '';
+  const check = pi ? [(S) => (S.conn('5V', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : pico ? [(S) => (S.conn('VBUS', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : esp ? [(S) => (S.conn('VIN', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : [noShort(K.W), (S) => (S.conn('rail:tp', '5V') ? null : [K.W.vRail]), ...inp.checks(K)];
+  const cls = pi ? Math.max(10, CLS(job, inp, ok) + 2) : pico ? Math.max(9, CLS(job, inp, ok) + 2) : esp ? Math.max(8, CLS(job, inp, ok) + 1) : CLS(job, inp, ok); const sfx = esp ? ' (ESP32)' : pico ? ' (Pico)' : pi ? ' (Raspberry Pi)' : '';
   return {
-    id, n, batch: 'F', factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && cls <= 6 && ik !== 'sonar', // (pulseIn has no block yet) view: esp ? 'esp4' : wide ? 'wide' : 'bb',
+    id, n, batch: 'F', factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
     code, drawer: inp.drawer, serial: !!inp.analog, title: t3(`${job.title.en}: ${inp.name.en} → ${out.name.en}${sfx}`, `${job.title.hi}: ${inp.name.hi} → ${out.name.hi}${sfx}`, `${job.title.hg}: ${inp.name.hg} → ${out.name.hg}${sfx}`),
-    goal, setup: { parts: out.parts.map((p) => Object.assign({}, p)), wires: [...(esp ? ESP_POWER : pico ? PICO_POWER : POWER), ...out.wires] }, steps, check, tick,
+    goal, setup: { parts: out.parts.map((p) => Object.assign({}, p)), wires: [...(esp ? ESP_POWER : pico ? PICO_POWER : pi ? PI_POWER : POWER), ...out.wires] }, steps, check, tick,
     done: (S) => !!S.memRun.final,
   };
 }
@@ -610,12 +674,12 @@ const cmp = (ik, v, lim) => ({ pot: v > lim, ldr: v < lim, ldrb: v > lim, lm35: 
 // ------------------------------------------------------------------ all of them
 export function batchF(K, n0) {
   const out = []; let n = n0;
-  for (const board of ['uno', 'esp32', 'pico']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : [])]) { // (batch 12: every LCD job on the OLED too)
-    const T = board === 'esp32' ? [EIN, EOUT] : board === 'pico' ? [PIN, POUT] : [IN, OUT];
+  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : [])]) { // (batch 12: every LCD job on the OLED too)
+    const T = board === 'esp32' ? [EIN, EOUT] : board === 'pico' ? [PIN, POUT] : board === 'pi4' ? [QIN, QOUT] : [IN, OUT];
     if (!T[0][job.inp] || !T[1][ok]) continue;
     if ((board === 'uno' && HAND_MADE.has(job.key + ':' + ok)) || (OUT[ok].clash || []).includes(job.inp)) continue;
     out.push(lesson(K, job, job.inp, ok, ++n, board));
   }
   return out;
 }
-export const FACTORY = { IN, OUT, EIN, EOUT, PIN, POUT, sketch };
+export const FACTORY = { IN, OUT, EIN, EOUT, PIN, POUT, QIN, QOUT, sketch };

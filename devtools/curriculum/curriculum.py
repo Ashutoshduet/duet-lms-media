@@ -154,7 +154,7 @@ REPL = {
      'I:Quiz buzzer for the first hand up: push button and LED': 'L:quizbuzz', 'I:Music box: play a melody': 'L:melody', 'I:Happy birthday on a buzzer': 'L:sos',
      'I:Steady-hand wire game': 'L:mathquiz'},
  6: {'I:Binary counter on 4 LEDs': 'L:u_binary', 'I:Diode one-way street': 'L:u_diode', 'I:Transistor as a switch': 'L:u_npn', 'I:Servo dance': 'L:u_servodance',
-     'I:Resistor colour-code reader': 'L:u_colourcode',
+     'I:Resistor colour-code reader': 'L:u_colourcode', 'I:Ohm\'s law tester': 'L:u_ohm', 'I:Simon says memory game': 'L:u_simon',
      'I:Automatic street light: light sensor and 10-LED bar graph': 'L:f_streetlight_led', 'I:Light meter: light sensor and 10-LED bar graph': 'L:lightmeter',
      'I:Too-hot warning: temperature sensor and colour LED': 'L:rgbtemp', 'I:Count button presses (state change)': 'L:segcount', 'I:Gate opener: push button and servo': 'L:f_gate_servo',
      'I:Dice on a 7-segment display': 'L:dice', 'I:Countdown timer on a 7-segment display': 'L:countdown', 'I:Whack-a-mole with LEDs': 'L:reaction',
@@ -167,7 +167,7 @@ REPL = {
      'I:Bouncing ball on an OLED': 'L:sketch', 'I:Smart traffic junction that counts cars': 'L:speedgun', 'I:Motion alert on the phone' + ESP: 'L:esp_alarm'},
  9: {'I:Burglar alarm: motion sensor and beeper' + PICO: 'L:f_corridor_led_pico', 'I:Automatic plant watering: soil moisture sensor and water pump' + PICO: 'L:f_waterplant_pump_pico',
      'I:Electronic voting machine model': 'L:calc'},
- 10: {'I:Smart home: motion light, gas alarm and fan' + ESP: 'L:f_roomlight_relay_esp', 'I:Rainwater harvesting tank monitor': 'L:f_tankfull_lcd',
+ 10: {'I:Temperature-controlled fan in Python' + PI: 'L:f_greenfan_relay_pi', 'I:Smart home: motion light, gas alarm and fan' + ESP: 'L:f_roomlight_relay_esp', 'I:Rainwater harvesting tank monitor': 'L:f_tankfull_lcd',
       'I:Smart energy saver for a classroom': 'L:f_classfan_relay', 'I:Smart parking for a market': 'L:f_slot_lcd'},
 }
 
