@@ -974,3 +974,13 @@ heaters.
   16h–12h (RXD ≈ 3.4 V), pin 1 to column 20, TXD free so pin 0 stays free for uploading; `say()` on Serial (the readings
   share the line, so `isOn` is the last warning line the phone got). One connect act (no reconnect after the edit's Run).
   Every Uno job: 209 projects. robocore24.mjs: the phone sees it, 9600 works, 115200 is rubbish, no wire is silence.
+- micro:bit radio (factorymb.js `MOUT.radio`, mbworld5.js scene `rpsknob`): every bank job also warns a friend's micro:bit
+  by radio. The same program goes into both boards (two tasks on one MBCore): each sends "on" / "off" when its state
+  changes and again each second (a message sent before the other board is listening is lost, as on real ones: the
+  first version, sending only on change, lost the first "on" when the button was held from the start), and shows what
+  the other says (`friendShown` is the check). Scene `rps` (two boards on batteries, labelled) or `rpsknob` (a knob on
+  yours). The blocks round trip holds. 87 projects; robofactorymb.mjs 528 ok.
+- The Pi's gas sensor (factory.js `QIN.gas`): the MQ-2's heater needs 5 V and its AO can reach about 4 V, so a 10 kΩ /
+  20 kΩ divider (14g–18g, 18h–22h, its middle pre-wired to CH0) brings it under 3.3 V; AO straight to CH0 is named by the
+  check (`XF.gasDiv`). × 2/3 against 3.3 V reads as an Uno against 5 V, so the limits (400, 250) stay. 25 projects.
+  3,019 projects (239 hand-made + 2,780 bank).

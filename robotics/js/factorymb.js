@@ -118,6 +118,19 @@ const MOUT = {
     on: () => ['pin0.write_analog(77)      # a 1.5 ms pulse: 90 degrees'], off: () => ['pin0.write_analog(26)      # back to 0 degrees'],
     isOn: (S) => { const p = W0(S).parts.sv1; return !!p && (p.state.angle || 0) > 60; },
   },
+  // (batch 24) the warning goes by radio to a friend's micro:bit, which shows it: both boards get the same program (each
+  // tells the other when its sensor starts and stops, and shows what the other says). It sends when the state changes and
+  // again each second: a message sent while the other board is not listening yet is lost, as on real micro:bits.
+  radio: {
+    name: t3('friend\'s micro:bit by radio', 'रेडियो से दोस्त का micro:bit', 'radio se dost ka micro:bit'), imp: ['import radio'], hud: ['radio'], boards: 2,
+    setup: ['radio.on()', 'radio.config(group=7)         # both micro:bits on group 7', 'sent = ""                     # what the other micro:bit was told last', 'sent_at = 0                   # and when'],
+    ready: t3('Your friend\'s micro:bit sits across the room. The same program goes into both: each tells the other by radio when its sensor starts and stops, and shows what the other says.', 'आपके दोस्त का micro:bit कमरे के दूसरी तरफ़ है। एक ही प्रोग्राम दोनों में जाता है: हर एक दूसरे को रेडियो से बताता है कि उसका सेंसर कब शुरू और बंद हुआ, और दूसरे की बात दिखाता है।', 'Aapke dost ka micro:bit kamre ke doosri taraf hai. Ek hi program dono mein jaata hai: har ek doosre ko radio se batata hai ki uska sensor kab shuru aur band hua, aur doosre ki baat dikhata hai.'),
+    onWords: (j) => (NO_ICON(j) ? t3('the friend\'s micro:bit shows a cross', 'दोस्त के micro:bit पर क्रॉस आता है', 'dost ke micro:bit par cross aata hai') : t3('the friend\'s micro:bit shows a tick', 'दोस्त के micro:bit पर सही का निशान आता है', 'dost ke micro:bit par sahi ka nishaan aata hai')),
+    on: () => ['if sent != "on" or running_time() - sent_at > 1000:', '    radio.send("on")          # tell the other micro:bit (and again each second: it may have missed it)', '    sent = "on"', '    sent_at = running_time()'],
+    off: () => ['if sent != "off" or running_time() - sent_at > 1000:', '    radio.send("off")', '    sent = "off"', '    sent_at = running_time()'],
+    tail: (j) => ['msg = radio.receive()         # what the other micro:bit says (None if nothing)', 'if msg == "on":', `    display.show(Image.${NO_ICON(j) ? 'NO' : 'YES'})      # ${j.on}`, 'elif msg == "off":', '    display.clear()'],
+    isOn: (S, j) => S.wv('friendShown') === (NO_ICON(j) ? 'NO' : 'YES'),
+  },
 };
 const OUT_OF = { buzzer: 'speaker', led: 'led', relay: 'led', lcd: 'icon', oled: 'icon', rgb: 'icon', servo: 'servo' };
 
@@ -131,10 +144,12 @@ export function sketchMB(job, ik, ok) {
   if (inp.analog) {
     L.push('    ' + inp.read, `    print(${inp.v})`, `    if ${inp.cond}:`, ...on.map((x) => '        ' + x));
     if (off.length) L.push('    else:', ...off.map((x) => '        ' + x));
+    if (out.tail) L.push(...out.tail(job).map((x) => '    ' + x)); // (batch 24: the radio's other half)
     L.push('    sleep(200)');
   } else {
     L.push(`    if ${inp.trig}:`, '        last = running_time()   # pressed now: start the hold time again', '    if running_time() - last < hold:', ...on.map((x) => '        ' + x));
     if (off.length) L.push('    else:', ...off.map((x) => '        ' + x));
+    if (out.tail) L.push(...out.tail(job).map((x) => '    ' + x));
     L.push('    sleep(50)');
   }
   return L.join('\n') + '\n';
@@ -182,14 +197,14 @@ function lesson(job, ik, ok, n) {
   if (ok === 'led') check.push((S) => (S.w('conn:P0~led1.K') && S.w('conn:GND~led1.A') ? [X.swapLed] : null));
   for (const [a, b] of clips) check.push((S) => (S.w(`conn:${a}~${b}`) ? null : [X.clip, { a: PIN_NAME[a] || a, b: b.split('.')[1] }]));
   const parts = [out.part, inp.part].filter(Boolean).map((p) => Object.assign({}, p));
-  const scene = ok === 'servo' ? 'gate' : ik === 'pot' ? 'dimmer' : 'desk';
+  const scene = ok === 'radio' ? (ik === 'pot' ? 'rpsknob' : 'rps') : ok === 'servo' ? 'gate' : ik === 'pot' ? 'dimmer' : 'desk';
   const cls = Math.min(6, Math.max(3, job.cls - 2 + (clips.length ? 1 : 0)));
   const when = inp.when;
   return {
     id, n, batch: 'FM', lang: 'py', factory: { job: job.key, inp: ik, out: ok, board: 'microbit' }, cls: String(cls), view: parts.length ? 'mbwide' : 'mb', code, drawer: [], serial: !!inp.analog, icon: '▦',
     title: t3(`${job.title.en}: ${inp.name.en} → ${out.name.en} (micro:bit)`, `${job.title.hi}: ${inp.name.hi} → ${out.name.hi} (micro:bit)`, `${job.title.hg}: ${inp.name.hg} → ${out.name.hg} (micro:bit)`),
     goal: join3(job.why, ' ', t3(`When ${when.en}, ${onW.en}.`, `जब ${when.hi}, तब ${onW.hi}।`, `Jab ${when.hg}, tab ${onW.hg}.`)),
-    world: world({ scene, parts, controls: inp.controls, hud: [...inp.hud, ...out.hud], title: job.title }),
+    world: world(Object.assign({ scene, parts, controls: inp.controls, hud: [...inp.hud, ...out.hud], title: job.title }, out.boards ? { boards: out.boards } : {})),
     setup: { parts: [], wires: [] }, steps, check, tick, done: (S) => !!S.memRun.final,
   };
 }
@@ -199,8 +214,8 @@ export function batchFM(K, n0) {
   const out = []; let n = n0; const seen = new Set();
   for (const job of JOBS) {
     const ik = IN_OF[job.inp]; if (!ik) continue;
-    for (const o of job.outs) {
-      const ok = OUT_OF[o]; if (!ok || seen.has(job.key + ':' + ok)) continue;
+    for (const o of [...job.outs, 'radio']) { // (batch 24: every job also by radio to a friend's micro:bit)
+      const ok = OUT_OF[o] || (o === 'radio' ? 'radio' : null); if (!ok || seen.has(job.key + ':' + ok)) continue;
       if (ik === 'pot' && ok === 'servo') continue; // (the knob and the servo gate would stand in each other's place on the desk)
       seen.add(job.key + ':' + ok); out.push(lesson(job, ik, ok, ++n));
     }

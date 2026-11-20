@@ -52,7 +52,7 @@ for (const l of FL) {
         let f = null; if (s.clip) D.core.addClip(s.clip[0], s.clip[1]); else f = doIt(l, phases[phase++]);
         const T0 = D.t; let done = false;
         for (let n = 0; n < 30 * 60; n++) { if (f) f(D.t - T0, D); frame(D); let d = false; try { d = !!s.until(D.rt); } catch (e) { d = false; } if (d) { done = true; break; } if (D.lab.mcu.state === 'error') break; }
-        if (!done) { okAll = false; log.push(`step ${i} (${s.do.en.slice(0, 50)}) not done · img ${D.core.val('shownImg')} nums ${D.rt.nums.slice(-3)} memRun ${JSON.stringify(D.rt.memRun)} mcu ${D.lab.mcu.state} ${D.lab.mcu.err ? JSON.stringify(D.lab.mcu.err).slice(0, 200) : ''}`); break; }
+        if (!done) { okAll = false; log.push(`step ${i} (${s.do.en.slice(0, 50)}) not done · img ${D.core.val('shownImg')} friend ${D.core.val('friendShown')} radio ${JSON.stringify(D.core.val('radio'))} boards ${D.core.boards.length} lines ${D.core.tasks.map((t) => t.line + ':' + t.done + ':' + Math.round(t.t))} btn ${JSON.stringify(D.B.btn)} now ${Math.round(D.core.now)} nums ${D.rt.nums.slice(-3)} memRun ${JSON.stringify(D.rt.memRun)} mcu ${D.lab.mcu.state} ${D.lab.mcu.err ? JSON.stringify(D.lab.mcu.err).slice(0, 200) : ''}`); break; }
       }
     }
   } catch (e) { okAll = false; log.push('threw ' + e.message); }

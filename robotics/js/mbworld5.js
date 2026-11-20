@@ -71,6 +71,7 @@ export class MBView {
   layout() { // where the boards and parts stand in this lesson's scene (desk mm, from the desk's centre)
     const sc = this.cfg.scene || 'desk';
     if (sc === 'rps') return { boards: [[-44, 0, 0], [44, 0, 0]] };
+    if (sc === 'rpsknob') return { boards: [[-62, 0, -6], [70, 0, -6]], pot1: [0, 0, 34] }; // (batch 24: a knob on yours, the friend's across)
     if (sc === 'plant') return { boards: [[-62, 0, -6]], soil: [48, 0, -18], led1: [-14, 0, 40] };
     if (sc === 'gate') return { boards: [[-78, 0, 6]], sv1: [24, 0, 14] };
     if (sc === 'worm') return { boards: [[-78, 0, 6]], sv1: [24, 0, 14] }; // (batch 13)
@@ -88,12 +89,12 @@ export class MBView {
       const pivot = new THREE.Group(); pivot.position.y = FEET + 0.8; holder.add(pivot); // the board turns round its middle
       const mb = M5.buildMicrobit(k); mb.position.y = -0.8; pivot.add(mb);
       mb.userData.picks.traverse((o) => { if (o.userData.role) { o.userData.board = k; this.picks.push(o); } });
-      const usb = this.cfg.scene === 'rps' || this.cfg.scene === 'badge' || this.cfg.battery ? null : M5.buildUsbCable(190);
+      const usb = this.cfg.scene === 'rps' || this.cfg.scene === 'rpsknob' || this.cfg.scene === 'badge' || this.cfg.battery ? null : M5.buildUsbCable(190);
       if (usb) { usb.position.set(0, -2.0, -21 - 6); usb.rotation.y = Math.PI; mb.add(usb); }
-      if (this.cfg.scene === 'rps' || this.cfg.battery) { const bp = M5.buildBatteryPack(); bp.position.set(0, 0, -70); bp.rotation.y = k ? 0.25 : -0.25; holder.add(bp); }
+      if (this.cfg.scene === 'rps' || this.cfg.scene === 'rpsknob' || this.cfg.battery) { const bp = M5.buildBatteryPack(); bp.position.set(0, 0, -70); bp.rotation.y = k ? 0.25 : -0.25; holder.add(bp); }
       this.boards.push({ b, holder, pivot, mb, ud: mb.userData, flipA: 0, lift: 0, sig: '' });
     });
-    if (this.cfg.scene === 'rps') this.core.boards.forEach((b, k) => { const s = labelSprite(tx(k ? UIW.friend : UIW.you), k ? '#7fd1ff' : '#f0a65a'); s.position.set(this.lay.boards[k][0], 1, 36); this.root.add(s); });
+    if (this.cfg.scene === 'rps' || this.cfg.scene === 'rpsknob') this.core.boards.forEach((b, k) => { const s = labelSprite(tx(k ? UIW.friend : UIW.you), k ? '#7fd1ff' : '#f0a65a'); s.position.set(this.lay.boards[k][0], 1, 36); this.root.add(s); });
   }
   buildScene() {
     const sc = this.cfg.scene || 'desk', R = this.root;

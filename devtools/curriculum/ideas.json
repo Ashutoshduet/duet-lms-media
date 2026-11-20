@@ -1,5 +1,22 @@
 [
 {
+"id": "live-m_examhall_radio",
+"title": "Exam hall fans: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_examhall_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_examhall_led",
 "title": "Exam hall fans: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -13,6 +30,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_examhall_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_cattleshade_radio",
+"title": "Cattle shed fan for the summer: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_cattleshade_radio",
 "rule": null,
 "note": null
 },
@@ -51,6 +85,23 @@
 "note": null
 },
 {
+"id": "live-m_icecream_radio",
+"title": "Ice-cream cart cooler: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_icecream_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_icecream_icon",
 "title": "Ice-cream cart cooler: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -85,6 +136,23 @@
 "note": null
 },
 {
+"id": "live-m_busshelter_radio",
+"title": "Bus shelter cooling mist: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_busshelter_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_busshelter_icon",
 "title": "Bus shelter cooling mist: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -98,6 +166,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_busshelter_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_comfort_radio",
+"title": "Classroom comfort meter: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_comfort_radio",
 "rule": null,
 "note": null
 },
@@ -119,6 +204,23 @@
 "note": null
 },
 {
+"id": "live-m_poultry_radio",
+"title": "Poultry shed cooling: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_poultry_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_poultry_led",
 "title": "Poultry shed cooling: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -132,6 +234,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_poultry_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_coldwave_radio",
+"title": "Cold wave school notice: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_coldwave_radio",
 "rule": null,
 "note": null
 },
@@ -170,6 +289,23 @@
 "note": null
 },
 {
+"id": "live-m_bathwater_radio",
+"title": "Bath water too cold: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_bathwater_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_bathwater_led",
 "title": "Bath water too cold: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -204,6 +340,23 @@
 "note": null
 },
 {
+"id": "live-m_brooder_radio",
+"title": "Chick brooder heater: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_brooder_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_brooder_led",
 "title": "Chick brooder heater: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -217,6 +370,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_brooder_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_pipefreeze_radio",
+"title": "Water pipe freeze warning: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_pipefreeze_radio",
 "rule": null,
 "note": null
 },
@@ -255,6 +425,23 @@
 "note": null
 },
 {
+"id": "live-m_compost_radio",
+"title": "Compost pit thermometer: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_compost_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_compost_icon",
 "title": "Compost pit thermometer: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -272,6 +459,23 @@
 "note": null
 },
 {
+"id": "live-m_transformer_radio",
+"title": "Transformer heat watch: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_transformer_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_transformer_icon",
 "title": "Transformer heat watch: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -285,6 +489,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_transformer_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_geyser_radio",
+"title": "Hot water ready light: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_geyser_radio",
 "rule": null,
 "note": null
 },
@@ -340,6 +561,23 @@
 "note": null
 },
 {
+"id": "live-m_motorhot_radio",
+"title": "Pump motor overheat alarm: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_motorhot_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_motorhot_icon",
 "title": "Pump motor overheat alarm: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -370,6 +608,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_motorhot_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_ironhot_radio",
+"title": "Iron left on warning: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_ironhot_radio",
 "rule": null,
 "note": null
 },
@@ -408,6 +663,23 @@
 "note": null
 },
 {
+"id": "live-m_flame_radio",
+"title": "Burner flame watcher: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_flame_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_flame_icon",
 "title": "Burner flame watcher: light sensor (the LED screen) → LED screen (micro:bit)",
 "family": "factory",
@@ -438,6 +710,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_flame_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_strongsun_radio",
+"title": "Strong sun warning: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_strongsun_radio",
 "rule": null,
 "note": null
 },
@@ -476,6 +765,23 @@
 "note": null
 },
 {
+"id": "live-m_headlight_radio",
+"title": "Headlight auto-dipper: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_headlight_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_headlight_icon",
 "title": "Headlight auto-dipper: light sensor (the LED screen) → LED screen (micro:bit)",
 "family": "factory",
@@ -510,6 +816,23 @@
 "note": null
 },
 {
+"id": "live-m_solarpanel_radio",
+"title": "Solar panel lifter: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_solarpanel_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_solarpanel_servo",
 "title": "Solar panel lifter: light sensor (the LED screen) → servo on pin 0 (micro:bit)",
 "family": "factory",
@@ -523,6 +846,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_solarpanel_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_powercut_radio",
+"title": "Power cut alarm: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_powercut_radio",
 "rule": null,
 "note": null
 },
@@ -561,6 +901,23 @@
 "note": null
 },
 {
+"id": "live-m_festival_radio",
+"title": "Festival lights at sunset: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_festival_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_festival_led",
 "title": "Festival lights at sunset: light sensor (the LED screen) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -591,6 +948,23 @@
 "level": 4,
 "theme": "bank",
 "live": "m_festival_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_beacon_radio",
+"title": "Tower warning beacon: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_beacon_radio",
 "rule": null,
 "note": null
 },
@@ -629,6 +1003,23 @@
 "note": null
 },
 {
+"id": "live-m_readinglamp_radio",
+"title": "Study table lamp: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_readinglamp_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_readinglamp_led",
 "title": "Study table lamp: light sensor (the LED screen) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -642,6 +1033,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_readinglamp_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_smokebeam_radio",
+"title": "Smoke detector (light beam): light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_smokebeam_radio",
 "rule": null,
 "note": null
 },
@@ -680,6 +1088,23 @@
 "note": null
 },
 {
+"id": "live-m_stoveknob_radio",
+"title": "Gas stove knob reminder: knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_stoveknob_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_stoveknob_icon",
 "title": "Gas stove knob reminder: knob on pin 1 → LED screen (micro:bit)",
 "family": "factory",
@@ -710,6 +1135,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_stoveknob_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_volume_radio",
+"title": "Headphone volume guard: knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_volume_radio",
 "rule": null,
 "note": null
 },
@@ -748,6 +1190,23 @@
 "note": null
 },
 {
+"id": "live-m_cranelimit_radio",
+"title": "Crane arm angle limit: knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_cranelimit_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_cranelimit_icon",
 "title": "Crane arm angle limit: knob on pin 1 → LED screen (micro:bit)",
 "family": "factory",
@@ -778,6 +1237,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_cranelimit_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_speedwarn_radio",
+"title": "Over-speed warning: knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_speedwarn_radio",
 "rule": null,
 "note": null
 },
@@ -816,6 +1292,23 @@
 "note": null
 },
 {
+"id": "live-m_chemist_radio",
+"title": "Chemist night bell: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+3,
+5
+],
+"level": 3,
+"theme": "bank",
+"live": "m_chemist_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_chemist_led",
 "title": "Chemist night bell: button A → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -850,6 +1343,23 @@
 "note": null
 },
 {
+"id": "live-m_labhelp_radio",
+"title": "Lab help-request light: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_labhelp_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_labhelp_icon",
 "title": "Lab help-request light: button A → LED screen (micro:bit)",
 "family": "factory",
@@ -863,6 +1373,23 @@
 "level": 4,
 "theme": "bank",
 "live": "m_labhelp_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_quizbuzz_radio",
+"title": "Quiz contest buzzer: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+3,
+5
+],
+"level": 3,
+"theme": "bank",
+"live": "m_quizbuzz_radio",
 "rule": null,
 "note": null
 },
@@ -901,6 +1428,40 @@
 "note": null
 },
 {
+"id": "live-m_bucketfill_radio",
+"title": "Push-to-fill bucket tap: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_bucketfill_radio",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_petfeeder_radio",
+"title": "Pet feeder flap: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_petfeeder_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_petfeeder_servo",
 "title": "Pet feeder flap: button A → servo on pin 0 (micro:bit)",
 "family": "factory",
@@ -914,6 +1475,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_petfeeder_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_orderready_radio",
+"title": "Canteen order-ready sign: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+3,
+5
+],
+"level": 3,
+"theme": "bank",
+"live": "m_orderready_radio",
 "rule": null,
 "note": null
 },
@@ -952,6 +1530,23 @@
 "note": null
 },
 {
+"id": "live-m_elderhelp_radio",
+"title": "Grandparent help button: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+3,
+5
+],
+"level": 3,
+"theme": "bank",
+"live": "m_elderhelp_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_elderhelp_icon",
 "title": "Grandparent help button: button A → LED screen (micro:bit)",
 "family": "factory",
@@ -982,6 +1577,23 @@
 "level": 3,
 "theme": "bank",
 "live": "m_elderhelp_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_busstop_radio",
+"title": "Bus stop request bell: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+3,
+5
+],
+"level": 3,
+"theme": "bank",
+"live": "m_busstop_radio",
 "rule": null,
 "note": null
 },
@@ -1037,6 +1649,40 @@
 "note": null
 },
 {
+"id": "live-m_cattlemist_radio",
+"title": "Cattle shed mist cooler: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_cattlemist_radio",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_frostcover_radio",
+"title": "Frost cover for seedlings: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_frostcover_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_frostcover_servo",
 "title": "Frost cover for seedlings: temperature sensor (inside the chip) → servo on pin 0 (micro:bit)",
 "family": "factory",
@@ -1054,6 +1700,23 @@
 "note": null
 },
 {
+"id": "live-m_thermostat_radio",
+"title": "Room heater thermostat: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_thermostat_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_thermostat_led",
 "title": "Room heater thermostat: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -1067,6 +1730,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_thermostat_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_engine_radio",
+"title": "Engine overheat light: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_engine_radio",
 "rule": null,
 "note": null
 },
@@ -1105,6 +1785,23 @@
 "note": null
 },
 {
+"id": "live-m_milkchill_radio",
+"title": "Milk chiller alarm: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_milkchill_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_milkchill_icon",
 "title": "Milk chiller alarm: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -1135,6 +1832,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_milkchill_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_darkroom_radio",
+"title": "Darkroom light alarm: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_darkroom_radio",
 "rule": null,
 "note": null
 },
@@ -1173,6 +1887,40 @@
 "note": null
 },
 {
+"id": "live-m_solarpump_radio",
+"title": "Solar-time water pump: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_solarpump_radio",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_lighthouse_radio",
+"title": "Lighthouse lamp: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_lighthouse_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_lighthouse_led",
 "title": "Lighthouse lamp: light sensor (the LED screen) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -1207,6 +1955,23 @@
 "note": null
 },
 {
+"id": "live-m_tunnel_radio",
+"title": "Car headlights in a tunnel: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_tunnel_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_tunnel_led",
 "title": "Car headlights in a tunnel: light sensor (the LED screen) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -1220,6 +1985,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_tunnel_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_panelshade_radio",
+"title": "Solar panel shade alarm: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_panelshade_radio",
 "rule": null,
 "note": null
 },
@@ -1258,6 +2040,23 @@
 "note": null
 },
 {
+"id": "live-m_liftcall_radio",
+"title": "Lift call button: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_liftcall_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_liftcall_speaker",
 "title": "Lift call button: button A → speaker (micro:bit)",
 "family": "factory",
@@ -1292,6 +2091,23 @@
 "note": null
 },
 {
+"id": "live-m_coolroom_radio",
+"title": "Server cupboard cooler: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_coolroom_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_coolroom_led",
 "title": "Server cupboard cooler: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -1305,6 +2121,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_coolroom_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_fishtank_radio",
+"title": "Fish tank heater: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_fishtank_radio",
 "rule": null,
 "note": null
 },
@@ -1343,6 +2176,23 @@
 "note": null
 },
 {
+"id": "live-m_teacool_radio",
+"title": "Tea is cool enough: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_teacool_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_teacool_icon",
 "title": "Tea is cool enough: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -1377,6 +2227,23 @@
 "note": null
 },
 {
+"id": "live-m_batteryhot_radio",
+"title": "Battery overheat warning: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_batteryhot_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_batteryhot_icon",
 "title": "Battery overheat warning: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -1407,6 +2274,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_batteryhot_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_serverroom_radio",
+"title": "Computer lab overheat alarm: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_serverroom_radio",
 "rule": null,
 "note": null
 },
@@ -1462,6 +2346,23 @@
 "note": null
 },
 {
+"id": "live-m_drawer_radio",
+"title": "Locker drawer opened alarm: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_drawer_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_drawer_icon",
 "title": "Locker drawer opened alarm: light sensor (the LED screen) → LED screen (micro:bit)",
 "family": "factory",
@@ -1492,6 +2393,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_drawer_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_bikelamp_radio",
+"title": "Bicycle lamp reminder: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_bikelamp_radio",
 "rule": null,
 "note": null
 },
@@ -1530,6 +2448,23 @@
 "note": null
 },
 {
+"id": "live-m_henhouse_radio",
+"title": "Hen-house door at dusk: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_henhouse_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_henhouse_servo",
 "title": "Hen-house door at dusk: light sensor (the LED screen) → servo on pin 0 (micro:bit)",
 "family": "factory",
@@ -1543,6 +2478,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_henhouse_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_shopsign_radio",
+"title": "Shop sign that lights at dusk: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_shopsign_radio",
 "rule": null,
 "note": null
 },
@@ -1581,6 +2533,23 @@
 "note": null
 },
 {
+"id": "live-m_fanmark_radio",
+"title": "Fan regulator with an on mark: knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_fanmark_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_fanmark_led",
 "title": "Fan regulator with an on mark: knob on pin 1 → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -1598,6 +2567,23 @@
 "note": null
 },
 {
+"id": "live-m_watchman_radio",
+"title": "Gate call for the watchman: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_watchman_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_watchman_icon",
 "title": "Gate call for the watchman: button A → LED screen (micro:bit)",
 "family": "factory",
@@ -1611,6 +2597,40 @@
 "level": 4,
 "theme": "bank",
 "live": "m_watchman_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_handwash_radio",
+"title": "Push-button hand-wash tap: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_handwash_radio",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_greenfan_radio",
+"title": "Greenhouse cooling: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_greenfan_radio",
 "rule": null,
 "note": null
 },
@@ -1649,6 +2669,23 @@
 "note": null
 },
 {
+"id": "live-m_heatwave_radio",
+"title": "Heat-wave warning: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_heatwave_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_heatwave_speaker",
 "title": "Heat-wave warning: temperature sensor (inside the chip) → speaker (micro:bit)",
 "family": "factory",
@@ -1679,6 +2716,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_heatwave_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_frost_radio",
+"title": "Frost alarm for crops: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_frost_radio",
 "rule": null,
 "note": null
 },
@@ -1717,6 +2771,23 @@
 "note": null
 },
 {
+"id": "live-m_incubator_radio",
+"title": "Egg incubator heater: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_incubator_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_incubator_icon",
 "title": "Egg incubator heater: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -1751,6 +2822,23 @@
 "note": null
 },
 {
+"id": "live-m_blinds_radio",
+"title": "Sun blind closer: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_blinds_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_blinds_servo",
 "title": "Sun blind closer: light sensor (the LED screen) → servo on pin 0 (micro:bit)",
 "family": "factory",
@@ -1764,6 +2852,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_blinds_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_fridgeopen_radio",
+"title": "Fridge door left open alarm: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_fridgeopen_radio",
 "rule": null,
 "note": null
 },
@@ -1802,6 +2907,23 @@
 "note": null
 },
 {
+"id": "live-m_sunrise_radio",
+"title": "Sunrise alarm: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_sunrise_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_sunrise_icon",
 "title": "Sunrise alarm: light sensor (the LED screen) → LED screen (micro:bit)",
 "family": "factory",
@@ -1832,6 +2954,23 @@
 "level": 4,
 "theme": "bank",
 "live": "m_sunrise_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_growlight_radio",
+"title": "Grow light for plants: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_growlight_radio",
 "rule": null,
 "note": null
 },
@@ -1870,6 +3009,23 @@
 "note": null
 },
 {
+"id": "live-m_heaterset_radio",
+"title": "Heater set-point knob: knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_heaterset_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_heaterset_icon",
 "title": "Heater set-point knob: knob on pin 1 → LED screen (micro:bit)",
 "family": "factory",
@@ -1900,6 +3056,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_heaterset_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_panic_radio",
+"title": "Panic button for a shop: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_panic_radio",
 "rule": null,
 "note": null
 },
@@ -1938,6 +3111,23 @@
 "note": null
 },
 {
+"id": "live-m_stairs_radio",
+"title": "Stair light with a timer: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_stairs_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_stairs_led",
 "title": "Stair light with a timer: button A → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -1955,6 +3145,23 @@
 "note": null
 },
 {
+"id": "live-m_vent_radio",
+"title": "Greenhouse vent opener: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_vent_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_vent_servo",
 "title": "Greenhouse vent opener: temperature sensor (inside the chip) → servo on pin 0 (micro:bit)",
 "family": "factory",
@@ -1968,6 +3175,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_vent_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_fever_radio",
+"title": "Fever check station: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_fever_radio",
 "rule": null,
 "note": null
 },
@@ -2006,6 +3230,23 @@
 "note": null
 },
 {
+"id": "live-m_coolfan_radio",
+"title": "Automatic cooling fan: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_coolfan_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_coolfan_led",
 "title": "Automatic cooling fan: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -2019,6 +3260,23 @@
 "level": 6,
 "theme": "bank",
 "live": "m_coolfan_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_toohot_radio",
+"title": "Too-hot warning: temperature sensor (inside the chip) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_toohot_radio",
 "rule": null,
 "note": null
 },
@@ -2074,6 +3332,23 @@
 "note": null
 },
 {
+"id": "live-m_fridge_radio",
+"title": "Cupboard light checker: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_fridge_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_fridge_speaker",
 "title": "Cupboard light checker: light sensor (the LED screen) → speaker (micro:bit)",
 "family": "factory",
@@ -2087,6 +3362,23 @@
 "level": 4,
 "theme": "bank",
 "live": "m_fridge_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_tripwire_radio",
+"title": "Laser tripwire alarm: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_tripwire_radio",
 "rule": null,
 "note": null
 },
@@ -2125,6 +3417,57 @@
 "note": null
 },
 {
+"id": "live-m_curtain_radio",
+"title": "Automatic curtain: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_curtain_radio",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_streetlight_radio",
+"title": "Automatic street light: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_streetlight_radio",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_nightlamp_radio",
+"title": "Night lamp: light sensor (the LED screen) → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_nightlamp_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_nightlamp_icon",
 "title": "Night lamp: light sensor (the LED screen) → LED screen (micro:bit)",
 "family": "factory",
@@ -2138,6 +3481,40 @@
 "level": 4,
 "theme": "bank",
 "live": "m_nightlamp_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_steer_radio",
+"title": "Knob steering: knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_steer_radio",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_tankmark_radio",
+"title": "Tank level alarm (float knob): knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_tankmark_radio",
 "rule": null,
 "note": null
 },
@@ -2176,6 +3553,23 @@
 "note": null
 },
 {
+"id": "live-m_dimmer_radio",
+"title": "Knob lamp switch: knob on pin 1 → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_dimmer_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_dimmer_led",
 "title": "Knob lamp switch: knob on pin 1 → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -2189,6 +3583,23 @@
 "level": 4,
 "theme": "bank",
 "live": "m_dimmer_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_nurse_radio",
+"title": "Hospital bed call button: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_nurse_radio",
 "rule": null,
 "note": null
 },
@@ -2244,6 +3655,23 @@
 "note": null
 },
 {
+"id": "live-m_gate_radio",
+"title": "Push-button gate: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_gate_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_gate_servo",
 "title": "Push-button gate: button A → servo on pin 0 (micro:bit)",
 "family": "factory",
@@ -2257,6 +3685,23 @@
 "level": 5,
 "theme": "bank",
 "live": "m_gate_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_crossing_radio",
+"title": "Pedestrian crossing barrier: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "bank",
+"live": "m_crossing_radio",
 "rule": null,
 "note": null
 },
@@ -2295,6 +3740,23 @@
 "note": null
 },
 {
+"id": "live-m_lightswitch_radio",
+"title": "Push-button light: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+3,
+5
+],
+"level": 3,
+"theme": "bank",
+"live": "m_lightswitch_radio",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_lightswitch_led",
 "title": "Push-button light: button A → LED on pin 0 (micro:bit)",
 "family": "factory",
@@ -2308,6 +3770,23 @@
 "level": 4,
 "theme": "bank",
 "live": "m_lightswitch_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_doorbell_radio",
+"title": "Doorbell: button A → friend's micro:bit by radio (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+3,
+5
+],
+"level": 3,
+"theme": "bank",
+"live": "m_doorbell_radio",
 "rule": null,
 "note": null
 },
@@ -6046,6 +7525,249 @@
 "note": null
 },
 {
+"id": "live-f_garagefumes_relay_pi",
+"title": "Garage fume fan: gas sensor MQ-2 → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_garagefumes_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fruitripe_oled_pi",
+"title": "Fruit ripening watch: gas sensor MQ-2 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fruitripe_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fruitripe_lcd_pi",
+"title": "Fruit ripening watch: gas sensor MQ-2 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fruitripe_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fruitripe_rgb_pi",
+"title": "Fruit ripening watch: gas sensor MQ-2 → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fruitripe_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breath_oled_pi",
+"title": "Drunk-driving ignition lock: gas sensor MQ-2 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_breath_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breath_lcd_pi",
+"title": "Drunk-driving ignition lock: gas sensor MQ-2 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_breath_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breath_servo_pi",
+"title": "Drunk-driving ignition lock: gas sensor MQ-2 → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_breath_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sewer_oled_pi",
+"title": "Sewer gas warning for workers: gas sensor MQ-2 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sewer_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sewer_lcd_pi",
+"title": "Sewer gas warning for workers: gas sensor MQ-2 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sewer_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sewer_rgb_pi",
+"title": "Sewer gas warning for workers: gas sensor MQ-2 → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sewer_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sewer_buzzer_pi",
+"title": "Sewer gas warning for workers: gas sensor MQ-2 → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sewer_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pitch_oled_pi",
 "title": "Cricket pitch dryness check: soil moisture sensor → OLED screen (Raspberry Pi)",
 "family": "factory",
@@ -9437,6 +11159,72 @@
 "note": null
 },
 {
+"id": "live-f_biogas_oled_pi",
+"title": "Biogas plant leak watch: gas sensor MQ-2 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_biogas_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_biogas_rgb_pi",
+"title": "Biogas plant leak watch: gas sensor MQ-2 → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_biogas_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_biogas_lcd_pi",
+"title": "Biogas plant leak watch: gas sensor MQ-2 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_biogas_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_treeguard_oled_pi",
 "title": "Tree sapling water reminder: soil moisture sensor → OLED screen (Raspberry Pi)",
 "family": "factory",
@@ -10549,6 +12337,117 @@
 "note": null
 },
 {
+"id": "live-f_fumehood_oled_pi",
+"title": "Science lab fume fan: gas sensor MQ-2 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fumehood_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fumehood_lcd_pi",
+"title": "Science lab fume fan: gas sensor MQ-2 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fumehood_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fumehood_relay_pi",
+"title": "Science lab fume fan: gas sensor MQ-2 → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fumehood_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_smoke_rgb_pi",
+"title": "Smoke alarm: gas sensor MQ-2 → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_smoke_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_smoke_buzzer_pi",
+"title": "Smoke alarm: gas sensor MQ-2 → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_smoke_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_paddy_oled_pi",
 "title": "Paddy field water keeper: soil moisture sensor → OLED screen (Raspberry Pi)",
 "family": "factory",
@@ -11454,6 +13353,28 @@
 "note": null
 },
 {
+"id": "live-f_airlamp_rgb_pi",
+"title": "Air quality lamp: gas sensor MQ-2 → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_airlamp_rgb_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bottle_web_pi",
 "title": "Bottle filling station: IR obstacle sensor → web page on a phone (Raspberry Pi)",
 "family": "factory",
@@ -12234,6 +14155,95 @@
 "level": 10,
 "theme": "bank",
 "live": "f_roomlight_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_exhaust_relay_pi",
+"title": "Exhaust fan on gas: gas sensor MQ-2 → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_exhaust_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gasleak_oled_pi",
+"title": "Kitchen gas leak warning: gas sensor MQ-2 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gasleak_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gasleak_led_pi",
+"title": "Kitchen gas leak warning: gas sensor MQ-2 → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gasleak_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gasleak_lcd_pi",
+"title": "Kitchen gas leak warning: gas sensor MQ-2 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gasleak_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -51614,6 +53624,26 @@
 "note": null
 },
 {
+"id": "live-f_valveshut_servo",
+"title": "Gas valve shut-off: gas sensor MQ-2 → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_valveshut_servo",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_exhaust_bt",
 "title": "Exhaust fan on gas: gas sensor MQ-2 → phone over Bluetooth",
 "family": "factory",
@@ -74299,7 +76329,7 @@
 ],
 "level": 8,
 "theme": "safety",
-"live": "f_valveshut_servo",
+"live": "f_valveshut_servo_pi",
 "rule": {
 "in": "gas",
 "out": "servo",
