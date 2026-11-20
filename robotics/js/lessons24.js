@@ -686,6 +686,71 @@ void loop() {
 }
 `;
 
+const WIFIC = `// WiFi robot car: the ESP32 makes its own WiFi, and a web page on the phone is the joystick.
+#include <WiFi.h>
+#include <WebServer.h>
+
+const char* ssid = "DUET-Car";
+const char* password = "robocar123";
+WebServer server(80);
+
+const int ENA = 14, IN1 = 27, IN2 = 26;   // motor A: the left wheel
+const int ENB = 32, IN3 = 25, IN4 = 33;   // motor B: the right wheel
+int speed = 200;
+
+void motor(int en, int a, int b, int v) {
+  digitalWrite(a, v > 0 ? HIGH : LOW);
+  digitalWrite(b, v < 0 ? HIGH : LOW);
+  analogWrite(en, abs(v));
+}
+void drive(int left, int right) {
+  motor(ENA, IN1, IN2, left);
+  motor(ENB, IN3, IN4, right);
+}
+
+// a joystick button: one request when pressed, one when let go
+String button(String d, String label) {
+  return "<button ontouchstart=\\"fetch('/go?d=" + d + "')\\" ontouchend=\\"fetch('/go?d=S')\\">" + label + "</button>";
+}
+
+void handleRoot() {
+  String h = "<h2>DUET Car</h2><div style=\\"text-align:center;font-size:30px\\">";
+  h += button("F", "▲") + "<br>";
+  h += button("L", "◀") + button("R", "▶") + "<br>";
+  h += button("B", "▼") + "</div>";
+  h += "<p>Hold a button to drive, let go to stop.</p>";
+  server.send(200, "text/html", h);
+}
+
+void handleGo() {
+  String d = server.arg("d");
+  if (d == "F") drive(speed, speed);
+  else if (d == "B") drive(-speed, -speed);
+  else if (d == "L") drive(-speed, speed);
+  else if (d == "R") drive(speed, -speed);
+  else drive(0, 0);
+  server.send(200, "text/plain", "ok");
+}
+
+void setup() {
+  pinMode(ENA, OUTPUT); pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT); pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  Serial.begin(115200);
+  WiFi.softAP(ssid, password);            // the car is its own WiFi hotspot
+  Serial.print("Join the WiFi ");
+  Serial.print(ssid);
+  Serial.print(" and open http://");
+  Serial.println(WiFi.softAPIP());
+  server.on("/", handleRoot);
+  server.on("/go", handleGo);
+  server.begin();
+}
+
+void loop() {
+  server.handleClient();
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1050,6 +1115,41 @@ export function batch24(K, n0) {
     ],
     check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('us2', t3('right ultrasonic sensor', 'दायाँ अल्ट्रासोनिक सेंसर', 'right ultrasonic sensor')), need('us2.TRIG', 'D11', W.toPin, { x: 'TRIG', p: 11 }), need('us2.ECHO', 'D12', W.toPin, { x: 'ECHO', p: 12 }), need('us2.VCC', '5V', W.to5v, { x: 'VCC' }), need('us2.GND', 'GND', W.toGnd, { x: 'GND' })],
     done: (S) => S.w('lapW') });
+  // 13 ------------------------------------------------------------------------------------ WiFi robot car, web joystick
+  const wnet = (S) => S.lab.net4 || { phone: {}, seen: { paths: {} } };
+  const okFailsafe = (src) => { const m = /void loop\(\) \{([\s\S]*)\n\}/.exec(src || ''); return !!m && /if\s*\(\s*WiFi\.softAPgetStationNum\(\)\s*==\s*0\s*\)\s*\{?\s*(\/\/[^\n]*\n\s*)?drive\(\s*0\s*,\s*0\s*\)/.test(m[1]); };
+  L.push({ id: 'wificar', board: 'esp32', cls: '11', blocks: false, view: 'carbench', wview: 'carbench', rview: 'arenabt', code: WIFIC, drawer: [], baud: 115200, serial: true, phone: true, world: { kind: 'car', car: 'wifi', board: 'esp32' },
+    title: t3('WiFi robot car with a web joystick', 'वेब जॉयस्टिक वाली WiFi रोबोट कार', 'Web joystick wali WiFi robot car'),
+    goal: t3('The ESP32 on the car makes its own WiFi; a web page on the phone is the joystick: hold a button to drive, let go to stop. Then find out what happens when the phone quietly leaves the car\'s WiFi, and make the car safe.', 'कार पर लगा ESP32 अपना ख़ुद का WiFi बनाता है; फ़ोन पर एक वेब पेज जॉयस्टिक है: चलाने के लिए बटन दबाए रखिए, रोकने के लिए छोड़िए। फिर पता कीजिए कि जब फ़ोन चुपचाप कार का WiFi छोड़ दे तो क्या होता है, और कार को सुरक्षित बनाइए।', 'Car par laga ESP32 apna khud ka WiFi banata hai; phone par ek web page joystick hai: chalane ke liye button dabaye rakhiye, rokne ke liye chhodiye. Phir pata kijiye ki jab phone chupchaap car ka WiFi chhod de to kya hota hai, aur car ko surakshit banaiye.'),
+    setup: { parts: CARP, wires: [['T:bat:P', 'T:drv:VS'], ['T:bat:N', 'T:drv:GND'], ['T:mL:P', 'T:drv:OUT1'], ['T:mL:N', 'T:drv:OUT2'], ['T:mR:P', 'T:drv:OUT3'], ['T:mR:N', 'T:drv:OUT4'], ['T:drv:ENA', 'H:a8'], ['T:drv:IN1', 'H:a9'], ['T:drv:IN2', 'H:a10']] }, // (the ESP32 sits in the breadboard: a8–a10 are its GPIO 14, 27, 26)
+    steps: [
+      { k: 'info', do: t3('This car carries an ESP32 instead of an Arduino Uno. On the bench: the L298N on the battery, both motors, and motor A already joined to the ESP32 (ENA to GPIO 14, IN1 to 27, IN2 to 26). The phone stands beside the bench.', 'इस कार पर Arduino Uno की जगह ESP32 है। बेंच पर: बैटरी पर L298N, दोनों मोटरें, और मोटर A पहले से ESP32 से जुड़ी (ENA GPIO 14 से, IN1 27 से, IN2 26 से)। फ़ोन बेंच के पास रखा है।', 'Is car par Arduino Uno ki jagah ESP32 hai. Bench par: battery par L298N, dono motors, aur motor A pehle se ESP32 se judi (ENA GPIO 14 se, IN1 27 se, IN2 26 se). Phone bench ke paas rakha hai.'),
+        see: t3('The ESP32\'s pins are 3.3 V: the L298N takes anything over 2.3 V as HIGH, so it works. Keep away from GPIO 34 to 39: they can only read, never drive.', 'ESP32 के पिन 3.3 V के हैं: L298N 2.3 V से ऊपर को HIGH मानता है, तो यह चलता है। GPIO 34 से 39 से दूर रहिए: वे सिर्फ़ पढ़ सकते हैं, चला नहीं सकते।', 'ESP32 ke pin 3.3 V ke hain: L298N 2.3 V se upar ko HIGH maanta hai, to yeh chalta hai. GPIO 34 se 39 se door rahiye: woh sirf padh sakte hain, chala nahi sakte.') },
+      w3('drv.ENB', 'D32', 'Motor B: join the L298N\'s ENB to GPIO 32 (D32).', 'मोटर B: L298N का ENB, GPIO 32 (D32) से जोड़िए।', 'Motor B: L298N ka ENB, GPIO 32 (D32) se jodiye.'),
+      w3('drv.IN3', 'D25', 'IN3 to GPIO 25.', 'IN3, GPIO 25 से।', 'IN3, GPIO 25 se.'),
+      w3('drv.IN4', 'D33', 'IN4 to GPIO 33.', 'IN4, GPIO 33 से।', 'IN4, GPIO 33 se.'),
+      w3('drv.GND', 'GND1', 'Last: the L298N\'s GND to a GND pin of the ESP32.', 'आख़िर में: L298N का GND, ESP32 के किसी GND पिन से।', 'Aakhir mein: L298N ka GND, ESP32 ke kisi GND pin se.', t3('Common ground: without it the L298N cannot tell the ESP32\'s 3.3 V from 0 V.', 'कॉमन ग्राउंड: इसके बिना L298N, ESP32 के 3.3 V और 0 V में फ़र्क़ नहीं कर पाता।', 'Common ground: iske bina L298N, ESP32 ke 3.3 V aur 0 V mein farq nahi kar paata.')),
+      CHECK,
+      RUN(t3('The Serial Monitor (115200 baud) says: Join the WiFi DUET-Car and open http://192.168.4.1', 'सीरियल मॉनिटर (115200 बॉड) कहता है: Join the WiFi DUET-Car and open http://192.168.4.1', 'Serial Monitor (115200 baud) kehta hai: Join the WiFi DUET-Car and open http://192.168.4.1')),
+      { k: 'act', until: (S) => wnet(S).phone.wifi === 'DUET-Car', do: t3('Tap the phone to bring it close. Open WiFi and join DUET-Car (password robocar123).', 'फ़ोन को पास लाने के लिए उस पर टैप कीजिए। WiFi खोलिए और DUET-Car से जुड़िए (पासवर्ड robocar123)।', 'Phone ko paas laane ke liye us par tap kijiye. WiFi kholiye aur DUET-Car se judiye (password robocar123).'),
+        see: t3('WiFi.softAP() made the ESP32 a hotspot, like a phone\'s hotspot: no router needed, so the car works in a field. Its own address is always 192.168.4.1.', 'WiFi.softAP() ने ESP32 को एक हॉटस्पॉट बना दिया, फ़ोन के हॉटस्पॉट जैसा: राउटर की ज़रूरत नहीं, तो कार मैदान में भी चलती है। इसका अपना पता हमेशा 192.168.4.1 होता है।', 'WiFi.softAP() ne ESP32 ko ek hotspot bana diya, phone ke hotspot jaisa: router ki zaroorat nahi, to car maidan mein bhi chalti hai. Iska apna address hamesha 192.168.4.1 hota hai.') },
+      { k: 'act', until: (S) => ((wnet(S).seen.paths || {})['/'] || 0) >= 1, do: t3('Open the phone\'s Browser and go to 192.168.4.1', 'फ़ोन का ब्राउज़र खोलिए और 192.168.4.1 पर जाइए', 'Phone ka Browser kholiye aur 192.168.4.1 par jaiye'),
+        see: t3('The joystick, sent by handleRoot(). Each button has ontouchstart, which asks for /go?d=F the moment your finger lands, and ontouchend, which asks for /go?d=S when it lifts.', 'जॉयस्टिक, जिसे handleRoot() ने भेजा। हर बटन में ontouchstart है, जो उँगली रखते ही /go?d=F माँगता है, और ontouchend, जो उँगली उठाने पर /go?d=S माँगता है।', 'Joystick, jise handleRoot() ne bheja. Har button mein ontouchstart hai, jo ungli rakhte hi /go?d=F maangta hai, aur ontouchend, jo ungli uthaane par /go?d=S maangta hai.') },
+      { k: 'act', until: (S) => S.w('fwd') && (S.w('left') || S.w('right')), do: t3('Press and hold ▲ to drive (watch the 🏁 Robot view or the panel), let go to stop. Then hold ◀ or ▶.', '▲ दबाए रखिए तो कार चलती है (🏁 रोबोट व्यू या पैनल देखिए), छोड़िए तो रुकती है। फिर ◀ या ▶ दबाए रखिए।', '▲ dabaye rakhiye to car chalti hai (🏁 Robot view ya panel dekhiye), chhodiye to rukti hai. Phir ◀ ya ▶ dabaye rakhiye.'),
+        see: t3('Every press and every let-go is one small web request to the car; handleGo() reads d with server.arg("d") and sets both motors.', 'हर दबाना और हर छोड़ना कार को एक छोटा वेब अनुरोध है; handleGo(), server.arg("d") से d पढ़ता है और दोनों मोटरें सेट करता है।', 'Har dabaana aur har chhodna car ko ek chhota web request hai; handleGo(), server.arg("d") se d padhta hai aur dono motors set karta hai.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('runaway'), do: t3('Now a long straight run across the yard: hold ▲ for 2 seconds or more.', 'अब आँगन के पार एक लंबी सीधी दौड़: ▲ को 2 सेकंड या ज़्यादा दबाए रखिए।', 'Ab aangan ke paar ek lambi seedhi daud: ▲ ko 2 second ya zyada dabaye rakhiye.'),
+        see: t3('Crash! In the middle of the run the phone saw that DUET-Car has no internet and went back to the school WiFi, as Android does. When you let go, /go?d=S went to a WiFi the car is not on, and never arrived. The car only knew "F", so it drove on into the wall. A robot must stop by itself when it loses its driver.', 'धड़ाम! दौड़ के बीच में फ़ोन ने देखा कि DUET-Car पर इंटरनेट नहीं है और वह वापस स्कूल के WiFi पर चला गया, जैसा Android करता है। जब आपने छोड़ा, /go?d=S ऐसे WiFi पर गया जिस पर कार नहीं है, और कभी नहीं पहुँचा। कार सिर्फ़ "F" जानती थी, तो वह दीवार में जा घुसी। रोबोट को अपना ड्राइवर खोने पर ख़ुद रुकना चाहिए।', 'Dhadaam! Daud ke beech mein phone ne dekha ki DUET-Car par internet nahi hai aur woh wapas school ke WiFi par chala gaya, jaisa Android karta hai. Jab aapne chhoda, /go?d=S aise WiFi par gaya jis par car nahi hai, aur kabhi nahi pahuncha. Car sirf "F" jaanti thi, to woh deewar mein ja ghusi. Robot ko apna driver khone par khud rukna chahiye.') },
+      { k: 'edit', test: okFailsafe, set: [[/void loop\(\) \{\n/, 'void loop() {\n  if (WiFi.softAPgetStationNum() == 0) {   // no phone on our WiFi: nobody is driving\n    drive(0, 0);\n  }\n']],
+        do: t3('A failsafe: at the start of loop(), add\n  if (WiFi.softAPgetStationNum() == 0) {\n    drive(0, 0);\n  }\nand press Run.', 'एक फ़ेलसेफ़: loop() की शुरुआत में लिखिए\n  if (WiFi.softAPgetStationNum() == 0) {\n    drive(0, 0);\n  }\nऔर "चलाइए" दबाइए।', 'Ek failsafe: loop() ki shuruaat mein likhiye\n  if (WiFi.softAPgetStationNum() == 0) {\n    drive(0, 0);\n  }\naur Run dabaiye.'),
+        see: t3('softAPgetStationNum() counts the phones joined to the car\'s WiFi.', 'softAPgetStationNum() गिनता है कि कार के WiFi से कितने फ़ोन जुड़े हैं।', 'softAPgetStationNum() ginta hai ki car ke WiFi se kitne phone jude hain.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('safeStop'), do: t3('On the phone, join DUET-Car again, open 192.168.4.1, and do the long run again (▲ for 2 seconds or more).', 'फ़ोन पर फिर DUET-Car से जुड़िए, 192.168.4.1 खोलिए, और लंबी दौड़ फिर कीजिए (▲ 2 सेकंड या ज़्यादा)।', 'Phone par phir DUET-Car se judiye, 192.168.4.1 kholiye, aur lambi daud phir kijiye (▲ 2 second ya zyada).'),
+        see: liveCarSim((lg, C) => pick(lg, `The phone left again, but this time the car stopped by itself, ${C.stopMm ?? '?'} mm later: no phone, no driving. Trains have the same idea (the driver's dead man's pedal), and a drone that loses its remote lands or flies home.`, `फ़ोन फिर चला गया, पर इस बार कार ${C.stopMm ?? '?'} mm बाद ख़ुद रुक गई: फ़ोन नहीं, तो चलना नहीं। ट्रेनों में यही विचार है (ड्राइवर का डेड मैन पैडल), और रिमोट खोने वाला ड्रोन उतर जाता है या घर लौट आता है।`, `Phone phir chala gaya, par is baar car ${C.stopMm ?? '?'} mm baad khud ruk gayi: phone nahi, to chalna nahi. Trains mein yahi vichaar hai (driver ka dead man pedal), aur remote khone wala drone utar jaata hai ya ghar laut aata hai.`)) },
+      { k: 'act', until: (S) => fresh(S) && S.w('parked'), do: t3('Join DUET-Car once more. When the phone says "DUET-Car has no internet", tap Stay connected. Then drive into the box P and stop inside it.', 'एक बार फिर DUET-Car से जुड़िए। जब फ़ोन कहे "DUET-Car पर इंटरनेट नहीं है", तो "जुड़े रहिए" दबाइए। फिर बॉक्स P में गाड़ी ले जाकर उसके अंदर रोकिए।', 'Ek baar phir DUET-Car se judiye. Jab phone kahe "DUET-Car par internet nahi hai", to "Jude rahiye" dabaiye. Phir box P mein gaadi le jaakar uske andar rokiye.'),
+        see: t3('Parked! "Stay connected" tells Android to keep a WiFi that has no internet. Real WiFi cars, drones and ESP32 gadgets all ask you to do this.', 'पार्क हो गई! "जुड़े रहिए" Android से कहता है कि बिना इंटरनेट वाला WiFi भी बनाए रखे। असली WiFi कारें, ड्रोन और ESP32 गैजेट सब आपसे यही करने को कहते हैं।', 'Park ho gayi! "Jude rahiye" Android se kehta hai ki bina internet wala WiFi bhi banaye rakhe. Asli WiFi cars, drone aur ESP32 gadgets sab aapse yahi karne ko kehte hain.') },
+    ],
+    check: [noShort, (S) => (['ENA', 'IN1', 'IN2', 'ENB', 'IN3', 'IN4'].some((k) => ['D34', 'D35', 'VP', 'VN'].some((q) => S.conn('drv.' + k, q))) ? [t3('GPIO 34, 35, 36 (VP) and 39 (VN) are input only: they cannot drive the L298N. Use the GPIO the step names.', 'GPIO 34, 35, 36 (VP) और 39 (VN) सिर्फ़ इनपुट हैं: ये L298N को नहीं चला सकते। स्टेप में बताया GPIO लगाइए।', 'GPIO 34, 35, 36 (VP) aur 39 (VN) sirf input hain: yeh L298N ko nahi chala sakte. Step mein bataya GPIO lagaiye.')] : null),
+      (S) => (S.conn('drv.GND', 'GND') ? null : [t3('The L298N\'s GND must be joined to a GND pin of the ESP32 (common ground), or its inputs cannot read the ESP32\'s 3.3 V.', 'L298N का GND, ESP32 के किसी GND पिन से जुड़ना चाहिए (कॉमन ग्राउंड), वरना इसके इनपुट ESP32 के 3.3 V को नहीं पढ़ सकते।', 'L298N ka GND, ESP32 ke kisi GND pin se judna chahiye (common ground), warna iske input ESP32 ke 3.3 V ko nahi padh sakte.')]), ...[['ENB', 32], ['IN3', 25], ['IN4', 33], ['ENA', 14], ['IN1', 27], ['IN2', 26]].map(([a, p]) => need('drv.' + a, 'D' + p, W.toPin, { x: 'L298N ' + a, p }))],
+    done: (S) => S.w('parked') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

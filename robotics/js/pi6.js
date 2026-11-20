@@ -718,7 +718,7 @@ function hint6(name, G, pi) {
 const MAXMA = { pico: 12, pi4: 16 };
 LAB_HOOKS.push({
   elements(lab, els, G) {
-    const m = lab.mcu; lab.env.vlogic = m instanceof PyMCU ? 2.9 : undefined; if (!(m instanceof PyMCU)) return; const d = lab.def; // (an L298N's ENA at 3.3 V: full speed)
+    const m = lab.mcu; lab.env.vlogic = m instanceof PyMCU || lab.def.id === 'esp32' ? 2.9 : undefined; if (!(m instanceof PyMCU)) return; const d = lab.def; // (an L298N's ENA at 3.3 V: full speed)
     if (d.id === 'pico') { if (lab.powered) els.push({ type: 'V', a: G('VIN'), b: 0, v: 4.7, r: 0.6, role: 'vsys' }); els.push({ type: 'R', a: G('AREF'), b: G('3V3'), r: 200 }); }
     for (const pin of d.pins) {
       const g = pin.gpio; if (g === undefined || !lab.used('N:G' + g)) continue; const n = G('G' + g);

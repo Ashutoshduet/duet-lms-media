@@ -1117,3 +1117,18 @@ heaters.
   400: error 55+, both wheels flat out opposite ways, it whips round about 125° (nose into the almirah, then stuck);
   constrain(right, 0, 25) keeps the turn under 80 and it laps in about 27 s with no bumps (hardest right turn about
   70°). Tuned over 20+ runs each (the HC-SR04 noise makes each run differ). robocore24.mjs plays it. Class 11: 16 of 26.
+- Class 11 WiFi robot car with a web joystick (batch 24, lessons24.js `wificar`; robots.js CAR_CFG.wifi, wifiCheck;
+  esp32.js Net.join/switchBack; phone4.js hold buttons and the no-internet banner; app4.js press-and-hold on the phone;
+  models6.js CAR_BOARD.esp32 (espLite); worlds.js CarWorld; view arenabt): the Bluetooth car's yard, with an ESP32 in the
+  breadboard (motor A pre-wired: ENA a8 = GPIO 14, IN1 a9 = 27, IN2 a10 = 26; the student wires ENB 32, IN3 25, IN4 33 and
+  the common GND). pi6.js now gives the L298N a 2.9 V logic swing for the ESP32 too (env.vlogic), so 3.3 V is full speed.
+  The sketch: WiFi.softAP("DUET-Car", "robocar123"), a page of buttons with ontouchstart="fetch('/go?d=F')" and
+  ontouchend="fetch('/go?d=S')", handleGo() reads server.arg("d"). The phone's browser now runs press-and-hold
+  (ontouchstart / onmousedown / onpointerdown, and the end ones): Phone.down/up/hold; a plain tap is a 0.4 s press; a held
+  button looks pressed. Android's behaviour: on joining the ESP32's WiFi (only where a world sets net.noNetOn) a banner
+  says it has no internet, with Stay connected; during a long straight run (1.2 s rolling, 5 s after joining) the phone
+  goes back to DUET-School unless told to stay (switched). Then runaway (it hit or kept pushing on something before it
+  stopped) or safeStop (stopped within 2 s; stopMm). The first program runs away; with if (WiFi.softAPgetStationNum()
+  == 0) drive(0, 0); at the top of loop() it stops about 5 cm later; Stay connected, then park in P. The check names
+  GPIO 34–39 (input only) if the L298N is wired there. robocore24.mjs plays it with the network calls the page makes.
+  Class 11: 17 of 26.

@@ -245,3 +245,14 @@ export function buildPart6(part) { return part.type === 'abuzz' ? buildActiveBuz
 
 BUILD4.pico = buildPico; BUILD4.pi4 = buildPi4;
 CAR_BOARD.pi = piLite;
+// (batch 24) the WiFi car's ESP32 DevKit on the car's plate: the board, its WROOM can and antenna (towards the nose), the header pins
+function espLite() {
+  const K = mats(), { M } = K; const g = new THREE.Group(); const b = new THREE.Group(); b.rotation.y = -Math.PI / 2; g.add(b); // (its long side along the car)
+  b.add(box(51.5, 1.4, 28.3, M.fr4, 0, 6.4 + 0.7, 0)); b.add(box(51.5, 0.3, 28.3, S({ color: 0x18191c, roughness: 0.6 }), 0, 6.4 + 1.55, 0));
+  b.add(box(18, 2.4, 17.2, M.steel, 9.5, 8.1 + 1.2, 0)); b.add(box(6, 0.4, 17.6, S({ color: 0x1d2a55, roughness: 0.4 }), 21.5, 8.3, 0));
+  for (const z of [-12.7, 12.7]) b.add(box(38.1, 8.5, 2.54, M.black, -2, 6.4 - 4.2, z));
+  b.add(box(7.5, 2.6, 5.6, M.steel, -24.5, 8.1 + 1.3, 0));
+  for (const [x, z] of [[-23, 23], [23, 23], [-23, -23], [23, -23]]) b.add(box(4, 5, 4, K.brass, x * 0.95, 2.5, z * 0.5));
+  return g;
+}
+CAR_BOARD.esp32 = espLite;

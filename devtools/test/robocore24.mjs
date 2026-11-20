@@ -19,7 +19,7 @@ import { netOf } from '../../robotics/js/esp32.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { makeScene } from '../../robotics/js/scenes3.js';
-import { ArmSim, CarSim, carFeed } from '../../robotics/js/robots.js';
+import { ArmSim, CarSim, carFeed, wifiCheck } from '../../robotics/js/robots.js';
 import { BO } from '../../robotics/js/parts2.js';
 
 const B = (e) => (/^(H|T|B):/.test(e) ? e : 'B:' + e); // a board pin
@@ -291,6 +291,39 @@ for (const l of L24) {
       ok(t >= 0, `wallp: act "${s.do.en.slice(0, 40)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s) · ${String(s.see.en).slice(0, 90)}` : ` — timed out ${JSON.stringify({ x: Math.round(sim.x), z: Math.round(sim.z) })} ${[...sim.flags]} ${lab.mcu.err ? JSON.stringify(lab.mcu.err) : ''}`)); seen.push(`swing ${sim.swingRate} whip ${sim.whip} lap ${sim.lapT} bumps ${sim.bumps}`); }
   }
   ok(!!l.done(rt) && sim.lapBumps === 0 && sim.whip < 100, `wallp: complete; ${seen.join(' | ')}`);
+}
+
+// the WiFi car (lessons24.js wificar; robots.js CAR_CFG.wifi, wifiCheck; esp32.js Net.switchBack): the ESP32's own WiFi,
+// the phone's web joystick (requests as the page's ontouchstart / ontouchend send them), Android leaving a WiFi with no internet
+{ const l = LESSONS.find((x) => x.id === 'wificar');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  ok(lab.def.id === 'esp32' && compile(l.code, lab.def).ok, 'wificar: an ESP32 lesson, the sketch compiles');
+  const sim = new CarSim('wifi'); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => { sim.reset(); for (const t of ['mL', 'mR']) lab.byTag(t).state.w = 0; } };
+  for (const s of l.steps) if (s.k === 'wire') { const g = rt.ghostWire(s.wire); if (!g) { ok(false, `wificar: a ghost wire for ${s.wire}`); continue; } lab.addWire(g[0], g[1]); }
+  const N = netOf(lab); const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; };
+  const go = (d) => N.request('http://192.168.4.1/go?d=' + d, () => {}); const join = () => N.join('DUET-Car', 'robocar123'); const page = () => N.request('http://192.168.4.1/', () => {});
+  const park = sim.cfg.park; let cmd = 'S', nextT = 0;
+  const steer = (t, X, Z, stopIn) => { if (t < nextT) return; nextT = t + 0.15; const dx = X - sim.x, dz = Z - sim.z; const inside = stopIn && Math.abs(dx) < park[2] / 2 - 60 && Math.abs(dz) < park[3] / 2 - 60; // (a student driving)
+    let want = 'S'; if (!inside) { let e = Math.atan2(dx, dz) - sim.h; e = Math.atan2(Math.sin(e), Math.cos(e)); want = Math.abs(e) > 0.25 ? (e > 0 ? 'L' : 'R') : stopIn ? 'F' : 'S'; } if (want !== cmd) { cmd = want; go(want); } return want === 'S'; };
+  const toP = (t) => steer(t, park[0], park[1], true);
+  let aimed = false; const aim = (t) => { if (!aimed) { const far = sim.x < 0 ? [700, 0] : [-700, 0]; if (steer(t, far[0], far[1], false)) { aimed = true; cmd = 'F'; go('F'); } } }; // (turn to face the far side, then hold ▲)
+  const ACT = [ // per act, a timed list of the student's taps
+    [[0.5, join]], [[0.3, page]], [[0.2, () => go('F')], [1.0, () => go('S')], [1.4, () => go('L')], [1.8, () => go('S')]],
+    [[0.05, () => go('S')], [0.2, 'aim'], [6, () => go('S')]],
+    [[0.3, join], [0.6, page], [5.6, 'aim'], [12.0, () => go('S')]],
+    [[0.3, join], [0.5, () => { N.noNet.stay = true; }], [0.8, page], [1.0, null]] ];
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  let src = l.code, ai = 0; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'wificar: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e, lab.def).ok, 'wificar: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const list = ACT[ai++] || []; const done = new Set(); let t = -1; const last = ai === ACT.length; cmd = 'S'; nextT = 0;
+      aimed = false; let aiming = false; for (let f = 0; f < 60 * 40; f++) { const tt = f / 60; list.forEach(([at, fn], i) => { if (tt >= at && !done.has(i)) { done.add(i); if (fn === 'aim') aiming = true; else if (fn) fn(); } }); if (aiming) aim(tt); if (last && tt > 1.2) toP(tt);
+        lab.step(1000 / 60); sim.update(1 / 60, w('mL'), w('mR')); wifiCheck(sim, N, 1 / 60); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = tt; break; } }
+      ok(t >= 0, `wificar: act "${s.do.en.slice(0, 44)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${JSON.stringify({ x: Math.round(sim.x), z: Math.round(sim.z), wifi: N.phone.wifi })} ${[...sim.flags]} ${lab.mcu.err ? JSON.stringify(lab.mcu.err) : ''}`)); seen.push([...sim.flags].filter((k) => /switch|runaway|safe|park|bump/.test(k)).join(',') + (sim.stopMm !== null ? ` stop ${sim.stopMm} mm` : '')); }
+  }
+  ok(!!l.done(rt), `wificar: complete; ${seen.join(' | ')}`);
 }
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

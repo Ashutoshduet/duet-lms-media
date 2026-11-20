@@ -146,6 +146,22 @@ export const CAR_CFG = {
   wallp: { line: false, room: [3000, 2000], start: [-1000, 800, Math.PI / 2], boxes: [[1050, -700, 900, 600, 1800, 0, 'almirah']], side: 'R', sideZ: 100, wallp: true, glance: 40, inertia: { v: 0.2, w: 0.1 } },
   sumo: { line: false, room: [6000, 6000], start: [0, 380, Math.PI], boxes: [], ring: { r: 770, edge: 50 }, foe: { x: 0, z: -380, w: 200 }, inertia: { v: 0.2, w: 0.1 } },
 };
+// batch 24 (Class 11): the WiFi car: an ESP32 on the car is its own WiFi hotspot; the Bluetooth car's yard, boxes and P
+CAR_CFG.wifi = Object.assign({}, CAR_CFG.bt, { wifi: true });
+// (batch 24) the WiFi car's link: Android finds that the car's WiFi has no internet and, during a long straight run (1.2 s
+// on, 5 s after joining), goes back to the school WiFi, unless "Stay connected" was tapped (net.switchBack, esp32.js).
+// After that: runaway = it hit something (or kept pushing on it) before it stopped; safeStop = it stopped by itself within 2 s.
+export function wifiCheck(sim, N, dt) {
+  if (!N) return; N.noNetOn = true; const m = N.esp(); const ssid = m && m.wifi && m.wifi.ap ? m.wifi.ap.ssid : null; const on = !!ssid && N.phone.wifi === ssid;
+  const v = (sim.vl + sim.vr) / 2, w = (sim.vr - sim.vl) / CARG.track; sim.onAp = on;
+  sim.fwdT = on && v > 120 && Math.abs(w) < 0.6 && !sim.blocked ? (sim.fwdT || 0) + dt : 0; // (really rolling: not pushing on a wall)
+  if (on && !sim.flags.has('switched') && N.noNet && !N.noNet.stay && N.now - (N.phone.joinedAt || 0) > 5 && sim.fwdT > 1.2 && N.switchBack()) { sim.flags.add('switched'); sim.swT = sim.t; sim.swBumps = sim.bumps; }
+  if (sim.flags.has('switched') && !sim.flags.has('runaway') && !sim.flags.has('safeStop')) {
+    sim.pushT = sim.blocked && v > 60 ? (sim.pushT || 0) + dt : 0;
+    if (sim.bumps > sim.swBumps || sim.pushT > 0.5) sim.flags.add('runaway'); else if (Math.abs(v) < 15 && Math.abs(sim.vr - sim.vl) < 15 && sim.t - sim.swT < 2) { sim.flags.add('safeStop'); sim.stopMm = Math.round(sim.odo - (sim.swOdo ?? sim.odo)); }
+  }
+  if (sim.flags.has('switched') && sim.swOdo === undefined) sim.swOdo = sim.odo;
+}
 // batch 24: the five-sensor bar (car mm: +x the car's left), S1 at the left
 export const CAR24 = { five: [24, 12, 0, -12, -24], fiveZ: 168 };
 // batch 18: a maze of 4 × 3 cells, 450 mm each, plywood walls 18 mm thick and 150 mm high; the ways between cells as
@@ -192,6 +208,7 @@ export class CarSim {
     this.lap = { cp: 0, t: 0, best: null, n: 0 }; this.wob = null; this.body = null; this.zz = null; this.swingRate = 0;
     this.fwdD = 0; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
     const F = this.cfg.foe; this.foe = F ? { x: F.x, z: F.z, out: false, outT: 0 } : null; this.ringOut = false; this.winT = 0; this.pushT = 0; // (batch 24: the sumo opponent)
+    this.fwdT = 0; this.swT = null; this.swBumps = 0; this.swOdo = undefined; this.stopMm = null; this.onAp = false; // (batch 24: the WiFi car)
     this.wc = null; this.whip = 0; this.lapT = null; this.lapBumps = null; this.sideCm = null; this.avgOff = null; // (batch 24: the wall follower)
     // batch 14
     this.fell = null; this.fallT = 0; this.saves = 0; this.edgeOn = false; // the table robot: how it fell (null: it has not), edges it backed away from

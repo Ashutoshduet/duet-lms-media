@@ -271,8 +271,12 @@ class Net {
     const m = this.esp(); const ap = m && this.running() && apUp(m) ? m.wifi.ap : null;
     if (!ap || ap.ssid !== ssid) return 'gone';
     if (ap.pass && pass !== ap.pass) return 'pass';
-    this.phone.wifi = ssid; this.ver++; return 'ok';
+    this.phone.wifi = ssid; this.phone.joinedAt = this.now; this.ver++;
+    if (this.noNetOn) { const was = this.noNet && this.noNet.ssid === ssid && this.noNet.stay; this.noNet = { ssid, stay: !!was, msg: null }; } // (batch 24: Android notices the ESP32's WiFi has no internet)
+    return 'ok';
   }
+  // (batch 24) Android's "switch to a network with internet": the phone leaves the ESP32's WiFi for the school's, unless told to stay
+  switchBack() { const nn = this.noNet; if (!nn || nn.stay || this.phone.wifi !== nn.ssid) return false; this.phone.wifi = SCHOOL.ssid; nn.msg = SCHOOL.ssid; this.ver++; return true; }
   // the phone's browser asks for a page: cb({ code, type, body, headers } | { error })
   request(url, cb) {
     const u = parseUrl(url); const req = { url, host: u.host, path: u.path, args: u.args, method: 1, t0: this.now, cb, res: null, srv: null };

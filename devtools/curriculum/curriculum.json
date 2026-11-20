@@ -5751,17 +5751,17 @@
    {
     "class": 11,
     "n": 14,
-    "kind": "I",
+    "kind": "L",
     "title": "WiFi robot car with a web joystick",
     "board": "esp32",
-    "status": "planned",
-    "ref": "wifi-robot-car-with-a-web-joystick-esp32",
+    "status": "live",
+    "ref": "wificar",
     "newparts": [],
-    "family": "iot",
+    "family": "live-projects",
     "parts": [
+     "l298n",
      "bat18650",
-     "bomotor",
-     "l298n"
+     "bomotor"
     ],
     "strand": "Decomposition",
     "focus": "Robots and motors",

@@ -14,6 +14,8 @@ import * as TX from './tex.js';
 const FONT = TX.FONT; const SW = 540, SH = 1152; // the screen in its own pixels (drawn smaller on phones)
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 export const PW = { // the phone's words
+  noNet: t3('{n} has no internet', '{n} पर इंटरनेट नहीं है', '{n} par internet nahi hai'), stay: t3('Stay connected', 'जुड़े रहिए', 'Jude rahiye'),
+  switched: t3('{n} has no internet: the phone went back to {s}.', '{n} पर इंटरनेट नहीं है: फ़ोन वापस {s} पर चला गया।', '{n} par internet nahi hai: phone wapas {s} par chala gaya.'),
   browser: t3('Browser', 'ब्राउज़र', 'Browser'), bt: t3('BT Terminal', 'BT टर्मिनल', 'BT Terminal'), wifi: t3('WiFi', 'WiFi', 'WiFi'),
   addr: t3('Type a web address', 'वेब पता लिखिए', 'Web address likhiye'), go: t3('Go', 'जाइए', 'Go'), loading: t3('Loading…', 'खुल रहा है…', 'Khul raha hai…'),
   noReach: t3('This site can\'t be reached', 'यह साइट नहीं खुल रही', 'Yeh site nahi khul rahi'),
@@ -65,6 +67,8 @@ function actionOf(el, linkHref) {
   m = /fetch\(\s*['"]([^'"]+)['"]/.exec(oc); if (m) return { fetch: m[1] };
   m = /(?:XMLHttpRequest|xhr)[\s\S]*open\(\s*['"]GET['"]\s*,\s*['"]([^'"]+)['"]/.exec(oc); if (m) return { fetch: m[1] };
   if (el.tag === 'button' && el.a.formaction) return { href: el.a.formaction };
+  { const url = (k) => { for (const n of k) { const h = String(el.a[n] || ''); const q = /fetch\(\s*['"]([^'"]+)['"]/.exec(h) || /open\(\s*['"]GET['"]\s*,\s*['"]([^'"]+)['"]/.exec(h); if (q) return q[1]; } return null; };
+    const dn = url(['ontouchstart', 'onmousedown', 'onpointerdown']), up = url(['ontouchend', 'onmouseup', 'onpointerup']); if (dn || up) return { hold: { down: dn, up } }; } // (batch 24: press and hold)
   return null;
 }
 // lay a page out for a width (px of the screen); returns { h, title, refresh, bg, draw(ctx, y0), hits: [{ x, y, w, h, act }] }
@@ -201,7 +205,15 @@ export class Phone {
   // ------------------------------------------------------------ apps and taps
   reset() { this.appId = 'home'; this.url = ''; this.page = null; this.loading = null; this.err = null; this.scroll = 0; this.kb = null; this.reloadAt = 0; this.wifiMsg = ''; this.dirty = true; } // a new lesson: the home screen (the history stays, as on a real phone)
   open(id) { this.appId = id; this.kb = null; this.scroll = 0; this.dirty = true; if (id === 'browser' && !this.url && this.hist.length) this.url = this.hist[0]; }
-  tap(u, v) { const x = u * SW, y = (1 - v) * SH; for (let k = this.items.length - 1; k >= 0; k--) { const it = this.items[k]; if (x >= it.x && x <= it.x + it.w && y >= it.y && y <= it.y + it.h) { it.act(); this.dirty = true; this.app.sound.click(); return it.id || true; } } return false; }
+  tap(u, v) { const x = u * SW, y = (1 - v) * SH; for (let k = this.items.length - 1; k >= 0; k--) { const it = this.items[k]; if (x >= it.x && x <= it.x + it.w && y >= it.y && y <= it.y + it.h) { if (it.hold) { this.holdStart(it); this.holdUntil = this.t + 0.4; return it.id || true; } it.act(); this.dirty = true; this.app.sound.click(); return it.id || true; } } return false; }
+  // (batch 24) press and hold: a page's button with ontouchstart / ontouchend sends one request when pressed and one when let go
+  at(u, v) { const x = u * SW, y = (1 - v) * SH; for (let k = this.items.length - 1; k >= 0; k--) { const it = this.items[k]; if (x >= it.x && x <= it.x + it.w && y >= it.y && y <= it.y + it.h) return it; } return null; }
+  down(u, v) { const it = this.at(u, v); if (!it || !it.hold) return false; this.holdStart(it); return true; }
+  holdStart(it) { this.holdEnd(); this.held = it; if (it.hold.down) this.follow({ fetch: it.hold.down }); this.dirty = true; if (this.app.sound) this.app.sound.click(); }
+  holdEnd() { const it = this.held; if (!it) return false; this.held = null; if (it.hold.up) this.follow({ fetch: it.hold.up }); this.dirty = true; return true; }
+  up() { return this.holdEnd(); }
+  hold(id, on) { if (!on) return this.holdEnd(); const it = this.find(id); if (!it || !it.hold) return false; this.holdStart(it); return true; } // tests
+  stay() { const N = this.net; if (N.noNet) { N.noNet.stay = true; this.dirty = true; } }
   find(id) { this.draw(true); return this.items.find((q) => q.id === id) || null; }
   press(id) { const it = this.find(id); if (!it) return false; it.act(); this.dirty = true; return true; } // tests: tap an item by its id
   go(url) {
@@ -229,6 +241,7 @@ export class Phone {
   }
   update(dt) { // called each frame: page reloads, the clock, and whether the screen must be drawn again
     this.t += dt;
+    if (this.holdUntil && this.t >= this.holdUntil) { this.holdUntil = 0; this.holdEnd(); } // (a tap on a hold button: let go after 0.4 s)
     if (this.appId === 'browser' && this.page && this.reloadAt && this.t >= this.reloadAt && !this.loading && !this.kb) { this.reloadAt = 0; const u = this.page.refresh && this.page.refresh.url; this.go(u ? (/^https?:/.test(u) ? u : 'http://' + parseUrl(this.url).host + u) : this.url); }
     const v = this.net.ver; if (v !== this.lastV) { this.lastV = v; this.dirty = true; }
     if (this.loading && Math.floor(this.t * 4) !== this._lt) { this._lt = Math.floor(this.t * 4); this.dirty = true; }
@@ -239,10 +252,15 @@ export class Phone {
   draw(force) {
     if (!this.dirty && !force) return; this.dirty = false;
     const c = this.ctx; c.setTransform(this.k, 0, 0, this.k, 0, 0); this.items = [];
-    const T = (o, a) => this.tx(o, a); const btn = (id, x, y, w, h, act) => this.items.push({ id, x, y, w, h, act });
+    const T = (o, a) => this.tx(o, a); const btn = (id, x, y, w, h, act, hold) => this.items.push({ id, x, y, w, h, act, hold });
     c.fillStyle = '#0f1115'; c.fillRect(0, 0, SW, SH);
     if (this.appId === 'home') this.drawHome(c, T, btn); else if (this.appId === 'browser') this.drawBrowser(c, T, btn); else if (this.appId === 'bt') this.drawBT(c, T, btn); else this.drawWifi(c, T, btn);
     if (this.kb) this.drawKeyboard(c, T, btn);
+    { const N = this.net, nn = N.noNet; // (batch 24) the ESP32's own WiFi has no internet: Android offers to stay, or goes back to a WiFi that has
+      if (nn && (nn.msg || (N.phone.wifi === nn.ssid && !nn.stay))) { const y = 52; c.fillStyle = nn.msg ? '#c92a2a' : '#343a40'; rrect(c, 12, y, SW - 24, nn.msg ? 96 : 84, 16); c.fill(); c.fillStyle = '#fff'; c.font = `600 21px ${FONT}`; c.textBaseline = 'middle';
+        if (nn.msg) { this.wrap(c, '⚠ ' + T(PW.switched, { n: nn.ssid, s: nn.msg }), 30, y + 30, SW - 60, 30); btn('nonet:ok', 12, y, SW - 24, 96, () => { nn.msg = null; }); }
+        else { c.fillText('⚠ ' + T(PW.noNet, { n: nn.ssid }), 30, y + 42); c.fillStyle = '#4dabf7'; rrect(c, SW - 200, y + 14, 176, 56, 28); c.fill(); c.fillStyle = '#fff'; c.textAlign = 'center'; c.fillText(T(PW.stay), SW - 112, y + 42); c.textAlign = 'left'; btn('nonet:stay', SW - 200, y + 14, 176, 56, () => this.stay()); }
+        c.textBaseline = 'alphabetic'; } }
     // the status bar and the navigation bar
     c.fillStyle = this.appId === 'home' ? 'rgba(0,0,0,0)' : '#0f1115'; c.fillRect(0, 0, SW, 46);
     const d = new Date(); c.fillStyle = '#f1f3f5'; c.font = `600 22px ${FONT}`; c.textBaseline = 'middle'; c.textAlign = 'left'; c.fillText(String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'), 26, 25);
@@ -285,7 +303,8 @@ export class Phone {
     if (this.page) {
       const p = this.page; c.save(); c.beginPath(); c.rect(0, top + 5, SW, ph - 5); c.clip(); c.fillStyle = p.bg; c.fillRect(0, top + 5, SW, ph);
       const oy = top + 5 - this.scroll; p.draw(c, oy); c.restore();
-      for (const h of p.hits) { const y = h.y + oy; if (y + h.h < top || y > bottom) continue; btn('link:' + (h.act.href || h.act.fetch), h.x, Math.max(top, y), h.w, Math.min(bottom, y + h.h) - Math.max(top, y), () => this.follow(h.act)); }
+      for (const h of p.hits) { const y = h.y + oy; if (y + h.h < top || y > bottom) continue; const hid = h.act.hold ? 'hold:' + (h.act.hold.down || h.act.hold.up) : 'link:' + (h.act.href || h.act.fetch); btn(hid, h.x, Math.max(top, y), h.w, Math.min(bottom, y + h.h) - Math.max(top, y), () => this.follow(h.act), h.act.hold);
+        if (this.held && this.held.id === hid) { c.fillStyle = 'rgba(0,0,0,0.28)'; rrect(c, h.x, y + 4, h.w - 12, h.h - 8, 14); c.fill(); } } // (batch 24: a held button looks pressed)
       if (p.h > ph) { // scroll buttons
         c.fillStyle = 'rgba(33,37,41,0.55)'; for (const [id, y, s] of [['up', top + 12, -1], ['down', bottom - 72, 1]]) { rrect(c, SW - 70, y, 56, 56, 28); c.fill(); }
         c.fillStyle = '#fff'; c.font = `700 26px ${FONT}`; c.textAlign = 'center'; c.fillText('▲', SW - 42, top + 41); c.fillText('▼', SW - 42, bottom - 43); c.textAlign = 'left';

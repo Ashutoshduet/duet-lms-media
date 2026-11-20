@@ -182,10 +182,12 @@ export function install4(app) {
   W('down', (o, e) => { // the phone and the board box answer a tap before the holes and pins behind them
     if (!(window.DuetGate && DuetGate.active) && !(e.pointerType === 'mouse' && e.button !== 0) && !(e.pointerType === 'touch' && app.touches && app.touches.size >= 1)) {
       const hit = view.pickObject(app.ndc(e.clientX, e.clientY));
+      if (hit && hit.kind === 'region' && hit.id.startsWith('phone@') && X.phone && (stage.viewName === 'phone4' || (window.robo4 && window.robo4.direct))) { const [u, v] = hit.id.slice(6).split(',').map(Number); if (X.phone.down(u, v)) { app.sound.unlock(); app.drag = { kind: 'phold' }; app.block(e); return; } } // (batch 24: a press-and-hold button on a web page)
       if (hit && hit.kind === 'region' && /^(phone@|swap:)/.test(hit.id)) { app.sound.unlock(); app.lastXY = { x: e.clientX, y: e.clientY }; app.drag = { kind: 'region', id: hit.id, x: e.clientX, y: e.clientY }; app.block(e); return; }
     }
     return o(e);
   });
+  W('up', (o, e, cancel) => { if (app.drag && app.drag.kind === 'phold') { app.drag = null; app.stage.controls.enabled = true; if (X.phone) X.phone.up(); return; } return o(e, cancel); }); // (batch 24: let go of a held web button)
   W('pinInfo', (o, pin) => { const r = o(pin); if (lab.def.id !== 'uno') r.name = pinTitle(lab.def, pin, tx); return r; });
   W('epName', (o, ep) => { if (ep.startsWith('B:') && lab.def.id !== 'uno') { const p = lab.def.pins.find((q) => q.id === ep.slice(2)); if (p) return pinShort(lab.def, p); } return o(ep); });
   W('partLive', (o, p) => (PARTS[p.type] && PARTS[p.type].live ? PARTS[p.type].live(p, lab) : o(p)));
@@ -258,6 +260,7 @@ export function install4(app) {
     regionScreen(id) { const r = lab.def.regions.find((q) => q.id === id); if (!r) return null; const top = (lab.def.pcbY || 3) + 1.6; return stage.toScreen([lab.board.x + r.at[0], top + r.h * 0.8, lab.board.z + r.at[1]]); },
     boxScreen(id) { if (!X.box) return null; const p = X.box.userData.picks.find((q) => q.userData.region === 'swap:' + id); if (!p) return null; const v = new THREE.Vector3(); p.getWorldPosition(v); stage.root.updateMatrixWorld(true); const inv = new THREE.Matrix4().copy(stage.root.matrixWorld).invert(); v.applyMatrix4(inv); return stage.toScreen([v.x, v.y, v.z]); },
     phone: () => X.phone && { app: X.phone.appId, url: X.phone.url, page: X.phone.page && { title: X.phone.page.title, code: X.phone.page.code, h: X.phone.page.h, links: X.phone.page.hits.map((h) => h.act) }, err: X.phone.err, kb: !!X.phone.kb, kbText: X.phone.kb ? X.phone.kb.text : null, items: X.phone.items.map((i) => i.id).filter(Boolean), net: { wifi: netOf(lab).phone.wifi, ip: netOf(lab).staIP(), bt: netOf(lab).bt.conn, pages: netOf(lab).seen.pages } },
+    phoneGo: (u) => { if (X.phone) X.phone.go(u); }, // (batch 24: tests open a page without typing it)
     // the screen point of a phone item (its id), so a test taps it as a student would
     phoneItem(id) { const P = X.phone; if (!P) return null; P.draw(true); const it = P.items.find((q) => q.id === id); if (!it) return null; const u = (it.x + it.w / 2) / 540, v = 1 - (it.y + it.h / 2) / 1152; const s = P.screen; const g = s.geometry.parameters; const pt = new THREE.Vector3((u - 0.5) * g.width, (v - 0.5) * g.height, 0.2); s.updateMatrixWorld(true); pt.applyMatrix4(s.matrixWorld); stage.root.updateMatrixWorld(true); pt.applyMatrix4(new THREE.Matrix4().copy(stage.root.matrixWorld).invert()); return stage.toScreen([pt.x, pt.y, pt.z]); },
     roleCenter(tag, role) { // the middle of a part's handle (robo.roleScreen gives its top), as a finger would take it
