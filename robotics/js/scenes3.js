@@ -941,10 +941,53 @@ const WAI = { camera: t3('Camera Module 3', 'कैमरा मॉड्यू�
   table: t3('On the table', 'मेज़ पर', 'Mez par'), light: t3('Room light', 'कमरे की रोशनी', 'Kamre ki roshni'), flip: t3('🔁 Flip the ribbon cable', '🔁 रिबन केबल पलटिए', '🔁 Ribbon cable palatiye'),
   bottle: t3('water bottle', 'पानी की बोतल', 'paani ki bottle'), cup: t3('cup', 'कप', 'cup'), phone: t3('phone', 'फ़ोन', 'phone'), remote: t3('TV remote', 'टीवी रिमोट', 'TV remote'), banana: t3('banana', 'केला', 'kela'), book: t3('book', 'किताब', 'kitaab') };
 
+// ------------------------------------------------------------------ the face-tracking camera (batch 38, Class 12)
+// A Camera Module 3 on a pan-tilt head (pan servo svP, tilt servo svT: angle 90 looks straight ahead; more pan looks
+// right, more tilt looks up). A person stands 40 cm in front: in the middle, a step to the left or right (25°), or walking
+// to and fro (±40°, one way and back in 5 s). The picture is 66° wide and 41° high: a face dx degrees right of where the
+// camera looks is at x = w/2 + dx/33 · w/2. A frame remembers where the camera looked and where the face was when it was
+// taken (lab.cam37.snap); detectMultiScale (pi37.js) finds the face from that, so a slow loop steers by an old picture.
+// Flags: lost (the face out of the picture for half a second), lagging (6 s of walking with the face more than 15° off
+// the middle a quarter of the time), tracked (8 s of walking, never lost, off by more than 15° under a tenth of the time).
+export const FACE = { fovX: 66, fovY: 41, step: 25, walk: 35, hz: 0.18, turn: 60, off: 15 };
+export class FaceScene extends Scene {
+  constructor(cfg) { super(cfg); this.mode = 'center'; this.phi = 0; this.theta = 4; this.res = {}; this.walkT = 0; this.offT = 0; this.outT = 0; this.wt = 0; }
+  look(lab) { const P = lab.byTag('svP'), T = lab.byTag('svT'); return { yaw: P ? P.state.angle - 90 : 0, pitch: T ? T.state.angle - 90 : 0 }; }
+  update(dt, lab) {
+    this.t += dt; const me = this; const G = FACE;
+    if (this.mode === 'walk') { this.wt += dt; this.phi = G.walk * Math.sin(2 * Math.PI * G.hz * this.wt); } else { const aim = { center: 0, left: -G.step, right: G.step }[this.mode] ?? 0; const st = G.turn * dt; this.phi += clamp(aim - this.phi, -st, st); }
+    const L = this.look(lab); this.L = L; const dx = this.phi - L.yaw, dy = this.theta - L.pitch; this.dx = dx; this.dy = dy;
+    if (lab && (!lab.cam37 || lab.cam37.scene !== this)) lab.cam37 = { scene: this, ok: () => true, frames: 0,
+      snap: () => { const q = me.look(lab); return { dx: me.phi - q.yaw, dy: me.theta - q.pitch }; },
+      faces: (w, h, at, mn) => { const a = at || { dx: me.dx, dy: me.dy }; if (Math.abs(a.dx) > G.fovX / 2 - 3 || Math.abs(a.dy) > G.fovY / 2 - 3 || Math.random() < 0.03) return []; const s = 0.125 * w; const cx = w / 2 + a.dx / (G.fovX / 2) * w / 2 + (Math.random() - 0.5) * 0.006 * w, cy = h / 2 - a.dy / (G.fovY / 2) * h / 2 + (Math.random() - 0.5) * 0.006 * h;
+        const out = [[cx - s / 2, cy - s / 2, s, s]]; if (mn <= 2 && Math.random() < 0.3) out.push([0.08 * w, 0.1 * h, 0.07 * w, 0.07 * w]); return out; }, // (minNeighbors 2 or less: the poster on the wall is a face sometimes)
+      objects: (w, h) => (Math.abs(me.dx) < G.fovX / 2 ? [{ cls: 0, conf: 0.86, xyxy: [w / 2 + me.dx / (G.fovX / 2) * w / 2 - 0.2 * w, 0.15 * h, w / 2 + me.dx / (G.fovX / 2) * w / 2 + 0.2 * w, h] }] : []),
+      get started() { return !!me.started; }, set started(v) { me.started = v; if (v) me.flags.add('camOk'); } };
+    if (!this.started || this.t - (this.runAt ?? -1e9) < 2) return true;
+    const off = Math.abs(dx) > G.off; const out = Math.abs(dx) > G.fovX / 2 - 3 || Math.abs(dy) > G.fovY / 2 - 3;
+    this.outT = out ? this.outT + dt : 0; if (this.outT > 0.5) { this.flags.add('lost'); this.res.lostAt = Math.round(this.phi); }
+    if (this.mode === 'walk') { this.walkT += dt; if (off) this.offT += dt; this.res.off = Math.round(100 * this.offT / Math.max(0.1, this.walkT)); this.res.worst = Math.max(this.res.worst || 0, Math.round(Math.abs(dx)));
+      if (this.walkT > 6 && this.offT / this.walkT > 0.25) this.flags.add('lagging'); if (this.walkT > 8 && this.offT / this.walkT < 0.1 && !this.flags.has('lost')) this.flags.add('tracked'); }
+    return true;
+  }
+  onRun() { super.onRun(); for (const k of ['camOk', 'lost', 'lagging', 'tracked']) this.flags.delete(k); this.started = false; this.walkT = 0; this.offT = 0; this.outT = 0; this.res = {}; }
+  control(id, v) { if (id === 'person' && ['center', 'left', 'right', 'walk'].includes(v)) { if (v === 'walk' && this.mode !== 'walk') this.wt = Math.asin(clamp(this.phi / FACE.walk, -1, 1)) / (2 * Math.PI * FACE.hz); this.mode = v; this.walkT = 0; this.offT = 0; this.res.worst = 0; } }
+  hud() {
+    const sg = (v) => `${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(0)}°`; const L = this.L || { yaw: 0, pitch: 0 };
+    const st = this.flags.has('tracked') ? WF.tracked : Math.abs(this.dx || 0) > FACE.fovX / 2 - 3 ? WF.out : Math.abs(this.dx || 0) > FACE.off ? WF.edge : WF.mid;
+    return { title: t3('Face-tracking camera', 'चेहरे के पीछे घूमने वाला कैमरा', 'Chehre ke peeche ghoomne wala camera'),
+      rows: [[tx(WF.person), sg(this.phi)], [tx(WF.camera), `${sg(L.yaw)} · ${tx(WF.tilt)} ${sg(L.pitch)}`], [tx(WF.face), `${sg(this.dx || 0)} · ${tx(st)}`], ...(this.res.off !== undefined ? [[tx(WF.offT), `${this.res.off} %`]] : [])],
+      controls: [{ id: 'person', kind: 'seg', label: WF.personC, options: [['left', WF.left], ['center', WF.center], ['right', WF.right], ['walk', WF.walkB]], value: this.mode }] };
+  }
+}
+const WF = { person: t3('The person (left − / right +)', 'व्यक्ति (बाएँ − / दाएँ +)', 'Vyakti (left − / right +)'), camera: t3('Camera looks', 'कैमरा देखता है', 'Camera dekhta hai'), tilt: t3('tilt', 'झुकाव', 'tilt'), face: t3('Face from the middle', 'बीच से चेहरा', 'Beech se chehra'),
+  tracked: t3('tracked', 'पीछा कर रहा', 'peecha kar raha'), out: t3('out of the picture', 'तस्वीर से बाहर', 'tasveer se bahar'), edge: t3('near the edge', 'किनारे के पास', 'kinaare ke paas'), mid: t3('in the middle', 'बीच में', 'beech mein'),
+  offT: t3('Walking, more than 15° off', 'चलते हुए, 15° से ज़्यादा हटा', 'Chalte hue, 15° se zyada hata'), personC: t3('The person', 'व्यक्ति', 'Vyakti'), left: t3('Left', 'बाएँ', 'Left'), center: t3('Middle', 'बीच', 'Beech'), right: t3('Right', 'दाएँ', 'Right'), walkB: t3('Walk', 'चले', 'Chale') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'aicam': return new AiCamScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'aicam': return new AiCamScene(cfg); case 'face': return new FaceScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

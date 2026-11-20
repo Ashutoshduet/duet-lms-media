@@ -6260,14 +6260,16 @@
    {
     "class": 12,
     "n": 10,
-    "kind": "I",
+    "kind": "L",
     "title": "Face-tracking pan-tilt camera",
     "board": "pi4",
-    "status": "planned",
-    "ref": "face-tracking-pan-tilt-camera-pi4",
+    "status": "live",
+    "ref": "facetrack",
     "newparts": [],
-    "family": "ai-capstone",
-    "parts": [],
+    "family": "live-projects",
+    "parts": [
+     "servo"
+    ],
     "strand": "Abstraction",
     "focus": "AI and vision",
     "term": "Term 2 (July-September)"

@@ -1220,6 +1220,47 @@ while True:
     print("---")
 `;
 
+const FACEC = `# Face-tracking camera: OpenCV finds the face, and two servos turn the camera to keep it in the middle.
+from picamera2 import Picamera2
+from gpiozero import AngularServo
+import cv2
+import time
+
+pan = AngularServo(17, min_angle=-90, max_angle=90)    # turns the camera left and right
+tilt = AngularServo(18, min_angle=-90, max_angle=90)   # and up and down
+pan_angle = 0
+tilt_angle = 0
+pan.angle = pan_angle
+tilt.angle = tilt_angle
+
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration(main={"format": "RGB888", "size": (640, 480)}))
+picam2.start()
+frames = 0
+t0 = time.time()
+
+while True:
+    frame = picam2.capture_array()
+    gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+    faces = face_cascade.detectMultiScale(gray, 1.1, 5)
+    for (x, y, w, h) in faces:
+        err_x = (x + w / 2) / frame.shape[1] - 0.5     # the face: -0.5 at the left edge, +0.5 at the right
+        err_y = (y + h / 2) / frame.shape[0] - 0.5     # and from the top to the bottom
+        pan_angle = pan_angle - err_x * 30
+        tilt_angle = tilt_angle - err_y * 20
+        pan_angle = max(-80, min(80, pan_angle))
+        tilt_angle = max(-60, min(60, tilt_angle))
+        pan.angle = pan_angle
+        tilt.angle = tilt_angle
+        break
+    frames += 1
+    if time.time() - t0 >= 1:
+        print("fps:", frames, " pan:", round(pan_angle))
+        frames = 0
+        t0 = time.time()
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1896,6 +1937,29 @@ export function batch24(K, n0) {
     ],
     check: [],
     done: (S) => (S.serLines || []).some((x) => /^remote 0\.\d+/.test(x)) && !saidR(S, /^cell phone/) && /conf\s*>\s*0\.[45]/.test(S.runSrc || '') });
+  // 23 ------------------------------------------------------------ face-tracking pan-tilt camera (Class 12, batch 38)
+  // The wrong sign turns away from the face; right, but at 640 × 480 the Pi does 5 frames a second and steers by old
+  // pictures, so a walking face drifts to the edge; at 320 × 240 it does about 17 and keeps the face in the middle
+  const okPanF = (src) => /pan_angle\s*=\s*pan_angle\s*\+\s*err_x\s*\*\s*30/.test(src || '');
+  const okSmallF = (src) => okPanF(src) && /"size":\s*\(\s*320\s*,\s*240\s*\)/.test(src || '');
+  L.push({ id: 'facetrack', board: 'pi4', cls: '12', blocks: false, view: 'pi6', wview: 'pi6w', rview: 'scene3ft', code: FACEC, drawer: [], serial: true, scene: { kind: 'face' },
+    title: t3('Face-tracking pan-tilt camera', 'चेहरे के पीछे घूमने वाला पैन-टिल्ट कैमरा', 'Chehre ke peeche ghoomne wala pan-tilt camera'),
+    goal: t3('A camera on two servos that keeps a face in the middle of its picture, as video-call cameras and security domes do. OpenCV finds the face; the program turns the servos by how far it is from the middle. Get the direction right, and find out why a slow loop cannot keep up.', 'दो सर्वो पर लगा कैमरा जो चेहरे को अपनी तस्वीर के बीच में रखता है, जैसे वीडियो-कॉल कैमरे और सिक्योरिटी डोम करते हैं। OpenCV चेहरा ढूँढता है; प्रोग्राम सर्वो को उतना घुमाता है जितना चेहरा बीच से दूर है। दिशा सही कीजिए, और पता कीजिए कि धीमा लूप साथ क्यों नहीं दे पाता।', 'Do servo par laga camera jo chehre ko apni tasveer ke beech mein rakhta hai, jaise video-call camera aur security dome karte hain. OpenCV chehra dhoondhta hai; program servo ko utna ghumaata hai jitna chehra beech se door hai. Disha sahi kijiye, aur pata kijiye ki dheema loop saath kyon nahi de paata.'),
+    setup: { parts: [F('svP', 'servo', {}, 178, 52, 1), F('svT', 'servo', {}, 178, 82, 1)], wires: [['B:5V', 'H:bp2'], ['B:GND6', 'H:bn3'], ['T:svP:GND', 'H:bn40'], ['T:svP:VP', 'H:bp40'], ['T:svP:SIG', 'B:GPIO17'], ['T:svT:GND', 'H:bn44'], ['T:svT:VP', 'H:bp44'], ['T:svT:SIG', 'B:GPIO18']] },
+    steps: [
+      { k: 'info', do: t3('Beside the Pi: the Camera Module 3 on a pan-tilt head, the pan servo on GPIO 17, the tilt servo on GPIO 18, and a person in front of it. The panel moves the person: a step left or right, or walking to and fro.', 'Pi के पास: पैन-टिल्ट हेड पर कैमरा मॉड्यूल 3, GPIO 17 पर पैन सर्वो, GPIO 18 पर टिल्ट सर्वो, और उसके सामने एक व्यक्ति। पैनल व्यक्ति को हिलाता है: बाएँ या दाएँ एक क़दम, या इधर-उधर चलना।', 'Pi ke paas: pan-tilt head par Camera Module 3, GPIO 17 par pan servo, GPIO 18 par tilt servo, aur uske saamne ek vyakti. Panel vyakti ko hilaata hai: left ya right ek kadam, ya idhar-udhar chalna.'), see: E },
+      RUN(t3('Every second the terminal prints the frames per second and where the camera points.', 'हर सेकंड टर्मिनल फ़्रेम प्रति सेकंड और कैमरे की दिशा दिखाता है।', 'Har second terminal frames per second aur camera ki disha dikhaata hai.')),
+      { k: 'act', until: (S) => fresh(S) && S.w('lost'), do: t3('In the panel, move the person a step to the right.', 'पैनल में व्यक्ति को एक क़दम दाईं ओर ले जाइए।', 'Panel mein vyakti ko ek kadam right le jaaiye.'),
+        see: t3('The camera turns left, away from the face, until the face slips out of the picture. The face is right of the middle, err_x is +, and pan_angle - err_x × 30 turns the camera left: the error grows. In gpiozero a bigger angle turns this pan servo to the right.', 'कैमरा बाईं ओर घूमता है, चेहरे से दूर, जब तक चेहरा तस्वीर से बाहर न निकल जाए। चेहरा बीच से दाईं ओर है, err_x + है, और pan_angle - err_x × 30 कैमरे को बाईं ओर घुमाता है: एरर बढ़ता है। gpiozero में बड़ा कोण इस पैन सर्वो को दाईं ओर घुमाता है।', 'Camera left ghoomta hai, chehre se door, jab tak chehra tasveer se bahar na nikal jaaye. Chehra beech se right hai, err_x + hai, aur pan_angle - err_x × 30 camera ko left ghumaata hai: error badhta hai. gpiozero mein bada angle is pan servo ko right ghumaata hai.') },
+      { k: 'edit', test: okPanF, set: [[/pan_angle = pan_angle - err_x \* 30/, 'pan_angle = pan_angle + err_x * 30']], do: t3('Change pan_angle - err_x * 30 to pan_angle + err_x * 30, put the person back in the middle, and press Run.', 'pan_angle - err_x * 30 को pan_angle + err_x * 30 कीजिए, व्यक्ति को वापस बीच में लाइए, और "चलाइए" दबाइए।', 'pan_angle - err_x * 30 ko pan_angle + err_x * 30 kijiye, vyakti ko wapas beech mein laaiye, aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('lagging'), do: t3('Now let the person walk to and fro (Walk), and watch the face in the picture.', 'अब व्यक्ति को इधर-उधर चलने दीजिए (चले), और तस्वीर में चेहरा देखिए।', 'Ab vyakti ko idhar-udhar chalne dijiye (Chale), aur tasveer mein chehra dekhiye.'),
+        see: live((lg, R) => pick(lg, `It follows, but always behind: the face is more than 15° off the middle ${R.off ?? 30} % of the time, up to ${R.worst ?? 20}° (past 30° it is out of the picture). The terminal says fps: 5 or 6. Finding a face in 640 × 480 takes the Pi about 160 ms, so the camera steers by a picture that is already a fifth of a second old, and only five times a second.`, `यह पीछा करता है, पर हमेशा पीछे: चेहरा ${R.off ?? 30} % समय बीच से 15° से ज़्यादा हटा रहता है, ${R.worst ?? 20}° तक (30° के बाद यह तस्वीर से बाहर है)। टर्मिनल कहता है fps: 5 या 6। 640 × 480 में चेहरा ढूँढने में Pi को लगभग 160 ms लगते हैं, तो कैमरा एक सेकंड के पाँचवें हिस्से पुरानी तस्वीर से मुड़ता है, और सेकंड में बस पाँच बार।`, `Yeh peecha karta hai, par hamesha peeche: chehra ${R.off ?? 30} % samay beech se 15° se zyada hata rehta hai, ${R.worst ?? 20}° tak (30° ke baad yeh tasveer se bahar hai). Terminal kehta hai fps: 5 ya 6. 640 × 480 mein chehra dhoondhne mein Pi ko lagbhag 160 ms lagte hain, to camera ek second ke paanchve hisse purani tasveer se mudta hai, aur second mein bas paanch baar.`)) },
+      { k: 'edit', test: okSmallF, set: [[/"size": \(640, 480\)/, '"size": (320, 240)']], do: t3('A smaller picture is four times less work: change (640, 480) to (320, 240) and press Run (the person keeps walking).', 'छोटी तस्वीर चार गुना कम काम है: (640, 480) को (320, 240) कीजिए और "चलाइए" दबाइए (व्यक्ति चलता रहता है)।', 'Chhoti tasveer chaar guna kam kaam hai: (640, 480) ko (320, 240) kijiye aur Run dabaiye (vyakti chalta rehta hai).'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('tracked'), do: t3('Watch it follow the walking person for 10 seconds.', 'चलते व्यक्ति के पीछे इसे 10 सेकंड घूमते देखिए।', 'Chalte vyakti ke peeche ise 10 second ghoomte dekhiye.'),
+        see: live((lg, R) => pick(lg, `fps: about 17, and the face stays near the middle: more than 15° off only ${R.off ?? 5} % of the time. A face is still 40 pixels across at 320 × 240, plenty for the detector. Because err_x is a fraction of the picture's width, the same 30 works at any size. Real tracking cameras do this, and also guess where the face is going next.`, `fps: लगभग 17, और चेहरा बीच के पास रहता है: बस ${R.off ?? 5} % समय 15° से ज़्यादा हटा। 320 × 240 पर भी चेहरा 40 पिक्सेल चौड़ा है, डिटेक्टर के लिए काफ़ी। err_x तस्वीर की चौड़ाई का हिस्सा है, इसलिए वही 30 हर आकार पर चलता है। असली ट्रैकिंग कैमरे यही करते हैं, और यह भी अंदाज़ा लगाते हैं कि चेहरा आगे कहाँ जाएगा।`, `fps: lagbhag 17, aur chehra beech ke paas rehta hai: bas ${R.off ?? 5} % samay 15° se zyada hata. 320 × 240 par bhi chehra 40 pixel chauda hai, detector ke liye kaafi. err_x tasveer ki chaudaai ka hissa hai, isliye wahi 30 har size par chalta hai. Asli tracking camera yahi karte hain, aur yeh bhi andaaza lagaate hain ki chehra aage kahan jaayega.`)) },
+    ],
+    check: [],
+    done: (S) => S.w('tracked') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

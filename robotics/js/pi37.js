@@ -67,7 +67,7 @@ export function aiModules(m) {
           close: nat('close', [], () => { me.started = false; return null; }),
           capture_array: nat('capture_array', ['name=main'], (R) => {
             if (!me.started) throw R.err('RuntimeError', 'N37_NOT_STARTED', {});
-            const c = cam(); tick(m, R, 33000); const det = c ? c.objects(me.size[0], me.size[1]) : []; return new Frame(det, me.size[0], me.size[1]); }),
+            const c = cam(); tick(m, R, Math.round(12000 + 21000 * me.size[0] * me.size[1] / (640 * 480))); const det = c && c.objects ? c.objects(me.size[0], me.size[1]) : []; const f = new Frame(det, me.size[0], me.size[1]); f.at = c && c.snap ? c.snap() : null; return f; }),
           capture_file: nat('capture_file', ['name'], (R, name) => {
             if (!me.started) throw R.err('RuntimeError', 'N37_NOT_STARTED', {}); tick(m, R, 180000); fsOf(m).set(str(name), `ÿØ JPEG ${me.size[0]}x${me.size[1]} (a photo)`); return null; }),
         }; }
@@ -117,7 +117,37 @@ export function aiModules(m) {
     }
     return new Mod('ultralytics', { YOLO: klass('YOLO', (R, a, kw) => { const f = str(arg(a, kw, 0, 'model', 'yolov8n.pt')); const ms = MODELS[f]; if (!ms) throw R.err('FileNotFoundError', 'N37_MODEL', { f }); tick(m, R, 1800000); return new YOLO(f, ms); }) });
   };
-  return { picamera2, ultralytics };
+  // ---------------------------------------------------------------- cv2 (batch 38): the little of OpenCV a face tracker uses
+  // cvtColor to grey, CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml"), detectMultiScale
+  // (about 160 ms for 640 × 480 on a Pi 4, 45 ms for 320 × 240): a list of (x, y, w, h). A cascade file that is not there
+  // leaves the classifier empty, and detectMultiScale then fails as OpenCV does. rectangle / putText / imshow / waitKey /
+  // destroyAllWindows draw nothing here (the Pi has no screen on this bench).
+  const cv2 = () => {
+    class Cascade extends Obj {
+      constructor(file, ok) { super('CascadeClassifier'); this.file = file; this.ok = ok; }
+      methods() { const me = this; return {
+        empty: nat('empty', [], () => !me.ok),
+        detectMultiScale: nat('detectMultiScale', '*', (R, a, kw) => {
+          if (!me.ok) throw R.err('cv2.error', 'N38_EMPTY', {});
+          const img = arg(a, kw, 0, 'image', null); if (!(img instanceof Frame)) throw R.err('TypeError', 'N37_SOURCE', { t: typeName(img) });
+          const sf = num(R, arg(a, kw, 1, 'scaleFactor', F(1.1))), mn = Math.round(num(R, arg(a, kw, 2, 'minNeighbors', 3)));
+          tick(m, R, Math.round(160000 * (img.w * img.h) / (640 * 480) * 1.1 / Math.max(1.01, sf))); // (a bigger scaleFactor tries fewer sizes: faster)
+          const c = cam(); const faces = c && c.faces ? c.faces(img.w, img.h, img.at, mn) : [];
+          return faces.map((f) => tup(f.map((v) => Math.round(v))));
+        }),
+      }; }
+    }
+    const data = new Mod('cv2.data', { haarcascades: '/usr/share/opencv4/haarcascades/' });
+    return new Mod('cv2', {
+      COLOR_RGB2GRAY: 7, COLOR_BGR2GRAY: 6, COLOR_RGB2BGR: 4, COLOR_BGR2RGB: 4, FONT_HERSHEY_SIMPLEX: 0, data,
+      cvtColor: nat('cvtColor', ['src', 'code'], (R, src, code) => { if (!(src instanceof Frame)) throw R.err('TypeError', 'N37_SOURCE', { t: typeName(src) }); tick(m, R, Math.round(4000 * src.w * src.h / (640 * 480))); const g = new Frame(src.det, src.w, src.h); g.at = src.at; g.gray = code === 6 || code === 7; return g; }),
+      CascadeClassifier: klass('CascadeClassifier', (R, a, kw) => { const f = str(arg(a, kw, 0, 'filename', '')); tick(m, R, 40000); return new Cascade(f, /haarcascades\/haarcascade_frontalface_(default|alt|alt2)\.xml$/.test(f)); }),
+      rectangle: nat('rectangle', '*', (R, a) => a[0] || null), putText: nat('putText', '*', (R, a) => a[0] || null), circle: nat('circle', '*', (R, a) => a[0] || null),
+      imshow: nat('imshow', '*', () => null), waitKey: nat('waitKey', ['delay=0'], (R, d) => { tick(m, R, Math.max(1, num(R, d)) * 1000); return -1; }), destroyAllWindows: nat('destroyAllWindows', [], () => null),
+      resize: nat('resize', '*', (R, a, kw) => { const src = a[0]; const sz = a[1]; if (!(src instanceof Frame) || !sz || sz.length !== 2) throw R.err('TypeError', 'N37_SOURCE', { t: typeName(src) }); const g = new Frame(src.det, Math.round(num(R, sz[0])), Math.round(num(R, sz[1]))); g.at = src.at; tick(m, R, 3000); return g; }),
+    });
+  };
+  return { picamera2, ultralytics, cv2 };
 }
 
 export const MSG37 = {
@@ -128,5 +158,6 @@ export const MSG37 = {
   N37_CFG_RUNNING: t3('RuntimeError: Camera must be stopped before configuring.', 'RuntimeError: Camera must be stopped before configuring।', 'RuntimeError: Camera must be stopped before configuring.'),
   N37_MODEL: t3('FileNotFoundError: {f} does not exist. This Pi has yolov8n.pt and yolo11n.pt (and the s sizes): the n models are the ones a Pi 4 can run.', 'FileNotFoundError: {f} नहीं है। इस Pi पर yolov8n.pt और yolo11n.pt (और s वाले) हैं: Pi 4 n मॉडल ही चला पाता है।', 'FileNotFoundError: {f} nahi hai. Is Pi par yolov8n.pt aur yolo11n.pt (aur s wale) hain: Pi 4 n models hi chala paata hai.'),
   N37_SOURCE: t3('TypeError: the model wants a picture: a frame from picam2.capture_array(), not a {t}.', 'TypeError: मॉडल को तस्वीर चाहिए: picam2.capture_array() से आया फ़्रेम, {t} नहीं।', 'TypeError: model ko tasveer chahiye: picam2.capture_array() se aaya frame, {t} nahi.'),
+  N38_EMPTY: t3('cv2.error: OpenCV(4.6.0) (-215:Assertion failed) !empty() in function \'detectMultiScale\'. The cascade file was not found, so the classifier is empty: use cv2.data.haarcascades + "haarcascade_frontalface_default.xml".', 'cv2.error: OpenCV(4.6.0) (-215:Assertion failed) !empty() in function \'detectMultiScale\'। कैस्केड फ़ाइल नहीं मिली, तो क्लासिफ़ायर ख़ाली है: cv2.data.haarcascades + "haarcascade_frontalface_default.xml" लिखिए।', 'cv2.error: OpenCV(4.6.0) (-215:Assertion failed) !empty() in function \'detectMultiScale\'. Cascade file nahi mili, to classifier khaali hai: cv2.data.haarcascades + "haarcascade_frontalface_default.xml" likhiye.'),
   N37_BOX_INDEX: t3('IndexError: index {i} is out of bounds: there are {n} boxes.', 'IndexError: इंडेक्स {i} सीमा से बाहर: {n} बॉक्स हैं।', 'IndexError: index {i} seema se bahar: {n} box hain.'),
 };

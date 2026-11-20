@@ -1287,3 +1287,14 @@ heaters.
   white table with five places; the panel puts a bottle (39, 0.88), cup (41, 0.82), phone (67, 0.79), TV remote (65,
   0.58, plus a ghost cell phone 0.38), banana (46, 0.90) and book (73, 0.72); confidence × (0.55 + 0.6 × room light),
   ±0.03 a frame. The lesson: no camera → flip the ribbon; bottle and cup; verbose=False; the phantom phone; conf > 0.5.
+- Batch 38: the Class 12 face-tracking pan-tilt camera (lessons24.js facetrack; scenes3.js FaceScene, FACE; worlds3.js
+  faceSteps, view scene3ft) and cv2 in pi37.js: cvtColor (to grey), cv2.data.haarcascades, CascadeClassifier (a wrong
+  file leaves it empty: cv2.error -215 !empty()), detectMultiScale(img, scaleFactor, minNeighbors) → [(x, y, w, h)]
+  costing 160 ms at 640 × 480 (∝ pixels, × 1.1 / scaleFactor), minNeighbors ≤ 2 sometimes finds the poster on the wall;
+  rectangle / putText / imshow / waitKey / destroyAllWindows / resize. capture_array costs 12 + 21 ms × pixels/307200,
+  and a frame keeps lab.cam37.snap(): where the camera looked and the face was when it was taken (so a slow loop steers
+  by old pictures). The pan (GPIO 17) and tilt (GPIO 18) servos are gpiozero AngularServo; the person stands, steps 25°
+  or walks ±35° at 0.18 Hz on an arc 450 mm away; the picture is 66° × 41°. Flags: lost (out of the picture 0.5 s),
+  lagging (6 s walking, > 15° off a quarter of the time), tracked (8 s, never lost, > 15° off under a tenth). The
+  lesson: pan − err × 30 turns away; at 640 × 480 (5–6 fps) it lags; at 320 × 240 (about 17 fps) it tracks.
+  py.js dbl(): time.time() on the Pi is now an exact double (a 32-bit float rounded it to 128 s steps).

@@ -12,7 +12,7 @@
 // the main program's statements, as an interrupt would; gpiozero's blink() and pulse() run in the background.
 // Kind hints in English, Hindi and Hinglish: a pin in the code that has no wire while another has one, physical pin
 // numbers used as GPIO numbers, a gpiozero program that ends before its buttons can do anything, too much current, 5 V.
-import { compile as pyCompile, Nat, Mod, Flt, tup, str, typeName, Tup, PyErr, PyFn } from './py.js';
+import { compile as pyCompile, Nat, Mod, Flt, dbl, tup, str, typeName, Tup, PyErr, PyFn } from './py.js';
 import { MCU, RtError } from './mcu.js';
 import { BOARDS6, PHYS_OF, J8 } from './boards6.js';
 import { LAB_HOOKS } from './boards4.js';
@@ -682,7 +682,7 @@ function piTime(m) {
     return String(f).replace(/%([HMSdmyYAaBbpIj%])/g, (s, k) => ({ H: p2(d.getUTCHours()), M: p2(d.getUTCMinutes()), S: p2(d.getUTCSeconds()), d: p2(d.getUTCDate()), m: p2(d.getUTCMonth() + 1), y: p2(d.getUTCFullYear() % 100), Y: d.getUTCFullYear(), A: days[d.getUTCDay()], a: days[d.getUTCDay()].slice(0, 3), B: mon[d.getUTCMonth()], b: mon[d.getUTCMonth()].slice(0, 3), p: d.getUTCHours() < 12 ? 'AM' : 'PM', I: p2((d.getUTCHours() + 11) % 12 + 1), j: '323', '%': '%' }[k])); };
   return new Mod('time', {
     sleep: nat('sleep', ['seconds'], function* (R, s) { const v = num(R, s, 'sleep'); if (v < 0) throw R.err('ValueError', 'N6_SLEEP_NEG', {}); yield* R.sleep(v * 1000); return null; }, B),
-    time: nat('time', [], (R) => F(now(R))), monotonic: nat('monotonic', [], (R) => F(R.t / 1e6)), perf_counter: nat('perf_counter', [], (R) => F(R.t / 1e6)), time_ns: nat('time_ns', [], (R) => Math.round(now(R) * 1e9)),
+    time: nat('time', [], (R) => dbl(now(R))), monotonic: nat('monotonic', [], (R) => F(R.t / 1e6)), perf_counter: nat('perf_counter', [], (R) => F(R.t / 1e6)), time_ns: nat('time_ns', [], (R) => Math.round(now(R) * 1e9)),
     strftime: nat('strftime', ['format', 't=None'], (R, f, t) => fmt(R, f, t)), ctime: nat('ctime', ['t=None'], (R, t) => fmt(R, '%a %b %d %H:%M:%S %Y', t)),
   });
 }

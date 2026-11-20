@@ -16,6 +16,9 @@ const now = () => (typeof performance !== 'undefined' ? performance.now() : Date
 
 // ------------------------------------------------------------------ values
 export class Flt { constructor(v) { this.v = Math.fround(v); } }
+// (batch 38) a float kept exact: CPython's time.time() is a double near 1.8e9, and a 32-bit float rounds it to 128 s steps;
+// differences of two such times are small again, so arithmetic on them can go on in Flt
+export const dbl = (v) => { const f = new Flt(0); f.v = v; return f; };
 export class Tup extends Array {}
 export const tup = (items) => { const t = new Tup(); for (const x of items) t.push(x); return t; };
 export class Rng {

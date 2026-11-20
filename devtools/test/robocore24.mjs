@@ -510,4 +510,20 @@ for (const l of L24) {
   ok(!!l.done(rt) && /0: 480x640 1 bottle, 1 cup/.test(out), `aidetect: complete; ultralytics' own line was there before verbose=False (${(out.match(/\d+\.\dms inference/) || [''])[0]})`);
 }
 
+// the face-tracking camera (lessons24.js facetrack, pi37.js cv2, scenes3.js FaceScene): the wrong sign loses the face;
+// at 640 × 480 (5–6 fps) a walking person is more than 15° off a quarter of the time; at 320 × 240 (about 17 fps) tracked
+{ const l = LESSONS.find((x) => x.id === 'facetrack'); const B = build3(l); const { lab, app, rt, sim } = B; let src = l.code, buf = '', out = ''; const dt = 1 / 60;
+  const start = (code) => { const c = compile(code, lab.def); if (!c.ok) throw new Error(JSON.stringify(c.errors)); app.src = code; lab.run(c); rt.onRun(code); };
+  const go = (secs, until, each) => { for (let f = 0; f < secs * 60; f++) { if (each) each(f * dt); lab.step(1000 * dt); sim.update(dt, lab); rt.update(dt);
+    for (const o of lab.mcu.ser.take()) { const str = String.fromCharCode(...o.bytes).replace(/\r/g, ''); out += str; buf += str; const ls = buf.split('\n'); buf = ls.pop(); for (const x of ls) rt.onSerialLine(x); }
+    if (lab.mcu.state === 'error') return 'error'; if (until && until(rt)) return f * dt; } return -1; };
+  const acts = [(t, S) => { if (t > 2.5 && S.mode !== 'right') S.control('person', 'right'); }, (t, S) => { if (t === 0) S.control('person', 'center'); if (t > 2.5 && S.mode !== 'walk') S.control('person', 'walk'); }, null]; let ai = 0; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e, lab.def).ok, 'facetrack: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const a = acts[ai++]; const t = go(30, (S) => s.until(S), a ? (x) => a(x, sim) : null); seen.push(JSON.stringify(sim.res)); ok(typeof t === 'number' && t >= 0, `facetrack: act "${s.do.en.slice(0, 50)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s) ${JSON.stringify(sim.res)}` : ` — ${t} ${JSON.stringify(sim.res)} ${[...sim.flags]} ${JSON.stringify(lab.mcu.err || '')}`)); }
+  }
+  const fps = [...out.matchAll(/fps: (\d+)/g)].map((m) => +m[1]); ok(!!l.done(rt) && fps.some((v) => v <= 7) && fps.some((v) => v >= 14), `facetrack: complete; fps seen ${[...new Set(fps)].join(', ')}`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

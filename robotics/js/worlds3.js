@@ -15,6 +15,8 @@
 //   ration   (batch 35) a fair-price shop's open jute sack of rice with its steel scoop, and the shop's board
 //   aicam    (batch 37) a Raspberry Pi Camera Module 3 on a little tripod, its ribbon to the bench, looking at a white table
 //            with a backdrop; the things the panel puts on it stand in five places, left to right
+//   face     (batch 38) the Camera Module 3 on a pan-tilt head, and a person (head and shoulders) who steps and walks on
+//            an arc in front of it
 // Phones and the headset: the still pieces of a scene are merged by material, there are no real-time lights or shadows
 // (the lamp's light is a soft pool on the floor), and a scene is built over a few frames.
 import * as THREE from 'three';
@@ -23,15 +25,16 @@ import * as M2 from './models2.js';
 import * as TX from './tex.js';
 import { VIEWS, nextFrame } from './stage.js';
 import { rotXZ } from './parts.js';
-import { makeScene, PT_TARGETS, TANK, LIFT, CONV, SLIDE, PLOT, PICK, BEAM, AICAM } from './scenes3.js';
+import { makeScene, PT_TARGETS, TANK, LIFT, CONV, SLIDE, PLOT, PICK, BEAM, AICAM, FACE } from './scenes3.js';
 import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
+Object.assign(VIEWS, { scene3ft: { tgt: [330, 140, -120], hw: 380, hd: 260, dir: [0.25, 0.4, 0.88] } }); // (batch 38: the pan-tilt camera from behind its shoulder, and the person it follows)
 Object.assign(VIEWS, { scene3ai: { tgt: [300, 70, -10], hw: 260, hd: 170, dir: [-0.2, 0.45, 0.87] } }); // (batch 37: the camera on its tripod and the white table)
 Object.assign(VIEWS, { scene3bb: { tgt: [470, 120, 0], hw: 330, hd: 210, dir: [-0.12, 0.36, 0.92] } }); // (batch 34: the ball-on-beam stand beside the bench)
 Object.assign(VIEWS, { scene3gb: { tgt: [290, 180, 40], hw: 290, hd: 270, dir: [-0.22, 0.32, 0.92] } }); // (batch 33: the gimbal in its hand, beside the bench)
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] }, scene3cv: { tgt: [285, 30, 0], hw: 235, hd: 150, dir: [-0.2, 0.62, 0.76] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal', 'beam', 'ration', 'aicam']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal', 'beam', 'ration', 'aicam', 'face']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -100,14 +103,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps(); case 'beam': return this.beamSteps(); case 'ration': return this.rationSteps(); case 'aicam': return this.aiSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps(); case 'beam': return this.beamSteps(); case 'ration': return this.rationSteps(); case 'aicam': return this.aiSteps(); case 'face': return this.faceSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt); case 'beam': return this.beamDraw(dt); case 'ration': return this.rationDraw(dt); case 'aicam': return this.aiDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt); case 'beam': return this.beamDraw(dt); case 'ration': return this.rationDraw(dt); case 'aicam': return this.aiDraw(dt); case 'face': return this.faceDraw(dt);
     }
     return false;
   }
@@ -786,6 +789,36 @@ class World3 {
   aiDraw() {
     if (!this.aiThings) return false; const S = this.sim; const key = S.items.join(','); if (key === this._aik) return false; this._aik = key; const T0 = this.aiT;
     for (const [k, o] of Object.entries(this.aiThings)) { const i = S.items.indexOf(k); o.visible = i >= 0; if (i >= 0) o.position.set(T0.x - 120 + i * 60, T0.y, T0.z + (k === 'book' ? -20 : 0)); }
+    return true;
+  }
+
+  // ================================================================== the face-tracking camera (batch 38): the head at H, looking along −z
+  // at 90°; the person on an arc 450 mm away, at angle phi (+ to the right as the camera sees it, which is −x here)
+  faceSteps() {
+    const r = this.root, S = this.mat; const H = this.ftH = V3(330, 0, 40);
+    return [
+      () => { // the stand, the pan servo, its bracket, the tilt servo, the camera board
+        const blk = S({ color: 0x1b1b1d, roughness: 0.45 }); const g = new THREE.Group(); g.add(box(70, 6, 70, blk, H.x, 3, H.z)); g.add(cyl(5, 70, S({ color: 0xc9ccd1, metalness: 1, roughness: 0.3 }), H.x, 40, H.z, 12)); g.add(box(30, 6, 30, blk, H.x, 78, H.z)); this.still(g); this.blob(110, 110, H.x, H.z, 0.35);
+        const pan = new THREE.Group(); pan.position.set(H.x, 81, H.z); r.add(pan); const b1 = M2.sg90Body(); b1.position.set(5.6, 0, 0); MD.mergeStatic(b1); pan.add(b1);
+        const yaw = this.ftYaw = new THREE.Group(); yaw.position.set(0, 29, 0); pan.add(yaw); const br = new THREE.Group(); br.add(box(36, 3, 16, blk, 0, 0, 0)); for (const sg of [-1, 1]) br.add(box(3, 30, 16, blk, sg * 18, 15, 0)); const b2 = M2.sg90Body(); b2.rotation.z = Math.PI / 2; b2.position.set(-30, 20, 0); br.add(b2); MD.mergeStatic(br); yaw.add(br);
+        const pitch = this.ftPitch = new THREE.Group(); pitch.position.set(0, 26, 0); yaw.add(pitch); pitch.add(box(26, 25, 1.6, S({ color: 0x1e7a46, roughness: 0.6 }), 0, 4, 0)); pitch.add(box(8.5, 8.5, 4.5, S({ color: 0x15161a, roughness: 0.4 }), 0, 5, -3));
+        const lens = cyl(3, 1.5, S({ color: 0x0a0b0d, roughness: 0.1, metalness: 0.5 }), 0, 5, -5.6, 16); lens.rotation.x = Math.PI / 2; pitch.add(lens);
+      },
+      () => { // the person: shoulders, neck and head (a face towards the camera)
+        const p = this.ftP = new THREE.Group(); r.add(p); const shirt = S({ color: 0x3a6fb0, roughness: 0.9 }), skin = S({ color: 0xc58c64, roughness: 0.7 }), hair = S({ color: 0x1d1714, roughness: 0.9 });
+        const sh = new THREE.Mesh(new THREE.CapsuleGeometry(45, 150, 6, 16), shirt); sh.rotation.z = Math.PI / 2; sh.position.y = 120; p.add(sh); p.add(box(170, 120, 80, shirt, 0, 60, 0));
+        p.add(cyl(22, 40, skin, 0, 175, 0, 16)); const head = new THREE.Mesh(new THREE.SphereGeometry(62, 24, 18), skin); head.scale.set(0.9, 1.1, 0.95); head.position.y = 245; p.add(head);
+        const hr = new THREE.Mesh(new THREE.SphereGeometry(64, 24, 18, 0, Math.PI * 2, 0, 1.3), hair); hr.scale.set(0.92, 1.1, 0.98); hr.position.set(0, 252, -4); hr.rotation.x = -0.35; p.add(hr);
+        const eye = S({ color: 0x15110e, roughness: 0.4 }); for (const x of [-20, 20]) { const e = new THREE.Mesh(new THREE.SphereGeometry(6, 10, 8), eye); e.position.set(x, 252, 55); p.add(e); }
+        p.add(box(26, 5, 5, S({ color: 0x9a4a3a, roughness: 0.6 }), 0, 215, 56)); this.blob(220, 120, 0, 0, 0.25).visible = false;
+      },
+    ];
+  }
+  faceDraw() {
+    if (!this.ftP) return false; const S = this.sim; const P = this.part('svP'), T = this.part('svT'); const pa = P ? P.state.angle : 90, ta = T ? T.state.angle : 90;
+    const key = [S.phi, pa, ta].map((v) => Math.round((v || 0) * 10)).join(); if (key === this._ftk) return false; this._ftk = key;
+    this.ftYaw.rotation.y = -(pa - 90) * D2R; this.ftPitch.rotation.x = (ta - 90) * D2R; // (the camera looks along −z: pan + turns it to the student's right, which is +x… seen from behind it, to the right)
+    const a = (S.phi || 0) * D2R, R0 = 450, H = this.ftH; this.ftP.position.set(H.x + Math.sin(a) * R0, 0, H.z - Math.cos(a) * R0); this.ftP.rotation.y = -a;
     return true;
   }
 
