@@ -633,6 +633,59 @@ void loop() {
 }
 `;
 
+const WALLC = `// Wall-following robot: keep 15 cm from the wall on the right, all the way round the room.
+const int ENA = 5, IN1 = 7, IN2 = 8;    // motor A: the left wheel
+const int ENB = 6, IN3 = 2, IN4 = 4;    // motor B: the right wheel
+const int trigF = 9, echoF = 10;        // the HC-SR04 looking ahead
+const int trigR = 11, echoR = 12;       // the HC-SR04 looking right, at the wall
+int base = 150;                         // speed on a straight (0 .. 255)
+float Kp = 8;                           // how hard it steers for each cm off
+
+void motor(int en, int a, int b, int v) {
+  v = constrain(v, -255, 255);
+  digitalWrite(a, v > 0 ? HIGH : LOW);
+  digitalWrite(b, v < 0 ? HIGH : LOW);
+  analogWrite(en, abs(v));
+}
+void drive(int left, int right) {
+  motor(ENA, IN1, IN2, left);
+  motor(ENB, IN3, IN4, right);
+}
+int distanceCm(int trig, int echo) {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  long t = pulseIn(echo, HIGH, 25000);
+  if (t == 0) return 400;               // no echo
+  return t / 58;
+}
+
+void setup() {
+  pinMode(ENA, OUTPUT); pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT); pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  pinMode(trigF, OUTPUT); pinMode(echoF, INPUT);
+  pinMode(trigR, OUTPUT); pinMode(echoR, INPUT);
+}
+
+void loop() {
+  int front = distanceCm(trigF, echoF);
+  int right = distanceCm(trigR, echoR);
+  if (front < 25) {                     // a wall ahead: turn left on the spot
+    drive(-150, 150);
+    delay(200);
+    return;
+  }
+  if (right < 15) {
+    drive(base - 70, base + 70);        // too close: veer left
+  } else {
+    drive(base + 70, base - 70);        // too far: veer right
+  }
+  delay(20);
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -967,6 +1020,36 @@ export function batch24(K, n0) {
     ],
     check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('us1', t3('ultrasonic sensor', 'अल्ट्रासोनिक सेंसर', 'ultrasonic sensor')), need('us1.TRIG', 'D9', W.toPin, { x: 'TRIG', p: 9 }), need('us1.ECHO', 'D10', W.toPin, { x: 'ECHO', p: 10 }), need('us1.VCC', '5V', W.to5v, { x: 'VCC' }), need('us1.GND', 'GND', W.toGnd, { x: 'GND' })],
     done: (S) => S.w('win') });
+  // 12 ------------------------------------------------------------------------------------------- wall-following robot
+  const okP = (src) => /int\s+error\s*=\s*right\s*-\s*15\s*;/.test(src || '') && /int\s+turn\s*=\s*Kp\s*\*\s*error\s*;/.test(src || '') && /drive\(\s*base\s*\+\s*turn\s*,\s*base\s*-\s*turn\s*\)/.test(src || '');
+  const okClamp = (src) => /int\s+error\s*=\s*constrain\(\s*right\s*,\s*0\s*,\s*(2\d|30)\s*\)\s*-\s*15\s*;/.test(src || '') && /drive\(\s*base\s*\+\s*turn\s*,\s*base\s*-\s*turn\s*\)/.test(src || '');
+  L.push({ id: 'wallp', cls: '11', blocks: false, view: 'carbench', wview: 'carbench', rview: 'arenawall', code: WALLC, drawer: ['hcsr04'], serial: false, world: { kind: 'car', car: 'wallp' },
+    title: t3('Wall-following robot (P control)', 'दीवार के साथ चलने वाला रोबोट (P कंट्रोल)', 'Deewar ke saath chalne wala robot (P control)'),
+    goal: t3('A robot vacuum cleans along the skirting by keeping a set distance from the wall. Make the car keep 15 cm from the wall on its right, all the way round a room with an almirah in one corner: first by "too close or too far", then by how far off it is (P control).', 'रोबोट वैक्यूम दीवार से एक तय दूरी रखकर किनारे-किनारे सफ़ाई करता है। कार को उसकी दाईं ओर की दीवार से 15 cm पर रखिए, एक कोने में अलमारी वाले पूरे कमरे के चारों ओर: पहले "बहुत पास या बहुत दूर" से, फिर इससे कि वह कितनी हटी है (P कंट्रोल)।', 'Robot vacuum deewar se ek tay doori rakhkar kinaare-kinaare safai karta hai. Car ko uski right taraf ki deewar se 15 cm par rakhiye, ek kone mein almaari wale poore kamre ke chaaron or: pehle "bahut paas ya bahut door" se, phir isse ki woh kitni hati hai (P control).'),
+    setup: { parts: [...CARP, P('us1', 'hcsr04', {}, 'j50', 0)], wires: [...CARW, ['H:f50', 'H:tp41'], ['H:f51', 'D9'], ['H:f52', 'D10'], ['H:f53', 'H:tn44']] },
+    steps: [
+      { k: 'info', do: t3('The car, its L298N and motors are wired as before, and one HC-SR04 looks ahead from its nose (pins 9 and 10). The room is 3 m × 2 m, with a steel almirah in the far right corner (the 🏁 Robot view). The car starts 15 cm from the near wall, the wall on its right.', 'कार, उसका L298N और मोटरें पहले की तरह जुड़ी हैं, और एक HC-SR04 उसकी नाक से आगे देखता है (पिन 9 और 10)। कमरा 3 m × 2 m है, दूर वाले दाएँ कोने में स्टील की अलमारी है (🏁 रोबोट व्यू)। कार पास वाली दीवार से 15 cm पर शुरू होती है, दीवार उसकी दाईं ओर।', 'Car, uska L298N aur motors pehle ki tarah jude hain, aur ek HC-SR04 uski naak se aage dekhta hai (pin 9 aur 10). Kamra 3 m × 2 m hai, door wale right kone mein steel ki almaari hai (🏁 Robot view). Car paas wali deewar se 15 cm par shuru hoti hai, deewar uski right taraf.'), see: E },
+      { k: 'place', place: P('us2', 'hcsr04', {}, 'j40', 0), do: t3('The robot\'s right eye: plug a second HC-SR04 into 40j–43j.', 'रोबोट की दाईं आँख: दूसरा HC-SR04 40j–43j में लगाइए।', 'Robot ki right aankh: doosra HC-SR04 40j–43j mein lagaiye.'),
+        see: t3('On the car it sits at the right front corner, looking straight out at the wall.', 'कार पर यह आगे वाले दाएँ कोने पर लगा है, सीधे दीवार की ओर देखता हुआ।', 'Car par yeh aage wale right kone par laga hai, seedhe deewar ki taraf dekhta hua.') },
+      w3('us2.VCC', 'rail:tp', 'Its VCC (column 40) to the + rail.', 'इसका VCC (कॉलम 40) + रेल से।', 'Iska VCC (column 40) + rail se.'),
+      w3('us2.TRIG', 'D11', 'Trig (column 41) to pin 11.', 'Trig (कॉलम 41) पिन 11 से।', 'Trig (column 41) pin 11 se.'),
+      w3('us2.ECHO', 'D12', 'Echo (column 42) to pin 12.', 'Echo (कॉलम 42) पिन 12 से।', 'Echo (column 42) pin 12 se.'),
+      w3('us2.GND', 'rail:tn', 'GND (column 43) to the − rail.', 'GND (कॉलम 43) − रेल से।', 'GND (column 43) − rail se.'),
+      CHECK,
+      RUN(t3('Run puts the car back at its start.', '"चलाइए" कार को वापस शुरुआत पर रखता है।', 'Run car ko wapas shuruaat par rakhta hai.')),
+      { k: 'act', until: (S) => fresh(S) && S.w('zigzag'), do: t3('Watch it go along the wall (the 🏁 Robot view), and the swings in the panel.', 'इसे दीवार के साथ चलते देखिए (🏁 रोबोट व्यू), और पैनल में झूले।', 'Ise deewar ke saath chalte dekhiye (🏁 Robot view), aur panel mein jhoole.'),
+        see: liveCarSim((lg, C) => pick(lg, `It keeps to the wall, but it never drives straight: ${C.swingRate ?? '?'} swings a second. Too close: hard left. Too far: hard right. There are only two answers, and both are a full turn, even when it is 1 cm off. This is bang-bang control, like a room heater that is either full on or off.`, `यह दीवार के साथ रहती है, पर कभी सीधी नहीं चलती: हर सेकंड ${C.swingRate ?? '?'} झूले। बहुत पास: ज़ोर से बाएँ। बहुत दूर: ज़ोर से दाएँ। सिर्फ़ दो जवाब हैं, और दोनों पूरा मोड़ हैं, चाहे यह 1 cm ही हटी हो। यह बैंग-बैंग कंट्रोल है, उस हीटर जैसा जो या तो पूरा चालू है या बंद।`, `Yeh deewar ke saath rehti hai, par kabhi seedhi nahi chalti: har second ${C.swingRate ?? '?'} jhoole. Bahut paas: zor se left. Bahut door: zor se right. Sirf do jawaab hain, aur dono poora mod hain, chahe yeh 1 cm hi hati ho. Yeh bang-bang control hai, us heater jaisa jo ya to poora on hai ya off.`)) },
+      { k: 'edit', test: okP, set: [[/  if \(right < 15\) \{\n[^\n]*\n  \} else \{\n[^\n]*\n  \}\n/, '  int error = right - 15;               // + too far, - too close (cm)\n  int turn = Kp * error;                // steer as hard as it is off\n  drive(base + turn, base - turn);\n']],
+        do: t3('P control: steer by how far off it is. In loop(), replace the whole if (right < 15) { … } else { … } with\n  int error = right - 15;\n  int turn = Kp * error;\n  drive(base + turn, base - turn);\nand press Run.', 'P कंट्रोल: जितना हटी है, उतना स्टीयर कीजिए। loop() में पूरे if (right < 15) { … } else { … } की जगह लिखिए\n  int error = right - 15;\n  int turn = Kp * error;\n  drive(base + turn, base - turn);\nऔर "चलाइए" दबाइए।', 'P control: jitna hati hai, utna steer kijiye. loop() mein poore if (right < 15) { … } else { … } ki jagah likhiye\n  int error = right - 15;\n  int turn = Kp * error;\n  drive(base + turn, base - turn);\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('whip'), do: t3('Watch it go along the almirah, to its end.', 'इसे अलमारी के साथ, उसके सिरे तक जाते देखिए।', 'Ise almaari ke saath, uske sire tak jaate dekhiye.'),
+        see: liveCarSim((lg, C) => pick(lg, `Smooth and straight along the walls, no zig-zag at all... until the almirah ends. There the wall on its right is suddenly gone: the side sensor jumps from 15 cm to the far wall, 70 cm away, or hears no echo at all (400). Error = 55 or more, turn = 8 × 55 = 440: one wheel full forward, the other full back. It whips round on the spot, ${C.whip || '?'}° in just over half a second, far too far, nose into the almirah's side, and now every reading throws it the other way. P control believes every reading, however wild.`, `दीवारों के साथ स्मूद और सीधी, कोई ज़िग-ज़ैग नहीं... जब तक अलमारी ख़त्म नहीं होती। वहाँ इसकी दाईं ओर की दीवार अचानक ग़ायब: साइड सेंसर 15 cm से कूदकर 70 cm दूर की दीवार पढ़ता है, या कोई गूँज ही नहीं सुनता (400)। error = 55 या ज़्यादा, turn = 8 × 55 = 440: एक पहिया पूरा आगे, दूसरा पूरा पीछे। यह अपनी जगह पर झटके से घूमती है, आधे सेकंड से थोड़ा ज़्यादा में ${C.whip || '?'}°, बहुत ज़्यादा, नाक अलमारी के किनारे में, और अब हर रीडिंग इसे दूसरी ओर फेंकती है। P कंट्रोल हर रीडिंग पर भरोसा करता है, चाहे वह कितनी भी अजीब हो।`, `Deewaron ke saath smooth aur seedhi, koi zig-zag nahi... jab tak almaari khatam nahi hoti. Wahan iski right taraf ki deewar achaanak gaayab: side sensor 15 cm se koodkar 70 cm door ki deewar padhta hai, ya koi goonj hi nahi sunta (400). Error = 55 ya zyada, turn = 8 × 55 = 440: ek pahiya poora aage, doosra poora peeche. Yeh apni jagah par jhatke se ghoomti hai, aadhe second se thoda zyada mein ${C.whip || '?'}°, bahut zyada, naak almaari ke kinaare mein, aur ab har reading ise doosri taraf phenkti hai. P control har reading par bharosa karta hai, chahe woh kitni bhi ajeeb ho.`)) },
+      { k: 'edit', test: okClamp, set: [[/int error = right - 15;/, 'int error = constrain(right, 0, 25) - 15;']],
+        do: t3('Limit the error: change int error = right - 15; to\n  int error = constrain(right, 0, 25) - 15;\nand press Run.', 'एरर को सीमित कीजिए: int error = right - 15; को बदलकर लिखिए\n  int error = constrain(right, 0, 25) - 15;\nऔर "चलाइए" दबाइए।', 'Error ko seemit kijiye: int error = right - 15; ko badalkar likhiye\n  int error = constrain(right, 0, 25) - 15;\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('lapW'), do: t3('Watch it go all the way round.', 'इसे पूरा चक्कर लगाते देखिए।', 'Ise poora chakkar lagaate dekhiye.'),
+        see: liveCarSim((lg, C) => pick(lg, `All the way round the room in ${C.lapT ?? '?'} s, ${C.lapBumps ?? 0} bumps, its hardest right turn ${C.whip || '?'}°. constrain() never lets it believe more than 25 cm, so the error is at most 10 and the turn at most 80: at the almirah's end it curves round the corner and finds the wall again. Limiting what a controller may do with one strange reading is in every real one: a robot vacuum, a car's lane-keeping, a drone.`, `${C.lapT ?? '?'} s में पूरे कमरे का चक्कर, ${C.lapBumps ?? 0} टक्कर, सबसे तेज़ दायाँ मोड़ ${C.whip || '?'}°। constrain() इसे कभी 25 cm से ज़्यादा पर भरोसा नहीं करने देता, तो error ज़्यादा से ज़्यादा 10 और turn ज़्यादा से ज़्यादा 80: अलमारी के सिरे पर यह कोने से घूमकर निकलती है और दीवार फिर पा लेती है। एक अजीब रीडिंग पर कंट्रोलर कितना करे, इसकी सीमा हर असली कंट्रोलर में होती है: रोबोट वैक्यूम, कार का लेन-कीपिंग, ड्रोन।`, `${C.lapT ?? '?'} s mein poore kamre ka chakkar, ${C.lapBumps ?? 0} takkar, sabse tez right mod ${C.whip || '?'}°. constrain() ise kabhi 25 cm se zyada par bharosa nahi karne deta, to error zyada se zyada 10 aur turn zyada se zyada 80: almaari ke sire par yeh kone se ghoomkar nikalti hai aur deewar phir paa leti hai. Ek ajeeb reading par controller kitna kare, iski seema har asli controller mein hoti hai: robot vacuum, car ka lane-keeping, drone.`)) },
+    ],
+    check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('us2', t3('right ultrasonic sensor', 'दायाँ अल्ट्रासोनिक सेंसर', 'right ultrasonic sensor')), need('us2.TRIG', 'D11', W.toPin, { x: 'TRIG', p: 11 }), need('us2.ECHO', 'D12', W.toPin, { x: 'ECHO', p: 12 }), need('us2.VCC', '5V', W.to5v, { x: 'VCC' }), need('us2.GND', 'GND', W.toGnd, { x: 'GND' })],
+    done: (S) => S.w('lapW') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

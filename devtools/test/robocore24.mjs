@@ -275,4 +275,22 @@ for (const l of L24) {
   ok(!!l.done(rt) && !sim.flags.has('out') && !sim.flags.has('early'), `sumo: complete; flags ${seen.join(' | ')}`);
 }
 
+// the wall-following robot (lessons24.js wallp, robots.js CarSim 'wallp'): the car in the room with the steel almirah
+{ const l = LESSONS.find((x) => x.id === 'wallp'); ok(!!l && compile(l.code).ok, 'wallp: the sketch compiles');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  const sim = new CarSim('wallp'); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => { sim.reset(); for (const t of ['mL', 'mR']) lab.byTag(t).state.w = 0; carFeed(sim, lab); } };
+  for (const s of l.steps) { if (s.k === 'place') { const q = s.place; if (!lab.addPart(q.type, q.props, q.at, q.rot, q.tag)) ok(false, 'wallp: place ' + q.tag); } if (s.k === 'wire') { const g = rt.ghostWire(s.wire); if (!g) { ok(false, `wallp: a ghost wire for ${s.wire}`); continue; } lab.addWire(g[0], g[1]); } }
+  const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; };
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  let src = l.code; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'wallp: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e).ok, 'wallp: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { let t = -1; for (let f = 0; f < 60 * 45; f++) { lab.step(1000 / 60); sim.update(1 / 60, w('mL'), w('mR')); carFeed(sim, lab); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = f / 60; break; } }
+      ok(t >= 0, `wallp: act "${s.do.en.slice(0, 40)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s) · ${String(s.see.en).slice(0, 90)}` : ` — timed out ${JSON.stringify({ x: Math.round(sim.x), z: Math.round(sim.z) })} ${[...sim.flags]} ${lab.mcu.err ? JSON.stringify(lab.mcu.err) : ''}`)); seen.push(`swing ${sim.swingRate} whip ${sim.whip} lap ${sim.lapT} bumps ${sim.bumps}`); }
+  }
+  ok(!!l.done(rt) && sim.lapBumps === 0 && sim.whip < 100, `wallp: complete; ${seen.join(' | ')}`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

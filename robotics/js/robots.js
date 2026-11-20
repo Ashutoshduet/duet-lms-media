@@ -140,6 +140,10 @@ export const CAR_CFG = {
   pid: { line: true, start: [-100, 330, Math.PI / 2], boxes: [], five: true, inertia: { v: 0.25, w: 0.12 } },
   // batch 24 (Class 11): robot sumo: a black ring (dohyo) 1540 mm across with a 50 mm white edge, our car on the near
   // start line facing the opponent, a 1 kg box robot that does not drive (the class's practice dummy) on the far one
+  // batch 24 (Class 11): wall following with P control: a room 3 m × 2 m with a steel almirah in the far-right corner, the car
+  // starts 15 cm from the near wall heading right, the wall on its right (its right HC-SR04 sits 100 mm ahead of the axle);
+  // a smooth wall met at more than 40° sends no echo back (glance); lapW = all round the room and back near the start
+  wallp: { line: false, room: [3000, 2000], start: [-1000, 800, Math.PI / 2], boxes: [[1050, -700, 900, 600, 1800, 0, 'almirah']], side: 'R', sideZ: 100, wallp: true, glance: 40, inertia: { v: 0.2, w: 0.1 } },
   sumo: { line: false, room: [6000, 6000], start: [0, 380, Math.PI], boxes: [], ring: { r: 770, edge: 50 }, foe: { x: 0, z: -380, w: 200 }, inertia: { v: 0.2, w: 0.1 } },
 };
 // batch 24: the five-sensor bar (car mm: +x the car's left), S1 at the left
@@ -188,6 +192,7 @@ export class CarSim {
     this.lap = { cp: 0, t: 0, best: null, n: 0 }; this.wob = null; this.body = null; this.zz = null; this.swingRate = 0;
     this.fwdD = 0; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
     const F = this.cfg.foe; this.foe = F ? { x: F.x, z: F.z, out: false, outT: 0 } : null; this.ringOut = false; this.winT = 0; this.pushT = 0; // (batch 24: the sumo opponent)
+    this.wc = null; this.whip = 0; this.lapT = null; this.lapBumps = null; this.sideCm = null; this.avgOff = null; // (batch 24: the wall follower)
     // batch 14
     this.fell = null; this.fallT = 0; this.saves = 0; this.edgeOn = false; // the table robot: how it fell (null: it has not), edges it backed away from
     this.lamp = this.cfg.lamp0; this.foundT = 0; this.found = new Set(); // the light-seeker: where the torch stands (back at A on each Run), the spots it reached
@@ -237,16 +242,17 @@ export class CarSim {
   lampDist() { const L = this.lampAt(); if (!L) return null; const [fx, fz] = this.world(0, CARG.usZ); return Math.round(Math.hypot(L[0] - fx, L[1] - fz)); }
   // batch 18: an HC-SR04 anywhere on the car: at car (lx, lz), looking dir degrees left of straight ahead
   usFrom(lx, lz, dir) {
-    const [sx, sz] = this.world(lx, lz); let best = 4000;
+    const [sx, sz] = this.world(lx, lz); let best = 4000; const G = this.cfg.glance ? Math.cos(this.cfg.glance * D2R) : 0;
     for (const da of [-15, -7, 0, 7, 15]) {
-      const a = this.h + (dir + da) * D2R; const dx = Math.sin(a), dz = Math.cos(a);
-      for (const [x1, z1, x2, z2] of this.segs) { const ex = x2 - x1, ez = z2 - z1; const den = dx * ez - dz * ex; if (Math.abs(den) < 1e-9) continue; const t = ((x1 - sx) * ez - (z1 - sz) * ex) / den, u = ((x1 - sx) * dz - (z1 - sz) * dx) / den; if (t > 0 && u >= 0 && u <= 1) best = Math.min(best, t); }
+      const a = this.h + (dir + da) * D2R; const dx = Math.sin(a), dz = Math.cos(a); let hit = 4000, hc = 1;
+      for (const [x1, z1, x2, z2] of this.segs) { const ex = x2 - x1, ez = z2 - z1; const den = dx * ez - dz * ex; if (Math.abs(den) < 1e-9) continue; const t = ((x1 - sx) * ez - (z1 - sz) * ex) / den, u = ((x1 - sx) * dz - (z1 - sz) * dx) / den; if (t > 0 && u >= 0 && u <= 1 && t < hit) { hit = t; hc = Math.abs(den) / Math.hypot(ex, ez); } }
+      if (hc >= G) best = Math.min(best, hit); // (batch 24, cfg.glance: a smooth wall met at a slant sends the ping away like a mirror: no echo comes back)
     }
     return Math.round(Math.min(400, best / 10));
   }
   mazeFront() { return this.usFrom(0, CARG.usZ, 0); }
   mazeLeft() { return this.usFrom(CAR18.usLX, CAR18.usLZ, 90); }
-  mazeSide() { return this.cfg.side === 'R' ? this.usFrom(-CAR18.usLX, CAR18.usLZ, -90) : this.mazeLeft(); } // (batch 19: or on the right)
+  mazeSide() { return this.cfg.side === 'R' ? this.usFrom(-CAR18.usLX, this.cfg.sideZ || CAR18.usLZ, -90) : this.mazeLeft(); } // (batch 19: or on the right)
   finSens() { const F = this.cfg.finish; if (!F) return false; const [x, z] = this.world(0, CAR18.finZ); return Math.abs(x - F[0]) < F[2] / 2 && Math.abs(z - F[1]) < F[3] / 2; }
   cellAt() { const M = MAZE; const [x, z] = this.world(0, CARG.bodyZ); return [Math.floor((x + M.cols * M.cell / 2) / M.cell), Math.floor((z + M.rows * M.cell / 2) / M.cell)]; }
   mazeCheck(dt, v) { // the cells it has been in (in order), a dead end reached, out on the FINISH square (and stopped there)
@@ -271,6 +277,20 @@ export class CarSim {
     if (Math.hypot(cx, cz) > R) { this.ringOut = true; this.vl = this.vr = 0; this.flags.add('out'); }
     if (F && F.out && !this.ringOut && this.t - F.outT > 1) this.flags.add('win');
   }
+  // (batch 24) the wall follower: how far round the room it has turned (a lap is +360°, all left turns, back near the
+  // start), spinning on the spot (300° in 3 s while hardly moving), zig-zagging (3 or more steering swings a second)
+  wallCheck(dt, w, v) {
+    const W = this.wc || (this.wc = { yaw: 0, win: [], last: 0, rev: 0, t0: 0, n0: 0, clear: true, off: 0, n: 0 }); W.yaw += w * dt * 180 / Math.PI;
+    W.win.push([this.t, W.yaw, this.odo]); while (W.win.length && this.t - W.win[0][0] > 3) W.win.shift();
+    const a = W.win[0]; if (a && this.t > 3 && Math.abs(W.yaw - a[1]) > 300 && this.odo - a[2] < 250) this.flags.add('spin');
+    { let k = W.win.length - 1; while (k > 0 && this.t - W.win[k][0] < 0.6) k--; const r = W.win[k][1] - W.yaw; if (r > (this.whip || 0)) this.whip = Math.round(r); if (r > 110) this.flags.add('whip'); } // (whip: a right turn of more than 110° within 0.6 s)
+    (W.pos || (W.pos = [])).push([this.t, this.x, this.z, Math.abs(this.vl) + Math.abs(this.vr)]); while (W.pos.length && this.t - W.pos[0][0] > 4) W.pos.shift(); // (stuck: 4 s with the wheels turning hard, and the car never more than 15 cm from where it is now)
+    if (this.t > 5 && W.pos.every((q) => Math.hypot(q[1] - this.x, q[2] - this.z) < 150) && W.pos.reduce((m, q) => m + q[3], 0) / W.pos.length > 300) this.flags.add('stuck');
+    const f = this.mazeFront(), sd = this.mazeSide(); this.sideCm = sd; if (this.t > 1 && Math.abs(v) < 100) W.clear = false; if (f > 40 && sd < 40) { W.off += Math.abs(sd - 15) * dt; W.n += dt; this.avgOff = +(W.off / W.n).toFixed(1); }
+    const om = (this.vr - this.vl) / CARG.track; if (Math.abs(om) > 1.2) { const sg = Math.sign(om); if (sg !== W.last) { W.rev++; W.last = sg; } }
+    if (this.t - W.t0 >= 3) { if (W.clear) { this.swingRate = +((W.rev - W.n0) / (this.t - W.t0)).toFixed(1); if (this.swingRate >= 1.5) this.flags.add('zigzag'); } W.t0 = this.t; W.n0 = W.rev; W.clear = true; } // (only 3 s of driving on count: a turn on the spot at a corner is not a zig-zag)
+    const [sx, sz] = this.cfg.start; if (W.yaw > 330 && Math.hypot(this.x - sx, this.z - sz) < 300 && !this.flags.has('lapW')) { this.flags.add('lapW'); this.lapT = +this.t.toFixed(1); this.lapBumps = this.bumps; }
+  }
   ringEdge() { const C = CAR14, R = this.cfg.ring; const w = (lx) => { const [x, z] = this.world(lx, C.edgeZ); return Math.hypot(x, z) > R.r - R.edge; }; return { L: w(C.edgeX), R: w(-C.edgeX) }; } // (over the white edge, or past it)
   usFoe() { // the HC-SR04 at the front: five rays in its cone against the opponent's four sides (cm, 400 for nothing)
     const F = this.foe; if (!F) return 400; const [sx, sz] = this.world(0, CARG.usZ); const h = this.cfg.foe.w / 2; let best = 4000;
@@ -294,6 +314,7 @@ export class CarSim {
     const c = this.contact(); this.blocked = !!c;
     if (c) { this.x += c[0] * c[2]; this.z += c[1] * c[2]; const vn = (Math.sin(this.h) * c[0] + Math.cos(this.h) * c[1]) * v; const head = v > 60 && vn < -0.6 * v; if (head && this.t - this.bumpT > 0.8) { this.bumps++; this.flags.add('bump'); } if (head) this.bumpT = this.t; } // (a scrape along the side does not count)
     if (this.cfg.ring) this.sumo(dt, v); // (batch 24)
+    if (this.cfg.wallp) this.wallCheck(dt, w, v);
     this.odo += Math.abs(v) * dt; if (this.odo > 600) this.flags.add('moved');
     if (v > 40 && Math.abs(w) < 0.3) { this.flags.add('fwd'); this.fwdD += v * dt; } if (v < -40) this.flags.add('back'); // (batch 19: fwdD, how far it drove straight on)
     if (Math.abs(w) > 1.2 && Math.abs(v) < 60) { this.flags.add(w > 0 ? 'left' : 'right'); }
@@ -414,6 +435,7 @@ export function carFeed(sim, lab) {
   if (k === 'lap' || k === 'deliv') { const s = sim.sensors(); ir('irL', s.L); ir('irR', s.R); ir('irM', sim.markSens()); }
   if (k === 'sumo' && !sim.ringOut) { const e = sim.ringEdge(); ir('irL', !e.L); ir('irR', !e.R); const p = byTag('us1'); if (p) { p.state.ext = true; const d = sim.usFoe(); if (p.state.dist !== d) { p.state.dist = d; bump(); } } } // (batch 24: black ring = HIGH, white edge = LOW)
   if (k === 'pid') { const p = byTag('ir5'); if (p) { const b = sim.sensors5(); if (!p.state.black || b.some((v, i) => v !== p.state.black[i])) { p.state.black = b; bump(); } } } // (batch 24: the five-sensor bar) // (batch 23: the delivery track's stations)
+  if (k === 'wallp') for (const [tag, d] of [['us1', sim.mazeFront()], ['us2', sim.mazeSide()]]) { const p = byTag(tag); if (p) { p.state.ext = true; if (p.state.dist !== d) { p.state.dist = d; bump(); } } } // (batch 24)
   if (k === 'maze' || k === 'mazeR') { // batch 18: the front and left (19: or right) HC-SR04 hear the walls, the IR under the nose sees the black FINISH square
     for (const [tag, d] of [['us1', sim.mazeFront()], ['us2', sim.mazeSide()]]) { const p = byTag(tag); if (p) { p.state.ext = true; if (p.state.dist !== d) p.state.dist = d; } }
     ir('irM', sim.finSens());

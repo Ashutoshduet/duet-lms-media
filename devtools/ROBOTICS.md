@@ -1104,3 +1104,16 @@ heaters.
   stops); foeOut; win = the dummy out and our car still in a second later. The first program charges at once (early);
   with delay(5000) it pushes the dummy out and follows it (the edge is read only when nothing is ahead: out); with the
   edge test first it backs off at the line (win). robocore24.mjs plays it. Class 11: 15 of 26.
+- Class 11 wall-following robot (batch 24, lessons24.js `wallp`; robots.js CAR_CFG.wallp, CarSim.wallCheck; models2.js
+  buildCar kind 'wallp', buildAlmirah; worlds.js CarWorld; view arenawall): a room 3 m × 2 m with a steel almirah
+  (900 × 600 × 1800 mm, a box with kind 'almirah') in the far right corner; the car starts 15 cm from the near wall, the
+  wall on its right. The front HC-SR04 (j50, pins 9/10) is ready; the student places the right one at j40 (pins 11/12),
+  which sits at the car's right front corner, 100 mm ahead of the axle (cfg.sideZ). cfg.glance = 40: a ray that meets a
+  wall more than 40° from square sends no echo (400), as a smooth wall does to a real HC-SR04 (usFrom; other cars are
+  unchanged). Flags: zigzag (a 3 s window of driving on, no turn on the spot, with ≥ 1.5 steering swings a second; the
+  swing rate is shown), whip (a right turn of more than 110° within 0.6 s), spin, stuck (4 s within 15 cm with the
+  wheels driving), lapW (+330° of turning and back within 30 cm of the start; lapT, lapBumps). Bang-bang (±70)
+  zig-zags at about 3 swings a second; P (Kp 8) is calm on the walls, but at the almirah's end the side reads 70 cm or
+  400: error 55+, both wheels flat out opposite ways, it whips round about 125° (nose into the almirah, then stuck);
+  constrain(right, 0, 25) keeps the turn under 80 and it laps in about 27 s with no bumps (hardest right turn about
+  70°). Tuned over 20+ runs each (the HC-SR04 noise makes each run differ). robocore24.mjs plays it. Class 11: 16 of 26.

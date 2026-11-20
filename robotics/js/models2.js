@@ -421,6 +421,10 @@ export function buildCar(kind, parts, opt = {}) { // (batch 19: opt.board, anoth
       const head = cyl(4.2, 2.2, ldrM, 0, 17, 0, 18); head.rotation.x = Math.PI / 2; head.position.set(0, 17, 1.5); e.add(head);
       const f = new THREE.Mesh(new THREE.CircleGeometry(3.4, 18), face); f.position.set(0, 17, 2.7); e.add(f); still.add(e); }
   }
+  if (kind === 'wallp') { // (batch 24) the wall follower: an HC-SR04 at the nose looking ahead, one at the right front corner looking right
+    still.add(box(22, 16, 3, acr, 0, top + 8, CARG.usZ - 4)); const fr = buildUSHead(); fr.position.set(0, top + 26, CARG.usZ); still.add(fr);
+    still.add(box(3, 8, 30, acr, -(CAR18.usLX - 3), top + 4, 100)); const rt = buildUSHead(); rt.rotation.y = -Math.PI / 2; rt.position.set(-CAR18.usLX, top + 14, 100); still.add(rt);
+  }
   if (kind === 'maze' || kind === 'mazeR') { // batch 18: an HC-SR04 at the nose looking ahead, one on the left edge looking left (19: or the right), an IR under the nose
     const sd = kind === 'mazeR' ? -1 : 1;
     still.add(box(22, 16, 3, acr, 0, top + 8, CARG.usZ - 4)); const fr = buildUSHead(); fr.position.set(0, top + 26, CARG.usZ); still.add(fr); // on an acrylic bracket, over the breadboard
@@ -522,9 +526,21 @@ export function buildArena(opts) {
   for (const [x, z, w, d] of [[0, -rd / 2 - 6, rw + 24, 12], [0, rd / 2 + 6, rw + 24, 12], [-rw / 2 - 6, 0, 12, rd], [rw / 2 + 6, 0, 12, rd]]) walls.add(box(w, A.wallH, d, ply, x, A.wallH / 2, z));
   const pm = (c) => Lm({ color: c, emissive: 0x3a2c1c }); // (the faces away from the light are not black: plywood is pale)
   const ob = opts.maze ? [pm(0xc9a77a), pm(0xc9a77a), pm(0xe2c79c), ply, pm(0xd8b98c), pm(0xd8b98c)] : Lm({ map: cardTexture() }); // (batch 18: the maze's plywood, its cut top edge lighter)
-  for (const o of opts.boxes || []) { const b = box(o[2], o[4] || 160, o[3], ob, o[0], (o[4] || 160) / 2, o[1]); b.rotation.y = o[5] || 0; walls.add(b); }
+  for (const o of opts.boxes || []) { if (o[6] === 'almirah') { g.add(buildAlmirah(o)); continue; } const b = box(o[2], o[4] || 160, o[3], ob, o[0], (o[4] || 160) / 2, o[1]); b.rotation.y = o[5] || 0; walls.add(b); }
   mergeStatic(walls); g.add(walls);
   return g;
+}
+// (batch 24) a steel almirah (the grey-green cupboard of Indian homes and staff rooms): two doors with a seam, a chrome
+// handle and lock, a plinth; its doors face +z. o = [x, z, w, d, h]
+function buildAlmirah(o) {
+  const [x, z, w, d, h] = o; const g = new THREE.Group(); g.position.set(x, 0, z);
+  const body = Lm({ color: 0x9fb0a6, emissive: 0x2e3631 }), dark = Lm({ color: 0x3d4440 }), door = Lm({ color: 0xaab9b0, emissive: 0x323a35 }), chrome = S({ color: 0xd8dade, metalness: 1, roughness: 0.25 });
+  g.add(box(w, 60, d - 20, dark, 0, 30, -10)); g.add(box(w, h - 60, d, body, 0, 60 + (h - 60) / 2, 0)); g.add(box(w + 10, 14, d + 10, body, 0, h - 7, 0));
+  for (const sx of [-1, 1]) g.add(box(w / 2 - 14, h - 110, 4, door, sx * (w / 4), 60 + (h - 60) / 2, d / 2 + 2));
+  g.add(box(4, h - 110, 3, dark, 0, 60 + (h - 60) / 2, d / 2 + 3.5));
+  g.add(box(10, 120, 14, chrome, 24, 60 + (h - 60) * 0.52, d / 2 + 9)); g.add(cyl(9, 6, chrome, -26, 60 + (h - 60) * 0.55, d / 2 + 6, 16).rotateX(Math.PI / 2));
+  for (const sy of [0.2, 0.8]) for (const sx of [-1, 1]) g.add(box(4, 50, 6, dark, sx * (w / 2 - 4), 60 + (h - 60) * sy, d / 2 + 3));
+  mergeStatic(g); return g;
 }
 // batch 18: the maze's floor: a white flex sheet with the cells' faint lines, START with its arrow, and the black FINISH square
 function mazeTexture(rw, rd, opts) {

@@ -55848,6 +55848,28 @@
 "note": null
 },
 {
+"id": "live-wallp",
+"title": "Wall-following robot (P control)",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "wallp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-sumo",
 "title": "Sumo robot",
 "family": "live",

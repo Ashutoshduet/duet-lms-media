@@ -5670,18 +5670,18 @@
    {
     "class": 11,
     "n": 10,
-    "kind": "I",
-    "title": "Wall-following robot",
+    "kind": "L",
+    "title": "Wall-following robot (P control)",
     "board": "uno",
-    "status": "planned",
-    "ref": "wall-following-robot-uno",
+    "status": "live",
+    "ref": "wallp",
     "newparts": [],
-    "family": "robot-car",
+    "family": "live-projects",
     "parts": [
+     "l298n",
      "bat18650",
      "bomotor",
-     "hcsr04",
-     "l298n"
+     "hcsr04"
     ],
     "strand": "Decomposition",
     "focus": "Robots and motors",
