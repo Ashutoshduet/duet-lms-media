@@ -10,6 +10,8 @@ APPS = {
   'space':   dict(id='in.duetpower.stem.solarsystem', name='Solar System 360', icon=REPO + '/space/icons/maskable-512.png', fit=1.0, bg='#05060c'),
   'drone':   dict(id='in.duetpower.stem.dronesim', name='Drone Simulator', icon=REPO + '/drone/icons/maskable-512.png', fit=1.0, bg='#0b0f17'),
   # Maths Lab 360 runs the Science Lab's code: inside the app the files sit at app/science/ and app/maths/ as on the website
+  # Robotics Lab 360 has its own upload key (made Nov 2026; keep it with the other keys: Play needs the same key for updates)
+  'robotics': dict(id='in.duetpower.stem.roboticslab', name='Robotics Lab 360', icon=REPO + '/robotics/icons/maskable-512.png', fit=1.0, bg='#0b0f17', keys='/root/work/android-keys/robotics/upload.properties'),
   'maths':   dict(id='in.duetpower.stem.mathslab', name='Maths Lab 360', icon=REPO + '/maths/icons/icon-512.png', fit=1.0, bg='#0d1118', updates=False),
 }
 DENS = {'mdpi': 1, 'hdpi': 1.5, 'xhdpi': 2, 'xxhdpi': 3, 'xxxhdpi': 4}
@@ -59,16 +61,20 @@ def main():
     app = sys.argv[1]; vc = sys.argv[2] if len(sys.argv) > 2 else '1'; vn = sys.argv[3] if len(sys.argv) > 3 else '1.0.0'; c = APPS[app]
     subprocess.run(['python3', REPO + '/devtools/offline/build_sw.py', REPO] + (['science', 'maths'] if app == 'maths' else [app]), check=True)
     man = content(app); icons(c)
-    open(os.path.join(R, 'app.properties'), 'w').write(f"applicationId={c['id']}\nappName={c['name']}\nappDir={app}\nversionCode={vc}\nversionName={vn}\norientation=sensorLandscape\nbg={c['bg']}\nupdates={'false' if c.get('updates') is False else 'true'}\n")
+    open(os.path.join(R, 'app.properties'), 'w').write(f"applicationId={c['id']}\nappName={c['name']}\nappDir={app}\nversionCode={vc}\nversionName={vn}\norientation=sensorLandscape\nbg={c['bg']}\nupdates={'false' if c.get('updates') is False else 'true'}\n" + (f"keyProps={c['keys']}\n" if c.get('keys') else ''))
     subprocess.run(['/opt/gradle/bin/gradle', '-q', '--no-daemon', ':app:bundleRelease'], cwd=R, check=True)
     od = f'{OUT}/{app}'; os.makedirs(od, exist_ok=True)
     aab = f'{od}/{c["id"]}-{vn}-{vc}.aab'; shutil.copy2(os.path.join(R, 'app/build/outputs/bundle/release/app-release.aab'), aab)
-    kp = dict(l.strip().split('=', 1) for l in open('/root/work/android-keys/upload.properties') if '=' in l)
+    kprops = c.get('keys', '/root/work/android-keys/upload.properties'); kp = dict(l.strip().split('=', 1) for l in open(kprops) if '=' in l)
+    if not os.path.exists('/root/work/bundletool.jar'):  # no bundletool here: the Android Gradle plugin makes the same universal APK from the bundle
+        subprocess.run(['/opt/gradle/bin/gradle', '-q', '--no-daemon', ':app:packageReleaseUniversalApk'], cwd=R, check=True)
+        apk = f'{od}/{c["id"]}-{vn}-{vc}-test.apk'; shutil.copy2(os.path.join(R, 'app/build/outputs/apk_from_bundle/release/app-release-universal.apk'), apk)
+        print(f'{app}: {len(man["files"])} files · aab {os.path.getsize(aab)/1e6:.1f} MB · apk {os.path.getsize(apk)/1e6:.1f} MB\n  {aab}\n  {apk}'); return
     apks = f'{od}/universal.apks'
     if os.path.exists(apks): os.remove(apks)
     r = subprocess.run(['java', '-jar', '/root/work/bundletool.jar', 'build-apks', '--bundle=' + aab, '--output=' + apks, '--mode=universal',
-                        '--ks=' + kp['storeFile'], '--ks-key-alias=' + kp['keyAlias'], '--ks-pass=file:/root/work/android-keys/upload.pass',
-                        '--key-pass=file:/root/work/android-keys/upload.pass'], capture_output=True, text=True)
+                        '--ks=' + kp['storeFile'], '--ks-key-alias=' + kp['keyAlias'], '--ks-pass=file:' + os.path.join(os.path.dirname(kprops), 'upload.pass'),
+                        '--key-pass=file:' + os.path.join(os.path.dirname(kprops), 'upload.pass')], capture_output=True, text=True)
     if r.returncode: print('bundletool failed:', (r.stderr or r.stdout)[-1500:]); sys.exit(1)
     subprocess.run(['unzip', '-o', '-q', apks, 'universal.apk', '-d', od], check=True)
     apk = f'{od}/{c["id"]}-{vn}-{vc}-test.apk'; os.replace(f'{od}/universal.apk', apk); os.remove(apks)
