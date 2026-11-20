@@ -12,24 +12,25 @@ import { compile } from '../../robotics/js/cpp.js';
 import { Lab } from '../../robotics/js/sim.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
-import { ArmSim } from '../../robotics/js/robots.js';
+import { ArmSim, CarSim, carFeed } from '../../robotics/js/robots.js';
+import { BO } from '../../robotics/js/parts2.js';
 import { netOf } from '../../robotics/js/esp32.js';
 
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
 const L23 = LESSONS.filter((l) => l.batch === 23);
-ok(L23.length === 3 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L23.length} lessons in batch 23, ids unique`);
+ok(L23.length === 4 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L23.length} lessons in batch 23, ids unique`);
 
 function build(l, extra) {
   const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code;
   const rt = new LessonRT(app); rt.open(l.id);
-  const sim = new ArmSim(l.world.level); const tags = ['svB', 'svS', 'svE', 'svG'];
-  app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => sim.reset() };
+  const car = l.world.kind === 'car'; const sim = car ? new CarSim(l.world.car) : new ArmSim(l.world.level); const tags = ['svB', 'svS', 'svE', 'svG'];
+  app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => { sim.reset(); if (car) carFeed(sim, lab); } }; // (as worlds.js: the car's sensors read the start first)
   for (const s of l.steps) {
     if (s.k === 'place') { const q = s.place; if (!lab.byTag(q.tag)) { const p = lab.addPart(q.type, q.props, q.at, q.rot, q.tag); if (!p) ok(false, `${l.id}: place ${q.tag} fits`); } }
     if (s.k === 'wire') { const w = extra ? extra(s) : s.wire; const g = rt.ghostWire(w); if (!g) { ok(false, `${l.id}: a ghost wire for ${w}`); continue; } lab.addWire(g[0], g[1]); if (!rt.conn(w[0], w[1])) ok(false, `${l.id}: wire ${w} joins`); }
   }
   const B = { lab, app, rt, sim, l, ser: '', buf: '', t: 0 };
-  B.arm = (dt) => { const a = {}; ['b', 's', 'e', 'g'].forEach((k, i) => { const p = lab.byTag(tags[i]); a[k] = p ? p.state.angle : 90; }); sim.update(dt, a); const g = lab.byTag('svG'); if (g) g.state.limit = sim.limit; };
+  B.arm = car ? (dt) => { const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; }; sim.update(dt, w('mL'), w('mR')); carFeed(sim, lab); } : (dt) => { const a = {}; ['b', 's', 'e', 'g'].forEach((k, i) => { const p = lab.byTag(tags[i]); a[k] = p ? p.state.angle : 90; }); sim.update(dt, a); const g = lab.byTag('svG'); if (g) g.state.limit = sim.limit; };
   return B;
 }
 function start(B, src) { const c = compile(src, B.lab.def); if (!c.ok) throw new Error('compile ' + JSON.stringify(c.errors).slice(0, 300)); B.app.src = src; B.lab.run(c); B.rt.onRun(src); }
@@ -64,7 +65,7 @@ function play(l, acts, secs = 40) {
     if (s.k === 'watch' || s.k === 'act') {
       const t0 = B.t; const done = frames(B, secs, () => { try { return !!s.until(B.rt); } catch (e) { return false; } }, acts[i]);
       log.push(`step ${i} ${done ? 'done' : 'NOT DONE'} in ${(B.t - t0).toFixed(1)} s`);
-      if (!done) { log.push(`  flags ${[...B.sim.flags].join(',')} cube ${B.sim.cube.p.map(Math.round)} serial ${JSON.stringify(B.rt.serLines.slice(-4))}`); break; }
+      if (!done) { log.push(`  flags ${[...B.sim.flags].join(',')} cube ${B.sim.cube ? B.sim.cube.p.map(Math.round) : "-"} stops ${B.sim.stopped ? [...B.sim.stopped] : ""} passed ${B.sim.passed ? [...B.sim.passed] : ""} serial ${JSON.stringify(B.rt.serLines.slice(-4))}`); break; }
     }
   }
   return { B, log, done: !!l.done(B.rt) && !log.some((x) => /NOT DONE|check says|not what/.test(x)) };
@@ -102,5 +103,15 @@ const say = (c) => (c ? c[0].en.replace(/\{(\w+)\}/g, (m, k) => { const a = (c[1
   ok(!!r.B.rt.mem.oneDigit, 'armbt: the first program turned "B140" into 1°');
   const M = build(l, (s) => (s.wire[0] === 'svS.SIG' ? ['svS.SIG', 'D12'] : s.wire)); const c = M.rt.runCheck();
   ok(!!c && /strapping/.test(say(c)), `armbt: the shoulder on GPIO 12 -> the check says ${JSON.stringify(say(c)).slice(0, 80)}`);
+}
+{ // the delivery robot on the line track with three stations
+  const l = L23.find((x) => x.id === 'delivery');
+  const r = play(l, {}, 90); ok(r.done, `delivery: plays end to end — ${r.log.join(' | ')}`);
+  const st = r.B.rt.serLines.filter((x) => /^Station \d$/.test(x)); const dl = r.B.rt.serLines.filter((x) => /^Delivery at station \d$/.test(x));
+  ok(dl.length >= 1 && dl.every((x) => x.endsWith('2')) && st.length >= 3, `delivery: after the edit it counted ${st.join(', ')} and delivered only at 2`);
+  // the side sensor's OUT on pin 8 (taken by the driver's IN2) is named, and on pin 13 the robot never stops
+  const M = build(l); const pm = M.lab.byTag('irM'); M.lab.wires = M.lab.wires.filter((w) => !(w.a === 'T:' + pm.uid + ':OUT' || w.b === 'T:' + pm.uid + ':OUT')); M.lab.rebuild(); M.lab.addWire('T:' + pm.uid + ':OUT', 'B:D13');
+  const c = M.rt.runCheck(); start(M, l.code); frames(M, 40);
+  ok(!!c && /pin 9/.test(say(c)) && !M.sim.stopped.size, `delivery: the station sensor on pin 13 -> the check says ${JSON.stringify(say(c)).slice(0, 60)}, and a floating pin 9 makes phantom stations: it stops again and again and never leaves START (${(M.sim.odo / 1000).toFixed(1)} m, serial ${JSON.stringify(M.ser.trim().split(/\r?\n/).slice(-3))})`);
 }
 console.log(fails ? `${fails} FAILED` : 'all ok'); process.exit(fails ? 1 : 0);

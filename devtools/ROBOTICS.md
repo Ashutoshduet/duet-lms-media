@@ -917,4 +917,9 @@ heaters.
   with the knobs anywhere. `armbt` (ESP32 + phone): BluetoothSerial "DUET-Arm", ESP32Servo on GPIO 13, 14, 27, 26
   (GPIO 12 is named by the check: a strapping pin), the ESP32's GND on the adapter's − rail; commands like B140; one
   SerialBT.read() takes only "1" (base to 1°, the arm into the desk), SerialBT.parseInt() reads 140; a pick-and-place
-  by commands. robocore23.mjs plays all three. Class 11: 3 of 26. 2,065 projects.
+  by commands. `delivery` (Uno car): robots.js CAR_CFG.deliv, the line track with three stations beside it on the
+  car's left (the side IR at markX/markZ sees them; stationAt(), flags stopN after 1.5 s standing on one, passN when
+  left behind without a stop; the arena draws STATION 1–3; the panel shows ■ / →). worlds.js now feeds the car's sensors
+  at Run for this track too (or the side IR reads its default HIGH in the first loop: a phantom station 1). deliverTo = 0
+  stops at every station; deliverTo = 2 only at 2. A side sensor on the wrong pin leaves pin 9 floating: phantom
+  stations, and it never leaves START. robocore23.mjs plays all four. Class 11: 4 of 26. 2,066 projects.

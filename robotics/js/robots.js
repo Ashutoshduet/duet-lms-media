@@ -97,6 +97,9 @@ export const CAR_CFG = {
   dance: { line: false, room: [1600, 1100], start: [0, -60, 0], boxes: [], dance: [0, -60, 300] }, // the dance mat: its centre spot and ring
   lap: { line: true, start: [-100, 330, Math.PI / 2], boxes: [], marker: [150, 268, 46, 34] }, // the line track and a lap marker beside it (x, z, along, across)
   maze: null, // batch 18 (Class 9): the plywood maze (below)
+  // batch 23 (Class 11): the line track with three delivery stations beside it, on the car's left (where the side IR looks):
+  // [x, z, size along x, size along z, name]; 1 on the near straight, 2 on the right one, 3 on the left one
+  deliv: { line: true, start: [-100, 330, Math.PI / 2], boxes: [], stations: [[150, 268, 46, 34, '1'], [438, 0, 34, 46, '2'], [-438, 0, 34, 46, '3']] },
 };
 // batch 18: a maze of 4 × 3 cells, 450 mm each, plywood walls 18 mm thick and 150 mm high; the ways between cells as
 // [i, j, 'E' | 'S'] (cell i across from the left, j down from the far side); every other side of a cell is a wall.
@@ -143,6 +146,7 @@ export class CarSim {
     this.lamp = this.cfg.lamp0; this.foundT = 0; this.found = new Set(); // the light-seeker: where the torch stands (back at A on each Run), the spots it reached
     this.spin = 0; this.spinning = false; this.lastSpin = null; this.spins = []; // the dancer: the turn of the spin going on, and of the last ones (degrees)
     this.marks = 0; this.onMark = false; // the lap counter: times the side sensor passed the marker
+    this.stopT = [0, 0, 0]; this.stopped = new Set(); this.passed = new Set(); this.curSt = 0; // batch 23: the delivery stations it stopped at (1.5 s still on one) or drove past
     this.cellK = null; this.path = []; this.cells = new Set(); this.loops = 0; this.outT = 0; this.swing = { last: 0, at: -9, run: 0 }; this.onFin = false; this.solvedT = null; this.solvedBumps = null; // batch 18: the maze
     if (this.cfg.maze && !this.dead) { const n = {}; const Z = MAZE[this.cfg.maze]; for (const [i, j, d] of Z.ways) { const b = d === 'E' ? [i + 1, j] : [i, j + 1]; for (const c of [[i, j], b]) n[c.join()] = (n[c.join()] || 0) + 1; } this.dead = new Set(Object.keys(n).filter((c) => n[c] === 1 && c !== MAZE.start.join() && c !== Z.finish.join())); }
   }
@@ -206,7 +210,8 @@ export class CarSim {
     this.outT = this.onFin && Math.abs(v) < 15 && Math.abs(this.vr - this.vl) < 15 ? this.outT + dt : 0;
     if (this.outT > 0.5 && !this.flags.has('solved')) { this.flags.add('solved'); this.solvedT = this.t; this.solvedBumps = this.bumps; }
   }
-  markSens() { const M = this.cfg.marker; if (!M) return false; const [x, z] = this.world(CAR14.markX, CAR14.markZ); return Math.abs(x - M[0]) < M[2] / 2 && Math.abs(z - M[1]) < M[3] / 2; }
+  stationAt() { const St = this.cfg.stations; if (!St) return 0; const [x, z] = this.world(CAR14.markX, CAR14.markZ); for (let i = 0; i < St.length; i++) { const M = St[i]; if (Math.abs(x - M[0]) < M[2] / 2 && Math.abs(z - M[1]) < M[3] / 2) return i + 1; } return 0; } // (batch 23)
+  markSens() { if (this.cfg.stations) return this.stationAt() > 0; const M = this.cfg.marker; if (!M) return false; const [x, z] = this.world(CAR14.markX, CAR14.markZ); return Math.abs(x - M[0]) < M[2] / 2 && Math.abs(z - M[1]) < M[3] / 2; }
   // every frame: the wheels' speeds along the floor (mm/s, + is forward)
   update(dt, vl, vr) {
     this.t += dt; if (this.fell) { this.fallT += dt; this.vl = this.vr = 0; return; } // (a robot that fell off the table lies on the floor)
@@ -229,6 +234,12 @@ export class CarSim {
     if (this.cfg.dance) this.danceCheck(dt, v, w);
     if (this.cfg.maze) this.mazeCheck(dt, v);
     if (this.cfg.marker) { const on = this.markSens(); if (on && !this.onMark) { this.marks++; this.flags.add('mark'); } this.onMark = on; }
+    if (this.cfg.stations) { // (batch 23) a stop: 1.5 s standing still with the side sensor on a station; a station left behind without one: driven past
+      const st = this.stationAt();
+      if (st) { if (Math.abs(v) < 8 && Math.abs(vr - vl) < 8) this.stopT[st - 1] += dt; if (this.stopT[st - 1] >= 1.5 && !this.stopped.has(st)) { this.stopped.add(st); this.flags.add('stop' + st); } }
+      if (this.curSt && st !== this.curSt) { if (this.stopT[this.curSt - 1] < 0.5) { this.passed.add(this.curSt); this.flags.add('pass' + this.curSt); } this.stopT[this.curSt - 1] = 0; }
+      this.curSt = st;
+    }
   }
   // batch 14: a wheel or the caster over the edge, and the robot falls; an edge seen and backed away from is a save
   tableCheck() {
@@ -321,7 +332,7 @@ export function carFeed(sim, lab) {
   const ir = (tag, black) => { const p = byTag(tag); if (!p) return; p.state.ext = true; const d = black ? 40 : 1; if (p.state.dist !== d) { p.state.dist = d; bump(); } };
   const k = sim.kind;
   if (k === 'edge' && !sim.fell) { const s = sim.edgeSens(); ir('irL', s.L); ir('irR', s.R); }
-  if (k === 'lap') { const s = sim.sensors(); ir('irL', s.L); ir('irR', s.R); ir('irM', sim.markSens()); }
+  if (k === 'lap' || k === 'deliv') { const s = sim.sensors(); ir('irL', s.L); ir('irR', s.R); ir('irM', sim.markSens()); } // (batch 23: the delivery track's stations)
   if (k === 'maze' || k === 'mazeR') { // batch 18: the front and left (19: or right) HC-SR04 hear the walls, the IR under the nose sees the black FINISH square
     for (const [tag, d] of [['us1', sim.mazeFront()], ['us2', sim.mazeSide()]]) { const p = byTag(tag); if (p) { p.state.ext = true; if (p.state.dist !== d) p.state.dist = d; } }
     ir('irM', sim.finSens());

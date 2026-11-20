@@ -5700,18 +5700,19 @@
    {
     "class": 11,
     "n": 12,
-    "kind": "I",
+    "kind": "L",
     "title": "Delivery robot that stops at stations",
     "board": "uno",
-    "status": "planned",
-    "ref": "delivery-robot-that-stops-at-stations-uno",
+    "status": "live",
+    "ref": "delivery",
     "newparts": [],
-    "family": "robot-car",
+    "family": "live-robots",
     "parts": [
+     "l298n",
      "bat18650",
      "bomotor",
      "ir",
-     "l298n"
+     "buzzer"
     ],
     "strand": "Decomposition",
     "focus": "Robots and motors",

@@ -25,6 +25,7 @@ const W = {
   wave: t3('Bring rubbish', 'कचरा लाइए', 'Kachra laiye'), push: t3('Push', 'धकेलिए', 'Dhakeliye'), master: t3('You push (syringe)', 'आप धकेलते हैं (सिरिंज)', 'Aap dhakelte hain (syringe)'),
   slave: t3('Lifts the arm (syringe)', 'बाँह उठाती है (सिरिंज)', 'Baanh uthati hai (syringe)'), fluid: t3('Inside the tube', 'नली के अंदर', 'Nali ke andar'), water: t3('Water', 'पानी', 'Paani'), air: t3('Air', 'हवा', 'Hawa'),
   armAngle: t3('Arm', 'बाँह', 'Baanh'), start: t3('Back to the start', 'शुरुआत पर वापस', 'Start par wapas'), speed: t3('Speed', 'रफ़्तार', 'Speed'), motors: t3('Motors L / R', 'मोटर बाएँ / दाएँ', 'Motor left / right'),
+  stations: t3('Stations (■ stopped, → passed)', 'स्टेशन (■ रुका, → आगे निकला)', 'Station (■ ruka, → aage nikla)'), // batch 23
   irs: t3('IR left / right', 'IR बाएँ / दाएँ', 'IR left / right'), black: t3('black', 'काला', 'kaala'), white: t3('white', 'सफ़ेद', 'safed'), laps: t3('Laps', 'चक्कर', 'Chakkar'), lapT: t3('Lap time', 'एक चक्कर का समय', 'Lap time'),
   aheadLeft: t3('Ahead / left', 'सामने / बाएँ', 'Saamne / left'), aheadRight: t3('Ahead / right', 'सामने / दाएँ', 'Saamne / right'), rooms: t3('Rooms gone through', 'कितने कमरों से गुज़रा', 'Kitne kamron se guzra'), maze: t3('Maze', 'भूलभुलैया', 'Bhool-bhulaiya'),
   mazeA: t3('A: walls joined', 'A: दीवारें जुड़ी', 'A: deewarein judi'), mazeB: t3('B: FINISH in the middle', 'B: FINISH बीच में', 'B: FINISH beech mein'), outOf: t3('Out of the maze!', 'भूलभुलैया से बाहर!', 'Bhool-bhulaiya se bahar!'),
@@ -253,7 +254,7 @@ class CarWorld extends World {
   }
   buildArenaNow(cfg) { // (batch 18: the maze robot's panel can swap maze A for maze B: the arena is built again)
     if (this.arena) { if (this.car) this.arena.remove(this.car); this.root.remove(this.arena); MD.dispose(this.arena); }
-    this.arena = M2.buildArena({ track: cfg.line ? linePoints() : null, start: cfg.line || cfg.park ? cfg.start : null, park: cfg.park, boxes: cfg.boxes, plain: !cfg.line && !cfg.park && !cfg.dance && !cfg.maze, room: cfg.room, table: cfg.table, dance: cfg.dance, marker: cfg.marker, maze: cfg.maze, finish: cfg.finish });
+    this.arena = M2.buildArena({ track: cfg.line ? linePoints() : null, start: cfg.line || cfg.park ? cfg.start : null, park: cfg.park, boxes: cfg.boxes, plain: !cfg.line && !cfg.park && !cfg.dance && !cfg.maze, room: cfg.room, table: cfg.table, dance: cfg.dance, marker: cfg.marker, maze: cfg.maze, finish: cfg.finish, stations: cfg.stations });
     this.arena.position.set(...ARENA_POS); this.root.add(this.arena); if (this.car) this.arena.add(this.car);
   }
   place() { // (batch 14: a car that fell off the desk drops to the floor, nose or side first)
@@ -270,12 +271,12 @@ class CarWorld extends World {
     // the sensors on the bench read what the car's sensors see
     if (this.cfg.car === 'line') { const s = S.sensors(); this.sens = s; for (const [tag, b] of [['irL', s.L], ['irR', s.R]]) { const p = this.part(tag); if (p) { p.state.ext = true; const d = b ? 40 : 1; if (p.state.dist !== d) { p.state.dist = d; this.lab.stateV++; this.lab.instKey = null; } if (live.leds['ir' + tag.slice(2)]) live.leds['ir' + tag.slice(2)].emissiveIntensity = p.state.near ? 2.6 : 0; } } }
     if (this.cfg.car === 'avoid') { const sv = this.part('sv1'); const sa = sv ? sv.state.angle : 90; if (live.scan) live.scan.rotation.y = (sa - 90) * D2R; const us = this.part('us1'); if (us) { us.state.ext = true; const d = S.usCm(sa); this.ahead = d; if (us.state.dist !== d) { us.state.dist = d; } } }
-    if (['edge', 'light', 'lap', 'maze', 'mazeR'].includes(this.cfg.car)) { carFeed(S, this.lab); for (const t of ['irL', 'irR', 'irM']) { const p = this.part(t); if (p && live.leds[t]) live.leds[t].emissiveIntensity = p.state.powered !== false && p.state.near ? 2.6 : 0; } } // (batch 14)
+    if (['edge', 'light', 'lap', 'maze', 'mazeR', 'deliv'].includes(this.cfg.car)) { carFeed(S, this.lab); for (const t of ['irL', 'irR', 'irM']) { const p = this.part(t); if (p && live.leds[t]) live.leds[t].emissiveIntensity = p.state.powered !== false && p.state.near ? 2.6 : 0; } } // (batch 14)
     const drv = this.part('drv'); if (drv && live.leds.pwr) live.leds.pwr.emissiveIntensity = (drv.state.vs || 0) > 6.8 ? 2.4 : 0;
     const bt = this.part('bt'); if (bt && live.leds.bt) live.leds.bt.emissiveIntensity = !bt.state.powered ? 0 : bt.state.paired ? ((performance.now() / 1000) % 2 < 0.25 ? 2.4 : 0) : ((performance.now() / 100) % 2 < 1 ? 2.4 : 0);
     return Math.abs(vl) + Math.abs(vr) > 1 || !!bt || (S.fell && S.fallT < 1);
   }
-  onRun() { this.sim.reset(); this.place(); this.placeTorch(); if (this.sim.cfg.maze) carFeed(this.sim, this.lab); }
+  onRun() { this.sim.reset(); this.place(); this.placeTorch(); if (this.sim.cfg.maze || this.sim.cfg.stations) carFeed(this.sim, this.lab); } // (the sensors read the start before the sketch's first loop)
   control(id, v) {
     if (id === 'start') { this.sim.reset(); this.place(); this.placeTorch(); }
     if (id === 'maze' && this.sim.cfg.maze && v !== this.sim.cfg.maze) { this.sim.setMaze(v); this.buildArenaNow(this.sim.cfg); this.place(); carFeed(this.sim, this.lab); this.stage.kick(); } // (batch 18)
@@ -297,6 +298,8 @@ class CarWorld extends World {
       controls.unshift({ id: 'lamp', kind: 'seg', label: W.torch, options: [['A', 'A'], ['B', 'B'], ['C', 'C']], value: S.lamp }); }
     if (k === 'dance') { rows.push([tx(W.lastSpin), S.lastSpin === null ? '—' : `${Math.abs(S.lastSpin)}° ${S.lastSpin > 0 ? '↺' : '↻'}`]); rows.push([tx(W.fromSpot), `${Math.round((S.fromSpot || 0) / 10)} cm`]); }
     if (k === 'lap') { const s = this.sens || S.sensors(); rows.unshift([tx(W.irs), `${tx(s.L ? W.black : W.white)} / ${tx(s.R ? W.black : W.white)}`]); rows.push([tx(W.marker), `${S.marks} ${tx(W.passes)}`]); }
+    if (k === 'deliv') { const s = S.sensors(); rows.unshift([tx(W.irs), `${tx(s.L ? W.black : W.white)} / ${tx(s.R ? W.black : W.white)}`]); // (batch 23)
+      rows.push([tx(W.stations), [1, 2, 3].map((i) => `${i} ${S.stopped.has(i) ? '■' : S.passed.has(i) ? '→' : '·'}`).join('  ')]); }
     if (k === 'maze' || k === 'mazeR') { // (batch 18; 19: the wall follower, its sensor on the right)
       const f = this.part('us1'), l = this.part('us2'); const cm = (p) => (p && p.state.powered ? `${p.state.dist}` : '—');
       rows.unshift([tx(k === 'mazeR' ? W.aheadRight : W.aheadLeft), `${cm(f)} / ${cm(l)} cm`]); rows.push([tx(W.rooms), String(S.path.length)]); rows.push([tx(W.bumps), String(S.bumps)]);
@@ -304,7 +307,7 @@ class CarWorld extends World {
       controls.unshift({ id: 'maze', kind: 'seg', label: W.maze, options: [['A', W.mazeA], ['B', W.mazeB]], value: S.cfg.maze });
       return { title: k === 'mazeR' ? t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot') : t3('Maze-solving robot', 'भूलभुलैया सुलझाने वाला रोबोट', 'Maze solve karne wala robot'), rows, controls };
     }
-    const T14 = { edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
+    const T14 = { deliv: t3('Delivery robot', 'डिलीवरी रोबोट', 'Delivery robot'), edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
     if (T14[k]) return { title: T14[k], rows, controls };
     return { title: k === 'bt' ? t3('Bluetooth car', 'ब्लूटूथ कार', 'Bluetooth car') : k === 'pi' ? t3('Raspberry Pi car', 'Raspberry Pi कार', 'Raspberry Pi car') : k === 'line' ? t3('Line follower', 'लाइन फ़ॉलोअर', 'Line follower') : t3('Obstacle-avoiding car', 'बाधा से बचने वाली कार', 'Obstacle se bachne wali car'), rows, controls };
   }

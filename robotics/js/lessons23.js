@@ -11,6 +11,9 @@
 //              sends commands like B140 (base to 140°). The first program reads the angle with one SerialBT.read(), so it
 //              gets only the first digit ("B140" turns the base to 1°!); SerialBT.parseInt() reads the whole number. Then
 //              a pick-and-place by typed commands
+//   delivery   a delivery robot on the line track (robots.js CAR_CFG.deliv): three stations beside the line, which the
+//              side IR (pin 9) sees; the robot counts them, stops 3 s and chimes. deliverTo = 0 stops at every one (a bus);
+//              deliverTo = 2 takes the parcel only to station 2 and drives past 1 and 3
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore23.mjs plays them end to end.
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
@@ -172,8 +175,71 @@ void loop() {
 }
 `;
 
+const CDRIVE = `const int ENA = 5, IN1 = 7, IN2 = 8;    // motor A: the left wheel
+const int ENB = 6, IN3 = 2, IN4 = 4;    // motor B: the right wheel
+
+// one motor: v from -255 (backwards) to 255 (forwards)
+void motor(int en, int a, int b, int v) {
+  v = constrain(v, -255, 255);
+  digitalWrite(a, v > 0 ? HIGH : LOW);
+  digitalWrite(b, v < 0 ? HIGH : LOW);
+  analogWrite(en, abs(v));       // PWM: how fast
+}
+
+void drive(int left, int right) {
+  motor(ENA, IN1, IN2, left);
+  motor(ENB, IN3, IN4, right);
+}`;
+const DELIV = `// Delivery robot: it follows the line round the school and stops at the stations beside it.
+// A third IR sensor on its left side sees each station's black mark, and the robot counts them.
+${CDRIVE}
+const int irLeft = 11, irRight = 12, irMark = 9;
+const int buzzer = 10;
+int speed = 110;
+int deliverTo = 0;      // 0: stop at every station (like a bus); or a station's number
+int station = 0;        // the last station it passed
+bool onMark = false;
+
+void setup() {
+  pinMode(ENA, OUTPUT); pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT); pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  pinMode(irLeft, INPUT);
+  pinMode(irRight, INPUT);
+  pinMode(irMark, INPUT);
+  Serial.begin(9600);
+}
+
+void followLine() {
+  int L = digitalRead(irLeft);
+  int R = digitalRead(irRight);
+  if (L == LOW && R == LOW) drive(speed, speed);
+  else if (L == HIGH && R == LOW) drive(0, speed);
+  else if (L == LOW && R == HIGH) drive(speed, 0);
+  else drive(0, 0);
+}
+
+void loop() {
+  followLine();
+  int M = digitalRead(irMark);            // HIGH over a station's black mark
+  if (M == HIGH && !onMark) {             // it has just reached one
+    station = station + 1;
+    if (station > 3) station = 1;         // three stations round the track
+    Serial.print("Station ");
+    Serial.println(station);
+    if (deliverTo == 0 || station == deliverTo) {
+      drive(0, 0);
+      tone(buzzer, 1500, 300);
+      Serial.print("Delivery at station ");
+      Serial.println(station);
+      delay(3000);                        // time to take the parcel
+    }
+  }
+  onMark = (M == HIGH);
+}
+`;
+
 export function batch23(K, n0) {
-  const { P, F, W, need, has, noShort } = K;
+  const { P, F, W, need, has, noShort, N } = K;
   const E = t3('', '', '');
   const CHECK = { k: 'check', do: t3('Check your circuit.', 'अपना सर्किट जाँचिए।', 'Apna circuit check karo.'), see: E };
   const RUN = (see) => ({ k: 'run', do: t3('Press Run.', '"चलाइए" दबाइए।', 'Run dabaiye.'), see: see || E });
@@ -298,6 +364,40 @@ export function batch23(K, n0) {
       (S) => (Object.keys(ESERVO).some((k) => S.conn(k + '.SIG', 'D12')) ? [XB.gpio12] : null),
       ...Object.keys(ESERVO).map((k) => need(k + '.SIG', 'D' + ESERVO[k], W.toPin, { x: t3(sv[k].en + '\'s orange wire', sv[k].hi + ' का नारंगी तार', sv[k].hg + ' ka orange wire'), p: ESERVO[k] }))],
     done: (S) => okParse(S.runSrc) && S.w('placed') });
+
+  // 4 ---------------------------------------------------------------------------------------------- delivery robot
+  const CARPARTS = [F('drv', 'l298n', {}, -35, 105, 0), F('bat', 'bat18650', {}, -190, 108, 0), F('mL', 'bomotor', { side: 'L' }, -80, 152, 3), F('mR', 'bomotor', { side: 'R' }, 10, 152, 1)];
+  const CARWIRES = [['T:bat:P', 'T:drv:VS'], ['T:bat:N', 'T:drv:GND'], ['T:mL:P', 'T:drv:OUT1'], ['T:mL:N', 'T:drv:OUT2'], ['T:mR:P', 'T:drv:OUT3'], ['T:mR:N', 'T:drv:OUT4'],
+    ['T:drv:ENA', 'D5'], ['T:drv:ENB', 'D6'], ['T:drv:IN1', 'D7'], ['T:drv:IN2', 'D8'], ['T:drv:IN3', 'D2'], ['T:drv:IN4', 'D4'], ['GND3', 'H:tn18'], ['5V', 'H:tp30'], ['T:drv:GND', 'GND1']];
+  const IRW = [['T:irL:VCC', 'H:tp35'], ['T:irL:GND', 'H:tn36'], ['T:irL:OUT', 'D11'], ['T:irR:VCC', 'H:tp41'], ['T:irR:GND', 'H:tn42'], ['T:irR:OUT', 'D12'], ['T:irM:VCC', 'H:tp45'], ['T:irM:GND', 'H:tn46'], ['T:irM:OUT', 'D9']];
+  const XD = { drvGnd: t3('The L298N\'s GND must be joined to the Arduino\'s GND too (common ground).', 'L298N का GND, Arduino के GND से भी जुड़ना चाहिए (कॉमन ग्राउंड)।', 'L298N ka GND, Arduino ke GND se bhi judna chahiye (common ground).') };
+  const driveChecks = [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), (S) => (S.conn('drv.GND', 'GND') ? null : [XD.drvGnd]),
+    ...[['ENA', 5], ['ENB', 6], ['IN1', 7], ['IN2', 8], ['IN3', 2], ['IN4', 4]].map(([a, p]) => need('drv.' + a, 'D' + p, W.toPin, { x: 'L298N ' + a, p }))];
+  const irChecks = (tag, pin) => [has(tag, N.ir), need(tag + '.OUT', 'D' + pin, W.toPin, { x: 'OUT', p: pin })];
+  const deliverTo = (src) => { const m = /int\s+deliverTo\s*=\s*(\d+)\s*;/.exec(src || ''); return m ? +m[1] : -1; };
+  const BZ = t3('buzzer', 'बज़र', 'buzzer');
+  L.push({ id: 'delivery', cls: '11', view: 'carbench', wview: 'carbench', rview: 'arena', code: DELIV, drawer: ['buzzer'], serial: true, world: { kind: 'car', car: 'deliv' },
+    title: t3('Delivery robot that stops at stations', 'स्टेशनों पर रुकने वाला डिलीवरी रोबोट', 'Station par rukne wala delivery robot'),
+    goal: t3('Hospitals and warehouses use robots that follow a line and stop where a parcel is wanted. Ours carries the school\'s mail round a track with three stations: first it stops at every one like a bus, then it delivers only where you tell it.', 'अस्पताल और गोदाम ऐसे रोबोट इस्तेमाल करते हैं जो लाइन के साथ चलते हैं और जहाँ पार्सल चाहिए वहाँ रुकते हैं। हमारा रोबोट तीन स्टेशनों वाले ट्रैक पर स्कूल की डाक ले जाता है: पहले यह बस की तरह हर स्टेशन पर रुकता है, फिर सिर्फ़ वहीं देता है जहाँ आप कहें।', 'Aspatal aur godown aise robot istemaal karte hain jo line ke saath chalte hain aur jahan parcel chahiye wahan rukte hain. Hamara robot teen station wale track par school ki daak le jaata hai: pehle yeh bus ki tarah har station par rukta hai, phir sirf wahin deta hai jahan aap kahein.'),
+    setup: { parts: [...CARPARTS, F('irL', 'ir', {}, 140, 62, 2), F('irR', 'ir', {}, 178, 62, 2), F('irM', 'ir', {}, 104, 62, 2)], wires: [...CARWIRES, ...IRW] },
+    steps: [
+      { k: 'info', do: t3('Ready on the bench: the line-follower car (sensors on pins 11 and 12) with a third IR sensor on its left side (pin 9) for the stations\' marks. Your job: a chime, so people know the robot has arrived.', 'बेंच पर तैयार: लाइन फ़ॉलोअर कार (सेंसर पिन 11 और 12 पर) और उसकी बाईं तरफ़ स्टेशनों के निशान के लिए तीसरा IR सेंसर (पिन 9)। आपका काम: एक घंटी, ताकि लोगों को पता चले कि रोबोट आ गया।', 'Bench par taiyaar: line follower car (sensor pin 11 aur 12 par) aur uski left taraf station ke nishaan ke liye teesra IR sensor (pin 9). Aapka kaam: ek ghanti, taaki logon ko pata chale ki robot aa gaya.'),
+        see: t3('In the 🏁 Robot view: the track with STATION 1, 2 and 3, each a black mark beside the line.', '🏁 रोबोट व्यू में: STATION 1, 2 और 3 वाला ट्रैक, हर एक लाइन के पास एक काला निशान।', '🏁 Robot view mein: STATION 1, 2 aur 3 wala track, har ek line ke paas ek kaala nishaan.') },
+      { k: 'place', place: P('bz1', 'buzzer', {}, 'e20', 0), do: t3('Put the buzzer at the ghost: its + leg in column 20.', 'बज़र को नीली आकृति पर लगाइए: इसका + पैर कॉलम 20 में।', 'Buzzer ko neeli shape par lagaiye: iska + pair column 20 mein.'), see: E },
+      w3('bz1.P', 'D10', 'Wire its + leg (column 20) to pin 10.', 'इसके + पैर (कॉलम 20) को पिन 10 से जोड़िए।', 'Iske + pair (column 20) ko pin 10 se jodiye.'),
+      w3('bz1.N', 'rail:tn', 'Its − leg (column 23) to the − rail.', 'इसका − पैर (कॉलम 23) − रेल से।', 'Iska − pair (column 23) − rail se.'),
+      CHECK,
+      { k: 'info', code: [43, 58], do: t3('Read loop(): it counts a station only at the moment the side sensor reaches its mark (HIGH now, not before), as the lap counter did. Then it stops for 3 s and chimes, if deliverTo is 0 or that station\'s number.', 'loop() पढ़िए: यह स्टेशन तभी गिनता है जब बगल वाला सेंसर उसके निशान पर पहुँचता है (अभी HIGH, पहले नहीं), जैसे लैप काउंटर ने किया। फिर अगर deliverTo 0 हो या उसी स्टेशन का नंबर, तो 3 s रुककर घंटी बजाता है।', 'loop() padhiye: yeh station tabhi ginta hai jab bagal wala sensor uske nishaan par pahunchta hai (abhi HIGH, pehle nahi), jaise lap counter ne kiya. Phir agar deliverTo 0 ho ya usi station ka number, to 3 s ruk kar ghanti bajata hai.'), see: E },
+      { k: 'run', do: t3('Press Run.', '"चलाइए" दबाइए।', 'Run dabaiye.'), see: t3('Run puts the car at START.', '"चलाइए" कार को START पर रखता है।', 'Run car ko START par rakhta hai.') },
+      { k: 'watch', until: (S) => fresh(S) && [1, 2, 3].every((i) => S.w('stop' + i)), do: t3('Watch one round, and the Serial Monitor.', 'एक चक्कर देखिए, और सीरियल मॉनिटर।', 'Ek chakkar dekhiye, aur Serial Monitor.'),
+        see: t3('It stops at every station for 3 s, with a chime: like a bus. Fine for a mail round, slow when only one parcel is for station 2.', 'यह हर स्टेशन पर 3 s रुकता है, घंटी के साथ: बस की तरह। डाक बाँटने के लिए ठीक, पर जब सिर्फ़ एक पार्सल स्टेशन 2 का हो तो धीमा।', 'Yeh har station par 3 s rukta hai, ghanti ke saath: bus ki tarah. Daak baantne ke liye theek, par jab sirf ek parcel station 2 ka ho to dheema.') },
+      { k: 'edit', test: (src) => deliverTo(src) === 2, set: [[/int deliverTo = 0;/, 'int deliverTo = 2;']],
+        do: t3('Today\'s parcel is for station 2 (the science lab): change deliverTo = 0 to deliverTo = 2, and press Run.', 'आज का पार्सल स्टेशन 2 (साइंस लैब) का है: deliverTo = 0 को deliverTo = 2 कीजिए, और "चलाइए" दबाइए।', 'Aaj ka parcel station 2 (science lab) ka hai: deliverTo = 0 ko deliverTo = 2 karo, aur Run dabaiye.'), see: E },
+      { k: 'watch', until: (S) => fresh(S) && S.w('stop2') && S.w('pass1') && S.w('pass3'), do: t3('Watch the round again.', 'चक्कर फिर देखिए।', 'Chakkar phir dekhiye.'),
+        see: t3('It counts station 1 and drives on, stops only at 2 and chimes, and drives past 3 back towards START: the robot knows where it is by counting marks. If someone lifted it and put it down further on, its count would be wrong: real ones read a barcode or an RFID tag at each station.', 'यह स्टेशन 1 गिनकर आगे बढ़ता है, सिर्फ़ 2 पर रुककर घंटी बजाता है, और 3 के आगे से START की ओर निकल जाता है: रोबोट निशान गिनकर जानता है कि वह कहाँ है। अगर कोई इसे उठाकर आगे रख दे, तो इसकी गिनती ग़लत हो जाएगी: असली रोबोट हर स्टेशन पर बारकोड या RFID टैग पढ़ते हैं।', 'Yeh station 1 gin kar aage badhta hai, sirf 2 par ruk kar ghanti bajata hai, aur 3 ke aage se START ki or nikal jaata hai: robot nishaan gin kar jaanta hai ki woh kahan hai. Agar koi ise utha kar aage rakh de, to iski ginti galat ho jaayegi: asli robot har station par barcode ya RFID tag padhte hain.') },
+    ],
+    check: [...driveChecks, ...irChecks('irL', 11), ...irChecks('irR', 12), ...irChecks('irM', 9), has('bz1', BZ), need('bz1.P', 'D10', W.toPin, { x: t3('buzzer\'s + leg', 'बज़र का + पैर', 'buzzer ka + pair'), p: 10 }), need('bz1.N', 'GND', W.toGnd, { x: t3('buzzer\'s − leg', 'बज़र का − पैर', 'buzzer ka − pair') })],
+    done: (S) => deliverTo(S.runSrc) === 2 && S.w('stop2') && S.w('pass1') && S.w('pass3') });
 
   for (const l of L) { l.n = ++n; l.batch = 23; }
   return L;
