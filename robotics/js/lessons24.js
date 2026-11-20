@@ -1199,6 +1199,27 @@ void loop() {
 }
 `;
 
+const AIDET = `# Object detection on the Raspberry Pi: the camera looks at the table, and YOLOv8n names what it sees.
+from picamera2 import Picamera2
+from ultralytics import YOLO
+
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration(main={"format": "RGB888", "size": (640, 480)}))
+picam2.start()
+model = YOLO("yolov8n.pt")       # trained on 80 everyday things (the COCO set)
+print("Ready")
+
+while True:
+    frame = picam2.capture_array()
+    results = model(frame)
+    for box in results[0].boxes:
+        name = model.names[int(box.cls)]
+        conf = float(box.conf)
+        if conf > 0.3:
+            print(name, round(conf, 2))
+    print("---")
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1849,6 +1870,32 @@ export function batch24(K, n0) {
     ],
     check: [noShort],
     done: (S) => S.w('touch_green') && said(S, /Out of reach/) });
+  // 22 ------------------------------------------------------------- object detection with a camera (Class 12, batch 37)
+  // The ribbon in the wrong way: no camera; YOLOv8n finds the bottle and the cup at about two frames a second, and floods
+  // the terminal (verbose); the TV remote is also taken for a cell phone at 0.38 until the threshold goes up to 0.5
+  const saidR = (S, re) => (S.serLines || []).some((x) => re.test(x));
+  const okVerb = (src) => /results\s*=\s*model\(\s*frame\s*,\s*verbose\s*=\s*False\s*\)/.test(src || '');
+  const okThr = (src) => { const m = /if\s+conf\s*>\s*([\d.]+)\s*:/.exec(src || ''); return okVerb(src) && !!m && +m[1] >= 0.45 && +m[1] <= 0.55; };
+  L.push({ id: 'aidetect', board: 'pi4', cls: '12', blocks: false, view: 'pi6', wview: 'pi6w', rview: 'scene3ai', code: AIDET, drawer: [], serial: true, scene: { kind: 'aicam', ribbon: 'flipped' },
+    title: t3('Object detection with a camera (AI)', 'कैमरे से वस्तु पहचान (AI)', 'Camera se vastu pehchaan (AI)'),
+    goal: t3('A Raspberry Pi camera and YOLO, a neural network trained on 80 everyday things, name what is on the table and how sure they are. Get the camera working, see how slow and how wrong AI can be, and set the confidence it must reach.', 'Raspberry Pi कैमरा और YOLO, 80 रोज़मर्रा की चीज़ों पर ट्रेन किया एक न्यूरल नेटवर्क, बताते हैं कि मेज़ पर क्या है और वे कितने पक्के हैं। कैमरा चालू कीजिए, देखिए AI कितना धीमा और कितना ग़लत हो सकता है, और वह भरोसा तय कीजिए जिस तक उसे पहुँचना है।', 'Raspberry Pi camera aur YOLO, 80 rozmarra ki cheezon par train kiya ek neural network, batate hain ki mez par kya hai aur woh kitne pakke hain. Camera chaalu kijiye, dekhiye AI kitna dheema aur kitna galat ho sakta hai, aur woh bharosa tay kijiye jis tak use pahunchna hai.'),
+    setup: { parts: [], wires: [] },
+    steps: [
+      { k: 'info', do: t3('Beside the Pi: a Camera Module 3 on a little tripod, on its ribbon cable to the Pi\'s CAMERA port, looking at a white table. The panel puts things on the table. The Pi has picamera2 and ultralytics installed, and the yolov8n.pt model (6 MB).', 'Pi के पास: छोटे तिपाए पर कैमरा मॉड्यूल 3, अपनी रिबन केबल से Pi के CAMERA पोर्ट पर, एक सफ़ेद मेज़ की ओर देखता। पैनल मेज़ पर चीज़ें रखता है। Pi पर picamera2 और ultralytics लगे हैं, और yolov8n.pt मॉडल (6 MB)।', 'Pi ke paas: chhote tipaaye par Camera Module 3, apni ribbon cable se Pi ke CAMERA port par, ek safed mez ki or dekhta. Panel mez par cheezein rakhta hai. Pi par picamera2 aur ultralytics lage hain, aur yolov8n.pt model (6 MB).'), see: E },
+      RUN(t3('Read the terminal.', 'टर्मिनल पढ़िए।', 'Terminal padhiye.')),
+      { k: 'act', until: (S) => fresh(S) && S.w('camOk'), do: t3('IndexError: Picamera2 found no camera. The ribbon cable went in the wrong way round: in the panel, flip it, then press Run again.', 'IndexError: Picamera2 को कोई कैमरा नहीं मिला। रिबन केबल उल्टी लगी है: पैनल में उसे पलटिए, फिर "चलाइए" दबाइए।', 'IndexError: Picamera2 ko koi camera nahi mila. Ribbon cable ulti lagi hai: panel mein use palatiye, phir Run dabaiye.'),
+        see: t3('"Ready": the camera is found. Its ribbon has contacts on one side only; on a Pi 4 they face the HDMI ports. The wrong way round, nothing is broken, the Pi just sees no camera.', '"Ready": कैमरा मिल गया। इसकी रिबन के कॉन्टैक्ट एक ही तरफ़ होते हैं; Pi 4 पर वे HDMI पोर्ट की ओर होते हैं। उल्टी लगी हो तो कुछ टूटता नहीं, Pi को बस कैमरा नहीं दिखता।', '"Ready": camera mil gaya. Iski ribbon ke contacts ek hi taraf hote hain; Pi 4 par woh HDMI ports ki or hote hain. Ulti lagi ho to kuch toot-ta nahi, Pi ko bas camera nahi dikhta.') },
+      { k: 'act', until: (S) => fresh(S) && saidR(S, /^bottle 0\.\d+/) && saidR(S, /^cup 0\.\d+/), do: t3('Put the water bottle and the cup on the table.', 'मेज़ पर पानी की बोतल और कप रखिए।', 'Mez par paani ki bottle aur cup rakhiye.'),
+        see: t3('"bottle 0.88", "cup 0.82": the network gives each thing a class and a confidence. But look at the speed: about 450 ms for each frame, two frames a second, and ultralytics prints its own two lines for every frame (verbose), burying yours.', '"bottle 0.88", "cup 0.82": नेटवर्क हर चीज़ को एक क्लास और एक भरोसा देता है। पर रफ़्तार देखिए: हर फ़्रेम में लगभग 450 ms, सेकंड में दो फ़्रेम, और ultralytics हर फ़्रेम पर अपनी दो लाइनें छापता है (verbose), जिनमें आपकी लाइनें दब जाती हैं।', '"bottle 0.88", "cup 0.82": network har cheez ko ek class aur ek bharosa deta hai. Par raftaar dekhiye: har frame mein lagbhag 450 ms, second mein do frame, aur ultralytics har frame par apni do lines chhaapta hai (verbose), jinmein aapki lines dab jaati hain.') },
+      { k: 'edit', test: okVerb, set: [[/results = model\(frame\)/, 'results = model(frame, verbose=False)']], do: t3('Quiet: change results = model(frame) to results = model(frame, verbose=False) and press Run.', 'शांत: results = model(frame) को results = model(frame, verbose=False) कीजिए और "चलाइए" दबाइए।', 'Shaant: results = model(frame) ko results = model(frame, verbose=False) kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && saidR(S, /^remote 0\.\d+/) && saidR(S, /^cell phone 0\.\d+/), do: t3('Now put the TV remote on the table too (no phone).', 'अब मेज़ पर टीवी रिमोट भी रखिए (फ़ोन नहीं)।', 'Ab mez par TV remote bhi rakhiye (phone nahi).'),
+        see: t3('"remote 0.58" and "cell phone 0.38": there is no phone on the table. A remote looks like a phone to a small network: black, flat, a hand\'s length. YOLO gives every guess it has, and a low threshold (0.3) lets the weak wrong ones through.', '"remote 0.58" और "cell phone 0.38": मेज़ पर कोई फ़ोन नहीं है। छोटे नेटवर्क को रिमोट फ़ोन जैसा दिखता है: काला, चपटा, एक हथेली लंबा। YOLO अपना हर अनुमान देता है, और कम थ्रेशहोल्ड (0.3) कमज़ोर ग़लत अनुमानों को भी आने देता है।', '"remote 0.58" aur "cell phone 0.38": mez par koi phone nahi hai. Chhote network ko remote phone jaisa dikhta hai: kaala, chapta, ek hatheli lamba. YOLO apna har anumaan deta hai, aur kam threshold (0.3) kamzor galat anumaanon ko bhi aane deta hai.') },
+      { k: 'edit', test: okThr, set: [[/if conf > 0\.3:/, 'if conf > 0.5:']], do: t3('Raise the bar: change if conf > 0.3: to if conf > 0.5: and press Run.', 'बार ऊँचा कीजिए: if conf > 0.3: को if conf > 0.5: कीजिए और "चलाइए" दबाइए।', 'Bar ooncha kijiye: if conf > 0.3: ko if conf > 0.5: kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && (S.serLines || []).filter((x) => /^remote 0\.\d+/.test(x)).length >= 3 && !saidR(S, /^cell phone/), do: t3('Watch it with the bottle, the cup and the remote still on the table.', 'बोतल, कप और रिमोट अभी भी मेज़ पर रखे हुए देखिए।', 'Bottle, cup aur remote abhi bhi mez par rakhe hue dekhiye.'),
+        see: t3('No more phantom phone, and the remote, bottle and cup still come through. Too high, and real things get lost too: turn the room light down and watch the confidences fall. Every AI system picks this line between missing things and imagining them.', 'अब कोई नक़ली फ़ोन नहीं, और रिमोट, बोतल और कप अब भी आते हैं। बहुत ऊँचा, तो असली चीज़ें भी छूट जाती हैं: कमरे की रोशनी कम कीजिए और भरोसा गिरते देखिए। हर AI सिस्टम चीज़ें छोड़ने और चीज़ें सोच लेने के बीच यह रेखा चुनता है।', 'Ab koi nakli phone nahi, aur remote, bottle aur cup ab bhi aate hain. Bahut ooncha, to asli cheezein bhi chhoot jaati hain: kamre ki roshni kam kijiye aur bharosa girte dekhiye. Har AI system cheezein chhodne aur cheezein soch lene ke beech yeh rekha chunta hai.') },
+    ],
+    check: [],
+    done: (S) => (S.serLines || []).some((x) => /^remote 0\.\d+/.test(x)) && !saidR(S, /^cell phone/) && /conf\s*>\s*0\.[45]/.test(S.runSrc || '') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

@@ -899,10 +899,52 @@ export class RationScene extends Scene {
 const WR = { bowl: t3('Rice in the bowl', 'कटोरे में चावल', 'Katore mein chaawal'), tapS: t3('💳 Tap Sunita\'s card (white)', '💳 सुनीता का कार्ड छुआइए (सफ़ेद)', '💳 Sunita ka card chhuaaiye (safed)'), tapR: t3('🔑 Tap Ramesh\'s tag (blue)', '🔑 रमेश का टैग छुआइए (नीला)', '🔑 Ramesh ka tag chhuaaiye (neela)'),
   rice: t3('The shopkeeper', 'दुकानदार', 'Dukaandaar'), stop: t3('Stops', 'रुकता है', 'Rukta hai'), pourB: t3('Pours rice', 'चावल डालता है', 'Chaawal daalta hai'), away: t3('🛍 Take the bag away (empty bowl)', '🛍 थैला ले जाइए (कटोरा ख़ाली)', '🛍 Thaila le jaaiye (katora khaali)') };
 
+// ------------------------------------------------------------------ the AI camera bench (batch 37, Class 12)
+// A Raspberry Pi Camera Module 3 on a little tripod looks at a white table: the panel puts things on the table (a slot
+// each, left to right) and takes them off. The scene tells the Pi's picamera2 / ultralytics (pi37.js, through lab.cam37)
+// what a frame would show: for each thing its COCO class, a box in the 640 × 480 picture, and how sure YOLOv8n would be,
+// less in a dim room (the room-light slider) and a little different every frame. A TV remote is also half taken for a
+// cell phone (about 0.38), as small COCO models do. cfg.ribbon 'flipped': the ribbon cable is in the wrong way round until
+// the panel flips it (Picamera2() then finds no camera).
+export const AICAM = { slots: [96, 208, 320, 432, 544], y: 300,
+  things: { bottle: { cls: 39, conf: 0.88, w: 70, h: 190 }, cup: { cls: 41, conf: 0.82, w: 90, h: 90 }, phone: { cls: 67, conf: 0.79, w: 60, h: 110 }, remote: { cls: 65, conf: 0.58, w: 40, h: 130, ghost: [67, 0.38], small: true },
+    banana: { cls: 46, conf: 0.9, w: 130, h: 60 }, book: { cls: 73, conf: 0.72, w: 110, h: 140 } } };
+export class AiCamScene extends Scene {
+  constructor(cfg) { super(cfg); this.items = []; this.ribbonOk = cfg.ribbon !== 'flipped'; this.res = {}; }
+  light(lab) { const L = lab && lab.env ? lab.env.light : 0.75; return clamp(0.55 + 0.6 * L, 0.55, 1.03); }
+  objects(lab, w, h) { // what YOLOv8n would find in a frame now (pi37.js)
+    const k = this.light(lab), sx = w / 640, sy = h / 480, out = [];
+    this.items.forEach((key, i) => { const T = AICAM.things[key]; if (!T) return; const cx = AICAM.slots[i] * sx, cy = AICAM.y * sy - (T.h - 90) * sy / 2; const box = [cx - T.w * sx / 2, cy - T.h * sy / 2, cx + T.w * sx / 2, cy + T.h * sy / 2].map((v) => +v.toFixed(1));
+      out.push({ cls: T.cls, conf: clamp(T.conf * k + (Math.random() - 0.5) * 0.06, 0.01, 0.97), xyxy: box, small: !!T.small });
+      if (T.ghost) out.push({ cls: T.ghost[0], conf: clamp(T.ghost[1] * k + (Math.random() - 0.5) * 0.06, 0.01, 0.97), xyxy: box.map((v, j) => +(v + (j % 2 ? 4 : -3)).toFixed(1)), small: true }); });
+    return out;
+  }
+  update(dt, lab) {
+    this.t += dt; const me = this;
+    if (lab && (!lab.cam37 || lab.cam37.scene !== this)) lab.cam37 = { scene: this, ok: () => me.ribbonOk, objects: (w, h) => me.objects(lab, w, h), get started() { return !!me.started; }, set started(v) { me.started = v; if (v) me.flags.add('camOk'); }, frames: 0 };
+    return false;
+  }
+  onRun() { super.onRun(); this.flags.delete('camOk'); this.started = false; }
+  control(id) {
+    if (id === 'ribbon') this.ribbonOk = !this.ribbonOk;
+    if (AICAM.things[id]) { const i = this.items.indexOf(id); if (i >= 0) this.items.splice(i, 1); else if (this.items.length < AICAM.slots.length) this.items.push(id); }
+  }
+  hud(lab) {
+    const nm = (k) => tx(WAI[k]); const on = (k) => this.items.includes(k);
+    const rows = [[tx(WAI.camera), this.ribbonOk ? (this.started ? tx(WAI.running) : tx(WAI.ready)) : tx(WAI.flipped)], [tx(WAI.table), this.items.length ? this.items.map(nm).join(', ') : '—'], [tx(WAI.light), `${Math.round((lab && lab.env ? lab.env.light : 0.75) * 100)} %`]];
+    const ctl = Object.keys(AICAM.things).map((k) => ({ id: k, kind: 'button', label: t3(`${on(k) ? '✓ ' : '+ '}${WAI[k].en}`, `${on(k) ? '✓ ' : '+ '}${WAI[k].hi}`, `${on(k) ? '✓ ' : '+ '}${WAI[k].hg}`) }));
+    if (this.cfg.ribbon) ctl.unshift({ id: 'ribbon', kind: 'button', label: WAI.flip });
+    return { title: t3('AI camera', 'एआई कैमरा', 'AI camera'), rows, controls: ctl };
+  }
+}
+const WAI = { camera: t3('Camera Module 3', 'कैमरा मॉड्यूल 3', 'Camera Module 3'), running: t3('capturing', 'तस्वीरें ले रहा', 'tasveerein le raha'), ready: t3('connected', 'जुड़ा', 'juda'), flipped: t3('ribbon in the wrong way round', 'रिबन उल्टा लगा', 'ribbon ulta laga'),
+  table: t3('On the table', 'मेज़ पर', 'Mez par'), light: t3('Room light', 'कमरे की रोशनी', 'Kamre ki roshni'), flip: t3('🔁 Flip the ribbon cable', '🔁 रिबन केबल पलटिए', '🔁 Ribbon cable palatiye'),
+  bottle: t3('water bottle', 'पानी की बोतल', 'paani ki bottle'), cup: t3('cup', 'कप', 'cup'), phone: t3('phone', 'फ़ोन', 'phone'), remote: t3('TV remote', 'टीवी रिमोट', 'TV remote'), banana: t3('banana', 'केला', 'kela'), book: t3('book', 'किताब', 'kitaab') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'aicam': return new AiCamScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

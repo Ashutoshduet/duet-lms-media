@@ -494,4 +494,20 @@ for (const l of L24) {
   ok(!!l.done(rt) && /shoulder nan/.test(out), `armreach: complete; blue printed nan, then "Out of reach"`);
 }
 
+// object detection on the Pi 4 (lessons24.js aidetect, pi37.js picamera2 / ultralytics, scenes3.js AiCamScene): the ribbon
+// the wrong way is IndexError; the bottle and the cup are found; the remote is also a "cell phone" 0.38 until conf > 0.5
+{ const l = LESSONS.find((x) => x.id === 'aidetect'); const B = build3(l); const { lab, app, rt, sim } = B; let src = l.code, buf = '', out = ''; const dt = 1 / 60;
+  const start = (code) => { const c = compile(code, lab.def); if (!c.ok) throw new Error(JSON.stringify(c.errors)); app.src = code; lab.run(c); rt.onRun(code); };
+  const go = (secs, until, each) => { for (let f = 0; f < secs * 60; f++) { if (each) each(f * dt); lab.step(1000 * dt); sim.update(dt, lab); rt.update(dt);
+    for (const o of lab.mcu.ser.take()) { const str = String.fromCharCode(...o.bytes).replace(/\r/g, ''); out += str; buf += str; const ls = buf.split('\n'); buf = ls.pop(); for (const x of ls) rt.onSerialLine(x); }
+    if (lab.mcu.state === 'error') return 'error'; if (until && until(rt)) return f * dt; } return -1; };
+  const acts = [(t, S) => { if (t === 0) { S.control('ribbon'); start(src); } }, (t, S) => { if (t === 0) { S.control('bottle'); S.control('cup'); } }, (t, S) => { if (t === 0) S.control('remote'); }, null]; let ai = 0;
+  for (const s of l.steps) {
+    if (s.k === 'run') { start(src); const r = go(4); ok(r === 'error' && lab.mcu.err && lab.mcu.err.code === 'N37_NO_CAMERA', `aidetect: the ribbon the wrong way round: ${lab.mcu.err && lab.mcu.err.code}`); }
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e, lab.def).ok, 'aidetect: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const a = acts[ai++]; const t = go(40, (S) => s.until(S), a ? (x) => a(x, sim) : null); ok(typeof t === 'number' && t >= 0, `aidetect: act "${s.do.en.slice(0, 50)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — ${t} ${JSON.stringify(rt.serLines.slice(-4))} ${JSON.stringify(lab.mcu.err || '')}`)); }
+  }
+  ok(!!l.done(rt) && /0: 480x640 1 bottle, 1 cup/.test(out), `aidetect: complete; ultralytics' own line was there before verbose=False (${(out.match(/\d+\.\dms inference/) || [''])[0]})`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

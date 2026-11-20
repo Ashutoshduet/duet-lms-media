@@ -1276,3 +1276,14 @@ heaters.
   14 mm for 0.5 s); blue (0, 280, 40) is 282 mm from the shoulder: acos() gives nan, Servo.write() takes it as 0 and the
   elbow folds the forearm back (flag folded, elbow < 8°). The four commented lines check d > L1 + L2 − 2 first and print
   "Out of reach". The test feeds the Serial Monitor (lab.mcu.ser.send) and passes its lines to rt.onSerialLine.
+- Batch 37: AI with a camera on the Raspberry Pi 4 (pi37.js, in pi6.js's modules) and the Class 12 object detection
+  lesson (lessons24.js aidetect; scenes3.js AiCamScene, AICAM; worlds3.js aiSteps, view scene3ai). picamera2:
+  Picamera2() (IndexError when lab.cam37 says no camera: the ribbon the wrong way round), create_preview_configuration
+  (main={"format", "size"}), configure, start, stop, close, capture_array() (a Frame: shape (h, w, 3), and the scene's
+  detections at that moment), capture_file (to the SD card, pi20.js fsOf). ultralytics: YOLO("yolov8n.pt" | "yolo11n.pt"
+  | the s sizes; others FileNotFoundError); model(frame, conf=0.25, imgsz=640, verbose=True) costs 450 ms a frame at 640
+  (∝ imgsz²) and prints ultralytics' own two lines unless verbose=False; results[0].boxes: len, iteration, [i], .cls /
+  .conf (floats), .xyxy[0], .xywh; model.names (the 80 COCO classes), results[0].speed, plot(), save(). The scene: a
+  white table with five places; the panel puts a bottle (39, 0.88), cup (41, 0.82), phone (67, 0.79), TV remote (65,
+  0.58, plus a ghost cell phone 0.38), banana (46, 0.90) and book (73, 0.72); confidence × (0.55 + 0.6 × room light),
+  ±0.03 a frame. The lesson: no camera → flip the ribbon; bottle and cup; verbose=False; the phantom phone; conf > 0.5.
