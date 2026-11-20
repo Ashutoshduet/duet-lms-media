@@ -2391,6 +2391,132 @@
 "note": null
 },
 {
+"id": "live-f_tollbooth_servo_pi",
+"title": "Toll plaza barrier: ultrasonic sensor → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tollbooth_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_silo_led_pi",
+"title": "Grain silo full alarm: ultrasonic sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_silo_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_platform_buzzer_pi",
+"title": "Platform edge warning: ultrasonic sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_platform_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_screenguard_led_pi",
+"title": "Screen distance guard: ultrasonic sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_screenguard_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_screenguard_buzzer_pi",
+"title": "Screen distance guard: ultrasonic sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_screenguard_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heightcheck_servo_pi",
+"title": "Ride height check: ultrasonic sensor → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_heightcheck_servo_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_goal_buzzer_pi",
 "title": "Goal-line sensor: IR obstacle sensor → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -3195,6 +3321,50 @@
 "note": null
 },
 {
+"id": "live-f_carwash_pump_pi",
+"title": "Car wash sprinkler: ultrasonic sensor → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_carwash_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucks_buzzer_pi",
+"title": "Low bridge height warning: ultrasonic sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trucks_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_rainsoon_rgb_pi",
 "title": "Rain-coming hint: DHT11 sensor (humidity) → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -3547,6 +3717,69 @@
 "note": null
 },
 {
+"id": "live-f_shopchime_buzzer_pi",
+"title": "Shop entry chime: ultrasonic sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shopchime_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_garage_buzzer_pi",
+"title": "Garage door opener: ultrasonic sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_garage_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_garage_servo_pi",
+"title": "Garage door opener: ultrasonic sensor → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_garage_servo_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_watchman_rgb_pi",
 "title": "Gate call for the watchman: push button → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -3777,6 +4010,27 @@
 "note": null
 },
 {
+"id": "live-f_tankfull_buzzer_pi",
+"title": "Water tank full alarm: ultrasonic sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tankfull_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panic_rgb_pi",
 "title": "Panic button for a shop: push button → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -3856,6 +4110,90 @@
 "level": 10,
 "theme": "bank",
 "live": "f_stairs_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_distancing_led_pi",
+"title": "Queue distance alarm: ultrasonic sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_distancing_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_distancing_buzzer_pi",
+"title": "Queue distance alarm: ultrasonic sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_distancing_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_door_servo_pi",
+"title": "Automatic door: ultrasonic sensor → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_door_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parkbeep_led_pi",
+"title": "Parking distance warning: ultrasonic sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parkbeep_led_pi",
 "rule": null,
 "note": null
 },
@@ -3979,6 +4317,153 @@
 "level": 10,
 "theme": "bank",
 "live": "f_lightswitch_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_mirror_relay_pico",
+"title": "Bathroom mirror demister: DHT11 sensor (humidity) → relay and heater lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_mirror_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_museum_buzzer_pico",
+"title": "Museum humidity guard: DHT11 sensor (humidity) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_museum_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_museum_rgb_pico",
+"title": "Museum humidity guard: DHT11 sensor (humidity) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_museum_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesdry_relay_pico",
+"title": "Drying room fan: DHT11 sensor (humidity) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clothesdry_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_comfort_rgb_pico",
+"title": "Classroom comfort meter: DHT11 sensor (temperature) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_comfort_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_poultry_pump_pico",
+"title": "Poultry shed cooling: DHT11 sensor (temperature) → water pump (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_poultry_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_poultry_relay_pico",
+"title": "Poultry shed cooling: DHT11 sensor (temperature) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_poultry_relay_pico",
 "rule": null,
 "note": null
 },
@@ -5619,6 +6104,49 @@
 "note": null
 },
 {
+"id": "live-f_rainsoon_rgb_pico",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_rainsoon_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattlemist_pump_pico",
+"title": "Cattle shed mist cooler: DHT11 sensor (temperature) → water pump (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_cattlemist_pump_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frostcover_servo_pico",
 "title": "Frost cover for seedlings: temperature sensor LM35 → servo (Pico)",
 "family": "factory",
@@ -5952,6 +6480,68 @@
 "level": 9,
 "theme": "bank",
 "live": "f_liftcall_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolroom_relay_pico",
+"title": "Server cupboard cooler: DHT11 sensor (temperature) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coolroom_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_booksdamp_buzzer_pico",
+"title": "Library damp alarm: DHT11 sensor (humidity) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_booksdamp_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_booksdamp_rgb_pico",
+"title": "Library damp alarm: DHT11 sensor (humidity) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_booksdamp_rgb_pico",
 "rule": null,
 "note": null
 },
@@ -6557,6 +7147,150 @@
 "level": 9,
 "theme": "bank",
 "live": "f_handwash_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bathfan_relay_pico",
+"title": "Bathroom steam fan: DHT11 sensor (humidity) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bathfan_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_rgb_pico",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainstore_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_buzzer_pico",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainstore_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greenfan_servo_pico",
+"title": "Greenhouse cooling: DHT11 sensor (temperature) → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_greenfan_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greenfan_relay_pico",
+"title": "Greenhouse cooling: DHT11 sensor (temperature) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_greenfan_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_buzzer_pico",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_heatwave_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_rgb_pico",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_heatwave_rgb_pico",
 "rule": null,
 "note": null
 },
@@ -19933,6 +20667,46 @@
 "level": 7,
 "theme": "bank",
 "live": "f_door_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_blindstick_buzzer",
+"title": "Blind stick (third eye): ultrasonic sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_blindstick_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbin_servo",
+"title": "Smart dustbin lid: ultrasonic sensor → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_dustbin_servo",
 "rule": null,
 "note": null
 },
@@ -39276,7 +40050,7 @@
 ],
 "level": 8,
 "theme": "home",
-"live": "f_dustbin_servo",
+"live": "f_dustbin_servo_pi",
 "rule": {
 "in": "sonar",
 "out": "servo",
@@ -39589,7 +40363,7 @@
 ],
 "level": 7,
 "theme": "health",
-"live": "f_blindstick_buzzer",
+"live": "f_blindstick_buzzer_pi",
 "rule": {
 "in": "sonar",
 "out": "abuzz",

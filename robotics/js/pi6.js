@@ -339,7 +339,7 @@ function picoHost(m) {
   const upy = () => new Mod('micropython', { const: nat('const', ['x'], (R, x) => x), mem_info: nat('mem_info', [], () => null) });
   const wrong = (mod) => (R) => { throw R.err('ImportError', 'N6_MOD_PICO', { mod }); };
   return {
-    modules: { machine, sys, rp2, gc, micropython: upy, gpiozero: wrong('gpiozero'), 'RPi.GPIO': wrong('RPi.GPIO'), RPi: wrong('RPi'), adafruit_dht: wrong('adafruit_dht'), board: wrong('board'), signal: wrong('signal') },
+    modules: { machine, sys, rp2, gc, micropython: upy, dht: () => mpDht(m), gpiozero: wrong('gpiozero'), 'RPi.GPIO': wrong('RPi.GPIO'), RPi: wrong('RPi'), adafruit_dht: wrong('adafruit_dht'), board: wrong('board'), signal: wrong('signal') },
     print: (s, R) => { m.serial(s, R.t); m.obs6.prints++; m.line6(s); },
     hint: (name, G) => hint6(name, G, false),
     names: () => ['Pin', 'PWM', 'ADC', 'Timer', 'time_pulse_us', 'sleep', 'sleep_ms', 'utime', 'time', 'machine'],
@@ -542,6 +542,18 @@ function rpiGPIO(m) { // RPi.GPIO (the older library; it does not work on a Pi 5
   }));
   return mod;
 }
+// batch 14: MicroPython's dht module (the Pico): sensor = dht.DHT11(Pin(15)); sensor.measure(); sensor.temperature()
+function mpDht(m) {
+  const D = dhtMods(m);
+  class MPDHT extends D.DHT {
+    props() { return {}; }
+    methods() { const me = this; return {
+      measure: nat('measure', [], (R) => { try { me.measure(R); } catch (e) { if (e.code === 'N6_DHT_CHECKSUM' || e.code === 'N6_DHT_NONE') throw R.err('OSError', e.code === 'N6_DHT_NONE' ? 'N6_MPDHT_NONE' : 'N6_MPDHT_TIMEOUT', { pin: me.p }); throw e; } return null; }),
+      temperature: nat('temperature', [], () => (me.t === null ? null : F(me.t))), humidity: nat('humidity', [], () => me.h) }; }
+  }
+  const mk = (kind) => klass(kind, (R, a) => { const p = picoPin(m, R, a[0]); m.setMode(p, 'in', null); return new MPDHT(p, kind); });
+  return new Mod('dht', { DHT11: mk('DHT11'), DHT22: mk('DHT22') });
+}
 function dhtMods(m) {
   const pinOf = (R, v) => (v && v.board6 ? v.gpio : piPin(m, R, v));
   class DHT extends PyObj {
@@ -564,7 +576,7 @@ function dhtMods(m) {
   const old = () => new Mod('Adafruit_DHT', { DHT11: 11, DHT22: 22, AM2302: 22,
     read_retry: nat('read_retry', ['sensor', 'pin', 'retries=15', 'delay_seconds=2'], function* (R, s, p) { const d = new DHT(int(R, p), s === 22 ? 'DHT22' : 'DHT11'); for (let k = 0; k < 15; k++) { try { d.measure(R); return tup([F(d.h), F(d.t)]); } catch (e) { if (e.code !== 'N6_DHT_CHECKSUM') return tup([null, null]); yield* R.sleep(2000); } } return tup([null, null]); }, B),
     read: nat('read', ['sensor', 'pin'], (R, s, p) => { const d = new DHT(int(R, p), s === 22 ? 'DHT22' : 'DHT11'); try { d.measure(R); return tup([F(d.h), F(d.t)]); } catch (e) { return tup([null, null]); } }) });
-  return { board, adafruit_dht: ada, Adafruit_DHT: old };
+  return { board, adafruit_dht: ada, Adafruit_DHT: old, DHT };
 }
 function piTime(m) {
   const now = (R) => START_EPOCH + R.t / 1e6;
@@ -673,6 +685,8 @@ export const MSG6 = {
   N6_GPIO_IN: t3('RuntimeError: You must setup() the GPIO channel first.', 'RuntimeError: पहले GPIO चैनल को setup() कीजिए।', 'RuntimeError: Pehle GPIO channel ko setup() kijiye.'),
   N6_DC: t3('ValueError: dutycycle must have a value from 0.0 to 100.0 (you gave {v}).', 'ValueError: dutycycle 0.0 से 100.0 तक होता है (आपने {v} दिया)।', 'ValueError: dutycycle 0.0 se 100.0 tak hota hai (aapne {v} diya).'),
   N6_DHT_NONE: t3('RuntimeError: DHT sensor not found, check wiring. Its DATA (S) goes to GPIO {pin}, VCC to 3.3 V or 5 V, GND to GND.', 'RuntimeError: DHT sensor not found, check wiring। इसका DATA (S) GPIO {pin} पर, VCC 3.3 V या 5 V पर, GND, GND पर जाना चाहिए।', 'RuntimeError: DHT sensor not found, check wiring. Iska DATA (S) GPIO {pin} par, VCC 3.3 V ya 5 V par, GND, GND par jaana chahiye.'),
+  N6_MPDHT_TIMEOUT: t3('OSError: [Errno 110] ETIMEDOUT (the DHT11 missed a reading, as it does now and then: catch it with try / except OSError and measure again in 2 s.)', 'OSError: [Errno 110] ETIMEDOUT (DHT11 ने कभी-कभी की तरह एक रीडिंग छोड़ दी: इसे try / except OSError से पकड़िए और 2 s बाद फिर measure कीजिए।)', 'OSError: [Errno 110] ETIMEDOUT (DHT11 ne kabhi-kabhi ki tarah ek reading chhod di: ise try / except OSError se pakadiye aur 2 s baad phir measure kijiye.)'),
+  N6_MPDHT_NONE: t3('OSError: [Errno 110] ETIMEDOUT: no DHT answers on GP{pin}. Its DATA goes to GP{pin}, + to 3V3, − to GND.', 'OSError: [Errno 110] ETIMEDOUT: GP{pin} पर कोई DHT जवाब नहीं देता। इसका DATA GP{pin} पर, + 3V3 पर, − GND पर।', 'OSError: [Errno 110] ETIMEDOUT: GP{pin} par koi DHT jawaab nahi deta. Iska DATA GP{pin} par, + 3V3 par, − GND par.'),
   N6_DHT_CHECKSUM: t3('RuntimeError: Checksum did not validate. Try again. (DHT sensors miss a reading now and then: catch it with try / except RuntimeError and read again.)', 'RuntimeError: Checksum did not validate. Try again. (DHT सेंसर कभी-कभी रीडिंग छोड़ देता है: try / except RuntimeError से पकड़िए और फिर पढ़िए।)', 'RuntimeError: Checksum did not validate. Try again. (DHT sensor kabhi-kabhi reading chhod deta hai: try / except RuntimeError se pakdiye aur phir padhiye.)'),
   // notes (the program goes on)
   N6_FLOAT: t3('{pin} is an input with nothing joined to it: it reads 0 and 1 at random. Check its wire, or give it a pull-up (Pin.PULL_UP).', '{pin} एक इनपुट है जिससे कुछ नहीं जुड़ा: यह अपने-आप 0 और 1 पढ़ता है। इसका वायर जाँचिए, या pull-up (Pin.PULL_UP) दीजिए।', '{pin} ek input hai jisse kuch nahi juda: yeh apne-aap 0 aur 1 padhta hai. Iska wire check kijiye, ya pull-up (Pin.PULL_UP) dijiye.'),

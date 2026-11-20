@@ -761,3 +761,8 @@ heaters.
   buzzer on GPIO 18 when closer than 20 cm), a quiz buzzer for three teams (lists of Buttons and LEDs, the first press
   wins, `lock` seconds for the others) and a Morse code translator (input() in the terminal, a dictionary, one `unit`
   sets every timing). 216 of 300 sessions are live; 1,265 projects.
+- The bank on more boards: the Pico reads a DHT11 (MicroPython's own `dht` module, now in pi6.js: `dht.DHT11(Pin(14))`,
+  `measure()`, `temperature()`, `humidity()`; a missed reading is `OSError: [Errno 110] ETIMEDOUT`, which the sketch
+  catches) — 19 lessons; the Pi 4 reads an HC-SR04 with gpiozero's DistanceSensor (Trig GPIO 25, Echo through a
+  1 kΩ / 2.2 kΩ divider that the factory puts on the breadboard first, `preParts` / `preWires`, to GPIO 24) — 18
+  lessons. `robofactory.mjs` 6721 ok. 1,302 projects.

@@ -23,6 +23,7 @@ const noShort = (W) => (S) => (S.conn('5V', 'GND') ? [W.short] : null);
 const XF = {
   esp5v: t3('This part is joined to VIN (5 V): its signal would push 5 V into the ESP32\'s GPIO and damage it. Power it from 3V3 (the front + rail).', 'यह पुर्ज़ा VIN (5 V) से जुड़ा है: इसका सिग्नल ESP32 के GPIO में 5 V डालेगा और उसे ख़राब कर देगा। इसे 3V3 (आगे वाली + रेल) से बिजली दीजिए।', 'Yeh part VIN (5 V) se juda hai: iska signal ESP32 ke GPIO mein 5 V daalega aur use kharaab kar dega. Ise 3V3 (aage wali + rail) se bijli dijiye.'),
   potEnds3: t3('The knob\'s two outer legs go to 3V3 and GND (the front + and − rails), and its middle leg to GPIO 34.', 'नॉब के दोनों बाहरी पैर 3V3 और GND (आगे वाली + और − रेल) पर, और बीच वाला पैर GPIO 34 पर।', 'Knob ke dono bahari pair 3V3 aur GND (aage wali + aur − rail) par, aur beech wala pair GPIO 34 par.'),
+  piEcho: t3('Echo goes straight to GPIO 24: the HC-SR04 answers with 5 V, too much for the Pi. Echo must go through the divider.', 'Echo सीधे GPIO 24 पर है: HC-SR04 5 V से जवाब देता है, Pi के लिए बहुत ज़्यादा। Echo को डिवाइडर से होकर जाना चाहिए।', 'Echo seedhe GPIO 24 par hai: HC-SR04 5 V se jawab deta hai, Pi ke liye bahut zyada. Echo ko divider se hokar jaana chahiye.'),
   pico5v: t3('This part is joined to VBUS (5 V): its signal would push 5 V into the Pico\'s GPIO and damage it. Power it from the 3V3 pin.', 'यह पुर्ज़ा VBUS (5 V) से जुड़ा है: इसका सिग्नल Pico के GPIO में 5 V डालेगा और उसे ख़राब कर देगा। इसे 3V3 पिन से बिजली दीजिए।', 'Yeh part VBUS (5 V) se juda hai: iska signal Pico ke GPIO mein 5 V daalega aur use kharaab kar dega. Ise 3V3 pin se bijli dijiye.'),
   potEndsP: t3('The knob\'s two outer legs go to 3V3 and GND, and its middle leg to GP26.', 'नॉब के दोनों बाहरी पैर 3V3 और GND पर, और बीच वाला पैर GP26 पर।', 'Knob ke dono bahari pair 3V3 aur GND par, aur beech wala pair GP26 par.'),
   potEnds: t3('The knob\'s two outer legs go to 5V and GND (the + and − rails), and its middle leg to A0.', 'नॉब के दोनों बाहरी पैर 5V और GND (+ और − रेल) पर जाते हैं, और बीच वाला पैर A0 पर।', 'Knob ke dono bahari pair 5V aur GND (+ aur − rail) par jaate hain, aur beech wala pair A0 par.'),
@@ -368,6 +369,13 @@ const lmP = { wires: [w('t1.VS', 'rail:tp', 'Wire its left leg (+Vs) to the back
   checks: (K) => [has(K.W, 't1', t3('LM35 sensor', 'LM35 सेंसर', 'LM35 sensor')), need('t1.VS', 'VBUS', K.W.join, { a: '+Vs', b: 'VBUS (5 V)' }), need('t1.OUT', 'GP26', K.W.join, { a: 'OUT', b: 'GP26' }), need('t1.GND', 'GND', K.W.toGnd, { x: 'GND' })],
   py: { decl: ['sensor = ADC(26)            # GP26'], read: 'temp = round(sensor.read_u16() * 3.3 / 65535 * 100)   # °C: 10 mV per degree' } };
 PIN.lm35 = Object.assign({}, IN.lm35, lmP);
+// (batch 14) the DHT11 on the Pico: MicroPython's own dht module, its DATA on GP14 (the digital sensors' pin), + on 3V3
+const dhtP = { wires: [w('dht.VCC', '3V3', 'Wire its middle pin (+) to the Pico\'s 3V3 pin: the DHT11 works at 3.3 V.', 'इसके बीच वाले पिन (+) को Pico के 3V3 पिन से जोड़िए: DHT11 3.3 V पर चलता है।', 'Iske beech wale pin (+) ko Pico ke 3V3 pin se jodiye: DHT11 3.3 V par chalta hai.'), w('dht.GND', 'rail:bn', 'Its right pin (−) to the front − rail.', 'इसका दायाँ पिन (−) आगे वाली − रेल से।', 'Iska right pin (−) aage wali − rail se.'), w('dht.DATA', 'GP14', 'Its left pin (DATA) to GP14.', 'इसका बायाँ पिन (DATA) GP14 से।', 'Iska left pin (DATA) GP14 se.')],
+  checks: (K) => [has(K.W, 'dht', t3('DHT11', 'DHT11', 'DHT11')), (S) => (S.conn('dht.VCC', 'VBUS') ? [XF.pico5v] : null), need('dht.VCC', '3V3', K.W.join, { a: 'DHT11 +', b: '3V3' }), need('dht.GND', 'GND', K.W.toGnd, { x: 'DHT11 −' }), need('dht.DATA', 'GP14', K.W.join, { a: 'DATA', b: 'GP14' })] };
+const dhtPy = (v, fn) => ({ dht: true, imp: ['import dht'], decl: ['sensor = dht.DHT11(Pin(14))  # the DHT11\'s DATA on GP14'],
+  read: ['try:', '    sensor.measure()            # it answers once every 2 s', `    ${v} = sensor.${fn}()`, 'except OSError:                 # a DHT11 sometimes misses a reading: try again', `    ${v} = None`] });
+PIN.dht = Object.assign({}, IN.dht, dhtP, { py: dhtPy('temp', 'temperature') });
+PIN.hum = Object.assign({}, IN.hum, dhtP, { py: dhtPy('hum', 'humidity') });
 PIN.cold = Object.assign({}, IN.cold, lmP);
 PIN.soil = Object.assign({}, IN.soil, {
   wires: [w('soil.VCC', '3V3', 'Wire its VCC to the Pico\'s 3V3 pin.', 'इसका VCC Pico के 3V3 पिन से जोड़िए।', 'Iska VCC Pico ke 3V3 pin se jodiye.'), w('soil.GND', 'rail:bn', 'Its GND to the front − rail.', 'इसका GND आगे वाली − रेल से।', 'Iska GND aage wali − rail se.'), w('soil.AO', 'GP26', 'Its AO to GP26.', 'इसका AO, GP26 से।', 'Iska AO, GP26 se.')],
@@ -415,6 +423,18 @@ const dhtQ = { wires: [w('dht.VCC', 'rail:bp', 'Its middle pin (+) to the front 
 const dhtPi = (v, prop) => ({ mods: ['board', 'adafruit_dht'], decl: ['dht = adafruit_dht.DHT11(board.D4)   # the DHT11\'s DATA on GPIO 4'],
   read: ['try:', `    ${v} = dht.${prop}`, 'except RuntimeError:              # a DHT11 sometimes misses a reading: try again', `    ${v} = None`] });
 QIN.dht = Object.assign({}, IN.dht, dhtQ, { pi: dhtPi('temp', 'temperature') });
+// (batch 14) the HC-SR04 on the Pi: 5 V for the sensor, its 5 V Echo through a 1 kΩ / 2.2 kΩ divider (already on the
+// breadboard) to GPIO 24, Trig on GPIO 25 (GPIO 23 is the relay's); gpiozero's DistanceSensor does the timing
+QIN.sonar = Object.assign({}, IN.sonar, { view: 'wide', cond: 'cm < limit',
+  preParts: [P('rd1', 'resistor', { ohms: 1000 }, 'g47', 2), P('rd2', 'resistor', { ohms: 2200 }, 'j43', 1)], preWires: [['GPIO24', 'H:f43']],
+  placeDo: t3('Plug the ultrasonic sensor into 45j–48j, its "eyes" facing you. The divider for its Echo (1 kΩ and 2.2 kΩ) is already on the breadboard, its middle wired to GPIO 24.', 'अल्ट्रासोनिक सेंसर को 45j–48j में लगाइए, इसकी "आँखें" आपकी तरफ़। इसके Echo का डिवाइडर (1 kΩ और 2.2 kΩ) पहले से ब्रेडबोर्ड पर है, उसका बीच GPIO 24 से जुड़ा है।', 'Ultrasonic sensor ko 45j–48j mein lagaiye, iski "aankhen" aapki taraf. Iske Echo ka divider (1 kΩ aur 2.2 kΩ) pehle se breadboard par hai, uska beech GPIO 24 se juda hai.'),
+  place: P('us1', 'hcsr04', {}, 'j45', 0),
+  wires: [w('us1.VCC', 'rail:tp', 'Wire VCC (column 45) to the back + rail (5 V): the HC-SR04 needs 5 V.', 'VCC (कॉलम 45) को पीछे वाली + रेल (5 V) से जोड़िए: HC-SR04 को 5 V चाहिए।', 'VCC (column 45) ko peeche wali + rail (5 V) se jodiye: HC-SR04 ko 5 V chahiye.'),
+    w('us1.TRIG', 'GPIO25', 'Trig (column 46) to GPIO 25 (physical pin 22).', 'Trig (कॉलम 46) को GPIO 25 (फ़िज़िकल पिन 22) से।', 'Trig (column 46) ko GPIO 25 (physical pin 22) se.'),
+    w('us1.GND', 'rail:bn', 'GND (column 48) to the front − rail.', 'GND (कॉलम 48) को आगे वाली − रेल से।', 'GND (column 48) ko aage wali − rail se.')],
+  checks: (K) => [has(K.W, 'us1', t3('ultrasonic sensor', 'अल्ट्रासोनिक सेंसर', 'ultrasonic sensor')), need('us1.VCC', '5V', K.W.join, { a: 'VCC', b: '5 V' }), need('us1.GND', 'GND', K.W.toGnd, { x: 'GND' }), need('us1.TRIG', 'GPIO25', K.W.join, { a: 'Trig', b: 'GPIO 25' }),
+    (S) => (S.conn('us1.ECHO', 'GPIO24') ? [XF.piEcho] : null)],
+  pi: { imp: ['DistanceSensor'], decl: ['sensor = DistanceSensor(echo=24, trigger=25, max_distance=2)   # Echo comes through the divider'], read: ['cm = round(sensor.distance * 100)   # .distance is in metres'], sleep: 0.2 } });
 QIN.hum = Object.assign({}, IN.hum, dhtQ, { pi: dhtPi('hum', 'humidity') });
 QOUT.led = Object.assign({}, OUT.led, { pin: 'GPIO18', wires: [['GPIO18', 'H:a23']],
   ready: t3('The red LED and its 220 Ω resistor are already wired to GPIO 18 (physical pin 12).', 'लाल एलईडी और उसका 220 Ω रेज़िस्टर पहले से GPIO 18 (फ़िज़िकल पिन 12) पर लगे हैं।', 'Laal LED aur uska 220 Ω resistor pehle se GPIO 18 (physical pin 12) par lage hain.'),
@@ -445,7 +465,7 @@ function sketchPi(job, ik, ok) {
   else L.push('hold = 1.0                  # stay on this long after it stops (seconds)', 'last = None                 # when the sensor was last active');
   L.push('', 'while True:');
   if (inp.analog) {
-    L.push(...ip.read.map((x) => '    ' + x), `    if ${inp.v} is None:`, '        time.sleep(2)', '        continue', `    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), '    time.sleep(2)              # a DHT11 answers once every 2 s');
+    L.push(...ip.read.map((x) => '    ' + x), `    if ${inp.v} is None:`, '        time.sleep(2)', '        continue', `    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), (ip.sleep ? `    time.sleep(${ip.sleep})` : '    time.sleep(2)              # a DHT11 answers once every 2 s'));
   } else {
     L.push(`    if ${ip.trig}:`, '        last = time.monotonic()  # active now: start the hold time again', '    if last is not None and time.monotonic() - last < hold:', ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), '    time.sleep(0.05)');
   }
@@ -455,13 +475,14 @@ function sketchPi(job, ik, ok) {
 
 function sketchPy(job, ik, ok) {
   const inp = PIN[ik], out = ok === 'relay' ? relayFor(POUT[ok], job) : POUT[ok], ip = inp.py, op = out.py;
-  const mods = ['Pin']; if (ip.read) mods.push('ADC'); if (op.decl.some((x) => x.includes('PWM('))) mods.push('PWM');
-  const L = [`# ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `# ${job.why.en}`, `from machine import ${mods.join(', ')}`, 'import time', '', ...ip.decl, ...op.decl];
+  const mods = ['Pin']; if (ip.read && !ip.dht) mods.push('ADC'); if (op.decl.some((x) => x.includes('PWM('))) mods.push('PWM');
+  const L = [`# ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `# ${job.why.en}`, `from machine import ${mods.join(', ')}`, 'import time', ...(ip.imp || []), '', ...ip.decl, ...op.decl];
   if (inp.analog) L.push(`limit = ${inp.l0}             # ${inp.note}`);
   else L.push('hold = 1000                 # stay on this long after it stops (ms)', 'last = None                 # when the sensor was last active');
   L.push('', 'while True:');
   if (inp.analog) {
-    L.push('    ' + ip.read, `    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond.replace('&&', 'and')}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), `    time.sleep(${(inp.delay || 200) / 1000})`);
+    L.push(...(Array.isArray(ip.read) ? ip.read : [ip.read]).map((x) => '    ' + x)); if (ip.dht) L.push(`    if ${inp.v} is None:`, '        time.sleep(2)', '        continue');
+    L.push(`    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond.replace('&&', 'and')}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), `    time.sleep(${(inp.delay || 200) / 1000})`);
   } else {
     L.push(`    if ${ip.trig}:`, '        last = time.ticks_ms()   # active now: start the hold time again', '    if last is not None and time.ticks_diff(time.ticks_ms(), last) < hold:', ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), '    time.sleep(0.05)');
   }
@@ -724,7 +745,7 @@ function lesson(K, job, ik, ok, n, board) {
   return {
     id, n, batch: 'F', factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
     code, drawer: inp.drawer, serial: !!inp.analog, title: t3(`${job.title.en}: ${inp.name.en} → ${out.name.en}${sfx}`, `${job.title.hi}: ${inp.name.hi} → ${out.name.hi}${sfx}`, `${job.title.hg}: ${inp.name.hg} → ${out.name.hg}${sfx}`),
-    goal, setup: { parts: out.parts.map((p) => Object.assign({}, p)), wires: [...(esp ? ESP_POWER : pico ? PICO_POWER : pi ? PI_POWER : POWER), ...out.wires] }, steps, check, tick,
+    goal, setup: { parts: [...out.parts, ...(inp.preParts || [])].map((p) => Object.assign({}, p)), wires: [...(esp ? ESP_POWER : pico ? PICO_POWER : pi ? PI_POWER : POWER), ...out.wires, ...(inp.preWires || [])] }, steps, check, tick,
     done: (S) => !!S.memRun.final,
   };
 }
