@@ -259,6 +259,17 @@ export function buildLooseBuzzer() {
   g.userData = { ends: { P: [V3(6.8, 1.2, 10.5), V3(0.2, 0.3, 1)], N: [V3(-6.8, 1.2, 10.5), V3(-0.2, 0.3, 1)] } };
   return g;
 }
+// (batch 12) a 10 kΩ knob (potentiometer) on a foam block, its three legs bent out for the clips; userData.knob turns
+export function buildLoosePot() {
+  const MM = MD.materials(); const g = new THREE.Group();
+  g.add(box(18, 6, 12, S({ color: 0x2a2c30, roughness: 0.95 }), 0, 3, -4)); // the foam block it stands in
+  g.add(box(10, 6, 9.5, MM.potBlue, 0, 9, -4));
+  const knob = new THREE.Group(); knob.position.set(0, 12, -4); knob.userData.keep = true; g.add(knob);
+  knob.add(cyl(3.4, 5.5, MM.knob, 0, 2.75, 0, 18)); knob.add(box(0.8, 0.4, 2.8, MM.white, 0, 5.6, 1.4)); // the knob, its pointer line
+  for (const x of [-2.54, 0, 2.54]) { g.add(lead(V3(x, 6, 0.8), V3(x, 6, 3), 0.3, MM.tin)); g.add(lead(V3(x, 6, 3), V3(x * 2.2, 1.2, 9), 0.3, MM.tin)); }
+  g.userData = { knob, ends: { E1: [V3(-5.6, 1.2, 9), V3(-0.2, 0.3, 1)], W: [V3(0, 1.2, 9), V3(0, 0.3, 1)], E2: [V3(5.6, 1.2, 9), V3(0.2, 0.3, 1)] } };
+  return g;
+}
 // the SG90 servo (models.js) on a cardboard base with a boom: the gate. Three jumper pins stick out of its plug for the clips.
 export function buildGate() {
   const MM = MD.materials(); const g = new THREE.Group();
@@ -285,6 +296,40 @@ export function buildGate() {
   g.userData = { horn, boom, ends: { GND: P(0), VP: P(1), SIG: P(2) } };
   return g;
 }
+// (batch 13) an inchworm robot on a paper ruler track: two cardboard plates hinged at the servo, a rubber foot at the
+// back (it grips) and an ice-cream-stick foot at the front (it slides). The worm stays in the picture and the paper track
+// slides back under it as it walks (userData.pose(angle, mm)), so the clip leads stay put.
+export function buildInchworm() {
+  const MM = MD.materials(); const g = new THREE.Group();
+  const card = S({ color: 0xb98a55, roughness: 0.92 }), rubber = S({ color: 0x1e1f21, roughness: 0.95 }), stick = S({ color: 0xd9b27c, roughness: 0.75 });
+  const rt = rulerTex(); const track = new THREE.Mesh(new THREE.PlaneGeometry(240, 46), S({ map: rt, roughness: 0.9 })); track.rotation.x = -Math.PI / 2; track.position.set(40, 0.35, -40); track.userData.keep = true; g.add(track);
+  const worm = new THREE.Group(); worm.position.set(-30, 0, -40); worm.userData.keep = true; g.add(worm);
+  const rear = new THREE.Group(); worm.add(rear); rear.add(box(52, 2.5, 26, card, 26, 3, 0)); rear.add(box(6, 3, 26, rubber, 2, 1.5, 0)); // the rear plate, its rubber foot
+  const sv = MD.buildServo(); sv.scale.setScalar(0.8); sv.position.set(34, 4.3, -8); rear.add(sv); // the servo on the rear plate, near the hinge
+  const front = new THREE.Group(); worm.add(front); front.add(box(52, 2.5, 26, card, 26, 3, 0)); front.add(box(5, 2, 26, stick, 50, 1, 0)); // the front plate, its stick foot
+  const MB = S({ color: 0x1d1d1f, roughness: 0.6 }); rear.add(box(10, 6, 6, MB, 8, 7, 0)); // a battery clip on top
+  let last = '';
+  const pose = (a, mm) => {
+    const phi = Math.max(0, Math.min(40, (150 - a) / 3)) * Math.PI / 180; const k = a.toFixed(1) + '|' + Math.round(mm * 10); if (k === last) return false; last = k;
+    rear.rotation.z = phi; const hx = 52 * Math.cos(phi), hy = 52 * Math.sin(phi); front.position.set(hx, hy, 0); front.rotation.z = -2 * phi; // an arch: both plates tilt up to the hinge
+    rt.offset.x = -((mm / 240) % 1); return true;
+  };
+  // three jumper wires from the servo's plug to pins on the desk, as on the gate: brown GND, red + (VP), orange signal
+  const jw = new THREE.Group(); const cols = [0x5a3a22, 0xc8302a, 0xf08a1c], house = S({ color: 0x1d1d1f, roughness: 0.6 });
+  for (let i = 0; i < 3; i++) {
+    const a = V3(-2 + (i - 1) * 2.5, 9, -30), e = V3(-22 + (i - 1) * 11, 1.4, 18 + 27);
+    const c = new THREE.QuadraticBezierCurve3(a, V3((a.x + e.x) / 2, 16, (a.z + e.z) / 2), V3(e.x, e.y, e.z - 3.5));
+    jw.add(new THREE.Mesh(new THREE.TubeGeometry(c, 16, 0.75, 6), S({ color: cols[i], roughness: 0.55 })));
+    jw.add(box(2.2, 2.2, 6, house, e.x, e.y, e.z - 1)); jw.add(box(0.64, 0.64, 6, MM.gold, e.x, e.y, e.z + 4));
+  }
+  MD.mergeStatic(jw); g.add(jw);
+  const P = (i) => [V3(-22 + (i - 1) * 11, 1.4, 18 + 31), V3(0, 0.35, 1)];
+  g.userData = { horn: sv.userData.horn, pose, ends: { GND: P(0), VP: P(1), SIG: P(2) } };
+  pose(150, 0); return g;
+}
+function rulerTex() { const C = canvas(1024, 192), c = C.getContext('2d'); c.fillStyle = '#f4efe2'; c.fillRect(0, 0, 1024, 192); c.fillStyle = '#2a2a2a'; c.font = '700 26px sans-serif'; c.textAlign = 'center';
+  for (let mm = 0; mm < 240; mm++) { const x = mm / 240 * 1024; const h = mm % 10 === 0 ? 56 : mm % 5 === 0 ? 36 : 20; c.fillRect(x, 0, 2, h); if (mm % 10 === 0) c.fillText(String(mm / 10), x + 2, 92); }
+  const t = tex(C); t.wrapS = THREE.RepeatWrapping; return t; }
 function roadTex() { const C = canvas(256, 96), c = C.getContext('2d'); c.fillStyle = '#3a3b3e'; c.fillRect(0, 0, 256, 96); noise(c, 256, 96, 0.12, 2); c.fillStyle = '#e8e2d0'; for (let x = 8; x < 256; x += 36) c.fillRect(x, 45, 20, 5); c.fillRect(0, 4, 256, 3); c.fillRect(0, 89, 256, 3); return tex(C); }
 function stripeTex() { const C = canvas(256, 16), c = C.getContext('2d'); for (let i = 0; i < 8; i++) { c.fillStyle = i % 2 ? '#f2f0ea' : '#d8261c'; c.fillRect(i * 32, 0, 32, 16); } return tex(C); }
 // a clay pot with soil, a little plant and two galvanised nails as soil probes

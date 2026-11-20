@@ -507,7 +507,7 @@ export class MicroBit {
       receive: nat('receive', [], (R2) => { need(R2); const m = B.radio.q.shift(); if (m === undefined) return null; core.obs.radioGot[B.k] = (core.obs.radioGot[B.k] || 0) + 1; core.obs.lastGot[B.k] = m.s; return m.s; }),
       send_bytes: nat('send_bytes', ['message'], (R2, m) => { need(R2); core.radioSend(B, str(m), R2.t); return null; }),
       receive_bytes: nat('receive_bytes', [], (R2) => { need(R2); const m = B.radio.q.shift(); return m ? m.s : null; }),
-      receive_full: nat('receive_full', [], (R2) => { need(R2); const m = B.radio.q.shift(); return m ? tup([m.s, -42 - Math.round(Math.random() * 6), Math.floor(m.t)]) : null; }),
+      receive_full: nat('receive_full', [], (R2) => { need(R2); const m = B.radio.q.shift(); if (m) { core.obs.lastRssi = m.rssi !== undefined ? m.rssi : -45; core.obs.radioGot[B.k] = (core.obs.radioGot[B.k] || 0) + 1; } return m ? tup([m.s, m.rssi !== undefined ? m.rssi : -45, Math.floor(m.t)]) : null; }),
       RATE_1MBIT: 0, RATE_2MBIT: 1, RATE_250KBIT: 2,
     });
   }
@@ -534,6 +534,7 @@ export const MB_PARTS = {
   led: { pins: ['A', 'K'], name: t3('LED', 'एलईडी', 'LED'), pin: { A: t3('long leg (+)', 'लंबा पैर (+)', 'lamba pair (+)'), K: t3('short leg (−)', 'छोटा पैर (−)', 'chhota pair (−)') } },
   buzzer: { pins: ['P', 'N'], name: t3('Piezo buzzer', 'पीज़ो बज़र', 'Piezo buzzer'), pin: { P: t3('+ (red)', '+ (लाल)', '+ (red)'), N: t3('− (black)', '− (काला)', '− (black)') } },
   servo: { pins: ['GND', 'VP', 'SIG'], name: t3('Servo SG90', 'सर्वो SG90', 'Servo SG90'), pin: { GND: t3('brown: GND', 'भूरा: GND', 'brown: GND'), VP: t3('red: + power', 'लाल: + बिजली', 'red: + power'), SIG: t3('orange: signal', 'नारंगी: सिग्नल', 'orange: signal') } },
+  pot: { pins: ['E1', 'W', 'E2'], name: t3('Knob (10 kΩ potentiometer)', 'नॉब (10 kΩ पोटेंशियोमीटर)', 'Knob (10 kΩ potentiometer)'), pin: { E1: t3('end 1', 'सिरा 1', 'sira 1'), W: t3('middle (wiper)', 'बीच वाला (वाइपर)', 'beech wala (wiper)'), E2: t3('end 2', 'सिरा 2', 'sira 2') } }, // (batch 12)
   soil: { pins: ['N1', 'N2'], name: t3('Soil probes (two nails)', 'मिट्टी की प्रोब (दो कीलें)', 'Soil probes (do keelein)'), pin: { N1: t3('nail 1', 'कील 1', 'keel 1'), N2: t3('nail 2', 'कील 2', 'keel 2') } },
 };
 export const soilOhms = (m) => 20000 * Math.pow(1 / clamp(m, 0.02, 1), 2.5);
@@ -544,7 +545,7 @@ export class MBCore {
   constructor(app, cfg) {
     this.app = app; this.cfg = cfg || {}; this.kind = 'mb'; this.ready = false; this.lab = app && app.lab;
     this.boards = [new MicroBit(this, 0)]; if (this.cfg.boards === 2) this.boards.push(new MicroBit(this, 1));
-    this.env = { temp: this.cfg.temp !== undefined ? this.cfg.temp : 26, sound: 18, get light() { return app && app.lab ? app.lab.env.light : 0.75; } };
+    this.env = { temp: this.cfg.temp !== undefined ? this.cfg.temp : 26, sound: 18, gap: this.cfg.gap || 2, get light() { return app && app.lab ? app.lab.env.light : 0.75; } };
     this.parts = {}; for (const p of this.cfg.parts || []) this.parts[p.tag] = Object.assign({ state: { angle: 90, b: 0, m: p.m !== undefined ? p.m : 0.6 } }, p);
     this.version = 1; this.clips = []; for (const [a, b] of this.cfg.clips || []) this.addClip(a, b, true);
     this.now = 0; this.tasks = []; this.sounds = [];
@@ -705,6 +706,7 @@ export class MBCore {
       if (p.type === 'buzzer') els.push({ type: 'R', a: N('P'), b: N('N'), r: 1e6, part: p });
       if (p.type === 'servo') els.push({ type: 'R', a: N('VP'), b: N('GND'), r: p.state.moving ? 40 : 700, part: p }, { type: 'R', a: N('SIG'), b: N('GND'), r: 2e6, part: p, role: 'sig' });
       if (p.type === 'soil') els.push({ type: 'R', a: N('N1'), b: N('N2'), r: soilOhms(p.state.m), part: p });
+      if (p.type === 'pot') { const k = clamp(p.state.pos === undefined ? 0.5 : p.state.pos, 0, 1); els.push({ type: 'R', a: N('E1'), b: N('W'), r: 10000 * k + 0.5, part: p }, { type: 'R', a: N('W'), b: N('E2'), r: 10000 * (1 - k) + 0.5, part: p }); }
     }
     const V = solve(n, els, null);
     this.circuitV = { V, els, node, n }; this.circuitKey = this.version;
@@ -721,11 +723,15 @@ export class MBCore {
     const v = C.V[C.node(p)] || 0;
     return analog ? Math.max(0, v + (Math.random() - 0.5) * 0.006) : v;
   }
+  // (batch 12) the received signal strength (dBm): about -45 at 1 m at full power, 25 dB weaker for every ten times the
+  // distance (the panel's "distance between the boards"), 3 dB weaker for each power step below 7, and a little noise
+  rssi(from) { const d = Math.max(0.2, this.env.gap || 1), pw = from.radio ? from.radio.power : 6; return Math.max(-120, Math.min(-30, Math.round(-45 - 25 * Math.log10(d) - (7 - pw) * 3 + (Math.random() - 0.5) * 3))); }
   radioSend(from, s, T) {
     const o = this.obs; o.radioSent[from.k] = (o.radioSent[from.k] || 0) + 1; o.lastSent = o.lastSent || {}; o.lastSent[from.k] = s;
     for (const b of this.boards) {
       if (b === from || !b.radio || !b.radio.on || b.radio.group !== from.radio.group || b.radio.channel !== from.radio.channel) continue;
-      if (b.radio.q.length < b.radio.queue) b.radio.q.push({ s, t: T });
+      const rssi = this.rssi(from); if (rssi < -98) continue; // (batch 12) too far for this power: lost
+      if (b.radio.q.length < b.radio.queue) b.radio.q.push({ s, t: T, rssi });
     }
     this.flash = { k: from.k, at: nowMs() }; this.dirty();
   }
@@ -758,6 +764,7 @@ export class MBCore {
         let target = null; if (s.powered && pin && running) { const q = B0.pins[pin]; const us = q.duty * q.period; if (q.period >= 10000 && q.period <= 30000 && us >= 400 && us <= 2700) target = clamp((us - 500) / 2000 * 180, 0, 180); }
         s.target = target;
         if (target !== null) { const rate = 520 * clamp((pow - 2.4) / 2.6, 0.25, 1) * dt; const d = target - s.angle; s.angle = Math.abs(d) <= rate ? target : s.angle + Math.sign(d) * rate; }
+        if (this.cfg.scene === 'worm') { if (s.prevA !== undefined) s.dist = (s.dist || 0) + Math.abs(s.angle - s.prevA) * 0.25; s.prevA = s.angle; } // (batch 13) an inchworm: one foot grips, the other slides, so every degree of bend moves it 0.25 mm
         const mv = target !== null && Math.abs(target - s.angle) > 0.5; if (mv !== !!s.moving) { s.moving = mv; this.circuitV = null; }
         if (mv) { moved = true; this.sounds.push({ id: 'mbsv' + p.tag, kind: 'servo', f: 120, amp: 0.5 }); }
         const o = this.obs.servo[p.tag] || (this.obs.servo[p.tag] = { min: 999, max: -999 }); if (target !== null) { o.min = Math.min(o.min, s.angle); o.max = Math.max(o.max, s.angle); }
@@ -784,6 +791,9 @@ export class MBCore {
     if (H.includes('soil')) { const s = this.partOf('soil'); if (s) rows.push([tx(W.moist), `${Math.round(s.state.m * 100)}% · P0 ${o.analog.P0 !== undefined ? o.analog.P0 : '—'}`]); }
     if (H.includes('led')) for (const p of Object.values(this.parts)) if (p.type === 'led') rows.push([tx(MB_PARTS.led.name), p.state.b > 0.18 ? `● ${(p.state.i * 1000).toFixed(1)} mA` : '○']);
     if (H.includes('servo')) for (const p of Object.values(this.parts)) if (p.type === 'servo') rows.push([tx(W.servo), `${Math.round(p.state.angle)}°${p.state.powered ? '' : ' · ' + tx(W.noPower)}`]);
+    if (H.includes('worm')) { const w = this.partOf('servo'); rows.push([tx(W.wormD), `${((w && w.state.dist) || 0) >= 0 ? (((w && w.state.dist) || 0) / 10).toFixed(1) : 0} cm`]); }
+    if (H.includes('gap')) rows.push([tx(W.gapH), `${Math.round(this.env.gap)} m · ${o.lastRssi !== undefined ? o.lastRssi + ' dBm' : '—'}`]);
+    if (H.includes('knob')) { const k = this.partOf('pot'); if (k) rows.push([tx(W.knob), `${Math.round(k.state.pos * 100)}% · P1 ${o.analog.P1 !== undefined ? o.analog.P1 : '—'}`]); }
     if (H.includes('radio')) { const r = o.radioSent, g = o.radioGot; rows.push([tx(W.radio), `${tx(W.you)} ↑${r[0] || 0} ↓${g[0] || 0} · ${tx(W.friend)} ↑${r[1] || 0} ↓${g[1] || 0}`]); }
     const C = []; const ctl = this.cfg.controls || ['A', 'B'];
     for (const c of ctl) {
@@ -804,6 +814,8 @@ export class MBCore {
       if (c === 'calib') C.push({ id: 'calib', kind: 'button', label: W.autoTilt });
       if (c === 'sound') { C.push({ id: 'sound', kind: 'range', label: W.noise, min: 0, max: 255, value: Math.round(this.env.sound), unit: '' }); C.push({ id: 'clap', kind: 'button', label: W.clap }); }
       if (c === 'water') C.push({ id: 'water', kind: 'button', label: W.water });
+      if (c === 'gap') C.push({ id: 'gap', kind: 'range', label: W.gap, min: 1, max: 30, value: Math.round(this.env.gap), unit: 'm' }); // (batch 12)
+      if (c === 'knob') { const k = this.partOf('pot'); C.push({ id: 'knob', kind: 'range', label: W.knob, min: 0, max: 100, value: Math.round((k ? k.state.pos : 0.5) * 100), unit: '%' }); }
       if (c === 'phone' && this.phoneOk()) C.push({ id: 'phone', kind: 'button', label: this.phoneOn ? W.phoneOff : W.phone });
     }
     return { title: this.cfg.title || W.title, rows, controls: C };
@@ -823,6 +835,8 @@ export class MBCore {
       case 'calib': this.autoTilt = { t: 0 }; break;
       case 'sound': this.env.sound = +v; break;
       case 'clap': for (const b of this.boards) if (b.micEv) b.micEv.loudAt = this.now; break;
+      case 'gap': this.env.gap = +v; this.dirty(); break;
+      case 'knob': { const k = this.partOf('pot'); if (k) { k.state.pos = +v / 100; this.dirty(); } break; }
       case 'water': { const s = this.partOf('soil'); if (s) { s.state.water = 0.6; this.obs.watered = (this.obs.watered || 0) + 1; } break; }
       case 'phone': this.togglePhone(); break;
     }
@@ -867,7 +881,7 @@ const HUDW = {
   flip: t3('Turn the board over', 'बोर्ड पलटिए', 'Board palatiye'), tilt: t3('Hold it', 'ऐसे पकड़िए', 'Aise pakdiye'), tLeft: t3('left', 'बाएँ', 'left'), tFlat: t3('flat', 'सीधा', 'flat'), tRight: t3('right', 'दाएँ', 'right'), tUp: t3('logo up', 'लोगो ऊपर', 'logo upar'),
   roomTemp: t3('Temperature', 'तापमान', 'Temperature'), roomLight: t3('Room light', 'कमरे की रोशनी', 'Room light'), turn: t3('Turn the board (logo points to)', 'बोर्ड घुमाइए (लोगो किधर)', 'Board ghumaiye (logo kidhar)'),
   autoTilt: t3('Tilt it around for me', 'मेरे लिए चारों ओर झुकाइए', 'Mere liye chaaron taraf jhukaiye'), noise: t3('Noise in the room', 'कमरे का शोर', 'Kamre ka shor'), clap: t3('Clap!', 'ताली!', 'Taali!'),
-  water: t3('Water the plant', 'पौधे को पानी दीजिए', 'Paudhe ko paani dijiye'), phone: t3('📱 Tilt with my phone', '📱 फ़ोन से झुकाइए', '📱 Phone se jhukaiye'), phoneOff: t3('📱 Phone tilt off', '📱 फ़ोन से झुकाना बंद', '📱 Phone tilt band'),
+  water: t3('Water the plant', 'पौधे को पानी दीजिए', 'Paudhe ko paani dijiye'), gap: t3('Distance between the boards', 'दोनों बोर्डों के बीच दूरी', 'Dono boards ke beech doori'), gapH: t3('Distance · signal (RSSI)', 'दूरी · सिग्नल (RSSI)', 'Doori · signal (RSSI)'), knob: t3('Turn the knob', 'नॉब घुमाइए', 'Knob ghumaiye'), wormD: t3('Distance walked', 'चली गई दूरी', 'Chali gayi doori'), phone: t3('📱 Tilt with my phone', '📱 फ़ोन से झुकाइए', '📱 Phone se jhukaiye'), phoneOff: t3('📱 Phone tilt off', '📱 फ़ोन से झुकाना बंद', '📱 Phone tilt band'),
 };
 export { HUDW };
 

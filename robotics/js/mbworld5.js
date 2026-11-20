@@ -73,6 +73,8 @@ export class MBView {
     if (sc === 'rps') return { boards: [[-44, 0, 0], [44, 0, 0]] };
     if (sc === 'plant') return { boards: [[-62, 0, -6]], soil: [48, 0, -18], led1: [-14, 0, 40] };
     if (sc === 'gate') return { boards: [[-78, 0, 6]], sv1: [24, 0, 14] };
+    if (sc === 'worm') return { boards: [[-78, 0, 6]], sv1: [24, 0, 14] }; // (batch 13)
+    if (sc === 'dimmer') return { boards: [[-62, 0, -6]], pot1: [46, 0, -12], led1: [-14, 0, 40] }; // (batch 12: a knob and an LED)
     return { boards: [[0, 0, 0]] };
   }
   buildBoards() {
@@ -103,8 +105,9 @@ export class MBView {
       const at = this.lay[p.tag] || [0, 0, 40]; let o;
       if (p.type === 'led') o = M5.buildLooseLED(p.color || 'red');
       if (p.type === 'buzzer') o = M5.buildLooseBuzzer();
-      if (p.type === 'servo') o = M5.buildGate();
+      if (p.type === 'servo') o = this.cfg.scene === 'worm' ? M5.buildInchworm() : M5.buildGate(); // (batch 13: the inchworm)
       if (p.type === 'soil') o = M5.buildPlant();
+      if (p.type === 'pot') o = M5.buildLoosePot(); // (batch 12)
       if (!o) continue;
       o.position.set(at[0], at[1], at[2]); R.add(o); this.partObjs[p.tag] = o;
       const sh = M5.contactShadow(p.type === 'soil' ? 100 : p.type === 'servo' ? 180 : 40, p.type === 'soil' ? 100 : p.type === 'servo' ? 110 : 34, 0.4); sh.position.set(at[0] + (p.type === 'servo' ? 30 : 0), 0.3, at[2] + (p.type === 'servo' ? -40 : 0)); R.add(sh);
@@ -318,7 +321,8 @@ export class MBView {
     for (const p of Object.values(core.parts)) {
       const o = this.partObjs[p.tag]; if (!o) continue; const s = p.state;
       if (p.type === 'led') { const b = s.b || 0; const ei = b * 4.6; if (Math.abs(o.userData.domeM.emissiveIntensity - ei) > 0.01) { o.userData.domeM.emissiveIntensity = ei; o.userData.glow.material.opacity = Math.min(0.9, b * 0.65); anim = true; } }
-      if (p.type === 'servo') { const a = (s.angle - 90) * D2R; if (Math.abs(o.userData.horn.rotation.y - a) > 0.001) { o.userData.horn.rotation.y = a; anim = true; } }
+      if (p.type === 'servo' && o.userData.pose) { if (o.userData.pose(s.angle, s.dist || 0)) anim = true; } else if (p.type === 'servo') { const a = (s.angle - 90) * D2R; if (Math.abs(o.userData.horn.rotation.y - a) > 0.001) { o.userData.horn.rotation.y = a; anim = true; } }
+      if (p.type === 'pot' && o.userData.knob) { const a = -((s.pos === undefined ? 0.5 : s.pos) - 0.5) * 5.2; if (Math.abs(o.userData.knob.rotation.y - a) > 0.001) { o.userData.knob.rotation.y = a; anim = true; } }
       if (p.type === 'soil') { const m = s.m; const k = clamp((m - 0.08) / 0.4, 0, 1); for (const lf of o.userData.leaves) { const rx = -0.15 - 0.85 * k; if (Math.abs(lf.rotation.x - rx) > 0.002) { lf.rotation.x = rx; anim = true; } } o.userData.soilM.color.setScalar(0.55 + 0.45 * (1 - m)); }
     }
     // the radio wave, the water

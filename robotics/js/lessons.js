@@ -18,6 +18,7 @@ import { batch8 } from './lessons8.js'; // micro:bit projects for Class 3
 import { batch9 } from './lessons9.js'; // micro:bit projects for Class 4 (radio, servos, sensors)
 import { batch10 } from './lessons10.js'; // first micro:bit projects for Class 2
 import { batch11 } from './lessons11.js'; // micro:bit loggers, games and machines for Class 5
+import { batch13 } from './lessons13.js'; // micro:bit for Classes 4-5: dimmer, hot or cold by RSSI, exercise coach
 import { batch12 } from './lessons12.js'; // Class 6 on the Uno: binary, diode, transistor switch, servo dance, colour code
 import { batchC } from './circuits.js'; // battery circuits for Classes 1-3 (no code)
 import { batchF } from './factory.js'; // the project factory: one-line plans made into whole lessons (Uno, ESP32, Pico) // batch 7: thirty more Arduino projects (games, alarms, meters, displays, home automation)
@@ -666,7 +667,7 @@ LESSONS.push(...grp(batch3({ t3, P, F, W, need, has, noShort, N, n0: LESSONS.len
 // listed in the page; the node checks of the Arduino sketches (robocore*.mjs) do not get them: robocore5.mjs runs them itself
 if (typeof document !== 'undefined') LESSONS.push(...grp(batch5({ t3, W }, LESSONS.length), 'microbit'));
 // batches 10, 8, 9, 11: the micro:bit projects of Classes 2, 3, 4 and 5 (devtools/test/robocore8.mjs plays every one)
-if (typeof document !== 'undefined') for (const b of [batch10, batch8, batch9, batch11]) LESSONS.push(...grp(b({ t3, W }, LESSONS.length), 'microbit'));
+if (typeof document !== 'undefined') for (const b of [batch10, batch8, batch9, batch11, batch13]) LESSONS.push(...grp(b({ t3, W }, LESSONS.length), 'microbit'));
 // batch 6: the Raspberry Pi (lessons6.js), in Python too, so likewise listed in the page only; robocore6.mjs runs them
 if (typeof document !== 'undefined') LESSONS.push(...grp(batch6({ t3, P, F, W }, LESSONS.length), 'pi'));
 // batch 7: Arduino projects (lessons7.js), C++ on the Uno / Mega / ESP32, so in the page and in the node checks alike

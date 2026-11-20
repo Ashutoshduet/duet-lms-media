@@ -12273,6 +12273,74 @@
 "note": null
 },
 {
+"id": "live-mbinchworm",
+"title": "Inchworm robot (servo)",
+"family": "live",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "microbit",
+"live": "mbinchworm",
+"rule": null,
+"note": null
+},
+{
+"id": "live-mbcoach",
+"title": "Simple AI exercise timer",
+"family": "live",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "microbit",
+"live": "mbcoach",
+"rule": null,
+"note": null
+},
+{
+"id": "live-mbhotcold",
+"title": "Hot or cold by radio signal strength",
+"family": "live",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "microbit",
+"live": "mbhotcold",
+"rule": null,
+"note": null
+},
+{
+"id": "live-mbdimmer",
+"title": "Dimmer: knob and LED",
+"family": "live",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+4,
+6
+],
+"level": 4,
+"theme": "microbit",
+"live": "mbdimmer",
+"rule": null,
+"note": null
+},
+{
 "id": "live-mblearn",
 "title": "Gesture recognition with machine learning",
 "family": "live",

@@ -582,7 +582,7 @@ projects" pack was used as a list of ideas only: every circuit, sketch and text 
 | `mega_chaser` | Light chaser on the Mega | Mega, 10-LED bar, knob | two for loops bounce one light; the knob sets the wait (wiper on A1: A0 floats, the speed jumps) |
 | `esp_alarm` | ESP32 motion alarm | ESP32, PIR on VIN, LED, active buzzer | rising-edge visitor count at 115200 baud (PIR on 3V3: dead; its OUT floats) |
 
-(Numbered at load time after the lessons before them: 71–100 in the page, 48–77 in the node tests. Each has `batch: 7` and `cls`.)
+(Numbered at load time after the lessons registered before them, so the numbers move as batches are added. Each has `batch: 7` and `cls`.)
 
 ### What is new in shared files (each marked "batch 7")
 
@@ -705,3 +705,18 @@ class and board filter, offline) and `projects.csv` at the top.
 - The class picker: after a class's sessions comes "More projects for this class" (every live lesson whose `cls` covers
   that class), so Class 8 shows its 18 sessions and about 200 more.
 - The curriculum: 200 of 300 project sessions live (Class 1 16, Class 6 24 of 26).
+- Last runs (20 Nov 2026, software GL on a shared 2-CPU machine, `SLOW=2`): `robocore.mjs` … `robocore7.mjs` all passed;
+  `robotest7.mjs` 30/30 lessons complete, 0 page errors (two needed a fix found by the browser run: the reaction game now
+  watches the button during the whole wait, and the test presses keypad keys in the keypad's card, because the 3D `0` key
+  lies under the keypad's own wire bundle).
+- Not done: headset (XR) runs of the new lessons; the IR remote and the keypad can be pointed at only where batch 3 made
+  them pressable (the remote's buttons are in the receiver's card on the page, not in the headset panel).
+
+
+**Batch 13 (747 projects): micro:bit for Classes 4 and 5 (`lessons13.js`, tests `robocore13.mjs`).** A dimmer (the new
+clip-on `pot` part: a 10 kΩ knob on a foam block, its panel slider "Turn the knob"; read_analog on pin 1, PWM on pin 0;
+night mode = knob // 4), hot or cold by radio signal strength (receive_full() now gives a real RSSI: about −45 dBm at
+1 m, 25 dB weaker for every ten times the distance on the panel's "Distance between the boards" slider, 3 dB weaker for
+each power step below 7; beyond −98 dBm a message is lost), a simple AI exercise coach (it keeps your best and sets the
+next target = best + 2) and an inchworm robot (scene `worm`: the servo's swing moves it 0.25 mm a degree, shown on a
+paper ruler that slides back under it). Classes 2–6 are complete; 207 of 300 sessions are live.
