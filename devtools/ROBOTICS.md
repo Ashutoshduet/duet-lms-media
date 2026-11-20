@@ -825,3 +825,13 @@ heaters.
   own imports and lines made from the job (`py.on(job)`). 51 lessons (every LCD job with a Pico sensor); robofactory.mjs
   8466 ok. (No I2C LCD on the Pico: its backpack wants 5 V and pulls SDA / SCL up to 5 V, the wrong habit for a
   3.3 V board; the OLED is the Pico's screen.) 1,543 projects.
+- Maze-solving robot (`mazecar`, Uno, batch 18, lessons18.js): robots.js `MAZE` = 4 × 3 rooms of 450 mm, plywood walls
+  18 mm × 150 mm, given as the ways between rooms (every other side is a wall; `mazeWalls()` joins them into straight
+  runs for CarSim's boxes). Maze A: all walls join the outside wall, FINISH (a black 300 mm square) in room (3, 0); maze
+  B: FINISH inside a C of walls that touches nothing (an island). The car has an HC-SR04 at the nose (us1, pins 9 / 10,
+  prewired), one on its left edge looking left (us2, pins 11 / 12, the student wires it: `CarSim.usFrom(lx, lz, dir)`),
+  and an IR under the nose on pin 3 (irM) for FINISH. The sketch: a way on the left (> 30 cm) → curve left; else ahead
+  clear (> 10 cm) → go on, steering the left wall to 15 cm; else spin right for 300 ms. Speed 130: START → dead end
+  (2, 0) → FINISH in 22 s, no bump; 255: the timed turn overshoots and it bumps; 150: clean again; maze B: it goes
+  round and back to START (flag `loop`). The panel swaps the maze (the arena is built again). robocore18.mjs plays it.
+  Class 9: 26 of 26. 1,544 projects.

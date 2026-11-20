@@ -7,7 +7,7 @@
 import * as THREE from 'three';
 import { materials, mergeStatic, box, cyl, shadows } from './models.js';
 import * as TX from './tex.js';
-import { ARMG, CARG, SYR, HYDG, CAR14 } from './robots.js';
+import { ARMG, CARG, SYR, HYDG, CAR14, CAR18, MAZE, mazeXY } from './robots.js';
 export { ARMG, SYR, HYDG };
 
 const P = 2.54;
@@ -409,6 +409,11 @@ export function buildCar(kind, parts) {
       const head = cyl(4.2, 2.2, ldrM, 0, 17, 0, 18); head.rotation.x = Math.PI / 2; head.position.set(0, 17, 1.5); e.add(head);
       const f = new THREE.Mesh(new THREE.CircleGeometry(3.4, 18), face); f.position.set(0, 17, 2.7); e.add(f); still.add(e); }
   }
+  if (kind === 'maze') { // batch 18: an HC-SR04 at the nose looking ahead, one on the left edge looking left, an IR under the nose
+    still.add(box(22, 16, 3, acr, 0, top + 8, CARG.usZ - 4)); const fr = buildUSHead(); fr.position.set(0, top + 26, CARG.usZ); still.add(fr); // on an acrylic bracket, over the breadboard
+    still.add(box(3, 8, 30, acr, CAR18.usLX - 3, top + 4, CAR18.usLZ)); const lf = buildUSHead(); lf.rotation.y = Math.PI / 2; lf.position.set(CAR18.usLX, top + 14, CAR18.usLZ); still.add(lf);
+    const ir = irDown(); ir.position.set(0, 0, CAR18.finZ - 10); still.add(ir); live.leds.irM = ir.userData.det;
+  }
   if (kind === 'dance') { // a little flag on a mast: the dancer's ribbon
     still.add(cyl(1.4, 120, N.alu, -40, top + 60, 20, 8));
     const fl = new THREE.Mesh(new THREE.PlaneGeometry(46, 30), S({ color: 0xd0408a, roughness: 0.6, side: THREE.DoubleSide })); fl.position.set(-40 + 23, top + 104, 20); still.add(fl);
@@ -480,14 +485,34 @@ export function buildArena(opts) {
   mats(); const g = new THREE.Group(); g.name = 'arena'; const A = ARENA; const [rw, rd] = opts.room || [A.w, A.d];
   const ft = tileTexture(); ft.repeat.set(rw * 1.8 / 600, rd * 1.8 / 600);
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(rw * 1.8, rd * 1.8), Lm({ map: ft })); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.5; g.add(floor);
-  if (!opts.plain) { const mat = new THREE.Mesh(new THREE.PlaneGeometry(A.mat[0], A.mat[1]), Lm({ map: trackTexture(opts.track, opts), color: 0xc4c2bc })); mat.rotation.x = -Math.PI / 2; mat.position.y = 0.2; g.add(mat); }
+  if (opts.maze) { const mat = new THREE.Mesh(new THREE.PlaneGeometry(rw, rd), Lm({ map: mazeTexture(rw, rd, opts) })); mat.rotation.x = -Math.PI / 2; mat.position.y = 0.2; g.add(mat); } // (batch 18)
+  else if (!opts.plain) { const mat = new THREE.Mesh(new THREE.PlaneGeometry(A.mat[0], A.mat[1]), Lm({ map: trackTexture(opts.track, opts), color: 0xc4c2bc })); mat.rotation.x = -Math.PI / 2; mat.position.y = 0.2; g.add(mat); }
   // plywood walls round the room, and boxes (obstacles)
-  const ply = Lm({ color: 0xd2b48a }); const walls = new THREE.Group();
+  const ply = Lm(opts.maze ? { color: 0xd2b48a, emissive: 0x3a2c1c } : { color: 0xd2b48a }); const walls = new THREE.Group();
   for (const [x, z, w, d] of [[0, -rd / 2 - 6, rw + 24, 12], [0, rd / 2 + 6, rw + 24, 12], [-rw / 2 - 6, 0, 12, rd], [rw / 2 + 6, 0, 12, rd]]) walls.add(box(w, A.wallH, d, ply, x, A.wallH / 2, z));
-  const ob = Lm({ map: cardTexture() });
+  const pm = (c) => Lm({ color: c, emissive: 0x3a2c1c }); // (the faces away from the light are not black: plywood is pale)
+  const ob = opts.maze ? [pm(0xc9a77a), pm(0xc9a77a), pm(0xe2c79c), ply, pm(0xd8b98c), pm(0xd8b98c)] : Lm({ map: cardTexture() }); // (batch 18: the maze's plywood, its cut top edge lighter)
   for (const o of opts.boxes || []) { const b = box(o[2], o[4] || 160, o[3], ob, o[0], (o[4] || 160) / 2, o[1]); b.rotation.y = o[5] || 0; walls.add(b); }
   mergeStatic(walls); g.add(walls);
   return g;
+}
+// batch 18: the maze's floor: a white flex sheet with the cells' faint lines, START with its arrow, and the black FINISH square
+function mazeTexture(rw, rd, opts) {
+  const s = LITE ? 0.45 : 0.8; const C = document.createElement('canvas'); C.width = Math.round(rw * s); C.height = Math.round(rd * s); const c = C.getContext('2d');
+  c.fillStyle = '#f2f1ec'; c.fillRect(0, 0, C.width, C.height);
+  for (let i = 0; i < 2600; i++) { c.fillStyle = `rgba(120,115,100,${Math.random() * 0.05})`; c.fillRect(Math.random() * C.width, Math.random() * C.height, 2, 2); }
+  const X = (x) => (x + rw / 2) * s, Y = (z) => (z + rd / 2) * s;
+  c.strokeStyle = 'rgba(70,110,170,0.22)'; c.lineWidth = 2; c.setLineDash([10, 10]);
+  for (let i = 1; i < MAZE.cols; i++) { c.beginPath(); c.moveTo(X(-rw / 2 + i * MAZE.cell), 0); c.lineTo(X(-rw / 2 + i * MAZE.cell), C.height); c.stroke(); }
+  for (let j = 1; j < MAZE.rows; j++) { c.beginPath(); c.moveTo(0, Y(-rd / 2 + j * MAZE.cell)); c.lineTo(C.width, Y(-rd / 2 + j * MAZE.cell)); c.stroke(); }
+  c.setLineDash([]);
+  const [sx, sz] = mazeXY(...MAZE.start); c.fillStyle = 'rgba(40,150,80,0.9)'; c.fillRect(X(sx - 120), Y(sz - 140), 240 * s, 6 * s);
+  c.font = `800 ${46 * s}px ${TX.FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('START', X(sx), Y(sz - 178));
+  c.beginPath(); c.moveTo(X(sx), Y(sz - 120)); c.lineTo(X(sx - 40), Y(sz - 60)); c.lineTo(X(sx + 40), Y(sz - 60)); c.closePath(); c.fill();
+  if (opts.finish) { const [fx, fz, fw, fd] = opts.finish; c.fillStyle = '#111'; c.fillRect(X(fx - fw / 2), Y(fz - fd / 2), fw * s, fd * s); c.fillStyle = '#f4f4f0'; c.font = `800 ${50 * s}px ${TX.FONT}`; c.fillText('FINISH', X(fx), Y(fz)); }
+  c.fillStyle = 'rgba(30,30,30,0.5)'; c.font = `700 ${22 * s}px ${TX.FONT}`; c.textAlign = 'left'; c.textBaseline = 'alphabetic';
+  c.fillText(`DUET STEM · MAZE ${opts.maze} · ${MAZE.cols} × ${MAZE.rows} ROOMS OF ${MAZE.cell / 10} cm`, 24 * s, (rd - 20) * s);
+  const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
 }
 // batch 14: a school desk (its top at y = 0, 750 mm above the tiled floor) for the table robot
 export const DESK_H = 750;

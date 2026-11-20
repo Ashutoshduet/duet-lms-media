@@ -4828,19 +4828,19 @@
    {
     "class": 9,
     "n": 28,
-    "kind": "I",
+    "kind": "L",
     "title": "Maze-solving robot (left-hand rule)",
     "board": "uno",
-    "status": "planned",
-    "ref": "maze-solving-robot-left-hand-rule-uno",
+    "status": "live",
+    "ref": "mazecar",
     "newparts": [],
-    "family": "robot-car",
+    "family": "live-robots",
     "parts": [
+     "l298n",
      "bat18650",
      "bomotor",
      "hcsr04",
-     "ir",
-     "l298n"
+     "ir"
     ],
     "strand": "Decomposition",
     "focus": "Robots and motors",

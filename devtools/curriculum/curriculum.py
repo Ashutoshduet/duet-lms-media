@@ -175,7 +175,7 @@ REPL = {
      'I:Gas leak alarm: gas sensor and beeper' + PICO: 'L:pico_gasalarm', 'I:Bank locker: keypad plus RFID plus alarm': 'L:banklocker',
      'I:Smart water tank: level, pump and alarm': 'L:smarttank', 'I:Line-follower car' + PICO: 'L:pico_linecar', 'I:Obstacle-avoiding car' + PICO: 'L:pico_avoidcar',
      'I:Smart greenhouse: humidity, soil and light': 'L:greenhouse', 'I:RFID door lock: RFID card and servo' + PICO: 'L:pico_rfidlock',
-     'I:Weather station: temperature & humidity sensor and OLED screen' + PICO: 'L:pico_weather'},
+     'I:Weather station: temperature & humidity sensor and OLED screen' + PICO: 'L:pico_weather', 'I:Maze-solving robot (left-hand rule)': 'L:mazecar'},
  10: {'I:Temperature-controlled fan in Python' + PI: 'L:f_greenfan_relay_pi', 'I:Traffic lights in Python' + PI: 'L:pi_traffic', 'I:Reaction game in Python' + PI: 'L:pi_reaction',
       'I:Distance sensor with GPIO Zero' + PI: 'L:pi_distance', 'I:Quiz buzzer for three teams' + PI: 'L:pi_quiz', 'I:Morse code translator' + PI: 'L:pi_morse', 'I:Smart home: motion light, gas alarm and fan' + ESP: 'L:f_roomlight_relay_esp', 'I:Rainwater harvesting tank monitor': 'L:f_tankfull_lcd',
       'I:Smart energy saver for a classroom': 'L:f_classfan_relay', 'I:Smart parking for a market': 'L:f_slot_lcd'},

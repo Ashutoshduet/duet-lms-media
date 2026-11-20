@@ -26492,6 +26492,29 @@
 "note": null
 },
 {
+"id": "live-mazecar",
+"title": "Maze-solving robot (left-hand rule)",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"hcsr04",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "robots",
+"live": "mazecar",
+"rule": null,
+"note": null
+},
+{
 "id": "live-pico_avoidcar",
 "title": "Obstacle-avoiding car on the Pico",
 "family": "live",
