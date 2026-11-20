@@ -5824,14 +5824,18 @@
    {
     "class": 11,
     "n": 19,
-    "kind": "I",
+    "kind": "L",
     "title": "Vending machine model",
     "board": "uno",
-    "status": "planned",
-    "ref": "vending-machine-model-uno",
+    "status": "live",
+    "ref": "vending",
     "newparts": [],
-    "family": "machines",
-    "parts": [],
+    "family": "live-projects",
+    "parts": [
+     "keypad",
+     "lcd16",
+     "stepper"
+    ],
     "strand": "Decomposition",
     "focus": "Mechanisms",
     "term": "Term 3 (October-December)"

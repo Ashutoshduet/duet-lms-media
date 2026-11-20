@@ -418,10 +418,51 @@ export class AtmScene extends Scene {
   }
 }
 
+// ------------------------------------------------------------------ the rotary vending machine (batch 24, Class 11)
+// A round tray of 6 compartments on the stepper's shaft (60° apart, compartment 1 at the door at Run) under a cover with
+// one door at the front. The student chooses on the 4×4 keypad (a digit, then #). Each move of the tray is measured from
+// start to stop (res.moves: degrees); when it stops, the compartment at the door is the one within 6° of it, or none
+// (jam: the tray stopped between two doors). Flags: jam, served (and served1…served6), wrong (another item than chosen),
+// longway (one compartment away but the tray went most of the way round), shortway (6 → 1 in about 60°).
+export const VEND = { slots: 6, items: ['Chips', 'Biscuits', 'Juice', 'Chocolate', 'Peanuts', 'Water'], prices: [20, 10, 30, 40, 15, 20] };
+export class VendScene extends Scene {
+  constructor(cfg) { super(cfg); this.a0 = 0; this.typed = ''; this.chosen = null; this.moving = false; this.stillT = 0; this.res.moves = []; }
+  angle(lab) { const st = lab.byTag('st'); return st ? (st.state.angle || 0) - this.a0 : 0; }
+  atDoor(a) { const k = ((Math.round(a / 60) % 6) + 6) % 6; const off = Math.abs(a - Math.round(a / 60) * 60); return off <= 6 ? k + 1 : 0; }
+  update(dt, lab) {
+    this.t += dt; const st = lab.byTag('st'); if (!st) return false; const a = this.angle(lab); this.ang = a;
+    const mov = Math.abs(st.state.rpm || 0) > 0.05;
+    if (mov) { if (!this.moving) { this.moving = true; this.from = { a: this.lastA ?? a, k: this.atDoor(this.lastA ?? a) }; } this.stillT = 0; }
+    else if (this.moving) { this.stillT += dt; if (this.stillT > 0.3) { this.moving = false; this.stopped(a); } }
+    if (!this.moving) this.lastA = a;
+    return mov;
+  }
+  stopped(a) {
+    const d = +(a - this.from.a).toFixed(1); const k = this.atDoor(a); this.res.moves.push(d); this.res.last = { d, k, at: +a.toFixed(1) };
+    if (!k) { this.flags.add('jam'); this.res.jamAt = +a.toFixed(1); return; }
+    this.flags.add('served'); this.flags.add('served' + k); this.res.served = k;
+    if (this.chosen && this.chosen !== k) this.flags.add('wrong');
+    const away = Math.min(Math.abs(k - this.from.k), 6 - Math.abs(k - this.from.k));
+    if (this.from.k && away === 1 && Math.abs(d) > 200) this.flags.add('longway');
+    if (this.from.k === 6 && k === 1 && Math.abs(d) < 90) this.flags.add('shortway');
+  }
+  onRun(lab) { super.onRun(); const st = lab && lab.byTag('st'); this.a0 = st ? st.state.angle || 0 : 0; this.lastA = 0; this.moving = false; this.typed = ''; this.chosen = null; for (const k of [...this.flags]) if (/^(jam|served\d?|wrong|longway|shortway)$/.test(k)) this.flags.delete(k); }
+  press(lab, key) { const kp = lab.byTag('kp'); if (!kp) return; const r = KEYMAP.findIndex((row) => row.includes(key)); keyPress(lab, kp, r * 4 + KEYMAP[r].indexOf(key), 0.25); this.typedKey(key); }
+  typedKey(key) { if (key === '#') { const m = /([1-6])$/.exec(this.typed); this.chosen = m ? +m[1] : null; this.typed = ''; } else if (key === '*') this.typed = ''; else this.typed = (this.typed + key).slice(-6); }
+  control(id, v, lab) { if (id.startsWith('kp')) this.press(lab, v); }
+  hud(lab) {
+    const a = this.ang || 0; const k = this.atDoor(a);
+    return { title: t3('Vending machine', 'वेंडिंग मशीन', 'Vending machine'),
+      rows: [[tx(W.typed), this.typed || '—'], [tx(W.turned), `${a.toFixed(1)}°`], [tx(WV.door), k ? `${k} · ${VEND.items[k - 1]}` : tx(WV.between)]],
+      controls: KEYMAP.map((r, i) => ({ id: 'kp' + i, kind: 'seg', label: i ? '' : W.keys, options: r.map((x) => [x, x]), value: null })) };
+  }
+}
+const WV = { door: t3('At the door', 'दरवाज़े पर', 'Darwaze par'), between: t3('between two doors!', 'दो खानों के बीच!', 'do khaanon ke beech!') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

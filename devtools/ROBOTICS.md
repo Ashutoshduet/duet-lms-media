@@ -992,3 +992,12 @@ heaters.
   student wires the relay (S pin 4, VCC, GND). pourMs = 4000 pours about 134 mL (33 mL/s): calibrate to 7600 (the edit
   accepts 7000–8200) for 255 mL; the blue tag (Rs 3) buys one glass and is refused the next with nothing poured.
   robocore24.mjs plays it, and the relay on pin 5 is named by the check. Class 11: 5 of 26.
+- Class 11 vending machine (batch 24, lessons24.js `vending`; scenes3.js `VendScene`, worlds3.js `vendSteps`): a round
+  tray of six compartments (chips, biscuits, juice, chocolate, peanuts, water; walls and numbers) on the 28BYJ-48's
+  shaft, under a smoked cover with one door at the front and a SNACKS sign; compartment k is at the door at (k − 1) × 60°
+  (the tray is drawn from the angle since Run: Run starts with compartment 1 at the door, as an operator homes it). The
+  keypad (pins 2–9) and LCD are pre-wired; the student places the driver and wires IN1–IN4 to 10–13. The scene measures
+  each move start to stop (`res.moves`) and what stopped at the door (within 6°, else jam). stepsPerSlot = 300 stops the
+  juice at 105.6° (jam); 2048 ÷ 6 → 341 serves it at 119.9°; from 6 to 1 the tray goes −300° (longway); the short-way
+  lines (moveSlots > 3 → −6, < −3 → +6) make it +60° (shortway). Keys pressed during the 2 s "Take your…" delay are
+  missed, as on the real keypad. robocore24.mjs plays it. Class 11: 6 of 26.

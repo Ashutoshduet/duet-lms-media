@@ -179,8 +179,8 @@ function play3(l, B, acts) {
   return ser;
 }
 const at = (...times) => { const done = new Set(); return (key) => (t, sim, lab) => { for (const T of times) if (!done.has(T) && t >= T) { done.add(T); sim.control(key, null, lab); } }; };
-const L24 = LESSONS.filter((l) => ['wateratm'].includes(l.id));
-ok(L24.length === 1, `${L24.length} Class 11 machine lessons`);
+const L24 = LESSONS.filter((l) => ['wateratm', 'vending'].includes(l.id));
+ok(L24.length === 2, `${L24.length} Class 11 machine lessons`);
 for (const l of L24) {
   const c = compile(l.code); ok(c.ok, `${l.id}: the sketch compiles` + (c.ok ? '' : ' ' + JSON.stringify(c.errors).slice(0, 200)));
   for (const s of l.steps) for (const k of ['do', 'see']) if (s[k]) for (const lg of ['en', 'hi', 'hg']) if (typeof s[k][lg] !== 'string') ok(false, `${l.id}: step ${s.k} has ${k}.${lg}`);
@@ -192,6 +192,11 @@ for (const l of L24) {
   const lab = new Lab(); const app = { lab, code: () => l.code, world: null, onStepDone() {}, onLessonComplete() {} }; const rt = new LessonRT(app); rt.open(l.id);
   for (const s of l.steps) if (s.k === 'wire') { const w = s.wire[1] === 'D4' ? [s.wire[0], 'D5'] : s.wire; const g = rt.ghostWire(w); if (g) lab.addWire(g[0], g[1]); }
   const r = rt.runCheck(); ok(!!r && /pin/.test(r[0].en), `wateratm: the relay on pin 5 is named by the check: "${r && r[0].en.slice(0, 60)}"`);
+}
+{ const l = L24.find((x) => x.id === 'vending'); const B = build3(l);
+  const keys = (...ks) => { const T = ks.map((k, i) => [2.5 + i * 0.4 + (ks.slice(0, i).filter((x) => x === '#').length) * 9, k]); const done = new Set(); return (t, sim, lab) => { for (const [at, k] of T) if (!done.has(at) && t >= at) { done.add(at); sim.press(lab, k); } }; };
+  play3(l, B, [keys('3', '#'), keys('3', '#'), keys('6', '#', '1', '#'), keys('6', '#', '1', '#')]);
+  ok(B.sim.res.jamAt > 100 && B.sim.res.jamAt < 110, `vending: 300 steps a compartment stop item 3 at ${B.sim.res.jamAt}° (between doors); moves ${B.sim.res.moves.map((d) => Math.round(d)).join(', ')}`);
 }
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

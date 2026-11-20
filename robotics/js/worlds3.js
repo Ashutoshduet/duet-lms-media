@@ -21,7 +21,7 @@ import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -90,14 +90,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt);
     }
     return false;
   }
@@ -386,6 +386,48 @@ class World3 {
     }
     if (this.cards) a = this.flyCards(dt) || a;
     return a;
+  }
+
+  // ================================================================== the rotary vending machine (batch 24): a tray of six compartments
+  // on the stepper's shaft, under a smoked cover with one door at the front; compartment k comes to the door at (k − 1) × 60°
+  vendSteps() {
+    const r = this.root, S = this.mat; const R0 = 58;
+    return [
+      () => {
+        const t = new THREE.Group(); r.add(t); this.vt = t; t.visible = false;
+        t.add(cyl(32, 19, S({ color: 0x2a2b2e, roughness: 0.5 }), 0, 9.5, 8, 28)); // the motor's holder
+        t.add(cyl(R0 + 10, 3, S({ color: 0x1d2a3a, roughness: 0.6 }), 0, 1.5, 0, 40)); // the base plate
+        const tray = new THREE.Group(); tray.position.y = 31; t.add(tray); this.vtray = tray;
+        const plastic = S({ color: 0xe9eef3, roughness: 0.5 }); tray.add(cyl(R0, 4, plastic, 0, 2, 0, 48));
+        const C = canvas(512, 512); const c = C.getContext('2d'); c.translate(256, 256); c.fillStyle = '#dfe6ee'; c.beginPath(); c.arc(0, 0, 250, 0, 7); c.fill();
+        c.font = `800 54px ${TX.FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillStyle = '#1d4aa8';
+        const ITEM = [[0xf2c230, 'box'], [0xc8281c, 'box'], [0xf08c1e, 'tall'], [0x5a3418, 'bar'], [0x3c8a3a, 'box'], [0x4aa3e8, 'bottle']];
+        for (let k = 0; k < 6; k++) {
+          const ang = (k * 60) * D2R; // compartment k + 1, its centre at this angle from the front (+z)
+          const cx = Math.sin(ang), cz = Math.cos(ang);
+          c.save(); c.rotate(-ang + Math.PI); c.fillText(String(k + 1), 0, -200); c.restore();
+          const wall = box(R0, 22, 2, S({ color: 0xc9d3dd, roughness: 0.4 }), 0, 0, 0); const wa = ang + 30 * D2R; wall.position.set(Math.sin(wa) * R0 / 2, 15, Math.cos(wa) * R0 / 2); wall.rotation.y = wa + Math.PI / 2; tray.add(wall);
+          const [col, kind] = ITEM[k]; const m = S({ color: col, roughness: 0.55 }); let it;
+          if (kind === 'bottle') { it = new THREE.Group(); it.add(cyl(6, 22, S({ color: col, roughness: 0.15, transparent: true, opacity: 0.7 }), 0, 11, 0, 16)); it.add(cyl(2.4, 4, S({ color: 0xf4f4f4, roughness: 0.4 }), 0, 24, 0, 10)); }
+          else if (kind === 'tall') it = box(12, 22, 8, m, 0, 11, 0); else if (kind === 'bar') it = box(16, 4, 9, m, 0, 2, 0); else it = box(16, 16, 6, m, 0, 8, 0);
+          it.position.x += cx * R0 * 0.62; it.position.z += cz * R0 * 0.62; it.position.y += 4; it.rotation.y = ang; tray.add(it);
+        }
+        tray.add(new THREE.Mesh(new THREE.CircleGeometry(R0 - 0.5, 48), S({ map: ctex(C), roughness: 0.7 })).rotateX(-Math.PI / 2).translateZ(4.1));
+        // the cover: smoked acrylic all round except the door (60° at the front), a lid, the sign
+        const smoke = new THREE.MeshPhysicalMaterial({ color: 0x223040, roughness: 0.2, transparent: true, opacity: 0.55, side: THREE.DoubleSide, depthWrite: false });
+        const cov = new THREE.Mesh(new THREE.CylinderGeometry(R0 + 4, R0 + 4, 30, 48, 1, true, 30 * D2R, 300 * D2R), smoke); cov.position.y = 31 + 4 + 15; t.add(cov);
+        const lid = new THREE.Mesh(new THREE.CircleGeometry(R0 + 4, 48), new THREE.MeshPhysicalMaterial({ color: 0x223040, roughness: 0.2, transparent: true, opacity: 0.35, depthWrite: false })); lid.rotation.x = -Math.PI / 2; lid.position.y = 31 + 4 + 30; t.add(lid);
+        const SC = canvas(256, 64); const sc = SC.getContext('2d'); sc.fillStyle = '#c8281c'; sc.fillRect(0, 0, 256, 64); sc.fillStyle = '#fff'; sc.font = `800 40px ${TX.FONT}`; sc.textAlign = 'center'; sc.fillText('SNACKS', 128, 46);
+        const sign = new THREE.Mesh(new THREE.PlaneGeometry(50, 12.5), S({ map: ctex(SC), roughness: 0.6 })); sign.position.set(0, 31 + 4 + 38, R0 * 0.3); sign.rotation.x = -0.5; t.add(sign);
+        for (const sx of [-1, 1]) { const post = box(3, 30, 3, S({ color: 0x8a96a3, metalness: 0.6, roughness: 0.4 }), Math.sin(sx * 30 * D2R) * (R0 + 4), 31 + 4 + 15, Math.cos(sx * 30 * D2R) * (R0 + 4)); t.add(post); } // the door's two edges
+      },
+    ];
+  }
+  vendDraw() {
+    const st = this.part('st'); if (!this.vt) return false; this.vt.visible = !!st; if (!st) return false;
+    const e = this.app.view.parts.get(st.uid); const sh = e && e.obj.userData.shaft; if (!sh) return false;
+    const p = this.partPoint('st', sh); const a = this.sim.ang || 0; const k = [p.x, p.z, a].map((x) => Math.round(x * 100)).join(); if (k === this._vk) return false; this._vk = k;
+    this.vt.position.set(p.x, 0, p.z); this.vtray.rotation.y = -a * D2R; return true; // (a point at angle ψ turned by θ about y ends at ψ + θ: compartment k reaches the door, 0°, at a = (k − 1) × 60°)
   }
 
   // ================================================================== the keypad locker
