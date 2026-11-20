@@ -56,6 +56,7 @@
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
 import { GLASS, CUR, LIFT, SLIDE } from './scenes3.js';
 import { ARMCUR, CARCUR } from './robots.js';
+import { curlOf } from './parts29.js'; // (batch 29: the robot hand's fingers)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const pick = (lg, en, hi, hg) => (lg === 'hi' ? hi : lg === 'hg' ? hg : en);
@@ -884,6 +885,33 @@ void loop() {
 }
 `;
 
+const HANDC = `// Bionic hand: a glove with a flex sensor on each finger moves a robot hand with five servos.
+#include <Servo.h>
+
+Servo finger[5];                                // thumb, index, middle, ring, little
+const int servoPin[5] = {3, 5, 6, 9, 10};
+const int flexPin[5] = {A0, A1, A2, A3, A4};
+
+void setup() {
+  Serial.begin(9600);
+  for (int i = 0; i < 5; i++) {
+    finger[i].attach(servoPin[i]);
+  }
+}
+
+void loop() {
+  for (int i = 0; i < 5; i++) {
+    int f = analogRead(flexPin[i]);             // this finger's flex sensor
+    int angle = map(f, 0, 1023, 0, 180);
+    finger[i].write(angle);                     // 0 = open, 180 = closed
+    Serial.print(f);
+    Serial.print("  ");
+  }
+  Serial.println();
+  delay(50);
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1373,6 +1401,43 @@ export function batch24(K, n0) {
       need('bmp.SDA', 'D21', W.join, { a: 'SDA', b: 'GPIO 21' }), need('bmp.SCL', 'D22', W.join, { a: 'SCL', b: 'GPIO 22' }),
       (S) => (S.conn('wl.S', 'D26') || S.conn('wl.S', 'D34') ? null : [t3('The rain gauge\'s S must reach its GPIO (26 on the build sheet; 34 later).', 'बारिश मापक का S उसके GPIO तक पहुँचना चाहिए (बिल्ड शीट पर 26; बाद में 34)।', 'Rain gauge ka S uske GPIO tak pahunchna chahiye (build sheet par 26; baad mein 34).')])],
     done: (S) => cloud(S).got.some((e) => e.f[3] !== undefined && e.f[3] < 995) && cloud(S).got.some((e) => (e.f[4] || 0) > 500) });
+  // 16 ------------------------------------------------------------------------------ bionic hand with a flex glove (batch 29)
+  const curl = (S) => { const h = S.part('hand'); return h ? curlOf(h) : [0, 0, 0, 0, 0]; };
+  const settled = (S) => { const h = S.part('hand'); return !!h && h.state.target.every((t, i) => t !== null && Math.abs(t - h.state.ang[i]) < 2); };
+  const gest = (S, g) => { const p = S.part('glove'); return !!p && p.state.gesture === g; };
+  L.push({ id: 'bionichand', cls: '11', blocks: false, view: 'wide', code: HANDC, drawer: [], serial: true,
+    title: t3('Bionic hand with a flex glove', 'फ़्लेक्स दस्ताने वाला बायोनिक हाथ', 'Flex dastaane wala bionic haath'),
+    goal: t3('Bend your fingers in a glove, and a robot hand copies them: five flex sensors, five servos. Find out why the hand hardly moves at first, calibrate it from what the sensors really give, and fix a thumb that does the opposite of yours.', 'दस्ताने में अपनी उँगलियाँ मोड़िए, और एक रोबोट हाथ उनकी नक़ल करता है: पाँच फ़्लेक्स सेंसर, पाँच सर्वो। पता कीजिए कि शुरू में हाथ मुश्किल से क्यों हिलता है, सेंसर असल में जो देते हैं उससे उसे कैलिब्रेट कीजिए, और उस अँगूठे को ठीक कीजिए जो आपके अँगूठे का उल्टा करता है।', 'Dastaane mein apni ungliyaan modiye, aur ek robot haath unki nakal karta hai: paanch flex sensor, paanch servo. Pata kijiye ki shuru mein haath mushkil se kyon hilta hai, sensor asal mein jo dete hain usse use calibrate kijiye, aur us angoothe ko theek kijiye jo aapke angoothe ka ulta karta hai.'),
+    setup: { parts: [F('glove', 'flexglove', {}, -175, 205, 0), F('hand', 'robohand', {}, 150, 205, 0), F('bat', 'aa4', {}, 40, 165, 0)],
+      wires: [...POWER, ['T:glove:VCC', 'H:tp20'], ['T:glove:GND', 'H:tn21'], ['T:glove:F1', 'A0'], ['T:glove:F3', 'A2'], ['T:glove:F4', 'A3'], ['T:glove:F5', 'A4'],
+        ['T:hand:S1', 'D3'], ['T:hand:S3', 'D6'], ['T:hand:S4', 'D9'], ['T:hand:S5', 'D10'], ['T:hand:V', 'T:bat:P'], ['T:hand:GND', 'H:a55'], ['T:bat:N', 'H:b55']] }, // (column 55: where the servos' GND and the battery's − meet)
+    steps: [
+      { k: 'info', do: t3('On the left, the glove: a flex sensor on each finger and a 10 kΩ resistor for each on its wrist board (F1 thumb … F5 little finger). On the right, the robot hand: five servos in its forearm, on their own 6 V battery. Four fingers are wired; the index finger and the common ground are yours.', 'बाईं ओर दस्ताना: हर उँगली पर एक फ़्लेक्स सेंसर और उसकी कलाई वाली बोर्ड पर हर एक के लिए 10 kΩ रेज़िस्टर (F1 अँगूठा … F5 छोटी उँगली)। दाईं ओर रोबोट हाथ: उसकी बाँह में पाँच सर्वो, अपनी 6 V बैटरी पर। चार उँगलियाँ जुड़ी हैं; तर्जनी और कॉमन ग्राउंड आपके ज़िम्मे।', 'Left mein dastaana: har ungli par ek flex sensor aur uske wrist board par har ek ke liye 10 kΩ resistor (F1 angootha … F5 chhoti ungli). Right mein robot haath: uski baanh mein paanch servo, apni 6 V battery par. Chaar ungliyaan judi hain; tarjani aur common ground aapke zimme.'), see: E },
+      w3('glove.F2', 'A1', 'Wire the glove\'s F2 (the index finger) to A1.', 'दस्ताने का F2 (तर्जनी) A1 से जोड़िए।', 'Dastaane ka F2 (tarjani) A1 se jodiye.'),
+      w3('hand.S2', 'D5', 'Wire the hand\'s S2 (the index finger\'s servo) to pin 5.', 'हाथ का S2 (तर्जनी का सर्वो) पिन 5 से जोड़िए।', 'Haath ka S2 (tarjani ka servo) pin 5 se jodiye.'),
+      w3('H:c55', 'rail:tn', 'Common ground: column 55 is where the hand\'s GND meets the battery\'s −. Wire column 55 to the − rail too.', 'कॉमन ग्राउंड: कॉलम 55 पर हाथ का GND बैटरी के − से मिलता है। कॉलम 55 को − रेल से भी जोड़िए।', 'Common ground: column 55 par haath ka GND battery ke − se milta hai. Column 55 ko − rail se bhi jodiye.', t3('Five servos can pull 3 A together, so they run on their own battery, never on the Arduino\'s 5V pin. But a servo reads its signal against its own GND: the two grounds must be joined, or it sees no signal and only twitches.', 'पाँच सर्वो मिलकर 3 A खींच सकते हैं, इसलिए वे अपनी बैटरी पर चलते हैं, कभी Arduino के 5V पिन पर नहीं। पर सर्वो अपना सिग्नल अपने GND के हिसाब से पढ़ता है: दोनों ग्राउंड जुड़े होने चाहिए, वरना उसे सिग्नल नहीं मिलता और वह बस फड़कता है।', 'Paanch servo milkar 3 A kheench sakte hain, isliye woh apni battery par chalte hain, kabhi Arduino ke 5V pin par nahi. Par servo apna signal apne GND ke hisaab se padhta hai: dono ground jude hone chahiye, warna use signal nahi milta aur woh bas phadakta hai.')),
+      CHECK,
+      RUN(t3('The Serial Monitor shows the five fingers\' readings, thumb first, 20 times a second.', 'सीरियल मॉनिटर पाँचों उँगलियों की रीडिंग दिखाता है, पहले अँगूठा, सेकंड में 20 बार।', 'Serial Monitor paanchon ungliyon ki reading dikhaata hai, pehle angootha, second mein 20 baar.')),
+      { k: 'act', until: (S) => fresh(S) && gest(S, 'fist') && settled(S) && Math.max(...curl(S).slice(1)) < 70, do: t3('Tap the glove and make a fist (✊). Watch the robot hand, and the five numbers.', 'दस्ताने को छूइए और मुट्ठी बनाइए (✊)। रोबोट हाथ देखिए, और पाँचों संख्याएँ।', 'Dastaane ko touch karo aur mutthi banaiye (✊). Robot haath dekhiye, aur paanchon numbers.'),
+        see: t3('The robot hand hardly moves, and the wrong way: open, its fingers stood half bent (about 50°); in a fist they open a little (about 16°). The numbers say why: a straight finger reads about 290, a bent one about 95. map(f, 0, 1023, 0, 180) expects all of 0 to 1023, and a bigger number for more bend.', 'रोबोट हाथ मुश्किल से हिलता है, और उल्टा: खुले हाथ पर उसकी उँगलियाँ आधी मुड़ी थीं (लगभग 50°); मुट्ठी में वे थोड़ी खुल जाती हैं (लगभग 16°)। संख्याएँ बताती हैं क्यों: सीधी उँगली लगभग 290 पढ़ती है, मुड़ी हुई लगभग 95। map(f, 0, 1023, 0, 180) पूरे 0 से 1023 की उम्मीद करता है, और ज़्यादा मुड़ने पर बड़ी संख्या की।', 'Robot haath mushkil se hilta hai, aur ulta: khule haath par uski ungliyaan aadhi mudi thin (lagbhag 50°); mutthi mein woh thodi khul jaati hain (lagbhag 16°). Numbers batate hain kyon: seedhi ungli lagbhag 290 padhti hai, mudi hui lagbhag 95. map(f, 0, 1023, 0, 180) poore 0 se 1023 ki ummeed karta hai, aur zyada mudne par badi sankhya ki.') },
+      { k: 'edit', test: (src) => /map\(\s*f\s*,\s*(2[6-9]\d|30\d)\s*,\s*(8\d|9\d|1[01]\d)\s*,\s*0\s*,\s*180\s*\)/.test(src || '') && /constrain\(\s*angle\s*,\s*0\s*,\s*180\s*\)/.test(src || ''),
+        set: [[/int angle = map\(f, 0, 1023, 0, 180\);/, 'int angle = map(f, 290, 95, 0, 180);  // straight ≈ 290 → open, bent ≈ 95 → closed\n    angle = constrain(angle, 0, 180);']],
+        do: t3('Calibrate: map from what the glove really gives. Change the map line to\n  int angle = map(f, 290, 95, 0, 180);\nadd below it\n  angle = constrain(angle, 0, 180);\nand press Run.', 'कैलिब्रेट कीजिए: map उससे कीजिए जो दस्ताना असल में देता है। map वाली लाइन बदलिए\n  int angle = map(f, 290, 95, 0, 180);\nउसके नीचे जोड़िए\n  angle = constrain(angle, 0, 180);\nऔर "चलाइए" दबाइए।', 'Calibrate kijiye: map usse kijiye jo dastaana asal mein deta hai. Map wali line badaliye\n  int angle = map(f, 290, 95, 0, 180);\nuske neeche jodiye\n  angle = constrain(angle, 0, 180);\naur Run dabaiye.'),
+        see: t3('map() works backwards too: 290 becomes 0 (open), 95 becomes 180 (closed). constrain() stops a finger bent a little further from asking for more than 180°.', 'map() उल्टा भी काम करता है: 290, 0 (खुला) बनता है, 95, 180 (बंद)। constrain() थोड़ा और मुड़ी उँगली को 180° से ज़्यादा माँगने से रोकता है।', 'map() ulta bhi kaam karta hai: 290, 0 (khula) banta hai, 95, 180 (band). constrain() thodi aur mudi ungli ko 180° se zyada maangne se rokta hai.') },
+      { k: 'act', until: (S) => { const c = curl(S); return fresh(S) && gest(S, 'fist') && settled(S) && Math.min(...c.slice(1)) > 150 && c[0] < 45; }, do: t3('Make a fist again (✊).', 'फिर से मुट्ठी बनाइए (✊)।', 'Phir se mutthi banaiye (✊).'),
+        see: t3('Four fingers close, but the thumb flies open! Its servo is mounted the other way round in the forearm (it has to be, to fit beside the others), so for the thumb 180° means open. One finger needs the mapping mirrored.', 'चार उँगलियाँ बंद होती हैं, पर अँगूठा खुल जाता है! उसका सर्वो बाँह में उल्टा लगा है (दूसरों के बगल में फ़िट होने के लिए ऐसा करना पड़ता है), इसलिए अँगूठे के लिए 180° का मतलब खुला है। एक उँगली की मैपिंग उलटनी है।', 'Chaar ungliyaan band hoti hain, par angootha khul jaata hai! Uska servo baanh mein ulta laga hai (doosron ke bagal mein fit hone ke liye aisa karna padta hai), isliye angoothe ke liye 180° ka matlab khula hai. Ek ungli ki mapping ulatni hai.') },
+      { k: 'edit', test: (src) => /if\s*\(\s*i\s*==\s*0\s*\)\s*\{?\s*angle\s*=\s*180\s*-\s*angle\s*;/.test(src || ''), set: [[/angle = constrain\(angle, 0, 180\);/, 'angle = constrain(angle, 0, 180);\n    if (i == 0) angle = 180 - angle;      // the thumb\'s servo is mounted reversed']],
+        do: t3('Mirror the thumb: below the constrain line add\n  if (i == 0) angle = 180 - angle;\nand press Run.', 'अँगूठे को उलटिए: constrain वाली लाइन के नीचे जोड़िए\n  if (i == 0) angle = 180 - angle;\nऔर "चलाइए" दबाइए।', 'Angoothe ko ulatiye: constrain wali line ke neeche jodiye\n  if (i == 0) angle = 180 - angle;\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && gest(S, 'fist') && settled(S) && Math.min(...curl(S)) > 150, do: t3('A fist once more (✊).', 'एक बार फिर मुट्ठी (✊)।', 'Ek baar phir mutthi (✊).'),
+        see: t3('A real fist, thumb and all.', 'एक असली मुट्ठी, अँगूठे के साथ।', 'Ek asli mutthi, angoothe ke saath.') },
+      { k: 'act', until: (S) => { const c = curl(S); return fresh(S) && gest(S, 'peace') && settled(S) && c[1] < 30 && c[2] < 30 && c[0] > 150 && c[3] > 150 && c[4] > 150; }, do: t3('Now the peace sign (✌).', 'अब शांति का निशान (✌)।', 'Ab peace ka nishaan (✌).'),
+        see: t3('Every finger on its own. Bionic hands for people who have lost a hand work the same way, but read the muscles of the forearm (EMG sensors) instead of a glove: read what the sensor really gives, then map and constrain it.', 'हर उँगली अपने हिसाब से। जिन लोगों का हाथ नहीं है उनके बायोनिक हाथ भी ऐसे ही काम करते हैं, पर दस्ताने की जगह बाँह की मांसपेशियाँ (EMG सेंसर) पढ़ते हैं: सेंसर असल में जो देता है उसे पढ़िए, फिर map और constrain कीजिए।', 'Har ungli apne hisaab se. Jin logon ka haath nahi hai unke bionic haath bhi aise hi kaam karte hain, par dastaane ki jagah baanh ki maanspeshiyaan (EMG sensor) padhte hain: sensor asal mein jo deta hai use padhiye, phir map aur constrain kijiye.') },
+    ],
+    check: [...rails, has('glove', t3('flex glove', 'फ़्लेक्स दस्ताना', 'flex dastaana')), has('hand', t3('robot hand', 'रोबोट हाथ', 'robot haath')),
+      (S) => (S.conn('hand.V', '5V') ? [t3('The servos are on the Arduino\'s 5V: five servos can pull 3 A, and the board would reset. They have their own battery: V to its +.', 'सर्वो Arduino के 5V पर हैं: पाँच सर्वो 3 A खींच सकते हैं, और बोर्ड रीसेट हो जाएगा। उनकी अपनी बैटरी है: V उसके + पर।', 'Servo Arduino ke 5V par hain: paanch servo 3 A kheench sakte hain, aur board reset ho jaayega. Unki apni battery hai: V uske + par.')] : null),
+      need('glove.F2', 'A1', W.join, { a: 'F2', b: 'A1' }), need('hand.S2', 'D5', W.toPin, { x: 'S2', p: 5 }),
+      (S) => (S.conn('hand.GND', 'GND') ? null : [t3('Common ground: the hand\'s GND must be joined to the board\'s GND (the − rail), or the servos see no signal.', 'कॉमन ग्राउंड: हाथ का GND बोर्ड के GND (− रेल) से जुड़ा होना चाहिए, वरना सर्वो को सिग्नल नहीं दिखता।', 'Common ground: haath ka GND board ke GND (− rail) se juda hona chahiye, warna servo ko signal nahi dikhta.')])],
+    done: (S) => gest(S, 'peace') && curl(S)[1] < 30 && curl(S)[0] > 150 });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

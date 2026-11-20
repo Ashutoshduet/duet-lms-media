@@ -598,7 +598,7 @@ class Gen {
     for (const v of d.vars) {
       let t = d.ty, dims = null;
       if (v.dims.length) {
-        if (t === 'servo') this.err('E_UNSUPPORTED', v.line, { what: 'Servo[]' });
+        if (t === 'servo' && (v.dims.length !== 1 || v.init)) this.err('E_UNSUPPORTED', v.line, { what: 'Servo[][]' }); // (batch 29: Servo finger[5]; one row of servos, as the Arduino examples have)
         dims = v.dims.map((x, i) => {
           if (x === null) { if (i === 0 && v.init && v.init.k === 'list') return v.init.items.length; if (i === 0 && v.init && v.init.k === 'str') return -1; this.err('E_ARRAY_SIZE', v.line, { name: v.name }); }
           const e = this.ex(x); if (e.k === undefined || !isInt(e.t)) this.err('E_ARRAY_CONST', v.line, { name: v.name }); if (e.k <= 0 || e.k > 2000) this.err('E_ARRAY_RANGE', v.line, { name: v.name, n: e.k });
@@ -609,7 +609,8 @@ class Gen {
       }
       if (t === 'auto') { if (!v.init || v.init.k === 'list') this.err('E_TYPE', v.line, { text: 'auto' }); }
       let initCode = null, k;
-      if (t && t.arr) initCode = this.arrInit(t, v.init, v.line);
+      if (t && t.arr === 'servo') { if (!hasServoInc(this.info)) this.err('E_SERVO_INCLUDE', v.line); initCode = `Array.from({length:${t.dims[0]}},()=>rt.servo())`; } // (batch 29)
+      else if (t && t.arr) initCode = this.arrInit(t, v.init, v.line);
       else if (t === 'servo') { if (!hasServoInc(this.info)) this.err('E_SERVO_INCLUDE', v.line); initCode = 'rt.servo()'; }
       else if (String(t).startsWith('o:')) initCode = LIB3.decl(this, t.slice(2), v); // batch 3: a library object
       else if (String(t).startsWith('o4:')) initCode = LIB4.decl(this, t.slice(3), v); // batch 4: WebServer server(80);

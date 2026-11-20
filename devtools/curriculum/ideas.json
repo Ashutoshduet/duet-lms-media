@@ -68795,6 +68795,27 @@
 "note": null
 },
 {
+"id": "live-bionichand",
+"title": "Bionic hand with a flex glove",
+"family": "live",
+"board": "uno",
+"parts": [
+"flexglove",
+"robohand",
+"aa4"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "bionichand",
+"rule": null,
+"note": null
+},
+{
 "id": "live-wxcloud",
 "title": "Weather station that posts to a website",
 "family": "live",

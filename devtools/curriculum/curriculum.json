@@ -6014,19 +6014,20 @@
    {
     "class": 11,
     "n": 28,
-    "kind": "I",
-    "title": "Bionic hand with flex glove",
+    "kind": "L",
+    "title": "Bionic hand with a flex glove",
     "board": "uno",
-    "status": "planned",
-    "ref": "bionic-hand-with-flex-glove-uno",
+    "status": "live",
+    "ref": "bionichand",
     "newparts": [],
-    "family": "world-maker",
+    "family": "live-projects",
     "parts": [
-     "flex",
-     "servo"
+     "flexglove",
+     "robohand",
+     "aa4"
     ],
     "strand": "Algorithmic thinking",
-    "focus": "Motors and servos",
+    "focus": "Coding basics",
     "term": "Term 4 (January-February)"
    },
    {

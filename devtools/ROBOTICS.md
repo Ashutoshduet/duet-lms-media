@@ -1206,3 +1206,11 @@ heaters.
   the ESP32 (GPIO 4, pull-up 41i → front + rail, 3.3 V), with a pull-up check; OUT.neo / EOUT.neo (pin 6 / GPIO 18, VCC
   5 V), class +1 and never blocks; 8 new jobs and the stick added to 12 jobs (NEO_JOBS). sketchWeb's global reading takes
   the reading's own type. 90 lessons; robofactory 23,407 ok. 3,663 projects live.
+- Batch 29: the bionic hand (Class 11, lessons24.js `bionichand`; parts29.js, models29.js, app29.js). cpp.js now takes
+  one row of servos (`Servo finger[5];`, made with Array.from in the generated code). flexglove: five flex sensors (25 kΩ
+  straight → 100 kΩ at 90°) each with 10 kΩ to GND: about 290 straight, 93 bent; the callout's gestures (open, fist,
+  peace, thumbs up, point) and finger sliders. robohand: five servos (600°/s) read like the lab's servos; the thumb's is
+  mounted reversed (curlOf: 180 − angle); with no common ground (its GND not on the board's GND) it only twitches (noRef).
+  Both lie behind their 7-pin header, pointing away like the student's own right hand. The lesson: map(0, 1023) barely
+  moves it and backwards → calibrate map(f, 290, 95, 0, 180) + constrain → the thumb opens in a fist → if (i == 0) angle
+  = 180 − angle → fist, then peace. The servos run on their own 4×AA; the common ground goes through column 55.

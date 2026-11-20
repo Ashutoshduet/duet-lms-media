@@ -22,6 +22,7 @@ import { makeScene } from '../../robotics/js/scenes3.js';
 import { ArmSim, CarSim, carFeed, wifiCheck, CARG } from '../../robotics/js/robots.js';
 import { BO } from '../../robotics/js/parts2.js';
 import { set26 } from '../../robotics/js/parts26.js';
+import { set29, curlOf } from '../../robotics/js/parts29.js';
 
 const B = (e) => (/^(H|T|B):/.test(e) ? e : 'B:' + e); // a board pin
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
@@ -403,6 +404,30 @@ for (const l of L24) {
   }
   const C = N.cloud; ok(!!l.done(rt) && page && page.code === 200 && /DUET School Weather/.test(page.body) && /<svg/.test(page.body), `wxcloud: complete, the channel page shows charts; ${seen.join(' | ')}`);
   const zeros = C.log.filter((c) => !c.ok).length; ok(zeros >= 3, `wxcloud: early updates answered 0 (${zeros} of ${C.log.length})`);
+}
+
+// the bionic hand (lessons24.js bionichand; parts29.js flexglove, robohand; cpp.js Servo arrays): map(0, 1023) hardly moves
+// it (the glove gives 290 straight, 95 bent), calibrated it closes but the reversed thumb opens, mirrored it makes a fist
+{ const l = LESSONS.find((x) => x.id === 'bionichand');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  ok(compile(l.code, lab.def).ok, 'hand: the sketch (a Servo array) compiles');
+  const G = ['fist', 'fist', 'fist', 'peace']; let ai = 0, src = l.code; const seen = [];
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); };
+  for (const s of l.steps) {
+    if (s.k === 'wire') { const g = rt.ghostWire(s.wire); if (!g) { ok(false, `hand: a ghost wire for ${s.wire}`); continue; } lab.addWire(g[0], g[1]); if (!rt.conn(s.wire[0], s.wire[1])) ok(false, `hand: wire ${s.wire} joins`); }
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'hand: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e, lab.def).ok, 'hand: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const g = G[ai++]; let t = -1; const glove = lab.byTag('glove'); if (ai === 1) set29(lab, glove, 'gesture', 'open');
+      for (let f = 0; f < 60 * 10; f++) { if (f === 30) set29(lab, glove, 'gesture', g); lab.step(1000 / 60); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (f > 30 && s.until(rt)) { t = f / 60; break; } }
+      const h = lab.byTag('hand'); seen.push(`${g}: ${curlOf(h).map((a) => Math.round(a)).join('/')}`);
+      ok(t >= 0, `hand: act "${s.do.en.slice(0, 40)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${seen[seen.length - 1]} ${JSON.stringify(h.state.target)} ${lab.mcu.err ? JSON.stringify(lab.mcu.err) : ''}`)); }
+  }
+  ok(!!l.done(rt), `hand: complete; ${seen.join(' | ')}`);
+  // no common ground: the servos only twitch
+  const w = lab.wires.find((x) => [x.a, x.b].some((e) => /^H:[a-e]55$/.test(e)) && [x.a, x.b].some((e) => e.startsWith('H:tn')));
+  if (w) { lab.removeWire(w); for (let f = 0; f < 30; f++) lab.step(1000 / 60); ok(lab.byTag('hand').state.noRef === true, 'hand: without the common ground the hand knows it has no reference'); } else ok(false, 'hand: the common-ground wire is found');
 }
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);
