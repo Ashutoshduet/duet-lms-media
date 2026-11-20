@@ -645,9 +645,9 @@ class App {
       if (e.key === 'r' || e.key === 'R') this.rotateDragOrSel();
       if ((e.key === 'Delete' || e.key === 'Backspace') && this.sel) this.removeSel();
       if (e.key === 'Escape') { this.cancelDrag(); this.closeCallout(); this.view.showHover(null); }
-      const k = PADKEY[e.key]; if (k && this.world && this.world.cfg.car === 'bt') { e.preventDefault(); if (!e.repeat) this.world.control('key', k); } // batch 2: the arrow keys are the phone pad's buttons
+      const k = PADKEY[e.key]; if (k && this.world && ['bt', 'soccer'].includes(this.world.cfg.car)) { e.preventDefault(); if (!e.repeat) this.world.control('key', k); } // batch 2: the arrow keys are the phone pad's buttons
     });
-    addEventListener('keyup', (e) => { if (PADKEY[e.key] && this.world && this.world.cfg.car === 'bt') this.world.control('key', 'S'); });
+    addEventListener('keyup', (e) => { if (PADKEY[e.key] && this.world && ['bt', 'soccer'].includes(this.world.cfg.car)) this.world.control('key', 'S'); });
   }
   // ------------------------------------------------------------ hover: what is under the pointer, and its voltage
   hover(x, y) {

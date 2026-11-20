@@ -394,6 +394,11 @@ export function buildCar(kind, parts, opt = {}) { // (batch 19: opt.board, anoth
     const head = keep(new THREE.Group(), 'scan'); head.position.set(0, top + 29, CAR.usZ); g.add(head);
     head.add(box(48, 3, 14, M.white, 0, 1.5, 0)); const us = buildUSHead(); us.position.set(0, 14, 3); head.add(us); live.scan = head;
   }
+  if (kind === 'soccer') { // (batch 24) the HC-05 as on the Bluetooth car, and an acrylic V-scoop on the nose (two plates and a floor lip)
+    const bt = buildHC05(); bt.position.set(-6, top + 6, 140); still.add(bt); live.leds.bt = bt.userData.leds.st;
+    for (const sd of [-1, 1]) { const pl = box(3, 40, 74, acr, 0, 0, 0); pl.position.set(sd * 52, 24, 205); pl.rotation.y = sd * -0.62; still.add(pl); }
+    still.add(box(150, 3, 20, acr, 0, 30, 172)); still.add(box(40, 3, 46, acr, 0, CAR.plateY + 1.5, 160));
+  }
   if (kind === 'bt') { const bt = buildHC05(); bt.scale.setScalar(1); bt.position.set(-6, top + 6, 140); still.add(bt); live.leds.bt = bt.userData.leds.st; }
   // batch 14
   if (kind === 'sumo') { // (batch 24) the edge IR modules at the front corners, as the table robot's, and the HC-SR04 fixed at the front
@@ -499,6 +504,16 @@ export function trackTexture(pts, opts = {}) {
   const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
 }
 // (batch 24) the sumo practice robot: a heavy red box on four wheels with a steel wedge at the front (it does not drive)
+// (batch 24) a tennis ball, 65 mm: yellow-green felt and its white seam
+export function buildBall() {
+  const C = document.createElement('canvas'); C.width = 256; C.height = 128; const c = C.getContext('2d'); c.fillStyle = '#d4e33a'; c.fillRect(0, 0, 256, 128);
+  for (let i = 0; i < 900; i++) { c.fillStyle = `rgba(${Math.random() < 0.5 ? '255,255,200' : '120,130,20'},0.18)`; c.fillRect(Math.random() * 256, Math.random() * 128, 2, 2); }
+  c.strokeStyle = '#f6f6ee'; c.lineWidth = 5; c.beginPath(); for (let x = 0; x <= 256; x += 2) { const y = 64 + 34 * Math.sin(x / 256 * Math.PI * 4); x ? c.lineTo(x, y) : c.moveTo(x, y); } c.stroke();
+  const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; const m = new THREE.Mesh(new THREE.SphereGeometry(33, 28, 18), S({ map: t, roughness: 0.95 })); m.position.y = 33;
+  const g = new THREE.Group(); g.add(m); g.userData.ball = m; // (the sphere rolls; its shadow stays on the floor)
+  const sh = new THREE.Mesh(new THREE.CircleGeometry(30, 20), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.25, depthWrite: false })); sh.rotation.x = -Math.PI / 2; sh.position.y = 0.8; g.add(sh);
+  return g;
+}
 export function buildSumoFoe() {
   const M = mats(); const g = new THREE.Group(); const red = S({ color: 0xc8281c, roughness: 0.5 }), steel = S({ color: 0xc9ced4, metalness: 0.8, roughness: 0.3 }), tyre = S({ color: 0x18181a, roughness: 0.8 });
   g.add(box(190, 70, 170, red, 0, 45, -10)); g.add(box(170, 6, 150, S({ color: 0x2a2b2e, roughness: 0.6 }), 0, 83, -10));
@@ -515,6 +530,18 @@ export function buildArena(opts) {
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(rw * 1.8, rd * 1.8), Lm({ map: ft })); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.5; g.add(floor);
   if (opts.maze) { const mat = new THREE.Mesh(new THREE.PlaneGeometry(rw, rd), Lm({ map: mazeTexture(rw, rd, opts) })); mat.rotation.x = -Math.PI / 2; mat.position.y = 0.2; g.add(mat); } // (batch 18)
   else if (!opts.plain) { const mat = new THREE.Mesh(new THREE.PlaneGeometry(A.mat[0], A.mat[1]), Lm({ map: trackTexture(opts.track, opts), color: 0xc4c2bc })); mat.rotation.x = -Math.PI / 2; mat.position.y = 0.2; g.add(mat); }
+  if (opts.soccer) { // (batch 24) the pitch: green felt, white lines, the centre circle, a yellow goal at +x and a blue one at -x
+    const C = document.createElement('canvas'); const k = 0.4; C.width = Math.round(rw * k); C.height = Math.round(rd * k); const c = C.getContext('2d');
+    c.fillStyle = '#2f7d3a'; c.fillRect(0, 0, C.width, C.height); for (let i = 0; i < 10; i++) { c.fillStyle = i % 2 ? 'rgba(255,255,255,0.035)' : 'rgba(0,0,0,0.04)'; c.fillRect(i * C.width / 10, 0, C.width / 10, C.height); }
+    c.strokeStyle = '#f4f4ef'; c.lineWidth = 20 * k; c.strokeRect(40 * k, 40 * k, (rw - 80) * k, (rd - 80) * k); c.beginPath(); c.moveTo(rw / 2 * k, 40 * k); c.lineTo(rw / 2 * k, (rd - 40) * k); c.stroke();
+    c.beginPath(); c.arc(rw / 2 * k, rd / 2 * k, 240 * k, 0, 7); c.stroke(); c.fillStyle = '#f4f4ef'; c.beginPath(); c.arc(rw / 2 * k, rd / 2 * k, 14 * k, 0, 7); c.fill();
+    for (const sx of [0, 1]) c.strokeRect(sx ? (rw - 40 - 300) * k : 40 * k, (rd / 2 - 350) * k, 300 * k, 700 * k);
+    const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; const f = new THREE.Mesh(new THREE.PlaneGeometry(rw, rd), Lm({ map: t })); f.rotation.x = -Math.PI / 2; f.position.y = 0.3; g.add(f);
+    for (const [sx, col] of [[1, 0xf2c418], [-1, 0x2457c8]]) { const gm = Lm({ color: col }), net = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.35, side: THREE.DoubleSide }); const x = sx * (rw / 2 - 60);
+      for (const zz of [-1, 1]) g.add(box(120, 140, 12, gm, x, 70, zz * 231)); g.add(box(12, 140, 474, gm, sx * (rw / 2 - 6), 70, 0)); g.add(box(120, 10, 474, gm, x, 145, 0));
+      const nt = new THREE.Mesh(new THREE.PlaneGeometry(450, 130), net); nt.position.set(sx * (rw / 2 - 14), 70, 0); nt.rotation.y = Math.PI / 2; g.add(nt);
+      const fl = new THREE.Mesh(new THREE.PlaneGeometry(108, 450), Lm({ color: col })); fl.rotation.x = -Math.PI / 2; fl.position.set(x, 0.5, 0); g.add(fl); }
+  }
   if (opts.ring) { // (batch 24) the sumo ring (dohyo): black, its white edge, the two brown start lines
     const R = opts.ring.r; const blk = new THREE.Mesh(new THREE.CircleGeometry(R, 96), Lm({ color: 0x141416 })); blk.rotation.x = -Math.PI / 2; blk.position.y = 0.4; g.add(blk);
     const wr = new THREE.Mesh(new THREE.RingGeometry(R - opts.ring.edge, R, 96), Lm({ color: 0xf2f2ee })); wr.rotation.x = -Math.PI / 2; wr.position.y = 0.6; g.add(wr);

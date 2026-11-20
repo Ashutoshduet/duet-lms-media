@@ -751,6 +751,40 @@ void loop() {
 }
 `;
 
+const SOCC = `// Robot soccer player: drive it from the phone and score in the yellow goal.
+// The app sends one letter per button: F forward, B back, L left, R right, S stop (when you let go).
+const int ENA = 5, IN1 = 7, IN2 = 8;    // motor A: the left wheel
+const int ENB = 6, IN3 = 2, IN4 = 4;    // motor B: the right wheel
+int speed = 230;                        // 0 .. 255
+
+void motor(int en, int a, int b, int v) {
+  digitalWrite(a, v > 0 ? HIGH : LOW);
+  digitalWrite(b, v < 0 ? HIGH : LOW);
+  analogWrite(en, abs(v));
+}
+void drive(int left, int right) {
+  motor(ENA, IN1, IN2, left);
+  motor(ENB, IN3, IN4, right);
+}
+
+void setup() {
+  pinMode(ENA, OUTPUT); pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT); pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  Serial.begin(9600);                   // the HC-05 talks at 9600 baud
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char c = Serial.read();
+    if (c == 'F') drive(speed, speed);
+    if (c == 'B') drive(-speed, -speed);
+    if (c == 'L') drive(-speed, speed);   // spin on the spot
+    if (c == 'R') drive(speed, -speed);
+    if (c == 'S') drive(0, 0);
+  }
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1150,6 +1184,30 @@ export function batch24(K, n0) {
     check: [noShort, (S) => (['ENA', 'IN1', 'IN2', 'ENB', 'IN3', 'IN4'].some((k) => ['D34', 'D35', 'VP', 'VN'].some((q) => S.conn('drv.' + k, q))) ? [t3('GPIO 34, 35, 36 (VP) and 39 (VN) are input only: they cannot drive the L298N. Use the GPIO the step names.', 'GPIO 34, 35, 36 (VP) और 39 (VN) सिर्फ़ इनपुट हैं: ये L298N को नहीं चला सकते। स्टेप में बताया GPIO लगाइए।', 'GPIO 34, 35, 36 (VP) aur 39 (VN) sirf input hain: yeh L298N ko nahi chala sakte. Step mein bataya GPIO lagaiye.')] : null),
       (S) => (S.conn('drv.GND', 'GND') ? null : [t3('The L298N\'s GND must be joined to a GND pin of the ESP32 (common ground), or its inputs cannot read the ESP32\'s 3.3 V.', 'L298N का GND, ESP32 के किसी GND पिन से जुड़ना चाहिए (कॉमन ग्राउंड), वरना इसके इनपुट ESP32 के 3.3 V को नहीं पढ़ सकते।', 'L298N ka GND, ESP32 ke kisi GND pin se judna chahiye (common ground), warna iske input ESP32 ke 3.3 V ko nahi padh sakte.')]), ...[['ENB', 32], ['IN3', 25], ['IN4', 33], ['ENA', 14], ['IN1', 27], ['IN2', 26]].map(([a, p]) => need('drv.' + a, 'D' + p, W.toPin, { x: 'L298N ' + a, p }))],
     done: (S) => S.w('parked') });
+  // 14 ----------------------------------------------------------------------------------------- robot soccer player
+  const spdOf = (src) => { const m = /int\s+speed\s*=\s*(\d+)\s*;/.exec(src || ''); return m ? +m[1] : 0; };
+  const okArc = (src) => /c\s*==\s*'L'\s*\)\s*drive\(\s*speed\s*\/\s*2\s*,\s*speed\s*\)/.test(src || '') && /c\s*==\s*'R'\s*\)\s*drive\(\s*speed\s*,\s*speed\s*\/\s*2\s*\)/.test(src || '');
+  L.push({ id: 'soccer', cls: '11', blocks: false, view: 'carbench', wview: 'carbench', rview: 'arenasoccer', code: SOCC, drawer: [], serial: false, world: { kind: 'car', car: 'soccer' },
+    title: t3('Robot soccer player', 'रोबोट फ़ुटबॉल खिलाड़ी', 'Robot football khiladi'),
+    goal: t3('In school robot soccer you drive your robot from a phone and push a tennis ball into the goal. A V-shaped scoop on the front lets it carry the ball: dribbling. Find out why a fast robot cannot dribble, and how to turn without losing the ball.', 'स्कूल के रोबोट फ़ुटबॉल में आप फ़ोन से अपना रोबोट चलाते हैं और टेनिस बॉल को गोल में धकेलते हैं। आगे लगा V-आकार का स्कूप गेंद को साथ ले जाने देता है: ड्रिब्लिंग। पता कीजिए कि तेज़ रोबोट ड्रिबल क्यों नहीं कर पाता, और गेंद खोए बिना कैसे मुड़ें।', 'School ke robot football mein aap phone se apna robot chalate hain aur tennis ball ko goal mein dhakelte hain. Aage laga V-shape ka scoop ball ko saath le jaane deta hai: dribbling. Pata kijiye ki tez robot dribble kyon nahi kar paata, aur ball khoye bina kaise mudein.'),
+    setup: { parts: [...CARP, P('bt', 'hc05', {}, 'j40', 0)], wires: [...CARW, ['H:f41', 'H:tp41'], ['H:f42', 'H:tn42'], ['H:f43', 'D0']] },
+    steps: [
+      { k: 'info', do: t3('The Bluetooth car, with an acrylic V-scoop on its nose, stands on a 2.4 m × 1.6 m pitch (the 🏁 Robot view). The tennis ball is ahead of it; score in the yellow goal, on its right. Everything is wired: the drive as before, the HC-05 on pin 0.', 'ब्लूटूथ कार, नाक पर ऐक्रेलिक V-स्कूप के साथ, 2.4 m × 1.6 m के मैदान पर खड़ी है (🏁 रोबोट व्यू)। टेनिस बॉल इसके आगे है; पीले गोल में गोल कीजिए, जो इसकी दाईं ओर है। सब जुड़ा है: ड्राइव पहले की तरह, HC-05 पिन 0 पर।', 'Bluetooth car, naak par acrylic V-scoop ke saath, 2.4 m × 1.6 m ke maidan par khadi hai (🏁 Robot view). Tennis ball iske aage hai; peele goal mein goal kijiye, jo iski right taraf hai. Sab juda hai: drive pehle ki tarah, HC-05 pin 0 par.'), see: E },
+      CHECK,
+      RUN(),
+      { k: 'act', until: (S) => { const b = S.part('bt'); return !!(b && b.state.paired); }, do: t3('In the car\'s panel (the phone app), press "Connect HC-05".', 'कार के पैनल (फ़ोन ऐप) में "HC-05 से जोड़िए" दबाइए।', 'Car ke panel (phone app) mein "HC-05 se jodiye" dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('kick'), do: t3('Drive at the ball: hold ▲ (or the ↑ key).', 'गेंद की ओर चलाइए: ▲ (या ↑ कुंजी) दबाए रखिए।', 'Ball ki taraf chalaiye: ▲ (ya ↑ key) dabaye rakhiye.'),
+        see: liveCarSim((lg, C) => pick(lg, `Thwack! At speed 230 the car hits the ball like a bat: it shoots off at ${C.shotV ? (C.shotV / 1000).toFixed(1) : '?'} m/s and bounces off the boards. The car is 10 times heavier than the ball, so the ball leaves faster than the car came: good for a shot, hopeless for keeping it.`, `धप! रफ़्तार 230 पर कार गेंद को बल्ले की तरह मारती है: वह ${C.shotV ? (C.shotV / 1000).toFixed(1) : '?'} m/s से भागती है और बोर्ड से टकराकर लौटती है। कार गेंद से 10 गुना भारी है, तो गेंद कार के आने से भी तेज़ जाती है: शॉट के लिए अच्छा, गेंद रखने के लिए बेकार।`, `Dhap! Speed 230 par car ball ko balle ki tarah maarti hai: woh ${C.shotV ? (C.shotV / 1000).toFixed(1) : '?'} m/s se bhaagti hai aur board se takraakar lautti hai. Car ball se 10 guna bhaari hai, to ball car ke aane se bhi tez jaati hai: shot ke liye achha, ball rakhne ke liye bekaar.`)) },
+      { k: 'edit', test: (src) => { const v = spdOf(src); return v >= 100 && v <= 150; }, set: [[/int speed = 230;/, 'int speed = 130;']], do: t3('Slow down: change speed = 230 to speed = 130 and press Run.', 'धीमा कीजिए: speed = 230 को speed = 130 कीजिए और "चलाइए" दबाइए।', 'Dheema kijiye: speed = 230 ko speed = 130 kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('lostBall'), do: t3('Drive gently into the ball so it sits in the V, then turn right (▶) with it, towards the yellow goal.', 'गेंद में धीरे से जाइए ताकि वह V में बैठ जाए, फिर उसके साथ दाएँ (▶) मुड़िए, पीले गोल की ओर।', 'Ball mein dheere se jaiye taaki woh V mein baith jaaye, phir uske saath right (▶) mudiye, peele goal ki taraf.'),
+        see: t3('Caught it: met gently, the ball sits in the V and the car carries it. But the moment it spins on the spot, the ball flies out sideways. A spin swings the scoop sideways at about 0.8 m/s, and nothing holds the ball from the side.', 'पकड़ ली: धीरे से मिलने पर गेंद V में बैठ जाती है और कार उसे साथ ले जाती है। पर जैसे ही यह अपनी जगह पर घूमती है, गेंद बगल से उड़ जाती है। घूमना स्कूप को लगभग 0.8 m/s से बगल में झुलाता है, और बगल से गेंद को कुछ नहीं थामता।', 'Pakad li: dheere se milne par ball V mein baith jaati hai aur car use saath le jaati hai. Par jaise hi yeh apni jagah par ghoomti hai, ball bagal se ud jaati hai. Ghoomna scoop ko lagbhag 0.8 m/s se bagal mein jhulaata hai, aur bagal se ball ko kuch nahi thaamta.') },
+      { k: 'edit', test: okArc, set: [[/if \(c == 'L'\) drive\(-speed, speed\);[^\n]*/, "if (c == 'L') drive(speed / 2, speed);   // a curve: both wheels forward"], [/if \(c == 'R'\) drive\(speed, -speed\);/, "if (c == 'R') drive(speed, speed / 2);"]],
+        do: t3('Turn the way a footballer does, running in a curve. Change the L and R lines to\n  if (c == \'L\') drive(speed / 2, speed);\n  if (c == \'R\') drive(speed, speed / 2);\nand press Run.', 'वैसे मुड़िए जैसे फ़ुटबॉलर मुड़ता है, घुमावदार दौड़कर। L और R वाली लाइनें बदलिए\n  if (c == \'L\') drive(speed / 2, speed);\n  if (c == \'R\') drive(speed, speed / 2);\nऔर "चलाइए" दबाइए।', 'Waise mudiye jaise footballer mudta hai, ghumaavdaar daudkar. L aur R wali lines badaliye\n  if (c == \'L\') drive(speed / 2, speed);\n  if (c == \'R\') drive(speed, speed / 2);\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('goal'), do: t3('Catch the ball again and dribble it into the yellow goal: curve right with ▶, then ▲.', 'गेंद फिर पकड़िए और ड्रिबल करके पीले गोल में डालिए: ▶ से दाएँ घूमिए, फिर ▲।', 'Ball phir pakadiye aur dribble karke peele goal mein daaliye: ▶ se right ghoomiye, phir ▲.'),
+        see: liveCarSim((lg, C) => pick(lg, `GOAL! In ${C.goalT ?? '?'} s. In a curve the scoop keeps pushing the ball forwards, so the V holds it all the way round. Fast to the ball, gentle on it, curves instead of spins: that is how the winning teams drive. A real kicker (a solenoid that punches the ball) gives the shot back.`, `गोल! ${C.goalT ?? '?'} s में। घुमाव में स्कूप गेंद को आगे धकेलता रहता है, तो V उसे पूरे मोड़ में थामे रखता है। गेंद तक तेज़, गेंद पर धीमा, घूमने की जगह घुमाव: जीतने वाली टीमें ऐसे ही चलाती हैं। असली किकर (गेंद को मुक्का मारने वाला सोलेनॉइड) शॉट वापस देता है।`, `GOAL! ${C.goalT ?? '?'} s mein. Ghumaav mein scoop ball ko aage dhakelta rehta hai, to V use poore mod mein thaame rakhta hai. Ball tak tez, ball par dheema, ghoomne ki jagah ghumaav: jeetne wali teams aise hi chalaati hain. Asli kicker (ball ko mukka maarne wala solenoid) shot wapas deta hai.`)) },
+    ],
+    check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('bt', t3('Bluetooth module', 'ब्लूटूथ मॉड्यूल', 'Bluetooth module')), need('bt.VCC', '5V', W.to5v, { x: 'VCC' }), need('bt.GND', 'GND', W.toGnd, { x: 'GND' }), need('bt.TXD', 'D0', W.toPin, { x: 'TXD', p: 0 })],
+    done: (S) => S.w('goal') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

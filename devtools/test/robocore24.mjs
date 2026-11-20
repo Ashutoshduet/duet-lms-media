@@ -326,4 +326,29 @@ for (const l of L24) {
   ok(!!l.done(rt), `wificar: complete; ${seen.join(' | ')}`);
 }
 
+// robot soccer (lessons24.js soccer, robots.js CarSim.soccer): the Bluetooth car with a V-scoop and a tennis ball on the pitch
+{ const l = LESSONS.find((x) => x.id === 'soccer');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  ok(compile(l.code, lab.def).ok, 'soccer: the sketch compiles');
+  const sim = new CarSim('soccer'); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => { sim.reset(); for (const t of ['mL', 'mR']) lab.byTag(t).state.w = 0; } };
+  const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; };
+  const ang = (X, Z) => { const e = Math.atan2(X - sim.x, Z - sim.z) - sim.h; return Math.atan2(Math.sin(e), Math.cos(e)); };
+  const toBall = () => { const B = sim.ball; const e = ang(B.x, B.z); return Math.abs(e) > 0.3 ? (e > 0 ? 'L' : 'R') : 'F'; };
+  const DRV = [() => 'S', () => 'F', () => (sim.ball.held ? (sim.t - sim.ball.heldT > 0.5 ? 'R' : 'F') : toBall()), () => { if (sim.flags.has('goal')) return 'S'; if (!sim.ball.held) return toBall(); const e = ang(1200, 0); return Math.abs(e) > 0.15 ? (e > 0 ? 'L' : 'R') : 'F'; }];
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  let src = l.code, ai = 0; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'soccer: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e).ok, 'soccer: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const drv = DRV[ai++]; let cmd = 'S', t = -1;
+      for (let f = 0; f < 60 * 40; f++) { const tt = f / 60; if (ai === 1 && tt > 0.3) { const b = lab.byTag('bt'); if (!b.state.paired) { b.state.paired = true; lab.stateV++; } } // (the panel's Connect)
+        if (ai > 1 && tt > 0.3) { const k = drv(); if (k !== cmd) { cmd = k; const r = lab.btSend(k); if (r !== 'ok') { ok(false, `soccer: send ${k}: ${r}`); break; } } }
+        lab.step(1000 / 60); sim.update(1 / 60, w('mL'), w('mR')); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = tt; break; } }
+      if (cmd !== 'S') lab.btSend('S');
+      ok(t >= 0, `soccer: act "${s.do.en.slice(0, 44)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${JSON.stringify({ x: Math.round(sim.x), z: Math.round(sim.z), ball: [Math.round(sim.ball.x), Math.round(sim.ball.z)] })} ${[...sim.flags]}`)); seen.push(`${[...sim.flags].filter((k) => /kick|held|lost|goal/.test(k)).join(',')} shot ${sim.shotV}`); }
+  }
+  ok(!!l.done(rt) && sim.lostN === 0 && sim.own === 0, `soccer: complete; ${seen.join(' | ')}`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

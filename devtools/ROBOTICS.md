@@ -1132,3 +1132,14 @@ heaters.
   == 0) drive(0, 0); at the top of loop() it stops about 5 cm later; Stay connected, then park in P. The check names
   GPIO 34–39 (input only) if the L298N is wired there. robocore24.mjs plays it with the network calls the page makes.
   Class 11: 17 of 26.
+- Class 11 robot soccer player (batch 24, lessons24.js `soccer`; robots.js CAR_CFG.soccer, SOC, CarSim.soccer;
+  models2.js buildArena opts.soccer (felt, lines, yellow goal +x, blue goal -x), buildBall, buildCar kind 'soccer' (the
+  HC-05 and an acrylic V-scoop); worlds.js CarWorld placeBall (it rolls), the pad and arrow keys as for 'bt'; view
+  arenasoccer): a 2.4 m × 1.6 m pitch with boards; a tennis ball (r 33 mm) 420 mm ahead of the car, the yellow goal on
+  its right. The ball rolls (700 mm/s² on felt), bounces off the boards (e 0.6). Met at the front: inside the V (|x| < 34
+  mm) and slower than 420 mm/s it is held (carried at 200 mm ahead); otherwise it leaves at the car's speed × (1 + 0.55)
+  (kick, shotV). A held ball is flung (lostBall, after 0.15 s held) when the scoop's sideways speed (w × 200 mm) passes
+  250 mm/s + its forward speed; backing off leaves it; pushed into the boards it squeezes out. goal / ownGoal: the ball
+  inside a goal's mouth (450 mm, 120 deep). Speed 230 kicks it away (about 0.9 m/s); 130 catches it but a spin on the
+  spot flings it; L/R as curves (drive(speed / 2, speed)) dribble it into the yellow goal. Everything is pre-wired (the
+  HC-05 at j40, TXD on pin 0). robocore24.mjs plays it with a scripted driver. Class 11: 18 of 26.

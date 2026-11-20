@@ -5770,18 +5770,18 @@
    {
     "class": 11,
     "n": 15,
-    "kind": "I",
+    "kind": "L",
     "title": "Robot soccer player",
     "board": "uno",
-    "status": "planned",
-    "ref": "robot-soccer-player-uno",
+    "status": "live",
+    "ref": "soccer",
     "newparts": [],
-    "family": "robot-car",
+    "family": "live-projects",
     "parts": [
+     "l298n",
      "bat18650",
      "bomotor",
-     "hc05",
-     "l298n"
+     "hc05"
     ],
     "strand": "Decomposition",
     "focus": "Robots and motors",

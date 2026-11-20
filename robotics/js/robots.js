@@ -146,6 +146,10 @@ export const CAR_CFG = {
   wallp: { line: false, room: [3000, 2000], start: [-1000, 800, Math.PI / 2], boxes: [[1050, -700, 900, 600, 1800, 0, 'almirah']], side: 'R', sideZ: 100, wallp: true, glance: 40, inertia: { v: 0.2, w: 0.1 } },
   sumo: { line: false, room: [6000, 6000], start: [0, 380, Math.PI], boxes: [], ring: { r: 770, edge: 50 }, foe: { x: 0, z: -380, w: 200 }, inertia: { v: 0.2, w: 0.1 } },
 };
+// batch 24 (Class 11): robot soccer: a pitch 2.4 m × 1.6 m with boards round it, a yellow goal at +x (to score in) and a
+// blue one at -x (our own), a tennis ball (65 mm, 58 g) on the centre line; the Bluetooth car with a V-shaped scoop
+CAR_CFG.soccer = { line: false, room: [2400, 1600], start: [-560, 420, Math.PI], boxes: [], soccer: { ball: [-560, 0] } };
+export const SOC = { r: 33, e: 0.55, eWall: 0.6, roll: 700, zc: 200, front: 168, pocket: 34, catchV: 420, kickV: 420, s0: 250, goalW: 450, goalD: 120 };
 // batch 24 (Class 11): the WiFi car: an ESP32 on the car is its own WiFi hotspot; the Bluetooth car's yard, boxes and P
 CAR_CFG.wifi = Object.assign({}, CAR_CFG.bt, { wifi: true });
 // (batch 24) the WiFi car's link: Android finds that the car's WiFi has no internet and, during a long straight run (1.2 s
@@ -208,6 +212,7 @@ export class CarSim {
     this.lap = { cp: 0, t: 0, best: null, n: 0 }; this.wob = null; this.body = null; this.zz = null; this.swingRate = 0;
     this.fwdD = 0; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
     const F = this.cfg.foe; this.foe = F ? { x: F.x, z: F.z, out: false, outT: 0 } : null; this.ringOut = false; this.winT = 0; this.pushT = 0; // (batch 24: the sumo opponent)
+    const SB = this.cfg.soccer; this.ball = SB ? { x: SB.ball[0], z: SB.ball[1], vx: 0, vz: 0, held: false, heldT: 0, roll: 0, ax: 1, az: 0 } : null; this.goals = 0; this.own = 0; this.lostN = 0; this.shotV = 0; // (batch 24: robot soccer)
     this.fwdT = 0; this.swT = null; this.swBumps = 0; this.swOdo = undefined; this.stopMm = null; this.onAp = false; // (batch 24: the WiFi car)
     this.wc = null; this.whip = 0; this.lapT = null; this.lapBumps = null; this.sideCm = null; this.avgOff = null; // (batch 24: the wall follower)
     // batch 14
@@ -308,6 +313,40 @@ export class CarSim {
     if (this.t - W.t0 >= 3) { if (W.clear) { this.swingRate = +((W.rev - W.n0) / (this.t - W.t0)).toFixed(1); if (this.swingRate >= 1.5) this.flags.add('zigzag'); } W.t0 = this.t; W.n0 = W.rev; W.clear = true; } // (only 3 s of driving on count: a turn on the spot at a corner is not a zig-zag)
     const [sx, sz] = this.cfg.start; if (W.yaw > 330 && Math.hypot(this.x - sx, this.z - sz) < 300 && !this.flags.has('lapW')) { this.flags.add('lapW'); this.lapT = +this.t.toFixed(1); this.lapBumps = this.bumps; }
   }
+  // (batch 24) the ball: it rolls (and slows on the felt), bounces off the boards; the car's flat front hits it like a bat
+  // (it leaves at the car's speed × (1 + e)), but met gently in the V of the scoop it is held (the scoop carries it). A
+  // held ball stays while the scoop's sideways speed is under 250 mm/s + its forward speed: a spin on the spot flings it out.
+  soccer(dt, v, w) {
+    const B = this.ball, C = SOC; const c = Math.cos(this.h), sn = Math.sin(this.h);
+    const toLocal = (x, z) => { const dx = x - this.x, dz = z - this.z; return [dx * c - dz * sn, dx * sn + dz * c]; }; // (world -> car: +x left, +z forward)
+    const toWorldV = (lx, lz) => [lx * c + lz * sn, -lx * sn + lz * c];
+    const pt = (lz) => toWorldV(w * lz, v); // a point on the car's centre line, lz ahead: its velocity (car frame: w × lz sideways, v forward)
+    if (B.held) {
+      const s = Math.abs(w * C.zc), u = v;
+      if (u < -40) { B.held = false; } // backing off: it leaves the ball where it is
+      else if (s > C.s0 + Math.max(0, u)) { const [vx, vz] = pt(C.zc); B.vx = vx; B.vz = vz; B.held = false; if (this.t - B.heldT > 0.15) { this.flags.add('lostBall'); this.lostN++; } }
+      else { const [x, z] = this.world(0, C.zc); const [vx, vz] = pt(C.zc); B.x = x; B.z = z; B.vx = vx; B.vz = vz; const [rw0, rd0] = this.room; if (Math.abs(x) > rw0 / 2 - C.r || Math.abs(z) > rd0 / 2 - C.r) { B.held = false; B.vx = B.vz = 0; } } // (pushed into the boards: it squeezes out)
+    }
+    if (!B.held) {
+      const sp = Math.hypot(B.vx, B.vz); if (sp > 0) { const k = Math.max(0, sp - C.roll * dt) / sp; B.vx *= k; B.vz *= k; }
+      B.x += B.vx * dt; B.z += B.vz * dt;
+      const [rw, rd] = this.room; if (Math.abs(B.x) > rw / 2 - C.r) { B.x = Math.sign(B.x) * (rw / 2 - C.r); B.vx = -B.vx * C.eWall; } if (Math.abs(B.z) > rd / 2 - C.r) { B.z = Math.sign(B.z) * (rd / 2 - C.r); B.vz = -B.vz * C.eWall; }
+      const [lx, lz] = toLocal(B.x, B.z); const [bvx, bvz] = [B.vx, B.vz]; const blz = bvx * sn + bvz * c; // the ball's forward speed, along the car
+      const centred = Math.abs(lx) < C.pocket; const touching = centred ? lz <= C.zc + 6 : lz - C.r < C.front + 40; // (a centred ball goes between the arms of the V to its bottom)
+      if (Math.abs(lx) < 62 && lz > 40 && touching) { // at the front: the arms of the scoop, or the V's bottom
+        const vn = v - blz; const inPocket = centred;
+        if (vn > 0 && inPocket && vn < C.catchV) { B.held = true; B.heldT = this.t; this.flags.add('held'); const [x, z] = this.world(0, C.zc); B.x = x; B.z = z; }
+        else if (vn > 0 || lz < C.zc) { const nf = v * (1 + C.e) - C.e * blz; const blx = bvx * c - bvz * sn; const [vx, vz] = toWorldV(blx + (lx * 0.004) * vn, Math.max(nf, v + 5)); B.vx = vx; B.vz = vz; const [x, z] = this.world(lx, Math.max(lz, centred ? C.zc + 6 : C.front + 40 + C.r)); B.x = x; B.z = z;
+          if (vn >= C.kickV) { this.flags.add('kick'); this.shotV = Math.round(Math.hypot(vx, vz)); } }
+      } else { // the sides and back of the car: a round body
+        const [bx, bz] = this.world(0, CARG.bodyZ); const dx = B.x - bx, dz = B.z - bz, d = Math.hypot(dx, dz) || 1, rr = CARG.r * 0.85 + C.r;
+        if (d < rr) { const nx = dx / d, nz = dz / d; B.x = bx + nx * rr; B.z = bz + nz * rr; const [blx2, blz2] = toLocal(B.x, B.z); const [pvx, pvz] = toWorldV(w * blz2, v - w * blx2); const rv = (B.vx - pvx) * nx + (B.vz - pvz) * nz; if (rv < 0) { B.vx -= (1 + C.e) * rv * nx; B.vz -= (1 + C.e) * rv * nz; } }
+      }
+    }
+    // the goals: the ball over the line inside a goal's mouth
+    const [rw] = this.room; if (Math.abs(B.z) < C.goalW / 2 && Math.abs(B.x) > rw / 2 - C.goalD + C.r) { if (B.x > 0 && !this.flags.has('goal')) { this.flags.add('goal'); this.goals++; this.goalT = +this.t.toFixed(1); } if (B.x < 0 && !this.flags.has('ownGoal')) { this.flags.add('ownGoal'); this.own++; } }
+    const sp = Math.hypot(B.vx, B.vz); B.roll += sp * dt / C.r; if (sp > 1) { B.ax = B.vx / sp; B.az = B.vz / sp; } // (how far it has rolled, for the 3D ball)
+  }
   ringEdge() { const C = CAR14, R = this.cfg.ring; const w = (lx) => { const [x, z] = this.world(lx, C.edgeZ); return Math.hypot(x, z) > R.r - R.edge; }; return { L: w(C.edgeX), R: w(-C.edgeX) }; } // (over the white edge, or past it)
   usFoe() { // the HC-SR04 at the front: five rays in its cone against the opponent's four sides (cm, 400 for nothing)
     const F = this.foe; if (!F) return 400; const [sx, sz] = this.world(0, CARG.usZ); const h = this.cfg.foe.w / 2; let best = 4000;
@@ -331,6 +370,7 @@ export class CarSim {
     const c = this.contact(); this.blocked = !!c;
     if (c) { this.x += c[0] * c[2]; this.z += c[1] * c[2]; const vn = (Math.sin(this.h) * c[0] + Math.cos(this.h) * c[1]) * v; const head = v > 60 && vn < -0.6 * v; if (head && this.t - this.bumpT > 0.8) { this.bumps++; this.flags.add('bump'); } if (head) this.bumpT = this.t; } // (a scrape along the side does not count)
     if (this.cfg.ring) this.sumo(dt, v); // (batch 24)
+    if (this.ball) this.soccer(dt, v, w);
     if (this.cfg.wallp) this.wallCheck(dt, w, v);
     this.odo += Math.abs(v) * dt; if (this.odo > 600) this.flags.add('moved');
     if (v > 40 && Math.abs(w) < 0.3) { this.flags.add('fwd'); this.fwdD += v * dt; } if (v < -40) this.flags.add('back'); // (batch 19: fwdD, how far it drove straight on)
