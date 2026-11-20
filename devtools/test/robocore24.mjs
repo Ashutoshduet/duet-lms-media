@@ -6,6 +6,8 @@
 //            or no VDD reads 0, VREF loose reads 1023, a loose input wanders, the chip or the knob on 5 V is warned about
 //   HC-05    the Uno's Serial on TX (pin 1) through the divider to the phone's BT Terminal; 115200 baud is rubbish, no
 //            wire is silence, Run again keeps the link
+//   wateratm the Class 11 water ATM (lessons24.js), played with its scene (scenes3.js AtmScene): half a glass, the
+//            calibration, the refused card; the relay on the wrong pin is named
 //   Pico     pico_i2c_lcd: I2cLcd(i2c, 0x27, 2, 16), putstr, move_to(col, row) (no check: the wrong order writes in the wrong
 //            place), wrap; OSError EIO when swapped, at another address or on the other bus
 //   luma     i2c(port=1, address=0x3C) + ssd1306 + canvas: text, big font, rectangle; an unknown font; port 0
@@ -14,6 +16,9 @@ import { compile } from '../../robotics/js/cpp.js';
 import { Lab } from '../../robotics/js/sim.js';
 import { lcdText, oledLit } from '../../robotics/js/libs3.js';
 import { netOf } from '../../robotics/js/esp32.js';
+import { LESSONS } from '../../robotics/js/lessons.js';
+import { LessonRT } from '../../robotics/js/lessonrt.js';
+import { makeScene } from '../../robotics/js/scenes3.js';
 
 const B = (e) => (/^(H|T|B):/.test(e) ? e : 'B:' + e); // a board pin
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
@@ -144,5 +149,49 @@ lab = unoBT(); N = netOf(lab); N.btConnect('HC-05'); r = run(lab, 'void setup() 
 ok(btLines(lab).length && !btLines(lab).includes('Hello phone'), `Serial.begin(115200): the HC-05 (9600) gives the phone rubbish: ${JSON.stringify(btLines(lab).slice(-1))}`);
 lab = unoBT({ tx: false }); N = netOf(lab); N.btConnect('HC-05'); r = run(lab, 'void setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  Serial.println("Hello phone");\n  delay(500);\n}\n', 1.2);
 ok(!btLines(lab).length, 'pin 1 not wired to the divider: the phone hears nothing');
+
+// ------------------------------------------------------------ the Class 11 machine sessions (lessons24.js), played as a student plays them
+function build3(l) {
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code;
+  const rt = new LessonRT(app); rt.open(l.id);
+  const sim = makeScene(l.scene); app.world = { flag: (n) => sim.flag(n), val: (n) => sim.val(n), onRun: () => sim.onRun(lab) };
+  for (const s of l.steps) {
+    if (s.k === 'place') { const q = s.place; if (!lab.byTag(q.tag)) lab.addPart(q.type, q.props, q.at, q.rot, q.tag); }
+    if (s.k === 'wire') { const g = rt.ghostWire(s.wire); if (!g) { ok(false, `${l.id}: a ghost wire for ${s.wire}`); continue; } lab.addWire(g[0], g[1]); if (!rt.conn(s.wire[0], s.wire[1])) ok(false, `${l.id}: wire ${s.wire} joins`); }
+  }
+  for (let f = 0; f < 60; f++) { lab.step(1000 / 60); sim.update(1 / 60, lab); }
+  return { lab, app, rt, sim };
+}
+function play3(l, B, acts) {
+  const { lab, app, rt, sim } = B; let src = l.code; let ser = ''; const dt = 1 / 60; let ai = 0;
+  const start = (code) => { const c = compile(code, lab.def); if (!c.ok) throw new Error(JSON.stringify(c.errors)); app.src = code; lab.run(c); rt.onRun(code); };
+  for (const s of l.steps) {
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, `${l.id}: the circuit check passes` + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src), `${l.id}: the edit is what the step asks`); src = e; start(src); }
+    if (s.k === 'act' || s.k === 'watch') {
+      const act = acts[ai++]; let t = -1;
+      for (let f = 0; f < 60 * 60; f++) { if (act) act(f * dt, sim, lab); lab.step(1000 * dt); sim.update(dt, lab); rt.update(dt); for (const o of lab.mcu.ser.take()) ser += String.fromCharCode(...o.bytes); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = f * dt; break; } }
+      ok(t >= 0, `${l.id}: ${s.k} "${s.do.en.slice(0, 60)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out · ${JSON.stringify(sim.res)} flags ${[...sim.flags]} ${lab.mcu.err ? JSON.stringify(lab.mcu.err) : ''}`) + (t >= 0 && s.see && s.see.en ? ' · ' + s.see.en.slice(0, 120) : ''));
+    }
+  }
+  ok(!!l.done(rt), `${l.id}: the lesson is complete (done)`);
+  return ser;
+}
+const at = (...times) => { const done = new Set(); return (key) => (t, sim, lab) => { for (const T of times) if (!done.has(T) && t >= T) { done.add(T); sim.control(key, null, lab); } }; };
+const L24 = LESSONS.filter((l) => ['wateratm'].includes(l.id));
+ok(L24.length === 1, `${L24.length} Class 11 machine lessons`);
+for (const l of L24) {
+  const c = compile(l.code); ok(c.ok, `${l.id}: the sketch compiles` + (c.ok ? '' : ' ' + JSON.stringify(c.errors).slice(0, 200)));
+  for (const s of l.steps) for (const k of ['do', 'see']) if (s[k]) for (const lg of ['en', 'hi', 'hg']) if (typeof s[k][lg] !== 'string') ok(false, `${l.id}: step ${s.k} has ${k}.${lg}`);
+}
+{ const l = L24.find((x) => x.id === 'wateratm'); const B = build3(l);
+  const ser = play3(l, B, [at(1)('card'), at(1)('card'), at(1, 14)('tag')]);
+  ok(B.sim.res.glasses[0] > 100 && B.sim.res.glasses[0] < 160 && /Balance: 8/.test(ser), `wateratm: 4 s gives about 130 mL (${B.sim.res.glasses.join(', ')} mL) and the white card goes 10 → 8`);
+  // the mistakes: the relay's S on pin 5 -> the check names it, and no glass is ever poured
+  const lab = new Lab(); const app = { lab, code: () => l.code, world: null, onStepDone() {}, onLessonComplete() {} }; const rt = new LessonRT(app); rt.open(l.id);
+  for (const s of l.steps) if (s.k === 'wire') { const w = s.wire[1] === 'D4' ? [s.wire[0], 'D5'] : s.wire; const g = rt.ghostWire(w); if (g) lab.addWire(g[0], g[1]); }
+  const r = rt.runCheck(); ok(!!r && /pin/.test(r[0].en), `wateratm: the relay on pin 5 is named by the check: "${r && r[0].en.slice(0, 60)}"`);
+}
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

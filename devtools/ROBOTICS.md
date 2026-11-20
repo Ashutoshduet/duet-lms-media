@@ -984,3 +984,11 @@ heaters.
   20 kΩ divider (14g–18g, 18h–22h, its middle pre-wired to CH0) brings it under 3.3 V; AO straight to CH0 is named by the
   check (`XF.gasDiv`). × 2/3 against 3.3 V reads as an Uno against 5 V, so the limits (400, 250) stay. 25 projects.
   3,019 projects (239 hand-made + 2,780 bank).
+- Class 11 water ATM (batch 24, lessons24.js `wateratm`; scenes3.js `AtmScene`, worlds3.js `atmSteps`): an RO kiosk
+  (blue cabinet, sign, steel tap, drip tray, a glass that fills, the stream, a spill when over 300 mL; the card and tag
+  step is now `cardsStep()`, shared with the door). A card shown puts a fresh glass under the tap; the scene measures
+  what the pump really pours (its flow, mL/s): short < 225, full 225–275, over > 275. The LCD gives ready / low /
+  unknown / "Bal: Rs n". The reader, LCD and pump with its 6 V battery through the relay's COM/NO are pre-wired; the
+  student wires the relay (S pin 4, VCC, GND). pourMs = 4000 pours about 134 mL (33 mL/s): calibrate to 7600 (the edit
+  accepts 7000–8200) for 255 mL; the blue tag (Rs 3) buys one glass and is refused the next with nothing poured.
+  robocore24.mjs plays it, and the relay on pin 5 is named by the check. Class 11: 5 of 26.

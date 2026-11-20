@@ -21,7 +21,7 @@ import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -90,14 +90,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt);
     }
     return false;
   }
@@ -313,16 +313,20 @@ class World3 {
         MD.mergeStatic(leaf); door.add(leaf);
         this.bolt = MD.box(20, 6, 6, S({ color: 0xc9ccd1, metalness: 1, roughness: 0.3 }), 0, 0, 0); this.bolt.position.set(126, 120, -8); door.add(this.bolt);
       },
-      () => { // the card and the tag on the desk (tap one to hold it on the reader)
+      this.cardsStep(),
+      () => this.cables([['sv1', [DX + 20, 112, DZ - 14]]]),
+    ];
+  }
+  cardsStep() {
+    const r = this.root, S = this.mat;
+    return () => { // the card and the tag on the desk (tap one to hold it on the reader)
         const cardM = (() => { const C = canvas(256, 160); const c = C.getContext('2d'); c.fillStyle = '#f6f6f2'; c.fillRect(0, 0, 256, 160); c.fillStyle = '#1d4aa8'; c.fillRect(0, 0, 256, 34); c.fillStyle = '#fff'; c.font = `800 20px ${TX.FONT}`; c.fillText('DUET SCHOOL', 14, 24); c.fillStyle = '#333'; c.font = `600 15px ${TX.FONT}`; c.fillText('STUDENT ID · छात्र', 14, 70); c.fillText('UID ' + CARDS.card.uid.map((b) => b.toString(16).toUpperCase().padStart(2, '0')).join(' '), 14, 140); c.fillStyle = '#c9a23a'; c.fillRect(186, 56, 44, 34); return S({ map: ctex(C), roughness: 0.4 }); })();
         const card = new THREE.Group(); card.add(box(85.6, 0.9, 54, [cardM, cardM, cardM, cardM, cardM, cardM], 0, 0.45, 0)); card.position.set(240, 0, 150); card.rotation.y = 0.15; r.add(card);
         const tag = new THREE.Group(); const tm = S({ color: 0x1f5fd8, roughness: 0.4 }); const sh = new THREE.Shape(); sh.absarc(0, 0, 15, Math.PI * 0.15, Math.PI * 1.85, false); sh.lineTo(26, 0); sh.closePath(); const hole = new THREE.Path(); hole.absarc(19, 0, 2.5, 0, Math.PI * 2, true); sh.holes.push(hole);
         const tg = new THREE.Mesh(new THREE.ExtrudeGeometry(sh, { depth: 4, bevelEnabled: true, bevelSize: 1, bevelThickness: 1, bevelSegments: 2 }), tm); tg.rotation.x = -Math.PI / 2; tag.add(tg); tag.position.set(300, 1, 156); r.add(tag);
         for (const [o, id] of [[card, 'card'], [tag, 'tag']]) { const pk = box(60, 10, 46, new THREE.MeshBasicMaterial({ visible: false }), 0, 4, 0); pk.userData.role = 'card3:' + id; o.add(pk); this.picks.push(pk); o.userData.home = o.position.clone(); o.userData.homeR = o.rotation.y; }
         this.cards = { card, tag };
-      },
-      () => this.cables([['sv1', [DX + 20, 112, DZ - 14]]]),
-    ];
+      };
   }
   doorDraw(dt) {
     let a = false; const S = this.sim; const sv = this.part('sv1'); const ang = sv ? sv.state.angle : 0;
@@ -339,6 +343,48 @@ class World3 {
       const home = o.userData.home; const tgt = rd ? this.partPoint('rf', rd).add(V3(0, 6, 0)) : home;
       o.position.lerpVectors(home, tgt, k); o.position.y += Math.sin(k * Math.PI) * 40; o.rotation.y = o.userData.homeR * (1 - k);
     }
+    return a;
+  }
+
+  // ================================================================== the water ATM (batch 24): an RO kiosk with its tap and a glass
+  atmSteps() {
+    const r = this.root, S = this.mat; const KX = 330, KZ = -30;
+    const water = (o) => new THREE.MeshPhysicalMaterial({ color: 0x5aa8f0, roughness: 0.05, transparent: true, opacity: o, depthWrite: false });
+    return [
+      () => { // the kiosk: a blue steel cabinet, its sign, a steel tap over a drip tray, the RO tank seen through a window
+        const g = new THREE.Group(); g.position.set(KX, 0, KZ); const blue = S({ color: 0x1d5fb4, roughness: 0.45, metalness: 0.2 }), steel = S({ color: 0xc9ccd1, metalness: 1, roughness: 0.3 });
+        g.add(box(150, 230, 90, blue, 0, 115, 0)); g.add(box(156, 8, 96, S({ color: 0x0f3a72, roughness: 0.5 }), 0, 234, 0));
+        const C = canvas(512, 200); const c = C.getContext('2d'); c.fillStyle = '#0f3a72'; c.fillRect(0, 0, 512, 200); c.fillStyle = '#fff'; c.font = `800 74px ${TX.FONT}`; c.fillText('WATER ATM', 40, 92);
+        c.font = `600 34px ${TX.FONT}`; c.fillStyle = '#9fd2ff'; c.fillText('RO water · Rs 2 a glass', 40, 150); c.fillText('पानी एटीएम', 40, 190);
+        g.add(box(130, 50, 1.5, S({ map: ctex(C), roughness: 0.6 }), 0, 200, 45.8));
+        const win = canvas(128, 160); const w = win.getContext('2d'); w.fillStyle = '#cfe6f7'; w.fillRect(0, 0, 128, 160); w.fillStyle = '#5aa8f0'; w.fillRect(8, 50, 112, 104); w.fillStyle = 'rgba(255,255,255,0.5)'; w.fillRect(14, 56, 10, 92);
+        g.add(box(46, 58, 1.2, S({ map: ctex(win), roughness: 0.2 }), -42, 140, 45.6)); // the clean-water tank inside, seen through a window
+        g.add(box(70, 6, 30, steel, 0, 58, 55)); g.add(box(74, 2, 34, S({ color: 0x8c9096, metalness: 1, roughness: 0.4 }), 0, 61.5, 55)); // the drip tray
+        g.add(cyl(3.5, 26, steel, 0, 112, 45 + 13, 14).rotateX(Math.PI / 2)); g.add(cyl(3, 14, steel, 0, 105, 70, 12)); // the tap: out of the cabinet, then down
+        this.still(g); this.blob(180, 120, KX, KZ, 0.3);
+        // the glass on the tray and the water in it (filled by atmDraw), the stream from the tap
+        const glass = new THREE.MeshPhysicalMaterial({ color: 0xf2f8ff, roughness: 0.05, transparent: true, opacity: 0.25, depthWrite: false, side: THREE.DoubleSide });
+        const G = new THREE.Group(); G.position.set(KX, 62.5, KZ + 70); r.add(G);
+        G.add(new THREE.Mesh(new THREE.CylinderGeometry(9, 7.5, 24, 24, 1, true), glass).translateY(12)); G.add(new THREE.Mesh(new THREE.CircleGeometry(7.5, 24), glass).rotateX(-Math.PI / 2).translateZ(0.2));
+        this.atmWater = new THREE.Mesh(new THREE.CylinderGeometry(8.6, 7.6, 1, 24), water(0.75)); this.atmWater.visible = false; G.add(this.atmWater);
+        this.atmStream = cyl(1.3, 1, water(0.6), 0, 0, 0, 8); this.atmStream.visible = false; r.add(this.atmStream); this.atmTap = V3(KX, 98, KZ + 70);
+        this.atmSpill = new THREE.Mesh(new THREE.CircleGeometry(16, 24), water(0.45)); this.atmSpill.rotation.x = -Math.PI / 2; this.atmSpill.position.set(KX, 61.7, KZ + 70); this.atmSpill.visible = false; r.add(this.atmSpill);
+        const pvc = S({ color: 0xf0f0ea, roughness: 0.5 }); r.add(tube([V3(195, 16, 140), V3(240, 40, 120), V3(KX - 60, 30, KZ + 50), V3(KX - 75, 40, KZ + 20)], 2.2, pvc, 30, 8)); // the pump's pipe into the kiosk
+      },
+      this.cardsStep(),
+      () => this.cables([['pump', [200, 16, 140], 1.4, 0x1b1b1d]]),
+    ];
+  }
+  atmDraw(dt) {
+    const S = this.sim; const ml = Math.min(S.ml || 0, 300); let a = false; const f = this.part('pump') ? this.part('pump').state.flow || 0 : 0;
+    if (this.atmWater) {
+      const h = (ml / 300) * 23; const vis = h > 0.15; if (this.atmWater.visible !== vis) { this.atmWater.visible = vis; a = true; }
+      if (vis && Math.abs(this.atmWater.scale.y - h) > 0.01) { this.atmWater.scale.y = h; this.atmWater.position.y = h / 2 + 0.3; a = true; }
+      const on = f > 1; if (this.atmStream.visible !== on) { this.atmStream.visible = on; a = true; }
+      if (on) { const top = this.atmTap.y, bot = 62.5 + h + 0.5; this.atmStream.scale.set(Math.min(1, f / 30), top - bot, Math.min(1, f / 30)); this.atmStream.position.set(this.atmTap.x, (top + bot) / 2, this.atmTap.z); a = true; }
+      const sp = (S.ml || 0) > 300; if (this.atmSpill.visible !== sp) { this.atmSpill.visible = sp; a = true; }
+    }
+    if (this.cards) a = this.flyCards(dt) || a;
     return a;
   }
 

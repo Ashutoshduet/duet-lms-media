@@ -368,10 +368,60 @@ export class TurnScene extends Scene {
   }
 }
 
+// ------------------------------------------------------------------ the water ATM (batch 24, Class 11): an RO kiosk
+// A card or tag shown on the RC522 puts a fresh empty glass under the kiosk's tap; the pump (relay rl1) pours into it, and
+// the scene measures what really went in (the pump's flow, mL/s): short (< 225 mL), full (225–275), over (> 275; a glass
+// holds 300, the rest spills). The LCD tells the rest: "Tap your card" (ready), "Low balance" (low), "Unknown card", and
+// "Bal: Rs n". A card refused: shown, "Low balance" on the LCD and nothing poured in the next 3 s.
+const WA = {
+  glass: t3('Glass under the tap', 'नल के नीचे गिलास', 'Nal ke neeche glass'), poured: t3('Last glass', 'पिछला गिलास', 'Pichhla glass'),
+  title: t3('Water ATM', 'वॉटर एटीएम', 'Water ATM'), spill: t3('spilling!', 'छलक रहा है!', 'chhalak raha hai!'),
+};
+export const GLASS = { full: 250, lo: 225, hi: 275, cap: 300 };
+export class AtmScene extends Scene {
+  constructor(cfg) { super(cfg); this.ml = 0; this.showing = null; this.last = ''; this.pouring = false; this.res.glasses = []; this.res.bal = {}; }
+  flow(lab) { const p = lab.byTag('pump'); return p ? p.state.flow || 0 : 0; }
+  update(dt, lab) {
+    this.t += dt; const f = this.flow(lab); const on = f > 5; const ml0 = this.ml;
+    if (f > 0.2) this.ml += f * dt;
+    if (on) this.pouring = true;
+    else if (this.pouring && f < 0.5) { this.pouring = false; this.glassDone(); }
+    const rf = lab.byTag('rf'); if (rf && rf.state.reads) this.flags.add('cardSeen');
+    const l = lab.byTag('lcd'); const ls = l ? lcdText(l).map((x) => String(x).trim()) : []; const txt = ls.join('\n');
+    if (txt !== this.last) {
+      this.last = txt;
+      if (/tap your card/i.test(txt)) this.flags.add('ready');
+      if (/low balance/i.test(txt)) { this.flags.add('low'); if (this.showing) this.showing.low = true; }
+      if (/unknown card/i.test(txt)) this.flags.add('unknown');
+      const b = /bal\w*\s*:?\s*rs\.?\s*(\d+)/i.exec(txt); if (b && this.showing) { this.res.bal[this.showing.id] = +b[1]; this.flags.add('bal'); }
+    }
+    const c = this.showing; if (c && !c.done && this.t - c.t > 3) { c.done = true; if (c.low && !c.poured) { this.flags.add('refused'); this.res.refused = c.id; } }
+    if (on && c) c.poured = true;
+    return on || this.ml !== ml0;
+  }
+  glassDone() {
+    const ml = Math.round(this.ml); this.res.glasses.push(ml); this.res.last = ml; this.flags.add('poured');
+    this.flags.add(ml < GLASS.lo ? 'short' : ml <= GLASS.hi ? 'full' : 'over');
+  }
+  onRun() { super.onRun(); for (const k of ['poured', 'short', 'full', 'over', 'low', 'refused', 'ready', 'bal']) this.flags.delete(k); this.showing = null; this.pouring = false; this.ml = 0; }
+  control(id, v, lab) {
+    if (id !== 'card' && id !== 'tag') return;
+    if (!this.pouring) this.ml = 0; // a fresh empty glass under the tap
+    rfidShow(lab, id); this.showing = { id, t: this.t };
+  }
+  hud(lab) {
+    const f = this.flow(lab);
+    return { title: WA.title,
+      rows: [[tx(WA.glass), `${Math.round(Math.min(this.ml, GLASS.cap))} / ${GLASS.full} mL${this.ml > GLASS.cap ? ' · ' + tx(WA.spill) : ''}`], [tx(W.pump), f > 5 ? '💧 ' + tx(W.on) : tx(W.off)],
+        [tx(WA.poured), this.res.last !== undefined ? `${this.res.last} mL` : '—'], [tx(W.lastCard), this.showing ? tx(CARDS[this.showing.id].name) + ' · ' + uidText(CARDS[this.showing.id].uid) : '—']],
+      controls: [{ id: 'card', kind: 'button', label: W.card }, { id: 'tag', kind: 'button', label: W.tag }] };
+  }
+}
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }
