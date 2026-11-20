@@ -649,9 +649,9 @@ class App {
       if (e.key === 'r' || e.key === 'R') this.rotateDragOrSel();
       if ((e.key === 'Delete' || e.key === 'Backspace') && this.sel) this.removeSel();
       if (e.key === 'Escape') { this.cancelDrag(); this.closeCallout(); this.view.showHover(null); }
-      const k = PADKEY[e.key]; if (k && this.world && ['bt', 'soccer'].includes(this.world.cfg.car)) { e.preventDefault(); if (!e.repeat) this.world.control('key', k); } // batch 2: the arrow keys are the phone pad's buttons
+      const k = PADKEY[e.key]; if (k && this.world && ['bt', 'soccer', 'gesture'].includes(this.world.cfg.car)) { e.preventDefault(); if (!e.repeat) this.world.control('key', k); } // batch 2: the arrow keys are the phone pad's buttons
     });
-    addEventListener('keyup', (e) => { if (PADKEY[e.key] && this.world && ['bt', 'soccer'].includes(this.world.cfg.car)) this.world.control('key', 'S'); });
+    addEventListener('keyup', (e) => { if (PADKEY[e.key] && this.world && ['bt', 'soccer', 'gesture'].includes(this.world.cfg.car)) this.world.control('key', 'S'); });
   }
   // ------------------------------------------------------------ hover: what is under the pointer, and its voltage
   hover(x, y) {
@@ -837,7 +837,7 @@ class App {
         if (c.kind === 'seg') { d.innerHTML = `<label>${esc(tx(c.label))}</label><div class="seg">${c.options.map(([v, l]) => `<button data-v="${esc(v)}">${esc(tx(l))}</button>`).join('')}</div>`; for (const b of d.querySelectorAll('button')) b.onclick = () => { W.control(c.id, b.dataset.v); this.renderWorld(false); }; }
         if (c.kind === 'pad') {
           d.innerHTML = `<div class="phone"><div class="ph-t">${esc(tx(c.label))}</div><div class="ph-s"></div><button class="btn ph-pair"></button><div class="ph-pad">${[['F', '▲'], ['L', '◀'], ['S', '■'], ['R', '▶'], ['B', '▼']].map(([k, g]) => `<button data-k="${k}" aria-label="${k}">${g}</button>`).join('')}</div></div>`;
-          d.querySelector('.ph-pair').onclick = () => { W.control('pair'); this.renderWorld(false); };
+          d.querySelector('.ph-pair').onclick = () => { W.control('pair'); this.renderWorld(false); }; if (c.noPair) d.querySelector('.ph-pair').style.display = 'none'; // (batch 26: the glove needs no pairing)
           for (const b of d.querySelectorAll('[data-k]')) {
             const k = b.dataset.k; b.onpointerdown = (e) => { e.preventDefault(); b.classList.add('on'); W.control('key', k); };
             const upk = () => { if (!b.classList.contains('on')) return; b.classList.remove('on'); if (k !== 'S') W.control('key', 'S'); }; b.onpointerup = upk; b.onpointerleave = upk; b.onpointercancel = upk;

@@ -785,6 +785,51 @@ void loop() {
 }
 `;
 
+const GESTC = `// Gesture-controlled car: tip your hand to drive.
+// The MPU-6050 is on the back of a glove, on a 1 m ribbon cable to the car's Uno (the wireless version comes later).
+#include <Wire.h>
+#include <MPU6050_light.h>
+
+MPU6050 mpu(Wire);
+const int ENA = 5, IN1 = 7, IN2 = 8;    // motor A: the left wheel
+const int ENB = 6, IN3 = 2, IN4 = 4;    // motor B: the right wheel
+int speed = 170;
+
+void motor(int en, int a, int b, int v) {
+  digitalWrite(a, v > 0 ? HIGH : LOW);
+  digitalWrite(b, v < 0 ? HIGH : LOW);
+  analogWrite(en, abs(v));
+}
+void drive(int left, int right) {
+  motor(ENA, IN1, IN2, left);
+  motor(ENB, IN3, IN4, right);
+}
+
+void setup() {
+  pinMode(ENA, OUTPUT); pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT); pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  Serial.begin(9600);
+  Wire.begin();
+  mpu.begin();
+  Serial.println("Calibrating: keep the glove flat on the desk");
+  mpu.calcOffsets();                    // measures 'flat' for 1 s
+  Serial.println("Ready: put the glove on");
+}
+
+void loop() {
+  mpu.update();
+  float fb = mpu.getAngleY();           // hand tipped forward (+) or back (-), in degrees
+  float lr = mpu.getAngleX();           // hand tipped right (+) or left (-)
+
+  if (fb > 0) drive(speed, speed);              // forward
+  else if (fb < 0) drive(-speed, -speed);       // back
+  else if (lr > 0) drive(speed, -speed);        // turn right
+  else if (lr < 0) drive(-speed, speed);        // turn left
+  else drive(0, 0);                             // flat: stop
+  delay(20);
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1208,6 +1253,35 @@ export function batch24(K, n0) {
     ],
     check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('bt', t3('Bluetooth module', 'ब्लूटूथ मॉड्यूल', 'Bluetooth module')), need('bt.VCC', '5V', W.to5v, { x: 'VCC' }), need('bt.GND', 'GND', W.toGnd, { x: 'GND' }), need('bt.TXD', 'D0', W.toPin, { x: 'TXD', p: 0 })],
     done: (S) => S.w('goal') });
+  // 13 ------------------------------------------------------------------------------- gesture-controlled car (batch 26)
+  const dzOf = (src) => { // the dead zone the four comparisons use (a number, or a const), or null if they differ or are missing
+    const c = (src || '').replace(/\/\/[^\n]*/g, ''); const K = {}; const D = /(?:const\s+)?(?:int|float)\s+(\w+)\s*=\s*([\d.]+)\s*;/g; let m; while ((m = D.exec(c))) K[m[1]] = +m[2];
+    const num = (x) => (x in K ? K[x] : /^[\d.]+$/.test(x) ? +x : NaN); const g = (re) => { const r = re.exec(c); return r ? num(r[1]) : NaN; };
+    const v = [g(/fb\s*>\s*([\w.]+)/), g(/fb\s*<\s*-\s*([\w.]+)/), g(/lr\s*>\s*([\w.]+)/), g(/lr\s*<\s*-\s*([\w.]+)/)]; return v.some((x) => !(x >= 0)) || v.some((x) => x !== v[0]) ? null : v[0]; };
+  const SWAP = t3('SDA and SCL are swapped: SDA (data) goes to A4, SCL (clock) to A5. Swapped, the MPU-6050 never answers.', 'SDA और SCL आपस में बदल गए हैं: SDA (डेटा) A4 पर जाता है, SCL (क्लॉक) A5 पर। बदले हुए हों तो MPU-6050 कभी जवाब नहीं देता।', 'SDA aur SCL aapas mein badal gaye hain: SDA (data) A4 par jaata hai, SCL (clock) A5 par. Badle hue hon to MPU-6050 kabhi jawaab nahi deta.');
+  L.push({ id: 'gesturecar', cls: '11', blocks: false, view: 'carbench', wview: 'carbench', rview: 'arenabt', code: GESTC, drawer: [], baud: 9600, serial: true, world: { kind: 'car', car: 'gesture' },
+    title: t3('Gesture-controlled car', 'इशारों से चलने वाली कार', 'Ishaaron se chalne wali car'),
+    goal: t3('Tip your hand forward and the car drives; tip it right and it turns. An MPU-6050 on a glove measures your hand\'s tilt. Find out why a car that obeys every degree shudders and never stops, and fix it the way every joystick, drone remote and game controller does: with a dead zone.', 'हाथ आगे झुकाइए और कार चलती है; दाईं ओर झुकाइए और वह मुड़ती है। दस्ताने पर लगा MPU-6050 आपके हाथ का झुकाव नापता है। पता कीजिए कि हर डिग्री मानने वाली कार काँपती क्यों है और कभी रुकती क्यों नहीं, और इसे वैसे ठीक कीजिए जैसे हर जॉयस्टिक, ड्रोन रिमोट और गेम कंट्रोलर करता है: डेड ज़ोन से।', 'Haath aage jhukaiye aur car chalti hai; right jhukaiye aur woh mudti hai. Dastaane par laga MPU-6050 aapke haath ka jhukaav naapta hai. Pata kijiye ki har degree maanne wali car kaanpti kyon hai aur kabhi rukti kyon nahi, aur ise waise theek kijiye jaise har joystick, drone remote aur game controller karta hai: dead zone se.'),
+    setup: { parts: [...CARP, F('mpu', 'mpu6050', {}, -165, 8, 0)], wires: [...CARW, ['T:mpu:VCC', 'H:tp3'], ['T:mpu:GND', 'H:tn4']] },
+    steps: [
+      { k: 'info', do: t3('The car from the Bluetooth lessons, without its HC-05. Beside it lies the glove: a GY-521 (MPU-6050) stitched on its back, on a 1 m ribbon cable to the car. Its VCC and GND are on the rails already; the I2C wires are yours.', 'ब्लूटूथ वाले पाठों की कार, बिना HC-05 के। इसके पास दस्ताना रखा है: इसकी पीठ पर एक GY-521 (MPU-6050) सिला है, 1 m के रिबन केबल से कार तक। इसका VCC और GND पहले से रेल पर हैं; I2C के तार आप लगाइए।', 'Bluetooth wale lessons ki car, bina HC-05 ke. Iske paas dastaana rakha hai: iski peeth par ek GY-521 (MPU-6050) sila hai, 1 m ke ribbon cable se car tak. Iska VCC aur GND pehle se rail par hain; I2C ke taar aap lagaiye.'), see: E },
+      w3('mpu.SDA', 'A4', 'Join the GY-521\'s SDA (data) to A4.', 'GY-521 का SDA (डेटा) A4 से जोड़िए।', 'GY-521 ka SDA (data) A4 se jodiye.'),
+      w3('mpu.SCL', 'A5', 'And its SCL (clock) to A5. A4 and A5 are the Uno\'s I2C pins.', 'और इसका SCL (क्लॉक) A5 से। A4 और A5, Uno के I2C पिन हैं।', 'Aur iska SCL (clock) A5 se. A4 aur A5, Uno ke I2C pin hain.'),
+      CHECK,
+      RUN(t3('The Serial Monitor asks for the glove to lie flat while calcOffsets() measures "flat" (a second). Then the glove goes on your hand: the ✋ panel tips it, or the arrow keys. Did the car creep off on its own already? Remember that: we come back to it.', 'सीरियल मॉनिटर कहता है कि जब तक calcOffsets() "सपाट" नापता है (एक सेकंड), दस्ताना सपाट पड़ा रहे। फिर दस्ताना आपके हाथ पर: ✋ पैनल इसे झुकाता है, या ऐरो कुंजियाँ। क्या कार पहले ही अपने आप खिसक गई? याद रखिए: हम उस पर लौटेंगे।', 'Serial Monitor kehta hai ki jab tak calcOffsets() "sapaat" naapta hai (ek second), dastaana sapaat pada rahe. Phir dastaana aapke haath par: ✋ panel ise jhukaata hai, ya arrow keys. Kya car pehle hi apne aap khisak gayi? Yaad rakhiye: hum us par lautenge.')),
+      { k: 'act', until: (S) => fresh(S) && (S.wv('handD') || 0) > 300, do: t3('Tip your hand forward: hold ▲ (or the ↑ key).', 'हाथ आगे झुकाइए: ▲ (या ↑ कुंजी) दबाए रखिए।', 'Haath aage jhukaiye: ▲ (ya ↑ key) dabaye rakhiye.'),
+        see: t3('Off it goes. Tipped 30°, the Uno reads fb ≈ +30, so fb > 0 is true: forward.', 'यह चल पड़ी। 30° झुका हाथ: Uno fb ≈ +30 पढ़ता है, तो fb > 0 सच है: आगे।', 'Yeh chal padi. 30° jhuka haath: Uno fb ≈ +30 padhta hai, to fb > 0 sach hai: aage.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('nostop'), do: t3('Now let go: your hand goes back to flat. Watch the car, and the "Uno reads" row.', 'अब छोड़िए: आपका हाथ फिर सपाट हो जाता है। कार देखिए, और "Uno पढ़ता है" वाली पंक्ति।', 'Ab chhodiye: aapka haath phir sapaat ho jaata hai. Car dekhiye, aur "Uno padhta hai" wali line.'),
+        see: t3('It never stops: it lurches forward, back, forward… No hand is perfectly still: it sways a few degrees and trembles a little, so fb reads +1.8, −0.7, +2.3… and is almost never exactly 0. fb > 0 or fb < 0 always wins, so "stop" never runs. Nor do the turn lines: tip right and it still only lurches back and forth.', 'यह कभी नहीं रुकती: झटके से आगे, पीछे, आगे… कोई हाथ पूरी तरह स्थिर नहीं रहता: वह कुछ डिग्री डोलता है और थोड़ा काँपता है, तो fb +1.8, −0.7, +2.3… पढ़ता है और लगभग कभी ठीक 0 नहीं होता। fb > 0 या fb < 0 हमेशा जीतता है, तो "रुको" कभी नहीं चलता। मुड़ने वाली लाइनें भी नहीं: दाएँ झुकाइए, तब भी यह बस आगे-पीछे झटके खाती है।', 'Yeh kabhi nahi rukti: jhatke se aage, peeche, aage… Koi haath poori tarah sthir nahi rehta: woh kuch degree dolta hai aur thoda kaanpta hai, to fb +1.8, −0.7, +2.3… padhta hai aur lagbhag kabhi theek 0 nahi hota. fb > 0 ya fb < 0 hamesha jeetta hai, to "ruko" kabhi nahi chalta. Mudne wali lines bhi nahi: right jhukaiye, tab bhi yeh bas aage-peeche jhatke khaati hai.') },
+      { k: 'edit', test: (src) => { const d = dzOf(src); return d !== null && d >= 10 && d <= 30; }, set: [[/fb > 0\)/, 'fb > 20)'], [/fb < 0\)/, 'fb < -20)'], [/lr > 0\)/, 'lr > 20)'], [/lr < 0\)/, 'lr < -20)']],
+        do: t3('Give it a dead zone, so small tilts mean nothing. Change the four 0s:\n  fb > 20,  fb < -20,  lr > 20,  lr < -20\nand press Run.', 'इसे डेड ज़ोन दीजिए, ताकि छोटे झुकाव का कोई मतलब न हो। चारों 0 बदलिए:\n  fb > 20,  fb < -20,  lr > 20,  lr < -20\nऔर "चलाइए" दबाइए।', 'Ise dead zone dijiye, taaki chhote jhukaav ka koi matlab na ho. Chaaron 0 badaliye:\n  fb > 20,  fb < -20,  lr > 20,  lr < -20\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('handStop'), do: t3('Drive forward again (hold ▲), then let go.', 'फिर आगे चलाइए (▲ दबाए रखिए), फिर छोड़िए।', 'Phir aage chalaiye (▲ dabaye rakhiye), phir chhodiye.'),
+        see: t3('It stops, and stays stopped: your hand\'s sway of a few degrees is inside the dead zone. 20° is a choice: too small and it shudders again, too big and you must bend your wrist hard to drive. Joysticks, drone remotes, game controllers and even a car\'s steering all have one.', 'यह रुकती है, और रुकी रहती है: आपके हाथ का कुछ डिग्री का डोलना डेड ज़ोन के अंदर है। 20° एक चुनाव है: बहुत छोटा तो यह फिर काँपेगी, बहुत बड़ा तो चलाने के लिए कलाई ज़ोर से मोड़नी पड़ेगी। जॉयस्टिक, ड्रोन रिमोट, गेम कंट्रोलर और कार के स्टीयरिंग, सबमें यह होता है।', 'Yeh rukti hai, aur ruki rehti hai: aapke haath ka kuch degree ka dolna dead zone ke andar hai. 20° ek chunaav hai: bahut chhota to yeh phir kaanpegi, bahut bada to chalaane ke liye kalaai zor se modni padegi. Joystick, drone remote, game controller aur car ki steering, sab mein yeh hota hai.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('parked'), do: t3('Now park it in the box marked P: ◀ ▶ tip your hand to turn, ▲ drives, and let go to stop inside.', 'अब इसे P वाले डिब्बे में पार्क कीजिए: ◀ ▶ हाथ झुकाकर मोड़ते हैं, ▲ चलाता है, और अंदर रुकने के लिए छोड़िए।', 'Ab ise P wale dabbe mein park kijiye: ◀ ▶ haath jhukaakar modte hain, ▲ chalaata hai, aur andar rukne ke liye chhodiye.'),
+        see: t3('Parked by hand. To lose the cable, the next version sends fb and lr by radio: two nRF24L01 modules, or ESP-NOW between two ESP32s.', 'हाथ से पार्क हो गई। केबल हटाने के लिए अगला संस्करण fb और lr रेडियो से भेजता है: दो nRF24L01 मॉड्यूल, या दो ESP32 के बीच ESP-NOW।', 'Haath se park ho gayi. Cable hataane ke liye agla version fb aur lr radio se bhejta hai: do nRF24L01 module, ya do ESP32 ke beech ESP-NOW.') },
+    ],
+    check: [...rails, has('mpu', t3('motion sensor MPU-6050', 'मोशन सेंसर MPU-6050', 'motion sensor MPU-6050')), (S) => (S.conn('mpu.SDA', 'A5') && S.conn('mpu.SCL', 'A4') ? [SWAP] : null), need('mpu.VCC', '5V', W.to5v, { x: 'VCC' }), need('mpu.GND', 'GND', W.toGnd, { x: 'GND' }), need('mpu.SDA', 'A4', W.join, { a: 'SDA', b: 'A4' }), need('mpu.SCL', 'A5', W.join, { a: 'SCL', b: 'A5' })],
+    done: (S) => S.w('parked') && S.w('handStop') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

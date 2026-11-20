@@ -355,7 +355,7 @@ export class XRUI {
       if (ctl.kind === 'seg') { this.text(lab, 30, y + 18, 23, C.mute, 500); y += 38; let x = 30; const bw = (W - 60 - (ctl.options.length - 1) * 10) / ctl.options.length; for (const [v, l] of ctl.options) { this.button(x, y, bw, 58, tx(l), () => w.control(ctl.id, v), ctl.value === v, 'w:' + ctl.id + ':' + v); x += bw + 10; } y += 70; }
       if (ctl.kind === 'pad') {
         this.text(lab + (ctl.status ? ' · ' + ctl.status : ''), 30, y + 18, 24, ctl.paired ? C.green : C.mute, 600); y += 40;
-        this.button(30, y, 300, 62, ctl.paired ? '✓' : tx({ en: 'Connect HC-05', hi: 'HC-05 से जोड़िए', hg: 'HC-05 se jodiye' }), () => w.control('pair'), false, 'w:pair', null, null, !ctl.canPair || ctl.paired);
+        if (!ctl.noPair) this.button(30, y, 300, 62, ctl.paired ? '✓' : tx({ en: 'Connect HC-05', hi: 'HC-05 से जोड़िए', hg: 'HC-05 se jodiye' }), () => w.control('pair'), false, 'w:pair', null, null, !ctl.canPair || ctl.paired);
         const px = 560, s = 112; for (const [k, g, cx, cy] of [['F', '▲', 1, 0], ['L', '◀', 0, 1], ['S', '■', 1, 1], ['R', '▶', 2, 1], ['B', '▼', 1, 2]]) this.button(px + cx * (s + 8), y + cy * (s - 30), s, s - 38, g, null, this.pressed && this.pressed.it.id === 'key:' + k, 'key:' + k, null, null, !ctl.paired, () => w.control('key', k), () => { if (k !== 'S') w.control('key', 'S'); });
         y += 3 * (s - 30) + 20;
       }

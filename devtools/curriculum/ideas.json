@@ -66933,6 +66933,28 @@
 "note": null
 },
 {
+"id": "live-gesturecar",
+"title": "Gesture-controlled car",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "gesturecar",
+"rule": null,
+"note": null
+},
+{
 "id": "live-soccer",
 "title": "Robot soccer player",
 "family": "live",

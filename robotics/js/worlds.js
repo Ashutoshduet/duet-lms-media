@@ -24,6 +24,8 @@ const W = {
   reach: t3('Reach', 'पहुँच', 'Reach'), height: t3('Height', 'ऊँचाई', 'Height'), goal: t3('Goal', 'लक्ष्य', 'Goal'), noSig: t3('off', 'बंद', 'off'),
   ball: t3('Ball', 'गेंद', 'Ball'), inScoop: t3('in the scoop', 'स्कूप में', 'scoop mein'), goalsW: t3('Goals', 'गोल', 'Goal'), ownGoal: t3('own goal', 'आत्मघाती गोल', 'own goal'), lostBall: t3('Ball lost on a turn', 'मोड़ पर गेंद छूटी', 'Mod par ball chhooti'),
   phoneWifi: t3('Phone on', 'फ़ोन किस WiFi पर', 'Phone kis WiFi par'), lastCmd: t3('Last command', 'आख़िरी आदेश', 'Aakhri aadesh'), runaway: t3('Lost the phone and drove on', 'फ़ोन छूटा और चलती रही', 'Phone chhoota aur chalti rahi'), safeStop: t3('Lost the phone and stopped', 'फ़ोन छूटा और रुक गई', 'Phone chhoota aur ruk gayi'),
+  glove: t3('✋ The glove: tip your hand', '✋ दस्ताना: हाथ झुकाइए', '✋ Dastaana: haath jhukaiye'), handTilt: t3('Your hand (X / Y)', 'आपका हाथ (X / Y)', 'Aapka haath (X / Y)'), unoReads: t3('The Uno reads (lr / fb)', 'Uno पढ़ता है (lr / fb)', 'Uno padhta hai (lr / fb)'), handFlatW: t3('flat', 'सपाट', 'sapaat'), onDesk: t3('on the desk (calibrating)', 'मेज़ पर (कैलिब्रेट हो रहा है)', 'mez par (calibrate ho raha hai)'),
+  shudder: t3('Never stops: lurches back and forth', 'कभी नहीं रुकती: आगे-पीछे झटके', 'Kabhi nahi rukti: aage-peeche jhatke'), stoppedW: t3('Stopped by a flat hand', 'सपाट हाथ से रुकी', 'Sapaat haath se ruki'),
   offWall: t3('Off 15 cm, on average', '15 cm से औसतन हटी', '15 cm se average hati'), hardTurn: t3('Hardest right turn', 'सबसे तेज़ दायाँ मोड़', 'Sabse tez right mod'), lostWall: t3('Lost the wall', 'दीवार छूट गई', 'Deewar chhoot gayi'), lapRoom: t3('Lap of the room', 'कमरे का चक्कर', 'Kamre ka chakkar'),
   backA: t3('Block back to A', 'ब्लॉक वापस A पर', 'Block wapas A par'), bout: t3('Bout', 'मुकाबला', 'Muqaabla'), matta: t3('Matta! It moved before 5 s', 'मत्ता! 5 s से पहले चल पड़ी', 'Matta! 5 s se pehle chal padi'), youOut: t3('your robot is out: lost', 'आपका रोबोट बाहर: हार', 'aapka robot bahar: haar'), youWin: t3('opponent out, you stayed in: won!', 'विरोधी बाहर, आप अंदर: जीत!', 'virodhi bahar, aap andar: jeet!'), foeOut: t3('opponent out…', 'विरोधी बाहर…', 'virodhi bahar…'), waitS: t3('waiting', 'रुकी है', 'ruki hai'), fight: t3('fighting', 'लड़ रही है', 'lad rahi hai'), irs5: t3('Sensors S1–S5', 'सेंसर S1–S5', 'Sensor S1–S5'), avgOff: t3('Last lap: off the line', 'पिछला चक्कर: लाइन से दूरी', 'Pichhla chakkar: line se doori'), fromLine: t3('From the line', 'लाइन से दूरी', 'Line se doori'), swingsS: t3('swings a second', 'झूले प्रति सेकंड', 'jhoole per second'), lostLine: t3('it lost the line!', 'लाइन छूट गई!', 'line chhoot gayi!'), pen: t3('Pen', 'पेन', 'Pen'), penOn: t3('on the paper', 'काग़ज़ पर', 'kaagaz par'), penUp: t3('above', 'ऊपर', 'upar'), ink: t3('Ink drawn', 'स्याही की लाइन', 'Syaahi ki line'), offLine: t3('Worst distance from the square', 'वर्ग से सबसे ज़्यादा दूरी', 'Square se sabse zyada doori'), covered: t3('Square covered', 'वर्ग पर स्याही', 'Square par syaahi'), sheet: t3('A fresh sheet', 'नया काग़ज़', 'Naya kaagaz'), hand: t3('Hand', 'हाथ', 'Haath'), sensor: t3('Sensor reads', 'सेंसर पढ़ता है', 'Sensor padhta hai'), lid: t3('Lid', 'ढक्कन', 'Dhakkan'),
   wave: t3('Bring rubbish', 'कचरा लाइए', 'Kachra laiye'), push: t3('Push', 'धकेलिए', 'Dhakeliye'), master: t3('You push (syringe)', 'आप धकेलते हैं (सिरिंज)', 'Aap dhakelte hain (syringe)'),
@@ -294,7 +296,8 @@ class CarWorld extends World {
       () => { this.buildArenaNow(this.sim.cfg);
         if (cfg.lamps) { this.torch = M2.buildTorch(); this.arena.add(this.torch); this.placeTorch(); } // (batch 14)
         if (cfg.foe) { this.foe = M2.buildSumoFoe(); this.arena.add(this.foe); this.placeFoe(); } // (batch 24: the sumo dummy)
-        if (cfg.soccer) { this.ballM = M2.buildBall(); this.arena.add(this.ballM); this.placeBall(true); } }, // (batch 24: the tennis ball)
+        if (cfg.soccer) { this.ballM = M2.buildBall(); this.arena.add(this.ballM); this.placeBall(true); } // (batch 24: the tennis ball)
+        if (cfg.gesture) { this.glove = M2.buildGlove(); this.arena.add(this.glove); this.arena.add(this.glove.userData.cable); } }, // (batch 26: the glove, on its ribbon cable)
       () => { this.car = M2.buildCar(this.cfg.car, null, this.cfg); this.car.rotation.order = 'YXZ'; this.arena.add(this.car); this.place(); },
     ];
   }
@@ -310,6 +313,15 @@ class CarWorld extends World {
   }
   placeFoe() { const F = this.sim.foe; if (!F || !this.foe) return; const R = this.sim.cfg.ring.r; const out = Math.hypot(F.x, F.z) > R + 40; this.foe.position.set(F.x, out ? -6 : 0, F.z); this.foe.rotation.set(out ? 0.12 : 0, Math.PI, 0); } // (off the ring: down on the floor, tipped)
   placeBall(snap) { const B = this.sim.ball, m = this.ballM; if (!B || !m) return; m.position.set(B.x, 0, B.z); const sp = m.userData.ball; const d = snap ? 0 : B.roll - (this.ballRoll || 0); this.ballRoll = B.roll; if (snap) sp.quaternion.identity(); else if (d) sp.rotateOnWorldAxis(new THREE.Vector3(B.az, 0, -B.ax), d); } // (batch 24: it rolls as it goes)
+  // (batch 26) the glove: held 45 cm behind the car and 30 cm up (the student walks behind it), tipped as the MPU-6050 is;
+  // the grey ribbon cable sags from the car's breadboard to the back of the hand
+  placeGlove() {
+    const G = this.glove; if (!G || !this.car) return; const S = this.sim; const m = this.part('mpu'); const st = m ? m.state : {};
+    const bx = S.x - Math.sin(S.h) * 450, by = S.t < 2.5 ? 12 : 300, bz = S.z - Math.cos(S.h) * 450; const gp = G.userData.at || (G.userData.at = new THREE.Vector3(bx, by, bz)); gp.x += (bx - gp.x) * 0.08; gp.y += (by - gp.y) * 0.08; gp.z += (bz - gp.z) * 0.08;
+    G.position.copy(gp); G.rotation.set(0, S.h, 0); G.userData.tilt(st.roll || 0, st.pitch || 0);
+    this.car.updateMatrixWorld(true); G.updateMatrixWorld(true); const a = this.arena.worldToLocal(this.car.localToWorld(new THREE.Vector3(0, 70, 120))); const b = this.arena.worldToLocal(G.userData.plug.getWorldPosition(new THREE.Vector3()));
+    M2.ribbon(G.userData.cable, a, b);
+  }
   placeTorch() { const L = this.sim.lampAt(); if (!L || !this.torch) return; this.torch.position.set(L[0], 0, L[1]); this.torch.rotation.y = Math.atan2(-L[0], -L[1]); }
   wheel(tag) { const p = this.part(tag); return p ? p.state.w / BO.gear * BO.rw : 0; } // mm/s along the floor
   update(dt) {
@@ -321,12 +333,13 @@ class CarWorld extends World {
     if (this.cfg.car === 'avoid') { const sv = this.part('sv1'); const sa = sv ? sv.state.angle : 90; if (live.scan) live.scan.rotation.y = (sa - 90) * D2R; const us = this.part('us1'); if (us) { us.state.ext = true; const d = S.usCm(sa); this.ahead = d; if (us.state.dist !== d) { us.state.dist = d; } } }
     if (this.cfg.car === 'pid') { carFeed(S, this.lab); const p = this.part('ir5'); for (let i = 0; i < 5; i++) { const m = live.leds['s' + (i + 1)]; if (m) m.emissiveIntensity = p && p.state.powered && !(p.state.black || [])[i] ? 2.4 : 0; } } // (batch 24: the five-sensor bar)
     if (this.cfg.car === 'wifi') wifiCheck(S, netOf(this.lab), dt); // (batch 24)
+    if (this.cfg.car === 'gesture') { carFeed(S, this.lab); this.placeGlove(); } // (batch 26: the hand's tilt to the MPU-6050 on the glove)
     if (this.foe) this.placeFoe();
     if (this.ballM) this.placeBall();
     if (['edge', 'light', 'lap', 'maze', 'mazeR', 'deliv', 'sumo', 'wallp'].includes(this.cfg.car)) { carFeed(S, this.lab); for (const t of ['irL', 'irR', 'irM']) { const p = this.part(t); if (p && live.leds[t]) live.leds[t].emissiveIntensity = p.state.powered !== false && p.state.near ? 2.6 : 0; } } // (batch 14)
     const drv = this.part('drv'); if (drv && live.leds.pwr) live.leds.pwr.emissiveIntensity = (drv.state.vs || 0) > 6.8 ? 2.4 : 0;
     const bt = this.part('bt'); if (bt && live.leds.bt) live.leds.bt.emissiveIntensity = !bt.state.powered ? 0 : bt.state.paired ? ((performance.now() / 1000) % 2 < 0.25 ? 2.4 : 0) : ((performance.now() / 100) % 2 < 1 ? 2.4 : 0);
-    return Math.abs(vl) + Math.abs(vr) > 1 || !!bt || (S.fell && S.fallT < 1);
+    return Math.abs(vl) + Math.abs(vr) > 1 || !!bt || (S.fell && S.fallT < 1) || this.cfg.car === 'gesture';
   }
   onRun() { this.sim.reset(); for (const t of ['mL', 'mR']) { const p = this.part(t); if (p) p.state.w = 0; } this.place(); this.placeTorch(); this.placeFoe(); this.placeBall(true); if (this.sim.cfg.maze || this.sim.cfg.stations || this.sim.cfg.ring || this.sim.cfg.wallp) carFeed(this.sim, this.lab); } // (the car is put back on its start, its wheels still; the sensors read the start before the sketch's first loop)
   control(id, v) {
@@ -334,6 +347,7 @@ class CarWorld extends World {
     if (id === 'maze' && this.sim.cfg.maze && v !== this.sim.cfg.maze) { this.sim.setMaze(v); this.buildArenaNow(this.sim.cfg); this.place(); carFeed(this.sim, this.lab); this.stage.kick(); } // (batch 18)
     if (id === 'lamp') { this.sim.lamp = v; this.sim.foundT = 0; this.placeTorch(); this.stage.kick(); } // (batch 14: move the torch)
     if (id === 'pair') { const bt = this.part('bt'); if (bt && bt.state.powered) { bt.state.paired = true; this.lab.stateV++; } }
+    if (id === 'key' && this.cfg.car === 'gesture') { this.sim.handKey = v; this.stage.kick(); return; } // (batch 26: the glove: the key tips the hand)
     if (id === 'key') { const r = this.lab.btSend(v); this.lastSend = { k: v, r }; this.app.onBT && this.app.onBT(r); }
   }
   hud() {
@@ -344,6 +358,10 @@ class CarWorld extends World {
     if (k === 'avoid') { rows.unshift([tx(W.ahead), `${this.ahead ?? '…'} cm`]); rows.push([tx(W.bumps), String(S.bumps)]); }
     const controls = [{ id: 'start', kind: 'button', label: W.start }];
     if (k === 'bt' || k === 'soccer') { const bt = this.part('bt'); controls.unshift({ id: 'pad', kind: 'pad', label: W.app, status: !bt || !bt.state.powered ? tx(W.btOff) : bt.state.paired ? tx(W.paired) : '', paired: !!(bt && bt.state.paired), canPair: !!(bt && bt.state.powered) }); if (S.flags.has('parked')) rows.push(['P', tx(W.parked)]); }
+    if (k === 'gesture') { const m = this.part('mpu'); const st = m ? m.state : {}; const seen = st.seen; const g = (x) => `${x >= 0 ? '+' : '−'}${Math.abs(x).toFixed(1)}°`; // (batch 26)
+      controls.unshift({ id: 'pad', kind: 'pad', label: W.glove, status: S.t < 2.5 ? tx(W.onDesk) : '', paired: true, canPair: false, noPair: true });
+      rows.unshift([tx(W.unoReads), seen && st.powered ? `${g(seen[0])} / ${g(seen[1])}` : '—']); rows.unshift([tx(W.handTilt), m ? `${g(st.roll || 0)} / ${g(st.pitch || 0)}` : '—']);
+      if (S.flags.has('parked')) rows.push(['P', tx(W.parked)]); else if (S.flags.has('handStop')) rows.push(['✓', tx(W.stoppedW)]); else if (S.flags.has('nostop') || S.flags.has('jitter')) rows.push(['⚠', tx(W.shudder)]); }
     if (k === 'pi' && S.flags.has('parked')) rows.push(['P', tx(W.parked)]); // batch 6: the Raspberry Pi car
     if (k === 'edge') { const s = S.fell ? { L: false, R: false } : S.edgeSens(); rows.unshift([tx(W.irs), `${tx(s.L ? W.edgeW : W.desk)} / ${tx(s.R ? W.edgeW : W.desk)}`]); rows.push([tx(W.escaped), String(S.saves)]); if (S.fell) rows.push(['⚠', tx(W.fellOff)]); }
     if (k === 'light') { const l = this.part('ldrL'), r = this.part('ldrR'); rows.unshift([tx(W.eyes), `${l ? Math.round(l.state.lux || 0) : '—'} / ${r ? Math.round(r.state.lux || 0) : '—'} lux`]); rows.push([tx(W.torchD), `${Math.round(S.lampDist() / 10)} cm`]); if (S.found.has(S.lamp)) rows.push(['★', tx(W.atTorch)]);
@@ -370,7 +388,7 @@ class CarWorld extends World {
       controls.unshift({ id: 'maze', kind: 'seg', label: W.maze, options: [['A', W.mazeA], ['B', W.mazeB]], value: S.cfg.maze });
       return { title: k === 'mazeR' ? t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot') : t3('Maze-solving robot', 'भूलभुलैया सुलझाने वाला रोबोट', 'Maze solve karne wala robot'), rows, controls };
     }
-    const T14 = { soccer: t3('Robot soccer', 'रोबोट फ़ुटबॉल', 'Robot football'), wifi: t3('WiFi car', 'WiFi कार', 'WiFi car'), wallp: t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot'), sumo: t3('Robot sumo', 'रोबोट सूमो', 'Robot sumo'), pid: t3('PID line follower', 'PID लाइन फ़ॉलोअर', 'PID line follower'), deliv: t3('Delivery robot', 'डिलीवरी रोबोट', 'Delivery robot'), edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
+    const T14 = { gesture: t3('Gesture-controlled car', 'इशारों से चलने वाली कार', 'Ishaaron se chalne wali car'), soccer: t3('Robot soccer', 'रोबोट फ़ुटबॉल', 'Robot football'), wifi: t3('WiFi car', 'WiFi कार', 'WiFi car'), wallp: t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot'), sumo: t3('Robot sumo', 'रोबोट सूमो', 'Robot sumo'), pid: t3('PID line follower', 'PID लाइन फ़ॉलोअर', 'PID line follower'), deliv: t3('Delivery robot', 'डिलीवरी रोबोट', 'Delivery robot'), edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
     if (T14[k]) return { title: T14[k], rows, controls };
     return { title: k === 'bt' ? t3('Bluetooth car', 'ब्लूटूथ कार', 'Bluetooth car') : k === 'pi' ? t3('Raspberry Pi car', 'Raspberry Pi कार', 'Raspberry Pi car') : k === 'line' ? t3('Line follower', 'लाइन फ़ॉलोअर', 'Line follower') : t3('Obstacle-avoiding car', 'बाधा से बचने वाली कार', 'Obstacle se bachne wali car'), rows, controls };
   }

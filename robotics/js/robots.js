@@ -150,6 +150,8 @@ export const CAR_CFG = {
 // blue one at -x (our own), a tennis ball (65 mm, 58 g) on the centre line; the Bluetooth car with a V-shaped scoop
 CAR_CFG.soccer = { line: false, room: [2400, 1600], start: [-560, 420, Math.PI], boxes: [], soccer: { ball: [-560, 0] } };
 export const SOC = { r: 33, e: 0.55, eWall: 0.6, roll: 700, zc: 200, front: 168, pocket: 34, catchV: 420, kickV: 420, s0: 250, goalW: 450, goalD: 120 };
+// batch 26 (Class 11): the gesture car: an MPU-6050 on a glove (on a ribbon cable to the car's Uno) steers it; the yard and P
+CAR_CFG.gesture = Object.assign({}, CAR_CFG.bt, { gesture: true });
 // batch 24 (Class 11): the WiFi car: an ESP32 on the car is its own WiFi hotspot; the Bluetooth car's yard, boxes and P
 CAR_CFG.wifi = Object.assign({}, CAR_CFG.bt, { wifi: true });
 // (batch 24) the WiFi car's link: Android finds that the car's WiFi has no internet and, during a long straight run (1.2 s
@@ -213,6 +215,7 @@ export class CarSim {
     this.fwdD = 0; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
     const F = this.cfg.foe; this.foe = F ? { x: F.x, z: F.z, out: false, outT: 0 } : null; this.ringOut = false; this.winT = 0; this.pushT = 0; // (batch 24: the sumo opponent)
     const SB = this.cfg.soccer; this.ball = SB ? { x: SB.ball[0], z: SB.ball[1], vx: 0, vz: 0, held: false, heldT: 0, roll: 0, ax: 1, az: 0 } : null; this.goals = 0; this.own = 0; this.lostN = 0; this.shotV = 0; // (batch 24: robot soccer)
+    this.gc = null; this.handFlat = false; this.handD = 0; this.cmd = 0; this.handKey = this.handKey || 'S'; // (batch 26: the gesture car)
     this.fwdT = 0; this.swT = null; this.swBumps = 0; this.swOdo = undefined; this.stopMm = null; this.onAp = false; // (batch 24: the WiFi car)
     this.wc = null; this.whip = 0; this.lapT = null; this.lapBumps = null; this.sideCm = null; this.avgOff = null; // (batch 24: the wall follower)
     // batch 14
@@ -347,6 +350,18 @@ export class CarSim {
     const [rw] = this.room; if (Math.abs(B.z) < C.goalW / 2 && Math.abs(B.x) > rw / 2 - C.goalD + C.r) { if (B.x > 0 && !this.flags.has('goal')) { this.flags.add('goal'); this.goals++; this.goalT = +this.t.toFixed(1); } if (B.x < 0 && !this.flags.has('ownGoal')) { this.flags.add('ownGoal'); this.own++; } }
     const sp = Math.hypot(B.vx, B.vz); B.roll += sp * dt / C.r; if (sp > 1) { B.ax = B.vx / sp; B.az = B.vz / sp; } // (how far it has rolled, for the 3D ball)
   }
+  // (batch 26) the gesture car: handD = how far it drove forward with the hand tipped forward; after that (the student has
+  // driven it by hand): the hand (the MPU-6050's real tilt, handFlat set by carFeed) flat while the wheels still drive
+  // (nostop: 1.5 s of driving, a swap's instant at rest not counting); the Uno swapping the drive forward and back again and again with the hand flat (jitter: 5 in 3 s);
+  // handStop = the hand flat and the wheels still for a second
+  gestureCheck(dt, v) {
+    const G = this.gc || (this.gc = { flatT: 0, last: 0, sw: [], stopT: 0 }); const driving = Math.abs(this.vl) + Math.abs(this.vr) > 120;
+    if (v > 40 && (this.hand || [0, 0])[1] > 15) this.handD += v * dt; const after = this.handD > 300;
+    G.flatT = this.handFlat && after ? (driving ? G.flatT + dt : Math.max(0, G.flatT - 0.5 * dt)) : 0; if (G.flatT > 1.5) this.flags.add('nostop'); // (a swap's moment at rest does not count as a stop)
+    const sg = this.cmd || 0; if (!this.handFlat || !after) G.sw.length = 0; else if (sg && sg !== G.last) G.sw.push(this.t); if (sg) G.last = sg; // (what the Uno tells the wheels: + forward, − back)
+    while (G.sw.length && this.t - G.sw[0] > 3) G.sw.shift(); if (G.sw.length >= 5) this.flags.add('jitter');
+    G.stopT = this.handFlat && after && Math.abs(this.vl) + Math.abs(this.vr) < 10 ? G.stopT + dt : 0; if (G.stopT > 1) this.flags.add('handStop');
+  }
   ringEdge() { const C = CAR14, R = this.cfg.ring; const w = (lx) => { const [x, z] = this.world(lx, C.edgeZ); return Math.hypot(x, z) > R.r - R.edge; }; return { L: w(C.edgeX), R: w(-C.edgeX) }; } // (over the white edge, or past it)
   usFoe() { // the HC-SR04 at the front: five rays in its cone against the opponent's four sides (cm, 400 for nothing)
     const F = this.foe; if (!F) return 400; const [sx, sz] = this.world(0, CARG.usZ); const h = this.cfg.foe.w / 2; let best = 4000;
@@ -371,6 +386,7 @@ export class CarSim {
     if (c) { this.x += c[0] * c[2]; this.z += c[1] * c[2]; const vn = (Math.sin(this.h) * c[0] + Math.cos(this.h) * c[1]) * v; const head = v > 60 && vn < -0.6 * v; if (head && this.t - this.bumpT > 0.8) { this.bumps++; this.flags.add('bump'); } if (head) this.bumpT = this.t; } // (a scrape along the side does not count)
     if (this.cfg.ring) this.sumo(dt, v); // (batch 24)
     if (this.ball) this.soccer(dt, v, w);
+    if (this.cfg.gesture) this.gestureCheck(dt, v);
     if (this.cfg.wallp) this.wallCheck(dt, w, v);
     this.odo += Math.abs(v) * dt; if (this.odo > 600) this.flags.add('moved');
     if (v > 40 && Math.abs(w) < 0.3) { this.flags.add('fwd'); this.fwdD += v * dt; } if (v < -40) this.flags.add('back'); // (batch 19: fwdD, how far it drove straight on)
@@ -484,6 +500,14 @@ export class HydSim {
 // ------------------------------------------------------------------ batch 14: the car's extra sensors into the bench
 // The table robot's IR modules (irL, irR) see the table (near: OUT LOW) or nothing past the edge (OUT HIGH); the
 // light-seeker's LDRs (ldrL, ldrR) get the torch's lux; the lap counter's side IR (irM) sees the black marker.
+// (batch 26) the glove: the pad's key tips the hand 30° (F forward, B back, L left, R right; S or nothing: flat); from 2.5 s
+// after Run (the glove lay flat on the desk while calcOffsets() measured, and no key tips it; then it is put on) no hand is still: it wanders a
+// few degrees, slowly (postural sway, about 0.5 Hz), with the small fast tremor every hand has (about 9 Hz) on top
+export const HAND_TILT = 30;
+export function handPose(key, t) {
+  const T = HAND_TILT; const base = (t >= 2.5 && { F: [0, T], B: [0, -T], L: [-T, 0], R: [T, 0] }[key]) || [0, 0]; const k = Math.max(0, Math.min(1, (t - 2.5) / 0.8)); const s = (a, f, ph) => a * Math.sin(2 * Math.PI * f * t + ph);
+  return [base[0] + k * (s(2.0, 0.43, 2.1) + s(1.1, 1.3, 0.2) + s(0.4, 2.7, 1.9) + s(0.45, 8.7, 0.3) + s(0.3, 4.1, 1.1)), base[1] + k * (s(2.4, 0.55, 0) + s(1.2, 1.6, 1.3) + s(0.4, 3.1, 0.4) + s(0.5, 9.1, 0.7) + s(0.35, 4.3, 2.2))];
+}
 export function carFeed(sim, lab) {
   const byTag = (t) => lab.byTag(t); const bump = () => { lab.stateV++; lab.instKey = null; };
   const ir = (tag, black) => { const p = byTag(tag); if (!p) return; p.state.ext = true; const d = black ? 40 : 1; if (p.state.dist !== d) { p.state.dist = d; bump(); } };
@@ -491,6 +515,7 @@ export function carFeed(sim, lab) {
   if (k === 'edge' && !sim.fell) { const s = sim.edgeSens(); ir('irL', s.L); ir('irR', s.R); }
   if (k === 'lap' || k === 'deliv') { const s = sim.sensors(); ir('irL', s.L); ir('irR', s.R); ir('irM', sim.markSens()); }
   if (k === 'sumo' && !sim.ringOut) { const e = sim.ringEdge(); ir('irL', !e.L); ir('irR', !e.R); const p = byTag('us1'); if (p) { p.state.ext = true; const d = sim.usFoe(); if (p.state.dist !== d) { p.state.dist = d; bump(); } } } // (batch 24: black ring = HIGH, white edge = LOW)
+  if (k === 'gesture') { const d = byTag('drv'); const c = d ? (d.state.a || 0) + (d.state.b || 0) : 0; sim.cmd = c > 0.2 ? 1 : c < -0.2 ? -1 : 0; const p = byTag('mpu'); if (p) { const [r, q] = handPose(sim.handKey, sim.t); p.state.to = [r, q, 0]; } sim.handFlat = !!p && Math.abs(p.state.roll || 0) < 6 && Math.abs(p.state.pitch || 0) < 6; sim.hand = p ? [Math.round(p.state.roll || 0), Math.round(p.state.pitch || 0)] : null; } // (batch 26)
   if (k === 'pid') { const p = byTag('ir5'); if (p) { const b = sim.sensors5(); if (!p.state.black || b.some((v, i) => v !== p.state.black[i])) { p.state.black = b; bump(); } } } // (batch 24: the five-sensor bar) // (batch 23: the delivery track's stations)
   if (k === 'wallp') for (const [tag, d] of [['us1', sim.mazeFront()], ['us2', sim.mazeSide()]]) { const p = byTag(tag); if (p) { p.state.ext = true; if (p.state.dist !== d) { p.state.dist = d; bump(); } } } // (batch 24)
   if (k === 'maze' || k === 'mazeR') { // batch 18: the front and left (19: or right) HC-SR04 hear the walls, the IR under the nose sees the black FINISH square

@@ -19,7 +19,7 @@ import { netOf } from '../../robotics/js/esp32.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { makeScene } from '../../robotics/js/scenes3.js';
-import { ArmSim, CarSim, carFeed, wifiCheck } from '../../robotics/js/robots.js';
+import { ArmSim, CarSim, carFeed, wifiCheck, CARG } from '../../robotics/js/robots.js';
 import { BO } from '../../robotics/js/parts2.js';
 
 const B = (e) => (/^(H|T|B):/.test(e) ? e : 'B:' + e); // a board pin
@@ -349,6 +349,35 @@ for (const l of L24) {
       ok(t >= 0, `soccer: act "${s.do.en.slice(0, 44)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${JSON.stringify({ x: Math.round(sim.x), z: Math.round(sim.z), ball: [Math.round(sim.ball.x), Math.round(sim.ball.z)] })} ${[...sim.flags]}`)); seen.push(`${[...sim.flags].filter((k) => /kick|held|lost|goal/.test(k)).join(',')} shot ${sim.shotV}`); }
   }
   ok(!!l.done(rt) && sim.lostN === 0 && sim.own === 0, `soccer: complete; ${seen.join(' | ')}`);
+}
+
+// the gesture car (lessons24.js gesturecar, robots.js handPose / gestureCheck): the MPU-6050 on a glove; v0 compares with 0 and
+// the hand's sway makes it shudder (jitter), the dead zone stops it (handStop), then the hand parks it in P
+{ const l = LESSONS.find((x) => x.id === 'gesturecar');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  ok(compile(l.code, lab.def).ok, 'gesture: the sketch compiles');
+  const sim = new CarSim('gesture'); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => { sim.reset(); for (const t of ['mL', 'mR']) lab.byTag(t).state.w = 0; carFeed(sim, lab); } };
+  const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; };
+  const ang = (X, Z) => { const e = Math.atan2(X - sim.x, Z - sim.z) - sim.h; return Math.atan2(Math.sin(e), Math.cos(e)); };
+  const inBox = () => { const [x, z] = sim.world(0, CARG.bodyZ * 0.6); return Math.abs(x - 380) < 50 && Math.abs(z - 20) < 60; };
+  // a person parking: turns while far off, then lets go and taps (0.2 s) until the nose points at the box, then drives
+  let leg = 0, tap = 0; const park = () => { if (inBox()) return 'S'; const T = leg === 0 ? [380, 330] : [380, 20]; if (leg === 0 && Math.hypot(sim.x - 380, sim.z - 330) < 60) leg = 1; const e = ang(...T); const k = e > 0 ? 'L' : 'R';
+    if (Math.abs(e) > 0.6) return k; if (Math.abs(e) > 0.12) { tap = (tap + 1) % 40; return tap < 12 ? k : 'S'; } tap = 0; return 'F'; };
+  const DRV = [() => 'F', () => 'S', () => (sim.handD < 450 ? 'F' : 'S'), park];
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  let src = l.code, ai = 0; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'wire') { const g = rt.ghostWire(s.wire); if (!g) { ok(false, `gesture: a ghost wire for ${s.wire}`); continue; } lab.addWire(g[0], g[1]); if (!rt.conn(s.wire[0], s.wire[1])) ok(false, `gesture: wire ${s.wire} joins`); }
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'gesture: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e).ok, 'gesture: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const drv = DRV[ai++]; let t = -1; const t0 = sim.t;
+      for (let f = 0; f < 60 * 40; f++) { const tt = f / 60; sim.handKey = sim.t > 3 ? drv() : 'S';
+        lab.step(1000 / 60); sim.update(1 / 60, w('mL'), w('mR')); carFeed(sim, lab); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = tt; break; } }
+      sim.handKey = 'S';
+      ok(t >= 0, `gesture: act "${s.do.en.slice(0, 44)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${JSON.stringify({ x: Math.round(sim.x), z: Math.round(sim.z), h: Math.round(sim.h * 57.3), t: +(sim.t - t0).toFixed(1) })} ${[...sim.flags]}`)); seen.push([...sim.flags].filter((k) => /jitter|nostop|handStop|parked/.test(k)).join(',')); }
+  }
+  ok(!!l.done(rt), `gesture: complete; ${seen.join(' | ')}`);
 }
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

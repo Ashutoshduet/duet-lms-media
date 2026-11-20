@@ -1172,3 +1172,12 @@ heaters.
   factory.js I2C26: tilt6, clock, lux, storm, alt on the Uno (A4 / A5) and the ESP32 (21 / 22), with a check for SDA and
   SCL swapped; the LCD and OLED outputs clash (same pins). tilt6 waits for calibration (inp.settle 1.6 s; robofactory.mjs
   waits as a student does). 21 jobs. 3,571 projects live.
+- Class 11 gesture-controlled car (batch 26, lessons24.js `gesturecar`; robots.js CAR_CFG.gesture, handPose,
+  CarSim.gestureCheck, carFeed 'gesture'; worlds.js the glove pad (the pad control with noPair: its keys tip the hand
+  30°), the HUD rows "Your hand" and "The Uno reads", placeGlove; models2.js buildGlove, ribbon): the Bluetooth yard and
+  P; the GY-521 lies by the car (free part `mpu`, VCC / GND on the rails), the student wires SDA → A4, SCL → A5 (swapped
+  is named). The glove lies flat on the desk for 2.5 s after Run (no key tips it: calcOffsets() sees flat), then it is
+  on the hand: no hand is still (handPose: about ±3° of sway at 0.4 to 0.6 Hz plus a 9 Hz tremor of 0.5°). v0 compares
+  fb and lr with 0, so with the hand flat it never stops (nostop: 1.5 s of driving after a drive by hand) and the turn
+  lines never run; the edit is a dead zone (20 in all four comparisons, or a const; dzOf); then handStop and parked.
+  robocore24.mjs drives it as a person would (taps to line up with P). 3,572 projects live.

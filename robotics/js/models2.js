@@ -641,3 +641,30 @@ export function buildPart2(part) {
   }
   return null;
 }
+
+// (batch 26) the gesture car's glove: a black knit glove (right hand, palm down, fingers along +z), the GY-521 on the back
+// of the hand, and the grey ribbon cable to the car (worlds.js re-lays it every frame with ribbon()). tilt(roll, pitch):
+// roll + = tipped right (its right side goes down), pitch + = tipped forward (the fingers go down)
+export function buildGlove() {
+  const M = (o) => new THREE.MeshStandardMaterial(o); const knit = M({ color: 0x24262b, roughness: 0.95 }), cuff = M({ color: 0x3a6fd0, roughness: 0.9 }), pcbM = M({ color: 0x1f4fae, roughness: 0.55 }), chip = M({ color: 0x141416, roughness: 0.4 }), pin = M({ color: 0xd9c27a, metalness: 0.9, roughness: 0.3 });
+  const g = new THREE.Group(); const hand = new THREE.Group(); hand.rotation.order = 'XZY'; g.add(hand);
+  const palm = new THREE.Mesh(new THREE.BoxGeometry(84, 26, 96), knit); palm.scale.set(1, 1, 1); hand.add(palm);
+  const round = (r, len, mat) => { const m = new THREE.Mesh(new THREE.CapsuleGeometry(r, len, 4, 10), mat); m.rotation.x = Math.PI / 2; return m; };
+  [[-27, 66, 9], [-9, 74, 10], [9, 72, 10], [27, 60, 9]].forEach(([x, L, r]) => { const f = round(r, L, knit); f.position.set(x, -2, 48 + L / 2 - 4); hand.add(f); });
+  const th = round(11, 52, knit); th.position.set(50, -6, 20); th.rotation.set(Math.PI / 2, 0, -0.75); hand.add(th);
+  const c = new THREE.Mesh(new THREE.CylinderGeometry(46, 46, 40, 20, 1, true), cuff); c.scale.set(1, 0.42, 1); c.rotation.x = Math.PI / 2; c.position.set(0, 0, -64); hand.add(c);
+  // the GY-521 stitched on the back of the hand, its pins towards the wrist (the ribbon plugs in there)
+  const bd = new THREE.Group(); bd.position.set(0, 14, -6); hand.add(bd);
+  bd.add(new THREE.Mesh(new THREE.BoxGeometry(21, 1.6, 16), pcbM)); const q = new THREE.Mesh(new THREE.BoxGeometry(4, 1, 4), chip); q.position.set(-2, 1.2, 1); bd.add(q);
+  for (let i = 0; i < 8; i++) { const p = new THREE.Mesh(new THREE.BoxGeometry(1.4, 2.5, 1.4), pin); p.position.set(-8.9 + i * 2.54, 1.6, -7); bd.add(p); }
+  const plugM = new THREE.Mesh(new THREE.BoxGeometry(22, 5, 6), chip); plugM.position.set(0, 3.5, -9); bd.add(plugM); const plug = new THREE.Object3D(); plug.position.set(0, 3.5, -13); bd.add(plug);
+  hand.traverse((o) => { if (o.isMesh) o.castShadow = true; });
+  const cable = new THREE.Mesh(new THREE.BufferGeometry(), M({ color: 0x9aa0a8, roughness: 0.6 })); cable.castShadow = true; cable.frustumCulled = false;
+  const D = Math.PI / 180; g.userData = { hand, plug, cable, tilt: (roll, pitch) => { hand.rotation.set(pitch * D, 0, roll * D, 'XZY'); } };
+  return g;
+}
+// a cable from a to b (arena coordinates) sagging under its own weight
+export function ribbon(mesh, a, b) {
+  const L = a.distanceTo(b); const sag = Math.max(40, 0.35 * L); const P = []; for (let i = 0; i <= 8; i++) { const t = i / 8; const p = a.clone().lerp(b, t); p.y = Math.max(4, p.y - sag * 4 * t * (1 - t)); P.push(p); }
+  const geo = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(P), 28, 3, 6, false); if (mesh.geometry) mesh.geometry.dispose(); mesh.geometry = geo;
+}

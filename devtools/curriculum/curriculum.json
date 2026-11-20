@@ -5952,18 +5952,17 @@
    {
     "class": 11,
     "n": 25,
-    "kind": "I",
+    "kind": "L",
     "title": "Gesture-controlled car",
     "board": "uno",
-    "status": "planned",
-    "ref": "gesture-controlled-car-uno",
+    "status": "live",
+    "ref": "gesturecar",
     "newparts": [],
-    "family": "robot-car",
+    "family": "live-projects",
     "parts": [
+     "l298n",
      "bat18650",
      "bomotor",
-     "hc05",
-     "l298n",
      "mpu6050"
     ],
     "strand": "Decomposition",
