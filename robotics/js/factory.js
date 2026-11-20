@@ -411,6 +411,13 @@ POUT.buzzer = Object.assign({}, OUT.buzzer, { pin: 'GP18', parts: [P('bz1', 'buz
 POUT.rgb = Object.assign({}, OUT.rgb, rgbAt('H:b18', 'H:b17', 'H:b16'), { pin: 'GP18/19/20',
   ready: t3('The RGB LED is already wired: red to GP18, green to GP19, blue to GP20, each through its resistor (100 Ω for green and blue: at 3.3 V they need a smaller one). Green means all is well.', 'RGB एलईडी पहले से लगी है: लाल GP18, हरा GP19, नीला GP20 पर, हर एक अपने रेज़िस्टर से होकर (हरे और नीले के लिए 100 Ω: 3.3 V पर उन्हें छोटा रेज़िस्टर चाहिए)। हरा मतलब सब ठीक।', 'RGB LED pehle se lagi hai: laal GP18, hara GP19, neela GP20 par, har ek apne resistor se hokar (hare aur neele ke liye 100 Ω: 3.3 V par unhe chhota resistor chahiye). Hara matlab sab theek.'),
   py: { decl: ['red = Pin(18, Pin.OUT)      # GP18: the RGB LED\'s red', 'green = Pin(19, Pin.OUT)    # GP19: its green', 'blue = Pin(20, Pin.OUT)     # GP20: its blue (not used here)'], on: ['red.value(1)                # red: warning', 'green.value(0)'], off: ['red.value(0)', 'green.value(1)              # green: all well'] } });
+// (batch 17) the OLED on the Pico's I2C0 (SDA GP4, SCL GP5, VCC 3V3) with the ssd1306 driver: two lines of the job's name,
+// then its message, as on the Uno's OLED (framebuf text is one size: 16 letters to a line)
+const titleLines = (s) => { const out = ['']; for (const w of s.split(' ')) { const t = out[out.length - 1]; if ((t + ' ' + w).trim().length <= 16) out[out.length - 1] = (t + ' ' + w).trim(); else out.push(w.slice(0, 16)); } return out.slice(0, 2); };
+const pyOled = (j, msg) => ['oled.fill(0)', ...titleLines(j.title.en).map((t, i) => `oled.text("${t}", 0, ${i * 10})`), 'oled.hline(0, 22, 128, 1)', `oled.text("${msg}", 0, 32)`, 'oled.show()'];
+POUT.oled = Object.assign({}, OUT.oled, { pin: 'GP4/GP5', parts: [P('oled', 'oled', {}, 'e30', 0)], wires: [['H:a30', 'H:tn26'], ['H:a31', 'H:a6'], ['H:a32', 'H:j8'], ['H:a33', 'H:j7']],
+  ready: t3('The OLED screen (128 × 64 dots) is already wired: GND, VCC to the Pico\'s 3V3, SCL to GP5, SDA to GP4: the Pico\'s I2C0. The ssd1306 driver draws on it at address 0x3C.', 'ओएलईडी स्क्रीन (128 × 64 बिंदु) पहले से लगी है: GND, VCC Pico के 3V3 पर, SCL GP5 पर, SDA GP4 पर: Pico का I2C0। ssd1306 ड्राइवर इस पर 0x3C पते पर चित्र बनाता है।', 'OLED screen (128 × 64 dot) pehle se lagi hai: GND, VCC Pico ke 3V3 par, SCL GP5 par, SDA GP4 par: Pico ka I2C0. ssd1306 driver is par 0x3C address par chitra banata hai.'),
+  py: { imp: ['import ssd1306'], decl: ['i2c = I2C(0, sda=Pin(4), scl=Pin(5))   # the OLED on I2C0', 'oled = ssd1306.SSD1306_I2C(128, 64, i2c)'], on: (j) => pyOled(j, j.on), off: (j) => pyOled(j, j.off) } });
 POUT.servo = Object.assign({}, OUT.servo, { pin: 'GP16', wires: [['T:sv1:GND', 'H:tn40'], ['T:sv1:VP', 'H:tp40'], ['T:sv1:SIG', 'H:a21']],
   ready: t3('The servo is already wired: brown to −, red to + (5 V), orange (signal) to GP16.', 'सर्वो पहले से लगा है: भूरा − पर, लाल + (5 V) पर, नारंगी (सिग्नल) GP16 पर।', 'Servo pehle se laga hai: brown − par, laal + (5 V) par, orange (signal) GP16 par.'),
   py: { decl: ['arm = PWM(Pin(16))          # GP16: the servo', 'arm.freq(50)                # a pulse every 20 ms', 'arm.duty_u16(1638)          # 0.5 ms pulse: 0°'], on: ['arm.duty_u16(4915)          # 1.5 ms pulse: 90°'], off: ['arm.duty_u16(1638)'] } });
@@ -495,16 +502,17 @@ function sketchPi(job, ik, ok) {
 
 function sketchPy(job, ik, ok) {
   const inp = PIN[ik], out = ok === 'relay' ? relayFor(POUT[ok], job) : POUT[ok], ip = inp.py, op = out.py;
-  const mods = ['Pin']; if (ip.read && !ip.dht) mods.push('ADC'); if (op.decl.some((x) => x.includes('PWM('))) mods.push('PWM');
-  const L = [`# ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `# ${job.why.en}`, `from machine import ${mods.join(', ')}`, 'import time', ...(ip.imp || []), '', ...ip.decl, ...op.decl];
+  const mods = ['Pin']; if (ip.read && !ip.dht) mods.push('ADC'); if (op.decl.some((x) => x.includes('PWM('))) mods.push('PWM'); if (op.decl.some((x) => x.includes('I2C('))) mods.push('I2C');
+  const onL = typeof op.on === 'function' ? op.on(job) : op.on, offL = typeof op.off === 'function' ? op.off(job) : op.off; // (batch 17: the OLED's lines carry the job's own words)
+  const L = [`# ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `# ${job.why.en}`, `from machine import ${mods.join(', ')}`, 'import time', ...(ip.imp || []), ...(op.imp || []), '', ...ip.decl, ...op.decl];
   if (inp.analog) L.push(`limit = ${inp.l0}             # ${inp.note}`);
   else L.push('hold = 1000                 # stay on this long after it stops (ms)', 'last = None                 # when the sensor was last active');
   L.push('', 'while True:');
   if (inp.analog) {
     L.push(...(Array.isArray(ip.read) ? ip.read : [ip.read]).map((x) => '    ' + x)); if (ip.dht) L.push(`    if ${inp.v} is None:`, '        time.sleep(2)', '        continue');
-    L.push(`    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond.replace('&&', 'and')}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), `    time.sleep(${(inp.delay || 200) / 1000})`);
+    L.push(`    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond.replace('&&', 'and')}:`, ...onL.map((x) => '        ' + x), '    else:', ...offL.map((x) => '        ' + x), `    time.sleep(${(inp.delay || 200) / 1000})`);
   } else {
-    L.push(`    if ${ip.trig}:`, '        last = time.ticks_ms()   # active now: start the hold time again', '    if last is not None and time.ticks_diff(time.ticks_ms(), last) < hold:', ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), '    time.sleep(0.05)');
+    L.push(`    if ${ip.trig}:`, '        last = time.ticks_ms()   # active now: start the hold time again', '    if last is not None and time.ticks_diff(time.ticks_ms(), last) < hold:', ...onL.map((x) => '        ' + x), '    else:', ...offL.map((x) => '        ' + x), '    time.sleep(0.05)');
   }
   L.push('');
   return L.join('\n');

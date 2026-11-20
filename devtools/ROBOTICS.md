@@ -820,3 +820,8 @@ heaters.
   request(REQIDL / REQALL), SelectTagSN, anticoll, tohexstring) checks the SPI pins and reads the cards as the Uno's does
   (a card stays selected until it leaves). Lessons: `pico_weather` (DHT11 + OLED, Fahrenheit edit; SDA / SCL swapped
   stops with EIO) and `pico_rfidlock` (an ALLOWED list; the reader on VBUS is refused). Class 9: 25 of 26. 1,492 projects.
+- The bank's OLED jobs on the Pico too (`POUT.oled`, factory.js): the OLED on I2C0 (SDA GP4, SCL GP5, VCC 3V3) with the
+  ssd1306 driver; the job's name in up to two 16-letter lines, a rule, then its message. sketchPy now takes an output's
+  own imports and lines made from the job (`py.on(job)`). 51 lessons (every LCD job with a Pico sensor); robofactory.mjs
+  8466 ok. (No I2C LCD on the Pico: its backpack wants 5 V and pulls SDA / SCL up to 5 V, the wrong habit for a
+  3.3 V board; the OLED is the Pico's screen.) 1,543 projects.

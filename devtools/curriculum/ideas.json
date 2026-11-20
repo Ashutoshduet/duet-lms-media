@@ -4342,6 +4342,26 @@
 "note": null
 },
 {
+"id": "live-f_museum_oled_pico",
+"title": "Museum humidity guard: DHT11 sensor (humidity) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_museum_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_museum_buzzer_pico",
 "title": "Museum humidity guard: DHT11 sensor (humidity) → buzzer (Pico)",
 "family": "factory",
@@ -4400,6 +4420,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_clothesdry_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_comfort_oled_pico",
+"title": "Classroom comfort meter: DHT11 sensor (temperature) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_comfort_oled_pico",
 "rule": null,
 "note": null
 },
@@ -4468,6 +4508,26 @@
 "note": null
 },
 {
+"id": "live-f_pitch_oled_pico",
+"title": "Cricket pitch dryness check: soil moisture sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pitch_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pitch_buzzer_pico",
 "title": "Cricket pitch dryness check: soil moisture sensor → buzzer (Pico)",
 "family": "factory",
@@ -4510,6 +4570,26 @@
 "note": null
 },
 {
+"id": "live-f_nursery_oled_pico",
+"title": "Seedling tray monitor: soil moisture sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nursery_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_nursery_rgb_pico",
 "title": "Seedling tray monitor: soil moisture sensor → colour LED (Pico)",
 "family": "factory",
@@ -4527,6 +4607,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_nursery_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coldwave_oled_pico",
+"title": "Cold wave school notice: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coldwave_oled_pico",
 "rule": null,
 "note": null
 },
@@ -4614,6 +4714,26 @@
 "note": null
 },
 {
+"id": "live-f_pipefreeze_oled_pico",
+"title": "Water pipe freeze warning: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pipefreeze_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pipefreeze_rgb_pico",
 "title": "Water pipe freeze warning: temperature sensor LM35 → colour LED (Pico)",
 "family": "factory",
@@ -4655,6 +4775,26 @@
 "note": null
 },
 {
+"id": "live-f_compost_oled_pico",
+"title": "Compost pit thermometer: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_compost_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_compost_rgb_pico",
 "title": "Compost pit thermometer: temperature sensor LM35 → colour LED (Pico)",
 "family": "factory",
@@ -4676,6 +4816,26 @@
 "note": null
 },
 {
+"id": "live-f_transformer_oled_pico",
+"title": "Transformer heat watch: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_transformer_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_transformer_rgb_pico",
 "title": "Transformer heat watch: temperature sensor LM35 → colour LED (Pico)",
 "family": "factory",
@@ -4693,6 +4853,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_transformer_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_geyser_oled_pico",
+"title": "Hot water ready light: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_geyser_oled_pico",
 "rule": null,
 "note": null
 },
@@ -4734,6 +4914,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_geyser_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorhot_oled_pico",
+"title": "Pump motor overheat alarm: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorhot_oled_pico",
 "rule": null,
 "note": null
 },
@@ -4795,6 +4995,27 @@
 "level": 9,
 "theme": "bank",
 "live": "f_ironhot_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_flame_oled_pico",
+"title": "Burner flame watcher: light sensor (LDR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_flame_oled_pico",
 "rule": null,
 "note": null
 },
@@ -4921,6 +5142,27 @@
 "level": 9,
 "theme": "bank",
 "live": "f_solarpanel_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_powercut_oled_pico",
+"title": "Power cut alarm: light sensor (LDR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_powercut_oled_pico",
 "rule": null,
 "note": null
 },
@@ -5074,6 +5316,27 @@
 "note": null
 },
 {
+"id": "live-f_smokebeam_oled_pico",
+"title": "Smoke detector (light beam): light sensor (LDR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_smokebeam_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_smokebeam_rgb_pico",
 "title": "Smoke detector (light beam): light sensor (LDR) → colour LED (Pico)",
 "family": "factory",
@@ -5157,6 +5420,26 @@
 "note": null
 },
 {
+"id": "live-f_volume_oled_pico",
+"title": "Headphone volume guard: knob (potentiometer) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"pot"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_volume_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_volume_led_pico",
 "title": "Headphone volume guard: knob (potentiometer) → LED (Pico)",
 "family": "factory",
@@ -5219,6 +5502,26 @@
 "note": null
 },
 {
+"id": "live-f_speedwarn_oled_pico",
+"title": "Over-speed warning: knob (potentiometer) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"pot"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_speedwarn_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_speedwarn_rgb_pico",
 "title": "Over-speed warning: knob (potentiometer) → colour LED (Pico)",
 "family": "factory",
@@ -5256,6 +5559,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_speedwarn_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_goal_oled_pico",
+"title": "Goal-line sensor: IR obstacle sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_goal_oled_pico",
 "rule": null,
 "note": null
 },
@@ -5384,6 +5707,26 @@
 "note": null
 },
 {
+"id": "live-f_conveyor_oled_pico",
+"title": "Conveyor box detector: IR obstacle sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_conveyor_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_conveyor_led_pico",
 "title": "Conveyor box detector: IR obstacle sensor → LED (Pico)",
 "family": "factory",
@@ -5425,6 +5768,26 @@
 "note": null
 },
 {
+"id": "live-f_binfull_oled_pico",
+"title": "Dustbin full indicator: IR obstacle sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_binfull_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_binfull_buzzer_pico",
 "title": "Dustbin full indicator: IR obstacle sensor → buzzer (Pico)",
 "family": "factory",
@@ -5462,6 +5825,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_binfull_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kiosk_oled_pico",
+"title": "Information kiosk wake-up: PIR motion sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kiosk_oled_pico",
 "rule": null,
 "note": null
 },
@@ -5545,6 +5928,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_spotlight_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycot_oled_pico",
+"title": "Baby cot watcher: PIR motion sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babycot_oled_pico",
 "rule": null,
 "note": null
 },
@@ -5691,6 +6094,26 @@
 "note": null
 },
 {
+"id": "live-f_labhelp_oled_pico",
+"title": "Lab help-request light: push button → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_labhelp_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_labhelp_rgb_pico",
 "title": "Lab help-request light: push button → colour LED (Pico)",
 "family": "factory",
@@ -5795,6 +6218,26 @@
 "note": null
 },
 {
+"id": "live-f_orderready_oled_pico",
+"title": "Canteen order-ready sign: push button → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_orderready_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_orderready_led_pico",
 "title": "Canteen order-ready sign: push button → LED (Pico)",
 "family": "factory",
@@ -5857,6 +6300,26 @@
 "note": null
 },
 {
+"id": "live-f_busstop_oled_pico",
+"title": "Bus stop request bell: push button → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busstop_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_busstop_buzzer_pico",
 "title": "Bus stop request bell: push button → buzzer (Pico)",
 "family": "factory",
@@ -5894,6 +6357,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_busstop_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchless_oled_pico",
+"title": "Contactless doorbell: IR obstacle sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_touchless_oled_pico",
 "rule": null,
 "note": null
 },
@@ -5981,6 +6464,26 @@
 "note": null
 },
 {
+"id": "live-f_piggybank_oled_pico",
+"title": "Piggy bank coin chime: IR obstacle sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_piggybank_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_piggybank_buzzer_pico",
 "title": "Piggy bank coin chime: IR obstacle sensor → buzzer (Pico)",
 "family": "factory",
@@ -6064,6 +6567,26 @@
 "note": null
 },
 {
+"id": "live-f_afterhours_oled_pico",
+"title": "Shop after-hours alarm: PIR motion sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_afterhours_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_afterhours_buzzer_pico",
 "title": "Shop after-hours alarm: PIR motion sensor → buzzer (Pico)",
 "family": "factory",
@@ -6084,6 +6607,26 @@
 "note": null
 },
 {
+"id": "live-f_treeguard_oled_pico",
+"title": "Tree sapling water reminder: soil moisture sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_treeguard_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_treeguard_buzzer_pico",
 "title": "Tree sapling water reminder: soil moisture sensor → buzzer (Pico)",
 "family": "factory",
@@ -6100,6 +6643,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_treeguard_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_oled_pico",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_rainsoon_oled_pico",
 "rule": null,
 "note": null
 },
@@ -6251,6 +6814,26 @@
 "note": null
 },
 {
+"id": "live-f_milkchill_oled_pico",
+"title": "Milk chiller alarm: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkchill_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_milkchill_rgb_pico",
 "title": "Milk chiller alarm: temperature sensor LM35 → colour LED (Pico)",
 "family": "factory",
@@ -6288,6 +6871,27 @@
 "level": 9,
 "theme": "bank",
 "live": "f_milkchill_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_darkroom_oled_pico",
+"title": "Darkroom light alarm: light sensor (LDR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_darkroom_oled_pico",
 "rule": null,
 "note": null
 },
@@ -6422,6 +7026,27 @@
 "note": null
 },
 {
+"id": "live-f_panelshade_oled_pico",
+"title": "Solar panel shade alarm: light sensor (LDR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_panelshade_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panelshade_buzzer_pico",
 "title": "Solar panel shade alarm: light sensor (LDR) → buzzer (Pico)",
 "family": "factory",
@@ -6542,6 +7167,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_booksdamp_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_oled_pico",
+"title": "Turnstile gate: IR obstacle sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_turnstile_oled_pico",
 "rule": null,
 "note": null
 },
@@ -6752,6 +7397,26 @@
 "note": null
 },
 {
+"id": "live-f_paddy_oled_pico",
+"title": "Paddy field water keeper: soil moisture sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_paddy_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_paddy_pump_pico",
 "title": "Paddy field water keeper: soil moisture sensor → water pump (Pico)",
 "family": "factory",
@@ -6812,6 +7477,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_fishtank_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teacool_oled_pico",
+"title": "Tea is cool enough: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_teacool_oled_pico",
 "rule": null,
 "note": null
 },
@@ -7108,6 +7793,26 @@
 "note": null
 },
 {
+"id": "live-f_watchman_oled_pico",
+"title": "Gate call for the watchman: push button → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_watchman_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_watchman_rgb_pico",
 "title": "Gate call for the watchman: push button → colour LED (Pico)",
 "family": "factory",
@@ -7168,6 +7873,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_bathfan_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_oled_pico",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainstore_oled_pico",
 "rule": null,
 "note": null
 },
@@ -7250,6 +7975,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_greenfan_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_oled_pico",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_heatwave_oled_pico",
 "rule": null,
 "note": null
 },
@@ -7400,6 +8145,26 @@
 "note": null
 },
 {
+"id": "live-f_incubator_oled_pico",
+"title": "Egg incubator heater: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_incubator_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_incubator_relay_pico",
 "title": "Egg incubator heater: temperature sensor LM35 → relay and heater lamp (Pico)",
 "family": "factory",
@@ -7459,6 +8224,27 @@
 "level": 9,
 "theme": "bank",
 "live": "f_fridgeopen_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunrise_oled_pico",
+"title": "Sunrise alarm: light sensor (LDR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sunrise_oled_pico",
 "rule": null,
 "note": null
 },
@@ -7671,6 +8457,26 @@
 "note": null
 },
 {
+"id": "live-f_slot_oled_pico",
+"title": "Parking slot sensor: IR obstacle sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_slot_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_slot_led_pico",
 "title": "Parking slot sensor: IR obstacle sensor → LED (Pico)",
 "family": "factory",
@@ -7750,6 +8556,46 @@
 "level": 9,
 "theme": "bank",
 "live": "f_sanitiser_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_intruder_oled_pico",
+"title": "Intruder alert screen: PIR motion sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_intruder_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_oled_pico",
+"title": "Welcome greeter: PIR motion sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_greeter_oled_pico",
 "rule": null,
 "note": null
 },
@@ -7838,6 +8684,26 @@
 "note": null
 },
 {
+"id": "live-f_thirst_oled_pico",
+"title": "Plant thirst alarm: soil moisture sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_thirst_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_thirst_led_pico",
 "title": "Plant thirst alarm: soil moisture sensor → LED (Pico)",
 "family": "factory",
@@ -7879,6 +8745,26 @@
 "note": null
 },
 {
+"id": "live-f_fever_oled_pico",
+"title": "Fever check station: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fever_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fever_led_pico",
 "title": "Fever check station: temperature sensor LM35 → LED (Pico)",
 "family": "factory",
@@ -7896,6 +8782,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_fever_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_toohot_oled_pico",
+"title": "Too-hot warning: temperature sensor LM35 → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_toohot_oled_pico",
 "rule": null,
 "note": null
 },
@@ -7942,6 +8848,27 @@
 "note": null
 },
 {
+"id": "live-f_tripwire_oled_pico",
+"title": "Laser tripwire alarm: light sensor (LDR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tripwire_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_curtain_servo_pico",
 "title": "Automatic curtain: light sensor (LDR) → servo (Pico)",
 "family": "factory",
@@ -7984,6 +8911,27 @@
 "note": null
 },
 {
+"id": "live-f_nightlamp_oled_pico",
+"title": "Night lamp: light sensor (LDR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nightlamp_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_steer_servo_pico",
 "title": "Knob steering: knob (potentiometer) → servo (Pico)",
 "family": "factory",
@@ -8000,6 +8948,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_steer_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankmark_oled_pico",
+"title": "Tank level alarm (float knob): knob (potentiometer) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"pot"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tankmark_oled_pico",
 "rule": null,
 "note": null
 },
@@ -8066,6 +9034,26 @@
 "note": null
 },
 {
+"id": "live-f_nurse_oled_pico",
+"title": "Hospital bed call button: push button → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nurse_oled_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_nurse_led_pico",
 "title": "Hospital bed call button: push button → LED (Pico)",
 "family": "factory",
@@ -8123,6 +9111,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_gate_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_oled_pico",
+"title": "Pedestrian crossing barrier: push button → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_crossing_oled_pico",
 "rule": null,
 "note": null
 },
@@ -8185,6 +9193,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_lightswitch_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_oled_pico",
+"title": "Doorbell: push button → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_doorbell_oled_pico",
 "rule": null,
 "note": null
 },
