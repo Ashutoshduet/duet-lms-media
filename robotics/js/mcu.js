@@ -238,7 +238,8 @@ class SerialPort {
   *flush() { const m = this.m; while (m.t < this.busyUntil) { if (this.busyUntil <= m.until) { m.t = this.busyUntil; break; } m.t = m.until; yield 0; } }
   flushTo(t) { // bytes that have gone out by now reach the Serial Monitor
     let n = 0; while (n < this.queue.length && this.queue[n][0] <= t) n++;
-    if (n) { const chunk = this.queue.splice(0, n); this.outq.push({ baud: this.baud, bytes: chunk.map((x) => x[1]) }); this.bytesSent += n; this.lastTx = t; }
+    if (n) { const chunk = this.queue.splice(0, n); const bytes = chunk.map((x) => x[1]); this.outq.push({ baud: this.baud, bytes }); this.bytesSent += n; this.lastTx = t;
+      const L = this.m.lab; if (L && L.net4 && this === this.m.ser && L.net4.btFromUno) L.net4.btFromUno(this.m, bytes, this.baud); } // (batch 24: an HC-05 on TX hears it too)
   }
   take() { const o = this.outq; this.outq = []; return o; }
   // from the Serial Monitor

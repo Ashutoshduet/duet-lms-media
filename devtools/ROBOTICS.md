@@ -966,3 +966,11 @@ heaters.
   connect in BT Terminal after Run, and again after the edit's Run (a restart drops the link). `isOn` is the last line the
   phone got since it connected. Every ESP32 job: 198 projects. robofactory.mjs connects the phone at those two acts:
   16,915 ok. 2,698 projects (239 hand-made + 2,459 bank).
+- The Arduino's warning on the phone through an HC-05 (factory.js `OUT.bt`; esp32.js `Net`): the phone's BT Terminal now
+  lists an HC-05 that has power (`hc05()`, `btDevices`), pairs it (`state.paired`, its LED blinks slowly) and keeps the link
+  while the Uno restarts (only power loss drops it). mcu.js `SerialPort.flushTo` hands every byte of the main Serial to
+  `Net.btFromUno`: the phone hears it when the HC-05's RXD reaches TX (pin 1) straight or through a resistor (the divider),
+  at 9600 baud; at another speed it shows rubbish as it comes. The output: the HC-05 at 10j–15j, 1 kΩ 16f–20f and 2.2 kΩ
+  16h–12h (RXD ≈ 3.4 V), pin 1 to column 20, TXD free so pin 0 stays free for uploading; `say()` on Serial (the readings
+  share the line, so `isOn` is the last warning line the phone got). One connect act (no reconnect after the edit's Run).
+  Every Uno job: 209 projects. robocore24.mjs: the phone sees it, 9600 works, 115200 is rubbish, no wire is silence.

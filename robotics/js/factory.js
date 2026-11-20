@@ -337,7 +337,7 @@ EOUT.web = { name: t3('web page on a phone', 'फ़ोन पर वेब प�
 // (batch 24) the warning on the phone over Bluetooth: the ESP32's own Bluetooth (BluetoothSerial, "DUET-ESP32") and the
 // phone's BT Terminal app (phone4.js). say() tells the phone when the state changes and again every 5 s: what is sent
 // while no phone is connected is lost, as on a real ESP32, so a phone that connects late still hears it soon
-const lastBt = (S) => { const b = net(S).bt; const log = (b && b.log) || []; for (let i = log.length - 1; i >= 0; i--) { const e = log[i]; if (e.sys) return ''; if (!e.me) return String(e.text).trim(); } return ''; };
+const lastBt = (S, j) => { const b = net(S).bt; const log = (b && b.log) || []; for (let i = log.length - 1; i >= 0; i--) { const e = log[i]; if (e.sys) return ''; const x = String(e.text).trim(); if (!e.me && (!j || x === j.on || x === j.off)) return x; } return ''; }; // (the last warning line since it connected: an Arduino's readings share the line)
 EOUT.bt = { name: t3('phone over Bluetooth', 'ब्लूटूथ से फ़ोन', 'Bluetooth se phone'), pin: 'Bluetooth', parts: [], wires: [], bt: true,
   ready: t3('The ESP32 has Bluetooth inside: it shows up on the phone as DUET-ESP32, and the phone\'s BT Terminal app shows what it sends. No wires for this output: it goes by radio.', 'ESP32 के अंदर ब्लूटूथ है: फ़ोन पर यह DUET-ESP32 नाम से दिखता है, और फ़ोन का BT Terminal ऐप दिखाता है कि यह क्या भेजता है। इस आउटपुट के लिए कोई तार नहीं: यह रेडियो से जाता है।', 'ESP32 ke andar Bluetooth hai: phone par yeh DUET-ESP32 naam se dikhta hai, aur phone ka BT Terminal app dikhata hai ki yeh kya bhejta hai. Is output ke liye koi wire nahi: yeh radio se jaata hai.'),
   onWords: t3('the phone\'s BT Terminal shows the warning', 'फ़ोन के BT Terminal पर चेतावनी आती है', 'phone ke BT Terminal par warning aati hai'),
@@ -346,7 +346,22 @@ EOUT.bt = { name: t3('phone over Bluetooth', 'ब्लूटूथ से फ�
     'void say(int state, const char* msg) {   // tell the phone when it changes, and again every 5 s', '  if (state != told || millis() - toldAt >= 5000) {', '    SerialBT.println(msg);', '    told = state;', '    toldAt = millis();', '  }', '}', ''],
   setup: ['SerialBT.begin("DUET-ESP32");   // the name the phone will see'],
   on: (j) => [`say(1, "${piText(j.on)}");`], off: (j) => [`say(0, "${piText(j.off)}");`],
-  isOn: (S, j) => lastBt(S) === j.on };
+  btName: 'DUET-ESP32', isOn: (S, j) => lastBt(S, j) === j.on };
+// (batch 24) the Arduino's warning on the phone through an HC-05 module (parts2.js): at 40j… it would sit on the sensors,
+// so at 10j–15j (EN, VCC, GND, TXD, RXD, STATE), VCC on 5 V; the Uno's TX (pin 1) reaches its RXD through a 1 kΩ / 2.2 kΩ
+// divider (RXD is 3.3 V: 5 V × 2.2 / 3.2 = 3.4 V): 1 kΩ from 16f to 20f (pin 1 wired to column 20), 2.2 kΩ from 16h to
+// 12h (GND), column 16 joined to RXD's. TXD stays free: the Uno only talks, and pin 0 stays free for uploading. The phone's
+// BT Terminal connects to "HC-05" (esp32.js), which keeps its link while the Uno restarts.
+OUT.bt = { name: t3('phone over Bluetooth', 'ब्लूटूथ से फ़ोन', 'Bluetooth se phone'), pin: '1 (TX)', bt: true, btName: 'HC-05', ownSerial: true,
+  parts: [P('bt', 'hc05', {}, 'j10', 0), P('rbt1', 'resistor', { ohms: 1000 }, 'f16', 0), P('rbt2', 'resistor', { ohms: 2200 }, 'h16', 2)],
+  wires: [['H:i11', 'H:bp11'], ['H:i12', 'H:bn12'], ['H:i14', 'H:i16'], ['D1', 'H:j20']],
+  ready: t3('An HC-05 Bluetooth module is already wired: VCC to 5 V, GND to −, and its RXD hears the Uno\'s TX (pin 1) through a 1 kΩ / 2.2 kΩ divider (RXD takes 3.3 V). TXD stays free, so pin 0 stays free for uploading. On the phone it is called HC-05 (PIN 1234).', 'एक HC-05 ब्लूटूथ मॉड्यूल पहले से लगा है: VCC 5 V पर, GND − पर, और इसका RXD Uno का TX (पिन 1) 1 kΩ / 2.2 kΩ डिवाइडर से होकर सुनता है (RXD 3.3 V लेता है)। TXD खाली है, ताकि अपलोड के लिए पिन 0 खाली रहे। फ़ोन पर इसका नाम HC-05 है (PIN 1234)।', 'Ek HC-05 Bluetooth module pehle se laga hai: VCC 5 V par, GND − par, aur iska RXD Uno ka TX (pin 1) 1 kΩ / 2.2 kΩ divider se hokar sunta hai (RXD 3.3 V leta hai). TXD khaali hai, taaki upload ke liye pin 0 khaali rahe. Phone par iska naam HC-05 hai (PIN 1234).'),
+  onWords: t3('the phone\'s BT Terminal shows the warning', 'फ़ोन के BT Terminal पर चेतावनी आती है', 'phone ke BT Terminal par warning aati hai'),
+  decl: ['int told = -1;                // what the phone was told last (-1: nothing yet)', 'unsigned long toldAt = 0;      // and when', '',
+    'void say(int state, const char* msg) {   // tell the phone when it changes, and again every 5 s', '  if (state != told || millis() - toldAt >= 5000) {', '    Serial.println(msg);       // TX (pin 1): the HC-05 sends it to the phone', '    told = state;', '    toldAt = millis();', '  }', '}', ''],
+  setup: ['Serial.begin(9600);         // the HC-05 talks at 9600 baud'],
+  on: (j) => [`say(1, "${piText(j.on)}");`], off: (j) => [`say(0, "${piText(j.off)}");`],
+  isOn: (S, j) => lastBt(S, j) === j.on };
 // (batch 23) the same page from the Raspberry Pi 4, served with Flask on port 5000 (lessons21.js pi_flask): only for the
 // switch-like sensors (a DHT11 or sonar reading would share the terminal with Flask's log lines)
 const QWEB = Object.assign({}, EOUT.web, {
@@ -903,7 +918,7 @@ function sketch(job, ik, ok, board) {
   else L.push('unsigned long hold = 1000;    // stay on this long after it stops (ms)', 'unsigned long last = 0;       // when the sensor was last active');
   L.push('', 'void setup() {', ...[...inp.setup, ...out.setup].map((x) => '  ' + x));
   if (ok === 'lcd') L.push(`  lcd.setCursor(0, 0);`, `  lcd.print("${pad(job.title.en.slice(0, 16))}");`);
-  if (inp.analog) L.push(`  Serial.begin(${esp ? 115200 : 9600});`);
+  if (inp.analog && !out.ownSerial) L.push(`  Serial.begin(${esp ? 115200 : 9600});`);
   L.push('}', '', 'void loop() {');
   if (inp.analog) {
     L.push(...(inp.readLines || [inp.read]).map((x) => '  ' + x));
@@ -962,7 +977,7 @@ function lesson(K, job, ik, ok, n, board) {
   else if (web) steps.push({ k: 'act', until: (S) => fresh(S) && ((net(S).seen.paths || {})['/'] || 0) >= 1, do: t3('The Serial Monitor shows the address. On the phone, open the Browser, type that address (http://192.168.1.…) and press Go.', 'सीरियल मॉनिटर पता दिखाता है। फ़ोन पर Browser खोलिए, वह पता (http://192.168.1.…) लिखिए और Go दबाइए।', 'Serial Monitor address dikhata hai. Phone par Browser kholiye, woh address (http://192.168.1.…) likhiye aur Go dabaiye.'),
     see: t3('The page asks the ESP32 again every 2 s by itself (meta refresh): leave it open.', 'पेज हर 2 s में अपने-आप ESP32 से फिर पूछता है (meta refresh): इसे खुला रहने दीजिए।', 'Page har 2 s mein apne aap ESP32 se phir poochhta hai (meta refresh): ise khula rehne dijiye.') });
   const btConn = (S) => fresh(S) && !!(net(S).bt || {}).conn;
-  if (bt) steps.push({ k: 'act', until: btConn, do: t3('On the phone, open BT Terminal and connect to DUET-ESP32.', 'फ़ोन पर BT Terminal खोलिए और DUET-ESP32 से जुड़िए।', 'Phone par BT Terminal kholiye aur DUET-ESP32 se judiye.'),
+  if (bt) steps.push({ k: 'act', until: btConn, do: t3(`On the phone, open BT Terminal and connect to ${out.btName}.`, `फ़ोन पर BT Terminal खोलिए और ${out.btName} से जुड़िए।`, `Phone par BT Terminal kholiye aur ${out.btName} se judiye.`),
     see: t3('The phone hears the ESP32 now. It is told when the warning starts and when it stops, and again every 5 s.', 'अब फ़ोन ESP32 को सुनता है। चेतावनी शुरू और ख़त्म होने पर उसे बताया जाता है, और हर 5 s में फिर से।', 'Ab phone ESP32 ko sunta hai. Warning shuru aur khatam hone par use bataya jaata hai, aur har 5 s mein phir se.') });
   const trig = inp.analog ? (S) => { const v = lastNum(S); return v !== null && cmp(ik, v, inp.l0); } : (S) => (!inp.ready || inp.ready(S)) && inp.active(S);
   steps.push({ k: 'act', until: (S) => fresh(S) && trig(S) && ON(S) && (S.memRun.onSeen = true), do: inp.onDo, see: t3(`${cap(onW.en)}.`, `${onW.hi}।`, `${cap(onW.hg)}.`) });
@@ -982,7 +997,7 @@ function lesson(K, job, ik, ok, n, board) {
     steps.push({ k: 'act', until: (S) => { const ok2 = fresh(S) && (S.memRun.afterMax || 0) >= 2.5; if (ok2) S.memRun.final = true; return ok2; }, do: inp.againDo,
       see: ((c) => t3(`It now stays on about 3 s after the sensor stops: ${c} counts the time without stopping the board.`, `अब सेंसर रुकने के बाद यह लगभग 3 s चालू रहता है: ${c} बोर्ड को रोके बिना समय गिनता है।`, `Ab sensor rukne ke baad yeh lagbhag 3 s on rehta hai: ${c} board ko roke bina time ginta hai.`))(pi ? 'time.monotonic()' : pico ? 'time.ticks_ms()' : 'millis()') });
   }
-  if (bt) { const ei = steps.findIndex((s) => s.k === 'edit'); if (ei >= 0) steps.splice(ei + 1, 0, { k: 'act', until: btConn, do: t3('Run restarted the ESP32, and the phone lost it: connect to DUET-ESP32 again in BT Terminal.', '"चलाइए" से ESP32 फिर से शुरू हुआ और फ़ोन का जुड़ाव टूट गया: BT Terminal में DUET-ESP32 से फिर जुड़िए।', 'Run se ESP32 phir se shuru hua aur phone ka connection toot gaya: BT Terminal mein DUET-ESP32 se phir judiye.'), see: t3('', '', '') }); }
+  if (bt && esp) { const ei = steps.findIndex((s) => s.k === 'edit'); if (ei >= 0) steps.splice(ei + 1, 0, { k: 'act', until: btConn, do: t3('Run restarted the ESP32, and the phone lost it: connect to DUET-ESP32 again in BT Terminal.', '"चलाइए" से ESP32 फिर से शुरू हुआ और फ़ोन का जुड़ाव टूट गया: BT Terminal में DUET-ESP32 से फिर जुड़िए।', 'Run se ESP32 phir se shuru hua aur phone ka connection toot gaya: BT Terminal mein DUET-ESP32 se phir judiye.'), see: t3('', '', '') }); }
   const tick = (S, dt) => { // the hold after a digital sensor stops: how long the output stayed on (this run)
     if (inp.analog) return; const R = S.memRun; if (!fresh(S)) return;
     if (!inp.active(S) && ON(S)) { R.after = (R.after || 0) + dt; R.afterMax = Math.max(R.afterMax || 0, R.after); } else R.after = 0;
@@ -1002,7 +1017,7 @@ const cmp = (ik, v, lim) => ({ pot: v > lim, ldr: v < lim, ldrb: v > lim, lm35: 
 // ------------------------------------------------------------------ all of them
 export function batchF(K, n0) {
   const out = []; let n = n0;
-  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : []), ...(board === 'esp32' || (board === 'pi4' && QIN[job.inp] && !QIN[job.inp].analog) ? ['web'] : []), ...(board === 'esp32' ? ['bt'] : [])]) { // (24: the ESP32's Bluetooth) // (batch 12: every LCD job on the OLED too; 23: the Pi's Flask page)
+  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : []), ...(board === 'esp32' || (board === 'pi4' && QIN[job.inp] && !QIN[job.inp].analog) ? ['web'] : []), ...(board === 'esp32' || board === 'uno' ? ['bt'] : [])]) { // (24: Bluetooth: the ESP32's own, an HC-05 on the Uno) // (batch 12: every LCD job on the OLED too; 23: the Pi's Flask page)
     const T = board === 'esp32' ? [EIN, EOUT] : board === 'pico' ? [PIN, POUT] : board === 'pi4' ? [QIN, Object.assign({ web: QWEB }, QOUT)] : [IN, OUT];
     if (!T[0][job.inp] || !T[1][ok]) continue;
     if ((board === 'uno' && HAND_MADE.has(job.key + ':' + ok)) || ((OUT[ok] || {}).clash || []).includes(job.inp)) continue;

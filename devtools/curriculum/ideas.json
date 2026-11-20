@@ -39055,6 +39055,27 @@
 "note": null
 },
 {
+"id": "live-f_dehumid_bt",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dehumid_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dehumid_led",
 "title": "Library dehumidifier switch: DHT11 sensor (humidity) → LED",
 "family": "factory",
@@ -39093,6 +39114,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_dehumid_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_bt",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pharmacy_bt",
 "rule": null,
 "note": null
 },
@@ -39178,6 +39220,27 @@
 "note": null
 },
 {
+"id": "live-f_teadryer_bt",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_teadryer_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_teadryer_oled",
 "title": "Tea leaf drying room fan: DHT11 sensor (humidity) → OLED screen",
 "family": "factory",
@@ -39239,6 +39302,27 @@
 "note": null
 },
 {
+"id": "live-f_examhall_bt",
+"title": "Exam hall fans: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_examhall_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_examhall_led",
 "title": "Exam hall fans: DHT11 sensor (temperature) → LED",
 "family": "factory",
@@ -39277,6 +39361,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_examhall_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_bt",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_cattleshade_bt",
 "rule": null,
 "note": null
 },
@@ -39342,6 +39447,27 @@
 "note": null
 },
 {
+"id": "live-f_icecream_bt",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_icecream_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_icecream_rgb",
 "title": "Ice-cream cart cooler: DHT11 sensor (temperature) → colour LED",
 "family": "factory",
@@ -39380,6 +39506,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_icecream_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_bt",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busshelter_bt",
 "rule": null,
 "note": null
 },
@@ -39446,6 +39593,27 @@
 "note": null
 },
 {
+"id": "live-f_umbrella_bt",
+"title": "Take an umbrella sign at the gate: rain sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_umbrella_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_umbrella_oled",
 "title": "Take an umbrella sign at the gate: rain sensor module → OLED screen",
 "family": "factory",
@@ -39507,6 +39675,27 @@
 "note": null
 },
 {
+"id": "live-f_leakroof_bt",
+"title": "Water leak detector on the floor: rain sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_leakroof_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_leakroof_led",
 "title": "Water leak detector on the floor: rain sensor module → LED",
 "family": "factory",
@@ -39544,6 +39733,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_leakroof_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_bt",
+"title": "Mandi rain alert: cover the grain: rain sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_grainsheet_bt",
 "rule": null,
 "note": null
 },
@@ -39629,6 +39839,27 @@
 "note": null
 },
 {
+"id": "live-f_wiper_bt",
+"title": "Automatic wiper: rain sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_wiper_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_wiper_servo",
 "title": "Automatic wiper: rain sensor module → servo",
 "family": "factory",
@@ -39645,6 +39876,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_wiper_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_bt",
+"title": "Track vibration: train coming: vibration sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trainnear_bt",
 "rule": null,
 "note": null
 },
@@ -39686,6 +39938,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_trainnear_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_bt",
+"title": "Footbridge shake monitor: vibration sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bridgeshake_bt",
 "rule": null,
 "note": null
 },
@@ -39771,6 +40044,27 @@
 "note": null
 },
 {
+"id": "live-f_motorshake_bt",
+"title": "Machine vibration warning: vibration sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_motorshake_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_motorshake_oled",
 "title": "Machine vibration warning: vibration sensor module → OLED screen",
 "family": "factory",
@@ -39828,6 +40122,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_motorshake_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_bt",
+"title": "ATM tamper alarm: vibration sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmtamper_bt",
 "rule": null,
 "note": null
 },
@@ -39913,6 +40228,27 @@
 "note": null
 },
 {
+"id": "live-f_donationbox_bt",
+"title": "Donation box tamper alarm: tilt sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_donationbox_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_donationbox_oled",
 "title": "Donation box tamper alarm: tilt sensor module → OLED screen",
 "family": "factory",
@@ -39969,6 +40305,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_donationbox_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_bt",
+"title": "Leaning electric pole alert: tilt sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_polelean_bt",
 "rule": null,
 "note": null
 },
@@ -40034,6 +40391,27 @@
 "note": null
 },
 {
+"id": "live-f_trucktip_bt",
+"title": "Tipper truck body-up warning: tilt sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_trucktip_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_trucktip_led",
 "title": "Tipper truck body-up warning: tilt sensor module → LED",
 "family": "factory",
@@ -40071,6 +40449,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_trucktip_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_bt",
+"title": "Fall alarm on a walking stick: tilt sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stickfall_bt",
 "rule": null,
 "note": null
 },
@@ -40156,6 +40555,27 @@
 "note": null
 },
 {
+"id": "live-f_sliderend_bt",
+"title": "Camera slider end stop: hall effect sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sliderend_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_sliderend_led",
 "title": "Camera slider end stop: hall effect sensor module → LED",
 "family": "factory",
@@ -40193,6 +40613,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_sliderend_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_bt",
+"title": "Factory trolley at its home stop: hall effect sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trolleyhome_bt",
 "rule": null,
 "note": null
 },
@@ -40238,6 +40679,27 @@
 "note": null
 },
 {
+"id": "live-f_laptoplid_bt",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_laptoplid_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_laptoplid_led",
 "title": "Lid that puts a screen to sleep: hall effect sensor module → LED",
 "family": "factory",
@@ -40276,6 +40738,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_laptoplid_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_bt",
+"title": "Bike neutral light: hall effect sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_gearneutral_bt",
 "rule": null,
 "note": null
 },
@@ -40337,6 +40820,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_gearneutral_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_bt",
+"title": "Lift floor sensor: reed switch module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftfloor_bt",
 "rule": null,
 "note": null
 },
@@ -40422,6 +40926,27 @@
 "note": null
 },
 {
+"id": "live-f_helmetbike_bt",
+"title": "Bike that starts only with the helmet on: reed switch module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_helmetbike_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_helmetbike_led",
 "title": "Bike that starts only with the helmet on: reed switch module → LED",
 "family": "factory",
@@ -40464,6 +40989,27 @@
 "note": null
 },
 {
+"id": "live-f_trainpass_bt",
+"title": "Model railway signal: reed switch module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_trainpass_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_trainpass_buzzer",
 "title": "Model railway signal: reed switch module → buzzer",
 "family": "factory",
@@ -40501,6 +41047,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_trainpass_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_bt",
+"title": "All windows shut check: reed switch module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_windowclosed_bt",
 "rule": null,
 "note": null
 },
@@ -40566,6 +41133,27 @@
 "note": null
 },
 {
+"id": "live-f_clapdoll_bt",
+"title": "Clap and the puppet dances: sound sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_clapdoll_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clapdoll_servo",
 "title": "Clap and the puppet dances: sound sensor module → servo",
 "family": "factory",
@@ -40582,6 +41170,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_clapdoll_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_bt",
+"title": "Noisy classroom light: sound sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_noisemeter_bt",
 "rule": null,
 "note": null
 },
@@ -40628,6 +41237,27 @@
 "note": null
 },
 {
+"id": "live-f_clapfan_bt",
+"title": "Clap-on fan for a grandparent: sound sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_clapfan_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clapfan_relay",
 "title": "Clap-on fan for a grandparent: sound sensor module → relay and fan",
 "family": "factory",
@@ -40645,6 +41275,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_clapfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_bt",
+"title": "Baby cry alert for parents: sound sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_babycry_bt",
 "rule": null,
 "note": null
 },
@@ -40730,6 +41381,27 @@
 "note": null
 },
 {
+"id": "live-f_firedoor_bt",
+"title": "Fire exit that opens by itself: flame sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_firedoor_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_firedoor_servo",
 "title": "Fire exit that opens by itself: flame sensor module → servo",
 "family": "factory",
@@ -40746,6 +41418,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_firedoor_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_bt",
+"title": "Forest fire watchtower: flame sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_forestwatch_bt",
 "rule": null,
 "note": null
 },
@@ -40831,6 +41524,27 @@
 "note": null
 },
 {
+"id": "live-f_firesprinkler_bt",
+"title": "Fire sprinkler for a grain godown: flame sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_firesprinkler_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_firesprinkler_relay",
 "title": "Fire sprinkler for a grain godown: flame sensor module → relay and lamp",
 "family": "factory",
@@ -40870,6 +41584,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_firesprinkler_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_bt",
+"title": "Stove left burning alert: flame sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stovealone_bt",
 "rule": null,
 "note": null
 },
@@ -40955,6 +41690,27 @@
 "note": null
 },
 {
+"id": "live-f_rainwindow_bt",
+"title": "Window that closes in the rain: rain sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_rainwindow_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_rainwindow_servo",
 "title": "Window that closes in the rain: rain sensor module → servo",
 "family": "factory",
@@ -40971,6 +41727,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_rainwindow_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_bt",
+"title": "Rain alert: bring the clothes in: rain sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_clothesrain_bt",
 "rule": null,
 "note": null
 },
@@ -41056,6 +41833,27 @@
 "note": null
 },
 {
+"id": "live-f_quake_bt",
+"title": "Earthquake alarm for the classroom: vibration sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_quake_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_quake_oled",
 "title": "Earthquake alarm for the classroom: vibration sensor module → OLED screen",
 "family": "factory",
@@ -41137,6 +41935,27 @@
 "note": null
 },
 {
+"id": "live-f_knockbell_bt",
+"title": "Knock-knock door bell: vibration sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_knockbell_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_knockbell_led",
 "title": "Knock-knock door bell: vibration sensor module → LED",
 "family": "factory",
@@ -41174,6 +41993,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_knockbell_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_bt",
+"title": "Water cooler tip-over cut-off: tilt sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_coolertip_bt",
 "rule": null,
 "note": null
 },
@@ -41216,6 +42056,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_coolertip_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_bt",
+"title": "Bicycle anti-theft alarm: tilt sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_bikealarm_bt",
 "rule": null,
 "note": null
 },
@@ -41276,6 +42137,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_bikealarm_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_bt",
+"title": "Cycle wheel turn signal: hall effect sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wheelturn_bt",
 "rule": null,
 "note": null
 },
@@ -41341,6 +42223,27 @@
 "note": null
 },
 {
+"id": "live-f_magnetkey_bt",
+"title": "Treasure box with a magnet key: hall effect sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_magnetkey_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_magnetkey_buzzer",
 "title": "Treasure box with a magnet key: hall effect sensor module → buzzer",
 "family": "factory",
@@ -41377,6 +42280,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_magnetkey_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_bt",
+"title": "School gate closed indicator: reed switch module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_gateclosed_bt",
 "rule": null,
 "note": null
 },
@@ -41418,6 +42342,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_gateclosed_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_bt",
+"title": "Tank full float switch: reed switch module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floattank_bt",
 "rule": null,
 "note": null
 },
@@ -41503,6 +42448,27 @@
 "note": null
 },
 {
+"id": "live-f_library_bt",
+"title": "Library noise warning: sound sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_library_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_library_oled",
 "title": "Library noise warning: sound sensor module → OLED screen",
 "family": "factory",
@@ -41564,6 +42530,27 @@
 "note": null
 },
 {
+"id": "live-f_clapswitch_bt",
+"title": "Clap switch: sound sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_clapswitch_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clapswitch_led",
 "title": "Clap switch: sound sensor module → LED",
 "family": "factory",
@@ -41606,6 +42593,27 @@
 "note": null
 },
 {
+"id": "live-f_diyaguard_bt",
+"title": "Diya left burning alert: flame sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_diyaguard_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_diyaguard_relay",
 "title": "Diya left burning alert: flame sensor module → relay and lamp",
 "family": "factory",
@@ -41644,6 +42652,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_diyaguard_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_bt",
+"title": "Kitchen fire alarm: flame sensor module → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_kitchenfire_bt",
 "rule": null,
 "note": null
 },
@@ -41730,6 +42759,27 @@
 "note": null
 },
 {
+"id": "live-f_mirror_bt",
+"title": "Bathroom mirror demister: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_mirror_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_mirror_relay",
 "title": "Bathroom mirror demister: DHT11 sensor (humidity) → relay and heater lamp",
 "family": "factory",
@@ -41747,6 +42797,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_mirror_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_museum_bt",
+"title": "Museum humidity guard: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_museum_bt",
 "rule": null,
 "note": null
 },
@@ -41832,6 +42903,27 @@
 "note": null
 },
 {
+"id": "live-f_clothesdry_bt",
+"title": "Drying room fan: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clothesdry_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clothesdry_relay",
 "title": "Drying room fan: DHT11 sensor (humidity) → relay and fan",
 "family": "factory",
@@ -41849,6 +42941,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_clothesdry_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_comfort_bt",
+"title": "Classroom comfort meter: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_comfort_bt",
 "rule": null,
 "note": null
 },
@@ -41914,6 +43027,27 @@
 "note": null
 },
 {
+"id": "live-f_poultry_bt",
+"title": "Poultry shed cooling: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_poultry_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_poultry_pump",
 "title": "Poultry shed cooling: DHT11 sensor (temperature) → water pump",
 "family": "factory",
@@ -41957,6 +43091,27 @@
 "note": null
 },
 {
+"id": "live-f_garagefumes_bt",
+"title": "Garage fume fan: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_garagefumes_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_garagefumes_relay",
 "title": "Garage fume fan: gas sensor MQ-2 → relay and fan",
 "family": "factory",
@@ -41974,6 +43129,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_garagefumes_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fruitripe_bt",
+"title": "Fruit ripening watch: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fruitripe_bt",
 "rule": null,
 "note": null
 },
@@ -42039,6 +43215,27 @@
 "note": null
 },
 {
+"id": "live-f_breath_bt",
+"title": "Drunk-driving ignition lock: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_breath_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_breath_oled",
 "title": "Drunk-driving ignition lock: gas sensor MQ-2 → OLED screen",
 "family": "factory",
@@ -42095,6 +43292,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_breath_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sewer_bt",
+"title": "Sewer gas warning for workers: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sewer_bt",
 "rule": null,
 "note": null
 },
@@ -42180,6 +43398,27 @@
 "note": null
 },
 {
+"id": "live-f_pitch_bt",
+"title": "Cricket pitch dryness check: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pitch_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pitch_oled",
 "title": "Cricket pitch dryness check: soil moisture sensor → OLED screen",
 "family": "factory",
@@ -42240,6 +43479,27 @@
 "note": null
 },
 {
+"id": "live-f_terrace_bt",
+"title": "Terrace garden watering: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_terrace_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_terrace_pump",
 "title": "Terrace garden watering: soil moisture sensor → water pump",
 "family": "factory",
@@ -42258,6 +43518,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_terrace_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nursery_bt",
+"title": "Seedling tray monitor: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nursery_bt",
 "rule": null,
 "note": null
 },
@@ -42323,6 +43604,27 @@
 "note": null
 },
 {
+"id": "live-f_tollbooth_bt",
+"title": "Toll plaza barrier: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_tollbooth_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tollbooth_servo",
 "title": "Toll plaza barrier: ultrasonic sensor → servo",
 "family": "factory",
@@ -42339,6 +43641,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_tollbooth_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_silo_bt",
+"title": "Grain silo full alarm: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_silo_bt",
 "rule": null,
 "note": null
 },
@@ -42404,6 +43727,27 @@
 "note": null
 },
 {
+"id": "live-f_platform_bt",
+"title": "Platform edge warning: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_platform_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_platform_oled",
 "title": "Platform edge warning: ultrasonic sensor → OLED screen",
 "family": "factory",
@@ -42464,6 +43808,27 @@
 "note": null
 },
 {
+"id": "live-f_screenguard_bt",
+"title": "Screen distance guard: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_screenguard_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_screenguard_led",
 "title": "Screen distance guard: ultrasonic sensor → LED",
 "family": "factory",
@@ -42501,6 +43866,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_screenguard_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heightcheck_bt",
+"title": "Ride height check: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_heightcheck_bt",
 "rule": null,
 "note": null
 },
@@ -42565,6 +43951,27 @@
 "note": null
 },
 {
+"id": "live-f_coldwave_bt",
+"title": "Cold wave school notice: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_coldwave_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coldwave_oled",
 "title": "Cold wave school notice: temperature sensor LM35 → OLED screen",
 "family": "factory",
@@ -42625,6 +44032,27 @@
 "note": null
 },
 {
+"id": "live-f_bathwater_bt",
+"title": "Bath water too cold: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_bathwater_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathwater_led",
 "title": "Bath water too cold: temperature sensor LM35 → LED",
 "family": "factory",
@@ -42667,6 +44095,27 @@
 "note": null
 },
 {
+"id": "live-f_brooder_bt",
+"title": "Chick brooder heater: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_brooder_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_brooder_relay",
 "title": "Chick brooder heater: temperature sensor LM35 → relay and heater lamp",
 "family": "factory",
@@ -42684,6 +44133,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_brooder_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pipefreeze_bt",
+"title": "Water pipe freeze warning: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_pipefreeze_bt",
 "rule": null,
 "note": null
 },
@@ -42769,6 +44239,27 @@
 "note": null
 },
 {
+"id": "live-f_compost_bt",
+"title": "Compost pit thermometer: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_compost_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_compost_oled",
 "title": "Compost pit thermometer: temperature sensor LM35 → OLED screen",
 "family": "factory",
@@ -42830,6 +44321,27 @@
 "note": null
 },
 {
+"id": "live-f_transformer_bt",
+"title": "Transformer heat watch: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_transformer_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_transformer_oled",
 "title": "Transformer heat watch: temperature sensor LM35 → OLED screen",
 "family": "factory",
@@ -42887,6 +44399,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_transformer_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_geyser_bt",
+"title": "Hot water ready light: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_geyser_bt",
 "rule": null,
 "note": null
 },
@@ -42972,6 +44505,27 @@
 "note": null
 },
 {
+"id": "live-f_motorhot_bt",
+"title": "Pump motor overheat alarm: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_motorhot_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_motorhot_oled",
 "title": "Pump motor overheat alarm: temperature sensor LM35 → OLED screen",
 "family": "factory",
@@ -43032,6 +44586,27 @@
 "note": null
 },
 {
+"id": "live-f_ironhot_bt",
+"title": "Iron left on warning: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_ironhot_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_ironhot_rgb",
 "title": "Iron left on warning: temperature sensor LM35 → colour LED",
 "family": "factory",
@@ -43069,6 +44644,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_ironhot_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_flame_bt",
+"title": "Burner flame watcher: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_flame_bt",
 "rule": null,
 "note": null
 },
@@ -43136,6 +44732,27 @@
 "note": null
 },
 {
+"id": "live-f_strongsun_bt",
+"title": "Strong sun warning: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_strongsun_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_strongsun_rgb",
 "title": "Strong sun warning: light sensor (LDR) → colour LED",
 "family": "factory",
@@ -43174,6 +44791,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_strongsun_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_headlight_bt",
+"title": "Headlight auto-dipper: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_headlight_bt",
 "rule": null,
 "note": null
 },
@@ -43220,6 +44858,27 @@
 "note": null
 },
 {
+"id": "live-f_solarpanel_bt",
+"title": "Solar panel lifter: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_solarpanel_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_solarpanel_servo",
 "title": "Solar panel lifter: light sensor (LDR) → servo",
 "family": "factory",
@@ -43237,6 +44896,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_solarpanel_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_powercut_bt",
+"title": "Power cut alarm: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_powercut_bt",
 "rule": null,
 "note": null
 },
@@ -43304,6 +44984,27 @@
 "note": null
 },
 {
+"id": "live-f_festival_bt",
+"title": "Festival lights at sunset: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_festival_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_festival_relay",
 "title": "Festival lights at sunset: light sensor (LDR) → relay and lamp",
 "family": "factory",
@@ -43343,6 +45044,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_festival_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_beacon_bt",
+"title": "Tower warning beacon: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_beacon_bt",
 "rule": null,
 "note": null
 },
@@ -43389,6 +45111,27 @@
 "note": null
 },
 {
+"id": "live-f_readinglamp_bt",
+"title": "Study table lamp: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_readinglamp_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_readinglamp_relay",
 "title": "Study table lamp: light sensor (LDR) → relay and lamp",
 "family": "factory",
@@ -43428,6 +45171,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_readinglamp_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_smokebeam_bt",
+"title": "Smoke detector (light beam): light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_smokebeam_bt",
 "rule": null,
 "note": null
 },
@@ -43516,6 +45280,27 @@
 "note": null
 },
 {
+"id": "live-f_stoveknob_bt",
+"title": "Gas stove knob reminder: knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_stoveknob_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_stoveknob_rgb",
 "title": "Gas stove knob reminder: knob (potentiometer) → colour LED",
 "family": "factory",
@@ -43553,6 +45338,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_stoveknob_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_volume_bt",
+"title": "Headphone volume guard: knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_volume_bt",
 "rule": null,
 "note": null
 },
@@ -43618,6 +45424,27 @@
 "note": null
 },
 {
+"id": "live-f_cranelimit_bt",
+"title": "Crane arm angle limit: knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_cranelimit_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_cranelimit_rgb",
 "title": "Crane arm angle limit: knob (potentiometer) → colour LED",
 "family": "factory",
@@ -43655,6 +45482,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_cranelimit_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_speedwarn_bt",
+"title": "Over-speed warning: knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_speedwarn_bt",
 "rule": null,
 "note": null
 },
@@ -43740,6 +45588,27 @@
 "note": null
 },
 {
+"id": "live-f_goal_bt",
+"title": "Goal-line sensor: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_goal_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_goal_oled",
 "title": "Goal-line sensor: IR obstacle sensor → OLED screen",
 "family": "factory",
@@ -43800,6 +45669,27 @@
 "note": null
 },
 {
+"id": "live-f_wardrobe_bt",
+"title": "Wardrobe light: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_wardrobe_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_wardrobe_led",
 "title": "Wardrobe light: IR obstacle sensor → LED",
 "family": "factory",
@@ -43817,6 +45707,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_wardrobe_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmlight_bt",
+"title": "ATM cabin light: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_atmlight_bt",
 "rule": null,
 "note": null
 },
@@ -43863,6 +45774,27 @@
 "note": null
 },
 {
+"id": "live-f_noentry_bt",
+"title": "No-entry zone alarm: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_noentry_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_noentry_rgb",
 "title": "No-entry zone alarm: IR obstacle sensor → colour LED",
 "family": "factory",
@@ -43900,6 +45832,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_noentry_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_conveyor_bt",
+"title": "Conveyor box detector: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_conveyor_bt",
 "rule": null,
 "note": null
 },
@@ -43985,6 +45938,27 @@
 "note": null
 },
 {
+"id": "live-f_binfull_bt",
+"title": "Dustbin full indicator: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_binfull_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_binfull_oled",
 "title": "Dustbin full indicator: IR obstacle sensor → OLED screen",
 "family": "factory",
@@ -44066,6 +46040,27 @@
 "note": null
 },
 {
+"id": "live-f_kiosk_bt",
+"title": "Information kiosk wake-up: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_kiosk_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_kiosk_oled",
 "title": "Information kiosk wake-up: PIR motion sensor → OLED screen",
 "family": "factory",
@@ -44102,6 +46097,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_kiosk_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_elephant_bt",
+"title": "Wild elephant early warning: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_elephant_bt",
 "rule": null,
 "note": null
 },
@@ -44147,6 +46163,27 @@
 "note": null
 },
 {
+"id": "live-f_spotlight_bt",
+"title": "Security spotlight: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_spotlight_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_spotlight_led",
 "title": "Security spotlight: PIR motion sensor → LED",
 "family": "factory",
@@ -44185,6 +46222,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_spotlight_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycot_bt",
+"title": "Baby cot watcher: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babycot_bt",
 "rule": null,
 "note": null
 },
@@ -44249,6 +46307,27 @@
 "note": null
 },
 {
+"id": "live-f_monkey_bt",
+"title": "Terrace monkey alarm: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_monkey_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_monkey_rgb",
 "title": "Terrace monkey alarm: PIR motion sensor → colour LED",
 "family": "factory",
@@ -44286,6 +46365,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_monkey_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_scarecrow_bt",
+"title": "Electronic scarecrow: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_scarecrow_bt",
 "rule": null,
 "note": null
 },
@@ -44330,6 +46430,27 @@
 "note": null
 },
 {
+"id": "live-f_chemist_bt",
+"title": "Chemist night bell: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_chemist_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_chemist_led",
 "title": "Chemist night bell: push button → LED",
 "family": "factory",
@@ -44367,6 +46488,27 @@
 "level": 5,
 "theme": "bank",
 "live": "f_chemist_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_labhelp_bt",
+"title": "Lab help-request light: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_labhelp_bt",
 "rule": null,
 "note": null
 },
@@ -44432,6 +46574,27 @@
 "note": null
 },
 {
+"id": "live-f_quizbuzz_bt",
+"title": "Quiz contest buzzer: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_quizbuzz_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_quizbuzz_led",
 "title": "Quiz contest buzzer: push button → LED",
 "family": "factory",
@@ -44473,6 +46636,27 @@
 "note": null
 },
 {
+"id": "live-f_bucketfill_bt",
+"title": "Push-to-fill bucket tap: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_bucketfill_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bucketfill_pump",
 "title": "Push-to-fill bucket tap: push button → water pump",
 "family": "factory",
@@ -44495,6 +46679,27 @@
 "note": null
 },
 {
+"id": "live-f_petfeeder_bt",
+"title": "Pet feeder flap: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_petfeeder_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_petfeeder_servo",
 "title": "Pet feeder flap: push button → servo",
 "family": "factory",
@@ -44511,6 +46716,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_petfeeder_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_orderready_bt",
+"title": "Canteen order-ready sign: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_orderready_bt",
 "rule": null,
 "note": null
 },
@@ -44576,6 +46802,27 @@
 "note": null
 },
 {
+"id": "live-f_elderhelp_bt",
+"title": "Grandparent help button: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_elderhelp_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_elderhelp_rgb",
 "title": "Grandparent help button: push button → colour LED",
 "family": "factory",
@@ -44613,6 +46860,27 @@
 "level": 5,
 "theme": "bank",
 "live": "f_elderhelp_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busstop_bt",
+"title": "Bus stop request bell: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_busstop_bt",
 "rule": null,
 "note": null
 },
@@ -44698,6 +46966,27 @@
 "note": null
 },
 {
+"id": "live-f_touchless_bt",
+"title": "Contactless doorbell: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_touchless_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_touchless_oled",
 "title": "Contactless doorbell: IR obstacle sensor → OLED screen",
 "family": "factory",
@@ -44758,6 +47047,27 @@
 "note": null
 },
 {
+"id": "live-f_bookdrop_bt",
+"title": "Library book-drop alert: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_bookdrop_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bookdrop_buzzer",
 "title": "Library book-drop alert: IR obstacle sensor → buzzer",
 "family": "factory",
@@ -44799,6 +47109,27 @@
 "note": null
 },
 {
+"id": "live-f_soap_bt",
+"title": "Automatic soap dispenser: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_soap_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_soap_pump",
 "title": "Automatic soap dispenser: IR obstacle sensor → water pump",
 "family": "factory",
@@ -44817,6 +47148,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_soap_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_piggybank_bt",
+"title": "Piggy bank coin chime: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_piggybank_bt",
 "rule": null,
 "note": null
 },
@@ -44881,6 +47233,27 @@
 "note": null
 },
 {
+"id": "live-f_occupied_bt",
+"title": "Washroom occupied light: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_occupied_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_occupied_rgb",
 "title": "Washroom occupied light: PIR motion sensor → colour LED",
 "family": "factory",
@@ -44898,6 +47271,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_occupied_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_corridor_bt",
+"title": "Corridor night light: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_corridor_bt",
 "rule": null,
 "note": null
 },
@@ -44940,6 +47334,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_corridor_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_afterhours_bt",
+"title": "Shop after-hours alarm: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_afterhours_bt",
 "rule": null,
 "note": null
 },
@@ -45000,6 +47415,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_afterhours_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_biogas_bt",
+"title": "Biogas plant leak watch: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_biogas_bt",
 "rule": null,
 "note": null
 },
@@ -45065,6 +47501,27 @@
 "note": null
 },
 {
+"id": "live-f_treeguard_bt",
+"title": "Tree sapling water reminder: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_treeguard_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_treeguard_oled",
 "title": "Tree sapling water reminder: soil moisture sensor → OLED screen",
 "family": "factory",
@@ -45125,6 +47582,27 @@
 "note": null
 },
 {
+"id": "live-f_carwash_bt",
+"title": "Car wash sprinkler: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_carwash_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_carwash_pump",
 "title": "Car wash sprinkler: ultrasonic sensor → water pump",
 "family": "factory",
@@ -45147,6 +47625,27 @@
 "note": null
 },
 {
+"id": "live-f_trucks_bt",
+"title": "Low bridge height warning: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_trucks_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_trucks_buzzer",
 "title": "Low bridge height warning: ultrasonic sensor → buzzer",
 "family": "factory",
@@ -45163,6 +47662,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_trucks_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_bt",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_rainsoon_bt",
 "rule": null,
 "note": null
 },
@@ -45228,6 +47748,27 @@
 "note": null
 },
 {
+"id": "live-f_cattlemist_bt",
+"title": "Cattle shed mist cooler: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_cattlemist_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_cattlemist_pump",
 "title": "Cattle shed mist cooler: DHT11 sensor (temperature) → water pump",
 "family": "factory",
@@ -45250,6 +47791,27 @@
 "note": null
 },
 {
+"id": "live-f_frostcover_bt",
+"title": "Frost cover for seedlings: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_frostcover_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frostcover_servo",
 "title": "Frost cover for seedlings: temperature sensor LM35 → servo",
 "family": "factory",
@@ -45266,6 +47828,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_frostcover_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thermostat_bt",
+"title": "Room heater thermostat: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_thermostat_bt",
 "rule": null,
 "note": null
 },
@@ -45312,6 +47895,27 @@
 "note": null
 },
 {
+"id": "live-f_engine_bt",
+"title": "Engine overheat light: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_engine_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_engine_led",
 "title": "Engine overheat light: temperature sensor LM35 → LED",
 "family": "factory",
@@ -45350,6 +47954,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_engine_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkchill_bt",
+"title": "Milk chiller alarm: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_milkchill_bt",
 "rule": null,
 "note": null
 },
@@ -45435,6 +48060,27 @@
 "note": null
 },
 {
+"id": "live-f_darkroom_bt",
+"title": "Darkroom light alarm: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_darkroom_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_darkroom_oled",
 "title": "Darkroom light alarm: light sensor (LDR) → OLED screen",
 "family": "factory",
@@ -45498,6 +48144,27 @@
 "note": null
 },
 {
+"id": "live-f_solarpump_bt",
+"title": "Solar-time water pump: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_solarpump_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_solarpump_pump",
 "title": "Solar-time water pump: light sensor (LDR) → water pump",
 "family": "factory",
@@ -45517,6 +48184,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_solarpump_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_lighthouse_bt",
+"title": "Lighthouse lamp: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_lighthouse_bt",
 "rule": null,
 "note": null
 },
@@ -45564,6 +48252,27 @@
 "note": null
 },
 {
+"id": "live-f_tunnel_bt",
+"title": "Car headlights in a tunnel: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_tunnel_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tunnel_relay",
 "title": "Car headlights in a tunnel: light sensor (LDR) → relay and lamp",
 "family": "factory",
@@ -45603,6 +48312,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_tunnel_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panelshade_bt",
+"title": "Solar panel shade alarm: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_panelshade_bt",
 "rule": null,
 "note": null
 },
@@ -45670,6 +48400,27 @@
 "note": null
 },
 {
+"id": "live-f_liftcall_bt",
+"title": "Lift call button: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_liftcall_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_liftcall_buzzer",
 "title": "Lift call button: push button → buzzer",
 "family": "factory",
@@ -45711,6 +48462,27 @@
 "note": null
 },
 {
+"id": "live-f_coolroom_bt",
+"title": "Server cupboard cooler: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_coolroom_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coolroom_relay",
 "title": "Server cupboard cooler: DHT11 sensor (temperature) → relay and fan",
 "family": "factory",
@@ -45728,6 +48500,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_coolroom_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_booksdamp_bt",
+"title": "Library damp alarm: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_booksdamp_bt",
 "rule": null,
 "note": null
 },
@@ -45769,6 +48562,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_booksdamp_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_bt",
+"title": "Turnstile gate: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_turnstile_bt",
 "rule": null,
 "note": null
 },
@@ -45833,6 +48647,27 @@
 "note": null
 },
 {
+"id": "live-f_handdryer_bt",
+"title": "Hand dryer: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_handdryer_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_handdryer_relay",
 "title": "Hand dryer: IR obstacle sensor → relay and fan",
 "family": "factory",
@@ -45850,6 +48685,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_handdryer_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_mailbox_bt",
+"title": "Letter-box alert: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_mailbox_bt",
 "rule": null,
 "note": null
 },
@@ -45895,6 +48751,27 @@
 "note": null
 },
 {
+"id": "live-f_exhibit_bt",
+"title": "Museum exhibit that wakes up: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_exhibit_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_exhibit_servo",
 "title": "Museum exhibit that wakes up: PIR motion sensor → servo",
 "family": "factory",
@@ -45932,6 +48809,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_exhibit_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_farmgate_bt",
+"title": "Farm gate animal alert: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_farmgate_bt",
 "rule": null,
 "note": null
 },
@@ -45977,6 +48875,27 @@
 "note": null
 },
 {
+"id": "live-f_bathlight_bt",
+"title": "Bathroom light that switches off itself: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bathlight_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathlight_rgb",
 "title": "Bathroom light that switches off itself: PIR motion sensor → colour LED",
 "family": "factory",
@@ -46015,6 +48934,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_bathlight_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fumehood_bt",
+"title": "Science lab fume fan: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fumehood_bt",
 "rule": null,
 "note": null
 },
@@ -46080,6 +49020,27 @@
 "note": null
 },
 {
+"id": "live-f_smoke_bt",
+"title": "Smoke alarm: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_smoke_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_smoke_rgb",
 "title": "Smoke alarm: gas sensor MQ-2 → colour LED",
 "family": "factory",
@@ -46117,6 +49078,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_smoke_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_paddy_bt",
+"title": "Paddy field water keeper: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_paddy_bt",
 "rule": null,
 "note": null
 },
@@ -46183,6 +49165,27 @@
 "note": null
 },
 {
+"id": "live-f_shopchime_bt",
+"title": "Shop entry chime: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_shopchime_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_shopchime_buzzer",
 "title": "Shop entry chime: ultrasonic sensor → buzzer",
 "family": "factory",
@@ -46199,6 +49202,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_shopchime_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_garage_bt",
+"title": "Garage door opener: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_garage_bt",
 "rule": null,
 "note": null
 },
@@ -46243,6 +49267,27 @@
 "note": null
 },
 {
+"id": "live-f_fishtank_bt",
+"title": "Fish tank heater: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_fishtank_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishtank_rgb",
 "title": "Fish tank heater: temperature sensor LM35 → colour LED",
 "family": "factory",
@@ -46281,6 +49326,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_fishtank_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teacool_bt",
+"title": "Tea is cool enough: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_teacool_bt",
 "rule": null,
 "note": null
 },
@@ -46345,6 +49411,27 @@
 "note": null
 },
 {
+"id": "live-f_batteryhot_bt",
+"title": "Battery overheat warning: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_batteryhot_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_batteryhot_rgb",
 "title": "Battery overheat warning: temperature sensor LM35 → colour LED",
 "family": "factory",
@@ -46382,6 +49469,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_batteryhot_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_serverroom_bt",
+"title": "Computer lab overheat alarm: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_serverroom_bt",
 "rule": null,
 "note": null
 },
@@ -46448,6 +49556,27 @@
 "note": null
 },
 {
+"id": "live-f_drawer_bt",
+"title": "Locker drawer opened alarm: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_drawer_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_drawer_rgb",
 "title": "Locker drawer opened alarm: light sensor (LDR) → colour LED",
 "family": "factory",
@@ -46486,6 +49615,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_drawer_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikelamp_bt",
+"title": "Bicycle lamp reminder: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_bikelamp_bt",
 "rule": null,
 "note": null
 },
@@ -46532,6 +49682,27 @@
 "note": null
 },
 {
+"id": "live-f_henhouse_bt",
+"title": "Hen-house door at dusk: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_henhouse_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_henhouse_servo",
 "title": "Hen-house door at dusk: light sensor (LDR) → servo",
 "family": "factory",
@@ -46549,6 +49720,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_henhouse_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopsign_bt",
+"title": "Shop sign that lights at dusk: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_shopsign_bt",
 "rule": null,
 "note": null
 },
@@ -46596,6 +49788,27 @@
 "note": null
 },
 {
+"id": "live-f_fanmark_bt",
+"title": "Fan regulator with an on mark: knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_fanmark_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fanmark_relay",
 "title": "Fan regulator with an on mark: knob (potentiometer) → relay and fan",
 "family": "factory",
@@ -46613,6 +49826,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_fanmark_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_bt",
+"title": "Gate call for the watchman: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_watchman_bt",
 "rule": null,
 "note": null
 },
@@ -46678,6 +49912,27 @@
 "note": null
 },
 {
+"id": "live-f_handwash_bt",
+"title": "Push-button hand-wash tap: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_handwash_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_handwash_pump",
 "title": "Push-button hand-wash tap: push button → water pump",
 "family": "factory",
@@ -46700,6 +49955,27 @@
 "note": null
 },
 {
+"id": "live-f_bathfan_bt",
+"title": "Bathroom steam fan: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bathfan_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathfan_relay",
 "title": "Bathroom steam fan: DHT11 sensor (humidity) → relay and fan",
 "family": "factory",
@@ -46717,6 +49993,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_bathfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_bt",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainstore_bt",
 "rule": null,
 "note": null
 },
@@ -46802,6 +50099,27 @@
 "note": null
 },
 {
+"id": "live-f_greenfan_bt",
+"title": "Greenhouse cooling: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_greenfan_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_greenfan_servo",
 "title": "Greenhouse cooling: DHT11 sensor (temperature) → servo",
 "family": "factory",
@@ -46839,6 +50157,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_greenfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_bt",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heatwave_bt",
 "rule": null,
 "note": null
 },
@@ -46924,6 +50263,27 @@
 "note": null
 },
 {
+"id": "live-f_classfan_bt",
+"title": "Classroom energy saver: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_classfan_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_classfan_relay",
 "title": "Classroom energy saver: PIR motion sensor → relay and fan",
 "family": "factory",
@@ -46945,6 +50305,27 @@
 "note": null
 },
 {
+"id": "live-f_airlamp_bt",
+"title": "Air quality lamp: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_airlamp_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_airlamp_rgb",
 "title": "Air quality lamp: gas sensor MQ-2 → colour LED",
 "family": "factory",
@@ -46962,6 +50343,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_airlamp_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bottle_bt",
+"title": "Bottle filling station: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_bottle_bt",
 "rule": null,
 "note": null
 },
@@ -46988,6 +50390,27 @@
 "note": null
 },
 {
+"id": "live-f_soillamp_bt",
+"title": "Soil health lamp: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_soillamp_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_soillamp_rgb",
 "title": "Soil health lamp: soil moisture sensor → colour LED",
 "family": "factory",
@@ -47005,6 +50428,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_soillamp_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_waterplant_bt",
+"title": "Automatic plant watering: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_waterplant_bt",
 "rule": null,
 "note": null
 },
@@ -47027,6 +50471,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_waterplant_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankfull_bt",
+"title": "Water tank full alarm: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_tankfull_bt",
 "rule": null,
 "note": null
 },
@@ -47091,6 +50556,27 @@
 "note": null
 },
 {
+"id": "live-f_frost_bt",
+"title": "Frost alarm for crops: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_frost_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frost_rgb",
 "title": "Frost alarm for crops: temperature sensor LM35 → colour LED",
 "family": "factory",
@@ -47128,6 +50614,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_frost_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_incubator_bt",
+"title": "Egg incubator heater: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_incubator_bt",
 "rule": null,
 "note": null
 },
@@ -47193,6 +50700,27 @@
 "note": null
 },
 {
+"id": "live-f_blinds_bt",
+"title": "Sun blind closer: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_blinds_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_blinds_servo",
 "title": "Sun blind closer: light sensor (LDR) → servo",
 "family": "factory",
@@ -47210,6 +50738,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_blinds_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fridgeopen_bt",
+"title": "Fridge door left open alarm: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_fridgeopen_bt",
 "rule": null,
 "note": null
 },
@@ -47252,6 +50801,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_fridgeopen_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunrise_bt",
+"title": "Sunrise alarm: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_sunrise_bt",
 "rule": null,
 "note": null
 },
@@ -47319,6 +50889,27 @@
 "note": null
 },
 {
+"id": "live-f_growlight_bt",
+"title": "Grow light for plants: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_growlight_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_growlight_relay",
 "title": "Grow light for plants: light sensor (LDR) → relay and lamp",
 "family": "factory",
@@ -47358,6 +50949,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_growlight_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heaterset_bt",
+"title": "Heater set-point knob: knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_heaterset_bt",
 "rule": null,
 "note": null
 },
@@ -47404,6 +51016,27 @@
 "note": null
 },
 {
+"id": "live-f_panic_bt",
+"title": "Panic button for a shop: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_panic_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panic_rgb",
 "title": "Panic button for a shop: push button → colour LED",
 "family": "factory",
@@ -47441,6 +51074,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_panic_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairs_bt",
+"title": "Stair light with a timer: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_stairs_bt",
 "rule": null,
 "note": null
 },
@@ -47487,6 +51141,27 @@
 "note": null
 },
 {
+"id": "live-f_levelcross_bt",
+"title": "Railway level crossing: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_levelcross_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_levelcross_buzzer",
 "title": "Railway level crossing: IR obstacle sensor → buzzer",
 "family": "factory",
@@ -47523,6 +51198,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_levelcross_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_slot_bt",
+"title": "Parking slot sensor: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_slot_bt",
 "rule": null,
 "note": null
 },
@@ -47588,6 +51284,27 @@
 "note": null
 },
 {
+"id": "live-f_tap_bt",
+"title": "Smart tap: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_tap_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tap_servo",
 "title": "Smart tap: IR obstacle sensor → servo",
 "family": "factory",
@@ -47604,6 +51321,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_tap_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sanitiser_bt",
+"title": "Automatic hand sanitiser: IR obstacle sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_sanitiser_bt",
 "rule": null,
 "note": null
 },
@@ -47650,6 +51388,27 @@
 "note": null
 },
 {
+"id": "live-f_intruder_bt",
+"title": "Intruder alert screen: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_intruder_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_intruder_oled",
 "title": "Intruder alert screen: PIR motion sensor → OLED screen",
 "family": "factory",
@@ -47686,6 +51445,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_intruder_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_bt",
+"title": "Welcome greeter: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_greeter_bt",
 "rule": null,
 "note": null
 },
@@ -47750,6 +51530,27 @@
 "note": null
 },
 {
+"id": "live-f_roomlight_bt",
+"title": "Automatic room light: PIR motion sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_roomlight_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_roomlight_led",
 "title": "Automatic room light: PIR motion sensor → LED",
 "family": "factory",
@@ -47792,6 +51593,48 @@
 "note": null
 },
 {
+"id": "live-f_valveshut_bt",
+"title": "Gas valve shut-off: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_valveshut_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_exhaust_bt",
+"title": "Exhaust fan on gas: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_exhaust_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_exhaust_relay",
 "title": "Exhaust fan on gas: gas sensor MQ-2 → relay and fan",
 "family": "factory",
@@ -47809,6 +51652,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_exhaust_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gasleak_bt",
+"title": "Kitchen gas leak warning: gas sensor MQ-2 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gasleak_bt",
 "rule": null,
 "note": null
 },
@@ -47874,6 +51738,27 @@
 "note": null
 },
 {
+"id": "live-f_pumprelay_bt",
+"title": "Farm pump switch: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pumprelay_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pumprelay_pump",
 "title": "Farm pump switch: soil moisture sensor → water pump",
 "family": "factory",
@@ -47896,6 +51781,27 @@
 "note": null
 },
 {
+"id": "live-f_valve_bt",
+"title": "Garden sprinkler valve: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_valve_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_valve_servo",
 "title": "Garden sprinkler valve: soil moisture sensor → servo",
 "family": "factory",
@@ -47912,6 +51818,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_valve_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_bt",
+"title": "Plant thirst alarm: soil moisture sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_thirst_bt",
 "rule": null,
 "note": null
 },
@@ -47997,6 +51924,27 @@
 "note": null
 },
 {
+"id": "live-f_distancing_bt",
+"title": "Queue distance alarm: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_distancing_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_distancing_led",
 "title": "Queue distance alarm: ultrasonic sensor → LED",
 "family": "factory",
@@ -48038,6 +51986,27 @@
 "note": null
 },
 {
+"id": "live-f_door_bt",
+"title": "Automatic door: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_door_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_door_servo",
 "title": "Automatic door: ultrasonic sensor → servo",
 "family": "factory",
@@ -48054,6 +52023,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_door_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_blindstick_bt",
+"title": "Blind stick (third eye): ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_blindstick_bt",
 "rule": null,
 "note": null
 },
@@ -48078,6 +52068,27 @@
 "note": null
 },
 {
+"id": "live-f_dustbin_bt",
+"title": "Smart dustbin lid: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_dustbin_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dustbin_servo",
 "title": "Smart dustbin lid: ultrasonic sensor → servo",
 "family": "factory",
@@ -48094,6 +52105,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_dustbin_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parkbeep_bt",
+"title": "Parking distance warning: ultrasonic sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_parkbeep_bt",
 "rule": null,
 "note": null
 },
@@ -48159,6 +52191,27 @@
 "note": null
 },
 {
+"id": "live-f_vent_bt",
+"title": "Greenhouse vent opener: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_vent_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_vent_servo",
 "title": "Greenhouse vent opener: temperature sensor LM35 → servo",
 "family": "factory",
@@ -48175,6 +52228,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_vent_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fever_bt",
+"title": "Fever check station: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_fever_bt",
 "rule": null,
 "note": null
 },
@@ -48240,6 +52314,27 @@
 "note": null
 },
 {
+"id": "live-f_coolfan_bt",
+"title": "Automatic cooling fan: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_coolfan_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coolfan_relay",
 "title": "Automatic cooling fan: temperature sensor LM35 → relay and fan",
 "family": "factory",
@@ -48257,6 +52352,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_coolfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_toohot_bt",
+"title": "Too-hot warning: temperature sensor LM35 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_toohot_bt",
 "rule": null,
 "note": null
 },
@@ -48321,6 +52437,27 @@
 "note": null
 },
 {
+"id": "live-f_fridge_bt",
+"title": "Cupboard light checker: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_fridge_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fridge_buzzer",
 "title": "Cupboard light checker: light sensor (LDR) → buzzer",
 "family": "factory",
@@ -48338,6 +52475,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_fridge_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tripwire_bt",
+"title": "Laser tripwire alarm: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_tripwire_bt",
 "rule": null,
 "note": null
 },
@@ -48405,6 +52563,27 @@
 "note": null
 },
 {
+"id": "live-f_curtain_bt",
+"title": "Automatic curtain: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_curtain_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_curtain_servo",
 "title": "Automatic curtain: light sensor (LDR) → servo",
 "family": "factory",
@@ -48422,6 +52601,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_curtain_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_streetlight_bt",
+"title": "Automatic street light: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_streetlight_bt",
 "rule": null,
 "note": null
 },
@@ -48465,6 +52665,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_streetlight_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightlamp_bt",
+"title": "Night lamp: light sensor (LDR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ldr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_nightlamp_bt",
 "rule": null,
 "note": null
 },
@@ -48533,6 +52754,27 @@
 "note": null
 },
 {
+"id": "live-f_steer_bt",
+"title": "Knob steering: knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_steer_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_steer_servo",
 "title": "Knob steering: knob (potentiometer) → servo",
 "family": "factory",
@@ -48549,6 +52791,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_steer_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankmark_bt",
+"title": "Tank level alarm (float knob): knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_tankmark_bt",
 "rule": null,
 "note": null
 },
@@ -48613,6 +52876,27 @@
 "note": null
 },
 {
+"id": "live-f_dimmer_bt",
+"title": "Knob lamp switch: knob (potentiometer) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_dimmer_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dimmer_relay",
 "title": "Knob lamp switch: knob (potentiometer) → relay and lamp",
 "family": "factory",
@@ -48651,6 +52935,27 @@
 "level": 5,
 "theme": "bank",
 "live": "f_dimmer_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_bt",
+"title": "Hospital bed call button: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_nurse_bt",
 "rule": null,
 "note": null
 },
@@ -48736,6 +53041,27 @@
 "note": null
 },
 {
+"id": "live-f_gate_bt",
+"title": "Push-button gate: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_gate_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_gate_servo",
 "title": "Push-button gate: push button → servo",
 "family": "factory",
@@ -48752,6 +53078,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_gate_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_bt",
+"title": "Pedestrian crossing barrier: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_crossing_bt",
 "rule": null,
 "note": null
 },
@@ -48816,6 +53163,27 @@
 "note": null
 },
 {
+"id": "live-f_lightswitch_bt",
+"title": "Push-button light: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_lightswitch_bt",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_lightswitch_relay",
 "title": "Push-button light: push button → relay and lamp",
 "family": "factory",
@@ -48854,6 +53222,27 @@
 "level": 5,
 "theme": "bank",
 "live": "f_lightswitch_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_bt",
+"title": "Doorbell: push button → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_doorbell_bt",
 "rule": null,
 "note": null
 },

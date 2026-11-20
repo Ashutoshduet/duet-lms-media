@@ -4,6 +4,8 @@
 //            default, a number to write_string, (col, row) past the edge
 //   MCP3008  gpiozero's MCP3008(channel=0) on SPI0 through the chip: raw_value / value / voltage; DOUT or CS elsewhere
 //            or no VDD reads 0, VREF loose reads 1023, a loose input wanders, the chip or the knob on 5 V is warned about
+//   HC-05    the Uno's Serial on TX (pin 1) through the divider to the phone's BT Terminal; 115200 baud is rubbish, no
+//            wire is silence, Run again keeps the link
 //   Pico     pico_i2c_lcd: I2cLcd(i2c, 0x27, 2, 16), putstr, move_to(col, row) (no check: the wrong order writes in the wrong
 //            place), wrap; OSError EIO when swapped, at another address or on the other bus
 //   luma     i2c(port=1, address=0x3C) + ssd1306 + canvas: text, big font, rectangle; an unknown font; port 0
@@ -11,6 +13,7 @@
 import { compile } from '../../robotics/js/cpp.js';
 import { Lab } from '../../robotics/js/sim.js';
 import { lcdText, oledLit } from '../../robotics/js/libs3.js';
+import { netOf } from '../../robotics/js/esp32.js';
 
 const B = (e) => (/^(H|T|B):/.test(e) ? e : 'B:' + e); // a board pin
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
@@ -122,5 +125,24 @@ lab = adcBench({ vdd: '5Vb' }); r = run(lab, AH + 'print(adc.raw_value)\n'); ok(
 r = run(adcBench(), 'from gpiozero import MCP3008\nadc = MCP3008(channel=8)\n'); ok(code(r) === 'N24_ADC_CH', `channel=8: SPIBadChannel (${code(r)})`);
 r = run(adcBench(), 'from gpiozero import MCP3008\nadc = MCP3008(channel=0, device=1)\nprint(adc.raw_value)\n'); ok(!r.err && /\b0\s*\r?\n/.test(r.out), 'device=1 asks CE1 (GPIO 7), where the chip is not: 0');
 lab = adcBench({ potTop: 'H:tp49' }); lab.byTag('pot1').state.pos = 0.9; lab.stateV++; r = run(lab, AH + 'print(adc.raw_value)\n'); ok(/\b1023\b/.test(r.out) && lab.mcu.warned.has('adcov0'), `the knob on 5 V turned up: 1023 and an over-voltage warning (${JSON.stringify(r.out.slice(-30))} ${[...lab.mcu.warned].join(',')})`);
+
+// ------------------------------------------------------------ the Uno's HC-05 and the phone's BT Terminal (esp32.js Net)
+function unoBT({ tx = true } = {}) {
+  const lab = new Lab(); lab.setBoard('uno');
+  for (const [a, b] of [['B:5V', 'H:tp30'], ['B:GND3', 'H:tn18'], ['H:tp2', 'H:bp2'], ['H:tn3', 'H:bn3']]) lab.addWire(a, b);
+  lab.addPart('hc05', {}, { hole: 'j10' }, 0, 'bt'); lab.addPart('resistor', { ohms: 1000 }, { hole: 'f16' }, 0, 'rbt1'); lab.addPart('resistor', { ohms: 2200 }, { hole: 'h16' }, 2, 'rbt2');
+  for (const [a, b] of [['H:i11', 'H:bp11'], ['H:i12', 'H:bn12'], ['H:i14', 'H:i16'], ...(tx ? [['B:D1', 'H:j20']] : [])]) lab.addWire(a, b);
+  for (let f = 0; f < 6; f++) lab.step(1000 / 60); return lab;
+}
+const btLines = (lab) => netOf(lab).bt.log.filter((e) => !e.sys && !e.me).map((e) => e.text);
+lab = unoBT(); let N = netOf(lab); ok(JSON.stringify(N.btDevices()) === '["HC-05"]', `the phone sees the HC-05 when it has power: ${JSON.stringify(N.btDevices())}`);
+N.btConnect('HC-05'); r = run(lab, 'void setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  Serial.println("Hello phone");\n  delay(500);\n}\n', 1.2);
+ok(btLines(lab).includes('Hello phone') && lab.byTag('bt').state.paired, `Serial.println at 9600 reaches the phone through the divider: ${JSON.stringify(btLines(lab).slice(-2))}`);
+r = run(lab, 'void setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  Serial.println("Again");\n  delay(500);\n}\n', 1.2);
+ok(N.bt.conn === 'HC-05' && btLines(lab).includes('Again'), 'Run again: the HC-05 keeps its link while the Uno restarts');
+lab = unoBT(); N = netOf(lab); N.btConnect('HC-05'); r = run(lab, 'void setup() {\n  Serial.begin(115200);\n}\nvoid loop() {\n  Serial.println("Hello phone");\n  delay(500);\n}\n', 1.2);
+ok(btLines(lab).length && !btLines(lab).includes('Hello phone'), `Serial.begin(115200): the HC-05 (9600) gives the phone rubbish: ${JSON.stringify(btLines(lab).slice(-1))}`);
+lab = unoBT({ tx: false }); N = netOf(lab); N.btConnect('HC-05'); r = run(lab, 'void setup() {\n  Serial.begin(9600);\n}\nvoid loop() {\n  Serial.println("Hello phone");\n  delay(500);\n}\n', 1.2);
+ok(!btLines(lab).length, 'pin 1 not wired to the divider: the phone hears nothing');
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

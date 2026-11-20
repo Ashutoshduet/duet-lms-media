@@ -308,13 +308,33 @@ class Net {
       try { r.cb(out); } catch (e) { console.error(e); }
     }
     // Bluetooth: the link drops when the ESP32 restarts or stops
-    if (this.bt.conn) { const m = this.esp(); if (!this.running() || !m.bt || !m.bt.on || m.bt !== this.bt.obj) { this.bt.conn = null; this.bt.log.push({ sys: 'lost' }); this.ver++; } }
+    if (this.bt.conn === 'HC-05') { const h = this.bt.obj; if (!h || !h.state.powered || !this.lab.parts.includes(h)) { if (h && h.state) h.state.paired = false; this.bt.conn = null; this.bt.log.push({ sys: 'lost' }); this.ver++; } } // (an HC-05 keeps its link while the Arduino restarts)
+    else if (this.bt.conn) { const m = this.esp(); if (!this.running() || !m.bt || !m.bt.on || m.bt !== this.bt.obj) { this.bt.conn = null; this.bt.log.push({ sys: 'lost' }); this.ver++; } }
   }
-  // Bluetooth: the phone's terminal app
-  btDevices() { const m = this.esp(); return m && this.running() && m.bt && m.bt.on ? [m.bt.name] : []; }
-  btConnect(name) { if (!this.btDevices().includes(name)) return false; this.bt.conn = name; this.bt.obj = this.esp().bt; this.bt.log.push({ sys: 'conn', name }); this.ver++; return true; }
-  btDisconnect() { if (this.bt.conn) { this.bt.conn = null; this.bt.log.push({ sys: 'disc' }); this.ver++; } }
+  // Bluetooth: the phone's terminal app (an ESP32's own Bluetooth, or batch 24: an HC-05 module beside an Arduino)
+  hc05() { return this.esp() ? null : this.lab.parts.find((p) => p.type === 'hc05' && p.state.powered) || null; }
+  btDevices() { const m = this.esp(); if (m) return this.running() && m.bt && m.bt.on ? [m.bt.name] : []; return this.hc05() ? ['HC-05'] : []; }
+  btConnect(name) {
+    if (!this.btDevices().includes(name)) return false; const h = this.hc05();
+    this.bt.conn = name; this.bt.obj = h || this.esp().bt; if (h) { h.state.paired = true; this.lab.stateV = (this.lab.stateV || 0) + 1; }
+    this.bt.log.push({ sys: 'conn', name }); this.ver++; return true;
+  }
+  btDisconnect() { if (this.bt.conn) { const o = this.bt.obj; if (o && o.state) { o.state.paired = false; this.lab.stateV = (this.lab.stateV || 0) + 1; } this.bt.conn = null; this.bt.log.push({ sys: 'disc' }); this.ver++; } }
+  // (batch 24) what an Arduino's Serial sends reaches the phone when the HC-05's RXD hears its TX (pin 1): straight, or
+  // through the divider's resistor (RXD is 3.3 V). At another speed than the HC-05's 9600 baud the phone gets rubbish.
+  btFromUno(m, bytes, baud) {
+    const h = this.bt.obj; if (this.esp() || !this.bt.conn || !h || !h.state || !h.state.powered || h.type !== 'hc05') return;
+    const L = this.lab; const tx = 'B:D1'; let heard = L.conn(h.ep.RXD, tx);
+    if (!heard) for (const r of L.parts) if (r.type === 'resistor' && ((L.conn(r.ep['1'], tx) && L.conn(r.ep['2'], h.ep.RXD)) || (L.conn(r.ep['2'], tx) && L.conn(r.ep['1'], h.ep.RXD)))) { heard = true; break; }
+    if (!heard) return;
+    if (baud !== 9600) { this.bt.log.push({ text: String.fromCharCode(...bytes.map((b) => 0xa0 + ((b * 7 + baud) % 90))) }); this.ver++; if (this.bt.log.length > 200) this.bt.log.splice(0, 50); return; } // the wrong speed: rubbish, as it comes
+    const s = String.fromCharCode(...bytes);
+    this.bt.part = (this.bt.part || '') + s.replace(/\r/g, ''); const lines = this.bt.part.split('\n'); this.bt.part = lines.pop();
+    for (const ln of lines) this.bt.log.push({ text: ln }); this.bt.got = (this.bt.got || 0) + lines.length;
+    if (this.bt.log.length > 200) this.bt.log.splice(0, 50); this.ver++;
+  }
   btSend(text) {
+    if (this.bt.conn === 'HC-05') { const r = this.lab.btSend(String(text) + '\r\n'); this.bt.log.push({ me: true, text: String(text) }); this.bt.sent = (this.bt.sent || 0) + 1; this.ver++; return r === 'ok'; }
     const m = this.esp(); if (!this.bt.conn || !m || !m.bt) return false;
     m.bt.send(String(text) + '\r\n'); this.bt.log.push({ me: true, text: String(text) }); this.bt.sent = (this.bt.sent || 0) + 1; this.ver++;
     if (this.bt.log.length > 200) this.bt.log.splice(0, 50); return true;
