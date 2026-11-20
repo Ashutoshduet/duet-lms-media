@@ -27,11 +27,18 @@
 //              while the loop moves only 2.9 mm at a time: one box is stamped again and again (and the bare belt behind it),
 //              and counted each time. The fix waits until the box has passed the sensor (count the box arriving, not the
 //              box being there): each box once, in the middle.
+//   armsquare  the 4-servo arm holds a felt pen over a sheet of paper (robots.js ArmSim level 6). penAt(x, y, z) is inverse
+//              kinematics: atan2 for the base, the cosine rule (acos) for the shoulder and elbow. The first program writes
+//              the base's angle in radians (1.87 → 2°): it draws on the desk to the right. With degrees() it reaches the
+//              paper, but each corner is a jump of all the joints at once (a joint move): the sides curve and the pen
+//              lifts and digs. lineTo() (40 small steps along the line, each through penAt: a linear move) draws a square.
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
 import { GLASS, CUR, LIFT } from './scenes3.js';
+import { ARMCUR } from './robots.js';
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const pick = (lg, en, hi, hg) => (lg === 'hi' ? hi : lg === 'hg' ? hg : en);
+function liveArm(f) { const o = {}; for (const lg of ['en', 'hi', 'hg']) Object.defineProperty(o, lg, { enumerable: true, get: () => { try { return String(f(lg, (ARMCUR.sim && ARMCUR.sim.res) || {}) || ''); } catch (e) { return ''; } } }); return o; }
 function live(f) { const o = {}; for (const lg of ['en', 'hi', 'hg']) Object.defineProperty(o, lg, { enumerable: true, get: () => { try { return String(f(lg, (CUR.sim && CUR.sim.res) || {}) || ''); } catch (e) { return ''; } } }); return o; }
 
 // ------------------------------------------------------------------ the programs
@@ -309,6 +316,62 @@ void loop() {
 }
 `;
 
+const ARMSQ = `// Robot arm draws a square: a felt pen in the claw, a sheet of paper in front of the arm.
+#include <Servo.h>
+
+Servo base, shoulder, elbow, claw;
+const float L1 = 105;     // shoulder to elbow (mm)
+const float L2 = 180;     // elbow to the pen's tip (mm)
+const float H = 78;       // the shoulder's height above the paper (mm)
+
+// the square's corners (mm): x to the right, y towards you; the last is the first again
+float sq[5][2] = {{-40, 130}, {40, 130}, {40, 210}, {-40, 210}, {-40, 130}};
+
+// put the pen's tip at x, y on the paper and z mm above it (inverse kinematics)
+void penAt(float x, float y, float z) {
+  float b = atan2(y, x);                   // which way the base points
+  float r = sqrt(x * x + y * y);           // how far out the tip is
+  float h = z - H;                         // how far below the shoulder
+  float d = sqrt(r * r + h * h);           // shoulder to tip, in a straight line
+  float s = atan2(h, r) + acos((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d));
+  float e = acos((L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2));
+  base.write(b);
+  shoulder.write(degrees(s));
+  elbow.write(degrees(e));
+}
+
+// a straight line from (x1, y1) to (x2, y2), in 40 small steps
+void lineTo(float x1, float y1, float x2, float y2) {
+  for (int k = 1; k <= 40; k++) {
+    float t = k / 40.0;
+    penAt(x1 + (x2 - x1) * t, y1 + (y2 - y1) * t, 0);
+    delay(25);
+  }
+}
+
+void setup() {
+  base.attach(3);
+  shoulder.attach(5);
+  elbow.attach(6);
+  claw.attach(9);
+  claw.write(95);                          // hold the pen tight
+  Serial.begin(9600);
+  penAt(sq[0][0], sq[0][1], 20);           // above the first corner
+  delay(1500);
+  penAt(sq[0][0], sq[0][1], 0);            // pen down
+  delay(600);
+  for (int i = 1; i < 5; i++) {
+    penAt(sq[i][0], sq[i][1], 0);          // to the next corner
+    delay(800);
+  }
+  penAt(sq[0][0], sq[0][1], 20);           // pen up
+  Serial.println("Square done");
+}
+
+void loop() {
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -469,6 +532,32 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('ir1', t3('IR sensor', 'आईआर सेंसर', 'IR sensor')), need('ir1.OUT', 'D2', W.toPin, { x: t3('IR sensor\'s OUT', 'आईआर सेंसर का OUT', 'IR sensor ka OUT'), p: 2 }), need('ir1.VCC', '5V', W.to5v, { x: 'VCC' }), need('ir1.GND', 'GND', W.toGnd, { x: 'GND' })],
     done: (S) => S.w('once') });
+  // 6 ---------------------------------------------------------------------------------------- robot arm draws a square
+  const ARMP = [F('psu', 'psu5', {}, 40, 78, 2), F('svB', 'mg996r', { mount: 'arm' }, 172, 50, 1), F('svS', 'mg996r', { mount: 'arm' }, 172, 78, 1), F('svE', 'mg996r', { mount: 'arm' }, 172, 106, 1), F('svG', 'servo', { mount: 'arm' }, 172, 134, 1)];
+  const ASV = { svB: 3, svS: 5, svE: 6, svG: 9 };
+  const aWires = [['T:psu:P', 'H:bp20'], ['T:psu:N', 'H:bn21'], ['GND1', 'H:bn5'], ...Object.keys(ASV).flatMap((k, i) => [['T:' + k + ':GND', 'H:bn' + (24 + i * 4)], ['T:' + k + ':VP', 'H:bp' + (24 + i * 4)], ['T:' + k + ':SIG', 'D' + ASV[k]]])];
+  const okDeg = (src) => /base\.write\(\s*degrees\(\s*b\s*\)\s*\)\s*;/.test(src || '') || /base\.write\(\s*b\s*\*\s*180(\.0)?\s*\/\s*PI\s*\)\s*;/.test(src || '');
+  const okLine = (src) => /lineTo\(\s*sq\[\s*i\s*-\s*1\s*\]\[0\]\s*,\s*sq\[\s*i\s*-\s*1\s*\]\[1\]\s*,\s*sq\[\s*i\s*\]\[0\]\s*,\s*sq\[\s*i\s*\]\[1\]\s*\)\s*;/.test(src || '');
+  L.push({ id: 'armsquare', cls: '11', blocks: false, view: 'side', wview: 'armbench', rview: 'armpaper', code: ARMSQ, drawer: [], serial: true, world: { kind: 'arm', level: 6 },
+    title: t3('Robot arm: draw a square', 'रोबोट बाँह: एक वर्ग बनाइए', 'Robot arm: ek square banaiye'),
+    goal: t3('A felt pen in the claw and a sheet of paper in front of the arm. Work out the joint angles from where the pen should be (inverse kinematics), fix the units, and make the sides straight by moving the tip along a line, as welding robots and plotters do.', 'पंजे में एक स्केच पेन और बाँह के सामने एक काग़ज़। पेन जहाँ होना चाहिए वहाँ से जोड़ों के कोण निकालिए (इनवर्स काइनेमैटिक्स), इकाई ठीक कीजिए, और नोक को एक सीधी रेखा पर चलाकर भुजाएँ सीधी कीजिए, जैसे वेल्डिंग रोबोट और प्लॉटर करते हैं।', 'Panje mein ek sketch pen aur baanh ke saamne ek kaagaz. Pen jahan hona chahiye wahan se joints ke angle nikaliye (inverse kinematics), unit theek kijiye, aur nok ko ek seedhi line par chala kar sides seedhi kijiye, jaise welding robot aur plotter karte hain.'),
+    setup: { parts: ARMP, wires: aWires },
+    steps: [
+      { k: 'info', do: t3('The arm is wired as before (base, shoulder, elbow, claw on pins 3, 5, 6, 9, with its 5 V adapter). The claw holds a felt pen; the paper has an 80 mm square pencilled on it, 130 to 210 mm in front of the base. To put the pen\'s tip at a point, the program must work backwards from the point to three angles.', 'बाँह पहले की तरह जुड़ी है (बेस, कंधा, कोहनी, पंजा पिन 3, 5, 6, 9 पर, अपने 5 V एडैप्टर के साथ)। पंजे में स्केच पेन है; काग़ज़ पर पेंसिल से 80 mm का वर्ग बना है, बेस से 130 से 210 mm आगे। पेन की नोक किसी बिंदु पर रखने के लिए प्रोग्राम को उस बिंदु से उल्टा चलकर तीन कोण निकालने होंगे।', 'Baanh pehle ki tarah judi hai (base, shoulder, elbow, claw pin 3, 5, 6, 9 par, apne 5 V adapter ke saath). Panje mein sketch pen hai; kaagaz par pencil se 80 mm ka square bana hai, base se 130 se 210 mm aage. Pen ki nok kisi point par rakhne ke liye program ko us point se ulta chal kar teen angle nikaalne honge.'), see: E },
+      { k: 'info', code: [13, 23], do: t3('Read penAt(): atan2 gives the base\'s direction, Pythagoras gives the distances, and the cosine rule (acos) gives the shoulder and elbow angles of the triangle shoulder–elbow–tip. This is inverse kinematics.', 'penAt() पढ़िए: atan2 बेस की दिशा देता है, पाइथागोरस दूरियाँ, और कोसाइन नियम (acos) कंधा–कोहनी–नोक त्रिभुज के कंधे और कोहनी के कोण। यही इनवर्स काइनेमैटिक्स है।', 'penAt() padhiye: atan2 base ki disha deta hai, Pythagoras dooriyan, aur cosine rule (acos) shoulder–elbow–nok triangle ke shoulder aur elbow ke angle. Yahi inverse kinematics hai.'), see: E },
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && S.w('offPaper'), do: t3('Watch where the pen goes down.', 'देखिए पेन कहाँ नीचे आता है।', 'Dekhiye pen kahan neeche aata hai.'),
+        see: t3('It draws on the desk, far to the right of the paper! atan2() answers in radians: about 1.87 for the first corner. base.write() wants degrees, so the base went to 2°.', 'यह काग़ज़ से बहुत दाईं ओर, मेज़ पर बनाता है! atan2() रेडियन में जवाब देता है: पहले कोने के लिए लगभग 1.87। base.write() को डिग्री चाहिए, तो बेस 2° पर चला गया।', 'Yeh kaagaz se bahut right mein, mez par banata hai! atan2() radian mein jawab deta hai: pehle kone ke liye lagbhag 1.87. base.write() ko degree chahiye, to base 2° par chala gaya.') },
+      { k: 'edit', test: okDeg, set: [[/base\.write\(b\);/, 'base.write(degrees(b));']], do: t3('Change base.write(b); to base.write(degrees(b)); (the other two already use degrees()) and press Run.', 'base.write(b); को base.write(degrees(b)); कीजिए (बाक़ी दो पहले से degrees() लेते हैं) और "चलाइए" दबाइए।', 'base.write(b); ko base.write(degrees(b)); kijiye (baaki do pehle se degrees() lete hain) aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('crooked'), do: t3('Watch the square being drawn.', 'वर्ग बनते देखिए।', 'Square bante dekhiye.'),
+        see: liveArm((lg, R) => pick(lg, `The sides are not straight: the worst spot is ${R.dev ?? '?'} mm off the pencil line, and only ${R.cover ?? '?'} % of the square has ink. Sent straight to a corner, every servo turns at full speed and they finish at different times, so the tip swings along a curve, and its height wanders: the pen lifts off or presses in. Factory robots call this a joint move.`, `भुजाएँ सीधी नहीं: सबसे ख़राब जगह पेंसिल की लाइन से ${R.dev ?? '?'} mm दूर है, और वर्ग के सिर्फ़ ${R.cover ?? '?'} % हिस्से पर स्याही है। सीधे कोने पर भेजने से हर सर्वो पूरी रफ़्तार से घूमता है और सब अलग-अलग समय पर रुकते हैं, तो नोक एक वक्र पर झूलती है, और उसकी ऊँचाई बदलती रहती है: पेन उठ जाता है या दब जाता है। फ़ैक्टरी के रोबोट इसे जॉइंट मूव कहते हैं।`, `Sides seedhi nahi: sabse kharab jagah pencil ki line se ${R.dev ?? '?'} mm door hai, aur square ke sirf ${R.cover ?? '?'} % hisse par syaahi hai. Seedhe kone par bhejne se har servo poori speed se ghoomta hai aur sab alag-alag time par rukte hain, to nok ek curve par jhoolti hai, aur uski unchaai badalti rehti hai: pen uth jaata hai ya dab jaata hai. Factory ke robot ise joint move kehte hain.`)) },
+      { k: 'edit', test: okLine, set: [[/    penAt\(sq\[i\]\[0\], sq\[i\]\[1\], 0\);[^\n]*\n    delay\(800\);\n/, '    lineTo(sq[i - 1][0], sq[i - 1][1], sq[i][0], sq[i][1]);   // along a straight line\n']],
+        do: t3('Move along the line instead: in the for loop, replace the two lines\n    penAt(sq[i][0], sq[i][1], 0);\n    delay(800);\nwith\n    lineTo(sq[i - 1][0], sq[i - 1][1], sq[i][0], sq[i][1]);\nand press Run.', 'इसके बजाय लाइन पर चलाइए: for लूप में ये दो लाइनें\n    penAt(sq[i][0], sq[i][1], 0);\n    delay(800);\nहटाकर लिखिए\n    lineTo(sq[i - 1][0], sq[i - 1][1], sq[i][0], sq[i][1]);\nऔर "चलाइए" दबाइए।', 'Iske bajaay line par chalaiye: for loop mein yeh do lines\n    penAt(sq[i][0], sq[i][1], 0);\n    delay(800);\nhata kar likhiye\n    lineTo(sq[i - 1][0], sq[i - 1][1], sq[i][0], sq[i][1]);\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('square'), do: t3('Watch it draw again (on a fresh sheet).', 'इसे फिर से बनाते देखिए (नए काग़ज़ पर)।', 'Ise phir se banate dekhiye (naye kaagaz par).'),
+        see: liveArm((lg, R) => pick(lg, `A square: never more than ${R.dev ?? '?'} mm off the pencil line, with ink on ${R.cover ?? '?'} % of it. Each side is 40 small steps, and penAt() works out every one, so the tip stays on a straight line and on the paper. This is a linear move: welding robots, pen plotters and 3D printers all move like this. (A tiny gap is where whole degrees put the tip a millimetre too high: drawing robots hold the pen on a spring.)`, `एक वर्ग: पेंसिल की लाइन से कभी ${R.dev ?? '?'} mm से ज़्यादा नहीं हटा, ${R.cover ?? '?'} % पर स्याही। हर भुजा 40 छोटे क़दम है, और penAt() हर क़दम का हिसाब लगाता है, तो नोक सीधी लाइन पर और काग़ज़ पर रहती है। यह लीनियर मूव है: वेल्डिंग रोबोट, पेन प्लॉटर और 3D प्रिंटर सब ऐसे ही चलते हैं। (कोई छोटा गैप वहाँ है जहाँ पूरे डिग्री ने नोक को एक मिलीमीटर ऊपर रख दिया: ड्रॉइंग रोबोट पेन को स्प्रिंग पर पकड़ते हैं।)`, `Ek square: pencil ki line se kabhi ${R.dev ?? '?'} mm se zyada nahi hata, ${R.cover ?? '?'} % par syaahi. Har side 40 chhote kadam hai, aur penAt() har kadam ka hisaab lagata hai, to nok seedhi line par aur kaagaz par rehti hai. Yeh linear move hai: welding robot, pen plotter aur 3D printer sab aise hi chalte hain. (Koi chhota gap wahan hai jahan poore degree ne nok ko ek millimetre upar rakh diya: drawing robot pen ko spring par pakadte hain.)`)) },
+    ],
+    check: [noShort],
+    done: (S) => S.w('square') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

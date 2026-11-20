@@ -19,6 +19,7 @@ import { netOf } from '../../robotics/js/esp32.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { makeScene } from '../../robotics/js/scenes3.js';
+import { ArmSim } from '../../robotics/js/robots.js';
 
 const B = (e) => (/^(H|T|B):/.test(e) ? e : 'B:' + e); // a board pin
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
@@ -210,6 +211,21 @@ for (const l of L24) {
 { const l = L24.find((x) => x.id === 'conveyor'); const B = build3(l);
   const ser = play3(l, B, [null, null, null]); const R = B.sim.res;
   ok(R.passed.slice(-3).every((n) => n === 1) && R.offs.slice(-3).every((o) => Math.abs(o) <= 4), `conveyor: once each, in the middle (${R.offs.slice(-3).join(', ')} mm), ${R.rate} boxes a minute; the first fix-less box had ${JSON.stringify(R.multi)} · serial ${JSON.stringify(ser.slice(-60))}`);
+}
+// the arm draws a square (lessons24.js armsquare, robots.js ArmSim level 6): played with the arm fed the servos' angles
+{ const l = LESSONS.find((x) => x.id === 'armsquare'); ok(!!l && compile(l.code).ok, 'armsquare: the sketch compiles');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  const sim = new ArmSim(6); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => sim.reset() }; const tags = ['svB', 'svS', 'svE', 'svG'];
+  const tick = () => { const a = {}; ['b', 's', 'e', 'g'].forEach((k, i) => { const p = lab.byTag(tags[i]); a[k] = p ? p.state.angle : 90; }); sim.update(1 / 60, a); const g = lab.byTag('svG'); if (g) g.state.limit = sim.limit; };
+  for (let f = 0; f < 30; f++) { lab.step(1000 / 60); tick(); }
+  let src = l.code; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src), `armsquare: the edit is what the step asks`); src = e; start(src); }
+    if (s.k === 'act') { let t = -1; for (let f = 0; f < 60 * 30; f++) { lab.step(1000 / 60); tick(); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = f / 60; break; } }
+      ok(t >= 0, `armsquare: act "${s.do.en.slice(0, 50)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s) · ${s.see.en.slice(0, 110)}` : ` — timed out ${JSON.stringify(sim.res)} ${[...sim.flags]}`)); seen.push(JSON.stringify(sim.res)); }
+  }
+  ok(!!l.done(rt) && sim.res.dev <= 3 && sim.res.cover >= 95, `armsquare: complete; radians drew at ${seen[0]}, the joint moves ${seen[1]}, the linear moves ${seen[2]}`);
 }
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

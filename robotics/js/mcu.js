@@ -273,7 +273,7 @@ class ServoObj {
   attach(p, mn, mx) { this.m.pin(p, 'attach'); this.pin = p; this.min = mn || 544; this.max = mx || 2400; const P = this.m.pins[p]; P.mode = 1; P.pwm = -1; P.servo = this; this.m.t += 10; if (this.m.io.onPin) this.m.io.onPin(p, this.m.t); return 1; }
   detach() { if (this.pin >= 0) { const P = this.m.pins[this.pin]; if (P.servo === this) P.servo = null; } this.pin = -1; }
   write(a) {
-    a = Number(a);
+    a = Number(a); if (Number.isNaN(a)) a = 0; // (a float that is not a number, as acos(1.2) gives, becomes 0 when Servo.write takes it as an int)
     if (a >= 544) { this.writeMicroseconds(a); return; }
     a = Math.max(0, Math.min(180, Math.round(a)));
     const mn = this.min || 544, mx = this.max || 2400;

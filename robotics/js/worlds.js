@@ -9,7 +9,7 @@
 import * as THREE from 'three';
 import * as M2 from './models2.js';
 import * as MD from './models.js';
-import { ArmSim, CarSim, BinSim, HydSim, ARM_POS, ARENA_POS, BIN_POS, HYD_POS, armFK, gapOf, linePoints, CAR_CFG, CARG, ARMG, SYR, HYDG, slaveLen, carFeed } from './robots.js';
+import { ArmSim, CarSim, BinSim, HydSim, ARM_POS, ARENA_POS, BIN_POS, HYD_POS, armFK, gapOf, linePoints, CAR_CFG, CARG, ARMG, SYR, HYDG, slaveLen, carFeed, DRAW } from './robots.js';
 import { BO } from './parts2.js';
 import { tx } from './i18n.js';
 import * as TX from './tex.js';
@@ -21,7 +21,7 @@ const frame = nextFrame; // (also in a headset: stage.js)
 const W = {
   base: t3('Base', 'बेस', 'Base'), shoulder: t3('Shoulder', 'कंधा', 'Shoulder'), elbow: t3('Elbow', 'कोहनी', 'Elbow'), claw: t3('Claw', 'पंजा', 'Claw'),
   reach: t3('Reach', 'पहुँच', 'Reach'), height: t3('Height', 'ऊँचाई', 'Height'), goal: t3('Goal', 'लक्ष्य', 'Goal'), noSig: t3('off', 'बंद', 'off'),
-  backA: t3('Block back to A', 'ब्लॉक वापस A पर', 'Block wapas A par'), hand: t3('Hand', 'हाथ', 'Haath'), sensor: t3('Sensor reads', 'सेंसर पढ़ता है', 'Sensor padhta hai'), lid: t3('Lid', 'ढक्कन', 'Dhakkan'),
+  backA: t3('Block back to A', 'ब्लॉक वापस A पर', 'Block wapas A par'), pen: t3('Pen', 'पेन', 'Pen'), penOn: t3('on the paper', 'काग़ज़ पर', 'kaagaz par'), penUp: t3('above', 'ऊपर', 'upar'), ink: t3('Ink drawn', 'स्याही की लाइन', 'Syaahi ki line'), offLine: t3('Worst distance from the square', 'वर्ग से सबसे ज़्यादा दूरी', 'Square se sabse zyada doori'), covered: t3('Square covered', 'वर्ग पर स्याही', 'Square par syaahi'), sheet: t3('A fresh sheet', 'नया काग़ज़', 'Naya kaagaz'), hand: t3('Hand', 'हाथ', 'Haath'), sensor: t3('Sensor reads', 'सेंसर पढ़ता है', 'Sensor padhta hai'), lid: t3('Lid', 'ढक्कन', 'Dhakkan'),
   wave: t3('Bring rubbish', 'कचरा लाइए', 'Kachra laiye'), push: t3('Push', 'धकेलिए', 'Dhakeliye'), master: t3('You push (syringe)', 'आप धकेलते हैं (सिरिंज)', 'Aap dhakelte hain (syringe)'),
   slave: t3('Lifts the arm (syringe)', 'बाँह उठाती है (सिरिंज)', 'Baanh uthati hai (syringe)'), fluid: t3('Inside the tube', 'नली के अंदर', 'Nali ke andar'), water: t3('Water', 'पानी', 'Paani'), air: t3('Air', 'हवा', 'Hawa'),
   armAngle: t3('Arm', 'बाँह', 'Baanh'), start: t3('Back to the start', 'शुरुआत पर वापस', 'Start par wapas'), speed: t3('Speed', 'रफ़्तार', 'Speed'), motors: t3('Motors L / R', 'मोटर बाएँ / दाएँ', 'Motor left / right'),
@@ -97,8 +97,9 @@ class ArmWorld extends World {
     return [
       () => { this.arm = M2.buildArm(); this.arm.position.set(ax, ay, az); r.add(this.arm); const b = M2.blobShadow(190, 190, 0.4); b.position.set(ax, ay + 0.3, az); r.add(b); },
       () => { // the block, the A and B marks, the goals of the level, the reach the claw has on the desk
-        const wood = new THREE.MeshStandardMaterial({ color: 0xc89660, roughness: 0.75 }); this.cube = MD.box(ARMG.cube, ARMG.cube, ARMG.cube, wood); r.add(this.cube); this.cube.visible = this.cfg.level >= 4;
-        if (this.cfg.level >= 4) for (const [k, p] of [['A', S.A], ['B', S.B]]) { const s = this.sign(k, 60, k === 'A' ? '#3aa0ff' : '#e8a020'); s.position.set(ax + p[0], ay + 0.4, az + p[2]); r.add(s); }
+        const wood = new THREE.MeshStandardMaterial({ color: 0xc89660, roughness: 0.75 }); this.cube = MD.box(ARMG.cube, ARMG.cube, ARMG.cube, wood); r.add(this.cube); this.cube.visible = this.cfg.level === 4 || this.cfg.level === 5;
+        if (this.cfg.level === 6) this.paper();
+        if (this.cfg.level === 4 || this.cfg.level === 5) for (const [k, p] of [['A', S.A], ['B', S.B]]) { const s = this.sign(k, 60, k === 'A' ? '#3aa0ff' : '#e8a020'); s.position.set(ax + p[0], ay + 0.4, az + p[2]); r.add(s); }
         if (this.cfg.level === 1) { const f = new THREE.Group(); const a = this.sim.flagAngle * D2R; f.position.set(ax + Math.cos(a) * 200, ay, az + Math.sin(a) * 200); f.add(MD.cyl(1.5, 120, new THREE.MeshStandardMaterial({ color: 0xdddddd }), 0, 60, 0, 8)); const fl = MD.box(46, 28, 1, new THREE.MeshStandardMaterial({ color: 0xd8341c, roughness: 0.6 }), 23, 104, 0); f.add(fl); f.add(MD.cyl(14, 4, new THREE.MeshStandardMaterial({ color: 0x333333 }), 0, 2, 0, 16)); r.add(f); }
         if (this.cfg.level === 2 || this.cfg.level === 3) { const b = S.ball; const g = new THREE.Group(); g.position.set(ax + b[0], ay, az + b[2]); g.add(MD.cyl(1.4, b[1] - 10, new THREE.MeshStandardMaterial({ color: 0xbfc2c6, metalness: 1, roughness: 0.3 }), 0, (b[1] - 10) / 2, 0, 8)); g.add(MD.cyl(16, 4, new THREE.MeshStandardMaterial({ color: 0x333333 }), 0, 2, 0, 16)); this.ballM = new THREE.MeshStandardMaterial({ color: 0xe0342a, roughness: 0.4, emissive: 0x22ff44, emissiveIntensity: 0 }); const ball = new THREE.Mesh(new THREE.SphereGeometry(10, 20, 14), this.ballM); ball.position.y = b[1]; g.add(ball); r.add(g); }
         // the reach on the desk: from the closest to the farthest the claw can touch the desk (a half ring in front)
@@ -109,6 +110,41 @@ class ArmWorld extends World {
       },
       () => this.cables(this.tags, (i) => [ARM_POS[0] - 30, 40 - i * 6, ARM_POS[2] + 10 - i * 5]),
     ];
+  }
+  // (batch 24, level 6) the sheet of paper with the square pencilled on it, the ink (a canvas over the desk in front of the
+  // arm, so ink off the paper shows too), the felt pen in the claw along the forearm
+  paper() {
+    const [ax, ay, az] = ARM_POS; const r = this.root; const pp = DRAW.paper; const K = 4; // (canvas px a mm)
+    const C = document.createElement('canvas'); C.width = pp.w * K; C.height = pp.d * K; const c = C.getContext('2d');
+    c.fillStyle = '#fbfaf6'; c.fillRect(0, 0, C.width, C.height);
+    c.strokeStyle = 'rgba(90,90,90,0.6)'; c.lineWidth = 2; c.setLineDash([8, 6]); c.beginPath(); DRAW.sq.forEach(([x, z], i) => { const u = (x - pp.cx + pp.w / 2) * K, v = (z - pp.cz + pp.d / 2) * K; if (i) c.lineTo(u, v); else c.moveTo(u, v); }); c.closePath(); c.stroke(); // the pencilled square
+    const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+    const sheet = new THREE.Mesh(new THREE.PlaneGeometry(pp.w, pp.d), new THREE.MeshStandardMaterial({ map: t, roughness: 0.9 })); sheet.rotation.x = -Math.PI / 2; sheet.position.set(ax + pp.cx, ay + 0.15, az + pp.cz); r.add(sheet);
+    const b = M2.blobShadow(pp.w + 10, pp.d + 10, 0.18); b.position.set(ax + pp.cx, ay + 0.1, az + pp.cz); r.add(b);
+    // the ink: a transparent canvas over 440 × 320 mm of desk in front of the arm
+    const IW = 440, ID = 320, IX = -220, IZ = -60, IK = 3; const IC = document.createElement('canvas'); IC.width = IW * IK; IC.height = ID * IK;
+    const it = new THREE.CanvasTexture(IC); it.colorSpace = THREE.SRGBColorSpace; it.anisotropy = 4;
+    const ink = new THREE.Mesh(new THREE.PlaneGeometry(IW, ID), new THREE.MeshBasicMaterial({ map: it, transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2 })); ink.rotation.x = -Math.PI / 2; ink.position.set(ax + IX + IW / 2, ay + 0.3, az + IZ + ID / 2); r.add(ink);
+    this.inkAt = { IC, it, IX, IZ, IK, done: new Map(), strokes: null };
+    // the felt pen, through the claw along the forearm (the elbow link's +z), its tip ARMG.pen past the wrist
+    const J = this.arm.userData.j; const pen = new THREE.Group(); const L = ARMG.L2;
+    const body = MD.cyl(4.6, 64, new THREE.MeshStandardMaterial({ color: 0xf2f2ee, roughness: 0.4 }), 0, 0, 0, 16); body.rotation.x = Math.PI / 2; body.position.z = L + 4; pen.add(body);
+    const cap = MD.cyl(4.9, 16, new THREE.MeshStandardMaterial({ color: 0x1d3fa8, roughness: 0.45 }), 0, 0, 0, 16); cap.rotation.x = Math.PI / 2; cap.position.z = L - 34; pen.add(cap);
+    const cone = new THREE.Mesh(new THREE.ConeGeometry(3.2, 12, 14), new THREE.MeshStandardMaterial({ color: 0x1d3fa8, roughness: 0.5 })); cone.rotation.x = Math.PI / 2; cone.position.z = L + ARMG.pen - 6; pen.add(cone);
+    J.el.add(pen); this.pen = pen;
+  }
+  inkDraw() {
+    const A = this.inkAt; if (!A) return false; const S = this.sim; const c = A.IC.getContext('2d'); let ch = false;
+    if (A.strokes !== S.strokes) { A.strokes = S.strokes; A.done = new Map(); c.clearRect(0, 0, A.IC.width, A.IC.height); ch = true; } // a fresh sheet (Run again)
+    c.strokeStyle = 'rgba(29,63,168,0.92)'; c.lineWidth = 1.4 * A.IK; c.lineCap = 'round'; c.lineJoin = 'round';
+    for (const st of S.strokes) {
+      const from = A.done.get(st) || 0; if (st.length <= from) continue;
+      c.beginPath(); const p0 = st[Math.max(0, from - 1)]; c.moveTo((p0[0] - A.IX) * A.IK, (p0[1] - A.IZ) * A.IK);
+      for (let i = Math.max(1, from); i < st.length; i++) c.lineTo((st[i][0] - A.IX) * A.IK, (st[i][1] - A.IZ) * A.IK);
+      if (st.length === 1) c.lineTo((p0[0] - A.IX) * A.IK + 0.5, (p0[1] - A.IZ) * A.IK);
+      c.stroke(); A.done.set(st, st.length); ch = true;
+    }
+    if (ch) A.it.needsUpdate = true; return ch;
   }
   angles() {
     const a = {}; const st = { b: 90, s: 90, e: 90, g: 90 }; this.sig = {};
@@ -123,10 +159,11 @@ class ArmWorld extends World {
     if (this.cube) { const [ax, ay, az] = ARM_POS; this.cube.position.set(ax + S.cube.p[0], ay + S.cube.p[1], az + S.cube.p[2]); if (S.cube.held) { const fk = S.fk; this.cube.rotation.y = -(ang.b - 90) * D2R; } }
     if (this.ballM) this.ballM.emissiveIntensity = S.ballD < 16 ? 0.9 : 0;
     if (this.lab.version !== this._v) { this._v = this.lab.version; this.cables(this.tags, (i) => [ARM_POS[0] - 30, 40 - i * 6, ARM_POS[2] + 10 - i * 5]); }
-    const k = [ang.b, ang.s, ang.e, ang.g, S.cube.p[1]].map((x) => Math.round(x * 10)).join(); const moved = k !== this._k; this._k = k; return moved;
+    const inked = this.cfg.level === 6 && this.inkDraw();
+    const k = [ang.b, ang.s, ang.e, ang.g, S.cube.p[1]].map((x) => Math.round(x * 10)).join(); const moved = k !== this._k; this._k = k; return moved || inked;
   }
   onRun() { this.sim.reset(); }
-  control(id) { if (id === 'backA') { this.sim.reset(); } }
+  control(id) { if (id === 'backA' || id === 'sheet') { this.sim.reset(); } }
   hud() {
     const S = this.sim, a = S.ang || { b: 90, s: 90, e: 90, g: 90 }, fk = S.fk || armFK(90, 90, 90); const sg = this.sig || {};
     const deg = (k) => Math.round(a[k]) + '°' + (sg[k] ? '' : ' (' + tx(W.noSig) + ')');
@@ -135,8 +172,11 @@ class ArmWorld extends World {
     const L = this.cfg.level;
     if (L === 1) rows.push([tx(W.goal), `🚩 ${S.flagAngle}° · ${yes(S.flags.has('aimed'))}`]);
     if (L === 2 || L === 3) rows.push([tx(W.goal), `🔴 ${S.ballD ?? '…'} mm · ${yes(S.flags.has('touched'))}`]);
-    if (L >= 4) rows.push([tx(W.goal), `A → B · ${yes(S.flags.has('placed'))}`]);
-    return { title: t3('Robot arm', 'रोबोट की बाँह', 'Robot arm'), rows, controls: L >= 4 ? [{ id: 'backA', kind: 'button', label: W.backA }] : [], labels: this.jointLabels(a, sg) };
+    if (L === 4 || L === 5) rows.push([tx(W.goal), `A → B · ${yes(S.flags.has('placed'))}`]);
+    if (L === 6) { const R = S.res || {}; rows.splice(3, 3, [tx(W.pen), S.penDown ? tx(W.penOn) : `${Math.max(0, Math.round(S.penH ?? 0))} mm ${tx(W.penUp)}`], [tx(W.ink), `${Math.round(S.ink || 0)} mm`],
+      [tx(W.offLine), R.dev !== undefined ? `${R.dev} mm` : '—'], [tx(W.covered), R.cover !== undefined ? `${R.cover} %` : '—']); }
+    const ctl = L === 4 || L === 5 ? [{ id: 'backA', kind: 'button', label: W.backA }] : L === 6 ? [{ id: 'sheet', kind: 'button', label: W.sheet }] : [];
+    return { title: t3('Robot arm', 'रोबोट की बाँह', 'Robot arm'), rows, controls: ctl, labels: this.jointLabels(a, sg) };
   }
   jointLabels(a) { // where to show each joint's angle (bench mm)
     if (!this.arm) return []; const [ax, ay, az] = ARM_POS; const fk = this.sim.fk || armFK(a.b, a.s, a.e);

@@ -5556,16 +5556,16 @@
    {
     "class": 11,
     "n": 4,
-    "kind": "I",
+    "kind": "L",
     "title": "Robot arm: draw a square",
     "board": "uno",
-    "status": "planned",
-    "ref": "robot-arm-draw-a-square-uno",
+    "status": "live",
+    "ref": "armsquare",
     "newparts": [],
-    "family": "machines",
+    "family": "live-projects",
     "parts": [
-     "mg996r",
      "psu5",
+     "mg996r",
      "servo"
     ],
     "strand": "Decomposition",

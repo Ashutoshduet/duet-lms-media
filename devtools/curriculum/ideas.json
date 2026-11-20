@@ -55848,6 +55848,27 @@
 "note": null
 },
 {
+"id": "live-armsquare",
+"title": "Robot arm: draw a square",
+"family": "live",
+"board": "uno",
+"parts": [
+"psu5",
+"mg996r",
+"servo"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "armsquare",
+"rule": null,
+"note": null
+},
+{
 "id": "live-conveyor",
 "title": "Conveyor belt with a stepper",
 "family": "live",

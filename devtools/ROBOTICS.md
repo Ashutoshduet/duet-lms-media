@@ -1035,3 +1035,16 @@ heaters.
   motor hums (it shakes in 3D) and the belt stays still (stall). At 12 rpm the box is stamped 5 times and the bare belt
   5 more, counted 10 (the sensor stays LOW for 30 mm while each loop moves 2.9 mm). The fix waits while pin 2 is LOW:
   one stamp per box, within 3 mm of its middle, about 13 boxes a minute. robocore24.mjs plays it. Class 11: 9 of 26.
+- Class 11 robot arm draws a square (batch 24, lessons24.js `armsquare`; robots.js `ArmSim` level 6 and `DRAW`,
+  worlds.js `ArmWorld.paper/inkDraw`): the 4-servo arm of batch 2 holds a felt pen in the claw (ARMG.pen: its tip 80 mm
+  past the wrist, along the forearm; armFK returns `pen`); the claw closes on it (state.limit for a 10 mm pen). A sheet
+  (170 × 130 mm, ruled, the 80 mm target square pencilled 130–210 mm in front of the base) lies on the desk; the ink is
+  a transparent canvas over 440 × 320 mm of desk, so ink off the paper shows. The pen writes while its tip is within
+  1.5 mm of the paper (points between frames are filled in); 8 mm into the desk flags dig. When the pen has stayed up
+  1.2 s the drawing is judged: ink off the paper (offPaper), the worst distance from the square's sides and the share of
+  the sides with ink within 3 mm (crooked: worse than 4 mm or under 90 %; square: within 3 mm and at least 95 %). The
+  sketch's penAt(x, y, z) is inverse kinematics (atan2, Pythagoras, the cosine rule with acos; cpp.js now has acos,
+  asin, atan, degrees, radians; Servo.write(NaN) is 0). First the base gets radians (1.87 → 2°): ink on the desk at
+  x ≈ 175 mm. With degrees(), corner-to-corner jumps (a joint move) draw 12 mm off the line with 38 % covered; lineTo()
+  (40 steps through penAt: a linear move) draws within 1.8 mm, 96 % (gaps where whole degrees lift the tip). The lesson's
+  live text reads robots.js ARMCUR. robocore24.mjs plays it. Class 11: 10 of 26.

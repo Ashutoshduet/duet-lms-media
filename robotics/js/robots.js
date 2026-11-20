@@ -10,7 +10,7 @@ const D2R = Math.PI / 180;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 
 // ------------------------------------------------------------------ the arm
-export const ARMG = { h0: 78, L1: 105, L2: 100, Lc: 62, grip: 50, cube: 25, gapMax: 44, gOpen: 30, gShut: 95 };
+export const ARMG = { h0: 78, L1: 105, L2: 100, Lc: 62, grip: 50, cube: 25, gapMax: 44, gOpen: 30, gShut: 95, pen: 80, penD: 10 }; // (pen: a felt pen in the claw, its tip 80 mm past the wrist)
 export const ARM_POS = [345, -3, -40]; // where the arm stands on the desk (bench mm)
 // claw gap (mm) for a gripper servo angle: 30° = wide open (44 mm), 95° = shut
 export const gapOf = (g) => clamp(ARMG.gapMax * (ARMG.gShut - g) / (ARMG.gShut - ARMG.gOpen), 0, ARMG.gapMax);
@@ -23,22 +23,30 @@ export function armFK(b, s, e) {
   const r1 = A.L1 * Math.cos(e1), y1 = A.h0 + A.L1 * Math.sin(e1);
   const pt = (L) => { const r = r1 + L * Math.cos(e2), y = y1 + L * Math.sin(e2); return [r * dx, y, r * dz, r]; };
   const el = [r1 * dx, y1, r1 * dz], wr = pt(A.L2), gp = pt(A.L2 + A.grip), tip = pt(A.L2 + A.Lc);
-  return { elbow: el, wrist: wr.slice(0, 3), grip: gp.slice(0, 3), tip: tip.slice(0, 3), reach: Math.round(gp[3]), height: Math.round(gp[1]) };
+  const pn = pt(A.L2 + A.pen);
+  return { elbow: el, wrist: wr.slice(0, 3), grip: gp.slice(0, 3), tip: tip.slice(0, 3), pen: pn.slice(0, 3), reach: Math.round(gp[3]), height: Math.round(gp[1]) };
 }
 const dist3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+// (batch 24, Class 11) the arm draws: a felt pen held in the claw, a sheet of paper in front of the arm (arm-local mm: x to
+// the right, z towards the student). The square to draw (pencilled on the paper) is 80 mm a side. The pen writes while its
+// tip is within 1.5 mm of the paper (the felt tip and the holder give a little); pushed 8 mm into the desk it digs.
+export const DRAW = { sq: [[-40, 130], [40, 130], [40, 210], [-40, 210]], paper: { cx: 0, cz: 170, w: 170, d: 130 }, inkAt: 1.5, dig: -8 };
+const segDist = (q, a, b) => { const dx = b[0] - a[0], dz = b[1] - a[1]; const L2 = dx * dx + dz * dz; const t = L2 ? clamp(((q[0] - a[0]) * dx + (q[1] - a[1]) * dz) / L2, 0, 1) : 0; return Math.hypot(q[0] - a[0] - t * dx, q[1] - a[1] - t * dz); };
+export const ARMCUR = { sim: null }; // the arm of the lesson that is open (a lesson's live results read it)
 export class ArmSim {
-  // level: 1 aim at a flag, 2 touch a ball (shoulder), 3 touch a ball (all joints), 4 pick and place, 5 joystick
+  // level: 1 aim at a flag, 2 touch a ball (shoulder), 3 touch a ball (all joints), 4 pick and place, 5 joystick, 6 draw
   constructor(level) {
-    this.level = level; const A = ARMG;
+    ARMCUR.sim = this; this.level = level; const A = ARMG;
     this.A = armFK(140, 45, 66).grip; this.B = armFK(40, 45, 66).grip; this.A[1] = this.B[1] = A.cube / 2;
     this.flagAngle = 120; this.ball = level === 2 ? armFK(60, 100, 90).grip : armFK(100, 70, 120).grip;
     this.reset();
   }
-  reset() { this.cube = { p: this.A.slice(), held: false, vy: 0, settled: true, placed: false }; this.flags = new Set(); this.aimT = 0; this.touchT = 0; this.min = {}; this.max = {}; }
+  reset() { this.cube = { p: this.A.slice(), held: false, vy: 0, settled: true, placed: false }; this.flags = new Set(); this.aimT = 0; this.touchT = 0; this.min = {}; this.max = {}; this.strokes = []; this.cur = null; this.ink = 0; this.res = {}; this.judgeT = 0; this.upT = 0; this.inkDone = 0; this.inkV = (this.inkV || 0) + 1; }
   // every frame: the servo angles (null for a joint that gets no signal: it stays where it is)
   update(dt, ang) {
     const A = ARMG; const fk = armFK(ang.b, ang.s, ang.e); this.fk = fk; this.ang = ang;
     for (const k of ['b', 's', 'e', 'g']) { this.min[k] = Math.min(this.min[k] ?? 999, ang[k]); this.max[k] = Math.max(this.max[k] ?? -999, ang[k]); }
+    if (this.level === 6) { this.gap = gapOf(ang.g); this.limit = angleForGap(ARMG.penD); this.draw(dt, fk); return; } // (the claw closes on the pen)
     const c = this.cube; const gap = gapOf(ang.g); this.gap = gap;
     const near = dist3(fk.grip, c.p) < 13;
     // the claw: closing round the block stops at the block's width (the servo pushes: its angle cannot go further)
@@ -52,6 +60,34 @@ export class ArmSim {
     // level goals
     if (this.level === 1) { this.aimT = Math.abs(ang.b - this.flagAngle) < 4 ? this.aimT + dt : 0; if (this.aimT > 0.6) this.flags.add('aimed'); }
     if (this.level === 2 || this.level === 3) { this.ballD = Math.round(dist3(fk.grip, this.ball)); this.touchT = this.ballD < 16 ? this.touchT + dt : 0; if (this.touchT > 0.5) this.flags.add('touched'); }
+  }
+  // the pen: ink where its tip touches the paper (or the desk), one stroke while it stays down
+  draw(dt, fk) {
+    const p = fk.pen; const down = p[1] <= DRAW.inkAt; this.penDown = down; this.penH = p[1];
+    if (p[1] < DRAW.dig) this.flags.add('dig');
+    if (down) {
+      const q = [+p[0].toFixed(2), +p[2].toFixed(2)];
+      if (!this.cur) { this.cur = [q]; this.strokes.push(this.cur); this.flags.add('inked'); this.inkV++; }
+      else { const l = this.cur[this.cur.length - 1]; const d = Math.hypot(q[0] - l[0], q[1] - l[1]); if (d > 0.4) { const n = Math.ceil(d); for (let k = 1; k <= n; k++) this.cur.push(k === n ? q : [l[0] + (q[0] - l[0]) * k / n, l[1] + (q[1] - l[1]) * k / n]); this.ink += d; this.inkV++; } } // (a fast move: the line between two frames)
+      this.upT = 0; this.judgeT += dt; if (this.judgeT > 0.5) { this.judgeT = 0; this.judge(false); }
+    } else {
+      this.upT = (this.upT || 0) + dt; if (this.cur) { this.cur = null; this.judge(false); }
+      if (this.upT > 1.2 && this.ink > 0 && this.inkDone !== this.ink) { this.inkDone = this.ink; this.judge(true); } // (the pen has stayed up: the drawing is finished)
+    }
+  }
+  // how the drawing compares with the pencilled square: ink off the paper, the worst distance from the square's sides,
+  // and how much of the four sides has ink on it (within 3 mm)
+  judge(done) { // (done: the pen has stayed up, so the drawing is finished)
+    const P = this.strokes.flat(); if (!P.length) return; const pp = DRAW.paper, S = DRAW.sq; const R = this.res;
+    const off = P.filter((q) => Math.abs(q[0] - pp.cx) > pp.w / 2 || Math.abs(q[1] - pp.cz) > pp.d / 2);
+    if (off.length > 5) { this.flags.add('offPaper'); R.offX = Math.round(off.reduce((a, q) => a + q[0], 0) / off.length); R.offZ = Math.round(off.reduce((a, q) => a + q[1], 0) / off.length); }
+    const on = P.filter((q) => !off.includes(q)); let dev = 0;
+    for (const q of on) { let d = Infinity; for (let i = 0; i < 4; i++) d = Math.min(d, segDist(q, S[i], S[(i + 1) % 4])); dev = Math.max(dev, d); }
+    let cov = 0, n = 0; for (let i = 0; i < 4; i++) { const a = S[i], b = S[(i + 1) % 4]; for (let k = 0; k <= 40; k++) { const x = a[0] + (b[0] - a[0]) * k / 40, z = a[1] + (b[1] - a[1]) * k / 40; n++; if (on.some((q) => Math.abs(q[0] - x) < 3 && Math.abs(q[1] - z) < 3)) cov++; } }
+    R.dev = +dev.toFixed(1); R.cover = Math.round(cov / n * 100); R.ink = Math.round(this.ink); R.strokes = this.strokes.length;
+    if (!done) return;
+    if (on.length > 40 && (dev > 4 || R.cover < 90)) this.flags.add('crooked');
+    if (R.cover >= 95 && dev <= 3) this.flags.add('square');
   }
   landed() { const c = this.cube; const dB = Math.hypot(c.p[0] - this.B[0], c.p[2] - this.B[2]); c.placed = dB < 28; if (c.placed) this.flags.add('placed'); }
 }
