@@ -720,3 +720,26 @@ night mode = knob // 4), hot or cold by radio signal strength (receive_full() no
 each power step below 7; beyond −98 dBm a message is lost), a simple AI exercise coach (it keeps your best and sets the
 next target = best + 2) and an inchworm robot (scene `worm`: the servo's swing moves it 0.25 mm a degree, shown on a
 paper ruler that slides back under it). Classes 2–6 are complete; 207 of 300 sessions are live.
+
+
+**Batch 14 (1,256 projects): the project bank grows, and comes to the micro:bit (`factory.js`, `factorymb.js`, tests
+`robofactory.mjs`, `robofactorymb.mjs`).** 59 new jobs (160 in all), taken from the projects school labs and maker sites
+build worldwide (ATL handbook ideas, science-fair lists, Arduino / micro:bit / Pi classroom projects) and written fresh for
+DUET: a bus stop request bell, grandparent help button, canteen order sign, pet feeder, quiz buzzer, electronic
+scarecrow, terrace monkey alarm, baby cot watcher, wild elephant warning, dustbin-full sensor, conveyor box counter,
+goal-line sensor, over-speed and crane-angle warnings, a light-beam smoke detector, tower beacon, power-cut alarm,
+headlight dipper, iron-left-on and transformer heat alarms, pipe-freeze warning, chick brooder, ride height check,
+screen distance guard, platform edge warning, grain silo, sewer gas warning for workers, drunk-driving ignition lock,
+fruit ripening watch, poultry shed cooling, museum humidity guard, mirror demister and more. Factory lessons: 923
+(Uno 351, ESP32 299, Pico 178, Pi 4 95). New relay loads: garage fumes, poultry and drying-room fans; brooder and mirror
+heaters.
+- The micro:bit bank (`factorymb.js`, 135 lessons, Classes 3–6, group `bank`, ids `m_<job>_<out>`): every job whose
+  sensor the micro:bit has (button A; the light level its LED screen reads, dark or bright; the chip's temperature, hot
+  or cold; a knob on pin 1 by crocodile clips) to its speaker (a beep every 150 ms while on), its LED screen (a tick, or a
+  cross for a warning: a job whose message has a capital word), an LED on pin 0 (relay jobs: the LED stands in for the
+  lamp) or a servo on pin 0 (scene `gate`). The knob and the servo are never together (they would stand on the same
+  spot). MicroPython that opens as blocks and back (comments go). Steps as the Arduino bank: clips, check, run, on, off,
+  one edit (limit or hold = 1000 → 3000), and the proof. `lang: 'py'`; the pack exports them as micro:bit projects.
+- Last runs (20 Nov 2026): `robofactory.mjs` 6462 ok, `robofactorymb.mjs` 330 ok, `robocore.mjs`, `robocore12.mjs`,
+  `robocore13.mjs`, `robocircuits.mjs` all passed; three micro:bit bank lessons checked in the browser (clips, check,
+  run, servo gate, knob and LED).

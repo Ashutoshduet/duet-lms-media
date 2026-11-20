@@ -20,7 +20,7 @@ if (!all.some((l) => l.batch === 8)) { const t3 = (en, hi, hg) => ({ en, hi, hg 
 const out = path.resolve(process.argv[2] || '/tmp/robopack');
 fs.mkdirSync(out, { recursive: true });
 const BOARD = { none: 'Battery circuit (no board)', uno: 'Arduino Uno', nano: 'Arduino Nano', mega: 'Arduino Mega 2560', esp32: 'ESP32', pico: 'Raspberry Pi Pico', pi4: 'Raspberry Pi 4', microbit: 'BBC micro:bit' };
-const boardOf = (l) => l.board || (l.lang === 'py' && /^mb/.test(l.id) ? 'microbit' : l.batch === 'C' ? 'none' : 'uno');
+const boardOf = (l) => l.board || (l.lang === 'py' && (/^mb/.test(l.id) || (l.world && l.world.kind === 'mb')) ? 'microbit' : l.batch === 'C' ? 'none' : 'uno');
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50);
 const txt = (o, lg) => (o && typeof o === 'object' ? String(o[lg] || o.en || '') : String(o || ''));
 const tagType = (l) => { const m = {}; for (const p of (l.world && l.world.parts) || []) m[p.tag] = p.type; for (const p of l.setup.parts || []) m[p.tag] = p.type; for (const s of l.steps) if (s.k === 'place') m[s.place.tag] = s.place.type; return m; };
