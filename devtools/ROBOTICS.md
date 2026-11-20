@@ -754,3 +754,10 @@ heaters.
   track with a black LAP marker inside the near straight; a third IR on the car's left at 58 mm sees only the marker;
   laps timed with millis()). `carFeed(sim, lab)` in robots.js writes these sensors into the bench, for worlds.js and the
   tests alike. Views `arenaedge`, `arenalight`, `arenadance`. Class 7 is complete: 211 of 300 sessions are live.
+- Class 10 on the Raspberry Pi 4 (`lessons15.js`, batch 15, group `pi`, page only like batch 6; tests `robocore15.mjs`):
+  traffic lights (red / amber / green on GPIO 22 / 27 / 17, the student adds the green; the tick follows the sequence
+  R → RA → G → A → R and times the green), reaction game (uniform(2, 5) wait, time(), best of three, "Lightning fast!"
+  under 0.3 s), distance with gpiozero's DistanceSensor (the 1 kΩ / 2.2 kΩ divider on Echo is the student's job; a
+  buzzer on GPIO 18 when closer than 20 cm), a quiz buzzer for three teams (lists of Buttons and LEDs, the first press
+  wins, `lock` seconds for the others) and a Morse code translator (input() in the terminal, a dictionary, one `unit`
+  sets every timing). 216 of 300 sessions are live; 1,265 projects.

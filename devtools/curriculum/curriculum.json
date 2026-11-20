@@ -4930,14 +4930,17 @@
    {
     "class": 10,
     "n": 2,
-    "kind": "I",
+    "kind": "L",
     "title": "Traffic lights in Python",
     "board": "pi4",
-    "status": "planned",
-    "ref": "traffic-lights-in-python-pi4",
+    "status": "live",
+    "ref": "pi_traffic",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
+    "family": "live-pi",
+    "parts": [
+     "led",
+     "resistor"
+    ],
     "strand": "Abstraction",
     "focus": "Python",
     "term": "Term 1 (April-July)"
@@ -4945,14 +4948,18 @@
    {
     "class": 10,
     "n": 3,
-    "kind": "I",
+    "kind": "L",
     "title": "Reaction game in Python",
     "board": "pi4",
-    "status": "planned",
-    "ref": "reaction-game-in-python-pi4",
+    "status": "live",
+    "ref": "pi_reaction",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
+    "family": "live-pi",
+    "parts": [
+     "led",
+     "resistor",
+     "button"
+    ],
     "strand": "Algorithmic thinking",
     "focus": "Python",
     "term": "Term 1 (April-July)"
@@ -5040,14 +5047,18 @@
    {
     "class": 10,
     "n": 9,
-    "kind": "I",
+    "kind": "L",
     "title": "Distance sensor with GPIO Zero",
     "board": "pi4",
-    "status": "planned",
-    "ref": "distance-sensor-with-gpio-zero-pi4",
+    "status": "live",
+    "ref": "pi_distance",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
+    "family": "live-pi",
+    "parts": [
+     "hcsr04",
+     "abuzz",
+     "resistor"
+    ],
     "strand": "Abstraction",
     "focus": "Python",
     "term": "Term 2 (July-September)"
@@ -5055,14 +5066,19 @@
    {
     "class": 10,
     "n": 10,
-    "kind": "I",
+    "kind": "L",
     "title": "Quiz buzzer for three teams",
     "board": "pi4",
-    "status": "planned",
-    "ref": "quiz-buzzer-for-three-teams-pi4",
+    "status": "live",
+    "ref": "pi_quiz",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
+    "family": "live-pi",
+    "parts": [
+     "led",
+     "resistor",
+     "button",
+     "abuzz"
+    ],
     "strand": "Algorithmic thinking",
     "focus": "Python",
     "term": "Term 2 (July-September)"
@@ -5070,14 +5086,18 @@
    {
     "class": 10,
     "n": 11,
-    "kind": "I",
+    "kind": "L",
     "title": "Morse code translator",
     "board": "pi4",
-    "status": "planned",
-    "ref": "morse-code-translator-pi4",
+    "status": "live",
+    "ref": "pi_morse",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
+    "family": "live-pi",
+    "parts": [
+     "led",
+     "resistor",
+     "abuzz"
+    ],
     "strand": "Pattern recognition",
     "focus": "Python",
     "term": "Term 2 (July-September)"

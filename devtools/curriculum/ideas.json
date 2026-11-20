@@ -22093,6 +22093,111 @@
 "note": null
 },
 {
+"id": "live-pi_morse",
+"title": "Morse code translator",
+"family": "live",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"abuzz"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_morse",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pi_quiz",
+"title": "Quiz buzzer for three teams",
+"family": "live",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"button",
+"abuzz"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_quiz",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pi_distance",
+"title": "Distance sensor with GPIO Zero",
+"family": "live",
+"board": "pi4",
+"parts": [
+"hcsr04",
+"abuzz",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_distance",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pi_reaction",
+"title": "Reaction game in Python",
+"family": "live",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_reaction",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pi_traffic",
+"title": "Traffic lights in Python",
+"family": "live",
+"board": "pi4",
+"parts": [
+"led",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_traffic",
+"rule": null,
+"note": null
+},
+{
 "id": "live-pi_car",
 "title": "A Raspberry Pi robot car",
 "family": "live",

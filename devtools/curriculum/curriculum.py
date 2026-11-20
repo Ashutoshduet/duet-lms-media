@@ -168,7 +168,8 @@ REPL = {
      'I:Bouncing ball on an OLED': 'L:sketch', 'I:Smart traffic junction that counts cars': 'L:speedgun', 'I:Motion alert on the phone' + ESP: 'L:esp_alarm'},
  9: {'I:Burglar alarm: motion sensor and beeper' + PICO: 'L:f_corridor_led_pico', 'I:Automatic plant watering: soil moisture sensor and water pump' + PICO: 'L:f_waterplant_pump_pico',
      'I:Electronic voting machine model': 'L:calc'},
- 10: {'I:Temperature-controlled fan in Python' + PI: 'L:f_greenfan_relay_pi', 'I:Smart home: motion light, gas alarm and fan' + ESP: 'L:f_roomlight_relay_esp', 'I:Rainwater harvesting tank monitor': 'L:f_tankfull_lcd',
+ 10: {'I:Temperature-controlled fan in Python' + PI: 'L:f_greenfan_relay_pi', 'I:Traffic lights in Python' + PI: 'L:pi_traffic', 'I:Reaction game in Python' + PI: 'L:pi_reaction',
+      'I:Distance sensor with GPIO Zero' + PI: 'L:pi_distance', 'I:Quiz buzzer for three teams' + PI: 'L:pi_quiz', 'I:Morse code translator' + PI: 'L:pi_morse', 'I:Smart home: motion light, gas alarm and fan' + ESP: 'L:f_roomlight_relay_esp', 'I:Rainwater harvesting tank monitor': 'L:f_tankfull_lcd',
       'I:Smart energy saver for a classroom': 'L:f_classfan_relay', 'I:Smart parking for a market': 'L:f_slot_lcd'},
 }
 
