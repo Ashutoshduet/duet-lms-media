@@ -1298,3 +1298,11 @@ heaters.
   lagging (6 s walking, > 15° off a quarter of the time), tracked (8 s, never lost, > 15° off under a tenth). The
   lesson: pan − err × 30 turns away; at 640 × 480 (5–6 fps) it lags; at 320 × 240 (about 17 fps) it tracks.
   py.js dbl(): time.time() on the Pi is now an exact double (a 32-bit float rounded it to 128 s steps).
+- Batch 39: the Class 12 AI smart bin (lessons24.js aibin; scenes3.js AiBinScene, AIBIN; worlds3.js binSteps, view
+  scene3bn): wet and dry waste. A tray with the camera above it, a trapdoor (svD, GPIO 18, gpiozero angle 0 shut / 90
+  open) and a flap (svF, GPIO 17: −45 the green WET bin, +45 the blue DRY bin, −20 … 20 the floor). The panel drops a
+  banana peel (46), apple core (47), leftover sandwich (48), plastic bottle (39), paper cup (41) or old phone (67: e-waste)
+  on the tray, not while the trapdoor is open; lab.cam37.objects gives YOLO the one thing on the tray. Flags wet_<item> /
+  dry_<item>, wrongBin, ewasteDry, ewasteHeld (the phone kept 4 s on the tray), floor. The lesson: banana and bottle
+  right; the sandwich wrong until WET lists every COCO food; the phone in DRY until the commented e-waste lines (a "# "
+  after the indent, as an editor's toggle-comment leaves them) are switched on.

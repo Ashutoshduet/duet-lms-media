@@ -71415,6 +71415,25 @@
 "note": null
 },
 {
+"id": "live-aibin",
+"title": "Smart bin that sorts by AI image class",
+"family": "live",
+"board": "pi4",
+"parts": [
+"servo"
+],
+"newparts": [],
+"band": [
+12,
+12
+],
+"level": 12,
+"theme": "projects",
+"live": "aibin",
+"rule": null,
+"note": null
+},
+{
 "id": "live-facetrack",
 "title": "Face-tracking pan-tilt camera",
 "family": "live",

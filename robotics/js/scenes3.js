@@ -984,10 +984,50 @@ const WF = { person: t3('The person (left − / right +)', 'व्यक्त�
   tracked: t3('tracked', 'पीछा कर रहा', 'peecha kar raha'), out: t3('out of the picture', 'तस्वीर से बाहर', 'tasveer se bahar'), edge: t3('near the edge', 'किनारे के पास', 'kinaare ke paas'), mid: t3('in the middle', 'बीच में', 'beech mein'),
   offT: t3('Walking, more than 15° off', 'चलते हुए, 15° से ज़्यादा हटा', 'Chalte hue, 15° se zyada hata'), personC: t3('The person', 'व्यक्ति', 'Vyakti'), left: t3('Left', 'बाएँ', 'Left'), center: t3('Middle', 'बीच', 'Beech'), right: t3('Right', 'दाएँ', 'Right'), walkB: t3('Walk', 'चले', 'Chale') };
 
+// ------------------------------------------------------------------ the AI smart bin (batch 39, Class 12)
+// Wet and dry waste, as Indian cities collect it: a tray at the top with the Camera Module 3 looking down at it, a trapdoor
+// under the tray (servo svD, gpiozero angle 0 shut, 90 open) and a flap below (servo svF: −45 tips into the green WET
+// bin on the left, +45 into the blue DRY bin on the right). The panel drops one thing at a time on the tray. When the
+// trapdoor opens the thing falls: into the bin the flap points at, or on the floor if the flap is still in the middle
+// (−20 … 20). What YOLOv8n sees on the tray goes to pi37.js through lab.cam37.objects. E-waste (an old phone) belongs in
+// neither bin. Flags: wet_<item> / dry_<item> (where each thing went), wrongBin, ewasteDry (the phone in a bin),
+// ewasteHeld (the phone kept on the tray 4 s while the program said "E-waste"), floor.
+export const AIBIN = { items: { banana: { cls: 46, conf: 0.9, bin: 'wet', box: [250, 200, 400, 280] }, apple: { cls: 47, conf: 0.86, bin: 'wet', box: [280, 180, 360, 270] }, sandwich: { cls: 48, conf: 0.66, bin: 'wet', box: [240, 190, 400, 290] },
+  bottle: { cls: 39, conf: 0.88, bin: 'dry', box: [200, 210, 440, 270] }, cup: { cls: 41, conf: 0.8, bin: 'dry', box: [270, 180, 370, 290] }, phone: { cls: 67, conf: 0.81, bin: 'e', box: [260, 170, 380, 300] } } };
+export class AiBinScene extends Scene {
+  constructor(cfg) { super(cfg); this.tray = null; this.bins = { wet: [], dry: [], floor: [] }; this.res = {}; this.fall = null; this.heldT = 0; }
+  angle(lab, tag) { const p = lab.byTag(tag); return p ? p.state.angle - 90 : 0; }
+  update(dt, lab) {
+    this.t += dt; const me = this;
+    if (lab && (!lab.cam37 || lab.cam37.scene !== this)) lab.cam37 = { scene: this, ok: () => true, frames: 0,
+      objects: () => { const T = me.tray && AIBIN.items[me.tray]; if (!T || me.fall) return []; return [{ cls: T.cls, conf: clamp(T.conf + (Math.random() - 0.5) * 0.06, 0.05, 0.97), xyxy: T.box.slice() }]; },
+      get started() { return !!me.started; }, set started(v) { me.started = v; if (v) me.flags.add('camOk'); } };
+    const door = this.angle(lab, 'svD'), flap = this.angle(lab, 'svF'); this.door = door; this.flap = flap;
+    if (this.tray && !this.fall && door > 45) { const bin = flap < -20 ? 'wet' : flap > 20 ? 'dry' : 'floor'; this.fall = { item: this.tray, bin, t: 0 }; this.tray = null; }
+    if (this.fall) { this.fall.t += dt; if (this.fall.t > 0.35) { const { item, bin } = this.fall; this.fall = null; this.bins[bin].push(item); this.res.last = { item, bin };
+      if (bin === 'floor') this.flags.add('floor'); else this.flags.add(bin + '_' + item); const want = AIBIN.items[item].bin;
+      if (want === 'e' && bin !== 'floor') this.flags.add('ewasteDry'); else if (bin !== want) { this.flags.add('wrongBin'); this.res.wrong = { item, bin }; } } }
+    this.heldT = this.tray === 'phone' ? this.heldT + dt : 0; if (this.heldT > 4 && this.started) this.flags.add('ewasteHeld');
+    return true;
+  }
+  onRun() { super.onRun(); for (const k of [...this.flags]) this.flags.delete(k); this.started = false; this.heldT = 0; }
+  control(id) { if (id === 'back') { if (this.tray) this.tray = null; return; } if (AIBIN.items[id] && !this.tray && !this.fall && !((this.door || 0) > 20)) { this.tray = id; this.heldT = 0; } } // (not while the trapdoor is still open)
+  hud() {
+    const n = (k) => tx(WBN[k]); const L = this.res.last;
+    const rows = [[tx(WBN.tray), this.tray ? n(this.tray) : '—'], [tx(WBN.wet), this.bins.wet.map(n).join(', ') || '—'], [tx(WBN.dry), this.bins.dry.map(n).join(', ') || '—'],
+      ...(this.bins.floor.length ? [[tx(WBN.floor), this.bins.floor.map(n).join(', ')]] : []), ...(L ? [[tx(WBN.lastW), `${n(L.item)} → ${tx(WBN[L.bin + 'B'])} ${L.bin === AIBIN.items[L.item].bin ? '✓' : '✗'}`]] : [])];
+    const ctl = Object.keys(AIBIN.items).map((k) => ({ id: k, kind: 'button', label: t3(`⬇ ${WBN[k].en}`, `⬇ ${WBN[k].hi}`, `⬇ ${WBN[k].hg}`) })); ctl.push({ id: 'back', kind: 'button', label: WBN.back });
+    return { title: t3('AI smart bin', 'एआई स्मार्ट कूड़ेदान', 'AI smart koodedaan'), rows, controls: ctl };
+  }
+}
+const WBN = { tray: t3('On the tray', 'ट्रे पर', 'Tray par'), wet: t3('Green WET bin', 'हरा गीला कूड़ेदान', 'Hara geela koodedaan'), dry: t3('Blue DRY bin', 'नीला सूखा कूड़ेदान', 'Neela sookha koodedaan'), floor: t3('On the floor', 'फ़र्श पर', 'Farsh par'), lastW: t3('Last', 'पिछली', 'Pichhli'),
+  wetB: t3('WET', 'गीला', 'geela'), dryB: t3('DRY', 'सूखा', 'sookha'), floorB: t3('floor', 'फ़र्श', 'farsh'), back: t3('✋ Take it back off the tray', '✋ इसे ट्रे से वापस उठाइए', '✋ Ise tray se wapas uthaiye'),
+  banana: t3('banana peel', 'केले का छिलका', 'kele ka chhilka'), apple: t3('apple core', 'सेब का बचा हिस्सा', 'seb ka bacha hissa'), sandwich: t3('leftover sandwich', 'बचा सैंडविच', 'bacha sandwich'), bottle: t3('plastic bottle', 'प्लास्टिक की बोतल', 'plastic ki bottle'), cup: t3('paper cup', 'काग़ज़ का कप', 'kaagaz ka cup'), phone: t3('old phone', 'पुराना फ़ोन', 'puraana phone') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'aicam': return new AiCamScene(cfg); case 'face': return new FaceScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'aicam': return new AiCamScene(cfg); case 'face': return new FaceScene(cfg); case 'aibin': return new AiBinScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

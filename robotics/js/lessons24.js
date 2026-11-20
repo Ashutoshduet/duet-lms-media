@@ -1261,6 +1261,46 @@ while True:
         t0 = time.time()
 `;
 
+const BINC = `# AI smart bin: the camera looks at what is on the tray, and the flap sends it to the WET or the DRY bin.
+from picamera2 import Picamera2
+from gpiozero import AngularServo
+from ultralytics import YOLO
+import time
+
+flap = AngularServo(17, min_angle=-90, max_angle=90)   # -45: the green WET bin, +45: the blue DRY bin
+door = AngularServo(18, min_angle=-90, max_angle=90)   # 0: shut, 90: open (the tray tips its load down)
+flap.angle = 0
+door.angle = 0
+WET = ["banana", "apple"]          # food: it rots, so it goes to compost
+
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration(main={"format": "RGB888", "size": (640, 480)}))
+picam2.start()
+model = YOLO("yolov8n.pt")
+print("Drop something in")
+
+while True:
+    results = model(picam2.capture_array(), conf=0.5, verbose=False)
+    if len(results[0].boxes) == 0:
+        continue
+    name = model.names[int(results[0].boxes[0].cls)]
+    # if name == "cell phone":
+    #     print("E-waste! Please hand it to the teacher.")
+    #     time.sleep(3)
+    #     continue
+    if name in WET:
+        print(name, "-> WET bin")
+        flap.angle = -45
+    else:
+        print(name, "-> DRY bin")
+        flap.angle = 45
+    time.sleep(0.5)
+    door.angle = 90
+    time.sleep(1)
+    door.angle = 0
+    flap.angle = 0
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1960,6 +2000,31 @@ export function batch24(K, n0) {
     ],
     check: [],
     done: (S) => S.w('tracked') });
+  // 24 ------------------------------------------------------------------- smart bin that sorts by AI (Class 12, batch 39)
+  // banana → WET, bottle → DRY; the leftover sandwich goes to DRY until WET lists every food class; the old phone goes to DRY
+  // until the e-waste lines are switched on
+  const okWet = (src) => { const m = /WET\s*=\s*\[([^\]]*)\]/.exec(src || ''); return !!m && /"sandwich"/.test(m[1]) && /"banana"/.test(m[1]); };
+  const okE = (src) => okWet(src) && /\n\s{4}if name == "cell phone":\s*\n\s{8}print\("E-waste! Please hand it to the teacher\."\)\s*\n\s{8}time\.sleep\(3\)\s*\n\s{8}continue/.test(src || '');
+  L.push({ id: 'aibin', board: 'pi4', cls: '12', blocks: false, view: 'pi6', wview: 'pi6w', rview: 'scene3bn', code: BINC, drawer: [], serial: true, scene: { kind: 'aibin' },
+    title: t3('Smart bin that sorts by AI image class', 'AI इमेज क्लास से छाँटने वाला स्मार्ट कूड़ेदान', 'AI image class se chhaantne wala smart koodedaan'),
+    goal: t3('Wet waste and dry waste go to different places: the wet to compost, the dry to recycling. A camera and YOLO look at what is dropped in, and a servo flap sends it to the right bin. Teach the bin what counts as food, and what to do with things that belong in neither.', 'गीला कूड़ा और सूखा कूड़ा अलग-अलग जगह जाते हैं: गीला खाद में, सूखा रीसाइक्लिंग में। एक कैमरा और YOLO देखते हैं कि क्या डाला गया, और सर्वो फ़्लैप उसे सही कूड़ेदान में भेजता है। कूड़ेदान को सिखाइए कि खाना क्या है, और उन चीज़ों का क्या करना है जो किसी में नहीं जातीं।', 'Geela kooda aur sookha kooda alag-alag jagah jaate hain: geela khaad mein, sookha recycling mein. Ek camera aur YOLO dekhte hain ki kya daala gaya, aur servo flap use sahi koodedaan mein bhejta hai. Koodedaan ko sikhaiye ki khaana kya hai, aur un cheezon ka kya karna hai jo kisi mein nahi jaatin.'),
+    setup: { parts: [F('svF', 'servo', {}, 178, 52, 1), F('svD', 'servo', {}, 178, 82, 1)], wires: [['B:5V', 'H:bp2'], ['B:GND6', 'H:bn3'], ['T:svF:GND', 'H:bn40'], ['T:svF:VP', 'H:bp40'], ['T:svF:SIG', 'B:GPIO17'], ['T:svD:GND', 'H:bn44'], ['T:svD:VP', 'H:bp44'], ['T:svD:SIG', 'B:GPIO18']] },
+    steps: [
+      { k: 'info', do: t3('Beside the Pi: the smart bin. A tray at the top with the camera looking down at it, a trapdoor under the tray (servo on GPIO 18), and a flap (GPIO 17) that tips into the green WET bin or the blue DRY bin. The panel drops things on the tray, one at a time.', 'Pi के पास: स्मार्ट कूड़ेदान। ऊपर एक ट्रे जिस पर कैमरा नीचे देखता है, ट्रे के नीचे एक ढक्कन (GPIO 18 पर सर्वो), और एक फ़्लैप (GPIO 17) जो हरे गीले या नीले सूखे कूड़ेदान में झुकता है। पैनल ट्रे पर एक बार में एक चीज़ गिराता है।', 'Pi ke paas: smart koodedaan. Upar ek tray jis par camera neeche dekhta hai, tray ke neeche ek dhakkan (GPIO 18 par servo), aur ek flap (GPIO 17) jo hare geele ya neele sookhe koodedaan mein jhukta hai. Panel tray par ek baar mein ek cheez giraata hai.'), see: E },
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && S.w('wet_banana') && S.w('dry_bottle'), do: t3('Drop in a banana peel; when it is gone, a plastic bottle.', 'एक केले का छिलका डालिए; उसके जाने के बाद, एक प्लास्टिक की बोतल।', 'Ek kele ka chhilka daaliye; uske jaane ke baad, ek plastic ki bottle.'),
+        see: t3('"banana -> WET bin", "bottle -> DRY bin": YOLO names it, the flap turns, then the trapdoor opens. The flap goes first and waits half a second, so the thing never lands on a flap still in the middle.', '"banana -> WET bin", "bottle -> DRY bin": YOLO नाम बताता है, फ़्लैप घूमता है, फिर ढक्कन खुलता है। फ़्लैप पहले जाता है और आधा सेकंड रुकता है, ताकि चीज़ कभी बीच में रुके फ़्लैप पर न गिरे।', '"banana -> WET bin", "bottle -> DRY bin": YOLO naam batata hai, flap ghoomta hai, phir dhakkan khulta hai. Flap pehle jaata hai aur aadha second rukta hai, taaki cheez kabhi beech mein ruke flap par na gire.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('dry_sandwich'), do: t3('Now drop in a leftover sandwich.', 'अब एक बचा हुआ सैंडविच डालिए।', 'Ab ek bacha hua sandwich daaliye.'),
+        see: t3('"sandwich -> DRY bin": food in the dry bin, where it will rot among the paper and plastic. YOLO knew it was a sandwich; the program only knew two foods. Anything not in WET goes to DRY.', '"sandwich -> DRY bin": खाना सूखे कूड़ेदान में, जहाँ वह काग़ज़ और प्लास्टिक के बीच सड़ेगा। YOLO जानता था कि यह सैंडविच है; प्रोग्राम बस दो खाने जानता था। जो WET में नहीं, वह DRY में जाता है।', '"sandwich -> DRY bin": khaana sookhe koodedaan mein, jahan woh kaagaz aur plastic ke beech sadega. YOLO jaanta tha ki yeh sandwich hai; program bas do khaane jaanta tha. Jo WET mein nahi, woh DRY mein jaata hai.') },
+      { k: 'edit', test: okWet, set: [[/WET = \["banana", "apple"\]/, 'WET = ["banana", "apple", "orange", "sandwich", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake"]']], do: t3('Give it all the foods YOLO knows: change the WET line to\n  WET = ["banana", "apple", "orange", "sandwich", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake"]\nand press Run.', 'इसे YOLO के जाने सारे खाने दीजिए: WET वाली लाइन को\n  WET = ["banana", "apple", "orange", "sandwich", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake"]\nकीजिए और "चलाइए" दबाइए।', 'Ise YOLO ke jaane saare khaane dijiye: WET wali line ko\n  WET = ["banana", "apple", "orange", "sandwich", "broccoli", "carrot", "hot dog", "pizza", "donut", "cake"]\nkijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('wet_sandwich') && S.w('ewasteDry'), do: t3('Drop in the sandwich again, then an old phone.', 'फिर से सैंडविच डालिए, फिर एक पुराना फ़ोन।', 'Phir se sandwich daaliye, phir ek puraana phone.'),
+        see: t3('The sandwich goes to WET now. But the phone went to DRY: "cell phone -> DRY bin". A phone is e-waste: its battery can catch fire in a garbage truck, and its metals should be recovered, not buried. It belongs in neither bin.', 'सैंडविच अब गीले में जाता है। पर फ़ोन सूखे में गया: "cell phone -> DRY bin"। फ़ोन ई-कचरा है: इसकी बैटरी कूड़ा-गाड़ी में आग पकड़ सकती है, और इसकी धातुएँ निकाली जानी चाहिए, गाड़ी नहीं। यह किसी कूड़ेदान में नहीं जाता।', 'Sandwich ab geele mein jaata hai. Par phone sookhe mein gaya: "cell phone -> DRY bin". Phone e-waste hai: iski battery kooda-gaadi mein aag pakad sakti hai, aur iski dhaatuein nikaali jaani chahiye, gaadi nahi. Yeh kisi koodedaan mein nahi jaata.') },
+      { k: 'edit', test: okE, set: [[/    # if name == "cell phone":\n    #     print\("E-waste! Please hand it to the teacher\."\)\n    #     time\.sleep\(3\)\n    #     continue\n/, '    if name == "cell phone":\n        print("E-waste! Please hand it to the teacher.")\n        time.sleep(3)\n        continue\n']], do: t3('Switch on the e-waste check: take the "# " (the hash and the space after it) out of its four lines, so the if lines up with the next if, and press Run.', 'ई-कचरे की जाँच चालू कीजिए: उसकी चार लाइनों से "# " (हैश और उसके बाद की खाली जगह) हटाइए, ताकि यह if अगले if की सीध में आए, और "चलाइए" दबाइए।', 'E-waste ki jaanch chaalu kijiye: uski chaar lines se "# " (hash aur uske baad ki khaali jagah) hataiye, taaki yeh if agle if ki seedh mein aaye, aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('ewasteHeld'), do: t3('Drop in the old phone again.', 'फिर से पुराना फ़ोन डालिए।', 'Phir se puraana phone daaliye.'),
+        see: t3('"E-waste! Please hand it to the teacher." The trapdoor stays shut and the phone waits on the tray (take it back off in the panel). Real sorting lines do the same: whatever the AI is not sure about, or must not mix in, goes to a person.', '"E-waste! Please hand it to the teacher." ढक्कन बंद रहता है और फ़ोन ट्रे पर इंतज़ार करता है (पैनल में इसे वापस उठाइए)। असली छँटाई लाइनें भी यही करती हैं: जिस पर AI पक्का नहीं, या जिसे मिलाना नहीं, वह किसी इंसान के पास जाता है।', '"E-waste! Please hand it to the teacher." Dhakkan band rehta hai aur phone tray par intezaar karta hai (panel mein ise wapas uthaiye). Asli chhantaai lines bhi yahi karti hain: jis par AI pakka nahi, ya jise milaana nahi, woh kisi insaan ke paas jaata hai.') },
+    ],
+    check: [],
+    done: (S) => S.w('ewasteHeld') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

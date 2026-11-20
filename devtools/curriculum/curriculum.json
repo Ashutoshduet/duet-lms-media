@@ -6307,14 +6307,16 @@
    {
     "class": 12,
     "n": 13,
-    "kind": "I",
+    "kind": "L",
     "title": "Smart bin that sorts by AI image class",
     "board": "pi4",
-    "status": "planned",
-    "ref": "smart-bin-that-sorts-by-ai-image-class-pi4",
+    "status": "live",
+    "ref": "aibin",
     "newparts": [],
-    "family": "ai-capstone",
-    "parts": [],
+    "family": "live-projects",
+    "parts": [
+     "servo"
+    ],
     "strand": "Decomposition",
     "focus": "AI and vision",
     "term": "Term 2 (July-September)"

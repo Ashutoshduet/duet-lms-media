@@ -17,6 +17,7 @@
 //            with a backdrop; the things the panel puts on it stand in five places, left to right
 //   face     (batch 38) the Camera Module 3 on a pan-tilt head, and a person (head and shoulders) who steps and walks on
 //            an arc in front of it
+//   aibin    (batch 39) the smart bin: a tray with the camera above it, the trapdoor, the flap, the green WET and blue DRY bins
 // Phones and the headset: the still pieces of a scene are merged by material, there are no real-time lights or shadows
 // (the lamp's light is a soft pool on the floor), and a scene is built over a few frames.
 import * as THREE from 'three';
@@ -25,16 +26,17 @@ import * as M2 from './models2.js';
 import * as TX from './tex.js';
 import { VIEWS, nextFrame } from './stage.js';
 import { rotXZ } from './parts.js';
-import { makeScene, PT_TARGETS, TANK, LIFT, CONV, SLIDE, PLOT, PICK, BEAM, AICAM, FACE } from './scenes3.js';
+import { makeScene, PT_TARGETS, TANK, LIFT, CONV, SLIDE, PLOT, PICK, BEAM, AICAM, FACE, AIBIN } from './scenes3.js';
 import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
+Object.assign(VIEWS, { scene3bn: { tgt: [330, 175, -40], hw: 260, hd: 250, dir: [-0.15, 0.35, 0.92] } }); // (batch 39: the smart bin from the front)
 Object.assign(VIEWS, { scene3ft: { tgt: [330, 140, -120], hw: 380, hd: 260, dir: [0.25, 0.4, 0.88] } }); // (batch 38: the pan-tilt camera from behind its shoulder, and the person it follows)
 Object.assign(VIEWS, { scene3ai: { tgt: [300, 70, -10], hw: 260, hd: 170, dir: [-0.2, 0.45, 0.87] } }); // (batch 37: the camera on its tripod and the white table)
 Object.assign(VIEWS, { scene3bb: { tgt: [470, 120, 0], hw: 330, hd: 210, dir: [-0.12, 0.36, 0.92] } }); // (batch 34: the ball-on-beam stand beside the bench)
 Object.assign(VIEWS, { scene3gb: { tgt: [290, 180, 40], hw: 290, hd: 270, dir: [-0.22, 0.32, 0.92] } }); // (batch 33: the gimbal in its hand, beside the bench)
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] }, scene3cv: { tgt: [285, 30, 0], hw: 235, hd: 150, dir: [-0.2, 0.62, 0.76] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal', 'beam', 'ration', 'aicam', 'face']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal', 'beam', 'ration', 'aicam', 'face', 'aibin']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -43,6 +45,7 @@ const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 const frame = nextFrame; // (also in a headset: stage.js)
 const LITE = () => !!(window.DuetPerf && window.DuetPerf.phone) || /OculusBrowser|Quest|Pico/i.test(navigator.userAgent) || /[?&]lite\b/.test(location.search);
 const box = MD.box, cyl = MD.cyl;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 function canvas(w, h) { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; }
 function ctex(C, rep) { const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; if (rep) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep[0], rep[1]); } return t; }
 function grain(c, w, h, a, n = 1400) { for (let i = 0; i < n; i++) { c.fillStyle = `rgba(${Math.random() > 0.5 ? '255,255,255' : '0,0,0'},${Math.random() * a})`; c.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 2, 1 + Math.random() * 2); } }
@@ -103,14 +106,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps(); case 'beam': return this.beamSteps(); case 'ration': return this.rationSteps(); case 'aicam': return this.aiSteps(); case 'face': return this.faceSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps(); case 'beam': return this.beamSteps(); case 'ration': return this.rationSteps(); case 'aicam': return this.aiSteps(); case 'face': return this.faceSteps(); case 'aibin': return this.binSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt); case 'beam': return this.beamDraw(dt); case 'ration': return this.rationDraw(dt); case 'aicam': return this.aiDraw(dt); case 'face': return this.faceDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt); case 'beam': return this.beamDraw(dt); case 'ration': return this.rationDraw(dt); case 'aicam': return this.aiDraw(dt); case 'face': return this.faceDraw(dt); case 'aibin': return this.binDraw(dt);
     }
     return false;
   }
@@ -819,6 +822,43 @@ class World3 {
     const key = [S.phi, pa, ta].map((v) => Math.round((v || 0) * 10)).join(); if (key === this._ftk) return false; this._ftk = key;
     this.ftYaw.rotation.y = -(pa - 90) * D2R; this.ftPitch.rotation.x = (ta - 90) * D2R; // (the camera looks along −z: pan + turns it to the student's right, which is +x… seen from behind it, to the right)
     const a = (S.phi || 0) * D2R, R0 = 450, H = this.ftH; this.ftP.position.set(H.x + Math.sin(a) * R0, 0, H.z - Math.cos(a) * R0); this.ftP.rotation.y = -a;
+    return true;
+  }
+
+  // ================================================================== the AI smart bin (batch 39): x across (WET on the left), the tray at
+  // y 270, the flap's hinge at y 175, the bins' tops at y 120
+  binSteps() {
+    const r = this.root, S = this.mat; const B = this.bnAt = V3(330, 0, -40);
+    return [
+      () => { // the frame, the bins, the camera arm
+        const g = new THREE.Group(); const steel = S({ color: 0x9aa0a6, metalness: 0.6, roughness: 0.4 }), dark = S({ color: 0x2a2c31, roughness: 0.6 });
+        for (const [x, col, lab] of [[-70, 0x2f9e44, 'WET'], [70, 0x2f6fd0, 'DRY']]) { const bin = lathe([[0, 0], [52, 0], [58, 118], [62, 120], [0, 120]].map(([a, b]) => [a, b]), S({ color: col, roughness: 0.55 }), 24); bin.scale.set(1, 1, 0.85); bin.position.set(B.x + x, 0, B.z); g.add(bin);
+          const C = canvas(128, 64); const c = C.getContext('2d'); c.fillStyle = '#fff'; c.font = `800 40px ${TX.FONT}`; c.textAlign = 'center'; c.fillText(lab, 64, 46); const sgn = new THREE.Mesh(new THREE.PlaneGeometry(56, 28), S({ map: ctex(C), transparent: true, roughness: 0.6 })); sgn.position.set(B.x + x, 70, B.z + 51); g.add(sgn); }
+        for (const x of [-130, 130]) g.add(box(6, 300, 6, steel, B.x + x, 150, B.z - 50)); g.add(box(266, 6, 6, steel, B.x, 300, B.z - 50));
+        g.add(box(90, 4, 90, dark, B.x, 268, B.z)); g.add(box(4, 40, 90, dark, B.x - 47, 250, B.z)); g.add(box(4, 40, 90, dark, B.x + 47, 250, B.z)); // (the tray's walls)
+        g.add(box(6, 6, 60, steel, B.x, 380, B.z - 22)); g.add(box(6, 80, 6, steel, B.x, 340, B.z - 50)); this.still(g); this.blob(300, 140, B.x, B.z, 0.35);
+        const cam = new THREE.Group(); cam.position.set(B.x, 378, B.z + 8); cam.rotation.x = -Math.PI / 2; r.add(cam); cam.add(box(25, 24, 1.6, S({ color: 0x1e7a46, roughness: 0.6 }), 0, 0, 0)); const lens = cyl(3, 2, S({ color: 0x0a0b0d, roughness: 0.1 }), 0, 0, -2, 12); lens.rotation.x = Math.PI / 2; cam.add(lens);
+        const door = this.bnDoor = new THREE.Group(); door.position.set(B.x - 44, 266, B.z); r.add(door); door.add(box(88, 3, 88, S({ color: 0x5b6068, metalness: 0.4, roughness: 0.5 }), 44, 0, 0));
+        const flap = this.bnFlap = new THREE.Group(); flap.position.set(B.x, 175, B.z); r.add(flap); flap.add(box(4, 90, 80, S({ color: 0xd9dde2, metalness: 0.5, roughness: 0.4 }), 0, -45, 0));
+      },
+      () => { // the things (55 %), shown on the tray or falling
+        const M = (c, ro = 0.5) => S({ color: c, roughness: ro }); this.bnThings = {};
+        const mk = { banana: () => { const g = new THREE.Group(); const b = new THREE.Mesh(new THREE.TorusGeometry(50, 9, 10, 20, 1.6), M(0xc9a227, 0.7)); b.rotation.set(Math.PI / 2, 0, 0); b.position.set(-25, 6, 30); g.add(b); return g; },
+          apple: () => { const g = new THREE.Group(); const a = lathe([[0, 0], [14, 4], [18, 20], [12, 34], [18, 46], [0, 50]], M(0xc0392b, 0.5), 18); g.add(a); return g; },
+          sandwich: () => { const g = new THREE.Group(); g.add(box(70, 8, 70, M(0xe8c88a, 0.8), 0, 4, 0)); g.add(box(66, 5, 66, M(0x5aa040, 0.7), 0, 10, 0)); g.add(box(70, 8, 70, M(0xe8c88a, 0.8), 0, 16, 0)); g.rotation.y = 0.4; return g; },
+          bottle: () => { const g = new THREE.Group(); const b = lathe([[0, 0], [16, 0], [17, 4], [17, 80], [12, 98], [7, 104], [7, 112]], new THREE.MeshPhysicalMaterial({ color: 0x9fd6ff, roughness: 0.08, transparent: true, opacity: 0.6 }), 20); b.rotation.z = Math.PI / 2; b.position.set(56, 17, 0); g.add(b); return g; },
+          cup: () => { const g = new THREE.Group(); g.add(lathe([[0, 0], [22, 0], [28, 60], [0, 60]], M(0xf3efe3, 0.6), 20)); return g; },
+          phone: () => { const g = new THREE.Group(); g.add(box(70, 8, 140, M(0x1b1c1f, 0.3), 0, 4, 0)); g.add(box(62, 0.5, 128, M(0x223a5e, 0.1), 0, 8.3, 0)); return g; } };
+        for (const [k, f] of Object.entries(mk)) { const o = new THREE.Group(); o.add(f()); o.scale.setScalar(0.55); o.visible = false; r.add(o); this.bnThings[k] = o; }
+      },
+      () => this.cables([['svF', [this.bnAt.x - 130, 30, this.bnAt.z - 44]], ['svD', [this.bnAt.x - 130, 40, this.bnAt.z - 44]]]),
+    ];
+  }
+  binDraw(dt) {
+    if (!this.bnThings) return false; const S = this.sim; const B = this.bnAt; const F = S.fall;
+    this.bnDoor.rotation.z = -clamp((S.door || 0), 0, 90) * D2R; this.bnFlap.rotation.z = -(S.flap || 0) * D2R * 0.9;
+    for (const [k, o] of Object.entries(this.bnThings)) { const onTray = S.tray === k, falling = F && F.item === k; o.visible = onTray || !!falling;
+      if (onTray) o.position.set(B.x, 271, B.z); if (falling) { const f = Math.min(1, F.t / 0.35); const tx2 = F.bin === 'wet' ? -70 : F.bin === 'dry' ? 70 : 0; o.position.set(B.x + tx2 * f, 271 - 200 * f * f, B.z + (F.bin === 'floor' ? 60 * f : 0)); } }
     return true;
   }
 

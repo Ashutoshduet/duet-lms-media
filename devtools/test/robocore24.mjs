@@ -526,4 +526,21 @@ for (const l of L24) {
   const fps = [...out.matchAll(/fps: (\d+)/g)].map((m) => +m[1]); ok(!!l.done(rt) && fps.some((v) => v <= 7) && fps.some((v) => v >= 14), `facetrack: complete; fps seen ${[...new Set(fps)].join(', ')}`);
 }
 
+// the AI smart bin (lessons24.js aibin, scenes3.js AiBinScene): banana → WET, bottle → DRY; the sandwich goes to DRY until
+// WET lists the foods; the phone goes to DRY until the e-waste lines are switched on, then it waits on the tray
+{ const l = LESSONS.find((x) => x.id === 'aibin'); const B = build3(l); const { lab, app, rt, sim } = B; let src = l.code, buf = ''; const dt = 1 / 60;
+  const start = (code) => { const c = compile(code, lab.def); if (!c.ok) throw new Error(JSON.stringify(c.errors)); app.src = code; lab.run(c); rt.onRun(code); };
+  const go = (secs, until, each) => { for (let f = 0; f < secs * 60; f++) { if (each) each(f * dt); lab.step(1000 * dt); sim.update(dt, lab); rt.update(dt);
+    for (const o of lab.mcu.ser.take()) { const str = String.fromCharCode(...o.bytes).replace(/\r/g, ''); buf += str; const ls = buf.split('\n'); buf = ls.pop(); for (const x of ls) rt.onSerialLine(x); }
+    if (lab.mcu.state === 'error') return 'error'; if (until && until(rt)) return f * dt; } return -1; };
+  const feed = (...items) => (t, S) => { if (!S.tray && !S.fall && S.started && t > 3 && (S.door || 0) < 5 && Math.abs(S.flap || 0) < 5) { const next = items.find((k) => !S.fed || !S.fed.has(k)); if (next) { S.fed = S.fed || new Set(); S.fed.add(next); S.control(next); } } };
+  const acts = [feed('banana', 'bottle'), (t, S) => { if (t === 0) S.fed = null; feed('sandwich')(t, S); }, (t, S) => { if (t === 0) S.fed = null; feed('sandwich', 'phone')(t, S); }, (t, S) => { if (t === 0) { S.fed = null; S.control('back'); } feed('phone')(t, S); }]; let ai = 0;
+  for (const s of l.steps) {
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e, lab.def).ok, 'aibin: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const a = acts[ai++]; const t = go(40, (S) => s.until(S), a ? (x) => a(x, sim) : null); ok(typeof t === 'number' && t >= 0, `aibin: act "${s.do.en.slice(0, 50)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — ${t} ${[...sim.flags]} ${JSON.stringify(rt.serLines.slice(-3))} ${JSON.stringify(lab.mcu.err || '')}`)); }
+  }
+  ok(!!l.done(rt), `aibin: complete; WET ${sim.bins.wet.join(', ')} · DRY ${sim.bins.dry.join(', ')}`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);
