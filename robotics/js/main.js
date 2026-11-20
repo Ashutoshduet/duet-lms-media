@@ -21,6 +21,7 @@ import { install4 } from './app4.js'; // batch 4: Nano, Mega, ESP32: the Board l
 import { install3 } from './app3.js'; // batch 3: block coding beside the C++ (blocks.js), the school-lab modules' panels and scenes (app3.js)
 import { install22 } from './app22.js'; // batch 22: the digital sensor modules' callout buttons
 import { install25 } from './app25.js'; // batch 25: the resistive sensors' sliders
+import { install26 } from './app26.js'; // batch 26: the I2C modules' controls
 import { install6 } from './app6.js'; // batch 6: Raspberry Pi Pico and Pi 4: Python editor, Shell / Terminal, the Pi's screen (app6.js)
 
 const Q = new URLSearchParams(location.search);
@@ -75,6 +76,7 @@ class App {
     install6(this); // batch 6
     install22(this); // batch 22
     install25(this); // batch 25
+    install26(this); // batch 26
     this.boot();
   }
   get licensed() { return !window.DuetGate || DuetGate.state === 'ok' || (DuetGate.licensedFor && DuetGate.licensedFor('robotics')); }

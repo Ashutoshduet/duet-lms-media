@@ -5955,11 +5955,9 @@
     "kind": "I",
     "title": "Gesture-controlled car",
     "board": "uno",
-    "status": "needs-part",
+    "status": "planned",
     "ref": "gesture-controlled-car-uno",
-    "newparts": [
-     "mpu6050"
-    ],
+    "newparts": [],
     "family": "robot-car",
     "parts": [
      "bat18650",
@@ -6038,11 +6036,9 @@
     "kind": "I",
     "title": "Weather station that posts to a website",
     "board": "esp32",
-    "status": "needs-part",
+    "status": "planned",
     "ref": "weather-station-that-posts-to-a-website-esp32",
-    "newparts": [
-     "bmp180"
-    ],
+    "newparts": [],
     "family": "iot",
     "parts": [
      "bmp180",
@@ -6130,11 +6126,9 @@
     "kind": "I",
     "title": "Self-balancing robot",
     "board": "uno",
-    "status": "needs-part",
+    "status": "planned",
     "ref": "self-balancing-robot-uno",
-    "newparts": [
-     "mpu6050"
-    ],
+    "newparts": [],
     "family": "robot-car",
     "parts": [
      "bat18650",
@@ -6170,11 +6164,9 @@
     "kind": "I",
     "title": "Self-stabilising gimbal",
     "board": "uno",
-    "status": "needs-part",
+    "status": "planned",
     "ref": "self-stabilising-gimbal-uno",
-    "newparts": [
-     "mpu6050"
-    ],
+    "newparts": [],
     "family": "world-maker",
     "parts": [
      "mpu6050",
@@ -6224,11 +6216,9 @@
     "kind": "I",
     "title": "Drone flight controller basics (simulation)",
     "board": "uno",
-    "status": "needs-part",
+    "status": "planned",
     "ref": "drone-flight-controller-basics-simulation-uno",
-    "newparts": [
-     "mpu6050"
-    ],
+    "newparts": [],
     "family": "world-maker",
     "parts": [
      "mpu6050"

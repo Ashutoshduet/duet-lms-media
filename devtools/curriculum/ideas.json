@@ -27284,6 +27284,1588 @@
 "note": null
 },
 {
+"id": "live-f_ropeway_bt_esp",
+"title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ropeway_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ropeway_web_esp",
+"title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_ropeway_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ropeway_rgb_esp",
+"title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ropeway_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ropeway_led_esp",
+"title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ropeway_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dronelimit_bt_esp",
+"title": "Drone height limit warning: pressure sensor BMP180 (altitude) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dronelimit_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dronelimit_web_esp",
+"title": "Drone height limit warning: pressure sensor BMP180 (altitude) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dronelimit_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dronelimit_rgb_esp",
+"title": "Drone height limit warning: pressure sensor BMP180 (altitude) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dronelimit_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dronelimit_buzzer_esp",
+"title": "Drone height limit warning: pressure sensor BMP180 (altitude) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dronelimit_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parachute_bt_esp",
+"title": "Model rocket parachute release: pressure sensor BMP180 (altitude) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parachute_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parachute_web_esp",
+"title": "Model rocket parachute release: pressure sensor BMP180 (altitude) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parachute_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parachute_servo_esp",
+"title": "Model rocket parachute release: pressure sensor BMP180 (altitude) → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parachute_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trekalert_bt_esp",
+"title": "Trekking altitude alert: pressure sensor BMP180 (altitude) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trekalert_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trekalert_web_esp",
+"title": "Trekking altitude alert: pressure sensor BMP180 (altitude) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trekalert_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trekalert_led_esp",
+"title": "Trekking altitude alert: pressure sensor BMP180 (altitude) → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trekalert_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trekalert_buzzer_esp",
+"title": "Trekking altitude alert: pressure sensor BMP180 (altitude) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trekalert_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_bt_esp",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_umbrellasign_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_web_esp",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_umbrellasign_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_rgb_esp",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_umbrellasign_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_led_esp",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_umbrellasign_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_harvestcover_bt_esp",
+"title": "Rain coming: cover the harvest: pressure sensor BMP180 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_harvestcover_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_harvestcover_web_esp",
+"title": "Rain coming: cover the harvest: pressure sensor BMP180 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_harvestcover_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_harvestcover_led_esp",
+"title": "Rain coming: cover the harvest: pressure sensor BMP180 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_harvestcover_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_harvestcover_buzzer_esp",
+"title": "Rain coming: cover the harvest: pressure sensor BMP180 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_harvestcover_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stormshutter_bt_esp",
+"title": "Storm shutter that closes itself: pressure sensor BMP180 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stormshutter_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stormshutter_web_esp",
+"title": "Storm shutter that closes itself: pressure sensor BMP180 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stormshutter_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stormshutter_servo_esp",
+"title": "Storm shutter that closes itself: pressure sensor BMP180 → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stormshutter_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_bt_esp",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishermen_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_web_esp",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishermen_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_rgb_esp",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishermen_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_buzzer_esp",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"bmp180"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_fishermen_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_eyestrain_bt_esp",
+"title": "Eye-strain warning for reading: light meter BH1750 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_eyestrain_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_eyestrain_web_esp",
+"title": "Eye-strain warning for reading: light meter BH1750 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_eyestrain_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_eyestrain_led_esp",
+"title": "Eye-strain warning for reading: light meter BH1750 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_eyestrain_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_eyestrain_buzzer_esp",
+"title": "Eye-strain warning for reading: light meter BH1750 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_eyestrain_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_plantlight_bt_esp",
+"title": "Indoor plant grow light: light meter BH1750 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_plantlight_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_plantlight_web_esp",
+"title": "Indoor plant grow light: light meter BH1750 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_plantlight_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_plantlight_relay_esp",
+"title": "Indoor plant grow light: light meter BH1750 → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_plantlight_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_bt_esp",
+"title": "Classroom light check: light meter BH1750 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_classlux_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_web_esp",
+"title": "Classroom light check: light meter BH1750 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_classlux_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_buzzer_esp",
+"title": "Classroom light check: light meter BH1750 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_classlux_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_rgb_esp",
+"title": "Classroom light check: light meter BH1750 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_classlux_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_readlamp_bt_esp",
+"title": "Study desk lamp that switches itself on: light meter BH1750 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_readlamp_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_readlamp_web_esp",
+"title": "Study desk lamp that switches itself on: light meter BH1750 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_readlamp_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_readlamp_led_esp",
+"title": "Study desk lamp that switches itself on: light meter BH1750 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_readlamp_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_readlamp_relay_esp",
+"title": "Study desk lamp that switches itself on: light meter BH1750 → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"bh1750"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_readlamp_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightpump_bt_esp",
+"title": "Night-time farm pump timer: real-time clock DS3231 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nightpump_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightpump_web_esp",
+"title": "Night-time farm pump timer: real-time clock DS3231 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nightpump_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightpump_relay_esp",
+"title": "Night-time farm pump timer: real-time clock DS3231 → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nightpump_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightpump_pump_esp",
+"title": "Night-time farm pump timer: real-time clock DS3231 → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nightpump_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopclose_bt_esp",
+"title": "Shop closing time reminder: real-time clock DS3231 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shopclose_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopclose_web_esp",
+"title": "Shop closing time reminder: real-time clock DS3231 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shopclose_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopclose_led_esp",
+"title": "Shop closing time reminder: real-time clock DS3231 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shopclose_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopclose_buzzer_esp",
+"title": "Shop closing time reminder: real-time clock DS3231 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shopclose_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_homeworkbell_bt_esp",
+"title": "Homework time reminder: real-time clock DS3231 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_homeworkbell_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_homeworkbell_web_esp",
+"title": "Homework time reminder: real-time clock DS3231 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_homeworkbell_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_homeworkbell_rgb_esp",
+"title": "Homework time reminder: real-time clock DS3231 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_homeworkbell_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_homeworkbell_buzzer_esp",
+"title": "Homework time reminder: real-time clock DS3231 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_homeworkbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_porchlight_bt_esp",
+"title": "Evening porch light timer: real-time clock DS3231 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_porchlight_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_porchlight_web_esp",
+"title": "Evening porch light timer: real-time clock DS3231 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_porchlight_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_porchlight_led_esp",
+"title": "Evening porch light timer: real-time clock DS3231 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_porchlight_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_porchlight_relay_esp",
+"title": "Evening porch light timer: real-time clock DS3231 → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_porchlight_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikeguard_bt_esp",
+"title": "Parked bike lift alarm: motion sensor MPU-6050 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bikeguard_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikeguard_web_esp",
+"title": "Parked bike lift alarm: motion sensor MPU-6050 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bikeguard_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikeguard_led_esp",
+"title": "Parked bike lift alarm: motion sensor MPU-6050 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bikeguard_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikeguard_buzzer_esp",
+"title": "Parked bike lift alarm: motion sensor MPU-6050 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bikeguard_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tiltgate_bt_esp",
+"title": "Tilt-to-open gate (gesture): motion sensor MPU-6050 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tiltgate_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tiltgate_web_esp",
+"title": "Tilt-to-open gate (gesture): motion sensor MPU-6050 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tiltgate_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tiltgate_servo_esp",
+"title": "Tilt-to-open gate (gesture): motion sensor MPU-6050 → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tiltgate_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_boatlist_bt_esp",
+"title": "Fishing boat tilt alarm: motion sensor MPU-6050 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_boatlist_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_boatlist_web_esp",
+"title": "Fishing boat tilt alarm: motion sensor MPU-6050 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_boatlist_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_boatlist_rgb_esp",
+"title": "Fishing boat tilt alarm: motion sensor MPU-6050 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_boatlist_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_boatlist_buzzer_esp",
+"title": "Fishing boat tilt alarm: motion sensor MPU-6050 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_boatlist_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laddertilt_bt_esp",
+"title": "Ladder lean warning: motion sensor MPU-6050 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_laddertilt_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laddertilt_web_esp",
+"title": "Ladder lean warning: motion sensor MPU-6050 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_laddertilt_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laddertilt_led_esp",
+"title": "Ladder lean warning: motion sensor MPU-6050 → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_laddertilt_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laddertilt_buzzer_esp",
+"title": "Ladder lean warning: motion sensor MPU-6050 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_laddertilt_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_falldetect_bt_esp",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_falldetect_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_falldetect_web_esp",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_falldetect_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_falldetect_rgb_esp",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_falldetect_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_falldetect_buzzer_esp",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_falldetect_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_papaddry_bt_esp",
 "title": "Sun-drying monitor: UV sensor → phone over Bluetooth (ESP32)",
 "family": "factory",
@@ -46825,6 +48407,1231 @@
 "level": 8,
 "theme": "bank",
 "live": "f_doorbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ropeway_bt",
+"title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_ropeway_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ropeway_rgb",
+"title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"bmp180"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_ropeway_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_ropeway_led",
+"title": "Ropeway cabin top-station light: pressure sensor BMP180 (altitude) → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_ropeway_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dronelimit_bt",
+"title": "Drone height limit warning: pressure sensor BMP180 (altitude) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dronelimit_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dronelimit_rgb",
+"title": "Drone height limit warning: pressure sensor BMP180 (altitude) → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dronelimit_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dronelimit_buzzer",
+"title": "Drone height limit warning: pressure sensor BMP180 (altitude) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dronelimit_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parachute_bt",
+"title": "Model rocket parachute release: pressure sensor BMP180 (altitude) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_parachute_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parachute_servo",
+"title": "Model rocket parachute release: pressure sensor BMP180 (altitude) → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_parachute_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trekalert_bt",
+"title": "Trekking altitude alert: pressure sensor BMP180 (altitude) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trekalert_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trekalert_led",
+"title": "Trekking altitude alert: pressure sensor BMP180 (altitude) → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trekalert_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trekalert_buzzer",
+"title": "Trekking altitude alert: pressure sensor BMP180 (altitude) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trekalert_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_bt",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_umbrellasign_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_rgb",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"bmp180"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_umbrellasign_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrellasign_led",
+"title": "Take-an-umbrella light by the door: pressure sensor BMP180 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_umbrellasign_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_harvestcover_bt",
+"title": "Rain coming: cover the harvest: pressure sensor BMP180 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_harvestcover_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_harvestcover_led",
+"title": "Rain coming: cover the harvest: pressure sensor BMP180 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_harvestcover_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_harvestcover_buzzer",
+"title": "Rain coming: cover the harvest: pressure sensor BMP180 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"bmp180"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_harvestcover_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stormshutter_bt",
+"title": "Storm shutter that closes itself: pressure sensor BMP180 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stormshutter_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stormshutter_servo",
+"title": "Storm shutter that closes itself: pressure sensor BMP180 → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stormshutter_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_bt",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishermen_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_rgb",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishermen_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fishermen_buzzer",
+"title": "Storm warning for fishermen: pressure sensor BMP180 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"bmp180"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishermen_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_eyestrain_bt",
+"title": "Eye-strain warning for reading: light meter BH1750 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_eyestrain_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_eyestrain_led",
+"title": "Eye-strain warning for reading: light meter BH1750 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_eyestrain_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_eyestrain_buzzer",
+"title": "Eye-strain warning for reading: light meter BH1750 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_eyestrain_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_plantlight_bt",
+"title": "Indoor plant grow light: light meter BH1750 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_plantlight_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_plantlight_relay",
+"title": "Indoor plant grow light: light meter BH1750 → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_plantlight_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_bt",
+"title": "Classroom light check: light meter BH1750 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_classlux_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_buzzer",
+"title": "Classroom light check: light meter BH1750 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_classlux_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_classlux_rgb",
+"title": "Classroom light check: light meter BH1750 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_classlux_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_readlamp_bt",
+"title": "Study desk lamp that switches itself on: light meter BH1750 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_readlamp_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_readlamp_led",
+"title": "Study desk lamp that switches itself on: light meter BH1750 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_readlamp_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_readlamp_relay",
+"title": "Study desk lamp that switches itself on: light meter BH1750 → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"bh1750"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_readlamp_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightpump_bt",
+"title": "Night-time farm pump timer: real-time clock DS3231 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nightpump_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightpump_relay",
+"title": "Night-time farm pump timer: real-time clock DS3231 → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nightpump_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightpump_pump",
+"title": "Night-time farm pump timer: real-time clock DS3231 → water pump",
+"family": "factory",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nightpump_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopclose_bt",
+"title": "Shop closing time reminder: real-time clock DS3231 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shopclose_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopclose_led",
+"title": "Shop closing time reminder: real-time clock DS3231 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shopclose_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopclose_buzzer",
+"title": "Shop closing time reminder: real-time clock DS3231 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shopclose_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_homeworkbell_bt",
+"title": "Homework time reminder: real-time clock DS3231 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_homeworkbell_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_homeworkbell_rgb",
+"title": "Homework time reminder: real-time clock DS3231 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_homeworkbell_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_homeworkbell_buzzer",
+"title": "Homework time reminder: real-time clock DS3231 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_homeworkbell_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_porchlight_bt",
+"title": "Evening porch light timer: real-time clock DS3231 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_porchlight_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_porchlight_led",
+"title": "Evening porch light timer: real-time clock DS3231 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_porchlight_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_porchlight_relay",
+"title": "Evening porch light timer: real-time clock DS3231 → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"rtc3231"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_porchlight_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikeguard_bt",
+"title": "Parked bike lift alarm: motion sensor MPU-6050 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bikeguard_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikeguard_led",
+"title": "Parked bike lift alarm: motion sensor MPU-6050 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bikeguard_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikeguard_buzzer",
+"title": "Parked bike lift alarm: motion sensor MPU-6050 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bikeguard_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tiltgate_bt",
+"title": "Tilt-to-open gate (gesture): motion sensor MPU-6050 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tiltgate_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tiltgate_servo",
+"title": "Tilt-to-open gate (gesture): motion sensor MPU-6050 → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tiltgate_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_boatlist_bt",
+"title": "Fishing boat tilt alarm: motion sensor MPU-6050 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_boatlist_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_boatlist_rgb",
+"title": "Fishing boat tilt alarm: motion sensor MPU-6050 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_boatlist_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_boatlist_buzzer",
+"title": "Fishing boat tilt alarm: motion sensor MPU-6050 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_boatlist_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laddertilt_bt",
+"title": "Ladder lean warning: motion sensor MPU-6050 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_laddertilt_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laddertilt_led",
+"title": "Ladder lean warning: motion sensor MPU-6050 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_laddertilt_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laddertilt_buzzer",
+"title": "Ladder lean warning: motion sensor MPU-6050 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_laddertilt_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_falldetect_bt",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_falldetect_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_falldetect_rgb",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_falldetect_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_falldetect_buzzer",
+"title": "Fall alarm for an elderly person: motion sensor MPU-6050 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_falldetect_buzzer",
 "rule": null,
 "note": null
 },
@@ -92322,9 +95129,7 @@
 "bh1750",
 "lcd16"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -92348,9 +95153,7 @@
 "bh1750",
 "lcd16"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -92374,9 +95177,7 @@
 "bh1750",
 "lcd16"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92400,9 +95201,7 @@
 "bh1750",
 "oled"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -92426,9 +95225,7 @@
 "bh1750",
 "oled"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92452,9 +95249,7 @@
 "bh1750",
 "oled"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92478,9 +95273,7 @@
 "bh1750",
 "servo"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -92504,9 +95297,7 @@
 "bh1750",
 "servo"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -92530,9 +95321,7 @@
 "bh1750",
 "servo"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92556,9 +95345,7 @@
 "bh1750",
 "stepper"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -92582,9 +95369,7 @@
 "bh1750",
 "stepper"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92608,9 +95393,7 @@
 "bh1750",
 "stepper"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92635,9 +95418,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -92662,9 +95443,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -92689,9 +95468,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92716,7 +95493,6 @@
 "ws2812"
 ],
 "newparts": [
-"bh1750",
 "ws2812"
 ],
 "band": [
@@ -92743,7 +95519,6 @@
 "ws2812"
 ],
 "newparts": [
-"bh1750",
 "ws2812"
 ],
 "band": [
@@ -92770,7 +95545,6 @@
 "ws2812"
 ],
 "newparts": [
-"bh1750",
 "ws2812"
 ],
 "band": [
@@ -92796,9 +95570,7 @@
 "bmp180",
 "lcd16"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -92822,9 +95594,7 @@
 "bmp180",
 "lcd16"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -92848,9 +95618,7 @@
 "bmp180",
 "lcd16"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92874,9 +95642,7 @@
 "bmp180",
 "oled"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -92900,9 +95666,7 @@
 "bmp180",
 "oled"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92926,9 +95690,7 @@
 "bmp180",
 "oled"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92953,9 +95715,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -92980,9 +95740,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93007,9 +95765,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -93033,9 +95789,7 @@
 "bmp180",
 "buzzer"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -93059,9 +95813,7 @@
 "bmp180",
 "buzzer"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93085,9 +95837,7 @@
 "bmp180",
 "buzzer"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -93110,9 +95860,7 @@
 "parts": [
 "bmp180"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -93135,9 +95883,7 @@
 "parts": [
 "bmp180"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -93160,9 +95906,7 @@
 "parts": [
 "bmp180"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93185,9 +95929,7 @@
 "parts": [
 "bmp180"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93211,9 +95953,7 @@
 "mpu6050",
 "oled"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -93237,9 +95977,7 @@
 "mpu6050",
 "oled"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93263,9 +96001,7 @@
 "mpu6050",
 "oled"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93289,9 +96025,7 @@
 "lcd16",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93315,9 +96049,7 @@
 "lcd16",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93341,9 +96073,7 @@
 "lcd16",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93367,9 +96097,7 @@
 "mpu6050",
 "servo"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93393,9 +96121,7 @@
 "mpu6050",
 "servo"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93419,9 +96145,7 @@
 "mpu6050",
 "servo"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93445,9 +96169,7 @@
 "abuzz",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -93471,9 +96193,7 @@
 "abuzz",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -93497,9 +96217,7 @@
 "abuzz",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -93524,8 +96242,7 @@
 "mpu6050"
 ],
 "newparts": [
-"gsm",
-"mpu6050"
+"gsm"
 ],
 "band": [
 12,
@@ -93551,8 +96268,7 @@
 "mpu6050"
 ],
 "newparts": [
-"gsm",
-"mpu6050"
+"gsm"
 ],
 "band": [
 12,
@@ -93576,9 +96292,7 @@
 "parts": [
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95461,11 +98175,9 @@
 "board": "uno",
 "parts": [
 "lcd16",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -95487,11 +98199,9 @@
 "board": "esp32",
 "parts": [
 "lcd16",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -95513,11 +98223,9 @@
 "board": "pico",
 "parts": [
 "lcd16",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95539,11 +98247,9 @@
 "board": "uno",
 "parts": [
 "oled",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -95565,11 +98271,9 @@
 "board": "esp32",
 "parts": [
 "oled",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95591,11 +98295,9 @@
 "board": "pico",
 "parts": [
 "oled",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95617,11 +98319,10 @@
 "board": "uno",
 "parts": [
 "max7219",
-"rtc"
+"rtc3231"
 ],
 "newparts": [
-"max7219",
-"rtc"
+"max7219"
 ],
 "band": [
 10,
@@ -95644,11 +98345,10 @@
 "board": "esp32",
 "parts": [
 "max7219",
-"rtc"
+"rtc3231"
 ],
 "newparts": [
-"max7219",
-"rtc"
+"max7219"
 ],
 "band": [
 12,
@@ -95671,11 +98371,10 @@
 "board": "pico",
 "parts": [
 "max7219",
-"rtc"
+"rtc3231"
 ],
 "newparts": [
-"max7219",
-"rtc"
+"max7219"
 ],
 "band": [
 12,
@@ -95698,11 +98397,9 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -95724,11 +98421,9 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -95750,11 +98445,9 @@
 "board": "pico",
 "parts": [
 "buzzer",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -95777,11 +98470,9 @@
 "parts": [
 "load230",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -95804,11 +98495,9 @@
 "parts": [
 "load230",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -95831,11 +98520,9 @@
 "parts": [
 "load230",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95857,11 +98544,9 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -95883,11 +98568,9 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -95909,11 +98592,9 @@
 "board": "pico",
 "parts": [
 "buzzer",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -95935,11 +98616,9 @@
 "board": "uno",
 "parts": [
 "oled",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -95961,11 +98640,9 @@
 "board": "esp32",
 "parts": [
 "oled",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -95987,11 +98664,9 @@
 "board": "pico",
 "parts": [
 "oled",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -96014,11 +98689,9 @@
 "parts": [
 "load230",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -96041,11 +98714,9 @@
 "parts": [
 "load230",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -96068,11 +98739,9 @@
 "parts": [
 "load230",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -96096,11 +98765,9 @@
 "aa4",
 "pump",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -96124,11 +98791,9 @@
 "aa4",
 "pump",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -96152,11 +98817,9 @@
 "aa4",
 "pump",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -107599,9 +110262,7 @@
 "l298n",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -107623,9 +110284,7 @@
 "l298n",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -107648,9 +110307,7 @@
 "l298n",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -107672,9 +110329,7 @@
 "l298n",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -107696,9 +110351,7 @@
 "l298n",
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -109985,14 +112638,12 @@
 "parts": [
 "bmp180"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
-9,
-11
+8,
+10
 ],
-"level": 9,
+"level": 8,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -110006,14 +112657,12 @@
 "parts": [
 "bmp180"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
-10,
-12
+9,
+11
 ],
-"level": 10,
+"level": 9,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -110027,14 +112676,12 @@
 "parts": [
 "bmp180"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
-11,
+10,
 12
 ],
-"level": 11,
+"level": 10,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -110048,14 +112695,12 @@
 "parts": [
 "bh1750"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
-9,
-11
+8,
+10
 ],
-"level": 9,
+"level": 8,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -110069,14 +112714,12 @@
 "parts": [
 "bh1750"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
-10,
-12
+9,
+11
 ],
-"level": 10,
+"level": 9,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -110090,14 +112733,12 @@
 "parts": [
 "bh1750"
 ],
-"newparts": [
-"bh1750"
-],
+"newparts": [],
 "band": [
-11,
+10,
 12
 ],
-"level": 11,
+"level": 10,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -110582,9 +113223,7 @@
 "dht11",
 "rain"
 ],
-"newparts": [
-"bmp180"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -112352,12 +114991,10 @@
 "board": "uno",
 "parts": [
 "relay",
-"rtc",
+"rtc3231",
 "wlevel"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -112375,12 +115012,10 @@
 "board": "esp32",
 "parts": [
 "relay",
-"rtc",
+"rtc3231",
 "wlevel"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -112399,12 +115034,10 @@
 "parts": [
 "pump",
 "relay",
-"rtc",
+"rtc3231",
 "soil"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -112423,12 +115056,10 @@
 "parts": [
 "pump",
 "relay",
-"rtc",
+"rtc3231",
 "soil"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -112581,9 +115212,7 @@
 "mq2",
 "relay"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -112604,9 +115233,7 @@
 "mq2",
 "relay"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -112707,11 +115334,9 @@
 "parts": [
 "dht11",
 "oled",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -112730,11 +115355,9 @@
 "parts": [
 "dht11",
 "oled",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -112752,12 +115375,10 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"rtc",
+"rtc3231",
 "servo"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -112775,12 +115396,10 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"rtc",
+"rtc3231",
 "servo"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -113038,9 +115657,7 @@
 "mpu6050",
 "servo"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -113060,9 +115677,7 @@
 "mpu6050",
 "servo"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -113483,12 +116098,10 @@
 "family": "world-maker",
 "board": "uno",
 "parts": [
-"rtc",
+"rtc3231",
 "servo"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -113505,12 +116118,10 @@
 "family": "world-maker",
 "board": "esp32",
 "parts": [
-"rtc",
+"rtc3231",
 "servo"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -113527,12 +116138,10 @@
 "family": "world-maker",
 "board": "uno",
 "parts": [
-"rtc",
+"rtc3231",
 "servo"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -113549,12 +116158,10 @@
 "family": "world-maker",
 "board": "esp32",
 "parts": [
-"rtc",
+"rtc3231",
 "servo"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -113859,11 +116466,10 @@
 "family": "world-maker",
 "board": "uno",
 "parts": [
-"rtc",
+"rtc3231",
 "ws2812"
 ],
 "newparts": [
-"rtc",
 "ws2812"
 ],
 "band": [
@@ -113882,11 +116488,10 @@
 "family": "world-maker",
 "board": "esp32",
 "parts": [
-"rtc",
+"rtc3231",
 "ws2812"
 ],
 "newparts": [
-"rtc",
 "ws2812"
 ],
 "band": [
@@ -113909,8 +116514,7 @@
 "mpu6050"
 ],
 "newparts": [
-"max7219",
-"mpu6050"
+"max7219"
 ],
 "band": [
 10,
@@ -113932,8 +116536,7 @@
 "mpu6050"
 ],
 "newparts": [
-"max7219",
-"mpu6050"
+"max7219"
 ],
 "band": [
 11,
@@ -114191,9 +116794,7 @@
 "parts": [
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -114212,9 +116813,7 @@
 "parts": [
 "mpu6050"
 ],
-"newparts": [
-"mpu6050"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -114317,11 +116916,9 @@
 "parts": [
 "pump",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -114340,11 +116937,9 @@
 "parts": [
 "pump",
 "relay",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -114589,8 +117184,7 @@
 ],
 "newparts": [
 "gps",
-"gsm",
-"mpu6050"
+"gsm"
 ],
 "band": [
 11,
@@ -114614,8 +117208,7 @@
 ],
 "newparts": [
 "gps",
-"gsm",
-"mpu6050"
+"gsm"
 ],
 "band": [
 12,
@@ -115097,11 +117690,9 @@
 "parts": [
 "buzzer",
 "lcd16",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -115120,11 +117711,9 @@
 "parts": [
 "buzzer",
 "lcd16",
-"rtc"
+"rtc3231"
 ],
-"newparts": [
-"rtc"
-],
+"newparts": [],
 "band": [
 10,
 12

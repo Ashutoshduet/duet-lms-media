@@ -1157,3 +1157,18 @@ heaters.
   - JOBS: 5 each for force, flex, ntc, radar, water, uv; 4 each for air and alcohol, from Indian homes, schools, farms
     and roads. robofactory.mjs plays every one (21,688 checks). ideabank.py: these parts are no longer '+new', and
     F_IN maps the bank's ideas onto the factory's lessons. 3,432 projects live.
+- Batch 26: four I2C modules (parts26.js, models26.js, app26.js) and their Arduino libraries (libs3.js, with
+  DateTime support in decl: `DateTime now = rtc.now();`, DateTime(F(__DATE__), F(__TIME__)), __DATE__ / __TIME__):
+  - mpu6050 (GY-521, 0x68) + MPU6050_light: begin() 0 or 2 (no answer); calcOffsets() takes 1 s and treats the pose it
+    sees as flat and still (tilted or shaken, that error stays: the module's own bias is about 2 °/s and 0.04 g); update()
+    runs the 0.98 / 0.02 complementary filter on the real time between calls. The module follows the hand at 200°/s (the
+    callout's Tilt X / Y, Turn Z, Shake), so its gyro sees the turn; the 3D board tilts.
+  - rtc3231 (ZS-042, 0x68) + RTClib (RTC_DS3231, DateTime): lost (2000-01-01, lostPower()) until adjust(); it then runs on
+    the bench's own clock (sim.js lab.clock, never reset), so it keeps time across Runs, as on its coin cell; the callout
+    sets the hour or moves it on.
+  - bh1750 (GY-302, 0x23) + BH1750: readLightLevel() in lux (-2 before begin(), -1 with no answer).
+  - bmp180 (GY-68, 0x77) + Adafruit_BMP085: readPressure() Pa (101325 at sea level, the altitude and the weather slider),
+    readAltitude(), readTemperature() (the room's).
+  factory.js I2C26: tilt6, clock, lux, storm, alt on the Uno (A4 / A5) and the ESP32 (21 / 22), with a check for SDA and
+  SCL swapped; the LCD and OLED outputs clash (same pins). tilt6 waits for calibration (inp.settle 1.6 s; robofactory.mjs
+  waits as a student does). 21 jobs. 3,571 projects live.

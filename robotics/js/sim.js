@@ -301,7 +301,7 @@ export class Lab {
     const t = this.mcu.t;
     this.frameSolve(t);
     this.dynamics(dt);
-    this.obs.t += dt;
+    this.obs.t += dt; this.clock = (this.clock || 0) + dt; // (batch 26: the bench's own time, never reset: a clock module keeps it)
     if (wasPowered !== this.powered) this.emit('power', this.powered);
   }
   frameSolve(t) {

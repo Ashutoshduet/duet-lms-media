@@ -80,9 +80,9 @@ INP = {
     'vib':     ('vibration sensor', ['vibe'], ['uno', 'esp32', 'pico', 'pi4'], 1),
     'water':   ('water level sensor', ['wlevel'], ['uno', 'esp32', 'pico'], 1),
     'ds18':    ('waterproof temperature probe', ['+ds18b20'], ['uno', 'esp32', 'pico'], 2),
-    'lux':     ('lux meter sensor', ['+bh1750'], ['uno', 'esp32', 'pico'], 2),
-    'bmp':     ('air pressure sensor', ['+bmp180'], ['uno', 'esp32', 'pico'], 2),
-    'mpu':     ('motion sensor MPU6050', ['+mpu6050'], ['uno', 'esp32', 'pico'], 3),
+    'lux':     ('lux meter sensor', ['bh1750'], ['uno', 'esp32', 'pico'], 2),
+    'bmp':     ('air pressure sensor', ['bmp180'], ['uno', 'esp32', 'pico'], 2),
+    'mpu':     ('motion sensor MPU6050', ['mpu6050'], ['uno', 'esp32', 'pico'], 3),
     'color':   ('colour sensor', ['+tcs3200'], ['uno', 'esp32'], 2),
     'weight':  ('load cell', ['+hx711'], ['uno', 'esp32'], 3),
     'pulse':   ('pulse sensor', ['+pulse'], ['uno', 'esp32', 'microbit'], 2),
@@ -92,7 +92,7 @@ INP = {
     'irtemp':  ('contactless thermometer', ['+mlx90614'], ['uno', 'esp32'], 3),
     'finger':  ('fingerprint sensor', ['+fingerprint'], ['uno', 'esp32'], 3),
     'gps':     ('GPS', ['+gps'], ['uno', 'esp32'], 3),
-    'rtc':     ('real-time clock', ['+rtc'], ['uno', 'esp32', 'pico'], 2),
+    'rtc':     ('real-time clock', ['rtc3231'], ['uno', 'esp32', 'pico'], 2),
     'encoder': ('rotary knob with click', ['+encoder'], ['uno', 'esp32', 'pico'], 2),
     'hall':    ('magnet (Hall) sensor', ['hall'], ['uno', 'esp32', 'pico', 'pi4'], 1),
     'thermistor': ('thermistor', ['ntc', 'resistor'], ['uno', 'esp32', 'pico'], 1),
@@ -592,7 +592,7 @@ ROBOTS = [
     ('Dancing robot (timed moves)', [], 6, 'robots'), ('Drawing robot with a pen lift', ['servo'], 8, 'robots'),
     ('Lap-counting race car', ['ir', 'seg7', 'resistor'], 8, 'robots'), ('PID line follower (smooth and fast)', ['ir'], 11, 'robots'),
     ('Sound-following robot', ['sound'], 9, 'robots'), ('Fire-fighting robot', ['flame', 'pump', 'relay'], 10, 'robots'),
-    ('Gesture-controlled car', ['+mpu6050', 'hc05'], 10, 'robots'), ('Self-balancing robot', ['+mpu6050'], 12, 'robots'),
+    ('Gesture-controlled car', ['mpu6050', 'hc05'], 10, 'robots'), ('Self-balancing robot', ['mpu6050'], 12, 'robots'),
     ('Mecanum-wheel car (moves sideways)', ['+mecanum'], 10, 'robots'), ('Voice-controlled car (phone app)', ['hc05'], 9, 'robots'),
     ('Agriculture sprayer robot', ['pump', 'relay', 'ir'], 9, 'farm'), ('Floor-cleaning robot', ['hcsr04', 'fan'], 9, 'home'),
     ('Solar-powered rover', ['solar'], 10, 'energy'), ('Mars rover model with a rocker-bogie', ['servo'], 11, 'space'),
@@ -600,7 +600,7 @@ ROBOTS = [
 ]
 for (t, extra, lv, th) in ROBOTS:
     for b in ('uno', 'esp32', 'pico', 'microbit', 'pi4'):
-        if b == 'microbit' and any(p in extra for p in ('hc05', 'irrx', 'joystick', 'hcsr04', '+mpu6050')):
+        if b == 'microbit' and any(p in extra for p in ('hc05', 'irrx', 'joystick', 'hcsr04', 'mpu6050')):
             continue
         if b == 'pi4' and t not in ('Obstacle-avoiding car', 'Line-follower car', 'Wall-following robot', 'Maze-solving robot (left-hand rule)', 'Bluetooth phone-controlled car', 'Robot soccer player'):
             continue
@@ -630,7 +630,7 @@ for (t, lv) in ARM:
         add(t if b == 'uno' else t + ' (ESP32)', 'machines', b, ['servo', 'mg996r', 'psu5'] if 'arm' in t.lower() else [], 'factory', lv if b == 'uno' else lv + 1)
 
 # ---------------------------------------------------------------- 6. IoT on ESP32 and Raspberry Pi
-IOT_SENS = ['dht11', 'lm35', 'soil', 'ldr', 'pir', 'mq2', 'hcsr04', 'rain', 'flame', '+bmp180', '+bh1750', '+acs712', '+tds', 'wlevel', '+ds18b20']
+IOT_SENS = ['dht11', 'lm35', 'soil', 'ldr', 'pir', 'mq2', 'hcsr04', 'rain', 'flame', 'bmp180', 'bh1750', '+acs712', '+tds', 'wlevel', '+ds18b20']
 IOT_WAYS = [('dashboard on the school WiFi', 8), ('alert on the phone', 9), ('cloud logger with a graph', 10)]
 for s in IOT_SENS:
     nm = s.lstrip('+')
@@ -646,7 +646,7 @@ IOT_EXTRA = [('WiFi lamp from a phone', ['led', 'resistor'], 8), ('Four-switch h
              ('WiFi robot car with a web joystick', CAR, 10), ('Internet clock from NTP time', ['lcd16'], 9),
              ('Smart energy monitor with a daily graph', ['+acs712'], 11), ('Smart farm: soil, rain and pump on the phone', ['soil', 'rain', 'pump', 'relay'], 10),
              ('Smart classroom: lights and fans by occupancy', ['pir', 'relay', 'load230'], 10), ('Smart dustbin that reports when full', ['hcsr04', 'servo'], 9),
-             ('Air quality index display for the school gate', ['mq2', 'dht11', 'oled'], 10), ('Weather station that posts to a website', ['dht11', '+bmp180', 'rain'], 11),
+             ('Air quality index display for the school gate', ['mq2', 'dht11', 'oled'], 10), ('Weather station that posts to a website', ['dht11', 'bmp180', 'rain'], 11),
              ('Bluetooth lamp from a phone', ['led', 'resistor'], 8), ('ESP32 camera robot', ['+esp32cam'] + CAR, 12),
              ('Face-count at the door with ESP32-CAM', ['+esp32cam'], 12), ('Patient monitor: pulse and temperature on a web page', ['+pulse', 'lm35'], 11)]
 for (t, p, lv) in IOT_EXTRA:
@@ -699,16 +699,16 @@ SYSTEMS = [
     ('Smart water tank: level, pump and alarm', ['hcsr04', 'pump', 'relay', 'abuzz'], 9),
     ('Cold-storage monitor with alarm', ['dht11', 'lcd16', 'abuzz'], 9),
     ('School bus safety: seat count and door alarm', ['ir', 'reed', 'lcd16'], 10),
-    ('Village water pump timer and dry-run cut-off', ['+rtc', 'wlevel', 'relay'], 10),
-    ('Smart irrigation by time and moisture', ['+rtc', 'soil', 'pump', 'relay'], 10),
+    ('Village water pump timer and dry-run cut-off', ['rtc3231', 'wlevel', 'relay'], 10),
+    ('Smart irrigation by time and moisture', ['rtc3231', 'soil', 'pump', 'relay'], 10),
     ('Disaster alert box: flood, quake and fire', ['wlevel', 'vibe', 'flame', 'buzzer'], 10),
     ('Smart shop door: count, greet and lock at night', ['ir', 'ldr', 'servo', 'buzzer'], 9),
     ('Automatic railway gate with two sensors', ['ir', 'servo', 'buzzer', 'led'], 8),
-    ('Smart helmet: alcohol and fall check before the bike starts', ['mq2', '+mpu6050', 'relay'], 11),
+    ('Smart helmet: alcohol and fall check before the bike starts', ['mq2', 'mpu6050', 'relay'], 11),
     ('Smart blind stick: distance, water and SOS', ['hcsr04', 'wlevel', 'abuzz'], 10),
     ('Smart cradle: cry detect and swing', ['sound', 'servo'], 10),
-    ('Smart mirror clock and weather', ['oled', 'dht11', '+rtc'], 10),
-    ('Smart medicine box with reminders and lids', ['+rtc', 'servo', 'buzzer'], 10),
+    ('Smart mirror clock and weather', ['oled', 'dht11', 'rtc3231'], 10),
+    ('Smart medicine box with reminders and lids', ['rtc3231', 'servo', 'buzzer'], 10),
     ('Smart energy saver for a classroom', ['pir', 'ldr', 'relay', 'load230'], 9),
 ]
 for (t, p, lv) in SYSTEMS:
@@ -718,17 +718,17 @@ for (t, p, lv) in SYSTEMS:
 # ---------------------------------------------------------------- 8b. famous maker projects from around the world (our own versions)
 WORLD = [
     ('Ultrasonic radar with a servo sweep', ['hcsr04', 'servo'], 8), ('Hexapod walking robot', ['servo'], 12), ('Quadruped spider robot', ['servo'], 11),
-    ('SCARA robot arm', ['stepper'], 12), ('Pen plotter (CNC drawing machine)', ['stepper', 'servo'], 11), ('Self-stabilising gimbal', ['+mpu6050', 'servo'], 11),
+    ('SCARA robot arm', ['stepper'], 12), ('Pen plotter (CNC drawing machine)', ['stepper', 'servo'], 11), ('Self-stabilising gimbal', ['mpu6050', 'servo'], 11),
     ('RC hovercraft', ['motor', '+nrf24'], 11), ('Wire bending machine', ['stepper', 'servo'], 12), ('Mars rover replica', ['servo', 'bomotor'], 12),
     ('Laser harp', ['ldr', 'buzzer'], 9), ('Theremin with two distance sensors', ['hcsr04', 'buzzer'], 9), ('LED cube 3x3x3', ['led', 'resistor'], 9),
     ('Persistence-of-vision display', ['led', 'motor'], 10), ('Plant that tweets when thirsty', ['soil'], 10), ('Rubik cube colour scanner', ['+tcs3200'], 12),
-    ('Ball-on-beam balancer (PID)', ['hcsr04', 'servo'], 12), ('Automatic cat or dog feeder', ['servo', '+rtc'], 9), ('Fish feeder on a timer', ['servo', '+rtc'], 9),
+    ('Ball-on-beam balancer (PID)', ['hcsr04', 'servo'], 12), ('Automatic cat or dog feeder', ['servo', 'rtc3231'], 9), ('Fish feeder on a timer', ['servo', 'rtc3231'], 9),
     ('Weather vane and wind logger', ['anemo'], 10), ('Smart walking stick with GPS SOS', ['hcsr04', '+gps', '+gsm'], 11), ('Bionic hand with flex glove', ['servo', 'flex'], 11),
     ('Drawing robot (turtle)', ['stepper', 'servo'], 10), ('Chess-move detector board', ['hall'], 12), ('Electronic voting machine model', ['button', 'lcd16'], 9),
-    ('Interactive LED coffee table', ['+ws2812', 'ir'], 11), ('Word clock', ['+ws2812', '+rtc'], 11), ('Digital hourglass with tilt', ['+max7219', '+mpu6050'], 10),
+    ('Interactive LED coffee table', ['+ws2812', 'ir'], 11), ('Word clock', ['+ws2812', 'rtc3231'], 11), ('Digital hourglass with tilt', ['+max7219', 'mpu6050'], 10),
     ('Air hockey score board', ['ir', 'seg7'], 9), ('Bowling pin counter', ['ir', 'lcd16'], 9), ('Marble run lift', ['stepper', 'ir'], 9),
     ('Musical stairs', ['ir', 'buzzer'], 8), ('Automatic chess clock', ['button', 'lcd16'], 8), ('Typing speed tester', ['lcd16'], 9),
-    ('Drone flight controller basics (simulation)', ['+mpu6050'], 12), ('Water rocket launch pad timer', ['button', 'seg7', 'servo'], 9),
+    ('Drone flight controller basics (simulation)', ['mpu6050'], 12), ('Water rocket launch pad timer', ['button', 'seg7', 'servo'], 9),
 ]
 for (t, p, lv) in WORLD:
     for b in ('uno', 'esp32'):
@@ -736,16 +736,16 @@ for (t, p, lv) in WORLD:
 
 # ---------------------------------------------------------------- 8c. problems from Indian schools, villages and cities (ATL-style)
 INDIA = [
-    ('Crop guard: scare animals at night', ['pir', 'abuzz', 'led'], 8), ('Drip irrigation on a timer', ['+rtc', 'pump', 'relay'], 9),
+    ('Crop guard: scare animals at night', ['pir', 'abuzz', 'led'], 8), ('Drip irrigation on a timer', ['rtc3231', 'pump', 'relay'], 9),
     ('Borewell rescue claw model', ['servo', 'stepper'], 10), ('Rail track crack detector trolley', ['ir', 'hcsr04', 'bomotor'], 10),
     ('Smart ration shop: RFID card and grain weight', ['rfid', '+hx711', 'lcd16'], 11), ('Manhole gas alarm for workers', ['mq2', 'abuzz', '+gsm'], 10),
-    ('Women safety band with SOS', ['button', '+gps', '+gsm'], 11), ('Bike accident alert', ['+mpu6050', '+gps', '+gsm'], 11),
+    ('Women safety band with SOS', ['button', '+gps', '+gsm'], 11), ('Bike accident alert', ['mpu6050', '+gps', '+gsm'], 11),
     ('Kisan weather station for the panchayat', ['dht11', 'rain', 'anemo'], 10), ('Milk adulteration tester', ['+tds', 'lcd16'], 10),
     ('Vaccine cold-chain box monitor', ['+ds18b20', 'abuzz'], 10), ('Toll plaza with RFID FASTag model', ['rfid', 'servo'], 9),
     ('Solar street light with auto dimming', ['solar', 'ldr', 'led'], 9), ('Anganwadi attendance with RFID', ['rfid', 'lcd16'], 9),
     ('Driver drowsiness alarm', ['ir', 'abuzz'], 10), ('Smart dustbin for Swachh Bharat', ['hcsr04', 'servo'], 7),
     ('Village water ATM model', ['rfid', 'pump', 'relay'], 10), ('Grain storage humidity guard', ['dht11', 'motor', 'abuzz'], 9),
-    ('Monsoon flood siren for a river bank', ['wlevel', 'buzzer', '+gsm'], 10), ('Smart school bell with periods', ['+rtc', 'buzzer', 'lcd16'], 9),
+    ('Monsoon flood siren for a river bank', ['wlevel', 'buzzer', '+gsm'], 10), ('Smart school bell with periods', ['rtc3231', 'buzzer', 'lcd16'], 9),
     ('Mid-day meal temperature check', ['+ds18b20', 'lcd16'], 9), ('Cattle shed fan and water automation', ['dht11', 'motor', 'pump'], 9),
     ('Tractor reversing sensor', ['hcsr04', 'abuzz'], 8), ('Fog light that switches on in fog', ['ldr', 'led', 'relay'], 8),
     ('Electricity theft alarm model', ['+acs712', 'abuzz'], 11), ('Smart traffic for ambulances (green corridor)', ['rfid', 'led'], 10),
@@ -786,7 +786,7 @@ def live_lessons():
 
 LIVE = live_lessons()
 # factory lessons (robotics/js/factory.js) make planned sensor -> output ideas live: same job, sensor and output on the Uno
-F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas'], 'force': ['force'], 'flex': ['flex'], 'thermistor': ['ntc'], 'water': ['water'], 'uv': ['uv'], 'radar': ['radar'], 'air': ['air'], 'alcohol': ['alcohol']} # (25: the new sensors)
+F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas'], 'force': ['force'], 'flex': ['flex'], 'thermistor': ['ntc'], 'water': ['water'], 'uv': ['uv'], 'radar': ['radar'], 'air': ['air'], 'alcohol': ['alcohol'], 'mpu': ['tilt6'], 'rtc': ['clock'], 'lux': ['lux'], 'bmp': ['storm', 'alt']} # (25, 26: the new sensors)
 F_OUT = {'led': 'led', 'rgb': 'rgb', 'buzzer': 'buzzer', 'abuzz': 'buzzer', 'servo': 'servo', 'relay': 'relay', 'pump': 'pump', 'lcd': 'lcd'}
 FMAP = {}
 for l in LIVE:

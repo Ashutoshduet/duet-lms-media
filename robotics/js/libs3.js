@@ -86,14 +86,14 @@ export const LIB3 = {
   decl(G, ty, v) {
     if (v.ctorArgs) return this.ctor(G, ty, v.ctorArgs, v.line);
     if (v.init && v.init.k === 'ctor') { if (v.init.ty !== ty) G.err('E_ASSIGN_TYPE', v.line, { a: v.init.ty, b: ty }); return this.ctor(G, ty, v.init.args, v.line); }
-    if (v.init) G.err('E_ASSIGN_TYPE', v.line, { a: 'value', b: ty });
+    if (v.init) { const x = G.ex(v.init); if (x.t === 'o:' + ty) return x.c; G.err('E_ASSIGN_TYPE', v.line, { a: 'value', b: ty }); } // (batch 26: DateTime now = rtc.now();)
     return this.ctor(G, ty, [], v.line);
   },
   needInc(G, ty, inc, line) { if (inc && !inc.some((h) => G.info.includes.includes(h))) G.err('E_LIB_INCLUDE', line, { type: ty, lib: inc[0] }); },
   ctor(G, ty, args, line) {
     const T = TYPES[ty]; this.needInc(G, ty, T.inc, line);
     if (args.length < T.ctor[0] || args.length > T.ctor[1]) G.err('E_ARGS', line, { name: ty, min: T.ctor[0], max: T.ctor[1], got: args.length });
-    const xs = args.map((a) => { const x = G.ex(a); if (x.t === 'void') G.err('E_VOID_VALUE', line, { name: x.fname || '' }); if (x.t === 'str') G.err('E_ARG_STR', line, { name: ty }); return x; });
+    const xs = args.map((a) => { const x = G.ex(a); if (x.t === 'void') G.err('E_VOID_VALUE', line, { name: x.fname || '' }); if (x.t === 'str' && ty !== 'DateTime') G.err('E_ARG_STR', line, { name: ty }); return x; }); // (batch 26: DateTime(F(__DATE__), F(__TIME__)))
     for (const x of xs) if (x.k !== undefined && Number.isInteger(x.k) && x.k >= 0 && x.k < 20 && ty !== 'LiquidCrystal_I2C' && ty !== 'Adafruit_SSD1306') G.info.pins.add(x.k);
     (G.info.libs || (G.info.libs = new Set())).add(ty);
     return `rt.lib(${JSON.stringify(ty)},[${xs.map((x) => x.c)}],${line})`;
@@ -340,6 +340,107 @@ const MAKERS = {
   '@IrReceiver': (m) => new IRrt(m, []), '@Wire': () => new NoopRT(), '@SPI': () => new NoopRT(),
 };
 const ONE = new WeakMap(); // the global objects (IrReceiver, Wire, SPI): one per run of the sketch
+
+// ------------------------------------------------------------------ batch 26: four I2C sensor modules (parts26.js), library by library
+//   MPU6050_light (rfetick): MPU6050 mpu(Wire); begin() -> 0 when it answers (2: no answer, as Wire's endTransmission);
+//     calcOffsets() averages 1 s of readings and calls that "flat and still" (tilted or moving, that error stays);
+//     update() reads it and runs the complementary filter (0.98 gyro, 0.02 accelerometer); getAngleX/Y/Z, getAcc…, getGyro…
+//   RTClib: RTC_DS3231 rtc; begin(); now() -> DateTime (hour(), minute(), …); adjust(DateTime(F(__DATE__), F(__TIME__)));
+//     lostPower(): true until it is set (no coin cell time yet). The module keeps time on its coin cell between Runs.
+//   BH1750 (claws): BH1750 meter; begin(); readLightLevel() -> lux (-2 before begin(), -1 with no answer)
+//   Adafruit_BMP085 (the BMP180 too): begin(); readTemperature() °C, readPressure() Pa, readAltitude(sea level Pa) m
+const D2R = Math.PI / 180, R2D = 180 / Math.PI;
+const gauss = () => (Math.random() + Math.random() + Math.random() - 1.5) * 0.8;
+function mpuRaw(p) { // what the chip measures now (g, °/s): gravity turned by the module's roll (X) and pitch (Y), its bias, a little noise
+  const s = p.state; const r = (s.roll || 0) * D2R, q = (s.pitch || 0) * D2R; const B = s.bias || (s.bias = { ax: 0.03, ay: -0.02, az: 0.04, gx: 2.3, gy: -1.6, gz: 0.9 });
+  const sh = s.shake > 0 ? (Math.random() - 0.5) * 1.6 : 0;
+  const ax = -Math.sin(q) + B.ax + 0.004 * gauss() + sh, ay = Math.sin(r) * Math.cos(q) + B.ay + 0.004 * gauss() + sh * 0.7, az = Math.cos(r) * Math.cos(q) + B.az + 0.004 * gauss();
+  const rt = s.rate || [0, 0, 0]; return { ax, ay, az, gx: rt[0] + B.gx + 0.05 * gauss() + sh * 40, gy: rt[1] + B.gy + 0.05 * gauss(), gz: rt[2] + B.gz + 0.05 * gauss() };
+}
+class MPUrt {
+  constructor(m) { this.m = m; this.addr = 0x68; this.off = { ax: 0, ay: 0, az: 0, gx: 0, gy: 0, gz: 0 }; this.ang = [0, 0, 0]; this.acc = [0, 0, 0]; this.gyr = [0, 0, 0]; this.accAng = [0, 0]; this.fc = 0.98; this.last = null; this.tmp = NAN; }
+  dev() { return i2c(this.m, 'mpu6050', this.addr); }
+  begin() { busy(this.m, 1500); const p = this.dev(); if (!p) return 2; this.last = this.m.t; p.state.reads = (p.state.reads || 0) + 1; this.update(); this.ang = [this.accAng[0], this.accAng[1], 0]; return 0; }
+  setAddress(a) { this.addr = a | 0; }
+  setFilterGyroCoef(c) { this.fc = Math.max(0, Math.min(1, +c)); }
+  *calcOffsets(g = 1, a = 1) { // 500 readings, about 1 s
+    const p = this.dev(); const t0 = this.m.t; yield* this.m.delay(1000); if (!p) return; const n = 20, S = { ax: 0, ay: 0, az: 0, gx: 0, gy: 0, gz: 0 };
+    for (let i = 0; i < n; i++) { const r = mpuRaw(p); for (const k in S) S[k] += r[k] / n; }
+    if (a) { this.off.ax = S.ax; this.off.ay = S.ay; this.off.az = S.az - 1; } if (g) { this.off.gx = S.gx; this.off.gy = S.gy; this.off.gz = S.gz; } p.state.cal = { roll: p.state.roll || 0, pitch: p.state.pitch || 0, moving: p.state.shake > 0 || (p.state.rate || [0, 0, 0]).some((v) => Math.abs(v) > 3), at: t0 };
+    this.last = this.m.t; this.ang = [0, 0, 0];
+  }
+  *calcGyroOffsets() { yield* this.calcOffsets(1, 0); }
+  *calcAccOffsets() { yield* this.calcOffsets(0, 1); }
+  update() {
+    busy(this.m, 900); const p = this.dev(); if (!p) return; const r = mpuRaw(p); const o = this.off; const now = this.m.t; const dt = this.last === null ? 0 : Math.min(1, (now - this.last) / 1e6); this.last = now;
+    const ax = r.ax - o.ax, ay = r.ay - o.ay, az = r.az - o.az; this.acc = [ax, ay, az]; this.gyr = [r.gx - o.gx, r.gy - o.gy, r.gz - o.gz]; this.tmp = 26 + 0.3 * gauss();
+    const sgZ = az < 0 ? -1 : 1; this.accAng = [Math.atan2(ay, sgZ * Math.sqrt(az * az + ax * ax)) * R2D, -Math.atan2(ax, Math.sqrt(az * az + ay * ay)) * R2D];
+    const f = this.fc; this.ang[0] = f * (this.ang[0] + this.gyr[0] * dt) + (1 - f) * this.accAng[0]; this.ang[1] = f * (this.ang[1] + this.gyr[1] * dt) + (1 - f) * this.accAng[1]; this.ang[2] += this.gyr[2] * dt;
+    p.state.reads = (p.state.reads || 0) + 1; p.state.seen = [...this.ang];
+  }
+  getAngleX() { return this.ang[0]; } getAngleY() { return this.ang[1]; } getAngleZ() { return this.ang[2]; }
+  getAccX() { return this.acc[0]; } getAccY() { return this.acc[1]; } getAccZ() { return this.acc[2]; }
+  getGyroX() { return this.gyr[0]; } getGyroY() { return this.gyr[1]; } getGyroZ() { return this.gyr[2]; }
+  getAccAngleX() { return this.accAng[0]; } getAccAngleY() { return this.accAng[1]; } getTemp() { return this.tmp; }
+}
+// DateTime: seconds since 1 Jan 2000 (RTClib's SECONDS_FROM_1970_TO_2000 is 946684800)
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export class DateTimeRT {
+  constructor(m, a = []) {
+    this.m = m; let t = 0;
+    if (a.length === 1 && typeof a[0] === 'number') t = a[0] - 946684800;
+    else if (a.length === 2 && typeof a[0] === 'string') { const d = /([A-Z][a-z]{2})\s+(\d+)\s+(\d{4})/.exec(a[0]) || [], h = /(\d+):(\d+):(\d+)/.exec(a[1]) || []; t = Date.UTC(+d[3] || 2000, Math.max(0, MON.indexOf(d[1])), +d[2] || 1, +h[1] || 0, +h[2] || 0, +h[3] || 0) / 1000 - 946684800; }
+    else if (a.length >= 3) t = Date.UTC(a[0] | 0, (a[1] | 0) - 1, a[2] | 0, a[3] | 0, a[4] | 0, a[5] | 0) / 1000 - 946684800;
+    this.s = Math.max(0, Math.floor(t)); this.d = new Date((this.s + 946684800) * 1000);
+  }
+  year() { return this.d.getUTCFullYear(); } month() { return this.d.getUTCMonth() + 1; } day() { return this.d.getUTCDate(); }
+  hour() { return this.d.getUTCHours(); } minute() { return this.d.getUTCMinutes(); } second() { return this.d.getUTCSeconds(); }
+  dayOfTheWeek() { return this.d.getUTCDay(); } unixtime() { return this.s + 946684800; } secondstime() { return this.s; }
+}
+const labT = (m) => (m && m.lab ? m.lab.clock || 0 : 0); // (the bench's own time, in s: it goes on when the sketch restarts)
+export const rtcSecs = (p, m) => { const s = p.state; return (s.epoch || 0) + Math.floor(labT(m) - (s.base || 0)); }; // (the module's own clock: set, then it runs on its crystal)
+class RTCrt {
+  constructor(m) { this.m = m; this.ok = false; }
+  dev() { return i2c(this.m, 'rtc3231', 0x68); }
+  begin() { busy(this.m, 500); const p = this.dev(); this.ok = !!p; if (p && p.state.base === undefined) { p.state.base = labT(this.m); } return this.ok ? 1 : 0; }
+  now() { busy(this.m, 400); const p = this.dev(); const d = new DateTimeRT(this.m, []); if (!p) { d.s = 165 * 86400 * 365; d.d = new Date((d.s + 946684800) * 1000); return d; } // (no answer: the library reads 0xFF: 2165/165/165)
+    if (p.state.lost) { d.s = 0; } else { if (p.state.base === undefined) p.state.base = labT(this.m); d.s = rtcSecs(p, this.m); } d.d = new Date((d.s + 946684800) * 1000); p.state.reads = (p.state.reads || 0) + 1; return d; }
+  adjust(dt) { busy(this.m, 400); const p = this.dev(); if (!p || !dt) return; p.state.epoch = dt.s; p.state.base = labT(this.m); p.state.lost = false; p.state.adjusts = (p.state.adjusts || 0) + 1; }
+  lostPower() { const p = this.dev(); return p ? (p.state.lost ? 1 : 0) : 1; }
+  getTemperature() { const p = this.dev(); return p ? Math.round(((this.m.lab && this.m.lab.env.temp) ?? 25) * 4) / 4 : NAN; }
+}
+class BH1750rt {
+  constructor(m, [addr]) { this.m = m; this.addr = addr || 0x23; this.on = false; }
+  dev() { return i2c(this.m, 'bh1750', this.addr); }
+  begin(mode, addr) { busy(this.m, 300); if (addr) this.addr = addr | 0; const p = this.dev(); this.on = !!p; if (p) p.state.lastRead = this.m.t; return this.on ? 1 : 0; }
+  configure() { return this.begin(); }
+  measurementReady() { return 1; }
+  readLightLevel() { if (!this.on) return -2; const p = this.dev(); if (!p) return -1; busy(this.m, 1200); p.state.reads = (p.state.reads || 0) + 1; const lx = Math.max(0, p.state.lux || 0); return Math.round(lx * 1.2 * (1 + 0.004 * gauss())) / 1.2; }
+}
+class BMPrt {
+  constructor(m) { this.m = m; this.on = false; }
+  dev() { return i2c(this.m, 'bmp180', 0x77); }
+  begin() { busy(this.m, 2000); this.on = !!this.dev(); return this.on ? 1 : 0; }
+  pa() { const p = this.dev(); if (!p || !this.on) return NAN; const s = p.state; return Math.round(101325 * Math.pow(1 - (s.alt || 0) / 44330, 5.255) + (s.wx || 0) * 100 + 3 * gauss()); }
+  readTemperature() { busy(this.m, 4500); const p = this.dev(); if (!p || !this.on) return NAN; return Math.round(((this.m.lab && this.m.lab.env.temp) ?? 25) * 10 + gauss()) / 10; }
+  readPressure() { busy(this.m, 26000); const v = this.pa(); return Number.isNaN(v) ? 0 : v; }
+  readSealevelPressure(alt = 0) { const v = this.pa(); return Number.isNaN(v) ? 0 : Math.round(v / Math.pow(1 - alt / 44330, 5.255)); }
+  readAltitude(sea = 101325) { busy(this.m, 26000); const v = this.pa(); if (Number.isNaN(v)) return NAN; return Math.round(44330 * (1 - Math.pow(v / sea, 1 / 5.255)) * 10) / 10; }
+}
+Object.assign(TYPES, {
+  MPU6050: { inc: ['MPU6050_light.h'], ctor: [1, 1], methods: { begin: [0, 2, 'byte'], calcOffsets: [0, 2, 'void', 'y'], calcGyroOffsets: [0, 0, 'void', 'y'], calcAccOffsets: [0, 0, 'void', 'y'], update: [0, 0, 'void'], setAddress: [1, 1, 'void'], setFilterGyroCoef: [1, 1, 'void'],
+    getAngleX: [0, 0, 'float'], getAngleY: [0, 0, 'float'], getAngleZ: [0, 0, 'float'], getAccX: [0, 0, 'float'], getAccY: [0, 0, 'float'], getAccZ: [0, 0, 'float'], getGyroX: [0, 0, 'float'], getGyroY: [0, 0, 'float'], getGyroZ: [0, 0, 'float'],
+    getAccAngleX: [0, 0, 'float'], getAccAngleY: [0, 0, 'float'], getTemp: [0, 0, 'float'] } },
+  RTC_DS3231: { inc: ['RTClib.h'], ctor: [0, 0], methods: { begin: [0, 1, 'bool'], now: [0, 0, 'o:DateTime'], adjust: [1, 1, 'void', 'o'], lostPower: [0, 0, 'bool'], getTemperature: [0, 0, 'float'] } },
+  DateTime: { inc: ['RTClib.h'], ctor: [0, 6], methods: { year: [0, 0, 'int'], month: [0, 0, 'int'], day: [0, 0, 'int'], hour: [0, 0, 'int'], minute: [0, 0, 'int'], second: [0, 0, 'int'], dayOfTheWeek: [0, 0, 'int'], unixtime: [0, 0, 'ulong'], secondstime: [0, 0, 'ulong'] } },
+  BH1750: { inc: ['BH1750.h'], ctor: [0, 1], methods: { begin: [0, 3, 'bool'], configure: [1, 1, 'bool'], readLightLevel: [0, 0, 'float'], measurementReady: [0, 1, 'bool'] } },
+  Adafruit_BMP085: { inc: ['Adafruit_BMP085.h'], ctor: [0, 0], methods: { begin: [0, 2, 'bool'], readTemperature: [0, 0, 'float'], readPressure: [0, 0, 'long'], readSealevelPressure: [0, 1, 'long'], readAltitude: [0, 1, 'float'] } },
+});
+Object.assign(MAKERS, { MPU6050: (m) => new MPUrt(m), RTC_DS3231: (m) => new RTCrt(m), DateTime: (m, a) => new DateTimeRT(m, a), BH1750: (m, a) => new BH1750rt(m, a), Adafruit_BMP085: (m) => new BMPrt(m) });
+LIB_INCLUDES.push('MPU6050_light.h', 'RTClib.h', 'BH1750.h', 'Adafruit_BMP085.h');
+GLOBALS.Wire[1].push('MPU6050_light.h', 'RTClib.h', 'BH1750.h', 'Adafruit_BMP085.h');
+{ const d = new Date(); CONSTS.__DATE__ = [JSON.stringify(`${MON[d.getMonth()]} ${String(d.getDate()).padStart(2, ' ')} ${d.getFullYear()}`), 'str']; CONSTS.__TIME__ = [JSON.stringify(d.toTimeString().slice(0, 8)), 'str']; }
+
 export function libRT(m, type, args, line) {
   if (type[0] === '@') { let g = ONE.get(m.ser); if (!g) { g = {}; ONE.set(m.ser, g); } return g[type] || (g[type] = MAKERS[type](m)); }
   const f = MAKERS[type]; if (!f) throw new RtError('R_INTERNAL', { msg: 'no library ' + type }, line);
