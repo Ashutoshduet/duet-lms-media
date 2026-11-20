@@ -25464,6 +25464,66 @@
 "note": null
 },
 {
+"id": "live-pong",
+"title": "Pong on an OLED with a knob",
+"family": "live",
+"board": "uno",
+"parts": [
+"oled",
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "projects",
+"live": "pong",
+"rule": null,
+"note": null
+},
+{
+"id": "live-attendance",
+"title": "RFID attendance register",
+"family": "live",
+"board": "uno",
+"parts": [
+"rfid",
+"lcd16"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "projects",
+"live": "attendance",
+"rule": null,
+"note": null
+},
+{
+"id": "live-smarthome4",
+"title": "Smart home: four switches on a web page",
+"family": "live",
+"board": "esp32",
+"parts": [
+"led",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "projects",
+"live": "smarthome4",
+"rule": null,
+"note": null
+},
+{
 "id": "live-lapcar",
 "title": "Lap-counting race car",
 "family": "live",
@@ -26671,6 +26731,23 @@
 "level": 8,
 "theme": "pi",
 "live": "pico_blink",
+"rule": null,
+"note": null
+},
+{
+"id": "live-mbgestureai",
+"title": "Gesture AI: teach by example",
+"family": "live",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "microbit",
+"live": "mbgestureai",
 "rule": null,
 "note": null
 },

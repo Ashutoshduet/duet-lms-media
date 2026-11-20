@@ -21,7 +21,7 @@ import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'locker', 'kitchen', 'pantilt', 'turn']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'locker', 'kitchen', 'pantilt', 'turn']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -89,14 +89,14 @@ class World3 {
   }
   steps() {
     switch (this.kind) {
-      case 'air': return this.airSteps(); case 'garden': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': return this.doorSteps();
+      case 'air': return this.airSteps(); case 'garden': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
       case 'locker': return this.lockerSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
-      case 'air': return this.airDraw(dt); case 'garden': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': return this.doorDraw(dt);
+      case 'air': return this.airDraw(dt); case 'garden': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
       case 'locker': return this.lockerDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt);
     }
     return false;
@@ -304,6 +304,10 @@ class World3 {
         const door = new THREE.Group(); door.position.set(DX - 66, 6, DZ); r.add(door); this.door = door;
         const leaf = new THREE.Group(); leaf.add(box(130, 216, 12, this.wood([0.6, 1.2], 0xd8b890), 65, 108, 0)); leaf.add(box(4, 30, 6, S({ color: 0xc9ccd1, metalness: 1, roughness: 0.3 }), 118, 110, 9)); leaf.add(cyl(4, 10, S({ color: 0xc9ccd1, metalness: 1, roughness: 0.3 }), 118, 100, 12, 12).rotateX(Math.PI / 2));
         for (const [y, h] of [[60, 70], [158, 70]]) leaf.add(box(100, h, 2, this.wood([0.4, 0.5], 0xc8a87c), 65, y, 7));
+        if (this.kind === 'attend') { // a classroom door: the class's sign on the wall beside it, and no latch servo
+          const C = canvas(256, 160); const c = C.getContext('2d'); c.fillStyle = '#1d4aa8'; c.fillRect(0, 0, 256, 160); c.fillStyle = '#fff'; c.font = `800 44px ${TX.FONT}`; c.fillText('CLASS 8-A', 18, 62);
+          c.font = `600 22px ${TX.FONT}`; c.fillText('Tap your ID card', 18, 104); c.fillText('कार्ड लगाइए', 18, 138); r.add(box(70, 44, 1.5, S({ map: ctex(C), roughness: 0.6 }), DX + 110, 168, DZ + 9.8)); MD.mergeStatic(leaf); door.add(leaf); return;
+        }
         // the servo on the back of the door, near the latch, and the bolt it pulls
         const sv = M2.sg90Body(); sv.rotation.set(Math.PI / 2, 0, 0); sv.position.set(98, 118, -6); leaf.add(sv);
         MD.mergeStatic(leaf); door.add(leaf);
@@ -322,7 +326,7 @@ class World3 {
   }
   doorDraw(dt) {
     let a = false; const S = this.sim; const sv = this.part('sv1'); const ang = sv ? sv.state.angle : 0;
-    if (this.door) { const ry = -S.door * 70 * D2R; if (Math.abs(this.door.rotation.y - ry) > 1e-4) { this.door.rotation.y = ry; a = true; } const bx = 126 - Math.min(1, ang / 90) * 14; if (Math.abs(this.bolt.position.x - bx) > 0.01) { this.bolt.position.x = bx; a = true; } }
+    if (this.door && this.bolt) { const ry = -S.door * 70 * D2R; if (Math.abs(this.door.rotation.y - ry) > 1e-4) { this.door.rotation.y = ry; a = true; } const bx = 126 - Math.min(1, ang / 90) * 14; if (Math.abs(this.bolt.position.x - bx) > 0.01) { this.bolt.position.x = bx; a = true; } }
     if (this.cards) a = this.flyCards(dt) || a;
     if (this.lab.version !== this._v) { this._v = this.lab.version; this.cables([['sv1', [365, 112, -54]]]); }
     return a;

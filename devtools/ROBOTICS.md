@@ -777,3 +777,15 @@ heaters.
   Echo that reaches the pin through a divider (it reads the pin's voltage during and after the echo, as pi6.js does),
   so pulseIn() works on the 3.3 V boards. Class 8: tank level → `f_tankfull_web_esp`, dustbin full →
   `f_binfull_web_esp`. robofactory.mjs 8109 ok; robocore, robocore2, robocore4, robocore7 passed. 1,479 projects.
+- Class 8 complete (`lessons16.js`, batch 16; tests `robocore16.mjs`, 26 of 26 sessions live):
+  smart home with four switches (`smarthome4`, ESP32: Light / Fan / TV / Pump LEDs on GPIO 25 / 26 / 27 / 33, the
+  student wires the four GPIOs; one handler `/switch?n=` flips one appliance with `server.arg("n")`, "All off", and every
+  switch answers `303 → /` so a refresh never switches twice; the edit renames the Pump to Geyser in `names[]`),
+  RFID attendance register (`attendance`, Uno: RC522 + I2C LCD, `ids[]` / `names[]` / `present[]`, an unknown card is
+  shown with its number, the second tap says "Already marked"; scenes3.js `AttendScene` (kind `attend`) reads the LCD
+  for its flags, worlds3.js draws the classroom door with a CLASS 8-A sign and no latch servo), Pong on an OLED with a
+  knob (`pong`: `map()` of the knob to the paddle, Hit / Missed / GAME OVER on the Serial Monitor, the lesson's tick
+  counts them; the edit narrows the paddle; mistakes: both knob ends on one rail, the wiper on A1) and gesture AI on the
+  micro:bit (`mbgestureai`, `batch16mb`, page only: three gestures taught by example as [x, y, z, label], nearest
+  neighbour by 3D distance, an untaught pose gets a wrong answer with a large distance, then `if d > 500: guess = "?"`;
+  Run wipes the training, as RAM does). robocore3's own lessons are now `l.scene && !l.batch`. 1,483 projects.

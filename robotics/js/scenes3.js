@@ -22,7 +22,7 @@ const W = {
   last: t3('Last button', 'आख़िरी बटन', 'Aakhri button'), pir: t3('PIR output', 'पीआईआर आउटपुट', 'PIR output'), alarm: t3('Alarm', 'अलार्म', 'Alarm'), walk: t3('A thief walks in', 'एक चोर अंदर आता है', 'Ek chor andar aata hai'),
   cat: t3('The cat walks past', 'बिल्ली पास से गुज़रती है', 'Billi paas se guzarti hai'), learning: t3('learning the room…', 'कमरा समझ रहा है…', 'room samajh raha hai…'), door: t3('Door', 'दरवाज़ा', 'Darwaza'),
   latch: t3('Latch (servo)', 'कुंडी (सर्वो)', 'Kundi (servo)'), locked: t3('locked', 'बंद', 'band'), open: t3('open', 'खुला', 'khula'), card: t3('Hold the white card on the reader', 'सफ़ेद कार्ड रीडर पर रखिए', 'Safed card reader par rakhiye'),
-  tag: t3('Hold the blue tag on the reader', 'नीला टैग रीडर पर रखिए', 'Neela tag reader par rakhiye'), lastCard: t3('Last card', 'आख़िरी कार्ड', 'Aakhri card'), sky: t3('Weather outside', 'बाहर का मौसम', 'Bahar ka mausam'),
+  tag: t3('Hold the blue tag on the reader', 'नीला टैग रीडर पर रखिए', 'Neela tag reader par rakhiye'), cardAsha: t3('Asha taps her white card', 'आशा अपना सफ़ेद कार्ड लगाती है', 'Asha apna safed card lagati hai'), tagRavi: t3('Ravi taps his blue tag', 'रवि अपना नीला टैग लगाता है', 'Ravi apna neela tag lagata hai'), lastCard: t3('Last card', 'आख़िरी कार्ड', 'Aakhri card'), sky: t3('Weather outside', 'बाहर का मौसम', 'Bahar ka mausam'),
   sunny: t3('Sunny', 'धूप', 'Dhoop'), rainy: t3('Rainy', 'बारिश', 'Baarish'), night: t3('Winter night', 'सर्दी की रात', 'Sardi ki raat'), typed: t3('Typed', 'टाइप किया', 'Type kiya'), locker: t3('Locker', 'लॉकर', 'Locker'),
   gas: t3('LPG in the air', 'हवा में एलपीजी', 'Hawa mein LPG'), leak: t3('Gas knob left open', 'गैस का नॉब खुला रह गया', 'Gas ka knob khula reh gaya'), window: t3('Window', 'खिड़की', 'Khidki'), closed: t3('Closed', 'बंद', 'Band'),
   opened: t3('Open', 'खुली', 'Khuli'), warmUp: t3('warming up…', 'गर्म हो रहा है…', 'garam ho raha hai…'), pan: t3('Pan (left–right)', 'पैन (बाएँ–दाएँ)', 'Pan (left–right)'), tilt: t3('Tilt (up–down)', 'टिल्ट (ऊपर–नीचे)', 'Tilt (upar–neeche)'),
@@ -180,6 +180,34 @@ export class DoorScene extends Scene {
   }
 }
 
+// ------------------------------------------------------------------ the classroom door's attendance register (batch 16)
+// The same door, card and tag; no latch. The flags come from what the LCD really shows: "Tap your card" (ready),
+// "<name> Present" (asha / ravi), "Unknown card", "Already marked", and the count on its second line (n1, n2, …).
+export class AttendScene extends Scene {
+  constructor(cfg) { super(cfg); this.door = 0; this.showing = null; this.marked = new Set(); this.res.count = 0; this.last = ''; }
+  update(dt, lab) {
+    this.t += dt; const rf = lab.byTag('rf'); if (rf && rf.state.reads) this.flags.add('cardSeen');
+    const l = lab.byTag('lcd'); const ls = l ? lcdText(l).map((x) => String(x).trim()) : []; const s = ls.join('\n');
+    if (s !== this.last) {
+      this.last = s;
+      if (/^tap your card/i.test(ls[0] || '')) this.flags.add('ready');
+      if (/^unknown card/i.test(ls[0] || '')) { this.flags.add('unknown'); this.res.unknown = ls[1] || ''; }
+      if (/^already/i.test(ls[1] || '')) { this.flags.add('already'); this.res.already = ls[0]; }
+      const m = /^(\w+)\s+present$/i.exec(ls[0] || ''); if (m) { this.flags.add(m[1].toLowerCase()); this.marked.add(m[1]); this.res.names = [...this.marked]; }
+      const c = /^(?:count|present)\s*:\s*(\d+)/i.exec(ls[1] || ''); if (c && +c[1] > 0) { this.flags.add('n' + c[1]); this.res.count = Math.max(this.res.count, +c[1]); }
+    }
+    return false;
+  }
+  onRun() { super.onRun(); this.showing = null; this.last = ''; this.marked = new Set(); this.res.count = 0; delete this.res.names; for (const k of [...this.flags]) if (k !== 'cardSeen') this.flags.delete(k); }
+  control(id, v, lab) { if (id === 'card' || id === 'tag') { rfidShow(lab, id); this.showing = { id, t: this.t }; } }
+  hud(lab) {
+    const rf = lab.byTag('rf'); const l = lab.byTag('lcd'); const ls = l ? lcdText(l) : ['', ''];
+    return { title: t3('Attendance register', 'हाज़िरी रजिस्टर', 'Attendance register'),
+      rows: [[tx(W.screen), (ls[0] || '').trim() || '—'], ['', (ls[1] || '').trim() || '—'], [tx(W.lastCard), this.showing ? tx(CARDS[this.showing.id].name) + ' · ' + uidText(CARDS[this.showing.id].uid) : '—'], ['RC522', rf && rf.state.over ? '⚠ 5 V!' : rf && rf.state.powered ? '3.3 V ✓' : '—']],
+      controls: [{ id: 'card', kind: 'button', label: W.cardAsha }, { id: 'tag', kind: 'button', label: W.tagRavi }] };
+  }
+}
+
 // ------------------------------------------------------------------ the keypad locker (the servo pulls its latch)
 export class LockerScene extends Scene {
   constructor(cfg) { super(cfg); this.door = 0; this.typed = ''; this.pend = null; }
@@ -271,7 +299,7 @@ export class TurnScene extends Scene {
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'attend': return new AttendScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

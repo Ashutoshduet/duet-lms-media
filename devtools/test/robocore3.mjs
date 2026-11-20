@@ -138,7 +138,7 @@ if (only('modules')) {
 }
 
 // ------------------------------------------------------------------ the lessons, played as a student would
-const NEW3 = LESSONS.filter((l) => l.scene);
+const NEW3 = LESSONS.filter((l) => l.scene && !l.batch); // (batch 16 has a scene too: robocore16.mjs)
 if (only('lessons') || NEW3.some((l) => only(l.id))) {
   ok(NEW3.length === 10 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${NEW3.length} batch-3 lessons (n ${NEW3[0].n}–${NEW3[NEW3.length - 1].n}), ids unique`);
   for (const l of NEW3) {
