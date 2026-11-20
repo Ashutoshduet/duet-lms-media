@@ -21,6 +21,7 @@ export const VIEWS = {
   side: { tgt: [175, 70, 20], hw: 270, hd: 175, dir: [-0.1, 0.52, 0.85] },
   armbench: { tgt: [5, 0, 45], hw: 205, hd: 105, dir: [0, 0.8, 0.6] },
   armpaper: { tgt: [300, 50, 60], hw: 230, hd: 150, dir: [-0.3, 0.72, 0.62] }, // (batch 24: the arm and the paper it draws on)
+  armtgt: { tgt: [330, 80, 70], hw: 240, hd: 165, dir: [-0.22, 0.5, 0.84] }, // (batch 36: the arm and its three targets)
   carbench: { tgt: [-40, 0, 68], hw: 178, hd: 118, dir: [0, 0.78, 0.62] },
   arena: { tgt: [2600, 0, 30], hw: 720, hd: 470, dir: [0, 0.82, 0.57] },
   arenabt: { tgt: [2600, 0, 170], hw: 720, hd: 470, dir: [0, 0.82, 0.57] }, // the Bluetooth car's yard: the car at its start and P both clear of the lesson card

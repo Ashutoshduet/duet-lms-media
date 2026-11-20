@@ -32,16 +32,20 @@ const dist3 = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 // tip is within 1.5 mm of the paper (the felt tip and the holder give a little); pushed 8 mm into the desk it digs.
 export const DRAW = { sq: [[-40, 130], [40, 130], [40, 210], [-40, 210]], paper: { cx: 0, cz: 170, w: 170, d: 130 }, inkAt: 1.5, dig: -8 };
 const segDist = (q, a, b) => { const dx = b[0] - a[0], dz = b[1] - a[1]; const L2 = dx * dx + dz * dz; const t = L2 ? clamp(((q[0] - a[0]) * dx + (q[1] - a[1]) * dz) / L2, 0, 1) : 0; return Math.hypot(q[0] - a[0] - t * dx, q[1] - a[1] - t * dz); };
+// (batch 36, Class 12, level 7) three targets on rods, arm-local [x right, height, z towards the student] (mm): the sketch
+// names them (x right, y towards you, z up). Blue is out of reach: 282 mm from the shoulder, the arm reaches 255.
+export const ARM_TGT = { red: { at: [-90, 60, 150], col: 0xe0342a }, green: { at: [80, 120, 120], col: 0x2fae4e }, blue: { at: [0, 40, 280], col: 0x2f6fd0 } };
 export const ARMCUR = { sim: null }; // the arm of the lesson that is open (a lesson's live results read it)
 export class ArmSim {
-  // level: 1 aim at a flag, 2 touch a ball (shoulder), 3 touch a ball (all joints), 4 pick and place, 5 joystick, 6 draw
+  // level: 1 aim at a flag, 2 touch a ball (shoulder), 3 touch a ball (all joints), 4 pick and place, 5 joystick, 6 draw,
+  // 7 reach three targets by their coordinates (batch 36)
   constructor(level) {
     ARMCUR.sim = this; this.level = level; const A = ARMG;
     this.A = armFK(140, 45, 66).grip; this.B = armFK(40, 45, 66).grip; this.A[1] = this.B[1] = A.cube / 2;
     this.flagAngle = 120; this.ball = level === 2 ? armFK(60, 100, 90).grip : armFK(100, 70, 120).grip;
     this.reset();
   }
-  reset() { this.cube = { p: this.A.slice(), held: false, vy: 0, settled: true, placed: false }; this.flags = new Set(); this.aimT = 0; this.touchT = 0; this.min = {}; this.max = {}; this.strokes = []; this.cur = null; this.ink = 0; this.res = {}; this.judgeT = 0; this.upT = 0; this.inkDone = 0; this.inkV = (this.inkV || 0) + 1; }
+  reset() { this.cube = { p: this.A.slice(), held: false, vy: 0, settled: true, placed: false }; this.flags = new Set(); this.tgtT = {}; this.aimT = 0; this.touchT = 0; this.min = {}; this.max = {}; this.strokes = []; this.cur = null; this.ink = 0; this.res = {}; this.judgeT = 0; this.upT = 0; this.inkDone = 0; this.inkV = (this.inkV || 0) + 1; }
   // every frame: the servo angles (null for a joint that gets no signal: it stays where it is)
   update(dt, ang) {
     const A = ARMG; const fk = armFK(ang.b, ang.s, ang.e); this.fk = fk; this.ang = ang;
@@ -60,6 +64,8 @@ export class ArmSim {
     // level goals
     if (this.level === 1) { this.aimT = Math.abs(ang.b - this.flagAngle) < 4 ? this.aimT + dt : 0; if (this.aimT > 0.6) this.flags.add('aimed'); }
     if (this.level === 2 || this.level === 3) { this.ballD = Math.round(dist3(fk.grip, this.ball)); this.touchT = this.ballD < 16 ? this.touchT + dt : 0; if (this.touchT > 0.5) this.flags.add('touched'); }
+    if (this.level === 7) for (const [k, p] of Object.entries(ARM_TGT)) { const d = dist3(fk.grip, p.at); this.tgtD = this.tgtD || {}; this.tgtD[k] = Math.round(d); this.tgtT[k] = d < 14 ? (this.tgtT[k] || 0) + dt : 0; if (this.tgtT[k] > 0.5) this.flags.add('touch_' + k); } // (batch 36)
+    if (this.level === 7 && ang.e < 8) this.flags.add('folded'); // (the elbow driven to 0°: the forearm folds back into the upper arm and the servo stalls)
   }
   // the pen: ink where its tip touches the paper (or the desk), one stroke while it stays down
   draw(dt, fk) {

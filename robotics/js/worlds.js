@@ -9,7 +9,7 @@
 import * as THREE from 'three';
 import * as M2 from './models2.js';
 import * as MD from './models.js';
-import { ArmSim, CarSim, BinSim, HydSim, ARM_POS, ARENA_POS, BIN_POS, HYD_POS, armFK, gapOf, linePoints, CAR_CFG, CARG, ARMG, SYR, HYDG, slaveLen, carFeed, DRAW, wifiCheck } from './robots.js';
+import { ArmSim, CarSim, BinSim, HydSim, ARM_POS, ARENA_POS, BIN_POS, HYD_POS, armFK, gapOf, linePoints, CAR_CFG, CARG, ARMG, SYR, HYDG, slaveLen, carFeed, DRAW, wifiCheck, ARM_TGT } from './robots.js';
 import { netOf } from './esp32.js'; // (batch 24: the WiFi car's link)
 import { BO } from './parts2.js';
 import { tx } from './i18n.js';
@@ -108,6 +108,7 @@ class ArmWorld extends World {
         if (this.cfg.level === 6) this.paper();
         if (this.cfg.level === 4 || this.cfg.level === 5) for (const [k, p] of [['A', S.A], ['B', S.B]]) { const s = this.sign(k, 60, k === 'A' ? '#3aa0ff' : '#e8a020'); s.position.set(ax + p[0], ay + 0.4, az + p[2]); r.add(s); }
         if (this.cfg.level === 1) { const f = new THREE.Group(); const a = this.sim.flagAngle * D2R; f.position.set(ax + Math.cos(a) * 200, ay, az + Math.sin(a) * 200); f.add(MD.cyl(1.5, 120, new THREE.MeshStandardMaterial({ color: 0xdddddd }), 0, 60, 0, 8)); const fl = MD.box(46, 28, 1, new THREE.MeshStandardMaterial({ color: 0xd8341c, roughness: 0.6 }), 23, 104, 0); f.add(fl); f.add(MD.cyl(14, 4, new THREE.MeshStandardMaterial({ color: 0x333333 }), 0, 2, 0, 16)); r.add(f); }
+        if (this.cfg.level === 7) { this.tgtM = {}; for (const [k, T] of Object.entries(ARM_TGT)) { const b = T.at; const g = new THREE.Group(); g.position.set(ax + b[0], ay, az + b[2]); g.add(MD.cyl(1.4, b[1] - 10, new THREE.MeshStandardMaterial({ color: 0xbfc2c6, metalness: 1, roughness: 0.3 }), 0, (b[1] - 10) / 2, 0, 8)); g.add(MD.cyl(16, 4, new THREE.MeshStandardMaterial({ color: 0x333333 }), 0, 2, 0, 16)); const m = new THREE.MeshStandardMaterial({ color: T.col, roughness: 0.4, emissive: 0xffffff, emissiveIntensity: 0 }); this.tgtM[k] = m; const ball = new THREE.Mesh(new THREE.SphereGeometry(10, 20, 14), m); ball.position.y = b[1]; g.add(ball); r.add(g); } } // (batch 36: the three targets)
         if (this.cfg.level === 2 || this.cfg.level === 3) { const b = S.ball; const g = new THREE.Group(); g.position.set(ax + b[0], ay, az + b[2]); g.add(MD.cyl(1.4, b[1] - 10, new THREE.MeshStandardMaterial({ color: 0xbfc2c6, metalness: 1, roughness: 0.3 }), 0, (b[1] - 10) / 2, 0, 8)); g.add(MD.cyl(16, 4, new THREE.MeshStandardMaterial({ color: 0x333333 }), 0, 2, 0, 16)); this.ballM = new THREE.MeshStandardMaterial({ color: 0xe0342a, roughness: 0.4, emissive: 0x22ff44, emissiveIntensity: 0 }); const ball = new THREE.Mesh(new THREE.SphereGeometry(10, 20, 14), this.ballM); ball.position.y = b[1]; g.add(ball); r.add(g); }
         // the reach on the desk: from the closest to the farthest the claw can touch the desk (a half ring in front)
         let rmin = 1e9, rmax = 0; for (let s = 0; s <= 180; s += 3) for (let e = 30; e <= 180; e += 3) { const f = armFK(90, s, e); if (Math.abs(f.grip[1] - 12) < 6) { rmin = Math.min(rmin, f.reach); rmax = Math.max(rmax, f.reach); } }
@@ -165,6 +166,7 @@ class ArmWorld extends World {
     const gap = gapOf(ang.g); J.fingers.forEach((f, i) => { f.position.x = (i ? 1 : -1) * (gap / 2 + 1); });
     if (this.cube) { const [ax, ay, az] = ARM_POS; this.cube.position.set(ax + S.cube.p[0], ay + S.cube.p[1], az + S.cube.p[2]); if (S.cube.held) { const fk = S.fk; this.cube.rotation.y = -(ang.b - 90) * D2R; } }
     if (this.ballM) this.ballM.emissiveIntensity = S.ballD < 16 ? 0.9 : 0;
+    if (this.tgtM) for (const [k, m] of Object.entries(this.tgtM)) m.emissiveIntensity = S.tgtD && S.tgtD[k] < 14 ? 0.35 : 0;
     if (this.lab.version !== this._v) { this._v = this.lab.version; this.cables(this.tags, (i) => [ARM_POS[0] - 30, 40 - i * 6, ARM_POS[2] + 10 - i * 5]); }
     const inked = this.cfg.level === 6 && this.inkDraw();
     const k = [ang.b, ang.s, ang.e, ang.g, S.cube.p[1]].map((x) => Math.round(x * 10)).join(); const moved = k !== this._k; this._k = k; return moved || inked;
@@ -180,6 +182,7 @@ class ArmWorld extends World {
     if (L === 1) rows.push([tx(W.goal), `🚩 ${S.flagAngle}° · ${yes(S.flags.has('aimed'))}`]);
     if (L === 2 || L === 3) rows.push([tx(W.goal), `🔴 ${S.ballD ?? '…'} mm · ${yes(S.flags.has('touched'))}`]);
     if (L === 4 || L === 5) rows.push([tx(W.goal), `A → B · ${yes(S.flags.has('placed'))}`]);
+    if (L === 7) for (const [k, T] of Object.entries(ARM_TGT)) rows.push([{ red: '🔴', green: '🟢', blue: '🔵' }[k] + ` (${T.at[0]}, ${T.at[2]}, ${T.at[1]})`, `${S.tgtD ? S.tgtD[k] : '…'} mm · ${yes(S.flags.has('touch_' + k))}`]); // (batch 36: x, y, z as the sketch names them)
     if (L === 6) { const R = S.res || {}; rows.splice(3, 3, [tx(W.pen), S.penDown ? tx(W.penOn) : `${Math.max(0, Math.round(S.penH ?? 0))} mm ${tx(W.penUp)}`], [tx(W.ink), `${Math.round(S.ink || 0)} mm`],
       [tx(W.offLine), R.dev !== undefined ? `${R.dev} mm` : '—'], [tx(W.covered), R.cover !== undefined ? `${R.cover} %` : '—']); }
     const ctl = L === 4 || L === 5 ? [{ id: 'backA', kind: 'button', label: W.backA }] : L === 6 ? [{ id: 'sheet', kind: 'button', label: W.sheet }] : [];

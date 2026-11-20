@@ -6104,16 +6104,16 @@
    {
     "class": 12,
     "n": 1,
-    "kind": "I",
+    "kind": "L",
     "title": "Robot arm: inverse kinematics to reach a point",
     "board": "uno",
-    "status": "planned",
-    "ref": "robot-arm-inverse-kinematics-to-reach-a-point-uno",
+    "status": "live",
+    "ref": "armreach",
     "newparts": [],
-    "family": "machines",
+    "family": "live-projects",
     "parts": [
-     "mg996r",
      "psu5",
+     "mg996r",
      "servo"
     ],
     "strand": "Decomposition",

@@ -1269,3 +1269,10 @@ heaters.
   Ramesh's blue tag (3.0 kg), pours 350 g/s (the shopkeeper stops 0.4 s after a beep), empties the bowl. A tap is judged
   once rf.state.reads has gone up and 0.6 s passed. Flags: shown, stopped, twice (a card that got its rice shows its
   quota again), refused ("Already taken" once the five commented lines are switched on).
+- Batch 36: the Class 12 robot arm that reaches typed points (lessons24.js armreach; robots.js ArmSim level 7, ARM_TGT;
+  worlds.js draws the three balls on rods; stage.js armtgt). The sketch reads x y z (mm; x right, y towards you, z up)
+  with Serial.parseFloat and solves the triangle shoulder–elbow–claw (L1 105, L2 150 to the claw's middle, the shoulder
+  78 mm up). Red (−90, 150, 60) and green (80, 120, 120) are reached (flags touch_red / touch_green: the grip within
+  14 mm for 0.5 s); blue (0, 280, 40) is 282 mm from the shoulder: acos() gives nan, Servo.write() takes it as 0 and the
+  elbow folds the forearm back (flag folded, elbow < 8°). The four commented lines check d > L1 + L2 − 2 first and print
+  "Out of reach". The test feeds the Serial Monitor (lab.mcu.ser.send) and passes its lines to rt.onSerialLine.

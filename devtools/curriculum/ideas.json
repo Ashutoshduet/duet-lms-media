@@ -71415,6 +71415,27 @@
 "note": null
 },
 {
+"id": "live-armreach",
+"title": "Robot arm: inverse kinematics to reach a point",
+"family": "live",
+"board": "uno",
+"parts": [
+"psu5",
+"mg996r",
+"servo"
+],
+"newparts": [],
+"band": [
+12,
+12
+],
+"level": 12,
+"theme": "projects",
+"live": "armreach",
+"rule": null,
+"note": null
+},
+{
 "id": "live-rationshop",
 "title": "Smart ration shop: RFID card and grain weight",
 "family": "live",

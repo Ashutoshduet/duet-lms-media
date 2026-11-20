@@ -473,4 +473,25 @@ for (const l of L24) {
   ok(/Sunita got 50\d\d/.test(ser), `rationshop: the scale stops at the quota (${(ser.match(/Sunita got \d+/g) || []).join(', ')}); the bag holds ${B.sim.res.given} g`);
 }
 
+// the robot arm reaches typed points (lessons24.js armreach, robots.js ArmSim level 7 and ARM_TGT): red and green are
+// reached; blue (282 mm) makes acos() nan and the elbow folds; the reach check says "Out of reach"
+{ const l = LESSONS.find((x) => x.id === 'armreach'); ok(!!l && compile(l.code).ok, 'armreach: the sketch compiles');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  const sim = new ArmSim(7); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => sim.reset() }; const tags = ['svB', 'svS', 'svE', 'svG'];
+  const tick = () => { const a = {}; ['b', 's', 'e', 'g'].forEach((k, i) => { const p = lab.byTag(tags[i]); a[k] = p ? p.state.angle : 90; }); sim.update(1 / 60, a); const g = lab.byTag('svG'); if (g) g.state.limit = sim.limit; };
+  for (let f = 0; f < 30; f++) { lab.step(1000 / 60); tick(); }
+  let src = l.code, buf = '', out = ''; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); };
+  const typed = [[[1, '-90 150 60\n']], [[1, '0 280 40\n']], [[1, '0 280 40\n'], [3, '80 120 120\n']]]; let ai = 0;
+  for (const s of l.steps) {
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e).ok, `armreach: the edit is what the step asks`); src = e; start(src); }
+    if (s.k === 'act') { const T = typed[ai++]; const sent = new Set(); let t = -1;
+      for (let f = 0; f < 60 * 20; f++) { for (const [at, txt] of T) if (!sent.has(at) && f / 60 >= at) { sent.add(at); lab.mcu.ser.send(txt); }
+        lab.step(1000 / 60); tick(); for (const o of lab.mcu.ser.take()) { const str = String.fromCharCode(...o.bytes); out += str; buf += str; let k; while ((k = buf.indexOf('\n')) >= 0) { rt.onSerialLine(buf.slice(0, k).replace(/\r$/, '')); buf = buf.slice(k + 1); } }
+        rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = f / 60; break; } }
+      ok(t >= 0, `armreach: act "${s.do.en.slice(0, 50)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${JSON.stringify(sim.tgtD)} ${[...sim.flags]} ${JSON.stringify(out.slice(-160))}`)); }
+  }
+  ok(!!l.done(rt) && /shoulder nan/.test(out), `armreach: complete; blue printed nan, then "Out of reach"`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

@@ -1140,6 +1140,65 @@ void loop() {
 }
 `;
 
+const ARMIK = `// Robot arm, reach a point: type x y z (mm) in the Serial Monitor and the claw goes there (inverse kinematics).
+#include <Servo.h>
+
+Servo base, shoulder, elbow, claw;
+const float L1 = 105;     // shoulder to elbow (mm)
+const float L2 = 150;     // elbow to the middle of the claw (mm)
+const float H = 78;       // the shoulder's height above the desk (mm)
+
+// x to the right, y towards you, z up, from the middle of the base (mm)
+void reachTo(float x, float y, float z) {
+  float b = atan2(y, x);                   // which way the base points
+  float r = sqrt(x * x + y * y);           // how far out, seen from above
+  float h = z - H;                         // how far above the shoulder
+  float d = sqrt(r * r + h * h);           // shoulder to claw, in a straight line
+//  if (d > L1 + L2 - 2) {
+//    Serial.println("Out of reach");
+//    return;
+//  }
+  float s = atan2(h, r) + acos((L1 * L1 + d * d - L2 * L2) / (2 * L1 * d));
+  float e = acos((L1 * L1 + L2 * L2 - d * d) / (2 * L1 * L2));
+  Serial.print("base ");
+  Serial.print(degrees(b));
+  Serial.print("  shoulder ");
+  Serial.print(degrees(s));
+  Serial.print("  elbow ");
+  Serial.println(degrees(e));
+  base.write(degrees(b));
+  shoulder.write(degrees(s));
+  elbow.write(degrees(e));
+}
+
+void setup() {
+  base.attach(3);
+  shoulder.attach(5);
+  elbow.attach(6);
+  claw.attach(9);
+  claw.write(30);                          // the claw open
+  Serial.begin(9600);
+  reachTo(0, 150, 150);                    // ready: in front, up high
+  Serial.println("Type x y z in mm, e.g. -90 150 60");
+}
+
+void loop() {
+  if (Serial.available()) {
+    float x = Serial.parseFloat();
+    float y = Serial.parseFloat();
+    float z = Serial.parseFloat();
+    while (Serial.available()) Serial.read();   // the rest of the line
+    Serial.print("Going to ");
+    Serial.print(x);
+    Serial.print(", ");
+    Serial.print(y);
+    Serial.print(", ");
+    Serial.println(z);
+    reachTo(x, y, z);
+  }
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1766,6 +1825,30 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('lc', t3('load cell with HX711', 'HX711 वाला लोड सेल', 'HX711 wala load cell')), need('lc.DT', 'D2', W.toPin, { x: 'DT', p: 2 }), need('lc.SCK', 'D5', W.toPin, { x: 'SCK', p: 5 })],
     done: (S) => S.w('refused') });
+  // 21 ---------------------------------------------------------- robot arm: inverse kinematics to a point (Class 12, batch 36)
+  // Type coordinates; red and green are reached; blue (282 mm away, the arm reaches 255) makes acos() NaN, Servo.write()
+  // takes NaN as 0 and the elbow folds the forearm back into itself; the reach check answers "Out of reach" instead
+  const okReach = (src) => /\n\s*if\s*\(\s*d\s*>\s*L1\s*\+\s*L2\s*-\s*2\s*\)\s*\{\s*\n\s*Serial\.println\("Out of reach"\);\s*\n\s*return;\s*\n\s*\}/.test(src || '');
+  const said = (S, re) => (S.serLines || []).some((x) => re.test(x));
+  L.push({ id: 'armreach', cls: '12', blocks: false, view: 'side', wview: 'armbench', rview: 'armtgt', code: ARMIK, drawer: [], serial: true, world: { kind: 'arm', level: 7 },
+    title: t3('Robot arm: inverse kinematics to reach a point', 'रोबोट बाँह: इनवर्स काइनेमैटिक्स से किसी बिंदु तक पहुँचना', 'Robot arm: inverse kinematics se kisi bindu tak pahunchna'),
+    goal: t3('Tell the arm where, not how: type a point in millimetres and the program works out the three joint angles. Then find what happens when the point is too far away, and make the arm say so instead of hurting itself.', 'बाँह को बताइए कहाँ, कैसे नहीं: मिलीमीटर में एक बिंदु टाइप कीजिए और प्रोग्राम तीनों जोड़ों के कोण निकालता है। फिर पता कीजिए कि बिंदु बहुत दूर हो तो क्या होता है, और बाँह से यह कहलवाइए, ख़ुद को चोट पहुँचाने के बजाय।', 'Baanh ko bataiye kahan, kaise nahi: millimetre mein ek bindu type kijiye aur program teeno jodon ke kon nikaalta hai. Phir pata kijiye ki bindu bahut door ho to kya hota hai, aur baanh se yeh kehlwaiye, khud ko chot pahunchaane ke bajaay.'),
+    setup: { parts: ARMP, wires: aWires },
+    steps: [
+      { k: 'info', do: t3('The arm is wired (base, shoulder, elbow, claw on pins 3, 5, 6, 9, with its 5 V adapter). Three balls stand on rods in front of it; the panel gives each one\'s x, y, z: x to the right, y towards you, z up, in mm from the middle of the base.', 'बाँह जुड़ी है (बेस, कंधा, कोहनी, पंजा पिन 3, 5, 6, 9 पर, अपने 5 V अडैप्टर के साथ)। इसके सामने छड़ों पर तीन गेंदें खड़ी हैं; पैनल हर एक का x, y, z बताता है: x दाईं ओर, y आपकी ओर, z ऊपर, बेस के बीच से mm में।', 'Baanh judi hai (base, kandha, kohni, panja pin 3, 5, 6, 9 par, apne 5 V adapter ke saath). Iske saamne chhadon par teen gendein khadi hain; panel har ek ka x, y, z batata hai: x right, y aapki or, z upar, base ke beech se mm mein.'), see: E },
+      { k: 'info', code: [10, 25], do: t3('Read reachTo(): atan2 turns the base towards the point, Pythagoras gives r and d, and the cosine rule gives the shoulder and elbow angles of the triangle shoulder–elbow–claw (sides L1, L2 and d).', 'reachTo() पढ़िए: atan2 बेस को बिंदु की ओर घुमाता है, पाइथागोरस r और d देता है, और कोसाइन नियम त्रिभुज कंधा–कोहनी–पंजा (भुजाएँ L1, L2 और d) से कंधे और कोहनी के कोण देता है।', 'reachTo() padhiye: atan2 base ko bindu ki or ghumaata hai, Pythagoras r aur d deta hai, aur cosine niyam tribhuj kandha–kohni–panja (bhujaayein L1, L2 aur d) se kandhe aur kohni ke kon deta hai.'), see: E },
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && S.w('touch_red'), do: t3('In the Serial Monitor type   -90 150 60   and press Send.', 'सीरियल मॉनिटर में   -90 150 60   टाइप कीजिए और Send दबाइए।', 'Serial Monitor mein   -90 150 60   type kijiye aur Send dabaiye.'),
+        see: t3('The claw goes straight to the red ball: base 121°, shoulder 52°, elbow 85°. You gave a point; the cosine rule found the angles.', 'पंजा सीधा लाल गेंद पर जाता है: बेस 121°, कंधा 52°, कोहनी 85°। आपने एक बिंदु दिया; कोसाइन नियम ने कोण निकाले।', 'Panja seedha laal gend par jaata hai: base 121°, kandha 52°, kohni 85°. Aapne ek bindu diya; cosine niyam ne kon nikaale.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('folded'), do: t3('Now the blue ball: type   0 280 40   and Send.', 'अब नीली गेंद:   0 280 40   टाइप कीजिए और Send।', 'Ab neeli gend:   0 280 40   type kijiye aur Send.'),
+        see: t3('The arm folds up on itself and the elbow servo buzzes against its own forearm. The Serial Monitor says shoulder nan, elbow nan. The ball is 282 mm from the shoulder, but L1 + L2 is only 255: no triangle has those sides, the cosine is more than 1, and acos() answers "not a number". Servo.write() takes nan as 0°.', 'बाँह ख़ुद पर मुड़ जाती है और कोहनी का सर्वो अपनी ही बाँह से टकराकर भिनभिनाता है। सीरियल मॉनिटर कहता है shoulder nan, elbow nan। गेंद कंधे से 282 mm दूर है, पर L1 + L2 बस 255 है: ऐसी भुजाओं वाला कोई त्रिभुज नहीं, कोसाइन 1 से ज़्यादा है, और acos() "संख्या नहीं" जवाब देता है। Servo.write() nan को 0° मान लेता है।', 'Baanh khud par mud jaati hai aur kohni ka servo apni hi baanh se takraakar bhinbhinaata hai. Serial Monitor kehta hai shoulder nan, elbow nan. Gend kandhe se 282 mm door hai, par L1 + L2 bas 255 hai: aisi bhujaaon wala koi tribhuj nahi, cosine 1 se zyada hai, aur acos() "number nahi" jawaab deta hai. Servo.write() nan ko 0° maan leta hai.') },
+      { k: 'edit', test: okReach, set: [[/\/\/  if \(d > L1 \+ L2 - 2\) \{\n\/\/    Serial\.println\("Out of reach"\);\n\/\/    return;\n\/\/  \}\n/, '  if (d > L1 + L2 - 2) {\n    Serial.println("Out of reach");\n    return;\n  }\n']],
+        do: t3('Check before you move: remove the // from the four lines of the if (d > L1 + L2 - 2) block, and press Run.', 'चलाने से पहले जाँचिए: if (d > L1 + L2 - 2) वाले ब्लॉक की चार लाइनों से // हटाइए, और "चलाइए" दबाइए।', 'Chalaane se pehle jaanchiye: if (d > L1 + L2 - 2) wale block ki chaar lines se // hataiye, aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && said(S, /Out of reach/) && S.w('touch_green'), do: t3('Type   0 280 40   again, then the green ball:   80 120 120', 'फिर से   0 280 40   टाइप कीजिए, फिर हरी गेंद:   80 120 120', 'Phir se   0 280 40   type kijiye, phir hari gend:   80 120 120'),
+        see: t3('"Out of reach", and the arm stays where it is; then it touches the green ball. Real robot controllers check every point against the arm\'s reach, and its joint limits, before they move, and refuse with an error, as this one now does.', '"Out of reach", और बाँह जहाँ है वहीं रहती है; फिर यह हरी गेंद छूती है। असली रोबोट कंट्रोलर हिलने से पहले हर बिंदु को बाँह की पहुँच और उसके जोड़ों की सीमाओं से जाँचते हैं, और गलती बताकर मना कर देते हैं, जैसे यह अब करता है।', '"Out of reach", aur baanh jahan hai wahin rehti hai; phir yeh hari gend chhooti hai. Asli robot controller hilne se pehle har bindu ko baanh ki pahunch aur uske jodon ki seemaaon se jaanchte hain, aur galti batakar mana kar dete hain, jaise yeh ab karta hai.') },
+    ],
+    check: [noShort],
+    done: (S) => S.w('touch_green') && said(S, /Out of reach/) });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }
