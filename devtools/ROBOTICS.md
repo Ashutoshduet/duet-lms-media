@@ -902,3 +902,9 @@ heaters.
   faintly, about 0.85 mA). Lessons `c_solar` (sun, a cloud at 20 %, night, morning) and `c_lemon` (one lemon is dark; the
   wire off; four in a row; a lemon turned round is named by the check). robocircuits.mjs plays them. Classes 1–10 are
   complete: 248 of 300 sessions. 1,703 projects.
+- Factory batch 22b (factory.js): 35 more jobs, four for each module (stove left burning, godown sprinkler, forest
+  watchtower, fire exit; baby cry, clap fan, noisy class, clap puppet; windows shut, model railway signal, helmet-buckle
+  bike, lift floor; bike neutral light, laptop lid, trolley home, slider end stop; walking-stick fall, tipper body up,
+  leaning pole, donation box; ATM tamper, machine vibration, footbridge, train coming; auto wiper, mandi grain, floor
+  leak, umbrella sign) and seven for the DHT11 (bus-shelter mist, ice-cream cart, cattle shed, exam hall; tea drying,
+  medicine store, library dehumidifier): 353 projects. 2,062 projects (235 hand-made + 1,827 bank).

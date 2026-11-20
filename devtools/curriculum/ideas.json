@@ -1,5 +1,107 @@
 [
 {
+"id": "live-m_examhall_led",
+"title": "Exam hall fans: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_examhall_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_cattleshade_icon",
+"title": "Cattle shed fan for the summer: temperature sensor (inside the chip) → LED screen (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_cattleshade_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_cattleshade_led",
+"title": "Cattle shed fan for the summer: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_cattleshade_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_icecream_icon",
+"title": "Ice-cream cart cooler: temperature sensor (inside the chip) → LED screen (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "m_icecream_icon",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_icecream_led",
+"title": "Ice-cream cart cooler: temperature sensor (inside the chip) → LED on pin 0 (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_icecream_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-m_busshelter_icon",
+"title": "Bus shelter cooling mist: temperature sensor (inside the chip) → LED screen (micro:bit)",
+"family": "factory",
+"board": "microbit",
+"parts": [],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "m_busshelter_icon",
+"rule": null,
+"note": null
+},
+{
 "id": "live-m_comfort_icon",
 "title": "Classroom comfort meter: temperature sensor (inside the chip) → LED screen (micro:bit)",
 "family": "factory",
@@ -2240,6 +2342,1186 @@
 "level": 3,
 "theme": "bank",
 "live": "m_doorbell_speaker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_led_pi",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dehumid_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_relay_pi",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dehumid_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_rgb_pi",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_pharmacy_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_buzzer_pi",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_pharmacy_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_relay_pi",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_teadryer_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_led_pi",
+"title": "Exam hall fans: DHT11 sensor (temperature) → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_examhall_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_relay_pi",
+"title": "Exam hall fans: DHT11 sensor (temperature) → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_examhall_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_relay_pi",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_cattleshade_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_rgb_pi",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_icecream_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_relay_pi",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_icecream_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_pump_pi",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busshelter_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_rgb_pi",
+"title": "Take an umbrella sign at the gate: rain sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_umbrella_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_led_pi",
+"title": "Water leak detector on the floor: rain sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_leakroof_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_buzzer_pi",
+"title": "Water leak detector on the floor: rain sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_leakroof_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_rgb_pi",
+"title": "Mandi rain alert: cover the grain: rain sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainsheet_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_buzzer_pi",
+"title": "Mandi rain alert: cover the grain: rain sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainsheet_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wiper_servo_pi",
+"title": "Automatic wiper: rain sensor module → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wiper_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_led_pi",
+"title": "Track vibration: train coming: vibration sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trainnear_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_buzzer_pi",
+"title": "Track vibration: train coming: vibration sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trainnear_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_led_pi",
+"title": "Footbridge shake monitor: vibration sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgeshake_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_buzzer_pi",
+"title": "Footbridge shake monitor: vibration sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgeshake_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_rgb_pi",
+"title": "Machine vibration warning: vibration sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_motorshake_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_rgb_pi",
+"title": "ATM tamper alarm: vibration sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmtamper_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_buzzer_pi",
+"title": "ATM tamper alarm: vibration sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmtamper_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_buzzer_pi",
+"title": "Donation box tamper alarm: tilt sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_donationbox_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_rgb_pi",
+"title": "Leaning electric pole alert: tilt sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_polelean_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_led_pi",
+"title": "Tipper truck body-up warning: tilt sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trucktip_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_buzzer_pi",
+"title": "Tipper truck body-up warning: tilt sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trucktip_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_rgb_pi",
+"title": "Fall alarm on a walking stick: tilt sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stickfall_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_buzzer_pi",
+"title": "Fall alarm on a walking stick: tilt sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stickfall_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_led_pi",
+"title": "Camera slider end stop: hall effect sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sliderend_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_buzzer_pi",
+"title": "Camera slider end stop: hall effect sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sliderend_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_rgb_pi",
+"title": "Factory trolley at its home stop: hall effect sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trolleyhome_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_buzzer_pi",
+"title": "Factory trolley at its home stop: hall effect sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trolleyhome_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_led_pi",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_laptoplid_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_relay_pi",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_laptoplid_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_led_pi",
+"title": "Bike neutral light: hall effect sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gearneutral_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_buzzer_pi",
+"title": "Lift floor sensor: reed switch module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftfloor_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_led_pi",
+"title": "Lift floor sensor: reed switch module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftfloor_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_led_pi",
+"title": "Bike that starts only with the helmet on: reed switch module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_helmetbike_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_relay_pi",
+"title": "Bike that starts only with the helmet on: reed switch module → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_helmetbike_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_buzzer_pi",
+"title": "Model railway signal: reed switch module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trainpass_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_rgb_pi",
+"title": "Model railway signal: reed switch module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trainpass_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_led_pi",
+"title": "All windows shut check: reed switch module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_windowclosed_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapdoll_servo_pi",
+"title": "Clap and the puppet dances: sound sensor module → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clapdoll_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_led_pi",
+"title": "Noisy classroom light: sound sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_noisemeter_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_rgb_pi",
+"title": "Noisy classroom light: sound sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_noisemeter_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapfan_relay_pi",
+"title": "Clap-on fan for a grandparent: sound sensor module → relay and fan (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clapfan_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_rgb_pi",
+"title": "Baby cry alert for parents: sound sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babycry_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_buzzer_pi",
+"title": "Baby cry alert for parents: sound sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babycry_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firedoor_servo_pi",
+"title": "Fire exit that opens by itself: flame sensor module → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_firedoor_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_rgb_pi",
+"title": "Forest fire watchtower: flame sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_forestwatch_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_buzzer_pi",
+"title": "Forest fire watchtower: flame sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_forestwatch_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_relay_pi",
+"title": "Fire sprinkler for a grain godown: flame sensor module → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_firesprinkler_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_pump_pi",
+"title": "Fire sprinkler for a grain godown: flame sensor module → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_firesprinkler_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_rgb_pi",
+"title": "Stove left burning alert: flame sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stovealone_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_buzzer_pi",
+"title": "Stove left burning alert: flame sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stovealone_buzzer_pi",
 "rule": null,
 "note": null
 },
@@ -4812,6 +6094,1546 @@
 "level": 10,
 "theme": "bank",
 "live": "f_lightswitch_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_led_pico",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dehumid_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_relay_pico",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_dehumid_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_oled_pico",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_pharmacy_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_rgb_pico",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_pharmacy_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_buzzer_pico",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_pharmacy_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_oled_pico",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_teadryer_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_relay_pico",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_teadryer_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_led_pico",
+"title": "Exam hall fans: DHT11 sensor (temperature) → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_examhall_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_relay_pico",
+"title": "Exam hall fans: DHT11 sensor (temperature) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_examhall_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_oled_pico",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_cattleshade_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_relay_pico",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_cattleshade_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_rgb_pico",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_icecream_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_relay_pico",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_icecream_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_oled_pico",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busshelter_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_pump_pico",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → water pump (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busshelter_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_oled_pico",
+"title": "Take an umbrella sign at the gate: rain sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_umbrella_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_rgb_pico",
+"title": "Take an umbrella sign at the gate: rain sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_umbrella_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_led_pico",
+"title": "Water leak detector on the floor: rain sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_leakroof_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_buzzer_pico",
+"title": "Water leak detector on the floor: rain sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_leakroof_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_oled_pico",
+"title": "Mandi rain alert: cover the grain: rain sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainsheet_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_rgb_pico",
+"title": "Mandi rain alert: cover the grain: rain sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainsheet_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_buzzer_pico",
+"title": "Mandi rain alert: cover the grain: rain sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainsheet_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wiper_servo_pico",
+"title": "Automatic wiper: rain sensor module → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_wiper_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_led_pico",
+"title": "Track vibration: train coming: vibration sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trainnear_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_buzzer_pico",
+"title": "Track vibration: train coming: vibration sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trainnear_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_oled_pico",
+"title": "Footbridge shake monitor: vibration sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgeshake_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_led_pico",
+"title": "Footbridge shake monitor: vibration sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgeshake_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_buzzer_pico",
+"title": "Footbridge shake monitor: vibration sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgeshake_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_oled_pico",
+"title": "Machine vibration warning: vibration sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_motorshake_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_rgb_pico",
+"title": "Machine vibration warning: vibration sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_motorshake_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_oled_pico",
+"title": "ATM tamper alarm: vibration sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmtamper_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_rgb_pico",
+"title": "ATM tamper alarm: vibration sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmtamper_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_buzzer_pico",
+"title": "ATM tamper alarm: vibration sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmtamper_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_oled_pico",
+"title": "Donation box tamper alarm: tilt sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_donationbox_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_buzzer_pico",
+"title": "Donation box tamper alarm: tilt sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_donationbox_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_oled_pico",
+"title": "Leaning electric pole alert: tilt sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_polelean_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_rgb_pico",
+"title": "Leaning electric pole alert: tilt sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_polelean_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_led_pico",
+"title": "Tipper truck body-up warning: tilt sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trucktip_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_buzzer_pico",
+"title": "Tipper truck body-up warning: tilt sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trucktip_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_oled_pico",
+"title": "Fall alarm on a walking stick: tilt sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stickfall_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_rgb_pico",
+"title": "Fall alarm on a walking stick: tilt sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stickfall_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_buzzer_pico",
+"title": "Fall alarm on a walking stick: tilt sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stickfall_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_led_pico",
+"title": "Camera slider end stop: hall effect sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sliderend_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_buzzer_pico",
+"title": "Camera slider end stop: hall effect sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sliderend_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_rgb_pico",
+"title": "Factory trolley at its home stop: hall effect sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trolleyhome_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_buzzer_pico",
+"title": "Factory trolley at its home stop: hall effect sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trolleyhome_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_led_pico",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_laptoplid_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_relay_pico",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_laptoplid_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_oled_pico",
+"title": "Bike neutral light: hall effect sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_gearneutral_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_led_pico",
+"title": "Bike neutral light: hall effect sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_gearneutral_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_oled_pico",
+"title": "Lift floor sensor: reed switch module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftfloor_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_buzzer_pico",
+"title": "Lift floor sensor: reed switch module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftfloor_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_led_pico",
+"title": "Lift floor sensor: reed switch module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftfloor_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_led_pico",
+"title": "Bike that starts only with the helmet on: reed switch module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_helmetbike_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_relay_pico",
+"title": "Bike that starts only with the helmet on: reed switch module → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_helmetbike_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_buzzer_pico",
+"title": "Model railway signal: reed switch module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trainpass_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_rgb_pico",
+"title": "Model railway signal: reed switch module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trainpass_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_oled_pico",
+"title": "All windows shut check: reed switch module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_windowclosed_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_led_pico",
+"title": "All windows shut check: reed switch module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_windowclosed_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapdoll_servo_pico",
+"title": "Clap and the puppet dances: sound sensor module → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clapdoll_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_led_pico",
+"title": "Noisy classroom light: sound sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_noisemeter_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_rgb_pico",
+"title": "Noisy classroom light: sound sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_noisemeter_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapfan_relay_pico",
+"title": "Clap-on fan for a grandparent: sound sensor module → relay and fan (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clapfan_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_oled_pico",
+"title": "Baby cry alert for parents: sound sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babycry_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_rgb_pico",
+"title": "Baby cry alert for parents: sound sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babycry_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_buzzer_pico",
+"title": "Baby cry alert for parents: sound sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babycry_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firedoor_servo_pico",
+"title": "Fire exit that opens by itself: flame sensor module → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_firedoor_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_oled_pico",
+"title": "Forest fire watchtower: flame sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_forestwatch_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_rgb_pico",
+"title": "Forest fire watchtower: flame sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_forestwatch_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_buzzer_pico",
+"title": "Forest fire watchtower: flame sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_forestwatch_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_relay_pico",
+"title": "Fire sprinkler for a grain godown: flame sensor module → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_firesprinkler_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_pump_pico",
+"title": "Fire sprinkler for a grain godown: flame sensor module → water pump (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_firesprinkler_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_oled_pico",
+"title": "Stove left burning alert: flame sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stovealone_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_rgb_pico",
+"title": "Stove left burning alert: flame sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stovealone_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_buzzer_pico",
+"title": "Stove left burning alert: flame sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stovealone_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -10363,6 +13185,2571 @@
 "level": 9,
 "theme": "bank",
 "live": "f_doorbell_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_web_esp",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dehumid_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_led_esp",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dehumid_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_relay_esp",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → relay and fan (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dehumid_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_web_esp",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pharmacy_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_oled_esp",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pharmacy_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_lcd_esp",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pharmacy_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_rgb_esp",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pharmacy_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_buzzer_esp",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pharmacy_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_web_esp",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_teadryer_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_oled_esp",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_teadryer_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_lcd_esp",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_teadryer_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_relay_esp",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → relay and fan (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_teadryer_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_web_esp",
+"title": "Exam hall fans: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_examhall_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_led_esp",
+"title": "Exam hall fans: DHT11 sensor (temperature) → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_examhall_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_relay_esp",
+"title": "Exam hall fans: DHT11 sensor (temperature) → relay and fan (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_examhall_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_web_esp",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_cattleshade_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_oled_esp",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_cattleshade_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_lcd_esp",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_cattleshade_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_relay_esp",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → relay and fan (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_cattleshade_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_web_esp",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_icecream_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_rgb_esp",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_icecream_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_relay_esp",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → relay and fan (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_icecream_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_web_esp",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busshelter_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_oled_esp",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busshelter_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_lcd_esp",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busshelter_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_pump_esp",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busshelter_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_web_esp",
+"title": "Take an umbrella sign at the gate: rain sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_umbrella_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_oled_esp",
+"title": "Take an umbrella sign at the gate: rain sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_umbrella_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_lcd_esp",
+"title": "Take an umbrella sign at the gate: rain sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_umbrella_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_rgb_esp",
+"title": "Take an umbrella sign at the gate: rain sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_umbrella_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_web_esp",
+"title": "Water leak detector on the floor: rain sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_leakroof_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_led_esp",
+"title": "Water leak detector on the floor: rain sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_leakroof_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_buzzer_esp",
+"title": "Water leak detector on the floor: rain sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_leakroof_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_web_esp",
+"title": "Mandi rain alert: cover the grain: rain sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainsheet_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_oled_esp",
+"title": "Mandi rain alert: cover the grain: rain sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainsheet_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_lcd_esp",
+"title": "Mandi rain alert: cover the grain: rain sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainsheet_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_rgb_esp",
+"title": "Mandi rain alert: cover the grain: rain sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainsheet_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_buzzer_esp",
+"title": "Mandi rain alert: cover the grain: rain sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainsheet_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wiper_web_esp",
+"title": "Automatic wiper: rain sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wiper_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wiper_servo_esp",
+"title": "Automatic wiper: rain sensor module → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wiper_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_web_esp",
+"title": "Track vibration: train coming: vibration sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trainnear_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_led_esp",
+"title": "Track vibration: train coming: vibration sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trainnear_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_buzzer_esp",
+"title": "Track vibration: train coming: vibration sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trainnear_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_web_esp",
+"title": "Footbridge shake monitor: vibration sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgeshake_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_oled_esp",
+"title": "Footbridge shake monitor: vibration sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgeshake_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_led_esp",
+"title": "Footbridge shake monitor: vibration sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgeshake_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_lcd_esp",
+"title": "Footbridge shake monitor: vibration sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgeshake_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_buzzer_esp",
+"title": "Footbridge shake monitor: vibration sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgeshake_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_web_esp",
+"title": "Machine vibration warning: vibration sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorshake_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_oled_esp",
+"title": "Machine vibration warning: vibration sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorshake_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_lcd_esp",
+"title": "Machine vibration warning: vibration sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorshake_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_rgb_esp",
+"title": "Machine vibration warning: vibration sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorshake_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_web_esp",
+"title": "ATM tamper alarm: vibration sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmtamper_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_oled_esp",
+"title": "ATM tamper alarm: vibration sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmtamper_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_lcd_esp",
+"title": "ATM tamper alarm: vibration sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmtamper_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_rgb_esp",
+"title": "ATM tamper alarm: vibration sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmtamper_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_buzzer_esp",
+"title": "ATM tamper alarm: vibration sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmtamper_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_web_esp",
+"title": "Donation box tamper alarm: tilt sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_donationbox_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_oled_esp",
+"title": "Donation box tamper alarm: tilt sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_donationbox_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_lcd_esp",
+"title": "Donation box tamper alarm: tilt sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_donationbox_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_buzzer_esp",
+"title": "Donation box tamper alarm: tilt sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_donationbox_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_web_esp",
+"title": "Leaning electric pole alert: tilt sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_polelean_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_oled_esp",
+"title": "Leaning electric pole alert: tilt sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_polelean_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_lcd_esp",
+"title": "Leaning electric pole alert: tilt sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_polelean_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_rgb_esp",
+"title": "Leaning electric pole alert: tilt sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_polelean_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_web_esp",
+"title": "Tipper truck body-up warning: tilt sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trucktip_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_led_esp",
+"title": "Tipper truck body-up warning: tilt sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trucktip_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_buzzer_esp",
+"title": "Tipper truck body-up warning: tilt sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trucktip_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_web_esp",
+"title": "Fall alarm on a walking stick: tilt sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stickfall_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_oled_esp",
+"title": "Fall alarm on a walking stick: tilt sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stickfall_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_lcd_esp",
+"title": "Fall alarm on a walking stick: tilt sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stickfall_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_rgb_esp",
+"title": "Fall alarm on a walking stick: tilt sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stickfall_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_buzzer_esp",
+"title": "Fall alarm on a walking stick: tilt sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stickfall_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_web_esp",
+"title": "Camera slider end stop: hall effect sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sliderend_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_led_esp",
+"title": "Camera slider end stop: hall effect sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sliderend_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_buzzer_esp",
+"title": "Camera slider end stop: hall effect sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sliderend_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_web_esp",
+"title": "Factory trolley at its home stop: hall effect sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trolleyhome_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_rgb_esp",
+"title": "Factory trolley at its home stop: hall effect sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trolleyhome_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_buzzer_esp",
+"title": "Factory trolley at its home stop: hall effect sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trolleyhome_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_web_esp",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_laptoplid_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_led_esp",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_laptoplid_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_relay_esp",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_laptoplid_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_web_esp",
+"title": "Bike neutral light: hall effect sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gearneutral_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_oled_esp",
+"title": "Bike neutral light: hall effect sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gearneutral_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_lcd_esp",
+"title": "Bike neutral light: hall effect sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gearneutral_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_led_esp",
+"title": "Bike neutral light: hall effect sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gearneutral_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_web_esp",
+"title": "Lift floor sensor: reed switch module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftfloor_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_oled_esp",
+"title": "Lift floor sensor: reed switch module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftfloor_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_lcd_esp",
+"title": "Lift floor sensor: reed switch module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftfloor_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_buzzer_esp",
+"title": "Lift floor sensor: reed switch module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftfloor_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_led_esp",
+"title": "Lift floor sensor: reed switch module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftfloor_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_web_esp",
+"title": "Bike that starts only with the helmet on: reed switch module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_helmetbike_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_led_esp",
+"title": "Bike that starts only with the helmet on: reed switch module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_helmetbike_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_relay_esp",
+"title": "Bike that starts only with the helmet on: reed switch module → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_helmetbike_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_web_esp",
+"title": "Model railway signal: reed switch module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trainpass_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_buzzer_esp",
+"title": "Model railway signal: reed switch module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trainpass_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_rgb_esp",
+"title": "Model railway signal: reed switch module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trainpass_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_web_esp",
+"title": "All windows shut check: reed switch module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_windowclosed_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_oled_esp",
+"title": "All windows shut check: reed switch module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_windowclosed_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_lcd_esp",
+"title": "All windows shut check: reed switch module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_windowclosed_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_led_esp",
+"title": "All windows shut check: reed switch module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_windowclosed_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapdoll_web_esp",
+"title": "Clap and the puppet dances: sound sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapdoll_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapdoll_servo_esp",
+"title": "Clap and the puppet dances: sound sensor module → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapdoll_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_web_esp",
+"title": "Noisy classroom light: sound sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_noisemeter_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_led_esp",
+"title": "Noisy classroom light: sound sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_noisemeter_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_rgb_esp",
+"title": "Noisy classroom light: sound sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_noisemeter_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapfan_web_esp",
+"title": "Clap-on fan for a grandparent: sound sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapfan_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapfan_relay_esp",
+"title": "Clap-on fan for a grandparent: sound sensor module → relay and fan (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_web_esp",
+"title": "Baby cry alert for parents: sound sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babycry_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_oled_esp",
+"title": "Baby cry alert for parents: sound sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babycry_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_lcd_esp",
+"title": "Baby cry alert for parents: sound sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babycry_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_rgb_esp",
+"title": "Baby cry alert for parents: sound sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babycry_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_buzzer_esp",
+"title": "Baby cry alert for parents: sound sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babycry_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firedoor_web_esp",
+"title": "Fire exit that opens by itself: flame sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_firedoor_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firedoor_servo_esp",
+"title": "Fire exit that opens by itself: flame sensor module → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_firedoor_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_web_esp",
+"title": "Forest fire watchtower: flame sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_forestwatch_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_oled_esp",
+"title": "Forest fire watchtower: flame sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_forestwatch_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_lcd_esp",
+"title": "Forest fire watchtower: flame sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_forestwatch_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_rgb_esp",
+"title": "Forest fire watchtower: flame sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_forestwatch_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_buzzer_esp",
+"title": "Forest fire watchtower: flame sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_forestwatch_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_web_esp",
+"title": "Fire sprinkler for a grain godown: flame sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_firesprinkler_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_relay_esp",
+"title": "Fire sprinkler for a grain godown: flame sensor module → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_firesprinkler_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_pump_esp",
+"title": "Fire sprinkler for a grain godown: flame sensor module → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_firesprinkler_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_web_esp",
+"title": "Stove left burning alert: flame sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stovealone_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_oled_esp",
+"title": "Stove left burning alert: flame sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stovealone_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_lcd_esp",
+"title": "Stove left burning alert: flame sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stovealone_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_rgb_esp",
+"title": "Stove left burning alert: flame sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stovealone_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_buzzer_esp",
+"title": "Stove left burning alert: flame sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stovealone_buzzer_esp",
 "rule": null,
 "note": null
 },
@@ -21001,6 +26388,1906 @@
 "level": 8,
 "theme": "bank",
 "live": "f_doorbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_led",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dehumid_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dehumid_relay",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → relay and fan",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dehumid_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_oled",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pharmacy_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_lcd",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pharmacy_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_rgb",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pharmacy_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_buzzer",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pharmacy_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_oled",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_teadryer_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_lcd",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_teadryer_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_relay",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → relay and fan",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_teadryer_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_led",
+"title": "Exam hall fans: DHT11 sensor (temperature) → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"dht11"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_examhall_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_examhall_relay",
+"title": "Exam hall fans: DHT11 sensor (temperature) → relay and fan",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_examhall_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_oled",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_cattleshade_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_lcd",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_cattleshade_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_relay",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → relay and fan",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_cattleshade_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_rgb",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_icecream_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_icecream_relay",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → relay and fan",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_icecream_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_oled",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busshelter_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_lcd",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busshelter_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_pump",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → water pump",
+"family": "factory",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busshelter_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_oled",
+"title": "Take an umbrella sign at the gate: rain sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_umbrella_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_lcd",
+"title": "Take an umbrella sign at the gate: rain sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_umbrella_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_rgb",
+"title": "Take an umbrella sign at the gate: rain sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"rain"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_umbrella_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_led",
+"title": "Water leak detector on the floor: rain sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_leakroof_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_buzzer",
+"title": "Water leak detector on the floor: rain sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_leakroof_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_oled",
+"title": "Mandi rain alert: cover the grain: rain sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_grainsheet_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_lcd",
+"title": "Mandi rain alert: cover the grain: rain sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_grainsheet_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_rgb",
+"title": "Mandi rain alert: cover the grain: rain sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_grainsheet_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_buzzer",
+"title": "Mandi rain alert: cover the grain: rain sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_grainsheet_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wiper_servo",
+"title": "Automatic wiper: rain sensor module → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_wiper_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_led",
+"title": "Track vibration: train coming: vibration sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trainnear_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_buzzer",
+"title": "Track vibration: train coming: vibration sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trainnear_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_oled",
+"title": "Footbridge shake monitor: vibration sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bridgeshake_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_led",
+"title": "Footbridge shake monitor: vibration sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bridgeshake_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_lcd",
+"title": "Footbridge shake monitor: vibration sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bridgeshake_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_buzzer",
+"title": "Footbridge shake monitor: vibration sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bridgeshake_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_oled",
+"title": "Machine vibration warning: vibration sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_motorshake_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_lcd",
+"title": "Machine vibration warning: vibration sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_motorshake_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_rgb",
+"title": "Machine vibration warning: vibration sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_motorshake_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_oled",
+"title": "ATM tamper alarm: vibration sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmtamper_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_lcd",
+"title": "ATM tamper alarm: vibration sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmtamper_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_rgb",
+"title": "ATM tamper alarm: vibration sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmtamper_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_buzzer",
+"title": "ATM tamper alarm: vibration sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmtamper_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_oled",
+"title": "Donation box tamper alarm: tilt sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_donationbox_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_lcd",
+"title": "Donation box tamper alarm: tilt sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_donationbox_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_buzzer",
+"title": "Donation box tamper alarm: tilt sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_donationbox_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_oled",
+"title": "Leaning electric pole alert: tilt sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_polelean_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_lcd",
+"title": "Leaning electric pole alert: tilt sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_polelean_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_rgb",
+"title": "Leaning electric pole alert: tilt sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_polelean_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_led",
+"title": "Tipper truck body-up warning: tilt sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_trucktip_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_buzzer",
+"title": "Tipper truck body-up warning: tilt sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_trucktip_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_oled",
+"title": "Fall alarm on a walking stick: tilt sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stickfall_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_lcd",
+"title": "Fall alarm on a walking stick: tilt sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stickfall_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_rgb",
+"title": "Fall alarm on a walking stick: tilt sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stickfall_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_buzzer",
+"title": "Fall alarm on a walking stick: tilt sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stickfall_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_led",
+"title": "Camera slider end stop: hall effect sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sliderend_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_buzzer",
+"title": "Camera slider end stop: hall effect sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sliderend_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_rgb",
+"title": "Factory trolley at its home stop: hall effect sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trolleyhome_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_buzzer",
+"title": "Factory trolley at its home stop: hall effect sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trolleyhome_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_led",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_laptoplid_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_relay",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"hall"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_laptoplid_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_oled",
+"title": "Bike neutral light: hall effect sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"hall"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_gearneutral_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_lcd",
+"title": "Bike neutral light: hall effect sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"hall"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_gearneutral_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_led",
+"title": "Bike neutral light: hall effect sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_gearneutral_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_oled",
+"title": "Lift floor sensor: reed switch module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftfloor_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_lcd",
+"title": "Lift floor sensor: reed switch module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftfloor_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_buzzer",
+"title": "Lift floor sensor: reed switch module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftfloor_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_led",
+"title": "Lift floor sensor: reed switch module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftfloor_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_led",
+"title": "Bike that starts only with the helmet on: reed switch module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_helmetbike_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_relay",
+"title": "Bike that starts only with the helmet on: reed switch module → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_helmetbike_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_buzzer",
+"title": "Model railway signal: reed switch module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_trainpass_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainpass_rgb",
+"title": "Model railway signal: reed switch module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"reed"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_trainpass_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_oled",
+"title": "All windows shut check: reed switch module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_windowclosed_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_lcd",
+"title": "All windows shut check: reed switch module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_windowclosed_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_led",
+"title": "All windows shut check: reed switch module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_windowclosed_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapdoll_servo",
+"title": "Clap and the puppet dances: sound sensor module → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"sound"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_clapdoll_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_led",
+"title": "Noisy classroom light: sound sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_noisemeter_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_rgb",
+"title": "Noisy classroom light: sound sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_noisemeter_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapfan_relay",
+"title": "Clap-on fan for a grandparent: sound sensor module → relay and fan",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_clapfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_oled",
+"title": "Baby cry alert for parents: sound sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_babycry_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_lcd",
+"title": "Baby cry alert for parents: sound sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_babycry_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_rgb",
+"title": "Baby cry alert for parents: sound sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_babycry_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_buzzer",
+"title": "Baby cry alert for parents: sound sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_babycry_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firedoor_servo",
+"title": "Fire exit that opens by itself: flame sensor module → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_firedoor_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_oled",
+"title": "Forest fire watchtower: flame sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_forestwatch_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_lcd",
+"title": "Forest fire watchtower: flame sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_forestwatch_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_rgb",
+"title": "Forest fire watchtower: flame sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_forestwatch_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_buzzer",
+"title": "Forest fire watchtower: flame sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_forestwatch_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_relay",
+"title": "Fire sprinkler for a grain godown: flame sensor module → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_firesprinkler_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_pump",
+"title": "Fire sprinkler for a grain godown: flame sensor module → water pump",
+"family": "factory",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_firesprinkler_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_oled",
+"title": "Stove left burning alert: flame sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stovealone_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_lcd",
+"title": "Stove left burning alert: flame sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stovealone_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_rgb",
+"title": "Stove left burning alert: flame sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stovealone_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_buzzer",
+"title": "Stove left burning alert: flame sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stovealone_buzzer",
 "rule": null,
 "note": null
 },
