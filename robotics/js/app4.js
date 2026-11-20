@@ -73,7 +73,7 @@ const REG4 = {
   e_front: { n: t3('Front row: 3V3, GND, GPIO 15 … 23', 'आगे की कतार: 3V3, GND, GPIO 15 … 23', 'Aage ki line: 3V3, GND, GPIO 15 … 23'), d: t3('Wire from the free hole in row j. RX0/TX0 (GPIO 3/1) are the USB Serial; RX2/TX2 (16/17) are Serial2; 21 is SDA, 22 is SCL.', 'पंक्ति j के ख़ाली छेद से वायर लगाइए। RX0/TX0 (GPIO 3/1) USB सीरियल हैं; RX2/TX2 (16/17) Serial2; 21 SDA, 22 SCL।', 'Row j ke khaali hole se wire lagaiye. RX0/TX0 (GPIO 3/1) USB Serial hain; RX2/TX2 (16/17) Serial2; 21 SDA, 22 SCL.') },
 };
 // starter sketches for Free build, per board
-const STARTER = {
+export const STARTER = { // (batch 6: app6.js adds the Python starters of the Pico and the Pi 4)
   nano: '// Free build on the Nano: write your own sketch\nvoid setup() {\n  pinMode(13, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  digitalWrite(13, HIGH);\n  delay(500);\n  digitalWrite(13, LOW);\n  delay(500);\n}\n',
   mega: '// Free build on the Mega 2560: 54 pins, Serial1-3\nvoid setup() {\n  pinMode(13, OUTPUT);\n  Serial.begin(9600);\n}\n\nvoid loop() {\n  digitalWrite(13, HIGH);\n  delay(500);\n  digitalWrite(13, LOW);\n  delay(500);\n}\n',
   esp32: '// Free build on the ESP32: 3.3 V pins, WiFi, Bluetooth\nvoid setup() {\n  pinMode(LED_BUILTIN, OUTPUT);   // GPIO 2\n  Serial.begin(115200);\n}\n\nvoid loop() {\n  digitalWrite(LED_BUILTIN, HIGH);\n  delay(500);\n  digitalWrite(LED_BUILTIN, LOW);\n  delay(500);\n}\n',
@@ -151,7 +151,7 @@ export function install4(app) {
   function buildBox(list) {
     const g = new THREE.Group(); g.position.set(BOX_AT.x, 0, BOX_AT.z); g.name = 'box4'; const picks = [];
     const foam = new THREE.MeshStandardMaterial({ color: 0x3a3d44, roughness: 0.95 }), card = new THREE.MeshStandardMaterial({ color: 0xb08a5c, roughness: 0.85 });
-    const sizes = { uno: 68.6 * 0.62, nano: 43.2 * 0.62, mega: 101.6 * 0.62, esp32: 51.5 * 0.62 }; const total = list.reduce((s, id) => s + sizes[id] + 10, 10);
+    const sizes = { uno: 68.6 * 0.62, nano: 43.2 * 0.62, mega: 101.6 * 0.62, esp32: 51.5 * 0.62 }; for (const id of list) sizes[id] = sizes[id] || BOARDS[id].size[0] * 0.62; const total = list.reduce((s, id) => s + sizes[id] + 10, 10); // (batch 6: any other board by its size)
     g.add(MD.box(total + 8, 6, 52, card, 0, 3, 0)); g.add(MD.box(total, 1.2, 46, foam, 0, 6.4, 0));
     let x = -total / 2 + 10;
     for (const id of list) {

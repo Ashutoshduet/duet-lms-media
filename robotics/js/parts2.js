@@ -42,7 +42,7 @@ export const PARTS2 = {
       for (const k of ['ENA', 'ENB', 'IN1', 'IN2', 'IN3', 'IN4']) els.push({ type: 'R', a: N[k], b: N.GND, r: 47000 });
       const st = p.state; st.logic = logic; st.vs = vs;
       for (const [en, ia, ib, oa, ob, key] of [['ENA', 'IN1', 'IN2', 'OUT1', 'OUT2', 'a'], ['ENB', 'IN3', 'IN4', 'OUT3', 'OUT4', 'b']]) {
-        const d = logic ? clamp01((v(N[en]) - 0.4) / 4.4) : 0; const ha = logic && v(N[ia]) > 2.3, hb = logic && v(N[ib]) > 2.3;
+        const d = logic ? clamp01((v(N[en]) - 0.4) / ((env && env.vlogic) || 4.4)) : 0; const ha = logic && v(N[ia]) > 2.3, hb = logic && v(N[ib]) > 2.3; // (batch 6: env.vlogic, a 3.3 V board's HIGH is full speed too)
         st[key] = d > 0.02 && vs > 4 && ha !== hb ? (ha ? d : -d) : 0;
         if (d < 0.02 || vs < 4) { els.push({ type: 'R', a: N[oa], b: N.GND, r: 1e5 }, { type: 'R', a: N[ob], b: N.GND, r: 1e5 }); continue; }
         // PWM on EN: the motor gets the average, so the high side drops (1 − d) of the rest as well

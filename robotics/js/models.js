@@ -10,8 +10,9 @@ import * as TX from './tex.js';
 import { buildPart2, setLite2 } from './models2.js';
 import { buildPart4, setLite4 } from './models4.js'; // batch 4: the new boards' parts (bar graph, resistor network, touch plate, magnet)
 import { buildPart3, setLite3 } from './models3.js'; // batch 3: the school-lab modules (LCD, OLED, relay, keypad, stepper, RFID…)
+import { buildPart6, setLite6 } from './models6.js'; // batch 6: the Pico, the Pi 4 (registered with models4.js), the active buzzer
 
-let LITE = false; export function setLite(v) { LITE = v; TX.setLite(v); setLite2(v); setLite4(v); setLite3(v); }
+let LITE = false; export function setLite(v) { LITE = v; TX.setLite(v); setLite2(v); setLite4(v); setLite3(v); setLite6(v); }
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 
 // ------------------------------------------------------------------ materials (PBR)
@@ -429,6 +430,7 @@ export function buildPart(part) {
   let g = buildPart2(part); // batch 2 (robots), and the plugs of servos that sit in a robot
   if (!g) g = buildPart4(part); // batch 4
   if (!g) g = buildPart3(part); // batch 3 (models3.js)
+  if (!g) g = buildPart6(part); // batch 6 (models6.js)
   if (!g) switch (part.type) {
     case 'led': g = buildLED(part.props.color); break;
     case 'rgb': g = buildLED('white', true); break;

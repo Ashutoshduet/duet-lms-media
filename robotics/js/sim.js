@@ -9,6 +9,7 @@ import { solve, anchored } from './solver.js';
 import { MCU } from './mcu.js';
 import { boardPlace, LAB_HOOKS } from './boards4.js'; // batch 4 (more boards): LAB_HOOKS add circuit elements and per-frame work for a board (esp32.js)
 import './esp32.js'; import './mcu4.js'; // batch 4: the ESP32's and the Mega's microcontrollers (they set BOARDS.esp32.mcuClass, …)
+import './pi6.js'; // batch 6: the Raspberry Pi boards run Python (PyMCU, their pin hooks and hints)
 export { LAB_HOOKS };
 
 export const LAYOUT = { board: { x: -92, z: -2 }, bb: { x: 40, z: 0 } };

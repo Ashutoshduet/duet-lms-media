@@ -241,6 +241,7 @@ export function boardPlace(def, BB, bb) {
 
 // one line for a board pin in the popup: its name and what it can do
 export function pinTitle(def, pin, tx) {
+  if (def.pinTitle) return def.pinTitle(pin, tx); // batch 6: the Raspberry Pi boards name their own pins (boards6.js)
   let s;
   if (def.id === 'esp32') s = pin.gpio !== undefined ? tx(PIN_NAMES.gpio, { n: pin.gpio, l: pin.label }) : tx(PIN_NAMES[{ '3V3': '3V3e', VIN: 'VINe', EN: 'EN' }[pin.id] || pin.net] || { en: pin.label });
   else if (pin.gpio !== undefined) s = def.id === 'mega' && pin.gpio >= 54 ? tx(PIN_NAMES.ana, { n: 'A' + (pin.gpio - 54) }) : def.id === 'nano' && pin.gpio >= 14 ? tx(PIN_NAMES.ana, { n: 'A' + (pin.gpio - 14) }) : tx(PIN_NAMES.dig, { n: pin.gpio });
@@ -250,6 +251,7 @@ export function pinTitle(def, pin, tx) {
 }
 // a short name for a pin end (the wire toast): D5, A0, GPIO 23, GND …
 export function pinShort(def, pin) {
+  if (def.pinShort) return def.pinShort(pin); // batch 6
   if (pin.gpio === undefined) return pin.label;
   if (def.id === 'esp32') return 'GPIO ' + pin.gpio;
   if (def.id === 'mega') return pin.gpio >= 54 ? 'A' + (pin.gpio - 54) : (def.pwm.includes(pin.gpio) ? '~' : '') + pin.gpio;

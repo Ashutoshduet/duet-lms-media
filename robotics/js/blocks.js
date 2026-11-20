@@ -549,7 +549,7 @@ export class BlockEditor {
     this.renderSwitch();
   }
   // does this board / lesson take Arduino blocks? (the micro:bit has its own blocks and Python)
-  usable() { const a = this.app; const w = a.world; return !(w && w.blocks) && (!a.lab.def || a.lab.def.id !== 'microbit') && !(a.rt.lesson && a.rt.lesson.lang === 'py'); }
+  usable() { const a = this.app; const w = a.world; return !(w && w.blocks) && (!a.lab.def || a.lab.def.id !== 'microbit') && !(a.rt.lesson && a.rt.lesson.lang === 'py') && !(a.lab.def && a.lab.def.py); } // (batch 6: a Python board)
   renderSwitch() {
     const ok = this.usable(); this.sw.style.display = ok ? '' : 'none';
     for (const b of this.sw.querySelectorAll('button')) { b.textContent = b.dataset.m === 'blocks' ? '🧩 ' + tx(T3W.blocks) : '{ } C++'; b.classList.toggle('on', b.dataset.m === this.mode); }

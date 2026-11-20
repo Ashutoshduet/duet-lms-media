@@ -239,7 +239,10 @@ export function buildESP32(def) {
   g.add(pickGroup(def, top));
   return g;
 }
-export function buildBoard4(def) { return def.id === 'nano' ? buildNano(def) : def.id === 'mega' ? buildMega(def) : def.id === 'esp32' ? buildESP32(def) : null; }
+export function buildBoard4(def) { if (BUILD4[def.id]) return BUILD4[def.id](def); return def.id === 'nano' ? buildNano(def) : def.id === 'mega' ? buildMega(def) : def.id === 'esp32' ? buildESP32(def) : null; }
+// batch 6: more boards register their builders here (models6.js: the Pico, the Pi 4), and build with these helpers
+export const BUILD4 = {};
+export { pcbMesh, soic, smd, smdLed, ledMat, tact, malePins, pickGroup, usbMicro, rr };
 
 // ------------------------------------------------------------------ parts (parts4.js)
 const P = 2.54;

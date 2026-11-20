@@ -90,6 +90,7 @@ export const CAR_CFG = {
   bt: { line: false, start: [-420, 330, Math.PI / 2], park: [380, 20, 230, 260], boxes: [[-80, -40, 120, 120, 120], [180, 120, 90, 90, 100, 0.4]] },
   line: { line: true, start: [-100, 330, Math.PI / 2], boxes: [] },
   avoid: { line: false, room: [2000, 1400], start: [-720, -300, Math.PI / 2], boxes: [[-300, 260, 170, 130, 150], [330, -210, 210, 150, 160], [560, 400, 150, 150, 150, 0.5]] },
+  pi: { line: false, start: [-560, 300, Math.PI / 2], park: [195, -350, 230, 260], boxes: [[-250, -150, 140, 120, 120], [520, 120, 100, 100, 100, 0.4]] }, // batch 6: the Raspberry Pi car (a timed route that ends in P)
 };
 export class CarSim {
   constructor(kind) {

@@ -919,6 +919,7 @@ function exprName(e) { if (!e || typeof e === 'string') return ''; if (e.k === '
 
 // ------------------------------------------------------------------ compile
 export function compile(src, board) { // board (batch 4): the board's def, so that its pin names and libraries are checked
+  if (board && board.compile) return board.compile(src); // batch 6: a board with its own language (the Raspberry Pi boards: Python, pi6.js)
   const info = { macros: Object.assign({}, LIB4.macros), includes: [], warnings: [], pins: new Set(), servo: false, serial: false, board: board || null };
   try {
     const toks = lex(String(src || ''), info);

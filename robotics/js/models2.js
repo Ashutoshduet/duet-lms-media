@@ -355,6 +355,7 @@ export function buildHydraulic() {
 // ------------------------------------------------------------------ the 2WD robot car (on the arena floor)
 // car frame: forward +z, the wheel axle at z = 0, wheels at x = ±CAR.track/2, the IR sensors at the front (z = CAR.sensZ)
 export const CAR = { ...CARG, plateL: 210, plateW: 118, plateY: 46, castZ: 150 };
+export const CAR_BOARD = {}; // batch 6: another board on the plate for a kind of car (models6.js: the Pi 4 for 'pi')
 export function buildCar(kind, parts) {
   const M = mats(); const g = new THREE.Group(); g.name = 'car';
   const still = new THREE.Group(); g.add(still);
@@ -376,8 +377,8 @@ export function buildCar(kind, parts) {
   const top = CAR.plateY + 3;
   const bat = buildBattery18650(); bat.position.set(-2.5, top, 22); still.add(bat); // the holder over the axle, its leads to the driver
   const drv = buildL298N(); drv.position.set(0, top, 26); still.add(drv);
-  const uno = unoLite(); uno.position.set(0, top, 88); still.add(uno);
-  if (kind !== 'avoid') { const bbm = miniBreadboard(); bbm.position.set(0, top, 143); still.add(bbm); }
+  const uno = (CAR_BOARD[kind] || unoLite)(); uno.position.set(0, top, 88); still.add(uno); // (batch 6: CAR_BOARD)
+  if (kind !== 'avoid' && !CAR_BOARD[kind]) { const bbm = miniBreadboard(); bbm.position.set(0, top, 143); still.add(bbm); }
   // a bundle of jumper wires from the Uno to the driver (it is wired!)
   const wm = [N.redW, N.blackW, N.orangeW, N.greenW, N.blueW, N.yellowW];
   for (let i = 0; i < 6; i++) still.add(tube([V3(3.2 + i * 2.54, top + 17, 44), V3(4 + i * 3, top + 32, 56), V3(-14 + i * 4, top + 26, 70), V3(-24.1, top + 15, 70 + i * 4)], 0.7, wm[i], 14, 5));

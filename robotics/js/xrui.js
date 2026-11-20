@@ -239,11 +239,11 @@ export class XRUI {
     this.tex.needsUpdate = true;
   }
   drawLessons() { // every lesson by section, and Free build: open one in the headset
-    const app = this.app; const G = ['basics', 'robots', 'boards', 'modules', 'microbit'];
+    const app = this.app; const G = ['basics', 'robots', 'boards', 'modules', 'microbit', 'pi']; // (batch 6: Raspberry Pi; four sections a row)
     if (!this.lgrp) { const cur = LESSONS.find((l) => l.id === app.lessonId); this.lgrp = (app.mode === 'lesson' && cur && cur.group) || 'basics'; const k = LESSONS.filter((l) => l.group === this.lgrp).findIndex((l) => l.id === app.lessonId); this.lpage = Math.max(0, Math.floor(k / 10)); }
     const open = (fn) => { fn(); this.xr.setFocus('bench'); this.tab = 'step'; };
-    let y = 110; const bw = (W - 60 - 20) / 3;
-    [...G, 'free'].forEach((g, k) => { const x = 30 + (k % 3) * (bw + 10), yy = y + Math.floor(k / 3) * 66;
+    let y = 110; const bw = (W - 60 - 30) / 4;
+    [...G, 'free'].forEach((g, k) => { const x = 30 + (k % 4) * (bw + 10), yy = y + Math.floor(k / 4) * 66;
       if (g === 'free') this.button(x, yy, bw, 56, '🛠 ' + t('free'), () => open(() => app.openFree()), app.mode === 'free', 'lfree');
       else this.button(x, yy, bw, 56, t('grp_' + g), () => { this.lgrp = g; this.lpage = 0; }, this.lgrp === g, 'lgrp:' + g); });
     y += 2 * 66 + 12; this.cx.fillStyle = C.line; this.cx.fillRect(30, y - 6, W - 60, 2);
@@ -291,7 +291,8 @@ export class XRUI {
     if (p.type === 'pot') { B('−', () => { p.state.pos = Math.max(0, p.state.pos - 0.1); bump(); }, 'k-'); B('+', () => { p.state.pos = Math.min(1, p.state.pos + 0.1); bump(); }, 'k+'); }
     if (p.type === 'button' || p.type === 'joystick') B('● ' + t('press'), null, 'press', () => { p.state.pressed = true; app.lab.rebuild(); app.sound.click(); }, () => { p.state.pressed = false; app.lab.rebuild(); });
     if (p.type === 'ldr') { B('☀ −', () => app.setLight(Math.max(0, app.lab.env.light - 0.15)), 'l-'); B('☀ +', () => app.setLight(Math.min(1, app.lab.env.light + 0.15)), 'l+'); }
-    if (p.type === 'lm35') { B('°C −', () => { app.lab.env.temp = Math.max(0, app.lab.env.temp - 2); bump(); }, 't-'); B('°C +', () => { app.lab.env.temp = Math.min(100, app.lab.env.temp + 2); bump(); }, 't+'); }
+    if (p.type === 'pir') B('✋', () => { if (app.wave6) app.wave6(p); else { p.state.motion = true; bump(); setTimeout(() => { p.state.motion = false; bump(); }, 1500); } }, 'wave6'); // batch 6: wave at the PIR
+    if (p.type === 'lm35' || p.type === 'dht11') { B('°C −', () => { app.lab.env.temp = Math.max(0, app.lab.env.temp - 2); bump(); }, 't-'); B('°C +', () => { app.lab.env.temp = Math.min(100, app.lab.env.temp + 2); bump(); }, 't+'); }
     if ((p.type === 'hcsr04' || p.type === 'hcsr04f' || p.type === 'ir') && !p.state.ext) { B('cm −', () => { p.state.dist = Math.max(1, p.state.dist - (p.type === 'ir' ? 2 : 5)); bump(); }, 'd-'); B('cm +', () => { p.state.dist = Math.min(p.type === 'ir' ? 40 : 300, p.state.dist + (p.type === 'ir' ? 2 : 5)); bump(); }, 'd+'); }
   }
   drawParts() {
@@ -319,7 +320,7 @@ export class XRUI {
       if (li + 1 === runL) { c.fillStyle = 'rgba(240,200,60,0.18)'; c.fillRect(18, y, W - 36, lh); }
       c.fillStyle = C.mute; c.fillText(String(li + 1).padStart(3), 22, y + lh / 2);
       let x0 = 80; const cw = c.measureText('M').width; const shown = ln.slice(0, 66);
-      c.fillStyle = /^\s*\/\//.test(ln) ? '#7f8a99' : C.ink; c.fillText(shown, x0, y + lh / 2);
+      c.fillStyle = /^\s*\/\//.test(ln) || (app.lab.def.py && /^\s*#/.test(ln)) ? '#7f8a99' : C.ink; // (batch 6: a Python comment) c.fillText(shown, x0, y + lh / 2);
       for (const m of shown.matchAll(/(?<![\w.])-?\d+(?:\.\d+)?/g)) { const nx = x0 + m.index * cw, nw = m[0].length * cw; const sel = this.num && this.num.line === li && this.num.at === m.index; nums.push({ x: nx - 3, y, w: nw + 6, h: lh, id: `num:${li}:${m.index}`, act: () => { this.num = { line: li, at: m.index, len: m[0].length, i: li * 1000 + m.index }; } }); if (sel) { c.strokeStyle = C.acc; c.lineWidth = 3; c.strokeRect(nx - 3, y + 2, nw + 6, lh - 4); } }
     }
     this.items.push(...nums);

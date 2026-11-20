@@ -12,6 +12,7 @@ import { batch2 } from './lessons2.js';
 import { batch4 } from './lessons4.js'; // batch 4: Nano, Mega 2560, ESP32 (WiFi, Bluetooth, touch, Hall)
 import { batch3 } from './lessons3.js'; // batch 3: school-lab module projects
 import { batch5 } from './lessons5.js'; // batch 5: the BBC micro:bit V2 in Python (and blocks)
+import { batch6 } from './lessons6.js'; // batch 6: Raspberry Pi Pico (MicroPython) and Raspberry Pi 4 (Python, gpiozero)
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const grp = (list, g) => { for (const l of list) l.group = l.group || g; return list; }; // a lesson's section in the lesson strip
 const P = (tag, type, props, hole, rot) => ({ tag, type, props: props || {}, at: { hole }, rot: rot || 0 });
@@ -656,5 +657,7 @@ LESSONS.push(...grp(batch3({ t3, P, F, W, need, has, noShort, N, n0: LESSONS.len
 // batch 5: the micro:bit in Python (lessons5.js). They run on the micro:bit desk (microbit.js, mbworld5.js), so they are
 // listed in the page; the node checks of the Arduino sketches (robocore*.mjs) do not get them: robocore5.mjs runs them itself
 if (typeof document !== 'undefined') LESSONS.push(...grp(batch5({ t3, W }, LESSONS.length), 'microbit'));
+// batch 6: the Raspberry Pi (lessons6.js), in Python too, so likewise listed in the page only; robocore6.mjs runs them
+if (typeof document !== 'undefined') LESSONS.push(...grp(batch6({ t3, P, F, W }, LESSONS.length), 'pi'));
 export const BY_ID = Object.fromEntries(LESSONS.map((l) => [l.id, l]));
 export { W as LESSON_WORDS, RAILS };

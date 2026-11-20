@@ -461,3 +461,83 @@ rates and times there are far below a real phone or headset (the browser tests r
 - Rare in the emulator: `window.requestAnimationFrame` stopping in an immersive session cannot be shown here; the fix is
   for the Quest Browser.
 - No micro:bit in Free build.
+
+## Batch 6: Raspberry Pi (Pico in MicroPython, Pi 4 in Python)
+
+Twelve lessons, Class 8–12, on the two Raspberry Pi boards: the **Pico** (RP2040) plugs into the breadboard like the Nano
+and runs MicroPython (`machine.Pin`, `PWM`, `ADC`, `time_pulse_us`); the **Pi 4 Model B** lies on the mat beside the
+breadboard, its 40-pin header next to it, and runs Python 3 with **gpiozero** (also `RPi.GPIO`, `adafruit_dht`,
+`signal.pause`, `input()`). Both reuse batch 5's interpreter (`py.js`) and the bench of batches 1–4 (breadboard, drawer,
+ghosts, wires, Check, the multimeter, the headset's ray), so every bench tool works on them. The Pico's output is the
+**Shell** (as in Thonny), the Pi's the **Terminal**, also shown on a small 5" HDMI screen left of the Pi, turned to the student (useful in VR).
+
+| id | Class | Lesson | The student builds, codes and sees |
+|---|---|---|---|
+| `pico_blink` | 8 | Meet the Pico: blink its LED | taps the RP2040, BOOTSEL, the LED, the pin row; `Pin("LED", Pin.OUT)`, `toggle()`, `time.sleep`; makes it blink 5× faster |
+| `pico_led` | 8 | An LED on GP15, with its resistor | LED + 330 Ω on the breadboard, GP15 and GND wired; `led.value(1)`; ≈ 4.5 mA explained; kind hints for a missing resistor, a reversed LED, no GND on the rail |
+| `pico_button` | 8–9 | A push button with a pull-up | button on GP14 with `Pin.PULL_UP` (pressed reads 0); then a toggle switch (`led.toggle()` + debounce wait); hint when both wires sit on legs that are always joined |
+| `pico_fade` | 9 | Breathing LED: PWM | `PWM(Pin(15))`, `freq(1000)`, `duty_u16` in two `for` loops; slows the breath |
+| `pico_pot` | 9–10 | A knob, the ADC and print() | knob on 3V3(OUT) / GND / GP26; `ADC(26).read_u16()` printed with its voltage in the Shell; then the knob sets the LED's PWM; hint if a knob end is on VBUS (5 V into the ADC) |
+| `pico_servo` | 10 | A servo: angles from pulses | SG90 on GP15, its + on VBUS; 50 Hz PWM, `def angle(a)` turns degrees into a 0.5–2.5 ms pulse; then a radar sweep in 10° steps |
+| `pico_sonar` | 10–11 | Ultrasonic distance, safely at 3.3 V | HC-SR04 on VBUS; Trig → GP17; Echo through a 1 kΩ / 2.2 kΩ divider to GP16 (5 V → 3.4 V); `time_pulse_us`; then the Pico's LED warns under 20 cm; hints for Echo straight into GP16 and for swapped resistors |
+| `pico_lamp` | 10–11 | Mini project: a smart night lamp | LDR + 10 kΩ divider on GP26; the lamp lights below a threshold as the room light (slider) falls; tunes the threshold (20000 → 32000) |
+| `pi_led` | 9–10 | Raspberry Pi 4: an LED and a button (GPIO numbers) | taps the processor, header, USB-C; physical pin 11 = GPIO 17 (the pinout card on the mat); `LED(17).blink()` + `pause()`; a button on GPIO 27 with `when_pressed = led.on` |
+| `pi_pir` | 10 | Motion alarm: PIR sensor and buzzer | PIR on 5 V (its OUT is 3.3 V, safe) → GPIO 4, active buzzer (new part `abuzz`) → GPIO 18; `wait_for_motion`, `beep(n=5)`; a visitor counter |
+| `pi_dht` | 10–11 | Weather station in the terminal: DHT11 | DHT11 on GPIO 4 / 3.3V / GND; `adafruit_dht.DHT11(board.D4)`, f-string with `strftime`, `try/except RuntimeError` (a reading fails now and then, as on a real Pi); "Too hot!" over 35 °C |
+| `pi_car` | 11–12 | A Raspberry Pi robot car | batch 2's car parts (L298N, battery, two motors) with IN1–IN4 on GPIO 5, 6, 20, 21; the student wires ENA → GPIO 12, ENB → GPIO 13 and the common ground; `Robot(left=Motor(5, 6, enable=12), right=…)`; a timed route that parks in P after the last `sleep` is made longer |
+
+(Numbered at load time after the lessons before them: 59–70 with batches 2–5. Each has `lang: 'py'`, `batch: 6`, `cls`,
+`baud: 115200`. Section "Raspberry Pi · Python" in the lesson strip and in the headset's ☰ Lessons.)
+
+### The boards (`js/boards6.js`, `js/pi6.js`)
+
+- **Pico**: 40 pins in rows c and h, columns 2–21, USB to the left; nets VBUS = 5 V, VSYS, 3V3(OUT), ADC_VREF, AGND, RUN;
+  GP23/24/29 are inside the board (an error if used). 3.3 V logic (VIH 2.0 V), ADC on GP26–28 (12-bit, `read_u16`), channel 4
+  is the temperature sensor; the green LED is GP25 / `"LED"`.
+- **Pi 4**: the J8 header from the official drawing (pin 1 = 3V3 at the corner hole, odd pins inner row), placed at
+  x = −98 turned a quarter so the header faces the breadboard and pin 1 is at the back. BCM numbers are the pin ids
+  (`GPIO17`), the popup and the card give the physical number too. GPIO 2/3 have the board's 1.8 kΩ pull-ups. GPIO 28 is a
+  stand-in for the ACT LED (not on the header).
+- `PyMCU` (pi6.js) runs a `py.js` task on the MCU clock: interrupts / gpiozero callbacks between statements, a time-ordered
+  queue for gpiozero's background jobs (`blink`, `beep`, `pulse`), the Pi's program ends (devices closed, a note if
+  callbacks were set without `pause()`), the Pico keeps its timers and shows `>>>`. Errors are English tracebacks in the
+  Shell / Terminal plus a kind hint in EN / HI / Hinglish (`N6_*`, `W6.*` in `CPP`): a pin in the code with no wire,
+  `LED(11)` when the LED is on physical pin 11 ("write 17"), `GP` leg numbers, `DistanceSensor(23, 24)` swapped, a DHT22
+  object on a DHT11, `machine` imported on the Pi or `gpiozero` on the Pico.
+- Circuit hooks (`LAB_HOOKS`): clamp diodes on each used GPIO and a warning for 5 V on a GPIO / ADC pin (`W6.pin5v`), more
+  than 12 mA (Pico) or 16 mA (Pi) from a pin; `env.vlogic` = 2.9 V so the L298N reads 3.3 V logic as HIGH.
+
+### 3D (`js/models6.js`, our own work, no downloaded models)
+
+Modelled in code from the official mechanical drawings: the Pico (51 × 21 × 1 mm, castellated pins, RP2040 QFN, flash,
+crystal, BOOTSEL, LED, micro-USB with its cable) and the Pi 4 (85 × 56 mm, BCM2711 lid, LPDDR4, J8 with 40 gold pins, PoE,
+2 × USB 3 blue + 2 × USB 2, Ethernet with LEDs, USB-C, 2 × micro-HDMI, audio, CSI / DSI, microSD, PWR / ACT LEDs). Printed
+sides are canvas textures (≤ 1024 px; phones half), static pieces merged by material (~15–20 draw calls a board). Beside the
+Pi: a printed GPIO card on the mat, row by row level with the header (odd pins left, even right, coloured 3V3 / 5V / GND /
+GPIO, "3.3 V logic · never 5 V into a GPIO"), the 5" screen to its left (a canvas terminal, redrawn ≤ 5×/s when the text
+changes; left, not behind, so Free build's board box has its place) and the cables. Views: `pi6` (screen, Pi, card,
+breadboard) and `pi6w` (wiring: the Pi and the breadboard). The car lesson puts a light Pi 4 on the car plate (`CAR_BOARD.pi`). No logos; credited in `credits.html`.
+
+### Files
+
+- New: `js/boards6.js`, `js/pi6.js`, `js/parts6.js` (the active buzzer), `js/models6.js`, `js/lessons6.js`
+  (`batch6(K, n0)`), `js/app6.js` (`install6(app)`), `devtools/test/robocore6.mjs`, `devtools/test/robotest6.mjs`.
+- Shared-file hooks, each marked "batch 6": `boards.js` (`BOARDS6`), `sim.js` (`import './pi6.js'`), `cpp.js`
+  (`compile` → `board.compile`), `parts.js` (`PARTS6`, `DRAWER6`), `parts2.js` (L298N: `env.vlogic`), `boards4.js`
+  (`def.pinTitle` / `def.pinShort`), `models4.js` (`BUILD4` registry + helper exports), `models.js` (`buildPart6`,
+  `setLite6`), `models2.js` (`CAR_BOARD`), `robots.js` (`CAR_CFG.pi`), `worlds.js` (the Pi car's HUD title and "parked"),
+  `lessons.js` (import + push in the browser only), `main.js` (`install6`), `app4.js` (`STARTER` exported, board-box
+  sizes for any board), `blocks.js` (no Arduino blocks on a Python board), `i18n.js` (`grp_pi`), `xrui.js` (the
+  section in ☰ Lessons, four a row; `#` comments grey; PIR ✋ and DHT11 °C ± on the panel), `credits.html`,
+  `devtools/test/robotest.mjs` (skips `pico_*` / `pi_*`).
+
+### Tests
+
+- `node devtools/test/robocore6.mjs [engine|lessons|ids]` (no browser): the boards (pins, holes, header), MicroPython on the
+  Pico (Pin, PWM, ADC, temperature, `time_pulse_us` through a divider, irq, Timer, errors and hints), Python on the Pi
+  (gpiozero LED / PWMLED / Button / MotionSensor / Buzzer / DistanceSensor / Servo / Motor / Robot with an L298N and the
+  common ground, `pause()`, RPi.GPIO, adafruit_dht and its failed reading, `input()`), then all 12 lessons step by step
+  as a student plays them (built at the ghosts, checked, run, edited, acted on; the car's route calibrated with `CarSim`),
+  and the kind hints for the usual wiring mistakes.
+- `node devtools/test/robotest6.mjs [ids|all] [outdir]` (port 8811): every lesson in headless Chromium through the real UI;
+  `XR=1` in WebXR (IWER Quest 3) with the controller ray, `HANDS=1` with pinches; `SLOW=n` for a busy machine.

@@ -18,6 +18,7 @@ export const T = {
   grp_basics: t3('Arduino basics', 'Arduino की शुरुआत', 'Arduino basics'), grp_robots: t3('Robots', 'रोबोट', 'Robots'),
   grp_boards: t3('Nano · Mega · ESP32', 'Nano · Mega · ESP32', 'Nano · Mega · ESP32'), grp_modules: t3('School-lab projects', 'स्कूल लैब प्रोजेक्ट', 'School lab projects'),
   grp_microbit: t3('micro:bit · Python', 'micro:bit · Python', 'micro:bit · Python'),
+  grp_pi: t3('Raspberry Pi · Python', 'Raspberry Pi · Python', 'Raspberry Pi · Python'), // batch 6
   lessonN: t3('Lesson {n}', 'पाठ {n}', 'Lesson {n}'),
   free: t3('Free build', 'खुद बनाइए', 'Free build'),
   parts: t3('Parts', 'पुर्ज़े', 'Parts'),

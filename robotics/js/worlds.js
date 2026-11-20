@@ -270,7 +270,8 @@ class CarWorld extends World {
     if (k === 'avoid') { rows.unshift([tx(W.ahead), `${this.ahead ?? '…'} cm`]); rows.push([tx(W.bumps), String(S.bumps)]); }
     const controls = [{ id: 'start', kind: 'button', label: W.start }];
     if (k === 'bt') { const bt = this.part('bt'); controls.unshift({ id: 'pad', kind: 'pad', label: W.app, status: !bt || !bt.state.powered ? tx(W.btOff) : bt.state.paired ? tx(W.paired) : '', paired: !!(bt && bt.state.paired), canPair: !!(bt && bt.state.powered) }); if (S.flags.has('parked')) rows.push(['P', tx(W.parked)]); }
-    return { title: k === 'bt' ? t3('Bluetooth car', 'ब्लूटूथ कार', 'Bluetooth car') : k === 'line' ? t3('Line follower', 'लाइन फ़ॉलोअर', 'Line follower') : t3('Obstacle-avoiding car', 'बाधा से बचने वाली कार', 'Obstacle se bachne wali car'), rows, controls };
+    if (k === 'pi' && S.flags.has('parked')) rows.push(['P', tx(W.parked)]); // batch 6: the Raspberry Pi car
+    return { title: k === 'bt' ? t3('Bluetooth car', 'ब्लूटूथ कार', 'Bluetooth car') : k === 'pi' ? t3('Raspberry Pi car', 'Raspberry Pi कार', 'Raspberry Pi car') : k === 'line' ? t3('Line follower', 'लाइन फ़ॉलोअर', 'Line follower') : t3('Obstacle-avoiding car', 'बाधा से बचने वाली कार', 'Obstacle se bachne wali car'), rows, controls };
   }
 }
 
