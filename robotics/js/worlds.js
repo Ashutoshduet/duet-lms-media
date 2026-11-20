@@ -21,7 +21,7 @@ const frame = nextFrame; // (also in a headset: stage.js)
 const W = {
   base: t3('Base', 'बेस', 'Base'), shoulder: t3('Shoulder', 'कंधा', 'Shoulder'), elbow: t3('Elbow', 'कोहनी', 'Elbow'), claw: t3('Claw', 'पंजा', 'Claw'),
   reach: t3('Reach', 'पहुँच', 'Reach'), height: t3('Height', 'ऊँचाई', 'Height'), goal: t3('Goal', 'लक्ष्य', 'Goal'), noSig: t3('off', 'बंद', 'off'),
-  backA: t3('Block back to A', 'ब्लॉक वापस A पर', 'Block wapas A par'), irs5: t3('Sensors S1–S5', 'सेंसर S1–S5', 'Sensor S1–S5'), avgOff: t3('Last lap: off the line', 'पिछला चक्कर: लाइन से दूरी', 'Pichhla chakkar: line se doori'), fromLine: t3('From the line', 'लाइन से दूरी', 'Line se doori'), swingsS: t3('swings a second', 'झूले प्रति सेकंड', 'jhoole per second'), lostLine: t3('it lost the line!', 'लाइन छूट गई!', 'line chhoot gayi!'), pen: t3('Pen', 'पेन', 'Pen'), penOn: t3('on the paper', 'काग़ज़ पर', 'kaagaz par'), penUp: t3('above', 'ऊपर', 'upar'), ink: t3('Ink drawn', 'स्याही की लाइन', 'Syaahi ki line'), offLine: t3('Worst distance from the square', 'वर्ग से सबसे ज़्यादा दूरी', 'Square se sabse zyada doori'), covered: t3('Square covered', 'वर्ग पर स्याही', 'Square par syaahi'), sheet: t3('A fresh sheet', 'नया काग़ज़', 'Naya kaagaz'), hand: t3('Hand', 'हाथ', 'Haath'), sensor: t3('Sensor reads', 'सेंसर पढ़ता है', 'Sensor padhta hai'), lid: t3('Lid', 'ढक्कन', 'Dhakkan'),
+  backA: t3('Block back to A', 'ब्लॉक वापस A पर', 'Block wapas A par'), bout: t3('Bout', 'मुकाबला', 'Muqaabla'), matta: t3('Matta! It moved before 5 s', 'मत्ता! 5 s से पहले चल पड़ी', 'Matta! 5 s se pehle chal padi'), youOut: t3('your robot is out: lost', 'आपका रोबोट बाहर: हार', 'aapka robot bahar: haar'), youWin: t3('opponent out, you stayed in: won!', 'विरोधी बाहर, आप अंदर: जीत!', 'virodhi bahar, aap andar: jeet!'), foeOut: t3('opponent out…', 'विरोधी बाहर…', 'virodhi bahar…'), waitS: t3('waiting', 'रुकी है', 'ruki hai'), fight: t3('fighting', 'लड़ रही है', 'lad rahi hai'), irs5: t3('Sensors S1–S5', 'सेंसर S1–S5', 'Sensor S1–S5'), avgOff: t3('Last lap: off the line', 'पिछला चक्कर: लाइन से दूरी', 'Pichhla chakkar: line se doori'), fromLine: t3('From the line', 'लाइन से दूरी', 'Line se doori'), swingsS: t3('swings a second', 'झूले प्रति सेकंड', 'jhoole per second'), lostLine: t3('it lost the line!', 'लाइन छूट गई!', 'line chhoot gayi!'), pen: t3('Pen', 'पेन', 'Pen'), penOn: t3('on the paper', 'काग़ज़ पर', 'kaagaz par'), penUp: t3('above', 'ऊपर', 'upar'), ink: t3('Ink drawn', 'स्याही की लाइन', 'Syaahi ki line'), offLine: t3('Worst distance from the square', 'वर्ग से सबसे ज़्यादा दूरी', 'Square se sabse zyada doori'), covered: t3('Square covered', 'वर्ग पर स्याही', 'Square par syaahi'), sheet: t3('A fresh sheet', 'नया काग़ज़', 'Naya kaagaz'), hand: t3('Hand', 'हाथ', 'Haath'), sensor: t3('Sensor reads', 'सेंसर पढ़ता है', 'Sensor padhta hai'), lid: t3('Lid', 'ढक्कन', 'Dhakkan'),
   wave: t3('Bring rubbish', 'कचरा लाइए', 'Kachra laiye'), push: t3('Push', 'धकेलिए', 'Dhakeliye'), master: t3('You push (syringe)', 'आप धकेलते हैं (सिरिंज)', 'Aap dhakelte hain (syringe)'),
   slave: t3('Lifts the arm (syringe)', 'बाँह उठाती है (सिरिंज)', 'Baanh uthati hai (syringe)'), fluid: t3('Inside the tube', 'नली के अंदर', 'Nali ke andar'), water: t3('Water', 'पानी', 'Paani'), air: t3('Air', 'हवा', 'Hawa'),
   armAngle: t3('Arm', 'बाँह', 'Baanh'), start: t3('Back to the start', 'शुरुआत पर वापस', 'Start par wapas'), speed: t3('Speed', 'रफ़्तार', 'Speed'), motors: t3('Motors L / R', 'मोटर बाएँ / दाएँ', 'Motor left / right'),
@@ -288,13 +288,14 @@ class CarWorld extends World {
     const r = this.root; const cfg = CAR_CFG[this.cfg.car];
     return [
       () => { this.buildArenaNow(this.sim.cfg);
-        if (cfg.lamps) { this.torch = M2.buildTorch(); this.arena.add(this.torch); this.placeTorch(); } }, // (batch 14)
+        if (cfg.lamps) { this.torch = M2.buildTorch(); this.arena.add(this.torch); this.placeTorch(); } // (batch 14)
+        if (cfg.foe) { this.foe = M2.buildSumoFoe(); this.arena.add(this.foe); this.placeFoe(); } }, // (batch 24: the sumo dummy)
       () => { this.car = M2.buildCar(this.cfg.car, null, this.cfg); this.car.rotation.order = 'YXZ'; this.arena.add(this.car); this.place(); },
     ];
   }
   buildArenaNow(cfg) { // (batch 18: the maze robot's panel can swap maze A for maze B: the arena is built again)
     if (this.arena) { if (this.car) this.arena.remove(this.car); this.root.remove(this.arena); MD.dispose(this.arena); }
-    this.arena = M2.buildArena({ track: cfg.line ? linePoints() : null, start: cfg.line || cfg.park ? cfg.start : null, park: cfg.park, boxes: cfg.boxes, plain: !cfg.line && !cfg.park && !cfg.dance && !cfg.maze, room: cfg.room, table: cfg.table, dance: cfg.dance, marker: cfg.marker, maze: cfg.maze, finish: cfg.finish, stations: cfg.stations });
+    this.arena = M2.buildArena({ track: cfg.line ? linePoints() : null, start: cfg.line || cfg.park ? cfg.start : null, park: cfg.park, boxes: cfg.boxes, plain: !cfg.line && !cfg.park && !cfg.dance && !cfg.maze, room: cfg.room, table: cfg.table, dance: cfg.dance, marker: cfg.marker, maze: cfg.maze, finish: cfg.finish, ring: cfg.ring, stations: cfg.stations });
     this.arena.position.set(...ARENA_POS); this.root.add(this.arena); if (this.car) this.arena.add(this.car);
   }
   place() { // (batch 14: a car that fell off the desk drops to the floor, nose or side first)
@@ -302,6 +303,7 @@ class CarWorld extends World {
     if (S.fell) { const t = S.fallT; y = -Math.min(M2.DESK_H - 22, 0.5 * 9810 * t * t); const a = Math.min(1.25, t * 4.2); if (S.fell.k === 'F') rx = a; else rz = S.fell.k === 'L' ? -a : a; }
     this.car.position.set(S.x, y, S.z); this.car.rotation.set(rx, S.h, rz, 'YXZ');
   }
+  placeFoe() { const F = this.sim.foe; if (!F || !this.foe) return; const R = this.sim.cfg.ring.r; const out = Math.hypot(F.x, F.z) > R + 40; this.foe.position.set(F.x, out ? -6 : 0, F.z); this.foe.rotation.set(out ? 0.12 : 0, Math.PI, 0); } // (off the ring: down on the floor, tipped)
   placeTorch() { const L = this.sim.lampAt(); if (!L || !this.torch) return; this.torch.position.set(L[0], 0, L[1]); this.torch.rotation.y = Math.atan2(-L[0], -L[1]); }
   wheel(tag) { const p = this.part(tag); return p ? p.state.w / BO.gear * BO.rw : 0; } // mm/s along the floor
   update(dt) {
@@ -312,14 +314,15 @@ class CarWorld extends World {
     if (this.cfg.car === 'line') { const s = S.sensors(); this.sens = s; for (const [tag, b] of [['irL', s.L], ['irR', s.R]]) { const p = this.part(tag); if (p) { p.state.ext = true; const d = b ? 40 : 1; if (p.state.dist !== d) { p.state.dist = d; this.lab.stateV++; this.lab.instKey = null; } if (live.leds['ir' + tag.slice(2)]) live.leds['ir' + tag.slice(2)].emissiveIntensity = p.state.near ? 2.6 : 0; } } }
     if (this.cfg.car === 'avoid') { const sv = this.part('sv1'); const sa = sv ? sv.state.angle : 90; if (live.scan) live.scan.rotation.y = (sa - 90) * D2R; const us = this.part('us1'); if (us) { us.state.ext = true; const d = S.usCm(sa); this.ahead = d; if (us.state.dist !== d) { us.state.dist = d; } } }
     if (this.cfg.car === 'pid') { carFeed(S, this.lab); const p = this.part('ir5'); for (let i = 0; i < 5; i++) { const m = live.leds['s' + (i + 1)]; if (m) m.emissiveIntensity = p && p.state.powered && !(p.state.black || [])[i] ? 2.4 : 0; } } // (batch 24: the five-sensor bar)
-    if (['edge', 'light', 'lap', 'maze', 'mazeR', 'deliv'].includes(this.cfg.car)) { carFeed(S, this.lab); for (const t of ['irL', 'irR', 'irM']) { const p = this.part(t); if (p && live.leds[t]) live.leds[t].emissiveIntensity = p.state.powered !== false && p.state.near ? 2.6 : 0; } } // (batch 14)
+    if (this.foe) this.placeFoe();
+    if (['edge', 'light', 'lap', 'maze', 'mazeR', 'deliv', 'sumo'].includes(this.cfg.car)) { carFeed(S, this.lab); for (const t of ['irL', 'irR', 'irM']) { const p = this.part(t); if (p && live.leds[t]) live.leds[t].emissiveIntensity = p.state.powered !== false && p.state.near ? 2.6 : 0; } } // (batch 14)
     const drv = this.part('drv'); if (drv && live.leds.pwr) live.leds.pwr.emissiveIntensity = (drv.state.vs || 0) > 6.8 ? 2.4 : 0;
     const bt = this.part('bt'); if (bt && live.leds.bt) live.leds.bt.emissiveIntensity = !bt.state.powered ? 0 : bt.state.paired ? ((performance.now() / 1000) % 2 < 0.25 ? 2.4 : 0) : ((performance.now() / 100) % 2 < 1 ? 2.4 : 0);
     return Math.abs(vl) + Math.abs(vr) > 1 || !!bt || (S.fell && S.fallT < 1);
   }
-  onRun() { this.sim.reset(); this.place(); this.placeTorch(); if (this.sim.cfg.maze || this.sim.cfg.stations) carFeed(this.sim, this.lab); } // (the sensors read the start before the sketch's first loop)
+  onRun() { this.sim.reset(); for (const t of ['mL', 'mR']) { const p = this.part(t); if (p) p.state.w = 0; } this.place(); this.placeTorch(); this.placeFoe(); if (this.sim.cfg.maze || this.sim.cfg.stations || this.sim.cfg.ring) carFeed(this.sim, this.lab); } // (the car is put back on its start, its wheels still; the sensors read the start before the sketch's first loop)
   control(id, v) {
-    if (id === 'start') { this.sim.reset(); this.place(); this.placeTorch(); }
+    if (id === 'start') { this.sim.reset(); this.place(); this.placeTorch(); this.placeFoe(); }
     if (id === 'maze' && this.sim.cfg.maze && v !== this.sim.cfg.maze) { this.sim.setMaze(v); this.buildArenaNow(this.sim.cfg); this.place(); carFeed(this.sim, this.lab); this.stage.kick(); } // (batch 18)
     if (id === 'lamp') { this.sim.lamp = v; this.sim.foundT = 0; this.placeTorch(); this.stage.kick(); } // (batch 14: move the torch)
     if (id === 'pair') { const bt = this.part('bt'); if (bt && bt.state.powered) { bt.state.paired = true; this.lab.stateV++; } }
@@ -338,6 +341,8 @@ class CarWorld extends World {
     if (k === 'light') { const l = this.part('ldrL'), r = this.part('ldrR'); rows.unshift([tx(W.eyes), `${l ? Math.round(l.state.lux || 0) : '—'} / ${r ? Math.round(r.state.lux || 0) : '—'} lux`]); rows.push([tx(W.torchD), `${Math.round(S.lampDist() / 10)} cm`]); if (S.found.has(S.lamp)) rows.push(['★', tx(W.atTorch)]);
       controls.unshift({ id: 'lamp', kind: 'seg', label: W.torch, options: [['A', 'A'], ['B', 'B'], ['C', 'C']], value: S.lamp }); }
     if (k === 'dance') { rows.push([tx(W.lastSpin), S.lastSpin === null ? '—' : `${Math.abs(S.lastSpin)}° ${S.lastSpin > 0 ? '↺' : '↻'}`]); rows.push([tx(W.fromSpot), `${Math.round((S.fromSpot || 0) / 10)} cm`]); }
+    if (k === 'sumo') { const e = S.ringOut ? { L: false, R: false } : S.ringEdge(); rows.unshift([tx(W.irs), `${tx(e.L ? W.white : W.black)} / ${tx(e.R ? W.white : W.black)}`]); const us = this.part('us1'); rows.unshift([tx(W.ahead), `${us && us.state.powered ? us.state.dist : '—'} cm`]);
+      rows.push([tx(W.bout), S.flags.has('early') ? tx(W.matta) : S.ringOut ? tx(W.youOut) : S.flags.has('win') ? tx(W.youWin) : S.foe && S.foe.out ? tx(W.foeOut) : S.t < 5 ? `${tx(W.waitS)} ${Math.max(0, 5 - S.t).toFixed(1)} s` : tx(W.fight)]); }
     if (k === 'pid') { const b = S.sensors5(); rows.unshift([tx(W.irs5), b.map((x) => (x ? '■' : '□')).join(' ')]); const L = S.lap; rows.push([tx(W.laps), `${L.n}${L.last ? ' · ' + tx(W.lapT) + ' ' + L.last.toFixed(1) + ' s' : ''}`]);
       if (L.off !== undefined) rows.push([tx(W.avgOff), `${L.off} mm · ${L.swings} ${tx(W.swingsS)}`]); else rows.push([tx(W.fromLine), `${S.off ?? 0} mm`]); if (S.flags.has('lost') && S.offT > 0.5) rows.push(['⚠', tx(W.lostLine)]); }
     if (k === 'lap') { const s = this.sens || S.sensors(); rows.unshift([tx(W.irs), `${tx(s.L ? W.black : W.white)} / ${tx(s.R ? W.black : W.white)}`]); rows.push([tx(W.marker), `${S.marks} ${tx(W.passes)}`]); }
@@ -350,7 +355,7 @@ class CarWorld extends World {
       controls.unshift({ id: 'maze', kind: 'seg', label: W.maze, options: [['A', W.mazeA], ['B', W.mazeB]], value: S.cfg.maze });
       return { title: k === 'mazeR' ? t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot') : t3('Maze-solving robot', 'भूलभुलैया सुलझाने वाला रोबोट', 'Maze solve karne wala robot'), rows, controls };
     }
-    const T14 = { pid: t3('PID line follower', 'PID लाइन फ़ॉलोअर', 'PID line follower'), deliv: t3('Delivery robot', 'डिलीवरी रोबोट', 'Delivery robot'), edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
+    const T14 = { sumo: t3('Robot sumo', 'रोबोट सूमो', 'Robot sumo'), pid: t3('PID line follower', 'PID लाइन फ़ॉलोअर', 'PID line follower'), deliv: t3('Delivery robot', 'डिलीवरी रोबोट', 'Delivery robot'), edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
     if (T14[k]) return { title: T14[k], rows, controls };
     return { title: k === 'bt' ? t3('Bluetooth car', 'ब्लूटूथ कार', 'Bluetooth car') : k === 'pi' ? t3('Raspberry Pi car', 'Raspberry Pi कार', 'Raspberry Pi car') : k === 'line' ? t3('Line follower', 'लाइन फ़ॉलोअर', 'Line follower') : t3('Obstacle-avoiding car', 'बाधा से बचने वाली कार', 'Obstacle se bachne wali car'), rows, controls };
   }

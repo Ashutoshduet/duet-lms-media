@@ -1094,3 +1094,13 @@ heaters.
   anywhere else → on the floor (dropped). The student wires the lift servo (pin 5). The first program lowers to 0°
   (press, a dent); lift.write(40) is gentle, but the pump stops as the swing starts (dropped, still counted as packed);
   delay(600) after swing.write(90) packs three (placed3). robocore24.mjs plays it. Class 11: 14 of 26.
+- Class 11 sumo robot (batch 24, lessons24.js `sumo`; robots.js CAR_CFG.sumo, CarSim.sumo/ringEdge/usFoe; models2.js
+  buildCar kind 'sumo', buildSumoFoe, buildArena opts.ring; worlds.js CarWorld; view arenasumo): a black ring 1540 mm
+  across with a 50 mm white edge and two brown start lines; our car (the table robot's corner IR sensors, LOW over
+  white, on pins 11 and 12, and a fixed HC-SR04 at the front, which the student places at j50 and wires to pins 9 and
+  10) faces a 1 kg red practice dummy (200 mm, it does not drive). Pushing: the overlap is shared 60 % dummy, 40 % car,
+  and the car loses speed. The 5-second rule: from 0.4 s (wheels coasting from the last bout do not count; Run now
+  stops the wheels) to 5 s the car must not move (early). out = our car's middle past the edge (the bout ends, the car
+  stops); foeOut; win = the dummy out and our car still in a second later. The first program charges at once (early);
+  with delay(5000) it pushes the dummy out and follows it (the edge is read only when nothing is ahead: out); with the
+  edge test first it backs off at the line (win). robocore24.mjs plays it. Class 11: 15 of 26.

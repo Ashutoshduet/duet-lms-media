@@ -396,6 +396,11 @@ export function buildCar(kind, parts, opt = {}) { // (batch 19: opt.board, anoth
   }
   if (kind === 'bt') { const bt = buildHC05(); bt.scale.setScalar(1); bt.position.set(-6, top + 6, 140); still.add(bt); live.leds.bt = bt.userData.leds.st; }
   // batch 14
+  if (kind === 'sumo') { // (batch 24) the edge IR modules at the front corners, as the table robot's, and the HC-SR04 fixed at the front
+    still.add(box(130, 3, 22, acr, 0, CAR.plateY + 1.5, 196)); still.add(box(10, 3, 50, acr, -30, CAR.plateY + 1.5, 160)); still.add(box(10, 3, 50, acr, 30, CAR.plateY + 1.5, 160));
+    for (const s of [-1, 1]) { const ir = irDown(); ir.position.set(s * CAR14.edgeX, 0, CAR14.edgeZ - 10); still.add(ir); live.leds['ir' + (s > 0 ? 'L' : 'R')] = ir.userData.det; }
+    still.add(box(22, 16, 3, acr, 0, top + 8, CAR.usZ - 4)); const fr = buildUSHead(); fr.position.set(0, top + 26, CAR.usZ); still.add(fr);
+  }
   if (kind === 'edge') { // two "cliff" IR modules on an acrylic bar out in front, at the corners
     still.add(box(130, 3, 22, acr, 0, CAR.plateY + 1.5, 196)); still.add(box(10, 3, 50, acr, -30, CAR.plateY + 1.5, 160)); still.add(box(10, 3, 50, acr, 30, CAR.plateY + 1.5, 160));
     for (const s of [-1, 1]) { const ir = irDown(); ir.position.set(s * CAR14.edgeX, 0, CAR14.edgeZ - 10); still.add(ir); live.leds['ir' + (s > 0 ? 'L' : 'R')] = ir.userData.det; }
@@ -489,6 +494,16 @@ export function trackTexture(pts, opts = {}) {
   c.fillStyle = 'rgba(30,30,30,0.5)'; c.font = `700 ${16 * s}px ${TX.FONT}`; c.textAlign = 'left'; c.textBaseline = 'alphabetic'; c.fillText(opts.dance ? 'DUET STEM · DANCE MAT 1300 × 860 mm' : 'DUET STEM · ROBOT TRACK 1300 × 860 mm · TAPE 19 mm', 20 * s, (md - 16) * s);
   const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
 }
+// (batch 24) the sumo practice robot: a heavy red box on four wheels with a steel wedge at the front (it does not drive)
+export function buildSumoFoe() {
+  const M = mats(); const g = new THREE.Group(); const red = S({ color: 0xc8281c, roughness: 0.5 }), steel = S({ color: 0xc9ced4, metalness: 0.8, roughness: 0.3 }), tyre = S({ color: 0x18181a, roughness: 0.8 });
+  g.add(box(190, 70, 170, red, 0, 45, -10)); g.add(box(170, 6, 150, S({ color: 0x2a2b2e, roughness: 0.6 }), 0, 83, -10));
+  const wedge = new THREE.Mesh(new THREE.BoxGeometry(196, 4, 50), steel); wedge.position.set(0, 14, 88); wedge.rotation.x = 0.42; g.add(wedge);
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) g.add(cyl(22, 14, tyre, sx * 96, 22, sz * 55 - 10, 18).rotateZ(Math.PI / 2));
+  const C = document.createElement('canvas'); C.width = 256; C.height = 96; const c = C.getContext('2d'); c.fillStyle = '#c8281c'; c.fillRect(0, 0, 256, 96); c.fillStyle = '#fff'; c.font = `800 44px ${TX.FONT}`; c.textAlign = 'center'; c.fillText('DUMMY', 128, 64);
+  const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; const lab = new THREE.Mesh(new THREE.PlaneGeometry(120, 45), S({ map: t, roughness: 0.6 })); lab.position.set(0, 50, 75.2); g.add(lab);
+  mergeStatic(g); return g;
+}
 export function buildArena(opts) {
   if (opts.table) return buildDeskArena(opts.table);
   mats(); const g = new THREE.Group(); g.name = 'arena'; const A = ARENA; const [rw, rd] = opts.room || [A.w, A.d];
@@ -496,6 +511,12 @@ export function buildArena(opts) {
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(rw * 1.8, rd * 1.8), Lm({ map: ft })); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.5; g.add(floor);
   if (opts.maze) { const mat = new THREE.Mesh(new THREE.PlaneGeometry(rw, rd), Lm({ map: mazeTexture(rw, rd, opts) })); mat.rotation.x = -Math.PI / 2; mat.position.y = 0.2; g.add(mat); } // (batch 18)
   else if (!opts.plain) { const mat = new THREE.Mesh(new THREE.PlaneGeometry(A.mat[0], A.mat[1]), Lm({ map: trackTexture(opts.track, opts), color: 0xc4c2bc })); mat.rotation.x = -Math.PI / 2; mat.position.y = 0.2; g.add(mat); }
+  if (opts.ring) { // (batch 24) the sumo ring (dohyo): black, its white edge, the two brown start lines
+    const R = opts.ring.r; const blk = new THREE.Mesh(new THREE.CircleGeometry(R, 96), Lm({ color: 0x141416 })); blk.rotation.x = -Math.PI / 2; blk.position.y = 0.4; g.add(blk);
+    const wr = new THREE.Mesh(new THREE.RingGeometry(R - opts.ring.edge, R, 96), Lm({ color: 0xf2f2ee })); wr.rotation.x = -Math.PI / 2; wr.position.y = 0.6; g.add(wr);
+    for (const z of [-250, 250]) { const ln = new THREE.Mesh(new THREE.PlaneGeometry(200, 20), Lm({ color: 0x8a5a2b })); ln.rotation.x = -Math.PI / 2; ln.position.set(0, 0.7, z); g.add(ln); }
+    const sh = new THREE.Mesh(new THREE.RingGeometry(R, R + 30, 96), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.25, depthWrite: false })); sh.rotation.x = -Math.PI / 2; sh.position.y = 0.3; g.add(sh);
+  }
   // plywood walls round the room, and boxes (obstacles)
   const ply = Lm(opts.maze ? { color: 0xd2b48a, emissive: 0x3a2c1c } : { color: 0xd2b48a }); const walls = new THREE.Group();
   for (const [x, z, w, d] of [[0, -rd / 2 - 6, rw + 24, 12], [0, rd / 2 + 6, rw + 24, 12], [-rw / 2 - 6, 0, 12, rd], [rw / 2 + 6, 0, 12, rd]]) walls.add(box(w, A.wallH, d, ply, x, A.wallH / 2, z));

@@ -48,6 +48,11 @@
 //              belt's level: the box is in the way, the servo strains and dents it; 40° is the box's top. Then it stops
 //              the pump as it starts the swing: the cup lets go half-way round and the box falls on the floor (the
 //              program counts it as packed). Waiting 0.6 s for the swing to finish packs three boxes in the crate.
+//   sumo       robot sumo on a 1540 mm black ring with a white edge (robots.js CAR_CFG.sumo): the line car with two IR
+//              sensors at its front corners looking down (LOW over the white edge) and an HC-SR04 at the front, against a
+//              1 kg practice dummy. The first program moves the moment it starts: the referee's 5-second rule. With a
+//              5 s wait it charges, pushes the dummy out, and follows it off the ring: the edge is checked only when
+//              nothing is ahead. Edge first, then attack: it pushes the dummy out and stays in (win).
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
 import { GLASS, CUR, LIFT, SLIDE } from './scenes3.js';
 import { ARMCUR, CARCUR } from './robots.js';
@@ -575,6 +580,59 @@ void loop() {
 }
 `;
 
+const SUMOC = `// Sumo robot: find the opponent with the ultrasonic sensor and push it out of the ring, without leaving the ring yourself.
+const int ENA = 5, IN1 = 7, IN2 = 8;    // motor A: the left wheel
+const int ENB = 6, IN3 = 2, IN4 = 4;    // motor B: the right wheel
+const int edgeL = 11, edgeR = 12;       // IR sensors at the front corners, looking down: LOW over the white edge
+const int trig = 9, echo = 10;          // the HC-SR04 at the front
+
+// one motor: v from -255 (backwards) to 255 (forwards)
+void motor(int en, int a, int b, int v) {
+  digitalWrite(a, v > 0 ? HIGH : LOW);
+  digitalWrite(b, v < 0 ? HIGH : LOW);
+  analogWrite(en, abs(v));
+}
+void drive(int left, int right) {
+  motor(ENA, IN1, IN2, left);
+  motor(ENB, IN3, IN4, right);
+}
+int distanceCm() {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  long t = pulseIn(echo, HIGH, 25000);
+  if (t == 0) return 400;                 // no echo: nothing ahead
+  return t / 58;
+}
+
+void setup() {
+  pinMode(ENA, OUTPUT); pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT); pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  pinMode(edgeL, INPUT);
+  pinMode(edgeR, INPUT);
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
+  Serial.begin(9600);
+  Serial.println("Hajime!");
+}
+
+void loop() {
+  int d = distanceCm();
+  if (d < 60) {                           // the opponent is ahead: charge!
+    drive(255, 255);
+  } else if (digitalRead(edgeL) == LOW || digitalRead(edgeR) == LOW) {   // the white edge: back off and turn
+    drive(-200, -200);
+    delay(300);
+    drive(200, -200);
+    delay(250);
+  } else {
+    drive(140, -140);                     // look for it: turn on the spot
+  }
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -880,6 +938,35 @@ export function batch24(K, n0) {
     ],
     check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('svL', t3('lift servo', 'ऊपर-नीचे वाला सर्वो', 'upar-neeche wala servo')), need('svL.SIG', 'D5', W.toPin, { x: t3('lift servo\'s orange wire', 'ऊपर-नीचे वाले सर्वो का नारंगी तार', 'upar-neeche wale servo ka orange wire'), p: 5 }), need('svL.VP', '5V', W.to5v, { x: t3('lift servo\'s red wire', 'सर्वो का लाल तार', 'servo ka laal wire') }), need('svL.GND', 'GND', W.toGnd, { x: t3('lift servo\'s brown wire', 'सर्वो का भूरा तार', 'servo ka bhoora wire') })],
     done: (S) => S.w('placed3') });
+  // 11 -------------------------------------------------------------------------------------------------------- sumo robot
+  const okWait5 = (src) => /Serial\.println\("Hajime!"\);\s*\n\s*delay\(\s*5000\s*\)\s*;/.test(src || '') || /void setup\(\) \{[\s\S]*?delay\(\s*5000\s*\)\s*;[\s\S]*?\n\}/.test(src || '');
+  const okEdgeFirst = (src) => { const m = /void loop\(\) \{([\s\S]*)\n\}/.exec(src || ''); if (!m) return false; const b = m[1]; const e = b.indexOf('digitalRead(edgeL)'), c = b.indexOf('d < 60'); return e > 0 && c > 0 && e < c; };
+  L.push({ id: 'sumo', cls: '11', blocks: false, view: 'carbench', wview: 'carbench', rview: 'arenasumo', code: SUMOC, drawer: ['hcsr04'], serial: true, world: { kind: 'car', car: 'sumo' },
+    title: t3('Sumo robot', 'सूमो रोबोट', 'Sumo robot'),
+    goal: t3('Robot sumo: two robots in a black ring with a white edge; whoever pushes the other out wins. Find the opponent with the ultrasonic sensor, obey the referee\'s start rule, and never drive out yourself.', 'रोबोट सूमो: सफ़ेद किनारे वाले काले घेरे में दो रोबोट; जो दूसरे को बाहर धकेले वह जीतता है। अल्ट्रासोनिक सेंसर से विरोधी को ढूँढिए, रेफ़री के शुरुआती नियम को मानिए, और ख़ुद कभी बाहर मत जाइए।', 'Robot sumo: safed kinare wale kaale ghere mein do robot; jo doosre ko bahar dhakele woh jeetta hai. Ultrasonic sensor se virodhi ko dhoondhiye, referee ke shuruaati niyam ko maaniye, aur khud kabhi bahar mat jaiye.'),
+    setup: { parts: [...CARP, F('irL', 'ir', {}, 140, 62, 2), F('irR', 'ir', {}, 178, 62, 2)],
+      wires: [...CARW, ['T:irL:VCC', 'H:tp40'], ['T:irL:GND', 'H:tn40'], ['T:irL:OUT', 'D11'], ['T:irR:VCC', 'H:tp44'], ['T:irR:GND', 'H:tn44'], ['T:irR:OUT', 'D12']] },
+    steps: [
+      { k: 'info', do: t3('The car, its L298N and motors are wired as before, and two IR sensors at its front corners look down at the ring (pins 11 and 12): over the black ring nothing comes back (HIGH), over the white edge it does (LOW). The opponent is a 1 kg practice robot.', 'कार, उसका L298N और मोटरें पहले की तरह जुड़ी हैं, और आगे के कोनों पर दो IR सेंसर घेरे को नीचे देखते हैं (पिन 11 और 12): काले घेरे पर कुछ नहीं लौटता (HIGH), सफ़ेद किनारे पर लौटता है (LOW)। विरोधी 1 kg का अभ्यास रोबोट है।', 'Car, uska L298N aur motors pehle ki tarah jude hain, aur aage ke kono par do IR sensor ghere ko neeche dekhte hain (pin 11 aur 12): kaale ghere par kuch nahi lautta (HIGH), safed kinare par lautta hai (LOW). Virodhi 1 kg ka abhyaas robot hai.'), see: E },
+      { k: 'place', place: P('us1', 'hcsr04', {}, 'j50', 0), do: t3('Put the HC-SR04 in the breadboard at the ghost (row j, from column 50): it looks ahead from the car\'s nose.', 'HC-SR04 को ब्रेडबोर्ड में नीली आकृति पर लगाइए (पंक्ति j, कॉलम 50 से): यह कार की नाक से आगे देखता है।', 'HC-SR04 ko breadboard mein neeli shape par lagaiye (row j, column 50 se): yeh car ki naak se aage dekhta hai.'), see: E },
+      w3('us1.VCC', 'rail:tp', 'Wire its VCC to the + rail.', 'इसका VCC + रेल से जोड़िए।', 'Iska VCC + rail se jodiye.'),
+      w3('us1.TRIG', 'D9', 'Its TRIG to pin 9.', 'इसका TRIG पिन 9 से।', 'Iska TRIG pin 9 se.'),
+      w3('us1.ECHO', 'D10', 'Its ECHO to pin 10.', 'इसका ECHO पिन 10 से।', 'Iska ECHO pin 10 se.'),
+      w3('us1.GND', 'rail:tn', 'Its GND to the − rail.', 'इसका GND − रेल से।', 'Iska GND − rail se.'),
+      CHECK,
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && S.w('early'), do: t3('Watch the start (the arena).', 'शुरुआत देखिए (अखाड़ा)।', 'Shuruaat dekhiye (arena).'),
+        see: t3('"Matta!" The referee stops the bout: the car moved the moment it was switched on. In robot sumo, as in real sumo, both robots must wait 5 seconds after the start, so the players can step back from the ring.', '"मत्ता!" रेफ़री मुकाबला रोकता है: कार चालू होते ही चल पड़ी। रोबोट सूमो में, असली सूमो की तरह, दोनों रोबोटों को शुरुआत के बाद 5 सेकंड रुकना होता है, ताकि खिलाड़ी घेरे से पीछे हट सकें।', '"Matta!" Referee muqaabla rokta hai: car on hote hi chal padi. Robot sumo mein, asli sumo ki tarah, dono robots ko shuruaat ke baad 5 second rukna hota hai, taaki players ghere se peeche hat sakein.') },
+      { k: 'edit', test: okWait5, set: [[/(  Serial\.println\("Hajime!"\);\n)/, '$1  delay(5000);                            // the 5-second rule\n']], do: t3('At the end of setup(), after Serial.println("Hajime!"); add delay(5000); and press Run.', 'setup() के आख़िर में, Serial.println("Hajime!"); के बाद delay(5000); लिखिए और "चलाइए" दबाइए।', 'setup() ke aakhir mein, Serial.println("Hajime!"); ke baad delay(5000); likhiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('out'), do: t3('Watch the bout.', 'मुकाबला देखिए।', 'Muqaabla dekhiye.'),
+        see: t3('It waits, charges and pushes the opponent out... and drives straight out after it! While the opponent is ahead (even off the ring), d < 60 is true, so the edge sensors are never read. Both robots out: in a real bout, whoever touches the floor first loses.', 'यह रुकती है, धावा बोलती है और विरोधी को बाहर धकेलती है... और उसके पीछे सीधे बाहर चली जाती है! जब तक विरोधी आगे है (घेरे के बाहर भी), d < 60 सच रहता है, तो किनारे वाले सेंसर कभी पढ़े ही नहीं जाते। दोनों रोबोट बाहर: असली मुकाबले में जो पहले फ़र्श छूता है वह हारता है।', 'Yeh rukti hai, dhaava bolti hai aur virodhi ko bahar dhakelti hai... aur uske peeche seedhe bahar chali jaati hai! Jab tak virodhi aage hai (ghere ke bahar bhi), d < 60 sach rehta hai, to kinare wale sensor kabhi padhe hi nahi jaate. Dono robot bahar: asli muqaable mein jo pehle farsh chhoota hai woh haarta hai.') },
+      { k: 'edit', test: okEdgeFirst, set: [[/  if \(d < 60\) \{[^\n]*\n    drive\(255, 255\);\n  \} else if \(digitalRead\(edgeL\) == LOW \|\| digitalRead\(edgeR\) == LOW\) \{([^\n]*)\n((?:    [^\n]*\n){4})/, '  if (digitalRead(edgeL) == LOW || digitalRead(edgeR) == LOW) {$1\n$2  } else if (d < 60) {                    // the opponent is ahead: charge!\n    drive(255, 255);\n']],
+        do: t3('The edge comes first: in loop(), swap the two tests, so it reads\n  if (digitalRead(edgeL) == LOW || digitalRead(edgeR) == LOW) {\n    (back off and turn)\n  } else if (d < 60) {\n    drive(255, 255);\n  } else {\n    (search)\n  }\nand press Run.', 'किनारा पहले: loop() में दोनों जाँचों की जगह बदलिए, ताकि यह ऐसा पढ़े\n  if (digitalRead(edgeL) == LOW || digitalRead(edgeR) == LOW) {\n    (पीछे हटो और मुड़ो)\n  } else if (d < 60) {\n    drive(255, 255);\n  } else {\n    (ढूँढो)\n  }\nऔर "चलाइए" दबाइए।', 'Kinara pehle: loop() mein dono checks ki jagah badliye, taaki yeh aisa padhe\n  if (digitalRead(edgeL) == LOW || digitalRead(edgeR) == LOW) {\n    (peeche hato aur mudo)\n  } else if (d < 60) {\n    drive(255, 255);\n  } else {\n    (dhoondho)\n  }\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('win'), do: t3('Watch the bout again.', 'मुकाबला फिर देखिए।', 'Muqaabla phir dekhiye.'),
+        see: t3('It pushes the opponent over the edge, sees the white line under its own nose, and backs off: it stays in, and wins. Every sumo robot checks its edge sensors before anything else, many times a second.', 'यह विरोधी को किनारे से बाहर धकेलती है, अपनी नाक के नीचे सफ़ेद लाइन देखती है, और पीछे हट जाती है: यह अंदर रहती है, और जीतती है। हर सूमो रोबोट किसी भी चीज़ से पहले अपने किनारे वाले सेंसर जाँचता है, हर सेकंड कई बार।', 'Yeh virodhi ko kinare se bahar dhakelti hai, apni naak ke neeche safed line dekhti hai, aur peeche hat jaati hai: yeh andar rehti hai, aur jeetti hai. Har sumo robot kisi bhi cheez se pehle apne kinare wale sensor jaanchta hai, har second kai baar.') },
+    ],
+    check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('us1', t3('ultrasonic sensor', 'अल्ट्रासोनिक सेंसर', 'ultrasonic sensor')), need('us1.TRIG', 'D9', W.toPin, { x: 'TRIG', p: 9 }), need('us1.ECHO', 'D10', W.toPin, { x: 'ECHO', p: 10 }), need('us1.VCC', '5V', W.to5v, { x: 'VCC' }), need('us1.GND', 'GND', W.toGnd, { x: 'GND' })],
+    done: (S) => S.w('win') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

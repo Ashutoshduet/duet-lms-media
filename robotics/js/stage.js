@@ -28,6 +28,7 @@ export const VIEWS = {
   arenalight: { tgt: [2950, 0, -200], hw: 1000, hd: 640, dir: [0, 0.82, 0.57] }, // the light-seeker's room and its three torch spots
   arenamaze: { tgt: [2600, 0, 20], hw: 1000, hd: 760, dir: [0, 0.86, 0.51] }, // batch 18: the plywood maze, all of it
   arenadance: { tgt: [2600, 0, -40], hw: 520, hd: 340, dir: [0, 0.8, 0.6] }, // the dance mat
+  arenasumo: { tgt: [2600, 0, 120], hw: 1300, hd: 1100, dir: [0, 0.85, 0.53] }, // batch 24: the sumo ring, all of it (between the panels)
   binside: { tgt: [400, 230, 0], hw: 400, hd: 760, dir: [-0.15, 0.38, 0.91] }, // the smart dustbin (tall) beside the bench
   hydside: { tgt: [470, 170, 0], hw: 340, hd: 600, dir: [-0.12, 0.36, 0.92] }, // the hydraulic arm beside the bench
   armjs: { tgt: [100, 85, 40], hw: 300, hd: 175, dir: [-0.04, 0.6, 0.8] }, // the joystick left of the board and the arm on the right, both in view (arm 5)

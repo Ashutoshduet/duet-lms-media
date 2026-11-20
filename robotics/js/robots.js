@@ -138,6 +138,9 @@ export const CAR_CFG = {
   deliv: { line: true, start: [-100, 330, Math.PI / 2], boxes: [], stations: [[150, 268, 46, 34, '1'], [438, 0, 34, 46, '2'], [-438, 0, 34, 46, '3']] },
   // batch 24 (Class 11): the PID line follower: the line track and a bar of five IR sensors under the nose
   pid: { line: true, start: [-100, 330, Math.PI / 2], boxes: [], five: true, inertia: { v: 0.25, w: 0.12 } },
+  // batch 24 (Class 11): robot sumo: a black ring (dohyo) 1540 mm across with a 50 mm white edge, our car on the near
+  // start line facing the opponent, a 1 kg box robot that does not drive (the class's practice dummy) on the far one
+  sumo: { line: false, room: [6000, 6000], start: [0, 380, Math.PI], boxes: [], ring: { r: 770, edge: 50 }, foe: { x: 0, z: -380, w: 200 }, inertia: { v: 0.2, w: 0.1 } },
 };
 // batch 24: the five-sensor bar (car mm: +x the car's left), S1 at the left
 export const CAR24 = { five: [24, 12, 0, -12, -24], fiveZ: 168 };
@@ -182,7 +185,9 @@ export class CarSim {
   }
   reset() {
     const [x, z, h] = this.cfg.start; this.x = x; this.z = z; this.h = h; this.vl = this.vr = 0; this.odo = 0; this.bumps = 0; this.bumpT = 0; this.flags = new Set();
-    this.lap = { cp: 0, t: 0, best: null, n: 0 }; this.wob = null; this.body = null; this.zz = null; this.swingRate = 0; this.fwdD = 0; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
+    this.lap = { cp: 0, t: 0, best: null, n: 0 }; this.wob = null; this.body = null; this.zz = null; this.swingRate = 0;
+    this.fwdD = 0; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
+    const F = this.cfg.foe; this.foe = F ? { x: F.x, z: F.z, out: false, outT: 0 } : null; this.ringOut = false; this.winT = 0; this.pushT = 0; // (batch 24: the sumo opponent)
     // batch 14
     this.fell = null; this.fallT = 0; this.saves = 0; this.edgeOn = false; // the table robot: how it fell (null: it has not), edges it backed away from
     this.lamp = this.cfg.lamp0; this.foundT = 0; this.found = new Set(); // the light-seeker: where the torch stands (back at A on each Run), the spots it reached
@@ -253,11 +258,33 @@ export class CarSim {
     this.outT = this.onFin && Math.abs(v) < 15 && Math.abs(this.vr - this.vl) < 15 ? this.outT + dt : 0;
     if (this.outT > 0.5 && !this.flags.has('solved')) { this.flags.add('solved'); this.solvedT = this.t; this.solvedBumps = this.bumps; }
   }
+  // (batch 24) robot sumo: the referee's 5-second rule, the edge, the opponent pushed (it weighs more than our car: it
+  // takes 60 % of the overlap, we take 40 %, and while we push we lose speed), who left the ring
+  sumo(dt, v) {
+    const R = this.cfg.ring.r, F = this.foe; const [cx, cz] = this.world(0, CARG.bodyZ);
+    if (this.t < 0.4) this.odo0 = this.odo; else if (this.t < 5 && this.odo - (this.odo0 || 0) > 15) this.flags.add('early'); // (from 0.4 s: the wheels may still be coasting from the last bout)
+    if (F) {
+      const h = this.cfg.foe.w / 2; const qx = clamp(cx, F.x - h, F.x + h), qz = clamp(cz, F.z - h, F.z + h); const d = Math.hypot(cx - qx, cz - qz) || 1e-6; const rr = CARG.r * 0.85;
+      if (d < rr) { const nx = (cx - qx) / d, nz = (cz - qz) / d, dep = rr - d; F.x -= nx * dep * 0.6; F.z -= nz * dep * 0.6; this.x += nx * dep * 0.4; this.z += nz * dep * 0.4; this.pushT = this.t; this.flags.add('push'); if (this.body) this.body.v *= 0.97; }
+      if (!F.out && Math.hypot(F.x, F.z) > R) { F.out = true; F.outT = this.t; this.flags.add('foeOut'); }
+    }
+    if (Math.hypot(cx, cz) > R) { this.ringOut = true; this.vl = this.vr = 0; this.flags.add('out'); }
+    if (F && F.out && !this.ringOut && this.t - F.outT > 1) this.flags.add('win');
+  }
+  ringEdge() { const C = CAR14, R = this.cfg.ring; const w = (lx) => { const [x, z] = this.world(lx, C.edgeZ); return Math.hypot(x, z) > R.r - R.edge; }; return { L: w(C.edgeX), R: w(-C.edgeX) }; } // (over the white edge, or past it)
+  usFoe() { // the HC-SR04 at the front: five rays in its cone against the opponent's four sides (cm, 400 for nothing)
+    const F = this.foe; if (!F) return 400; const [sx, sz] = this.world(0, CARG.usZ); const h = this.cfg.foe.w / 2; let best = 4000;
+    const segs = [[F.x - h, F.z - h, F.x + h, F.z - h], [F.x + h, F.z - h, F.x + h, F.z + h], [F.x + h, F.z + h, F.x - h, F.z + h], [F.x - h, F.z + h, F.x - h, F.z - h]];
+    for (const da of [-15, -7, 0, 7, 15]) { const a = this.h + da * D2R; const dx = Math.sin(a), dz = Math.cos(a);
+      for (const [x1, z1, x2, z2] of segs) { const ex = x2 - x1, ez = z2 - z1; const den = dx * ez - dz * ex; if (Math.abs(den) < 1e-9) continue; const t = ((x1 - sx) * ez - (z1 - sz) * ex) / den, u = ((x1 - sx) * dz - (z1 - sz) * dx) / den; if (t > 0 && u >= 0 && u <= 1) best = Math.min(best, t); } }
+    return Math.round(Math.min(400, best / 10));
+  }
   stationAt() { const St = this.cfg.stations; if (!St) return 0; const [x, z] = this.world(CAR14.markX, CAR14.markZ); for (let i = 0; i < St.length; i++) { const M = St[i]; if (Math.abs(x - M[0]) < M[2] / 2 && Math.abs(z - M[1]) < M[3] / 2) return i + 1; } return 0; } // (batch 23)
   markSens() { if (this.cfg.stations) return this.stationAt() > 0; const M = this.cfg.marker; if (!M) return false; const [x, z] = this.world(CAR14.markX, CAR14.markZ); return Math.abs(x - M[0]) < M[2] / 2 && Math.abs(z - M[1]) < M[3] / 2; }
   // every frame: the wheels' speeds along the floor (mm/s, + is forward)
   update(dt, vl, vr) {
     this.t += dt; if (this.fell) { this.fallT += dt; this.vl = this.vr = 0; return; } // (a robot that fell off the table lies on the floor)
+    if (this.ringOut) { this.vl = this.vr = 0; return; } // (batch 24: off the sumo ring: the bout is over)
     this.vl = vl; this.vr = vr;
     let v = (vl + vr) / 2, w = (vr - vl) / CARG.track;
     if (this.cfg.inertia) { const I = this.cfg.inertia, A = this.body || (this.body = { v: 0, w: 0 }); A.v += (v - A.v) * Math.min(1, dt / I.v); A.w += (w - A.w) * Math.min(1, dt / I.w); v = A.v; w = A.w; } // (batch 24: the body's mass and its turning inertia lag the wheels)
@@ -266,6 +293,7 @@ export class CarSim {
     // a wall or a box pushes the car back out (it can still turn while it scrapes); driving into it is a bump
     const c = this.contact(); this.blocked = !!c;
     if (c) { this.x += c[0] * c[2]; this.z += c[1] * c[2]; const vn = (Math.sin(this.h) * c[0] + Math.cos(this.h) * c[1]) * v; const head = v > 60 && vn < -0.6 * v; if (head && this.t - this.bumpT > 0.8) { this.bumps++; this.flags.add('bump'); } if (head) this.bumpT = this.t; } // (a scrape along the side does not count)
+    if (this.cfg.ring) this.sumo(dt, v); // (batch 24)
     this.odo += Math.abs(v) * dt; if (this.odo > 600) this.flags.add('moved');
     if (v > 40 && Math.abs(w) < 0.3) { this.flags.add('fwd'); this.fwdD += v * dt; } if (v < -40) this.flags.add('back'); // (batch 19: fwdD, how far it drove straight on)
     if (Math.abs(w) > 1.2 && Math.abs(v) < 60) { this.flags.add(w > 0 ? 'left' : 'right'); }
@@ -384,6 +412,7 @@ export function carFeed(sim, lab) {
   const k = sim.kind;
   if (k === 'edge' && !sim.fell) { const s = sim.edgeSens(); ir('irL', s.L); ir('irR', s.R); }
   if (k === 'lap' || k === 'deliv') { const s = sim.sensors(); ir('irL', s.L); ir('irR', s.R); ir('irM', sim.markSens()); }
+  if (k === 'sumo' && !sim.ringOut) { const e = sim.ringEdge(); ir('irL', !e.L); ir('irR', !e.R); const p = byTag('us1'); if (p) { p.state.ext = true; const d = sim.usFoe(); if (p.state.dist !== d) { p.state.dist = d; bump(); } } } // (batch 24: black ring = HIGH, white edge = LOW)
   if (k === 'pid') { const p = byTag('ir5'); if (p) { const b = sim.sensors5(); if (!p.state.black || b.some((v, i) => v !== p.state.black[i])) { p.state.black = b; bump(); } } } // (batch 24: the five-sensor bar) // (batch 23: the delivery track's stations)
   if (k === 'maze' || k === 'mazeR') { // batch 18: the front and left (19: or right) HC-SR04 hear the walls, the IR under the nose sees the black FINISH square
     for (const [tag, d] of [['us1', sim.mazeFront()], ['us2', sim.mazeSide()]]) { const p = byTag(tag); if (p) { p.state.ext = true; if (p.state.dist !== d) p.state.dist = d; } }

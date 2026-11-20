@@ -257,5 +257,22 @@ for (const l of L24) {
   }
   ok(!!l.done(rt) && sim.lap.last < 7, `pidline: complete; laps ${seen.join(' | ')}`);
 }
+// the sumo robot (lessons24.js sumo, robots.js CarSim 'sumo'): the car in the ring against the practice dummy
+{ const l = LESSONS.find((x) => x.id === 'sumo'); ok(!!l && compile(l.code).ok, 'sumo: the sketch compiles');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  const sim = new CarSim('sumo'); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => { sim.reset(); for (const t of ['mL', 'mR']) lab.byTag(t).state.w = 0; carFeed(sim, lab); } }; // (as worlds.js: back on the start, wheels still)
+  for (const s of l.steps) { if (s.k === 'place') { const q = s.place; if (!lab.addPart(q.type, q.props, q.at, q.rot, q.tag)) ok(false, 'sumo: place ' + q.tag); } if (s.k === 'wire') { const g = rt.ghostWire(s.wire); if (!g) { ok(false, `sumo: a ghost wire for ${s.wire}`); continue; } lab.addWire(g[0], g[1]); } }
+  const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; };
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  let src = l.code; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'sumo: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e).ok, 'sumo: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { let t = -1; for (let f = 0; f < 60 * 40; f++) { lab.step(1000 / 60); sim.update(1 / 60, w('mL'), w('mR')); carFeed(sim, lab); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = f / 60; break; } }
+      ok(t >= 0, `sumo: act "${s.do.en.slice(0, 40)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${JSON.stringify({ x: Math.round(sim.x), z: Math.round(sim.z), foe: sim.foe })} ${[...sim.flags]} ${lab.mcu.err ? JSON.stringify(lab.mcu.err) : ''}`)); seen.push([...sim.flags].join(',')); }
+  }
+  ok(!!l.done(rt) && !sim.flags.has('out') && !sim.flags.has('early'), `sumo: complete; flags ${seen.join(' | ')}`);
+}
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

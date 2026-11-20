@@ -5690,19 +5690,19 @@
    {
     "class": 11,
     "n": 11,
-    "kind": "I",
+    "kind": "L",
     "title": "Sumo robot",
     "board": "uno",
-    "status": "planned",
-    "ref": "sumo-robot-uno",
+    "status": "live",
+    "ref": "sumo",
     "newparts": [],
-    "family": "robot-car",
+    "family": "live-projects",
     "parts": [
+     "l298n",
      "bat18650",
      "bomotor",
-     "hcsr04",
      "ir",
-     "l298n"
+     "hcsr04"
     ],
     "strand": "Decomposition",
     "focus": "Robots and motors",

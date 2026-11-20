@@ -55848,6 +55848,29 @@
 "note": null
 },
 {
+"id": "live-sumo",
+"title": "Sumo robot",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"ir",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "sumo",
+"rule": null,
+"note": null
+},
+{
 "id": "live-pickplace",
 "title": "Pick-and-place line: conveyor, sensor and arm",
 "family": "live",
