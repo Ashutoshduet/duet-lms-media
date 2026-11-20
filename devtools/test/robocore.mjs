@@ -3,13 +3,17 @@
 import { compile } from '../../robotics/js/cpp.js';
 import { Lab } from '../../robotics/js/sim.js';
 import { LESSONS, FREE_CODE } from '../../robotics/js/lessons.js';
+import { BOARDS } from '../../robotics/js/boards.js';
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
 const serial = (lab) => { let s = ''; for (const o of lab.mcu.ser.take()) s += String.fromCharCode(...o.bytes); return s; };
 const run = (lab, src, frames, each) => { const c = compile(src); if (!c.ok) throw new Error(JSON.stringify(c.errors)); lab.run(c); let out = ''; for (let f = 0; f < frames; f++) { if (each) each(f); lab.step(1000 / 60); out += serial(lab); } return out; };
 
 // every lesson sketch compiles
-for (const l of LESSONS.filter((x) => x.lang !== 'py')) { const c = compile(l.code); ok(c.ok, `lesson ${l.n} (${l.id}) sketch compiles` + (c.ok ? '' : ' ' + JSON.stringify(c.errors))); } // (the Python lessons have their own tests)
+for (const l of LESSONS.filter((x) => x.lang !== 'py')) { const c = compile(l.code, l.board ? BOARDS[l.board] : undefined); ok(c.ok, `lesson ${l.n} (${l.id}) sketch compiles` + (c.ok ? '' : ' ' + JSON.stringify(c.errors))); } // (the Python lessons have their own tests; each sketch for its own board: an ESP32 one includes ESP32Servo.h)
 ok(compile(FREE_CODE).ok, 'free build sketch compiles');
+{ const sv = (inc) => `#include <${inc}>\nServo arm;\nvoid setup() { arm.attach(13); arm.write(90); }\nvoid loop() {}`; // (batch 12) the servo library each board really builds
+  const e1 = compile(sv('Servo.h'), BOARDS.esp32), e2 = compile(sv('ESP32Servo.h'), BOARDS.esp32), e3 = compile(sv('ESP32Servo.h'), BOARDS.uno);
+  ok(!e1.ok && e1.errors[0].code === 'E_SERVO_ESP', 'ESP32: #include <Servo.h> stops, as the real IDE does'); ok(e2.ok, 'ESP32: ESP32Servo.h builds'); ok(!e3.ok && e3.errors[0].code === 'E_ESPSERVO_ONLY', 'Uno: ESP32Servo.h is refused'); }
 // C semantics of the Uno
 { const lab = new Lab(); const out = run(lab, `void setup(){ Serial.begin(9600); int x = 32767; x++; Serial.println(x); Serial.println(7 / 2); Serial.println(7 / 2.0); Serial.println(-7 % 3); unsigned long t = 0; t--; Serial.println(t); byte b = 300; Serial.println(b); Serial.println(map(512, 0, 1023, 0, 180)); Serial.println(String("a") + 5); Serial.println(random(100)); } void loop(){}`, 30);
   ok(out === '-32768\r\n3\r\n3.50\r\n-1\r\n4294967295\r\n44\r\n90\r\na5\r\n7\r\n', 'int overflow, integer division, float print, unsigned wrap, byte, map, String, avr random(): ' + JSON.stringify(out)); }

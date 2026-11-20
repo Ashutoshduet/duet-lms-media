@@ -227,7 +227,7 @@ export const BOARDS4 = {
 };
 
 // the names the compiler knows for each board (analogRead(A0) on a Mega is pin 54, LED_BUILTIN on an ESP32 is GPIO 2)
-BOARDS4.mega.consts = Object.fromEntries([...Array(16)].map((_, i) => ['A' + i, 54 + i]));
+BOARDS4.mega.consts = Object.assign(Object.fromEntries([...Array(16)].map((_, i) => ['A' + i, 54 + i])), { SDA: 20, SCL: 21 }); // (batch 12: its I2C pins, for the LCD and OLED)
 BOARDS4.esp32.consts = Object.assign({ LED_BUILTIN: 2, A0: 36, A3: 39, A4: 32, A5: 33, A6: 34, A7: 35, A10: 4, A11: 0, A12: 2, A13: 15, A14: 13, A15: 12, A16: 14, A17: 27, A18: 25, A19: 26, DAC1: 25, DAC2: 26, TX: 1, RX: 3, SDA: 21, SCL: 22 },
   Object.fromEntries(Object.entries(ESP_TOUCH).map(([g, n]) => [n, +g])));
 BOARDS4.nano.consts = {};

@@ -148,17 +148,18 @@
    {
     "class": 1,
     "n": 9,
-    "kind": "I",
+    "kind": "L",
     "title": "Conductor or insulator tester",
     "board": "none",
-    "status": "planned",
-    "ref": "conductor-or-insulator-tester-none",
+    "status": "live",
+    "ref": "c_conductor",
     "newparts": [],
-    "family": "circuits",
+    "family": "live-circuits",
     "parts": [
      "aa4",
      "led",
-     "resistor"
+     "resistor",
+     "sample"
     ],
     "strand": "Algorithmic thinking",
     "focus": "Materials",
@@ -202,16 +203,17 @@
    {
     "class": 1,
     "n": 12,
-    "kind": "I",
-    "title": "Spinning top with a motor",
+    "kind": "L",
+    "title": "Spinning top with a motor: Newton's colour disc",
     "board": "none",
-    "status": "planned",
-    "ref": "spinning-top-with-a-motor-none",
+    "status": "live",
+    "ref": "c_top",
     "newparts": [],
-    "family": "circuits",
+    "family": "live-circuits",
     "parts": [
      "aa4",
-     "motor"
+     "motor",
+     "button"
     ],
     "strand": "Algorithmic thinking",
     "focus": "Motors",
@@ -431,15 +433,16 @@
    {
     "class": 1,
     "n": 25,
-    "kind": "I",
+    "kind": "L",
     "title": "Steady-hand game (no board)",
     "board": "none",
-    "status": "planned",
-    "ref": "steady-hand-game-no-board-none",
+    "status": "live",
+    "ref": "c_steady",
     "newparts": [],
-    "family": "circuits",
+    "family": "live-circuits",
     "parts": [
      "aa4",
+     "buzzwire",
      "abuzz"
     ],
     "strand": "Algorithmic thinking",
@@ -2627,13 +2630,13 @@
    {
     "class": 6,
     "n": 3,
-    "kind": "I",
+    "kind": "L",
     "title": "Resistor colour-code reader",
     "board": "uno",
-    "status": "planned",
-    "ref": "resistor-colour-code-reader-uno",
+    "status": "live",
+    "ref": "u_colourcode",
     "newparts": [],
-    "family": "classic",
+    "family": "live-projects",
     "parts": [
      "resistor"
     ],
@@ -2644,17 +2647,17 @@
    {
     "class": 6,
     "n": 4,
-    "kind": "I",
+    "kind": "L",
     "title": "Diode one-way street",
     "board": "uno",
-    "status": "planned",
-    "ref": "diode-one-way-street-uno",
+    "status": "live",
+    "ref": "u_diode",
     "newparts": [],
-    "family": "classic",
+    "family": "live-projects",
     "parts": [
-     "diode",
      "led",
-     "resistor"
+     "resistor",
+     "diode"
     ],
     "strand": "Algorithmic thinking",
     "focus": "Coding basics",
@@ -2826,13 +2829,13 @@
    {
     "class": 6,
     "n": 14,
-    "kind": "I",
+    "kind": "L",
     "title": "Binary counter on 4 LEDs",
     "board": "uno",
-    "status": "planned",
-    "ref": "binary-counter-on-4-leds-uno",
+    "status": "live",
+    "ref": "u_binary",
     "newparts": [],
-    "family": "classic",
+    "family": "live-projects",
     "parts": [
      "led",
      "resistor"
@@ -2930,13 +2933,13 @@
    {
     "class": 6,
     "n": 20,
-    "kind": "I",
+    "kind": "L",
     "title": "Servo dance",
     "board": "uno",
-    "status": "planned",
-    "ref": "servo-dance-uno",
+    "status": "live",
+    "ref": "u_servodance",
     "newparts": [],
-    "family": "classic",
+    "family": "live-projects",
     "parts": [
      "servo"
     ],
@@ -2986,17 +2989,17 @@
    {
     "class": 6,
     "n": 23,
-    "kind": "I",
+    "kind": "L",
     "title": "Transistor as a switch",
     "board": "uno",
-    "status": "planned",
-    "ref": "transistor-as-a-switch-uno",
+    "status": "live",
+    "ref": "u_npn",
     "newparts": [],
-    "family": "classic",
+    "family": "live-projects",
     "parts": [
      "led",
-     "npn",
-     "resistor"
+     "resistor",
+     "npn"
     ],
     "strand": "Algorithmic thinking",
     "focus": "Coding basics",

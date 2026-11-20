@@ -196,14 +196,14 @@ export class Lab {
   pinStateFrame(i) { // during a frame: duty
     const m = this.mcu, P = m.pins[i];
     if (m.state !== 'running' && m.state !== 'done') return null;
-    if (P.mode === 1) return { out: true, duty: P.tone ? 0.5 : m.duty(i), tone: m.toneOf(i) };
+    if (P.mode === 1) return { out: true, duty: P.tone ? (P.toneDuty !== undefined ? P.toneDuty : 0.5) : m.duty(i), tone: m.toneOf(i) }; // (batch 12: a Pico's PWM note keeps its duty)
     if (P.mode === 2 || P.level === 1) return { pull: true };
     return null;
   }
   pinStateNow(i) {
     const m = this.mcu, P = m.pins[i];
     if (m.state !== 'running' && m.state !== 'done') return null;
-    if (P.mode === 1) return { out: true, duty: P.tone ? 0.5 : P.level };
+    if (P.mode === 1) return { out: true, duty: P.tone ? (P.toneDuty !== undefined ? P.toneDuty : 0.5) : P.level };
     if (P.mode === 2 || P.level === 1) return { pull: true };
     return null;
   }
@@ -318,7 +318,7 @@ export class Lab {
     if (!els0) { els0 = []; acc = []; Vavg = new Float64Array(this.nodeCount); }
     els0.forEach((e, k) => { e.iAvg = acc[k].i; e.ibAvg = acc[k].ib; e.iPeak = acc[k].peak; if (e.role === 'buzz') { e.swing = acc[k].vmax - acc[k].vmin; e.vAvg = (Vavg[e.a] || 0) - (Vavg[e.b] || 0); } });
     this.els = els0; this.V = Vavg; this.ok = anchored(this.nodeCount, els0);
-    this.toneSw = sw.filter((i) => states[i].tone).map((i) => states[i].tone);
+    this.toneSw = sw.filter((i) => states[i].tone).map((i) => states[i].tone); this.toneSwPins = sw.filter((i) => states[i].tone).map((i) => [i, states[i].tone]);
     this.swPins = sw;
   }
   dynamics(dt) {
@@ -364,7 +364,8 @@ export class Lab {
           const e = els[0]; const I = e ? e.iAvg : 0; const s = p.state;
           const tq = MOTOR.ke * I - MOTOR.b * s.w;
           if (Math.abs(s.w) < 2 && Math.abs(MOTOR.ke * I) < MOTOR.tf) s.w = 0;
-          else { s.w += (tq - MOTOR.tf * Math.sign(s.w || I)) / MOTOR.J * dt; if (Math.abs(s.w) < 1 && Math.abs(MOTOR.ke * I) < MOTOR.tf) s.w = 0; }
+          else { s.w += (tq - MOTOR.tf * Math.sign(s.w || I)) / (MOTOR.J * (p.props.disc ? 4 : 1)) * dt; // (batch 12: Newton's disc is heavier than the fan)
+            if (Math.abs(s.w) < 1 && Math.abs(MOTOR.ke * I) < MOTOR.tf) s.w = 0; }
           s.w = Math.max(-1500, Math.min(1500, s.w)); s.i = I; s.a = (s.a + s.w * dt) % (Math.PI * 2);
           const o = obs.motor[p.uid] || (obs.motor[p.uid] = { max: 0, levels: new Set() });
           o.max = Math.max(o.max, Math.abs(s.w)); if (Math.abs(s.w) > 20) o.levels.add(Math.round(Math.abs(s.w) / 100));
@@ -387,7 +388,9 @@ export class Lab {
         }
         case 'buzzer': {
           const e = els[0]; const sw = e ? e.swing || 0 : 0;
-          if (sw > 1.2 && this.toneSw.length === 1) { const f = this.toneSw[0]; this.sounds.push({ id: p.uid, kind: 'tone', f, amp: Math.min(1, sw / 5) }); obs.tones.add(Math.round(f)); p.state.on = true; }
+          const own = e ? (this.toneSwPins || []).filter(([i]) => { const nd = this.boardNode('G' + i); return nd === e.a || nd === e.b; }) : []; // (batch 12: the note of the pin it is on, when another pin also plays PWM)
+          const fT = own.length === 1 ? own[0][1] : this.toneSw.length === 1 ? this.toneSw[0] : 0;
+          if (sw > 1.2 && fT) { const f = fT; this.sounds.push({ id: p.uid, kind: 'tone', f, amp: Math.min(1, sw / 5) }); obs.tones.add(Math.round(f)); p.state.on = true; }
           else p.state.on = false;
           break;
         }

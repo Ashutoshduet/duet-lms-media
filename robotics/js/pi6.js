@@ -149,13 +149,15 @@ export class PyMCU extends MCU {
   pwmSet(p, f, d) {
     const P = this.pins[p]; P.mode = 1; P.tone = 0; d = clamp(d, 0, 1); this.t += 1;
     this.pwm[p] = { f, d }; if (d <= 0.0005 || d >= 0.9995) { P.pwm = -1; this.setLevel(p, d >= 0.9995 ? 1 : 0); } else { P.pwm = Math.max(1, Math.round(d * 255)); this.setLevel(p, d); }
+    // (batch 12) at an audio frequency the pin is a note too: a buzzer on it sounds f (an LED on it still sees the duty)
+    if (f >= 100 && f <= 20000 && d > 0.0005 && d < 0.9995) { P.tone = Math.round(f); P.toneDuty = d; P.toneEnd = 0; } else { P.tone = 0; P.toneDuty = undefined; }
     this.wrote.add(p); if (d > 0) this.wroteHigh = true;
     const L2 = this.obs6.duty[p] || (this.obs6.duty[p] = new Set()); L2.add(Math.round(d * 20));
     const ang = servoAngle(this.pwm[p]); if (ang != null) this.obs6.angles.add(Math.round(ang));
     if (!this.servos.some((s) => s.pin === p)) { const m = this; this.servos.push({ pin: p, angle() { return servoAngle(m.pwm[p]); }, tick() {} }); }
     if (this.io.onPin) this.io.onPin(p, this.t);
   }
-  dropPwm(p) { if (this.pwm[p]) { delete this.pwm[p]; this.servos = this.servos.filter((s) => s.pin !== p); } }
+  dropPwm(p) { if (this.pwm[p]) { delete this.pwm[p]; this.servos = this.servos.filter((s) => s.pin !== p); const P = this.pins[p]; if (P) { P.tone = 0; P.toneDuty = undefined; } } }
   vin(p) { const v = this.io.read ? this.io.read(p, this.t) : NaN; this.heavy(); return v; }
   dread(p) { // a digital input, with this board's thresholds (3.3 V logic)
     const P = this.pins[p]; this.readSet.add(p); this.obs6.inputs++;

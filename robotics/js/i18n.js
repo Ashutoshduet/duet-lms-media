@@ -20,6 +20,7 @@ export const T = {
   grp_microbit: t3('micro:bit · Python', 'micro:bit · Python', 'micro:bit · Python'),
   grp_pi: t3('Raspberry Pi · Python', 'Raspberry Pi · Python', 'Raspberry Pi · Python'), // batch 6
   grp_projects: t3('Arduino projects', 'Arduino प्रोजेक्ट', 'Arduino projects'), // batch 7
+  grp_more: t3('More projects for this class', 'इस कक्षा के और प्रोजेक्ट', 'Is class ke aur projects'), // the class filter's project bank (main.js)
   grp_circuits: t3('Battery circuits', 'बैटरी सर्किट', 'Battery circuits'), // circuits.js
   grp_bank: t3('Project bank', 'प्रोजेक्ट बैंक', 'Project bank'), // factory.js
   clsAll: t3('All classes', 'सभी कक्षाएँ', 'Sabhi classes'), clsN: t3('Class {n}', 'कक्षा {n}', 'Class {n}'),
@@ -157,6 +158,8 @@ const CPP = {
   S_NEAR: t3(' Did you mean "{s}"?', ' क्या आपका मतलब "{s}" था?', ' Kya aapka matlab "{s}" tha?'),
   E_SERIAL: t3('Serial has no "{name}".', 'Serial में "{name}" नहीं होता।', 'Serial mein "{name}" nahi hota.'),
   E_SERVO: t3('A Servo has no "{name}". Use attach(), write() or read().', 'Servo में "{name}" नहीं होता। attach(), write() या read() लिखिए।', 'Servo mein "{name}" nahi hota. attach(), write() ya read() likhiye.'),
+  E_SERVO_ESP: t3('The Arduino Servo library does not work on the ESP32 (the real IDE stops here with "#error This library only supports boards with an AVR … processor"). Use #include <ESP32Servo.h>: it has the same Servo, attach() and write().', 'Arduino की Servo लाइब्रेरी ESP32 पर नहीं चलती (असली IDE यहीं "#error This library only supports boards with an AVR … processor" कहकर रुक जाता है)। #include <ESP32Servo.h> लिखिए: इसमें वही Servo, attach() और write() हैं।', 'Arduino ki Servo library ESP32 par nahi chalti (asli IDE yahin "#error This library only supports boards with an AVR … processor" kehkar ruk jaata hai). #include <ESP32Servo.h> likhiye: ismein wahi Servo, attach() aur write() hain.'),
+  E_ESPSERVO_ONLY: t3('ESP32Servo.h is only for the ESP32. On this board use #include <Servo.h>.', 'ESP32Servo.h सिर्फ़ ESP32 के लिए है। इस बोर्ड पर #include <Servo.h> लिखिए।', 'ESP32Servo.h sirf ESP32 ke liye hai. Is board par #include <Servo.h> likhiye.'),
   E_SERVO_INCLUDE: t3('To use a Servo, put #include <Servo.h> at the top of the sketch.', 'Servo के लिए स्केच में सबसे ऊपर #include <Servo.h> लिखिए।', 'Servo ke liye sketch mein sabse upar #include <Servo.h> likhiye.'),
   E_ARGS: t3('{name}() needs {min} value(s) in its brackets, but it has {got}.', '{name}() के ब्रैकेट में {min} मान चाहिए, पर {got} दिए गए हैं।', '{name}() ke bracket mein {min} value chahiye, par {got} diye gaye hain.'),
   E_ARGS_USER: t3('Your function {name}() takes {need} value(s), but it is given {got}.', 'आपका फ़ंक्शन {name}() {need} मान लेता है, पर {got} दिए गए हैं।', 'Aapka function {name}() {need} value leta hai, par {got} diye gaye hain.'),

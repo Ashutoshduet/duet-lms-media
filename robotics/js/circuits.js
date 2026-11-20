@@ -374,5 +374,80 @@ export function batchC(K, n0) {
     check: [...batChecks(K)],
     done: (S) => !!S.memRun.fixed });
 
+  // 20 ------------------------------------------------------------------------------------------------- conductor or insulator (batch 12)
+  const mat = (S) => (S.part('s1') ? S.part('s1').props.mat : '');
+  add({ id: 'c_conductor', cls: '1', view: 'wide', drawer: ['led', 'resistor', 'sample'],
+    title: t3('Conductor or insulator tester', 'चालक या कुचालक: जाँचने वाला सर्किट', 'Chaalak ya kuchaalak tester'),
+    goal: t3('Build a tester with a gap in its loop, put everyday things in the gap, and sort them: which ones let electricity through?', 'ऐसा सर्किट बनाइए जिसके रास्ते में एक खाली जगह हो, उसमें रोज़ की चीज़ें रखिए, और उन्हें छाँटिए: कौन-सी चीज़ें बिजली जाने देती हैं?', 'Aisa circuit banaiye jiske raaste mein ek khaali jagah ho, usmein roz ki cheezein rakhiye, aur unhe chhaantiye: kaun-si cheezein bijli jaane deti hain?'),
+    setup: { parts: [BAT], wires: BATW },
+    tick: (S) => { const m = mat(S), on = lit(S, 'led1'); if (!S.has('s1') || !S.conn('s1.1', 'bat.P') || !S.conn('s1.2', 'led1.A')) return; if (on) S.memRun['y_' + m] = true; else S.memRun['n_' + m] = true; },
+    steps: [
+      info('The battery is already wired to the rails. Our tester is an LED loop with a gap: two crocodile clips. Whatever we clip between them becomes part of the loop.', 'बैटरी पहले से रेलों से जुड़ी है। हमारा टेस्टर एक एलईडी वाला रास्ता है जिसमें एक खाली जगह है: दो मगरमच्छ क्लिप। उनके बीच जो भी लगाएँगे, वह रास्ते का हिस्सा बन जाएगा।', 'Battery pehle se rails se judi hai. Hamara tester ek LED wala raasta hai jismein ek khaali jagah hai: do crocodile clip. Unke beech jo bhi lagayenge, woh raaste ka hissa ban jaayega.'),
+      place(LED1, 'Put the red LED at the ghost, long leg on the right (column 23).', 'लाल एलईडी को नीली आकृति पर लगाइए, लंबा पैर दाईं तरफ़ (कॉलम 23)।', 'Laal LED ko neeli shape par lagaiye, lamba pair right taraf (column 23).'),
+      place(R1, 'Put the 220 Ω resistor from column 22 down to the − rail.', '220 Ω रेज़िस्टर को कॉलम 22 से नीचे − रेल तक लगाइए।', '220 Ω resistor ko column 22 se neeche − rail tak lagaiye.'),
+      place(P('s1', 'sample', { mat: 'spoon' }, 'c30', 0), 'Put the crocodile clips at the ghost (columns 30 and 34). They hold a steel spoon.', 'मगरमच्छ क्लिप को नीली आकृति पर लगाइए (कॉलम 30 और 34)। इनमें स्टील की चम्मच लगी है।', 'Crocodile clip ko neeli shape par lagaiye (column 30 aur 34). Inmein steel ki chammach lagi hai.'),
+      w('rail:tp', 's1.1', 'Wire the + rail to clip 1 (column 30).', '+ रेल को क्लिप 1 (कॉलम 30) से जोड़िए।', '+ rail ko clip 1 (column 30) se jodiye.'),
+      w('s1.2', 'led1.A', 'Wire clip 2 (column 34) to the LED\'s long leg (column 23).', 'क्लिप 2 (कॉलम 34) को एलईडी के लंबे पैर (कॉलम 23) से जोड़िए।', 'Clip 2 (column 34) ko LED ke lambe pair (column 23) se jodiye.'),
+      CHECK,
+      watch((S) => !!S.memRun.y_spoon, 'Look at the LED.', 'एलईडी को देखिए।', 'LED ko dekhiye.', 'It glows: the steel spoon lets the current through. It is a conductor.', 'यह चमक रही है: स्टील की चम्मच करंट को जाने देती है। यह चालक है।', 'Yeh chamak rahi hai: steel ki chammach current ko jaane deti hai. Yeh chaalak hai.'),
+      act((S) => !!S.memRun.n_ruler, 'Tap the clips and change the thing to the plastic ruler.', 'क्लिप को छूइए और चीज़ बदलकर प्लास्टिक का स्केल कीजिए।', 'Clip ko touch karo aur cheez badal kar plastic ka scale kijiye.', 'Dark. Plastic does not let electricity through: it is an insulator. That is why wires are covered in plastic.', 'अँधेरा। प्लास्टिक बिजली को नहीं जाने देता: यह कुचालक है। इसीलिए तारों पर प्लास्टिक चढ़ा होता है।', 'Andhera. Plastic bijli ko nahi jaane deta: yeh kuchaalak hai. Isiliye taaron par plastic chadha hota hai.'),
+      act((S) => !!S.memRun.y_coin, 'Now try the coin.', 'अब सिक्का आज़माइए।', 'Ab sikka aazmaiye.', 'It glows: coins are metal, and metals are conductors.', 'चमकती है: सिक्के धातु के होते हैं, और धातुएँ चालक होती हैं।', 'Chamakti hai: sikke dhaatu ke hote hain, aur dhaatuein chaalak hoti hain.'),
+      act((S) => !!S.memRun.n_eraser, 'Try the rubber eraser.', 'रबड़ आज़माइए।', 'Rubber aazmaiye.', 'Dark: rubber is an insulator. Electricians wear rubber gloves and boots.', 'अँधेरा: रबड़ कुचालक है। बिजली मिस्त्री रबड़ के दस्ताने और जूते पहनते हैं।', 'Andhera: rubber kuchaalak hai. Bijli mistri rubber ke dastaane aur joote pehente hain.'),
+      act((S) => !!S.memRun.y_pencil, 'A surprise: try the pencil, sharpened at both ends.', 'एक अचरज: दोनों तरफ़ से छिली पेंसिल आज़माइए।', 'Ek achraj: dono taraf se chhili pencil aazmaiye.', 'It glows! The "lead" inside is graphite, a form of carbon: not a metal, but it conducts.', 'चमकती है! अंदर का "लेड" ग्रेफ़ाइट है, कार्बन का एक रूप: धातु नहीं, फिर भी चालक।', 'Chamakti hai! Andar ka "lead" graphite hai, carbon ka ek roop: dhaatu nahi, phir bhi chaalak.'),
+      act((S) => !!S.memRun.n_stick, 'Last one: the wooden ice-cream stick.', 'आख़िरी: लकड़ी की आइसक्रीम स्टिक।', 'Aakhri: lakdi ki ice-cream stick.', 'Dark: dry wood is an insulator. Your table: conductors are the spoon, the coin and the pencil; insulators are the ruler, the eraser and the stick.', 'अँधेरा: सूखी लकड़ी कुचालक है। आपकी तालिका: चालक हैं चम्मच, सिक्का और पेंसिल; कुचालक हैं स्केल, रबड़ और स्टिक।', 'Andhera: sookhi lakdi kuchaalak hai. Aapki table: chaalak hain chammach, sikka aur pencil; kuchaalak hain scale, rubber aur stick.')],
+    check: [...batChecks(K), ...ledChecks(K), has('s1', t3('crocodile clips', 'मगरमच्छ क्लिप', 'crocodile clip')),
+      join('s1.1', 'bat.P', t3('Clip 1', 'क्लिप 1', 'Clip 1'), t3('the + rail', '+ रेल', '+ rail')), join('s1.2', 'led1.A', t3('Clip 2', 'क्लिप 2', 'Clip 2'), t3('the LED\'s long leg', 'एलईडी का लंबा पैर', 'LED ka lamba pair'))],
+    done: (S) => !!S.memRun.n_stick && !!S.memRun.y_pencil });
+
+  // 21 ------------------------------------------------------------------------------------------------- colour spinning top (batch 12)
+  add({ id: 'c_top', cls: '1', view: 'wide', drawer: ['motor', 'button'],
+    title: t3('Spinning top with a motor: Newton\'s colour disc', 'मोटर वाला लट्टू: न्यूटन की रंगीन चकती', 'Motor wala lattu: Newton ki rangeen chakti'),
+    goal: t3('Spin a seven-colour disc with a motor: fast, the colours mix into white. Let go, and it keeps spinning like a top.', 'मोटर से सात रंगों वाली चकती घुमाइए: तेज़ घूमने पर रंग मिलकर सफ़ेद हो जाते हैं। छोड़िए, तो यह लट्टू की तरह घूमती रहती है।', 'Motor se saat rangon wali chakti ghumaiye: tez ghoomne par rang milkar safed ho jaate hain. Chhodiye, to yeh lattu ki tarah ghoomti rehti hai.'),
+    setup: { parts: [BAT], wires: BATW },
+    tick: (S) => { const w = Math.abs(motorW(S, 'm1')); if (isPressed(S, 'b1') && w > 600) S.memRun.fast = true; if (S.memRun.fast && !isPressed(S, 'b1') && w > 60 && w < 600) S.memRun.coast = true; if (S.memRun.coast && w < 3) S.memRun.stop = true; },
+    steps: [
+      info('The battery is already wired to the rails. The disc has the seven colours of the rainbow: violet, indigo, blue, green, yellow, orange, red (VIBGYOR).', 'बैटरी पहले से रेलों से जुड़ी है। चकती पर इंद्रधनुष के सात रंग हैं: बैंगनी, जामुनी, नीला, हरा, पीला, नारंगी, लाल (VIBGYOR)।', 'Battery pehle se rails se judi hai. Chakti par indradhanush ke saat rang hain: baingani, jaamuni, neela, hara, peela, naarangi, laal (VIBGYOR).'),
+      place(F('m1', 'motor', { disc: true }, 95, 160, 0), 'Put the motor with the colour disc on the mat at the ghost.', 'रंगीन चकती वाली मोटर को मैट पर नीली आकृति पर रखिए।', 'Rangeen chakti wali motor ko mat par neeli shape par rakhiye.'),
+      w('m1.N', 'rail:tn', 'Wire the motor\'s black wire to the − rail.', 'मोटर के काले तार को − रेल से जोड़िए।', 'Motor ke kaale wire ko − rail se jodiye.'),
+      ...SWITCH,
+      w('b1.L3', 'm1.P', 'Wire the button\'s right leg (column 42) to the motor\'s red wire.', 'बटन के दाएँ पैर (कॉलम 42) को मोटर के लाल तार से जोड़िए।', 'Button ke right pair (column 42) ko motor ke laal wire se jodiye.'),
+      CHECK,
+      act((S) => !!S.memRun.fast, 'Press and hold the button, and watch the disc.', 'बटन दबाकर रखिए, और चकती को देखिए।', 'Button dabaakar rakhiye, aur chakti ko dekhiye.', 'The colours blur into a pale grey-white! Your eyes cannot follow so fast, so they mix the colours. White light is all the colours together: Isaac Newton showed this.', 'रंग धुँधले होकर हल्के सफ़ेद-भूरे हो जाते हैं! आपकी आँखें इतनी तेज़ी से पीछा नहीं कर पातीं, इसलिए रंगों को मिला देती हैं। सफ़ेद रोशनी सारे रंग एक साथ है: आइज़ैक न्यूटन ने यह दिखाया था।', 'Rang dhundhle hokar halke safed-bhoore ho jaate hain! Aapki aankhein itni tezi se peecha nahi kar paatin, isliye rangon ko mila deti hain. Safed roshni saare rang ek saath hai: Isaac Newton ne yeh dikhaya tha.'),
+      act((S) => !!S.memRun.coast, 'Let go.', 'छोड़ दीजिए।', 'Chhod dijiye.', 'No current now, but the heavy disc keeps spinning by itself, like a top: it stored energy. As it slows, the colours come back.', 'अब करंट नहीं, फिर भी भारी चकती लट्टू की तरह अपने-आप घूमती रहती है: इसने ऊर्जा जमा की थी। धीमी होने पर रंग लौट आते हैं।', 'Ab current nahi, phir bhi bhaari chakti lattu ki tarah apne aap ghoomti rehti hai: isne urja jama ki thi. Dheemi hone par rang laut aate hain.'),
+      watch((S) => !!S.memRun.stop, 'Wait for it to stop.', 'इसके रुकने का इंतज़ार कीजिए।', 'Iske rukne ka intezaar kijiye.', 'Stopped: friction slowly took its energy away, as it does with every top.', 'रुक गई: घर्षण ने धीरे-धीरे इसकी ऊर्जा ले ली, जैसे हर लट्टू के साथ होता है।', 'Ruk gayi: gharshan ne dheere-dheere iski urja le li, jaise har lattu ke saath hota hai.')],
+    check: [...batChecks(K), has('m1', t3('motor', 'मोटर', 'motor')), join('m1.N', 'bat.N', t3('The motor\'s black wire', 'मोटर का काला तार', 'Motor ka kaala wire'), t3('the − rail', '− रेल', '− rail')),
+      has('b1', t3('button', 'बटन', 'button')), join('b1.L1', 'bat.P', t3('The button\'s left leg', 'बटन का बायाँ पैर', 'Button ka left pair'), t3('the + rail', '+ रेल', '+ rail')),
+      join('b1.L3', 'm1.P', t3('The button\'s right leg', 'बटन का दायाँ पैर', 'Button ka right pair'), t3('the motor\'s red wire', 'मोटर का लाल तार', 'Motor ka laal wire'))],
+    done: (S) => !!S.memRun.stop });
+
+  // 22 ------------------------------------------------------------------------------------------------- steady-hand game (batch 12)
+  const bw = (S) => (S.part('bw') ? S.part('bw').state : {});
+  add({ id: 'c_steady', cls: '1', view: 'wide', drawer: ['buzzwire', 'abuzz'],
+    title: t3('Steady-hand game (no board)', 'स्थिर हाथ का खेल (बिना बोर्ड)', 'Steady haath ka khel (bina board)'),
+    goal: t3('The fairground buzz-wire game: guide a metal ring along a wavy wire. If they touch, the loop closes and the buzzer sounds.', 'मेले वाला बज़-वायर खेल: धातु के छल्ले को लहरदार तार पर आगे ले जाइए। अगर दोनों छू गए, तो रास्ता बंद होता है और बज़र बजता है।', 'Mele wala buzz-wire khel: dhaatu ke chhalle ko lehardaar wire par aage le jaiye. Agar dono chhoo gaye, to raasta band hota hai aur buzzer bajta hai.'),
+    setup: { parts: [BAT], wires: BATW },
+    tick: (S) => {
+      const s = bw(S), b = S.part('ab1'); if (!S.part('bw')) return;
+      if (s.touch && b && b.state.on) S.memRun.buzz = true;
+      if (S.memRun.buzz && (s.pos || 0) <= 0.02) { S.memRun.back = true; S.memRun.h0 = s.hits || 0; }
+      if (S.memRun.back && s.end && (s.hits || 0) === S.memRun.h0) S.memRun.clean = true;
+    },
+    steps: [
+      info('The battery is already wired to the rails. The wavy wire and the ring are the two ends of an open switch: when they touch, the loop is closed.', 'बैटरी पहले से रेलों से जुड़ी है। लहरदार तार और छल्ला एक खुले स्विच के दो सिरे हैं: जब वे छूते हैं, तो रास्ता बंद हो जाता है।', 'Battery pehle se rails se judi hai. Lehardaar wire aur chhalla ek khule switch ke do sire hain: jab woh chhoote hain, to raasta band ho jaata hai.'),
+      place(F('bw', 'buzzwire', {}, 95, 160, 0), 'Put the buzz-wire game on the mat at the ghost.', 'बज़-वायर खेल को मैट पर नीली आकृति पर रखिए।', 'Buzz-wire khel ko mat par neeli shape par rakhiye.'),
+      place(P('ab1', 'abuzz', {}, 'e30', 0), 'Put the buzzer at the ghost: its + leg in column 30.', 'बज़र को नीली आकृति पर लगाइए: इसका + पैर कॉलम 30 में।', 'Buzzer ko neeli shape par lagaiye: iska + pair column 30 mein.'),
+      w('ab1.N', 'rail:tn', 'Wire the buzzer\'s − leg (column 33) to the − rail.', 'बज़र के − पैर (कॉलम 33) को − रेल से जोड़िए।', 'Buzzer ke − pair (column 33) ko − rail se jodiye.'),
+      w('rail:tp', 'bw.W', 'Wire the + rail to the game\'s wire terminal (the left one).', '+ रेल को खेल के तार वाले टर्मिनल (बाएँ वाले) से जोड़िए।', '+ rail ko khel ke wire wale terminal (left wale) se jodiye.'),
+      w('bw.R', 'ab1.P', 'Wire the ring\'s terminal (the right one) to the buzzer\'s + leg (column 30).', 'छल्ले वाले टर्मिनल (दाएँ वाले) को बज़र के + पैर (कॉलम 30) से जोड़िए।', 'Chhalle wale terminal (right wale) ko buzzer ke + pair (column 30) se jodiye.'),
+      CHECK,
+      act((S) => !!S.memRun.buzz, 'Hurry: drag the ring quickly through the first bend (or slide it fast in its panel).', 'जल्दी कीजिए: छल्ले को पहले मोड़ से तेज़ी से खींचिए (या उसके पैनल में तेज़ी से खिसकाइए)।', 'Jaldi kijiye: chhalle ko pehle mod se tezi se kheenchiye (ya uske panel mein tezi se khiskaiye).', 'Bzzz! The ring hit the wire and closed the loop.', 'बज़्ज़्! छल्ला तार से टकराया और रास्ता बंद हो गया।', 'Bzzz! Chhalla wire se takraaya aur raasta band ho gaya.'),
+      act((S) => !!S.memRun.back, 'Put the ring back on the start rest (all the way to the left).', 'छल्ले को वापस शुरू वाले टिकाव पर रखिए (बिल्कुल बाईं तरफ़)।', 'Chhalle ko wapas shuru wale tikaav par rakhiye (bilkul left taraf).', 'Quiet: the red tape there is an insulator, so resting the ring on it never buzzes.', 'शांति: वहाँ लगा लाल टेप कुचालक है, इसलिए छल्ला उस पर रखने से कभी नहीं बजता।', 'Shaanti: wahan laga laal tape kuchaalak hai, isliye chhalla us par rakhne se kabhi nahi bajta.'),
+      act((S) => !!S.memRun.clean, 'Now slowly and steadily, all the way to the end rest on the right, without a buzz.', 'अब धीरे-धीरे और स्थिर हाथ से, बिना बज़ के, दाईं तरफ़ वाले आख़िरी टिकाव तक जाइए।', 'Ab dheere-dheere aur steady haath se, bina buzz ke, right taraf wale aakhri tikaav tak jaiye.', 'You made it with no buzz! A steady hand wins. Surgeons and electricians train their hands like this.', 'आप बिना बज़ के पहुँच गए! स्थिर हाथ जीतता है। सर्जन और बिजली मिस्त्री अपने हाथों को ऐसे ही साधते हैं।', 'Aap bina buzz ke pahunch gaye! Steady haath jeetta hai. Surgeon aur bijli mistri apne haathon ko aise hi saadhte hain.')],
+    check: [...batChecks(K), has('bw', t3('buzz-wire game', 'बज़-वायर खेल', 'buzz-wire khel')), has('ab1', t3('buzzer', 'बज़र', 'buzzer')),
+      join('ab1.N', 'bat.N', t3('The buzzer\'s − leg', 'बज़र का − पैर', 'Buzzer ka − pair'), t3('the − rail', '− रेल', '− rail')),
+      join('bw.W', 'bat.P', t3('The wire terminal', 'तार वाला टर्मिनल', 'Wire wala terminal'), t3('the + rail', '+ रेल', '+ rail')),
+      join('bw.R', 'ab1.P', t3('The ring\'s terminal', 'छल्ले वाला टर्मिनल', 'Chhalle wala terminal'), t3('the buzzer\'s + leg', 'बज़र का + पैर', 'Buzzer ka + pair'))],
+    done: (S) => !!S.memRun.clean });
+
   return L;
 }

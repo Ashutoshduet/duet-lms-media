@@ -148,7 +148,9 @@ function onPin(m, p, pinId, gpio) { const L = labOf(m); if (!L || !p.N || gpio <
 // the I2C bus: a powered module at this address with SDA on A4 and SCL on A5 (or the SDA / SCL pins by AREF)
 function i2c(m, type, addr) {
   const L = labOf(m); if (!L) return null;
-  for (const p of L.parts) if (p.type === type && p.state.powered && (p.props.addr | 0) === (addr | 0) && L.conn(p.ep.SDA, 'B:A4') && L.conn(p.ep.SCL, 'B:A5')) return p;
+  const C = (L.def && L.def.id !== 'uno' && L.def.consts) || {}; // (batch 12) a board with its own I2C pins (the ESP32: SDA = GPIO 21, SCL = GPIO 22)
+  const onBus = (p) => (L.conn(p.ep.SDA, 'B:A4') && L.conn(p.ep.SCL, 'B:A5')) || (C.SDA !== undefined && onPin(m, p, 'SDA', C.SDA) && onPin(m, p, 'SCL', C.SCL));
+  for (const p of L.parts) if (p.type === type && p.state.powered && (p.props.addr | 0) === (addr | 0) && onBus(p)) return p;
   return null;
 }
 const busy = (m, us) => { m.t += us; };

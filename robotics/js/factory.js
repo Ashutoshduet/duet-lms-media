@@ -93,6 +93,18 @@ OUT.pump = {
   isOn: (S) => ((S.part('pump') && S.part('pump').state.flow) || 0) > 5,
 };
 const pad = (s) => (s + ' '.repeat(16)).slice(0, 16);
+// (batch 12) the 0.96" OLED: every job that warns on the LCD can also warn on it, in big letters
+const oledLines = (title, msg) => ['oled.clearDisplay();', 'oled.setTextSize(1);', 'oled.setCursor(0, 0);', `oled.println("${title.slice(0, 21)}");`, 'oled.setTextSize(2);           // big letters: 10 to a line', 'oled.setCursor(0, 24);', `oled.println("${msg}");`, 'oled.display();               // send the picture to the screen'];
+OUT.oled = {
+  name: t3('OLED screen', 'ओएलईडी स्क्रीन', 'OLED screen'), pin: 'A4/A5',
+  parts: [P('oled', 'oled', {}, 'e20', 0)], wires: [['H:a20', 'H:tn20'], ['H:a21', 'H:tp21'], ['H:a22', 'A5'], ['H:a23', 'A4']],
+  ready: t3('The OLED screen (128 × 64 dots) is already wired: GND, VCC (5 V), SCL to A5, SDA to A4. It is on the I2C bus at address 0x3C.', 'ओएलईडी स्क्रीन (128 × 64 बिंदु) पहले से लगी है: GND, VCC (5 V), SCL, A5 पर, SDA, A4 पर। यह I2C पर 0x3C पते पर है।', 'OLED screen (128 × 64 dots) pehle se lagi hai: GND, VCC (5 V), SCL A5 par, SDA A4 par. Yeh I2C par 0x3C address par hai.'),
+  onWords: t3('the OLED shows the warning in big letters', 'ओएलईडी पर बड़े अक्षरों में चेतावनी आती है', 'OLED par bade aksharon mein warning aati hai'),
+  inc: ['#include <Wire.h>', '#include <Adafruit_GFX.h>', '#include <Adafruit_SSD1306.h>'], decl: ['Adafruit_SSD1306 oled(128, 64, &Wire, -1);   // the OLED (no reset pin)'],
+  setup: ['oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);', 'oled.setTextColor(SSD1306_WHITE);'],
+  on: (j) => oledLines(j.title.en, j.on), off: (j) => oledLines(j.title.en, j.off),
+  isOn: (S, j) => { const p = S.part('oled'); return !!p && !!p.state.on && String(p.state.text || '').includes(j.on); },
+};
 
 // ------------------------------------------------------------------ sensors (the student places and wires them)
 // analog: the sketch compares a reading with `limit`; the edit makes it more sensitive (l0 -> l1) and the student proves
@@ -309,7 +321,20 @@ EOUT.relay = Object.assign({}, OUT.relay, { pin: 33, wires: [['T:lamp:A', 'T:rl1
 EOUT.pump = Object.assign({}, OUT.pump, { pin: 33, wires: [['T:pump:N', 'T:bat:N'], ['T:bat:P', 'T:rl1:COM'], ['T:rl1:NO', 'T:pump:P'], ['T:rl1:S', 'H:a12'], ['T:rl1:VCC', 'H:tp20'], ['T:rl1:GND', 'H:tn20']],
   ready: t3('The pump is already wired with its own 6 V battery through a relay on GPIO 33.', 'पंप पहले से अपनी 6 V बैटरी और GPIO 33 के रिले से जुड़ा है।', 'Pump pehle se apni 6 V battery aur GPIO 33 ke relay se juda hai.'),
   decl: ['const int relay = 33;       // GPIO 33: the pump\'s relay, HIGH = pump on'] });
-// (the LCD on the ESP32 waits for the simulator's I2C on GPIO 21/22)
+// (batch 12; the module covers rows b–i, so its wires start in row a or j) the RGB LED, the servo (ESP32Servo.h: the Arduino Servo library does not build for the ESP32) and the I2C LCD
+// on GPIO 21 (SDA) and 22 (SCL), powered from VIN (5 V) as the LCD's backpack needs
+const rgbAt = (r, g, b) => ({ parts: [P('rr', 'resistor', { ohms: 220 }, 'd30', 1), P('rg', 'resistor', { ohms: 100 }, 'd32', 1), P('rb', 'resistor', { ohms: 100 }, 'd33', 1), P('rgb1', 'rgb', {}, 'e30', 0)],
+  wires: [[r, 'H:j30'], [g, 'H:j32'], [b, 'H:j33'], ['H:a31', 'H:tn25']] });
+EOUT.rgb = Object.assign({}, OUT.rgb, rgbAt('H:a11', 'H:a10', 'H:a12'), { pin: '25/26/33',
+  ready: t3('The RGB LED is already wired: red to GPIO 25, green to GPIO 26, blue to GPIO 33, each through its resistor (100 Ω for green and blue: at 3.3 V they need a smaller one). Green means all is well.', 'RGB एलईडी पहले से लगी है: लाल GPIO 25, हरा GPIO 26, नीला GPIO 33 पर, हर एक अपने रेज़िस्टर से होकर (हरे और नीले के लिए 100 Ω: 3.3 V पर उन्हें छोटा रेज़िस्टर चाहिए)। हरा मतलब सब ठीक।', 'RGB LED pehle se lagi hai: laal GPIO 25, hara GPIO 26, neela GPIO 33 par, har ek apne resistor se hokar (hare aur neele ke liye 100 Ω: 3.3 V par unhe chhota resistor chahiye). Hara matlab sab theek.'),
+  decl: ['const int red = 25;    // the RGB LED\'s three colours', 'const int green = 26;', 'const int blue = 33;'] });
+EOUT.servo = Object.assign({}, OUT.servo, { pin: 13, wires: [['T:sv1:GND', 'H:tn40'], ['T:sv1:VP', 'H:tp40'], ['T:sv1:SIG', 'H:a6']],
+  ready: t3('The servo is already wired: brown to −, red to the back + rail (5 V from VIN), orange (signal) to GPIO 13. On the ESP32 the servo library is ESP32Servo.h.', 'सर्वो पहले से लगा है: भूरा − पर, लाल पीछे वाली + रेल (VIN से 5 V) पर, नारंगी (सिग्नल) GPIO 13 पर। ESP32 पर सर्वो की लाइब्रेरी ESP32Servo.h है।', 'Servo pehle se laga hai: brown − par, laal peeche wali + rail (VIN se 5 V) par, orange (signal) GPIO 13 par. ESP32 par servo ki library ESP32Servo.h hai.'),
+  inc: ['#include <ESP32Servo.h>'], decl: ['Servo arm;                  // the servo on GPIO 13'], setup: ['arm.attach(13);', 'arm.write(0);'] });
+EOUT.oled = Object.assign({}, OUT.oled, { pin: '21/22', parts: [P('oled', 'oled', {}, 'e22', 0)], wires: [['H:a22', 'H:tn22'], ['H:a23', 'H:bp23'], ['H:a24', 'H:j17'], ['H:a25', 'H:j14']],
+  ready: t3('The OLED screen (128 × 64 dots) is already wired: GND, VCC to the front + rail (3.3 V: its I2C lines then stay at the ESP32\'s own 3.3 V), SCL to GPIO 22, SDA to GPIO 21. Address 0x3C.', 'ओएलईडी स्क्रीन (128 × 64 बिंदु) पहले से लगी है: GND, VCC आगे वाली + रेल (3.3 V: तब इसकी I2C लाइनें ESP32 के अपने 3.3 V पर रहती हैं) पर, SCL GPIO 22 पर, SDA GPIO 21 पर। पता 0x3C।', 'OLED screen (128 × 64 dots) pehle se lagi hai: GND, VCC aage wali + rail (3.3 V: tab iski I2C lines ESP32 ke apne 3.3 V par rehti hain) par, SCL GPIO 22 par, SDA GPIO 21 par. Address 0x3C.') });
+EOUT.lcd = Object.assign({}, OUT.lcd, { pin: '21/22', wires: [['T:lcd:GND', 'H:tn10'], ['T:lcd:VCC', 'H:tp10'], ['T:lcd:SDA', 'H:j14'], ['T:lcd:SCL', 'H:j17']],
+  ready: t3('The 16×2 LCD is already wired: VCC to the back + rail (5 V from VIN), SDA to GPIO 21, SCL to GPIO 22: the ESP32\'s I2C pins.', '16×2 एलसीडी पहले से लगी है: VCC पीछे वाली + रेल (VIN से 5 V) पर, SDA GPIO 21 पर, SCL GPIO 22 पर: ये ESP32 के I2C पिन हैं।', '16×2 LCD pehle se lagi hai: VCC peeche wali + rail (VIN se 5 V) par, SDA GPIO 21 par, SCL GPIO 22 par: yeh ESP32 ke I2C pin hain.') });
 
 // ------------------------------------------------------------------ the same jobs on the Raspberry Pi Pico, in MicroPython
 // Rails: back + = VBUS (5 V), back − = GND; front − = GND. 3.3 V parts take the Pico's 3V3 pin; ADC on GP26 (0-65535).
@@ -351,7 +376,13 @@ PIN.soil = Object.assign({}, IN.soil, {
 POUT.led = Object.assign({}, OUT.led, { pin: 'GP15', parts: [P('led1', 'led', { color: 'red' }, 'f31', 0), P('r1', 'resistor', { ohms: 330 }, 'j31', 1)], wires: [['H:i21', 'H:j32']],
   ready: t3('The red LED and its 330 Ω resistor are already wired to GP15.', 'लाल एलईडी और उसका 330 Ω रेज़िस्टर पहले से GP15 पर लगे हैं।', 'Laal LED aur uska 330 Ω resistor pehle se GP15 par lage hain.'),
   py: { decl: ['led = Pin(15, Pin.OUT)      # GP15: the LED'], on: ['led.value(1)'], off: ['led.value(0)'] } });
-// (a buzzer on the Pico waits for the simulator to sound PWM at audio frequencies)
+// (batch 12) the buzzer on PWM (freq() is the note, duty_u16() switches it on) and the RGB LED
+POUT.buzzer = Object.assign({}, OUT.buzzer, { pin: 'GP18', parts: [P('bz1', 'buzzer', {}, 'e30', 0)], wires: [['H:b18', 'H:a30'], ['H:a33', 'H:tn27']],
+  ready: t3('The buzzer is already wired to GP18. The Pico plays its note with PWM: freq() is the note, duty_u16() switches it on and off.', 'बज़र पहले से GP18 पर लगा है। Pico इसका सुर PWM से बजाता है: freq() सुर है, duty_u16() उसे चालू और बंद करता है।', 'Buzzer pehle se GP18 par laga hai. Pico iska sur PWM se bajata hai: freq() sur hai, duty_u16() use on aur off karta hai.'),
+  py: { decl: ['buzzer = PWM(Pin(18))       # GP18: the piezo buzzer', 'buzzer.freq(2000)           # its note: 2000 Hz', 'buzzer.duty_u16(0)          # silent for now'], on: ['buzzer.duty_u16(32768)      # half on, half off: it sounds'], off: ['buzzer.duty_u16(0)'] } });
+POUT.rgb = Object.assign({}, OUT.rgb, rgbAt('H:b18', 'H:b17', 'H:b16'), { pin: 'GP18/19/20',
+  ready: t3('The RGB LED is already wired: red to GP18, green to GP19, blue to GP20, each through its resistor (100 Ω for green and blue: at 3.3 V they need a smaller one). Green means all is well.', 'RGB एलईडी पहले से लगी है: लाल GP18, हरा GP19, नीला GP20 पर, हर एक अपने रेज़िस्टर से होकर (हरे और नीले के लिए 100 Ω: 3.3 V पर उन्हें छोटा रेज़िस्टर चाहिए)। हरा मतलब सब ठीक।', 'RGB LED pehle se lagi hai: laal GP18, hara GP19, neela GP20 par, har ek apne resistor se hokar (hare aur neele ke liye 100 Ω: 3.3 V par unhe chhota resistor chahiye). Hara matlab sab theek.'),
+  py: { decl: ['red = Pin(18, Pin.OUT)      # GP18: the RGB LED\'s red', 'green = Pin(19, Pin.OUT)    # GP19: its green', 'blue = Pin(20, Pin.OUT)     # GP20: its blue (not used here)'], on: ['red.value(1)                # red: warning', 'green.value(0)'], off: ['red.value(0)', 'green.value(1)              # green: all well'] } });
 POUT.servo = Object.assign({}, OUT.servo, { pin: 'GP16', wires: [['T:sv1:GND', 'H:tn40'], ['T:sv1:VP', 'H:tp40'], ['T:sv1:SIG', 'H:a21']],
   ready: t3('The servo is already wired: brown to −, red to + (5 V), orange (signal) to GP16.', 'सर्वो पहले से लगा है: भूरा − पर, लाल + (5 V) पर, नारंगी (सिग्नल) GP16 पर।', 'Servo pehle se laga hai: brown − par, laal + (5 V) par, orange (signal) GP16 par.'),
   py: { decl: ['arm = PWM(Pin(16))          # GP16: the servo', 'arm.freq(50)                # a pulse every 20 ms', 'arm.duty_u16(1638)          # 0.5 ms pulse: 0°'], on: ['arm.duty_u16(4915)          # 1.5 ms pulse: 90°'], off: ['arm.duty_u16(1638)'] } });
@@ -579,7 +610,7 @@ const cmp = (ik, v, lim) => ({ pot: v > lim, ldr: v < lim, ldrb: v > lim, lm35: 
 // ------------------------------------------------------------------ all of them
 export function batchF(K, n0) {
   const out = []; let n = n0;
-  for (const board of ['uno', 'esp32', 'pico']) for (const job of JOBS) for (const ok of job.outs) {
+  for (const board of ['uno', 'esp32', 'pico']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : [])]) { // (batch 12: every LCD job on the OLED too)
     const T = board === 'esp32' ? [EIN, EOUT] : board === 'pico' ? [PIN, POUT] : [IN, OUT];
     if (!T[0][job.inp] || !T[1][ok]) continue;
     if ((board === 'uno' && HAND_MADE.has(job.key + ':' + ok)) || (OUT[ok].clash || []).includes(job.inp)) continue;

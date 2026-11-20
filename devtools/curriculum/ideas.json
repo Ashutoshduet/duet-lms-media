@@ -1,5 +1,25 @@
 [
 {
+"id": "live-f_bookdrop_buzzer_pico",
+"title": "Library book-drop alert: IR obstacle sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bookdrop_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bookdrop_led_pico",
 "title": "Library book-drop alert: IR obstacle sensor → LED (Pico)",
 "family": "factory",
@@ -43,6 +63,47 @@
 "note": null
 },
 {
+"id": "live-f_piggybank_buzzer_pico",
+"title": "Piggy bank coin chime: IR obstacle sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_piggybank_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_occupied_rgb_pico",
+"title": "Washroom occupied light: PIR motion sensor → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_occupied_rgb_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_corridor_relay_pico",
 "title": "Corridor night light: PIR motion sensor → relay and lamp (Pico)",
 "family": "factory",
@@ -81,6 +142,46 @@
 "level": 9,
 "theme": "bank",
 "live": "f_corridor_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_afterhours_buzzer_pico",
+"title": "Shop after-hours alarm: PIR motion sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_afterhours_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_treeguard_buzzer_pico",
+"title": "Tree sapling water reminder: soil moisture sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_treeguard_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -168,6 +269,89 @@
 "note": null
 },
 {
+"id": "live-f_engine_rgb_pico",
+"title": "Engine overheat light: temperature sensor LM35 → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_engine_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkchill_rgb_pico",
+"title": "Milk chiller alarm: temperature sensor LM35 → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkchill_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkchill_buzzer_pico",
+"title": "Milk chiller alarm: temperature sensor LM35 → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_milkchill_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_darkroom_buzzer_pico",
+"title": "Darkroom light alarm: light sensor (LDR) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_darkroom_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_solarpump_pump_pico",
 "title": "Solar-time water pump: light sensor (LDR) → water pump (Pico)",
 "family": "factory",
@@ -213,6 +397,27 @@
 "note": null
 },
 {
+"id": "live-f_lighthouse_rgb_pico",
+"title": "Lighthouse lamp: light sensor (LDR) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"ldr"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_lighthouse_rgb_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tunnel_relay_pico",
 "title": "Car headlights in a tunnel: light sensor (LDR) → relay and lamp (Pico)",
 "family": "factory",
@@ -252,6 +457,47 @@
 "level": 9,
 "theme": "bank",
 "live": "f_tunnel_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panelshade_buzzer_pico",
+"title": "Solar panel shade alarm: light sensor (LDR) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_panelshade_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftcall_buzzer_pico",
+"title": "Lift call button: push button → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftcall_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -318,6 +564,26 @@
 "note": null
 },
 {
+"id": "live-f_mailbox_buzzer_pico",
+"title": "Letter-box alert: IR obstacle sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_mailbox_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_mailbox_led_pico",
 "title": "Letter-box alert: IR obstacle sensor → LED (Pico)",
 "family": "factory",
@@ -380,6 +646,68 @@
 "note": null
 },
 {
+"id": "live-f_farmgate_rgb_pico",
+"title": "Farm gate animal alert: PIR motion sensor → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_farmgate_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_farmgate_buzzer_pico",
+"title": "Farm gate animal alert: PIR motion sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_farmgate_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bathlight_rgb_pico",
+"title": "Bathroom light that switches off itself: PIR motion sensor → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bathlight_rgb_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathlight_relay_pico",
 "title": "Bathroom light that switches off itself: PIR motion sensor → relay and lamp (Pico)",
 "family": "factory",
@@ -423,6 +751,27 @@
 "note": null
 },
 {
+"id": "live-f_fishtank_rgb_pico",
+"title": "Fish tank heater: temperature sensor LM35 → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fishtank_rgb_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishtank_relay_pico",
 "title": "Fish tank heater: temperature sensor LM35 → relay and heater lamp (Pico)",
 "family": "factory",
@@ -444,6 +793,67 @@
 "note": null
 },
 {
+"id": "live-f_teacool_buzzer_pico",
+"title": "Tea is cool enough: temperature sensor LM35 → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_teacool_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batteryhot_rgb_pico",
+"title": "Battery overheat warning: temperature sensor LM35 → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_batteryhot_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batteryhot_buzzer_pico",
+"title": "Battery overheat warning: temperature sensor LM35 → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"lm35"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_batteryhot_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_serverroom_relay_pico",
 "title": "Computer lab overheat alarm: temperature sensor LM35 → relay and fan (Pico)",
 "family": "factory",
@@ -461,6 +871,110 @@
 "level": 9,
 "theme": "bank",
 "live": "f_serverroom_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_serverroom_rgb_pico",
+"title": "Computer lab overheat alarm: temperature sensor LM35 → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_serverroom_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_serverroom_buzzer_pico",
+"title": "Computer lab overheat alarm: temperature sensor LM35 → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_serverroom_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drawer_rgb_pico",
+"title": "Locker drawer opened alarm: light sensor (LDR) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"ldr"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_drawer_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drawer_buzzer_pico",
+"title": "Locker drawer opened alarm: light sensor (LDR) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_drawer_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikelamp_buzzer_pico",
+"title": "Bicycle lamp reminder: light sensor (LDR) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bikelamp_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -507,6 +1021,27 @@
 "note": null
 },
 {
+"id": "live-f_shopsign_rgb_pico",
+"title": "Shop sign that lights at dusk: light sensor (LDR) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"ldr"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shopsign_rgb_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_shopsign_relay_pico",
 "title": "Shop sign that lights at dusk: light sensor (LDR) → relay and lamp (Pico)",
 "family": "factory",
@@ -546,6 +1081,27 @@
 "level": 9,
 "theme": "bank",
 "live": "f_fanmark_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_rgb_pico",
+"title": "Gate call for the watchman: push button → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_watchman_rgb_pico",
 "rule": null,
 "note": null
 },
@@ -611,6 +1167,68 @@
 "level": 9,
 "theme": "bank",
 "live": "f_bottle_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_soillamp_rgb_pico",
+"title": "Soil health lamp: soil moisture sensor → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_soillamp_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_frost_rgb_pico",
+"title": "Frost alarm for crops: temperature sensor LM35 → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_frost_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_frost_buzzer_pico",
+"title": "Frost alarm for crops: temperature sensor LM35 → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_frost_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -700,6 +1318,48 @@
 "note": null
 },
 {
+"id": "live-f_growlight_rgb_pico",
+"title": "Grow light for plants: light sensor (LDR) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"ldr"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_growlight_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heaterset_rgb_pico",
+"title": "Heater set-point knob: knob (potentiometer) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"pot"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_heaterset_rgb_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_heaterset_relay_pico",
 "title": "Heater set-point knob: knob (potentiometer) → relay and heater lamp (Pico)",
 "family": "factory",
@@ -717,6 +1377,47 @@
 "level": 9,
 "theme": "bank",
 "live": "f_heaterset_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panic_rgb_pico",
+"title": "Panic button for a shop: push button → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_panic_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panic_buzzer_pico",
+"title": "Panic button for a shop: push button → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_panic_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -868,6 +1569,27 @@
 "note": null
 },
 {
+"id": "live-f_fridge_buzzer_pico",
+"title": "Cupboard light checker: light sensor (LDR) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_fridge_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_steer_servo_pico",
 "title": "Knob steering: knob (potentiometer) → servo (Pico)",
 "family": "factory",
@@ -884,6 +1606,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_steer_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankmark_buzzer_pico",
+"title": "Tank level alarm (float knob): knob (potentiometer) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"pot"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tankmark_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -947,6 +1689,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_nurse_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_buzzer_pico",
+"title": "Hospital bed call button: push button → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"button"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nurse_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -1033,6 +1795,66 @@
 "note": null
 },
 {
+"id": "live-f_touchless_oled_esp",
+"title": "Contactless doorbell: IR obstacle sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_touchless_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchless_lcd_esp",
+"title": "Contactless doorbell: IR obstacle sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_touchless_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchless_buzzer_esp",
+"title": "Contactless doorbell: IR obstacle sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_touchless_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bookdrop_buzzer_esp",
 "title": "Library book-drop alert: IR obstacle sensor → buzzer (ESP32)",
 "family": "factory",
@@ -1096,6 +1918,46 @@
 "note": null
 },
 {
+"id": "live-f_piggybank_oled_esp",
+"title": "Piggy bank coin chime: IR obstacle sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_piggybank_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_piggybank_lcd_esp",
+"title": "Piggy bank coin chime: IR obstacle sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_piggybank_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_piggybank_buzzer_esp",
 "title": "Piggy bank coin chime: IR obstacle sensor → buzzer (ESP32)",
 "family": "factory",
@@ -1112,6 +1974,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_piggybank_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_occupied_rgb_esp",
+"title": "Washroom occupied light: PIR motion sensor → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_occupied_rgb_esp",
 "rule": null,
 "note": null
 },
@@ -1158,6 +2041,46 @@
 "note": null
 },
 {
+"id": "live-f_afterhours_oled_esp",
+"title": "Shop after-hours alarm: PIR motion sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_afterhours_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_afterhours_lcd_esp",
+"title": "Shop after-hours alarm: PIR motion sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_afterhours_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_afterhours_buzzer_esp",
 "title": "Shop after-hours alarm: PIR motion sensor → buzzer (ESP32)",
 "family": "factory",
@@ -1174,6 +2097,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_afterhours_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_treeguard_oled_esp",
+"title": "Tree sapling water reminder: soil moisture sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_treeguard_oled_esp",
 "rule": null,
 "note": null
 },
@@ -1198,6 +2141,87 @@
 "note": null
 },
 {
+"id": "live-f_treeguard_lcd_esp",
+"title": "Tree sapling water reminder: soil moisture sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_treeguard_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_oled_esp",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_rainsoon_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_rgb_esp",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_rainsoon_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_lcd_esp",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_rainsoon_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_cattlemist_pump_esp",
 "title": "Cattle shed mist cooler: DHT11 sensor (temperature) → water pump (ESP32)",
 "family": "factory",
@@ -1216,6 +2240,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_cattlemist_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_frostcover_servo_esp",
+"title": "Frost cover for seedlings: temperature sensor LM35 → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_frostcover_servo_esp",
 "rule": null,
 "note": null
 },
@@ -1283,6 +2327,88 @@
 "note": null
 },
 {
+"id": "live-f_engine_rgb_esp",
+"title": "Engine overheat light: temperature sensor LM35 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_engine_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkchill_oled_esp",
+"title": "Milk chiller alarm: temperature sensor LM35 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_milkchill_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkchill_rgb_esp",
+"title": "Milk chiller alarm: temperature sensor LM35 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_milkchill_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkchill_lcd_esp",
+"title": "Milk chiller alarm: temperature sensor LM35 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_milkchill_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_milkchill_buzzer_esp",
 "title": "Milk chiller alarm: temperature sensor LM35 → buzzer (ESP32)",
 "family": "factory",
@@ -1299,6 +2425,48 @@
 "level": 8,
 "theme": "bank",
 "live": "f_milkchill_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_darkroom_oled_esp",
+"title": "Darkroom light alarm: light sensor (LDR) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_darkroom_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_darkroom_lcd_esp",
+"title": "Darkroom light alarm: light sensor (LDR) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_darkroom_lcd_esp",
 "rule": null,
 "note": null
 },
@@ -1369,6 +2537,27 @@
 "note": null
 },
 {
+"id": "live-f_lighthouse_rgb_esp",
+"title": "Lighthouse lamp: light sensor (LDR) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ldr"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_lighthouse_rgb_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tunnel_relay_esp",
 "title": "Car headlights in a tunnel: light sensor (LDR) → relay and lamp (ESP32)",
 "family": "factory",
@@ -1408,6 +2597,48 @@
 "level": 8,
 "theme": "bank",
 "live": "f_tunnel_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panelshade_oled_esp",
+"title": "Solar panel shade alarm: light sensor (LDR) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_panelshade_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panelshade_lcd_esp",
+"title": "Solar panel shade alarm: light sensor (LDR) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_panelshade_lcd_esp",
 "rule": null,
 "note": null
 },
@@ -1515,6 +2746,87 @@
 "note": null
 },
 {
+"id": "live-f_booksdamp_rgb_esp",
+"title": "Library damp alarm: DHT11 sensor (humidity) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_booksdamp_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_oled_esp",
+"title": "Turnstile gate: IR obstacle sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_turnstile_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_lcd_esp",
+"title": "Turnstile gate: IR obstacle sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_turnstile_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_servo_esp",
+"title": "Turnstile gate: IR obstacle sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_turnstile_servo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_handdryer_relay_esp",
 "title": "Hand dryer: IR obstacle sensor → relay and fan (ESP32)",
 "family": "factory",
@@ -1577,6 +2889,26 @@
 "note": null
 },
 {
+"id": "live-f_exhibit_servo_esp",
+"title": "Museum exhibit that wakes up: PIR motion sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_exhibit_servo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_exhibit_led_esp",
 "title": "Museum exhibit that wakes up: PIR motion sensor → LED (ESP32)",
 "family": "factory",
@@ -1594,6 +2926,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_exhibit_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_farmgate_rgb_esp",
+"title": "Farm gate animal alert: PIR motion sensor → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_farmgate_rgb_esp",
 "rule": null,
 "note": null
 },
@@ -1618,6 +2971,27 @@
 "note": null
 },
 {
+"id": "live-f_bathlight_rgb_esp",
+"title": "Bathroom light that switches off itself: PIR motion sensor → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bathlight_rgb_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathlight_relay_esp",
 "title": "Bathroom light that switches off itself: PIR motion sensor → relay and lamp (ESP32)",
 "family": "factory",
@@ -1635,6 +3009,46 @@
 "level": 9,
 "theme": "bank",
 "live": "f_bathlight_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_paddy_oled_esp",
+"title": "Paddy field water keeper: soil moisture sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_paddy_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_paddy_lcd_esp",
+"title": "Paddy field water keeper: soil moisture sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_paddy_lcd_esp",
 "rule": null,
 "note": null
 },
@@ -1661,6 +3075,27 @@
 "note": null
 },
 {
+"id": "live-f_fishtank_rgb_esp",
+"title": "Fish tank heater: temperature sensor LM35 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fishtank_rgb_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishtank_relay_esp",
 "title": "Fish tank heater: temperature sensor LM35 → relay and heater lamp (ESP32)",
 "family": "factory",
@@ -1682,6 +3117,46 @@
 "note": null
 },
 {
+"id": "live-f_teacool_oled_esp",
+"title": "Tea is cool enough: temperature sensor LM35 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_teacool_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teacool_lcd_esp",
+"title": "Tea is cool enough: temperature sensor LM35 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_teacool_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_teacool_buzzer_esp",
 "title": "Tea is cool enough: temperature sensor LM35 → buzzer (ESP32)",
 "family": "factory",
@@ -1698,6 +3173,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_teacool_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batteryhot_rgb_esp",
+"title": "Battery overheat warning: temperature sensor LM35 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_batteryhot_rgb_esp",
 "rule": null,
 "note": null
 },
@@ -1743,6 +3239,27 @@
 "note": null
 },
 {
+"id": "live-f_serverroom_rgb_esp",
+"title": "Computer lab overheat alarm: temperature sensor LM35 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_serverroom_rgb_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_serverroom_buzzer_esp",
 "title": "Computer lab overheat alarm: temperature sensor LM35 → buzzer (ESP32)",
 "family": "factory",
@@ -1759,6 +3276,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_serverroom_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drawer_rgb_esp",
+"title": "Locker drawer opened alarm: light sensor (LDR) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ldr"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_drawer_rgb_esp",
 "rule": null,
 "note": null
 },
@@ -1826,6 +3364,48 @@
 "note": null
 },
 {
+"id": "live-f_henhouse_servo_esp",
+"title": "Hen-house door at dusk: light sensor (LDR) → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_henhouse_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopsign_rgb_esp",
+"title": "Shop sign that lights at dusk: light sensor (LDR) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ldr"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shopsign_rgb_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_shopsign_relay_esp",
 "title": "Shop sign that lights at dusk: light sensor (LDR) → relay and lamp (ESP32)",
 "family": "factory",
@@ -1865,6 +3445,67 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fanmark_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_oled_esp",
+"title": "Gate call for the watchman: push button → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_watchman_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_lcd_esp",
+"title": "Gate call for the watchman: push button → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_watchman_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_rgb_esp",
+"title": "Gate call for the watchman: push button → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_watchman_rgb_esp",
 "rule": null,
 "note": null
 },
@@ -1912,6 +3553,67 @@
 "note": null
 },
 {
+"id": "live-f_grainstore_oled_esp",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainstore_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_rgb_esp",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainstore_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_lcd_esp",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainstore_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_grainstore_buzzer_esp",
 "title": "Grain store humidity alert: DHT11 sensor (humidity) → buzzer (ESP32)",
 "family": "factory",
@@ -1928,6 +3630,26 @@
 "level": 9,
 "theme": "bank",
 "live": "f_grainstore_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greenfan_servo_esp",
+"title": "Greenhouse cooling: DHT11 sensor (temperature) → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_greenfan_servo_esp",
 "rule": null,
 "note": null
 },
@@ -1953,6 +3675,26 @@
 "note": null
 },
 {
+"id": "live-f_heatwave_oled_esp",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heatwave_oled_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_heatwave_buzzer_esp",
 "title": "Heat-wave warning: DHT11 sensor (temperature) → buzzer (ESP32)",
 "family": "factory",
@@ -1969,6 +3711,47 @@
 "level": 8,
 "theme": "bank",
 "live": "f_heatwave_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_rgb_esp",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heatwave_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_lcd_esp",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_heatwave_lcd_esp",
 "rule": null,
 "note": null
 },
@@ -2016,6 +3799,27 @@
 "note": null
 },
 {
+"id": "live-f_soillamp_rgb_esp",
+"title": "Soil health lamp: soil moisture sensor → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_soillamp_rgb_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_waterplant_pump_esp",
 "title": "Automatic plant watering: soil moisture sensor → water pump (ESP32)",
 "family": "factory",
@@ -2038,6 +3842,27 @@
 "note": null
 },
 {
+"id": "live-f_frost_rgb_esp",
+"title": "Frost alarm for crops: temperature sensor LM35 → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_frost_rgb_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frost_buzzer_esp",
 "title": "Frost alarm for crops: temperature sensor LM35 → buzzer (ESP32)",
 "family": "factory",
@@ -2054,6 +3879,46 @@
 "level": 8,
 "theme": "bank",
 "live": "f_frost_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_incubator_oled_esp",
+"title": "Egg incubator heater: temperature sensor LM35 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_incubator_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_incubator_lcd_esp",
+"title": "Egg incubator heater: temperature sensor LM35 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_incubator_lcd_esp",
 "rule": null,
 "note": null
 },
@@ -2079,6 +3944,27 @@
 "note": null
 },
 {
+"id": "live-f_blinds_servo_esp",
+"title": "Sun blind closer: light sensor (LDR) → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_blinds_servo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fridgeopen_led_esp",
 "title": "Fridge door left open alarm: light sensor (LDR) → LED (ESP32)",
 "family": "factory",
@@ -2096,6 +3982,90 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fridgeopen_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fridgeopen_buzzer_esp",
+"title": "Fridge door left open alarm: light sensor (LDR) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fridgeopen_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunrise_oled_esp",
+"title": "Sunrise alarm: light sensor (LDR) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunrise_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunrise_lcd_esp",
+"title": "Sunrise alarm: light sensor (LDR) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunrise_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunrise_buzzer_esp",
+"title": "Sunrise alarm: light sensor (LDR) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunrise_buzzer_esp",
 "rule": null,
 "note": null
 },
@@ -2122,6 +4092,48 @@
 "note": null
 },
 {
+"id": "live-f_growlight_rgb_esp",
+"title": "Grow light for plants: light sensor (LDR) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ldr"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_growlight_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heaterset_rgb_esp",
+"title": "Heater set-point knob: knob (potentiometer) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heaterset_rgb_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_heaterset_relay_esp",
 "title": "Heater set-point knob: knob (potentiometer) → relay and heater lamp (ESP32)",
 "family": "factory",
@@ -2139,6 +4151,27 @@
 "level": 8,
 "theme": "bank",
 "live": "f_heaterset_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panic_rgb_esp",
+"title": "Panic button for a shop: push button → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_panic_rgb_esp",
 "rule": null,
 "note": null
 },
@@ -2205,6 +4238,86 @@
 "note": null
 },
 {
+"id": "live-f_levelcross_buzzer_esp",
+"title": "Railway level crossing: IR obstacle sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_levelcross_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_levelcross_servo_esp",
+"title": "Railway level crossing: IR obstacle sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_levelcross_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_slot_oled_esp",
+"title": "Parking slot sensor: IR obstacle sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_slot_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_slot_lcd_esp",
+"title": "Parking slot sensor: IR obstacle sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_slot_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_slot_led_esp",
 "title": "Parking slot sensor: IR obstacle sensor → LED (ESP32)",
 "family": "factory",
@@ -2222,6 +4335,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_slot_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tap_servo_esp",
+"title": "Smart tap: IR obstacle sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tap_servo_esp",
 "rule": null,
 "note": null
 },
@@ -2244,6 +4377,126 @@
 "level": 8,
 "theme": "bank",
 "live": "f_sanitiser_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sanitiser_servo_esp",
+"title": "Automatic hand sanitiser: IR obstacle sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sanitiser_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_intruder_oled_esp",
+"title": "Intruder alert screen: PIR motion sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_intruder_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_intruder_lcd_esp",
+"title": "Intruder alert screen: PIR motion sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_intruder_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_oled_esp",
+"title": "Welcome greeter: PIR motion sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_greeter_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_lcd_esp",
+"title": "Welcome greeter: PIR motion sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_greeter_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_servo_esp",
+"title": "Welcome greeter: PIR motion sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"pir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_greeter_servo_esp",
 "rule": null,
 "note": null
 },
@@ -2312,6 +4565,66 @@
 "note": null
 },
 {
+"id": "live-f_valve_servo_esp",
+"title": "Garden sprinkler valve: soil moisture sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_valve_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_oled_esp",
+"title": "Plant thirst alarm: soil moisture sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_thirst_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_lcd_esp",
+"title": "Plant thirst alarm: soil moisture sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_thirst_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_thirst_led_esp",
 "title": "Plant thirst alarm: soil moisture sensor → LED (ESP32)",
 "family": "factory",
@@ -2329,6 +4642,66 @@
 "level": 8,
 "theme": "bank",
 "live": "f_thirst_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_buzzer_esp",
+"title": "Plant thirst alarm: soil moisture sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"soil"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_thirst_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_vent_servo_esp",
+"title": "Greenhouse vent opener: temperature sensor LM35 → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_vent_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fever_oled_esp",
+"title": "Fever check station: temperature sensor LM35 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fever_oled_esp",
 "rule": null,
 "note": null
 },
@@ -2375,6 +4748,26 @@
 "note": null
 },
 {
+"id": "live-f_toohot_oled_esp",
+"title": "Too-hot warning: temperature sensor LM35 → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_toohot_oled_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_toohot_led_esp",
 "title": "Too-hot warning: temperature sensor LM35 → LED (ESP32)",
 "family": "factory",
@@ -2396,6 +4789,46 @@
 "note": null
 },
 {
+"id": "live-f_toohot_lcd_esp",
+"title": "Too-hot warning: temperature sensor LM35 → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_toohot_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_toohot_buzzer_esp",
+"title": "Too-hot warning: temperature sensor LM35 → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_toohot_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fridge_buzzer_esp",
 "title": "Cupboard light checker: light sensor (LDR) → buzzer (ESP32)",
 "family": "factory",
@@ -2413,6 +4846,90 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fridge_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tripwire_oled_esp",
+"title": "Laser tripwire alarm: light sensor (LDR) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tripwire_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tripwire_lcd_esp",
+"title": "Laser tripwire alarm: light sensor (LDR) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tripwire_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tripwire_buzzer_esp",
+"title": "Laser tripwire alarm: light sensor (LDR) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tripwire_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_curtain_servo_esp",
+"title": "Automatic curtain: light sensor (LDR) → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_curtain_servo_esp",
 "rule": null,
 "note": null
 },
@@ -2460,6 +4977,48 @@
 "note": null
 },
 {
+"id": "live-f_nightlamp_oled_esp",
+"title": "Night lamp: light sensor (LDR) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nightlamp_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightlamp_lcd_esp",
+"title": "Night lamp: light sensor (LDR) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nightlamp_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_nightlamp_relay_esp",
 "title": "Night lamp: light sensor (LDR) → relay and lamp (ESP32)",
 "family": "factory",
@@ -2478,6 +5037,66 @@
 "level": 8,
 "theme": "bank",
 "live": "f_nightlamp_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_steer_servo_esp",
+"title": "Knob steering: knob (potentiometer) → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_steer_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankmark_oled_esp",
+"title": "Tank level alarm (float knob): knob (potentiometer) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankmark_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankmark_lcd_esp",
+"title": "Tank level alarm (float knob): knob (potentiometer) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankmark_lcd_esp",
 "rule": null,
 "note": null
 },
@@ -2544,6 +5163,46 @@
 "note": null
 },
 {
+"id": "live-f_nurse_oled_esp",
+"title": "Hospital bed call button: push button → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nurse_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_lcd_esp",
+"title": "Hospital bed call button: push button → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nurse_lcd_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_nurse_led_esp",
 "title": "Hospital bed call button: push button → LED (ESP32)",
 "family": "factory",
@@ -2581,6 +5240,86 @@
 "level": 8,
 "theme": "bank",
 "live": "f_nurse_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gate_servo_esp",
+"title": "Push-button gate: push button → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gate_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_oled_esp",
+"title": "Pedestrian crossing barrier: push button → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_crossing_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_lcd_esp",
+"title": "Pedestrian crossing barrier: push button → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_crossing_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_servo_esp",
+"title": "Pedestrian crossing barrier: push button → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_crossing_servo_esp",
 "rule": null,
 "note": null
 },
@@ -2623,6 +5362,86 @@
 "level": 8,
 "theme": "bank",
 "live": "f_lightswitch_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_oled_esp",
+"title": "Doorbell: push button → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doorbell_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_lcd_esp",
+"title": "Doorbell: push button → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doorbell_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_buzzer_esp",
+"title": "Doorbell: push button → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doorbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchless_oled",
+"title": "Contactless doorbell: IR obstacle sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_touchless_oled",
 "rule": null,
 "note": null
 },
@@ -2730,6 +5549,26 @@
 "note": null
 },
 {
+"id": "live-f_piggybank_oled",
+"title": "Piggy bank coin chime: IR obstacle sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_piggybank_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_piggybank_lcd",
 "title": "Piggy bank coin chime: IR obstacle sensor → LCD",
 "family": "factory",
@@ -2833,6 +5672,26 @@
 "note": null
 },
 {
+"id": "live-f_afterhours_oled",
+"title": "Shop after-hours alarm: PIR motion sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_afterhours_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_afterhours_lcd",
 "title": "Shop after-hours alarm: PIR motion sensor → LCD",
 "family": "factory",
@@ -2869,6 +5728,26 @@
 "level": 7,
 "theme": "bank",
 "live": "f_afterhours_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_biogas_oled",
+"title": "Biogas plant leak watch: gas sensor MQ-2 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_biogas_oled",
 "rule": null,
 "note": null
 },
@@ -2910,6 +5789,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_biogas_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_treeguard_oled",
+"title": "Tree sapling water reminder: soil moisture sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_treeguard_oled",
 "rule": null,
 "note": null
 },
@@ -2992,6 +5891,26 @@
 "level": 7,
 "theme": "bank",
 "live": "f_trucks_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_oled",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_rainsoon_oled",
 "rule": null,
 "note": null
 },
@@ -3163,6 +6082,26 @@
 "note": null
 },
 {
+"id": "live-f_milkchill_oled",
+"title": "Milk chiller alarm: temperature sensor LM35 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_milkchill_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_milkchill_rgb",
 "title": "Milk chiller alarm: temperature sensor LM35 → colour LED",
 "family": "factory",
@@ -3220,6 +6159,27 @@
 "level": 7,
 "theme": "bank",
 "live": "f_milkchill_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_darkroom_oled",
+"title": "Darkroom light alarm: light sensor (LDR) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_darkroom_oled",
 "rule": null,
 "note": null
 },
@@ -3375,6 +6335,27 @@
 "note": null
 },
 {
+"id": "live-f_panelshade_oled",
+"title": "Solar panel shade alarm: light sensor (LDR) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_panelshade_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panelshade_lcd",
 "title": "Solar panel shade alarm: light sensor (LDR) → LCD",
 "family": "factory",
@@ -3516,6 +6497,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_booksdamp_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_oled",
+"title": "Turnstile gate: IR obstacle sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_turnstile_oled",
 "rule": null,
 "note": null
 },
@@ -3746,6 +6747,26 @@
 "note": null
 },
 {
+"id": "live-f_fumehood_oled",
+"title": "Science lab fume fan: gas sensor MQ-2 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"mq2"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fumehood_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fumehood_lcd",
 "title": "Science lab fume fan: gas sensor MQ-2 → LCD",
 "family": "factory",
@@ -3824,6 +6845,26 @@
 "level": 7,
 "theme": "bank",
 "live": "f_smoke_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_paddy_oled",
+"title": "Paddy field water keeper: soil moisture sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_paddy_oled",
 "rule": null,
 "note": null
 },
@@ -3968,6 +7009,26 @@
 "level": 7,
 "theme": "bank",
 "live": "f_fishtank_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teacool_oled",
+"title": "Tea is cool enough: temperature sensor LM35 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_teacool_oled",
 "rule": null,
 "note": null
 },
@@ -4284,6 +7345,26 @@
 "note": null
 },
 {
+"id": "live-f_watchman_oled",
+"title": "Gate call for the watchman: push button → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_watchman_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_watchman_lcd",
 "title": "Gate call for the watchman: push button → LCD",
 "family": "factory",
@@ -4364,6 +7445,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_bathfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_oled",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainstore_oled",
 "rule": null,
 "note": null
 },
@@ -4466,6 +7567,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_greenfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_oled",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_heatwave_oled",
 "rule": null,
 "note": null
 },
@@ -4638,6 +7759,26 @@
 "note": null
 },
 {
+"id": "live-f_tankfull_oled",
+"title": "Water tank full alarm: ultrasonic sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_tankfull_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tankfull_lcd",
 "title": "Water tank full alarm: ultrasonic sensor → LCD",
 "family": "factory",
@@ -4715,6 +7856,26 @@
 "level": 7,
 "theme": "bank",
 "live": "f_frost_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_incubator_oled",
+"title": "Egg incubator heater: temperature sensor LM35 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_incubator_oled",
 "rule": null,
 "note": null
 },
@@ -4819,6 +7980,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_fridgeopen_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunrise_oled",
+"title": "Sunrise alarm: light sensor (LDR) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_sunrise_oled",
 "rule": null,
 "note": null
 },
@@ -5073,6 +8255,26 @@
 "note": null
 },
 {
+"id": "live-f_slot_oled",
+"title": "Parking slot sensor: IR obstacle sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_slot_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_slot_lcd",
 "title": "Parking slot sensor: IR obstacle sensor → LCD",
 "family": "factory",
@@ -5176,6 +8378,26 @@
 "note": null
 },
 {
+"id": "live-f_intruder_oled",
+"title": "Intruder alert screen: PIR motion sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_intruder_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_intruder_lcd",
 "title": "Intruder alert screen: PIR motion sensor → LCD",
 "family": "factory",
@@ -5192,6 +8414,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_intruder_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_oled",
+"title": "Welcome greeter: PIR motion sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_greeter_oled",
 "rule": null,
 "note": null
 },
@@ -5299,6 +8541,26 @@
 "note": null
 },
 {
+"id": "live-f_gasleak_oled",
+"title": "Kitchen gas leak warning: gas sensor MQ-2 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"mq2"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_gasleak_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_gasleak_led",
 "title": "Kitchen gas leak warning: gas sensor MQ-2 → LED",
 "family": "factory",
@@ -5378,6 +8640,26 @@
 "level": 7,
 "theme": "bank",
 "live": "f_valve_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_oled",
+"title": "Plant thirst alarm: soil moisture sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"soil"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_thirst_oled",
 "rule": null,
 "note": null
 },
@@ -5504,6 +8786,26 @@
 "note": null
 },
 {
+"id": "live-f_parkbeep_oled",
+"title": "Parking distance warning: ultrasonic sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_parkbeep_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_parkbeep_led",
 "title": "Parking distance warning: ultrasonic sensor → LED",
 "family": "factory",
@@ -5565,6 +8867,26 @@
 "note": null
 },
 {
+"id": "live-f_fever_oled",
+"title": "Fever check station: temperature sensor LM35 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_fever_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fever_led",
 "title": "Fever check station: temperature sensor LM35 → LED",
 "family": "factory",
@@ -5586,6 +8908,26 @@
 "note": null
 },
 {
+"id": "live-f_fever_lcd",
+"title": "Fever check station: temperature sensor LM35 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"lm35"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_fever_lcd",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coolfan_relay",
 "title": "Automatic cooling fan: temperature sensor LM35 → relay and fan",
 "family": "factory",
@@ -5603,6 +8945,26 @@
 "level": 7,
 "theme": "bank",
 "live": "f_coolfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_toohot_oled",
+"title": "Too-hot warning: temperature sensor LM35 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"lm35"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_toohot_oled",
 "rule": null,
 "note": null
 },
@@ -5664,6 +9026,27 @@
 "level": 6,
 "theme": "bank",
 "live": "f_fridge_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tripwire_oled",
+"title": "Laser tripwire alarm: light sensor (LDR) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_tripwire_oled",
 "rule": null,
 "note": null
 },
@@ -5774,6 +9157,27 @@
 "note": null
 },
 {
+"id": "live-f_nightlamp_oled",
+"title": "Night lamp: light sensor (LDR) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_nightlamp_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_nightlamp_lcd",
 "title": "Night lamp: light sensor (LDR) → LCD",
 "family": "factory",
@@ -5833,6 +9237,26 @@
 "level": 6,
 "theme": "bank",
 "live": "f_steer_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankmark_oled",
+"title": "Tank level alarm (float knob): knob (potentiometer) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"pot"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_tankmark_oled",
 "rule": null,
 "note": null
 },
@@ -5919,6 +9343,26 @@
 "note": null
 },
 {
+"id": "live-f_nurse_oled",
+"title": "Hospital bed call button: push button → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_nurse_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_nurse_lcd",
 "title": "Hospital bed call button: push button → LCD",
 "family": "factory",
@@ -5996,6 +9440,26 @@
 "level": 6,
 "theme": "bank",
 "live": "f_gate_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_oled",
+"title": "Pedestrian crossing barrier: push button → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_crossing_oled",
 "rule": null,
 "note": null
 },
@@ -6082,6 +9546,26 @@
 "note": null
 },
 {
+"id": "live-f_doorbell_oled",
+"title": "Doorbell: push button → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+5,
+7
+],
+"level": 5,
+"theme": "bank",
+"live": "f_doorbell_oled",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_doorbell_lcd",
 "title": "Doorbell: push button → LCD",
 "family": "factory",
@@ -6118,6 +9602,70 @@
 "level": 5,
 "theme": "bank",
 "live": "f_doorbell_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-c_steady",
+"title": "Steady-hand game (no board)",
+"family": "live",
+"board": "none",
+"parts": [
+"aa4",
+"buzzwire",
+"abuzz"
+],
+"newparts": [],
+"band": [
+1,
+3
+],
+"level": 1,
+"theme": "circuits",
+"live": "c_steady",
+"rule": null,
+"note": null
+},
+{
+"id": "live-c_top",
+"title": "Spinning top with a motor: Newton's colour disc",
+"family": "live",
+"board": "none",
+"parts": [
+"aa4",
+"motor",
+"button"
+],
+"newparts": [],
+"band": [
+1,
+3
+],
+"level": 1,
+"theme": "circuits",
+"live": "c_top",
+"rule": null,
+"note": null
+},
+{
+"id": "live-c_conductor",
+"title": "Conductor or insulator tester",
+"family": "live",
+"board": "none",
+"parts": [
+"aa4",
+"led",
+"resistor",
+"sample"
+],
+"newparts": [],
+"band": [
+1,
+3
+],
+"level": 1,
+"theme": "circuits",
+"live": "c_conductor",
 "rule": null,
 "note": null
 },
@@ -6524,6 +10072,106 @@
 "level": 1,
 "theme": "circuits",
 "live": "c_light",
+"rule": null,
+"note": null
+},
+{
+"id": "live-u_colourcode",
+"title": "Resistor colour-code reader",
+"family": "live",
+"board": "uno",
+"parts": [
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "projects",
+"live": "u_colourcode",
+"rule": null,
+"note": null
+},
+{
+"id": "live-u_servodance",
+"title": "Servo dance",
+"family": "live",
+"board": "uno",
+"parts": [
+"servo"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "projects",
+"live": "u_servodance",
+"rule": null,
+"note": null
+},
+{
+"id": "live-u_npn",
+"title": "Transistor as a switch",
+"family": "live",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"npn"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "projects",
+"live": "u_npn",
+"rule": null,
+"note": null
+},
+{
+"id": "live-u_diode",
+"title": "Diode one-way street",
+"family": "live",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"diode"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "projects",
+"live": "u_diode",
+"rule": null,
+"note": null
+},
+{
+"id": "live-u_binary",
+"title": "Binary counter on 4 LEDs",
+"family": "live",
+"board": "uno",
+"parts": [
+"led",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "projects",
+"live": "u_binary",
 "rule": null,
 "note": null
 },
@@ -9657,7 +13305,7 @@
 ],
 "level": 5,
 "theme": "home",
-"live": "f_doorbell_buzzer_esp",
+"live": "f_doorbell_buzzer_pico",
 "rule": {
 "in": "button",
 "out": "buzzer",
@@ -15216,7 +18864,7 @@
 ],
 "level": 5,
 "theme": "home",
-"live": "f_sunrise_buzzer_esp",
+"live": "f_sunrise_buzzer_pico",
 "rule": {
 "in": "ldr",
 "out": "buzzer",
@@ -15948,7 +19596,7 @@
 ],
 "level": 5,
 "theme": "safety",
-"live": "f_tripwire_buzzer_esp",
+"live": "f_tripwire_buzzer_pico",
 "rule": {
 "in": "ldr",
 "out": "buzzer",
@@ -16585,7 +20233,7 @@
 ],
 "level": 5,
 "theme": "home",
-"live": "f_fridgeopen_buzzer_esp",
+"live": "f_fridgeopen_buzzer_pico",
 "rule": {
 "in": "ldr",
 "out": "abuzz",
@@ -17088,7 +20736,7 @@
 ],
 "level": 5,
 "theme": "safety",
-"live": "f_toohot_buzzer_esp",
+"live": "f_toohot_buzzer_pico",
 "rule": {
 "in": "temp",
 "out": "buzzer",
@@ -17358,7 +21006,7 @@
 ],
 "level": 7,
 "theme": "health",
-"live": "f_fever_lcd",
+"live": "f_fever_lcd_esp",
 "rule": {
 "in": "temp",
 "out": "lcd",
@@ -18814,7 +22462,7 @@
 ],
 "level": 5,
 "theme": "farm",
-"live": "f_thirst_buzzer_esp",
+"live": "f_thirst_buzzer_pico",
 "rule": {
 "in": "soil",
 "out": "abuzz",
@@ -23285,7 +26933,7 @@
 ],
 "level": 5,
 "theme": "traffic",
-"live": "f_levelcross_buzzer_esp",
+"live": "f_levelcross_buzzer_pico",
 "rule": {
 "in": "ir",
 "out": "buzzer",
@@ -23405,7 +27053,7 @@
 ],
 "level": 5,
 "theme": "home",
-"live": "f_touchless_buzzer_esp",
+"live": "f_touchless_buzzer_pico",
 "rule": {
 "in": "ir",
 "out": "buzzer",

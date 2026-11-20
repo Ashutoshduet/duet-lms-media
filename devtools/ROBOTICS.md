@@ -677,3 +677,26 @@ a tap puts the bench there at 1.5 × real size, then taps work the same panel. T
 **Projects pack (`devtools/robopack/export.mjs`).** Every project as a folder for the pen drive: README (English and
 Hindi: goal, parts, wiring table, steps), the code (`sketch.ino` / `main.py`), `wiring.csv`; `index.html` (search,
 class and board filter, offline) and `projects.csv` at the top.
+
+**Batch 12 (684 projects).**
+- Class 1 circuits (`circuits.js`, 22 now): a conductor-or-insulator tester (the new `sample` part: a spoon, coin, pencil,
+  ruler, eraser or ice-cream stick between two crocodile clips, swapped in its callout), a spinning top with Newton's
+  colour disc (`motor { disc: true }`: four times the fan's inertia, so it coasts like a top; the disc blurs to grey-white
+  when fast) and the steady-hand buzz-wire game (the new `buzzwire` part: drag the ring or use its slider; a bend taken
+  faster than 0.16 lengths a second touches; the red-tape rests are insulators). Parts in `parts12.js`, models in
+  `models12.js`; a part's own `controls(p, T, R)` / `bind(p, el, app)` give its callout (the app4.js hook).
+- Class 6 on the Uno (`lessons12.js`, group "projects"): binary counter on 4 LEDs (count in twos: the 1s LED never
+  lights), diode one-way street (take it out, put it in backwards: dark while pin 7 is HIGH), transistor as a switch
+  (a three-LED lamp of 40 mA switched by about 4 mA of base current; pin 9 straight to the base is named and the
+  simulator warns about the pin), servo dance from an array of angles, and a resistor colour-code reader (a 10 kΩ divider,
+  snapped to the E12 series so a 1 kΩ that measures 988 Ω still reads brown, black, red). Tests: `robocore12.mjs`.
+- The factory (`factory.js`, 492 lessons): every LCD job also on the 0.96" OLED (Uno, ESP32); the ESP32 gets the RGB LED,
+  the servo and the I2C LCD; the Pico gets the buzzer and the RGB LED. On the ESP32 the module covers breadboard rows
+  b–i, so its pre-wired outputs start in row a or j.
+- Simulator: `#include <Servo.h>` on an ESP32 stops as the real IDE does (`E_SERVO_ESP`; use ESP32Servo.h, which is
+  refused on other boards); I2C modules answer on a board's own SDA / SCL (`consts.SDA / SCL`: ESP32 21 / 22, Mega 20 /
+  21); a Pico PWM pin at 100 Hz–20 kHz is a note (a buzzer on it sounds, an LED on it keeps its duty); a buzzer takes the
+  note of the pin it is on when two pins play PWM.
+- The class picker: after a class's sessions comes "More projects for this class" (every live lesson whose `cls` covers
+  that class), so Class 8 shows its 18 sessions and about 200 more.
+- The curriculum: 200 of 300 project sessions live (Class 1 16, Class 6 24 of 26).

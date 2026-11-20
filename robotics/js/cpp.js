@@ -186,7 +186,10 @@ function lex(src, info) {
       if (dir === 'include') {
         const h = /^[<"]\s*([\w./]+)\s*[>"]$/.exec(rest); if (!h) throw new CErr('E_INCLUDE', line, { text: rest });
         info.includes.push(h[1]);
-        if (!/^(Arduino\.h|Servo\.h|math\.h|stdlib\.h|SoftwareSerial\.h|Wire\.h)$/.test(h[1]) && !LIB3.includes.includes(h[1]) && !LIB4.includes.includes(h[1])) info.warnings.push({ code: 'W_LIBRARY', line, args: { lib: h[1] } });
+        // (batch 12) the Arduino Servo library has no ESP32 version: the real IDE stops with an #error; ESP32Servo.h is the ESP32's
+        if (h[1] === 'Servo.h' && info.board && info.board.id === 'esp32') throw new CErr('E_SERVO_ESP', line);
+        if (h[1] === 'ESP32Servo.h' && !(info.board && info.board.id === 'esp32')) throw new CErr('E_ESPSERVO_ONLY', line);
+        if (!/^(Arduino\.h|Servo\.h|ESP32Servo\.h|math\.h|stdlib\.h|SoftwareSerial\.h|Wire\.h)$/.test(h[1]) && !LIB3.includes.includes(h[1]) && !LIB4.includes.includes(h[1])) info.warnings.push({ code: 'W_LIBRARY', line, args: { lib: h[1] } });
       } else if (dir === 'define') {
         const d = /^([A-Za-z_]\w*)(\()?\s*(.*)$/.exec(rest); if (!d) throw new CErr('E_DEFINE', line);
         if (d[2]) throw new CErr('E_UNSUPPORTED', line, { what: '#define ' + d[1] + '(…)' });
@@ -604,7 +607,7 @@ class Gen {
       if (t === 'auto') { if (!v.init || v.init.k === 'list') this.err('E_TYPE', v.line, { text: 'auto' }); }
       let initCode = null, k;
       if (t && t.arr) initCode = this.arrInit(t, v.init, v.line);
-      else if (t === 'servo') { if (!this.info.includes.includes('Servo.h')) this.err('E_SERVO_INCLUDE', v.line); initCode = 'rt.servo()'; }
+      else if (t === 'servo') { if (!hasServoInc(this.info)) this.err('E_SERVO_INCLUDE', v.line); initCode = 'rt.servo()'; }
       else if (String(t).startsWith('o:')) initCode = LIB3.decl(this, t.slice(2), v); // batch 3: a library object
       else if (String(t).startsWith('o4:')) initCode = LIB4.decl(this, t.slice(3), v); // batch 4: WebServer server(80);
       else if (v.init) {
@@ -894,7 +897,7 @@ class Gen {
     if (obj.t === 'servo') {
       const B = SERVO[m]; if (!B) { const sg = suggest(m, Object.keys(SERVO)); this.err('E_SERVO', e.line, { name: m, s: sg && sg.s, caps: sg && sg.caps }); }
       if (e.args.length < B[0] || e.args.length > B[1]) this.err('E_ARGS', e.line, { name: exprName(o) + '.' + m, min: B[0], max: B[1], got: e.args.length });
-      if (!this.info.includes.includes('Servo.h')) this.err('E_SERVO_INCLUDE', e.line);
+      if (!hasServoInc(this.info)) this.err('E_SERVO_INCLUDE', e.line);
       const args = e.args.map((x) => this.ex(x)); if (m === 'attach' && args[0].k !== undefined) this.info.pins.add(args[0].k);
       this.info.servo = true;
       return { c: B[3](obj.c, args), t: B[2] };
@@ -918,6 +921,7 @@ function eval1(x, op, y) { switch (op) { case '<': return x < y; case '>': retur
 function exprName(e) { if (!e || typeof e === 'string') return ''; if (e.k === 'id') return e.name; if (e.k === 'index') return exprName(e.a); if (e.k === 'member') return exprName(e.o) + '.' + e.m; return ''; }
 
 // ------------------------------------------------------------------ compile
+const hasServoInc = (i) => i.includes.includes('Servo.h') || i.includes.includes('ESP32Servo.h'); // (batch 12: the ESP32's servo library)
 export function compile(src, board) { // board (batch 4): the board's def, so that its pin names and libraries are checked
   if (board && board.compile) return board.compile(src); // batch 6: a board with its own language (the Raspberry Pi boards: Python, pi6.js)
   const info = { macros: Object.assign({}, LIB4.macros), includes: [], warnings: [], pins: new Set(), servo: false, serial: false, board: board || null };

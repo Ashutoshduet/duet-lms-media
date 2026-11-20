@@ -18,6 +18,7 @@ import { batch8 } from './lessons8.js'; // micro:bit projects for Class 3
 import { batch9 } from './lessons9.js'; // micro:bit projects for Class 4 (radio, servos, sensors)
 import { batch10 } from './lessons10.js'; // first micro:bit projects for Class 2
 import { batch11 } from './lessons11.js'; // micro:bit loggers, games and machines for Class 5
+import { batch12 } from './lessons12.js'; // Class 6 on the Uno: binary, diode, transistor switch, servo dance, colour code
 import { batchC } from './circuits.js'; // battery circuits for Classes 1-3 (no code)
 import { batchF } from './factory.js'; // the project factory: one-line plans made into whole lessons (Uno, ESP32, Pico) // batch 7: thirty more Arduino projects (games, alarms, meters, displays, home automation)
 const t3 = (en, hi, hg) => ({ en, hi, hg });
@@ -670,6 +671,7 @@ if (typeof document !== 'undefined') for (const b of [batch10, batch8, batch9, b
 if (typeof document !== 'undefined') LESSONS.push(...grp(batch6({ t3, P, F, W }, LESSONS.length), 'pi'));
 // batch 7: Arduino projects (lessons7.js), C++ on the Uno / Mega / ESP32, so in the page and in the node checks alike
 LESSONS.push(...grp(batch7({ t3, P, F, W, need, has, noShort, N, unit, LEDU, merge }, LESSONS.length), 'projects'));
+LESSONS.push(...grp(batch12({ t3, P, F, W, need, has, noShort, N, unit, LEDU, merge }, LESSONS.length), 'projects')); // batch 12: Class 6 electronics (lessons12.js)
 // battery circuits for the youngest (circuits.js) and the project bank (factory.js: a job, a sensor and an output each);
 // every one is checked end to end by devtools/test/robocircuits.mjs and robofactory.mjs
 LESSONS.push(...grp(batchC({ W }, LESSONS.length), 'circuits'));

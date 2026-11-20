@@ -10,7 +10,7 @@ import { batchC } from '../../robotics/js/circuits.js';
 let fails = 0, passes = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else { passes++; console.log('ok   ' + m); } };
 let CL = LESSONS.filter((l) => l.batch === 'C');
 if (!CL.length) { CL = batchC({ W: LESSON_WORDS }, LESSONS.length); for (const l of CL) { LESSONS.push(l); BY_ID[l.id] = l; } }
-ok(CL.length >= 19, `${CL.length} battery-circuit lessons`);
+ok(CL.length >= 22, `${CL.length} battery-circuit lessons`);
 // one step as a student does it: a part at its ghost, a wire at its ghost (in the lesson's order)
 function doStep(B, s) {
   const { lab, rt, l } = B;
@@ -47,6 +47,10 @@ const ACTS = {
   c_series: [null, del('led2')], c_parallel: [null, del('led2')],
   c_dimmer: [(t, B) => { const p = B.lab.byTag('pot1'); const v = t < 1 ? 0 : t < 2 ? 1 : 0.5; if (p && p.state.pos !== v) { p.state.pos = v; B.lab.stateV++; B.lab.instKey = null; } }],
   // the burn, then: the direct wire out, the resistor is already in (built up front), new LED
+  // batch 12: swap the thing between the clips; hold the button (spin up), let go (it coasts), wait; rush the ring through a bend, back to the start, then a slow ride to the end
+  c_conductor: [null, ...['ruler', 'coin', 'eraser', 'pencil', 'stick'].map((m) => (t, B) => { const p = B.lab.byTag('s1'); if (p && t > 0.1 && p.props.mat !== m) B.lab.setProps(p, { mat: m }); })],
+  c_top: [hold(true), hold(false), null],
+  c_steady: [(t, B) => { const p = B.lab.byTag('bw'); if (p) p.state.pos = Math.min(0.35, t * 1.2); }, (t, B) => { const p = B.lab.byTag('bw'); if (p) p.state.pos = 0; }, (t, B) => { const p = B.lab.byTag('bw'); if (p) p.state.pos = Math.min(1, t * 0.08); }],
   c_resistor: [null, (t, B) => { const s = B.l.steps.find((x) => x.k === 'wire' && x.wire[0] === 'led1.K'); const w = B.W.get(s); if (w && B.lab.wires.includes(w)) B.lab.removeWire(w); }, (t, B) => { if (t > 0.2 && t < 0.25) B.lab.repair(); }],
 };
 for (const l of CL) {
@@ -70,5 +74,18 @@ for (const l of CL) {
   for (let f = 0; f < 60; f++) lab.step(1000 / 60); ok(!!led.state.burnt, 'an LED straight across 6 V burns out'); }
 { const l = BY_ID.c_light; const B = build(l, true); const led = B.lab.byTag('led1'); B.lab.removePart(led); B.lab.addPart('led', { color: 'red' }, { hole: 'e22' }, 2, 'led1');
   for (let f = 0; f < 30; f++) step(B, 1 / 60); const r = B.rt.runCheck(); ok(!B.rt.ledLit('led1'), 'a reversed LED stays dark'); ok(!!r, 'and the check complains' + (r ? `: "${r[0].en.slice(0, 60)}"` : '')); }
+// batch 12 mistakes: clip 2 on the wrong leg is named; a fast pass through a bend buzzes, a slow one does not; the disc coasts longer than the fan
+{ const B = build(BY_ID.c_conductor, true); const s = B.l.steps.find((x) => x.k === 'wire' && x.wire[0] === 's1.2'); B.lab.removeWire(B.W.get(s));
+  const r = B.rt.runCheck(); ok(!!r && /Clip 2/.test(JSON.stringify(r[1] || {})), 'the tester: clip 2 left off is named' + (r ? `: "${r[0].en.slice(0, 50)}"` : '')); }
+{ const B = build(BY_ID.c_steady, true); const p = B.lab.byTag('bw'); let hitsSlow = 0;
+  for (let f = 0; f < 60 * 14; f++) { p.state.pos = Math.min(1, f / 60 * 0.075); step(B, 1 / 60); } hitsSlow = p.state.hits || 0;
+  ok(hitsSlow === 0 && p.state.end, 'buzz wire: a slow, steady ride never touches');
+  for (let f = 0; f < 60 * 2; f++) { p.state.pos = Math.max(0, 1 - f / 60 * 0.9); step(B, 1 / 60); }
+  ok((p.state.hits || 0) >= 2, `buzz wire: rushing back through the bends touches (${p.state.hits} touches)`);
+  const ab = B.lab.byTag('ab1'); ok((ab.state.beeps || 0) >= 2, 'and the buzzer beeped each time'); }
+{ const coast = (disc) => { const B = build(BY_ID.c_top, true); const m = B.lab.byTag('m1'); if (!disc) B.lab.setProps(m, { disc: false });
+    const mm = B.lab.byTag('m1'); press('b1', true)(B); for (let f = 0; f < 60 * 3; f++) step(B, 1 / 60); press('b1', false)(B);
+    let t = 0; while (Math.abs(mm.state.w || 0) > 3 && t < 30) { step(B, 1 / 60); t += 1 / 60; } return t; };
+  const td = coast(true), tf = coast(false); ok(td > tf * 2, `the heavy disc coasts longer than the fan (${td.toFixed(1)} s vs ${tf.toFixed(1)} s)`); }
 console.log(`circuits: ${passes} ok, ${fails} failed`);
 process.exit(fails ? 1 : 0);

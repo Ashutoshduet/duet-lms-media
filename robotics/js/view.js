@@ -174,7 +174,7 @@ export class View {
       if (p.type === 'motor' && o.userData.fan) {
         const w = s.w || 0; if (Math.abs(w) > 0.5) anim = true;
         const vis = Math.abs(w) < 45 ? w : Math.sign(w) * (8 + Math.abs(w) * 0.012);
-        o.userData.fan.rotation.z -= vis * dt; o.userData.blur.material.opacity = Math.max(0, Math.min(0.5, (Math.abs(w) - 45) / 500));
+        o.userData.fan.rotation.z -= vis * dt; o.userData.blur.material.opacity = Math.max(0, Math.min(o.userData.blurMax || 0.5, (Math.abs(w) - 45) / 500)); // (batch 12: Newton's disc blurs to grey-white)
       }
       if (p.type === 'button' && o.userData.cap) { const y = s.pressed ? 4.38 : 4.75; if (o.userData.cap.position.y !== y) { o.userData.cap.position.y = y; anim = true; } }
       if (p.type === 'pot' && o.userData.knob) { const a = -(s.pos - 0.5) * 300 * Math.PI / 180; if (o.userData.knob.rotation.y !== a) { o.userData.knob.rotation.y = a; anim = true; } }

@@ -12,6 +12,7 @@ import { buildPart4, setLite4 } from './models4.js'; // batch 4: the new boards'
 import { buildPart3, setLite3 } from './models3.js'; // batch 3: the school-lab modules (LCD, OLED, relay, keypad, stepper, RFID…)
 import { buildPart6, setLite6 } from './models6.js'; // batch 6: the Pico, the Pi 4 (registered with models4.js), the active buzzer
 import { buildPart7 } from './models7.js'; // batch 7: the bulb / fan on a 230 V box, the sanitizer bottle around the pump
+import { buildPart12 } from './models12.js'; // batch 12: the test sample, the buzz wire, Newton's colour disc on the motor
 
 let LITE = false; export function setLite(v) { LITE = v; TX.setLite(v); setLite2(v); setLite4(v); setLite3(v); setLite6(v); }
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -428,7 +429,8 @@ export function buildObstacle() {
 }
 
 export function buildPart(part) {
-  let g = buildPart7(part); // batch 7 (models7.js): only the props it knows (load230 show, pump in a bottle)
+  let g = buildPart12(part); // batch 12 (models12.js)
+  if (!g) g = buildPart7(part); // batch 7 (models7.js): only the props it knows (load230 show, pump in a bottle)
   if (!g) g = buildPart2(part); // batch 2 (robots), and the plugs of servos that sit in a robot
   if (!g) g = buildPart4(part); // batch 4
   if (!g) g = buildPart3(part); // batch 3 (models3.js)

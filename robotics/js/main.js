@@ -306,7 +306,7 @@ class App {
     // the class filter: one class's lessons from the curriculum, in its session order (?cls=7 opens it so)
     if (this.clsF === undefined) this.clsF = Q.get('cls') || store.get('cls') || '';
     const sel = document.createElement('select'); sel.className = 'clsf'; sel.setAttribute('aria-label', tx(T.clsAll));
-    sel.innerHTML = `<option value="">${esc(tx(T.clsAll))}</option>` + Object.keys(CURRICULUM).filter((k) => CURRICULUM[k].length).map((k) => `<option value="${k}">${esc(tx(T.clsN, { n: k }))}</option>`).join('');
+    sel.innerHTML = `<option value="">${esc(tx(T.clsAll))}</option>` + Object.keys(CURRICULUM).filter((k) => CURRICULUM[k].length || LESSONS.some((l) => { const m = /(\d+)(?:\s*[–-]\s*(\d+))?/.exec(String(l.cls || '')); return !!m && +k >= +m[1] && +k <= +(m[2] || m[1]); })).map((k) => `<option value="${k}">${esc(tx(T.clsN, { n: k }))}</option>`).join('');
     sel.value = CURRICULUM[this.clsF] ? this.clsF : ''; sel.onchange = () => { this.clsF = sel.value; store.set('cls', this.clsF); this.renderStrip(); };
     s.appendChild(sel);
     // search: a word from the title (any language), e.g. "soil", "पंप", "ESP32"
@@ -315,6 +315,11 @@ class App {
     s.appendChild(q);
     const qq = (this.qF || '').trim().toLowerCase();
     let list = CURRICULUM[this.clsF] ? CURRICULUM[this.clsF].map((x) => BY_ID[x.id] ? Object.assign(Object.create(BY_ID[x.id]), { n: x.n, group: null }) : null).filter(Boolean) : LESSONS;
+    if (CURRICULUM[this.clsF]) { // after the class's sessions, the other live projects made for that class (the project bank): "More projects for Class N"
+      const k = +this.clsF, inCur = new Set(list.map((l) => l.id));
+      const fits = (c) => { const m = /(\d+)(?:\s*[–-]\s*(\d+))?/.exec(String(c || '')); return !!m && k >= +m[1] && k <= +(m[2] || m[1]); };
+      list = list.concat(LESSONS.filter((l) => !inCur.has(l.id) && fits(l.cls)).map((l) => Object.assign(Object.create(l), { n: '+', group: 'more' })));
+    }
     if (qq) list = list.filter((l) => ['en', 'hi', 'hg'].some((k) => String(l.title[k] || '').toLowerCase().includes(qq)));
     for (const l of list) {
       if (l.group && l.group !== g0) { g0 = l.group; const h = document.createElement('span'); h.className = 'sg'; h.textContent = t('grp_' + l.group); s.appendChild(h); } // a section: basics, robots, boards, modules, micro:bit
