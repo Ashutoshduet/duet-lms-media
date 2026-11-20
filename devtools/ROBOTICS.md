@@ -858,3 +858,14 @@ heaters.
   sample data; without float() the y axis is jumbled text; then humidity as a second line), `pi_predict` (a straight line
   through 14 daily maxima: day 15 ≈ 31 °C, 90 days ahead over 70 °C: extrapolation). robocore20.mjs plays them and checks the
   engine. Class 10: 20 of 26. 1,550 projects.
+- The Pi on the network and with RFID (batch 21, lessons21.js). Flask (pi20.js): Flask(__name__), @app.route (with
+  <name> / <int:n> parts), app.run(host, port) serves the phone (esp32.js Net: on a Pi 4 the phone's request goes to
+  the Pi's address and port; only host="0.0.0.0" listens on the WiFi, else "refused"; the phone keeps :5000 in links and
+  redirects; Pi-worded refused / timeout messages), Flask's banner and request log lines, 404 / 500, redirect(),
+  request.args. SimpleMFRC522 (pi20.js): the RC522 on SPI0 (SDA GPIO 8, SCK 11, MOSI 10, MISO 9, RST 25), read() waits
+  for a tap and gives (number, text), the number = the 4 UID bytes and their check byte (white card 701406916061, blue tag
+  391623328800); no reader on those pins: read() waits and a hint names them. Lessons: `pi_flask` (the lamp from the
+  phone; app.run(port=5000) → refused), `pi_rfidsheet` (attendance.csv, an unknown tag added to the dictionary, "already
+  marked"), `pi_tripwire` (an LDR + 10 kΩ into GPIO 17, the pin's threshold as the comparator, when_deactivated; without
+  pause() the program ends and the door is unguarded). Note: a resistor plugged into a rail needs a column with a rail
+  hole (not 8, 14, 20, 26, 32, 38, 44, 50, 56). robocore21.mjs plays them. Class 10: 23 of 26. 1,553 projects.

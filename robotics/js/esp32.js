@@ -261,7 +261,8 @@ class Net {
   constructor(lab) { this.lab = lab; this.now = 0; this.dhcp = 23 + Math.floor(Math.random() * 70); this.phone = { wifi: SCHOOL.ssid }; this.reqs = []; this.bt = { conn: null, log: [], at: 0 }; this.ver = 0; this.seen = { pages: 0, codes: [] }; }
   esp() { const m = this.lab.mcu; return m instanceof ESP32MCU ? m : null; }
   running() { const m = this.esp(); return !!m && this.lab.powered && m.state === 'running'; }
-  staIP() { const m = this.esp(); return m && this.running() && staStatus(m) === 3 ? SCHOOL.sub + this.dhcp : null; }
+  staIP() { if (this.lab.def.id === 'pi4') return this.piIP(); const m = this.esp(); return m && this.running() && staStatus(m) === 3 ? SCHOOL.sub + this.dhcp : null; }
+  piIP() { return this.lab.def.id === 'pi4' ? SCHOOL.sub + this.dhcp : null; } // batch 21: a Raspberry Pi 4 is on the school WiFi whenever it is on
   apIP() { const m = this.esp(); return m && this.running() && apUp(m) ? AP_IP : null; }
   // WiFi networks the phone can see, and joining one
   networks() { const m = this.esp(); const out = [{ ssid: SCHOOL.ssid, lock: true, bars: 4 }]; if (m && this.running() && apUp(m)) out.push({ ssid: m.wifi.ap.ssid, lock: !!m.wifi.ap.pass, bars: 3, esp: true }); return out; }
@@ -278,6 +279,12 @@ class Net {
     this.reqs.push(req); this.ver++;
     if (!u.host) { req.fail = 'name'; req.failAt = this.now + 0.3; return req; }
     if (!/^\d+\.\d+\.\d+\.\d+$/.test(u.host)) { req.fail = 'name'; req.failAt = this.now + 1.2; return req; }
+    if (this.lab.def.id === 'pi4') { // batch 21: Flask on the Pi (pi20.js): it listens on a port (5000), on every address only with host="0.0.0.0"
+      const ip = this.piIP(), port = u.port || 80, pm = this.lab.mcu, f = pm && pm.flask6;
+      if (u.host !== ip) { req.fail = 'timeout'; req.failAt = this.now + 4.0; return req; }
+      if (!(f && f.running && pm.state === 'running' && f.port === port && (f.host === '0.0.0.0' || f.host === ip))) { req.fail = 'refused'; req.failAt = this.now + 0.3; return req; }
+      req.srv = f; f.q.push(req); return req;
+    }
     const m = this.esp(); const onAp = m && m.wifi.ap && this.phone.wifi === m.wifi.ap.ssid;
     if (onAp && !(this.running() && apUp(m))) this.phone.wifi = SCHOOL.ssid; // the ESP32's own network is gone: the phone goes back to the school WiFi
     const target = this.phone.wifi === SCHOOL.ssid ? this.staIP() : this.apIP();
@@ -296,6 +303,7 @@ class Net {
       else if (!r.res && this.now - r.t0 > 5) { out = { error: 'timeout' }; if (r.srv) { r.srv.q = r.srv.q.filter((x) => x !== r); if (!r.srv.polled) { const m = this.esp(); if (m && !m.warned.has('nohandle')) { m.warned.add('nohandle'); m.note('N_NO_HANDLE', {}); } } } }
       if (!out) continue;
       this.reqs.splice(i, 1); this.ver++;
+      if (out.error) { this.seen.lastErr = { error: out.error, url: r.url, t: this.now }; this.seen.errs = (this.seen.errs || 0) + 1; } // (batch 21: the lessons read what failed)
       if (!out.error) { this.seen.pages++; this.seen.codes.push(out.code); if (this.seen.codes.length > 50) this.seen.codes.shift(); this.seen.last = { path: r.path, args: r.args, t: this.now, body: out.body }; (this.seen.paths || (this.seen.paths = {}))[r.path] = ((this.seen.paths || {})[r.path] || 0) + 1; }
       try { r.cb(out); } catch (e) { console.error(e); }
     }

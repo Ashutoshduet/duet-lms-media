@@ -17,8 +17,10 @@ export const PW = { // the phone's words
   browser: t3('Browser', 'ब्राउज़र', 'Browser'), bt: t3('BT Terminal', 'BT टर्मिनल', 'BT Terminal'), wifi: t3('WiFi', 'WiFi', 'WiFi'),
   addr: t3('Type a web address', 'वेब पता लिखिए', 'Web address likhiye'), go: t3('Go', 'जाइए', 'Go'), loading: t3('Loading…', 'खुल रहा है…', 'Khul raha hai…'),
   noReach: t3('This site can\'t be reached', 'यह साइट नहीं खुल रही', 'Yeh site nahi khul rahi'),
+  timeoutPi: t3('{h} took too long to respond: is that the Pi\'s address? The terminal shows it on the line "Running on http://…".', '{h} ने जवाब देने में बहुत देर लगाई: क्या यह Pi का पता है? टर्मिनल इसे "Running on http://…" वाली लाइन में दिखाता है।', '{h} ne jawab dene mein bahut der lagayi: kya yeh Pi ka address hai? Terminal ise "Running on http://…" wali line mein dikhata hai.'),
   timeout: t3('{h} took too long to respond. Is the ESP32 on this WiFi, and does loop() call server.handleClient()?', '{h} ने जवाब देने में बहुत देर लगाई। क्या ESP32 इसी WiFi पर है, और क्या loop() में server.handleClient() है?', '{h} ne jawab dene mein bahut der lagaayi. Kya ESP32 isi WiFi par hai, aur kya loop() mein server.handleClient() hai?'),
   name: t3('{h} is not an address the phone can find. Type the ESP32\'s IP address, like 192.168.1.47.', '{h} ऐसा पता नहीं जो फ़ोन ढूँढ सके। ESP32 का IP एड्रेस लिखिए, जैसे 192.168.1.47।', '{h} aisa address nahi jo phone dhoondh sake. ESP32 ka IP address likhiye, jaise 192.168.1.47.'),
+  refusedPi: t3('{h} refused to connect: nothing is listening there. Is the Flask program running with app.run(host="0.0.0.0", port=5000), and does the address end in :5000?', '{h} ने जुड़ने से मना किया: वहाँ कोई सुन नहीं रहा। क्या Flask प्रोग्राम app.run(host="0.0.0.0", port=5000) के साथ चल रहा है, और क्या पता :5000 पर ख़त्म होता है?', '{h} ne judne se mana kiya: wahan koi sun nahi raha. Kya Flask program app.run(host="0.0.0.0", port=5000) ke saath chal raha hai, aur kya address :5000 par khatam hota hai?'),
   refused: t3('{h} refused to connect: the sketch has not called server.begin().', '{h} ने जुड़ने से मना किया: स्केच ने server.begin() नहीं बुलाया।', '{h} ne judne se mana kiya: sketch ne server.begin() nahi bulaya.'),
   empty: t3('The ESP32 answered with an empty page: did the handler call server.send()?', 'ESP32 ने ख़ाली पेज भेजा: क्या हैंडलर ने server.send() बुलाया?', 'ESP32 ne khaali page bheja: kya handler ne server.send() bulaya?'),
   devices: t3('Devices', 'डिवाइस', 'Devices'), tapConnect: t3('Tap to connect', 'जुड़ने के लिए छूइए', 'Judne ke liye touch karo'),
@@ -205,11 +207,11 @@ export class Phone {
   go(url) {
     let u = String(url || '').trim(); if (!u) return; if (!/^https?:\/\//i.test(u)) u = 'http://' + u; this.url = u; this.kb = null; this.appId = 'browser';
     this.hist = [u, ...this.hist.filter((h) => h !== u)].slice(0, 4); this.err = null; this.loading = { url: u, t: this.t }; this.dirty = true;
-    const host = parseUrl(u).host; const myLoad = this.loading;
+    const pu = parseUrl(u), host = pu.host, hp = host + (pu.port ? ':' + pu.port : ''); const myLoad = this.loading; // (batch 21: a page on :5000 keeps its port)
     this.net.request(u, (r) => {
       if (this.loading !== myLoad) return; this.loading = null; this.dirty = true;
       if (r.error) { this.err = { kind: r.error, host }; this.page = null; return; }
-      if (r.headers && r.headers.Location && (r.code === 301 || r.code === 302 || r.code === 303)) { const L = r.headers.Location; this.go(/^https?:/.test(L) ? L : 'http://' + host + (L[0] === '/' ? L : '/' + L)); return; }
+      if (r.headers && r.headers.Location && (r.code === 301 || r.code === 302 || r.code === 303)) { const L = r.headers.Location; this.go(/^https?:/.test(L) ? L : 'http://' + hp + (L[0] === '/' ? L : '/' + L)); return; }
       if (r.code === 0) { this.err = { kind: 'empty', host }; this.page = null; return; }
       this.page = layoutHTML(r.body, SW, !/html/i.test(r.type || ''));
       this.page.code = r.code; this.scroll = Math.min(this.scroll, Math.max(0, this.page.h - 860));
@@ -217,7 +219,7 @@ export class Phone {
     });
   }
   follow(act) {
-    if (!act) return; const base = parseUrl(this.url); const abs = (h) => (/^https?:\/\//i.test(h) ? h : 'http://' + base.host + (h[0] === '/' ? h : '/' + h));
+    if (!act) return; const base = parseUrl(this.url); const bh = base.host + (base.port ? ':' + base.port : ''); const abs = (h) => (/^https?:\/\//i.test(h) ? h : 'http://' + bh + (h[0] === '/' ? h : '/' + h));
     if (act.href) this.go(abs(act.href)); else if (act.fetch) this.net.request(abs(act.fetch), () => { this.dirty = true; });
   }
   key(k) {
@@ -277,7 +279,7 @@ export class Phone {
     if (this.hist.length && this.kb) { this.hist.slice(0, 3).forEach((h, i) => { const y = top + 16 + i * 70; c.fillStyle = '#e9ecef'; rrect(c, 18, y, SW - 36, 58, 14); c.fill(); c.fillStyle = '#343a40'; c.font = `500 23px ${FONT}`; c.fillText('🕘  ' + h.replace(/^http:\/\//, ''), 36, y + 30); btn('hist' + i, 18, y, SW - 36, 58, () => this.go(h)); }); return; }
     if (this.err) {
       c.fillStyle = '#ffffff'; c.fillRect(0, top, SW, ph); c.fillStyle = '#495057'; c.font = `700 30px ${FONT}`; c.fillText('☹  ' + T(PW.noReach), 30, top + 80);
-      c.font = `400 23px ${FONT}`; this.wrap(c, T(PW[this.err.kind === 'name' ? 'name' : this.err.kind === 'refused' ? 'refused' : this.err.kind === 'empty' ? 'empty' : 'timeout'], { h: this.err.host }), 30, top + 140, SW - 60, 32);
+      c.font = `400 23px ${FONT}`; this.wrap(c, T(PW[this.err.kind === 'name' ? 'name' : this.err.kind === 'refused' ? (this.net.lab.def.id === 'pi4' ? 'refusedPi' : 'refused') : this.err.kind === 'empty' ? 'empty' : this.net.lab.def.id === 'pi4' ? 'timeoutPi' : 'timeout'], { h: this.err.host }), 30, top + 140, SW - 60, 32);
       return;
     }
     if (this.page) {

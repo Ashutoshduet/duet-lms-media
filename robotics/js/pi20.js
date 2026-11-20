@@ -12,6 +12,8 @@
 //                      matplotlib does: numbers read from a CSV and not turned into float() come out in a jumbled order.
 // drawFigure(ctx, fig, w, h) paints a figure: on the Pi's little screen (models6.js) and in the page's Figure window (app6.js).
 import { Nat, Mod, Flt, tup, str, typeName, Dict, PyErr } from './py.js';
+import { netOf } from './esp32.js'; // (batch 21: the school WiFi, where the phone's requests come from)
+import { CARDS } from './libs3.js'; // (batch 21: the RC522's white card and blue tag)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const F = (v) => new Flt(v);
@@ -193,11 +195,94 @@ function pltMod(m) {
   return mod;
 }
 
+// ------------------------------------------------------------------ Flask (batch 21): a small web server on the Pi
+// app = Flask(__name__); @app.route("/on") above a def; app.run(host=, port=) serves the phone's requests (esp32.js
+// netOf(lab) puts them in m.flask6.q) until Stop: each handler runs, its return (text, or (text, code), or redirect())
+// is the page; Flask's request log line goes to the terminal. Only host="0.0.0.0" listens on the WiFi address.
+class FlaskApp extends Obj {
+  constructor(m, name) { super('Flask'); this.m = m; this.name = name; this.routes = []; }
+  match(path) {
+    for (const r of this.routes) {
+      const keys = []; const re = new RegExp('^' + r.rule.replace(/<(?:(int|string|float):)?(\w+)>/g, (s, t, k) => { keys.push([k, t]); return t === 'int' ? '(\\d+)' : '([^/]+)'; }) + '/?$');
+      const mm = re.exec(path); if (mm) return { r, kw: Object.fromEntries(keys.map(([k, t], i) => [k, t === 'int' ? +mm[i + 1] : decodeURIComponent(mm[i + 1])])) };
+    }
+    return null;
+  }
+  methods() {
+    const me = this, m = this.m;
+    return {
+      route: nat('route', ['rule', 'methods=None'], (R, rule) => nat('decorator', ['f'], (R2, f) => { me.routes.push({ rule: String(rule), f }); return f; })),
+      run: nat('run', ['host=None', 'port=None', 'debug=None'], function* (R, host, port) {
+        const h = isNone(host) ? '127.0.0.1' : String(host), p = isNone(port) ? 5000 : num(R, port); const lab = m.lab; const ipNow = lab ? netOf(lab).piIP() : '192.168.1.47';
+        const f = m.flask6 = { app: me, host: h, port: p, q: [], running: true, polled: true, served: 0, log: [] };
+        m.print6(R, ` * Serving Flask app '${me.name === '__main__' ? 'main' : me.name}'\n * Debug mode: off\n` + (h === '0.0.0.0' ? ` * Running on all addresses (0.0.0.0)\n * Running on http://127.0.0.1:${p}\n * Running on http://${ipNow}:${p}\n` : ` * Running on http://${h}:${p}\n`) + 'Press CTRL+C to quit\n');
+        for (;;) {
+          const req = f.q.shift();
+          if (!req) { yield* R.sleep(20); continue; }
+          const hit = me.match(req.path); let code = 200, body = '', type = 'text/html; charset=utf-8', hdr = {};
+          if (!hit) { code = 404; body = '<!doctype html><title>404 Not Found</title><h1>Not Found</h1><p>The requested URL was not found on the server.</p>'; }
+          else {
+            f.cur = req; let out;
+            try { out = yield* callKw(R, hit.r.f, hit.kw); }
+            catch (e) { if (e instanceof PyErr) { code = 500; body = '<h1>Internal Server Error</h1>'; m.print6(R, `[ERROR] Exception on ${req.path} [GET]\n`); } else throw e; }
+            f.cur = null;
+            if (code === 200) {
+              if (out && out.redirect6) { code = 302; hdr.Location = out.redirect6; body = `<p>Redirecting to <a href="${out.redirect6}">${out.redirect6}</a></p>`; }
+              else if (Array.isArray(out) && out.length === 2) { body = str(out[0]); code = num(R, out[1]); }
+              else if (isNone(out)) { code = 500; body = '<h1>Internal Server Error</h1>'; m.print6(R, `TypeError: The view function for '${hit.r.f.name}' did not return a valid response.\n`); }
+              else body = str(out);
+            }
+          }
+          req.res = { code, type, body, headers: hdr }; f.served++; if (lab) netOf(lab).deliver(req);
+          const d = new Date(((lab && lab.epoch6) || 1795000000) * 1000 + R.t / 1000 + 5.5 * 3600e3); const p2 = (x) => String(x).padStart(2, '0');
+          const mon = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getUTCMonth()];
+          m.print6(R, `${ipNow ? ipNow.replace(/\.\d+$/, '.23') : '127.0.0.1'} - - [${p2(d.getUTCDate())}/${mon}/${d.getUTCFullYear()} ${p2(d.getUTCHours())}:${p2(d.getUTCMinutes())}:${p2(d.getUTCSeconds())}] "GET ${req.path}${Object.keys(req.args || {}).length ? '?' + Object.entries(req.args).map(([k, v]) => k + '=' + v).join('&') : ''} HTTP/1.1" ${code} -\n`);
+          f.log.push([req.path, code]);
+        }
+      }, { blocking: true }),
+    };
+  }
+}
+function* callKw(R, f, kw) { const r = R.c(f, [], Object.keys(kw).length ? kw : null); return r instanceof R.P ? yield* r.g : r; }
+function flaskMod(m) {
+  const request = new (class extends Obj { constructor() { super('Request'); } props() { const cur = () => (m.flask6 && m.flask6.cur) || { path: '/', args: {} }; return { path: () => cur().path, method: () => 'GET', args: () => { const d = new Dict(); for (const [k, v] of Object.entries(cur().args || {})) d.set(k, v); return d; } }; } })();
+  return new Mod('flask', {
+    Flask: klass('Flask', (R, a) => new FlaskApp(m, isNone(a[0]) ? '__main__' : String(a[0]))),
+    request, redirect: nat('redirect', ['location', 'code=302'], (R, loc) => ({ redirect6: String(loc), pyType: 'Response', pyStr: () => '<Response 302>' })),
+    escape: nat('escape', ['s'], (R, x) => str(x).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')),
+  });
+}
+
+// ------------------------------------------------------------------ SimpleMFRC522 (batch 21): the RC522 on the Pi's SPI0
+// (SDA → CE0 = GPIO 8, SCK 11, MOSI 10, MISO 9, RST 25, 3.3V). read() waits for a card and gives (id, text): the id is the
+// card's 4 bytes and their check byte as one number, as the pimylifeup library makes it. A card counts once a tap.
+export const PI_RFID = { SDA: 8, SCK: 11, MOSI: 10, MISO: 9, RST: 25 };
+export const rfidNum = (k) => { const u = CARDS[k].uid; const b = [...u, u.reduce((a, x) => a ^ x, 0)]; return b.reduce((n, x) => n * 256 + x, 0); };
+function rfidMod(m) {
+  const dev = () => { const L = m.lab; if (!L) return null; return L.parts.find((p) => p.type === 'rfid' && p.N && p.state.powered && !p.state.over && Object.entries(PI_RFID).every(([pin, g]) => L.boardNode('G' + g) === p.N[pin])) || null; };
+  const text = (k) => { const L = m.lab; const t = (L && L.cardText6 && L.cardText6[k]) || ''; return t.padEnd(48, ' '); };
+  const take = () => { const p = dev(); const c = p && p.state.card; if (!c || c.halted) return null; c.halted = true; p.state.reads = (p.state.reads || 0) + 1; m.rfid6 = (m.rfid6 || 0) + 1; return c.id; };
+  function* wait(R) { const t0 = R.t; for (;;) { const k = take(); if (k) return k; if (!dev() && R.t - t0 > 3e6) m.noteOnce('rfidpi', 'N21_RFID_NONE', PI_RFID); yield* R.sleep(40); } }
+  class Simple extends Obj {
+    constructor() { super('SimpleMFRC522'); }
+    methods() {
+      return {
+        read: nat('read', [], function* (R) { const k = yield* wait(R); return tup([rfidNum(k), text(k)]); }, { blocking: true }),
+        read_id: nat('read_id', [], function* (R) { const k = yield* wait(R); return rfidNum(k); }, { blocking: true }),
+        read_no_block: nat('read_no_block', [], () => { const k = take(); return k ? tup([rfidNum(k), text(k)]) : tup([null, null]); }),
+        read_id_no_block: nat('read_id_no_block', [], () => { const k = take(); return k ? rfidNum(k) : null; }),
+        write: nat('write', ['text'], function* (R, t) { const k = yield* wait(R); const L = m.lab; if (L) (L.cardText6 || (L.cardText6 = {}))[k] = str(t).slice(0, 48); return tup([rfidNum(k), str(t).slice(0, 48).padEnd(48, ' ')]); }, { blocking: true }),
+      };
+    }
+  }
+  return new Mod('mfrc522', { SimpleMFRC522: klass('SimpleMFRC522', () => { m.rfidOn6 = true; return new Simple(); }) });
+}
+
 export function dataModules(m) {
   return {
     os: () => osMod(m), csv: () => csvMod(), statistics: () => statsMod(),
     'matplotlib.pyplot': () => pltMod(m), matplotlib: (R) => new Mod('matplotlib', { pyplot: R.imp('matplotlib.pyplot'), __version__: '3.6.3' }),
-    io: () => new Mod('io', {}),
+    io: () => new Mod('io', {}), flask: () => flaskMod(m), mfrc522: () => rfidMod(m),
   };
 }
 
@@ -276,6 +361,7 @@ export const MSG20 = {
   N20_STAT_TWO: t3('StatisticsError: {fn}() needs at least two values.', 'StatisticsError: {fn}() को कम से कम दो मान चाहिए।', 'StatisticsError: {fn}() ko kam se kam do values chahiye.'),
   N20_STAT_LEN: t3('StatisticsError: x and y must have the same number of values.', 'StatisticsError: x और y में मानों की गिनती बराबर होनी चाहिए।', 'StatisticsError: x aur y mein values ki ginti barabar honi chahiye.'),
   N20_STAT_CONST: t3('StatisticsError: x is the same every time, so no line can be fitted.', 'StatisticsError: x हर बार एक ही है, तो कोई रेखा नहीं बैठ सकती।', 'StatisticsError: x har baar ek hi hai, to koi rekha nahi baith sakti.'),
+  N21_RFID_NONE: t3('read() is waiting, but no RC522 answers on SPI0. Check its wires: SDA to GPIO {SDA} (CE0), SCK to GPIO {SCK}, MOSI to GPIO {MOSI}, MISO to GPIO {MISO}, RST to GPIO {RST}, 3.3V and GND.', 'read() इंतज़ार कर रहा है, पर SPI0 पर कोई RC522 जवाब नहीं देता। तार जाँचिए: SDA, GPIO {SDA} (CE0) पर, SCK, GPIO {SCK} पर, MOSI, GPIO {MOSI} पर, MISO, GPIO {MISO} पर, RST, GPIO {RST} पर, 3.3V और GND।', 'read() intezaar kar raha hai, par SPI0 par koi RC522 jawab nahi deta. Wires check karo: SDA, GPIO {SDA} (CE0) par, SCK, GPIO {SCK} par, MOSI, GPIO {MOSI} par, MISO, GPIO {MISO} par, RST, GPIO {RST} par, 3.3V aur GND.'),
   N20_PLOT_LEN: t3('ValueError: x and y must have the same length ({a} and {b} values).', 'ValueError: x और y की लंबाई बराबर होनी चाहिए ({a} और {b} मान)।', 'ValueError: x aur y ki lambai barabar honi chahiye ({a} aur {b} values).'),
 };
 void Dict; void PyErr;

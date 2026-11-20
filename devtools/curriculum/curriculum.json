@@ -4993,14 +4993,18 @@
    {
     "class": 10,
     "n": 5,
-    "kind": "I",
+    "kind": "L",
     "title": "Laser tripwire in Python",
     "board": "pi4",
-    "status": "planned",
-    "ref": "laser-tripwire-in-python-pi4",
+    "status": "live",
+    "ref": "pi_tripwire",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
+    "family": "live-pi",
+    "parts": [
+     "abuzz",
+     "ldr",
+     "resistor"
+    ],
     "strand": "Algorithmic thinking",
     "focus": "Python",
     "term": "Term 1 (April-July)"
@@ -5130,14 +5134,17 @@
    {
     "class": 10,
     "n": 13,
-    "kind": "I",
+    "kind": "L",
     "title": "Web-controlled lamp with Flask",
     "board": "pi4",
-    "status": "planned",
-    "ref": "web-controlled-lamp-with-flask-pi4",
+    "status": "live",
+    "ref": "pi_flask",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
+    "family": "live-pi",
+    "parts": [
+     "led",
+     "resistor"
+    ],
     "strand": "Algorithmic thinking",
     "focus": "IoT",
     "term": "Term 2 (July-September)"
@@ -5164,14 +5171,16 @@
    {
     "class": 10,
     "n": 15,
-    "kind": "I",
+    "kind": "L",
     "title": "Attendance with RFID and a spreadsheet",
     "board": "pi4",
-    "status": "planned",
-    "ref": "attendance-with-rfid-and-a-spreadsheet-pi4",
+    "status": "live",
+    "ref": "pi_rfidsheet",
     "newparts": [],
-    "family": "raspberry-pi",
-    "parts": [],
+    "family": "live-pi",
+    "parts": [
+     "rfid"
+    ],
     "strand": "Pattern recognition",
     "focus": "Python",
     "term": "Term 2 (July-September)"

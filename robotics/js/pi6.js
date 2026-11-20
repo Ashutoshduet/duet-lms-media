@@ -42,7 +42,7 @@ export class PyMCU extends MCU {
     this.wrote = new Set(); this.readSet = new Set(); this.task = null; this.ended = false; this.cbSet = false;
     this.obs6 = { prints: 0, events: {}, duty: {}, dist: [], dht: [], pulses: 0, started: 0, ends: 0, inputs: 0, lines: [], angles: new Set(), flips: {} };
     this.ser.on = true; this.ser.baud = 115200; this.mode6 = null; this.gpioSetup = {}; this.wroteHigh = false;
-    this.plt6 = null; this.fig6 = null; this.figV6 = (this.figV6 || 0) + 1; this.files6 = 0; this.wrote6 = 0; // (batch 20: a new run starts with no figure)
+    this.plt6 = null; this.fig6 = null; this.figV6 = (this.figV6 || 0) + 1; this.files6 = 0; this.wrote6 = 0; this.flask6 = null; // (batch 20: a new run starts with no figure; 21: no web server)
   }
   get pi() { return this.board.id === 'pi4'; }
   start() {
@@ -58,6 +58,7 @@ export class PyMCU extends MCU {
     if (was) this.say(this.pi ? '^C\nKeyboardInterrupt\npi@raspberrypi:~ $ ' : '\nKeyboardInterrupt:\n>>> ');
   }
   say(s) { const b = []; for (const ch of String(s).replace(/\n/g, '\r\n')) b.push(ch.charCodeAt(0)); this.ser.outq.push({ baud: 115200, bytes: b }); } // straight to the monitor (start, stop)
+  print6(R, s) { this.serial(s, R.t); this.obs6.prints++; for (const ln of String(s).replace(/\n$/, '').split('\n')) this.line6(ln); } // (batch 21: Flask's own lines in the terminal)
   line6(s) { const L = this.obs6.lines; L.push(String(s).replace(/\n$/, '')); if (L.length > 80) L.shift(); } // the last printed lines (the lessons read them)
   serial(s, t) { const q = this.ser.queue; for (const ch of String(s).replace(/\n/g, '\r\n')) q.push([t, ch.charCodeAt(0)]); }
   // ---------------------------------------------------------------- compile -> program (cpp.js compile(src, board) asks the board)

@@ -26492,6 +26492,66 @@
 "note": null
 },
 {
+"id": "live-pi_tripwire",
+"title": "Laser tripwire in Python",
+"family": "live",
+"board": "pi4",
+"parts": [
+"abuzz",
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_tripwire",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pi_rfidsheet",
+"title": "Attendance with RFID and a spreadsheet",
+"family": "live",
+"board": "pi4",
+"parts": [
+"rfid"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_rfidsheet",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pi_flask",
+"title": "Web-controlled lamp with Flask",
+"family": "live",
+"board": "pi4",
+"parts": [
+"led",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_flask",
+"rule": null,
+"note": null
+},
+{
 "id": "live-pi_predict",
 "title": "Predict tomorrow's temperature from logged data",
 "family": "live",
