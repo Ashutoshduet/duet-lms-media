@@ -182,7 +182,7 @@ REPL = {
       'I:Temperature-controlled fan in Python' + PI: 'L:f_greenfan_relay_pi', 'I:Traffic lights in Python' + PI: 'L:pi_traffic', 'I:Reaction game in Python' + PI: 'L:pi_reaction',
       'I:Distance sensor with GPIO Zero' + PI: 'L:pi_distance', 'I:Quiz buzzer for three teams' + PI: 'L:pi_quiz', 'I:Morse code translator' + PI: 'L:pi_morse', 'I:Smart home: motion light, gas alarm and fan' + ESP: 'L:f_roomlight_relay_esp', 'I:Rainwater harvesting tank monitor': 'L:f_tankfull_lcd',
       'I:Smart energy saver for a classroom': 'L:f_classfan_relay', 'I:Smart parking for a market': 'L:f_slot_lcd'},
- 11: {'I:Robot arm: copy a knob arm (master and slave)': 'L:armcopy', 'I:Robot arm: record and play back moves': 'L:armrecord'},
+ 11: {'I:Robot arm: copy a knob arm (master and slave)': 'L:armcopy', 'I:Robot arm: record and play back moves': 'L:armrecord', 'I:Robot arm: phone control over Bluetooth': 'L:armbt'},
 }
 
 TERMS = [(1, 8, 'Term 1 (April-July)'), (9, 16, 'Term 2 (July-September)'), (17, 24, 'Term 3 (October-December)'), (25, 32, 'Term 4 (January-February)')]

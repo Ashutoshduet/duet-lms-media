@@ -5517,16 +5517,16 @@
    {
     "class": 11,
     "n": 2,
-    "kind": "I",
+    "kind": "L",
     "title": "Robot arm: phone control over Bluetooth",
-    "board": "uno",
-    "status": "planned",
-    "ref": "robot-arm-phone-control-over-bluetooth-uno",
+    "board": "esp32",
+    "status": "live",
+    "ref": "armbt",
     "newparts": [],
-    "family": "machines",
+    "family": "live-robots",
     "parts": [
-     "mg996r",
      "psu5",
+     "mg996r",
      "servo"
     ],
     "strand": "Decomposition",

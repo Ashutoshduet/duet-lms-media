@@ -914,4 +914,7 @@ heaters.
   (map(…, 180, 0): knob up, arm down); after the edit the knobs carry the block from A to B. `armrecord`: the same
   knobs pre-wired, RECORD (pin 2) and PLAY (pin 4) buttons; poses in four arrays of MAXP; glide() moves all joints
   together in 40 steps; MAXP = 3 says "Memory full!" (the job needs 7); MAXP = 10; PLAY repeats the job from memory
-  with the knobs anywhere. robocore23.mjs plays both. Class 11: 2 of 26. 2,064 projects.
+  with the knobs anywhere. `armbt` (ESP32 + phone): BluetoothSerial "DUET-Arm", ESP32Servo on GPIO 13, 14, 27, 26
+  (GPIO 12 is named by the check: a strapping pin), the ESP32's GND on the adapter's − rail; commands like B140; one
+  SerialBT.read() takes only "1" (base to 1°, the arm into the desk), SerialBT.parseInt() reads 140; a pick-and-place
+  by commands. robocore23.mjs plays all three. Class 11: 3 of 26. 2,065 projects.

@@ -7,6 +7,10 @@
 //   armrecord  teach and play back, as factory robots are taught: the same knobs, a RECORD and a PLAY button; each
 //              pose goes into four arrays, and PLAY glides through them (all joints together, in 40 small steps). The
 //              memory holds only 3 poses at first ("Memory full!"), but a pick-and-place needs 7: MAXP = 10
+//   armbt      the arm from a phone over Bluetooth, on an ESP32 (BluetoothSerial, ESP32Servo): the phone's Bluetooth terminal
+//              sends commands like B140 (base to 140°). The first program reads the angle with one SerialBT.read(), so it
+//              gets only the first digit ("B140" turns the base to 1°!); SerialBT.parseInt() reads the whole number. Then
+//              a pick-and-place by typed commands
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore23.mjs plays them end to end.
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
@@ -126,6 +130,48 @@ void loop() {
 }
 `;
 
+const ARMBT = `// Robot arm from the phone: send commands from a Bluetooth terminal app, like B140 or G90.
+// B = base, S = shoulder, E = elbow, G = claw (grip), then the angle.
+#include <BluetoothSerial.h>
+#include <ESP32Servo.h>
+BluetoothSerial SerialBT;
+Servo base;
+Servo shoulder;
+Servo elbow;
+Servo claw;
+
+void setup() {
+  Serial.begin(115200);
+  SerialBT.begin("DUET-Arm");             // the name the phone sees
+  base.attach(13);
+  shoulder.attach(14);
+  elbow.attach(27);
+  claw.attach(26);
+  base.write(90);
+  shoulder.write(90);
+  elbow.write(90);
+  claw.write(60);
+  Serial.println("Pair the phone with DUET-Arm and send B, S, E or G and an angle");
+}
+
+void loop() {
+  if (SerialBT.available()) {
+    char joint = SerialBT.read();         // B, S, E or G
+    if (joint != 'B' && joint != 'S' && joint != 'E' && joint != 'G') return;   // skip anything else (the line's end)
+    int angle = SerialBT.read() - '0';    // the angle
+    angle = constrain(angle, 0, 180);
+    if (joint == 'B') base.write(angle);
+    if (joint == 'S') shoulder.write(angle);
+    if (joint == 'E') elbow.write(angle);
+    if (joint == 'G') claw.write(constrain(angle, 30, 95));   // the claw: 30 open, 95 shut
+    SerialBT.print("OK ");
+    SerialBT.print(joint);
+    SerialBT.print(" ");
+    SerialBT.println(angle);
+  }
+}
+`;
+
 export function batch23(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -215,6 +261,43 @@ export function batch23(K, n0) {
     check: [...armChecks, ...knobChecks, ...BTN.flatMap(([t, , d, nm]) => [has(t, t3(nm.en + ' button', nm.hi + ' बटन', nm.hg + ' button')), need(t + '.L1', d, W.toPin, { x: t3(nm.en + ' button', nm.hi + ' बटन', nm.hg + ' button'), p: +d.slice(1) }),
       (S) => (S.conn(t + '.L3', 'GND') || S.conn(t + '.L4', 'GND') ? null : [W.toGnd, { x: t3(nm.en + ' button\'s other leg', nm.hi + ' बटन का दूसरा पैर', nm.hg + ' button ka doosra pair') }])])],
     done: (S) => maxp(S.runSrc) >= 8 && S.memRun.playedPlace });
+
+  // 3 ---------------------------------------------------------------------------------------------- the arm from a phone
+  // the ESP32 in the breadboard: its GND (front row, column 5) to the adapter's − rail, the servos' signals on GPIO 13, 14, 27, 26
+  const ESERVO = { svB: 13, svS: 14, svE: 27, svG: 26 };
+  const ESUPPLY = [['T:psu:P', 'H:bp20'], ['T:psu:N', 'H:bn21'], ['H:j5', 'H:bn3']];
+  const eServoPow = (k) => [['T:' + k + ':GND', 'H:bn' + (24 + Object.keys(ESERVO).indexOf(k) * 4)], ['T:' + k + ':VP', 'H:bp' + (24 + Object.keys(ESERVO).indexOf(k) * 4)]];
+  const netOf4 = (S) => S.lab.net4 || { bt: { conn: null, log: [] } };
+  const btLog = (S) => (netOf4(S).bt.log || []).filter((x) => !x.sys && !x.me).map((x) => x.text);
+  const okParse = (src) => /int\s+angle\s*=\s*SerialBT\.parseInt\(\s*\)\s*;/.test(src || '');
+  const XB = { espGnd: t3('The ESP32\'s GND must join the adapter\'s − rail (common ground), or the servos cannot read its signals.', 'ESP32 का GND एडैप्टर की − रेल से जुड़ना चाहिए (कॉमन ग्राउंड), वरना सर्वो इसके सिग्नल नहीं पढ़ सकते।', 'ESP32 ka GND adapter ki − rail se judna chahiye (common ground), warna servo iske signal nahi padh sakte.'),
+    gpio12: t3('Not GPIO 12: it is a strapping pin, and a servo pulling it at power-up can stop the ESP32 from starting. Use the pins the steps say.', 'GPIO 12 नहीं: यह स्ट्रैपिंग पिन है, और चालू होते समय सर्वो उसे खींचे तो ESP32 शुरू नहीं होता। वही पिन लीजिए जो स्टेप बताते हैं।', 'GPIO 12 nahi: yeh strapping pin hai, aur chalu hote samay servo use kheenche to ESP32 shuru nahi hota. Wahi pin lijiye jo steps batate hain.') };
+  L.push({ id: 'armbt', board: 'esp32', cls: '11', blocks: false, view: 'side', wview: 'armbench', code: ARMBT, drawer: [], baud: 115200, serial: true, phone: true, world: { kind: 'arm', level: 4 },
+    tick: (S) => { if (S.fresh() && !okParse(S.runSrc) && ang(S, 'svB') < 10 && btLog(S).some((x) => /^OK B 1$/.test(x))) S.mem.oneDigit = true; },
+    title: t3('Robot arm: phone control over Bluetooth', 'रोबोट बाँह: ब्लूटूथ से फ़ोन द्वारा', 'Robot arm: Bluetooth se phone dwara'),
+    goal: t3('No wires to the operator: the arm takes typed commands from a phone over Bluetooth, B140 for "base to 140°". Read a number out of a stream of letters, then do a whole pick-and-place from the phone.', 'चलाने वाले तक कोई तार नहीं: बाँह ब्लूटूथ से फ़ोन के लिखे आदेश लेती है, B140 यानी "बेस 140° पर"। अक्षरों की धारा से एक संख्या पढ़िए, फिर फ़ोन से पूरा उठाओ-रखो कीजिए।', 'Chalane wale tak koi taar nahi: baanh Bluetooth se phone ke likhe aadesh leti hai, B140 yaani "base 140° par". Aksharon ki dhaara se ek sankhya padhiye, phir phone se poora uthao-rakho kijiye.'),
+    setup: { parts: ARMPARTS, wires: [...ESUPPLY, ...Object.keys(ESERVO).flatMap(eServoPow)] },
+    steps: [
+      { k: 'info', do: t3('An ESP32 drives the arm today: it has Bluetooth built in. The adapter powers the servos as before, and the ESP32\'s GND is joined to the adapter\'s − rail. Your job: the four signal wires.', 'आज ESP32 बाँह चलाता है: इसमें ब्लूटूथ अंदर ही है। एडैप्टर पहले की तरह सर्वो को बिजली देता है, और ESP32 का GND एडैप्टर की − रेल से जुड़ा है। आपका काम: चारों सिग्नल तार।', 'Aaj ESP32 baanh chalata hai: ismein Bluetooth andar hi hai. Adapter pehle ki tarah servo ko bijli deta hai, aur ESP32 ka GND adapter ki − rail se juda hai. Aapka kaam: chaaron signal taar.'),
+        see: t3('The ESP32\'s pins give 3.3 V, enough for a servo\'s signal; the servos\' power still comes from the 5 V adapter.', 'ESP32 के पिन 3.3 V देते हैं, सर्वो के सिग्नल के लिए काफ़ी; सर्वो की बिजली अब भी 5 V एडैप्टर से आती है।', 'ESP32 ke pin 3.3 V dete hain, servo ke signal ke liye kaafi; servo ki bijli ab bhi 5 V adapter se aati hai.') },
+      ...Object.keys(ESERVO).map((k) => w3(k + '.SIG', 'D' + ESERVO[k], `Wire the ${sv[k].en}'s orange wire to GPIO ${ESERVO[k]}.`, `${sv[k].hi} का नारंगी तार GPIO ${ESERVO[k]} से जोड़िए।`, `${sv[k].hg} ka orange wire GPIO ${ESERVO[k]} se jodiye.`)),
+      CHECK,
+      { k: 'info', code: [25, 31], do: t3('Read loop(): one letter says which joint, and then the angle is read. The phone sends "B140" and then the line\'s end, all at once.', 'loop() पढ़िए: एक अक्षर बताता है कौन-सा जोड़, फिर कोण पढ़ा जाता है। फ़ोन "B140" और फिर लाइन का अंत, सब एक साथ भेजता है।', 'loop() padhiye: ek akshar batata hai kaun sa joint, phir angle padha jaata hai. Phone "B140" aur phir line ka ant, sab ek saath bhejta hai.'), see: E },
+      RUN(t3('It starts Bluetooth as "DUET-Arm".', 'यह ब्लूटूथ "DUET-Arm" नाम से शुरू करता है।', 'Yeh Bluetooth "DUET-Arm" naam se shuru karta hai.')),
+      { k: 'act', until: (S) => netOf4(S).bt.conn === 'DUET-Arm', do: t3('On the phone, open the Bluetooth app and tap DUET-Arm to connect.', 'फ़ोन पर ब्लूटूथ ऐप खोलिए और जोड़ने के लिए DUET-Arm पर टैप कीजिए।', 'Phone par Bluetooth app kholiye aur jodne ke liye DUET-Arm par tap kijiye.'), see: E },
+      { k: 'act', until: (S) => !!S.mem.oneDigit, do: t3('Type B140 and send it.', 'B140 लिखिए और भेजिए।', 'B140 likhiye aur bhejiye.'),
+        see: t3('The base swings right round to 1°, and the phone shows "OK B 1"! SerialBT.read() takes ONE character, so the angle was only the "1"; the "4" and "0" were then read as joint letters and skipped. A real arm swinging the wrong way could hit someone.', 'बेस घूमकर 1° तक चला गया, और फ़ोन पर "OK B 1"! SerialBT.read() एक ही अक्षर लेता है, इसलिए कोण सिर्फ़ "1" रहा; "4" और "0" फिर जोड़ के अक्षर समझकर छोड़ दिए गए। ग़लत दिशा में घूमती असली बाँह किसी को लग सकती है।', 'Base ghoom kar 1° tak chala gaya, aur phone par "OK B 1"! SerialBT.read() ek hi akshar leta hai, isliye angle sirf "1" raha; "4" aur "0" phir joint ke akshar samajh kar chhod diye gaye. Galat disha mein ghoomti asli baanh kisi ko lag sakti hai.') },
+      { k: 'edit', test: okParse, set: [[/int angle = SerialBT\.read\(\) - '0';/, 'int angle = SerialBT.parseInt();']],
+        do: t3('Read the whole number: change SerialBT.read() - \'0\' to SerialBT.parseInt(), and press Run. parseInt() collects digits until something that is not a digit.', 'पूरी संख्या पढ़िए: SerialBT.read() - \'0\' को SerialBT.parseInt() कीजिए, और "चलाइए" दबाइए। parseInt() अंक तब तक इकट्ठा करता है जब तक कोई ग़ैर-अंक न आए।', 'Poori sankhya padhiye: SerialBT.read() - \'0\' ko SerialBT.parseInt() karo, aur Run dabaiye. parseInt() ank tab tak ikattha karta hai jab tak koi gair-ank na aaye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && Math.abs(ang(S, 'svB') - 140) < 4 && btLog(S).some((x) => /^OK B 140$/.test(x)), do: t3('The ESP32 restarted, so connect to DUET-Arm again, and send B140.', 'ESP32 फिर से चालू हुआ, इसलिए DUET-Arm से फिर जुड़िए, और B140 भेजिए।', 'ESP32 phir se chalu hua, isliye DUET-Arm se phir judiye, aur B140 bhejiye.'),
+        see: t3('"OK B 140": the base points at A.', '"OK B 140": बेस A की ओर है।', '"OK B 140": base A ki taraf hai.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('placed'), do: t3('Now the whole job from the phone, one command at a time: G30 (open), S45 and E66 (down to the block), G92 (grip), S80 (lift), B40 (to B), S45 (down), G30 (let go).', 'अब पूरा काम फ़ोन से, एक-एक आदेश: G30 (खोलो), S45 और E66 (ब्लॉक तक नीचे), G92 (पकड़ो), S80 (उठाओ), B40 (B की ओर), S45 (नीचे), G30 (छोड़ो)।', 'Ab poora kaam phone se, ek-ek aadesh: G30 (kholo), S45 aur E66 (block tak neeche), G92 (pakdo), S80 (uthao), B40 (B ki taraf), S45 (neeche), G30 (chhodo).'),
+        see: t3('Placed at B from across the room. A short command language like this (a letter and a number) is how many real robots and 3D printers are driven: a printer\'s G-code says G1 X40 Y20.', 'कमरे के उस पार से B पर रख दिया। ऐसी छोटी आदेश भाषा (एक अक्षर और एक संख्या) से बहुत से असली रोबोट और 3D प्रिंटर चलते हैं: प्रिंटर का G-code कहता है G1 X40 Y20।', 'Kamre ke us paar se B par rakh diya. Aisi chhoti aadesh bhasha (ek akshar aur ek sankhya) se bahut se asli robot aur 3D printer chalte hain: printer ka G-code kehta hai G1 X40 Y20.') },
+    ],
+    check: [(S) => (S.conn('VIN', 'GND') || S.conn('3V3', 'GND') ? [W.short] : null), (S) => (S.conn('psu.P', 'rail:bp') && S.conn('psu.N', 'rail:bn') ? null : [X.psuRail]), (S) => (S.conn('psu.N', 'GND') ? null : [XB.espGnd]),
+      (S) => (Object.keys(ESERVO).some((k) => S.conn(k + '.SIG', 'D12')) ? [XB.gpio12] : null),
+      ...Object.keys(ESERVO).map((k) => need(k + '.SIG', 'D' + ESERVO[k], W.toPin, { x: t3(sv[k].en + '\'s orange wire', sv[k].hi + ' का नारंगी तार', sv[k].hg + ' ka orange wire'), p: ESERVO[k] }))],
+    done: (S) => okParse(S.runSrc) && S.w('placed') });
 
   for (const l of L) { l.n = ++n; l.batch = 23; }
   return L;

@@ -4,6 +4,7 @@
 // pos) and the buttons:
 //   armcopy    knob 2 up lowers the arm (the master's shoulder knob is fitted the other way round); after the edit the
 //              knobs carry the block from A to B
+//   armbt      the ESP32 and a phone: B140 turns the base to 1° (one SerialBT.read()); with parseInt() to 140; the job by commands
 //   armrecord  seven poses: "Memory full!" after three; MAXP = 10; seven saved; back to A, knobs anywhere, PLAY: placed
 // Mistakes: knob 2's wiper on A2 and knob 3's on A1 (the check names the order); the RECORD button on pin 7.
 //   node devtools/test/robocore23.mjs      (exit 1 on a failure)
@@ -12,10 +13,11 @@ import { Lab } from '../../robotics/js/sim.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { ArmSim } from '../../robotics/js/robots.js';
+import { netOf } from '../../robotics/js/esp32.js';
 
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
 const L23 = LESSONS.filter((l) => l.batch === 23);
-ok(L23.length === 2 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L23.length} lessons in batch 23, ids unique`);
+ok(L23.length === 3 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L23.length} lessons in batch 23, ids unique`);
 
 function build(l, extra) {
   const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code;
@@ -87,5 +89,18 @@ const say = (c) => (c ? c[0].en.replace(/\{(\w+)\}/g, (m, k) => { const a = (c[1
   ok(/Memory full!/.test(r.B.ser), 'armrecord: the first program said "Memory full!" after three poses');
   const M = build(l, (s) => (s.wire[0] === 'b1.L1' ? ['b1.L1', 'D7'] : s.wire)); const c = M.rt.runCheck();
   ok(!!c && /pin 2/.test(say(c)), `armrecord: RECORD on pin 7 -> the check says ${JSON.stringify(say(c)).slice(0, 90)}`);
+}
+{ // the arm from a phone over Bluetooth (ESP32)
+  const l = L23.find((x) => x.id === 'armbt');
+  const N = (B) => netOf(B.lab); const send = (txt) => (B) => N(B).btSend(txt); const conn = (B) => N(B).btConnect('DUET-Arm');
+  const JOBC = ['G30', 'S45', 'E66', 'G92', 'S80', 'B40', 'S45', 'G30'];
+  const acts = { [ix(l, /open the Bluetooth app/)]: script([[0.5, conn]]), [ix(l, /Type B140/)]: script([[0.3, send('B140')]]),
+    [ix(l, /connect to DUET-Arm again/)]: script([[0.5, conn], [0.8, send('B140')]]), [ix(l, /whole job from the phone/)]: script(JOBC.map((c, i) => [0.3 + i * 1.3, send(c)])) };
+  const r = play(l, acts, 30); ok(r.done, `armbt: plays end to end — ${r.log.join(' | ')}`);
+  const log = (N(r.B).bt.log || []).filter((x) => !x.sys && !x.me).map((x) => x.text);
+  ok(log.includes('OK B 140') && log.includes('OK G 92') && r.B.sim.flags.has('placed'), `armbt: the phone got the replies and the block is at B (${log.slice(-3).join(' | ')})`);
+  ok(!!r.B.rt.mem.oneDigit, 'armbt: the first program turned "B140" into 1°');
+  const M = build(l, (s) => (s.wire[0] === 'svS.SIG' ? ['svS.SIG', 'D12'] : s.wire)); const c = M.rt.runCheck();
+  ok(!!c && /strapping/.test(say(c)), `armbt: the shoulder on GPIO 12 -> the check says ${JSON.stringify(say(c)).slice(0, 80)}`);
 }
 console.log(fails ? `${fails} FAILED` : 'all ok'); process.exit(fails ? 1 : 0);
