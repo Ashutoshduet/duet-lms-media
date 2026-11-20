@@ -25510,6 +25510,33 @@
 "note": null
 },
 {
+"id": "live-greenhouse",
+"title": "Smart greenhouse: air, soil and light",
+"family": "live",
+"board": "uno",
+"parts": [
+"soil",
+"ldr",
+"resistor",
+"led",
+"aa4",
+"pump",
+"relay",
+"dht11",
+"motor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "greenhouse",
+"rule": null,
+"note": null
+},
+{
 "id": "live-smarttank",
 "title": "Smart water tank: level, pump and alarm",
 "family": "live",

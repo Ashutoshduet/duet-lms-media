@@ -806,3 +806,8 @@ heaters.
   the IR sensors on 3V3 (the check refuses VBUS), the HC-SR04's Echo through 1 kΩ (48g–52g) / 2.2 kΩ (48j) to GP13 and
   `time_pulse_us()`, the scan servo on GP15. robocore17.mjs drives the cars (CarSim) as worlds.js does; robocore2 now
   keeps to the Uno cars. Class 9: 22 of 26. 1,489 projects.
+- Smart greenhouse (`greenhouse`, Uno, batch 17): scenes3.js `GreenhouseScene` extends the garden (same 3D): the sun
+  heats the air towards 39 °C (night 24 °C), the fan (a DC motor through relay 2 and its own AA pack) takes 9 °C off,
+  the DHT11 reads that air (lab.env), the LDR gets the sun as its own lux, led1 is the grow light; flags fanOn, cooled,
+  growNight, held (the fan keeps the sunny house at ≤ 31 °C for 8 s). Note: a part's terminal takes one wire, so a
+  second load needs its own pack (or a breadboard rail). Class 9: 23 of 26. 1,490 projects.

@@ -8,6 +8,7 @@
 //                  dry-run protection (the level must rise within 5 s, or the pump stops and the alarm sounds)
 //   pico_linecar / pico_avoidcar  the Class 7 cars again on the Pico in MicroPython (L298N on GP16–GP21, PWM in %), the
 //                  sonar's Echo through a 1 kΩ / 2.2 kΩ divider to GP13, time_pulse_us() for its echo
+//   greenhouse     a polyhouse on the Uno: DHT11 + soil + LDR in, pump + fan (two relays, a battery pack each) + grow light out
 //   banklocker     a bank locker on the Uno with two factors: the owner's RFID card AND a PIN on the keypad (rows on
 //                  A0–A3, because the reader's SPI takes pins 9–13); "Card first!", an unknown card, three wrong PINs
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js; scenes3.js runs the locker / kitchen / bank scenes.
@@ -375,7 +376,51 @@ while True:
         drive(speed, -speed)      # spin to the right
     time.sleep_ms(450)
 `;
-export const BATCH17_CODE = { PLOCK, PGAS, BANK, TANKC, PLINE, PAVOID };
+const GREEN = `// Smart greenhouse: the Arduino looks after the plant by itself, day and night.
+// The DHT11 watches the air, the soil sensor the roots, the LDR the sun.
+#include <DHT.h>
+DHT dht(2, DHT11);              // the DHT11's DATA on pin 2
+const int soilPin = A0;         // soil: dry = big number
+const int lightPin = A1;        // light: bright = big number
+const int pump = 7;             // relay 1: the water pump
+const int fan = 8;              // relay 2: the fan
+const int growLight = 9;        // an LED for the plant at night
+int dry = 600;                  // soil above this: water it
+int hot = 32;                   // °C above this: fan on
+int dark = 300;                 // light below this: night
+
+void setup() {
+  dht.begin();
+  pinMode(pump, OUTPUT);
+  pinMode(fan, OUTPUT);
+  pinMode(growLight, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  int soil = analogRead(soilPin);
+  int light = analogRead(lightPin);
+
+  digitalWrite(pump, soil > dry ? HIGH : LOW);           // thirsty: water
+  if (!isnan(t)) {
+    digitalWrite(fan, t > hot || h > 85 ? HIGH : LOW);   // too hot or too damp: air it
+  }
+  digitalWrite(growLight, light < dark ? HIGH : LOW);    // night: grow light on
+
+  Serial.print("T ");
+  Serial.print(t, 1);
+  Serial.print(" C  H ");
+  Serial.print(h, 0);
+  Serial.print(" %  soil ");
+  Serial.print(soil);
+  Serial.print("  light ");
+  Serial.println(light);
+  delay(1000);
+}
+`;
+export const BATCH17_CODE = { PLOCK, PGAS, BANK, TANKC, PLINE, PAVOID, GREEN };
 
 export function batch17(K, n0) {
   const { P, F, W, need, has, noShort } = K;
@@ -518,6 +563,50 @@ export function batch17(K, n0) {
     check: [noShort, has('us1', t3('ultrasonic sensor', 'अल्ट्रासोनिक सेंसर', 'ultrasonic sensor')), (S) => (S.conn('us1.TRIG', 'D10') && S.conn('us1.ECHO', 'D9') ? [XT.swap] : null),
       (S) => (S.conn('us1.VCC', '5V') && S.conn('us1.GND', 'GND') && S.conn('us1.TRIG', 'D9') && S.conn('us1.ECHO', 'D10') ? null : [XT.us])],
     done: (S) => /int\s+low\s*=\s*(?!30\s*;)\d+/.test(S.runSrc || '') && S.w('full') && (S.wv('res') || {}).onAt >= 40 });
+
+  // 7 ---------------------------------------------------------------------------------------------- Uno smart greenhouse
+  const GH_W = [['T:soil:VCC', 'H:bp45'], ['T:soil:GND', 'H:bn45'], ['T:soil:AO', 'A0'], ['H:a40', 'H:tp36'], ['A1', 'H:a42'], ['D9', 'H:a31'],
+    ['T:rl:S', 'D7'], ['T:rl:VCC', 'H:bp48'], ['T:rl:GND', 'H:bn48'], ['T:bat:P', 'T:rl:COM'], ['T:rl:NO', 'T:pump:P'], ['T:pump:N', 'T:bat:N']];
+  const XG = {
+    dht: t3('The DHT11: DATA (left, column 50) to pin 2, + (middle) to the front + rail, − (right) to the front − rail.', 'DHT11: DATA (बायाँ, कॉलम 50) पिन 2 पर, + (बीच) आगे वाली + रेल पर, − (दायाँ) आगे वाली − रेल पर।', 'DHT11: DATA (left, column 50) pin 2 par, + (beech) aage wali + rail par, − (right) aage wali − rail par.'),
+    fan: t3('The fan\'s relay: S to pin 8, + and − to the front rails; on its other side the fan\'s pack + to COM, NO to the fan\'s red wire, the fan\'s black wire to the pack −.', 'पंखे का रिले: S पिन 8 पर, + और − आगे की रेलों पर; दूसरी तरफ़ पंखे के पैक का + COM पर, NO से पंखे का लाल तार, पंखे का काला तार पैक के − पर।', 'Pankhe ka relay: S pin 8 par, + aur − aage ki rails par; doosri taraf pankhe ke pack ka + COM par, NO se pankhe ka laal taar, pankhe ka kaala taar pack ke − par.'),
+  };
+  L.push({ id: 'greenhouse', cls: '9', blocks: false, view: 'wide', rview: 'scene3', code: GREEN, drawer: ['dht11', 'relay', 'motor'], serial: true, scene: { kind: 'greenhouse' },
+    title: t3('Smart greenhouse: air, soil and light', 'स्मार्ट ग्रीनहाउस: हवा, मिट्टी और रोशनी', 'Smart greenhouse: hawa, mitti aur roshni'),
+    goal: t3('A polyhouse that runs itself: the pump waters dry soil, a fan cools hot or damp air, and a grow light comes on at night. Three sensors, three outputs, one loop.', 'ऐसा पॉलीहाउस जो ख़ुद चलता है: पंप सूखी मिट्टी को पानी देता है, पंखा गर्म या नम हवा को ठंडा करता है, और रात में ग्रो लाइट जलती है। तीन सेंसर, तीन आउटपुट, एक लूप।', 'Aisa polyhouse jo khud chalta hai: pump sookhi mitti ko paani deta hai, pankha garam ya nam hawa ko thanda karta hai, aur raat mein grow light jalti hai. Teen sensor, teen output, ek loop.'),
+    setup: { parts: [F('soil', 'soil', {}, 150, 92, 0), P('ldr1', 'ldr', {}, 'e40', 0), P('r10', 'resistor', { ohms: 10000 }, 'b42', 3), P('led1', 'led', { color: 'yellow' }, 'e30', 0), P('r1', 'resistor', { ohms: 220 }, 'b30', 3),
+      F('bat', 'aa4', {}, -40, 150, 0), F('pump', 'pump', { mount: 'tank' }, 182, 140, 1), F('rl', 'relay', {}, 60, 118, 0)], wires: [...POWER, ...GH_W] },
+    steps: [
+      { k: 'info', do: t3('Already working from the garden lesson: the soil sensor (A0), the pump through relay 1 (pin 7), an LDR (A1, bright = big) and a yellow grow light (pin 9). New today: the air. A DHT11 for temperature and humidity, and a fan on a second relay.', 'बगीचे वाले पाठ से पहले से चालू: मिट्टी सेंसर (A0), रिले 1 (पिन 7) से पंप, एक एलडीआर (A1, रोशनी = बड़ी संख्या) और पीली ग्रो लाइट (पिन 9)। आज नया: हवा। तापमान और नमी के लिए DHT11, और दूसरे रिले पर पंखा।', 'Bagiche wale paath se pehle se chalu: mitti sensor (A0), relay 1 (pin 7) se pump, ek LDR (A1, roshni = bada number) aur peeli grow light (pin 9). Aaj naya: hawa. Temperature aur nami ke liye DHT11, aur doosre relay par pankha.'), see: E },
+      { k: 'place', place: P('dht', 'dht11', {}, 'j50', 0), do: t3('Plug the DHT11 into 50j–52j, its grille facing you.', 'DHT11 को 50j–52j में लगाइए, जाली आपकी तरफ़।', 'DHT11 ko 50j–52j mein lagaiye, jaali aapki taraf.'), see: E },
+      w3('dht', 'DATA', 'D2', 'Its left pin (DATA) to pin 2.', 'इसका बायाँ पिन (DATA) पिन 2 से।', 'Iska left pin (DATA) pin 2 se.'),
+      w3('dht', 'VCC', 'rail:bp', 'Its middle pin (+) to the front + rail.', 'इसका बीच वाला पिन (+) आगे वाली + रेल से।', 'Iska beech wala pin (+) aage wali + rail se.'),
+      w3('dht', 'GND', 'rail:bn', 'Its right pin (−) to the front − rail.', 'इसका दायाँ पिन (−) आगे वाली − रेल से।', 'Iska right pin (−) aage wali − rail se.'),
+      { k: 'place', place: F('rl2', 'relay', {}, 100, 118, 0), do: t3('Put the second relay on the mat at the ghost.', 'दूसरा रिले मैट पर नीली आकृति पर रखिए।', 'Doosra relay mat par neeli shape par rakhiye.'), see: E },
+      w3('rl2', 'S', 'D8', 'Its S to pin 8.', 'इसका S पिन 8 से।', 'Iska S pin 8 se.'),
+      w3('rl2', 'VCC', 'rail:bp', 'Its + to the front + rail.', 'इसका + आगे वाली + रेल से।', 'Iska + aage wali + rail se.'),
+      w3('rl2', 'GND', 'rail:bn', 'Its − to the front − rail.', 'इसका − आगे वाली − रेल से।', 'Iska − aage wali − rail se.'),
+      { k: 'place', place: F('fan', 'motor', {}, 228, 30, 0), do: t3('Put the fan (a DC motor with a propeller) at the ghost, next to the plant.', 'पंखा (प्रोपेलर वाली डीसी मोटर) नीली आकृति पर, पौधे के पास रखिए।', 'Pankha (propeller wali DC motor) neeli shape par, paudhe ke paas rakhiye.'), see: E },
+      { k: 'place', place: F('bat2', 'aa4', {}, -130, 150, 0), do: t3('The fan gets its own battery pack: put it at the ghost.', 'पंखे का अपना बैटरी पैक है: इसे नीली आकृति पर रखिए।', 'Pankhe ka apna battery pack hai: ise neeli shape par rakhiye.'), see: E },
+      w3('bat2', 'P', 'rl2.COM', 'Its power loop: the pack\'s red wire (+) to relay 2\'s COM.', 'इसका पावर लूप: पैक का लाल तार (+) रिले 2 के COM से।', 'Iska power loop: pack ka laal taar (+) relay 2 ke COM se.'),
+      w3('rl2', 'NO', 'fan.P', 'Relay 2\'s NO to the fan\'s red wire.', 'रिले 2 का NO पंखे के लाल तार से।', 'Relay 2 ka NO pankhe ke laal taar se.'),
+      w3('fan', 'N', 'bat2.N', 'The fan\'s black wire to the pack\'s black wire (−).', 'पंखे का काला तार पैक के काले तार (−) से।', 'Pankhe ka kaala taar pack ke kaale taar (−) se.', t3('Two loops, each with its own switch: the pump\'s through relay 1, the fan\'s through relay 2. The Arduino only moves the relays.', 'दो लूप, हर एक का अपना स्विच: पंप का रिले 1 से, पंखे का रिले 2 से। Arduino सिर्फ़ रिले हिलाता है।', 'Do loop, har ek ka apna switch: pump ka relay 1 se, pankhe ka relay 2 se. Arduino sirf relay hilata hai.')),
+      CHECK,
+      { k: 'info', code: [27, 31], do: t3('Read the three rules in loop(): each output has its own if, written as condition ? HIGH : LOW. The fan has two reasons: too hot OR too damp (|| means "or").', 'loop() के तीन नियम पढ़िए: हर आउटपुट का अपना if है, condition ? HIGH : LOW की तरह लिखा। पंखे के दो कारण हैं: बहुत गर्म या बहुत नम (|| मतलब "या")।', 'loop() ke teen niyam padhiye: har output ka apna if hai, condition ? HIGH : LOW ki tarah likha. Pankhe ke do kaaran hain: bahut garam ya bahut nam (|| matlab "ya").'), see: E },
+      RUN(t3('A line every second: temperature, humidity, soil and light.', 'हर सेकंड एक लाइन: तापमान, नमी, मिट्टी और रोशनी।', 'Har second ek line: temperature, nami, mitti aur roshni.')),
+      { k: 'watch', until: (S) => S.w('fanOn') && S.w('cooled'), do: t3('A sunny afternoon: watch the temperature.', 'धूप वाली दोपहर: तापमान देखिए।', 'Dhoop wali dopahar: temperature dekhiye.'),
+        see: t3('The plastic traps the sun\'s heat. Past 32 °C, click: the fan starts and pulls the air down a few degrees.', 'प्लास्टिक धूप की गर्मी को रोक लेता है। 32 °C के पार, क्लिक: पंखा चलता है और हवा को कुछ डिग्री ठंडा करता है।', 'Plastic dhoop ki garmi ko rok leta hai. 32 °C ke paar, click: pankha chalta hai aur hawa ko kuch degree thanda karta hai.') },
+      { k: 'act', until: (S) => S.w('growNight') && S.w('fanOff'), do: t3('Evening: in the panel, turn the sun off.', 'शाम: पैनल में धूप बंद कीजिए।', 'Shaam: panel mein dhoop band kijiye.'),
+        see: t3('The LDR goes dark, so the grow light comes on; the air cools, so the fan stops by itself.', 'एलडीआर अंधेरे में चला जाता है, तो ग्रो लाइट जलती है; हवा ठंडी होती है, तो पंखा अपने-आप रुकता है।', 'LDR andhere mein chala jaata hai, to grow light jalti hai; hawa thandi hoti hai, to pankha apne-aap rukta hai.') },
+      { k: 'act', until: (S) => S.w('cycle2'), do: t3('A dry spell: press "dry the soil".', 'सूखा: "मिट्टी सुखाइए" दबाइए।', 'Sookha: "mitti sukhaiye" dabaiye.'), see: t3('The pump waters until the soil is wet again, as in the garden: three systems, each minding its own job in the same loop.', 'बगीचे की तरह पंप मिट्टी के फिर गीली होने तक पानी देता है: तीन सिस्टम, एक ही लूप में अपना-अपना काम।', 'Bagiche ki tarah pump mitti ke phir geeli hone tak paani deta hai: teen system, ek hi loop mein apna-apna kaam.') },
+      { k: 'edit', test: (src) => { const m = /int\s+hot\s*=\s*(\d+)\s*;/.exec(src); return !!m && +m[1] >= 26 && +m[1] <= 30; }, set: [[/int hot = 32;/, 'int hot = 29;']],
+        do: t3('Tomatoes drop their flowers above about 30 °C. Change hot = 32 to hot = 29 and press Run.', 'टमाटर लगभग 30 °C से ऊपर फूल गिरा देते हैं। hot = 32 को hot = 29 कीजिए और "चलाइए" दबाइए।', 'Tamatar lagbhag 30 °C se upar phool gira dete hain. hot = 32 ko hot = 29 karo aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => S.runSrc !== null && /int\s+hot\s*=\s*(2[6-9]|30)\s*;/.test(S.runSrc) && S.w('held'), do: t3('Morning again: turn the sun on.', 'फिर सुबह: धूप चालू कीजिए।', 'Phir subah: dhoop chalu kijiye.'),
+        see: live((lg, R) => (R.held === undefined ? '' : pick(lg, `Your results: in full sun the fan now holds the house at ${R.held} °C (with hot = 32 it climbed to ${R.tMax} °C). Farmers in polyhouses grow tomatoes, capsicum and flowers this way, with the same three sensors.`, `आपके नतीजे: तेज़ धूप में पंखा अब घर को ${R.held} °C पर रखता है (hot = 32 के साथ यह ${R.tMax} °C तक चढ़ा था)। पॉलीहाउस में किसान टमाटर, शिमला मिर्च और फूल ऐसे ही उगाते हैं, इन्हीं तीन सेंसरों के साथ।`, `Aapke results: tez dhoop mein pankha ab ghar ko ${R.held} °C par rakhta hai (hot = 32 ke saath yeh ${R.tMax} °C tak chadha tha). Polyhouse mein kisaan tamatar, shimla mirch aur phool aise hi ugaate hain, inhi teen sensoron ke saath.`))) },
+    ],
+    check: [noShort, (S) => (S.conn('rail:bp', '5V') && S.conn('rail:bn', 'GND') ? null : [W.vRail]), has('dht', t3('DHT11', 'DHT11', 'DHT11')), (S) => (S.conn('dht.DATA', 'D2') && S.conn('dht.VCC', '5V') && S.conn('dht.GND', 'GND') ? null : [XG.dht]),
+      has('rl2', t3('second relay', 'दूसरा रिले', 'doosra relay')), has('fan', t3('fan', 'पंखा', 'pankha')), (S) => (S.conn('rl2.S', 'D8') && S.conn('rl2.VCC', '5V') && S.conn('rl2.GND', 'GND') && S.conn('bat2.P', 'rl2.COM') && S.conn('rl2.NO', 'fan.P') && S.conn('fan.N', 'bat2.N') ? null : [XG.fan])],
+    done: (S) => /int\s+hot\s*=\s*(2[6-9]|30)\s*;/.test(S.runSrc || '') && S.w('held') });
 
   // 5, 6 ------------------------------------------------------------------------------------------- the Pico robot cars
   const CARPARTS = [F('drv', 'l298n', {}, -35, 105, 0), F('bat', 'bat18650', {}, -190, 108, 0), F('mL', 'bomotor', { side: 'L' }, -80, 152, 3), F('mR', 'bomotor', { side: 'R' }, 10, 152, 1)];

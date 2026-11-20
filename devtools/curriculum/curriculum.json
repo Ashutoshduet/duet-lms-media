@@ -4761,23 +4761,26 @@
    {
     "class": 9,
     "n": 25,
-    "kind": "I",
-    "title": "Smart greenhouse: humidity, soil and light",
+    "kind": "L",
+    "title": "Smart greenhouse: air, soil and light",
     "board": "uno",
-    "status": "planned",
-    "ref": "smart-greenhouse-humidity-soil-and-light-uno",
+    "status": "live",
+    "ref": "greenhouse",
     "newparts": [],
-    "family": "smart-system",
+    "family": "live-projects",
     "parts": [
-     "dht11",
+     "soil",
      "ldr",
-     "motor",
+     "resistor",
+     "led",
+     "aa4",
      "pump",
      "relay",
-     "soil"
+     "dht11",
+     "motor"
     ],
     "strand": "Decomposition",
-    "focus": "Smart systems",
+    "focus": "Motors and servos",
     "term": "Term 4 (January-February)"
    },
    {

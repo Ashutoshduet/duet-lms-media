@@ -22,7 +22,7 @@ const W = {
   last: t3('Last button', 'आख़िरी बटन', 'Aakhri button'), pir: t3('PIR output', 'पीआईआर आउटपुट', 'PIR output'), alarm: t3('Alarm', 'अलार्म', 'Alarm'), walk: t3('A thief walks in', 'एक चोर अंदर आता है', 'Ek chor andar aata hai'),
   cat: t3('The cat walks past', 'बिल्ली पास से गुज़रती है', 'Billi paas se guzarti hai'), learning: t3('learning the room…', 'कमरा समझ रहा है…', 'room samajh raha hai…'), door: t3('Door', 'दरवाज़ा', 'Darwaza'),
   latch: t3('Latch (servo)', 'कुंडी (सर्वो)', 'Kundi (servo)'), locked: t3('locked', 'बंद', 'band'), open: t3('open', 'खुला', 'khula'), card: t3('Hold the white card on the reader', 'सफ़ेद कार्ड रीडर पर रखिए', 'Safed card reader par rakhiye'),
-  tag: t3('Hold the blue tag on the reader', 'नीला टैग रीडर पर रखिए', 'Neela tag reader par rakhiye'), tankLevel: t3('Water in the tank', 'टंकी में पानी', 'Tanki mein paani'), sonarSees: t3('Sensor sees (air gap)', 'सेंसर देखता है (हवा की दूरी)', 'Sensor dekhta hai (hawa ki doori)'), pump: t3('Pump', 'पंप', 'Pump'), dryRunW: t3('running dry!', 'सूखा चल रहा है!', 'sookha chal raha hai!'), taps: t3('Taps in the house', 'घर के नल', 'Ghar ke nal'), sumpW: t3('Sump (underground tank)', 'संप (ज़मीन के नीचे की टंकी)', 'Sump (zameen ke neeche ki tanki)'), sumpFull: t3('Has water', 'पानी है', 'Paani hai'), sumpDry: t3('Empty', 'ख़ाली', 'Khaali'), cardAsha: t3('Asha taps her white card', 'आशा अपना सफ़ेद कार्ड लगाती है', 'Asha apna safed card lagati hai'), tagRavi: t3('Ravi taps his blue tag', 'रवि अपना नीला टैग लगाता है', 'Ravi apna neela tag lagata hai'), lastCard: t3('Last card', 'आख़िरी कार्ड', 'Aakhri card'), sky: t3('Weather outside', 'बाहर का मौसम', 'Bahar ka mausam'),
+  tag: t3('Hold the blue tag on the reader', 'नीला टैग रीडर पर रखिए', 'Neela tag reader par rakhiye'), fanW: t3('Fan', 'पंखा', 'Pankha'), growW: t3('Grow light', 'ग्रो लाइट', 'Grow light'), tankLevel: t3('Water in the tank', 'टंकी में पानी', 'Tanki mein paani'), sonarSees: t3('Sensor sees (air gap)', 'सेंसर देखता है (हवा की दूरी)', 'Sensor dekhta hai (hawa ki doori)'), pump: t3('Pump', 'पंप', 'Pump'), dryRunW: t3('running dry!', 'सूखा चल रहा है!', 'sookha chal raha hai!'), taps: t3('Taps in the house', 'घर के नल', 'Ghar ke nal'), sumpW: t3('Sump (underground tank)', 'संप (ज़मीन के नीचे की टंकी)', 'Sump (zameen ke neeche ki tanki)'), sumpFull: t3('Has water', 'पानी है', 'Paani hai'), sumpDry: t3('Empty', 'ख़ाली', 'Khaali'), cardAsha: t3('Asha taps her white card', 'आशा अपना सफ़ेद कार्ड लगाती है', 'Asha apna safed card lagati hai'), tagRavi: t3('Ravi taps his blue tag', 'रवि अपना नीला टैग लगाता है', 'Ravi apna neela tag lagata hai'), lastCard: t3('Last card', 'आख़िरी कार्ड', 'Aakhri card'), sky: t3('Weather outside', 'बाहर का मौसम', 'Bahar ka mausam'),
   sunny: t3('Sunny', 'धूप', 'Dhoop'), rainy: t3('Rainy', 'बारिश', 'Baarish'), night: t3('Winter night', 'सर्दी की रात', 'Sardi ki raat'), typed: t3('Typed', 'टाइप किया', 'Type kiya'), locker: t3('Locker', 'लॉकर', 'Locker'),
   gas: t3('LPG in the air', 'हवा में एलपीजी', 'Hawa mein LPG'), leak: t3('Gas knob left open', 'गैस का नॉब खुला रह गया', 'Gas ka knob khula reh gaya'), window: t3('Window', 'खिड़की', 'Khidki'), closed: t3('Closed', 'बंद', 'Band'),
   opened: t3('Open', 'खुली', 'Khuli'), warmUp: t3('warming up…', 'गर्म हो रहा है…', 'garam ho raha hai…'), pan: t3('Pan (left–right)', 'पैन (बाएँ–दाएँ)', 'Pan (left–right)'), tilt: t3('Tilt (up–down)', 'टिल्ट (ऊपर–नीचे)', 'Tilt (upar–neeche)'),
@@ -280,6 +280,35 @@ export class TankScene extends Scene {
       controls: [{ id: 'tap', kind: 'seg', label: W.taps, options: [['0', W.closed], ['1', W.opened]], value: this.tap ? '1' : '0' }, { id: 'sump', kind: 'seg', label: W.sumpW, options: [['1', W.sumpFull], ['0', W.sumpDry]], value: this.sump ? '1' : '0' }] };
   }
 }
+
+// ------------------------------------------------------------------ the polyhouse (batch 17): the garden's plant, soil, pump and tank, and now
+// the air too. The sun heats it towards 39 °C (night: 24 °C); the fan (a DC motor through relay rl2) pulls it 9 °C cooler;
+// the DHT11 reads that air (lab.env), the LDR on the bench sees the sun (its own lux), the grow light is led1.
+export class GreenhouseScene extends GardenScene {
+  constructor(cfg) { super(cfg); this.temp = 30; this.hum = 60; this.res.tMax = 30; }
+  fanOn(lab) { const f = lab.byTag('fan'); return !!(f && Math.abs(f.state.w || 0) > 20); }
+  update(dt, lab) {
+    const r = super.update(dt, lab); const fan = this.fanOn(lab);
+    const target = (this.sun ? 39 : 24) - (fan ? 9 : 0); this.temp += (target - this.temp) * Math.min(1, dt * 0.12);
+    const hT = clamp(50 + (this.m - 0.4) * 70 - (fan ? 15 : 0) + (this.sun ? 0 : 12), 25, 95); this.hum += (hT - this.hum) * Math.min(1, dt * 0.1);
+    lab.env.temp = Math.round(this.temp * 10) / 10; lab.env.hum = Math.round(this.hum);
+    const ldr = lab.byTag('ldr1'); if (ldr) { ldr.state.ext = true; const lx = this.sun ? 20000 : 2; if (ldr.state.lux !== lx) { ldr.state.lux = lx; lab.stateV++; lab.instKey = null; } }
+    this.res.tMax = Math.max(this.res.tMax, Math.round(this.temp));
+    if (fan && !this.fanWas) { this.flags.add('fanOn'); this.res.fanAt = Math.round(this.temp); }
+    if (fan && this.temp < (this.res.fanAt || 99) - 2) this.flags.add('cooled');
+    if (!fan && this.fanWas) this.flags.add('fanOff');
+    this.heldT = this.sun && fan && this.temp <= 31 ? (this.heldT || 0) + dt : 0; if (this.heldT > 8) { this.flags.add('held'); this.res.held = Math.round(this.temp); } // (the fan keeps a sunny house at 31 °C or less)
+    this.fanWas = fan;
+    const grow = ledOn(lab, 'led1'); if (grow && !this.sun) this.flags.add('growNight'); if (!grow && this.sun && this.flags.has('growNight')) this.flags.add('growOffDay');
+    return r || fan || Math.abs(target - this.temp) > 0.1;
+  }
+  onRun() { super.onRun(); for (const k of ['fanOn', 'cooled', 'fanOff', 'growNight', 'growOffDay', 'held']) this.flags.delete(k); delete this.res.fanAt; delete this.res.held; this.fanWas = false; this.heldT = 0; }
+  hud(lab) {
+    const h = super.hud(lab); h.title = t3('Smart greenhouse', 'स्मार्ट ग्रीनहाउस', 'Smart greenhouse');
+    h.rows.unshift([tx(W.temp), `${this.temp.toFixed(1)} °C`], [tx(W.hum), `${Math.round(this.hum)} %`], [tx(W.fanW), this.fanOn(lab) ? '🌀 ' + tx(W.on) : tx(W.off)], [tx(W.growW), ledOn(lab, 'led1') ? '💡 ' + tx(W.on) : tx(W.off)]);
+    return h;
+  }
+}
 // ------------------------------------------------------------------ the kitchen: an LPG cylinder, the stove's knob, the window
 export class KitchenScene extends Scene {
   constructor(cfg) { super(cfg); this.ppm = 5; this.leak = 0; this.win = false; }
@@ -342,7 +371,7 @@ export class TurnScene extends Scene {
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

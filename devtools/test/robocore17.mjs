@@ -18,7 +18,7 @@ import { BO } from '../../robotics/js/parts2.js';
 const only = process.argv[2] ? process.argv[2].split(',') : null;
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
 const L17 = LESSONS.filter((l) => l.batch === 17);
-ok(L17.length === 6 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L17.length} lessons in batch 17, ids unique`);
+ok(L17.length === 7 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L17.length} lessons in batch 17, ids unique`);
 
 function build(l, extra) {
   const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code;
@@ -114,6 +114,16 @@ const T = {
     const d = r.B.rt.serLines.map(Number).filter((x) => x > 0); ok(d.length > 10 && Math.min(...d) < 30, `pico_avoidcar: the Pico read the distances through the divider (${Math.min(...d)}–${Math.max(...d)} cm)`);
     const M = build(l, (s) => (s.wire[0] === 'rd2.1' ? ['us1.ECHO', 'GP13'] : null)); const k = M.rt.runCheck();
     ok(!!k && /straight to GP13/.test(k[0].en), `pico_avoidcar: Echo straight to GP13 -> the check says ${JSON.stringify(k && k[0].en).slice(0, 70)}`);
+  },
+  greenhouse(l) {
+    const set = (k, v) => (B) => B.sim.control(k, v);
+    const acts = { [ix(l, /turn the sun off/)]: script([[0.3, set('sun', '0')]]), [ix(l, /dry the soil/)]: script([[0.3, (B) => B.sim.control('dry')]]), [ix(l, /turn the sun on/)]: script([[0.3, set('sun', '1')]]) };
+    const r = play(l, acts); ok(r.done, `greenhouse: plays end to end — ${r.log.join(' | ')}`);
+    const last = l.steps[l.steps.length - 1].see.en; ok(/the fan now holds the house at (29|30|31) °C/.test(last), 'greenhouse: the last step reads the results: ' + last.slice(0, 80));
+    const L1 = r.B.rt.serLines.slice(-1)[0] || ''; ok(/^T \d+\.\d C  H \d+ %  soil \d+  light \d+$/.test(L1), 'greenhouse: the Serial Monitor line: ' + L1);
+    // the mistake: the fan's loop left open (no wire from the fan back to the battery) -> the check says so
+    const M = build(l, (s) => (s.wire[0] === 'fan.N' ? ['fan.N', 'rl2.NC'] : null)); const k = M.rt.runCheck();
+    ok(!!k && /fan/.test(k[0].en), `greenhouse: the fan's loop not closed -> the check says ${JSON.stringify(k && k[0].en).slice(0, 70)}`);
   },
   banklocker(l) {
     const acts = { [ix(l, /without a card/)]: script(keys('4321#')), [ix(l, /blue tag/)]: script([[0.4, ctl('tag')]]), [ix(l, /Now the owner/)]: script([[0.4, ctl('card')], ...keys('4321#', 2.2)]), [ix(l, /new PIN/)]: script([[0.4, ctl('card')], ...keys('8642#', 2.2)]) };
