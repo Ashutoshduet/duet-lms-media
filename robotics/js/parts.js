@@ -9,7 +9,8 @@ import { PARTS4, DRAWER4 } from './parts4.js'; // batch 4: LED bar graph, resist
 import { PARTS3, DRAWER3 } from './parts3.js'; // batch 3: LCD, OLED, 7-segment, DHT11, soil, PIR, relay, IR, keypad, stepper, RFID, MQ-2
 import { PARTS6, DRAWER6 } from './parts6.js'; // batch 6: the active buzzer (Raspberry Pi lessons)
 import { PARTS22, DRAWER22 } from './parts22.js';
-import { PARTS24, DRAWER24 } from './parts24.js'; // batch 24: the MCP3008 ADC chip (the Pi's analog inputs) // batch 22: eight digital sensor modules (flame, sound, reed, Hall, tilt, vibration, rain, eye blink)
+import { PARTS24, DRAWER24 } from './parts24.js';
+import { PARTS25, DRAWER25 } from './parts25.js'; // batch 25: FSR, flex sensor, NTC thermistor // batch 24: the MCP3008 ADC chip (the Pi's analog inputs) // batch 22: eight digital sensor modules (flame, sound, reed, Hall, tilt, vibration, rain, eye blink)
 import { PARTS12, DRAWER12 } from './parts12.js'; // batch 12: the test sample and the buzz wire (Class 1 circuits)
 const P = 2.54;
 export const PITCH = P;
@@ -214,10 +215,11 @@ Object.assign(PARTS, PARTS4); // batch 4 (parts4.js)
 Object.assign(PARTS, PARTS6); // batch 6 (parts6.js)
 Object.assign(PARTS, PARTS22); // batch 22 (parts22.js)
 Object.assign(PARTS, PARTS24); // batch 24 (parts24.js)
+Object.assign(PARTS, PARTS25); // batch 25 (parts25.js)
 Object.assign(PARTS, PARTS12); // batch 12 (parts12.js)
 PARTS.hcsr04.us = true; PARTS.hcsr04f.specs = PARTS.hcsr04.specs; PARTS.hcsr04f.info = PARTS.hcsr04.info; // the same sensor, on a robot
 PARTS.servo.servo = true; PARTS.servo.rate = 520;
-export const DRAWER = ['led', 'rgb', 'resistor', 'button', 'pot', 'buzzer', 'ldr', 'lm35', 'hcsr04', 'ir', 'servo', 'npn', 'diode', 'motor', 'battery', ...DRAWER2, ...DRAWER3, ...DRAWER4, ...DRAWER6, ...DRAWER12, ...DRAWER22, ...DRAWER24];
+export const DRAWER = ['led', 'rgb', 'resistor', 'button', 'pot', 'buzzer', 'ldr', 'lm35', 'hcsr04', 'ir', 'servo', 'npn', 'diode', 'motor', 'battery', ...DRAWER2, ...DRAWER3, ...DRAWER4, ...DRAWER6, ...DRAWER12, ...DRAWER22, ...DRAWER24, ...DRAWER25];
 
 // pin position of a placed part (mm, part frame) after its rotation (0..3, quarter turns: +x -> +z -> -x -> -z)
 export function rotXZ(x, z, rot) {

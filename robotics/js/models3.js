@@ -311,10 +311,10 @@ export function buildRFID() {
 }
 
 // ------------------------------------------------------------------ MQ-2 gas module (22 × 32 mm): the steel-mesh sensor on top
-export function buildMQ2() {
+export function buildMQ2(label = 'MQ-2') { // (batch 25: MQ-135 and MQ-3 are the same module with another label)
   const M = mats(); const g = new THREE.Group(); const top = 4.6;
   g.add(pinsFlat(4, -1.5 * P, 0, 4.5, M));
-  const pm = pcbMat('mq2', 22, 32, '#1d4aa8', (c) => { ['VCC', 'GND', 'DO', 'AO'].forEach((t, i) => silk(c, t, 11 + (i - 1.5) * P, 29.2, 1.0)); silk(c, 'MQ-2', 4, 6, 1.3); silk(c, 'PWR', 4.4, 22.4, 1.0); silk(c, 'DO', 17.8, 22.4, 1.0); holes(c, [[2.2, 2.2], [19.8, 2.2]], 1.1); });
+  const pm = pcbMat('mq2' + label, 22, 32, '#1d4aa8', (c) => { ['VCC', 'GND', 'DO', 'AO'].forEach((t, i) => silk(c, t, 11 + (i - 1.5) * P, 29.2, 1.0)); silk(c, label, 4, 6, 1.3); silk(c, 'PWR', 4.4, 22.4, 1.0); silk(c, 'DO', 17.8, 22.4, 1.0); holes(c, [[2.2, 2.2], [19.8, 2.2]], 1.1); });
   g.add(slab(22, 32, 1.6, pm, M, 0, top, -17));
   for (const [x, z] of [[-9, -31], [9, -31], [-9, -4], [9, -4]]) g.add(cyl(1.5, 3, N.nylon, x, 1.5, z, 8));
   g.add(cyl(9.8, 4, N.bakelite, 0, top + 2, -13, 28)); g.add(cyl(9.6, 0.8, M.steel, 0, top + 4.4, -13, 28));

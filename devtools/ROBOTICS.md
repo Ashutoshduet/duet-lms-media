@@ -1143,3 +1143,17 @@ heaters.
   inside a goal's mouth (450 mm, 120 deep). Speed 230 kicks it away (about 0.9 m/s); 130 catches it but a spin on the
   spot flings it; L/R as curves (drive(speed / 2, speed)) dribble it into the yellow goal. Everything is pre-wired (the
   HC-05 at j40, TXD on pin 0). robocore24.mjs plays it with a scripted driver. Class 11: 18 of 26.
+- Batch 25: eight new sensors and 38 project-factory jobs (399 projects on four boards). parts25.js (+ models25.js, app25.js
+  for the callout's slider or button, registered in parts.js, models.js, main.js):
+  - three resistive sensors that stand in the breadboard on two legs (40e and 42e, as the LDR) on top of a divider:
+    fsr (FSR 402: > 10 MΩ untouched, about 7 kΩ at 100 g, 1 kΩ at 1 kg; 10 kΩ to −), flex (2.2": 25 kΩ flat, 100 kΩ
+    at 90°; 47 kΩ to −; bent reads lower), ntc (10 kΩ NTC, B 3950, reads the room's env.temp; 10 kΩ to −; hotter
+    reads higher). factory.js DIV25 makes IN / EIN / PIN / QIN for force, flex and ntc from the LDR's wiring.
+  - five modules: rcwl (RCWL-0516 radar: VIN 4–28 V, OUT 3.3 V HIGH for 2 s after movement, retriggered; wired as the
+    PIR; the Pi's web page uses when_motion), wlevel (the red S + − water sensor standing in a clear cup, its header
+    at the top (term y 74); S = VCC × 0.62 × (1 − e^(−mm / 12))), uvs (GUVA-S12SD: OUT = UV index × 0.1 V), mq135 and
+    mq3 (the MQ-2 module with another curve; Uno and, through the divider, the Pi; models3.js buildMQ2(label)).
+    factory.js: the radar block, MOD25 (water, uv) and the MQ loop (air, alcohol); cmp() knows each direction.
+  - JOBS: 5 each for force, flex, ntc, radar, water, uv; 4 each for air and alcohol, from Indian homes, schools, farms
+    and roads. robofactory.mjs plays every one (21,688 checks). ideabank.py: these parts are no longer '+new', and
+    F_IN maps the bank's ideas onto the factory's lessons. 3,432 projects live.

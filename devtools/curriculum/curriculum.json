@@ -6020,11 +6020,9 @@
     "kind": "I",
     "title": "Bionic hand with flex glove",
     "board": "uno",
-    "status": "needs-part",
+    "status": "planned",
     "ref": "bionic-hand-with-flex-glove-uno",
-    "newparts": [
-     "flex"
-    ],
+    "newparts": [],
     "family": "world-maker",
     "parts": [
      "flex",

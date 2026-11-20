@@ -78,7 +78,7 @@ INP = {
     'rain':    ('rain sensor', ['rain'], ['uno', 'esp32', 'pico', 'pi4'], 1),
     'reed':    ('door magnet switch', ['reed'], ['uno', 'esp32', 'pico', 'pi4', 'microbit'], 0),
     'vib':     ('vibration sensor', ['vibe'], ['uno', 'esp32', 'pico', 'pi4'], 1),
-    'water':   ('water level sensor', ['+waterlevel'], ['uno', 'esp32', 'pico'], 1),
+    'water':   ('water level sensor', ['wlevel'], ['uno', 'esp32', 'pico'], 1),
     'ds18':    ('waterproof temperature probe', ['+ds18b20'], ['uno', 'esp32', 'pico'], 2),
     'lux':     ('lux meter sensor', ['+bh1750'], ['uno', 'esp32', 'pico'], 2),
     'bmp':     ('air pressure sensor', ['+bmp180'], ['uno', 'esp32', 'pico'], 2),
@@ -95,16 +95,16 @@ INP = {
     'rtc':     ('real-time clock', ['+rtc'], ['uno', 'esp32', 'pico'], 2),
     'encoder': ('rotary knob with click', ['+encoder'], ['uno', 'esp32', 'pico'], 2),
     'hall':    ('magnet (Hall) sensor', ['hall'], ['uno', 'esp32', 'pico', 'pi4'], 1),
-    'thermistor': ('thermistor', ['+thermistor', 'resistor'], ['uno', 'esp32', 'pico'], 1),
-    'alcohol': ('alcohol sensor MQ-3', ['+mq3'], ['uno', 'esp32', 'pico'], 2),
-    'air':     ('air quality sensor MQ-135', ['+mq135'], ['uno', 'esp32', 'pico'], 2),
+    'thermistor': ('thermistor', ['ntc', 'resistor'], ['uno', 'esp32', 'pico'], 1),
+    'alcohol': ('alcohol sensor MQ-3', ['mq3'], ['uno', 'esp32', 'pico'], 2),
+    'air':     ('air quality sensor MQ-135', ['mq135'], ['uno', 'esp32', 'pico'], 2),
     'dust':    ('dust (PM2.5) sensor', ['+pm25'], ['uno', 'esp32'], 3),
-    'uv':      ('UV sensor', ['+uv'], ['uno', 'esp32', 'pico'], 2),
-    'radar':   ('microwave radar sensor', ['+rcwl0516'], ['uno', 'esp32', 'pico', 'pi4', 'microbit'], 1),
+    'uv':      ('UV sensor', ['uvs'], ['uno', 'esp32', 'pico'], 2),
+    'radar':   ('microwave radar sensor', ['rcwl'], ['uno', 'esp32', 'pico', 'pi4', 'microbit'], 1),
     'tof':     ('laser distance sensor (ToF)', ['+vl53l0x'], ['uno', 'esp32', 'pico'], 3),
     'flow':    ('water flow sensor', ['+flow'], ['uno', 'esp32'], 2),
-    'flex':    ('flex sensor', ['+flex', 'resistor'], ['uno', 'esp32', 'pico'], 2),
-    'force':   ('pressure pad (FSR)', ['+fsr', 'resistor'], ['uno', 'esp32', 'pico', 'microbit'], 1),
+    'flex':    ('flex sensor', ['flex', 'resistor'], ['uno', 'esp32', 'pico'], 2),
+    'force':   ('pressure pad (FSR)', ['fsr', 'resistor'], ['uno', 'esp32', 'pico', 'microbit'], 1),
     'gesture': ('hand-gesture sensor', ['+apds9960'], ['uno', 'esp32'], 3),
     'ecg':     ('ECG sensor', ['+ad8232'], ['uno', 'esp32'], 3),
     'spo2':    ('pulse-oximeter sensor', ['+max30102'], ['uno', 'esp32'], 3),
@@ -630,13 +630,13 @@ for (t, lv) in ARM:
         add(t if b == 'uno' else t + ' (ESP32)', 'machines', b, ['servo', 'mg996r', 'psu5'] if 'arm' in t.lower() else [], 'factory', lv if b == 'uno' else lv + 1)
 
 # ---------------------------------------------------------------- 6. IoT on ESP32 and Raspberry Pi
-IOT_SENS = ['dht11', 'lm35', 'soil', 'ldr', 'pir', 'mq2', 'hcsr04', 'rain', 'flame', '+bmp180', '+bh1750', '+acs712', '+tds', '+waterlevel', '+ds18b20']
+IOT_SENS = ['dht11', 'lm35', 'soil', 'ldr', 'pir', 'mq2', 'hcsr04', 'rain', 'flame', '+bmp180', '+bh1750', '+acs712', '+tds', 'wlevel', '+ds18b20']
 IOT_WAYS = [('dashboard on the school WiFi', 8), ('alert on the phone', 9), ('cloud logger with a graph', 10)]
 for s in IOT_SENS:
     nm = s.lstrip('+')
     lab = {'dht11': 'Temperature & humidity', 'lm35': 'Temperature', 'soil': 'Soil moisture', 'ldr': 'Light level', 'pir': 'Motion',
            'mq2': 'Gas level', 'hcsr04': 'Tank level', 'rain': 'Rain', 'flame': 'Fire', 'bmp180': 'Air pressure', 'bh1750': 'Lux',
-           'acs712': 'Power use', 'tds': 'Water quality', 'waterlevel': 'Water level', 'ds18b20': 'Water temperature'}[nm]
+           'acs712': 'Power use', 'tds': 'Water quality', 'waterlevel': 'Water level', 'wlevel': 'Water level', 'ds18b20': 'Water temperature'}[nm]
     for (w, lv) in IOT_WAYS:
         add(f'{lab} {w} (ESP32)', 'iot', 'esp32', [s], 'iot', lv + (1 if s.startswith('+') else 0))
         if lv == 8 and nm in ('dht11', 'pir', 'ldr', 'soil'):
@@ -699,13 +699,13 @@ SYSTEMS = [
     ('Smart water tank: level, pump and alarm', ['hcsr04', 'pump', 'relay', 'abuzz'], 9),
     ('Cold-storage monitor with alarm', ['dht11', 'lcd16', 'abuzz'], 9),
     ('School bus safety: seat count and door alarm', ['ir', 'reed', 'lcd16'], 10),
-    ('Village water pump timer and dry-run cut-off', ['+rtc', '+waterlevel', 'relay'], 10),
+    ('Village water pump timer and dry-run cut-off', ['+rtc', 'wlevel', 'relay'], 10),
     ('Smart irrigation by time and moisture', ['+rtc', 'soil', 'pump', 'relay'], 10),
-    ('Disaster alert box: flood, quake and fire', ['+waterlevel', 'vibe', 'flame', 'buzzer'], 10),
+    ('Disaster alert box: flood, quake and fire', ['wlevel', 'vibe', 'flame', 'buzzer'], 10),
     ('Smart shop door: count, greet and lock at night', ['ir', 'ldr', 'servo', 'buzzer'], 9),
     ('Automatic railway gate with two sensors', ['ir', 'servo', 'buzzer', 'led'], 8),
     ('Smart helmet: alcohol and fall check before the bike starts', ['mq2', '+mpu6050', 'relay'], 11),
-    ('Smart blind stick: distance, water and SOS', ['hcsr04', '+waterlevel', 'abuzz'], 10),
+    ('Smart blind stick: distance, water and SOS', ['hcsr04', 'wlevel', 'abuzz'], 10),
     ('Smart cradle: cry detect and swing', ['sound', 'servo'], 10),
     ('Smart mirror clock and weather', ['oled', 'dht11', '+rtc'], 10),
     ('Smart medicine box with reminders and lids', ['+rtc', 'servo', 'buzzer'], 10),
@@ -723,7 +723,7 @@ WORLD = [
     ('Laser harp', ['ldr', 'buzzer'], 9), ('Theremin with two distance sensors', ['hcsr04', 'buzzer'], 9), ('LED cube 3x3x3', ['led', 'resistor'], 9),
     ('Persistence-of-vision display', ['led', 'motor'], 10), ('Plant that tweets when thirsty', ['soil'], 10), ('Rubik cube colour scanner', ['+tcs3200'], 12),
     ('Ball-on-beam balancer (PID)', ['hcsr04', 'servo'], 12), ('Automatic cat or dog feeder', ['servo', '+rtc'], 9), ('Fish feeder on a timer', ['servo', '+rtc'], 9),
-    ('Weather vane and wind logger', ['anemo'], 10), ('Smart walking stick with GPS SOS', ['hcsr04', '+gps', '+gsm'], 11), ('Bionic hand with flex glove', ['servo', '+flex'], 11),
+    ('Weather vane and wind logger', ['anemo'], 10), ('Smart walking stick with GPS SOS', ['hcsr04', '+gps', '+gsm'], 11), ('Bionic hand with flex glove', ['servo', 'flex'], 11),
     ('Drawing robot (turtle)', ['stepper', 'servo'], 10), ('Chess-move detector board', ['hall'], 12), ('Electronic voting machine model', ['button', 'lcd16'], 9),
     ('Interactive LED coffee table', ['+ws2812', 'ir'], 11), ('Word clock', ['+ws2812', '+rtc'], 11), ('Digital hourglass with tilt', ['+max7219', '+mpu6050'], 10),
     ('Air hockey score board', ['ir', 'seg7'], 9), ('Bowling pin counter', ['ir', 'lcd16'], 9), ('Marble run lift', ['stepper', 'ir'], 9),
@@ -745,17 +745,17 @@ INDIA = [
     ('Solar street light with auto dimming', ['solar', 'ldr', 'led'], 9), ('Anganwadi attendance with RFID', ['rfid', 'lcd16'], 9),
     ('Driver drowsiness alarm', ['ir', 'abuzz'], 10), ('Smart dustbin for Swachh Bharat', ['hcsr04', 'servo'], 7),
     ('Village water ATM model', ['rfid', 'pump', 'relay'], 10), ('Grain storage humidity guard', ['dht11', 'motor', 'abuzz'], 9),
-    ('Monsoon flood siren for a river bank', ['+waterlevel', 'buzzer', '+gsm'], 10), ('Smart school bell with periods', ['+rtc', 'buzzer', 'lcd16'], 9),
+    ('Monsoon flood siren for a river bank', ['wlevel', 'buzzer', '+gsm'], 10), ('Smart school bell with periods', ['+rtc', 'buzzer', 'lcd16'], 9),
     ('Mid-day meal temperature check', ['+ds18b20', 'lcd16'], 9), ('Cattle shed fan and water automation', ['dht11', 'motor', 'pump'], 9),
     ('Tractor reversing sensor', ['hcsr04', 'abuzz'], 8), ('Fog light that switches on in fog', ['ldr', 'led', 'relay'], 8),
     ('Electricity theft alarm model', ['+acs712', 'abuzz'], 11), ('Smart traffic for ambulances (green corridor)', ['rfid', 'led'], 10),
     ('Gas cylinder leak and level monitor', ['mq2', '+hx711'], 11), ('Temple or school crowd counter', ['ir', 'seg7'], 8),
     ('Solar dryer for crops with fan control', ['dht11', 'motor', 'solar'], 10), ('Rainwater harvesting tank monitor', ['hcsr04', 'lcd16'], 9),
     ('Smart parking for a market', ['ir', 'lcd16', 'servo'], 9), ('Fire alarm for a hut with a GSM call', ['flame', '+gsm'], 10),
-    ('Pump dry-run protection for farmers', ['+waterlevel', 'relay'], 9), ('Mobile phone charging locker with RFID', ['rfid', 'servo', 'relay'], 10),
+    ('Pump dry-run protection for farmers', ['wlevel', 'relay'], 9), ('Mobile phone charging locker with RFID', ['rfid', 'servo', 'relay'], 10),
     ('Hand pump water flow counter', ['hall', 'lcd16'], 9), ('Bus arrival display for a village stop', ['+rf433', 'lcd16'], 10),
     ('Elephant or animal crossing alert on a road', ['pir', 'led', 'buzzer'], 9), ('Earthquake alert for a school', ['vibe', 'buzzer'], 9),
-    ('Paddy field water level keeper', ['+waterlevel', 'pump', 'relay'], 9), ('Smart helmet that starts the bike only when worn', ['reed', 'relay'], 9),
+    ('Paddy field water level keeper', ['wlevel', 'pump', 'relay'], 9), ('Smart helmet that starts the bike only when worn', ['reed', 'relay'], 9),
 ]
 for (t, p, lv) in INDIA:
     for b in ('uno', 'esp32'):
@@ -786,7 +786,7 @@ def live_lessons():
 
 LIVE = live_lessons()
 # factory lessons (robotics/js/factory.js) make planned sensor -> output ideas live: same job, sensor and output on the Uno
-F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas']}
+F_IN = {'button': ['button'], 'pot': ['pot'], 'ldr': ['ldr', 'ldrb'], 'temp': ['lm35', 'cold'], 'dht': ['dht', 'hum'], 'soil': ['soil'], 'pir': ['pir'], 'ir': ['ir'], 'sonar': ['sonar'], 'gas': ['gas'], 'force': ['force'], 'flex': ['flex'], 'thermistor': ['ntc'], 'water': ['water'], 'uv': ['uv'], 'radar': ['radar'], 'air': ['air'], 'alcohol': ['alcohol']} # (25: the new sensors)
 F_OUT = {'led': 'led', 'rgb': 'rgb', 'buzzer': 'buzzer', 'abuzz': 'buzzer', 'servo': 'servo', 'relay': 'relay', 'pump': 'pump', 'lcd': 'lcd'}
 FMAP = {}
 for l in LIVE:

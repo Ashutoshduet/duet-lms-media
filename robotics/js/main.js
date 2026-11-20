@@ -20,6 +20,7 @@ import { makeWorld } from './worlds.js';
 import { install4 } from './app4.js'; // batch 4: Nano, Mega, ESP32: the Board list and box, the phone and router, pin popups (app4.js)
 import { install3 } from './app3.js'; // batch 3: block coding beside the C++ (blocks.js), the school-lab modules' panels and scenes (app3.js)
 import { install22 } from './app22.js'; // batch 22: the digital sensor modules' callout buttons
+import { install25 } from './app25.js'; // batch 25: the resistive sensors' sliders
 import { install6 } from './app6.js'; // batch 6: Raspberry Pi Pico and Pi 4: Python editor, Shell / Terminal, the Pi's screen (app6.js)
 
 const Q = new URLSearchParams(location.search);
@@ -73,6 +74,7 @@ class App {
     install3(this); // batch 3
     install6(this); // batch 6
     install22(this); // batch 22
+    install25(this); // batch 25
     this.boot();
   }
   get licensed() { return !window.DuetGate || DuetGate.state === 'ok' || (DuetGate.licensedFor && DuetGate.licensedFor('robotics')); }

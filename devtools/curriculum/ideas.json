@@ -3825,6 +3825,1904 @@
 "note": null
 },
 {
+"id": "live-f_smarthelmet_relay_pi",
+"title": "Smart helmet bike lock: alcohol sensor MQ-3 → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_smarthelmet_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breathtest_oled_pi",
+"title": "Breath alcohol tester: alcohol sensor MQ-3 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_breathtest_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breathtest_led_pi",
+"title": "Breath alcohol tester: alcohol sensor MQ-3 → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_breathtest_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breathtest_lcd_pi",
+"title": "Breath alcohol tester: alcohol sensor MQ-3 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_breathtest_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busdriver_rgb_pi",
+"title": "School bus driver breath check: alcohol sensor MQ-3 → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_busdriver_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busdriver_buzzer_pi",
+"title": "School bus driver breath check: alcohol sensor MQ-3 → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_busdriver_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drunkdrive_oled_pi",
+"title": "Drunk-driver ignition lock: alcohol sensor MQ-3 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_drunkdrive_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drunkdrive_lcd_pi",
+"title": "Drunk-driver ignition lock: alcohol sensor MQ-3 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_drunkdrive_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drunkdrive_relay_pi",
+"title": "Drunk-driver ignition lock: alcohol sensor MQ-3 → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_drunkdrive_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busair_led_pi",
+"title": "School bus stale air alarm: air quality sensor MQ-135 → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busair_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busair_buzzer_pi",
+"title": "School bus stale air alarm: air quality sensor MQ-135 → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busair_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roadair_oled_pi",
+"title": "Roadside air quality board: air quality sensor MQ-135 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_roadair_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roadair_lcd_pi",
+"title": "Roadside air quality board: air quality sensor MQ-135 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_roadair_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roadair_rgb_pi",
+"title": "Roadside air quality board: air quality sensor MQ-135 → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_roadair_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_chimney_relay_pi",
+"title": "Kitchen chimney that starts itself: air quality sensor MQ-135 → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_chimney_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stuffyclass_oled_pi",
+"title": "Stuffy classroom fan: air quality sensor MQ-135 → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stuffyclass_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stuffyclass_lcd_pi",
+"title": "Stuffy classroom fan: air quality sensor MQ-135 → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stuffyclass_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stuffyclass_relay_pi",
+"title": "Stuffy classroom fan: air quality sensor MQ-135 → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stuffyclass_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_buzzer_pi",
+"title": "Sun-drying monitor: UV sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_papaddry_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_led_pi",
+"title": "Sun-drying monitor: UV sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_papaddry_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_oled_pi",
+"title": "UV lamp working check: UV sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_uvlamp_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_lcd_pi",
+"title": "UV lamp working check: UV sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_uvlamp_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_led_pi",
+"title": "UV lamp working check: UV sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_uvlamp_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shadenet_servo_pi",
+"title": "Nursery shade net: UV sensor → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shadenet_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_led_pi",
+"title": "Playground UV warning light: UV sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_uvwarn_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_rgb_pi",
+"title": "Playground UV warning light: UV sensor → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_uvwarn_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_oled_pi",
+"title": "Sports day sunscreen reminder: UV sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sunscreen_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_lcd_pi",
+"title": "Sports day sunscreen reminder: UV sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sunscreen_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_buzzer_pi",
+"title": "Sports day sunscreen reminder: UV sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sunscreen_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_led_pi",
+"title": "Bathroom bucket full alarm: water level sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bucketfull_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_buzzer_pi",
+"title": "Bathroom bucket full alarm: water level sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bucketfull_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_relay_pi",
+"title": "Sump pit pump: water level sensor → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sumppump_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_pump_pi",
+"title": "Sump pit pump: water level sensor → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sumppump_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_oled_pi",
+"title": "School rain gauge: water level sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_raingauge_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_led_pi",
+"title": "School rain gauge: water level sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_raingauge_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_lcd_pi",
+"title": "School rain gauge: water level sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_raingauge_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_rgb_pi",
+"title": "Basement flood alarm: water level sensor → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_floodalert_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_buzzer_pi",
+"title": "Basement flood alarm: water level sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_floodalert_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_oled_pi",
+"title": "Overhead tank full alarm: water level sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tanktop_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_lcd_pi",
+"title": "Overhead tank full alarm: water level sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tanktop_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_buzzer_pi",
+"title": "Overhead tank full alarm: water level sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tanktop_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radartap_web_pi",
+"title": "Touch-free hand-wash station: microwave radar sensor (RCWL-0516) → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_radartap_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radartap_pump_pi",
+"title": "Touch-free hand-wash station: microwave radar sensor (RCWL-0516) → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_radartap_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_web_pi",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmguard_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_oled_pi",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmguard_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_lcd_pi",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmguard_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_buzzer_pi",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmguard_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radarbell_web_pi",
+"title": "Shop entrance chime (radar): microwave radar sensor (RCWL-0516) → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_radarbell_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radarbell_buzzer_pi",
+"title": "Shop entrance chime (radar): microwave radar sensor (RCWL-0516) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_radarbell_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_web_pi",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_washroom_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_oled_pi",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_washroom_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_lcd_pi",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_washroom_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_led_pi",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_washroom_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_web_pi",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stairlight_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_led_pi",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stairlight_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_relay_pi",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stairlight_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_rgb_pi",
+"title": "Fever band for a sick child: thermistor (NTC) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"ntc"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_feverband_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_buzzer_pi",
+"title": "Fever band for a sick child: thermistor (NTC) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_feverband_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_oled_pi",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_hatchery_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_lcd_pi",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_hatchery_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_buzzer_pi",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_hatchery_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorfan_relay_pi",
+"title": "Cooling fan for a hot motor: thermistor (NTC) → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_motorfan_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_rgb_pi",
+"title": "Battery overheat alarm: thermistor (NTC) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"ntc"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_batterypack_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_buzzer_pi",
+"title": "Battery overheat alarm: thermistor (NTC) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_batterypack_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_oled_pi",
+"title": "Baby bath water too hot: thermistor (NTC) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babybath_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_lcd_pi",
+"title": "Baby bath water too hot: thermistor (NTC) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babybath_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_buzzer_pi",
+"title": "Baby bath water too hot: thermistor (NTC) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babybath_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_led_pi",
+"title": "Model bridge sag alarm: flex sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"flex"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_bridgesag_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_buzzer_pi",
+"title": "Model bridge sag alarm: flex sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_bridgesag_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_oled_pi",
+"title": "Sign-language glove: flex sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_signglove_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_led_pi",
+"title": "Sign-language glove: flex sensor → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"flex"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_signglove_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_lcd_pi",
+"title": "Sign-language glove: flex sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_signglove_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_rgb_pi",
+"title": "Slouch alarm for the study table: flex sensor → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"flex"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_posture_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_buzzer_pi",
+"title": "Slouch alarm for the study table: flex sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_posture_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_robotfinger_servo_pi",
+"title": "Robot finger that copies yours: flex sensor → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"mcp3008",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_robotfinger_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_oled_pi",
+"title": "Patient call glove: flex sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_callglove_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_lcd_pi",
+"title": "Patient call glove: flex sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_callglove_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_buzzer_pi",
+"title": "Patient call glove: flex sensor → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_callglove_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drumpad_buzzer_pi",
+"title": "Pressure-pad drum: force sensor (FSR) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_drumpad_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_buzzer_pi",
+"title": "School bag too heavy warning: force sensor (FSR) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_schoolbag_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_rgb_pi",
+"title": "School bag too heavy warning: force sensor (FSR) → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"mcp3008",
+"fsr"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_schoolbag_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_padgate_servo_pi",
+"title": "Weight-pad gate: force sensor (FSR) → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"mcp3008",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_padgate_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_oled_pi",
+"title": "Library seat taken sensor: force sensor (FSR) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_seatpad_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_lcd_pi",
+"title": "Library seat taken sensor: force sensor (FSR) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_seatpad_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_led_pi",
+"title": "Library seat taken sensor: force sensor (FSR) → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"mcp3008",
+"fsr"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_seatpad_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_oled_pi",
+"title": "Doormat visitor alarm: force sensor (FSR) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"mcp3008",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_doormat_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_lcd_pi",
+"title": "Doormat visitor alarm: force sensor (FSR) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"mcp3008",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_doormat_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_buzzer_pi",
+"title": "Doormat visitor alarm: force sensor (FSR) → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"mcp3008",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_doormat_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dehumid_led_pi",
 "title": "Library dehumidifier switch: DHT11 sensor (humidity) → LED (Raspberry Pi)",
 "family": "factory",
@@ -15209,6 +17107,1354 @@
 "note": null
 },
 {
+"id": "live-f_papaddry_buzzer_pico",
+"title": "Sun-drying monitor: UV sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_papaddry_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_led_pico",
+"title": "Sun-drying monitor: UV sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_papaddry_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_oled_pico",
+"title": "UV lamp working check: UV sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_uvlamp_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_lcd_pico",
+"title": "UV lamp working check: UV sensor → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_uvlamp_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_led_pico",
+"title": "UV lamp working check: UV sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_uvlamp_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shadenet_servo_pico",
+"title": "Nursery shade net: UV sensor → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_shadenet_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_led_pico",
+"title": "Playground UV warning light: UV sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvwarn_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_rgb_pico",
+"title": "Playground UV warning light: UV sensor → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvwarn_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_oled_pico",
+"title": "Sports day sunscreen reminder: UV sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sunscreen_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_lcd_pico",
+"title": "Sports day sunscreen reminder: UV sensor → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"uvs"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sunscreen_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_buzzer_pico",
+"title": "Sports day sunscreen reminder: UV sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sunscreen_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_led_pico",
+"title": "Bathroom bucket full alarm: water level sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bucketfull_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_buzzer_pico",
+"title": "Bathroom bucket full alarm: water level sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bucketfull_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_relay_pico",
+"title": "Sump pit pump: water level sensor → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sumppump_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_pump_pico",
+"title": "Sump pit pump: water level sensor → water pump (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"wlevel"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sumppump_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_oled_pico",
+"title": "School rain gauge: water level sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_raingauge_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_led_pico",
+"title": "School rain gauge: water level sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_raingauge_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_lcd_pico",
+"title": "School rain gauge: water level sensor → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_raingauge_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_rgb_pico",
+"title": "Basement flood alarm: water level sensor → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_floodalert_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_buzzer_pico",
+"title": "Basement flood alarm: water level sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_floodalert_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_oled_pico",
+"title": "Overhead tank full alarm: water level sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tanktop_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_lcd_pico",
+"title": "Overhead tank full alarm: water level sensor → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tanktop_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_buzzer_pico",
+"title": "Overhead tank full alarm: water level sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_tanktop_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radartap_pump_pico",
+"title": "Touch-free hand-wash station: microwave radar sensor (RCWL-0516) → water pump (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_radartap_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_oled_pico",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmguard_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_lcd_pico",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmguard_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_buzzer_pico",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmguard_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radarbell_buzzer_pico",
+"title": "Shop entrance chime (radar): microwave radar sensor (RCWL-0516) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_radarbell_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_oled_pico",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_washroom_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_lcd_pico",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_washroom_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_led_pico",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_washroom_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_led_pico",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stairlight_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_relay_pico",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"rcwl"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stairlight_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_rgb_pico",
+"title": "Fever band for a sick child: thermistor (NTC) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"ntc"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_feverband_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_buzzer_pico",
+"title": "Fever band for a sick child: thermistor (NTC) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_feverband_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_oled_pico",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_hatchery_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_lcd_pico",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_hatchery_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_buzzer_pico",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_hatchery_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorfan_relay_pico",
+"title": "Cooling fan for a hot motor: thermistor (NTC) → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_motorfan_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_rgb_pico",
+"title": "Battery overheat alarm: thermistor (NTC) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"ntc"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_batterypack_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_buzzer_pico",
+"title": "Battery overheat alarm: thermistor (NTC) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_batterypack_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_oled_pico",
+"title": "Baby bath water too hot: thermistor (NTC) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babybath_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_lcd_pico",
+"title": "Baby bath water too hot: thermistor (NTC) → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babybath_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_buzzer_pico",
+"title": "Baby bath water too hot: thermistor (NTC) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babybath_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_led_pico",
+"title": "Model bridge sag alarm: flex sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_bridgesag_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_buzzer_pico",
+"title": "Model bridge sag alarm: flex sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_bridgesag_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_oled_pico",
+"title": "Sign-language glove: flex sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_signglove_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_led_pico",
+"title": "Sign-language glove: flex sensor → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_signglove_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_lcd_pico",
+"title": "Sign-language glove: flex sensor → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "bank",
+"live": "f_signglove_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_rgb_pico",
+"title": "Slouch alarm for the study table: flex sensor → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"flex"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_posture_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_buzzer_pico",
+"title": "Slouch alarm for the study table: flex sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_posture_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_robotfinger_servo_pico",
+"title": "Robot finger that copies yours: flex sensor → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_robotfinger_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_oled_pico",
+"title": "Patient call glove: flex sensor → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_callglove_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_lcd_pico",
+"title": "Patient call glove: flex sensor → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_callglove_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_buzzer_pico",
+"title": "Patient call glove: flex sensor → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_callglove_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drumpad_buzzer_pico",
+"title": "Pressure-pad drum: force sensor (FSR) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_drumpad_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_buzzer_pico",
+"title": "School bag too heavy warning: force sensor (FSR) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_schoolbag_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_rgb_pico",
+"title": "School bag too heavy warning: force sensor (FSR) → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"fsr"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_schoolbag_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_padgate_servo_pico",
+"title": "Weight-pad gate: force sensor (FSR) → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_padgate_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_oled_pico",
+"title": "Library seat taken sensor: force sensor (FSR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_seatpad_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_lcd_pico",
+"title": "Library seat taken sensor: force sensor (FSR) → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_seatpad_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_led_pico",
+"title": "Library seat taken sensor: force sensor (FSR) → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"fsr"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_seatpad_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_oled_pico",
+"title": "Doormat visitor alarm: force sensor (FSR) → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_doormat_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_lcd_pico",
+"title": "Doormat visitor alarm: force sensor (FSR) → LCD (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"lcd16",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_doormat_lcd_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_buzzer_pico",
+"title": "Doormat visitor alarm: force sensor (FSR) → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_doormat_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dehumid_led_pico",
 "title": "Library dehumidifier switch: DHT11 sensor (humidity) → LED (Pico)",
 "family": "factory",
@@ -24034,6 +27280,2524 @@
 "level": 9,
 "theme": "bank",
 "live": "f_doorbell_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_bt_esp",
+"title": "Sun-drying monitor: UV sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_papaddry_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_web_esp",
+"title": "Sun-drying monitor: UV sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_papaddry_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_buzzer_esp",
+"title": "Sun-drying monitor: UV sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_papaddry_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_led_esp",
+"title": "Sun-drying monitor: UV sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_papaddry_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_bt_esp",
+"title": "UV lamp working check: UV sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvlamp_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_web_esp",
+"title": "UV lamp working check: UV sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvlamp_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_oled_esp",
+"title": "UV lamp working check: UV sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvlamp_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_lcd_esp",
+"title": "UV lamp working check: UV sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvlamp_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_led_esp",
+"title": "UV lamp working check: UV sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvlamp_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shadenet_bt_esp",
+"title": "Nursery shade net: UV sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shadenet_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shadenet_web_esp",
+"title": "Nursery shade net: UV sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shadenet_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shadenet_servo_esp",
+"title": "Nursery shade net: UV sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_shadenet_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_bt_esp",
+"title": "Playground UV warning light: UV sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvwarn_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_web_esp",
+"title": "Playground UV warning light: UV sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_uvwarn_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_led_esp",
+"title": "Playground UV warning light: UV sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_uvwarn_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_rgb_esp",
+"title": "Playground UV warning light: UV sensor → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_uvwarn_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_bt_esp",
+"title": "Sports day sunscreen reminder: UV sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sunscreen_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_web_esp",
+"title": "Sports day sunscreen reminder: UV sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sunscreen_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_oled_esp",
+"title": "Sports day sunscreen reminder: UV sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunscreen_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_lcd_esp",
+"title": "Sports day sunscreen reminder: UV sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"uvs"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sunscreen_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_buzzer_esp",
+"title": "Sports day sunscreen reminder: UV sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunscreen_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_bt_esp",
+"title": "Bathroom bucket full alarm: water level sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bucketfull_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_web_esp",
+"title": "Bathroom bucket full alarm: water level sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bucketfull_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_led_esp",
+"title": "Bathroom bucket full alarm: water level sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bucketfull_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_buzzer_esp",
+"title": "Bathroom bucket full alarm: water level sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bucketfull_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_bt_esp",
+"title": "Sump pit pump: water level sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sumppump_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_web_esp",
+"title": "Sump pit pump: water level sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sumppump_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_relay_esp",
+"title": "Sump pit pump: water level sensor → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sumppump_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_pump_esp",
+"title": "Sump pit pump: water level sensor → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"wlevel"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sumppump_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_bt_esp",
+"title": "School rain gauge: water level sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_raingauge_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_web_esp",
+"title": "School rain gauge: water level sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_raingauge_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_oled_esp",
+"title": "School rain gauge: water level sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_raingauge_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_led_esp",
+"title": "School rain gauge: water level sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_raingauge_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_lcd_esp",
+"title": "School rain gauge: water level sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_raingauge_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_bt_esp",
+"title": "Basement flood alarm: water level sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floodalert_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_web_esp",
+"title": "Basement flood alarm: water level sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floodalert_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_rgb_esp",
+"title": "Basement flood alarm: water level sensor → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floodalert_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_buzzer_esp",
+"title": "Basement flood alarm: water level sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floodalert_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_bt_esp",
+"title": "Overhead tank full alarm: water level sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tanktop_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_web_esp",
+"title": "Overhead tank full alarm: water level sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tanktop_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_oled_esp",
+"title": "Overhead tank full alarm: water level sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tanktop_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_lcd_esp",
+"title": "Overhead tank full alarm: water level sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tanktop_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_buzzer_esp",
+"title": "Overhead tank full alarm: water level sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tanktop_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radartap_bt_esp",
+"title": "Touch-free hand-wash station: microwave radar sensor (RCWL-0516) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_radartap_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radartap_web_esp",
+"title": "Touch-free hand-wash station: microwave radar sensor (RCWL-0516) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_radartap_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radartap_pump_esp",
+"title": "Touch-free hand-wash station: microwave radar sensor (RCWL-0516) → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_radartap_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_bt_esp",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmguard_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_web_esp",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmguard_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_oled_esp",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmguard_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_lcd_esp",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmguard_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_buzzer_esp",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmguard_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radarbell_bt_esp",
+"title": "Shop entrance chime (radar): microwave radar sensor (RCWL-0516) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_radarbell_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radarbell_web_esp",
+"title": "Shop entrance chime (radar): microwave radar sensor (RCWL-0516) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_radarbell_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radarbell_buzzer_esp",
+"title": "Shop entrance chime (radar): microwave radar sensor (RCWL-0516) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_radarbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_bt_esp",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_washroom_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_web_esp",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_washroom_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_oled_esp",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_washroom_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_lcd_esp",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_washroom_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_led_esp",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_washroom_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_bt_esp",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stairlight_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_web_esp",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stairlight_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_led_esp",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stairlight_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_relay_esp",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"rcwl"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_stairlight_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_bt_esp",
+"title": "Fever band for a sick child: thermistor (NTC) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_feverband_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_web_esp",
+"title": "Fever band for a sick child: thermistor (NTC) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_feverband_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_rgb_esp",
+"title": "Fever band for a sick child: thermistor (NTC) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ntc"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_feverband_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_buzzer_esp",
+"title": "Fever band for a sick child: thermistor (NTC) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_feverband_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_bt_esp",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_hatchery_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_web_esp",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_hatchery_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_oled_esp",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_hatchery_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_lcd_esp",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_hatchery_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_buzzer_esp",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_hatchery_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorfan_bt_esp",
+"title": "Cooling fan for a hot motor: thermistor (NTC) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorfan_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorfan_web_esp",
+"title": "Cooling fan for a hot motor: thermistor (NTC) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorfan_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorfan_relay_esp",
+"title": "Cooling fan for a hot motor: thermistor (NTC) → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_bt_esp",
+"title": "Battery overheat alarm: thermistor (NTC) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_batterypack_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_web_esp",
+"title": "Battery overheat alarm: thermistor (NTC) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_batterypack_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_rgb_esp",
+"title": "Battery overheat alarm: thermistor (NTC) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"ntc"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_batterypack_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_buzzer_esp",
+"title": "Battery overheat alarm: thermistor (NTC) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_batterypack_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_bt_esp",
+"title": "Baby bath water too hot: thermistor (NTC) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babybath_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_web_esp",
+"title": "Baby bath water too hot: thermistor (NTC) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babybath_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_oled_esp",
+"title": "Baby bath water too hot: thermistor (NTC) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babybath_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_lcd_esp",
+"title": "Baby bath water too hot: thermistor (NTC) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babybath_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_buzzer_esp",
+"title": "Baby bath water too hot: thermistor (NTC) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babybath_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_bt_esp",
+"title": "Model bridge sag alarm: flex sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgesag_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_web_esp",
+"title": "Model bridge sag alarm: flex sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgesag_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_led_esp",
+"title": "Model bridge sag alarm: flex sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgesag_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_buzzer_esp",
+"title": "Model bridge sag alarm: flex sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgesag_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_bt_esp",
+"title": "Sign-language glove: flex sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_signglove_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_web_esp",
+"title": "Sign-language glove: flex sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_signglove_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_oled_esp",
+"title": "Sign-language glove: flex sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_signglove_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_led_esp",
+"title": "Sign-language glove: flex sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_signglove_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_lcd_esp",
+"title": "Sign-language glove: flex sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_signglove_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_bt_esp",
+"title": "Slouch alarm for the study table: flex sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_posture_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_web_esp",
+"title": "Slouch alarm for the study table: flex sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_posture_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_rgb_esp",
+"title": "Slouch alarm for the study table: flex sensor → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"flex"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_posture_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_buzzer_esp",
+"title": "Slouch alarm for the study table: flex sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_posture_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_robotfinger_bt_esp",
+"title": "Robot finger that copies yours: flex sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_robotfinger_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_robotfinger_web_esp",
+"title": "Robot finger that copies yours: flex sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_robotfinger_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_robotfinger_servo_esp",
+"title": "Robot finger that copies yours: flex sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_robotfinger_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_bt_esp",
+"title": "Patient call glove: flex sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_callglove_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_web_esp",
+"title": "Patient call glove: flex sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_callglove_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_oled_esp",
+"title": "Patient call glove: flex sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_callglove_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_lcd_esp",
+"title": "Patient call glove: flex sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_callglove_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_buzzer_esp",
+"title": "Patient call glove: flex sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_callglove_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drumpad_bt_esp",
+"title": "Pressure-pad drum: force sensor (FSR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_drumpad_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drumpad_web_esp",
+"title": "Pressure-pad drum: force sensor (FSR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_drumpad_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drumpad_buzzer_esp",
+"title": "Pressure-pad drum: force sensor (FSR) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_drumpad_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_bt_esp",
+"title": "School bag too heavy warning: force sensor (FSR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_schoolbag_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_web_esp",
+"title": "School bag too heavy warning: force sensor (FSR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_schoolbag_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_buzzer_esp",
+"title": "School bag too heavy warning: force sensor (FSR) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_schoolbag_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_rgb_esp",
+"title": "School bag too heavy warning: force sensor (FSR) → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"fsr"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_schoolbag_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_padgate_bt_esp",
+"title": "Weight-pad gate: force sensor (FSR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_padgate_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_padgate_web_esp",
+"title": "Weight-pad gate: force sensor (FSR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_padgate_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_padgate_servo_esp",
+"title": "Weight-pad gate: force sensor (FSR) → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_padgate_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_bt_esp",
+"title": "Library seat taken sensor: force sensor (FSR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_seatpad_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_web_esp",
+"title": "Library seat taken sensor: force sensor (FSR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_seatpad_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_oled_esp",
+"title": "Library seat taken sensor: force sensor (FSR) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_seatpad_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_lcd_esp",
+"title": "Library seat taken sensor: force sensor (FSR) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_seatpad_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_led_esp",
+"title": "Library seat taken sensor: force sensor (FSR) → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"fsr"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_seatpad_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_bt_esp",
+"title": "Doormat visitor alarm: force sensor (FSR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doormat_bt_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_web_esp",
+"title": "Doormat visitor alarm: force sensor (FSR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doormat_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_oled_esp",
+"title": "Doormat visitor alarm: force sensor (FSR) → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doormat_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_lcd_esp",
+"title": "Doormat visitor alarm: force sensor (FSR) → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doormat_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_buzzer_esp",
+"title": "Doormat visitor alarm: force sensor (FSR) → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doormat_buzzer_esp",
 "rule": null,
 "note": null
 },
@@ -41061,6 +46825,2520 @@
 "level": 8,
 "theme": "bank",
 "live": "f_doorbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_smarthelmet_bt",
+"title": "Smart helmet bike lock: alcohol sensor MQ-3 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_smarthelmet_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_smarthelmet_relay",
+"title": "Smart helmet bike lock: alcohol sensor MQ-3 → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_smarthelmet_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breathtest_bt",
+"title": "Breath alcohol tester: alcohol sensor MQ-3 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_breathtest_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breathtest_oled",
+"title": "Breath alcohol tester: alcohol sensor MQ-3 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_breathtest_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breathtest_led",
+"title": "Breath alcohol tester: alcohol sensor MQ-3 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_breathtest_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_breathtest_lcd",
+"title": "Breath alcohol tester: alcohol sensor MQ-3 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_breathtest_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busdriver_bt",
+"title": "School bus driver breath check: alcohol sensor MQ-3 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busdriver_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busdriver_rgb",
+"title": "School bus driver breath check: alcohol sensor MQ-3 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busdriver_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busdriver_buzzer",
+"title": "School bus driver breath check: alcohol sensor MQ-3 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busdriver_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drunkdrive_bt",
+"title": "Drunk-driver ignition lock: alcohol sensor MQ-3 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_drunkdrive_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drunkdrive_oled",
+"title": "Drunk-driver ignition lock: alcohol sensor MQ-3 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_drunkdrive_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drunkdrive_lcd",
+"title": "Drunk-driver ignition lock: alcohol sensor MQ-3 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_drunkdrive_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drunkdrive_relay",
+"title": "Drunk-driver ignition lock: alcohol sensor MQ-3 → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"mq3"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_drunkdrive_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busair_bt",
+"title": "School bus stale air alarm: air quality sensor MQ-135 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busair_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busair_led",
+"title": "School bus stale air alarm: air quality sensor MQ-135 → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busair_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busair_buzzer",
+"title": "School bus stale air alarm: air quality sensor MQ-135 → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busair_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roadair_bt",
+"title": "Roadside air quality board: air quality sensor MQ-135 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_roadair_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roadair_oled",
+"title": "Roadside air quality board: air quality sensor MQ-135 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_roadair_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roadair_lcd",
+"title": "Roadside air quality board: air quality sensor MQ-135 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_roadair_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roadair_rgb",
+"title": "Roadside air quality board: air quality sensor MQ-135 → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_roadair_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_chimney_bt",
+"title": "Kitchen chimney that starts itself: air quality sensor MQ-135 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_chimney_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_chimney_relay",
+"title": "Kitchen chimney that starts itself: air quality sensor MQ-135 → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_chimney_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stuffyclass_bt",
+"title": "Stuffy classroom fan: air quality sensor MQ-135 → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stuffyclass_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stuffyclass_oled",
+"title": "Stuffy classroom fan: air quality sensor MQ-135 → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stuffyclass_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stuffyclass_lcd",
+"title": "Stuffy classroom fan: air quality sensor MQ-135 → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stuffyclass_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stuffyclass_relay",
+"title": "Stuffy classroom fan: air quality sensor MQ-135 → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"mq135"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stuffyclass_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_bt",
+"title": "Sun-drying monitor: UV sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_papaddry_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_buzzer",
+"title": "Sun-drying monitor: UV sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"uvs"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_papaddry_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_papaddry_led",
+"title": "Sun-drying monitor: UV sensor → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_papaddry_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_bt",
+"title": "UV lamp working check: UV sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_uvlamp_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_oled",
+"title": "UV lamp working check: UV sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_uvlamp_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_lcd",
+"title": "UV lamp working check: UV sensor → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_uvlamp_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvlamp_led",
+"title": "UV lamp working check: UV sensor → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_uvlamp_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shadenet_bt",
+"title": "Nursery shade net: UV sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shadenet_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shadenet_servo",
+"title": "Nursery shade net: UV sensor → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shadenet_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_bt",
+"title": "Playground UV warning light: UV sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_uvwarn_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_led",
+"title": "Playground UV warning light: UV sensor → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_uvwarn_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_uvwarn_rgb",
+"title": "Playground UV warning light: UV sensor → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"uvs"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_uvwarn_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_bt",
+"title": "Sports day sunscreen reminder: UV sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunscreen_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_oled",
+"title": "Sports day sunscreen reminder: UV sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"uvs"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_sunscreen_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_lcd",
+"title": "Sports day sunscreen reminder: UV sensor → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"uvs"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunscreen_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunscreen_buzzer",
+"title": "Sports day sunscreen reminder: UV sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"uvs"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_sunscreen_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_bt",
+"title": "Bathroom bucket full alarm: water level sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_bucketfull_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_led",
+"title": "Bathroom bucket full alarm: water level sensor → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_bucketfull_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bucketfull_buzzer",
+"title": "Bathroom bucket full alarm: water level sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_bucketfull_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_bt",
+"title": "Sump pit pump: water level sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sumppump_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_relay",
+"title": "Sump pit pump: water level sensor → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sumppump_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sumppump_pump",
+"title": "Sump pit pump: water level sensor → water pump",
+"family": "factory",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"wlevel"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sumppump_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_bt",
+"title": "School rain gauge: water level sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_raingauge_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_oled",
+"title": "School rain gauge: water level sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_raingauge_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_led",
+"title": "School rain gauge: water level sensor → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_raingauge_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_raingauge_lcd",
+"title": "School rain gauge: water level sensor → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_raingauge_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_bt",
+"title": "Basement flood alarm: water level sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floodalert_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_rgb",
+"title": "Basement flood alarm: water level sensor → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floodalert_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floodalert_buzzer",
+"title": "Basement flood alarm: water level sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floodalert_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_bt",
+"title": "Overhead tank full alarm: water level sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_tanktop_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_oled",
+"title": "Overhead tank full alarm: water level sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"wlevel"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_tanktop_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_lcd",
+"title": "Overhead tank full alarm: water level sensor → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"wlevel"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_tanktop_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tanktop_buzzer",
+"title": "Overhead tank full alarm: water level sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"wlevel"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_tanktop_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radartap_bt",
+"title": "Touch-free hand-wash station: microwave radar sensor (RCWL-0516) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_radartap_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radartap_pump",
+"title": "Touch-free hand-wash station: microwave radar sensor (RCWL-0516) → water pump",
+"family": "factory",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"rcwl"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_radartap_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_bt",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmguard_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_oled",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmguard_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_lcd",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmguard_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmguard_buzzer",
+"title": "ATM room night guard: microwave radar sensor (RCWL-0516) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmguard_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radarbell_bt",
+"title": "Shop entrance chime (radar): microwave radar sensor (RCWL-0516) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_radarbell_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_radarbell_buzzer",
+"title": "Shop entrance chime (radar): microwave radar sensor (RCWL-0516) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"rcwl"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_radarbell_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_bt",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_washroom_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_oled",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"rcwl"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_washroom_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_lcd",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_washroom_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_washroom_led",
+"title": "Washroom occupied sign: microwave radar sensor (RCWL-0516) → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_washroom_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_bt",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stairlight_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_led",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"rcwl"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_stairlight_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairlight_relay",
+"title": "Hidden stair light: microwave radar sensor (RCWL-0516) → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"rcwl"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stairlight_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_bt",
+"title": "Fever band for a sick child: thermistor (NTC) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ntc"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_feverband_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_rgb",
+"title": "Fever band for a sick child: thermistor (NTC) → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"ntc"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_feverband_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_feverband_buzzer",
+"title": "Fever band for a sick child: thermistor (NTC) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_feverband_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_bt",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ntc"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_hatchery_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_oled",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_hatchery_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_lcd",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_hatchery_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_hatchery_buzzer",
+"title": "Egg hatchery overheat alarm: thermistor (NTC) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_hatchery_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorfan_bt",
+"title": "Cooling fan for a hot motor: thermistor (NTC) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ntc"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_motorfan_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorfan_relay",
+"title": "Cooling fan for a hot motor: thermistor (NTC) → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_motorfan_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_bt",
+"title": "Battery overheat alarm: thermistor (NTC) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ntc"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_batterypack_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_rgb",
+"title": "Battery overheat alarm: thermistor (NTC) → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"ntc"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_batterypack_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_batterypack_buzzer",
+"title": "Battery overheat alarm: thermistor (NTC) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_batterypack_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_bt",
+"title": "Baby bath water too hot: thermistor (NTC) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"ntc"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babybath_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_oled",
+"title": "Baby bath water too hot: thermistor (NTC) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babybath_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_lcd",
+"title": "Baby bath water too hot: thermistor (NTC) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babybath_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babybath_buzzer",
+"title": "Baby bath water too hot: thermistor (NTC) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"ntc",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babybath_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_bt",
+"title": "Model bridge sag alarm: flex sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgesag_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_led",
+"title": "Model bridge sag alarm: flex sensor → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgesag_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgesag_buzzer",
+"title": "Model bridge sag alarm: flex sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgesag_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_bt",
+"title": "Sign-language glove: flex sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_signglove_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_oled",
+"title": "Sign-language glove: flex sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_signglove_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_led",
+"title": "Sign-language glove: flex sensor → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_signglove_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_signglove_lcd",
+"title": "Sign-language glove: flex sensor → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_signglove_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_bt",
+"title": "Slouch alarm for the study table: flex sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_posture_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_rgb",
+"title": "Slouch alarm for the study table: flex sensor → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"flex"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_posture_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_posture_buzzer",
+"title": "Slouch alarm for the study table: flex sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_posture_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_robotfinger_bt",
+"title": "Robot finger that copies yours: flex sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_robotfinger_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_robotfinger_servo",
+"title": "Robot finger that copies yours: flex sensor → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_robotfinger_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_bt",
+"title": "Patient call glove: flex sensor → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"flex"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_callglove_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_oled",
+"title": "Patient call glove: flex sensor → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_callglove_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_lcd",
+"title": "Patient call glove: flex sensor → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_callglove_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_callglove_buzzer",
+"title": "Patient call glove: flex sensor → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"flex",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_callglove_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drumpad_bt",
+"title": "Pressure-pad drum: force sensor (FSR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"fsr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_drumpad_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_drumpad_buzzer",
+"title": "Pressure-pad drum: force sensor (FSR) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_drumpad_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_bt",
+"title": "School bag too heavy warning: force sensor (FSR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"fsr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_schoolbag_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_buzzer",
+"title": "School bag too heavy warning: force sensor (FSR) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_schoolbag_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_schoolbag_rgb",
+"title": "School bag too heavy warning: force sensor (FSR) → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"fsr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_schoolbag_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_padgate_bt",
+"title": "Weight-pad gate: force sensor (FSR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"fsr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_padgate_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_padgate_servo",
+"title": "Weight-pad gate: force sensor (FSR) → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_padgate_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_bt",
+"title": "Library seat taken sensor: force sensor (FSR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"fsr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_seatpad_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_oled",
+"title": "Library seat taken sensor: force sensor (FSR) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_seatpad_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_lcd",
+"title": "Library seat taken sensor: force sensor (FSR) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_seatpad_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_seatpad_led",
+"title": "Library seat taken sensor: force sensor (FSR) → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"fsr"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_seatpad_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_bt",
+"title": "Doormat visitor alarm: force sensor (FSR) → phone over Bluetooth",
+"family": "factory",
+"board": "uno",
+"parts": [
+"hc05",
+"resistor",
+"fsr"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_doormat_bt",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_oled",
+"title": "Doormat visitor alarm: force sensor (FSR) → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_doormat_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_lcd",
+"title": "Doormat visitor alarm: force sensor (FSR) → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_doormat_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doormat_buzzer",
+"title": "Doormat visitor alarm: force sensor (FSR) → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"fsr",
+"resistor"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_doormat_buzzer",
 "rule": null,
 "note": null
 },
@@ -83144,11 +91422,9 @@
 "board": "uno",
 "parts": [
 "abuzz",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -83170,11 +91446,9 @@
 "board": "esp32",
 "parts": [
 "abuzz",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -83196,11 +91470,9 @@
 "board": "pico",
 "parts": [
 "abuzz",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -83222,11 +91494,9 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -83248,11 +91518,9 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -83274,11 +91542,9 @@
 "board": "pico",
 "parts": [
 "buzzer",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -83302,11 +91568,9 @@
 "aa4",
 "pump",
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -83330,11 +91594,9 @@
 "aa4",
 "pump",
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -83358,11 +91620,9 @@
 "aa4",
 "pump",
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -83385,11 +91645,9 @@
 "parts": [
 "load230",
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -83412,11 +91670,9 @@
 "parts": [
 "load230",
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -83439,11 +91695,9 @@
 "parts": [
 "load230",
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -83466,11 +91720,9 @@
 "parts": [
 "resistor",
 "rgb",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -83493,11 +91745,9 @@
 "parts": [
 "resistor",
 "rgb",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -83520,11 +91770,9 @@
 "parts": [
 "resistor",
 "rgb",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -83546,11 +91794,10 @@
 "board": "uno",
 "parts": [
 "gsm",
-"waterlevel"
+"wlevel"
 ],
 "newparts": [
-"gsm",
-"waterlevel"
+"gsm"
 ],
 "band": [
 10,
@@ -83573,11 +91820,10 @@
 "board": "esp32",
 "parts": [
 "gsm",
-"waterlevel"
+"wlevel"
 ],
 "newparts": [
-"gsm",
-"waterlevel"
+"gsm"
 ],
 "band": [
 12,
@@ -89104,12 +97350,10 @@
 "board": "uno",
 "parts": [
 "lcd16",
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -89131,12 +97375,10 @@
 "board": "esp32",
 "parts": [
 "lcd16",
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -89158,12 +97400,10 @@
 "board": "pico",
 "parts": [
 "lcd16",
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89184,13 +97424,11 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
+"ntc",
 "resistor",
-"seg7",
-"thermistor"
+"seg7"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -89211,13 +97449,11 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
+"ntc",
 "resistor",
-"seg7",
-"thermistor"
+"seg7"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -89238,13 +97474,11 @@
 "family": "sensor-to-output",
 "board": "pico",
 "parts": [
+"ntc",
 "resistor",
-"seg7",
-"thermistor"
+"seg7"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89265,12 +97499,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -89291,12 +97523,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -89317,12 +97547,10 @@
 "family": "sensor-to-output",
 "board": "pico",
 "parts": [
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89344,13 +97572,11 @@
 "board": "uno",
 "parts": [
 "load230",
+"ntc",
 "relay",
-"resistor",
-"thermistor"
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -89372,13 +97598,11 @@
 "board": "esp32",
 "parts": [
 "load230",
+"ntc",
 "relay",
-"resistor",
-"thermistor"
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -89400,13 +97624,11 @@
 "board": "pico",
 "parts": [
 "load230",
+"ntc",
 "relay",
-"resistor",
-"thermistor"
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89427,13 +97649,11 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
+"ntc",
 "resistor",
-"rgb",
-"thermistor"
+"rgb"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -89454,13 +97674,11 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
+"ntc",
 "resistor",
-"rgb",
-"thermistor"
+"rgb"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -89481,13 +97699,11 @@
 "family": "sensor-to-output",
 "board": "pico",
 "parts": [
+"ntc",
 "resistor",
-"rgb",
-"thermistor"
+"rgb"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -89509,13 +97725,11 @@
 "board": "uno",
 "parts": [
 "load230",
+"ntc",
 "relay",
-"resistor",
-"thermistor"
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -89537,13 +97751,11 @@
 "board": "esp32",
 "parts": [
 "load230",
+"ntc",
 "relay",
-"resistor",
-"thermistor"
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -89565,13 +97777,11 @@
 "board": "pico",
 "parts": [
 "load230",
+"ntc",
 "relay",
-"resistor",
-"thermistor"
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89593,12 +97803,10 @@
 "board": "uno",
 "parts": [
 "abuzz",
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -89620,12 +97828,10 @@
 "board": "esp32",
 "parts": [
 "abuzz",
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -89647,12 +97853,10 @@
 "board": "pico",
 "parts": [
 "abuzz",
-"resistor",
-"thermistor"
+"ntc",
+"resistor"
 ],
-"newparts": [
-"thermistor"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -89677,9 +97881,7 @@
 "mq3",
 "relay"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -89704,9 +97906,7 @@
 "mq3",
 "relay"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89731,9 +97931,7 @@
 "mq3",
 "relay"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -89757,9 +97955,7 @@
 "abuzz",
 "mq3"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -89783,9 +97979,7 @@
 "abuzz",
 "mq3"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -89809,9 +98003,7 @@
 "abuzz",
 "mq3"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89835,9 +98027,7 @@
 "lcd16",
 "mq3"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -89861,9 +98051,7 @@
 "lcd16",
 "mq3"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89887,9 +98075,7 @@
 "lcd16",
 "mq3"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -89914,9 +98100,7 @@
 "mq3",
 "sip10"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -89941,9 +98125,7 @@
 "mq3",
 "sip10"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -89968,9 +98150,7 @@
 "mq3",
 "sip10"
 ],
-"newparts": [
-"mq3"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -89995,9 +98175,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -90022,9 +98200,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -90049,9 +98225,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -90076,7 +98250,6 @@
 "ws2812"
 ],
 "newparts": [
-"mq135",
 "ws2812"
 ],
 "band": [
@@ -90103,7 +98276,6 @@
 "ws2812"
 ],
 "newparts": [
-"mq135",
 "ws2812"
 ],
 "band": [
@@ -90130,7 +98302,6 @@
 "ws2812"
 ],
 "newparts": [
-"mq135",
 "ws2812"
 ],
 "band": [
@@ -90159,9 +98330,7 @@
 "npn",
 "resistor"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -90188,9 +98357,7 @@
 "npn",
 "resistor"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -90217,9 +98384,7 @@
 "npn",
 "resistor"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90244,9 +98409,7 @@
 "mq135",
 "relay"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -90271,9 +98434,7 @@
 "mq135",
 "relay"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -90298,9 +98459,7 @@
 "mq135",
 "relay"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90324,9 +98483,7 @@
 "lcd16",
 "mq135"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -90350,9 +98507,7 @@
 "lcd16",
 "mq135"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -90376,9 +98531,7 @@
 "lcd16",
 "mq135"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90402,9 +98555,7 @@
 "mq135",
 "oled"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -90428,9 +98579,7 @@
 "mq135",
 "oled"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90454,9 +98603,7 @@
 "mq135",
 "oled"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90479,9 +98626,7 @@
 "parts": [
 "mq135"
 ],
-"newparts": [
-"mq135"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90738,11 +98883,9 @@
 "board": "uno",
 "parts": [
 "lcd16",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -90764,11 +98907,9 @@
 "board": "esp32",
 "parts": [
 "lcd16",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -90790,11 +98931,9 @@
 "board": "pico",
 "parts": [
 "lcd16",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90816,11 +98955,9 @@
 "board": "uno",
 "parts": [
 "oled",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -90842,11 +98979,9 @@
 "board": "esp32",
 "parts": [
 "oled",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90868,11 +99003,9 @@
 "board": "pico",
 "parts": [
 "oled",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90895,11 +99028,9 @@
 "parts": [
 "bar10",
 "sip10",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -90922,11 +99053,9 @@
 "parts": [
 "bar10",
 "sip10",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -90949,11 +99078,9 @@
 "parts": [
 "bar10",
 "sip10",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -90975,11 +99102,9 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -91001,11 +99126,9 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91027,11 +99150,9 @@
 "board": "pico",
 "parts": [
 "buzzer",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91054,11 +99175,9 @@
 "parts": [
 "resistor",
 "rgb",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -91081,11 +99200,9 @@
 "parts": [
 "resistor",
 "rgb",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91108,11 +99225,9 @@
 "parts": [
 "resistor",
 "rgb",
-"uv"
+"uvs"
 ],
-"newparts": [
-"uv"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91134,12 +99249,10 @@
 "board": "uno",
 "parts": [
 "load230",
-"rcwl0516",
+"rcwl",
 "relay"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -91161,12 +99274,10 @@
 "board": "esp32",
 "parts": [
 "load230",
-"rcwl0516",
+"rcwl",
 "relay"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91188,12 +99299,10 @@
 "board": "pico",
 "parts": [
 "load230",
-"rcwl0516",
+"rcwl",
 "relay"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91215,12 +99324,10 @@
 "board": "pi4",
 "parts": [
 "load230",
-"rcwl0516",
+"rcwl",
 "relay"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -91242,12 +99349,10 @@
 "board": "microbit",
 "parts": [
 "load230",
-"rcwl0516",
+"rcwl",
 "relay"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 5,
 7
@@ -91269,12 +99374,10 @@
 "board": "uno",
 "parts": [
 "led",
-"rcwl0516",
+"rcwl",
 "resistor"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -91296,12 +99399,10 @@
 "board": "esp32",
 "parts": [
 "led",
-"rcwl0516",
+"rcwl",
 "resistor"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -91323,12 +99424,10 @@
 "board": "pico",
 "parts": [
 "led",
-"rcwl0516",
+"rcwl",
 "resistor"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91350,12 +99449,10 @@
 "board": "pi4",
 "parts": [
 "led",
-"rcwl0516",
+"rcwl",
 "resistor"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91377,12 +99474,10 @@
 "board": "microbit",
 "parts": [
 "led",
-"rcwl0516",
+"rcwl",
 "resistor"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -91403,13 +99498,11 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"rcwl0516",
+"rcwl",
 "resistor",
 "seg7"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -91430,13 +99523,11 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"rcwl0516",
+"rcwl",
 "resistor",
 "seg7"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91457,13 +99548,11 @@
 "family": "sensor-to-output",
 "board": "pico",
 "parts": [
-"rcwl0516",
+"rcwl",
 "resistor",
 "seg7"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91485,11 +99574,9 @@
 "board": "uno",
 "parts": [
 "lcd16",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -91511,11 +99598,9 @@
 "board": "esp32",
 "parts": [
 "lcd16",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91537,11 +99622,9 @@
 "board": "pico",
 "parts": [
 "lcd16",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91563,11 +99646,9 @@
 "board": "pi4",
 "parts": [
 "lcd16",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -91589,11 +99670,9 @@
 "board": "uno",
 "parts": [
 "abuzz",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -91615,11 +99694,9 @@
 "board": "esp32",
 "parts": [
 "abuzz",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -91641,11 +99718,9 @@
 "board": "pico",
 "parts": [
 "abuzz",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91667,11 +99742,9 @@
 "board": "pi4",
 "parts": [
 "abuzz",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91693,11 +99766,9 @@
 "board": "microbit",
 "parts": [
 "abuzz",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -91719,11 +99790,9 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -91745,11 +99814,9 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -91771,11 +99838,9 @@
 "board": "pico",
 "parts": [
 "buzzer",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -91797,11 +99862,9 @@
 "board": "pi4",
 "parts": [
 "buzzer",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -91823,11 +99886,9 @@
 "board": "microbit",
 "parts": [
 "buzzer",
-"rcwl0516"
+"rcwl"
 ],
-"newparts": [
-"rcwl0516"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -92674,9 +100735,7 @@
 "resistor",
 "servo"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -92701,9 +100760,7 @@
 "resistor",
 "servo"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -92728,9 +100785,7 @@
 "resistor",
 "servo"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -92755,9 +100810,7 @@
 "flex",
 "resistor"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -92782,9 +100835,7 @@
 "flex",
 "resistor"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -92809,9 +100860,7 @@
 "flex",
 "resistor"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -92836,9 +100885,7 @@
 "flex",
 "resistor"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -92863,9 +100910,7 @@
 "flex",
 "resistor"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -92890,9 +100935,7 @@
 "flex",
 "resistor"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -92917,9 +100960,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -92944,9 +100985,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -92971,9 +101010,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -92998,9 +101035,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -93025,9 +101060,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -93052,9 +101085,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -93079,9 +101110,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93106,9 +101135,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -93133,9 +101160,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -93160,9 +101185,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -93187,9 +101210,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93214,9 +101235,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -93240,9 +101259,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -93268,9 +101285,7 @@
 "resistor",
 "sip10"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -93296,9 +101311,7 @@
 "resistor",
 "sip10"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93324,9 +101337,7 @@
 "resistor",
 "sip10"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -93351,9 +101362,7 @@
 "lcd16",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -93378,9 +101387,7 @@
 "lcd16",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93405,9 +101412,7 @@
 "lcd16",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -93431,9 +101436,7 @@
 "fsr",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -93458,9 +101461,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -93485,9 +101486,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -93512,9 +101511,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93539,9 +101536,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -93566,9 +101561,7 @@
 "led",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -93593,9 +101586,7 @@
 "led",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -93620,9 +101611,7 @@
 "led",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -93647,9 +101636,7 @@
 "led",
 "resistor"
 ],
-"newparts": [
-"fsr"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -102248,16 +110235,14 @@
 "family": "iot",
 "board": "esp32",
 "parts": [
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
-9,
-11
+8,
+10
 ],
-"level": 9,
+"level": 8,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -102269,16 +110254,14 @@
 "family": "iot",
 "board": "esp32",
 "parts": [
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
-10,
-12
+9,
+11
 ],
-"level": 10,
+"level": 9,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -102290,16 +110273,14 @@
 "family": "iot",
 "board": "esp32",
 "parts": [
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
-11,
+10,
 12
 ],
-"level": 11,
+"level": 10,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -104372,11 +112353,10 @@
 "parts": [
 "relay",
 "rtc",
-"waterlevel"
+"wlevel"
 ],
 "newparts": [
-"rtc",
-"waterlevel"
+"rtc"
 ],
 "band": [
 10,
@@ -104396,11 +112376,10 @@
 "parts": [
 "relay",
 "rtc",
-"waterlevel"
+"wlevel"
 ],
 "newparts": [
-"rtc",
-"waterlevel"
+"rtc"
 ],
 "band": [
 11,
@@ -104469,11 +112448,9 @@
 "buzzer",
 "flame",
 "vibe",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -104493,11 +112470,9 @@
 "buzzer",
 "flame",
 "vibe",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -104650,11 +112625,9 @@
 "parts": [
 "abuzz",
 "hcsr04",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -104673,11 +112646,9 @@
 "parts": [
 "abuzz",
 "hcsr04",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -105689,9 +113660,7 @@
 "flex",
 "servo"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -105711,9 +113680,7 @@
 "flex",
 "servo"
 ],
-"newparts": [
-"flex"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -107084,11 +115051,10 @@
 "parts": [
 "buzzer",
 "gsm",
-"waterlevel"
+"wlevel"
 ],
 "newparts": [
-"gsm",
-"waterlevel"
+"gsm"
 ],
 "band": [
 10,
@@ -107108,11 +115074,10 @@
 "parts": [
 "buzzer",
 "gsm",
-"waterlevel"
+"wlevel"
 ],
 "newparts": [
-"gsm",
-"waterlevel"
+"gsm"
 ],
 "band": [
 11,
@@ -107681,11 +115646,9 @@
 "board": "uno",
 "parts": [
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -107703,11 +115666,9 @@
 "board": "esp32",
 "parts": [
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -107934,11 +115895,9 @@
 "parts": [
 "pump",
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -107957,11 +115916,9 @@
 "parts": [
 "pump",
 "relay",
-"waterlevel"
+"wlevel"
 ],
-"newparts": [
-"waterlevel"
-],
+"newparts": [],
 "band": [
 10,
 12
