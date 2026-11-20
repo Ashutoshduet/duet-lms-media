@@ -310,6 +310,13 @@ const dhtE = { wires: [w('dht.VCC', 'rail:bp', 'Its middle pin (+) to the front 
   decl: ['DHT dht(27, DHT11);         // the DHT11\'s DATA on GPIO 27'] };
 EIN.dht = Object.assign({}, IN.dht, dhtE);
 EIN.hum = Object.assign({}, IN.hum, dhtE);
+// (batch 14) a web page on the phone: the ESP32 joins the school WiFi and serves the job's warning (Class 8 IoT)
+const net = (S) => S.lab.net4 || { seen: { pages: 0, paths: {} } };
+const lastBody = (S) => String(((net(S).seen || {}).last || {}).body || '');
+EOUT.web = { name: t3('web page on a phone', 'फ़ोन पर वेब पेज', 'phone par web page'), pin: 'WiFi', parts: [], wires: [], web: true,
+  ready: t3('The ESP32 joins the school WiFi (DUET-School) and serves a web page; the phone on the bench opens it. No wires for this output: it goes by radio.', 'ESP32 स्कूल के WiFi (DUET-School) से जुड़ता है और एक वेब पेज देता है; बेंच पर रखा फ़ोन उसे खोलता है। इस आउटपुट के लिए कोई वायर नहीं: यह रेडियो से जाता है।', 'ESP32 school ke WiFi (DUET-School) se judta hai aur ek web page deta hai; bench par rakha phone use kholta hai. Is output ke liye koi wire nahi: yeh radio se jaata hai.'),
+  onWords: t3('the page on the phone shows the warning', 'फ़ोन के पेज पर चेतावनी आती है', 'phone ke page par warning aati hai'),
+  isOn: (S, j) => lastBody(S).includes('<h1 style="color:#d0342c">' + j.on) };
 EOUT.led = Object.assign({}, OUT.led, { pin: 25, parts: [P('led1', 'led', { color: 'red' }, 'e30', 0), P('r1', 'resistor', { ohms: 220 }, 'b30', 3)], wires: [['H:a11', 'H:a31']],
   ready: t3('The red LED and its 220 Ω resistor are already wired to GPIO 25.', 'लाल एलईडी और उसका 220 Ω रेज़िस्टर पहले से GPIO 25 पर लगे हैं।', 'Laal LED aur uska 220 Ω resistor pehle se GPIO 25 par lage hain.'),
   decl: ['const int led = 25;         // GPIO 25: the LED (through its resistor)'] });
@@ -670,7 +677,7 @@ function relayFor(out, job) { // the 230 V box the relay switches, in the words 
     decl: (out.decl || []).map((x) => x.replace('lamp on', 'heater on')), py: out.py && Object.assign({}, out.py, { decl: out.py.decl.map((x) => x.replace('lamp on', 'heater on')) }) });
   return out;
 }
-const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out === 'lcd' || out === 'relay' ? 1 : 0)));
+const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out === 'lcd' || out === 'relay' || out === 'web' ? 1 : 0)));
 
 // ------------------------------------------------------------------ the sketch
 function sketch(job, ik, ok, board) {
@@ -700,13 +707,34 @@ function sketch(job, ik, ok, board) {
   return L.join('\n');
 }
 
+// (batch 14) the ESP32 sketch of a web-page job: WiFi, a WebServer, the sensor read 5 times a second in loop()
+const htmlEsc = (x) => String(x).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+function sketchWeb(job, ik) {
+  const inp = EIN[ik]; const L = [`// ${job.title.en}: ${inp.name.en} and a web page on the phone`, `// ${job.why.en}`, '#include <WiFi.h>', '#include <WebServer.h>', ...(inp.inc || []), '',
+    'const char* ssid = "DUET-School";', 'const char* password = "stem2026";', 'WebServer server(80);', ...inp.decl];
+  const rd = (inp.readLines || [inp.read]); const v = inp.v;
+  if (inp.analog) L.push(`int limit = ${inp.l0};             // ${inp.note}`, `int ${v} = 0;                  // the last reading`);
+  else L.push('unsigned long hold = 1000;    // stay on this long after it stops (ms)', 'unsigned long last = 0;       // when the sensor was last active');
+  L.push('bool warn = false;', '', 'void handleRoot() {', '  String h = "<meta http-equiv=\\"refresh\\" content=\\"2\\">";   // the phone asks again every 2 s',
+    `  h += "<h3>${htmlEsc(job.title.en)}</h3>";`);
+  if (inp.analog) L.push(`  h += "<p>${inp.label}: <b>" + String(${v}) + "</b></p>";`);
+  L.push('  if (warn) {', `    h += "<h1 style=\\"color:#d0342c\\">${htmlEsc(job.on)}</h1>";`, '  } else {', `    h += "<h1 style=\\"color:#2b8a3e\\">${htmlEsc(job.off)}</h1>";`, '  }', '  server.send(200, "text/html", h);', '}', '',
+    'void setup() {', ...inp.setup.map((x) => '  ' + x), '  Serial.begin(115200);', '  WiFi.begin(ssid, password);', '  while (WiFi.status() != WL_CONNECTED) {', '    delay(500);', '    Serial.print(".");', '  }', '  Serial.println();',
+    '  Serial.print("Open on the phone: http://");', '  Serial.println(WiFi.localIP());', '  server.on("/", handleRoot);', '  server.begin();', '}', '', 'unsigned long lastRead = 0;', '', 'void loop() {',
+    '  server.handleClient();        // answer the phone', `  if (millis() - lastRead >= ${inp.delay || 200}) {`, '    lastRead = millis();');
+  if (inp.analog) { L.push(...rd.map((x) => '    ' + x.replace(new RegExp(`^int ${v} = `), `${v} = `)), `    Serial.print("${inp.label}: ");`, `    Serial.println(${v});`, `    warn = ${inp.cond};`); }
+  else L.push(`    if (${inp.trig}) {`, '      last = millis();           // active now: start the hold time again', '    }', '    warn = last > 0 && millis() - last < hold;');
+  L.push('  }', '}', '');
+  return L.join('\n');
+}
+
 // ------------------------------------------------------------------ one lesson
 function lesson(K, job, ik, ok, n, board) {
   const esp = board === 'esp32', pico = board === 'pico', pi = board === 'pi4', inp = (esp ? EIN : pico ? PIN : pi ? QIN : IN)[ik], out0 = (esp ? EOUT : pico ? POUT : pi ? QOUT : OUT)[ok];
   const out = ok === 'relay' ? relayFor(out0, job) : out0;
   const ON = (S) => out.isOn(S, job);
   const id = `f_${job.key}_${ok}` + (esp ? '_esp' : pico ? '_pico' : pi ? '_pi' : '');
-  const code = sketch(job, ik, ok, board);
+  const web = !!out.web; const code = web ? sketchWeb(job, ik) : sketch(job, ik, ok, board);
   const wide = inp.view === 'wide' || ['servo', 'relay', 'lcd'].includes(ok);
   const when = fill(inp.when, (x) => x), onW = out.onWords;
   const goal = join3(job.why, ' ', t3(`When ${when.en}, ${onW.en}.`, `जब ${when.hi}, तब ${onW.hi}।`, `Jab ${when.hg}, tab ${onW.hg}.`));
@@ -718,6 +746,8 @@ function lesson(K, job, ik, ok, n, board) {
   steps.push(...inp.wires);
   steps.push({ k: 'check', do: t3('Check your circuit.', 'अपना सर्किट जाँचिए।', 'Apna circuit check karo.'), see: t3('', '', '') });
   steps.push({ k: 'run', do: t3('Press Run.', '"चलाइए" दबाइए।', 'Run dabaiye.'), see: inp.analog ? t3(`The Serial Monitor shows the reading (${inp.label}) every 0.2 s.`, `सीरियल मॉनिटर हर 0.2 s में रीडिंग (${inp.label}) दिखाता है।`, `Serial Monitor har 0.2 s mein reading (${inp.label}) dikhata hai.`) : t3('', '', '') });
+  if (web) steps.push({ k: 'act', until: (S) => fresh(S) && ((net(S).seen.paths || {})['/'] || 0) >= 1, do: t3('The Serial Monitor shows the address. On the phone, open the Browser, type that address (http://192.168.1.…) and press Go.', 'सीरियल मॉनिटर पता दिखाता है। फ़ोन पर Browser खोलिए, वह पता (http://192.168.1.…) लिखिए और Go दबाइए।', 'Serial Monitor address dikhata hai. Phone par Browser kholiye, woh address (http://192.168.1.…) likhiye aur Go dabaiye.'),
+    see: t3('The page asks the ESP32 again every 2 s by itself (meta refresh): leave it open.', 'पेज हर 2 s में अपने-आप ESP32 से फिर पूछता है (meta refresh): इसे खुला रहने दीजिए।', 'Page har 2 s mein apne aap ESP32 se phir poochhta hai (meta refresh): ise khula rehne dijiye.') });
   const trig = inp.analog ? (S) => { const v = lastNum(S); return v !== null && cmp(ik, v, inp.l0); } : (S) => (!inp.ready || inp.ready(S)) && inp.active(S);
   steps.push({ k: 'act', until: (S) => fresh(S) && trig(S) && ON(S) && (S.memRun.onSeen = true), do: inp.onDo, see: t3(`${cap(onW.en)}.`, `${onW.hi}।`, `${cap(onW.hg)}.`) });
   steps.push({ k: 'act', until: (S) => fresh(S) && S.memRun.onSeen && !trig(S) && !ON(S), do: inp.offDo,
@@ -743,7 +773,7 @@ function lesson(K, job, ik, ok, n, board) {
   const check = pi ? [(S) => (S.conn('5V', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : pico ? [(S) => (S.conn('VBUS', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : esp ? [(S) => (S.conn('VIN', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : [noShort(K.W), (S) => (S.conn('rail:tp', '5V') ? null : [K.W.vRail]), ...inp.checks(K)];
   const cls = pi ? Math.max(10, CLS(job, inp, ok) + 2) : pico ? Math.max(9, CLS(job, inp, ok) + 2) : esp ? Math.max(8, CLS(job, inp, ok) + 1) : CLS(job, inp, ok); const sfx = esp ? ' (ESP32)' : pico ? ' (Pico)' : pi ? ' (Raspberry Pi)' : '';
   return {
-    id, n, batch: 'F', factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
+    id, n, batch: 'F', phone: web || undefined, factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
     code, drawer: inp.drawer, serial: !!inp.analog, title: t3(`${job.title.en}: ${inp.name.en} → ${out.name.en}${sfx}`, `${job.title.hi}: ${inp.name.hi} → ${out.name.hi}${sfx}`, `${job.title.hg}: ${inp.name.hg} → ${out.name.hg}${sfx}`),
     goal, setup: { parts: [...out.parts, ...(inp.preParts || [])].map((p) => Object.assign({}, p)), wires: [...(esp ? ESP_POWER : pico ? PICO_POWER : pi ? PI_POWER : POWER), ...out.wires, ...(inp.preWires || [])] }, steps, check, tick,
     done: (S) => !!S.memRun.final,
@@ -755,10 +785,10 @@ const cmp = (ik, v, lim) => ({ pot: v > lim, ldr: v < lim, ldrb: v > lim, lm35: 
 // ------------------------------------------------------------------ all of them
 export function batchF(K, n0) {
   const out = []; let n = n0;
-  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : [])]) { // (batch 12: every LCD job on the OLED too)
+  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : []), ...(board === 'esp32' ? ['web'] : [])]) { // (batch 12: every LCD job on the OLED too)
     const T = board === 'esp32' ? [EIN, EOUT] : board === 'pico' ? [PIN, POUT] : board === 'pi4' ? [QIN, QOUT] : [IN, OUT];
     if (!T[0][job.inp] || !T[1][ok]) continue;
-    if ((board === 'uno' && HAND_MADE.has(job.key + ':' + ok)) || (OUT[ok].clash || []).includes(job.inp)) continue;
+    if ((board === 'uno' && HAND_MADE.has(job.key + ':' + ok)) || ((OUT[ok] || {}).clash || []).includes(job.inp)) continue;
     out.push(lesson(K, job, job.inp, ok, ++n, board));
   }
   return out;

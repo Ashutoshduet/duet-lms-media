@@ -766,3 +766,9 @@ heaters.
   catches) — 19 lessons; the Pi 4 reads an HC-SR04 with gpiozero's DistanceSensor (Trig GPIO 25, Echo through a
   1 kΩ / 2.2 kΩ divider that the factory puts on the breadboard first, `preParts` / `preWires`, to GPIO 24) — 18
   lessons. `robofactory.mjs` 6721 ok. 1,302 projects.
+- Every ESP32 job also as a web page on the phone (`EOUT.web`, `sketchWeb`, 134 lessons, Class 8–9): WiFi + WebServer,
+  the sensor read five times a second in loop() without blocking, a page that refreshes itself every 2 s (meta
+  refresh) with the reading and the job's message (red when on, green when off). An extra step opens the address on
+  the phone; `isOn` looks at the page the phone last got. robofactory.mjs opens the page and refreshes it like the
+  phone (7793 ok). Class 8 sessions: weather station → `f_heatwave_web_esp`, soil dashboard → `f_thirst_web_esp`.
+  1,436 projects.

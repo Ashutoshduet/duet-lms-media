@@ -4041,34 +4041,34 @@
    {
     "class": 8,
     "n": 17,
-    "kind": "I",
-    "title": "Weather station: temperature & humidity sensor and web page on a phone",
+    "kind": "L",
+    "title": "Heat-wave warning: DHT11 sensor (temperature) → web page on a phone (ESP32)",
     "board": "esp32",
-    "status": "planned",
-    "ref": "weather-station-temperature-humidity-sensor-and-web-page-on-a-phone-esp32",
+    "status": "live",
+    "ref": "f_heatwave_web_esp",
     "newparts": [],
-    "family": "sensor-to-output",
+    "family": "live-bank",
     "parts": [
      "dht11"
     ],
-    "strand": "Decomposition",
+    "strand": "Abstraction",
     "focus": "IoT",
     "term": "Term 3 (October-December)"
    },
    {
     "class": 8,
     "n": 18,
-    "kind": "I",
-    "title": "Soil moisture dashboard on the school WiFi",
+    "kind": "L",
+    "title": "Plant thirst alarm: soil moisture sensor → web page on a phone (ESP32)",
     "board": "esp32",
-    "status": "planned",
-    "ref": "soil-moisture-dashboard-on-the-school-wifi-esp32",
+    "status": "live",
+    "ref": "f_thirst_web_esp",
     "newparts": [],
-    "family": "iot",
+    "family": "live-bank",
     "parts": [
      "soil"
     ],
-    "strand": "Decomposition",
+    "strand": "Abstraction",
     "focus": "IoT",
     "term": "Term 3 (October-December)"
    },

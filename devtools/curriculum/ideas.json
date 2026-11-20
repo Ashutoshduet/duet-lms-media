@@ -8209,6 +8209,25 @@
 "note": null
 },
 {
+"id": "live-f_mirror_web_esp",
+"title": "Bathroom mirror demister: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_mirror_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_mirror_relay_esp",
 "title": "Bathroom mirror demister: DHT11 sensor (humidity) → relay and heater lamp (ESP32)",
 "family": "factory",
@@ -8226,6 +8245,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_mirror_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_museum_web_esp",
+"title": "Museum humidity guard: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_museum_web_esp",
 "rule": null,
 "note": null
 },
@@ -8311,6 +8349,25 @@
 "note": null
 },
 {
+"id": "live-f_clothesdry_web_esp",
+"title": "Drying room fan: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clothesdry_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clothesdry_relay_esp",
 "title": "Drying room fan: DHT11 sensor (humidity) → relay and fan (ESP32)",
 "family": "factory",
@@ -8328,6 +8385,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_clothesdry_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_comfort_web_esp",
+"title": "Classroom comfort meter: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_comfort_web_esp",
 "rule": null,
 "note": null
 },
@@ -8393,6 +8469,25 @@
 "note": null
 },
 {
+"id": "live-f_poultry_web_esp",
+"title": "Poultry shed cooling: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_poultry_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_poultry_pump_esp",
 "title": "Poultry shed cooling: DHT11 sensor (temperature) → water pump (ESP32)",
 "family": "factory",
@@ -8432,6 +8527,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_poultry_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pitch_web_esp",
+"title": "Cricket pitch dryness check: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pitch_web_esp",
 "rule": null,
 "note": null
 },
@@ -8496,6 +8610,25 @@
 "note": null
 },
 {
+"id": "live-f_terrace_web_esp",
+"title": "Terrace garden watering: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_terrace_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_terrace_pump_esp",
 "title": "Terrace garden watering: soil moisture sensor → water pump (ESP32)",
 "family": "factory",
@@ -8514,6 +8647,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_terrace_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nursery_web_esp",
+"title": "Seedling tray monitor: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nursery_web_esp",
 "rule": null,
 "note": null
 },
@@ -8579,6 +8731,25 @@
 "note": null
 },
 {
+"id": "live-f_coldwave_web_esp",
+"title": "Cold wave school notice: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_coldwave_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coldwave_oled_esp",
 "title": "Cold wave school notice: temperature sensor LM35 → OLED screen (ESP32)",
 "family": "factory",
@@ -8639,6 +8810,25 @@
 "note": null
 },
 {
+"id": "live-f_bathwater_web_esp",
+"title": "Bath water too cold: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bathwater_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathwater_led_esp",
 "title": "Bath water too cold: temperature sensor LM35 → LED (ESP32)",
 "family": "factory",
@@ -8681,6 +8871,25 @@
 "note": null
 },
 {
+"id": "live-f_brooder_web_esp",
+"title": "Chick brooder heater: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_brooder_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_brooder_relay_esp",
 "title": "Chick brooder heater: temperature sensor LM35 → relay and heater lamp (ESP32)",
 "family": "factory",
@@ -8698,6 +8907,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_brooder_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pipefreeze_web_esp",
+"title": "Water pipe freeze warning: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pipefreeze_web_esp",
 "rule": null,
 "note": null
 },
@@ -8783,6 +9011,25 @@
 "note": null
 },
 {
+"id": "live-f_compost_web_esp",
+"title": "Compost pit thermometer: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_compost_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_compost_oled_esp",
 "title": "Compost pit thermometer: temperature sensor LM35 → OLED screen (ESP32)",
 "family": "factory",
@@ -8844,6 +9091,25 @@
 "note": null
 },
 {
+"id": "live-f_transformer_web_esp",
+"title": "Transformer heat watch: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_transformer_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_transformer_oled_esp",
 "title": "Transformer heat watch: temperature sensor LM35 → OLED screen (ESP32)",
 "family": "factory",
@@ -8901,6 +9167,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_transformer_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_geyser_web_esp",
+"title": "Hot water ready light: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_geyser_web_esp",
 "rule": null,
 "note": null
 },
@@ -8986,6 +9271,25 @@
 "note": null
 },
 {
+"id": "live-f_motorhot_web_esp",
+"title": "Pump motor overheat alarm: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_motorhot_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_motorhot_oled_esp",
 "title": "Pump motor overheat alarm: temperature sensor LM35 → OLED screen (ESP32)",
 "family": "factory",
@@ -9046,6 +9350,25 @@
 "note": null
 },
 {
+"id": "live-f_ironhot_web_esp",
+"title": "Iron left on warning: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_ironhot_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_ironhot_rgb_esp",
 "title": "Iron left on warning: temperature sensor LM35 → colour LED (ESP32)",
 "family": "factory",
@@ -9083,6 +9406,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_ironhot_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_flame_web_esp",
+"title": "Burner flame watcher: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_flame_web_esp",
 "rule": null,
 "note": null
 },
@@ -9150,6 +9493,26 @@
 "note": null
 },
 {
+"id": "live-f_strongsun_web_esp",
+"title": "Strong sun warning: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_strongsun_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_strongsun_rgb_esp",
 "title": "Strong sun warning: light sensor (LDR) → colour LED (ESP32)",
 "family": "factory",
@@ -9188,6 +9551,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_strongsun_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_headlight_web_esp",
+"title": "Headlight auto-dipper: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_headlight_web_esp",
 "rule": null,
 "note": null
 },
@@ -9234,6 +9617,26 @@
 "note": null
 },
 {
+"id": "live-f_solarpanel_web_esp",
+"title": "Solar panel lifter: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_solarpanel_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_solarpanel_servo_esp",
 "title": "Solar panel lifter: light sensor (LDR) → servo (ESP32)",
 "family": "factory",
@@ -9251,6 +9654,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_solarpanel_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_powercut_web_esp",
+"title": "Power cut alarm: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_powercut_web_esp",
 "rule": null,
 "note": null
 },
@@ -9318,6 +9741,26 @@
 "note": null
 },
 {
+"id": "live-f_festival_web_esp",
+"title": "Festival lights at sunset: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_festival_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_festival_relay_esp",
 "title": "Festival lights at sunset: light sensor (LDR) → relay and lamp (ESP32)",
 "family": "factory",
@@ -9357,6 +9800,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_festival_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_beacon_web_esp",
+"title": "Tower warning beacon: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_beacon_web_esp",
 "rule": null,
 "note": null
 },
@@ -9403,6 +9866,26 @@
 "note": null
 },
 {
+"id": "live-f_readinglamp_web_esp",
+"title": "Study table lamp: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_readinglamp_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_readinglamp_relay_esp",
 "title": "Study table lamp: light sensor (LDR) → relay and lamp (ESP32)",
 "family": "factory",
@@ -9442,6 +9925,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_readinglamp_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_smokebeam_web_esp",
+"title": "Smoke detector (light beam): light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_smokebeam_web_esp",
 "rule": null,
 "note": null
 },
@@ -9530,6 +10033,25 @@
 "note": null
 },
 {
+"id": "live-f_stoveknob_web_esp",
+"title": "Gas stove knob reminder: knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stoveknob_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_stoveknob_rgb_esp",
 "title": "Gas stove knob reminder: knob (potentiometer) → colour LED (ESP32)",
 "family": "factory",
@@ -9567,6 +10089,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_stoveknob_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_volume_web_esp",
+"title": "Headphone volume guard: knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_volume_web_esp",
 "rule": null,
 "note": null
 },
@@ -9632,6 +10173,25 @@
 "note": null
 },
 {
+"id": "live-f_cranelimit_web_esp",
+"title": "Crane arm angle limit: knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_cranelimit_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_cranelimit_rgb_esp",
 "title": "Crane arm angle limit: knob (potentiometer) → colour LED (ESP32)",
 "family": "factory",
@@ -9669,6 +10229,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_cranelimit_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_speedwarn_web_esp",
+"title": "Over-speed warning: knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_speedwarn_web_esp",
 "rule": null,
 "note": null
 },
@@ -9754,6 +10333,25 @@
 "note": null
 },
 {
+"id": "live-f_goal_web_esp",
+"title": "Goal-line sensor: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_goal_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_goal_oled_esp",
 "title": "Goal-line sensor: IR obstacle sensor → OLED screen (ESP32)",
 "family": "factory",
@@ -9814,6 +10412,25 @@
 "note": null
 },
 {
+"id": "live-f_wardrobe_web_esp",
+"title": "Wardrobe light: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wardrobe_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_wardrobe_led_esp",
 "title": "Wardrobe light: IR obstacle sensor → LED (ESP32)",
 "family": "factory",
@@ -9831,6 +10448,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_wardrobe_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmlight_web_esp",
+"title": "ATM cabin light: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmlight_web_esp",
 "rule": null,
 "note": null
 },
@@ -9877,6 +10513,25 @@
 "note": null
 },
 {
+"id": "live-f_noentry_web_esp",
+"title": "No-entry zone alarm: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_noentry_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_noentry_rgb_esp",
 "title": "No-entry zone alarm: IR obstacle sensor → colour LED (ESP32)",
 "family": "factory",
@@ -9914,6 +10569,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_noentry_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_conveyor_web_esp",
+"title": "Conveyor box detector: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_conveyor_web_esp",
 "rule": null,
 "note": null
 },
@@ -9999,6 +10673,25 @@
 "note": null
 },
 {
+"id": "live-f_binfull_web_esp",
+"title": "Dustbin full indicator: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_binfull_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_binfull_oled_esp",
 "title": "Dustbin full indicator: IR obstacle sensor → OLED screen (ESP32)",
 "family": "factory",
@@ -10080,6 +10773,25 @@
 "note": null
 },
 {
+"id": "live-f_kiosk_web_esp",
+"title": "Information kiosk wake-up: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kiosk_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_kiosk_oled_esp",
 "title": "Information kiosk wake-up: PIR motion sensor → OLED screen (ESP32)",
 "family": "factory",
@@ -10116,6 +10828,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_kiosk_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_elephant_web_esp",
+"title": "Wild elephant early warning: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_elephant_web_esp",
 "rule": null,
 "note": null
 },
@@ -10161,6 +10892,25 @@
 "note": null
 },
 {
+"id": "live-f_spotlight_web_esp",
+"title": "Security spotlight: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_spotlight_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_spotlight_led_esp",
 "title": "Security spotlight: PIR motion sensor → LED (ESP32)",
 "family": "factory",
@@ -10199,6 +10949,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_spotlight_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycot_web_esp",
+"title": "Baby cot watcher: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babycot_web_esp",
 "rule": null,
 "note": null
 },
@@ -10263,6 +11032,25 @@
 "note": null
 },
 {
+"id": "live-f_monkey_web_esp",
+"title": "Terrace monkey alarm: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_monkey_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_monkey_rgb_esp",
 "title": "Terrace monkey alarm: PIR motion sensor → colour LED (ESP32)",
 "family": "factory",
@@ -10300,6 +11088,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_monkey_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_scarecrow_web_esp",
+"title": "Electronic scarecrow: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_scarecrow_web_esp",
 "rule": null,
 "note": null
 },
@@ -10344,6 +11151,25 @@
 "note": null
 },
 {
+"id": "live-f_chemist_web_esp",
+"title": "Chemist night bell: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_chemist_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_chemist_led_esp",
 "title": "Chemist night bell: push button → LED (ESP32)",
 "family": "factory",
@@ -10381,6 +11207,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_chemist_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_labhelp_web_esp",
+"title": "Lab help-request light: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_labhelp_web_esp",
 "rule": null,
 "note": null
 },
@@ -10446,6 +11291,25 @@
 "note": null
 },
 {
+"id": "live-f_quizbuzz_web_esp",
+"title": "Quiz contest buzzer: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_quizbuzz_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_quizbuzz_led_esp",
 "title": "Quiz contest buzzer: push button → LED (ESP32)",
 "family": "factory",
@@ -10487,6 +11351,25 @@
 "note": null
 },
 {
+"id": "live-f_bucketfill_web_esp",
+"title": "Push-to-fill bucket tap: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bucketfill_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bucketfill_pump_esp",
 "title": "Push-to-fill bucket tap: push button → water pump (ESP32)",
 "family": "factory",
@@ -10509,6 +11392,25 @@
 "note": null
 },
 {
+"id": "live-f_petfeeder_web_esp",
+"title": "Pet feeder flap: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_petfeeder_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_petfeeder_servo_esp",
 "title": "Pet feeder flap: push button → servo (ESP32)",
 "family": "factory",
@@ -10525,6 +11427,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_petfeeder_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_orderready_web_esp",
+"title": "Canteen order-ready sign: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_orderready_web_esp",
 "rule": null,
 "note": null
 },
@@ -10590,6 +11511,25 @@
 "note": null
 },
 {
+"id": "live-f_elderhelp_web_esp",
+"title": "Grandparent help button: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_elderhelp_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_elderhelp_rgb_esp",
 "title": "Grandparent help button: push button → colour LED (ESP32)",
 "family": "factory",
@@ -10627,6 +11567,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_elderhelp_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busstop_web_esp",
+"title": "Bus stop request bell: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busstop_web_esp",
 "rule": null,
 "note": null
 },
@@ -10712,6 +11671,25 @@
 "note": null
 },
 {
+"id": "live-f_touchless_web_esp",
+"title": "Contactless doorbell: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_touchless_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_touchless_oled_esp",
 "title": "Contactless doorbell: IR obstacle sensor → OLED screen (ESP32)",
 "family": "factory",
@@ -10772,6 +11750,25 @@
 "note": null
 },
 {
+"id": "live-f_bookdrop_web_esp",
+"title": "Library book-drop alert: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bookdrop_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bookdrop_buzzer_esp",
 "title": "Library book-drop alert: IR obstacle sensor → buzzer (ESP32)",
 "family": "factory",
@@ -10813,6 +11810,25 @@
 "note": null
 },
 {
+"id": "live-f_soap_web_esp",
+"title": "Automatic soap dispenser: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_soap_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_soap_pump_esp",
 "title": "Automatic soap dispenser: IR obstacle sensor → water pump (ESP32)",
 "family": "factory",
@@ -10831,6 +11847,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_soap_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_piggybank_web_esp",
+"title": "Piggy bank coin chime: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_piggybank_web_esp",
 "rule": null,
 "note": null
 },
@@ -10895,6 +11930,25 @@
 "note": null
 },
 {
+"id": "live-f_occupied_web_esp",
+"title": "Washroom occupied light: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_occupied_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_occupied_rgb_esp",
 "title": "Washroom occupied light: PIR motion sensor → colour LED (ESP32)",
 "family": "factory",
@@ -10912,6 +11966,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_occupied_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_corridor_web_esp",
+"title": "Corridor night light: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_corridor_web_esp",
 "rule": null,
 "note": null
 },
@@ -10954,6 +12027,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_corridor_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_afterhours_web_esp",
+"title": "Shop after-hours alarm: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_afterhours_web_esp",
 "rule": null,
 "note": null
 },
@@ -11018,6 +12110,25 @@
 "note": null
 },
 {
+"id": "live-f_treeguard_web_esp",
+"title": "Tree sapling water reminder: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_treeguard_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_treeguard_oled_esp",
 "title": "Tree sapling water reminder: soil moisture sensor → OLED screen (ESP32)",
 "family": "factory",
@@ -11074,6 +12185,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_treeguard_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_web_esp",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_rainsoon_web_esp",
 "rule": null,
 "note": null
 },
@@ -11139,6 +12269,25 @@
 "note": null
 },
 {
+"id": "live-f_cattlemist_web_esp",
+"title": "Cattle shed mist cooler: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_cattlemist_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_cattlemist_pump_esp",
 "title": "Cattle shed mist cooler: DHT11 sensor (temperature) → water pump (ESP32)",
 "family": "factory",
@@ -11161,6 +12310,25 @@
 "note": null
 },
 {
+"id": "live-f_frostcover_web_esp",
+"title": "Frost cover for seedlings: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_frostcover_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frostcover_servo_esp",
 "title": "Frost cover for seedlings: temperature sensor LM35 → servo (ESP32)",
 "family": "factory",
@@ -11177,6 +12345,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_frostcover_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thermostat_web_esp",
+"title": "Room heater thermostat: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_thermostat_web_esp",
 "rule": null,
 "note": null
 },
@@ -11223,6 +12410,25 @@
 "note": null
 },
 {
+"id": "live-f_engine_web_esp",
+"title": "Engine overheat light: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_engine_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_engine_led_esp",
 "title": "Engine overheat light: temperature sensor LM35 → LED (ESP32)",
 "family": "factory",
@@ -11261,6 +12467,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_engine_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkchill_web_esp",
+"title": "Milk chiller alarm: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_milkchill_web_esp",
 "rule": null,
 "note": null
 },
@@ -11346,6 +12571,26 @@
 "note": null
 },
 {
+"id": "live-f_darkroom_web_esp",
+"title": "Darkroom light alarm: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_darkroom_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_darkroom_oled_esp",
 "title": "Darkroom light alarm: light sensor (LDR) → OLED screen (ESP32)",
 "family": "factory",
@@ -11409,6 +12654,26 @@
 "note": null
 },
 {
+"id": "live-f_solarpump_web_esp",
+"title": "Solar-time water pump: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_solarpump_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_solarpump_pump_esp",
 "title": "Solar-time water pump: light sensor (LDR) → water pump (ESP32)",
 "family": "factory",
@@ -11428,6 +12693,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_solarpump_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_lighthouse_web_esp",
+"title": "Lighthouse lamp: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_lighthouse_web_esp",
 "rule": null,
 "note": null
 },
@@ -11475,6 +12760,26 @@
 "note": null
 },
 {
+"id": "live-f_tunnel_web_esp",
+"title": "Car headlights in a tunnel: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tunnel_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tunnel_relay_esp",
 "title": "Car headlights in a tunnel: light sensor (LDR) → relay and lamp (ESP32)",
 "family": "factory",
@@ -11514,6 +12819,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_tunnel_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panelshade_web_esp",
+"title": "Solar panel shade alarm: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_panelshade_web_esp",
 "rule": null,
 "note": null
 },
@@ -11581,6 +12906,25 @@
 "note": null
 },
 {
+"id": "live-f_liftcall_web_esp",
+"title": "Lift call button: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftcall_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_liftcall_buzzer_esp",
 "title": "Lift call button: push button → buzzer (ESP32)",
 "family": "factory",
@@ -11622,6 +12966,25 @@
 "note": null
 },
 {
+"id": "live-f_coolroom_web_esp",
+"title": "Server cupboard cooler: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coolroom_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coolroom_relay_esp",
 "title": "Server cupboard cooler: DHT11 sensor (temperature) → relay and fan (ESP32)",
 "family": "factory",
@@ -11639,6 +13002,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_coolroom_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_booksdamp_web_esp",
+"title": "Library damp alarm: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_booksdamp_web_esp",
 "rule": null,
 "note": null
 },
@@ -11680,6 +13062,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_booksdamp_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_web_esp",
+"title": "Turnstile gate: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_turnstile_web_esp",
 "rule": null,
 "note": null
 },
@@ -11744,6 +13145,25 @@
 "note": null
 },
 {
+"id": "live-f_handdryer_web_esp",
+"title": "Hand dryer: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_handdryer_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_handdryer_relay_esp",
 "title": "Hand dryer: IR obstacle sensor → relay and fan (ESP32)",
 "family": "factory",
@@ -11761,6 +13181,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_handdryer_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_mailbox_web_esp",
+"title": "Letter-box alert: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_mailbox_web_esp",
 "rule": null,
 "note": null
 },
@@ -11806,6 +13245,25 @@
 "note": null
 },
 {
+"id": "live-f_exhibit_web_esp",
+"title": "Museum exhibit that wakes up: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_exhibit_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_exhibit_servo_esp",
 "title": "Museum exhibit that wakes up: PIR motion sensor → servo (ESP32)",
 "family": "factory",
@@ -11843,6 +13301,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_exhibit_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_farmgate_web_esp",
+"title": "Farm gate animal alert: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_farmgate_web_esp",
 "rule": null,
 "note": null
 },
@@ -11888,6 +13365,25 @@
 "note": null
 },
 {
+"id": "live-f_bathlight_web_esp",
+"title": "Bathroom light that switches off itself: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bathlight_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathlight_rgb_esp",
 "title": "Bathroom light that switches off itself: PIR motion sensor → colour LED (ESP32)",
 "family": "factory",
@@ -11926,6 +13422,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_bathlight_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_paddy_web_esp",
+"title": "Paddy field water keeper: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_paddy_web_esp",
 "rule": null,
 "note": null
 },
@@ -11992,6 +13507,25 @@
 "note": null
 },
 {
+"id": "live-f_fishtank_web_esp",
+"title": "Fish tank heater: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fishtank_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishtank_rgb_esp",
 "title": "Fish tank heater: temperature sensor LM35 → colour LED (ESP32)",
 "family": "factory",
@@ -12030,6 +13564,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fishtank_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teacool_web_esp",
+"title": "Tea is cool enough: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_teacool_web_esp",
 "rule": null,
 "note": null
 },
@@ -12094,6 +13647,25 @@
 "note": null
 },
 {
+"id": "live-f_batteryhot_web_esp",
+"title": "Battery overheat warning: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_batteryhot_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_batteryhot_rgb_esp",
 "title": "Battery overheat warning: temperature sensor LM35 → colour LED (ESP32)",
 "family": "factory",
@@ -12131,6 +13703,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_batteryhot_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_serverroom_web_esp",
+"title": "Computer lab overheat alarm: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_serverroom_web_esp",
 "rule": null,
 "note": null
 },
@@ -12197,6 +13788,26 @@
 "note": null
 },
 {
+"id": "live-f_drawer_web_esp",
+"title": "Locker drawer opened alarm: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_drawer_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_drawer_rgb_esp",
 "title": "Locker drawer opened alarm: light sensor (LDR) → colour LED (ESP32)",
 "family": "factory",
@@ -12235,6 +13846,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_drawer_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikelamp_web_esp",
+"title": "Bicycle lamp reminder: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bikelamp_web_esp",
 "rule": null,
 "note": null
 },
@@ -12281,6 +13912,26 @@
 "note": null
 },
 {
+"id": "live-f_henhouse_web_esp",
+"title": "Hen-house door at dusk: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_henhouse_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_henhouse_servo_esp",
 "title": "Hen-house door at dusk: light sensor (LDR) → servo (ESP32)",
 "family": "factory",
@@ -12298,6 +13949,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_henhouse_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopsign_web_esp",
+"title": "Shop sign that lights at dusk: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shopsign_web_esp",
 "rule": null,
 "note": null
 },
@@ -12345,6 +14016,25 @@
 "note": null
 },
 {
+"id": "live-f_fanmark_web_esp",
+"title": "Fan regulator with an on mark: knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fanmark_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fanmark_relay_esp",
 "title": "Fan regulator with an on mark: knob (potentiometer) → relay and fan (ESP32)",
 "family": "factory",
@@ -12362,6 +14052,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fanmark_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_web_esp",
+"title": "Gate call for the watchman: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_watchman_web_esp",
 "rule": null,
 "note": null
 },
@@ -12427,6 +14136,25 @@
 "note": null
 },
 {
+"id": "live-f_handwash_web_esp",
+"title": "Push-button hand-wash tap: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_handwash_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_handwash_pump_esp",
 "title": "Push-button hand-wash tap: push button → water pump (ESP32)",
 "family": "factory",
@@ -12449,6 +14177,25 @@
 "note": null
 },
 {
+"id": "live-f_bathfan_web_esp",
+"title": "Bathroom steam fan: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bathfan_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathfan_relay_esp",
 "title": "Bathroom steam fan: DHT11 sensor (humidity) → relay and fan (ESP32)",
 "family": "factory",
@@ -12466,6 +14213,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_bathfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_web_esp",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainstore_web_esp",
 "rule": null,
 "note": null
 },
@@ -12551,6 +14317,25 @@
 "note": null
 },
 {
+"id": "live-f_greenfan_web_esp",
+"title": "Greenhouse cooling: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_greenfan_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_greenfan_servo_esp",
 "title": "Greenhouse cooling: DHT11 sensor (temperature) → servo (ESP32)",
 "family": "factory",
@@ -12588,6 +14373,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_greenfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_web_esp",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_heatwave_web_esp",
 "rule": null,
 "note": null
 },
@@ -12673,6 +14477,25 @@
 "note": null
 },
 {
+"id": "live-f_classfan_web_esp",
+"title": "Classroom energy saver: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_classfan_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_classfan_relay_esp",
 "title": "Classroom energy saver: PIR motion sensor → relay and fan (ESP32)",
 "family": "factory",
@@ -12690,6 +14513,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_classfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bottle_web_esp",
+"title": "Bottle filling station: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bottle_web_esp",
 "rule": null,
 "note": null
 },
@@ -12716,6 +14558,25 @@
 "note": null
 },
 {
+"id": "live-f_soillamp_web_esp",
+"title": "Soil health lamp: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_soillamp_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_soillamp_rgb_esp",
 "title": "Soil health lamp: soil moisture sensor → colour LED (ESP32)",
 "family": "factory",
@@ -12733,6 +14594,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_soillamp_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_waterplant_web_esp",
+"title": "Automatic plant watering: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_waterplant_web_esp",
 "rule": null,
 "note": null
 },
@@ -12755,6 +14635,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_waterplant_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_frost_web_esp",
+"title": "Frost alarm for crops: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_frost_web_esp",
 "rule": null,
 "note": null
 },
@@ -12796,6 +14695,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_frost_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_incubator_web_esp",
+"title": "Egg incubator heater: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_incubator_web_esp",
 "rule": null,
 "note": null
 },
@@ -12861,6 +14779,26 @@
 "note": null
 },
 {
+"id": "live-f_blinds_web_esp",
+"title": "Sun blind closer: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_blinds_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_blinds_servo_esp",
 "title": "Sun blind closer: light sensor (LDR) → servo (ESP32)",
 "family": "factory",
@@ -12878,6 +14816,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_blinds_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fridgeopen_web_esp",
+"title": "Fridge door left open alarm: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fridgeopen_web_esp",
 "rule": null,
 "note": null
 },
@@ -12920,6 +14878,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fridgeopen_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunrise_web_esp",
+"title": "Sunrise alarm: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunrise_web_esp",
 "rule": null,
 "note": null
 },
@@ -12987,6 +14965,26 @@
 "note": null
 },
 {
+"id": "live-f_growlight_web_esp",
+"title": "Grow light for plants: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_growlight_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_growlight_relay_esp",
 "title": "Grow light for plants: light sensor (LDR) → relay and lamp (ESP32)",
 "family": "factory",
@@ -13026,6 +15024,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_growlight_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heaterset_web_esp",
+"title": "Heater set-point knob: knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heaterset_web_esp",
 "rule": null,
 "note": null
 },
@@ -13072,6 +15089,25 @@
 "note": null
 },
 {
+"id": "live-f_panic_web_esp",
+"title": "Panic button for a shop: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_panic_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panic_rgb_esp",
 "title": "Panic button for a shop: push button → colour LED (ESP32)",
 "family": "factory",
@@ -13109,6 +15145,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_panic_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairs_web_esp",
+"title": "Stair light with a timer: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stairs_web_esp",
 "rule": null,
 "note": null
 },
@@ -13155,6 +15210,25 @@
 "note": null
 },
 {
+"id": "live-f_levelcross_web_esp",
+"title": "Railway level crossing: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_levelcross_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_levelcross_buzzer_esp",
 "title": "Railway level crossing: IR obstacle sensor → buzzer (ESP32)",
 "family": "factory",
@@ -13191,6 +15265,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_levelcross_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_slot_web_esp",
+"title": "Parking slot sensor: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_slot_web_esp",
 "rule": null,
 "note": null
 },
@@ -13256,6 +15349,25 @@
 "note": null
 },
 {
+"id": "live-f_tap_web_esp",
+"title": "Smart tap: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tap_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tap_servo_esp",
 "title": "Smart tap: IR obstacle sensor → servo (ESP32)",
 "family": "factory",
@@ -13272,6 +15384,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_tap_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sanitiser_web_esp",
+"title": "Automatic hand sanitiser: IR obstacle sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sanitiser_web_esp",
 "rule": null,
 "note": null
 },
@@ -13318,6 +15449,25 @@
 "note": null
 },
 {
+"id": "live-f_intruder_web_esp",
+"title": "Intruder alert screen: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_intruder_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_intruder_oled_esp",
 "title": "Intruder alert screen: PIR motion sensor → OLED screen (ESP32)",
 "family": "factory",
@@ -13354,6 +15504,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_intruder_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_web_esp",
+"title": "Welcome greeter: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_greeter_web_esp",
 "rule": null,
 "note": null
 },
@@ -13418,6 +15587,25 @@
 "note": null
 },
 {
+"id": "live-f_roomlight_web_esp",
+"title": "Automatic room light: PIR motion sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_roomlight_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_roomlight_led_esp",
 "title": "Automatic room light: PIR motion sensor → LED (ESP32)",
 "family": "factory",
@@ -13460,6 +15648,25 @@
 "note": null
 },
 {
+"id": "live-f_pumprelay_web_esp",
+"title": "Farm pump switch: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pumprelay_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pumprelay_pump_esp",
 "title": "Farm pump switch: soil moisture sensor → water pump (ESP32)",
 "family": "factory",
@@ -13482,6 +15689,25 @@
 "note": null
 },
 {
+"id": "live-f_valve_web_esp",
+"title": "Garden sprinkler valve: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_valve_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_valve_servo_esp",
 "title": "Garden sprinkler valve: soil moisture sensor → servo (ESP32)",
 "family": "factory",
@@ -13498,6 +15724,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_valve_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_web_esp",
+"title": "Plant thirst alarm: soil moisture sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_thirst_web_esp",
 "rule": null,
 "note": null
 },
@@ -13583,6 +15828,25 @@
 "note": null
 },
 {
+"id": "live-f_vent_web_esp",
+"title": "Greenhouse vent opener: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_vent_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_vent_servo_esp",
 "title": "Greenhouse vent opener: temperature sensor LM35 → servo (ESP32)",
 "family": "factory",
@@ -13599,6 +15863,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_vent_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fever_web_esp",
+"title": "Fever check station: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fever_web_esp",
 "rule": null,
 "note": null
 },
@@ -13644,6 +15927,25 @@
 "note": null
 },
 {
+"id": "live-f_coolfan_web_esp",
+"title": "Automatic cooling fan: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_coolfan_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coolfan_relay_esp",
 "title": "Automatic cooling fan: temperature sensor LM35 → relay and fan (ESP32)",
 "family": "factory",
@@ -13661,6 +15963,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_coolfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_toohot_web_esp",
+"title": "Too-hot warning: temperature sensor LM35 → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_toohot_web_esp",
 "rule": null,
 "note": null
 },
@@ -13746,6 +16067,26 @@
 "note": null
 },
 {
+"id": "live-f_fridge_web_esp",
+"title": "Cupboard light checker: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fridge_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fridge_buzzer_esp",
 "title": "Cupboard light checker: light sensor (LDR) → buzzer (ESP32)",
 "family": "factory",
@@ -13763,6 +16104,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fridge_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tripwire_web_esp",
+"title": "Laser tripwire alarm: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tripwire_web_esp",
 "rule": null,
 "note": null
 },
@@ -13830,6 +16191,26 @@
 "note": null
 },
 {
+"id": "live-f_curtain_web_esp",
+"title": "Automatic curtain: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_curtain_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_curtain_servo_esp",
 "title": "Automatic curtain: light sensor (LDR) → servo (ESP32)",
 "family": "factory",
@@ -13847,6 +16228,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_curtain_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_streetlight_web_esp",
+"title": "Automatic street light: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_streetlight_web_esp",
 "rule": null,
 "note": null
 },
@@ -13890,6 +16291,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_streetlight_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightlamp_web_esp",
+"title": "Night lamp: light sensor (LDR) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nightlamp_web_esp",
 "rule": null,
 "note": null
 },
@@ -13958,6 +16379,25 @@
 "note": null
 },
 {
+"id": "live-f_steer_web_esp",
+"title": "Knob steering: knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_steer_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_steer_servo_esp",
 "title": "Knob steering: knob (potentiometer) → servo (ESP32)",
 "family": "factory",
@@ -13974,6 +16414,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_steer_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankmark_web_esp",
+"title": "Tank level alarm (float knob): knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankmark_web_esp",
 "rule": null,
 "note": null
 },
@@ -14038,6 +16497,25 @@
 "note": null
 },
 {
+"id": "live-f_dimmer_web_esp",
+"title": "Knob lamp switch: knob (potentiometer) → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dimmer_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dimmer_relay_esp",
 "title": "Knob lamp switch: knob (potentiometer) → relay and lamp (ESP32)",
 "family": "factory",
@@ -14076,6 +16554,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_dimmer_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_web_esp",
+"title": "Hospital bed call button: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nurse_web_esp",
 "rule": null,
 "note": null
 },
@@ -14161,6 +16658,25 @@
 "note": null
 },
 {
+"id": "live-f_gate_web_esp",
+"title": "Push-button gate: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gate_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_gate_servo_esp",
 "title": "Push-button gate: push button → servo (ESP32)",
 "family": "factory",
@@ -14177,6 +16693,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_gate_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_web_esp",
+"title": "Pedestrian crossing barrier: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_crossing_web_esp",
 "rule": null,
 "note": null
 },
@@ -14241,6 +16776,25 @@
 "note": null
 },
 {
+"id": "live-f_lightswitch_web_esp",
+"title": "Push-button light: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_lightswitch_web_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_lightswitch_relay_esp",
 "title": "Push-button light: push button → relay and lamp (ESP32)",
 "family": "factory",
@@ -14279,6 +16833,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_lightswitch_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_web_esp",
+"title": "Doorbell: push button → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doorbell_web_esp",
 "rule": null,
 "note": null
 },

@@ -10,6 +10,7 @@ import { Lab } from '../../robotics/js/sim.js';
 import { LESSONS, BY_ID, LESSON_WORDS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { batchF, FACTORY } from '../../robotics/js/factory.js';
+import { netOf } from '../../robotics/js/esp32.js';
 
 const only = process.argv[2] ? process.argv[2].split(',') : null;
 let fails = 0, passes = 0; const quiet = !only;
@@ -29,13 +30,15 @@ function build(l, skipWire) {
 }
 function step(B, dt) {
   const { lab, rt } = B; lab.step(1000 * dt); rt.update(dt);
+  if (B.webOpen) { B.webT = (B.webT ?? 9) + dt; const N = netOf(lab); if (B.webT >= 2 && N.staIP()) { B.webT = 0; N.request(N.staIP() + '/', () => {}); } }
   for (const o of lab.mcu.ser.take()) { const s = String.fromCharCode(...o.bytes); B.ser = (B.ser || '') + s; B.buf = (B.buf || '') + s.replace(/\r/g, ''); const ls = B.buf.split('\n'); B.buf = ls.pop(); for (const x of ls) rt.onSerialLine(x); }
   if (lab.mcu.state === 'error') throw new Error('runtime ' + JSON.stringify(lab.mcu.err));
 }
 function start(B, src) { const { lab, app, rt } = B; const c = compile(src, lab.def); if (!c.ok) throw new Error('compile ' + JSON.stringify(c.errors).slice(0, 300)); app.src = src; lab.run(c); rt.onRun(src); B.ser = ''; B.buf = ''; }
 const acts = (l) => {
   const inp = (l.board === 'esp32' ? FACTORY.EIN : l.board === 'pico' ? FACTORY.PIN : l.board === 'pi4' ? FACTORY.QIN : FACTORY.IN)[l.factory.inp]; const set = (k) => (t, B) => inp.set(B, k);
-  return inp.analog ? [set('on'), set('off'), set('edge')] : [set('on'), set('off'), (t, B) => inp.set(B, t > 3 && t < 3.6 ? 'on' : 'off')]; // (a PIR ignores movement for a few seconds after its OUT falls);
+  const A = inp.analog ? [set('on'), set('off'), set('edge')] : [set('on'), set('off'), (t, B) => inp.set(B, t > 3 && t < 3.6 ? 'on' : 'off')]; // (a PIR ignores movement for a few seconds after its OUT falls);
+  return l.factory.out === 'web' ? [(t, B) => { B.webOpen = true; }, ...A] : A; // (batch 14: the web page: the phone opens it first, then refreshes it every 2 s)
 };
 function play(B) {
   const { l, rt } = B; let src = l.code; const A = acts(l); let ai = 0;
