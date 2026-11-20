@@ -268,6 +268,7 @@ export function install4(app) {
     phoneWorld(id) { const P = X.phone; if (!P) return null; P.draw(true); const it = P.items.find((q) => q.id === id); if (!it) return null; const u = (it.x + it.w / 2) / 540, v = 1 - (it.y + it.h / 2) / 1152; const s = P.screen; const g = s.geometry.parameters; const pt = new THREE.Vector3((u - 0.5) * g.width, (v - 0.5) * g.height, 0.2); s.updateMatrixWorld(true); return pt.applyMatrix4(s.matrixWorld).toArray(); },
     boxWorld(id) { if (!X.box) return null; const p = X.box.userData.picks.find((q) => q.userData.region === 'swap:' + id); if (!p) return null; const v = new THREE.Vector3(); p.updateMatrixWorld(true); p.getWorldPosition(v); return v.toArray(); },
     net: () => { const N = netOf(lab); return { ip: N.staIP(), pages: N.seen.pages, paths: N.seen.paths || {}, bt: N.bt.conn, got: N.bt.got || 0 }; },
+    go: (path) => { const N = netOf(lab); if (X.phone && N.staIP()) X.phone.go(N.staIP() + (path || '/')); }, // (batch 22) the phone's browser opens a page of the board
   };
   boardView(); renderPicker();
 }

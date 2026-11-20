@@ -178,7 +178,7 @@ REPL = {
      'I:Weather station: temperature & humidity sensor and OLED screen' + PICO: 'L:pico_weather', 'I:Maze-solving robot (left-hand rule)': 'L:mazecar'},
  10: {'I:Web-controlled lamp with Flask' + PI: 'L:pi_flask', 'I:Attendance with RFID and a spreadsheet' + PI: 'L:pi_rfidsheet', 'I:Laser tripwire in Python' + PI: 'L:pi_tripwire',
       'I:Weather logger to a CSV file' + PI: 'L:pi_csvlog', 'I:Plot sensor data with matplotlib' + PI: 'L:pi_plot',
-      'I:Predict tomorrow\'s temperature from logged data': 'L:pi_predict', 'I:Driver drowsiness alarm': 'L:drowsy', 'I:Line-follower in Python' + PI: 'L:pi_linecar', 'I:Obstacle-avoiding car' + PI: 'L:pi_avoidcar', 'I:Wall-following robot' + PI: 'L:pi_wallcar',
+      'I:Predict tomorrow\'s temperature from logged data': 'L:pi_predict', 'I:Driver drowsiness alarm': 'L:drowsy', 'I:Smart farm: soil, rain and pump on the phone' + ESP: 'L:smartfarm', 'I:Line-follower in Python' + PI: 'L:pi_linecar', 'I:Obstacle-avoiding car' + PI: 'L:pi_avoidcar', 'I:Wall-following robot' + PI: 'L:pi_wallcar',
       'I:Temperature-controlled fan in Python' + PI: 'L:f_greenfan_relay_pi', 'I:Traffic lights in Python' + PI: 'L:pi_traffic', 'I:Reaction game in Python' + PI: 'L:pi_reaction',
       'I:Distance sensor with GPIO Zero' + PI: 'L:pi_distance', 'I:Quiz buzzer for three teams' + PI: 'L:pi_quiz', 'I:Morse code translator' + PI: 'L:pi_morse', 'I:Smart home: motion light, gas alarm and fan' + ESP: 'L:f_roomlight_relay_esp', 'I:Rainwater harvesting tank monitor': 'L:f_tankfull_lcd',
       'I:Smart energy saver for a classroom': 'L:f_classfan_relay', 'I:Smart parking for a market': 'L:f_slot_lcd'},

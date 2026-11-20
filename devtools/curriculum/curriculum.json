@@ -5304,18 +5304,19 @@
    {
     "class": 10,
     "n": 22,
-    "kind": "I",
+    "kind": "L",
     "title": "Smart farm: soil, rain and pump on the phone",
     "board": "esp32",
-    "status": "planned",
-    "ref": "smart-farm-soil-rain-and-pump-on-the-phone-esp32",
+    "status": "live",
+    "ref": "smartfarm",
     "newparts": [],
-    "family": "iot",
+    "family": "live-projects",
     "parts": [
+     "aa4",
      "pump",
-     "rain",
      "relay",
-     "soil"
+     "soil",
+     "rain"
     ],
     "strand": "Decomposition",
     "focus": "IoT",

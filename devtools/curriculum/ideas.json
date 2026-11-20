@@ -29438,6 +29438,29 @@
 "note": null
 },
 {
+"id": "live-smartfarm",
+"title": "Smart farm: soil, rain and pump on the phone",
+"family": "live",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"soil",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "projects",
+"live": "smartfarm",
+"rule": null,
+"note": null
+},
+{
 "id": "live-drowsy",
 "title": "Driver drowsiness alarm",
 "family": "live",

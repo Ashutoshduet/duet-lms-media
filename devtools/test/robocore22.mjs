@@ -3,17 +3,21 @@
 //      a knock), and its OUT reads 0 on an Uno pin; without power it reads nothing;
 //   2. drowsy: the bench built as a student builds it, the sketch runs, two blinks both sound the alarm (sleepy = 0); the
 //      edit (sleepy = 2000) keeps blinks quiet; eyes closed for 3 s sound it, and opening them stops it;
-//   3. mistakes: OUT on pin 6 (the check names it, and closed eyes never sound the alarm); VCC left off (the check says so).
+//   3. mistakes: OUT on pin 6 (the check names it, and closed eyes never sound the alarm); VCC left off (the check says so);
+//   4. smartfarm: the phone opens the page; a dry field is watered and the pump stops by itself; in the rain the first
+//      program pumps anyway; with && !raining() it waits for the rain; the phone takes over (Pump on) and hands back (Auto);
+//      mistakes: the rain sensor on VIN (5 V) and the soil's AO on GPIO 35 (the check names each).
 //   node devtools/test/robocore22.mjs      (exit 1 on a failure)
 import { compile } from '../../robotics/js/cpp.js';
 import { Lab } from '../../robotics/js/sim.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { TYPES22, KINDS22, sense22, blink22 } from '../../robotics/js/parts22.js';
+import { netOf } from '../../robotics/js/esp32.js';
 
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
 const L22 = LESSONS.filter((l) => l.batch === 22);
-ok(L22.length === 1 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L22.length} lesson in batch 22, ids unique`);
+ok(L22.length === 2 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L22.length} lessons in batch 22, ids unique`);
 
 // 1 ------------------------------------------------------------------ the modules
 for (const type of TYPES22) {
@@ -66,15 +70,19 @@ function frames(B, secs, until, each) {
 const script = (list) => { const done = new Set(); return (t, B) => list.forEach(([at, f], i) => { if (t >= at && !done.has(i)) { done.add(i); f(B); } }); };
 const eye = (B) => B.lab.byTag('eb1');
 const blinks = (k, at = 0.5, gap = 1.2) => Array.from({ length: k }, (_, i) => [at + i * gap, (B) => blink22(B.lab, eye(B))]);
-function play(l, acts = {}) {
-  const B = build(l); let src = l.code; const log = [];
+function phone(B) { // the phone's browser: open a page, follow a 303 back to "/" as a real browser does
+  const N = netOf(B.lab); const P = { open(path) { const ip = N.staIP(); if (!ip) return; N.request(ip + path, (r) => { const loc = r && r.headers && r.headers.Location; if (r && r.code === 303 && loc) N.request(ip + loc, () => {}); }); } };
+  return P;
+}
+function play(l, acts = {}, secs = 30) {
+  const B = build(l); let src = l.code; const log = []; B.phone = phone(B);
   for (const [i, s] of l.steps.entries()) {
     for (const k of ['do', 'see']) if (s[k]) for (const lg of ['en', 'hi', 'hg']) if (typeof s[k][lg] !== 'string') ok(false, `${l.id}: step ${i} has ${k}.${lg}`);
     if (s.k === 'check') { const r = B.rt.runCheck(); if (r) { log.push(`step ${i}: check says ${JSON.stringify(r[0].en)}`); break; } }
     if (s.k === 'run') { start(B, src); frames(B, 0.5); }
     if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); if (!(s.test(e) && !s.test(src))) { log.push(`step ${i}: the edit is not what it asks`); break; } src = e; start(B, src); frames(B, 0.5); }
     if (s.k === 'watch' || s.k === 'act') {
-      const t0 = B.t; const done = frames(B, 30, () => { try { return !!s.until(B.rt); } catch (e) { return false; } }, acts[i]);
+      const t0 = B.t; const done = frames(B, secs, () => { try { return !!s.until(B.rt); } catch (e) { return false; } }, acts[i]);
       log.push(`step ${i} ${done ? 'done' : 'NOT DONE'} in ${(B.t - t0).toFixed(1)} s`);
       if (!done) { log.push(`  mem ${JSON.stringify(B.rt.memRun)} serial ${JSON.stringify(B.rt.serLines.slice(-4))}`); break; }
     }
@@ -100,5 +108,25 @@ const ix = (l, re) => l.steps.findIndex((s) => (s.k === 'act' || s.k === 'watch'
   const V = build(l, (s) => (s.wire[0] === 'eb1.VCC' ? null : s.wire)); const v = V.rt.runCheck();
   start(V, l.code.replace('sleepy = 0;', 'sleepy = 2000;')); frames(V, 0.5); sense22(V.lab, V.lab.byTag('eb1'), true); frames(V, 3);
   ok(!!v && /VCC pin must be joined to 5V/.test(say(v)) && !V.lab.byTag('eb1').state.powered && !/WAKE UP/.test(V.ser), `drowsy: VCC not wired -> the check says ${JSON.stringify(say(v))}, and the sensor is dead`);
+}
+{
+  const l = L22.find((x) => x.id === 'smartfarm');
+  const soil = (v) => (B) => { const p = B.lab.byTag('soil'); p.state.moist = v; B.lab.stateV++; B.lab.instKey = null; };
+  const rain = (on) => (B) => sense22(B.lab, B.lab.byTag('rn1'), on);
+  const every = (dt, f) => { let next = 0; return (t, B) => { if (t >= next) { next = t + dt; f(B); } }; }; // the page refreshes itself every 2 s
+  const acts = { [ix(l, /open the Browser/)]: script([[0.5, (B) => B.phone.open('/')]]), [ix(l, /dry season/)]: script([[0.3, soil(0.15)]]),
+    [ix(l, /monsoon/)]: script([[0.3, rain(true)], [0.6, soil(0.15)]]), [ix(l, /still raining/)]: script([[0.5, soil(0.15)]]),
+    [ix(l, /cattle trough/)]: script([[0.2, rain(false)], [0.5, (B) => B.phone.open('/on')], [2.6, (B) => B.phone.open('/')]]),
+    [ix(l, /tap "Auto"/)]: (t, B) => { if (t < 0.05) B.phone.open('/auto'); every(2, (b) => b.phone.open('/'))(t, B); } };
+  const r = play(l, acts, 60); frames(r.B, 0.5); ok(r.done, `smartfarm: plays end to end — ${r.log.join(' | ')}`);
+  const N = netOf(r.B.lab); const b = (N.seen.last || {}).body || '';
+  ok(/Soil: <b>\d+<\/b>/.test(b) && /Rain: <b>no rain/.test(b) && /Pump: <b>OFF<\/b> \(auto\)/.test(b), 'smartfarm: the page shows the soil, no rain, the pump OFF in auto: ' + b.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 120));
+  ok(/Pump ON/.test(r.B.ser) && /Pump OFF/.test(r.B.ser) && /raining/.test(r.B.ser), 'smartfarm: the Serial Monitor logs the pump and the rain');
+  const last = l.steps[l.steps.length - 1].see.en; ok(/Your results: back in auto, the soil reads \d+/.test(last), 'smartfarm: the last step reads the results: ' + last.slice(0, 70));
+  // mistakes: the rain sensor's VCC on VIN (5 V); the soil's AO on GPIO 35
+  const V = build(l, (s) => (s.wire[0] === 'rn1.VCC' ? ['rn1.VCC', 'rail:tp'] : s.wire)); const v = V.rt.runCheck();
+  ok(!!v && /VIN \(5 V\)/.test(say(v)), `smartfarm: the rain sensor on 5 V -> the check says ${JSON.stringify(say(v)).slice(0, 90)}`);
+  const A = build(l, (s) => (s.wire[0] === 'soil.AO' ? ['soil.AO', 'D35'] : s.wire)); const a = A.rt.runCheck();
+  ok(!!a && /AO/.test(say(a)) && /GPIO 34/.test(say(a)), `smartfarm: the soil's AO on GPIO 35 -> the check says ${JSON.stringify(say(a)).slice(0, 90)}`);
 }
 console.log(fails ? `${fails} FAILED` : 'all ok'); process.exit(fails ? 1 : 0);

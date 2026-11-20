@@ -54,6 +54,7 @@ export function buildPart22(part) {
       prop = new THREE.Group(); prop.position.set(0, 0, -78); const C = document.createElement('canvas'); C.width = 256; C.height = 200; const c = C.getContext('2d'); c.fillStyle = '#1d4aa8'; c.fillRect(0, 0, 256, 200); c.strokeStyle = '#d9d4c6'; c.lineWidth = 7;
       for (let i = 0; i < 9; i++) { const y = 20 + i * 20; c.beginPath(); c.moveTo(i % 2 ? 236 : 20, y); c.lineTo(i % 2 ? 40 : 216, y); c.stroke(); } c.beginPath(); c.moveTo(20, 16); c.lineTo(20, 184); c.moveTo(236, 36); c.lineTo(236, 196); c.stroke();
       const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; prop.add(box(54, 1.6, 40, [Q.plate, Q.plate, S({ map: t, roughness: 0.4 }), Q.plate, Q.plate, Q.plate], 0, 0.8, 0));
+      prop.add(box(1.1, 1.1, 20, Q.red, -1, 1.2, 29), box(1.1, 1.1, 20, M.black, 1, 1.2, 29)); // its two-wire lead to the little board
       const drops = new THREE.Group(); drops.userData.keep = true; for (let i = 0; i < 9; i++) { const d = new THREE.Mesh(new THREE.SphereGeometry(2 + (i % 3) * 0.6, 10, 8), Q.water); d.scale.y = 0.45; d.position.set(-20 + (i * 17) % 40, 2, -14 + (i * 11) % 28); drops.add(d); }
       drops.visible = false; prop.add(drops); prop.userData.drops = drops; break; }
     case 'blink': { // the IR pair on an arm of a spectacle frame

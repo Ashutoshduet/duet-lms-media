@@ -882,3 +882,9 @@ heaters.
   Hand-made `drowsy` (Class 10, Uno): the eye sensor and a buzzer; sleepy = 0 beeps at every blink (a false alarm nobody
   keeps), sleepy = 2000 keeps blinks quiet and wakes the driver after 2 s; opening the eyes stops it. robocore22.mjs
   checks every module and plays it. Class 10: 24 of 26. 1,699 projects (231 hand-made + 1,468 bank).
+  `smartfarm` (Class 10, ESP32 + phone): soil AO on GPIO 34, the rain module on GPIO 27 (both on 3.3 V; VIN is named
+  by the check), the pump's relay on GPIO 33. Auto mode waters above dry = 3700 and stops below wet = 2300 (the ESP32's
+  ADC reads a 0.35 field as about 3520); the lesson's tick is the field (the pump about 8 %/s, the rain 5 %/s), judged by
+  the relay, not the water still running out after a Run. The first program pumps in the rain; the edit
+  if (s > dry && !raining()) lets the rain water it; the phone's Pump on (manual) and Auto. robo4.go(path) opens a page
+  of the board on the phone (screenshots). Class 10: 25 of 26. 1,700 projects.
