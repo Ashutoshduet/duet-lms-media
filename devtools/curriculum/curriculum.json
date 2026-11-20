@@ -5812,14 +5812,18 @@
    {
     "class": 11,
     "n": 18,
-    "kind": "I",
+    "kind": "L",
     "title": "Mini lift with floor buttons",
     "board": "uno",
-    "status": "planned",
-    "ref": "mini-lift-with-floor-buttons-uno",
+    "status": "live",
+    "ref": "lift",
     "newparts": [],
-    "family": "machines",
-    "parts": [],
+    "family": "live-projects",
+    "parts": [
+     "stepper",
+     "lcd16",
+     "button"
+    ],
     "strand": "Decomposition",
     "focus": "Mechanisms",
     "term": "Term 3 (October-December)"

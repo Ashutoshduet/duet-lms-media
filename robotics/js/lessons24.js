@@ -15,8 +15,13 @@
 //              wrong way (the servo is mounted the other way round): the panel runs away from the sun. Then, aligned, it
 //              hunts: with no dead band (tol = 0) a one-count flicker moves a servo every loop, back and forth. tol = 25 calms
 //              it (± 4°). Then a whole day (1 minute): the panel follows the sun, and makes more energy than a fixed one.
+//   lift       a mini lift: three floors, the car on a cable wound by the stepper (a 20 mm pulley: 60 mm a floor is
+//              60 ÷ 62.8 × 2048 = 1956 steps), call buttons on pins 2–4, the LCD. After a power cut the car is 25 mm above G,
+//              but the program believes it is at G: called to floor 1 it stops between floors. The student wires the limit
+//              switch at the bottom of the shaft (pin 5) and adds homing: in setup() the car goes down step by step until
+//              it presses the switch, and only then counts floors (every 3D printer and real lift does this at start).
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
-import { GLASS, CUR, VEND, SUN } from './scenes3.js';
+import { GLASS, CUR, LIFT } from './scenes3.js';
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const pick = (lg, en, hi, hg) => (lg === 'hi' ? hi : lg === 'hg' ? hg : en);
@@ -213,8 +218,54 @@ void loop() {
 }
 `;
 
+const LIFTC = `// Mini lift: three floors. Press a call button and the stepper winds the cable to bring the car there.
+#include <Stepper.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+Stepper lift(2048, 8, 10, 9, 11);      // 28BYJ-48 (IN1, IN3, IN2, IN4), its pulley at the top of the shaft
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+const int callPins[3] = {2, 3, 4};     // the call buttons of floors G, 1 and 2 (LOW = pressed)
+const int limitPin = 5;                // the switch at the bottom of the shaft (LOW = the car is down)
+const long stepsPerFloor = 1956;       // 60 mm a floor; one turn of the 20 mm pulley winds 62.8 mm
+int floorNow = 0;                      // the floor the lift believes it is at
+
+void showFloor() {
+  lcd.clear();
+  lcd.print("Floor ");
+  if (floorNow == 0) lcd.print("G");
+  else lcd.print(floorNow);
+}
+
+void setup() {
+  for (int i = 0; i < 3; i++) pinMode(callPins[i], INPUT_PULLUP);
+  pinMode(limitPin, INPUT_PULLUP);
+  lift.setSpeed(15);
+  lcd.init();
+  lcd.backlight();
+  Serial.begin(9600);
+  showFloor();
+}
+
+void goTo(int f) {
+  lcd.clear();
+  lcd.print("Going...");
+  lift.step((f - floorNow) * stepsPerFloor);
+  floorNow = f;
+  Serial.print("At floor ");
+  Serial.println(floorNow);
+  showFloor();
+}
+
+void loop() {
+  for (int i = 0; i < 3; i++) {
+    if (digitalRead(callPins[i]) == LOW && i != floorNow) goTo(i);
+  }
+}
+`;
+
 export function batch24(K, n0) {
-  const { F, W, need, has, noShort } = K;
+  const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
   const CHECK = { k: 'check', do: t3('Check your circuit.', 'अपना सर्किट जाँचिए।', 'Apna circuit check karo.'), see: E };
   const RUN = (see) => ({ k: 'run', do: t3('Press Run.', '"चलाइए" दबाइए।', 'Run dabaiye.'), see: see || E });
@@ -317,6 +368,32 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('ldr4', t3('sun sensor', 'सूरज सेंसर', 'sooraj sensor')), need('ldr4.VCC', '5V', W.to5v, { x: 'VCC' }), need('ldr4.GND', 'GND', W.toGnd, { x: 'GND' }), ...LQ.map(([q, a]) => need('ldr4.' + q, a, W.join, { a: q, b: a }))],
     done: (S) => S.w('followed') });
+  // 4 ---------------------------------------------------------------------------------------------------------- mini lift
+  const CALLS = [[0, 20, 2], [1, 25, 3], [2, 30, 4]]; // floor, the button's column, its pin
+  const okHome = (src) => /while\s*\(\s*digitalRead\s*\(\s*limitPin\s*\)\s*==\s*HIGH\s*\)\s*\{?\s*(\/\/[^\n]*\s*)?lift\.step\(\s*-\s*\d+\s*\)\s*;/.test(src || '');
+  L.push({ id: 'lift', cls: '11', blocks: false, view: 'wide', rview: 'scene3pt', code: LIFTC, drawer: ['button'], serial: true, scene: { kind: 'lift' },
+    title: t3('Mini lift with floor buttons', 'मंज़िल बटनों वाली मिनी लिफ़्ट', 'Manzil buttons wali mini lift'),
+    goal: t3('A three-floor lift: a stepper winds the car\'s cable, and call buttons bring it to G, 1 or 2. After a power cut it does not know where it is: give it a limit switch and teach it to find the bottom first (homing).', 'तीन मंज़िल की लिफ़्ट: स्टेपर कार की रस्सी लपेटता है, और कॉल बटन उसे G, 1 या 2 पर लाते हैं। बिजली जाने के बाद उसे पता नहीं कि वह कहाँ है: उसे लिमिट स्विच दीजिए और सिखाइए कि पहले नीचे का छोर ढूँढे (होमिंग)।', 'Teen manzil ki lift: stepper car ki rassi lapet-ta hai, aur call button use G, 1 ya 2 par laate hain. Bijli jaane ke baad use pata nahi ki woh kahan hai: use limit switch dijiye aur sikhaiye ki pehle neeche ka chhor dhoondhe (homing).'),
+    setup: { parts: [F('st', 'stepper', {}, -66, 150, 0), F('lcd', 'lcd16', {}, -128, 66, 0), ...CALLS.map(([f, c]) => P('c' + f, 'button', {}, 'e' + c, 0))],
+      wires: [...POWER, ...[['IN1', 8], ['IN2', 9], ['IN3', 10], ['IN4', 11]].map(([id, pin]) => ['T:st:' + id, 'D' + pin]), ['T:st:GND', 'H:bn44'], ['T:st:VCC', 'H:bp44'],
+        ['T:lcd:GND', 'H:bn10'], ['T:lcd:VCC', 'H:bp10'], ['T:lcd:SDA', 'A4'], ['T:lcd:SCL', 'A5'], ...CALLS.flatMap(([, c, pin]) => [['D' + pin, 'H:a' + c], ['H:a' + (c + 2), 'H:tn' + (c + 2)]])] },
+    steps: [
+      { k: 'info', do: t3(`A lift counts floors by counting the motor's steps: the car hangs on a cable wound on a 20 mm pulley, so one turn (2048 steps) lifts it 62.8 mm, and a floor (${LIFT.floor} mm) is 1956 steps. The stepper (pins 8–11), the LCD and the call buttons G, 1, 2 (pins 2, 3, 4) are wired. Last night there was a power cut.`, `लिफ़्ट मोटर के क़दम गिनकर मंज़िलें गिनती है: कार एक रस्सी पर लटकी है जो 20 mm की घिरनी पर लिपटती है, तो एक चक्कर (2048 क़दम) उसे 62.8 mm उठाता है, और एक मंज़िल (${LIFT.floor} mm) 1956 क़दम है। स्टेपर (पिन 8–11), एलसीडी और कॉल बटन G, 1, 2 (पिन 2, 3, 4) लगे हैं। कल रात बिजली गई थी।`, `Lift motor ke kadam gin kar manzilein ginti hai: car ek rassi par latki hai jo 20 mm ki ghirni par lipat-ti hai, to ek chakkar (2048 kadam) use 62.8 mm uthata hai, aur ek manzil (${LIFT.floor} mm) 1956 kadam hai. Stepper (pin 8–11), LCD aur call button G, 1, 2 (pin 2, 3, 4) lage hain. Kal raat bijli gayi thi.`), see: E },
+      RUN(t3('"Floor G" on the LCD: the program believes the car is at G.', 'एलसीडी पर "Floor G": प्रोग्राम मानता है कि कार G पर है।', 'LCD par "Floor G": program maanta hai ki car G par hai.')),
+      { k: 'act', until: (S) => fresh(S) && S.w('between'), do: t3('Call the lift to floor 1 (the panel: Call the lift → 1).', 'लिफ़्ट को मंज़िल 1 पर बुलाइए (पैनल: Call the lift → 1)।', 'Lift ko manzil 1 par bulaiye (panel: Call the lift → 1).'),
+        see: live((lg, R) => (R.between === undefined ? '' : pick(lg, `It stopped at ${R.between} mm, not at ${LIFT.floor}: the doors cannot open. The power cut left the car ${LIFT.h0} mm above G, and the program only counts steps from where it thinks it started.`, `यह ${R.between} mm पर रुकी, ${LIFT.floor} पर नहीं: दरवाज़े नहीं खुल सकते। बिजली जाने से कार G से ${LIFT.h0} mm ऊपर रह गई थी, और प्रोग्राम बस वहीं से क़दम गिनता है जहाँ उसे लगता है कि शुरू हुआ।`, `Yeh ${R.between} mm par ruki, ${LIFT.floor} par nahi: darwaze nahi khul sakte. Bijli jaane se car G se ${LIFT.h0} mm upar reh gayi thi, aur program bas wahin se kadam ginta hai jahan use lagta hai ki shuru hua.`))) },
+      { k: 'place', place: P('lim', 'button', {}, 'e40', 0), do: t3('The limit switch at the bottom of the shaft is wired to the breadboard like a button: put it in at 40e–42e, across the gap. The car presses it when it is all the way down.', 'शाफ़्ट के नीचे लगा लिमिट स्विच ब्रेडबोर्ड पर बटन की तरह जुड़ा है: इसे 40e–42e में, बीच के गैप के आर-पार लगाइए। कार पूरी नीचे हो तो इसे दबाती है।', 'Shaft ke neeche laga limit switch breadboard par button ki tarah juda hai: ise 40e–42e mein, beech ke gap ke aar-paar lagaiye. Car poori neeche ho to ise dabaati hai.'), see: E },
+      w3('D5', 'lim.L1', 'Wire pin 5 to its top-left leg.', 'पिन 5 को इसके ऊपर-बाएँ पैर से जोड़िए।', 'Pin 5 ko iske upar-left pair se jodiye.'),
+      w3('lim.L3', 'rail:tn', 'Its top-right leg to the − rail.', 'इसका ऊपर-दायाँ पैर − रेल से।', 'Iska upar-right pair − rail se.', t3('INPUT_PULLUP keeps pin 5 HIGH; the car pressing the switch pulls it LOW.', 'INPUT_PULLUP पिन 5 को HIGH रखता है; कार स्विच दबाए तो वह LOW हो जाता है।', 'INPUT_PULLUP pin 5 ko HIGH rakhta hai; car switch dabaye to woh LOW ho jaata hai.')),
+      CHECK,
+      { k: 'edit', test: okHome, set: [[/(  lcd\.backlight\(\);\n  Serial\.begin\(9600\);\n)/, '$1  lcd.print("Homing...");\n  while (digitalRead(limitPin) == HIGH) {   // down, a few steps at a time, until the car presses the switch\n    lift.step(-8);\n  }\n  floorNow = 0;                        // now it really is at G\n']],
+        do: t3('Teach it homing: in setup(), after Serial.begin(9600); add\n  lcd.print("Homing...");\n  while (digitalRead(limitPin) == HIGH) {\n    lift.step(-8);\n  }\n  floorNow = 0;\nand press Run.', 'इसे होमिंग सिखाइए: setup() में Serial.begin(9600); के बाद लिखिए\n  lcd.print("Homing...");\n  while (digitalRead(limitPin) == HIGH) {\n    lift.step(-8);\n  }\n  floorNow = 0;\nऔर "चलाइए" दबाइए।', 'Ise homing sikhaiye: setup() mein Serial.begin(9600); ke baad likhiye\n  lcd.print("Homing...");\n  while (digitalRead(limitPin) == HIGH) {\n    lift.step(-8);\n  }\n  floorNow = 0;\naur Run dabaiye.'), see: E },
+      { k: 'watch', until: (S) => fresh(S) && S.w('homed'), do: t3('Watch the car at the start.', 'शुरू में कार को देखिए।', 'Shuru mein car ko dekhiye.'), see: t3('Down it goes until the car presses the switch, then it stops: now step 0 really is floor G. 3D printers and CNC machines home their axes the same way each time they are switched on.', 'यह नीचे जाती है जब तक कार स्विच न दबा दे, फिर रुकती है: अब क़दम 0 सच में मंज़िल G है। 3D प्रिंटर और CNC मशीनें भी हर बार चालू होने पर ऐसे ही होम करती हैं।', 'Yeh neeche jaati hai jab tak car switch na daba de, phir rukti hai: ab kadam 0 sach mein manzil G hai. 3D printer aur CNC machine bhi har baar chalu hone par aise hi home karti hain.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('floor2') && S.w('floor1'), do: t3('Call it to 2, then to 1.', 'इसे 2 पर, फिर 1 पर बुलाइए।', 'Ise 2 par, phir 1 par bulaiye.'),
+        see: live((lg, R) => pick(lg, `Its stops: ${(R.stops || []).map((x) => x + ' mm').join(', ')}. Every floor exactly, and it will stay exact after the next power cut, because it homes first.`, `इसके ठहराव: ${(R.stops || []).map((x) => x + ' mm').join(', ')}। हर मंज़िल पर ठीक, और अगली बार बिजली जाने के बाद भी ठीक रहेगी, क्योंकि यह पहले होम करती है।`, `Iske thehraav: ${(R.stops || []).map((x) => x + ' mm').join(', ')}. Har manzil par theek, aur agli baar bijli jaane ke baad bhi theek rahegi, kyunki yeh pehle home karti hai.`)) },
+    ],
+    check: [...rails, has('lim', t3('limit switch', 'लिमिट स्विच', 'limit switch')), need('lim.L1', 'D5', W.toPin, { x: t3('limit switch', 'लिमिट स्विच', 'limit switch'), p: 5 }), (S) => (S.conn('lim.L3', 'GND') || S.conn('lim.L4', 'GND') ? null : [W.toGnd, { x: t3('limit switch\'s other leg', 'लिमिट स्विच का दूसरा पैर', 'limit switch ka doosra pair') }])],
+    done: (S) => S.w('homed') && S.w('floor2') && S.w('floor1') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

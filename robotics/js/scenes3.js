@@ -512,10 +512,48 @@ const WT = { sun: t3('Sun', 'सूरज', 'Sooraj'), az: t3('az', 'दिश�
   energy: t3('Energy', 'ऊर्जा', 'Urja'), ofFixed: t3('of a fixed panel', 'स्थिर पैनल का', 'fixed panel ka'), day: t3('The day', 'दिन', 'Din'), pause: t3('Paused', 'रुका', 'Ruka'), play: t3('Play (1 min)', 'चलाइए (1 मिनट)', 'Chalaiye (1 min)'),
   cloud: t3('Sky', 'आसमान', 'Aasmaan'), clear: t3('Clear', 'साफ़', 'Saaf'), cloudy: t3('Cloud', 'बादल', 'Baadal') };
 
+// ------------------------------------------------------------------ the mini lift (batch 24, Class 11)
+// A three-floor shaft (G, 1, 2: LIFT.floor mm apart). The 28BYJ-48 (st) winds the cable on a 20 mm pulley at the top: the
+// car's height = h0 + (the stepper's turn) × π × 20 mm. After the power cut the car stopped LIFT.h0 mm above G. The limit
+// switch at the bottom (the button lim, its legs on pin 5 and GND) is pressed by the car when it is down at G (h ≤ 0); below
+// that the car sits on the buffer (crash). Floor calls: the buttons c0, c1, c2 (pins 2, 3, 4), pressed for 0.3 s from the
+// panel. Flags when the car stops: floor0 / floor1 / floor2 (within 2 mm) or between; homed (the switch pressed after a
+// Run, the car then still); crash.
+export const LIFT = { floor: 60, h0: 25, pulley: 20 };
+export class LiftScene extends Scene {
+  constructor(cfg) { super(cfg); this.a0 = null; this.moving = false; this.stillT = 0; this.res.stops = []; }
+  height(lab) { const st = lab.byTag('st'); if (!st) return LIFT.h0; if (this.a0 === null) this.a0 = st.state.angle || 0; return LIFT.h0 + ((st.state.angle || 0) - this.a0) / 360 * Math.PI * LIFT.pulley; }
+  update(dt, lab) {
+    this.t += dt; const st = lab.byTag('st'); let h = this.height(lab); if (h < -3) { this.flags.add('crash'); } h = Math.max(-4, h); this.h = h;
+    const lim = lab.byTag('lim'); const down = h <= 0.5; if (lim && !!lim.state.pressed !== down) { lim.state.pressed = down; lab.rebuild(); }
+    if (down && this.t - (this.runAt || 0) > 0.2) this.flags.add('hitSwitch');
+    for (const k of [0, 1, 2]) { const b = lab.byTag('c' + k); const on = this.callUntil && this.callUntil[k] > this.t; if (b && !!b.state.pressed !== !!on) { b.state.pressed = !!on; lab.rebuild(); } }
+    const mov = st && Math.abs(st.state.rpm || 0) > 0.05;
+    if (mov) { this.moving = true; this.stillT = 0; } else if (this.moving) { this.stillT += dt; if (this.stillT > 0.3) { this.moving = false; this.stopped(h); } }
+    return !!mov;
+  }
+  stopped(h) {
+    const f = Math.round(h / LIFT.floor); const off = Math.abs(h - f * LIFT.floor); this.res.stops.push(+h.toFixed(1)); this.res.last = +h.toFixed(1);
+    if (f >= 0 && f <= 2 && off <= 2) { this.flags.add('floor' + f); this.res.at = f; if (f === 0 && this.flags.has('hitSwitch')) this.flags.add('homed'); }
+    else { this.flags.add('between'); this.res.between = +h.toFixed(1); }
+  }
+  onRun() { super.onRun(); for (const k of ['floor0', 'floor1', 'floor2', 'between', 'homed', 'crash', 'hitSwitch']) this.flags.delete(k); this.moving = false; this.callUntil = {}; }
+  control(id, v) { if (id === 'call') { const k = +v; this.callUntil = this.callUntil || {}; this.callUntil[k] = this.t + 0.3; } }
+  hud(lab) {
+    const h = this.h ?? LIFT.h0; const f = Math.round(h / LIFT.floor); const at = Math.abs(h - f * LIFT.floor) <= 2 && f >= 0 && f <= 2 ? (f ? String(f) : 'G') : tx(WL.between);
+    const lim = lab.byTag('lim');
+    return { title: t3('Mini lift', 'मिनी लिफ़्ट', 'Mini lift'),
+      rows: [[tx(WL.height), `${h.toFixed(1)} mm`], [tx(WL.at), at], [tx(WL.sw), lim && lim.state.pressed ? tx(WL.pressed) : tx(WL.free)]],
+      controls: [{ id: 'call', kind: 'seg', label: WL.call, options: [['0', t3('G', 'G', 'G')], ['1', t3('1', '1', '1')], ['2', t3('2', '2', '2')]], value: null }] };
+  }
+}
+const WL = { height: t3('Car height', 'कार की ऊँचाई', 'Car ki unchaai'), at: t3('Floor', 'मंज़िल', 'Manzil'), between: t3('between floors!', 'मंज़िलों के बीच!', 'manzilon ke beech!'), sw: t3('Limit switch (pin 5)', 'लिमिट स्विच (पिन 5)', 'Limit switch (pin 5)'),
+  pressed: t3('pressed', 'दबा', 'daba'), free: t3('free', 'खुला', 'khula'), call: t3('Call the lift', 'लिफ़्ट बुलाइए', 'Lift bulaiye') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

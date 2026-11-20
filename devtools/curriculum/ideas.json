@@ -55848,6 +55848,27 @@
 "note": null
 },
 {
+"id": "live-lift",
+"title": "Mini lift with floor buttons",
+"family": "live",
+"board": "uno",
+"parts": [
+"stepper",
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "lift",
+"rule": null,
+"note": null
+},
+{
 "id": "live-tracker",
 "title": "Dual-axis solar tracker",
 "family": "live",

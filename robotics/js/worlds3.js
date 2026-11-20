@@ -16,12 +16,12 @@ import * as M2 from './models2.js';
 import * as TX from './tex.js';
 import { VIEWS, nextFrame } from './stage.js';
 import { rotXZ } from './parts.js';
-import { makeScene, PT_TARGETS, TANK } from './scenes3.js';
+import { makeScene, PT_TARGETS, TANK, LIFT } from './scenes3.js';
 import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -90,14 +90,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt);
     }
     return false;
   }
@@ -477,6 +477,43 @@ class World3 {
     const a = S.az * D2R, e = S.el * D2R; const d = V3(Math.sin(a) * Math.cos(e), Math.sin(e), Math.cos(a) * Math.cos(e)); const pos = this.trHead.clone().addScaledVector(d, 125);
     this.trSun.position.copy(pos); this.trCore.position.copy(pos); this.trSun.material.opacity = S.cloud ? 0.25 : 1; this.trCore.visible = !S.cloud;
     return true;
+  }
+
+  // ================================================================== the mini lift (batch 24): a three-floor shaft beside the bench, the
+  // car on its cable from the pulley at the top, landing doors, the limit switch at the bottom (its red lever)
+  liftSteps() {
+    const r = this.root, S = this.mat; const X0 = 300, Z0 = -20, Y0 = 18, K = 1.15; this.liftAt = { X0, Z0, Y0, K }; // (1 mm of the model = K units on screen)
+    const H = 3 * LIFT.floor * K + 40;
+    return [
+      () => { // the shaft: four posts, the floor slabs G, 1, 2 with their labels and doors, the pulley at the top
+        const g = new THREE.Group(); g.position.set(X0, 0, Z0); const steel = S({ color: 0x9aa3ad, metalness: 0.6, roughness: 0.4 }), slab = S({ color: 0xd9d4c8, roughness: 0.85 });
+        g.add(box(110, Y0, 90, S({ color: 0x6d6a64, roughness: 0.9 }), 0, Y0 / 2, 0)); // the base (the pit is inside it)
+        for (const [x, z] of [[-32, -26], [32, -26], [-32, 26], [32, 26]]) g.add(box(4, H, 4, steel, x, Y0 + H / 2, z));
+        g.add(box(72, 4, 60, steel, 0, Y0 + H, 0));
+        for (let f = 0; f < 3; f++) {
+          const y = Y0 + f * LIFT.floor * K; g.add(box(40, 3, 70, slab, 56, y - 1.5, 0)); // the landing beside the shaft
+          const C = canvas(64, 64); const c = C.getContext('2d'); c.fillStyle = '#1d4aa8'; c.fillRect(0, 0, 64, 64); c.fillStyle = '#fff'; c.font = `800 46px ${TX.FONT}`; c.textAlign = 'center'; c.fillText(f ? String(f) : 'G', 32, 50);
+          g.add(box(14, 14, 1, S({ map: ctex(C), roughness: 0.6 }), 36, y + LIFT.floor * K - 22, 34)); // the floor's sign
+          g.add(box(2, LIFT.floor * K - 18, 1, S({ color: 0x2b2d31, roughness: 0.5 }), 35, y + (LIFT.floor * K - 18) / 2, 30)); // the landing door's edge
+        }
+        g.add(cyl(12, 10, S({ color: 0x2a2b2e, roughness: 0.5 }), 0, Y0 + H + 10, -30, 24).rotateX(Math.PI / 2)); // the pulley at the top
+        // the limit switch at the bottom of the shaft: a black body and its red lever
+        g.add(box(10, 6, 8, S({ color: 0x1b1b1d, roughness: 0.5 }), 20, Y0 + 3, 20)); g.add(box(12, 1.5, 3, S({ color: 0xc8281c, roughness: 0.5 }), 14, Y0 + 7, 20));
+        this.still(g); this.blob(130, 110, X0, Z0, 0.35);
+        // the car (moves), its cable up to the pulley
+        const car = new THREE.Group(); r.add(car); this.liftCar = car; const shell = S({ color: 0xf2b630, roughness: 0.5 });
+        car.add(box(56, 3, 48, shell, 0, 1.5, 0)); car.add(box(56, 3, 48, shell, 0, 40.5, 0)); car.add(box(3, 40, 48, shell, -27, 21, 0)); car.add(box(56, 40, 3, shell, 0, 21, -23));
+        car.add(box(3, 40, 48, new THREE.MeshPhysicalMaterial({ color: 0xcfe7ff, roughness: 0.1, transparent: true, opacity: 0.35, depthWrite: false }), 27, 21, 0));
+        const fig = new THREE.Group(); fig.add(cyl(5, 18, S({ color: 0x2f6fd8, roughness: 0.6 }), 0, 10, 0, 10)); fig.add(new THREE.Mesh(new THREE.SphereGeometry(4, 12, 10), S({ color: 0xc68a63, roughness: 0.7 })).translateY(23)); fig.position.set(-6, 3, 4); car.add(fig);
+        this.liftCable = cyl(0.6, 1, S({ color: 0x222222, roughness: 0.5 }), 0, 0, 0, 6); r.add(this.liftCable);
+      },
+      () => this.cables([['st', [X0, Y0 + H + 10, Z0 - 40], 1.4, 0x1b1b1d]]),
+    ];
+  }
+  liftDraw() {
+    if (!this.liftCar) return false; const { X0, Z0, Y0, K } = this.liftAt; const h = this.sim.h ?? LIFT.h0; const k = Math.round(h * 20); if (k === this._lk) return false; this._lk = k;
+    const y = Y0 + Math.max(-4, h) * K; this.liftCar.position.set(X0, y, Z0); const top = Y0 + 3 * LIFT.floor * K + 40 + 10, len = top - (y + 42);
+    this.liftCable.scale.set(1, Math.max(1, len), 1); this.liftCable.position.set(X0, y + 42 + len / 2, Z0); return true;
   }
 
   // ================================================================== the keypad locker

@@ -1013,3 +1013,12 @@ heaters.
   The 3D: the laser lesson's pan-tilt head with a 96 × 60 mm panel and the sensor on its top edge, the fixed panel
   beside it, a glowing sun; the whole sky is drawn turned half round about the stand so the sun crosses in front and the
   cells face the student. robocore24.mjs plays it. Class 11: 7 of 26.
+- Class 11 mini lift (batch 24, lessons24.js `lift`; scenes3.js `LiftScene`, worlds3.js `liftSteps`): a three-floor
+  shaft (LIFT.floor = 60 mm apart, drawn at 1.15 units a mm beside the bench, view scene3pt) with landing slabs, signs,
+  the yellow car with a passenger on its cable from the pulley at the top, and the limit switch's red lever at the
+  bottom. The car's height = 25 mm (the power cut, LIFT.h0) + the stepper's turn × π × 20 mm (persistent across Runs, as
+  the real car is). The limit switch is a button (lim) on the breadboard that the scene presses when the car is down
+  (h ≤ 0.5 mm); below −3 mm the car is on the buffer (crash). Call buttons c0–c2 (pins 2–4) are pressed for 0.3 s from the
+  panel. The first program believes it starts at G: floor 1 stops at 85 mm (between). The student places the switch at
+  40e (pin 5, GND) and adds homing in setup() (down 8 steps at a time while pin 5 is HIGH, then floorNow = 0): it stops
+  at 0.3 mm, then 2 at 120.4 and 1 at 60.4. robocore24.mjs plays it. Class 11: 8 of 26.
