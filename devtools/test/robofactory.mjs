@@ -30,7 +30,7 @@ function build(l, skipWire) {
 }
 function step(B, dt) {
   const { lab, rt } = B; lab.step(1000 * dt); rt.update(dt);
-  if (B.webOpen) { B.webT = (B.webT ?? 9) + dt; const N = netOf(lab); if (B.webT >= 2 && N.staIP()) { B.webT = 0; N.request(N.staIP() + '/', () => {}); } }
+  if (B.webOpen) { B.webT = (B.webT ?? 9) + dt; const N = netOf(lab); if (B.webT >= 2 && N.staIP()) { B.webT = 0; N.request(N.staIP() + (B.l && B.l.board === 'pi4' ? ':5000' : '') + '/', () => {}); } } // (batch 23: the Pi's Flask page is on port 5000)
   for (const o of lab.mcu.ser.take()) { const s = String.fromCharCode(...o.bytes); B.ser = (B.ser || '') + s; B.buf = (B.buf || '') + s.replace(/\r/g, ''); const ls = B.buf.split('\n'); B.buf = ls.pop(); for (const x of ls) rt.onSerialLine(x); }
   if (lab.mcu.state === 'error') throw new Error('runtime ' + JSON.stringify(lab.mcu.err));
 }

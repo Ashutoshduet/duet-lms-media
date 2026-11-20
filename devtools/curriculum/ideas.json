@@ -2577,6 +2577,25 @@
 "note": null
 },
 {
+"id": "live-f_umbrella_web_pi",
+"title": "Take an umbrella sign at the gate: rain sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_umbrella_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_umbrella_rgb_pi",
 "title": "Take an umbrella sign at the gate: rain sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -2594,6 +2613,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_umbrella_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_leakroof_web_pi",
+"title": "Water leak detector on the floor: rain sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_leakroof_web_pi",
 "rule": null,
 "note": null
 },
@@ -2639,6 +2677,25 @@
 "note": null
 },
 {
+"id": "live-f_grainsheet_web_pi",
+"title": "Mandi rain alert: cover the grain: rain sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainsheet_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_grainsheet_rgb_pi",
 "title": "Mandi rain alert: cover the grain: rain sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -2680,6 +2737,25 @@
 "note": null
 },
 {
+"id": "live-f_wiper_web_pi",
+"title": "Automatic wiper: rain sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wiper_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_wiper_servo_pi",
 "title": "Automatic wiper: rain sensor module → servo (Raspberry Pi)",
 "family": "factory",
@@ -2696,6 +2772,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_wiper_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_web_pi",
+"title": "Track vibration: train coming: vibration sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trainnear_web_pi",
 "rule": null,
 "note": null
 },
@@ -2741,6 +2836,25 @@
 "note": null
 },
 {
+"id": "live-f_bridgeshake_web_pi",
+"title": "Footbridge shake monitor: vibration sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgeshake_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bridgeshake_led_pi",
 "title": "Footbridge shake monitor: vibration sensor module → LED (Raspberry Pi)",
 "family": "factory",
@@ -2782,6 +2896,25 @@
 "note": null
 },
 {
+"id": "live-f_motorshake_web_pi",
+"title": "Machine vibration warning: vibration sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_motorshake_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_motorshake_rgb_pi",
 "title": "Machine vibration warning: vibration sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -2799,6 +2932,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_motorshake_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_web_pi",
+"title": "ATM tamper alarm: vibration sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmtamper_web_pi",
 "rule": null,
 "note": null
 },
@@ -2844,6 +2996,25 @@
 "note": null
 },
 {
+"id": "live-f_donationbox_web_pi",
+"title": "Donation box tamper alarm: tilt sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_donationbox_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_donationbox_buzzer_pi",
 "title": "Donation box tamper alarm: tilt sensor module → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -2860,6 +3031,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_donationbox_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_web_pi",
+"title": "Leaning electric pole alert: tilt sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_polelean_web_pi",
 "rule": null,
 "note": null
 },
@@ -2881,6 +3071,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_polelean_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucktip_web_pi",
+"title": "Tipper truck body-up warning: tilt sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trucktip_web_pi",
 "rule": null,
 "note": null
 },
@@ -2926,6 +3135,25 @@
 "note": null
 },
 {
+"id": "live-f_stickfall_web_pi",
+"title": "Fall alarm on a walking stick: tilt sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stickfall_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_stickfall_rgb_pi",
 "title": "Fall alarm on a walking stick: tilt sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -2963,6 +3191,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_stickfall_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sliderend_web_pi",
+"title": "Camera slider end stop: hall effect sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sliderend_web_pi",
 "rule": null,
 "note": null
 },
@@ -3008,6 +3255,25 @@
 "note": null
 },
 {
+"id": "live-f_trolleyhome_web_pi",
+"title": "Factory trolley at its home stop: hall effect sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trolleyhome_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_trolleyhome_rgb_pi",
 "title": "Factory trolley at its home stop: hall effect sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -3045,6 +3311,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_trolleyhome_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_laptoplid_web_pi",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_laptoplid_web_pi",
 "rule": null,
 "note": null
 },
@@ -3091,6 +3376,25 @@
 "note": null
 },
 {
+"id": "live-f_gearneutral_web_pi",
+"title": "Bike neutral light: hall effect sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gearneutral_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_gearneutral_led_pi",
 "title": "Bike neutral light: hall effect sensor module → LED (Raspberry Pi)",
 "family": "factory",
@@ -3108,6 +3412,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_gearneutral_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_web_pi",
+"title": "Lift floor sensor: reed switch module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftfloor_web_pi",
 "rule": null,
 "note": null
 },
@@ -3149,6 +3472,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_liftfloor_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_helmetbike_web_pi",
+"title": "Bike that starts only with the helmet on: reed switch module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_helmetbike_web_pi",
 "rule": null,
 "note": null
 },
@@ -3195,6 +3537,25 @@
 "note": null
 },
 {
+"id": "live-f_trainpass_web_pi",
+"title": "Model railway signal: reed switch module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_trainpass_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_trainpass_buzzer_pi",
 "title": "Model railway signal: reed switch module → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -3236,6 +3597,25 @@
 "note": null
 },
 {
+"id": "live-f_windowclosed_web_pi",
+"title": "All windows shut check: reed switch module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_windowclosed_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_windowclosed_led_pi",
 "title": "All windows shut check: reed switch module → LED (Raspberry Pi)",
 "family": "factory",
@@ -3257,6 +3637,25 @@
 "note": null
 },
 {
+"id": "live-f_clapdoll_web_pi",
+"title": "Clap and the puppet dances: sound sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clapdoll_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clapdoll_servo_pi",
 "title": "Clap and the puppet dances: sound sensor module → servo (Raspberry Pi)",
 "family": "factory",
@@ -3273,6 +3672,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_clapdoll_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_web_pi",
+"title": "Noisy classroom light: sound sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_noisemeter_web_pi",
 "rule": null,
 "note": null
 },
@@ -3319,6 +3737,25 @@
 "note": null
 },
 {
+"id": "live-f_clapfan_web_pi",
+"title": "Clap-on fan for a grandparent: sound sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clapfan_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clapfan_relay_pi",
 "title": "Clap-on fan for a grandparent: sound sensor module → relay and fan (Raspberry Pi)",
 "family": "factory",
@@ -3336,6 +3773,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_clapfan_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_web_pi",
+"title": "Baby cry alert for parents: sound sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babycry_web_pi",
 "rule": null,
 "note": null
 },
@@ -3381,6 +3837,25 @@
 "note": null
 },
 {
+"id": "live-f_firedoor_web_pi",
+"title": "Fire exit that opens by itself: flame sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_firedoor_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_firedoor_servo_pi",
 "title": "Fire exit that opens by itself: flame sensor module → servo (Raspberry Pi)",
 "family": "factory",
@@ -3397,6 +3872,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_firedoor_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_web_pi",
+"title": "Forest fire watchtower: flame sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_forestwatch_web_pi",
 "rule": null,
 "note": null
 },
@@ -3438,6 +3932,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_forestwatch_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_firesprinkler_web_pi",
+"title": "Fire sprinkler for a grain godown: flame sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_firesprinkler_web_pi",
 "rule": null,
 "note": null
 },
@@ -3485,6 +3998,25 @@
 "note": null
 },
 {
+"id": "live-f_stovealone_web_pi",
+"title": "Stove left burning alert: flame sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stovealone_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_stovealone_rgb_pi",
 "title": "Stove left burning alert: flame sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -3526,6 +4058,25 @@
 "note": null
 },
 {
+"id": "live-f_rainwindow_web_pi",
+"title": "Window that closes in the rain: rain sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_rainwindow_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_rainwindow_servo_pi",
 "title": "Window that closes in the rain: rain sensor module → servo (Raspberry Pi)",
 "family": "factory",
@@ -3542,6 +4093,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_rainwindow_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_web_pi",
+"title": "Rain alert: bring the clothes in: rain sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clothesrain_web_pi",
 "rule": null,
 "note": null
 },
@@ -3587,6 +4157,25 @@
 "note": null
 },
 {
+"id": "live-f_quake_web_pi",
+"title": "Earthquake alarm for the classroom: vibration sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quake_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_quake_rgb_pi",
 "title": "Earthquake alarm for the classroom: vibration sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -3628,6 +4217,25 @@
 "note": null
 },
 {
+"id": "live-f_knockbell_web_pi",
+"title": "Knock-knock door bell: vibration sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_knockbell_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_knockbell_led_pi",
 "title": "Knock-knock door bell: vibration sensor module → LED (Raspberry Pi)",
 "family": "factory",
@@ -3665,6 +4273,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_knockbell_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_web_pi",
+"title": "Water cooler tip-over cut-off: tilt sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coolertip_web_pi",
 "rule": null,
 "note": null
 },
@@ -3711,6 +4338,25 @@
 "note": null
 },
 {
+"id": "live-f_bikealarm_web_pi",
+"title": "Bicycle anti-theft alarm: tilt sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bikealarm_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bikealarm_buzzer_pi",
 "title": "Bicycle anti-theft alarm: tilt sensor module → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -3727,6 +4373,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_bikealarm_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_web_pi",
+"title": "Cycle wheel turn signal: hall effect sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wheelturn_web_pi",
 "rule": null,
 "note": null
 },
@@ -3748,6 +4413,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_wheelturn_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_web_pi",
+"title": "Treasure box with a magnet key: hall effect sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_magnetkey_web_pi",
 "rule": null,
 "note": null
 },
@@ -3788,6 +4472,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_magnetkey_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_web_pi",
+"title": "School gate closed indicator: reed switch module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gateclosed_web_pi",
 "rule": null,
 "note": null
 },
@@ -3833,6 +4536,25 @@
 "note": null
 },
 {
+"id": "live-f_floattank_web_pi",
+"title": "Tank full float switch: reed switch module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_floattank_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_floattank_led_pi",
 "title": "Tank full float switch: reed switch module → LED (Raspberry Pi)",
 "family": "factory",
@@ -3874,6 +4596,25 @@
 "note": null
 },
 {
+"id": "live-f_library_web_pi",
+"title": "Library noise warning: sound sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_library_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_library_rgb_pi",
 "title": "Library noise warning: sound sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -3891,6 +4632,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_library_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_web_pi",
+"title": "Clap switch: sound sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clapswitch_web_pi",
 "rule": null,
 "note": null
 },
@@ -3937,6 +4697,25 @@
 "note": null
 },
 {
+"id": "live-f_diyaguard_web_pi",
+"title": "Diya left burning alert: flame sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_diyaguard_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_diyaguard_relay_pi",
 "title": "Diya left burning alert: flame sensor module → relay and lamp (Raspberry Pi)",
 "family": "factory",
@@ -3975,6 +4754,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_diyaguard_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_web_pi",
+"title": "Kitchen fire alarm: flame sensor module → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kitchenfire_web_pi",
 "rule": null,
 "note": null
 },
@@ -4294,6 +5092,25 @@
 "note": null
 },
 {
+"id": "live-f_goal_web_pi",
+"title": "Goal-line sensor: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_goal_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_goal_buzzer_pi",
 "title": "Goal-line sensor: IR obstacle sensor → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -4310,6 +5127,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_goal_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wardrobe_web_pi",
+"title": "Wardrobe light: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wardrobe_web_pi",
 "rule": null,
 "note": null
 },
@@ -4331,6 +5167,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_wardrobe_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmlight_web_pi",
+"title": "ATM cabin light: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmlight_web_pi",
 "rule": null,
 "note": null
 },
@@ -4377,6 +5232,25 @@
 "note": null
 },
 {
+"id": "live-f_noentry_web_pi",
+"title": "No-entry zone alarm: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_noentry_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_noentry_rgb_pi",
 "title": "No-entry zone alarm: IR obstacle sensor → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -4414,6 +5288,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_noentry_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_conveyor_web_pi",
+"title": "Conveyor box detector: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_conveyor_web_pi",
 "rule": null,
 "note": null
 },
@@ -4459,6 +5352,25 @@
 "note": null
 },
 {
+"id": "live-f_binfull_web_pi",
+"title": "Dustbin full indicator: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_binfull_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_binfull_buzzer_pi",
 "title": "Dustbin full indicator: IR obstacle sensor → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -4500,6 +5412,44 @@
 "note": null
 },
 {
+"id": "live-f_kiosk_web_pi",
+"title": "Information kiosk wake-up: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kiosk_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_elephant_web_pi",
+"title": "Wild elephant early warning: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_elephant_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_elephant_rgb_pi",
 "title": "Wild elephant early warning: PIR motion sensor → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -4537,6 +5487,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_elephant_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_spotlight_web_pi",
+"title": "Security spotlight: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_spotlight_web_pi",
 "rule": null,
 "note": null
 },
@@ -4583,6 +5552,25 @@
 "note": null
 },
 {
+"id": "live-f_babycot_web_pi",
+"title": "Baby cot watcher: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babycot_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_babycot_buzzer_pi",
 "title": "Baby cot watcher: PIR motion sensor → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -4599,6 +5587,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_babycot_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_monkey_web_pi",
+"title": "Terrace monkey alarm: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_monkey_web_pi",
 "rule": null,
 "note": null
 },
@@ -4644,6 +5651,25 @@
 "note": null
 },
 {
+"id": "live-f_scarecrow_web_pi",
+"title": "Electronic scarecrow: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_scarecrow_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_scarecrow_servo_pi",
 "title": "Electronic scarecrow: PIR motion sensor → servo (Raspberry Pi)",
 "family": "factory",
@@ -4680,6 +5706,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_scarecrow_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_chemist_web_pi",
+"title": "Chemist night bell: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_chemist_web_pi",
 "rule": null,
 "note": null
 },
@@ -4725,6 +5770,25 @@
 "note": null
 },
 {
+"id": "live-f_labhelp_web_pi",
+"title": "Lab help-request light: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_labhelp_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_labhelp_rgb_pi",
 "title": "Lab help-request light: push button → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -4742,6 +5806,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_labhelp_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quizbuzz_web_pi",
+"title": "Quiz contest buzzer: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quizbuzz_web_pi",
 "rule": null,
 "note": null
 },
@@ -4787,6 +5870,25 @@
 "note": null
 },
 {
+"id": "live-f_bucketfill_web_pi",
+"title": "Push-to-fill bucket tap: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bucketfill_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bucketfill_pump_pi",
 "title": "Push-to-fill bucket tap: push button → water pump (Raspberry Pi)",
 "family": "factory",
@@ -4805,6 +5907,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_bucketfill_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_petfeeder_web_pi",
+"title": "Pet feeder flap: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_petfeeder_web_pi",
 "rule": null,
 "note": null
 },
@@ -4829,6 +5950,25 @@
 "note": null
 },
 {
+"id": "live-f_orderready_web_pi",
+"title": "Canteen order-ready sign: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_orderready_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_orderready_led_pi",
 "title": "Canteen order-ready sign: push button → LED (Raspberry Pi)",
 "family": "factory",
@@ -4846,6 +5986,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_orderready_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_elderhelp_web_pi",
+"title": "Grandparent help button: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_elderhelp_web_pi",
 "rule": null,
 "note": null
 },
@@ -4891,6 +6050,25 @@
 "note": null
 },
 {
+"id": "live-f_busstop_web_pi",
+"title": "Bus stop request bell: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busstop_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_busstop_buzzer_pi",
 "title": "Bus stop request bell: push button → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -4928,6 +6106,44 @@
 "level": 10,
 "theme": "bank",
 "live": "f_busstop_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchless_web_pi",
+"title": "Contactless doorbell: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_touchless_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bookdrop_web_pi",
+"title": "Library book-drop alert: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bookdrop_web_pi",
 "rule": null,
 "note": null
 },
@@ -4973,6 +6189,25 @@
 "note": null
 },
 {
+"id": "live-f_soap_web_pi",
+"title": "Automatic soap dispenser: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_soap_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_soap_pump_pi",
 "title": "Automatic soap dispenser: IR obstacle sensor → water pump (Raspberry Pi)",
 "family": "factory",
@@ -4991,6 +6226,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_soap_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_piggybank_web_pi",
+"title": "Piggy bank coin chime: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_piggybank_web_pi",
 "rule": null,
 "note": null
 },
@@ -5015,6 +6269,25 @@
 "note": null
 },
 {
+"id": "live-f_occupied_web_pi",
+"title": "Washroom occupied light: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_occupied_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_occupied_rgb_pi",
 "title": "Washroom occupied light: PIR motion sensor → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -5032,6 +6305,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_occupied_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_corridor_web_pi",
+"title": "Corridor night light: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_corridor_web_pi",
 "rule": null,
 "note": null
 },
@@ -5074,6 +6366,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_corridor_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_afterhours_web_pi",
+"title": "Shop after-hours alarm: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_afterhours_web_pi",
 "rule": null,
 "note": null
 },
@@ -5185,6 +6496,25 @@
 "note": null
 },
 {
+"id": "live-f_liftcall_web_pi",
+"title": "Lift call button: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftcall_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_liftcall_buzzer_pi",
 "title": "Lift call button: push button → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -5288,6 +6618,25 @@
 "note": null
 },
 {
+"id": "live-f_turnstile_web_pi",
+"title": "Turnstile gate: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_turnstile_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_turnstile_servo_pi",
 "title": "Turnstile gate: IR obstacle sensor → servo (Raspberry Pi)",
 "family": "factory",
@@ -5304,6 +6653,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_turnstile_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_handdryer_web_pi",
+"title": "Hand dryer: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_handdryer_web_pi",
 "rule": null,
 "note": null
 },
@@ -5325,6 +6693,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_handdryer_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_mailbox_web_pi",
+"title": "Letter-box alert: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_mailbox_web_pi",
 "rule": null,
 "note": null
 },
@@ -5370,6 +6757,25 @@
 "note": null
 },
 {
+"id": "live-f_exhibit_web_pi",
+"title": "Museum exhibit that wakes up: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_exhibit_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_exhibit_servo_pi",
 "title": "Museum exhibit that wakes up: PIR motion sensor → servo (Raspberry Pi)",
 "family": "factory",
@@ -5411,6 +6817,25 @@
 "note": null
 },
 {
+"id": "live-f_farmgate_web_pi",
+"title": "Farm gate animal alert: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_farmgate_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_farmgate_rgb_pi",
 "title": "Farm gate animal alert: PIR motion sensor → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -5448,6 +6873,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_farmgate_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bathlight_web_pi",
+"title": "Bathroom light that switches off itself: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bathlight_web_pi",
 "rule": null,
 "note": null
 },
@@ -5557,6 +7001,25 @@
 "note": null
 },
 {
+"id": "live-f_watchman_web_pi",
+"title": "Gate call for the watchman: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_watchman_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_watchman_rgb_pi",
 "title": "Gate call for the watchman: push button → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -5574,6 +7037,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_watchman_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_handwash_web_pi",
+"title": "Push-button hand-wash tap: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_handwash_web_pi",
 "rule": null,
 "note": null
 },
@@ -5744,6 +7226,25 @@
 "note": null
 },
 {
+"id": "live-f_classfan_web_pi",
+"title": "Classroom energy saver: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_classfan_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_classfan_relay_pi",
 "title": "Classroom energy saver: PIR motion sensor → relay and fan (Raspberry Pi)",
 "family": "factory",
@@ -5761,6 +7262,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_classfan_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bottle_web_pi",
+"title": "Bottle filling station: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bottle_web_pi",
 "rule": null,
 "note": null
 },
@@ -5808,6 +7328,25 @@
 "note": null
 },
 {
+"id": "live-f_panic_web_pi",
+"title": "Panic button for a shop: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_panic_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panic_rgb_pi",
 "title": "Panic button for a shop: push button → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -5845,6 +7384,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_panic_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairs_web_pi",
+"title": "Stair light with a timer: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stairs_web_pi",
 "rule": null,
 "note": null
 },
@@ -5887,6 +7445,139 @@
 "level": 10,
 "theme": "bank",
 "live": "f_stairs_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_levelcross_web_pi",
+"title": "Railway level crossing: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_levelcross_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_slot_web_pi",
+"title": "Parking slot sensor: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_slot_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tap_web_pi",
+"title": "Smart tap: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tap_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sanitiser_web_pi",
+"title": "Automatic hand sanitiser: IR obstacle sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_sanitiser_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_intruder_web_pi",
+"title": "Intruder alert screen: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_intruder_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_web_pi",
+"title": "Welcome greeter: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_greeter_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_roomlight_web_pi",
+"title": "Automatic room light: PIR motion sensor → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_roomlight_web_pi",
 "rule": null,
 "note": null
 },
@@ -5975,6 +7666,25 @@
 "note": null
 },
 {
+"id": "live-f_nurse_web_pi",
+"title": "Hospital bed call button: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nurse_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_nurse_led_pi",
 "title": "Hospital bed call button: push button → LED (Raspberry Pi)",
 "family": "factory",
@@ -6016,6 +7726,25 @@
 "note": null
 },
 {
+"id": "live-f_gate_web_pi",
+"title": "Push-button gate: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gate_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_gate_servo_pi",
 "title": "Push-button gate: push button → servo (Raspberry Pi)",
 "family": "factory",
@@ -6036,6 +7765,25 @@
 "note": null
 },
 {
+"id": "live-f_crossing_web_pi",
+"title": "Pedestrian crossing barrier: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_crossing_web_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_crossing_servo_pi",
 "title": "Pedestrian crossing barrier: push button → servo (Raspberry Pi)",
 "family": "factory",
@@ -6052,6 +7800,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_crossing_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_lightswitch_web_pi",
+"title": "Push-button light: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_lightswitch_web_pi",
 "rule": null,
 "note": null
 },
@@ -6094,6 +7861,25 @@
 "level": 10,
 "theme": "bank",
 "live": "f_lightswitch_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_web_pi",
+"title": "Doorbell: push button → web page on a phone (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_doorbell_web_pi",
 "rule": null,
 "note": null
 },

@@ -923,3 +923,10 @@ heaters.
   at Run for this track too (or the side IR reads its default HIGH in the first loop: a phantom station 1). deliverTo = 0
   stops at every station; deliverTo = 2 only at 2. A side sensor on the wrong pin leaves pin 9 floating: phantom
   stations, and it never leaves START. robocore23.mjs plays all four. Class 11: 4 of 26. 2,066 projects.
+- The bank's web-page output on the Raspberry Pi 4 too (factory.js `QWEB`, `sketchPiWeb`): gpiozero for the sensor and
+  Flask for the page (`@app.route("/")`, `app.run(host="0.0.0.0", port=5000)`, a page that refreshes every 2 s). The Pi
+  is not an Arduino loop: the warning is kept by the sensor's own callbacks (`when_pressed`/`when_released`,
+  `when_motion`/`when_no_motion`, else `when_activated`/`when_deactivated`), both stamping `last = time.monotonic()`, so
+  a short press still shows for `hold = 1.0` s after it ends. The steps say "open the address with :5000". Every digital
+  job with a Pi input (`batchF`, `f_<job>_web_pi`): 94 projects. robofactory.mjs asks `:5000` on the Pi: 12,753 ok.
+  2,160 projects (239 hand-made + 1,921 bank).

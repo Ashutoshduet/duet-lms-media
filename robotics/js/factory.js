@@ -331,6 +331,10 @@ EOUT.web = { name: t3('web page on a phone', 'फ़ोन पर वेब प�
   ready: t3('The ESP32 joins the school WiFi (DUET-School) and serves a web page; the phone on the bench opens it. No wires for this output: it goes by radio.', 'ESP32 स्कूल के WiFi (DUET-School) से जुड़ता है और एक वेब पेज देता है; बेंच पर रखा फ़ोन उसे खोलता है। इस आउटपुट के लिए कोई वायर नहीं: यह रेडियो से जाता है।', 'ESP32 school ke WiFi (DUET-School) se judta hai aur ek web page deta hai; bench par rakha phone use kholta hai. Is output ke liye koi wire nahi: yeh radio se jaata hai.'),
   onWords: t3('the page on the phone shows the warning', 'फ़ोन के पेज पर चेतावनी आती है', 'phone ke page par warning aati hai'),
   isOn: (S, j) => lastBody(S).includes('<h1 style="color:#d0342c">' + j.on) };
+// (batch 23) the same page from the Raspberry Pi 4, served with Flask on port 5000 (lessons21.js pi_flask): only for the
+// switch-like sensors (a DHT11 or sonar reading would share the terminal with Flask's log lines)
+const QWEB = Object.assign({}, EOUT.web, {
+  ready: t3('The Pi joins the school WiFi and serves a web page with Flask, on port 5000; the phone on the bench opens it. No wires for this output: it goes by radio.', 'Pi स्कूल के WiFi से जुड़ता है और Flask से पोर्ट 5000 पर एक वेब पेज देता है; बेंच पर रखा फ़ोन उसे खोलता है। इस आउटपुट के लिए कोई तार नहीं: यह रेडियो से जाता है।', 'Pi school ke WiFi se judta hai aur Flask se port 5000 par ek web page deta hai; bench par rakha phone use kholta hai. Is output ke liye koi taar nahi: yeh radio se jaata hai.') });
 EOUT.led = Object.assign({}, OUT.led, { pin: 25, parts: [P('led1', 'led', { color: 'red' }, 'e30', 0), P('r1', 'resistor', { ohms: 220 }, 'b30', 3)], wires: [['H:a11', 'H:a31']],
   ready: t3('The red LED and its 220 Ω resistor are already wired to GPIO 25.', 'लाल एलईडी और उसका 220 Ω रेज़िस्टर पहले से GPIO 25 पर लगे हैं।', 'Laal LED aur uska 220 Ω resistor pehle se GPIO 25 par lage hain.'),
   decl: ['const int led = 25;         // GPIO 25: the LED (through its resistor)'] });
@@ -543,6 +547,20 @@ function sketchPi(job, ik, ok) {
   }
   L.push('');
   return L.join('\n');
+}
+
+// (batch 23) the Pi's Flask page for a switch-like sensor: gpiozero calls seen() the moment the sensor goes active (between
+// requests too, so a clap is not missed), and the page shows the warning while it is active and for hold seconds after
+const PI_CB = { button: ['when_pressed', 'when_released'], pir: ['when_motion', 'when_no_motion'] }; // (the modules pull OUT to 0 when they sense: when_deactivated, then when_activated as they stop)
+function sketchPiWeb(job, ik) {
+  const inp = QIN[ik], ip = inp.pi; const v = ip.decl[0].split(' =')[0].trim(); const [cb, cb2] = PI_CB[ik] || ['when_deactivated', 'when_activated'];
+  const esc = (x) => htmlEsc(x).replace(/"/g, '&quot;');
+  return [`# ${job.title.en}: ${inp.name.en} and a web page on the phone`, `# ${job.why.en}`, 'from flask import Flask', `from gpiozero import ${ip.imp.join(', ')}`, 'import time', '',
+    'app = Flask(__name__)', ...ip.decl, 'hold = 1.0                  # keep the warning this long after it stops (seconds)', 'last = None                 # when the sensor was last active', '',
+    'def seen():                 # gpiozero calls this when the sensor goes active, and again when it stops', '    global last', '    last = time.monotonic()', '', `${v}.${cb} = seen`, `${v}.${cb2} = seen               # so the hold counts from the moment it stops`, '',
+    '@app.route("/")', 'def home():', `    warn = ${ip.trig} or (last is not None and time.monotonic() - last < hold)`, '    page = \'<meta http-equiv="refresh" content="2">\'   # the phone asks again every 2 s',
+    `    page += "<h3>${esc(job.title.en)}</h3>"`, '    if warn:', `        page += '<h1 style="color:#d0342c">${esc(job.on)}</h1>'`, '    else:', `        page += '<h1 style="color:#2b8a3e">${esc(job.off)}</h1>'`, '    return page', '',
+    'app.run(host="0.0.0.0", port=5000)', ''].join('\n');
 }
 
 function sketchPy(job, ik, ok) {
@@ -847,11 +865,11 @@ function sketchWeb(job, ik) {
 
 // ------------------------------------------------------------------ one lesson
 function lesson(K, job, ik, ok, n, board) {
-  const esp = board === 'esp32', pico = board === 'pico', pi = board === 'pi4', inp = (esp ? EIN : pico ? PIN : pi ? QIN : IN)[ik], out0 = (esp ? EOUT : pico ? POUT : pi ? QOUT : OUT)[ok];
+  const esp = board === 'esp32', pico = board === 'pico', pi = board === 'pi4', inp = (esp ? EIN : pico ? PIN : pi ? QIN : IN)[ik], out0 = pi && ok === 'web' ? QWEB : (esp ? EOUT : pico ? POUT : pi ? QOUT : OUT)[ok];
   const out = ok === 'relay' ? relayFor(out0, job) : out0;
   const ON = (S) => out.isOn(S, job);
   const id = `f_${job.key}_${ok}` + (esp ? '_esp' : pico ? '_pico' : pi ? '_pi' : '');
-  const web = !!out.web; const code = web ? sketchWeb(job, ik) : sketch(job, ik, ok, board);
+  const web = !!out.web; const code = web ? (pi ? sketchPiWeb(job, ik) : sketchWeb(job, ik)) : sketch(job, ik, ok, board);
   const wide = inp.view === 'wide' || ['servo', 'relay', 'lcd'].includes(ok);
   const when = fill(inp.when, (x) => x), onW = out.onWords;
   const goal = join3(job.why, ' ', t3(`When ${when.en}, ${onW.en}.`, `जब ${when.hi}, तब ${onW.hi}।`, `Jab ${when.hg}, tab ${onW.hg}.`));
@@ -863,7 +881,9 @@ function lesson(K, job, ik, ok, n, board) {
   steps.push(...inp.wires);
   steps.push({ k: 'check', do: t3('Check your circuit.', 'अपना सर्किट जाँचिए।', 'Apna circuit check karo.'), see: t3('', '', '') });
   steps.push({ k: 'run', do: t3('Press Run.', '"चलाइए" दबाइए।', 'Run dabaiye.'), see: inp.analog ? t3(`The Serial Monitor shows the reading (${inp.label}) every 0.2 s.`, `सीरियल मॉनिटर हर 0.2 s में रीडिंग (${inp.label}) दिखाता है।`, `Serial Monitor har 0.2 s mein reading (${inp.label}) dikhata hai.`) : t3('', '', '') });
-  if (web) steps.push({ k: 'act', until: (S) => fresh(S) && ((net(S).seen.paths || {})['/'] || 0) >= 1, do: t3('The Serial Monitor shows the address. On the phone, open the Browser, type that address (http://192.168.1.…) and press Go.', 'सीरियल मॉनिटर पता दिखाता है। फ़ोन पर Browser खोलिए, वह पता (http://192.168.1.…) लिखिए और Go दबाइए।', 'Serial Monitor address dikhata hai. Phone par Browser kholiye, woh address (http://192.168.1.…) likhiye aur Go dabaiye.'),
+  if (web && pi) steps.push({ k: 'act', until: (S) => fresh(S) && ((net(S).seen.paths || {})['/'] || 0) >= 1, do: t3('The terminal shows "Running on http://192.168.1.…:5000". On the phone, open the Browser, type that address with :5000 at the end, and press Go.', 'टर्मिनल पर "Running on http://192.168.1.…:5000" आता है। फ़ोन पर Browser खोलिए, आख़िर में :5000 के साथ वह पता लिखिए, और Go दबाइए।', 'Terminal par "Running on http://192.168.1.…:5000" aata hai. Phone par Browser kholiye, aakhir mein :5000 ke saath woh address likhiye, aur Go dabaiye.'),
+    see: t3('Flask answers each visit, and the page asks again every 2 s by itself. The sensor is watched all the time: seen() is called the moment it goes active, even between two visits.', 'Flask हर बार जवाब देता है, और पेज हर 2 s में अपने-आप फिर पूछता है। सेंसर पर हर समय नज़र है: सक्रिय होते ही seen() चलता है, दो बार खोलने के बीच भी।', 'Flask har baar jawab deta hai, aur page har 2 s mein apne aap phir poochhta hai. Sensor par har samay nazar hai: active hote hi seen() chalta hai, do baar kholne ke beech bhi.') });
+  else if (web) steps.push({ k: 'act', until: (S) => fresh(S) && ((net(S).seen.paths || {})['/'] || 0) >= 1, do: t3('The Serial Monitor shows the address. On the phone, open the Browser, type that address (http://192.168.1.…) and press Go.', 'सीरियल मॉनिटर पता दिखाता है। फ़ोन पर Browser खोलिए, वह पता (http://192.168.1.…) लिखिए और Go दबाइए।', 'Serial Monitor address dikhata hai. Phone par Browser kholiye, woh address (http://192.168.1.…) likhiye aur Go dabaiye.'),
     see: t3('The page asks the ESP32 again every 2 s by itself (meta refresh): leave it open.', 'पेज हर 2 s में अपने-आप ESP32 से फिर पूछता है (meta refresh): इसे खुला रहने दीजिए।', 'Page har 2 s mein apne aap ESP32 se phir poochhta hai (meta refresh): ise khula rehne dijiye.') });
   const trig = inp.analog ? (S) => { const v = lastNum(S); return v !== null && cmp(ik, v, inp.l0); } : (S) => (!inp.ready || inp.ready(S)) && inp.active(S);
   steps.push({ k: 'act', until: (S) => fresh(S) && trig(S) && ON(S) && (S.memRun.onSeen = true), do: inp.onDo, see: t3(`${cap(onW.en)}.`, `${onW.hi}।`, `${cap(onW.hg)}.`) });
@@ -902,8 +922,8 @@ const cmp = (ik, v, lim) => ({ pot: v > lim, ldr: v < lim, ldrb: v > lim, lm35: 
 // ------------------------------------------------------------------ all of them
 export function batchF(K, n0) {
   const out = []; let n = n0;
-  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : []), ...(board === 'esp32' ? ['web'] : [])]) { // (batch 12: every LCD job on the OLED too)
-    const T = board === 'esp32' ? [EIN, EOUT] : board === 'pico' ? [PIN, POUT] : board === 'pi4' ? [QIN, QOUT] : [IN, OUT];
+  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : []), ...(board === 'esp32' || (board === 'pi4' && QIN[job.inp] && !QIN[job.inp].analog) ? ['web'] : [])]) { // (batch 12: every LCD job on the OLED too; 23: the Pi's Flask page)
+    const T = board === 'esp32' ? [EIN, EOUT] : board === 'pico' ? [PIN, POUT] : board === 'pi4' ? [QIN, Object.assign({ web: QWEB }, QOUT)] : [IN, OUT];
     if (!T[0][job.inp] || !T[1][ok]) continue;
     if ((board === 'uno' && HAND_MADE.has(job.key + ':' + ok)) || ((OUT[ok] || {}).clash || []).includes(job.inp)) continue;
     out.push(lesson(K, job, job.inp, ok, ++n, board));
