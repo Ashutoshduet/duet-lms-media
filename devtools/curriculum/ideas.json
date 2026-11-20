@@ -25510,6 +25510,46 @@
 "note": null
 },
 {
+"id": "live-pico_rfidlock",
+"title": "RFID door lock on the Pico",
+"family": "live",
+"board": "pico",
+"parts": [
+"servo",
+"rfid"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "pico_rfidlock",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pico_weather",
+"title": "Weather station on the Pico: DHT11 and OLED",
+"family": "live",
+"board": "pico",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "pico_weather",
+"rule": null,
+"note": null
+},
+{
 "id": "live-greenhouse",
 "title": "Smart greenhouse: air, soil and light",
 "family": "live",

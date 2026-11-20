@@ -811,3 +811,12 @@ heaters.
   the DHT11 reads that air (lab.env), the LDR gets the sun as its own lux, led1 is the grow light; flags fanOn, cooled,
   growNight, held (the fan keeps the sunny house at ≤ 31 °C for 8 s). Note: a part's terminal takes one wire, so a
   second load needs its own pack (or a breadboard rail). Class 9: 23 of 26. 1,490 projects.
+- The Pico gets I2C and SPI (pi6.js, batch 17): `machine.I2C(id, sda=, scl=)` checks the RP2040's pin table (I2C0 SDA
+  0/4/8/12/16/20, SCL 1/5/9/13/17/21; I2C1 SDA 2/6/…/26, SCL 3/7/…/27), `SoftI2C` takes any two pins, `scan()` lists the
+  powered modules wired to those GPIOs (the OLED at 0x3c, the LCD at 0x27); the `ssd1306` driver module
+  (`SSD1306_I2C(128, 64, i2c)`: fill, pixel, text (the 5 × 7 font in 8-dot cells), hline, vline, line, rect, fill_rect,
+  show (23 ms), invert, poweroff / on) writes the oled part as the Uno's library does; a module that does not answer is
+  `OSError: [Errno 5] EIO`. The `mfrc522` driver (`MFRC522(spi_id=0, sck=2, miso=4, mosi=3, cs=1, rst=0)`: init,
+  request(REQIDL / REQALL), SelectTagSN, anticoll, tohexstring) checks the SPI pins and reads the cards as the Uno's does
+  (a card stays selected until it leaves). Lessons: `pico_weather` (DHT11 + OLED, Fahrenheit edit; SDA / SCL swapped
+  stops with EIO) and `pico_rfidlock` (an ALLOWED list; the reader on VBUS is refused). Class 9: 25 of 26. 1,492 projects.

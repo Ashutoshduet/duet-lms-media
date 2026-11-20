@@ -4518,16 +4518,16 @@
    {
     "class": 9,
     "n": 12,
-    "kind": "I",
-    "title": "RFID door lock: RFID card and servo",
+    "kind": "L",
+    "title": "RFID door lock on the Pico",
     "board": "pico",
-    "status": "planned",
-    "ref": "rfid-door-lock-rfid-card-and-servo-pico",
+    "status": "live",
+    "ref": "pico_rfidlock",
     "newparts": [],
-    "family": "sensor-to-output",
+    "family": "live-projects",
     "parts": [
-     "rfid",
-     "servo"
+     "servo",
+     "rfid"
     ],
     "strand": "Decomposition",
     "focus": "Security systems",
@@ -4576,16 +4576,16 @@
    {
     "class": 9,
     "n": 15,
-    "kind": "I",
-    "title": "Weather station: temperature & humidity sensor and OLED screen",
+    "kind": "L",
+    "title": "Weather station on the Pico: DHT11 and OLED",
     "board": "pico",
-    "status": "planned",
-    "ref": "weather-station-temperature-humidity-sensor-and-oled-screen-pico",
+    "status": "live",
+    "ref": "pico_weather",
     "newparts": [],
-    "family": "sensor-to-output",
+    "family": "live-projects",
     "parts": [
-     "dht11",
-     "oled"
+     "oled",
+     "dht11"
     ],
     "strand": "Decomposition",
     "focus": "Displays",

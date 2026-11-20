@@ -9,6 +9,8 @@
 //   pico_linecar / pico_avoidcar  the Class 7 cars again on the Pico in MicroPython (L298N on GP16–GP21, PWM in %), the
 //                  sonar's Echo through a 1 kΩ / 2.2 kΩ divider to GP13, time_pulse_us() for its echo
 //   greenhouse     a polyhouse on the Uno: DHT11 + soil + LDR in, pump + fan (two relays, a battery pack each) + grow light out
+//   pico_weather   a DHT11 and an SSD1306 OLED on the Pico's I2C0 (GP4 / GP5) with the ssd1306 driver (pi6.js machine.I2C)
+//   pico_rfidlock  the RC522 on the Pico's SPI0 (GP2 / GP3 / GP4, CS GP1, RST GP0) with the mfrc522 driver; an ALLOWED list
 //   banklocker     a bank locker on the Uno with two factors: the owner's RFID card AND a PIN on the keypad (rows on
 //                  A0–A3, because the reader's SPI takes pins 9–13); "Card first!", an unknown card, three wrong PINs
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js; scenes3.js runs the locker / kitchen / bank scenes.
@@ -420,7 +422,74 @@ void loop() {
   delay(1000);
 }
 `;
-export const BATCH17_CODE = { PLOCK, PGAS, BANK, TANKC, PLINE, PAVOID, GREEN };
+const PWEATHER = `# Weather station on the Pico: a DHT11 measures, a 128 x 64 OLED shows it
+from machine import Pin, I2C
+import ssd1306
+import dht
+import time
+
+i2c = I2C(0, sda=Pin(4), scl=Pin(5))        # the OLED: SDA on GP4, SCL on GP5
+print("I2C found:", [hex(a) for a in i2c.scan()])
+oled = ssd1306.SSD1306_I2C(128, 64, i2c)    # the ssd1306 driver, at address 0x3c
+sensor = dht.DHT11(Pin(14))                  # the DHT11's DATA on GP14
+
+while True:
+    try:
+        sensor.measure()
+        t = sensor.temperature()
+        h = sensor.humidity()
+    except OSError:                          # a missed reading: try again
+        time.sleep(2)
+        continue
+    oled.fill(0)                             # clear the picture in memory
+    oled.text("DUET Weather", 16, 0)
+    oled.text("Temp: " + str(t) + " C", 0, 20)
+    oled.text("Hum:  " + str(h) + " %", 0, 34)
+    oled.rect(0, 52, 128, 10, 1)             # a thermometer bar: 0 to 50 C
+    oled.fill_rect(0, 52, int(t * 128 / 50), 10, 1)
+    oled.show()                              # send it to the screen
+    print(t, h)
+    time.sleep(2)
+`;
+const PRFID = `# RFID door lock on the Pico: the servo opens the latch only for a card on the list
+from machine import Pin, PWM
+from mfrc522 import MFRC522
+import time
+
+reader = MFRC522(spi_id=0, sck=2, miso=4, mosi=3, cs=1, rst=0)   # SPI0 on GP2, GP3, GP4; SDA (CS) on GP1, RST on GP0
+latch = PWM(Pin(15))
+latch.freq(50)
+ALLOWED = ["00 00 00 00"]          # the card numbers that may open the door
+
+def turn(angle):                   # 0 = locked, 90 = open
+    latch.duty_u16(int(1638 + angle * 6553 / 180))
+
+def uid_text(uid):                 # [0xA3, 0x4F, ...] -> "A3 4F ..."
+    s = ""
+    for b in uid:
+        s += "%02X " % b
+    return s.strip()
+
+turn(0)
+reader.init()
+print("Show a card...")
+while True:
+    stat, bits = reader.request(reader.REQIDL)
+    if stat == reader.OK:
+        stat, uid = reader.SelectTagSN()
+        if stat == reader.OK:
+            card = uid_text(uid)
+            print("Card:", card)
+            if card in ALLOWED:
+                print("Welcome! Door open")
+                turn(90)
+                time.sleep(3)
+                turn(0)
+            else:
+                print("Access denied")
+    time.sleep_ms(100)
+`;
+export const BATCH17_CODE = { PLOCK, PGAS, BANK, TANKC, PLINE, PAVOID, GREEN, PWEATHER, PRFID };
 
 export function batch17(K, n0) {
   const { P, F, W, need, has, noShort } = K;
@@ -607,6 +676,72 @@ export function batch17(K, n0) {
     check: [noShort, (S) => (S.conn('rail:bp', '5V') && S.conn('rail:bn', 'GND') ? null : [W.vRail]), has('dht', t3('DHT11', 'DHT11', 'DHT11')), (S) => (S.conn('dht.DATA', 'D2') && S.conn('dht.VCC', '5V') && S.conn('dht.GND', 'GND') ? null : [XG.dht]),
       has('rl2', t3('second relay', 'दूसरा रिले', 'doosra relay')), has('fan', t3('fan', 'पंखा', 'pankha')), (S) => (S.conn('rl2.S', 'D8') && S.conn('rl2.VCC', '5V') && S.conn('rl2.GND', 'GND') && S.conn('bat2.P', 'rl2.COM') && S.conn('rl2.NO', 'fan.P') && S.conn('fan.N', 'bat2.N') ? null : [XG.fan])],
     done: (S) => /int\s+hot\s*=\s*(2[6-9]|30)\s*;/.test(S.runSrc || '') && S.w('held') });
+
+  // 8 ---------------------------------------------------------------------------------------------- Pico weather station (I2C OLED)
+  const XW = {
+    oledPow: t3('The OLED: GND to the − rail, VCC to the Pico\'s 3V3 pin. On 5 V (VBUS) its own pull-ups would put 5 V on SDA and SCL, too much for the Pico.', 'ओएलईडी: GND − रेल पर, VCC Pico के 3V3 पिन पर। 5 V (VBUS) पर इसके अपने पुल-अप SDA और SCL पर 5 V डालेंगे, Pico के लिए बहुत ज़्यादा।', 'OLED: GND − rail par, VCC Pico ke 3V3 pin par. 5 V (VBUS) par iske apne pull-up SDA aur SCL par 5 V daalenge, Pico ke liye bahut zyada.'),
+    swap: t3('SDA and SCL are swapped: SDA (data) goes to GP4, SCL (clock) to GP5. Swapped, nothing answers on the bus.', 'SDA और SCL उल्टे हैं: SDA (डेटा) GP4 पर, SCL (क्लॉक) GP5 पर। उल्टे हों तो बस पर कोई जवाब नहीं देता।', 'SDA aur SCL ulte hain: SDA (data) GP4 par, SCL (clock) GP5 par. Ulte hon to bus par koi jawab nahi deta.'),
+    bus: t3('The OLED\'s SDA goes to GP4 and its SCL to GP5: those two are I2C0 in the program.', 'ओएलईडी का SDA, GP4 पर और SCL, GP5 पर: प्रोग्राम में यही दोनों I2C0 हैं।', 'OLED ka SDA, GP4 par aur SCL, GP5 par: program mein yahi dono I2C0 hain.'),
+    dht: t3('The DHT11: DATA (left, column 40) to GP14, + (middle) to the Pico\'s 3V3, − (right) to the front − rail.', 'DHT11: DATA (बायाँ, कॉलम 40) GP14 पर, + (बीच) Pico के 3V3 पर, − (दायाँ) आगे वाली − रेल पर।', 'DHT11: DATA (left, column 40) GP14 par, + (beech) Pico ke 3V3 par, − (right) aage wali − rail par.'),
+  };
+  L.push({ id: 'pico_weather', board: 'pico', cls: '9', blocks: false, view: 'wide', rview: 'scene3', code: PWEATHER, drawer: ['oled', 'dht11'], serial: true, scene: { kind: 'air', sky: true },
+    title: t3('Weather station on the Pico: DHT11 and OLED', 'Pico पर मौसम केंद्र: DHT11 और ओएलईडी', 'Pico par weather station: DHT11 aur OLED'),
+    goal: t3('Temperature, humidity and a thermometer bar on a 128 × 64 OLED, in MicroPython. The screen talks I2C: two wires shared by many modules, each at its own address.', 'MicroPython में 128 × 64 ओएलईडी पर तापमान, नमी और थर्मामीटर की पट्टी। स्क्रीन I2C बोलती है: दो तार जिन्हें कई मॉड्यूल बाँटते हैं, हर एक अपने पते पर।', 'MicroPython mein 128 × 64 OLED par temperature, nami aur thermometer ki patti. Screen I2C bolti hai: do taar jinhe kai module baant-te hain, har ek apne address par.'),
+    setup: { parts: [], wires: PICO_POWER },
+    steps: [
+      { k: 'info', do: t3('Two modules today. The OLED speaks I2C: SDA carries the data, SCL the clock. On the Pico, GP4 and GP5 make the bus I2C0. The DHT11 has its own one-wire talk on GP14.', 'आज दो मॉड्यूल। ओएलईडी I2C बोलती है: SDA डेटा लाता है, SCL घड़ी। Pico पर GP4 और GP5 मिलकर बस I2C0 बनाते हैं। DHT11 GP14 पर अपनी एक-तार वाली बात करता है।', 'Aaj do module. OLED I2C bolti hai: SDA data laata hai, SCL ghadi. Pico par GP4 aur GP5 milkar bus I2C0 banate hain. DHT11 GP14 par apni ek-taar wali baat karta hai.'), see: E },
+      { k: 'place', place: P('oled', 'oled', {}, 'e30', 0), do: t3('Plug the OLED\'s four pins into 30e–33e, its screen over the breadboard.', 'ओएलईडी के चार पिन 30e–33e में लगाइए, स्क्रीन ब्रेडबोर्ड के ऊपर।', 'OLED ke chaar pin 30e–33e mein lagaiye, screen breadboard ke upar.'), see: E },
+      w3('oled', 'GND', 'rail:tn', 'Its GND (column 30) to the back − rail.', 'इसका GND (कॉलम 30) पीछे वाली − रेल से।', 'Iska GND (column 30) peeche wali − rail se.'),
+      w3('oled', 'VCC', '3V3', 'Its VCC (column 31) to the Pico\'s 3V3 pin.', 'इसका VCC (कॉलम 31) Pico के 3V3 पिन से।', 'Iska VCC (column 31) Pico ke 3V3 pin se.'),
+      w3('oled', 'SCL', 'GP5', 'Its SCL (column 32) to GP5.', 'इसका SCL (कॉलम 32) GP5 से।', 'Iska SCL (column 32) GP5 se.'),
+      w3('oled', 'SDA', 'GP4', 'Its SDA (column 33) to GP4.', 'इसका SDA (कॉलम 33) GP4 से।', 'Iska SDA (column 33) GP4 se.'),
+      { k: 'place', place: P('dht', 'dht11', {}, 'j40', 0), do: t3('Plug the DHT11 into 40j–42j, its grille facing you.', 'DHT11 को 40j–42j में लगाइए, जाली आपकी तरफ़।', 'DHT11 ko 40j–42j mein lagaiye, jaali aapki taraf.'), see: E },
+      w3('dht', 'DATA', 'GP14', 'Its left pin (DATA) to GP14.', 'इसका बायाँ पिन (DATA) GP14 से।', 'Iska left pin (DATA) GP14 se.'),
+      w3('dht', 'VCC', '3V3', 'Its middle pin (+) to the Pico\'s 3V3 too.', 'इसका बीच वाला पिन (+) भी Pico के 3V3 से।', 'Iska beech wala pin (+) bhi Pico ke 3V3 se.'),
+      w3('dht', 'GND', 'rail:bn', 'Its right pin (−) to the front − rail.', 'इसका दायाँ पिन (−) आगे वाली − रेल से।', 'Iska right pin (−) aage wali − rail se.'),
+      CHECK,
+      { k: 'info', code: [7, 9], do: t3('i2c.scan() asks every address on the bus who is there; the OLED answers at 0x3c. ssd1306 is a small driver file you copy to the Pico once; it draws in memory, and show() sends the whole picture.', 'i2c.scan() बस के हर पते से पूछता है कि कौन है; ओएलईडी 0x3c पर जवाब देती है। ssd1306 एक छोटी ड्राइवर फ़ाइल है जिसे आप एक बार Pico पर कॉपी करते हैं; यह मेमोरी में चित्र बनाती है, और show() पूरा चित्र भेजता है।', 'i2c.scan() bus ke har address se poochta hai ki kaun hai; OLED 0x3c par jawab deti hai. ssd1306 ek chhoti driver file hai jise aap ek baar Pico par copy karte hain; yeh memory mein chitra banati hai, aur show() poora chitra bhejta hai.'), see: E },
+      RUN(t3('"I2C found: [\'0x3c\']" on the shell, then the readings on the screen.', 'शेल पर "I2C found: [\'0x3c\']", फिर स्क्रीन पर रीडिंग।', 'Shell par "I2C found: [\'0x3c\']", phir screen par reading.')),
+      { k: 'watch', until: (S) => S.w('shown'), do: t3('Read the OLED.', 'ओएलईडी पढ़िए।', 'OLED padhiye.'), see: t3('Sunny: about 34 °C and 40 %. The bar is t × 128 ÷ 50 dots long.', 'धूप: लगभग 34 °C और 40 %। पट्टी t × 128 ÷ 50 बिंदु लंबी है।', 'Dhoop: lagbhag 34 °C aur 40 %. Patti t × 128 ÷ 50 dot lambi hai.') },
+      { k: 'act', until: (S) => S.w('changed'), do: t3('Change the weather outside: try Rainy or Winter night.', 'बाहर का मौसम बदलिए: बारिश या सर्दी की रात आज़माइए।', 'Bahar ka mausam badaliye: baarish ya sardi ki raat aazmaiye.'), see: t3('The numbers follow a few seconds later: the DHT11 answers once every 2 s.', 'संख्याएँ कुछ सेकंड बाद बदलती हैं: DHT11 हर 2 s में एक बार जवाब देता है।', 'Sankhyaein kuch second baad badalti hain: DHT11 har 2 s mein ek baar jawab deta hai.') },
+      { k: 'edit', test: (src) => /str\(\s*round\(\s*t\s*\*\s*1\.8\s*\+\s*32\s*\)\s*\)\s*\+\s*"\s*F"/.test(src), set: [[/"Temp: " \+ str\(t\) \+ " C"/, '"Temp: " + str(round(t * 1.8 + 32)) + " F"']],
+        do: t3('Show Fahrenheit: change str(t) + " C" to str(round(t * 1.8 + 32)) + " F" and press Run.', 'फ़ारेनहाइट दिखाइए: str(t) + " C" को str(round(t * 1.8 + 32)) + " F" कीजिए और "चलाइए" दबाइए।', 'Fahrenheit dikhaiye: str(t) + " C" ko str(round(t * 1.8 + 32)) + " F" karo aur Run dabaiye.'), see: E },
+      { k: 'watch', until: (S) => S.runSrc !== null && /1\.8/.test(S.runSrc) && S.w('fahrenheit'), do: t3('Read it again.', 'फिर से पढ़िए।', 'Phir se padhiye.'),
+        see: live((lg, R) => (R.tMin === undefined ? '' : pick(lg, `Your results: the OLED showed ${R.tMin} °C to ${R.tMax} °C as the weather changed${R.tF ? ', and ' + R.tF + ' °F at the end' : ''}. The same screen and driver work with any sensor: the Pico's I2C bus can carry many modules on the same two wires.`, `आपके नतीजे: मौसम बदलने पर ओएलईडी ने ${R.tMin} °C से ${R.tMax} °C तक दिखाया${R.tF ? ', और आख़िर में ' + R.tF + ' °F' : ''}। यही स्क्रीन और ड्राइवर किसी भी सेंसर के साथ चलते हैं: Pico की I2C बस उन्हीं दो तारों पर कई मॉड्यूल ले जा सकती है।`, `Aapke results: mausam badalne par OLED ne ${R.tMin} °C se ${R.tMax} °C tak dikhaya${R.tF ? ', aur aakhir mein ' + R.tF + ' °F' : ''}. Yahi screen aur driver kisi bhi sensor ke saath chalte hain: Pico ki I2C bus unhi do taaron par kai module le ja sakti hai.`))) },
+    ],
+    check: [(S) => (S.conn('3V3', 'GND') || S.conn('VBUS', 'GND') ? [W.short] : null), has('oled', t3('OLED', 'ओएलईडी', 'OLED')), (S) => (S.conn('oled.VCC', '3V3') && S.conn('oled.GND', 'GND') ? null : [XW.oledPow]),
+      (S) => (S.conn('oled.SDA', 'GP5') && S.conn('oled.SCL', 'GP4') ? [XW.swap] : null), (S) => (S.conn('oled.SDA', 'GP4') && S.conn('oled.SCL', 'GP5') ? null : [XW.bus]),
+      has('dht', t3('DHT11', 'DHT11', 'DHT11')), (S) => (S.conn('dht.DATA', 'GP14') && S.conn('dht.VCC', '3V3') && S.conn('dht.GND', 'GND') ? null : [XW.dht])],
+    done: (S) => /1\.8/.test(S.runSrc || '') && S.w('fahrenheit') && S.w('changed') });
+
+  // 9 ---------------------------------------------------------------------------------------------- Pico RFID door lock (SPI)
+  const PRF = [['SDA', 'GP1'], ['SCK', 'GP2'], ['MOSI', 'GP3'], ['MISO', 'GP4'], ['RST', 'GP0']];
+  const XR = {
+    rf5v: t3('The RC522 is on 5 V (VBUS): it is a 3.3 V chip and would be damaged. Its 3.3V pin goes to the Pico\'s 3V3.', 'RC522 5 V (VBUS) पर है: यह 3.3 V की चिप है और ख़राब हो जाएगी। इसका 3.3V पिन Pico के 3V3 पर जाता है।', 'RC522 5 V (VBUS) par hai: yeh 3.3 V ki chip hai aur kharab ho jaayegi. Iska 3.3V pin Pico ke 3V3 par jaata hai.'),
+    rf: t3('The RC522\'s wires: SDA to GP1, SCK to GP2, MOSI to GP3, MISO to GP4, RST to GP0, GND to the − rail, 3.3V to the Pico\'s 3V3.', 'RC522 के तार: SDA GP1 पर, SCK GP2 पर, MOSI GP3 पर, MISO GP4 पर, RST GP0 पर, GND − रेल पर, 3.3V Pico के 3V3 पर।', 'RC522 ke taar: SDA GP1 par, SCK GP2 par, MOSI GP3 par, MISO GP4 par, RST GP0 par, GND − rail par, 3.3V Pico ke 3V3 par.'),
+  };
+  L.push({ id: 'pico_rfidlock', board: 'pico', cls: '9', blocks: false, view: 'wide', rview: 'scene3', code: PRFID, drawer: ['rfid'], serial: true, scene: { kind: 'door', ok: 'card' },
+    title: t3('RFID door lock on the Pico', 'Pico पर आरएफ़आईडी दरवाज़ा लॉक', 'Pico par RFID darwaza lock'),
+    goal: t3('The RC522 card reader on the Pico\'s SPI bus, in MicroPython: read a card\'s number, keep a list of allowed cards, and open the latch with a servo only for them.', 'MicroPython में Pico की SPI बस पर RC522 कार्ड रीडर: कार्ड का नंबर पढ़िए, अनुमति वाले कार्डों की सूची रखिए, और सिर्फ़ उन्हीं के लिए सर्वो से कुंडी खोलिए।', 'MicroPython mein Pico ki SPI bus par RC522 card reader: card ka number padhiye, anumati wale cardon ki list rakhiye, aur sirf unhi ke liye servo se kundi kholiye.'),
+    setup: { parts: [F('sv1', 'servo', { mount: 'door' }, 178, 70, 1)], wires: [...PICO_POWER, ['T:sv1:GND', 'H:tn40'], ['T:sv1:VP', 'H:tp40'], ['T:sv1:SIG', 'H:j21']] },
+    steps: [
+      { k: 'info', do: t3('The door\'s latch servo is ready (signal on GP15, power from VBUS). The reader talks SPI, a fast four-wire bus: SCK the clock, MOSI the Pico\'s words, MISO the reader\'s answers, SDA (CS) "you, listen". On the Pico, GP2, GP3 and GP4 are SPI0.', 'दरवाज़े की कुंडी का सर्वो तैयार है (सिग्नल GP15 पर, पावर VBUS से)। रीडर SPI बोलता है, चार तारों वाली तेज़ बस: SCK घड़ी, MOSI Pico की बात, MISO रीडर का जवाब, SDA (CS) "तुम सुनो"। Pico पर GP2, GP3 और GP4, SPI0 हैं।', 'Darwaze ki kundi ka servo taiyaar hai (signal GP15 par, power VBUS se). Reader SPI bolta hai, chaar taaron wali tez bus: SCK ghadi, MOSI Pico ki baat, MISO reader ka jawab, SDA (CS) "tum suno". Pico par GP2, GP3 aur GP4, SPI0 hain.'), see: E },
+      { k: 'place', place: F('rf', 'rfid', {}, 40, 152, 0), do: t3('Put the RFID reader on the mat at the ghost.', 'आरएफ़आईडी रीडर को मैट पर नीली आकृति पर रखिए।', 'RFID reader ko mat par neeli shape par rakhiye.'), see: E },
+      ...PRF.map(([k, g]) => w3('rf', k, g, `Wire its ${k} to ${g}.`, `इसका ${k} ${g} से जोड़िए।`, `Iska ${k} ${g} se jodiye.`)),
+      w3('rf', 'GND', 'rail:bn', 'GND to the front − rail.', 'GND को आगे वाली − रेल से।', 'GND ko aage wali − rail se.'),
+      w3('rf', 'V33', '3V3', 'And 3.3V to the Pico\'s 3V3 pin, not VBUS!', 'और 3.3V को Pico के 3V3 पिन से, VBUS से नहीं!', 'Aur 3.3V ko Pico ke 3V3 pin se, VBUS se nahi!'),
+      CHECK,
+      { k: 'info', code: [6, 6], do: t3('MFRC522(spi_id=0, sck=2, miso=4, mosi=3, cs=1, rst=0) names every wire you just made. mfrc522 is a small driver file copied to the Pico, like ssd1306 for the OLED.', 'MFRC522(spi_id=0, sck=2, miso=4, mosi=3, cs=1, rst=0) अभी लगाए हर तार का नाम लेता है। mfrc522 एक छोटी ड्राइवर फ़ाइल है जो Pico पर कॉपी होती है, जैसे ओएलईडी के लिए ssd1306।', 'MFRC522(spi_id=0, sck=2, miso=4, mosi=3, cs=1, rst=0) abhi lagaye har taar ka naam leta hai. mfrc522 ek chhoti driver file hai jo Pico par copy hoti hai, jaise OLED ke liye ssd1306.'), see: E },
+      RUN(t3('"Show a card..." on the shell.', 'शेल पर "Show a card..."।', 'Shell par "Show a card...".')),
+      { k: 'act', until: (S) => S.w('cardSeen') && S.w('denied'), do: t3('In the door panel, hold the white card on the reader. Read its number.', 'दरवाज़े के पैनल में सफ़ेद कार्ड रीडर पर रखिए। इसका नंबर पढ़िए।', 'Darwaze ke panel mein safed card reader par rakhiye. Iska number padhiye.'), see: t3('"Card: A3 4F 1C 2D", then "Access denied": it is not on the list yet.', '"Card: A3 4F 1C 2D", फिर "Access denied": यह अभी सूची में नहीं है।', '"Card: A3 4F 1C 2D", phir "Access denied": yeh abhi list mein nahi hai.') },
+      { k: 'edit', test: (src) => /ALLOWED\s*=\s*\[[^\]]*"A3 4F 1C 2D"/i.test(src), set: [[/"00 00 00 00"/, '"A3 4F 1C 2D"']], do: t3('Put your card on the list: in ALLOWED, change "00 00 00 00" to "A3 4F 1C 2D" and press Run.', 'अपना कार्ड सूची में डालिए: ALLOWED में "00 00 00 00" को "A3 4F 1C 2D" कीजिए और "चलाइए" दबाइए।', 'Apna card list mein daaliye: ALLOWED mein "00 00 00 00" ko "A3 4F 1C 2D" karo aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => S.runSrc !== null && /A3 4F 1C 2D/.test(S.runSrc) && S.w('opened'), do: t3('Hold the white card on the reader again.', 'सफ़ेद कार्ड फिर से रीडर पर रखिए।', 'Safed card phir se reader par rakhiye.'), see: t3('Welcome! The latch turns to 90°, the door swings open, and 3 s later it locks again.', 'स्वागत है! कुंडी 90° घूमती है, दरवाज़ा खुलता है, और 3 s बाद फिर बंद।', 'Swagat hai! Kundi 90° ghoomti hai, darwaza khulta hai, aur 3 s baad phir band.') },
+      { k: 'act', until: (S) => S.runSrc !== null && S.w('opened') && S.w('denied') && lineSeen(S, /Card: 5B 2E 91 C4/) && lineSeen(S, /Access denied/), do: t3('Now try the blue tag.', 'अब नीला टैग आज़माइए।', 'Ab neela tag aazmaiye.'),
+        see: t3('Refused: 5B 2E 91 C4 is not in ALLOWED. A list makes it easy to add a whole class: one string for each card, separated by commas.', 'मना: 5B 2E 91 C4, ALLOWED में नहीं है। सूची से पूरी कक्षा जोड़ना आसान है: हर कार्ड के लिए एक स्ट्रिंग, कॉमा से अलग।', 'Mana: 5B 2E 91 C4, ALLOWED mein nahi hai. List se poori class jodna aasaan hai: har card ke liye ek string, comma se alag.') },
+    ],
+    check: [(S) => (S.conn('3V3', 'GND') || S.conn('VBUS', 'GND') ? [W.short] : null), has('rf', t3('RFID reader', 'आरएफ़आईडी रीडर', 'RFID reader')), (S) => (S.conn('rf.V33', 'VBUS') ? [XR.rf5v] : null),
+      (S) => (PRF.every(([k, g]) => S.conn('rf.' + k, g)) && S.conn('rf.GND', 'GND') && S.conn('rf.V33', '3V3') ? null : [XR.rf])],
+    done: (S) => /A3 4F 1C 2D/.test(S.runSrc || '') && S.w('opened') && S.w('denied') });
 
   // 5, 6 ------------------------------------------------------------------------------------------- the Pico robot cars
   const CARPARTS = [F('drv', 'l298n', {}, -35, 105, 0), F('bat', 'bat18650', {}, -190, 108, 0), F('mL', 'bomotor', { side: 'L' }, -80, 152, 3), F('mR', 'bomotor', { side: 'R' }, 10, 152, 1)];

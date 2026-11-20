@@ -18,6 +18,7 @@ import { BOARDS6, PHYS_OF, J8 } from './boards6.js';
 import { LAB_HOOKS } from './boards4.js';
 import { CPP, L, msg } from './i18n.js';
 import { suggest } from './cpp.js';
+import { glyph, CARDS } from './libs3.js'; // (batch 17: the ssd1306 driver draws text with the same 5 × 7 font as the Uno's OLED)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -317,7 +318,7 @@ function picoHost(m) {
     const Timer = klass('Timer', (R2, a, kw) => { const o = new TimerObj(m); o.init(R2, kw); return o; }, { ONE_SHOT: 0, PERIODIC: 1 });
     const notSim = (what) => klass(what, (R2) => { throw R2.err('NotImplementedError', 'N6_NOT_SIM', { what }); });
     return new Mod('machine', {
-      Pin, PWM, ADC, Timer, I2C: notSim('I2C'), SPI: notSim('SPI'), UART: notSim('UART'), SoftI2C: notSim('SoftI2C'),
+      Pin, PWM, ADC, Timer, I2C: picoI2C(m, false), SoftI2C: picoI2C(m, true), SPI: notSim('SPI'), UART: notSim('UART'),
       time_pulse_us: nat('time_pulse_us', ['pin', 'level', 'timeout_us=1000000'], function* (R2, pin, lv, to) {
         const p = picoPin(m, R2, pin); m.sync(R2); m.readSet.add(p); to = int(R2, to);
         const want = truthy(lv) ? 1 : 0; const pl = want ? m.pulseAt(p, m.t, to) : null;
@@ -339,7 +340,7 @@ function picoHost(m) {
   const upy = () => new Mod('micropython', { const: nat('const', ['x'], (R, x) => x), mem_info: nat('mem_info', [], () => null) });
   const wrong = (mod) => (R) => { throw R.err('ImportError', 'N6_MOD_PICO', { mod }); };
   return {
-    modules: { machine, sys, rp2, gc, micropython: upy, dht: () => mpDht(m), gpiozero: wrong('gpiozero'), 'RPi.GPIO': wrong('RPi.GPIO'), RPi: wrong('RPi'), adafruit_dht: wrong('adafruit_dht'), board: wrong('board'), signal: wrong('signal') },
+    modules: { machine, sys, rp2, gc, micropython: upy, dht: () => mpDht(m), ssd1306: () => mpSSD1306(m), mfrc522: () => mpMFRC522(m), gpiozero: wrong('gpiozero'), 'RPi.GPIO': wrong('RPi.GPIO'), RPi: wrong('RPi'), adafruit_dht: wrong('adafruit_dht'), board: wrong('board'), signal: wrong('signal') },
     print: (s, R) => { m.serial(s, R.t); m.obs6.prints++; m.line6(s); },
     hint: (name, G) => hint6(name, G, false),
     names: () => ['Pin', 'PWM', 'ADC', 'Timer', 'time_pulse_us', 'sleep', 'sleep_ms', 'utime', 'time', 'machine'],
@@ -542,6 +543,98 @@ function rpiGPIO(m) { // RPi.GPIO (the older library; it does not work on a Pi 5
   }));
   return mod;
 }
+// batch 17: the Pico's I2C bus. machine.I2C(0, sda=Pin(4), scl=Pin(5)) as on an RP2040: I2C0 takes SDA on GP0/4/8/12/16/20
+// and SCL on GP1/5/9/13/17/21, I2C1 SDA on GP2/6/10/14/18/26 and SCL on GP3/7/11/15/19/27 (SoftI2C: any two pins).
+// A module answers when it is powered, at its address, with its SDA and SCL wired to those two GPIOs.
+const I2C_PINS = { 0: { sda: [0, 4, 8, 12, 16, 20], scl: [1, 5, 9, 13, 17, 21] }, 1: { sda: [2, 6, 10, 14, 18, 26], scl: [3, 7, 11, 15, 19, 27] } };
+const I2C_DEF = { 0: { sda: 4, scl: 5 }, 1: { sda: 6, scl: 7 } }; // (DUET's lessons always name the pins)
+const I2C_TYPES = { oled: 0x3c, lcd16: 0x27 };
+class I2CObj extends PyObj {
+  constructor(m, sda, scl, id) { super(id === -1 ? 'SoftI2C' : 'I2C'); this.m = m; this.sda = sda; this.scl = scl; this.id = id; }
+  pyStr() { return `${this.id === -1 ? 'SoftI2C' : 'I2C(' + this.id + ','}${this.id === -1 ? '(' : ' '}scl=${this.scl}, sda=${this.sda}, freq=400000)`; }
+  wired(p) { const L = this.m.lab; if (!L || !p.N) return false; const on = (pin, g) => L.boardNode('G' + g) === p.N[pin]; return on('SDA', this.sda) && on('SCL', this.scl); }
+  dev(addr) { const L = this.m.lab; if (!L) return null; for (const p of L.parts) if (I2C_TYPES[p.type] !== undefined && p.state.powered && ((p.props.addr === undefined ? I2C_TYPES[p.type] : p.props.addr) | 0) === (addr | 0) && this.wired(p)) return p; return null; }
+  scan() { const L = this.m.lab; const out = []; if (L) for (const p of L.parts) if (I2C_TYPES[p.type] !== undefined && p.state.powered && this.wired(p)) out.push((p.props.addr === undefined ? I2C_TYPES[p.type] : p.props.addr) | 0); return out.sort((a, b) => a - b); }
+  methods() { const me = this; return {
+    scan: nat('scan', [], (R) => { me.m.sync(R); me.m.t += 1500; const r = me.scan(); me.m.back(R); return r; }),
+    writeto: nat('writeto', ['addr', 'buf', 'stop=True'], (R, addr) => { if (!me.dev(int(R, addr))) throw R.err('OSError', 'N6_I2C_NODEV', { addr: '0x' + (int(R, addr) & 255).toString(16), sda: me.sda, scl: me.scl }); return 1; }),
+  }; }
+}
+function picoI2C(m, soft) {
+  return klass(soft ? 'SoftI2C' : 'I2C', (R, a, kw) => {
+    let id = soft ? -1 : int(R, a.length ? a[0] : 0, 'I2C'); if (!soft && id !== 0 && id !== 1) throw R.err('ValueError', 'N6_I2C_ID', { id });
+    const pin = (k, i) => { const v = k in kw ? kw[k] : a.length > i ? a[i] : null; return v === null || v === undefined ? (soft ? null : I2C_DEF[id][k]) : picoPin(m, R, v); };
+    const sda = pin('sda', soft ? 1 : 2), scl = pin('scl', soft ? 0 : 1);
+    if (sda === null || scl === null) throw R.err('TypeError', 'N6_I2C_SOFT', {});
+    if (!soft) { if (!I2C_PINS[id].sda.includes(sda)) throw R.err('ValueError', 'N6_I2C_PIN', { what: 'SDA', pin: sda, id, ok: I2C_PINS[id].sda.join(', ') }); if (!I2C_PINS[id].scl.includes(scl)) throw R.err('ValueError', 'N6_I2C_PIN', { what: 'SCL', pin: scl, id, ok: I2C_PINS[id].scl.join(', ') }); }
+    return new I2CObj(m, sda, scl, id);
+  });
+}
+// batch 17: the ssd1306 driver (the file every Pico OLED project copies to the board): SSD1306_I2C(128, 64, i2c) with
+// MicroPython's framebuf drawing (fill, pixel, text, hline, vline, line, rect, fill_rect, blit-less), show(), invert(),
+// contrast(), poweroff() / poweron(). It writes the oled part's picture as the Uno's Adafruit_SSD1306 does (state.fb, .text).
+function mpSSD1306(m) {
+  class OLED extends PyObj {
+    constructor(w, h, bus, addr) { super('SSD1306_I2C'); this.w = w; this.h = h; this.bus = bus; this.addr = addr; this.buf = new Uint8Array(128 * 64); this.log = ''; }
+    part(R) { const p = this.bus.dev(this.addr); if (!p) throw R.err('OSError', 'N6_I2C_NODEV', { addr: '0x' + this.addr.toString(16), sda: this.bus.sda, scl: this.bus.scl }); return p; }
+    px(x, y, c) { x = Math.round(x); y = Math.round(y); if (x < 0 || y < 0 || x >= this.w || y >= this.h) return; this.buf[y * 128 + x] = c ? 1 : 0; }
+    text(s, x, y, c) { s = String(s); for (let k = 0; k < s.length; k++) { const g = glyph(s.charCodeAt(k)); for (let i = 0; i < 5; i++) for (let j = 0; j < 8; j++) if ((g[i] >> j) & 1) this.px(x + k * 8 + i, y + j, c); } this.log += (this.log ? '\n' : '') + s; }
+    methods() { const me = this; const num0 = (R, v) => Math.round(num(R, v)); const col = (R, c) => (absent(c) ? 1 : int(R, c) ? 1 : 0); const t = (R, us) => { m.sync(R); m.t += us; m.back(R); };
+      return {
+        fill: nat('fill', ['c'], (R, c) => { me.buf.fill(int(R, c) ? 1 : 0); me.log = ''; t(R, 200); return null; }),
+        pixel: nat('pixel', ['x', 'y', 'c='], (R, x, y, c) => { if (absent(c)) return me.buf[num0(R, y) * 128 + num0(R, x)] || 0; me.px(num0(R, x), num0(R, y), int(R, c)); return null; }),
+        text: nat('text', ['s', 'x', 'y', 'c='], (R, s, x, y, c) => { me.text(typeof s === 'string' ? s : str(s), num0(R, x), num0(R, y), col(R, c)); t(R, 60); return null; }),
+        hline: nat('hline', ['x', 'y', 'w', 'c'], (R, x, y, w, c) => { for (let i = 0; i < num0(R, w); i++) me.px(num0(R, x) + i, num0(R, y), int(R, c)); return null; }),
+        vline: nat('vline', ['x', 'y', 'h', 'c'], (R, x, y, h, c) => { for (let i = 0; i < num0(R, h); i++) me.px(num0(R, x), num0(R, y) + i, int(R, c)); return null; }),
+        line: nat('line', ['x1', 'y1', 'x2', 'y2', 'c'], (R, x0, y0, x1, y1, c) => { x0 = num0(R, x0); y0 = num0(R, y0); x1 = num0(R, x1); y1 = num0(R, y1); c = int(R, c); const dx = Math.abs(x1 - x0), dy = -Math.abs(y1 - y0), sx = x0 < x1 ? 1 : -1, sy = y0 < y1 ? 1 : -1; let e = dx + dy, n = 0; for (;;) { me.px(x0, y0, c); if ((x0 === x1 && y0 === y1) || ++n > 600) break; const e2 = 2 * e; if (e2 >= dy) { e += dy; x0 += sx; } if (e2 <= dx) { e += dx; y0 += sy; } } return null; }),
+        rect: nat('rect', ['x', 'y', 'w', 'h', 'c', 'f='], (R, x, y, w, h, c, f) => { x = num0(R, x); y = num0(R, y); w = num0(R, w); h = num0(R, h); c = int(R, c); if (!absent(f) && truthy(f)) { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) me.px(x + i, y + j, c); } else { for (let i = 0; i < w; i++) { me.px(x + i, y, c); me.px(x + i, y + h - 1, c); } for (let j = 0; j < h; j++) { me.px(x, y + j, c); me.px(x + w - 1, y + j, c); } } return null; }),
+        fill_rect: nat('fill_rect', ['x', 'y', 'w', 'h', 'c'], (R, x, y, w, h, c) => { x = num0(R, x); y = num0(R, y); for (let j = 0; j < num0(R, h); j++) for (let i = 0; i < num0(R, w); i++) me.px(x + i, y + j, int(R, c)); return null; }),
+        show: nat('show', [], (R) => { const p = me.part(R); t(R, 23000); p.state.on = true; p.state.fb = me.buf.slice(); p.state.text = me.log; p.state.h = me.h; p.state.ver = (p.state.ver || 0) + 1; return null; }), // 1 KB at 400 kHz: about 23 ms
+        invert: nat('invert', ['v'], (R, v) => { const p = me.part(R); p.state.inv = !!truthy(v); p.state.ver = (p.state.ver || 0) + 1; return null; }),
+        contrast: nat('contrast', ['c'], () => null),
+        poweroff: nat('poweroff', [], (R) => { const p = me.part(R); p.state.on = false; p.state.ver = (p.state.ver || 0) + 1; return null; }),
+        poweron: nat('poweron', [], (R) => { const p = me.part(R); p.state.on = true; p.state.ver = (p.state.ver || 0) + 1; return null; }),
+      }; }
+    props() { return { width: () => this.w, height: () => this.h }; }
+  }
+  const mk = klass('SSD1306_I2C', (R, a, kw) => {
+    const w = int(R, a[0]), h = int(R, a[1]); const bus = 'i2c' in kw ? kw.i2c : a[2]; if (!(bus instanceof I2CObj)) throw R.err('TypeError', 'N6_SSD_BUS', {});
+    const addr = int(R, 'addr' in kw ? kw.addr : a.length > 3 ? a[3] : 0x3c); const o = new OLED(w, h === 32 ? 32 : 64, bus, addr);
+    const p = o.part(R); m.sync(R); m.t += 30000; m.back(R); p.state.on = true; p.state.inv = false; p.state.fb = new Uint8Array(128 * 64); p.state.text = ''; p.state.h = o.h; p.state.ver = (p.state.ver || 0) + 1; return o; // init: the screen clears
+  });
+  return new Mod('ssd1306', { SSD1306_I2C: mk });
+}
+// batch 17: the RC522 reader on the Pico with the common MicroPython mfrc522 driver (a file copied to the board):
+// MFRC522(spi_id=0, sck=2, miso=4, mosi=3, cs=1, rst=0); init(); request(REQIDL) -> (stat, bits); SelectTagSN() -> (stat, uid).
+// The hardware SPI pins are checked as on an RP2040; the reader answers when it is powered (3.3 V, not 5 V) and wired to
+// exactly those pins. A card held on it is read once (it stays selected until it leaves, as a real tag does).
+const SPI_PINS = { 0: { sck: [2, 6, 18], mosi: [3, 7, 19], miso: [0, 4, 16] }, 1: { sck: [10, 14], mosi: [11, 15], miso: [8, 12] } };
+function mpMFRC522(m) {
+  const OK = 0, NOTAGERR = 1, ERR = 2, REQIDL = 0x26, REQALL = 0x52;
+  class Reader extends PyObj {
+    constructor(pins) { super('MFRC522'); Object.assign(this, pins); this.on = false; }
+    dev() { const L = m.lab; if (!L) return null; const on = (p, pin, g) => L.boardNode('G' + g) === p.N[pin];
+      return L.parts.find((p) => p.type === 'rfid' && p.N && p.state.powered && !p.state.over && on(p, 'SDA', this.cs) && on(p, 'RST', this.rst) && on(p, 'SCK', this.sck) && on(p, 'MOSI', this.mosi) && on(p, 'MISO', this.miso)) || null; }
+    methods() { const me = this; const t = (R, us) => { m.sync(R); m.t += us; m.back(R); };
+      return {
+        init: nat('init', [], (R) => { t(R, 52000); const p = me.dev(); me.on = !!p; if (p) p.state.init = true; return null; }),
+        reset: nat('reset', [], (R) => { t(R, 50000); return null; }),
+        request: nat('request', ['mode'], (R, mode) => { t(R, 1800); const p = me.on && me.dev(); const c = p && p.state.card; if (!c) return tup([NOTAGERR, 0]); if (c.halted && int(R, mode) !== REQALL) return tup([NOTAGERR, 0]); return tup([OK, 0x10]); }),
+        SelectTagSN: nat('SelectTagSN', [], (R) => { t(R, 3500); const p = me.on && me.dev(); const c = p && p.state.card; if (!c) return tup([ERR, []]); c.halted = true; p.state.reads = (p.state.reads || 0) + 1; return tup([OK, [...CARDS[c.id].uid]]); }),
+        anticoll: nat('anticoll', ['anticolN='], (R) => { t(R, 2000); const p = me.on && me.dev(); const c = p && p.state.card; if (!c) return tup([ERR, []]); const u = [...CARDS[c.id].uid]; return tup([OK, [...u, u.reduce((a, b) => a ^ b, 0)]]); }),
+        tohexstring: nat('tohexstring', ['v'], (R, v) => '[' + [...v].map((b) => '0x' + (b & 255).toString(16).toUpperCase().padStart(2, '0')).join(', ') + ']'),
+      }; }
+    props() { return { OK: () => OK, NOTAGERR: () => NOTAGERR, ERR: () => ERR, REQIDL: () => REQIDL, REQALL: () => REQALL }; }
+  }
+  const mk = klass('MFRC522', (R, a, kw) => {
+    const g = (k, i, d) => (k in kw ? kw[k] : a.length > i ? a[i] : d);
+    const id = int(R, g('spi_id', 0, 0)); if (id !== 0 && id !== 1) throw R.err('ValueError', 'N6_SPI_ID', { id });
+    const pins = { sck: picoPin(m, R, g('sck', 1, 2)), miso: picoPin(m, R, g('miso', 2, 4)), mosi: picoPin(m, R, g('mosi', 3, 3)), cs: picoPin(m, R, g('cs', 4, 1)), rst: picoPin(m, R, g('rst', 5, 0)) };
+    for (const k of ['sck', 'mosi', 'miso']) if (!SPI_PINS[id][k].includes(pins[k])) throw R.err('ValueError', 'N6_SPI_PIN', { what: k.toUpperCase(), pin: pins[k], id, ok: SPI_PINS[id][k].join(', ') });
+    m.setMode(pins.cs, 'out'); m.setMode(pins.rst, 'out'); return new Reader(pins);
+  }, { OK, NOTAGERR, ERR, REQIDL, REQALL });
+  return new Mod('mfrc522', { MFRC522: mk });
+}
 // batch 14: MicroPython's dht module (the Pico): sensor = dht.DHT11(Pin(15)); sensor.measure(); sensor.temperature()
 function mpDht(m) {
   const D = dhtMods(m);
@@ -665,6 +758,13 @@ export const MSG6 = {
   N6_ADC_PIN: t3('ValueError: ADC works on GP26, GP27 and GP28 only (and ADC(4), the temperature sensor inside). GP{pin} cannot measure voltages.', 'ValueError: ADC सिर्फ़ GP26, GP27 और GP28 पर चलता है (और ADC(4), अंदर का तापमान सेंसर)। GP{pin} वोल्टेज नहीं नाप सकता।', 'ValueError: ADC sirf GP26, GP27 aur GP28 par chalta hai (aur ADC(4), andar ka temperature sensor). GP{pin} voltage nahi naap sakta.'),
   N6_PWM_FREQ: t3('ValueError: freq({f}): the Pico\'s PWM runs from 8 Hz to 62.5 MHz. LEDs like 1000; a servo needs 50.', 'ValueError: freq({f}): Pico का PWM 8 Hz से 62.5 MHz तक चलता है। एलईडी के लिए 1000 ठीक है; सर्वो को 50 चाहिए।', 'ValueError: freq({f}): Pico ka PWM 8 Hz se 62.5 MHz tak chalta hai. LED ke liye 1000 theek hai; servo ko 50 chahiye.'),
   N6_DUTY: t3('ValueError: duty_u16({v}): use 0 (off) to 65535 (fully on).', 'ValueError: duty_u16({v}): 0 (बंद) से 65535 (पूरा चालू) तक लिखिए।', 'ValueError: duty_u16({v}): 0 (band) se 65535 (poora on) tak likhiye.'),
+  N6_I2C_PIN: t3('ValueError: bad {what} pin: GP{pin} is not an {what} pin of I2C({id}) (it can use GP{ok}).', 'ValueError: bad {what} pin: GP{pin}, I2C({id}) का {what} पिन नहीं है (यह GP{ok} ले सकता है)।', 'ValueError: bad {what} pin: GP{pin}, I2C({id}) ka {what} pin nahi hai (yeh GP{ok} le sakta hai).'),
+  N6_I2C_ID: t3('ValueError: I2C({id}) does not exist: the Pico has I2C(0) and I2C(1).', 'ValueError: I2C({id}) मौजूद नहीं: Pico में I2C(0) और I2C(1) हैं।', 'ValueError: I2C({id}) maujood nahi: Pico mein I2C(0) aur I2C(1) hain.'),
+  N6_I2C_SOFT: t3('TypeError: SoftI2C needs both pins: SoftI2C(scl=Pin(…), sda=Pin(…)).', 'TypeError: SoftI2C को दोनों पिन चाहिए: SoftI2C(scl=Pin(…), sda=Pin(…))।', 'TypeError: SoftI2C ko dono pin chahiye: SoftI2C(scl=Pin(…), sda=Pin(…)).'),
+  N6_I2C_NODEV: t3('OSError: [Errno 5] EIO: nothing answers at address {addr} on SDA GP{sda} / SCL GP{scl}. Check the module\'s power (VCC to 3V3, GND to GND) and that SDA and SCL go to those pins (not swapped). i2c.scan() lists what answers.', 'OSError: [Errno 5] EIO: SDA GP{sda} / SCL GP{scl} पर पता {addr} से कोई जवाब नहीं। मॉड्यूल की पावर (VCC 3V3 पर, GND GND पर) जाँचिए और कि SDA और SCL इन्हीं पिनों पर हैं (उल्टे नहीं)। i2c.scan() बताता है कौन जवाब देता है।', 'OSError: [Errno 5] EIO: SDA GP{sda} / SCL GP{scl} par address {addr} se koi jawab nahi. Module ki power (VCC 3V3 par, GND GND par) jaanchiye aur ki SDA aur SCL inhi pins par hain (ulte nahi). i2c.scan() batata hai kaun jawab deta hai.'),
+  N6_SSD_BUS: t3('TypeError: SSD1306_I2C(width, height, i2c): the third value must be the I2C bus, made with I2C(0, sda=Pin(4), scl=Pin(5)).', 'TypeError: SSD1306_I2C(width, height, i2c): तीसरी चीज़ I2C बस होनी चाहिए, जो I2C(0, sda=Pin(4), scl=Pin(5)) से बनती है।', 'TypeError: SSD1306_I2C(width, height, i2c): teesri cheez I2C bus honi chahiye, jo I2C(0, sda=Pin(4), scl=Pin(5)) se banti hai.'),
+  N6_SPI_PIN: t3('ValueError: bad {what} pin: GP{pin} is not an SPI{id} {what} pin (it can use GP{ok}).', 'ValueError: bad {what} pin: GP{pin}, SPI{id} का {what} पिन नहीं है (यह GP{ok} ले सकता है)।', 'ValueError: bad {what} pin: GP{pin}, SPI{id} ka {what} pin nahi hai (yeh GP{ok} le sakta hai).'),
+  N6_SPI_ID: t3('ValueError: SPI({id}) does not exist: the Pico has SPI 0 and 1.', 'ValueError: SPI({id}) मौजूद नहीं: Pico में SPI 0 और 1 हैं।', 'ValueError: SPI({id}) maujood nahi: Pico mein SPI 0 aur 1 hain.'),
   N6_NOT_SIM: t3('NotImplementedError: {what} is not in this simulator yet.', 'NotImplementedError: {what} अभी इस सिम्युलेटर में नहीं है।', 'NotImplementedError: {what} abhi is simulator mein nahi hai.'),
   N6_MOD_PICO: t3('ImportError: {mod} is for the Raspberry Pi computer (Linux and Python 3). On the Pico use "from machine import Pin" and "import time".', 'ImportError: {mod}, Raspberry Pi कंप्यूटर (Linux और Python 3) के लिए है। Pico पर "from machine import Pin" और "import time" लिखिए।', 'ImportError: {mod}, Raspberry Pi computer (Linux aur Python 3) ke liye hai. Pico par "from machine import Pin" aur "import time" likhiye.'),
   N6_MOD_PI: t3('ImportError: {mod} is MicroPython, for boards like the Pico. On the Raspberry Pi 4 use gpiozero, like "from gpiozero import LED".', 'ImportError: {mod}, MicroPython है, Pico जैसे बोर्ड के लिए। Raspberry Pi 4 पर gpiozero लीजिए, जैसे "from gpiozero import LED"।', 'ImportError: {mod}, MicroPython hai, Pico jaise boards ke liye. Raspberry Pi 4 par gpiozero lijiye, jaise "from gpiozero import LED".'),

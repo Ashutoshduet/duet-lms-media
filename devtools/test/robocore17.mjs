@@ -18,7 +18,7 @@ import { BO } from '../../robotics/js/parts2.js';
 const only = process.argv[2] ? process.argv[2].split(',') : null;
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
 const L17 = LESSONS.filter((l) => l.batch === 17);
-ok(L17.length === 7 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L17.length} lessons in batch 17, ids unique`);
+ok(L17.length === 9 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L17.length} lessons in batch 17, ids unique`);
 
 function build(l, extra) {
   const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code;
@@ -124,6 +124,28 @@ const T = {
     // the mistake: the fan's loop left open (no wire from the fan back to the battery) -> the check says so
     const M = build(l, (s) => (s.wire[0] === 'fan.N' ? ['fan.N', 'rl2.NC'] : null)); const k = M.rt.runCheck();
     ok(!!k && /fan/.test(k[0].en), `greenhouse: the fan's loop not closed -> the check says ${JSON.stringify(k && k[0].en).slice(0, 70)}`);
+  },
+  pico_weather(l) {
+    const set = (k, v) => (B) => B.sim.control(k, v);
+    const acts = { [ix(l, /Change the weather/)]: script([[0.3, set('sky', 'rainy')]]) };
+    const r = play(l, acts); ok(r.done, `pico_weather: plays end to end — ${r.log.join(' | ')}`);
+    ok(/I2C found: \['0x3c'\]/.test(r.B.ser), 'pico_weather: i2c.scan() finds the OLED at 0x3c');
+    const o = r.B.lab.byTag('oled'); ok(o && o.state.on && /Temp: \d+ F/.test(o.state.text) && o.state.fb.reduce((a, b) => a + b, 0) > 300, `pico_weather: the OLED shows ${JSON.stringify(o && o.state.text)}`);
+    // the mistake: SDA and SCL swapped -> the check says so, and the program stops with OSError EIO at the OLED
+    const M = build(l, (s) => (s.wire[0] === 'oled.SCL' ? ['oled.SCL', 'GP4'] : s.wire[0] === 'oled.SDA' ? ['oled.SDA', 'GP5'] : null)); const k = M.rt.runCheck();
+    let err = ''; try { start(M, l.code); frames(M, 3); } catch (e) { err = e.message; }
+    ok(!!k && /swapped/.test(k[0].en) && /N6_I2C_NODEV|EIO/.test(err + JSON.stringify(M.lab.mcu.err || '')), `pico_weather: SDA/SCL swapped -> the check says so, and the program stops (${(err || '').slice(0, 90)})`);
+    // the I2C pins: GP4 as SCL is not an I2C0 SCL pin
+    const P = build(l); let e2 = ''; try { start(P, l.code.replace('I2C(0, sda=Pin(4), scl=Pin(5))', 'I2C(0, sda=Pin(4), scl=Pin(6))')); frames(P, 1); } catch (e) { e2 = e.message; }
+    ok(/N6_I2C_PIN/.test(e2), 'pico_weather: scl=Pin(6) on I2C(0) -> ValueError bad SCL pin');
+  },
+  pico_rfidlock(l) {
+    const acts = { [ix(l, /hold the white card on the reader\. Read/)]: script([[0.6, ctl('card')]]), [ix(l, /white card on the reader again/)]: script([[0.6, ctl('card')]]), [ix(l, /blue tag/)]: script([[4.0, ctl('tag')]]) }; // (after the door has locked again)
+    const r = play(l, acts); ok(r.done, `pico_rfidlock: plays end to end — ${r.log.join(' | ')}`);
+    ok(/Card: A3 4F 1C 2D/.test(r.B.ser) && /Welcome! Door open/.test(r.B.ser) && /Card: 5B 2E 91 C4/.test(r.B.ser), 'pico_rfidlock: the shell shows the numbers, a welcome and a refusal ' + JSON.stringify(r.B.ser.split(/\r?\n/).filter(Boolean).slice(-6)));
+    const M = build(l, (s) => (s.wire[0] === 'rf.V33' ? ['rf.V33', 'rail:tp'] : null)); const k = M.rt.runCheck();
+    ok(!!k && /3\.3 V chip/.test(k[0].en), `pico_rfidlock: the reader on VBUS -> the check says ${JSON.stringify(k && k[0].en).slice(0, 60)}`);
+    const P = build(l); let e = ''; try { start(P, l.code.replace('sck=2', 'sck=5')); frames(P, 1); } catch (x) { e = x.message; } ok(/N6_SPI_PIN/.test(e), 'pico_rfidlock: sck=5 on SPI0 -> ValueError bad SCK pin');
   },
   banklocker(l) {
     const acts = { [ix(l, /without a card/)]: script(keys('4321#')), [ix(l, /blue tag/)]: script([[0.4, ctl('tag')]]), [ix(l, /Now the owner/)]: script([[0.4, ctl('card')], ...keys('4321#', 2.2)]), [ix(l, /new PIN/)]: script([[0.4, ctl('card')], ...keys('8642#', 2.2)]) };
