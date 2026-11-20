@@ -22,7 +22,7 @@ const W = {
   last: t3('Last button', 'आख़िरी बटन', 'Aakhri button'), pir: t3('PIR output', 'पीआईआर आउटपुट', 'PIR output'), alarm: t3('Alarm', 'अलार्म', 'Alarm'), walk: t3('A thief walks in', 'एक चोर अंदर आता है', 'Ek chor andar aata hai'),
   cat: t3('The cat walks past', 'बिल्ली पास से गुज़रती है', 'Billi paas se guzarti hai'), learning: t3('learning the room…', 'कमरा समझ रहा है…', 'room samajh raha hai…'), door: t3('Door', 'दरवाज़ा', 'Darwaza'),
   latch: t3('Latch (servo)', 'कुंडी (सर्वो)', 'Kundi (servo)'), locked: t3('locked', 'बंद', 'band'), open: t3('open', 'खुला', 'khula'), card: t3('Hold the white card on the reader', 'सफ़ेद कार्ड रीडर पर रखिए', 'Safed card reader par rakhiye'),
-  tag: t3('Hold the blue tag on the reader', 'नीला टैग रीडर पर रखिए', 'Neela tag reader par rakhiye'), cardAsha: t3('Asha taps her white card', 'आशा अपना सफ़ेद कार्ड लगाती है', 'Asha apna safed card lagati hai'), tagRavi: t3('Ravi taps his blue tag', 'रवि अपना नीला टैग लगाता है', 'Ravi apna neela tag lagata hai'), lastCard: t3('Last card', 'आख़िरी कार्ड', 'Aakhri card'), sky: t3('Weather outside', 'बाहर का मौसम', 'Bahar ka mausam'),
+  tag: t3('Hold the blue tag on the reader', 'नीला टैग रीडर पर रखिए', 'Neela tag reader par rakhiye'), tankLevel: t3('Water in the tank', 'टंकी में पानी', 'Tanki mein paani'), sonarSees: t3('Sensor sees (air gap)', 'सेंसर देखता है (हवा की दूरी)', 'Sensor dekhta hai (hawa ki doori)'), pump: t3('Pump', 'पंप', 'Pump'), dryRunW: t3('running dry!', 'सूखा चल रहा है!', 'sookha chal raha hai!'), taps: t3('Taps in the house', 'घर के नल', 'Ghar ke nal'), sumpW: t3('Sump (underground tank)', 'संप (ज़मीन के नीचे की टंकी)', 'Sump (zameen ke neeche ki tanki)'), sumpFull: t3('Has water', 'पानी है', 'Paani hai'), sumpDry: t3('Empty', 'ख़ाली', 'Khaali'), cardAsha: t3('Asha taps her white card', 'आशा अपना सफ़ेद कार्ड लगाती है', 'Asha apna safed card lagati hai'), tagRavi: t3('Ravi taps his blue tag', 'रवि अपना नीला टैग लगाता है', 'Ravi apna neela tag lagata hai'), lastCard: t3('Last card', 'आख़िरी कार्ड', 'Aakhri card'), sky: t3('Weather outside', 'बाहर का मौसम', 'Bahar ka mausam'),
   sunny: t3('Sunny', 'धूप', 'Dhoop'), rainy: t3('Rainy', 'बारिश', 'Baarish'), night: t3('Winter night', 'सर्दी की रात', 'Sardi ki raat'), typed: t3('Typed', 'टाइप किया', 'Type kiya'), locker: t3('Locker', 'लॉकर', 'Locker'),
   gas: t3('LPG in the air', 'हवा में एलपीजी', 'Hawa mein LPG'), leak: t3('Gas knob left open', 'गैस का नॉब खुला रह गया', 'Gas ka knob khula reh gaya'), window: t3('Window', 'खिड़की', 'Khidki'), closed: t3('Closed', 'बंद', 'Band'),
   opened: t3('Open', 'खुली', 'Khuli'), warmUp: t3('warming up…', 'गर्म हो रहा है…', 'garam ho raha hai…'), pan: t3('Pan (left–right)', 'पैन (बाएँ–दाएँ)', 'Pan (left–right)'), tilt: t3('Tilt (up–down)', 'टिल्ट (ऊपर–नीचे)', 'Tilt (upar–neeche)'),
@@ -237,6 +237,49 @@ export class LockerScene extends Scene {
   }
 }
 
+
+// ------------------------------------------------------------------ the bank locker (batch 17): the locker, opened by a card AND a PIN
+export class BankScene extends LockerScene {
+  constructor(cfg) { super(cfg); this.showing = null; }
+  update(dt, lab) { const r = super.update(dt, lab); const rf = lab.byTag('rf'); if (rf && rf.state.reads) this.flags.add('cardSeen'); return r; }
+  control(id, v, lab) { if (id === 'card' || id === 'tag') { rfidShow(lab, id); this.showing = { id, t: this.t }; return; } super.control(id, v, lab); }
+  hud(lab) {
+    const h = super.hud(lab); const rf = lab.byTag('rf'); h.title = t3('Bank locker', 'बैंक लॉकर', 'Bank locker');
+    h.rows.push([tx(W.lastCard), this.showing ? tx(CARDS[this.showing.id].name) + ' · ' + uidText(CARDS[this.showing.id].uid) : '—'], ['RC522', rf && rf.state.over ? '⚠ 5 V!' : rf && rf.state.powered ? '3.3 V ✓' : '—']);
+    h.controls = [{ id: 'card', kind: 'button', label: W.card }, { id: 'tag', kind: 'button', label: W.tag }, ...h.controls]; return h;
+  }
+}
+
+// ------------------------------------------------------------------ the rooftop water tank (batch 17): the pump fills it from the sump through
+// the relay, the house's taps draw from it, and the HC-SR04 in its lid measures the air above the water (us1.state.dist,
+// cm). 100 cm deep, the sensor 8 cm above the brim, so the level in % = 108 − the distance in cm.
+export const TANK = { depth: 100, lid: 8, fill: 4, use: 1.6 }; // cm; cm; cm/s at the pump's full flow; cm/s with the tap open
+export class TankScene extends Scene {
+  constructor(cfg) { super(cfg); this.h = cfg.h0 === undefined ? 60 : cfg.h0; this.tap = false; this.sump = true; this.pumpWas = false; this.dryT = 0; this.cycles = 0; this.spill = 0; }
+  flow(lab) { const p = lab.byTag('pump'); return p ? p.state.flow || 0 : 0; }
+  update(dt, lab) {
+    this.t += dt; const f = this.flow(lab); const on = f > 5; const lift = on && this.sump ? TANK.fill * Math.min(1, f / 30) : 0;
+    this.h = clamp(this.h + (lift - (this.tap ? TANK.use : 0)) * dt, 0, TANK.depth);
+    if (this.h >= TANK.depth && lift > 0) { this.spill = Math.min(1, this.spill + dt * 2); this.flags.add('overflow'); } else this.spill = Math.max(0, this.spill - dt);
+    const us = lab.byTag('us1'); if (us) { const d = +(TANK.lid + TANK.depth - this.h).toFixed(1); if (us.state.dist !== d) us.state.dist = d; }
+    const lv = Math.round(this.h); this.res.min = Math.min(this.res.min ?? lv, lv); this.res.max = Math.max(this.res.max ?? lv, lv);
+    if (this.tap) this.flags.add('tapUsed');
+    if (on && !this.pumpWas) { this.flags.add('pumpOn'); this.res.onAt = lv; if (lv < 60) this.flags.add('autoOn'); }
+    if (!on && this.pumpWas) { this.res.offAt = lv; if (this.sump && lv >= 80 && lv < TANK.depth) { this.flags.add('full'); this.cycles++; this.res.cycles = this.cycles; } if (!this.sump) this.flags.add('dryOff'); }
+    this.dryT = on && !this.sump ? this.dryT + dt : 0; if (this.dryT > 2) this.flags.add('dryRun');
+    if (!this.sump && !on && this.flags.has('dryOff') && bzOn(lab)) this.flags.add('dryStop');
+    this.pumpWas = on;
+    return on || this.tap || this.spill > 0;
+  }
+  onRun() { super.onRun(); for (const k of ['pumpOn', 'autoOn', 'full', 'dryOff', 'dryRun', 'dryStop', 'overflow']) this.flags.delete(k); delete this.res.onAt; delete this.res.offAt; this.cycles = 0; delete this.res.cycles; }
+  control(id, v) { if (id === 'tap') this.tap = v === '1'; if (id === 'sump') this.sump = v === '1'; }
+  hud(lab) {
+    const f = this.flow(lab); const us = lab.byTag('us1');
+    return { title: t3('Rooftop water tank', 'छत की पानी की टंकी', 'Chhat ki paani ki tanki'),
+      rows: [[tx(W.tankLevel), `${Math.round(this.h)} %`], [tx(W.sonarSees), us && us.state.powered ? `${us.state.dist.toFixed(0)} cm` : '—'], [tx(W.pump), f > 5 ? (this.sump ? '💧 ' + tx(W.on) : '⚠ ' + tx(W.dryRunW)) : tx(W.off)]],
+      controls: [{ id: 'tap', kind: 'seg', label: W.taps, options: [['0', W.closed], ['1', W.opened]], value: this.tap ? '1' : '0' }, { id: 'sump', kind: 'seg', label: W.sumpW, options: [['1', W.sumpFull], ['0', W.sumpDry]], value: this.sump ? '1' : '0' }] };
+  }
+}
 // ------------------------------------------------------------------ the kitchen: an LPG cylinder, the stove's knob, the window
 export class KitchenScene extends Scene {
   constructor(cfg) { super(cfg); this.ppm = 5; this.leak = 0; this.win = false; }
@@ -256,7 +299,7 @@ export class KitchenScene extends Scene {
   hud(lab) {
     const mq = lab.byTag('mq');
     return { title: t3('Kitchen gas alarm', 'रसोई गैस अलार्म', 'Rasoi gas alarm'),
-      rows: [[tx(W.gas), `${Math.round(this.ppm)} ppm`], [tx(W.sensorSays), mq && mq.state.powered ? (mq.state.warm < 0.9 ? tx(W.warmUp) + ' ' : '') + (this.read ?? '—') : '—'], [tx(W.alarm), bzOn(lab) ? '🔔 ' + tx(W.on) : tx(W.off)]],
+      rows: [[tx(W.gas), `${Math.round(this.ppm)} ppm`], lab.def && lab.def.id === 'pico' ? ['MQ-2 AO', mq && mq.state.powered ? (mq.state.warm < 0.9 ? tx(W.warmUp) + ' ' : '') + (mq.state.ao || 0).toFixed(2) + ' V' : '—'] : [tx(W.sensorSays), mq && mq.state.powered ? (mq.state.warm < 0.9 ? tx(W.warmUp) + ' ' : '') + (this.read ?? '—') : '—'], [tx(W.alarm), bzOn(lab) ? '🔔 ' + tx(W.on) : tx(W.off)]],
       controls: [{ id: 'leak', kind: 'range', label: W.leak, min: 0, max: 100, value: this.leak, unit: '%' }, { id: 'win', kind: 'seg', label: W.window, options: [['0', W.closed], ['1', W.opened]], value: this.win ? '1' : '0' }] };
   }
 }
@@ -299,7 +342,7 @@ export class TurnScene extends Scene {
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'attend': return new AttendScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

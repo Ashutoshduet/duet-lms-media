@@ -25,7 +25,8 @@ import { batchF } from './factory.js'; // the project factory: one-line plans ma
 import { batchFM } from './factorymb.js'; // batch 14: the project bank on the micro:bit (Classes 3-6)
 import { batch14 } from './lessons14.js'; // batch 14: the Class 7 robot cars (table robot, light-seeker, dancer, lap counter)
 import { batch15 } from './lessons15.js'; // batch 15: Class 10 on the Raspberry Pi 4 (traffic lights, reaction game, distance, quiz buzzer, Morse)
-import { batch16, batch16mb } from './lessons16.js'; // batch 16: Class 8 (smart home on a web page with four switches, RFID attendance register)
+import { batch16, batch16mb } from './lessons16.js';
+import { batch17 } from './lessons17.js'; // batch 17: Class 9 (Pico password lock, Pico gas alarm, Uno bank locker) // batch 16: Class 8 (smart home on a web page with four switches, RFID attendance register)
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const grp = (list, g) => { for (const l of list) l.group = l.group || g; return list; }; // a lesson's section in the lesson strip
 const P = (tag, type, props, hole, rot) => ({ tag, type, props: props || {}, at: { hole }, rot: rot || 0 });
@@ -681,6 +682,7 @@ LESSONS.push(...grp(batch7({ t3, P, F, W, need, has, noShort, N, unit, LEDU, mer
 LESSONS.push(...grp(batch12({ t3, P, F, W, need, has, noShort, N, unit, LEDU, merge }, LESSONS.length), 'projects')); // batch 12: Class 6 electronics (lessons12.js)
 LESSONS.push(...grp(batch14({ t3, P, F, W, need, has, noShort, N }, LESSONS.length), 'robots')); // batch 14: the Class 7 robot cars (lessons14.js)
 LESSONS.push(...grp(batch16({ t3, P, F, W, need, has, noShort, N, unit }, LESSONS.length), 'projects')); // batch 16: Class 8 sessions (lessons16.js; robocore16.mjs plays them)
+LESSONS.push(...grp(batch17({ t3, P, F, W, need, has, noShort, N }, LESSONS.length), 'projects')); // batch 17: Class 9 sessions (lessons17.js; robocore17.mjs plays them)
 // battery circuits for the youngest (circuits.js) and the project bank (factory.js: a job, a sensor and an output each);
 // every one is checked end to end by devtools/test/robocircuits.mjs and robofactory.mjs
 LESSONS.push(...grp(batchC({ W }, LESSONS.length), 'circuits'));

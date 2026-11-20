@@ -16,12 +16,12 @@ import * as M2 from './models2.js';
 import * as TX from './tex.js';
 import { VIEWS, nextFrame } from './stage.js';
 import { rotXZ } from './parts.js';
-import { makeScene, PT_TARGETS } from './scenes3.js';
+import { makeScene, PT_TARGETS, TANK } from './scenes3.js';
 import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'locker', 'kitchen', 'pantilt', 'turn']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'locker', 'kitchen', 'pantilt', 'turn']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -90,14 +90,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': return this.lockerSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': return this.lockerDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt);
     }
     return false;
   }
@@ -371,6 +371,52 @@ class World3 {
   }
 
   // ================================================================== kitchen: stove, LPG cylinder, window, the gas
+  // ================================================================== the rooftop water tank (batch 17): a clear model tank on its stand, the
+  // sump below with the pump, the pipe up, a tap at the bottom; the water's height comes from the scene (TankScene.h, %)
+  tankSteps() {
+    const r = this.root, S = this.mat; const TX0 = 335, TZ = -10, BASE = 46, R0 = 50, H = 92; this.tankAt = { TX0, TZ, BASE, H };
+    const water = (o) => new THREE.MeshPhysicalMaterial({ color: 0x4a90e2, roughness: 0.05, transparent: true, opacity: o, depthWrite: false });
+    return [
+      () => { // the brick stand (the "roof"), the clear tank with its black rim and lid, and a level scale on its side
+        const g = new THREE.Group(); g.position.set(TX0, 0, TZ);
+        const C = canvas(128, 64); const c = C.getContext('2d'); c.fillStyle = '#a8553a'; c.fillRect(0, 0, 128, 64); c.fillStyle = '#d9cbb8'; for (let y = 0; y < 64; y += 16) { c.fillRect(0, y, 128, 2); for (let x = (y / 16) % 2 ? 0 : 16; x < 128; x += 32) c.fillRect(x, y, 2, 16); }
+        const brick = S({ map: ctex(C, [2, 2]), roughness: 0.9 }); g.add(box(130, BASE, 130, brick, 0, BASE / 2, 0));
+        const black = S({ color: 0x1d1f22, roughness: 0.5 }); g.add(lathe([[R0 + 2, BASE], [R0 + 3, BASE + 2], [R0 + 3, BASE + 6], [0, BASE + 6]], black, 40));
+        g.add(lathe([[R0 + 3, BASE + H - 4], [R0 + 4, BASE + H], [R0 - 6, BASE + H + 6], [16, BASE + H + 9], [0, BASE + H + 9]], black, 40));
+        const SC = canvas(32, 256); const sc = SC.getContext('2d'); sc.fillStyle = '#fff'; sc.fillRect(0, 0, 32, 256); sc.fillStyle = '#222'; sc.font = `700 14px ${TX.FONT}`;
+        for (let k = 0; k <= 10; k++) { const y = 250 - k * 24.4; sc.fillRect(0, y, k % 5 ? 10 : 18, 2); if (k % 5 === 0) sc.fillText(String(k * 10), 12, y - 2 + (k === 10 ? 14 : 0)); }
+        const sm = new THREE.Mesh(new THREE.PlaneGeometry(10, H - 8), S({ map: ctex(SC), roughness: 0.6 })); sm.position.set(-R0 - 3.2, BASE + 6 + (H - 8) / 2, 18); sm.rotation.y = -Math.PI / 2 + 0.35; g.add(sm);
+        this.still(g); this.blob(160, 160, TX0, TZ, 0.3);
+        const glass = new THREE.MeshPhysicalMaterial({ color: 0xf2f8ff, roughness: 0.08, transparent: true, opacity: 0.2, depthWrite: false, side: THREE.DoubleSide });
+        const wall = new THREE.Mesh(new THREE.CylinderGeometry(R0 + 2, R0 + 2, H - 6, 40, 1, true), glass); wall.position.set(TX0, BASE + 3 + (H - 6) / 2, TZ); r.add(wall);
+        this.water = new THREE.Mesh(new THREE.CylinderGeometry(R0, R0, 1, 40), water(0.55)); this.water.position.set(TX0, BASE + 6, TZ); r.add(this.water);
+      },
+      () => { // the sump (an underground tank: a grey box with a dark opening and its water), the pump's pipe up to the tank's top, a tap
+        const SX = 245, SZ = 110; const g = new THREE.Group(); g.position.set(SX, 0, SZ); const conc = S({ color: 0x9a9890, roughness: 0.95 });
+        g.add(box(90, 26, 70, conc, 0, 13, 0)); g.add(box(70, 1, 50, S({ color: 0x2b2c2e, roughness: 0.9 }), 0, 26.2, 0)); this.still(g);
+        this.sumpWater = box(66, 0.6, 46, water(0.7), SX, 26.6, SZ); r.add(this.sumpWater);
+        const pvc = S({ color: 0xf0f0ea, roughness: 0.5 });
+        r.add(tube([V3(SX + 10, 22, SZ), V3(SX + 10, 60, SZ - 10), V3(TX0 - 45, 110, TZ + 45), V3(TX0 - 20, BASE + H + 14, TZ + 10), V3(TX0 - 12, BASE + H + 4, TZ + 4)], 2.6, pvc, 40, 8));
+        this.inflow = cyl(2, 1, water(0), 0, 0, 0, 10); r.add(this.inflow);
+        const tp = new THREE.Group(); tp.position.set(TX0 + 20, BASE + 10, TZ + R0 - 2); tp.add(cyl(3, 18, S({ color: 0xc9ccd1, metalness: 1, roughness: 0.3 }), 0, 0, 9, 12).rotateX(Math.PI / 2)); tp.add(box(4, 8, 4, S({ color: 0xc9ccd1, metalness: 1, roughness: 0.3 }), 0, -4, 18)); MD.mergeStatic(tp); r.add(tp);
+        this.tapStream = cyl(1.4, 1, water(0), 0, 0, 0, 8); r.add(this.tapStream); this.tapAt = V3(TX0 + 20, BASE + 2, TZ + R0 + 16);
+        this.spillMesh = new THREE.Mesh(new THREE.CylinderGeometry(R0 + 5, R0 + 9, 60, 40, 1, true), water(0)); this.spillMesh.position.set(TX0, BASE + H - 30, TZ); r.add(this.spillMesh);
+      },
+      () => this.cables([['pump', [255, 22, 110], 1.4, 0x1b1b1d]]),
+    ];
+  }
+  tankDraw(dt) {
+    const S = this.sim; const T = this.tankAt; let a = false; if (!T || !this.water) return false;
+    const hh = Math.max(0.5, (S.h / TANK.depth) * (T.H - 8)); if (Math.abs(this.water.scale.y - hh) > 0.05) { this.water.scale.y = hh; this.water.position.y = T.BASE + 6 + hh / 2; a = true; }
+    const pump = this.part('pump'); const on = pump && pump.state.flow > 5; const flowing = on && S.sump;
+    const so = S.sump ? 0.7 : 0; if (this.sumpWater.material.opacity !== so) { this.sumpWater.material.opacity = so; a = true; }
+    const top = T.BASE + T.H + 4, bot = T.BASE + 6 + hh; const L = Math.max(1, top - bot); const io = flowing ? 0.65 : 0;
+    if (this.inflow.material.opacity !== io || Math.abs(this.inflow.scale.y - L) > 0.1) { this.inflow.material.opacity = io; this.inflow.scale.y = L; this.inflow.position.set(T.TX0 - 12, bot + L / 2, T.TZ + 4); a = true; }
+    const to = S.tap && S.h > 1 ? 0.7 : 0; if (this.tapStream.material.opacity !== to) { this.tapStream.material.opacity = to; this.tapStream.scale.y = T.BASE + 2; this.tapStream.position.set(this.tapAt.x, (T.BASE + 2) / 2, this.tapAt.z); a = true; }
+    const sp = S.spill * 0.45; if (Math.abs(this.spillMesh.material.opacity - sp) > 0.01) { this.spillMesh.material.opacity = sp; a = true; }
+    if (this.lab.version !== this._v) { this._v = this.lab.version; this.cables([['pump', [255, 22, 110], 1.4, 0x1b1b1d]]); }
+    return a || flowing || S.tap;
+  }
   kitchenSteps() {
     const r = this.root, S = this.mat; const KX = 360, KZ = -60;
     return [

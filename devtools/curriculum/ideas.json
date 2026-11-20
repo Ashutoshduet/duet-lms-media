@@ -25464,6 +25464,94 @@
 "note": null
 },
 {
+"id": "live-smarttank",
+"title": "Smart water tank: level, pump and alarm",
+"family": "live",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"buzzer",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "smarttank",
+"rule": null,
+"note": null
+},
+{
+"id": "live-banklocker",
+"title": "Bank locker: card and PIN",
+"family": "live",
+"board": "uno",
+"parts": [
+"servo",
+"buzzer",
+"rfid",
+"keypad"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "banklocker",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pico_gasalarm",
+"title": "Gas leak alarm on the Pico",
+"family": "live",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"buzzer",
+"mq2"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "pico_gasalarm",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pico_keylock",
+"title": "Password lock on the Pico",
+"family": "live",
+"board": "pico",
+"parts": [
+"servo",
+"buzzer",
+"keypad"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "pico_keylock",
+"rule": null,
+"note": null
+},
+{
 "id": "live-pong",
 "title": "Pong on an OLED with a knob",
 "family": "live",

@@ -789,3 +789,15 @@ heaters.
   micro:bit (`mbgestureai`, `batch16mb`, page only: three gestures taught by example as [x, y, z, label], nearest
   neighbour by 3D distance, an untaught pose gets a wrong answer with a large distance, then `if d > 500: guess = "?"`;
   Run wipes the training, as RAM does). robocore3's own lessons are now `l.scene && !l.batch`. 1,483 projects.
+- Class 9, first four (`lessons17.js`, batch 17; tests `robocore17.mjs`; 20 of 26 sessions live): a password lock on the
+  Pico (`pico_keylock`: our own MicroPython keypad scan, rows GP6–GP9 driven HIGH one at a time, columns GP10–GP13
+  pulled down; the servo latch by PWM at 50 Hz on GP15, 0.5–2.5 ms; stars instead of the password; three wrong tries
+  lock it for 10 s; locker scene), a gas alarm on the Pico (`pico_gasalarm`: the MQ-2 on VBUS, its AO through a
+  10 kΩ / 20 kΩ divider that the student places, GP26, a 20 s warm-up, ALARM 20000 / SAFE 12000 hysteresis; kitchen
+  scene, whose panel now shows the MQ-2's volts on the Pico), a bank locker on the Uno (`banklocker`: RFID card AND PIN,
+  keypad rows on A0–A3 because SPI takes 9–13; "Card first!", unknown card, 15 s to type, three wrong PINs = alarm;
+  scenes3.js `BankScene` = the locker + card buttons) and a smart rooftop water tank (`smarttank`: scenes3.js
+  `TankScene`, kind `tank`: 100 cm deep, the HC-SR04 8 cm above the brim so level % = 108 − cm, the pump's flow fills
+  it from the sump, the taps drain it, an empty sump makes the pump run dry; the sketch starts at low = 30 %, stops at
+  high = 90 %, and stops a dry pump when the level has not risen in 5 s; worlds3.js draws a clear tank on a brick stand,
+  the sump, the pipe, the tap). 1,487 projects.

@@ -4499,16 +4499,17 @@
    {
     "class": 9,
     "n": 11,
-    "kind": "I",
-    "title": "Password door lock: keypad and servo",
+    "kind": "L",
+    "title": "Password lock on the Pico",
     "board": "pico",
-    "status": "planned",
-    "ref": "password-door-lock-keypad-and-servo-pico",
+    "status": "live",
+    "ref": "pico_keylock",
     "newparts": [],
-    "family": "sensor-to-output",
+    "family": "live-projects",
     "parts": [
-     "keypad",
-     "servo"
+     "servo",
+     "buzzer",
+     "keypad"
     ],
     "strand": "Decomposition",
     "focus": "Security systems",
@@ -4535,15 +4536,17 @@
    {
     "class": 9,
     "n": 13,
-    "kind": "I",
-    "title": "Gas leak alarm: gas sensor and beeper",
+    "kind": "L",
+    "title": "Gas leak alarm on the Pico",
     "board": "pico",
-    "status": "planned",
-    "ref": "gas-leak-alarm-gas-sensor-and-beeper-pico",
+    "status": "live",
+    "ref": "pico_gasalarm",
     "newparts": [],
-    "family": "sensor-to-output",
+    "family": "live-projects",
     "parts": [
-     "abuzz",
+     "led",
+     "resistor",
+     "buzzer",
      "mq2"
     ],
     "strand": "Abstraction",
@@ -4702,41 +4705,42 @@
    {
     "class": 9,
     "n": 22,
-    "kind": "I",
-    "title": "Bank locker: keypad plus RFID plus alarm",
+    "kind": "L",
+    "title": "Bank locker: card and PIN",
     "board": "uno",
-    "status": "planned",
-    "ref": "bank-locker-keypad-plus-rfid-plus-alarm-uno",
+    "status": "live",
+    "ref": "banklocker",
     "newparts": [],
-    "family": "smart-system",
+    "family": "live-projects",
     "parts": [
+     "servo",
      "buzzer",
-     "keypad",
      "rfid",
-     "servo"
+     "keypad"
     ],
     "strand": "Decomposition",
-    "focus": "Smart systems",
+    "focus": "Security systems",
     "term": "Term 3 (October-December)"
    },
    {
     "class": 9,
     "n": 23,
-    "kind": "I",
+    "kind": "L",
     "title": "Smart water tank: level, pump and alarm",
     "board": "uno",
-    "status": "planned",
-    "ref": "smart-water-tank-level-pump-and-alarm-uno",
+    "status": "live",
+    "ref": "smarttank",
     "newparts": [],
-    "family": "smart-system",
+    "family": "live-projects",
     "parts": [
-     "abuzz",
-     "hcsr04",
+     "aa4",
      "pump",
-     "relay"
+     "relay",
+     "buzzer",
+     "hcsr04"
     ],
     "strand": "Decomposition",
-    "focus": "Smart systems",
+    "focus": "Sensors",
     "term": "Term 3 (October-December)"
    },
    {
