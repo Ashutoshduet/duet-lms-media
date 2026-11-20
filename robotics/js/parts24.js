@@ -59,5 +59,29 @@ const LDR4 = {
     'चार रोशनी सेंसर, बीच में एक काला क्रॉस। इसे सीधे सूरज की ओर कीजिए तो चारों बराबर देखते हैं; थोड़ा हटाइए तो क्रॉस दो पर छाया डालता है। बाएँ को दाएँ से, और ऊपर को नीचे से मिलाकर ट्रैकर जानता है कि किधर घूमना है।',
     'Chaar roshni sensor, beech mein ek kaala cross. Ise seedhe sooraj ki taraf kijiye to chaaron barabar dekhte hain; thoda hataiye to cross do par chhaaya daalta hai. Left ko right se, aur upar ko neeche se milaakar tracker jaanta hai ki kidhar ghoomna hai.'),
 };
-export const PARTS24 = { mcp3008: MCP3008, ldr4: LDR4 };
-export const DRAWER24 = ['mcp3008', 'ldr4'];
+
+// (batch 24, Class 11) the 5-channel IR line sensor: five TCRT5000 reflective sensors in a row, 12 mm apart, on one board
+// with an LM393 comparator for each. Over white the IR comes back and an output goes LOW (its little LED lights); over the
+// black tape nothing comes back and the output is pulled HIGH (10 kΩ). S1 is on the car's left. On the robot car the
+// arena writes which sensors are over the tape (state.black, robots.js carFeed); on the bench alone all five see white.
+const S5 = ['S1', 'S2', 'S3', 'S4', 'S5'];
+const IR5 = {
+  term: { y: 4 }, cat: 'in', mount: 'free', props: {}, state0: { black: [false, false, false, false, false], powered: false },
+  name: t3('5-channel IR line sensor (TCRT5000 ×5)', '5-चैनल आईआर लाइन सेंसर (TCRT5000 ×5)', '5-channel IR line sensor (TCRT5000 ×5)'),
+  pins: [['VCC', t3('VCC: 5 V', 'VCC: 5 V', 'VCC: 5 V')], ['GND', t3('GND', 'GND', 'GND')],
+    ...S5.map((id, k) => [id, t3(`${id}: sensor ${k + 1} (${['far left', 'left', 'middle', 'right', 'far right'][k]}): HIGH over black`, `${id}: सेंसर ${k + 1} (${['सबसे बाएँ', 'बाएँ', 'बीच', 'दाएँ', 'सबसे दाएँ'][k]}): काले पर HIGH`, `${id}: sensor ${k + 1} (${['sabse left', 'left', 'beech', 'right', 'sabse right'][k]}): kaale par HIGH`)])]
+    .map(([id, name], k) => ({ id, at: [(k - 3) * P, 0], dir: [0, 1], name })),
+  elec: (p, N, env, V) => {
+    const els = [{ type: 'R', a: N.VCC, b: N.GND, r: 100 }]; // five IR LEDs, about 50 mA
+    if (p.state.powered) { const vcc = V ? Math.max(0, V[N.VCC] - V[N.GND]) : 5; S5.forEach((id, i) => { const b = !!(p.state.black || [])[i]; els.push({ type: 'V', a: N[id], b: N.GND, v: b ? vcc : 0, r: b ? 10000 : 100, role: 'irout' }); }); }
+    return els;
+  },
+  dyn: (p, els, lab, dt, vAt) => { const on = vAt(p.N.VCC) - vAt(p.N.GND) > 3; if (on !== !!p.state.powered) { p.state.powered = on; touch(lab); } },
+  live: (p) => (p.state.powered ? (p.state.black || []).map((b) => (b ? '■' : '□')).join(' ') + '  (■ = over black: HIGH)' : 'no power on VCC'),
+  specs: () => [['chan', '5 × TCRT5000, 12 mm apart'], ['out', 'HIGH over black, LOW over white (LM393, 10 kΩ pull-ups)'], ['volt', '3.3–5 V, ≈ 50 mA'], ['range', '1–8 mm above the floor']],
+  info: t3('Five line sensors in a row. With only two, a robot knows just "line on the left" or "on the right". With five it knows how far off the line it is: far left, a little left, centred, a little right, far right. That number is what a PID controller steers by.',
+    'एक कतार में पाँच लाइन सेंसर। दो से रोबोट बस इतना जानता है कि "लाइन बाईं ओर" या "दाईं ओर"। पाँच से वह जानता है कि लाइन से कितना हटा है: बहुत बाएँ, थोड़ा बाएँ, बीच में, थोड़ा दाएँ, बहुत दाएँ। PID कंट्रोलर इसी संख्या से स्टीयर करता है।',
+    'Ek line mein paanch line sensor. Do se robot bas itna jaanta hai ki "line left mein" ya "right mein". Paanch se woh jaanta hai ki line se kitna hata hai: bahut left, thoda left, beech mein, thoda right, bahut right. PID controller isi number se steer karta hai.'),
+};
+export const PARTS24 = { mcp3008: MCP3008, ldr4: LDR4, ir5: IR5 };
+export const DRAWER24 = ['mcp3008', 'ldr4', 'ir5'];

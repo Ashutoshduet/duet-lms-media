@@ -5647,18 +5647,18 @@
    {
     "class": 11,
     "n": 9,
-    "kind": "I",
+    "kind": "L",
     "title": "PID line follower (smooth and fast)",
     "board": "uno",
-    "status": "planned",
-    "ref": "pid-line-follower-smooth-and-fast-uno",
+    "status": "live",
+    "ref": "pidline",
     "newparts": [],
-    "family": "robot-car",
+    "family": "live-projects",
     "parts": [
+     "l298n",
      "bat18650",
      "bomotor",
-     "ir",
-     "l298n"
+     "ir5"
     ],
     "strand": "Decomposition",
     "focus": "Control systems",

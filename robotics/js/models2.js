@@ -7,7 +7,7 @@
 import * as THREE from 'three';
 import { materials, mergeStatic, box, cyl, shadows } from './models.js';
 import * as TX from './tex.js';
-import { ARMG, CARG, SYR, HYDG, CAR14, CAR18, MAZE, mazeXY } from './robots.js';
+import { ARMG, CARG, SYR, HYDG, CAR14, CAR18, MAZE, mazeXY , CAR24 } from './robots.js';
 export { ARMG, SYR, HYDG };
 
 const P = 2.54;
@@ -404,6 +404,10 @@ export function buildCar(kind, parts, opt = {}) { // (batch 19: opt.board, anoth
     for (const s of [-1, 1]) { const ir = irDown(); ir.position.set(s * CAR.sensX, 0, CAR.sensZ - 10); still.add(ir); live.leds['ir' + (s > 0 ? 'L' : 'R')] = ir.userData.det; }
     still.add(box(36, 3, 14, acr, CAR14.markX - 14, CAR.plateY + 1.5, CAR14.markZ));
     const im = irDown(); im.position.set(CAR14.markX, 0, CAR14.markZ - 10); still.add(im); live.leds.irM = im.userData.det;
+  }
+  if (kind === 'pid') { // (batch 24) the five-sensor bar under the nose: one black board, five TCRT5000 eyes looking down, a red LED each
+    const y = CAR.plateY - 4; still.add(box(72, 1.6, 22, M.fr4, 0, y, CAR24.fiveZ - 4)); still.add(box(30, 3, 34, acr, 0, CAR.plateY + 1.5, CAR24.fiveZ - 24));
+    CAR24.five.forEach((x, i) => { still.add(box(10, 6, 5.8, M.black, x, y - 3.8, CAR24.fiveZ)); const d = ledM(0xff2a1a); g.add(keep(box(1.6, 0.7, 0.9, d, x, y + 1.1, CAR24.fiveZ - 10))); live.leds['s' + (i + 1)] = d; });
   }
   if (kind === 'light') { // two LDR "eyes" on short posts at the front, one looking left, one right
     const ldrM = S({ color: 0xc23a28, roughness: 0.4 }), face = S({ color: 0xe8d070, roughness: 0.5 });

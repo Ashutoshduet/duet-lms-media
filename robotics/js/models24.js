@@ -44,4 +44,22 @@ export function buildLdr4() {
   g.userData.face = new THREE.Vector3(0, 0, 1);
   shadows(g); return g;
 }
-export function buildPart24(part) { return part.type === 'mcp3008' ? buildMCP3008() : part.type === 'ldr4' ? buildLdr4() : null; }
+// (batch 24) the 5-channel IR line sensor on the mat: its 7-pin header (VCC, GND, S1–S5) at the origin, the black board
+// behind it with the five TCRT5000s (a clear and a dark eye each) along the far edge, and a red LED for each channel: lit
+// over white (its output LOW), dark over the black tape
+export function buildIr5() {
+  const M = materials(); const g = new THREE.Group();
+  for (let k = 0; k < 7; k++) g.add(box(0.64, 0.64, 7, M.gold, (k - 3) * P, 3, -2.5));
+  g.add(box(7 * P + 1, 2.5, 2.5, M.black, 0, 3, -5.5));
+  const C = document.createElement('canvas'); C.width = 512; C.height = 160; const c = C.getContext('2d'); c.fillStyle = '#16181c'; c.fillRect(0, 0, 512, 160);
+  c.fillStyle = '#e8e8e8'; c.textAlign = 'center'; c.font = `700 20px ${TX.FONT}`; ['VCC', 'GND', 'S1', 'S2', 'S3', 'S4', 'S5'].forEach((t, k) => c.fillText(t, 256 + (k - 3) * 52, 150)); c.font = `700 26px ${TX.FONT}`; c.fillText('TCRT5000 × 5', 256, 96);
+  const t = new THREE.CanvasTexture(C); t.colorSpace = THREE.SRGBColorSpace; const pcb = new THREE.MeshStandardMaterial({ map: t, roughness: 0.45 });
+  g.add(box(72, 1.6, 22, [M.fr4, M.fr4, pcb, M.fr4, M.fr4, M.fr4], 0, 4, -18));
+  const clear = new THREE.MeshStandardMaterial({ color: 0xc8d4ff, roughness: 0.2, transparent: true, opacity: 0.75 }), dark = new THREE.MeshStandardMaterial({ color: 0x1a1a22, roughness: 0.3 });
+  const leds = [];
+  for (let k = 0; k < 5; k++) { const x = (k - 2) * 12; g.add(box(10, 6, 5.8, M.black, x, 7.8, -27)); g.add(box(3.6, 1, 3.6, clear, x - 2.4, 11.2, -27)); g.add(box(3.6, 1, 3.6, dark, x + 2.4, 11.2, -27));
+    const m = new THREE.MeshStandardMaterial({ color: 0xf2efe0, emissive: 0xff2a1a, emissiveIntensity: 0, roughness: 0.3 }); const b = box(1.6, 0.7, 0.9, m, x, 5.15, -14); b.userData.keep = true; g.add(b); leds.push(m); }
+  g.userData.update = (p) => { const s = p.state; let a = false; leds.forEach((m, i) => { const e = s.powered && !(s.black || [])[i] ? 2.4 : 0; if (m.emissiveIntensity !== e) { m.emissiveIntensity = e; a = true; } }); return a; };
+  shadows(g); return g;
+}
+export function buildPart24(part) { return part.type === 'mcp3008' ? buildMCP3008() : part.type === 'ldr4' ? buildLdr4() : part.type === 'ir5' ? buildIr5() : null; }

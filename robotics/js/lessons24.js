@@ -40,10 +40,12 @@
 //              rocks from stopping (scenes3.js SliderScene); half a second's settling time makes every photo sharp.
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
 import { GLASS, CUR, LIFT, SLIDE } from './scenes3.js';
-import { ARMCUR } from './robots.js';
+import { ARMCUR, CARCUR } from './robots.js';
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const pick = (lg, en, hi, hg) => (lg === 'hi' ? hi : lg === 'hg' ? hg : en);
+function liveCar(f) { const o = {}; for (const lg of ['en', 'hi', 'hg']) Object.defineProperty(o, lg, { enumerable: true, get: () => { try { return String(f(lg, (CARCUR.sim && CARCUR.sim.lap) || {}) || ''); } catch (e) { return ''; } } }); return o; }
+function liveCarSim(f) { const o = {}; for (const lg of ['en', 'hi', 'hg']) Object.defineProperty(o, lg, { enumerable: true, get: () => { try { return String(f(lg, CARCUR.sim || {}) || ''); } catch (e) { return ''; } } }); return o; }
 function liveArm(f) { const o = {}; for (const lg of ['en', 'hi', 'hg']) Object.defineProperty(o, lg, { enumerable: true, get: () => { try { return String(f(lg, (ARMCUR.sim && ARMCUR.sim.res) || {}) || ''); } catch (e) { return ''; } } }); return o; }
 function live(f) { const o = {}; for (const lg of ['en', 'hi', 'hg']) Object.defineProperty(o, lg, { enumerable: true, get: () => { try { return String(f(lg, (CUR.sim && CUR.sim.res) || {}) || ''); } catch (e) { return ''; } } }); return o; }
 
@@ -411,6 +413,51 @@ void loop() {
 }
 `;
 
+const PIDC = `// PID line follower: five IR sensors tell how far the line is from the middle, and the motors steer by that much.
+const int ENA = 5, IN1 = 7, IN2 = 8;    // motor A: the left wheel
+const int ENB = 6, IN3 = 2, IN4 = 4;    // motor B: the right wheel
+const int S[5] = {A0, A1, A2, A3, A4};  // the sensor bar, left to right (HIGH = over the black line)
+
+int base = 150;          // speed on a straight line (0 .. 255)
+float Kp = 90;           // how hard it steers for each sensor's worth of error
+float Kd = 0;            // how hard it steers against a change in the error
+float lastError = 0;
+
+// one motor: v from -255 (backwards) to 255 (forwards)
+void motor(int en, int a, int b, int v) {
+  digitalWrite(a, v > 0 ? HIGH : LOW);
+  digitalWrite(b, v < 0 ? HIGH : LOW);
+  analogWrite(en, abs(v));
+}
+
+void setup() {
+  pinMode(ENA, OUTPUT); pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT); pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  for (int i = 0; i < 5; i++) pinMode(S[i], INPUT);
+}
+
+void loop() {
+  int sum = 0, n = 0;
+  for (int i = 0; i < 5; i++) {
+    if (digitalRead(S[i]) == HIGH) {     // this sensor is over the line
+      sum = sum + (i - 2);               // -2 far left ... +2 far right
+      n = n + 1;
+    }
+  }
+  float error;
+  if (n > 0) error = (float)sum / n;     // where the line is: -2 .. +2 (0: right under the middle)
+  else if (lastError > 0) error = 2.5;   // lost: it is past the side it was last seen on
+  else error = -2.5;
+  float turn = Kp * error + Kd * (error - lastError);
+  lastError = error;
+  int left = constrain(base + turn, -255, 255);
+  int right = constrain(base - turn, -255, 255);
+  motor(ENA, IN1, IN2, left);
+  motor(ENB, IN3, IN4, right);
+  delay(5);
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -622,6 +669,42 @@ export function batch24(K, n0) {
     ],
     check: [noShort, (S) => (S.conn('rail:tn', 'GND') ? null : [W.gndRail]), has('led1', t3('LED', 'एलईडी', 'LED')), need('led1.A', 'D7', W.toPin, { x: t3('LED\'s long leg', 'एलईडी का लंबा पैर', 'LED ka lamba pair'), p: 7 })],
     done: (S) => S.w('sharp') });
+  // 8 ----------------------------------------------------------------------------------------------- PID line follower
+  const CARP = [F('drv', 'l298n', {}, -35, 105, 0), F('bat', 'bat18650', {}, -190, 108, 0), F('mL', 'bomotor', { side: 'L' }, -80, 152, 3), F('mR', 'bomotor', { side: 'R' }, 10, 152, 1)];
+  const CARW = [['T:bat:P', 'T:drv:VS'], ['T:bat:N', 'T:drv:GND'], ['T:mL:P', 'T:drv:OUT1'], ['T:mL:N', 'T:drv:OUT2'], ['T:mR:P', 'T:drv:OUT3'], ['T:mR:N', 'T:drv:OUT4'],
+    ['T:drv:ENA', 'D5'], ['T:drv:ENB', 'D6'], ['T:drv:IN1', 'D7'], ['T:drv:IN2', 'D8'], ['T:drv:IN3', 'D2'], ['T:drv:IN4', 'D4'], ['GND3', 'H:tn18'], ['5V', 'H:tp30'], ['T:drv:GND', 'GND1']];
+  const S5P = [['S1', 'A0'], ['S2', 'A1'], ['S3', 'A2'], ['S4', 'A3'], ['S5', 'A4']];
+  const kpOf = (src) => { const m = /float\s+Kp\s*=\s*([\d.]+)\s*;/.exec(src || ''); return m ? +m[1] : null; };
+  const kdOf = (src) => { const m = /float\s+Kd\s*=\s*([\d.]+)\s*;/.exec(src || ''); return m ? +m[1] : null; };
+  const baseOf = (src) => { const m = /int\s+base\s*=\s*(\d+)\s*;/.exec(src || ''); return m ? +m[1] : null; };
+  L.push({ id: 'pidline', cls: '11', blocks: false, view: 'carbench', wview: 'carbench', rview: 'arena', code: PIDC, drawer: ['ir5'], serial: false, world: { kind: 'car', car: 'pid' },
+    title: t3('PID line follower (smooth and fast)', 'PID लाइन फ़ॉलोअर (स्मूद और तेज़)', 'PID line follower (smooth aur tez)'),
+    goal: t3('Racing line followers do not just ask "left or right?": five sensors tell them how far off the line they are, and they steer by that much (P), and against how fast it is changing (D). Tune Kp and Kd, and see the lap get smoother and faster.', 'रेसिंग लाइन फ़ॉलोअर सिर्फ़ "बाएँ या दाएँ?" नहीं पूछते: पाँच सेंसर बताते हैं कि वे लाइन से कितना हटे हैं, और वे उतना ही स्टीयर करते हैं (P), और वह कितनी तेज़ी से बदल रहा है उसके ख़िलाफ़ (D)। Kp और Kd ट्यून कीजिए, और चक्कर को स्मूद और तेज़ होते देखिए।', 'Racing line follower sirf "left ya right?" nahi poochhte: paanch sensor batate hain ki woh line se kitna hate hain, aur woh utna hi steer karte hain (P), aur woh kitni tezi se badal raha hai uske khilaaf (D). Kp aur Kd tune kijiye, aur chakkar ko smooth aur tez hote dekhiye.'),
+    setup: { parts: CARP, wires: CARW },
+    steps: [
+      { k: 'info', do: t3('The car from the line-follower lessons, with its L298N and motors wired as before (ENA 5, ENB 6, IN1–IN4 on 7, 8, 2, 4). Under its nose now sits a bar of five IR sensors, 12 mm apart: the 19 mm tape always covers one or two of them.', 'लाइन फ़ॉलोअर पाठों वाली कार, उसका L298N और मोटरें पहले की तरह जुड़ी (ENA 5, ENB 6, IN1–IN4 पर 7, 8, 2, 4)। उसकी नाक के नीचे अब पाँच IR सेंसर की पट्टी है, 12 mm की दूरी पर: 19 mm की टेप हमेशा उनमें से एक या दो को ढकती है।', 'Line follower lessons wali car, uska L298N aur motors pehle ki tarah jude (ENA 5, ENB 6, IN1–IN4 par 7, 8, 2, 4). Uski naak ke neeche ab paanch IR sensor ki patti hai, 12 mm ki doori par: 19 mm ki tape hamesha unmein se ek ya do ko dhakti hai.'), see: E },
+      { k: 'place', place: F('ir5', 'ir5', {}, 150, 70, 2), do: t3('Put the 5-channel sensor\'s plug board on the mat at the ghost (the sensors themselves are on the car).', '5-चैनल सेंसर के प्लग बोर्ड को मैट पर नीली आकृति पर रखिए (सेंसर ख़ुद कार पर हैं)।', '5-channel sensor ke plug board ko mat par neeli shape par rakhiye (sensor khud car par hain).'), see: E },
+      w3('ir5.VCC', 'rail:tp', 'Wire its VCC to the + rail.', 'इसका VCC + रेल से जोड़िए।', 'Iska VCC + rail se jodiye.'),
+      w3('ir5.GND', 'rail:tn', 'Its GND to the − rail.', 'इसका GND − रेल से।', 'Iska GND − rail se.'),
+      ...S5P.map(([s, a]) => w3('ir5.' + s, a, `${s} to ${a}.`, `${s} को ${a} से।`, `${s} ko ${a} se.`)),
+      CHECK,
+      { k: 'info', code: [24, 41], do: t3('Read loop(): the sensors over the line give the error, from −2 (line far left) to +2 (far right). turn = Kp × error steers by how far off it is; the left wheel gets base + turn, the right base − turn.', 'loop() पढ़िए: लाइन पर पड़े सेंसर एरर देते हैं, −2 (लाइन बहुत बाएँ) से +2 (बहुत दाएँ) तक। turn = Kp × error उतना स्टीयर करता है जितना यह हटा है; बायाँ पहिया base + turn पाता है, दायाँ base − turn।', 'loop() padhiye: line par pade sensor error dete hain, −2 (line bahut left) se +2 (bahut right) tak. turn = Kp × error utna steer karta hai jitna yeh hata hai; left wheel base + turn paata hai, right base − turn.'), see: E },
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && S.w('zigzag'), do: t3('Watch the car on the track (the arena).', 'ट्रैक पर कार देखिए (अखाड़ा)।', 'Track par car dekhiye (arena).'),
+        see: liveCarSim((lg, C) => pick(lg, `It zig-zags across the line, ${C.swingRate || '?'} swings a second. Kp = 90 steers far too hard: one sensor's worth of error already puts 90 between the wheels, so the car swings past the line every time, and back.`, `यह लाइन के आर-पार ज़िगज़ैग करती है, हर सेकंड ${C.swingRate || '?'} झूले। Kp = 90 बहुत ज़्यादा स्टीयर करता है: एक सेंसर जितना एरर ही पहियों में 90 का फ़र्क़ कर देता है, तो कार हर बार लाइन से आगे झूल जाती है, और वापस।`, `Yeh line ke aar-paar zigzag karti hai, har second ${C.swingRate || '?'} jhoole. Kp = 90 bahut zyada steer karta hai: ek sensor jitna error hi wheels mein 90 ka farq kar deta hai, to car har baar line se aage jhool jaati hai, aur wapas.`)) },
+      { k: 'edit', test: (src) => { const k = kpOf(src); return k !== null && k >= 15 && k <= 35; }, set: [[/float Kp = 90;/, 'float Kp = 25;']], do: t3('Gentler: change float Kp = 90; to float Kp = 25; and press Run (the car starts again on the start line).', 'धीमे: float Kp = 90; को float Kp = 25; कीजिए और "चलाइए" दबाइए (कार फिर स्टार्ट लाइन से शुरू होती है)।', 'Dheeme: float Kp = 90; ko float Kp = 25; kijiye aur Run dabaiye (car phir start line se shuru hoti hai).'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('fullLap'), do: t3('Watch it go round, until a whole lap is timed (the panel: Laps).', 'इसे घूमते देखिए, जब तक पूरा एक चक्कर न नप जाए (पैनल: Laps)।', 'Ise ghoomte dekhiye, jab tak poora ek chakkar na nap jaaye (panel: Laps).'),
+        see: liveCar((lg, L) => pick(lg, `Calm now: a lap in ${L.last ? L.last.toFixed(1) : '?'} s, ${L.off ?? '?'} mm off the line on average, ${L.swings ?? '?'} swings a second. But it is slow.`, `अब शांत: एक चक्कर ${L.last ? L.last.toFixed(1) : '?'} s में, औसतन लाइन से ${L.off ?? '?'} mm, हर सेकंड ${L.swings ?? '?'} झूले। पर यह धीमी है।`, `Ab shaant: ek chakkar ${L.last ? L.last.toFixed(1) : '?'} s mein, average line se ${L.off ?? '?'} mm, har second ${L.swings ?? '?'} jhoole. Par yeh dheemi hai.`)) },
+      { k: 'edit', test: (src) => { const b = baseOf(src), k = kpOf(src); return b !== null && b >= 200 && k !== null && k <= 35; }, set: [[/int base = 150;/, 'int base = 210;']], do: t3('Race it: change int base = 150; to int base = 210; and press Run.', 'रेस कराइए: int base = 150; को int base = 210; कीजिए और "चलाइए" दबाइए।', 'Race karaiye: int base = 150; ko int base = 210; kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('lost'), do: t3('Watch the first bends.', 'पहले मोड़ देखिए।', 'Pehle mod dekhiye.'),
+        see: t3('Off it goes at a bend! At this speed the line slides across the sensors faster, and Kp = 25 cannot turn the car hard enough to keep up. More speed needs more steering, but more Kp brought the zig-zag back.', 'एक मोड़ पर यह बाहर निकल गई! इस रफ़्तार पर लाइन सेंसरों के आर-पार तेज़ी से खिसकती है, और Kp = 25 कार को उतना तेज़ नहीं मोड़ पाता। ज़्यादा रफ़्तार को ज़्यादा स्टीयरिंग चाहिए, पर ज़्यादा Kp ने ज़िगज़ैग वापस ला दिया था।', 'Ek mod par yeh bahar nikal gayi! Is speed par line sensors ke aar-paar tezi se khisakti hai, aur Kp = 25 car ko utna tez nahi mod paata. Zyada speed ko zyada steering chahiye, par zyada Kp ne zigzag wapas la diya tha.') },
+      { k: 'edit', test: (src) => { const d = kdOf(src), k = kpOf(src), b = baseOf(src); return d !== null && d >= 80 && d <= 250 && k !== null && k >= 40 && k <= 70 && b !== null && b >= 200; }, set: [[/float Kp = 25;/, 'float Kp = 50;'], [/float Kd = 0;/, 'float Kd = 150;']],
+        do: t3('Steer harder, and add D to stop the zig-zag: change float Kp = 25; to float Kp = 50; and float Kd = 0; to float Kd = 150; then press Run.', 'और ज़ोर से स्टीयर कीजिए, और ज़िगज़ैग रोकने के लिए D जोड़िए: float Kp = 25; को float Kp = 50; और float Kd = 0; को float Kd = 150; कीजिए, फिर "चलाइए" दबाइए।', 'Aur zor se steer kijiye, aur zigzag rokne ke liye D jodiye: float Kp = 25; ko float Kp = 50; aur float Kd = 0; ko float Kd = 150; kijiye, phir Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('smooth'), do: t3('Watch it race a whole lap.', 'इसे पूरा एक चक्कर रेस करते देखिए।', 'Ise poora ek chakkar race karte dekhiye.'),
+        see: liveCar((lg, L) => pick(lg, `A lap in ${L.last ? L.last.toFixed(1) : '?'} s at speed 210, ${L.off ?? '?'} mm off the line on average, ${L.swings ?? '?'} swings a second: fast and steady. D steers against the change: as the car swings back towards the line the error shrinks fast, and D eases the turn before it overshoots. Drones, cruise control and a lift that stops gently all use PID.`, `रफ़्तार 210 पर एक चक्कर ${L.last ? L.last.toFixed(1) : '?'} s में, औसतन लाइन से ${L.off ?? '?'} mm, हर सेकंड ${L.swings ?? '?'} झूले: तेज़ और स्थिर। D बदलाव के ख़िलाफ़ स्टीयर करता है: कार जब लाइन की ओर लौटती है, एरर तेज़ी से घटता है, और D आगे निकलने से पहले मोड़ को हल्का कर देता है। ड्रोन, क्रूज़ कंट्रोल और आराम से रुकने वाली लिफ़्ट, सब PID से चलते हैं।`, `Speed 210 par ek chakkar ${L.last ? L.last.toFixed(1) : '?'} s mein, average line se ${L.off ?? '?'} mm, har second ${L.swings ?? '?'} jhoole: tez aur sthir. D badlaav ke khilaaf steer karta hai: car jab line ki taraf lautti hai, error tezi se ghat-ta hai, aur D aage nikalne se pehle mod ko halka kar deta hai. Drone, cruise control aur aaram se rukne wali lift, sab PID se chalte hain.`)) },
+    ],
+    check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('ir5', t3('5-channel sensor', '5-चैनल सेंसर', '5-channel sensor')), need('ir5.VCC', '5V', W.to5v, { x: 'VCC' }), need('ir5.GND', 'GND', W.toGnd, { x: 'GND' }), ...S5P.map(([s, a]) => need('ir5.' + s, a, W.join, { a: s, b: a }))],
+    done: (S) => S.w('smooth') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

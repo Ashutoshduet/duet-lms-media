@@ -1058,3 +1058,15 @@ heaters.
   stopped, counts its full rocking). 12 photos 15 mm apart: with 2048 ÷ (π × 20) steps a mm they end at 114 mm (short);
   with 2048 ÷ 40.0 at 180 mm, but none is sharp (the shutter clicks as the carriage stops); delay(500) after the move
   makes all 12 sharp. robocore24.mjs plays it. Class 11: 11 of 26.
+- Class 11 PID line follower (batch 24, lessons24.js `pidline`; robots.js `CAR_CFG.pid`, `CAR24`, `sensors5`; parts24.js
+  `ir5`, models24.js `buildIr5`, models2.js buildCar kind 'pid'; worlds.js CarWorld): the line car with a bar of five
+  TCRT5000 sensors 12 mm apart under its nose (S1 on the left; HIGH over the 19 mm tape, each with a red LED lit over
+  white). The `ir5` part on the mat is its 7-pin plug board (VCC, GND, S1–S5; the student wires them to the rails and
+  A0–A4); robots.js carFeed writes state.black. The 'pid' car's body lags its wheels (cfg.inertia: 0.25 s for speed,
+  0.12 s for turning; only this car), so a P controller can overshoot as a real one does. The sim measures each lap's
+  average distance from the line and the steering's swings a second (L.off, L.swings); zigzag = 3 or more swings a
+  second for 3 s; fullLap = the second lap (the first starts part-way round); smooth = a full lap under 7 s with under
+  3 swings a second and under 16 mm off. The sketch: error −2 … +2 from the sensors over the line (±2.5 when lost),
+  turn = Kp·error + Kd·Δerror. Kp 90 at speed 150 zig-zags (3.3 swings a second); Kp 25: 8.3 s a lap, 1.1 swings;
+  speed 210 with Kp 25 runs off a bend (lost); Kp 50 with Kd 150: 6.4 s a lap, 2.3 swings. The live texts read
+  robots.js CARCUR. robocore24.mjs plays it. Class 11: 12 of 26.

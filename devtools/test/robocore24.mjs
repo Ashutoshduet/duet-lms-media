@@ -19,7 +19,8 @@ import { netOf } from '../../robotics/js/esp32.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { makeScene } from '../../robotics/js/scenes3.js';
-import { ArmSim } from '../../robotics/js/robots.js';
+import { ArmSim, CarSim, carFeed } from '../../robotics/js/robots.js';
+import { BO } from '../../robotics/js/parts2.js';
 
 const B = (e) => (/^(H|T|B):/.test(e) ? e : 'B:' + e); // a board pin
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
@@ -230,6 +231,23 @@ for (const l of L24) {
       ok(t >= 0, `armsquare: act "${s.do.en.slice(0, 50)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s) · ${s.see.en.slice(0, 110)}` : ` — timed out ${JSON.stringify(sim.res)} ${[...sim.flags]}`)); seen.push(JSON.stringify(sim.res)); }
   }
   ok(!!l.done(rt) && sim.res.dev <= 3 && sim.res.cover >= 95, `armsquare: complete; radians drew at ${seen[0]}, the joint moves ${seen[1]}, the linear moves ${seen[2]}`);
+}
+// the PID line follower (lessons24.js pidline, robots.js CarSim 'pid'): the car on the line track, its five sensors fed
+{ const l = LESSONS.find((x) => x.id === 'pidline'); ok(!!l && compile(l.code).ok, 'pidline: the sketch compiles');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  const sim = new CarSim('pid'); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => { sim.reset(); carFeed(sim, lab); } };
+  for (const s of l.steps) { if (s.k === 'place') { const q = s.place; lab.addPart(q.type, q.props, q.at, q.rot, q.tag); } if (s.k === 'wire') { const g = rt.ghostWire(s.wire); if (!g) { ok(false, `pidline: a ghost wire for ${s.wire}`); continue; } lab.addWire(g[0], g[1]); } }
+  const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; };
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  let src = l.code; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'pidline: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src), 'pidline: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { let t = -1; for (let f = 0; f < 60 * 40; f++) { lab.step(1000 / 60); sim.update(1 / 60, w('mL'), w('mR')); carFeed(sim, lab); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = f / 60; break; } }
+      ok(t >= 0, `pidline: act "${s.do.en.slice(0, 50)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s) · ${s.see.en.slice(0, 130)}` : ` — timed out ${JSON.stringify(sim.lap)} ${[...sim.flags]}`)); seen.push(JSON.stringify(sim.lap)); }
+  }
+  ok(!!l.done(rt) && sim.lap.last < 7, `pidline: complete; laps ${seen.join(' | ')}`);
 }
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);
