@@ -180,8 +180,8 @@ function play3(l, B, acts) {
   return ser;
 }
 const at = (...times) => { const done = new Set(); return (key) => (t, sim, lab) => { for (const T of times) if (!done.has(T) && t >= T) { done.add(T); sim.control(key, null, lab); } }; };
-const L24 = LESSONS.filter((l) => ['wateratm', 'vending', 'tracker', 'lift', 'conveyor'].includes(l.id));
-ok(L24.length === 5, `${L24.length} Class 11 machine lessons`);
+const L24 = LESSONS.filter((l) => ['wateratm', 'vending', 'tracker', 'lift', 'conveyor', 'slider'].includes(l.id));
+ok(L24.length === 6, `${L24.length} Class 11 machine lessons`);
 for (const l of L24) {
   const c = compile(l.code); ok(c.ok, `${l.id}: the sketch compiles` + (c.ok ? '' : ' ' + JSON.stringify(c.errors).slice(0, 200)));
   for (const s of l.steps) for (const k of ['do', 'see']) if (s[k]) for (const lg of ['en', 'hi', 'hg']) if (typeof s[k][lg] !== 'string') ok(false, `${l.id}: step ${s.k} has ${k}.${lg}`);
@@ -211,6 +211,10 @@ for (const l of L24) {
 { const l = L24.find((x) => x.id === 'conveyor'); const B = build3(l);
   const ser = play3(l, B, [null, null, null]); const R = B.sim.res;
   ok(R.passed.slice(-3).every((n) => n === 1) && R.offs.slice(-3).every((o) => Math.abs(o) <= 4), `conveyor: once each, in the middle (${R.offs.slice(-3).join(', ')} mm), ${R.rate} boxes a minute; the first fix-less box had ${JSON.stringify(R.multi)} · serial ${JSON.stringify(ser.slice(-60))}`);
+}
+{ const l = L24.find((x) => x.id === 'slider'); const B = build3(l);
+  const ser = play3(l, B, [null, null, null]); const R = B.sim.res;
+  ok(R.sharpN === 12 && Math.abs(R.end - 180) < 2 && /Photo 11 at 165 mm/.test(ser), `slider: 12 sharp photos to ${R.end} mm (${R.photos.map((p) => p.blur).join(', ')} mm of blur) · ${JSON.stringify(ser.slice(-40))}`);
 }
 // the arm draws a square (lessons24.js armsquare, robots.js ArmSim level 6): played with the arm fed the servos' angles
 { const l = LESSONS.find((x) => x.id === 'armsquare'); ok(!!l && compile(l.code).ok, 'armsquare: the sketch compiles');

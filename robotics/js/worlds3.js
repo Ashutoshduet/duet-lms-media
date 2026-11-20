@@ -16,12 +16,12 @@ import * as M2 from './models2.js';
 import * as TX from './tex.js';
 import { VIEWS, nextFrame } from './stage.js';
 import { rotXZ } from './parts.js';
-import { makeScene, PT_TARGETS, TANK, LIFT, CONV } from './scenes3.js';
+import { makeScene, PT_TARGETS, TANK, LIFT, CONV, SLIDE } from './scenes3.js';
 import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] }, scene3cv: { tgt: [285, 30, 0], hw: 235, hd: 150, dir: [-0.2, 0.62, 0.76] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -90,14 +90,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt);
     }
     return false;
   }
@@ -620,6 +620,54 @@ class World3 {
     // the stamps on the bare belt (they ride on it)
     this.cvMarks.forEach((m, i) => { const u = S.marks[i] !== undefined ? S.marks[i] + s : -1; const v = u >= 0 && u <= CONV.len; if (v) m.position.set(A.X0 + u, A.YB + 0.1, A.Z0); if (v !== m.visible) { m.visible = v; ch = true; } });
     return ch;
+  }
+
+  // ================================================================== the camera slider (batch 24): a 2020 aluminium rail on two stands, the
+  // 28BYJ-48 and its 20-tooth pulley at the left end, the GT2 belt, the carriage with a small camera looking at a model street
+  // behind the rail; the camera rocks for a moment when it stops, and flashes its light at each photo
+  slideSteps() {
+    const r = this.root, S = this.mat; const XS = 250, Z0 = 6, YR = 58; const XA = XS - 22, XB = XS + SLIDE.len + 22; this.slAt = { XS, Z0, YR };
+    return [
+      () => { // the rail, its end plates and stands, the belt, the street behind
+        const g = new THREE.Group(); const alu = S({ color: 0xc3c9d0, metalness: 0.7, roughness: 0.35 }), dark = S({ color: 0x232427, roughness: 0.5 }), black = S({ color: 0x141416, roughness: 0.8 });
+        g.add(box(XB - XA, 20, 20, alu, (XA + XB) / 2, YR - 10, Z0)); for (const y of [YR - 10]) for (const z of [Z0 - 10.2, Z0 + 10.2]) g.add(box(XB - XA, 6, 0.6, dark, (XA + XB) / 2, y, z)); // the extrusion and its slots
+        for (const x of [XA - 3, XB + 3]) { g.add(box(6, 34, 34, dark, x, YR - 14, Z0)); for (const sz of [-1, 1]) { const leg = box(5, YR - 20, 5, alu, x, (YR - 20) / 2, Z0 + sz * 14); g.add(leg); } g.add(box(14, 2, 40, dark, x, 1, Z0)); }
+        // the GT2 belt along the rail's front: two runs between the pulley and the idler
+        for (const y of [YR + 3, YR - 23]) g.add(box(XB - XA - 6, 1.4, 6, black, (XA + XB) / 2, y, Z0 + 15));
+        g.add(cyl(13, 7, black, XB, YR - 10, Z0 + 15, 20).rotateX(Math.PI / 2)); // the idler's belt wrap
+        // the street the camera films: a row of small houses behind the rail
+        const H = [[0xe0b25a, 40, 46], [0xc8553d, 34, 60], [0x5a87b8, 44, 40], [0xe7e2d4, 36, 70], [0x6aa36a, 40, 52], [0xd88c4a, 38, 44]];
+        let x = XS - 10; for (const [col, w, h] of H) { g.add(box(w, h, 30, S({ color: col, roughness: 0.8 }), x + w / 2, h / 2, Z0 - 120)); g.add(box(w + 4, 4, 34, S({ color: 0x5b3a2a, roughness: 0.8 }), x + w / 2, h + 2, Z0 - 120)); for (const wx of [-w / 4, w / 4]) g.add(box(7, 9, 0.6, S({ color: 0x2f4f6f, roughness: 0.2 }), x + w / 2 + wx, h * 0.6, Z0 - 104.6)); x += w + 6; }
+        this.still(g); this.blob(XB - XA + 40, 80, (XA + XB) / 2, Z0, 0.3);
+      },
+      () => { // the motor on the left end plate (its shaft along z), the pulley on it
+        const mo = new THREE.Group(); mo.position.set(XA - 3, YR - 10, Z0 + 4); r.add(mo); const can = S({ color: 0xc9ced4, metalness: 0.8, roughness: 0.3 }), cap = S({ color: 0x2a62c8, roughness: 0.5 });
+        const body = new THREE.Group(); body.rotation.x = Math.PI / 2; body.position.z = -8; mo.add(body); body.add(cyl(14, 19, can, 0, -10, 0, 28)); body.add(cyl(14.2, 1.4, cap, 0, -20.5, 0, 28)); body.add(box(16, 6, 16, cap, 0, -14, 14));
+        const pul = cyl(7, 7, S({ color: 0xb8bdc3, metalness: 0.8, roughness: 0.3 }), 0, 0, 0, 20); pul.rotation.x = Math.PI / 2; const pg = new THREE.Group(); pg.position.set(3, 0, 11); pg.add(pul); pg.add(box(2, 13, 7.2, S({ color: 0x141416, roughness: 0.8 }), 0, 0, 0)); mo.add(pg); this.slPulley = pg;
+        this.slWireAt = V3(XA - 3, YR - 26, Z0 - 22);
+      },
+      () => { // the carriage and the camera (it moves)
+        const car = new THREE.Group(); r.add(car); this.slCar = car; const plate = S({ color: 0x2b2c30, roughness: 0.45 }), wheel = S({ color: 0x111113, roughness: 0.6 });
+        car.add(box(50, 5, 40, plate, 0, 2.5, 0)); for (const sx of [-1, 1]) for (const sz of [-1, 1]) car.add(cyl(5, 4, wheel, sx * 18, -4, sz * 13, 12).rotateX(Math.PI / 2));
+        car.add(box(10, 8, 4, plate, 0, -6, 15)); // the belt clamp
+        const head = new THREE.Group(); head.position.y = 5; car.add(head); this.slHead = head; head.add(cyl(4, 8, plate, 0, 4, 0, 12)); head.add(new THREE.Mesh(new THREE.SphereGeometry(6, 14, 10), S({ color: 0x3a3b40, metalness: 0.5, roughness: 0.4 })).translateY(10));
+        const cam = new THREE.Group(); cam.position.y = 16; head.add(cam); const body = S({ color: 0x3a3c43, roughness: 0.5 }), silver = S({ color: 0xc4c8cd, metalness: 0.7, roughness: 0.3 });
+        cam.add(box(40, 26, 20, body, 0, 13, 0)); cam.add(box(40, 3, 20, silver, 0, 27.5, 0)); cam.add(box(12, 6, 16, body, -10, 31, 0)); cam.add(box(10, 18, 22, S({ color: 0x22232a, roughness: 0.7 }), 14, 12, 0)); cam.add(box(3, 3, 21, S({ color: 0xc8281c, roughness: 0.5 }), 10, 22, 0)); // body, silver top, finder, grip, red stripe
+        const lens = cyl(9, 18, S({ color: 0x232428, roughness: 0.4 }), 0, 0, 0, 20); lens.rotation.x = Math.PI / 2; lens.position.set(-2, 13, -19); cam.add(lens);
+        const ring = cyl(9.6, 3, silver, 0, 0, 0, 20); ring.rotation.x = Math.PI / 2; ring.position.set(-2, 13, -26); cam.add(ring);
+        const glass = new THREE.Mesh(new THREE.CircleGeometry(7, 20), S({ color: 0x1a2a4a, roughness: 0.05, metalness: 0.6 })); glass.rotation.y = Math.PI; glass.position.set(-2, 13, -28.2); cam.add(glass);
+        this.slLed = new THREE.MeshStandardMaterial({ color: 0x401010, emissive: 0xff2a1a, emissiveIntensity: 0, roughness: 0.4 }); cam.add(box(3, 1.5, 3, this.slLed, 10, 26.8, -6));
+        this.slFlash = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex(), color: 0xffffff, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false, toneMapped: false })); this.slFlash.scale.setScalar(46); this.slFlash.position.set(-2, 13, -32); cam.add(this.slFlash);
+      },
+      () => this.cables([['st', [this.slWireAt.x, this.slWireAt.y, this.slWireAt.z], 1.6, 0x2a62c8]]),
+    ];
+  }
+  slideDraw() {
+    if (!this.slCar) return false; const S = this.sim, A = this.slAt; const x = Math.max(-5, Math.min(SLIDE.len + 5, S.x || 0)); const w = S.w || 0; const f = S.flash || 0;
+    const key = [x, w, f].map((v) => Math.round(v * 200)).join(); if (this.lab.version !== this._slv) { this._slv = this.lab.version; this.cables([['st', [this.slWireAt.x, this.slWireAt.y, this.slWireAt.z], 1.6, 0x2a62c8]]); } if (key === this._slk) return false; this._slk = key;
+    this.slCar.position.set(A.XS + x, A.YR + 4, A.Z0); this.slHead.rotation.x = w / 20 * 3; // (the rocking, shown three times bigger)
+    this.slPulley.rotation.z = -x / 6.37; // (the pulley turns once for 40 mm: 2π ÷ 40 = 1 ÷ 6.37 a mm)
+    this.slFlash.material.opacity = f; this.slLed.emissiveIntensity = f > 0.5 ? 2.5 : 0; return true;
   }
 
   // ================================================================== the keypad locker

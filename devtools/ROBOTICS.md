@@ -1048,3 +1048,13 @@ heaters.
   x ≈ 175 mm. With degrees(), corner-to-corner jumps (a joint move) draw 12 mm off the line with 38 % covered; lineTo()
   (40 steps through penAt: a linear move) draws within 1.8 mm, 96 % (gaps where whole degrees lift the tip). The lesson's
   live text reads robots.js ARMCUR. robocore24.mjs plays it. Class 11: 10 of 26.
+- Class 11 camera slider (batch 24, lessons24.js `slider`; scenes3.js `SliderScene` and `SLIDE`, worlds3.js
+  `slideSteps`, view scene3cv): a 2020 rail on two stands with a GT2 belt, the 28BYJ-48 and its 20-tooth pulley on the
+  left end plate (the `stepper` part with mount: only the board on the mat), a carriage with a ball head and a small
+  camera filming a row of model houses behind the rail. The carriage moves 40 mm a turn (20 teeth × 2 mm; 51.2 steps a
+  mm). When it stops it rocks (0.6 mm at 9 Hz, dying away with τ = 0.15 s; drawn three times bigger). The camera clicks
+  when the shutter LED (led1 on pin 7, standing for the optocoupler on the remote socket; the student places it and wires
+  pin 7) lights: the photo is sharp if the camera moved under 0.1 mm in its 1/30 s (a carriage still moving, or just
+  stopped, counts its full rocking). 12 photos 15 mm apart: with 2048 ÷ (π × 20) steps a mm they end at 114 mm (short);
+  with 2048 ÷ 40.0 at 180 mm, but none is sharp (the shutter clicks as the carriage stops); delay(500) after the move
+  makes all 12 sharp. robocore24.mjs plays it. Class 11: 11 of 26.

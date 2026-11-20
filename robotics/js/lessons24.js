@@ -32,8 +32,14 @@
 //              the base's angle in radians (1.87 → 2°): it draws on the desk to the right. With degrees() it reaches the
 //              paper, but each corner is a jump of all the joints at once (a joint move): the sides curve and the pen
 //              lifts and digs. lineTo() (40 small steps along the line, each through penAt: a linear move) draws a square.
+//   slider     a camera slider for time-lapse: the stepper turns a 20-tooth GT2 pulley (40 mm of belt a turn), the carriage
+//              carries a small camera along a 2020 rail, and pin 7 clicks its shutter (an optocoupler on the remote socket;
+//              the student wires the LED that stands for it). 12 photos 15 mm apart should cover 180 mm. The first program
+//              takes the pulley as a 20 mm roller (2048 ÷ 62.8 = 32.6 steps a mm): the photos end at 114 mm. 20 teeth × 2 mm
+//              = 40 mm a turn: 51.2 steps a mm. Then the photos are blurred: the shutter clicks while the carriage still
+//              rocks from stopping (scenes3.js SliderScene); half a second's settling time makes every photo sharp.
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
-import { GLASS, CUR, LIFT } from './scenes3.js';
+import { GLASS, CUR, LIFT, SLIDE } from './scenes3.js';
 import { ARMCUR } from './robots.js';
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
@@ -372,6 +378,39 @@ void loop() {
 }
 `;
 
+const SLIDEC = `// Camera slider: a time-lapse along the rail, 12 photos 15 mm apart.
+#include <Stepper.h>
+
+Stepper slider(2048, 8, 10, 9, 11);     // the 28BYJ-48 turns the belt's pulley (IN1-IN4 on pins 8-11)
+const int shutter = 7;                  // HIGH = click (an optocoupler on the camera's remote socket; the LED shows it)
+float stepsPerMm = 2048 / (3.1416 * 20);   // steps for 1 mm of belt: one turn of the 20 mm pulley
+const int photos = 12;
+const float gap = 15;                   // mm between two photos
+
+void setup() {
+  pinMode(shutter, OUTPUT);
+  slider.setSpeed(12);
+  Serial.begin(9600);
+  Serial.println("Time-lapse: 12 photos, 180 mm");
+  for (int i = 1; i <= photos; i++) {
+    slider.step(gap * stepsPerMm);      // move the camera on
+    digitalWrite(shutter, HIGH);        // click
+    delay(100);
+    digitalWrite(shutter, LOW);
+    Serial.print("Photo ");
+    Serial.print(i);
+    Serial.print(" at ");
+    Serial.print(i * gap, 0);
+    Serial.println(" mm");
+    delay(300);
+  }
+  Serial.println("Done");
+}
+
+void loop() {
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -558,6 +597,31 @@ export function batch24(K, n0) {
     ],
     check: [noShort],
     done: (S) => S.w('square') });
+  // 7 ------------------------------------------------------------------------------------------------- camera slider
+  const okMm = (src) => { const m = /float\s+stepsPerMm\s*=\s*([^;]+);/.exec(src || ''); if (!m) return false; const t = m[1].replace(/\s+/g, ''); return /^(2048\/40(\.0)?|2048\.0\/40|51\.2|2048\/\(20\*2(\.0)?\)|2048\.0\/\(20\*2\))$/.test(t); };
+  const okSettle = (src) => { const m = /slider\.step\([^;]*\);[^\n]*\n\s*delay\(\s*(\d+)\s*\)\s*;/.exec(src || ''); return !!m && +m[1] >= 400 && +m[1] <= 1500; };
+  L.push({ id: 'slider', cls: '11', blocks: false, view: 'wide', rview: 'scene3cv', code: SLIDEC, drawer: ['led'], serial: true, scene: { kind: 'slider' },
+    title: t3('Camera slider with a stepper', 'स्टेपर वाला कैमरा स्लाइडर', 'Stepper wala camera slider'),
+    goal: t3('Film makers slide the camera a little between photos to make a moving time-lapse. A stepper pulls the camera along a rail with a toothed belt, and pin 7 clicks the shutter. Work out the steps for a millimetre from the pulley\'s teeth, then make every photo sharp.', 'फ़िल्म बनाने वाले हर फ़ोटो के बीच कैमरा थोड़ा खिसकाते हैं ताकि टाइम-लैप्स चलता हुआ दिखे। स्टेपर दाँतेदार बेल्ट से कैमरे को रेल पर खींचता है, और पिन 7 शटर दबाता है। पुली के दाँतों से एक मिलीमीटर के क़दम निकालिए, फिर हर फ़ोटो साफ़ कीजिए।', 'Film banane wale har photo ke beech camera thoda khiskaate hain taaki time-lapse chalta hua dikhe. Stepper daantedaar belt se camera ko rail par kheenchta hai, aur pin 7 shutter dabata hai. Pulley ke daanton se ek millimetre ke kadam nikaliye, phir har photo saaf kijiye.'),
+    setup: { parts: [F('st', 'stepper', { mount: 'slider' }, 96, 150, 0), P('r1', 'resistor', { ohms: 220 }, 'b30', 3)],
+      wires: [...POWER, ...[['IN1', 8], ['IN2', 9], ['IN3', 10], ['IN4', 11]].map(([id, pin]) => ['T:st:' + id, 'D' + pin]), ['T:st:GND', 'H:bn50'], ['T:st:VCC', 'H:bp50']] },
+    steps: [
+      { k: 'info', do: t3('The camera rides on a carriage along an aluminium rail. A GT2 toothed belt pulls it: the 28BYJ-48 (pins 8–11, wired) turns a pulley with 20 teeth, 2 mm apart. The camera\'s remote socket is clicked by pin 7 through an optocoupler, a tiny LED inside a chip that lights a light sensor: so pin 7 just lights an LED.', 'कैमरा एक कैरिज पर एल्युमिनियम रेल के साथ चलता है। GT2 दाँतेदार बेल्ट उसे खींचती है: 28BYJ-48 (पिन 8–11, जुड़ा है) 20 दाँतों वाली पुली घुमाता है, दाँत 2 mm की दूरी पर। कैमरे का रिमोट सॉकेट पिन 7 से एक ऑप्टोकपलर के ज़रिए दबता है, चिप के अंदर एक छोटी एलईडी जो एक लाइट सेंसर को रोशन करती है: तो पिन 7 बस एक एलईडी जलाता है।', 'Camera ek carriage par aluminium rail ke saath chalta hai. GT2 daantedaar belt use kheenchti hai: 28BYJ-48 (pin 8–11, juda hai) 20 daanton wali pulley ghumata hai, daant 2 mm ki doori par. Camera ka remote socket pin 7 se ek optocoupler ke zariye dabta hai, chip ke andar ek chhoti LED jo ek light sensor ko roshan karti hai: to pin 7 bas ek LED jalata hai.'), see: E },
+      { k: 'place', place: P('led1', 'led', { color: 'red' }, 'e30', 0), do: t3('Put the red LED in at the ghost: long leg (+) in 31e, short leg (−) in 30e, next to its 220 Ω resistor.', 'लाल एलईडी नीली आकृति पर लगाइए: लंबा पैर (+) 31e में, छोटा पैर (−) 30e में, इसके 220 Ω रेज़िस्टर के पास।', 'Laal LED neeli shape par lagaiye: lamba pair (+) 31e mein, chhota pair (−) 30e mein, iske 220 Ω resistor ke paas.'), see: E },
+      w3('D7', 'led1.A', 'Wire pin 7 to the LED\'s long leg (column 31).', 'पिन 7 को एलईडी के लंबे पैर (कॉलम 31) से जोड़िए।', 'Pin 7 ko LED ke lambe pair (column 31) se jodiye.', t3('Each flash of this LED is one click of the camera.', 'इस एलईडी की हर चमक कैमरे का एक क्लिक है।', 'Is LED ki har chamak camera ka ek click hai.')),
+      CHECK,
+      RUN(t3('"Time-lapse: 12 photos, 180 mm" in the Serial Monitor, and the camera starts to move.', 'सीरियल मॉनिटर में "Time-lapse: 12 photos, 180 mm", और कैमरा चलने लगता है।', 'Serial Monitor mein "Time-lapse: 12 photos, 180 mm", aur camera chalne lagta hai.')),
+      { k: 'act', until: (S) => fresh(S) && S.w('short'), do: t3('Watch the whole time-lapse: 12 photos.', 'पूरा टाइम-लैप्स देखिए: 12 फ़ोटो।', 'Poora time-lapse dekhiye: 12 photo.'),
+        see: live((lg, R) => pick(lg, `The Serial Monitor says photo 12 is at 180 mm, but the camera is at ${R.end ?? '?'} mm. The program treats the pulley as a 20 mm roller (π × 20 = 62.8 mm a turn), but a belt sits on the teeth: 20 teeth × 2 mm = 40 mm a turn.`, `सीरियल मॉनिटर कहता है फ़ोटो 12, 180 mm पर है, पर कैमरा ${R.end ?? '?'} mm पर है। प्रोग्राम पुली को 20 mm का रोलर मानता है (π × 20 = 62.8 mm एक चक्कर), पर बेल्ट दाँतों पर बैठती है: 20 दाँत × 2 mm = 40 mm एक चक्कर।`, `Serial Monitor kehta hai photo 12, 180 mm par hai, par camera ${R.end ?? '?'} mm par hai. Program pulley ko 20 mm ka roller maanta hai (π × 20 = 62.8 mm ek chakkar), par belt daanton par baithti hai: 20 daant × 2 mm = 40 mm ek chakkar.`)) },
+      { k: 'edit', test: okMm, set: [[/float stepsPerMm = 2048 \/ \(3\.1416 \* 20\);[^\n]*/, 'float stepsPerMm = 2048 / 40.0;      // steps for 1 mm of belt: 20 teeth × 2 mm = 40 mm a turn']], do: t3('Count the teeth: change the stepsPerMm line to\nfloat stepsPerMm = 2048 / 40.0;\n(51.2 steps for each mm) and press Run. The camera starts again from the motor end.', 'दाँत गिनिए: stepsPerMm वाली लाइन को ऐसा कीजिए\nfloat stepsPerMm = 2048 / 40.0;\n(हर mm के लिए 51.2 क़दम) और "चलाइए" दबाइए। कैमरा फिर मोटर वाले सिरे से शुरू होता है।', 'Daant giniye: stepsPerMm wali line ko aisa kijiye\nfloat stepsPerMm = 2048 / 40.0;\n(har mm ke liye 51.2 kadam) aur Run dabaiye. Camera phir motor wale sire se shuru hota hai.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('far') && S.w('blurred'), do: t3('Watch it again, and the camera\'s photos (in the panel).', 'फिर देखिए, और कैमरे की फ़ोटो (पैनल में)।', 'Phir dekhiye, aur camera ki photo (panel mein).'),
+        see: live((lg, R) => pick(lg, `${R.end ?? '?'} mm: the whole 180 mm. But ${R.sharpN ? 'only ' + R.sharpN + ' of the 12 photos are' : 'not one of the 12 photos is'} sharp. Look at the camera when it stops: it rocks on the rail for a moment, and the shutter clicks at once, while it is still moving.`, `${R.end ?? '?'} mm: पूरे 180 mm। पर ${R.sharpN ? '12 में से सिर्फ़ ' + R.sharpN + ' फ़ोटो साफ़ हैं' : '12 में से एक भी फ़ोटो साफ़ नहीं'}। रुकते समय कैमरे को देखिए: यह एक पल रेल पर हिलता है, और शटर तुरंत दब जाता है, जब यह हिल ही रहा होता है।`, `${R.end ?? '?'} mm: poore 180 mm. Par ${R.sharpN ? '12 mein se sirf ' + R.sharpN + ' photo saaf hain' : '12 mein se ek bhi photo saaf nahi'}. Rukte samay camera ko dekhiye: yeh ek pal rail par hilta hai, aur shutter turant dab jaata hai, jab yeh hil hi raha hota hai.`)) },
+      { k: 'edit', test: okSettle, set: [[/(    slider\.step\(gap \* stepsPerMm\);[^\n]*\n)/, '$1    delay(500);                         // let the camera stop rocking\n']], do: t3('Give it settling time: after slider.step(gap * stepsPerMm); add\n    delay(500);\nand press Run.', 'इसे रुकने का समय दीजिए: slider.step(gap * stepsPerMm); के बाद लिखिए\n    delay(500);\nऔर "चलाइए" दबाइए।', 'Ise rukne ka samay dijiye: slider.step(gap * stepsPerMm); ke baad likhiye\n    delay(500);\naur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('sharp'), do: t3('Watch the time-lapse once more.', 'टाइम-लैप्स एक बार और देखिए।', 'Time-lapse ek baar aur dekhiye.'),
+        see: live((lg, R) => pick(lg, `All 12 photos sharp, from 15 to ${R.end ?? '?'} mm. Every machine that stops and then measures, prints or photographs waits for its settling time: CNC machines, pick-and-place robots, even a phone camera on a selfie stick.`, `सभी 12 फ़ोटो साफ़, 15 से ${R.end ?? '?'} mm तक। हर मशीन जो रुककर नापती, छापती या फ़ोटो खींचती है, अपने रुकने के समय का इंतज़ार करती है: CNC मशीनें, पिक-एंड-प्लेस रोबोट, सेल्फ़ी स्टिक पर फ़ोन कैमरा भी।`, `Sabhi 12 photo saaf, 15 se ${R.end ?? '?'} mm tak. Har machine jo ruk kar naapti, chhaapti ya photo kheenchti hai, apne rukne ke samay ka intezaar karti hai: CNC machine, pick-and-place robot, selfie stick par phone camera bhi.`)) },
+    ],
+    check: [noShort, (S) => (S.conn('rail:tn', 'GND') ? null : [W.gndRail]), has('led1', t3('LED', 'एलईडी', 'LED')), need('led1.A', 'D7', W.toPin, { x: t3('LED\'s long leg', 'एलईडी का लंबा पैर', 'LED ka lamba pair'), p: 7 })],
+    done: (S) => S.w('sharp') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

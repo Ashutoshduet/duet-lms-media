@@ -622,10 +622,58 @@ const WC = { moved: t3('Belt moved', 'बेल्ट चली', 'Belt chali'),
   clear: t3('clear (HIGH)', 'खाली (HIGH)', 'khaali (HIGH)'), stamp: t3('Stamp (pin 6)', 'ठप्पा (पिन 6)', 'Thappa (pin 6)'), up: t3('up', 'ऊपर', 'upar'), onBox: t3('down on a box', 'डिब्बे पर', 'dabbe par'),
   onBelt: t3('down on the bare belt!', 'ख़ाली बेल्ट पर!', 'khaali belt par!'), perBox: t3('Stamps on each box', 'हर डिब्बे पर ठप्पे', 'Har dabbe par thappe') };
 
+// ------------------------------------------------------------------ the camera slider (batch 24, Class 11)
+// A 2020 aluminium rail, 220 mm of travel, with a carriage and a small camera on it, pulled by a GT2 belt: the 28BYJ-48 (st)
+// at the left end turns a 20-tooth pulley, so the belt moves 20 × 2 mm = 40 mm a turn (2048 steps: 51.2 steps a mm). The
+// carriage starts at 0 (at the motor end). When it stops, it rocks on the rail for a moment (SLIDE.wob mm at 9 Hz, dying
+// away with a time constant of 0.15 s). The camera takes a photo when the shutter LED (led1, standing in for the opto-
+// coupler on the camera's remote socket) lights: the photo is sharp if the camera moved less than 0.1 mm in its 1/30 s
+// exposure (the rocking's speed × the exposure; or the carriage's own speed), else blurred. After SLIDE.n photos: short
+// (they ended before 170 mm), far (170–190 mm: the 180 mm planned), sharp (far, and every photo sharp); blurred (any
+// blurred photo); end (the carriage ran into the far end).
+export const SLIDE = { len: 220, pulley: 40, wob: 0.6, tau: 0.15, hz: 9, exp: 1 / 30, sharp: 0.1, n: 12, plan: 180 };
+export class SliderScene extends Scene {
+  constructor(cfg) { super(cfg); this.a0 = null; this.x = 0; this.lastX = 0; this.stopT = null; this.flash = 0; this.reset(); }
+  reset() { this.res = { photos: [] }; this.led = false; this.gen = (this.gen || 0) + 1; }
+  pos(lab) { const st = lab.byTag('st'); if (!st) return this.x; if (this.a0 === null) this.a0 = st.state.angle || 0; return ((st.state.angle || 0) - this.a0) / 360 * SLIDE.pulley; }
+  rock() { if (this.stopT === null) return 0; const t = this.t - this.stopT; return SLIDE.wob * Math.exp(-t / SLIDE.tau); } // (the rocking's size now)
+  update(dt, lab) {
+    this.t += dt; let x = this.pos(lab); const v = (x - this.lastX) / Math.max(dt, 1e-3);
+    if (x > SLIDE.len) { this.flags.add('end'); } this.x = x;
+    if (Math.abs(x - this.lastX) > 1e-4) { this.moving = true; this.stopT = null; this.v = Math.abs(v); }
+    else if (this.moving) { this.moving = false; this.stopT = this.t; } // (it has just stopped: now it rocks)
+    this.lastX = x; const amp = this.rock(); this.w = amp * Math.sin(2 * Math.PI * SLIDE.hz * (this.t - (this.stopT ?? this.t)));
+    this.flash = Math.max(0, this.flash - dt * 4);
+    // the shutter
+    const led = lab.byTag('led1'); const on = !!led && (led.state.b || 0) > 0.18;
+    if (on && !this.led && this.runAt !== undefined) {
+      const rockMax = 2 * Math.PI * SLIDE.hz * SLIDE.wob * SLIDE.exp; // (moving in this very frame: it is stopping, or still going)
+      const blur = this.moving ? Math.max((this.v || 0) * SLIDE.exp, rockMax) : 2 * Math.PI * SLIDE.hz * amp * SLIDE.exp; const ok = blur < SLIDE.sharp;
+      const R = this.res; R.photos.push({ x: +x.toFixed(1), blur: +blur.toFixed(2), ok }); R.last = R.photos[R.photos.length - 1]; this.flash = 1; this.flags.add('photo');
+      if (!ok) this.flags.add('blurred');
+      if (R.photos.length === SLIDE.n) {
+        R.end = +x.toFixed(1); R.sharpN = R.photos.filter((p) => p.ok).length;
+        if (x < SLIDE.plan - 10) this.flags.add('short'); else if (x <= SLIDE.plan + 10) { this.flags.add('far'); if (R.sharpN === SLIDE.n) this.flags.add('sharp'); }
+      }
+    }
+    this.led = on;
+    return this.moving || amp > 0.01 || this.flash > 0;
+  }
+  onRun(lab) { super.onRun(); const st = lab && lab.byTag('st'); this.a0 = st ? st.state.angle || 0 : 0; this.x = 0; this.lastX = 0; this.stopT = null; this.moving = false; this.reset(); for (const k of ['photo', 'blurred', 'short', 'far', 'sharp', 'end']) this.flags.delete(k); }
+  hud() {
+    const R = this.res; const n = R.photos.length, ok = R.photos.filter((p) => p.ok).length;
+    return { title: t3('Camera slider', 'कैमरा स्लाइडर', 'Camera slider'),
+      rows: [[tx(WS.at), `${this.x.toFixed(1)} mm`], [tx(WS.photos), `${n} / ${SLIDE.n}`], [tx(WS.sharpN), n ? `${ok} / ${n}` : '—'], [tx(WS.last), R.last ? `${R.last.x} mm · ${R.last.ok ? tx(WS.sharp) : tx(WS.blur)}` : '—']],
+      controls: [] };
+  }
+}
+const WS = { at: t3('Camera at', 'कैमरा कहाँ', 'Camera kahan'), photos: t3('Photos', 'फ़ोटो', 'Photo'), sharpN: t3('Sharp photos', 'साफ़ फ़ोटो', 'Saaf photo'), last: t3('Last photo', 'आख़िरी फ़ोटो', 'Aakhri photo'),
+  sharp: t3('sharp', 'साफ़', 'saaf'), blur: t3('blurred', 'धुँधली', 'dhundhli') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

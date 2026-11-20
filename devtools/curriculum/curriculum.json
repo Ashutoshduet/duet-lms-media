@@ -5613,14 +5613,18 @@
    {
     "class": 11,
     "n": 7,
-    "kind": "I",
+    "kind": "L",
     "title": "Camera slider with a stepper",
     "board": "uno",
-    "status": "planned",
-    "ref": "camera-slider-with-a-stepper-uno",
+    "status": "live",
+    "ref": "slider",
     "newparts": [],
-    "family": "machines",
-    "parts": [],
+    "family": "live-projects",
+    "parts": [
+     "stepper",
+     "resistor",
+     "led"
+    ],
     "strand": "Abstraction",
     "focus": "Mechanisms",
     "term": "Term 1 (April-July)"

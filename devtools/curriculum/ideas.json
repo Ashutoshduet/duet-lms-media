@@ -55848,6 +55848,27 @@
 "note": null
 },
 {
+"id": "live-slider",
+"title": "Camera slider with a stepper",
+"family": "live",
+"board": "uno",
+"parts": [
+"stepper",
+"resistor",
+"led"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "slider",
+"rule": null,
+"note": null
+},
+{
 "id": "live-armsquare",
 "title": "Robot arm: draw a square",
 "family": "live",
