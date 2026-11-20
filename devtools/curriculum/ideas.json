@@ -22028,6 +22028,25 @@
 "note": null
 },
 {
+"id": "live-f_dehumid_bt_esp",
+"title": "Library dehumidifier switch: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_dehumid_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dehumid_web_esp",
 "title": "Library dehumidifier switch: DHT11 sensor (humidity) → web page on a phone (ESP32)",
 "family": "factory",
@@ -22085,6 +22104,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_dehumid_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_bt_esp",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pharmacy_bt_esp",
 "rule": null,
 "note": null
 },
@@ -22189,6 +22227,25 @@
 "note": null
 },
 {
+"id": "live-f_teadryer_bt_esp",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_teadryer_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_teadryer_web_esp",
 "title": "Tea leaf drying room fan: DHT11 sensor (humidity) → web page on a phone (ESP32)",
 "family": "factory",
@@ -22269,6 +22326,25 @@
 "note": null
 },
 {
+"id": "live-f_examhall_bt_esp",
+"title": "Exam hall fans: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_examhall_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_examhall_web_esp",
 "title": "Exam hall fans: DHT11 sensor (temperature) → web page on a phone (ESP32)",
 "family": "factory",
@@ -22326,6 +22402,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_examhall_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_bt_esp",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_cattleshade_bt_esp",
 "rule": null,
 "note": null
 },
@@ -22410,6 +22505,25 @@
 "note": null
 },
 {
+"id": "live-f_icecream_bt_esp",
+"title": "Ice-cream cart cooler: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_icecream_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_icecream_web_esp",
 "title": "Ice-cream cart cooler: DHT11 sensor (temperature) → web page on a phone (ESP32)",
 "family": "factory",
@@ -22467,6 +22581,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_icecream_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_bt_esp",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_busshelter_bt_esp",
 "rule": null,
 "note": null
 },
@@ -22552,6 +22685,25 @@
 "note": null
 },
 {
+"id": "live-f_umbrella_bt_esp",
+"title": "Take an umbrella sign at the gate: rain sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_umbrella_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_umbrella_web_esp",
 "title": "Take an umbrella sign at the gate: rain sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -22632,6 +22784,25 @@
 "note": null
 },
 {
+"id": "live-f_leakroof_bt_esp",
+"title": "Water leak detector on the floor: rain sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_leakroof_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_leakroof_web_esp",
 "title": "Water leak detector on the floor: rain sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -22688,6 +22859,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_leakroof_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_bt_esp",
+"title": "Mandi rain alert: cover the grain: rain sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_grainsheet_bt_esp",
 "rule": null,
 "note": null
 },
@@ -22792,6 +22982,25 @@
 "note": null
 },
 {
+"id": "live-f_wiper_bt_esp",
+"title": "Automatic wiper: rain sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wiper_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_wiper_web_esp",
 "title": "Automatic wiper: rain sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -22827,6 +23036,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_wiper_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trainnear_bt_esp",
+"title": "Track vibration: train coming: vibration sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trainnear_bt_esp",
 "rule": null,
 "note": null
 },
@@ -22887,6 +23115,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_trainnear_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_bt_esp",
+"title": "Footbridge shake monitor: vibration sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bridgeshake_bt_esp",
 "rule": null,
 "note": null
 },
@@ -22991,6 +23238,25 @@
 "note": null
 },
 {
+"id": "live-f_motorshake_bt_esp",
+"title": "Machine vibration warning: vibration sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_motorshake_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_motorshake_web_esp",
 "title": "Machine vibration warning: vibration sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -23067,6 +23333,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_motorshake_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_bt_esp",
+"title": "ATM tamper alarm: vibration sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_atmtamper_bt_esp",
 "rule": null,
 "note": null
 },
@@ -23171,6 +23456,25 @@
 "note": null
 },
 {
+"id": "live-f_donationbox_bt_esp",
+"title": "Donation box tamper alarm: tilt sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_donationbox_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_donationbox_web_esp",
 "title": "Donation box tamper alarm: tilt sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -23246,6 +23550,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_donationbox_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_bt_esp",
+"title": "Leaning electric pole alert: tilt sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_polelean_bt_esp",
 "rule": null,
 "note": null
 },
@@ -23330,6 +23653,25 @@
 "note": null
 },
 {
+"id": "live-f_trucktip_bt_esp",
+"title": "Tipper truck body-up warning: tilt sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trucktip_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_trucktip_web_esp",
 "title": "Tipper truck body-up warning: tilt sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -23386,6 +23728,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_trucktip_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_bt_esp",
+"title": "Fall alarm on a walking stick: tilt sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stickfall_bt_esp",
 "rule": null,
 "note": null
 },
@@ -23490,6 +23851,25 @@
 "note": null
 },
 {
+"id": "live-f_sliderend_bt_esp",
+"title": "Camera slider end stop: hall effect sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_sliderend_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_sliderend_web_esp",
 "title": "Camera slider end stop: hall effect sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -23546,6 +23926,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_sliderend_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trolleyhome_bt_esp",
+"title": "Factory trolley at its home stop: hall effect sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_trolleyhome_bt_esp",
 "rule": null,
 "note": null
 },
@@ -23610,6 +24009,25 @@
 "note": null
 },
 {
+"id": "live-f_laptoplid_bt_esp",
+"title": "Lid that puts a screen to sleep: hall effect sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_laptoplid_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_laptoplid_web_esp",
 "title": "Lid that puts a screen to sleep: hall effect sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -23667,6 +24085,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_laptoplid_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_bt_esp",
+"title": "Bike neutral light: hall effect sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gearneutral_bt_esp",
 "rule": null,
 "note": null
 },
@@ -23747,6 +24184,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_gearneutral_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_bt_esp",
+"title": "Lift floor sensor: reed switch module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_liftfloor_bt_esp",
 "rule": null,
 "note": null
 },
@@ -23851,6 +24307,25 @@
 "note": null
 },
 {
+"id": "live-f_helmetbike_bt_esp",
+"title": "Bike that starts only with the helmet on: reed switch module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_helmetbike_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_helmetbike_web_esp",
 "title": "Bike that starts only with the helmet on: reed switch module → web page on a phone (ESP32)",
 "family": "factory",
@@ -23912,6 +24387,25 @@
 "note": null
 },
 {
+"id": "live-f_trainpass_bt_esp",
+"title": "Model railway signal: reed switch module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trainpass_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_trainpass_web_esp",
 "title": "Model railway signal: reed switch module → web page on a phone (ESP32)",
 "family": "factory",
@@ -23968,6 +24462,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_trainpass_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_bt_esp",
+"title": "All windows shut check: reed switch module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_windowclosed_bt_esp",
 "rule": null,
 "note": null
 },
@@ -24052,6 +24565,25 @@
 "note": null
 },
 {
+"id": "live-f_clapdoll_bt_esp",
+"title": "Clap and the puppet dances: sound sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapdoll_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clapdoll_web_esp",
 "title": "Clap and the puppet dances: sound sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -24087,6 +24619,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_clapdoll_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_noisemeter_bt_esp",
+"title": "Noisy classroom light: sound sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_noisemeter_bt_esp",
 "rule": null,
 "note": null
 },
@@ -24152,6 +24703,25 @@
 "note": null
 },
 {
+"id": "live-f_clapfan_bt_esp",
+"title": "Clap-on fan for a grandparent: sound sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapfan_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clapfan_web_esp",
 "title": "Clap-on fan for a grandparent: sound sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -24188,6 +24758,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_clapfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_bt_esp",
+"title": "Baby cry alert for parents: sound sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_babycry_bt_esp",
 "rule": null,
 "note": null
 },
@@ -24292,6 +24881,25 @@
 "note": null
 },
 {
+"id": "live-f_firedoor_bt_esp",
+"title": "Fire exit that opens by itself: flame sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_firedoor_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_firedoor_web_esp",
 "title": "Fire exit that opens by itself: flame sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -24327,6 +24935,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_firedoor_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_bt_esp",
+"title": "Forest fire watchtower: flame sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_forestwatch_bt_esp",
 "rule": null,
 "note": null
 },
@@ -24431,6 +25058,25 @@
 "note": null
 },
 {
+"id": "live-f_firesprinkler_bt_esp",
+"title": "Fire sprinkler for a grain godown: flame sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_firesprinkler_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_firesprinkler_web_esp",
 "title": "Fire sprinkler for a grain godown: flame sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -24489,6 +25135,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_firesprinkler_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_bt_esp",
+"title": "Stove left burning alert: flame sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stovealone_bt_esp",
 "rule": null,
 "note": null
 },
@@ -24593,6 +25258,25 @@
 "note": null
 },
 {
+"id": "live-f_rainwindow_bt_esp",
+"title": "Window that closes in the rain: rain sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_rainwindow_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_rainwindow_web_esp",
 "title": "Window that closes in the rain: rain sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -24628,6 +25312,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_rainwindow_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_bt_esp",
+"title": "Rain alert: bring the clothes in: rain sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clothesrain_bt_esp",
 "rule": null,
 "note": null
 },
@@ -24732,6 +25435,25 @@
 "note": null
 },
 {
+"id": "live-f_quake_bt_esp",
+"title": "Earthquake alarm for the classroom: vibration sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_quake_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_quake_web_esp",
 "title": "Earthquake alarm for the classroom: vibration sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -24832,6 +25554,25 @@
 "note": null
 },
 {
+"id": "live-f_knockbell_bt_esp",
+"title": "Knock-knock door bell: vibration sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_knockbell_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_knockbell_web_esp",
 "title": "Knock-knock door bell: vibration sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -24888,6 +25629,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_knockbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_bt_esp",
+"title": "Water cooler tip-over cut-off: tilt sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coolertip_bt_esp",
 "rule": null,
 "note": null
 },
@@ -24949,6 +25709,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_coolertip_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_bt_esp",
+"title": "Bicycle anti-theft alarm: tilt sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bikealarm_bt_esp",
 "rule": null,
 "note": null
 },
@@ -25028,6 +25807,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_bikealarm_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_bt_esp",
+"title": "Cycle wheel turn signal: hall effect sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_wheelturn_bt_esp",
 "rule": null,
 "note": null
 },
@@ -25112,6 +25910,25 @@
 "note": null
 },
 {
+"id": "live-f_magnetkey_bt_esp",
+"title": "Treasure box with a magnet key: hall effect sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_magnetkey_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_magnetkey_web_esp",
 "title": "Treasure box with a magnet key: hall effect sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -25167,6 +25984,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_magnetkey_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_bt_esp",
+"title": "School gate closed indicator: reed switch module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gateclosed_bt_esp",
 "rule": null,
 "note": null
 },
@@ -25227,6 +26063,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_gateclosed_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_bt_esp",
+"title": "Tank full float switch: reed switch module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floattank_bt_esp",
 "rule": null,
 "note": null
 },
@@ -25331,6 +26186,25 @@
 "note": null
 },
 {
+"id": "live-f_library_bt_esp",
+"title": "Library noise warning: sound sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_library_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_library_web_esp",
 "title": "Library noise warning: sound sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -25411,6 +26285,25 @@
 "note": null
 },
 {
+"id": "live-f_clapswitch_bt_esp",
+"title": "Clap switch: sound sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapswitch_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clapswitch_web_esp",
 "title": "Clap switch: sound sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -25472,6 +26365,25 @@
 "note": null
 },
 {
+"id": "live-f_diyaguard_bt_esp",
+"title": "Diya left burning alert: flame sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_diyaguard_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_diyaguard_web_esp",
 "title": "Diya left burning alert: flame sensor module → web page on a phone (ESP32)",
 "family": "factory",
@@ -25529,6 +26441,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_diyaguard_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_bt_esp",
+"title": "Kitchen fire alarm: flame sensor module → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kitchenfire_bt_esp",
 "rule": null,
 "note": null
 },
@@ -25634,6 +26565,25 @@
 "note": null
 },
 {
+"id": "live-f_mirror_bt_esp",
+"title": "Bathroom mirror demister: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_mirror_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_mirror_web_esp",
 "title": "Bathroom mirror demister: DHT11 sensor (humidity) → web page on a phone (ESP32)",
 "family": "factory",
@@ -25670,6 +26620,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_mirror_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_museum_bt_esp",
+"title": "Museum humidity guard: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_museum_bt_esp",
 "rule": null,
 "note": null
 },
@@ -25774,6 +26743,25 @@
 "note": null
 },
 {
+"id": "live-f_clothesdry_bt_esp",
+"title": "Drying room fan: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clothesdry_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clothesdry_web_esp",
 "title": "Drying room fan: DHT11 sensor (humidity) → web page on a phone (ESP32)",
 "family": "factory",
@@ -25810,6 +26798,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_clothesdry_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_comfort_bt_esp",
+"title": "Classroom comfort meter: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_comfort_bt_esp",
 "rule": null,
 "note": null
 },
@@ -25894,6 +26901,25 @@
 "note": null
 },
 {
+"id": "live-f_poultry_bt_esp",
+"title": "Poultry shed cooling: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_poultry_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_poultry_web_esp",
 "title": "Poultry shed cooling: DHT11 sensor (temperature) → web page on a phone (ESP32)",
 "family": "factory",
@@ -25952,6 +26978,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_poultry_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pitch_bt_esp",
+"title": "Cricket pitch dryness check: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pitch_bt_esp",
 "rule": null,
 "note": null
 },
@@ -26035,6 +27080,25 @@
 "note": null
 },
 {
+"id": "live-f_terrace_bt_esp",
+"title": "Terrace garden watering: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_terrace_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_terrace_web_esp",
 "title": "Terrace garden watering: soil moisture sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -26072,6 +27136,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_terrace_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nursery_bt_esp",
+"title": "Seedling tray monitor: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_nursery_bt_esp",
 "rule": null,
 "note": null
 },
@@ -26156,6 +27239,26 @@
 "note": null
 },
 {
+"id": "live-f_tollbooth_bt_esp",
+"title": "Toll plaza barrier: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tollbooth_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tollbooth_web_esp",
 "title": "Toll plaza barrier: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -26193,6 +27296,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_tollbooth_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_silo_bt_esp",
+"title": "Grain silo full alarm: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_silo_bt_esp",
 "rule": null,
 "note": null
 },
@@ -26280,6 +27403,26 @@
 "note": null
 },
 {
+"id": "live-f_platform_bt_esp",
+"title": "Platform edge warning: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_platform_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_platform_web_esp",
 "title": "Platform edge warning: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -26363,6 +27506,26 @@
 "note": null
 },
 {
+"id": "live-f_screenguard_bt_esp",
+"title": "Screen distance guard: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_screenguard_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_screenguard_web_esp",
 "title": "Screen distance guard: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -26421,6 +27584,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_screenguard_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heightcheck_bt_esp",
+"title": "Ride height check: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heightcheck_bt_esp",
 "rule": null,
 "note": null
 },
@@ -26508,6 +27691,25 @@
 "note": null
 },
 {
+"id": "live-f_coldwave_bt_esp",
+"title": "Cold wave school notice: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_coldwave_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coldwave_web_esp",
 "title": "Cold wave school notice: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -26587,6 +27789,25 @@
 "note": null
 },
 {
+"id": "live-f_bathwater_bt_esp",
+"title": "Bath water too cold: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bathwater_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathwater_web_esp",
 "title": "Bath water too cold: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -26648,6 +27869,25 @@
 "note": null
 },
 {
+"id": "live-f_brooder_bt_esp",
+"title": "Chick brooder heater: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_brooder_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_brooder_web_esp",
 "title": "Chick brooder heater: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -26684,6 +27924,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_brooder_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pipefreeze_bt_esp",
+"title": "Water pipe freeze warning: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_pipefreeze_bt_esp",
 "rule": null,
 "note": null
 },
@@ -26788,6 +28047,25 @@
 "note": null
 },
 {
+"id": "live-f_compost_bt_esp",
+"title": "Compost pit thermometer: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_compost_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_compost_web_esp",
 "title": "Compost pit thermometer: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -26868,6 +28146,25 @@
 "note": null
 },
 {
+"id": "live-f_transformer_bt_esp",
+"title": "Transformer heat watch: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_transformer_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_transformer_web_esp",
 "title": "Transformer heat watch: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -26944,6 +28241,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_transformer_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_geyser_bt_esp",
+"title": "Hot water ready light: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_geyser_bt_esp",
 "rule": null,
 "note": null
 },
@@ -27048,6 +28364,25 @@
 "note": null
 },
 {
+"id": "live-f_motorhot_bt_esp",
+"title": "Pump motor overheat alarm: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_motorhot_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_motorhot_web_esp",
 "title": "Pump motor overheat alarm: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -27127,6 +28462,25 @@
 "note": null
 },
 {
+"id": "live-f_ironhot_bt_esp",
+"title": "Iron left on warning: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_ironhot_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_ironhot_web_esp",
 "title": "Iron left on warning: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -27183,6 +28537,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_ironhot_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_flame_bt_esp",
+"title": "Burner flame watcher: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_flame_bt_esp",
 "rule": null,
 "note": null
 },
@@ -27270,6 +28644,26 @@
 "note": null
 },
 {
+"id": "live-f_strongsun_bt_esp",
+"title": "Strong sun warning: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_strongsun_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_strongsun_web_esp",
 "title": "Strong sun warning: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -27328,6 +28722,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_strongsun_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_headlight_bt_esp",
+"title": "Headlight auto-dipper: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_headlight_bt_esp",
 "rule": null,
 "note": null
 },
@@ -27394,6 +28808,26 @@
 "note": null
 },
 {
+"id": "live-f_solarpanel_bt_esp",
+"title": "Solar panel lifter: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_solarpanel_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_solarpanel_web_esp",
 "title": "Solar panel lifter: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -27431,6 +28865,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_solarpanel_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_powercut_bt_esp",
+"title": "Power cut alarm: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_powercut_bt_esp",
 "rule": null,
 "note": null
 },
@@ -27518,6 +28972,26 @@
 "note": null
 },
 {
+"id": "live-f_festival_bt_esp",
+"title": "Festival lights at sunset: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_festival_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_festival_web_esp",
 "title": "Festival lights at sunset: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -27577,6 +29051,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_festival_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_beacon_bt_esp",
+"title": "Tower warning beacon: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_beacon_bt_esp",
 "rule": null,
 "note": null
 },
@@ -27643,6 +29137,26 @@
 "note": null
 },
 {
+"id": "live-f_readinglamp_bt_esp",
+"title": "Study table lamp: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_readinglamp_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_readinglamp_web_esp",
 "title": "Study table lamp: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -27702,6 +29216,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_readinglamp_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_smokebeam_bt_esp",
+"title": "Smoke detector (light beam): light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_smokebeam_bt_esp",
 "rule": null,
 "note": null
 },
@@ -27810,6 +29344,25 @@
 "note": null
 },
 {
+"id": "live-f_stoveknob_bt_esp",
+"title": "Gas stove knob reminder: knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stoveknob_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_stoveknob_web_esp",
 "title": "Gas stove knob reminder: knob (potentiometer) → web page on a phone (ESP32)",
 "family": "factory",
@@ -27866,6 +29419,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_stoveknob_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_volume_bt_esp",
+"title": "Headphone volume guard: knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_volume_bt_esp",
 "rule": null,
 "note": null
 },
@@ -27950,6 +29522,25 @@
 "note": null
 },
 {
+"id": "live-f_cranelimit_bt_esp",
+"title": "Crane arm angle limit: knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_cranelimit_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_cranelimit_web_esp",
 "title": "Crane arm angle limit: knob (potentiometer) → web page on a phone (ESP32)",
 "family": "factory",
@@ -28006,6 +29597,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_cranelimit_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_speedwarn_bt_esp",
+"title": "Over-speed warning: knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_speedwarn_bt_esp",
 "rule": null,
 "note": null
 },
@@ -28110,6 +29720,25 @@
 "note": null
 },
 {
+"id": "live-f_goal_bt_esp",
+"title": "Goal-line sensor: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_goal_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_goal_web_esp",
 "title": "Goal-line sensor: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -28189,6 +29818,25 @@
 "note": null
 },
 {
+"id": "live-f_wardrobe_bt_esp",
+"title": "Wardrobe light: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wardrobe_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_wardrobe_web_esp",
 "title": "Wardrobe light: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -28225,6 +29873,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_wardrobe_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmlight_bt_esp",
+"title": "ATM cabin light: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_atmlight_bt_esp",
 "rule": null,
 "note": null
 },
@@ -28290,6 +29957,25 @@
 "note": null
 },
 {
+"id": "live-f_noentry_bt_esp",
+"title": "No-entry zone alarm: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_noentry_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_noentry_web_esp",
 "title": "No-entry zone alarm: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -28346,6 +30032,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_noentry_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_conveyor_bt_esp",
+"title": "Conveyor box detector: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_conveyor_bt_esp",
 "rule": null,
 "note": null
 },
@@ -28450,6 +30155,25 @@
 "note": null
 },
 {
+"id": "live-f_binfull_bt_esp",
+"title": "Dustbin full indicator: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_binfull_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_binfull_web_esp",
 "title": "Dustbin full indicator: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -28550,6 +30274,25 @@
 "note": null
 },
 {
+"id": "live-f_kiosk_bt_esp",
+"title": "Information kiosk wake-up: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kiosk_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_kiosk_web_esp",
 "title": "Information kiosk wake-up: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -28605,6 +30348,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_kiosk_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_elephant_bt_esp",
+"title": "Wild elephant early warning: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_elephant_bt_esp",
 "rule": null,
 "note": null
 },
@@ -28669,6 +30431,25 @@
 "note": null
 },
 {
+"id": "live-f_spotlight_bt_esp",
+"title": "Security spotlight: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_spotlight_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_spotlight_web_esp",
 "title": "Security spotlight: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -28726,6 +30507,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_spotlight_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycot_bt_esp",
+"title": "Baby cot watcher: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_babycot_bt_esp",
 "rule": null,
 "note": null
 },
@@ -28809,6 +30609,25 @@
 "note": null
 },
 {
+"id": "live-f_monkey_bt_esp",
+"title": "Terrace monkey alarm: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_monkey_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_monkey_web_esp",
 "title": "Terrace monkey alarm: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -28865,6 +30684,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_monkey_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_scarecrow_bt_esp",
+"title": "Electronic scarecrow: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_scarecrow_bt_esp",
 "rule": null,
 "note": null
 },
@@ -28928,6 +30766,25 @@
 "note": null
 },
 {
+"id": "live-f_chemist_bt_esp",
+"title": "Chemist night bell: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_chemist_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_chemist_web_esp",
 "title": "Chemist night bell: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -28984,6 +30841,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_chemist_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_labhelp_bt_esp",
+"title": "Lab help-request light: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_labhelp_bt_esp",
 "rule": null,
 "note": null
 },
@@ -29068,6 +30944,25 @@
 "note": null
 },
 {
+"id": "live-f_quizbuzz_bt_esp",
+"title": "Quiz contest buzzer: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_quizbuzz_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_quizbuzz_web_esp",
 "title": "Quiz contest buzzer: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -29128,6 +31023,25 @@
 "note": null
 },
 {
+"id": "live-f_bucketfill_bt_esp",
+"title": "Push-to-fill bucket tap: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bucketfill_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bucketfill_web_esp",
 "title": "Push-to-fill bucket tap: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -29169,6 +31083,25 @@
 "note": null
 },
 {
+"id": "live-f_petfeeder_bt_esp",
+"title": "Pet feeder flap: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_petfeeder_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_petfeeder_web_esp",
 "title": "Pet feeder flap: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -29204,6 +31137,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_petfeeder_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_orderready_bt_esp",
+"title": "Canteen order-ready sign: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_orderready_bt_esp",
 "rule": null,
 "note": null
 },
@@ -29288,6 +31240,25 @@
 "note": null
 },
 {
+"id": "live-f_elderhelp_bt_esp",
+"title": "Grandparent help button: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_elderhelp_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_elderhelp_web_esp",
 "title": "Grandparent help button: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -29344,6 +31315,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_elderhelp_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busstop_bt_esp",
+"title": "Bus stop request bell: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_busstop_bt_esp",
 "rule": null,
 "note": null
 },
@@ -29448,6 +31438,25 @@
 "note": null
 },
 {
+"id": "live-f_touchless_bt_esp",
+"title": "Contactless doorbell: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_touchless_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_touchless_web_esp",
 "title": "Contactless doorbell: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -29527,6 +31536,25 @@
 "note": null
 },
 {
+"id": "live-f_bookdrop_bt_esp",
+"title": "Library book-drop alert: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bookdrop_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bookdrop_web_esp",
 "title": "Library book-drop alert: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -29587,6 +31615,25 @@
 "note": null
 },
 {
+"id": "live-f_soap_bt_esp",
+"title": "Automatic soap dispenser: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_soap_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_soap_web_esp",
 "title": "Automatic soap dispenser: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -29624,6 +31671,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_soap_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_piggybank_bt_esp",
+"title": "Piggy bank coin chime: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_piggybank_bt_esp",
 "rule": null,
 "note": null
 },
@@ -29707,6 +31773,25 @@
 "note": null
 },
 {
+"id": "live-f_occupied_bt_esp",
+"title": "Washroom occupied light: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_occupied_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_occupied_web_esp",
 "title": "Washroom occupied light: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -29743,6 +31828,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_occupied_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_corridor_bt_esp",
+"title": "Corridor night light: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_corridor_bt_esp",
 "rule": null,
 "note": null
 },
@@ -29804,6 +31908,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_corridor_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_afterhours_bt_esp",
+"title": "Shop after-hours alarm: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_afterhours_bt_esp",
 "rule": null,
 "note": null
 },
@@ -29887,6 +32010,25 @@
 "note": null
 },
 {
+"id": "live-f_treeguard_bt_esp",
+"title": "Tree sapling water reminder: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_treeguard_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_treeguard_web_esp",
 "title": "Tree sapling water reminder: soil moisture sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -29966,6 +32108,26 @@
 "note": null
 },
 {
+"id": "live-f_carwash_bt_esp",
+"title": "Car wash sprinkler: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_carwash_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_carwash_web_esp",
 "title": "Car wash sprinkler: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -30009,6 +32171,26 @@
 "note": null
 },
 {
+"id": "live-f_trucks_bt_esp",
+"title": "Low bridge height warning: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trucks_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_trucks_web_esp",
 "title": "Low bridge height warning: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -30046,6 +32228,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_trucks_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_bt_esp",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_rainsoon_bt_esp",
 "rule": null,
 "note": null
 },
@@ -30130,6 +32331,25 @@
 "note": null
 },
 {
+"id": "live-f_cattlemist_bt_esp",
+"title": "Cattle shed mist cooler: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_cattlemist_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_cattlemist_web_esp",
 "title": "Cattle shed mist cooler: DHT11 sensor (temperature) → web page on a phone (ESP32)",
 "family": "factory",
@@ -30171,6 +32391,25 @@
 "note": null
 },
 {
+"id": "live-f_frostcover_bt_esp",
+"title": "Frost cover for seedlings: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_frostcover_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frostcover_web_esp",
 "title": "Frost cover for seedlings: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -30206,6 +32445,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_frostcover_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thermostat_bt_esp",
+"title": "Room heater thermostat: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_thermostat_bt_esp",
 "rule": null,
 "note": null
 },
@@ -30271,6 +32529,25 @@
 "note": null
 },
 {
+"id": "live-f_engine_bt_esp",
+"title": "Engine overheat light: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_engine_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_engine_web_esp",
 "title": "Engine overheat light: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -30328,6 +32605,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_engine_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_milkchill_bt_esp",
+"title": "Milk chiller alarm: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_milkchill_bt_esp",
 "rule": null,
 "note": null
 },
@@ -30432,6 +32728,26 @@
 "note": null
 },
 {
+"id": "live-f_darkroom_bt_esp",
+"title": "Darkroom light alarm: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_darkroom_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_darkroom_web_esp",
 "title": "Darkroom light alarm: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -30515,6 +32831,26 @@
 "note": null
 },
 {
+"id": "live-f_solarpump_bt_esp",
+"title": "Solar-time water pump: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_solarpump_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_solarpump_web_esp",
 "title": "Solar-time water pump: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -30554,6 +32890,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_solarpump_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_lighthouse_bt_esp",
+"title": "Lighthouse lamp: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_lighthouse_bt_esp",
 "rule": null,
 "note": null
 },
@@ -30621,6 +32977,26 @@
 "note": null
 },
 {
+"id": "live-f_tunnel_bt_esp",
+"title": "Car headlights in a tunnel: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tunnel_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tunnel_web_esp",
 "title": "Car headlights in a tunnel: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -30680,6 +33056,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_tunnel_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_panelshade_bt_esp",
+"title": "Solar panel shade alarm: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_panelshade_bt_esp",
 "rule": null,
 "note": null
 },
@@ -30767,6 +33163,25 @@
 "note": null
 },
 {
+"id": "live-f_liftcall_bt_esp",
+"title": "Lift call button: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_liftcall_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_liftcall_web_esp",
 "title": "Lift call button: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -30827,6 +33242,25 @@
 "note": null
 },
 {
+"id": "live-f_coolroom_bt_esp",
+"title": "Server cupboard cooler: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coolroom_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coolroom_web_esp",
 "title": "Server cupboard cooler: DHT11 sensor (temperature) → web page on a phone (ESP32)",
 "family": "factory",
@@ -30863,6 +33297,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_coolroom_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_booksdamp_bt_esp",
+"title": "Library damp alarm: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_booksdamp_bt_esp",
 "rule": null,
 "note": null
 },
@@ -30923,6 +33376,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_booksdamp_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_bt_esp",
+"title": "Turnstile gate: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_turnstile_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31006,6 +33478,25 @@
 "note": null
 },
 {
+"id": "live-f_handdryer_bt_esp",
+"title": "Hand dryer: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_handdryer_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_handdryer_web_esp",
 "title": "Hand dryer: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -31042,6 +33533,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_handdryer_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_mailbox_bt_esp",
+"title": "Letter-box alert: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_mailbox_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31106,6 +33616,25 @@
 "note": null
 },
 {
+"id": "live-f_exhibit_bt_esp",
+"title": "Museum exhibit that wakes up: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_exhibit_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_exhibit_web_esp",
 "title": "Museum exhibit that wakes up: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -31162,6 +33691,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_exhibit_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_farmgate_bt_esp",
+"title": "Farm gate animal alert: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_farmgate_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31226,6 +33774,25 @@
 "note": null
 },
 {
+"id": "live-f_bathlight_bt_esp",
+"title": "Bathroom light that switches off itself: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bathlight_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathlight_web_esp",
 "title": "Bathroom light that switches off itself: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -31283,6 +33850,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_bathlight_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_paddy_bt_esp",
+"title": "Paddy field water keeper: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_paddy_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31368,6 +33954,26 @@
 "note": null
 },
 {
+"id": "live-f_shopchime_bt_esp",
+"title": "Shop entry chime: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shopchime_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_shopchime_web_esp",
 "title": "Shop entry chime: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -31405,6 +34011,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_shopchime_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_garage_bt_esp",
+"title": "Garage door opener: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_garage_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31471,6 +34097,25 @@
 "note": null
 },
 {
+"id": "live-f_fishtank_bt_esp",
+"title": "Fish tank heater: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fishtank_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishtank_web_esp",
 "title": "Fish tank heater: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -31528,6 +34173,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fishtank_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teacool_bt_esp",
+"title": "Tea is cool enough: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_teacool_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31611,6 +34275,25 @@
 "note": null
 },
 {
+"id": "live-f_batteryhot_bt_esp",
+"title": "Battery overheat warning: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_batteryhot_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_batteryhot_web_esp",
 "title": "Battery overheat warning: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -31667,6 +34350,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_batteryhot_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_serverroom_bt_esp",
+"title": "Computer lab overheat alarm: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_serverroom_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31752,6 +34454,26 @@
 "note": null
 },
 {
+"id": "live-f_drawer_bt_esp",
+"title": "Locker drawer opened alarm: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_drawer_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_drawer_web_esp",
 "title": "Locker drawer opened alarm: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -31810,6 +34532,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_drawer_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikelamp_bt_esp",
+"title": "Bicycle lamp reminder: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bikelamp_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31876,6 +34618,26 @@
 "note": null
 },
 {
+"id": "live-f_henhouse_bt_esp",
+"title": "Hen-house door at dusk: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_henhouse_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_henhouse_web_esp",
 "title": "Hen-house door at dusk: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -31913,6 +34675,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_henhouse_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopsign_bt_esp",
+"title": "Shop sign that lights at dusk: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shopsign_bt_esp",
 "rule": null,
 "note": null
 },
@@ -31980,6 +34762,25 @@
 "note": null
 },
 {
+"id": "live-f_fanmark_bt_esp",
+"title": "Fan regulator with an on mark: knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fanmark_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fanmark_web_esp",
 "title": "Fan regulator with an on mark: knob (potentiometer) → web page on a phone (ESP32)",
 "family": "factory",
@@ -32016,6 +34817,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fanmark_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_bt_esp",
+"title": "Gate call for the watchman: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_watchman_bt_esp",
 "rule": null,
 "note": null
 },
@@ -32100,6 +34920,25 @@
 "note": null
 },
 {
+"id": "live-f_handwash_bt_esp",
+"title": "Push-button hand-wash tap: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_handwash_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_handwash_web_esp",
 "title": "Push-button hand-wash tap: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -32141,6 +34980,25 @@
 "note": null
 },
 {
+"id": "live-f_bathfan_bt_esp",
+"title": "Bathroom steam fan: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bathfan_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bathfan_web_esp",
 "title": "Bathroom steam fan: DHT11 sensor (humidity) → web page on a phone (ESP32)",
 "family": "factory",
@@ -32177,6 +35035,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_bathfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_bt_esp",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_grainstore_bt_esp",
 "rule": null,
 "note": null
 },
@@ -32281,6 +35158,25 @@
 "note": null
 },
 {
+"id": "live-f_greenfan_bt_esp",
+"title": "Greenhouse cooling: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_greenfan_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_greenfan_web_esp",
 "title": "Greenhouse cooling: DHT11 sensor (temperature) → web page on a phone (ESP32)",
 "family": "factory",
@@ -32337,6 +35233,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_greenfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_bt_esp",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_heatwave_bt_esp",
 "rule": null,
 "note": null
 },
@@ -32441,6 +35356,25 @@
 "note": null
 },
 {
+"id": "live-f_classfan_bt_esp",
+"title": "Classroom energy saver: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_classfan_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_classfan_web_esp",
 "title": "Classroom energy saver: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -32477,6 +35411,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_classfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bottle_bt_esp",
+"title": "Bottle filling station: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bottle_bt_esp",
 "rule": null,
 "note": null
 },
@@ -32522,6 +35475,25 @@
 "note": null
 },
 {
+"id": "live-f_soillamp_bt_esp",
+"title": "Soil health lamp: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_soillamp_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_soillamp_web_esp",
 "title": "Soil health lamp: soil moisture sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -32558,6 +35530,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_soillamp_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_waterplant_bt_esp",
+"title": "Automatic plant watering: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_waterplant_bt_esp",
 "rule": null,
 "note": null
 },
@@ -32599,6 +35590,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_waterplant_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankfull_bt_esp",
+"title": "Water tank full alarm: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankfull_bt_esp",
 "rule": null,
 "note": null
 },
@@ -32686,6 +35697,25 @@
 "note": null
 },
 {
+"id": "live-f_frost_bt_esp",
+"title": "Frost alarm for crops: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_frost_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_frost_web_esp",
 "title": "Frost alarm for crops: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -32742,6 +35772,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_frost_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_incubator_bt_esp",
+"title": "Egg incubator heater: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_incubator_bt_esp",
 "rule": null,
 "note": null
 },
@@ -32826,6 +35875,26 @@
 "note": null
 },
 {
+"id": "live-f_blinds_bt_esp",
+"title": "Sun blind closer: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_blinds_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_blinds_web_esp",
 "title": "Sun blind closer: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -32863,6 +35932,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_blinds_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fridgeopen_bt_esp",
+"title": "Fridge door left open alarm: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fridgeopen_bt_esp",
 "rule": null,
 "note": null
 },
@@ -32925,6 +36014,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fridgeopen_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sunrise_bt_esp",
+"title": "Sunrise alarm: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sunrise_bt_esp",
 "rule": null,
 "note": null
 },
@@ -33012,6 +36121,26 @@
 "note": null
 },
 {
+"id": "live-f_growlight_bt_esp",
+"title": "Grow light for plants: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_growlight_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_growlight_web_esp",
 "title": "Grow light for plants: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -33071,6 +36200,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_growlight_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heaterset_bt_esp",
+"title": "Heater set-point knob: knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heaterset_bt_esp",
 "rule": null,
 "note": null
 },
@@ -33136,6 +36284,25 @@
 "note": null
 },
 {
+"id": "live-f_panic_bt_esp",
+"title": "Panic button for a shop: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_panic_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_panic_web_esp",
 "title": "Panic button for a shop: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -33192,6 +36359,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_panic_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stairs_bt_esp",
+"title": "Stair light with a timer: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_stairs_bt_esp",
 "rule": null,
 "note": null
 },
@@ -33257,6 +36443,25 @@
 "note": null
 },
 {
+"id": "live-f_levelcross_bt_esp",
+"title": "Railway level crossing: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_levelcross_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_levelcross_web_esp",
 "title": "Railway level crossing: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -33312,6 +36517,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_levelcross_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_slot_bt_esp",
+"title": "Parking slot sensor: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_slot_bt_esp",
 "rule": null,
 "note": null
 },
@@ -33396,6 +36620,25 @@
 "note": null
 },
 {
+"id": "live-f_tap_bt_esp",
+"title": "Smart tap: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tap_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tap_web_esp",
 "title": "Smart tap: IR obstacle sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -33431,6 +36674,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_tap_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_sanitiser_bt_esp",
+"title": "Automatic hand sanitiser: IR obstacle sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ir"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_sanitiser_bt_esp",
 "rule": null,
 "note": null
 },
@@ -33496,6 +36758,25 @@
 "note": null
 },
 {
+"id": "live-f_intruder_bt_esp",
+"title": "Intruder alert screen: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_intruder_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_intruder_web_esp",
 "title": "Intruder alert screen: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -33551,6 +36832,25 @@
 "level": 9,
 "theme": "bank",
 "live": "f_intruder_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_bt_esp",
+"title": "Welcome greeter: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_greeter_bt_esp",
 "rule": null,
 "note": null
 },
@@ -33634,6 +36934,25 @@
 "note": null
 },
 {
+"id": "live-f_roomlight_bt_esp",
+"title": "Automatic room light: PIR motion sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_roomlight_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_roomlight_web_esp",
 "title": "Automatic room light: PIR motion sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -33695,6 +37014,25 @@
 "note": null
 },
 {
+"id": "live-f_pumprelay_bt_esp",
+"title": "Farm pump switch: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_pumprelay_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pumprelay_web_esp",
 "title": "Farm pump switch: soil moisture sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -33736,6 +37074,25 @@
 "note": null
 },
 {
+"id": "live-f_valve_bt_esp",
+"title": "Garden sprinkler valve: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_valve_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_valve_web_esp",
 "title": "Garden sprinkler valve: soil moisture sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -33771,6 +37128,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_valve_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_thirst_bt_esp",
+"title": "Plant thirst alarm: soil moisture sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"soil"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_thirst_bt_esp",
 "rule": null,
 "note": null
 },
@@ -33875,6 +37251,26 @@
 "note": null
 },
 {
+"id": "live-f_distancing_bt_esp",
+"title": "Queue distance alarm: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_distancing_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_distancing_web_esp",
 "title": "Queue distance alarm: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -33937,6 +37333,26 @@
 "note": null
 },
 {
+"id": "live-f_door_bt_esp",
+"title": "Automatic door: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_door_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_door_web_esp",
 "title": "Automatic door: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -33974,6 +37390,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_door_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_blindstick_bt_esp",
+"title": "Blind stick (third eye): ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_blindstick_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34019,6 +37455,26 @@
 "note": null
 },
 {
+"id": "live-f_dustbin_bt_esp",
+"title": "Smart dustbin lid: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dustbin_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dustbin_web_esp",
 "title": "Smart dustbin lid: ultrasonic sensor → web page on a phone (ESP32)",
 "family": "factory",
@@ -34056,6 +37512,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_dustbin_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parkbeep_bt_esp",
+"title": "Parking distance warning: ultrasonic sensor → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_parkbeep_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34143,6 +37619,25 @@
 "note": null
 },
 {
+"id": "live-f_vent_bt_esp",
+"title": "Greenhouse vent opener: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_vent_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_vent_web_esp",
 "title": "Greenhouse vent opener: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -34178,6 +37673,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_vent_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_fever_bt_esp",
+"title": "Fever check station: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fever_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34262,6 +37776,25 @@
 "note": null
 },
 {
+"id": "live-f_coolfan_bt_esp",
+"title": "Automatic cooling fan: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_coolfan_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coolfan_web_esp",
 "title": "Automatic cooling fan: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -34298,6 +37831,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_coolfan_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_toohot_bt_esp",
+"title": "Too-hot warning: temperature sensor LM35 → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lm35"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_toohot_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34402,6 +37954,26 @@
 "note": null
 },
 {
+"id": "live-f_fridge_bt_esp",
+"title": "Cupboard light checker: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_fridge_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fridge_web_esp",
 "title": "Cupboard light checker: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -34439,6 +38011,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_fridge_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tripwire_bt_esp",
+"title": "Laser tripwire alarm: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tripwire_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34526,6 +38118,26 @@
 "note": null
 },
 {
+"id": "live-f_curtain_bt_esp",
+"title": "Automatic curtain: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_curtain_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_curtain_web_esp",
 "title": "Automatic curtain: light sensor (LDR) → web page on a phone (ESP32)",
 "family": "factory",
@@ -34563,6 +38175,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_curtain_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_streetlight_bt_esp",
+"title": "Automatic street light: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_streetlight_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34626,6 +38258,26 @@
 "level": 8,
 "theme": "bank",
 "live": "f_streetlight_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nightlamp_bt_esp",
+"title": "Night lamp: light sensor (LDR) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"ldr",
+"resistor"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nightlamp_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34714,6 +38366,25 @@
 "note": null
 },
 {
+"id": "live-f_steer_bt_esp",
+"title": "Knob steering: knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_steer_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_steer_web_esp",
 "title": "Knob steering: knob (potentiometer) → web page on a phone (ESP32)",
 "family": "factory",
@@ -34749,6 +38420,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_steer_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankmark_bt_esp",
+"title": "Tank level alarm (float knob): knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankmark_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34832,6 +38522,25 @@
 "note": null
 },
 {
+"id": "live-f_dimmer_bt_esp",
+"title": "Knob lamp switch: knob (potentiometer) → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"pot"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dimmer_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_dimmer_web_esp",
 "title": "Knob lamp switch: knob (potentiometer) → web page on a phone (ESP32)",
 "family": "factory",
@@ -34889,6 +38598,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_dimmer_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_bt_esp",
+"title": "Hospital bed call button: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_nurse_bt_esp",
 "rule": null,
 "note": null
 },
@@ -34993,6 +38721,25 @@
 "note": null
 },
 {
+"id": "live-f_gate_bt_esp",
+"title": "Push-button gate: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gate_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_gate_web_esp",
 "title": "Push-button gate: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -35028,6 +38775,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_gate_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_bt_esp",
+"title": "Pedestrian crossing barrier: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_crossing_bt_esp",
 "rule": null,
 "note": null
 },
@@ -35111,6 +38877,25 @@
 "note": null
 },
 {
+"id": "live-f_lightswitch_bt_esp",
+"title": "Push-button light: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_lightswitch_bt_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_lightswitch_web_esp",
 "title": "Push-button light: push button → web page on a phone (ESP32)",
 "family": "factory",
@@ -35168,6 +38953,25 @@
 "level": 8,
 "theme": "bank",
 "live": "f_lightswitch_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_bt_esp",
+"title": "Doorbell: push button → phone over Bluetooth (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"button"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_doorbell_bt_esp",
 "rule": null,
 "note": null
 },

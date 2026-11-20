@@ -960,3 +960,9 @@ heaters.
   LDR (both kinds), LM35 (hot and cold) or soil sensor on 3.3 V (the LM35 on 5 V: it needs 4 V, its output stays small),
   and its output to `adc.CH0`; `raw_value` gives the Arduino's own numbers, `round(adc.voltage * 100)` the LM35's °C.
   Every such job on the Pi: 156 projects. robocore24.mjs plays the chip's mistakes; robofactory.mjs 15,133 ok.
+- The ESP32's warning on the phone over Bluetooth (factory.js `EOUT.bt`): BluetoothSerial "DUET-ESP32" and the phone's BT
+  Terminal app (phone4.js). `say(state, msg)` tells the phone when the state changes and again every 5 s, because what
+  the ESP32 sends while no phone is connected is lost (esp32.js `btFromEsp`), as on a real one. The lesson adds two acts:
+  connect in BT Terminal after Run, and again after the edit's Run (a restart drops the link). `isOn` is the last line the
+  phone got since it connected. Every ESP32 job: 198 projects. robofactory.mjs connects the phone at those two acts:
+  16,915 ok. 2,698 projects (239 hand-made + 2,459 bank).

@@ -38,6 +38,7 @@ function start(B, src) { const { lab, app, rt } = B; const c = compile(src, lab.
 const acts = (l) => {
   const inp = (l.board === 'esp32' ? FACTORY.EIN : l.board === 'pico' ? FACTORY.PIN : l.board === 'pi4' ? FACTORY.QIN : FACTORY.IN)[l.factory.inp]; const set = (k) => (t, B) => inp.set(B, k);
   const A = inp.analog ? [set('on'), set('off'), set('edge')] : [set('on'), set('off'), (t, B) => inp.set(B, t > 3 && t < 3.6 ? 'on' : 'off')]; // (a PIR ignores movement for a few seconds after its OUT falls);
+  if (l.factory.out === 'bt') { const conn = (t, B) => { const N = netOf(B.lab); if (!N.bt.conn && N.btDevices().length) N.btConnect(N.btDevices()[0]); }; return [conn, A[0], A[1], conn, A[2]]; } // (batch 24: the phone connects in BT Terminal, and again after the edit's Run)
   return l.factory.out === 'web' ? [(t, B) => { B.webOpen = true; }, ...A] : A; // (batch 14: the web page: the phone opens it first, then refreshes it every 2 s)
 };
 function play(B) {

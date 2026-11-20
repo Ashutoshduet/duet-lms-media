@@ -334,6 +334,19 @@ EOUT.web = { name: t3('web page on a phone', 'फ़ोन पर वेब प�
   ready: t3('The ESP32 joins the school WiFi (DUET-School) and serves a web page; the phone on the bench opens it. No wires for this output: it goes by radio.', 'ESP32 स्कूल के WiFi (DUET-School) से जुड़ता है और एक वेब पेज देता है; बेंच पर रखा फ़ोन उसे खोलता है। इस आउटपुट के लिए कोई वायर नहीं: यह रेडियो से जाता है।', 'ESP32 school ke WiFi (DUET-School) se judta hai aur ek web page deta hai; bench par rakha phone use kholta hai. Is output ke liye koi wire nahi: yeh radio se jaata hai.'),
   onWords: t3('the page on the phone shows the warning', 'फ़ोन के पेज पर चेतावनी आती है', 'phone ke page par warning aati hai'),
   isOn: (S, j) => lastBody(S).includes('<h1 style="color:#d0342c">' + j.on) };
+// (batch 24) the warning on the phone over Bluetooth: the ESP32's own Bluetooth (BluetoothSerial, "DUET-ESP32") and the
+// phone's BT Terminal app (phone4.js). say() tells the phone when the state changes and again every 5 s: what is sent
+// while no phone is connected is lost, as on a real ESP32, so a phone that connects late still hears it soon
+const lastBt = (S) => { const b = net(S).bt; const log = (b && b.log) || []; for (let i = log.length - 1; i >= 0; i--) { const e = log[i]; if (e.sys) return ''; if (!e.me) return String(e.text).trim(); } return ''; };
+EOUT.bt = { name: t3('phone over Bluetooth', 'ब्लूटूथ से फ़ोन', 'Bluetooth se phone'), pin: 'Bluetooth', parts: [], wires: [], bt: true,
+  ready: t3('The ESP32 has Bluetooth inside: it shows up on the phone as DUET-ESP32, and the phone\'s BT Terminal app shows what it sends. No wires for this output: it goes by radio.', 'ESP32 के अंदर ब्लूटूथ है: फ़ोन पर यह DUET-ESP32 नाम से दिखता है, और फ़ोन का BT Terminal ऐप दिखाता है कि यह क्या भेजता है। इस आउटपुट के लिए कोई तार नहीं: यह रेडियो से जाता है।', 'ESP32 ke andar Bluetooth hai: phone par yeh DUET-ESP32 naam se dikhta hai, aur phone ka BT Terminal app dikhata hai ki yeh kya bhejta hai. Is output ke liye koi wire nahi: yeh radio se jaata hai.'),
+  onWords: t3('the phone\'s BT Terminal shows the warning', 'फ़ोन के BT Terminal पर चेतावनी आती है', 'phone ke BT Terminal par warning aati hai'),
+  inc: ['#include "BluetoothSerial.h"'],
+  decl: ['BluetoothSerial SerialBT;', 'int told = -1;                // what the phone was told last (-1: nothing yet)', 'unsigned long toldAt = 0;      // and when', '',
+    'void say(int state, const char* msg) {   // tell the phone when it changes, and again every 5 s', '  if (state != told || millis() - toldAt >= 5000) {', '    SerialBT.println(msg);', '    told = state;', '    toldAt = millis();', '  }', '}', ''],
+  setup: ['SerialBT.begin("DUET-ESP32");   // the name the phone will see'],
+  on: (j) => [`say(1, "${piText(j.on)}");`], off: (j) => [`say(0, "${piText(j.off)}");`],
+  isOn: (S, j) => lastBt(S) === j.on };
 // (batch 23) the same page from the Raspberry Pi 4, served with Flask on port 5000 (lessons21.js pi_flask): only for the
 // switch-like sensors (a DHT11 or sonar reading would share the terminal with Flask's log lines)
 const QWEB = Object.assign({}, EOUT.web, {
@@ -875,7 +888,7 @@ function relayFor(out, job) { // the 230 V box the relay switches, in the words 
     decl: (out.decl || []).map((x) => x.replace('lamp on', 'heater on')), py: out.py && Object.assign({}, out.py, { decl: out.py.decl.map((x) => x.replace('lamp on', 'heater on')) }) });
   return out;
 }
-const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out === 'lcd' || out === 'relay' || out === 'web' ? 1 : 0)));
+const CLS = (job, inp, out) => Math.min(9, Math.max(job.cls, 5 + inp.lvl + (out === 'lcd' || out === 'relay' || out === 'web' || out === 'bt' ? 1 : 0)));
 
 // ------------------------------------------------------------------ the sketch
 function sketch(job, ik, ok, board) {
@@ -932,7 +945,7 @@ function lesson(K, job, ik, ok, n, board) {
   const out = ok === 'relay' ? relayFor(out0, job) : out0;
   const ON = (S) => out.isOn(S, job);
   const id = `f_${job.key}_${ok}` + (esp ? '_esp' : pico ? '_pico' : pi ? '_pi' : '');
-  const web = !!out.web; const code = web ? (pi ? sketchPiWeb(job, ik) : sketchWeb(job, ik)) : sketch(job, ik, ok, board);
+  const web = !!out.web, bt = !!out.bt; const code = web ? (pi ? sketchPiWeb(job, ik) : sketchWeb(job, ik)) : sketch(job, ik, ok, board);
   const wide = inp.view === 'wide' || ['servo', 'relay', 'lcd'].includes(ok);
   const when = fill(inp.when, (x) => x), onW = out.onWords;
   const goal = join3(job.why, ' ', t3(`When ${when.en}, ${onW.en}.`, `जब ${when.hi}, तब ${onW.hi}।`, `Jab ${when.hg}, tab ${onW.hg}.`));
@@ -948,6 +961,9 @@ function lesson(K, job, ik, ok, n, board) {
     see: t3('Flask answers each visit, and the page asks again every 2 s by itself. The sensor is watched all the time: seen() is called the moment it goes active, even between two visits.', 'Flask हर बार जवाब देता है, और पेज हर 2 s में अपने-आप फिर पूछता है। सेंसर पर हर समय नज़र है: सक्रिय होते ही seen() चलता है, दो बार खोलने के बीच भी।', 'Flask har baar jawab deta hai, aur page har 2 s mein apne aap phir poochhta hai. Sensor par har samay nazar hai: active hote hi seen() chalta hai, do baar kholne ke beech bhi.') });
   else if (web) steps.push({ k: 'act', until: (S) => fresh(S) && ((net(S).seen.paths || {})['/'] || 0) >= 1, do: t3('The Serial Monitor shows the address. On the phone, open the Browser, type that address (http://192.168.1.…) and press Go.', 'सीरियल मॉनिटर पता दिखाता है। फ़ोन पर Browser खोलिए, वह पता (http://192.168.1.…) लिखिए और Go दबाइए।', 'Serial Monitor address dikhata hai. Phone par Browser kholiye, woh address (http://192.168.1.…) likhiye aur Go dabaiye.'),
     see: t3('The page asks the ESP32 again every 2 s by itself (meta refresh): leave it open.', 'पेज हर 2 s में अपने-आप ESP32 से फिर पूछता है (meta refresh): इसे खुला रहने दीजिए।', 'Page har 2 s mein apne aap ESP32 se phir poochhta hai (meta refresh): ise khula rehne dijiye.') });
+  const btConn = (S) => fresh(S) && !!(net(S).bt || {}).conn;
+  if (bt) steps.push({ k: 'act', until: btConn, do: t3('On the phone, open BT Terminal and connect to DUET-ESP32.', 'फ़ोन पर BT Terminal खोलिए और DUET-ESP32 से जुड़िए।', 'Phone par BT Terminal kholiye aur DUET-ESP32 se judiye.'),
+    see: t3('The phone hears the ESP32 now. It is told when the warning starts and when it stops, and again every 5 s.', 'अब फ़ोन ESP32 को सुनता है। चेतावनी शुरू और ख़त्म होने पर उसे बताया जाता है, और हर 5 s में फिर से।', 'Ab phone ESP32 ko sunta hai. Warning shuru aur khatam hone par use bataya jaata hai, aur har 5 s mein phir se.') });
   const trig = inp.analog ? (S) => { const v = lastNum(S); return v !== null && cmp(ik, v, inp.l0); } : (S) => (!inp.ready || inp.ready(S)) && inp.active(S);
   steps.push({ k: 'act', until: (S) => fresh(S) && trig(S) && ON(S) && (S.memRun.onSeen = true), do: inp.onDo, see: t3(`${cap(onW.en)}.`, `${onW.hi}।`, `${cap(onW.hg)}.`) });
   steps.push({ k: 'act', until: (S) => fresh(S) && S.memRun.onSeen && !trig(S) && !ON(S), do: inp.offDo,
@@ -966,6 +982,7 @@ function lesson(K, job, ik, ok, n, board) {
     steps.push({ k: 'act', until: (S) => { const ok2 = fresh(S) && (S.memRun.afterMax || 0) >= 2.5; if (ok2) S.memRun.final = true; return ok2; }, do: inp.againDo,
       see: ((c) => t3(`It now stays on about 3 s after the sensor stops: ${c} counts the time without stopping the board.`, `अब सेंसर रुकने के बाद यह लगभग 3 s चालू रहता है: ${c} बोर्ड को रोके बिना समय गिनता है।`, `Ab sensor rukne ke baad yeh lagbhag 3 s on rehta hai: ${c} board ko roke bina time ginta hai.`))(pi ? 'time.monotonic()' : pico ? 'time.ticks_ms()' : 'millis()') });
   }
+  if (bt) { const ei = steps.findIndex((s) => s.k === 'edit'); if (ei >= 0) steps.splice(ei + 1, 0, { k: 'act', until: btConn, do: t3('Run restarted the ESP32, and the phone lost it: connect to DUET-ESP32 again in BT Terminal.', '"चलाइए" से ESP32 फिर से शुरू हुआ और फ़ोन का जुड़ाव टूट गया: BT Terminal में DUET-ESP32 से फिर जुड़िए।', 'Run se ESP32 phir se shuru hua aur phone ka connection toot gaya: BT Terminal mein DUET-ESP32 se phir judiye.'), see: t3('', '', '') }); }
   const tick = (S, dt) => { // the hold after a digital sensor stops: how long the output stayed on (this run)
     if (inp.analog) return; const R = S.memRun; if (!fresh(S)) return;
     if (!inp.active(S) && ON(S)) { R.after = (R.after || 0) + dt; R.afterMax = Math.max(R.afterMax || 0, R.after); } else R.after = 0;
@@ -973,7 +990,7 @@ function lesson(K, job, ik, ok, n, board) {
   const check = pi ? [(S) => (S.conn('5V', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : pico ? [(S) => (S.conn('VBUS', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : esp ? [(S) => (S.conn('VIN', 'GND') || S.conn('3V3', 'GND') ? [K.W.short] : null), ...inp.checks(K)] : [noShort(K.W), (S) => (S.conn('rail:tp', '5V') ? null : [K.W.vRail]), ...inp.checks(K)];
   const cls = pi ? Math.max(10, CLS(job, inp, ok) + 2) : pico ? Math.max(9, CLS(job, inp, ok) + 2) : esp ? Math.max(8, CLS(job, inp, ok) + 1) : CLS(job, inp, ok); const sfx = esp ? ' (ESP32)' : pico ? ' (Pico)' : pi ? ' (Raspberry Pi)' : '';
   return {
-    id, n, batch: 'F', phone: web || undefined, factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
+    id, n, batch: 'F', phone: web || bt || undefined, factory: { job: job.key, inp: ik, out: ok, board: board || 'uno' }, board: esp ? 'esp32' : pico ? 'pico' : pi ? 'pi4' : undefined, baud: esp || pico ? 115200 : undefined, lang: pico || pi ? 'py' : undefined, cls: String(cls), blocks: !esp && !pico && !pi && cls <= 6 && ik !== 'sonar', view: pi ? (wide ? 'wide' : 'pi6w') : wide ? 'wide' : esp ? 'esp4' : 'bb', wview: pi ? (wide ? 'wide' : 'pi6w') : undefined, // (pulseIn has no block yet)
     code, drawer: inp.drawer, serial: !!inp.analog, title: t3(`${job.title.en}: ${inp.name.en} → ${out.name.en}${sfx}`, `${job.title.hi}: ${inp.name.hi} → ${out.name.hi}${sfx}`, `${job.title.hg}: ${inp.name.hg} → ${out.name.hg}${sfx}`),
     goal, setup: { parts: [...out.parts, ...(inp.preParts || [])].map((p) => Object.assign({}, p)), wires: [...(esp ? ESP_POWER : pico ? PICO_POWER : pi ? PI_POWER : POWER), ...out.wires, ...(inp.preWires || [])] }, steps, check, tick,
     done: (S) => !!S.memRun.final,
@@ -985,7 +1002,7 @@ const cmp = (ik, v, lim) => ({ pot: v > lim, ldr: v < lim, ldrb: v > lim, lm35: 
 // ------------------------------------------------------------------ all of them
 export function batchF(K, n0) {
   const out = []; let n = n0;
-  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : []), ...(board === 'esp32' || (board === 'pi4' && QIN[job.inp] && !QIN[job.inp].analog) ? ['web'] : [])]) { // (batch 12: every LCD job on the OLED too; 23: the Pi's Flask page)
+  for (const board of ['uno', 'esp32', 'pico', 'pi4']) for (const job of JOBS) for (const ok of [...job.outs, ...(job.outs.includes('lcd') ? ['oled'] : []), ...(board === 'esp32' || (board === 'pi4' && QIN[job.inp] && !QIN[job.inp].analog) ? ['web'] : []), ...(board === 'esp32' ? ['bt'] : [])]) { // (24: the ESP32's Bluetooth) // (batch 12: every LCD job on the OLED too; 23: the Pi's Flask page)
     const T = board === 'esp32' ? [EIN, EOUT] : board === 'pico' ? [PIN, POUT] : board === 'pi4' ? [QIN, Object.assign({ web: QWEB }, QOUT)] : [IN, OUT];
     if (!T[0][job.inp] || !T[1][ok]) continue;
     if ((board === 'uno' && HAND_MADE.has(job.key + ':' + ok)) || ((OUT[ok] || {}).clash || []).includes(job.inp)) continue;
