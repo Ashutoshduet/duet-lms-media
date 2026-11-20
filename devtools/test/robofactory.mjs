@@ -58,7 +58,7 @@ function play(B) {
 }
 // the mistake: the sensor's signal wire (to a board pin) is left out
 function mistake(l) {
-  const sig = l.steps.find((s) => s.k === 'wire' && s.wire.some((x) => /^(D\d+|A\d|GP\d+|GPIO\d+)$/.test(x)));
+  const sig = l.steps.find((s) => s.k === 'wire' && s.wire.some((x) => /^(D\d+|A\d|GP\d+|GPIO\d+|adc\.CH\d)$/.test(x))); // (batch 24: or the MCP3008's CH0)
   const B = build(l, (s) => s === sig); const r = B.rt.runCheck();
   ok(!!r, `${l.id}: without ${sig.wire.join('–')} the check complains` + (r ? `: "${r[0].en.slice(0, 50)}…"` : ''));
 }

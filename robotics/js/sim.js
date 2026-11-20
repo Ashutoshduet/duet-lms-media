@@ -231,6 +231,10 @@ export class Lab {
   // the voltage on a pin, now (for digitalRead / analogRead); NaN when the pin is connected to nothing that sets it
   readPin(pin, t) {
     if (!this.used('N:G' + pin)) return NaN;
+    return this.readNode(this.boardNode('G' + pin), t);
+  }
+  // (batch 24) the voltage on any node of the bench now; NaN when nothing anchors it (a chip's input left floating)
+  readNode(nd, t) {
     // the last solution is kept until a pin, a part or the wiring changes (onPin clears instKey)
     let echoBits = 0;
     for (const p of this.parts) if (PARTS[p.type].us && p.state.echo) echoBits = echoBits * 2 + ((t >= p.state.echo.start && t < p.state.echo.end) ? 1 : 0) + 2;
@@ -240,8 +244,7 @@ export class Lab {
       const V = solve(this.nodeCount, els, null);
       this.instV = V; this.instOk = anchored(this.nodeCount, els); this.instKey = key;
     }
-    const nd = this.boardNode('G' + pin);
-    return this.instOk[nd] ? this.instV[nd] : NaN;
+    return nd !== undefined && nd !== null && this.instOk[nd] ? this.instV[nd] : NaN;
   }
   onWrite(pin, lv, t) {
     for (const p of this.parts) if (PARTS[p.type].onWrite) PARTS[p.type].onWrite(p, pin, lv, t, this); // batch 3: the stepper's driver follows each write

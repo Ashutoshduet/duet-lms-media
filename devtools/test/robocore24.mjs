@@ -2,6 +2,10 @@
 //   RPLCD    CharLCD('PCF8574', 0x27, cols=16, rows=2): write_string, cursor_pos (row, col), clear, "\r\n", backlight;
 //            what goes wrong as on a real Pi: SDA / SCL swapped, no 5 V, the wrong address (0x3F), the library's 20 × 4
 //            default, a number to write_string, (col, row) past the edge
+//   MCP3008  gpiozero's MCP3008(channel=0) on SPI0 through the chip: raw_value / value / voltage; DOUT or CS elsewhere
+//            or no VDD reads 0, VREF loose reads 1023, a loose input wanders, the chip or the knob on 5 V is warned about
+//   Pico     pico_i2c_lcd: I2cLcd(i2c, 0x27, 2, 16), putstr, move_to(col, row) (no check: the wrong order writes in the wrong
+//            place), wrap; OSError EIO when swapped, at another address or on the other bus
 //   luma     i2c(port=1, address=0x3C) + ssd1306 + canvas: text, big font, rectangle; an unknown font; port 0
 //                                                    node devtools/test/robocore24.mjs
 import { compile } from '../../robotics/js/cpp.js';
@@ -70,5 +74,53 @@ r = run(lab, LH + 'serial = i2c(port=1, address=0x3D)\noled = ssd1306(serial)\n'
 r = run(lab, LH + 'oled = ssd1306()\n'); ok(code(r) === 'N24_LUMA_SERIAL' || /TypeError|P_ARGS/.test(JSON.stringify(r.err)), `ssd1306() without the serial: TypeError (${code(r)})`);
 r = run(lab, LH + 'serial = i2c(port=1, address=0x3C)\noled = ssd1306(serial)\nwith canvas(oled) as draw:\n    draw.text((0, 0), "x", fill="red")\n'); ok(code(r) === 'N24_COLOR', `fill="red" on a one-colour OLED: ValueError (${code(r)})`);
 r = run(bench({ lcd: false, oled: false }), LH + 'serial = i2c(port=1, address=0x3C)\noled = ssd1306(serial)\n'); ok(code(r) === 'N24_I2C_NODEV', `no OLED on the bus: OSError 121 (${code(r)})`);
+
+// ------------------------------------------------------------ the Pico: pico_i2c_lcd (move_to is column first)
+function pico({ swap = false } = {}) {
+  const lab = new Lab(); lab.setBoard('pico');
+  for (const [a, b] of [['H:a2', 'H:tp1'], ['H:a4', 'H:tn3'], ['H:j19', 'H:bn15']]) lab.addWire(a, b); // VBUS and GND to the rails, as every Pico lesson
+  const T = 'T:' + lab.addPart('lcd16', {}, { x: -128, z: 66 }, 0, 'lcd').uid + ':';
+  lab.addWire(T + 'GND', 'H:tn10'); lab.addWire(T + 'VCC', 'H:tp10'); lab.addWire(T + 'SDA', swap ? 'H:j8' : 'H:j7'); lab.addWire(T + 'SCL', swap ? 'H:j7' : 'H:j8');
+  for (let f = 0; f < 6; f++) lab.step(1000 / 60); return lab;
+}
+const PH = 'from machine import Pin, I2C\nfrom pico_i2c_lcd import I2cLcd\ni2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)\n';
+lab = pico(); r = run(lab, PH + 'print(hex(i2c.scan()[0]))\nlcd = I2cLcd(i2c, i2c.scan()[0], 2, 16)\nlcd.putstr("Hello Pico")\nlcd.move_to(0, 1)\nlcd.putstr("Line two")\n'); t = lcdText(lab.byTag('lcd'));
+ok(!r.err && t[0].startsWith('Hello Pico') && t[1].startsWith('Line two') && /0x27/.test(r.out), `Pico: scan() finds 0x27, putstr, move_to(0, 1): ${JSON.stringify(t)} ${code(r) || ''}`);
+r = run(lab, PH + 'lcd = I2cLcd(i2c, 0x27, 2, 16)\nlcd.move_to(1, 0)\nlcd.putstr("oops")\n'); t = lcdText(lab.byTag('lcd'));
+ok(!r.err && t[0] === ' oops           ' && t[1].trim() === '', `move_to(1, 0) meant as "line 1" writes on line 0 at column 1, no error: ${JSON.stringify(t)}`);
+r = run(lab, PH + 'lcd = I2cLcd(i2c, 0x27, 2, 16)\nlcd.putstr("0123456789ABCDEFxyz\\nnext")\n'); t = lcdText(lab.byTag('lcd'));
+ok(!r.err && t[0] === '0123456789ABCDEF' && t[1].startsWith('xyznext'), `a full line wraps; as in lcd_api.py, a "\\n" after a wrap (even 3 letters later) is swallowed: ${JSON.stringify(t)}`);
+r = run(lab, PH + 'lcd = I2cLcd(i2c, 0x27, 2, 16)\nlcd.putstr(25)\n'); ok(code(r) === 'N24_PICO_STR', `putstr(25): TypeError (${code(r)})`);
+r = run(pico({ swap: true }), PH + 'lcd = I2cLcd(i2c, 0x27, 2, 16)\n'); ok(code(r) === 'N6_I2C_NODEV', `Pico, SDA and SCL swapped: OSError EIO (${code(r)})`);
+r = run(pico(), PH + 'lcd = I2cLcd(i2c, 0x3F, 2, 16)\n'); ok(code(r) === 'N6_I2C_NODEV', `Pico, the wrong address 0x3F: OSError EIO (${code(r)})`);
+r = run(pico(), 'from machine import Pin, I2C\nfrom pico_i2c_lcd import I2cLcd\ni2c = I2C(1, sda=Pin(6), scl=Pin(7))\nlcd = I2cLcd(i2c, 0x27, 2, 16)\n'); ok(code(r) === 'N6_I2C_NODEV', `Pico, I2C1 on GP6/GP7 while the LCD is on GP4/GP5: OSError EIO (${code(r)})`);
+r = run(pico(), PH + 'lcd = I2cLcd(i2c, 0x27, 2, 16)\nlcd.putstr("x")\nlcd.clear()\nlcd.backlight_off()\n'); t = lcdText(lab.byTag('lcd'));
+ok(!r.err, `clear, backlight_off (${code(r) || 'ok'})`);
+
+// ------------------------------------------------------------ gpiozero.MCP3008 (parts24.js): the Pi's analog inputs
+function adcBench({ skip = [], vdd = '3V3b', pot = true, potTop = 'H:bp49' } = {}) {
+  const lab = new Lab(); lab.setBoard('pi4');
+  for (const [a, b] of [['5V', 'H:tp30'], ['GND1', 'H:tn28'], ['3V3', 'H:bp30'], ['GND2', 'H:bn28']]) lab.addWire(B(a), B(b));
+  lab.addPart('mcp3008', {}, { hole: 'f5' }, 0, 'adc');
+  const W = { vdd: [B(vdd), 'H:a5'], vref: ['H:b5', 'H:b6'], agnd: ['H:a7', 'H:tn7'], dgnd: ['H:a12', 'H:tn12'], clk: ['B:GPIO11', 'H:a8'], dout: ['B:GPIO9', 'H:a9'], din: ['B:GPIO10', 'H:a10'], cs: ['B:GPIO8', 'H:a11'] };
+  for (const [k, [a, b]] of Object.entries(W)) if (!skip.includes(k)) lab.addWire(a, b);
+  if (pot) { lab.addPart('pot', {}, { hole: 'e45' }, 0, 'pot1'); lab.addWire('H:a45', 'H:tn45'); lab.addWire('H:a49', potTop); lab.addWire('H:a47', 'H:j5'); } // (a knob's legs are 2 columns apart: 45, 47, 49)
+  for (let f = 0; f < 6; f++) lab.step(1000 / 60); return lab;
+}
+const notes = (lab) => (lab.mcu.notes || []).map((n) => n.code || n.k || JSON.stringify(n).slice(0, 40));
+const AH = 'from gpiozero import MCP3008\nimport time\nadc = MCP3008(channel=0)\n';
+lab = adcBench(); lab.byTag('pot1').state.pos = 0.25; lab.stateV++;
+r = run(lab, AH + 'print(adc.raw_value, round(adc.value, 2), round(adc.voltage, 2), adc.channel)\n');
+let m = /(\d+) ([\d.]+) ([\d.]+) 0/.exec(r.out); ok(!r.err && m && Math.abs(+m[1] - 256) <= 3 && Math.abs(+m[3] - 0.83) < 0.03, `the knob at 1/4: raw_value ${m && m[1]}, value ${m && m[2]}, voltage ${m && m[3]} V (${code(r) || 'ok'})`);
+lab.byTag('pot1').state.pos = 1; lab.stateV++; r = run(lab, AH + 'print(adc.raw_value)\n'); ok(/\b102[2-3]\b/.test(r.out), `the knob full: ${JSON.stringify(r.out.slice(-40))} ${code(r) || ''}`);
+r = run(adcBench({ skip: ['dout'] }), AH + 'print(adc.raw_value)\n'); ok(/\n0\r?\n/.test(r.out) || / 0\s*$/.test(r.out) || /^\s*0\s*$/m.test(r.out), `DOUT not on GPIO 9: reads 0 ${JSON.stringify(r.out.slice(-20))}`);
+lab = adcBench({ skip: ['cs'] }); r = run(lab, AH + 'print(adc.raw_value)\n'); ok(/^0\r?$/m.test(r.out.split('\n').slice(-2).join('\n')) || /\b0\s*\r?\n/.test(r.out), `CS not on CE0: reads 0`);
+lab = adcBench({ skip: ['vdd'] }); r = run(lab, AH + 'print(adc.raw_value)\n'); ok(/\b0\s*\r?\n/.test(r.out), `no VDD: reads 0`);
+lab = adcBench({ skip: ['vref'] }); r = run(lab, AH + 'print(adc.raw_value)\n'); ok(/\b1023\b/.test(r.out), `VREF not joined: every reading 1023 ${JSON.stringify(r.out.slice(-12))}`);
+lab = adcBench({ pot: false }); r = run(lab, AH + 'a = [adc.raw_value for i in range(30)]\nprint(max(a) - min(a) > 20)\n'); ok(!r.err && /True/.test(r.out), `CH0 joined to nothing: the numbers wander (${code(r) || 'ok'})`);
+lab = adcBench({ vdd: '5Vb' }); r = run(lab, AH + 'print(adc.raw_value)\n'); ok(!r.err && (lab.mcu.warned && lab.mcu.warned.has('adc5v')), `the chip on 5 V: a warning that DOUT puts 5 V on GPIO 9 (${[...(lab.mcu.warned || [])].join(',')})`);
+r = run(adcBench(), 'from gpiozero import MCP3008\nadc = MCP3008(channel=8)\n'); ok(code(r) === 'N24_ADC_CH', `channel=8: SPIBadChannel (${code(r)})`);
+r = run(adcBench(), 'from gpiozero import MCP3008\nadc = MCP3008(channel=0, device=1)\nprint(adc.raw_value)\n'); ok(!r.err && /\b0\s*\r?\n/.test(r.out), 'device=1 asks CE1 (GPIO 7), where the chip is not: 0');
+lab = adcBench({ potTop: 'H:tp49' }); lab.byTag('pot1').state.pos = 0.9; lab.stateV++; r = run(lab, AH + 'print(adc.raw_value)\n'); ok(/\b1023\b/.test(r.out) && lab.mcu.warned.has('adcov0'), `the knob on 5 V turned up: 1023 and an over-voltage warning (${JSON.stringify(r.out.slice(-30))} ${[...lab.mcu.warned].join(',')})`);
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

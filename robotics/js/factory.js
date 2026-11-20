@@ -28,6 +28,8 @@ const XF = {
   piEcho: t3('Echo goes straight to GPIO 24: the HC-SR04 answers with 5 V, too much for the Pi. Echo must go through the divider.', 'Echo सीधे GPIO 24 पर है: HC-SR04 5 V से जवाब देता है, Pi के लिए बहुत ज़्यादा। Echo को डिवाइडर से होकर जाना चाहिए।', 'Echo seedhe GPIO 24 par hai: HC-SR04 5 V se jawab deta hai, Pi ke liye bahut zyada. Echo ko divider se hokar jaana chahiye.'),
   pico5v: t3('This part is joined to VBUS (5 V): its signal would push 5 V into the Pico\'s GPIO and damage it. Power it from the 3V3 pin.', 'यह पुर्ज़ा VBUS (5 V) से जुड़ा है: इसका सिग्नल Pico के GPIO में 5 V डालेगा और उसे ख़राब कर देगा। इसे 3V3 पिन से बिजली दीजिए।', 'Yeh part VBUS (5 V) se juda hai: iska signal Pico ke GPIO mein 5 V daalega aur use kharaab kar dega. Ise 3V3 pin se bijli dijiye.'),
   potEndsP: t3('The knob\'s two outer legs go to 3V3 and GND, and its middle leg to GP26.', 'नॉब के दोनों बाहरी पैर 3V3 और GND पर, और बीच वाला पैर GP26 पर।', 'Knob ke dono bahari pair 3V3 aur GND par, aur beech wala pair GP26 par.'),
+  potEndsQ: t3('The knob\'s two outer legs go to 3.3 V (the front + rail) and GND, and its middle leg to CH0 of the MCP3008: the chip measures against 3.3 V.', 'नॉब के दोनों बाहरी पैर 3.3 V (आगे वाली + रेल) और GND पर, और बीच वाला पैर MCP3008 के CH0 पर: चिप 3.3 V के हिसाब से नापती है।', 'Knob ke dono bahari pair 3.3 V (aage wali + rail) aur GND par, aur beech wala pair MCP3008 ke CH0 par: chip 3.3 V ke hisaab se naapti hai.'),
+  adc5v: t3('This part is joined to 5 V (the back + rail): its output can rise above the MCP3008\'s 3.3 V supply and read a wrong 1023. Power it from the front + rail (3.3 V).', 'यह पुर्ज़ा 5 V (पीछे वाली + रेल) से जुड़ा है: इसका आउटपुट MCP3008 की 3.3 V सप्लाई से ऊपर जा सकता है और ग़लत 1023 पढ़ेगा। इसे आगे वाली + रेल (3.3 V) से चलाइए।', 'Yeh purza 5 V (peeche wali + rail) se juda hai: iska output MCP3008 ki 3.3 V supply se upar ja sakta hai aur galat 1023 padhega. Ise aage wali + rail (3.3 V) se chalaiye.'),
   potEnds: t3('The knob\'s two outer legs go to 5V and GND (the + and − rails), and its middle leg to A0.', 'नॉब के दोनों बाहरी पैर 5V और GND (+ और − रेल) पर जाते हैं, और बीच वाला पैर A0 पर।', 'Knob ke dono bahari pair 5V aur GND (+ aur − rail) par jaate hain, aur beech wala pair A0 par.'),
 };
 
@@ -96,6 +98,7 @@ OUT.pump = {
   isOn: (S) => ((S.part('pump') && S.part('pump').state.flow) || 0) > 5,
 };
 const pad = (s) => (s + ' '.repeat(16)).slice(0, 16);
+const piText = (s) => String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 // (batch 12) the 0.96" OLED: every job that warns on the LCD can also warn on it, in big letters
 const oledLines = (title, msg) => ['oled.clearDisplay();', 'oled.setTextSize(1);', 'oled.setCursor(0, 0);', `oled.println("${title.slice(0, 21)}");`, 'oled.setTextSize(2);           // big letters: 10 to a line', 'oled.setCursor(0, 24);', `oled.println("${msg}");`, 'oled.display();               // send the picture to the screen'];
 OUT.oled = {
@@ -423,6 +426,14 @@ const pyOled = (j, msg) => ['oled.fill(0)', ...titleLines(j.title.en).map((t, i)
 POUT.oled = Object.assign({}, OUT.oled, { pin: 'GP4/GP5', parts: [P('oled', 'oled', {}, 'e30', 0)], wires: [['H:a30', 'H:tn26'], ['H:a31', 'H:a6'], ['H:a32', 'H:j8'], ['H:a33', 'H:j7']],
   ready: t3('The OLED screen (128 × 64 dots) is already wired: GND, VCC to the Pico\'s 3V3, SCL to GP5, SDA to GP4: the Pico\'s I2C0. The ssd1306 driver draws on it at address 0x3C.', 'ओएलईडी स्क्रीन (128 × 64 बिंदु) पहले से लगी है: GND, VCC Pico के 3V3 पर, SCL GP5 पर, SDA GP4 पर: Pico का I2C0। ssd1306 ड्राइवर इस पर 0x3C पते पर चित्र बनाता है।', 'OLED screen (128 × 64 dot) pehle se lagi hai: GND, VCC Pico ke 3V3 par, SCL GP5 par, SDA GP4 par: Pico ka I2C0. ssd1306 driver is par 0x3C address par chitra banata hai.'),
   py: { imp: ['import ssd1306'], decl: ['i2c = I2C(0, sda=Pin(4), scl=Pin(5))   # the OLED on I2C0', 'oled = ssd1306.SSD1306_I2C(128, 64, i2c)'], on: (j) => pyOled(j, j.on), off: (j) => pyOled(j, j.off) } });
+// (batch 24) the 16×2 LCD on the Pico: VCC from VBUS (5 V, the back + rail), SDA GP4 / SCL GP5 (I2C0), with the
+// pico_i2c_lcd.py + lcd_api.py files that Pico LCD projects copy to the board (pi24.js runs them)
+POUT.lcd = Object.assign({}, OUT.lcd, { pin: 'GP4/GP5', wires: [['T:lcd:GND', 'H:tn10'], ['T:lcd:VCC', 'H:tp10'], ['T:lcd:SDA', 'H:j7'], ['T:lcd:SCL', 'H:j8']],
+  ready: t3('The 16×2 LCD is already wired: VCC to the back + rail (5 V from the Pico\'s VBUS: its backlight needs 5 V), GND to −, SDA to GP4 and SCL to GP5, the Pico\'s I2C0. The files pico_i2c_lcd.py and lcd_api.py are on the Pico already. Address 0x27.', '16×2 एलसीडी पहले से लगी है: VCC पीछे वाली + रेल (Pico के VBUS से 5 V: इसकी बैकलाइट को 5 V चाहिए) पर, GND − पर, SDA GP4 पर और SCL GP5 पर: Pico का I2C0। pico_i2c_lcd.py और lcd_api.py फ़ाइलें Pico पर पहले से हैं। पता 0x27।', '16×2 LCD pehle se lagi hai: VCC peeche wali + rail (Pico ke VBUS se 5 V: iski backlight ko 5 V chahiye) par, GND − par, SDA GP4 par aur SCL GP5 par: Pico ka I2C0. pico_i2c_lcd.py aur lcd_api.py files Pico par pehle se hain. Address 0x27.'),
+  py: { imp: ['from pico_i2c_lcd import I2cLcd'], decl: ['i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=400000)   # the LCD on I2C0', 'lcd = I2cLcd(i2c, 0x27, 2, 16)   # address 0x27, 2 lines of 16'],
+    init: (j) => [`lcd.putstr("${piText(j.title.en.slice(0, 16))}")`],
+    on: (j) => ['lcd.move_to(0, 1)            # column 0, line 1 (the second): column first', `lcd.putstr("${piText(pad(j.on))}")`], off: (j) => ['lcd.move_to(0, 1)', `lcd.putstr("${piText(pad(j.off))}")`],
+    value: (inp) => ['lcd.move_to(0, 0)', `lcd.putstr(("${inp.label}: " + str(${inp.v}) + " " * 16)[:16])`] } });
 POUT.servo = Object.assign({}, OUT.servo, { pin: 'GP16', wires: [['T:sv1:GND', 'H:tn40'], ['T:sv1:VP', 'H:tp40'], ['T:sv1:SIG', 'H:a21']],
   ready: t3('The servo is already wired: brown to −, red to + (5 V), orange (signal) to GP16.', 'सर्वो पहले से लगा है: भूरा − पर, लाल + (5 V) पर, नारंगी (सिग्नल) GP16 पर।', 'Servo pehle se laga hai: brown − par, laal + (5 V) par, orange (signal) GP16 par.'),
   py: { decl: ['arm = PWM(Pin(16))          # GP16: the servo', 'arm.freq(50)                # a pulse every 20 ms', 'arm.duty_u16(1638)          # 0.5 ms pulse: 0°'], on: ['arm.duty_u16(4915)          # 1.5 ms pulse: 90°'], off: ['arm.duty_u16(1638)'] } });
@@ -468,6 +479,42 @@ QIN.sonar = Object.assign({}, IN.sonar, { view: 'wide', cond: 'cm < limit',
     (S) => (S.conn('us1.ECHO', 'GPIO24') ? [XF.piEcho] : null)],
   pi: { imp: ['DistanceSensor'], decl: ['sensor = DistanceSensor(echo=24, trigger=25, max_distance=2)   # Echo comes through the divider'], read: ['cm = round(sensor.distance * 100)   # .distance is in metres'], sleep: 0.2 } });
 QIN.hum = Object.assign({}, IN.hum, dhtQ, { pi: dhtPi('hum', 'humidity') });
+// (batch 24) the Pi's analog sensors, through the MCP3008 (parts24.js): the Pi has no analog pins. The chip is already on the
+// breadboard at columns 5–12 (across the gap, notch to the left) and wired: VDD and VREF to 3.3 V (pin 17), AGND and DGND
+// to GND, CLK GPIO 11, DOUT GPIO 9, DIN GPIO 10, CS GPIO 8. The student wires the sensor, its output to CH0 (column 5,
+// the lower half), and gpiozero's MCP3008(channel=0) reads it: raw_value 0–1023 as an Arduino's analogRead (the sensor on
+// 3.3 V, so the same numbers), voltage for the LM35.
+const ADC_PRE = { preParts: [P('adc', 'mcp3008', {}, 'f5', 0)],
+  preWires: [['3V3b', 'H:a5'], ['H:b5', 'H:b6'], ['H:a7', 'H:tn7'], ['H:a12', 'H:tn12'], ['GPIO11', 'H:a8'], ['GPIO9', 'H:a9'], ['GPIO10', 'H:a10'], ['GPIO8', 'H:a11']] };
+const ADC_NOTE = t3(' The MCP3008 chip at 5–12 is already wired to the Pi\'s SPI pins and 3.3 V: the Pi has no analog pins, so the chip measures for it.', ' 5–12 पर लगी MCP3008 चिप पहले से Pi के SPI पिन और 3.3 V से जुड़ी है: Pi में एनालॉग पिन नहीं होते, इसलिए चिप उसके लिए नापती है।', ' 5–12 par lagi MCP3008 chip pehle se Pi ke SPI pin aur 3.3 V se judi hai: Pi mein analog pin nahi hote, isliye chip uske liye naapti hai.');
+const plusNote = (d) => t3(d.en + ADC_NOTE.en, d.hi + ADC_NOTE.hi, d.hg + ADC_NOTE.hg);
+const toCH0 = (x, en, hi, hg) => w(x, 'adc.CH0', en, hi, hg);
+const adcPi = (v, note, read) => ({ imp: ['MCP3008'], decl: ['adc = MCP3008(channel=0)     # the MCP3008\'s CH0 (on SPI0: GPIO 8–11)'], read: [read || `${v} = adc.raw_value         # ${note}`], sleep: 0.2, none: false });
+const not5v = (tag) => (S) => (S.conn(tag, '5V') ? [XF.adc5v] : null);
+QIN.pot = Object.assign({}, IN.pot, ADC_PRE, { placeDo: plusNote(IN.pot.placeDo),
+  wires: [w('pot1.1', 'rail:tn', 'Wire its left leg (column 45) to the back − rail.', 'इसके बाएँ पैर (कॉलम 45) को पीछे वाली − रेल से जोड़िए।', 'Iske left pair (column 45) ko peeche wali − rail se jodiye.'), w('pot1.3', 'rail:bp', 'Its right leg (column 47) to the front + rail (3.3 V).', 'इसका दायाँ पैर (कॉलम 47) आगे वाली + रेल (3.3 V) से।', 'Iska right pair (column 47) aage wali + rail (3.3 V) se.'),
+    toCH0('pot1.W', 'Its middle leg (the wiper) to CH0: the MCP3008\'s pin 1, column 5 in the lower half.', 'इसका बीच वाला पैर (वाइपर) CH0 से: MCP3008 का पिन 1, निचले हिस्से में कॉलम 5।', 'Iska beech wala pair (wiper) CH0 se: MCP3008 ka pin 1, neeche wale hisse mein column 5.')],
+  checks: (K) => [has(K.W, 'pot1', t3('knob', 'नॉब', 'knob')), need('pot1.W', 'adc.CH0', K.W.join, { a: t3('The knob\'s middle leg', 'नॉब का बीच वाला पैर', 'Knob ka beech wala pair'), b: 'CH0 (MCP3008)' }), not5v('pot1.1'), not5v('pot1.3'),
+    (S) => ((S.conn('pot1.1', 'GND') && S.conn('pot1.3', '3V3')) || (S.conn('pot1.3', 'GND') && S.conn('pot1.1', '3V3')) ? null : [XF.potEndsQ])],
+  pi: adcPi('knob', '0 (left) to 1023 (right), like an Arduino') });
+const ldrQ = (base) => Object.assign({}, base, ADC_PRE, { placeDo: plusNote(base.placeDo),
+  wires: [w('ldr1.1', 'rail:bp', 'Wire the LDR\'s left leg to the front + rail (3.3 V).', 'एलडीआर के बाएँ पैर को आगे वाली + रेल (3.3 V) से जोड़िए।', 'LDR ke left pair ko aage wali + rail (3.3 V) se jodiye.'),
+    toCH0('ldr1.2', 'Wire its right leg (it meets the resistor there) to CH0: the MCP3008\'s pin 1, column 5 in the lower half.', 'इसके दाएँ पैर (वहीं रेज़िस्टर मिलता है) को CH0 से जोड़िए: MCP3008 का पिन 1, निचले हिस्से में कॉलम 5।', 'Iske right pair (wahin resistor milta hai) ko CH0 se jodiye: MCP3008 ka pin 1, neeche wale hisse mein column 5.')],
+  checks: (K) => [has(K.W, 'ldr1', t3('LDR', 'एलडीआर', 'LDR')), need('ldr1.2', 'adc.CH0', K.W.join, { a: t3('The LDR\'s right leg', 'एलडीआर का दायाँ पैर', 'LDR ka right pair'), b: 'CH0 (MCP3008)' }), not5v('ldr1.1'), need('ldr1.1', '3V3', K.W.join, { a: 'LDR', b: '3.3 V' })],
+  pi: adcPi('light', 'bright: high, dark: low') });
+QIN.ldr = ldrQ(IN.ldr); QIN.ldrb = ldrQ(IN.ldrb);
+const lmQ = (base) => Object.assign({}, base, ADC_PRE, { placeDo: plusNote(base.placeDo),
+  wires: [w('t1.VS', 'rail:tp', 'Wire its left leg (+Vs) to the back + rail (5 V): the LM35 needs at least 4 V. Its output stays small, 10 mV per °C.', 'इसके बाएँ पैर (+Vs) को पीछे वाली + रेल (5 V) से जोड़िए: LM35 को कम से कम 4 V चाहिए। इसका आउटपुट छोटा रहता है, हर °C पर 10 mV।', 'Iske left pair (+Vs) ko peeche wali + rail (5 V) se jodiye: LM35 ko kam se kam 4 V chahiye. Iska output chhota rehta hai, har °C par 10 mV.'),
+    toCH0('t1.OUT', 'Its middle leg (OUT) to CH0: the MCP3008\'s pin 1, column 5 in the lower half.', 'इसका बीच वाला पैर (OUT) CH0 से: MCP3008 का पिन 1, निचले हिस्से में कॉलम 5।', 'Iska beech wala pair (OUT) CH0 se: MCP3008 ka pin 1, neeche wale hisse mein column 5.'),
+    w('t1.GND', 'rail:tn', 'Its right leg (GND) to the back − rail.', 'इसका दायाँ पैर (GND) पीछे वाली − रेल से।', 'Iska right pair (GND) peeche wali − rail se.')],
+  checks: (K) => [has(K.W, 't1', t3('LM35 sensor', 'LM35 सेंसर', 'LM35 sensor')), need('t1.VS', '5V', K.W.to5v, { x: '+Vs' }), need('t1.OUT', 'adc.CH0', K.W.join, { a: 'OUT', b: 'CH0 (MCP3008)' }), need('t1.GND', 'GND', K.W.toGnd, { x: 'GND' })],
+  pi: adcPi('temp', '', 'temp = round(adc.voltage * 100)   # °C: 10 mV per degree (voltage = value × 3.3 V)') });
+QIN.lm35 = lmQ(IN.lm35); QIN.cold = lmQ(IN.cold);
+QIN.soil = Object.assign({}, IN.soil, ADC_PRE, { placeDo: plusNote(IN.soil.placeDo),
+  wires: [w('soil.VCC', 'rail:bp', 'Wire its VCC to the front + rail (3.3 V).', 'इसका VCC आगे वाली + रेल (3.3 V) से जोड़िए।', 'Iska VCC aage wali + rail (3.3 V) se jodiye.'), w('soil.GND', 'rail:bn', 'Its GND to the front − rail.', 'इसका GND आगे वाली − रेल से।', 'Iska GND aage wali − rail se.'),
+    toCH0('soil.AO', 'Its AO (analog out) to CH0: the MCP3008\'s pin 1, column 5 in the lower half.', 'इसका AO (एनालॉग आउट) CH0 से: MCP3008 का पिन 1, निचले हिस्से में कॉलम 5।', 'Iska AO (analog out) CH0 se: MCP3008 ka pin 1, neeche wale hisse mein column 5.')],
+  checks: (K) => [has(K.W, 'soil', t3('soil sensor', 'मिट्टी सेंसर', 'soil sensor')), not5v('soil.VCC'), need('soil.VCC', '3V3', K.W.join, { a: 'VCC', b: '3.3 V' }), need('soil.GND', 'GND', K.W.toGnd, { x: 'GND' }), need('soil.AO', 'adc.CH0', K.W.join, { a: 'AO', b: 'CH0 (MCP3008)' })],
+  pi: adcPi('soil', 'dry soil: big, wet soil: small') });
 // (batch 22) seven of the digital sensor modules (parts22.js), wired as the IR module is on each board (OUT LOW while it
 // senses): the Uno's pin 7, the ESP32's GPIO 27, the Pico's GP14, the Pi's GPIO 27; 3.3 V on the 3.3 V boards
 const DIG22 = {
@@ -533,7 +580,6 @@ QOUT.rgb = Object.assign({}, OUT.rgb, rgbAt('GPIO5', 'GPIO6', 'GPIO13'), { pin: 
   pi: { imp: ['LED'], decl: ['red = LED(5)                 # GPIO 5: the RGB LED\'s red', 'green = LED(6)               # GPIO 6: its green', 'blue = LED(13)               # GPIO 13: its blue (not used here)'], on: ['red.on()                     # red: warning', 'green.off()'], off: ['red.off()', 'green.on()                   # green: all well'] } });
 // (batch 24) the Pi's two I2C screens on bus 1 (SDA GPIO 2 = physical pin 3, SCL GPIO 3 = pin 5): the 16×2 LCD with RPLCD,
 // the OLED with luma.oled, as Pi projects on the internet do (pi24.js runs them)
-const piText = (s) => String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 QOUT.lcd = Object.assign({}, OUT.lcd, { pin: 'GPIO 2/3', wires: [['T:lcd:GND', 'H:tn10'], ['T:lcd:VCC', 'H:tp10'], ['T:lcd:SDA', 'GPIO2'], ['T:lcd:SCL', 'GPIO3']],
   ready: t3('The 16×2 LCD is already wired: VCC to the back + rail (5 V: its backlight needs it), GND to −, SDA to GPIO 2 (physical pin 3) and SCL to GPIO 3 (pin 5), the Pi\'s I2C bus 1. Its backpack is at address 0x27.', '16×2 एलसीडी पहले से लगी है: VCC पीछे वाली + रेल (5 V: इसकी बैकलाइट को चाहिए) पर, GND − पर, SDA GPIO 2 (फ़िज़िकल पिन 3) पर और SCL GPIO 3 (पिन 5) पर: Pi की I2C बस 1। इसका बैकपैक 0x27 पते पर है।', '16×2 LCD pehle se lagi hai: VCC peeche wali + rail (5 V: iski backlight ko chahiye) par, GND − par, SDA GPIO 2 (physical pin 3) par aur SCL GPIO 3 (pin 5) par: Pi ki I2C bus 1. Iska backpack 0x27 address par hai.'),
   pi: { head: ['from RPLCD.i2c import CharLCD'], decl: ['lcd = CharLCD("PCF8574", 0x27, cols=16, rows=2)   # the LCD\'s backpack on I2C bus 1 (GPIO 2 / GPIO 3)'],
@@ -558,7 +604,7 @@ function sketchPi(job, ik, ok) {
   else L.push('hold = 1.0                  # stay on this long after it stops (seconds)', 'last = None                 # when the sensor was last active');
   L.push('', 'while True:');
   if (inp.analog) {
-    L.push(...ip.read.map((x) => '    ' + x), `    if ${inp.v} is None:`, '        time.sleep(2)', '        continue', `    print("${inp.label}:", ${inp.v})`, ...(op.value ? op.value(inp).map((x) => '    ' + x) : []), `    if ${inp.cond}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), (ip.sleep ? `    time.sleep(${ip.sleep})` : '    time.sleep(2)              # a DHT11 answers once every 2 s'));
+    L.push(...ip.read.map((x) => '    ' + x), ...(ip.none === false ? [] : [`    if ${inp.v} is None:`, '        time.sleep(2)', '        continue']), `    print("${inp.label}:", ${inp.v})`, ...(op.value ? op.value(inp).map((x) => '    ' + x) : []), `    if ${inp.cond}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), (ip.sleep ? `    time.sleep(${ip.sleep})` : '    time.sleep(2)              # a DHT11 answers once every 2 s'));
   } else {
     L.push(`    if ${ip.trig}:`, '        last = time.monotonic()  # active now: start the hold time again', '    if last is not None and time.monotonic() - last < hold:', ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), '    time.sleep(0.05)');
   }
@@ -584,13 +630,13 @@ function sketchPy(job, ik, ok) {
   const inp = PIN[ik], out = ok === 'relay' ? relayFor(POUT[ok], job) : POUT[ok], ip = inp.py, op = out.py;
   const mods = ['Pin']; if (ip.read && !ip.dht) mods.push('ADC'); if (op.decl.some((x) => x.includes('PWM('))) mods.push('PWM'); if (op.decl.some((x) => x.includes('I2C('))) mods.push('I2C');
   const onL = typeof op.on === 'function' ? op.on(job) : op.on, offL = typeof op.off === 'function' ? op.off(job) : op.off; // (batch 17: the OLED's lines carry the job's own words)
-  const L = [`# ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `# ${job.why.en}`, `from machine import ${mods.join(', ')}`, 'import time', ...(ip.imp || []), ...(op.imp || []), '', ...ip.decl, ...op.decl];
+  const L = [`# ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `# ${job.why.en}`, `from machine import ${mods.join(', ')}`, 'import time', ...(ip.imp || []), ...(op.imp || []), '', ...ip.decl, ...op.decl, ...(op.init ? op.init(job) : [])];
   if (inp.analog) L.push(`limit = ${inp.l0}             # ${inp.note}`);
   else L.push('hold = 1000                 # stay on this long after it stops (ms)', 'last = None                 # when the sensor was last active');
   L.push('', 'while True:');
   if (inp.analog) {
     L.push(...(Array.isArray(ip.read) ? ip.read : [ip.read]).map((x) => '    ' + x)); if (ip.dht) L.push(`    if ${inp.v} is None:`, '        time.sleep(2)', '        continue');
-    L.push(`    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond.replace('&&', 'and')}:`, ...onL.map((x) => '        ' + x), '    else:', ...offL.map((x) => '        ' + x), `    time.sleep(${(inp.delay || 200) / 1000})`);
+    L.push(`    print("${inp.label}:", ${inp.v})`, ...(op.value ? op.value(inp).map((x) => '    ' + x) : []), `    if ${inp.cond.replace('&&', 'and')}:`, ...onL.map((x) => '        ' + x), '    else:', ...offL.map((x) => '        ' + x), `    time.sleep(${(inp.delay || 200) / 1000})`);
   } else {
     L.push(`    if ${ip.trig}:`, '        last = time.ticks_ms()   # active now: start the hold time again', '    if last is not None and time.ticks_diff(time.ticks_ms(), last) < hold:', ...onL.map((x) => '        ' + x), '    else:', ...offL.map((x) => '        ' + x), '    time.sleep(0.05)');
   }

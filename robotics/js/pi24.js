@@ -197,6 +197,102 @@ function lumaMods(m) {
   };
 }
 
+// ------------------------------------------------------------------ the Pico's LCD: pico_i2c_lcd.py + lcd_api.py
+// (the two files every Pico LCD tutorial copies to the board, after Dave Hylands' python_lcd): I2cLcd(i2c, addr, lines,
+// columns); putstr ("\n" to the next line), putchar, move_to(col, row) — column FIRST, and no check: move_to(1, 0) meant as
+// "line 1" writes on line 0 at column 1 —, clear, home, backlight_on / off, display_on / off, show_cursor / hide_cursor,
+// blink_cursor_on / off, custom_char. A full line wraps to the next (the last back to the first). The I2C object is the
+// Pico's own (pi6.js I2CObj: machine.I2C(0, sda=Pin(4), scl=Pin(5))); nothing at the address is OSError: [Errno 5] EIO.
+export function picoLcdMods(m) {
+  class LcdApi extends Obj {
+    constructor(bus, addr, lines, cols) { super('I2cLcd'); Object.assign(this, { bus, addr, lines, cols }); this.x = 0; this.y = 0; this.implied = false; this.bl = true; }
+    part(R) { const p = this.bus.dev(this.addr); if (!p || p.type !== 'lcd16') throw R.err('OSError', 'N6_I2C_NODEV', { addr: hex(this.addr), sda: this.bus.sda, scl: this.bus.scl }); return p; }
+    st(R) { const s = this.part(R).state; if (!s.initd) this.init(s); return s; }
+    init(s) { s.ddram = [Array(40).fill(32), Array(40).fill(32)]; s.cur = [0, 0]; s.initd = true; s.on = true; s.shift = 0; s.cg = s.cg || Array.from({ length: 8 }, () => Array(8).fill(0)); s.bl = this.bl; s.showCur = false; s.blinkCur = false; s.ver = (s.ver || 0) + 1; }
+    data(R, code) { // hal_write_data at the DDRAM address of (x, y), as move_to() set it
+      const s = this.st(R); let a = this.x & 0x3f; if (this.y & 1) a += 0x40; if (this.y & 2) a += this.cols;
+      s.ddram[a >= 0x40 ? 1 : 0][(a & 0x3f) % 40] = code & 255; s.ver++; tick(m, R, 300);
+    }
+    putchar(R, ch) {
+      if (ch === '\n') { if (this.implied) this.implied = false; else this.x = this.cols; }
+      else { const k = ch.codePointAt(0); this.data(R, ch === '°' ? 223 : k >= 32 && k < 127 ? k : k < 8 ? k : 63); this.x += 1; }
+      if (this.x >= this.cols) { this.x = 0; this.y += 1; this.implied = ch !== '\n'; }
+      if (this.y >= this.lines) this.y = 0;
+    }
+    methods() { const me = this; const cmd = (R, f) => { const s = me.st(R); f(s); s.ver++; tick(m, R, 300); return null; };
+      return {
+        putstr: nat('putstr', ['string'], (R, v) => { if (typeof v !== 'string') throw R.err('TypeError', 'N24_PICO_STR', { t: typeName(v) }); for (const ch of v) me.putchar(R, ch); return null; }),
+        putchar: nat('putchar', ['char'], (R, v) => { me.putchar(R, String(v)[0] || ' '); return null; }),
+        move_to: nat('move_to', ['cursor_x', 'cursor_y'], (R, x, y) => { me.x = int(R, x); me.y = int(R, y); me.st(R); tick(m, R, 300); return null; }),
+        clear: nat('clear', [], (R) => { me.x = 0; me.y = 0; return cmd(R, (s) => { s.ddram = [Array(40).fill(32), Array(40).fill(32)]; s.shift = 0; }); }),
+        home: nat('home', [], (R) => { me.x = 0; me.y = 0; return cmd(R, (s) => { s.shift = 0; }); }),
+        backlight_on: nat('backlight_on', [], (R) => { me.bl = true; return cmd(R, (s) => { s.bl = true; }); }),
+        backlight_off: nat('backlight_off', [], (R) => { me.bl = false; return cmd(R, (s) => { s.bl = false; }); }),
+        display_on: nat('display_on', [], (R) => cmd(R, (s) => { s.on = true; })),
+        display_off: nat('display_off', [], (R) => cmd(R, (s) => { s.on = false; })),
+        show_cursor: nat('show_cursor', [], (R) => cmd(R, (s) => { s.showCur = true; })),
+        hide_cursor: nat('hide_cursor', [], (R) => cmd(R, (s) => { s.showCur = false; s.blinkCur = false; })),
+        blink_cursor_on: nat('blink_cursor_on', [], (R) => cmd(R, (s) => { s.showCur = true; s.blinkCur = true; })),
+        blink_cursor_off: nat('blink_cursor_off', [], (R) => cmd(R, (s) => { s.blinkCur = false; })),
+        custom_char: nat('custom_char', ['location', 'charmap'], (R, loc, bm) => { const k = int(R, loc) & 7; if (!seq(bm) && !(bm instanceof Uint8Array)) throw R.err('ValueError', 'N24_LCD_BITMAP', {}); const b = [...bm]; if (b.length !== 8) throw R.err('ValueError', 'N24_LCD_BITMAP', {}); return cmd(R, (s) => { s.cg[k] = b.map((x) => int(R, x) & 31); }); }),
+      }; }
+    props() { const me = this; return { num_lines: () => me.lines, num_columns: () => me.cols, cursor_x: () => me.x, cursor_y: () => me.y }; }
+  }
+  const mk = klass('I2cLcd', (R, a, kw) => {
+    const bus = arg(a, kw, 0, 'i2c', null); if (!bus || typeof bus.dev !== 'function') throw R.err('TypeError', 'N24_PICO_BUS', {});
+    const addr = int(R, arg(a, kw, 1, 'i2c_addr', 0x27)), lines = int(R, arg(a, kw, 2, 'num_lines', 2)), cols = int(R, arg(a, kw, 3, 'num_columns', 16));
+    const o = new LcdApi(bus, addr, Math.min(4, Math.max(1, lines)), Math.min(40, Math.max(1, cols)));
+    m.sync(R); m.t += 52000; m.back(R); o.init(o.part(R).state); m.lcd24 = (m.lcd24 || 0) + 1; return o;
+  });
+  return { pico_i2c_lcd: () => new Mod('pico_i2c_lcd', { I2cLcd: mk }), lcd_api: () => new Mod('lcd_api', { LcdApi: klass('LcdApi', (R) => { throw R.err('TypeError', 'N24_PICO_BUS', {}); }) }) };
+}
+
+// ------------------------------------------------------------------ gpiozero.MCP3008: the Pi's analog inputs through the chip
+// MCP3008(channel=0, differential=False, max_voltage=3.3, port=0, device=0): value (0.0–1.0), raw_value (0–1023), voltage,
+// channel, close(). Hardware SPI0: SCLK GPIO 11, MOSI GPIO 10, MISO GPIO 9, CE0 GPIO 8 (device=1: CE1 GPIO 7). Each reading
+// is the chip's own: (CH − AGND) / (VREF − AGND) × 1024, ±1 count of noise. What goes wrong as on a real Pi: no chip or its
+// SPI wires elsewhere (reads 0), no power (0), VREF not joined (1023), an input joined to nothing (the numbers wander),
+// the chip run from 5 V (its DOUT puts 5 V on GPIO 9), a channel past 7.
+export const PI_SPI0 = { SCLK: 11, MOSI: 10, MISO: 9, CE: [8, 7] };
+const PHYS = { 7: 26, 8: 24, 9: 21, 10: 19, 11: 23 };
+export function adcClasses(m) {
+  const chip = (dev) => { const L = m.lab; if (!L) return null; const on = (p, pin, g) => L.boardNode('G' + g) === p.N[pin];
+    return L.parts.find((p) => p.type === 'mcp3008' && p.N && on(p, 'CLK', PI_SPI0.SCLK) && on(p, 'DOUT', PI_SPI0.MISO) && on(p, 'DIN', PI_SPI0.MOSI) && on(p, 'CS', PI_SPI0.CE[dev])) || null; };
+  class ADC extends Obj {
+    constructor(ch, dev, vmax) { super('MCP3008'); this.ch = ch; this.dev = dev; this.vmax = vmax; this.closed = false; }
+    pyStr() { return this.closed ? '<gpiozero.MCP3008 object closed>' : `<gpiozero.MCP3008 object on channel ${this.ch}>`; }
+    raw(R) {
+      if (this.closed) throw R.err('DeviceClosed', 'N24_ADC_CLOSED', {});
+      tick(m, R, 120); const L = m.lab; if (!L) return 0;
+      const p = chip(this.dev); const ce = PI_SPI0.CE[this.dev];
+      if (!p) { const any = L.parts.some((q) => q.type === 'mcp3008'); m.noteOnce('adcspi', any ? 'N24_ADC_SPI' : 'N24_ADC_NONE', { ce, phys: PHYS[ce] }); return 0; }
+      if (!p.state.powered) { m.noteOnce('adcpow', 'N24_ADC_POWER', {}); return 0; }
+      if ((p.state.vdd || 0) > 3.6) m.noteOnce('adc5v', 'N24_ADC_5V', { v: (p.state.vdd || 0).toFixed(1) });
+      const t = m.t, ch = this.ch; const g = L.readNode(p.N.AGND, t), r = L.readNode(p.N.VREF, t), v = L.readNode(p.N['CH' + ch], t);
+      let x;
+      if (Number.isNaN(g)) { m.noteOnce('adcag', 'N24_ADC_AGND', {}); x = Math.random(); }
+      else if (Number.isNaN(r) || r - g < 0.25) { m.noteOnce('adcref', 'N24_ADC_VREF', {}); x = 1; }
+      else if (Number.isNaN(v)) { m.noteOnce('adcfl' + ch, 'N24_ADC_FLOAT', { ch }); x = 0.45 + 0.3 * Math.sin(t / 2.1e5 + ch) + (Math.random() - 0.5) * 0.2; }
+      else { x = (v - g) / (r - g); if (v - g > (p.state.vdd || 3.3) + 0.6) m.noteOnce('adcov' + ch, 'N24_ADC_OVER', { ch, v: (v - g).toFixed(1) }); }
+      const raw = Math.max(0, Math.min(1023, Math.round(x * 1024 + (Math.random() - 0.5) * 1.2)));
+      p.state.last = { ch, raw }; return raw;
+    }
+    methods() { const me = this; return { close: nat('close', [], () => { me.closed = true; return null; }) }; }
+    props() { const me = this; return {
+      raw_value: (R) => me.raw(R), value: (R) => new Flt(me.raw(R) / 1023), voltage: (R) => new Flt(me.raw(R) / 1023 * me.vmax),
+      channel: () => me.ch, differential: () => false, max_voltage: () => new Flt(me.vmax), bits: () => 10, closed: () => me.closed,
+    }; }
+  }
+  const make = (name, nch) => klass(name, (R, a, kw) => {
+    const ch = int(R, arg(a, kw, 0, 'channel', 0)); if (ch < 0 || ch >= nch) throw R.err('SPIBadChannel', 'N24_ADC_CH', { n: nch - 1 });
+    if (truthy(arg(a, kw, 1, 'differential', false))) throw R.err('ValueError', 'N24_ADC_DIFF', {});
+    const vmax = num(R, arg(a, kw, 2, 'max_voltage', 3.3)); const port = int(R, kw.port ?? 0), dev = int(R, kw.device ?? 0);
+    if (port !== 0 || (dev !== 0 && dev !== 1)) throw R.err('SPIBadArgs', 'N24_ADC_PORT', { port, dev });
+    return new ADC(ch, dev, vmax);
+  });
+  return { MCP3008: make('MCP3008', 8), MCP3004: make('MCP3004', 4) };
+}
+
 export function displayModules(m) {
   const L = lumaMods(m); const lcd = () => rplcdMod(m);
   return {
@@ -222,6 +318,20 @@ export const MSG24 = {
   N24_LCD_CURSOR: t3('ValueError: cursor_mode must be \'hide\', \'line\' or \'blink\', not {v}.', 'ValueError: cursor_mode \'hide\', \'line\' या \'blink\' होना चाहिए, {v} नहीं।', 'ValueError: cursor_mode \'hide\', \'line\' ya \'blink\' hona chahiye, {v} nahi.'),
   N24_LCD_CHAR: t3('ValueError: Location {k}: an LCD keeps 8 own characters, locations 0 to 7.', 'ValueError: जगह {k}: एलसीडी 8 अपने अक्षर रखती है, जगह 0 से 7।', 'ValueError: jagah {k}: LCD 8 apne characters rakhti hai, jagah 0 se 7.'),
   N24_LCD_BITMAP: t3('ValueError: a character is 8 rows of 5 dots: give 8 numbers, e.g. (0b00100, 0b01110, …).', 'ValueError: एक अक्षर 5 बिंदुओं की 8 पंक्तियाँ है: 8 नंबर दीजिए, जैसे (0b00100, 0b01110, …)।', 'ValueError: ek character 5 dots ki 8 rows hai: 8 numbers dijiye, jaise (0b00100, 0b01110, …).'),
+  N24_PICO_STR: t3('TypeError: putstr() writes text: turn the number into text first, lcd.putstr(str(temp)).', 'TypeError: putstr() टेक्स्ट लिखता है: नंबर को पहले टेक्स्ट बनाइए, lcd.putstr(str(temp))।', 'TypeError: putstr() text likhta hai: number ko pehle text banaiye, lcd.putstr(str(temp)).'),
+  N24_PICO_BUS: t3('TypeError: I2cLcd needs the I2C bus first: i2c = I2C(0, sda=Pin(4), scl=Pin(5)), then lcd = I2cLcd(i2c, 0x27, 2, 16).', 'TypeError: I2cLcd को पहले I2C बस चाहिए: i2c = I2C(0, sda=Pin(4), scl=Pin(5)), फिर lcd = I2cLcd(i2c, 0x27, 2, 16)।', 'TypeError: I2cLcd ko pehle I2C bus chahiye: i2c = I2C(0, sda=Pin(4), scl=Pin(5)), phir lcd = I2cLcd(i2c, 0x27, 2, 16).'),
+  N24_ADC_NONE: t3('MCP3008 reads 0: there is no MCP3008 chip on the bench. The Pi has no analog pins of its own; the chip measures for it.', 'MCP3008 0 पढ़ता है: बेंच पर कोई MCP3008 चिप नहीं है। Pi के अपने कोई एनालॉग पिन नहीं; यह चिप उसके लिए नापती है।', 'MCP3008 0 padhta hai: bench par koi MCP3008 chip nahi hai. Pi ke apne koi analog pin nahi; yeh chip uske liye naapti hai.'),
+  N24_ADC_SPI: t3('The MCP3008 does not answer, so every reading is 0. Its SPI wires: CLK to GPIO 11 (SCLK, pin 23), DOUT to GPIO 9 (MISO, pin 21), DIN to GPIO 10 (MOSI, pin 19), CS to GPIO {ce} (pin {phys}).', 'MCP3008 जवाब नहीं देती, इसलिए हर रीडिंग 0 है। इसके SPI तार: CLK, GPIO 11 (SCLK, पिन 23) पर; DOUT, GPIO 9 (MISO, पिन 21) पर; DIN, GPIO 10 (MOSI, पिन 19) पर; CS, GPIO {ce} (पिन {phys}) पर।', 'MCP3008 jawab nahi deti, isliye har reading 0 hai. Iske SPI wire: CLK GPIO 11 (SCLK, pin 23) par, DOUT GPIO 9 (MISO, pin 21) par, DIN GPIO 10 (MOSI, pin 19) par, CS GPIO {ce} (pin {phys}) par.'),
+  N24_ADC_POWER: t3('The MCP3008 has no power, so it reads 0: VDD (pin 16) to 3.3 V and DGND (pin 9) to GND.', 'MCP3008 को पावर नहीं मिली, इसलिए यह 0 पढ़ती है: VDD (पिन 16) 3.3 V से और DGND (पिन 9) GND से।', 'MCP3008 ko power nahi mili, isliye yeh 0 padhti hai: VDD (pin 16) 3.3 V se aur DGND (pin 9) GND se.'),
+  N24_ADC_5V: t3('The MCP3008 runs at {v} V, so its DOUT puts {v} V on GPIO 9, and a Pi pin takes only 3.3 V. Supply VDD and VREF from 3.3 V.', 'MCP3008 {v} V पर चल रही है, तो इसका DOUT GPIO 9 पर {v} V डालता है, जबकि Pi का पिन सिर्फ़ 3.3 V सहता है। VDD और VREF को 3.3 V दीजिए।', 'MCP3008 {v} V par chal rahi hai, to iska DOUT GPIO 9 par {v} V daalta hai, jabki Pi ka pin sirf 3.3 V sehta hai. VDD aur VREF ko 3.3 V dijiye.'),
+  N24_ADC_VREF: t3('VREF (pin 15) is not at 3.3 V, so every reading says 1023. Join VREF to VDD.', 'VREF (पिन 15) 3.3 V पर नहीं है, इसलिए हर रीडिंग 1023 कहती है। VREF को VDD से जोड़िए।', 'VREF (pin 15) 3.3 V par nahi hai, isliye har reading 1023 kehti hai. VREF ko VDD se jodiye.'),
+  N24_ADC_AGND: t3('AGND (pin 14) is not joined to GND: the readings are nonsense. Join it to the − rail.', 'AGND (पिन 14) GND से नहीं जुड़ा: रीडिंग बेमतलब हैं। इसे − रेल से जोड़िए।', 'AGND (pin 14) GND se nahi juda: readings bematlab hain. Ise − rail se jodiye.'),
+  N24_ADC_FLOAT: t3('CH{ch} measures a voltage, but nothing is joined to it: the numbers wander. Wire the sensor\'s output to CH{ch}.', 'CH{ch} वोल्टेज नापता है, पर उससे कुछ नहीं जुड़ा: संख्याएँ भटकती हैं। सेंसर का आउटपुट CH{ch} से जोड़िए।', 'CH{ch} voltage naapta hai, par usse kuch nahi juda: numbers bhatakte hain. Sensor ka output CH{ch} se jodiye.'),
+  N24_ADC_OVER: t3('CH{ch} gets {v} V, more than the chip\'s own supply: it reads 1023 and the chip can be damaged. Power the sensor from 3.3 V.', 'CH{ch} को {v} V मिल रहे हैं, चिप की अपनी सप्लाई से ज़्यादा: यह 1023 पढ़ता है और चिप ख़राब हो सकती है। सेंसर को 3.3 V दीजिए।', 'CH{ch} ko {v} V mil rahe hain, chip ki apni supply se zyada: yeh 1023 padhta hai aur chip kharab ho sakti hai. Sensor ko 3.3 V dijiye.'),
+  N24_ADC_CH: t3('SPIBadChannel: channel must be between 0 and {n}.', 'SPIBadChannel: channel 0 से {n} के बीच होना चाहिए।', 'SPIBadChannel: channel 0 se {n} ke beech hona chahiye.'),
+  N24_ADC_DIFF: t3('ValueError: differential=True compares two inputs (CH0 − CH1); here each sensor has its own channel: leave it out.', 'ValueError: differential=True दो इनपुट की तुलना करता है (CH0 − CH1); यहाँ हर सेंसर का अपना चैनल है: इसे हटाइए।', 'ValueError: differential=True do input ki tulna karta hai (CH0 − CH1); yahan har sensor ka apna channel hai: ise hataiye.'),
+  N24_ADC_PORT: t3('SPIBadArgs: port={port}, device={dev}: the MCP3008 is on SPI0 (port=0), its CS on CE0 (device=0) or CE1 (device=1).', 'SPIBadArgs: port={port}, device={dev}: MCP3008 SPI0 (port=0) पर है, इसका CS CE0 (device=0) या CE1 (device=1) पर।', 'SPIBadArgs: port={port}, device={dev}: MCP3008 SPI0 (port=0) par hai, iska CS CE0 (device=0) ya CE1 (device=1) par.'),
+  N24_ADC_CLOSED: t3('DeviceClosed: this MCP3008 was closed with close(): make it again to read it.', 'DeviceClosed: यह MCP3008 close() से बंद हो चुकी है: पढ़ने के लिए फिर से बनाइए।', 'DeviceClosed: yeh MCP3008 close() se band ho chuki hai: padhne ke liye phir se banaiye.'),
   N24_FONT: t3('OSError: cannot open resource "{name}": the Pi has no such font. It has {ok}, … in /usr/share/fonts/truetype.', 'OSError: "{name}" नहीं खुल सकता: Pi में ऐसा फ़ॉन्ट नहीं है। इसमें {ok}, … /usr/share/fonts/truetype में हैं।', 'OSError: "{name}" nahi khul sakta: Pi mein aisa font nahi hai. Ismein {ok}, … /usr/share/fonts/truetype mein hain.'),
   N24_COLOR: t3('ValueError: unknown color specifier: "{c}". The OLED has only "white" (lit) and "black" (dark).', 'ValueError: अनजाना रंग "{c}"। ओएलईडी में सिर्फ़ "white" (चमकता) और "black" (अँधेरा) हैं।', 'ValueError: anjaana rang "{c}". OLED mein sirf "white" (chamakta) aur "black" (andhera) hain.'),
   N24_XY: t3('TypeError: coordinates are (x, y) pairs, e.g. draw.text((0, 0), "Hi") or draw.rectangle((0, 0, 127, 63)).', 'TypeError: निर्देशांक (x, y) जोड़ियाँ हैं, जैसे draw.text((0, 0), "Hi") या draw.rectangle((0, 0, 127, 63))।', 'TypeError: coordinates (x, y) jodiyan hain, jaise draw.text((0, 0), "Hi") ya draw.rectangle((0, 0, 127, 63)).'),

@@ -943,3 +943,20 @@ heaters.
   /dev/i2c-0. The 5 V LCD backpack's 4.7 kΩ pull-ups against the Pi's 1.8 kΩ hold SDA/SCL at about 3.8 V.
   Factory (factory.js `QOUT.lcd`, `QOUT.oled`; `sketchPi` takes job-made lines, `head`, `init` and the reading on row 0):
   every LCD job with a Pi input on both screens: 108 projects. robocore24.mjs plays the libraries and the mistakes.
+- The Pico's 16×2 LCD (pi24.js `picoLcdMods`: the pico_i2c_lcd.py + lcd_api.py files every Pico LCD tutorial copies to the
+  board): `I2cLcd(i2c, 0x27, 2, 16)`, putstr, putchar, move_to(col, row) — column first, and with no check, so move_to(1, 0)
+  meant as "line 1" writes on line 0 at column 1, as the real file does —, clear, home, backlight_on/off, display_on/off,
+  cursors, custom_char. A full line wraps (the last back to the first) and, as in lcd_api.py, a "\n" after a wrap is
+  swallowed. Nothing at the address on that bus: OSError [Errno 5] EIO (pi6.js's I2C object). Factory `POUT.lcd`: VCC from
+  VBUS (the back + rail), SDA GP4, SCL GP5; `sketchPy` takes `init` and `value` lines as `sketchPi` does: 76 projects.
+- The MCP3008 (batch 24, parts24.js + models24.js): the 8-channel 10-bit SPI ADC in a DIP-16 across the gap (pin 1 = CH0
+  at row f, pins 16–9 on row e, the notch and the print on top). gpiozero's `MCP3008(channel=0)` (pi24.js `adcClasses`,
+  merged into pi6.js's gpiozero): raw_value 0–1023, value, voltage, close; each reading is (CH − AGND) / (VREF − AGND)
+  × 1024 ± 1 count, from `lab.readNode()` (sim.js: the instant solve of any node, NaN when nothing anchors it; readPin
+  uses it). As on a real Pi: CLK / DOUT / DIN / CS off GPIO 11 / 9 / 10 / 8 (or CE1 = GPIO 7 with device=1) or no VDD read
+  0; VREF loose reads 1023; an input joined to nothing wanders (a hint); VDD from 5 V is warned about (DOUT would put 5 V
+  on GPIO 9), and so is an input above VDD + 0.6 V; channel 8 is SPIBadChannel. Factory (factory.js `ADC_PRE`): the chip
+  pre-wired at columns 5–12 (VDD and VREF to 3.3 V pin 17, AGND/DGND to −, SPI0 to GPIO 8–11); the student wires the knob,
+  LDR (both kinds), LM35 (hot and cold) or soil sensor on 3.3 V (the LM35 on 5 V: it needs 4 V, its output stays small),
+  and its output to `adc.CH0`; `raw_value` gives the Arduino's own numbers, `round(adc.voltage * 100)` the LM35's °C.
+  Every such job on the Pi: 156 projects. robocore24.mjs plays the chip's mistakes; robofactory.mjs 15,133 ok.

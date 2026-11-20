@@ -2,6 +2,7 @@
 // button in their callout that does what the sensor senses (a candle, a clap, a magnet, a tip, a knock, rain, closed eyes).
 import { tx } from './i18n.js';
 import { PARTS22, KINDS22, sense22, blink22, wind22, ANEMO_MAX, sun22 } from './parts22.js';
+import { PARTS24 } from './parts24.js'; // (batch 24: the MCP3008's live line)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
@@ -20,7 +21,7 @@ const WIND = t3('🌬 Wind km/h', '🌬 हवा km/h', '🌬 Hawa km/h');
 const SUN = t3('☀ Sunlight %', '☀ धूप %', '☀ Dhoop %'), COVER = [t3('✋ Cover it', '✋ इसे ढकिए', '✋ Ise dhakiye'), t3('☀ Uncover it', '☀ इसे खोलिए', '☀ Ise kholiye')];
 export function install22(app) {
   const W = (name, f) => { const o = app[name].bind(app); app[name] = (...a) => f(o, ...a); };
-  W('partLive', (o, p) => o(p) || (PARTS22[p.type] ? PARTS22[p.type].live(p) : ''));
+  W('partLive', (o, p) => o(p) || (PARTS22[p.type] ? PARTS22[p.type].live(p) : PARTS24[p.type] ? PARTS24[p.type].live(p) : ''));
   W('controlsFor', (o, p) => {
     const r = o(p); if (r) return r;
     if (p.type === 'solar') { const v = Math.round((p.state.sun ?? 1) * 100); return `<div class="row"><label>${esc(tx(SUN))}</label><input type="range" id="co22-sun" min="0" max="100" step="5" value="${v}"><span id="co22-sun-v">${v}</span></div><div class="row"><button class="btn" id="co22-cover">${esc(tx(COVER[v < 1 ? 1 : 0]))}</button></div>`; }

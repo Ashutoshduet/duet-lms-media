@@ -19,7 +19,7 @@ import { LAB_HOOKS } from './boards4.js';
 import { CPP, L, msg } from './i18n.js';
 import { suggest } from './cpp.js';
 import { glyph, CARDS } from './libs3.js';
-import { dataModules, openFn, MSG20 } from './pi20.js'; import { displayModules, MSG24 } from './pi24.js'; // (batch 24: RPLCD and luma.oled, the Pi's I2C screens) // (batch 20: files, csv, statistics and matplotlib on the Pi 4) // (batch 17: the ssd1306 driver draws text with the same 5 × 7 font as the Uno's OLED)
+import { dataModules, openFn, MSG20 } from './pi20.js'; import { displayModules, picoLcdMods, adcClasses, MSG24 } from './pi24.js'; // (batch 24: RPLCD and luma.oled, the Pi's I2C screens) // (batch 20: files, csv, statistics and matplotlib on the Pi 4) // (batch 17: the ssd1306 driver draws text with the same 5 × 7 font as the Uno's OLED)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -344,7 +344,7 @@ function picoHost(m) {
   const upy = () => new Mod('micropython', { const: nat('const', ['x'], (R, x) => x), mem_info: nat('mem_info', [], () => null) });
   const wrong = (mod) => (R) => { throw R.err('ImportError', 'N6_MOD_PICO', { mod }); };
   return {
-    modules: { machine, sys, rp2, gc, micropython: upy, dht: () => mpDht(m), ssd1306: () => mpSSD1306(m), mfrc522: () => mpMFRC522(m), gpiozero: wrong('gpiozero'), 'RPi.GPIO': wrong('RPi.GPIO'), RPi: wrong('RPi'), adafruit_dht: wrong('adafruit_dht'), board: wrong('board'), signal: wrong('signal') },
+    modules: { machine, sys, rp2, gc, micropython: upy, dht: () => mpDht(m), ssd1306: () => mpSSD1306(m), ...picoLcdMods(m), mfrc522: () => mpMFRC522(m), gpiozero: wrong('gpiozero'), 'RPi.GPIO': wrong('RPi.GPIO'), RPi: wrong('RPi'), adafruit_dht: wrong('adafruit_dht'), board: wrong('board'), signal: wrong('signal') },
     print: (s, R) => { m.serial(s, R.t); m.obs6.prints++; m.line6(s); },
     hint: (name, G) => hint6(name, G, false),
     names: () => ['Pin', 'PWM', 'ADC', 'Timer', 'time_pulse_us', 'sleep', 'sleep_ms', 'utime', 'time', 'machine'],
@@ -686,7 +686,7 @@ function piTime(m) {
   });
 }
 function piHost(m) {
-  const gz = () => gpiozero(m); const D = dhtMods(m);
+  const gz = () => { const g = gpiozero(m); Object.assign(g.attrs, adcClasses(m)); return g; }; const D = dhtMods(m); // (batch 24: MCP3008 / MCP3004)
   const signal = () => new Mod('signal', { pause: nat('pause', [], forever, B), SIGINT: 2, SIGTERM: 15, signal: nat('signal', ['sig', 'handler'], () => null) });
   const sys = () => new Mod('sys', { exit: nat('exit', ['code=0'], (R) => { throw R.err('SystemExit', 'P_RAISED', { type: 'SystemExit', msg: '' }); }), platform: 'linux', version: '3.11.2 (main, Nov 30 2024) [GCC 12.2.0]' });
   const wrong = (mod) => (R) => { throw R.err('ImportError', 'N6_MOD_PI', { mod }); };
