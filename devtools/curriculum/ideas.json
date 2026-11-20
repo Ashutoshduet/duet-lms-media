@@ -2244,6 +2244,501 @@
 "note": null
 },
 {
+"id": "live-f_rainwindow_servo_pi",
+"title": "Window that closes in the rain: rain sensor module → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_rainwindow_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_led_pi",
+"title": "Rain alert: bring the clothes in: rain sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clothesrain_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_buzzer_pi",
+"title": "Rain alert: bring the clothes in: rain sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clothesrain_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_rgb_pi",
+"title": "Earthquake alarm for the classroom: vibration sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quake_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_buzzer_pi",
+"title": "Earthquake alarm for the classroom: vibration sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quake_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_led_pi",
+"title": "Knock-knock door bell: vibration sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_knockbell_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_buzzer_pi",
+"title": "Knock-knock door bell: vibration sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_knockbell_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_relay_pi",
+"title": "Water cooler tip-over cut-off: tilt sensor module → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coolertip_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_led_pi",
+"title": "Water cooler tip-over cut-off: tilt sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coolertip_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_buzzer_pi",
+"title": "Bicycle anti-theft alarm: tilt sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bikealarm_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_led_pi",
+"title": "Cycle wheel turn signal: hall effect sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wheelturn_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_buzzer_pi",
+"title": "Treasure box with a magnet key: hall effect sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_magnetkey_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_servo_pi",
+"title": "Treasure box with a magnet key: hall effect sensor module → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_magnetkey_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_servo_pi",
+"title": "School gate closed indicator: reed switch module → servo (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"servo",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gateclosed_servo_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_led_pi",
+"title": "School gate closed indicator: reed switch module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gateclosed_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_led_pi",
+"title": "Tank full float switch: reed switch module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_floattank_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_buzzer_pi",
+"title": "Tank full float switch: reed switch module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_floattank_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_rgb_pi",
+"title": "Library noise warning: sound sensor module → colour LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_library_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_led_pi",
+"title": "Clap switch: sound sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clapswitch_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_relay_pi",
+"title": "Clap switch: sound sensor module → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clapswitch_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_relay_pi",
+"title": "Diya left burning alert: flame sensor module → relay and lamp (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"relay",
+"load230",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_diyaguard_relay_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_led_pi",
+"title": "Diya left burning alert: flame sensor module → LED (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"led",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_diyaguard_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_pump_pi",
+"title": "Kitchen fire alarm: flame sensor module → water pump (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kitchenfire_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_buzzer_pi",
+"title": "Kitchen fire alarm: flame sensor module → buzzer (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"abuzz",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kitchenfire_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_mirror_relay_pi",
 "title": "Bathroom mirror demister: DHT11 sensor (humidity) → relay and heater lamp (Raspberry Pi)",
 "family": "factory",
@@ -4317,6 +4812,641 @@
 "level": 10,
 "theme": "bank",
 "live": "f_lightswitch_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainwindow_servo_pico",
+"title": "Window that closes in the rain: rain sensor module → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_rainwindow_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_oled_pico",
+"title": "Rain alert: bring the clothes in: rain sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clothesrain_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_led_pico",
+"title": "Rain alert: bring the clothes in: rain sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clothesrain_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_buzzer_pico",
+"title": "Rain alert: bring the clothes in: rain sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clothesrain_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_oled_pico",
+"title": "Earthquake alarm for the classroom: vibration sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quake_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_rgb_pico",
+"title": "Earthquake alarm for the classroom: vibration sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quake_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_buzzer_pico",
+"title": "Earthquake alarm for the classroom: vibration sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quake_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_led_pico",
+"title": "Knock-knock door bell: vibration sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_knockbell_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_buzzer_pico",
+"title": "Knock-knock door bell: vibration sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_knockbell_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_relay_pico",
+"title": "Water cooler tip-over cut-off: tilt sensor module → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coolertip_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_led_pico",
+"title": "Water cooler tip-over cut-off: tilt sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_coolertip_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_oled_pico",
+"title": "Bicycle anti-theft alarm: tilt sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bikealarm_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_buzzer_pico",
+"title": "Bicycle anti-theft alarm: tilt sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_bikealarm_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_oled_pico",
+"title": "Cycle wheel turn signal: hall effect sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wheelturn_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_led_pico",
+"title": "Cycle wheel turn signal: hall effect sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wheelturn_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_buzzer_pico",
+"title": "Treasure box with a magnet key: hall effect sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_magnetkey_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_servo_pico",
+"title": "Treasure box with a magnet key: hall effect sensor module → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_magnetkey_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_servo_pico",
+"title": "School gate closed indicator: reed switch module → servo (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"servo",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_gateclosed_servo_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_led_pico",
+"title": "School gate closed indicator: reed switch module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_gateclosed_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_oled_pico",
+"title": "Tank full float switch: reed switch module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_floattank_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_led_pico",
+"title": "Tank full float switch: reed switch module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_floattank_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_buzzer_pico",
+"title": "Tank full float switch: reed switch module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_floattank_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_oled_pico",
+"title": "Library noise warning: sound sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_library_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_rgb_pico",
+"title": "Library noise warning: sound sensor module → colour LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_library_rgb_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_led_pico",
+"title": "Clap switch: sound sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clapswitch_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_relay_pico",
+"title": "Clap switch: sound sensor module → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"sound"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_clapswitch_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_relay_pico",
+"title": "Diya left burning alert: flame sensor module → relay and lamp (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"relay",
+"load230",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_diyaguard_relay_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_led_pico",
+"title": "Diya left burning alert: flame sensor module → LED (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"led",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_diyaguard_led_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_oled_pico",
+"title": "Kitchen fire alarm: flame sensor module → OLED screen (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kitchenfire_oled_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_pump_pico",
+"title": "Kitchen fire alarm: flame sensor module → water pump (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kitchenfire_pump_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_buzzer_pico",
+"title": "Kitchen fire alarm: flame sensor module → buzzer (Pico)",
+"family": "factory",
+"board": "pico",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kitchenfire_buzzer_pico",
 "rule": null,
 "note": null
 },
@@ -9233,6 +10363,1047 @@
 "level": 9,
 "theme": "bank",
 "live": "f_doorbell_buzzer_pico",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainwindow_web_esp",
+"title": "Window that closes in the rain: rain sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_rainwindow_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainwindow_servo_esp",
+"title": "Window that closes in the rain: rain sensor module → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_rainwindow_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_web_esp",
+"title": "Rain alert: bring the clothes in: rain sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clothesrain_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_oled_esp",
+"title": "Rain alert: bring the clothes in: rain sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clothesrain_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_led_esp",
+"title": "Rain alert: bring the clothes in: rain sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clothesrain_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_lcd_esp",
+"title": "Rain alert: bring the clothes in: rain sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clothesrain_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_buzzer_esp",
+"title": "Rain alert: bring the clothes in: rain sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clothesrain_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_web_esp",
+"title": "Earthquake alarm for the classroom: vibration sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_quake_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_oled_esp",
+"title": "Earthquake alarm for the classroom: vibration sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_quake_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_lcd_esp",
+"title": "Earthquake alarm for the classroom: vibration sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_quake_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_rgb_esp",
+"title": "Earthquake alarm for the classroom: vibration sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_quake_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_buzzer_esp",
+"title": "Earthquake alarm for the classroom: vibration sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_quake_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_web_esp",
+"title": "Knock-knock door bell: vibration sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_knockbell_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_led_esp",
+"title": "Knock-knock door bell: vibration sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_knockbell_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_buzzer_esp",
+"title": "Knock-knock door bell: vibration sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_knockbell_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_web_esp",
+"title": "Water cooler tip-over cut-off: tilt sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coolertip_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_relay_esp",
+"title": "Water cooler tip-over cut-off: tilt sensor module → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coolertip_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_led_esp",
+"title": "Water cooler tip-over cut-off: tilt sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_coolertip_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_web_esp",
+"title": "Bicycle anti-theft alarm: tilt sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bikealarm_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_oled_esp",
+"title": "Bicycle anti-theft alarm: tilt sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bikealarm_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_lcd_esp",
+"title": "Bicycle anti-theft alarm: tilt sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bikealarm_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_buzzer_esp",
+"title": "Bicycle anti-theft alarm: tilt sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_bikealarm_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_web_esp",
+"title": "Cycle wheel turn signal: hall effect sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_wheelturn_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_oled_esp",
+"title": "Cycle wheel turn signal: hall effect sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_wheelturn_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_lcd_esp",
+"title": "Cycle wheel turn signal: hall effect sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_wheelturn_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_led_esp",
+"title": "Cycle wheel turn signal: hall effect sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_wheelturn_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_web_esp",
+"title": "Treasure box with a magnet key: hall effect sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_magnetkey_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_buzzer_esp",
+"title": "Treasure box with a magnet key: hall effect sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_magnetkey_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_servo_esp",
+"title": "Treasure box with a magnet key: hall effect sensor module → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"hall"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_magnetkey_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_web_esp",
+"title": "School gate closed indicator: reed switch module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gateclosed_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_servo_esp",
+"title": "School gate closed indicator: reed switch module → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gateclosed_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_led_esp",
+"title": "School gate closed indicator: reed switch module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_gateclosed_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_web_esp",
+"title": "Tank full float switch: reed switch module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floattank_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_oled_esp",
+"title": "Tank full float switch: reed switch module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floattank_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_lcd_esp",
+"title": "Tank full float switch: reed switch module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floattank_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_led_esp",
+"title": "Tank full float switch: reed switch module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floattank_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_buzzer_esp",
+"title": "Tank full float switch: reed switch module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_floattank_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_web_esp",
+"title": "Library noise warning: sound sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_library_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_oled_esp",
+"title": "Library noise warning: sound sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_library_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_lcd_esp",
+"title": "Library noise warning: sound sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_library_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_rgb_esp",
+"title": "Library noise warning: sound sensor module → colour LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_library_rgb_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_web_esp",
+"title": "Clap switch: sound sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapswitch_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_led_esp",
+"title": "Clap switch: sound sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapswitch_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_relay_esp",
+"title": "Clap switch: sound sensor module → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"sound"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_clapswitch_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_web_esp",
+"title": "Diya left burning alert: flame sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_diyaguard_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_relay_esp",
+"title": "Diya left burning alert: flame sensor module → relay and lamp (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"relay",
+"load230",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_diyaguard_relay_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_led_esp",
+"title": "Diya left burning alert: flame sensor module → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_diyaguard_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_web_esp",
+"title": "Kitchen fire alarm: flame sensor module → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kitchenfire_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_oled_esp",
+"title": "Kitchen fire alarm: flame sensor module → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kitchenfire_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_pump_esp",
+"title": "Kitchen fire alarm: flame sensor module → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kitchenfire_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_lcd_esp",
+"title": "Kitchen fire alarm: flame sensor module → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kitchenfire_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_buzzer_esp",
+"title": "Kitchen fire alarm: flame sensor module → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "bank",
+"live": "f_kitchenfire_buzzer_esp",
 "rule": null,
 "note": null
 },
@@ -18834,6 +21005,781 @@
 "note": null
 },
 {
+"id": "live-f_rainwindow_servo",
+"title": "Window that closes in the rain: rain sensor module → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_rainwindow_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_oled",
+"title": "Rain alert: bring the clothes in: rain sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_clothesrain_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_led",
+"title": "Rain alert: bring the clothes in: rain sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"rain"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_clothesrain_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_lcd",
+"title": "Rain alert: bring the clothes in: rain sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_clothesrain_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_buzzer",
+"title": "Rain alert: bring the clothes in: rain sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"rain"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_clothesrain_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_oled",
+"title": "Earthquake alarm for the classroom: vibration sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_quake_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_lcd",
+"title": "Earthquake alarm for the classroom: vibration sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_quake_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_rgb",
+"title": "Earthquake alarm for the classroom: vibration sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_quake_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_buzzer",
+"title": "Earthquake alarm for the classroom: vibration sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_quake_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_led",
+"title": "Knock-knock door bell: vibration sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"vibe"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_knockbell_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_knockbell_buzzer",
+"title": "Knock-knock door bell: vibration sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"vibe"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_knockbell_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_relay",
+"title": "Water cooler tip-over cut-off: tilt sensor module → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_coolertip_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_coolertip_led",
+"title": "Water cooler tip-over cut-off: tilt sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"tilt"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_coolertip_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_oled",
+"title": "Bicycle anti-theft alarm: tilt sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_bikealarm_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_lcd",
+"title": "Bicycle anti-theft alarm: tilt sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_bikealarm_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_buzzer",
+"title": "Bicycle anti-theft alarm: tilt sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"tilt"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_bikealarm_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_oled",
+"title": "Cycle wheel turn signal: hall effect sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wheelturn_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_lcd",
+"title": "Cycle wheel turn signal: hall effect sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wheelturn_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_led",
+"title": "Cycle wheel turn signal: hall effect sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_wheelturn_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_buzzer",
+"title": "Treasure box with a magnet key: hall effect sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_magnetkey_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_magnetkey_servo",
+"title": "Treasure box with a magnet key: hall effect sensor module → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"hall"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_magnetkey_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_servo",
+"title": "School gate closed indicator: reed switch module → servo",
+"family": "factory",
+"board": "uno",
+"parts": [
+"servo",
+"reed"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_gateclosed_servo",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gateclosed_led",
+"title": "School gate closed indicator: reed switch module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_gateclosed_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_oled",
+"title": "Tank full float switch: reed switch module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floattank_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_lcd",
+"title": "Tank full float switch: reed switch module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floattank_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_led",
+"title": "Tank full float switch: reed switch module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floattank_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_buzzer",
+"title": "Tank full float switch: reed switch module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"reed"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_floattank_buzzer",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_oled",
+"title": "Library noise warning: sound sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_library_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_lcd",
+"title": "Library noise warning: sound sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_library_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_rgb",
+"title": "Library noise warning: sound sensor module → colour LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"resistor",
+"rgb",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_library_rgb",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_led",
+"title": "Clap switch: sound sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"sound"
+],
+"newparts": [],
+"band": [
+6,
+8
+],
+"level": 6,
+"theme": "bank",
+"live": "f_clapswitch_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clapswitch_relay",
+"title": "Clap switch: sound sensor module → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"sound"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_clapswitch_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_relay",
+"title": "Diya left burning alert: flame sensor module → relay and lamp",
+"family": "factory",
+"board": "uno",
+"parts": [
+"relay",
+"load230",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_diyaguard_relay",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_diyaguard_led",
+"title": "Diya left burning alert: flame sensor module → LED",
+"family": "factory",
+"board": "uno",
+"parts": [
+"led",
+"resistor",
+"flame"
+],
+"newparts": [],
+"band": [
+7,
+9
+],
+"level": 7,
+"theme": "bank",
+"live": "f_diyaguard_led",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_oled",
+"title": "Kitchen fire alarm: flame sensor module → OLED screen",
+"family": "factory",
+"board": "uno",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_kitchenfire_oled",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_pump",
+"title": "Kitchen fire alarm: flame sensor module → water pump",
+"family": "factory",
+"board": "uno",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_kitchenfire_pump",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_lcd",
+"title": "Kitchen fire alarm: flame sensor module → LCD",
+"family": "factory",
+"board": "uno",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_kitchenfire_lcd",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_buzzer",
+"title": "Kitchen fire alarm: flame sensor module → buzzer",
+"family": "factory",
+"board": "uno",
+"parts": [
+"buzzer",
+"flame"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_kitchenfire_buzzer",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_mirror_relay",
 "title": "Bathroom mirror demister: DHT11 sensor (humidity) → relay and heater lamp",
 "family": "factory",
@@ -26488,6 +29434,26 @@
 "level": 1,
 "theme": "circuits",
 "live": "c_light",
+"rule": null,
+"note": null
+},
+{
+"id": "live-drowsy",
+"title": "Driver drowsiness alarm",
+"family": "live",
+"board": "uno",
+"parts": [
+"buzzer",
+"blink"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "projects",
+"live": "drowsy",
 "rule": null,
 "note": null
 },
@@ -50108,9 +53074,7 @@
 "resistor",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -50135,9 +53099,7 @@
 "resistor",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -50162,9 +53124,7 @@
 "resistor",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -50189,9 +53149,7 @@
 "resistor",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -50216,9 +53174,7 @@
 "resistor",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -50243,9 +53199,7 @@
 "relay",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -50270,9 +53224,7 @@
 "relay",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -50297,9 +53249,7 @@
 "relay",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -50324,9 +53274,7 @@
 "relay",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 5,
 7
@@ -50351,9 +53299,7 @@
 "relay",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -50378,9 +53324,7 @@
 "sip10",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -50405,9 +53349,7 @@
 "sip10",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -50432,9 +53374,7 @@
 "sip10",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -50459,9 +53399,7 @@
 "rgb",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -50486,9 +53424,7 @@
 "rgb",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -50513,9 +53449,7 @@
 "rgb",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -50540,9 +53474,7 @@
 "rgb",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -50567,9 +53499,7 @@
 "rgb",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -50592,9 +53522,7 @@
 "parts": [
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -50618,9 +53546,7 @@
 "abuzz",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -50644,9 +53570,7 @@
 "abuzz",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -50670,9 +53594,7 @@
 "abuzz",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -50696,9 +53618,7 @@
 "abuzz",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -50722,9 +53642,7 @@
 "abuzz",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -50747,9 +53665,7 @@
 "parts": [
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -50774,7 +53690,6 @@
 "ws2812"
 ],
 "newparts": [
-"sound",
 "ws2812"
 ],
 "band": [
@@ -50801,7 +53716,6 @@
 "ws2812"
 ],
 "newparts": [
-"sound",
 "ws2812"
 ],
 "band": [
@@ -50828,7 +53742,6 @@
 "ws2812"
 ],
 "newparts": [
-"sound",
 "ws2812"
 ],
 "band": [
@@ -50855,7 +53768,6 @@
 "ws2812"
 ],
 "newparts": [
-"sound",
 "ws2812"
 ],
 "band": [
@@ -50882,7 +53794,6 @@
 "ws2812"
 ],
 "newparts": [
-"sound",
 "ws2812"
 ],
 "band": [
@@ -50909,9 +53820,7 @@
 "sip10",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -50936,9 +53845,7 @@
 "sip10",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -50963,9 +53870,7 @@
 "sip10",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -50988,9 +53893,7 @@
 "parts": [
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 4,
 6
@@ -51014,9 +53917,7 @@
 "buzzer",
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -51040,9 +53941,7 @@
 "buzzer",
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -51066,9 +53965,7 @@
 "buzzer",
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -51092,9 +53989,7 @@
 "buzzer",
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51118,9 +54013,7 @@
 "abuzz",
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -51144,9 +54037,7 @@
 "abuzz",
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -51170,9 +54061,7 @@
 "abuzz",
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -51196,9 +54085,7 @@
 "abuzz",
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51223,7 +54110,6 @@
 "gsm"
 ],
 "newparts": [
-"flame",
 "gsm"
 ],
 "band": [
@@ -51250,7 +54136,6 @@
 "gsm"
 ],
 "newparts": [
-"flame",
 "gsm"
 ],
 "band": [
@@ -51278,9 +54163,7 @@
 "pump",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -51306,9 +54189,7 @@
 "pump",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -51334,9 +54215,7 @@
 "pump",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51362,9 +54241,7 @@
 "pump",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -51389,9 +54266,7 @@
 "led",
 "resistor"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -51416,9 +54291,7 @@
 "led",
 "resistor"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -51443,9 +54316,7 @@
 "led",
 "resistor"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -51470,9 +54341,7 @@
 "led",
 "resistor"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51497,9 +54366,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -51524,9 +54391,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -51551,9 +54416,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51578,9 +54441,7 @@
 "load230",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -51604,9 +54465,7 @@
 "abuzz",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -51630,9 +54489,7 @@
 "abuzz",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -51656,9 +54513,7 @@
 "abuzz",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -51682,9 +54537,7 @@
 "abuzz",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51708,9 +54561,7 @@
 "buzzer",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -51734,9 +54585,7 @@
 "buzzer",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -51760,9 +54609,7 @@
 "buzzer",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -51786,9 +54633,7 @@
 "buzzer",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51812,9 +54657,7 @@
 "rain",
 "servo"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -51838,9 +54681,7 @@
 "rain",
 "servo"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -51864,9 +54705,7 @@
 "rain",
 "servo"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51890,9 +54729,7 @@
 "rain",
 "servo"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -51916,9 +54753,7 @@
 "rain",
 "stepper"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -51942,9 +54777,7 @@
 "rain",
 "stepper"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -51968,9 +54801,7 @@
 "rain",
 "stepper"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -51994,9 +54825,7 @@
 "rain",
 "stepper"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -52020,9 +54849,7 @@
 "lcd16",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -52046,9 +54873,7 @@
 "lcd16",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -52072,9 +54897,7 @@
 "lcd16",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -52098,9 +54921,7 @@
 "lcd16",
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -52123,9 +54944,7 @@
 "parts": [
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -52148,9 +54967,7 @@
 "parts": [
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -52174,9 +54991,7 @@
 "rain",
 "servo"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -52200,9 +55015,7 @@
 "rain",
 "servo"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -52226,9 +55039,7 @@
 "rain",
 "servo"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -52252,9 +55063,7 @@
 "rain",
 "servo"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -52278,9 +55087,7 @@
 "abuzz",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 5,
 7
@@ -52304,9 +55111,7 @@
 "abuzz",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -52330,9 +55135,7 @@
 "abuzz",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -52356,9 +55159,7 @@
 "abuzz",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -52382,9 +55183,7 @@
 "abuzz",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 3,
 5
@@ -52408,9 +55207,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 5,
 7
@@ -52434,9 +55231,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -52460,9 +55255,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -52486,9 +55279,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -52512,9 +55303,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 3,
 5
@@ -52539,8 +55328,7 @@
 "reed"
 ],
 "newparts": [
-"gsm",
-"reed"
+"gsm"
 ],
 "band": [
 9,
@@ -52566,8 +55354,7 @@
 "reed"
 ],
 "newparts": [
-"gsm",
-"reed"
+"gsm"
 ],
 "band": [
 11,
@@ -52592,9 +55379,7 @@
 "lcd16",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -52618,9 +55403,7 @@
 "lcd16",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -52644,9 +55427,7 @@
 "lcd16",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -52670,9 +55451,7 @@
 "lcd16",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -52696,9 +55475,7 @@
 "oled",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -52722,9 +55499,7 @@
 "oled",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -52748,9 +55523,7 @@
 "oled",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -52774,9 +55547,7 @@
 "oled",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -52801,9 +55572,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 5,
 7
@@ -52828,9 +55597,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -52855,9 +55622,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -52882,9 +55647,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -52909,9 +55672,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 3,
 5
@@ -52935,9 +55696,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 5,
 7
@@ -52961,9 +55720,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -52987,9 +55744,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -53013,9 +55768,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -53039,9 +55792,7 @@
 "buzzer",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 3,
 5
@@ -53063,11 +55814,9 @@
 "board": "uno",
 "parts": [
 "abuzz",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -53089,11 +55838,9 @@
 "board": "esp32",
 "parts": [
 "abuzz",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -53115,11 +55862,9 @@
 "board": "pico",
 "parts": [
 "abuzz",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -53141,11 +55886,9 @@
 "board": "pi4",
 "parts": [
 "abuzz",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -53167,11 +55910,9 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -53193,11 +55934,9 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -53219,11 +55958,9 @@
 "board": "pico",
 "parts": [
 "buzzer",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -53245,11 +55982,9 @@
 "board": "pi4",
 "parts": [
 "buzzer",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -53272,11 +56007,9 @@
 "parts": [
 "resistor",
 "rgb",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -53299,11 +56032,9 @@
 "parts": [
 "resistor",
 "rgb",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -53326,11 +56057,9 @@
 "parts": [
 "resistor",
 "rgb",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -53353,11 +56082,9 @@
 "parts": [
 "resistor",
 "rgb",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -53379,11 +56106,9 @@
 "board": "uno",
 "parts": [
 "lcd16",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -53405,11 +56130,9 @@
 "board": "esp32",
 "parts": [
 "lcd16",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -53431,11 +56154,9 @@
 "board": "pico",
 "parts": [
 "lcd16",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -53457,11 +56178,9 @@
 "board": "pi4",
 "parts": [
 "lcd16",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -53483,11 +56202,9 @@
 "board": "uno",
 "parts": [
 "servo",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -53509,11 +56226,9 @@
 "board": "esp32",
 "parts": [
 "servo",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -53535,11 +56250,9 @@
 "board": "pico",
 "parts": [
 "servo",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -53561,11 +56274,9 @@
 "board": "pi4",
 "parts": [
 "servo",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -58848,9 +61559,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -58874,9 +61583,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -58900,9 +61607,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -58926,9 +61631,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -58952,9 +61655,7 @@
 "hall",
 "oled"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -58978,9 +61679,7 @@
 "hall",
 "oled"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -59004,9 +61703,7 @@
 "hall",
 "oled"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -59030,9 +61727,7 @@
 "hall",
 "oled"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -59056,9 +61751,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -59082,9 +61775,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -59108,9 +61799,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -59134,9 +61823,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -59161,9 +61848,7 @@
 "resistor",
 "seg7"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -59188,9 +61873,7 @@
 "resistor",
 "seg7"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -59215,9 +61898,7 @@
 "resistor",
 "seg7"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -59241,9 +61922,7 @@
 "abuzz",
 "hall"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -59267,9 +61946,7 @@
 "abuzz",
 "hall"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -59293,9 +61970,7 @@
 "abuzz",
 "hall"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -59319,9 +61994,7 @@
 "abuzz",
 "hall"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -59346,9 +62019,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 7,
 9
@@ -59373,9 +62044,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -59400,9 +62069,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -59427,9 +62094,7 @@
 "resistor",
 "rgb"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -59453,9 +62118,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -59479,9 +62142,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -59505,9 +62166,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -59531,9 +62190,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -59556,9 +62213,7 @@
 "parts": [
 "hall"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -59581,9 +62236,7 @@
 "parts": [
 "hall"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -69944,9 +72597,7 @@
 "l298n",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -69968,9 +72619,7 @@
 "l298n",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -69992,9 +72641,7 @@
 "l298n",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -70016,9 +72663,7 @@
 "l298n",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -70042,9 +72687,7 @@
 "pump",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -70068,9 +72711,7 @@
 "pump",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -70094,9 +72735,7 @@
 "pump",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -70120,9 +72759,7 @@
 "pump",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -72425,14 +75062,12 @@
 "parts": [
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
-9,
-11
+8,
+10
 ],
-"level": 9,
+"level": 8,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -72446,14 +75081,12 @@
 "parts": [
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
-10,
-12
+9,
+11
 ],
-"level": 10,
+"level": 9,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -72467,14 +75100,12 @@
 "parts": [
 "rain"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
-11,
+10,
 12
 ],
-"level": 11,
+"level": 10,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -72488,14 +75119,12 @@
 "parts": [
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
-9,
-11
+8,
+10
 ],
-"level": 9,
+"level": 8,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -72509,14 +75138,12 @@
 "parts": [
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
-10,
-12
+9,
+11
 ],
-"level": 10,
+"level": 9,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -72530,14 +75157,12 @@
 "parts": [
 "flame"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
-11,
+10,
 12
 ],
-"level": 11,
+"level": 10,
 "theme": "iot",
 "live": null,
 "rule": null,
@@ -73071,9 +75696,7 @@
 "relay",
 "soil"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -73157,8 +75780,7 @@
 "rain"
 ],
 "newparts": [
-"bmp180",
-"rain"
+"bmp180"
 ],
 "band": [
 11,
@@ -74549,9 +77171,7 @@
 "relay",
 "soil"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -74573,9 +77193,7 @@
 "relay",
 "soil"
 ],
-"newparts": [
-"rain"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -74597,9 +77215,7 @@
 "mq2",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -74621,9 +77237,7 @@
 "mq2",
 "relay"
 ],
-"newparts": [
-"flame"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -74687,9 +77301,7 @@
 "rfid",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -74711,9 +77323,7 @@
 "rfid",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -74904,9 +77514,7 @@
 "lcd16",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -74927,9 +77535,7 @@
 "lcd16",
 "reed"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -75044,12 +77650,10 @@
 "parts": [
 "buzzer",
 "flame",
-"vibration",
+"vibe",
 "waterlevel"
 ],
 "newparts": [
-"flame",
-"vibration",
 "waterlevel"
 ],
 "band": [
@@ -75070,12 +77674,10 @@
 "parts": [
 "buzzer",
 "flame",
-"vibration",
+"vibe",
 "waterlevel"
 ],
 "newparts": [
-"flame",
-"vibration",
 "waterlevel"
 ],
 "band": [
@@ -75277,9 +77879,7 @@
 "servo",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -75299,9 +77899,7 @@
 "servo",
 "sound"
 ],
-"newparts": [
-"sound"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -76360,9 +78958,7 @@
 "parts": [
 "hall"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -76381,9 +78977,7 @@
 "parts": [
 "hall"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -77263,8 +79857,7 @@
 "rain"
 ],
 "newparts": [
-"anemometer",
-"rain"
+"anemometer"
 ],
 "band": [
 10,
@@ -77287,8 +79880,7 @@
 "rain"
 ],
 "newparts": [
-"anemometer",
-"rain"
+"anemometer"
 ],
 "band": [
 11,
@@ -78246,7 +80838,6 @@
 "gsm"
 ],
 "newparts": [
-"flame",
 "gsm"
 ],
 "band": [
@@ -78269,7 +80860,6 @@
 "gsm"
 ],
 "newparts": [
-"flame",
 "gsm"
 ],
 "band": [
@@ -78377,9 +80967,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -78399,9 +80987,7 @@
 "hall",
 "lcd16"
 ],
-"newparts": [
-"hall"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -78505,11 +81091,9 @@
 "board": "uno",
 "parts": [
 "buzzer",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -78527,11 +81111,9 @@
 "board": "esp32",
 "parts": [
 "buzzer",
-"vibration"
+"vibe"
 ],
-"newparts": [
-"vibration"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -78597,9 +81179,7 @@
 "reed",
 "relay"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -78619,9 +81199,7 @@
 "reed",
 "relay"
 ],
-"newparts": [
-"reed"
-],
+"newparts": [],
 "band": [
 10,
 12

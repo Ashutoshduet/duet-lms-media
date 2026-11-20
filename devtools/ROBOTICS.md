@@ -869,3 +869,16 @@ heaters.
   marked"), `pi_tripwire` (an LDR + 10 kΩ into GPIO 17, the pin's threshold as the comparator, when_deactivated; without
   pause() the program ends and the door is unguarded). Note: a resistor plugged into a rail needs a column with a rail
   hole (not 8, 14, 20, 26, 32, 38, 44, 50, 56). robocore21.mjs plays them. Class 10: 23 of 26. 1,553 projects.
+- Small digital sensor modules (batch 22: parts22.js, models22.js, app22.js, lessons22.js). Eight school-kit boards with
+  VCC / GND / OUT (DO, LOW while it senses, the second LED lit): flame (IR photodiode, a candle), sound (a clap: a 0.25 s
+  pulse), reed (glass switch, a bar magnet), hall (A3144, a magnet), tilt (SW-520D ball switch), vibe (SW-420, a knock:
+  a 0.35 s pulse), rain (a separate comb plate, drops on it), blink (IR pair on a spectacle frame: 😉 Blink is a 0.15 s
+  pulse, 😑 Close the eyes holds). No power (under 3 V on VCC) → OUT reads nothing. The callout button does the sensing
+  (sense22 / blink22). The board print reads upright for a module placed turned round (rot 2, pins to the board). The
+  factory (factory.js DIG22) takes seven of them as inputs on the Uno (pin 7, 5 V), ESP32 (GPIO 27, 3.3 V), Pico (GP14,
+  3V3) and Pi 4 (GPIO 27, DigitalInputDevice), with 14 new jobs (kitchen fire alarm, diya left burning, clap switch,
+  library noise, tank-full float switch, gate closed, magnet-key box, cycle wheel turn, bike anti-theft, cooler tip-over
+  cut-off, knock bell, classroom earthquake alarm, rain alert for clothes, window that closes in rain): 145 projects.
+  Hand-made `drowsy` (Class 10, Uno): the eye sensor and a buzzer; sleepy = 0 beeps at every blink (a false alarm nobody
+  keeps), sleepy = 2000 keeps blinks quiet and wakes the driver after 2 s; opening the eyes stops it. robocore22.mjs
+  checks every module and plays it. Class 10: 24 of 26. 1,699 projects (231 hand-made + 1,468 bank).

@@ -5307,11 +5307,9 @@
     "kind": "I",
     "title": "Smart farm: soil, rain and pump on the phone",
     "board": "esp32",
-    "status": "needs-part",
+    "status": "planned",
     "ref": "smart-farm-soil-rain-and-pump-on-the-phone-esp32",
-    "newparts": [
-     "rain"
-    ],
+    "newparts": [],
     "family": "iot",
     "parts": [
      "pump",
@@ -5362,8 +5360,7 @@
     "status": "needs-part",
     "ref": "kisan-weather-station-for-the-panchayat-esp32",
     "newparts": [
-     "anemometer",
-     "rain"
+     "anemometer"
     ],
     "family": "india-problems",
     "parts": [
@@ -5415,19 +5412,19 @@
    {
     "class": 10,
     "n": 28,
-    "kind": "I",
+    "kind": "L",
     "title": "Driver drowsiness alarm",
     "board": "uno",
-    "status": "planned",
-    "ref": "driver-drowsiness-alarm-uno",
+    "status": "live",
+    "ref": "drowsy",
     "newparts": [],
-    "family": "india-problems",
+    "family": "live-projects",
     "parts": [
-     "abuzz",
-     "ir"
+     "buzzer",
+     "blink"
     ],
     "strand": "Abstraction",
-    "focus": "Smart systems",
+    "focus": "Coding basics",
     "term": "Term 4 (January-February)"
    },
    {
@@ -6014,8 +6011,7 @@
     "status": "needs-part",
     "ref": "weather-station-that-posts-to-a-website-esp32",
     "newparts": [
-     "bmp180",
-     "rain"
+     "bmp180"
     ],
     "family": "iot",
     "parts": [
