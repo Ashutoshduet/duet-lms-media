@@ -406,13 +406,13 @@ export class Lab {
           else p.state.on = false;
           break;
         }
-        case 'bomotor': { // a gear motor: as the DC motor, with the BO's numbers (small steps: it answers in ~40 ms); the wheel turns 48 times slower
+        case 'bomotor': { // a gear motor: as the DC motor, with the BO's numbers (small steps: it answers in ~40 ms); the wheel turns 48 times slower; jx: what it carries (batch 32: the balancing robot's weight on its wheels)
           const e = els[0]; const s = p.state; const vm = e ? vAt(e.a) - vAt(e.b) : 0; const open = !e || !this.ok || !this.ok[e.a] || !this.ok[e.b];
           const n = Math.max(1, Math.ceil(dt / 0.004)), h = dt / n; let I = 0;
           for (let k = 0; k < n; k++) {
             I = open ? 0 : (vm - BO.ke * s.w) / BO.r; const tq = BO.ke * I - BO.b * s.w;
             if (Math.abs(s.w) < 3 && Math.abs(BO.ke * I) < BO.tf) { s.w = 0; continue; }
-            const w0 = s.w; s.w += (tq - BO.tf * Math.sign(s.w || I)) / BO.J * h; if (w0 && Math.sign(s.w) !== Math.sign(w0) && Math.abs(BO.ke * I) < BO.tf) s.w = 0; // friction stops it, it does not turn it back
+            const w0 = s.w; s.w += (tq - BO.tf * Math.sign(s.w || I)) / (BO.J * (s.jx || 1)) * h; if (w0 && Math.sign(s.w) !== Math.sign(w0) && Math.abs(BO.ke * I) < BO.tf) s.w = 0; // friction stops it, it does not turn it back
           }
           s.w = Math.max(-1600, Math.min(1600, s.w)); s.i = I; s.a = (s.a + s.w / BO.gear * dt) % (Math.PI * 2);
           const o = obs.motor[p.uid] || (obs.motor[p.uid] = { max: 0, levels: new Set(), fwd: 0, back: 0 });

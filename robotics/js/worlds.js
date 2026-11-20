@@ -14,7 +14,7 @@ import { netOf } from './esp32.js'; // (batch 24: the WiFi car's link)
 import { BO } from './parts2.js';
 import { tx } from './i18n.js';
 import * as TX from './tex.js';
-import { nextFrame } from './stage.js';
+import { nextFrame, VIEWS } from './stage.js';
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const D2R = Math.PI / 180;
@@ -24,6 +24,7 @@ const W = {
   reach: t3('Reach', 'पहुँच', 'Reach'), height: t3('Height', 'ऊँचाई', 'Height'), goal: t3('Goal', 'लक्ष्य', 'Goal'), noSig: t3('off', 'बंद', 'off'),
   ball: t3('Ball', 'गेंद', 'Ball'), inScoop: t3('in the scoop', 'स्कूप में', 'scoop mein'), goalsW: t3('Goals', 'गोल', 'Goal'), ownGoal: t3('own goal', 'आत्मघाती गोल', 'own goal'), lostBall: t3('Ball lost on a turn', 'मोड़ पर गेंद छूटी', 'Mod par ball chhooti'),
   phoneWifi: t3('Phone on', 'फ़ोन किस WiFi पर', 'Phone kis WiFi par'), lastCmd: t3('Last command', 'आख़िरी आदेश', 'Aakhri aadesh'), runaway: t3('Lost the phone and drove on', 'फ़ोन छूटा और चलती रही', 'Phone chhoota aur chalti rahi'), safeStop: t3('Lost the phone and stopped', 'फ़ोन छूटा और रुक गई', 'Phone chhoota aur ruk gayi'),
+  tiltNow: t3('Tilt (+ forward)', 'झुकाव (+ आगे)', 'Jhukaav (+ aage)'), fromStart: t3('From where it was let go', 'छोड़े गए स्थान से', 'Chhode gaye sthaan se'), heldUp: t3('held upright (calibrating)', 'सीधा पकड़ा हुआ (कैलिब्रेट)', 'seedha pakda hua (calibrate)'), fellDown: t3('fallen over', 'गिर गया', 'gir gaya'), balancing: t3('balancing', 'संतुलन में', 'santulan mein'), stayedW: t3('Balances (8 s, calm)', 'संतुलित (8 s, शांत)', 'Santulit (8 s, shaant)'), runawayB: t3('Wheels flat out (over 0.35 m/s)', 'पहिये पूरी रफ़्तार पर (0.35 m/s से ज़्यादा)', 'Pahiye poori raftaar par (0.35 m/s se zyada)'),
   glove: t3('✋ The glove: tip your hand', '✋ दस्ताना: हाथ झुकाइए', '✋ Dastaana: haath jhukaiye'), handTilt: t3('Your hand (X / Y)', 'आपका हाथ (X / Y)', 'Aapka haath (X / Y)'), unoReads: t3('The Uno reads (lr / fb)', 'Uno पढ़ता है (lr / fb)', 'Uno padhta hai (lr / fb)'), handFlatW: t3('flat', 'सपाट', 'sapaat'), onDesk: t3('on the desk (calibrating)', 'मेज़ पर (कैलिब्रेट हो रहा है)', 'mez par (calibrate ho raha hai)'),
   shudder: t3('Never stops: lurches back and forth', 'कभी नहीं रुकती: आगे-पीछे झटके', 'Kabhi nahi rukti: aage-peeche jhatke'), stoppedW: t3('Stopped by a flat hand', 'सपाट हाथ से रुकी', 'Sapaat haath se ruki'),
   offWall: t3('Off 15 cm, on average', '15 cm से औसतन हटी', '15 cm se average hati'), hardTurn: t3('Hardest right turn', 'सबसे तेज़ दायाँ मोड़', 'Sabse tez right mod'), lostWall: t3('Lost the wall', 'दीवार छूट गई', 'Deewar chhoot gayi'), lapRoom: t3('Lap of the room', 'कमरे का चक्कर', 'Kamre ka chakkar'),
@@ -324,6 +325,11 @@ class CarWorld extends World {
   }
   placeTorch() { const L = this.sim.lampAt(); if (!L || !this.torch) return; this.torch.position.set(L[0], 0, L[1]); this.torch.rotation.y = Math.atan2(-L[0], -L[1]); }
   wheel(tag) { const p = this.part(tag); return p ? p.state.w / BO.gear * BO.rw : 0; } // mm/s along the floor
+  // (batch 32) the side view of the balancing robot rides along with it: the camera and its target move as far as the robot did
+  followBal() {
+    const V = VIEWS.arenabal, st = this.stage; if (!V) return; const p = new THREE.Vector3(); this.car.getWorldPosition(p); const dx = p.x - V.tgt[0]; if (Math.abs(dx) < 0.5) return; V.tgt[0] = p.x;
+    if (st.viewName !== 'arenabal') return; if (st.goal) { st.goal.pos.x += dx; st.goal.tgt.x += dx; } else { st.camera.position.x += dx; st.controls.target.x += dx; } st.kick();
+  }
   update(dt) {
     if (!this.ready) return false; const S = this.sim, live = this.car.userData.live;
     const vl = this.wheel('mL'), vr = this.wheel('mR'); S.update(dt, vl, vr); this.place();
@@ -333,6 +339,7 @@ class CarWorld extends World {
     if (this.cfg.car === 'avoid') { const sv = this.part('sv1'); const sa = sv ? sv.state.angle : 90; if (live.scan) live.scan.rotation.y = (sa - 90) * D2R; const us = this.part('us1'); if (us) { us.state.ext = true; const d = S.usCm(sa); this.ahead = d; if (us.state.dist !== d) { us.state.dist = d; } } }
     if (this.cfg.car === 'pid') { carFeed(S, this.lab); const p = this.part('ir5'); for (let i = 0; i < 5; i++) { const m = live.leds['s' + (i + 1)]; if (m) m.emissiveIntensity = p && p.state.powered && !(p.state.black || [])[i] ? 2.4 : 0; } } // (batch 24: the five-sensor bar)
     if (this.cfg.car === 'wifi') wifiCheck(S, netOf(this.lab), dt); // (batch 24)
+    if (this.cfg.car === 'balance') { carFeed(S, this.lab); if (live.tilt) live.tilt.rotation.x = S.bal ? S.bal.th : 0; this.followBal(); } // (batch 32: the robot leans as it balances)
     if (this.cfg.car === 'gesture') { carFeed(S, this.lab); this.placeGlove(); } // (batch 26: the hand's tilt to the MPU-6050 on the glove)
     if (this.foe) this.placeFoe();
     if (this.ballM) this.placeBall();
@@ -358,6 +365,8 @@ class CarWorld extends World {
     if (k === 'avoid') { rows.unshift([tx(W.ahead), `${this.ahead ?? '…'} cm`]); rows.push([tx(W.bumps), String(S.bumps)]); }
     const controls = [{ id: 'start', kind: 'button', label: W.start }];
     if (k === 'bt' || k === 'soccer') { const bt = this.part('bt'); controls.unshift({ id: 'pad', kind: 'pad', label: W.app, status: !bt || !bt.state.powered ? tx(W.btOff) : bt.state.paired ? tx(W.paired) : '', paired: !!(bt && bt.state.paired), canPair: !!(bt && bt.state.powered) }); if (S.flags.has('parked')) rows.push(['P', tx(W.parked)]); }
+    if (k === 'balance') { const B = S.bal; const deg = B ? B.th / D2R : 0; rows.unshift([tx(W.tiltNow), `${deg >= 0 ? '+' : '−'}${Math.abs(deg).toFixed(1)}°`]); // (batch 32)
+      rows.push([tx(W.fromStart), `${Math.round((S.balD || 0) / 10)} cm`]); rows.push(['', tx(!B || !B.let ? W.heldUp : B.down ? W.fellDown : W.balancing)]); if (S.flags.has('stayed')) rows.push(['★', tx(W.stayedW)]); else if (S.flags.has('runaway')) rows.push(['⚠', tx(W.runawayB)]); }
     if (k === 'gesture') { const m = this.part('mpu'); const st = m ? m.state : {}; const seen = st.seen; const g = (x) => `${x >= 0 ? '+' : '−'}${Math.abs(x).toFixed(1)}°`; // (batch 26)
       controls.unshift({ id: 'pad', kind: 'pad', label: W.glove, status: S.t < 2.5 ? tx(W.onDesk) : '', paired: true, canPair: false, noPair: true });
       rows.unshift([tx(W.unoReads), seen && st.powered ? `${g(seen[0])} / ${g(seen[1])}` : '—']); rows.unshift([tx(W.handTilt), m ? `${g(st.roll || 0)} / ${g(st.pitch || 0)}` : '—']);
@@ -388,7 +397,7 @@ class CarWorld extends World {
       controls.unshift({ id: 'maze', kind: 'seg', label: W.maze, options: [['A', W.mazeA], ['B', W.mazeB]], value: S.cfg.maze });
       return { title: k === 'mazeR' ? t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot') : t3('Maze-solving robot', 'भूलभुलैया सुलझाने वाला रोबोट', 'Maze solve karne wala robot'), rows, controls };
     }
-    const T14 = { gesture: t3('Gesture-controlled car', 'इशारों से चलने वाली कार', 'Ishaaron se chalne wali car'), soccer: t3('Robot soccer', 'रोबोट फ़ुटबॉल', 'Robot football'), wifi: t3('WiFi car', 'WiFi कार', 'WiFi car'), wallp: t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot'), sumo: t3('Robot sumo', 'रोबोट सूमो', 'Robot sumo'), pid: t3('PID line follower', 'PID लाइन फ़ॉलोअर', 'PID line follower'), deliv: t3('Delivery robot', 'डिलीवरी रोबोट', 'Delivery robot'), edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
+    const T14 = { balance: t3('Self-balancing robot', 'ख़ुद संतुलन बनाने वाला रोबोट', 'Khud santulan banaane wala robot'), gesture: t3('Gesture-controlled car', 'इशारों से चलने वाली कार', 'Ishaaron se chalne wali car'), soccer: t3('Robot soccer', 'रोबोट फ़ुटबॉल', 'Robot football'), wifi: t3('WiFi car', 'WiFi कार', 'WiFi car'), wallp: t3('Wall-following robot', 'दीवार के साथ चलने वाला रोबोट', 'Deewar ke saath chalne wala robot'), sumo: t3('Robot sumo', 'रोबोट सूमो', 'Robot sumo'), pid: t3('PID line follower', 'PID लाइन फ़ॉलोअर', 'PID line follower'), deliv: t3('Delivery robot', 'डिलीवरी रोबोट', 'Delivery robot'), edge: t3('Table robot', 'मेज़ वाला रोबोट', 'Table wala robot'), light: t3('Light-seeking robot', 'रोशनी ढूँढने वाला रोबोट', 'Roshni dhoondhne wala robot'), dance: t3('Dancing robot', 'नाचने वाला रोबोट', 'Naachne wala robot'), lap: t3('Lap counter', 'चक्कर गिनने वाली कार', 'Chakkar ginne wali car') };
     if (T14[k]) return { title: T14[k], rows, controls };
     return { title: k === 'bt' ? t3('Bluetooth car', 'ब्लूटूथ कार', 'Bluetooth car') : k === 'pi' ? t3('Raspberry Pi car', 'Raspberry Pi कार', 'Raspberry Pi car') : k === 'line' ? t3('Line follower', 'लाइन फ़ॉलोअर', 'Line follower') : t3('Obstacle-avoiding car', 'बाधा से बचने वाली कार', 'Obstacle se bachne wali car'), rows, controls };
   }

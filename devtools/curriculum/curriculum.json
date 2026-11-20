@@ -6123,17 +6123,17 @@
    {
     "class": 12,
     "n": 2,
-    "kind": "I",
+    "kind": "L",
     "title": "Self-balancing robot",
     "board": "uno",
-    "status": "planned",
-    "ref": "self-balancing-robot-uno",
+    "status": "live",
+    "ref": "balancebot",
     "newparts": [],
-    "family": "robot-car",
+    "family": "live-projects",
     "parts": [
+     "l298n",
      "bat18650",
      "bomotor",
-     "l298n",
      "mpu6050"
     ],
     "strand": "Decomposition",

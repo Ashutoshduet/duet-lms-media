@@ -152,6 +152,9 @@ CAR_CFG.soccer = { line: false, room: [2400, 1600], start: [-560, 420, Math.PI],
 export const SOC = { r: 33, e: 0.55, eWall: 0.6, roll: 700, zc: 200, front: 168, pocket: 34, catchV: 420, kickV: 420, s0: 250, goalW: 450, goalD: 120 };
 // batch 26 (Class 11): the gesture car: an MPU-6050 on a glove (on a ribbon cable to the car's Uno) steers it; the yard and P
 CAR_CFG.gesture = Object.assign({}, CAR_CFG.bt, { gesture: true });
+// batch 32 (Class 12): the self-balancing robot: a room 3 m × 2 m; it really balances leaning 2° back (its battery sits
+// behind the axle), which its MPU-6050 calls −2°; held upright for 1.8 s after Run (calcOffsets()), then let go, 1° forward
+CAR_CFG.balance = { line: false, room: [3000, 2000], start: [-1150, 0, Math.PI / 2], boxes: [], balance: { thb: -2, L: 0.11, hold: 4 } }; // (hold: let go then even if the sketch never calibrates)
 // batch 24 (Class 11): the WiFi car: an ESP32 on the car is its own WiFi hotspot; the Bluetooth car's yard, boxes and P
 CAR_CFG.wifi = Object.assign({}, CAR_CFG.bt, { wifi: true });
 // (batch 24) the WiFi car's link: Android finds that the car's WiFi has no internet and, during a long straight run (1.2 s
@@ -215,6 +218,7 @@ export class CarSim {
     this.fwdD = 0; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
     const F = this.cfg.foe; this.foe = F ? { x: F.x, z: F.z, out: false, outT: 0 } : null; this.ringOut = false; this.winT = 0; this.pushT = 0; // (batch 24: the sumo opponent)
     const SB = this.cfg.soccer; this.ball = SB ? { x: SB.ball[0], z: SB.ball[1], vx: 0, vz: 0, held: false, heldT: 0, roll: 0, ax: 1, az: 0 } : null; this.goals = 0; this.own = 0; this.lostN = 0; this.shotV = 0; // (batch 24: robot soccer)
+    this.bal = null; this.balD = 0; this.fellT = null; this.balGo = false; // (batch 32: the self-balancing robot)
     this.gc = null; this.handFlat = false; this.handD = 0; this.cmd = 0; this.handKey = this.handKey || 'S'; // (batch 26: the gesture car)
     this.fwdT = 0; this.swT = null; this.swBumps = 0; this.swOdo = undefined; this.stopMm = null; this.onAp = false; // (batch 24: the WiFi car)
     this.wc = null; this.whip = 0; this.lapT = null; this.lapBumps = null; this.sideCm = null; this.avgOff = null; // (batch 24: the wall follower)
@@ -362,6 +366,25 @@ export class CarSim {
     while (G.sw.length && this.t - G.sw[0] > 3) G.sw.shift(); if (G.sw.length >= 5) this.flags.add('jitter');
     G.stopT = this.handFlat && after && Math.abs(this.vl) + Math.abs(this.vr) < 10 ? G.stopT + dt : 0; if (G.stopT > 1) this.flags.add('handStop');
   }
+  // (batch 32) the self-balancing robot: an inverted pendulum on its wheels. θ'' = (g sin(θ − θb) − a cos θ) / L, where a is
+  // how fast the wheels speed up (from the motors) and θb the tilt it really balances at. Held upright, in place, until the
+  // sketch's calcOffsets() is done (carFeed sets balGo), or cfg.hold s.
+  // Flags: fellOver (|θ| > 40°: it lies down and stays), wobble (three swings past ±6° the other way), upright (5 s up),
+  // runaway (up, but rolling faster than 0.35 m/s), stayed (8 s up and never that fast)
+  balanceStep(dt, vl, vr) {
+    const C = this.cfg.balance; const B = this.bal || (this.bal = { th: 0, om: 0, v: 0, down: false, upT: 0, sw: 0, sg: 0, pk: 0, x0: this.x, z0: this.z, let: false, maxTh: 0 });
+    if (B.down) { const tg = Math.sign(B.th) * 82 * D2R; B.th += Math.sign(tg - B.th) * Math.min(Math.abs(tg - B.th), 6 * dt); B.om = 0; return true; }
+    const v = (vl + vr) / 2000; const a = Math.max(-25, Math.min(25, (v - B.v) / Math.max(dt, 1e-4))); B.v = v;
+    if (!B.let && !this.balGo && this.t < C.hold) { B.th = 0; B.om = 0; return true; } // (held upright by a hand, in place, until calcOffsets() is done: then let go)
+    if (!B.let) { B.let = true; B.th = 1 * D2R; B.x0 = this.x; B.z0 = this.z; }
+    const n = 8, h = dt / n, thb = C.thb * D2R; for (let i = 0; i < n; i++) { const al = (9.81 * Math.sin(B.th - thb) - a * Math.cos(B.th)) / C.L - 0.4 * B.om; B.om += al * h; B.th += B.om * h; }
+    const deg = B.th / D2R; B.maxTh = Math.max(B.maxTh, Math.abs(deg));
+    if (Math.abs(deg) > 40) { B.down = true; this.flags.add('fellOver'); this.fellT = this.t; return true; }
+    const sg = deg > 6 ? 1 : deg < -6 ? -1 : 0; if (sg && sg !== B.sg) { if (B.sg) B.sw++; B.sg = sg; } if (B.sw >= 3) this.flags.add('wobble');
+    B.upT += dt; if (B.upT > 5) this.flags.add('upright'); const d = Math.hypot(this.x - B.x0, this.z - B.z0); this.balD = Math.round(d);
+    if (Math.abs(B.v) > 0.35) this.flags.add('runaway'); if (B.upT > 8 && !this.flags.has('runaway')) this.flags.add('stayed');
+    return false;
+  }
   ringEdge() { const C = CAR14, R = this.cfg.ring; const w = (lx) => { const [x, z] = this.world(lx, C.edgeZ); return Math.hypot(x, z) > R.r - R.edge; }; return { L: w(C.edgeX), R: w(-C.edgeX) }; } // (over the white edge, or past it)
   usFoe() { // the HC-SR04 at the front: five rays in its cone against the opponent's four sides (cm, 400 for nothing)
     const F = this.foe; if (!F) return 400; const [sx, sz] = this.world(0, CARG.usZ); const h = this.cfg.foe.w / 2; let best = 4000;
@@ -376,6 +399,7 @@ export class CarSim {
   update(dt, vl, vr) {
     this.t += dt; if (this.fell) { this.fallT += dt; this.vl = this.vr = 0; return; } // (a robot that fell off the table lies on the floor)
     if (this.ringOut) { this.vl = this.vr = 0; return; } // (batch 24: off the sumo ring: the bout is over)
+    if (this.cfg.balance && this.balanceStep(dt, vl, vr)) { this.vl = this.vr = 0; return; } // (batch 32: lying on the floor, it goes nowhere)
     this.vl = vl; this.vr = vr;
     let v = (vl + vr) / 2, w = (vr - vl) / CARG.track;
     if (this.cfg.inertia) { const I = this.cfg.inertia, A = this.body || (this.body = { v: 0, w: 0 }); A.v += (v - A.v) * Math.min(1, dt / I.v); A.w += (w - A.w) * Math.min(1, dt / I.w); v = A.v; w = A.w; } // (batch 24: the body's mass and its turning inertia lag the wheels)
@@ -515,6 +539,7 @@ export function carFeed(sim, lab) {
   if (k === 'edge' && !sim.fell) { const s = sim.edgeSens(); ir('irL', s.L); ir('irR', s.R); }
   if (k === 'lap' || k === 'deliv') { const s = sim.sensors(); ir('irL', s.L); ir('irR', s.R); ir('irM', sim.markSens()); }
   if (k === 'sumo' && !sim.ringOut) { const e = sim.ringEdge(); ir('irL', !e.L); ir('irR', !e.R); const p = byTag('us1'); if (p) { p.state.ext = true; const d = sim.usFoe(); if (p.state.dist !== d) { p.state.dist = d; bump(); } } } // (batch 24: black ring = HIGH, white edge = LOW)
+  if (k === 'balance') { const p = byTag('mpu'); if (p) { const B = sim.bal; const th = B ? B.th / D2R : 0, om = B && !B.down ? B.om / D2R : 0; p.state.ext = true; if (!B) p.state.cal = null; sim.balGo = !!p.state.cal; p.state.to = [0, th, 0]; p.state.roll = 0; p.state.pitch = th; p.state.rate = [0, om, 0]; } for (const t of ['mL', 'mR']) { const m = byTag(t); if (m) m.state.jx = 1.8; } } // (batch 32: the MPU-6050 rides on the robot; the motors carry its 0.6 kg)
   if (k === 'gesture') { const d = byTag('drv'); const c = d ? (d.state.a || 0) + (d.state.b || 0) : 0; sim.cmd = c > 0.2 ? 1 : c < -0.2 ? -1 : 0; const p = byTag('mpu'); if (p) { const [r, q] = handPose(sim.handKey, sim.t); p.state.to = [r, q, 0]; } sim.handFlat = !!p && Math.abs(p.state.roll || 0) < 6 && Math.abs(p.state.pitch || 0) < 6; sim.hand = p ? [Math.round(p.state.roll || 0), Math.round(p.state.pitch || 0)] : null; } // (batch 26)
   if (k === 'pid') { const p = byTag('ir5'); if (p) { const b = sim.sensors5(); if (!p.state.black || b.some((v, i) => v !== p.state.black[i])) { p.state.black = b; bump(); } } } // (batch 24: the five-sensor bar) // (batch 23: the delivery track's stations)
   if (k === 'wallp') for (const [tag, d] of [['us1', sim.mazeFront()], ['us2', sim.mazeSide()]]) { const p = byTag(tag); if (p) { p.state.ext = true; if (p.state.dist !== d) { p.state.dist = d; bump(); } } } // (batch 24)

@@ -26,7 +26,7 @@ export const PARTS26 = {
       pin('AD0', 2.5 * P, 'AD0: free or LOW = address 0x68, HIGH = 0x69', 'AD0: ख़ाली या LOW = पता 0x68, HIGH = 0x69', 'AD0: khaali ya LOW = address 0x68, HIGH = 0x69'), pin('INT', 3.5 * P, 'INT: interrupt out (not needed)', 'INT: इंटरप्ट आउट (ज़रूरी नहीं)', 'INT: interrupt out (zaroori nahi)')],
     elec: (p, N) => [{ type: 'R', a: N.VCC, b: N.GND, r: 1400, role: 'mpu' }],
     dyn: (p, els, lab, dt, vAt) => { // the hand moves the module towards where it was asked (200°/s at most): that turning is what its gyro feels
-      setPow(p, lab, vAt(p.N.VCC) - vAt(p.N.GND) > 2.4); const s = p.state; const to = s.to || [0, 0, 0]; const cur = [s.roll || 0, s.pitch || 0, s.yaw || 0]; const rate = [0, 0, 0]; let moved = false;
+      setPow(p, lab, vAt(p.N.VCC) - vAt(p.N.GND) > 2.4); const s = p.state; if (s.ext) return; const to = s.to || [0, 0, 0]; const cur = [s.roll || 0, s.pitch || 0, s.yaw || 0]; const rate = [0, 0, 0]; let moved = false; // (batch 32: ext: a robot's body sets its tilt and turn rate itself)
       for (let i = 0; i < 3; i++) { const d = to[i] - cur[i]; const step = Math.sign(d) * Math.min(Math.abs(d), 200 * dt); if (Math.abs(d) > 1e-3) { cur[i] += step; rate[i] = dt > 0 ? step / dt : 0; moved = true; } }
       [s.roll, s.pitch, s.yaw] = cur; s.rate = rate; if (s.shake > 0) { s.shake = Math.max(0, s.shake - dt); moved = true; } if (moved) touch(lab);
     },

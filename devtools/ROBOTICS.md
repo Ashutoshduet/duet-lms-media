@@ -1235,3 +1235,14 @@ heaters.
   Serial2) to the module the same way. phone4.js: a Messages app (badge, a toast on arrival). factory.js OUT.sms (Uno,
   SoftwareSerial 11 / 12) and EOUT.sms (ESP32, Serial2 on 16 / 17), sketch helper sendSMS(), one SMS an alarm (smsSent);
   ON = an SMS with the job's word delivered in the last 8 s. 18 jobs get it (SMS_JOBS): 34 lessons. 3,792 live.
+- Batch 32: the Class 12 self-balancing robot (lessons24.js balancebot; robots.js CAR_CFG.balance, balanceStep; models2.js
+  buildBalanceBot). An inverted pendulum on the axle: θ'' = (g sin(θ − θb) − a cos θ) / L − 0.4 ω, L 0.11 m, θb −2°
+  (the battery behind the axle), a the wheels' acceleration from the BO motors, which now carry the robot (sim.js
+  bomotor state.jx = 1.8: its 0.6 kg on the gearboxes, so they answer in ~70 ms). A hand holds it upright, in place, until
+  the sketch's calcOffsets() is done (carFeed sets sim.balGo from the MPU's state.cal; else 4 s), then lets go at +1°.
+  The MPU-6050 rides on it (parts26.js mpu6050 state.ext: the body sets its tilt and gyro rate). Flags: fellOver
+  (|θ| > 40°, it lies at 82°), wobble (3 swings past ±6° the other way), upright (5 s), runaway (wheels over 0.35 m/s),
+  stayed (8 s up and never that fast). PID on the angle, as the hobby builds: P alone (Kp 40) falls (wheels that hold a
+  speed cannot hold a lean); PI (Ki 200) rocks wider and wider; PID (Kd 1.5) stands, creeping a little (a twentieth of a
+  degree of calibration error). The edits accept Ki 150–300 and Kd 1–2. stage.js arenabal: a low side view that
+  worlds.js followBal() moves along with the robot. robocore24.mjs plays it.

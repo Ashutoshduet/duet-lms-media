@@ -912,6 +912,65 @@ void loop() {
 }
 `;
 
+const BALC = `// Self-balancing robot: it stands on two wheels by driving them under itself as it starts to fall.
+#include <Wire.h>
+#include <MPU6050_light.h>
+
+MPU6050 mpu(Wire);
+const int ENA = 5, IN1 = 7, IN2 = 8;    // motor A: the left wheel
+const int ENB = 6, IN3 = 2, IN4 = 4;    // motor B: the right wheel
+
+float Kp = 40;          // P: how hard it drives for each degree of tilt
+float Ki = 0;           // I: how much its push grows while a tilt goes on (per degree, per second)
+float Kd = 0;           // D: how hard it pushes against the speed of tipping (per °/s)
+float setpoint = -2;    // the tilt it balances at: its battery sits behind the axle, so it stands leaning 2° back
+float iTerm = 0;
+unsigned long lastT, lastPrint = 0;
+
+void motor(int en, int a, int b, int v) {
+  digitalWrite(a, v > 0 ? HIGH : LOW);
+  digitalWrite(b, v < 0 ? HIGH : LOW);
+  analogWrite(en, abs(v));
+}
+void drive(int v) {
+  motor(ENA, IN1, IN2, v);
+  motor(ENB, IN3, IN4, v);
+}
+
+void setup() {
+  pinMode(ENA, OUTPUT); pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);
+  pinMode(ENB, OUTPUT); pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);
+  Serial.begin(115200);
+  Wire.begin();
+  mpu.begin();
+  Serial.println("Hold it upright and still...");
+  mpu.calcOffsets();
+  Serial.println("Let go!");
+  lastT = micros();
+}
+
+void loop() {
+  mpu.update();
+  float angle = mpu.getAngleY();      // + when it leans forward
+  float rate = mpu.getGyroY();        // how fast it is tipping (°/s)
+  float dt = (micros() - lastT) / 1000000.0;
+  lastT = micros();
+  if (abs(angle) > 40) {              // it has fallen: stop the wheels
+    drive(0);
+    return;
+  }
+  float error = angle - setpoint;
+  iTerm = constrain(iTerm + Ki * error * dt, -255, 255);
+  int out = Kp * error + iTerm + Kd * rate;
+  drive(constrain(out, -255, 255));   // drive under it: forward when it falls forward
+  if (millis() - lastPrint > 250) {
+    lastPrint = millis();
+    Serial.println(angle);
+  }
+  delay(5);
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1438,6 +1497,30 @@ export function batch24(K, n0) {
       need('glove.F2', 'A1', W.join, { a: 'F2', b: 'A1' }), need('hand.S2', 'D5', W.toPin, { x: 'S2', p: 5 }),
       (S) => (S.conn('hand.GND', 'GND') ? null : [t3('Common ground: the hand\'s GND must be joined to the board\'s GND (the − rail), or the servos see no signal.', 'कॉमन ग्राउंड: हाथ का GND बोर्ड के GND (− रेल) से जुड़ा होना चाहिए, वरना सर्वो को सिग्नल नहीं दिखता।', 'Common ground: haath ka GND board ke GND (− rail) se juda hona chahiye, warna servo ko signal nahi dikhta.')])],
     done: (S) => gest(S, 'peace') && curl(S)[1] < 30 && curl(S)[0] > 150 });
+  // 17 ------------------------------------------------------------------------------ self-balancing robot (Class 12, batch 32)
+  // P alone falls (wheels that only roll at a speed cannot hold a lean: they must keep speeding up); PI rocks wider and wider;
+  // PID stands (creeping a little: no calibration is perfect, and it has no encoders to feel it is moving)
+  const numOf = (src, name) => { const m = new RegExp(`float\\s+${name}\\s*=\\s*(-?[\\d.]+)\\s*;`).exec(src || ''); return m ? +m[1] : null; };
+  L.push({ id: 'balancebot', cls: '12', blocks: false, view: 'carbench', wview: 'carbench', rview: 'arenabal', code: BALC, drawer: [], baud: 115200, serial: true, world: { kind: 'car', car: 'balance' },
+    title: t3('Self-balancing robot', 'ख़ुद संतुलन बनाने वाला रोबोट', 'Khud santulan banaane wala robot'),
+    goal: t3('A robot on two wheels falls over unless its wheels keep driving under it, a little ahead of every tip, like a hand balancing a stick. An MPU-6050 measures the tilt; a PID controller decides how hard to drive. Add P, I and D one at a time and see what each one does, and what goes wrong without it.', 'दो पहियों वाला रोबोट तब तक गिर जाता है जब तक उसके पहिये हर झुकाव से थोड़ा आगे उसके नीचे न चलते रहें, जैसे हाथ पर डंडा संतुलित करना। MPU-6050 झुकाव नापता है; PID कंट्रोलर तय करता है कि कितनी ज़ोर से चलाना है। P, I और D एक-एक करके जोड़िए और देखिए हर एक क्या करता है, और उसके बिना क्या बिगड़ता है।', 'Do pahiyon wala robot tab tak gir jaata hai jab tak uske pahiye har jhukaav se thoda aage uske neeche na chalte rahein, jaise haath par danda santulit karna. MPU-6050 jhukaav naapta hai; PID controller tay karta hai ki kitne zor se chalaana hai. P, I aur D ek-ek karke jodiye aur dekhiye har ek kya karta hai, aur uske bina kya bigadta hai.'),
+    setup: { parts: [...CARP, F('mpu', 'mpu6050', {}, -165, 8, 0)], wires: [...CARW, ['T:mpu:VCC', 'H:tp3'], ['T:mpu:GND', 'H:tn4'], ['T:mpu:SDA', 'A4'], ['T:mpu:SCL', 'A5']] },
+    steps: [
+      { k: 'info', do: t3('The robot: two wheels on one axle, three decks (motor driver, battery, Uno), and the GY-521 (MPU-6050) flat on the top deck, on A4 / A5. Everything is wired. After Run a hand holds it upright while calcOffsets() calibrates, and lets go at "Let go!". Watch it in the 🏁 Robot view, and the angle on the Serial Monitor.', 'रोबोट: एक धुरी पर दो पहिये, तीन डेक (मोटर ड्राइवर, बैटरी, Uno), और ऊपर वाले डेक पर सपाट GY-521 (MPU-6050), A4 / A5 पर। सब जुड़ा है। Run के बाद एक हाथ इसे सीधा पकड़े रहता है जब तक calcOffsets() कैलिब्रेट करता है, और "Let go!" पर छोड़ देता है। इसे 🏁 रोबोट व्यू में देखिए, और कोण सीरियल मॉनिटर पर।', 'Robot: ek dhuri par do pahiye, teen deck (motor driver, battery, Uno), aur upar wale deck par sapaat GY-521 (MPU-6050), A4 / A5 par. Sab juda hai. Run ke baad ek haath ise seedha pakde rehta hai jab tak calcOffsets() calibrate karta hai, aur "Let go!" par chhod deta hai. Ise 🏁 Robot view mein dekhiye, aur angle Serial Monitor par.'), see: E },
+      CHECK,
+      RUN(t3('Only P for now: Kp = 40, Ki = 0, Kd = 0. setpoint is −2, because the battery sits a little behind the axle: the robot balances leaning 2° back (a builder finds this by holding it balanced on its wheels and reading the Serial Monitor).', 'अभी सिर्फ़ P: Kp = 40, Ki = 0, Kd = 0। setpoint −2 है, क्योंकि बैटरी धुरी से थोड़ा पीछे है: रोबोट 2° पीछे झुककर संतुलित होता है (बनाने वाला इसे पहियों पर संतुलित पकड़कर और सीरियल मॉनिटर पढ़कर पता करता है)।', 'Abhi sirf P: Kp = 40, Ki = 0, Kd = 0. setpoint −2 hai, kyonki battery dhuri se thoda peeche hai: robot 2° peeche jhuk kar santulit hota hai (banaane wala ise pahiyon par santulit pakad kar aur Serial Monitor padh kar pata karta hai).')),
+      { k: 'act', until: (S) => fresh(S) && S.w('fellOver'), do: t3('Watch it after it is let go.', 'छोड़े जाने के बाद इसे देखिए।', 'Chhode jaane ke baad ise dekhiye.'),
+        see: t3('It drives under itself, faster and faster … and falls anyway. P turns a tilt into a wheel speed. But to hold a lean the wheels must keep speeding up, and P alone asks for more speed only once it leans further. So it leans further, and further, until the motors are flat out.', 'यह अपने नीचे चलता है, तेज़ और तेज़ … और फिर भी गिर जाता है। P झुकाव को पहिये की रफ़्तार में बदलता है। पर झुकाव थामने के लिए पहियों को लगातार तेज़ होते जाना पड़ता है, और अकेला P ज़्यादा रफ़्तार तभी माँगता है जब यह और झुके। तो यह और झुकता है, और भी, जब तक मोटरें पूरी रफ़्तार पर न हों।', 'Yeh apne neeche chalta hai, tez aur tez … aur phir bhi gir jaata hai. P jhukaav ko pahiye ki raftaar mein badalta hai. Par jhukaav thaamne ke liye pahiyon ko lagaataar tez hote jaana padta hai, aur akela P zyada raftaar tabhi maangta hai jab yeh aur jhuke. To yeh aur jhukta hai, aur bhi, jab tak motors poori raftaar par na hon.') },
+      { k: 'edit', test: (src) => { const v = numOf(src, 'Ki'); return v !== null && v >= 150 && v <= 300 && !numOf(src, 'Kd'); }, set: [[/float Ki = 0;/, 'float Ki = 200;']], do: t3('Add I: change Ki = 0 to Ki = 200 and press Run. iTerm grows by Ki × error every second the tilt goes on, so the push keeps growing.', 'I जोड़िए: Ki = 0 को Ki = 200 कीजिए और "चलाइए" दबाइए। जब तक झुकाव बना रहता है, iTerm हर सेकंड Ki × error बढ़ता है, तो धक्का बढ़ता जाता है।', 'I jodiye: Ki = 0 ko Ki = 200 kijiye aur Run dabaiye. Jab tak jhukaav bana rehta hai, iTerm har second Ki × error badhta hai, to dhakka badhta jaata hai.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('wobble'), do: t3('Watch it again.', 'इसे फिर देखिए।', 'Ise phir dekhiye.'),
+        see: t3('Now it catches itself, but it rocks: forward, back, forward, swinging past 6° each way, often until it falls. I is slow: its push is still growing after the robot is already upright, so it overshoots the other way, and the same again. P looks at how far it leans, I at how long; neither looks at how fast it is tipping.', 'अब यह ख़ुद को थाम लेता है, पर झूलता है: आगे, पीछे, आगे, हर तरफ़ 6° से आगे, अक्सर गिरने तक। I धीमा है: रोबोट के सीधा हो जाने के बाद भी इसका धक्का बढ़ रहा होता है, तो यह दूसरी तरफ़ ज़्यादा चला जाता है, और फिर वही। P देखता है कितना झुका, I देखता है कितनी देर; कोई नहीं देखता कि यह कितनी तेज़ी से झुक रहा है।', 'Ab yeh khud ko thaam leta hai, par jhoolta hai: aage, peeche, aage, har taraf 6° se aage, aksar girne tak. I dheema hai: robot ke seedha ho jaane ke baad bhi iska dhakka badh raha hota hai, to yeh doosri taraf zyada chala jaata hai, aur phir wahi. P dekhta hai kitna jhuka, I dekhta hai kitni der; koi nahi dekhta ki yeh kitni tezi se jhuk raha hai.') },
+      { k: 'edit', test: (src) => { const v = numOf(src, 'Kd'); return v !== null && v >= 1 && v <= 2; }, set: [[/float Kd = 0;/, 'float Kd = 1.5;']], do: t3('Add D: change Kd = 0 to Kd = 1.5 and press Run.', 'D जोड़िए: Kd = 0 को Kd = 1.5 कीजिए और "चलाइए" दबाइए।', 'D jodiye: Kd = 0 ko Kd = 1.5 kijiye aur Run dabaiye.'),
+        see: t3('Kd × rate pushes against the speed of tipping: as it swings back up, rate turns negative and the motors ease off before it overshoots.', 'Kd × rate झुकने की रफ़्तार के ख़िलाफ़ धकेलता है: जब यह वापस ऊपर झूलता है, rate नकारात्मक हो जाता है और मोटरें ज़्यादा जाने से पहले ढीली पड़ जाती हैं।', 'Kd × rate jhukne ki raftaar ke khilaaf dhakelta hai: jab yeh wapas upar jhoolta hai, rate negative ho jaata hai aur motors zyada jaane se pehle dheeli pad jaati hain.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('stayed'), do: t3('Watch it for 10 seconds.', 'इसे 10 सेकंड देखिए।', 'Ise 10 second dekhiye.'),
+        see: liveCarSim((lg, C) => pick(lg, `It stands, steady at −2°: P for how far it leans, I for how long, D for how fast. Look closely and it creeps (${Math.round((C.balD || 0) / 10)} cm so far): no calibration is perfect, and a twentieth of a degree is enough to roll it. It cannot feel that it is moving, so real balancing robots and Segway-style scooters add wheel encoders and a slow speed loop that leans the setpoint back against the creep.`, `यह खड़ा है, −2° पर स्थिर: P बताता है कितना झुका, I कितनी देर, D कितनी तेज़ी से। ध्यान से देखिए तो यह सरकता है (अब तक ${Math.round((C.balD || 0) / 10)} cm): कोई कैलिब्रेशन पूरा सही नहीं होता, और डिग्री का बीसवाँ हिस्सा भी इसे लुढ़काने को काफ़ी है। इसे पता नहीं चलता कि यह चल रहा है, इसलिए असली संतुलन रोबोट और Segway जैसे स्कूटर व्हील एनकोडर और एक धीमा स्पीड लूप जोड़ते हैं जो सरकने के ख़िलाफ़ setpoint को पीछे झुकाता है।`, `Yeh khada hai, −2° par sthir: P batata hai kitna jhuka, I kitni der, D kitni tezi se. Dhyaan se dekhiye to yeh sarakta hai (ab tak ${Math.round((C.balD || 0) / 10)} cm): koi calibration poora sahi nahi hota, aur degree ka beesvaan hissa bhi ise ludhkaane ko kaafi hai. Ise pata nahi chalta ki yeh chal raha hai, isliye asli balancing robot aur Segway jaise scooter wheel encoder aur ek dheema speed loop jodte hain jo sarakne ke khilaaf setpoint ko peeche jhukaata hai.`)) },
+    ],
+    check: [...rails, has('mpu', t3('motion sensor MPU-6050', 'मोशन सेंसर MPU-6050', 'motion sensor MPU-6050')), need('mpu.SDA', 'A4', W.join, { a: 'SDA', b: 'A4' }), need('mpu.SCL', 'A5', W.join, { a: 'SCL', b: 'A5' })],
+    done: (S) => S.w('stayed') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

@@ -31,6 +31,7 @@ export const VIEWS = {
   arenasoccer: { tgt: [2600, 0, 40], hw: 1350, hd: 950, dir: [0, 0.84, 0.54] }, // batch 24: the robot soccer pitch
   arenawall: { tgt: [2600, 0, 60], hw: 1650, hd: 1150, dir: [0, 0.86, 0.51] }, // batch 24: the wall follower's room and its almirah
   arenasumo: { tgt: [2600, 0, 120], hw: 1300, hd: 1100, dir: [0, 0.85, 0.53] }, // batch 24: the sumo ring, all of it (between the panels)
+  arenabal: { tgt: [1450, -10, 0], hw: 400, hd: 250, dir: [0, 0.3, 0.95] }, // batch 32: the balancing robot from the side, low down (worlds.js keeps it on the robot as it rolls)
   binside: { tgt: [400, 230, 0], hw: 400, hd: 760, dir: [-0.15, 0.38, 0.91] }, // the smart dustbin (tall) beside the bench
   hydside: { tgt: [470, 170, 0], hw: 340, hd: 600, dir: [-0.12, 0.36, 0.92] }, // the hydraulic arm beside the bench
   armjs: { tgt: [100, 85, 40], hw: 300, hd: 175, dir: [-0.04, 0.6, 0.8] }, // the joystick left of the board and the arm on the right, both in view (arm 5)

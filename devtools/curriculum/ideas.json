@@ -71415,6 +71415,28 @@
 "note": null
 },
 {
+"id": "live-balancebot",
+"title": "Self-balancing robot",
+"family": "live",
+"board": "uno",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+12,
+12
+],
+"level": 12,
+"theme": "projects",
+"live": "balancebot",
+"rule": null,
+"note": null
+},
+{
 "id": "live-bionichand",
 "title": "Bionic hand with a flex glove",
 "family": "live",

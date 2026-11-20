@@ -184,6 +184,7 @@ REPL = {
       'I:Smart energy saver for a classroom': 'L:f_classfan_relay', 'I:Smart parking for a market': 'L:f_slot_lcd'},
  11: {'I:Water ATM with RFID': 'L:wateratm', 'I:Vending machine model': 'L:vending', 'I:Dual-axis solar tracker': 'L:tracker', 'I:Mini lift with floor buttons': 'L:lift', 'I:Robot arm: copy a knob arm (master and slave)': 'L:armcopy', 'I:Robot arm: record and play back moves': 'L:armrecord', 'I:Robot arm: phone control over Bluetooth': 'L:armbt',
       'I:Delivery robot that stops at stations': 'L:delivery', 'I:Conveyor belt with a stepper': 'L:conveyor', 'I:Robot arm: draw a square': 'L:armsquare', 'I:Camera slider with a stepper': 'L:slider', 'I:PID line follower (smooth and fast)': 'L:pidline', 'I:Pen plotter with two steppers': 'L:plotter', 'I:Pick-and-place line: conveyor, sensor and arm': 'L:pickplace', 'I:Sumo robot': 'L:sumo', 'I:Wall-following robot': 'L:wallp', 'I:WiFi robot car with a web joystick' + ESP: 'L:wificar', 'I:Robot soccer player': 'L:soccer', 'I:Gesture-controlled car': 'L:gesturecar', 'I:Weather station that posts to a website' + ESP: 'L:wxcloud', 'I:Bionic hand with flex glove': 'L:bionichand'},
+ 12: {'I:Self-balancing robot': 'L:balancebot'}
 }
 
 TERMS = [(1, 8, 'Term 1 (April-July)'), (9, 16, 'Term 2 (July-September)'), (17, 24, 'Term 3 (October-December)'), (25, 32, 'Term 4 (January-February)')]

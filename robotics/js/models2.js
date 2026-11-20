@@ -358,6 +358,7 @@ export function buildHydraulic() {
 export const CAR = { ...CARG, plateL: 210, plateW: 118, plateY: 46, castZ: 150 };
 export const CAR_BOARD = {}; // batch 6: another board on the plate for a kind of car (models6.js: the Pi 4 for 'pi')
 export function buildCar(kind, parts, opt = {}) { // (batch 19: opt.board, another board on the plate, e.g. 'pi')
+  if (kind === 'balance') return buildBalanceBot(); // (batch 32: the self-balancing robot)
   const M = mats(); const g = new THREE.Group(); g.name = 'car';
   const still = new THREE.Group(); g.add(still);
   // the acrylic plate (clear, 3 mm) with its laser-cut slots
@@ -667,4 +668,25 @@ export function buildGlove() {
 export function ribbon(mesh, a, b) {
   const L = a.distanceTo(b); const sag = Math.max(40, 0.35 * L); const P = []; for (let i = 0; i <= 8; i++) { const t = i / 8; const p = a.clone().lerp(b, t); p.y = Math.max(4, p.y - sag * 4 * t * (1 - t)); P.push(p); }
   const geo = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(P), 28, 3, 6, false); if (mesh.geometry) mesh.geometry.dispose(); mesh.geometry = geo;
+}
+
+// (batch 32) the self-balancing robot: two wheels on one axle, three clear decks on brass standoffs (the L298N at the
+// bottom, two 18650 cells in the middle, the Uno and the MPU-6050 on top), 210 mm tall. live.tilt turns about the axle.
+export function buildBalanceBot() {
+  const M = mats(); const g = new THREE.Group(); g.name = 'car'; const live = { motors: [], leds: {} };
+  const axleY = 32.5; const body = new THREE.Group(); body.position.y = axleY; g.add(body); live.tilt = body;
+  const acr = S({ color: 0x9fd2f0, roughness: 0.3, transparent: true, opacity: 0.55, depthWrite: false });
+  const brass = S({ color: 0xc9a227, metalness: 0.85, roughness: 0.3 });
+  for (const s of [-1, 1]) { const mo = buildBOMotor(s > 0 ? 'L' : 'R', false); mo.remove(mo.userData.wheel); mo.position.set(s * (CAR.track / 2 - BOGEO.wheelX), -BOGEO.axleY, -BOGEO.axleZ); body.add(mo); }
+  const decks = [22, 92, 162]; for (const y of decks) body.add(box(CAR.track - 40, 3, 90, acr, 0, y, 0));
+  for (const x of [-1, 1]) for (const z of [-1, 1]) body.add(cyl(2.4, decks[2] - decks[0], brass, x * (CAR.track / 2 - 30), (decks[0] + decks[2]) / 2, z * 38, 8));
+  const drv = buildL298N(); drv.position.set(0, decks[0] + 1.5, 0); body.add(drv); live.leds.pwr = drv.userData.leds.pwr;
+  const bat = buildBattery18650(); bat.position.set(0, decks[1] + 1.5, -6); body.add(bat);
+  const uno = unoLite(); uno.position.set(0, decks[2] + 1.5, 0); body.add(uno);
+  body.add(box(21, 1.6, 16, S({ color: 0x1f4fae, roughness: 0.55 }), -36, decks[2] + 4, 20)); body.add(box(4, 1, 4, M.black || S({ color: 0x111111 }), -36, decks[2] + 5.3, 20)); // (the GY-521, flat on the top deck)
+  for (const s of [-1, 1]) { const w = keep(buildWheel(), 'wheel'); w.position.set(s * CAR.track / 2, axleY, 0); g.add(w); live.motors.push(w); }
+  shadows(g, false, false);
+  const blob = new THREE.Mesh(new THREE.PlaneGeometry(240, 200), new THREE.MeshBasicMaterial({ map: TX.radialTexture('rgba(0,0,0,0.55)', 'rgba(0,0,0,0)'), transparent: true, depthWrite: false, opacity: 0.5, color: 0x000000 }));
+  blob.rotation.x = -Math.PI / 2; blob.position.set(0, 0.6, 0); blob.renderOrder = -1; g.add(blob);
+  g.userData.live = live; return g;
 }

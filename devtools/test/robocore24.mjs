@@ -430,4 +430,25 @@ for (const l of L24) {
   if (w) { lab.removeWire(w); for (let f = 0; f < 30; f++) lab.step(1000 / 60); ok(lab.byTag('hand').state.noRef === true, 'hand: without the common ground the hand knows it has no reference'); } else ok(false, 'hand: the common-ground wire is found');
 }
 
+// the self-balancing robot (lessons24.js balancebot, robots.js balanceStep): Kp 10 falls; Kp 40 wobbles and falls; Kd 1.5
+// stands but runs away; setpoint −2 stays
+{ const l = LESSONS.find((x) => x.id === 'balancebot');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  ok(compile(l.code, lab.def).ok, 'balance: the sketch compiles');
+  const sim = new CarSim('balance'); app.world = { flag: (n) => sim.flags.has(n), val: (n) => sim[n], onRun: () => { sim.reset(); for (const t of ['mL', 'mR']) lab.byTag(t).state.w = 0; carFeed(sim, lab); } };
+  const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; };
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  let src = l.code; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'balance: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e).ok, 'balance: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { let t = -1; const t0 = sim.t;
+      for (let f = 0; f < 60 * 25; f++) { lab.step(1000 / 60); sim.update(1 / 60, w('mL'), w('mR')); carFeed(sim, lab); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = f / 60; break; } }
+      const B = sim.bal || {}; const d = { maxTh: +(B.maxTh || 0).toFixed(1), sw: B.sw, upT: +(B.upT || 0).toFixed(1), balD: sim.balD, th: +((B.th || 0) * 57.3).toFixed(1), t: +(sim.t - t0).toFixed(1) };
+      ok(t >= 0, `balance: act "${s.do.en.slice(0, 30)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s) ${JSON.stringify(d)}` : ` — timed out ${JSON.stringify(d)} ${[...sim.flags]}`)); seen.push([...sim.flags].join(',')); }
+  }
+  ok(!!l.done(rt), `balance: complete; ${seen.join(' | ')}`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);
