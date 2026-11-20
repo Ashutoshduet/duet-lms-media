@@ -137,7 +137,7 @@ export class CarSim {
   }
   reset() {
     const [x, z, h] = this.cfg.start; this.x = x; this.z = z; this.h = h; this.vl = this.vr = 0; this.odo = 0; this.bumps = 0; this.bumpT = 0; this.flags = new Set();
-    this.lap = { cp: 0, t: 0, best: null, n: 0 }; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
+    this.lap = { cp: 0, t: 0, best: null, n: 0 }; this.fwdD = 0; this.lostT = 0; this.turns = 0; this.lastTurn = 0; this.parkT = 0; this.t = 0; this.offT = 0;
     // batch 14
     this.fell = null; this.fallT = 0; this.saves = 0; this.edgeOn = false; // the table robot: how it fell (null: it has not), edges it backed away from
     this.lamp = this.cfg.lamp0; this.foundT = 0; this.found = new Set(); // the light-seeker: where the torch stands (back at A on each Run), the spots it reached
@@ -218,7 +218,7 @@ export class CarSim {
     const c = this.contact(); this.blocked = !!c;
     if (c) { this.x += c[0] * c[2]; this.z += c[1] * c[2]; const vn = (Math.sin(this.h) * c[0] + Math.cos(this.h) * c[1]) * v; const head = v > 60 && vn < -0.6 * v; if (head && this.t - this.bumpT > 0.8) { this.bumps++; this.flags.add('bump'); } if (head) this.bumpT = this.t; } // (a scrape along the side does not count)
     this.odo += Math.abs(v) * dt; if (this.odo > 600) this.flags.add('moved');
-    if (v > 40 && Math.abs(w) < 0.3) this.flags.add('fwd'); if (v < -40) this.flags.add('back');
+    if (v > 40 && Math.abs(w) < 0.3) { this.flags.add('fwd'); this.fwdD += v * dt; } if (v < -40) this.flags.add('back'); // (batch 19: fwdD, how far it drove straight on)
     if (Math.abs(w) > 1.2 && Math.abs(v) < 60) { this.flags.add(w > 0 ? 'left' : 'right'); }
     if (Math.abs(w) > 1.2 && this.t - this.lastTurn > 1.2) { this.turns++; this.lastTurn = this.t; }
     if (this.pts) this.followLine(dt, v);

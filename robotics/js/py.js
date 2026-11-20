@@ -66,7 +66,7 @@ const EXC = {};
 for (const [n, b] of [['BaseException', null], ['Exception', 'BaseException'], ['ArithmeticError', 'Exception'], ['ZeroDivisionError', 'ArithmeticError'], ['OverflowError', 'ArithmeticError'],
   ['LookupError', 'Exception'], ['IndexError', 'LookupError'], ['KeyError', 'LookupError'], ['NameError', 'Exception'], ['UnboundLocalError', 'NameError'], ['TypeError', 'Exception'],
   ['ValueError', 'Exception'], ['AttributeError', 'Exception'], ['RuntimeError', 'Exception'], ['RecursionError', 'RuntimeError'], ['NotImplementedError', 'RuntimeError'], ['ImportError', 'Exception'],
-  ['AssertionError', 'Exception'], ['MemoryError', 'Exception'], ['OSError', 'Exception'], ['StopIteration', 'Exception'], ['KeyboardInterrupt', 'BaseException'], ['SyntaxError', 'Exception'], ['IndentationError', 'SyntaxError']]) EXC[n] = new ExcType(n, b ? EXC[b] : null);
+  ['AssertionError', 'Exception'], ['MemoryError', 'Exception'], ['OSError', 'Exception'], ['FileNotFoundError', 'OSError'], ['FileExistsError', 'OSError'], ['PermissionError', 'OSError'], ['IsADirectoryError', 'OSError'], ['StopIteration', 'Exception'], ['KeyboardInterrupt', 'BaseException'], ['SyntaxError', 'Exception'], ['IndentationError', 'SyntaxError']]) EXC[n] = new ExcType(n, b ? EXC[b] : null);
 export { EXC };
 // a Python error on its way out: a type, a message code with its values, and the line (taken from the running task)
 export class PyErr extends Error {
@@ -479,11 +479,21 @@ class Parser {
         case 'elif': case 'else': this.fail('P_ELSE', { w: k.v, need: 'if' }); break;
         case 'except': case 'finally': this.fail('P_ELSE', { w: k.v, need: 'try' }); break;
         case 'class': this.fail('P_UNSUPPORTED', { what: t3('class (making your own types)', 'class (अपने टाइप बनाना)', 'class (apne types banana)') }); break;
-        case 'with': this.fail('P_UNSUPPORTED', { what: 'with' }); break;
+        case 'with': { // batch 20: with open(…) as f:  (a context manager: its exit runs however the block ends)
+          this.p++; const items = [];
+          do { const e = this.test(); const as = this.eat('as') ? this.target(this.bitor()) : null; items.push({ e, as }); } while (this.eat(','));
+          this.colon('with'); const body = this.suite('with', line);
+          return [{ k: 'with', items, body, line }];
+        }
         case 'async': case 'await': case 'yield': this.fail('P_UNSUPPORTED', { what: k.v }); break;
       }
     }
-    if (this.is('@')) this.fail('P_UNSUPPORTED', { what: t3('decorators (@)', 'डेकोरेटर (@)', 'decorators (@)') });
+    if (this.is('@')) { // batch 20: decorators (@app.route("/") above a def): name = deco(function)
+      const decos = [];
+      while (this.is('@')) { this.p++; decos.push(this.test()); if (this.tok.t !== 'nl') this.fail('P_SYNTAX', { got: show(this.tok) }); this.p++; }
+      if (!this.isKw('def')) this.fail('P_EXPECTED', { want: 'def', got: show(this.tok) });
+      const d = this.stmt(); d[0].decos = decos; return d;
+    }
     if (this.is('}')) this.fail('P_BRACE', {});
     return this.simple();
   }
@@ -757,6 +767,7 @@ function assigned(body, out, decl) {
       case 'if': for (const [, b] of s.tests) assigned(b, out, decl); if (s.orelse) assigned(s.orelse, out, decl); break;
       case 'try': assigned(s.body, out, decl); for (const h of s.handlers) { if (h.as) out.add(h.as); assigned(h.body, out, decl); } if (s.orelse) assigned(s.orelse, out, decl); if (s.fin) assigned(s.fin, out, decl); break;
       case 'def': out.add(s.name); break;
+      case 'with': for (const it of s.items) tgt(it.as); assigned(s.body, out, decl); break;
       case 'import': for (const [m, as] of s.names) out.add(as || m.split('.')[0]); break;
       case 'from': if (s.names) for (const [n, as] of s.names) out.add(as || n); break;
       case 'del': s.targets.forEach(tgt); break;
@@ -895,7 +906,19 @@ class Gen {
       case 'break': { const l = sc.loops && sc.loops[sc.loops.length - 1]; return `${pre} break${l ? ' ' + l : ''};`; }
       case 'continue': return `${pre} continue;`;
       case 'return': return `${pre} return ${s.e ? this.expr(s.e, sc) : 'null'};`;
-      case 'def': return `${pre} ${this.store(s.name, sc, this.func(s.name, s.params, s.body, sc, s.line))};`;
+      case 'def': {
+        if (!s.decos || !s.decos.length) return `${pre} ${this.store(s.name, sc, this.func(s.name, s.params, s.body, sc, s.line))};`;
+        const f = this.temp(sc), r = this.temp(sc); let code = `${pre} ${f} = ${this.func(s.name, s.params, s.body, sc, s.line)};`;
+        for (const d of s.decos.slice().reverse()) code += ` ${f} = (${r} = R.c(${this.expr(d, sc)}, [${f}], null), ${r} instanceof R.P ? (yield* ${r}.g) : ${r});`;
+        return `${code} ${this.store(s.name, sc, f)};`;
+      }
+      case 'with': {
+        let code = pre; const ms = [];
+        for (const it of s.items) { const m = this.temp(sc), v = this.temp(sc); ms.push(m); code += ` ${m} = ${this.expr(it.e, sc)}; ${v} = R.enter(${m});${it.as ? ' ' + this.assignTo(it.as, v, sc) : ''} try {`; }
+        code += `\n${this.block(s.body, sc)}\n`;
+        for (const m of ms.reverse()) code += `} finally { R.exit(${m}); }`;
+        return code;
+      }
       case 'global': for (const n of s.names) sc.globals.add(n); return pre;
       case 'nonlocal': return pre;
       case 'import': return pre + ' ' + s.names.map(([m, as]) => (as ? this.store(as, sc, `R.imp(${J(m)})`) : this.store(m.split('.')[0], sc, `R.imp(${J(m.split('.')[0])})`) + (m.includes('.') ? `; R.imp(${J(m)})` : '')) + ';').join(' ');
@@ -1086,6 +1109,8 @@ export class PyRT {
     if (o instanceof Flt && (name === 'real')) return o;
     throw this.err('AttributeError', 'P_ATTR', Object.assign({ obj: typeName(o), name }, (m && suggest(name, Object.keys(m))) || {}));
   }
+  enter(o) { if (o && o.pyEnter) return o.pyEnter(this); if (o && o.pyGet) throw this.err('AttributeError', 'P_NOT_CTX', { t: o.pyName || typeName(o) }); throw this.err('TypeError', 'P_NOT_CTX', { t: typeName(o) }); } // batch 20: with
+  exit(o) { if (o && o.pyExit) o.pyExit(this); }
   sa(o, name, v) { if (o && o.pySet && o.pySet(name, v, this)) return; throw this.err('AttributeError', 'P_ATTR_SET', { obj: o && o.pyName ? o.pyName : typeName(o), name }); }
   // [ ]
   gi(o, k) {
@@ -1261,7 +1286,7 @@ export const BUILTINS = {
   id: N('id', ['x'], (R, v) => (typeof v === 'number' ? v : 1)),
   hash: N('hash', ['x'], (R, v) => { const h = hkey(v); let x = 0; for (let i = 0; i < h.length; i++) x = (x * 31 + h.charCodeAt(i)) | 0; return x; }),
   iter: N('iter', ['x'], (R, v) => [...R.it(v)]),
-  next: N('next', ['it'], (R, v) => { if (Array.isArray(v) && v.length) return v.shift(); throw R.err('StopIteration', 'P_STOP', {}); }),
+  next: N('next', ['it', 'default=_'], (R, v, d) => { if (Array.isArray(v) && v.length) return v.shift(); if (v && v.pyNext) { const r = v.pyNext(R); if (r !== undefined) return r; } if (d !== ABSENT && d !== undefined) return d; throw R.err('StopIteration', 'P_STOP', {}); }), // (batch 20: a csv reader or a file: next(reader) skips the header row)
   ...Object.fromEntries(Object.entries(EXC).map(([k, v]) => [k, v])),
 };
 export const NAME_HINTS = { true: 'True', false: 'False', null: 'None', NULL: 'None', none: 'None', println: 'print', printf: 'print', echo: 'print', delay: 'sleep', millis: 'running_time', function: 'def', void: 'def', length: 'len', elseif: 'elif', Print: 'print' };
@@ -1452,6 +1477,7 @@ export const PY_MSG = {
   P_EMPTY_SEQ: t3('ValueError: {fn}() of nothing: the list is empty.', 'ValueError: ख़ाली लिस्ट का {fn}() नहीं निकल सकता।', 'ValueError: khaali list ka {fn}() nahi nikal sakta.'),
   P_EMPTY_SEP: t3('ValueError: split("") cannot split on an empty text.', 'ValueError: split("") ख़ाली टेक्स्ट पर नहीं तोड़ सकता।', 'ValueError: split("") khaali text par nahi tod sakta.'),
   P_RAND_RANGE: t3('ValueError: the range for the random number is empty (the first number is bigger).', 'ValueError: random संख्या की रेंज ख़ाली है (पहली संख्या बड़ी है)।', 'ValueError: random number ki range khaali hai (pehla number bada hai).'),
+  P_NOT_CTX: t3('TypeError: a {t} cannot be used after "with" (with is for things like open(…) that must be closed).', 'TypeError: {t} को "with" के बाद नहीं लिख सकते (with, open(…) जैसी चीज़ों के लिए है जिन्हें बंद करना होता है)।', 'TypeError: {t} ko "with" ke baad nahi likh sakte (with, open(…) jaisi cheezon ke liye hai jinhe band karna hota hai).'),
   P_CHOICE_EMPTY: t3('IndexError: choice() cannot pick from an empty list.', 'IndexError: choice() ख़ाली लिस्ट से कुछ नहीं चुन सकता।', 'IndexError: choice() khaali list se kuch nahi chun sakta.'),
   P_RANGE_STEP: t3('ValueError: the step of range() cannot be 0.', 'ValueError: range() का step 0 नहीं हो सकता।', 'ValueError: range() ka step 0 nahi ho sakta.'),
   P_SLICE_STEP: t3('ValueError: the step of a slice [::] cannot be 0.', 'ValueError: slice [::] का step 0 नहीं हो सकता।', 'ValueError: slice [::] ka step 0 nahi ho sakta.'),

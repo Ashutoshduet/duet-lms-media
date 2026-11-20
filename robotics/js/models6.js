@@ -15,6 +15,7 @@ import { BB } from './boards.js';
 import { BUILD4, pcbMesh, soic, smd, smdLed, ledMat, tact, malePins, pickGroup, usbMicro } from './models4.js';
 import { CAR_BOARD } from './models2.js';
 import { J8, PI4 } from './boards6.js';
+import { drawFigure } from './pi20.js'; // (batch 20: matplotlib's window on the little screen)
 
 let LITE = false; export function setLite6(v) { LITE = v; }
 const P = 2.54;
@@ -117,8 +118,8 @@ function pi4Tex(s) {
 function terminal(W, H) {
   const C = canvas(W, H), c = C.getContext('2d'); const t = tex(C); const fs = Math.round(H / 19);
   let last = null;
-  const draw = (text, title) => {
-    const key = text + '|' + title; if (key === last) return false; last = key;
+  const draw = (text, title, fig, figV) => {
+    const key = text + '|' + title + '|' + (fig ? figV : ''); if (key === last) return false; last = key;
     c.fillStyle = '#0d0f12'; c.fillRect(0, 0, W, H); c.fillStyle = '#2a2d33'; c.fillRect(0, 0, W, fs * 1.6);
     c.fillStyle = '#c8ccd2'; c.font = `600 ${fs * 0.95}px ${FONT}`; c.textBaseline = 'middle'; c.textAlign = 'center'; c.fillText(title || 'pi@raspberrypi: ~', W / 2, fs * 0.82);
     for (const [i, col] of ['#ff5f57', '#febc2e', '#28c840'].entries()) { c.fillStyle = col; c.beginPath(); c.arc(fs * (0.9 + i * 1.1), fs * 0.8, fs * 0.33, 0, 7); c.fill(); }
@@ -131,6 +132,11 @@ function terminal(W, H) {
       if (m) { c.fillStyle = '#5fd35f'; c.fillText(m[1], fs * 0.5, yy); let x = fs * 0.5 + c.measureText(m[1]).width; c.fillStyle = '#6aa8ff'; c.fillText(m[2], x, yy); x += c.measureText(m[2]).width; c.fillStyle = '#e8e8e8'; c.fillText(m[3], x, yy); }
       else { c.fillStyle = /Traceback|Error|^\s+File /.test(ln) ? '#ff8a7a' : '#e6e6e6'; c.fillText(ln, fs * 0.5, yy); }
     });
+    if (fig) { // batch 20: matplotlib's window over the terminal, as on the Pi's desktop
+      const x0 = W * 0.08, y0 = fs * 2.0, w = W * 0.84, h = H - y0 - fs * 0.6; c.fillStyle = '#d8d8d8'; c.fillRect(x0, y0, w, fs * 1.5);
+      c.fillStyle = '#222'; c.font = `700 ${fs * 0.9}px ${FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('Figure ' + (fig.n || 1), x0 + w / 2, y0 + fs * 0.75);
+      c.save(); c.translate(x0, y0 + fs * 1.5); drawFigure(c, fig, w, h - fs * 1.5, { font: FONT }); c.restore();
+    }
     t.needsUpdate = true; return true;
   };
   draw('pi@raspberrypi:~ $ ', ''); return { tex: t, draw };

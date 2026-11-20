@@ -19,6 +19,7 @@ export class LessonRT {
     this.lesson = L; this.i = 0; this.reset();
     const lab = this.lab; lab.stop(); lab.clear(); lab.env.light = 0.75; lab.env.temp = 26;
     lab.setBoard(L.board || 'uno'); // batch 4: the lesson's board (Nano, Mega, ESP32; the old lessons: the Uno)
+    lab.fs6 = new Map(Object.entries(L.files || {})); lab.fsV6 = (lab.fsV6 || 0) + 1; // batch 20: the files a lesson brings on the Pi's card
     for (const p of L.setup.parts || []) lab.addPart(p.type, p.props, p.at, p.rot, p.tag);
     for (const [a, b] of L.setup.wires || []) lab.addWire(this.ep(a), this.ep(b));
     this.lab.repair();

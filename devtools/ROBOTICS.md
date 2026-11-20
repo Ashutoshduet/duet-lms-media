@@ -844,3 +844,17 @@ heaters.
   right (`CarSim.mazeSide()`, us2: Trig 16, Echo 26 through its own divider), a P controller (steer = kp × (right −
   15)); kp 0.03 / 0.04 reach FINISH by the right-hand wall (no dead end); kp 0.5 oscillates: CarSim flag `wobble` = 25
   hard left / right swings in a row, each within 0.7 s. robocore19.mjs plays them. Class 10: 17 of 26. 1,547 projects.
+- Data on the Raspberry Pi 4 (batch 20, lessons20.js + pi20.js). py.js now has `with` (a context manager: R.enter /
+  R.exit, the exit in a finally) and decorators (name = deco(function)), and next() on a csv reader or a file. pi20.js
+  gives the Pi: open() on its SD card (lab.fs6, name → text; it lasts across Runs; a lesson's `files` are put there by
+  LessonRT.open), file objects (read / readline / readlines / write (str only) / writelines / iteration / close, modes
+  r / w / a / x, FileNotFoundError, closed file, wrong mode), os (getcwd, listdir, remove, path.exists / getsize), csv
+  (writer: "\r\n" rows, quoting; reader), statistics (mean, median, stdev, correlation, linear_regression) and
+  matplotlib.pyplot (figure, plot with a format string, scatter, bar, title, labels, grid, legend, lims, savefig, show,
+  close; text values become categories in the order they come). `drawFigure()` paints a figure; app6.js shows the card's
+  files as buttons under the terminal (#fs20) and a window (#win20) for a file or the figure (plt.show() opens it); the
+  Pi's little screen shows the figure over the terminal. The Pi's clock goes on between runs (lab.epoch6). Lessons:
+  `pi_csvlog` (a DHT11 row every 2 s, "a" grows the file, "w" wipes it and loses the header), `pi_plot` (72 hours of
+  sample data; without float() the y axis is jumbled text; then humidity as a second line), `pi_predict` (a straight line
+  through 14 daily maxima: day 15 ≈ 31 °C, 90 days ahead over 70 °C: extrapolation). robocore20.mjs plays them and checks the
+  engine. Class 10: 20 of 26. 1,550 projects.

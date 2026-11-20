@@ -18,7 +18,8 @@ import { BOARDS6, PHYS_OF, J8 } from './boards6.js';
 import { LAB_HOOKS } from './boards4.js';
 import { CPP, L, msg } from './i18n.js';
 import { suggest } from './cpp.js';
-import { glyph, CARDS } from './libs3.js'; // (batch 17: the ssd1306 driver draws text with the same 5 × 7 font as the Uno's OLED)
+import { glyph, CARDS } from './libs3.js';
+import { dataModules, openFn, MSG20 } from './pi20.js'; // (batch 20: files, csv, statistics and matplotlib on the Pi 4) // (batch 17: the ssd1306 driver draws text with the same 5 × 7 font as the Uno's OLED)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -33,6 +34,7 @@ const START_EPOCH = 1795000000; // time.time() on the Pi starts here (a November
 // ------------------------------------------------------------------ the microcontroller slot: one Python task on the bench
 export class PyMCU extends MCU {
   reset() {
+    if (this.lab && this.board && this.board.id === 'pi4') this.lab.epoch6 = (this.lab.epoch6 || START_EPOCH) + Math.ceil((this.t || 0) / 1e6) + 20; // (batch 20: the Pi's clock goes on between runs, as a real one does)
     super.reset();
     const n = this.board.gpio;
     this.adcMin = new Array(n).fill(65536); this.adcMax = new Array(n).fill(-1);
@@ -40,6 +42,7 @@ export class PyMCU extends MCU {
     this.wrote = new Set(); this.readSet = new Set(); this.task = null; this.ended = false; this.cbSet = false;
     this.obs6 = { prints: 0, events: {}, duty: {}, dist: [], dht: [], pulses: 0, started: 0, ends: 0, inputs: 0, lines: [], angles: new Set(), flips: {} };
     this.ser.on = true; this.ser.baud = 115200; this.mode6 = null; this.gpioSetup = {}; this.wroteHigh = false;
+    this.plt6 = null; this.fig6 = null; this.figV6 = (this.figV6 || 0) + 1; this.files6 = 0; this.wrote6 = 0; // (batch 20: a new run starts with no figure)
   }
   get pi() { return this.board.id === 'pi4'; }
   start() {
@@ -672,7 +675,7 @@ function dhtMods(m) {
   return { board, adafruit_dht: ada, Adafruit_DHT: old, DHT };
 }
 function piTime(m) {
-  const now = (R) => START_EPOCH + R.t / 1e6;
+  const now = (R) => ((m.lab && m.lab.epoch6) || START_EPOCH) + R.t / 1e6;
   const fmt = (R, f, t) => { const d = new Date((isNone(t) ? now(R) : num(R, t)) * 1000 + 5.5 * 3600e3); const p2 = (x) => String(x).padStart(2, '0'); const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], mon = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return String(f).replace(/%([HMSdmyYAaBbpIj%])/g, (s, k) => ({ H: p2(d.getUTCHours()), M: p2(d.getUTCMinutes()), S: p2(d.getUTCSeconds()), d: p2(d.getUTCDate()), m: p2(d.getUTCMonth() + 1), y: p2(d.getUTCFullYear() % 100), Y: d.getUTCFullYear(), A: days[d.getUTCDay()], a: days[d.getUTCDay()].slice(0, 3), B: mon[d.getUTCMonth()], b: mon[d.getUTCMonth()].slice(0, 3), p: d.getUTCHours() < 12 ? 'AM' : 'PM', I: p2((d.getUTCHours() + 11) % 12 + 1), j: '323', '%': '%' }[k])); };
   return new Mod('time', {
@@ -687,7 +690,8 @@ function piHost(m) {
   const sys = () => new Mod('sys', { exit: nat('exit', ['code=0'], (R) => { throw R.err('SystemExit', 'P_RAISED', { type: 'SystemExit', msg: '' }); }), platform: 'linux', version: '3.11.2 (main, Nov 30 2024) [GCC 12.2.0]' });
   const wrong = (mod) => (R) => { throw R.err('ImportError', 'N6_MOD_PI', { mod }); };
   return {
-    modules: { gpiozero: gz, time: () => piTime(m), signal, sys, 'RPi.GPIO': () => rpiGPIO(m), RPi: (R) => new Mod('RPi', { GPIO: R.imp('RPi.GPIO') }), board: D.board, adafruit_dht: D.adafruit_dht, Adafruit_DHT: D.Adafruit_DHT, machine: wrong('machine'), utime: wrong('utime'), microbit: wrong('microbit') },
+    builtins: { open: openFn(m) }, // (batch 20: the Pi's SD card)
+    modules: { ...dataModules(m), gpiozero: gz, time: () => piTime(m), signal, sys, 'RPi.GPIO': () => rpiGPIO(m), RPi: (R) => new Mod('RPi', { GPIO: R.imp('RPi.GPIO') }), board: D.board, adafruit_dht: D.adafruit_dht, Adafruit_DHT: D.Adafruit_DHT, machine: wrong('machine'), utime: wrong('utime'), microbit: wrong('microbit') },
     print: (s, R) => { m.serial(s, R.t); m.obs6.prints++; m.line6(s); },
     input: (prompt, R) => new R.P((function* () { // the terminal: what the student types in the box under it (Enter sends)
       m.serial(str(isNone(prompt) ? '' : prompt), R.t); const ser = m.ser;
@@ -801,5 +805,5 @@ export const MSG6 = {
   N6_ECHO: t3('No echo came back on {echo}. Check: VCC to 5 V, GND, Trig on {trig}, and Echo through the 1 kΩ / 2.2 kΩ divider to {echo}.', '{echo} पर कोई इको नहीं लौटी। जाँचिए: VCC 5 V पर, GND, Trig {trig} पर, और Echo 1 kΩ / 2.2 kΩ डिवाइडर से होकर {echo} पर।', '{echo} par koi echo nahi lauti. Check kijiye: VCC 5 V par, GND, Trig {trig} par, aur Echo 1 kΩ / 2.2 kΩ divider se hokar {echo} par.'),
   N6_SWAP: t3('DistanceSensor(echo=…, trigger=…): the first pin is Echo. Your sensor\'s Trig is on {echo}: swap the two numbers.', 'DistanceSensor(echo=…, trigger=…): पहला पिन Echo है। आपके सेंसर का Trig {echo} पर है: दोनों नंबर अदल-बदल दीजिए।', 'DistanceSensor(echo=…, trigger=…): pehla pin Echo hai. Aapke sensor ka Trig {echo} par hai: dono number badal dijiye.'),
 };
-Object.assign(CPP, MSG6);
+Object.assign(CPP, MSG6, MSG20);
 export { suggest, Tup };

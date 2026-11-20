@@ -26492,6 +26492,59 @@
 "note": null
 },
 {
+"id": "live-pi_predict",
+"title": "Predict tomorrow's temperature from logged data",
+"family": "live",
+"board": "pi4",
+"parts": [],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_predict",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pi_plot",
+"title": "Plot sensor data with matplotlib",
+"family": "live",
+"board": "pi4",
+"parts": [],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_plot",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pi_csvlog",
+"title": "Weather logger to a CSV file",
+"family": "live",
+"board": "pi4",
+"parts": [
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "pi",
+"live": "pi_csvlog",
+"rule": null,
+"note": null
+},
+{
 "id": "live-pi_wallcar",
 "title": "Wall-following robot (P control)",
 "family": "live",

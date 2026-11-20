@@ -7,6 +7,7 @@ import { VIEWS } from './stage.js';
 import { T, tx, t, REGIONS, SPEC } from './i18n.js';
 import { ORDER, STARTER } from './app4.js';
 import { highlight as pyHighlight } from './py.js';
+import { drawFigure } from './pi20.js'; // (batch 20: the Pi's files and its matplotlib window)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const $ = (s) => document.querySelector(s);
@@ -17,6 +18,8 @@ export const T6 = {
   term6: t3('Terminal', 'टर्मिनल', 'Terminal'),
   empty6: t3('What your program prints with print() shows here.', 'आपका प्रोग्राम print() से जो लिखता है, वह यहाँ दिखता है।', 'Aapka program print() se jo likhta hai, woh yahan dikhta hai.'),
   send6: t3('Type here for input(), then Send', 'input() के लिए यहाँ लिखिए, फिर भेजिए', 'input() ke liye yahan likhiye, phir Send'),
+  files20: t3('Files on the Pi', 'Pi पर फ़ाइलें', 'Pi par files'), fig20: t3('Figure', 'चित्र', 'Figure'), close20: t3('Close', 'बंद', 'Band'),
+  lines20: t3('lines', 'पंक्तियाँ', 'lines'), empty20: t3('(empty file)', '(ख़ाली फ़ाइल)', '(khaali file)'),
 };
 export const SPEC6 = {
   pwm6: t3('PWM', 'PWM', 'PWM'), lang6: t3('Languages', 'भाषाएँ', 'Languages'), cpu6: t3('Processor', 'प्रोसेसर', 'Processor'), ram6: t3('RAM', 'रैम', 'RAM'),
@@ -63,9 +66,39 @@ export function install6(app) {
   for (const id of ['pico', 'pi4']) if (!ORDER.includes(id)) ORDER.push(id);
   Object.assign(VIEWS, { pi6: { tgt: [-96, 24, -8], hw: 182, hd: 64, dir: [0, 0.62, 0.79] }, pi6w: { tgt: [-30, 8, -4], hw: 108, hd: 46, dir: [0, 0.74, 0.67] }, arenapi: { tgt: [2560, 0, 20], hw: 760, hd: 560, dir: [0, 0.82, 0.57] } }); // (arenapi: the Pi car's floor, its start and P) // the screen, the Pi, its card and the breadboard; for wiring: the Pi and the breadboard // the Pi, its card, the breadboard and the screen behind
   const lab = app.lab, view = app.view, stage = app.stage; const T0 = { serial: T.serial, serialEmpty: T.serialEmpty, sendPh: T.sendPh };
-  const st = document.createElement('style'); st.textContent = 'body.py6 #ser-baud{display:none}body.py6 #serout{background:#0d0f12;color:#e6e6e6}';
+  const st = document.createElement('style'); st.textContent = 'body.py6 #ser-baud{display:none}body.py6 #serout{background:#0d0f12;color:#e6e6e6}'
+    // batch 20: under the terminal, the Pi's files and its figure; a window that shows one of them
+    + '#fs20{display:none;flex-wrap:wrap;gap:6px;padding:6px 8px;border-top:1px solid var(--line);background:#0d0f12}body.pi20 #fs20{display:flex}'
+    + '#fs20 b{font-size:12px;color:var(--mute);font-weight:700;align-self:center;margin-right:2px}#fs20 button{font:600 12.5px/1 system-ui,sans-serif;color:var(--txt);background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:8px;padding:6px 9px;cursor:pointer}'
+    + '#fs20 button.fig{color:#0b0e13;background:var(--blue);border-color:transparent}'
+    + '#win20{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.45)}#win20.on{display:flex}'
+    + '#win20 .w{width:min(760px,94vw);max-height:86vh;display:flex;flex-direction:column;background:#ececec;border-radius:10px;overflow:hidden;box-shadow:0 18px 60px rgba(0,0,0,.5)}'
+    + '#win20 .h{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#d8d8d8;color:#222;font:700 14px system-ui,sans-serif}#win20 .h span{flex:1}#win20 .h button{font:700 13px system-ui,sans-serif;border:0;border-radius:6px;padding:6px 10px;background:#bbb;color:#111;cursor:pointer}'
+    + '#win20 canvas{width:100%;height:auto;display:block;background:#fff}#win20 pre{margin:0;padding:12px 14px;overflow:auto;background:#fff;color:#111;font:13px/1.45 ui-monospace,Menlo,Consolas,monospace;white-space:pre}';
   document.head.appendChild(st);
-  const X = { scrT: 0, scrText: null };
+  const X = { scrT: 0, scrText: null, fsK: null, figV: null };
+  // ------------------------------------------------------------ batch 20: the Pi's SD card and matplotlib's window
+  const sp = $('#serpane'); const bar = document.createElement('div'); bar.id = 'fs20'; if (sp) sp.insertBefore(bar, $('#serin'));
+  const win = document.createElement('div'); win.id = 'win20'; win.innerHTML = '<div class="w" role="dialog" aria-modal="true"><div class="h"><span></span><button type="button"></button></div><div class="b"></div></div>'; document.body.appendChild(win);
+  win.onclick = (e) => { if (e.target === win) win.classList.remove('on'); }; win.querySelector('.h button').onclick = () => win.classList.remove('on');
+  const esc = (x) => String(x).replace(/[&<>]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[ch]);
+  function showWin(kind, name) {
+    const h = win.querySelector('.h span'), b = win.querySelector('.b'); win.querySelector('.h button').textContent = '✕ ' + tx(T6.close20);
+    if (kind === 'fig') {
+      const f = lab.mcu.fig6; h.textContent = `${tx(T6.fig20)} ${f ? f.n : 1}${f && f.title ? ' · ' + f.title : ''}`; b.innerHTML = ''; const C = document.createElement('canvas'); C.width = 1280; C.height = 800; b.appendChild(C);
+      drawFigure(C.getContext('2d'), f, C.width, C.height);
+    } else { const t = (lab.fs6 && lab.fs6.get(name)) || ''; h.textContent = '📄 /home/pi/' + name; b.innerHTML = `<pre>${esc(t.replace(/\r/g, '')) || esc(tx(T6.empty20))}</pre>`; }
+    win.classList.add('on'); win.dataset.kind = kind; win.dataset.name = name || '';
+  }
+  function fsBar() { // the strip under the terminal: a button for each file and one for the figure
+    const pi = lab.def.id === 'pi4'; const fs = lab.fs6 || new Map(); const fig = pi && lab.mcu.fig6;
+    const k = pi + '|' + (lab.fsV6 || 0) + '|' + (lab.mcu.figV6 || 0) + '|' + [...fs.keys()].join(',');
+    if (k === X.fsK) return; X.fsK = k;
+    document.body.classList.toggle('pi20', pi && (fs.size > 0 || !!fig));
+    bar.innerHTML = `<b>📁 ${esc(tx(T6.files20))}:</b>` + [...fs.keys()].sort().map((n) => { const t = fs.get(n) || ''; const nl = t.split('\n').filter((x) => x.length).length; return `<button type="button" data-f="${esc(n)}">${esc(n)}${/\.png$/.test(n) ? '' : ` · ${nl} ${esc(tx(T6.lines20))}`}</button>`; }).join('') + (fig ? `<button type="button" class="fig" data-fig="1">📈 ${esc(tx(T6.fig20))} ${fig.n}</button>` : '');
+    for (const b2 of bar.querySelectorAll('button')) b2.onclick = () => { const n = b2.dataset.f; if (b2.dataset.fig || /\.png$/.test(n || '')) showWin('fig'); else showWin('file', n); };
+    if (win.classList.contains('on') && win.dataset.kind === 'file' && fs.has(win.dataset.name)) showWin('file', win.dataset.name); // (a file open in the window grows as the program writes)
+  }
   // a Python board on the bench: the editor speaks Python, the Serial Monitor is the Shell (Pico) or the Terminal (Pi 4)
   function onBoard() {
     const d = lab.def, py = !!d.py; document.body.classList.toggle('py6', py);
@@ -92,16 +125,19 @@ export function install6(app) {
   W('frame', (o, dt) => { // the Pi's screen shows its terminal (a few times a second, when it changed)
     o(dt);
     for (const [p, w] of waves) if ((++w.f >= 3 && lab.obs.t - w.t >= 1.2) || !lab.parts.includes(p)) { p.state.motion = false; waves.delete(p); lab.stateV++; lab.instKey = null; }
+    fsBar();
+    const fv = lab.mcu.figV6; if (lab.def.id === 'pi4' && lab.mcu.fig6 && fv !== X.figV && lab.mcu.plt6 && lab.mcu.plt6.shown.length) { X.figV = fv; showWin('fig'); } // plt.show(): its window opens, as on the Pi's desktop
     const scr = view.board && view.board.userData.screen; if (!scr) return;
     X.scrT -= dt; if (X.scrT > 0) return; X.scrT = 0.2;
     const txt = (lab.mcu.state === 'running' || lab.mcu.state === 'done' || lab.mcu.state === 'error') && app.serText ? app.serText : 'pi@raspberrypi:~ $ ';
-    if (scr.draw(txt, 'pi@raspberrypi: ~')) { X.scrText = txt; stage.kick(); }
+    if (scr.draw(txt, 'pi@raspberrypi: ~', lab.mcu.fig6, lab.mcu.figV6)) { X.scrText = txt; stage.kick(); }
   });
   // ------------------------------------------------------------ test hooks (devtools/test/robotest6.mjs)
   window.robo6 = {
     board: () => lab.def.id, py: () => !!lab.def.py, mode: () => (app.editor.mode === PY6 ? 'py' : 'cpp'), serialTab: () => tx(T.serial), screen: () => X.scrText,
     state: () => ({ mcu: lab.mcu.state, obs: lab.mcu.obs6 ? { prints: lab.mcu.obs6.prints, events: lab.mcu.obs6.events, angles: lab.mcu.obs6.angles.size, dht: lab.mcu.obs6.dht.length, lines: lab.mcu.obs6.lines.slice(-4) } : null, ledL: lab.ledL, err: lab.mcu.err ? { code: lab.mcu.err.code, line: lab.mcu.err.line } : null }),
     t: (k) => t(k),
+    files: () => (lab.fs6 ? Object.fromEntries(lab.fs6) : {}), fig: () => lab.mcu.fig6 || null, win: () => (win.classList.contains('on') ? win.dataset.kind + ':' + (win.dataset.name || '') : null), // (batch 20)
     view(o) { VIEWS.test6 = o; stage.userMoved = false; stage.fitPts = null; if (o.full) stage.free = { fw: 1, fh: 1 }; stage.setView('test6', true); }, // (a camera for the screenshots)
   };
   onBoard();
