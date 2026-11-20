@@ -6,18 +6,21 @@
 //   3. mistakes: OUT on pin 6 (the check names it, and closed eyes never sound the alarm); VCC left off (the check says so);
 //   4. smartfarm: the phone opens the page; a dry field is watered and the pump stops by itself; in the rain the first
 //      program pumps anyway; with && !raining() it waits for the rain; the phone takes over (Pump on) and hands back (Auto);
-//      mistakes: the rain sensor on VIN (5 V) and the soil's AO on GPIO 35 (the check names each).
+//      mistakes: the rain sensor on VIN (5 V) and the soil's AO on GPIO 35 (the check names each);
+//   5. the anemometer: 2.4 km/h a turn a second, counted by edges on a pin with INPUT_PULLUP, from 5 to 50 km/h;
+//      kisanws: the first program counts the level (a "cyclone" from a breeze); with the edge it reads 10 and 25 km/h;
+//      the phone says "Do not spray" in a gust and in the rain, "Good weather to spray" after; lead A on GPIO 26 is named.
 //   node devtools/test/robocore22.mjs      (exit 1 on a failure)
 import { compile } from '../../robotics/js/cpp.js';
 import { Lab } from '../../robotics/js/sim.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
-import { TYPES22, KINDS22, sense22, blink22 } from '../../robotics/js/parts22.js';
+import { TYPES22, KINDS22, sense22, blink22, wind22 } from '../../robotics/js/parts22.js';
 import { netOf } from '../../robotics/js/esp32.js';
 
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
 const L22 = LESSONS.filter((l) => l.batch === 22);
-ok(L22.length === 2 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L22.length} lessons in batch 22, ids unique`);
+ok(L22.length === 3 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L22.length} lessons in batch 22, ids unique`);
 
 // 1 ------------------------------------------------------------------ the modules
 for (const type of TYPES22) {
@@ -128,5 +131,30 @@ const ix = (l, re) => l.steps.findIndex((s) => (s.k === 'act' || s.k === 'watch'
   ok(!!v && /VIN \(5 V\)/.test(say(v)), `smartfarm: the rain sensor on 5 V -> the check says ${JSON.stringify(say(v)).slice(0, 90)}`);
   const A = build(l, (s) => (s.wire[0] === 'soil.AO' ? ['soil.AO', 'D35'] : s.wire)); const a = A.rt.runCheck();
   ok(!!a && /AO/.test(say(a)) && /GPIO 34/.test(say(a)), `smartfarm: the soil's AO on GPIO 35 -> the check says ${JSON.stringify(say(a)).slice(0, 90)}`);
+}
+{ // the anemometer alone: a sketch counts the falling edges for 3 s
+  const lab = new Lab(); const p = lab.addPart('anemo', {}, { x: 110, z: 85 }, 2, 'an'); lab.addWire('T:' + p.uid + ':A', 'B:D2'); lab.addWire('T:' + p.uid + ':B', 'B:GND3');
+  const SK = `int n = 0; int last = HIGH; unsigned long t0 = 0;\nvoid setup(){ pinMode(2, INPUT_PULLUP); Serial.begin(9600); t0 = millis(); }\nvoid loop(){ int v = digitalRead(2); if (v == LOW && last == HIGH) n++; last = v; if (millis() - t0 >= 3000) { Serial.println(n); n = 0; t0 = millis(); } }`;
+  const c = compile(SK, lab.def); lab.run(c); const got = [];
+  for (const k of [5, 10, 25, 50]) { wind22(lab, p, k); let out = ''; for (let f = 0; f < 6.2 * 60; f++) { lab.step(1000 / 60); for (const o of lab.mcu.ser.take()) out += String.fromCharCode(...o.bytes); } const n = +out.trim().split(/\r?\n/).pop(); got.push([k, (n / 3 * 2.4).toFixed(1)]); }
+  ok(got.every(([k, v]) => Math.abs(v - k) <= Math.max(1.6, k * 0.06)), `anemo: counted by edges, the wind reads ${got.map(([k, v]) => k + '→' + v).join(', ')} km/h`);
+}
+{
+  const l = L22.find((x) => x.id === 'kisanws');
+  const wind = (k) => (B) => wind22(B.lab, B.lab.byTag('an1'), k);
+  const rain = (on) => (B) => sense22(B.lab, B.lab.byTag('rn1'), on);
+  const every = (dt, f) => { let next = 0; return (t, B) => { if (t >= next) { next = t + dt; f(B); } }; };
+  const pg = () => every(1.5, (B) => B.phone.open('/'));
+  const both = (a, b) => (t, B) => { a(t, B); b(t, B); };
+  const acts = { [ix(l, /open the Browser/)]: script([[0.5, (B) => B.phone.open('/')]]), [ix(l, /light breeze/)]: script([[0.3, wind(10)]]),
+    [ix(l, /two readings/)]: script([[0.2, wind(10)]]), [ix(l, /gusty/)]: both(script([[0.3, wind(25)]]), pg()),
+    [ix(l, /starts to rain/)]: both(script([[0.3, wind(5)], [0.5, rain(true)]]), pg()), [ix(l, /sky clears/)]: both(script([[0.3, rain(false)]]), pg()) };
+  const r = play(l, acts, 40); ok(r.done, `kisanws: plays end to end — ${r.log.join(' | ')}`);
+  ok(r.B.rt.mem.cyclone, 'kisanws: the first program made a cyclone of a breeze');
+  const N = netOf(r.B.lab); const b = (N.seen.last || {}).body || '';
+  ok(/Temperature: <b>\d+\.\d C/.test(b) && /Humidity: <b>\d+ %/.test(b) && /Rain: <b>dry/.test(b) && /Wind: <b>[3-7]\.\d km\/h/.test(b) && /Good weather to spray/.test(b), 'kisanws: the page: ' + b.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 140));
+  const last = l.steps[l.steps.length - 1].see.en; ok(/Your results: wind \d/.test(last), 'kisanws: the last step reads the results: ' + last.slice(0, 60));
+  const M = build(l, (s) => (s.wire[0] === 'an1.A' ? ['an1.A', 'D26'] : s.wire[0] === 'rn1.OUT' ? ['rn1.OUT', 'D25'] : s.wire)); const c = M.rt.runCheck();
+  ok(!!c && /pin 26|pin 25/.test(say(c)), `kisanws: the rain and wind leads swapped -> the check says ${JSON.stringify(say(c))}`);
 }
 console.log(fails ? `${fails} FAILED` : 'all ok'); process.exit(fails ? 1 : 0);

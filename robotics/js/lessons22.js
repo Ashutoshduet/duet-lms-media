@@ -8,6 +8,11 @@
 //              also pumps in the rain (wasted power, a waterlogged field) until the student adds && !raining(); the phone
 //              can take over (Pump on for the cattle trough) and hand back (Auto). The lesson's tick is the field: the
 //              pump and the rain wet the soil.
+//   kisanws    the Kisan weather station for the panchayat on the ESP32: DHT11 (GPIO 27), rain (GPIO 26), a cup anemometer
+//              (GPIO 25, INPUT_PULLUP: its switch closes to GND once a turn; 1 turn a second = 2.4 km/h) and a page any
+//              phone can open, with the spraying advice (no pesticide in rain or above 15 km/h). The first program counts
+//              every loop() while the switch is closed (a "cyclone" of thousands of km/h); the edit counts only the change
+//              from HIGH to LOW, and the wind reads true.
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore22.mjs plays them end to end.
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
@@ -160,6 +165,80 @@ void loop() {
 }
 `;
 
+const KISAN = `// Kisan weather station for the panchayat: temperature, humidity, rain and wind on any phone.
+#include <WiFi.h>
+#include <WebServer.h>
+#include <DHT.h>
+
+const char* ssid = "DUET-School";
+const char* password = "stem2026";
+WebServer server(80);
+DHT dht(27, DHT11);             // temperature and humidity on GPIO 27
+const int rainPin = 26;         // the rain module's OUT: LOW while it rains
+const int windPin = 25;         // the anemometer's switch: closes to GND once a turn
+int clicks = 0;                 // turns counted in this 3-second window
+int lastState = HIGH;
+float kmh = 0;                  // the wind speed
+float temp = 0;
+float hum = 0;
+unsigned long windowStart = 0;
+
+bool raining() {
+  return digitalRead(rainPin) == LOW;
+}
+
+void handleRoot() {
+  String h = "<meta http-equiv=\\"refresh\\" content=\\"3\\">";
+  h += "<h2>Kisan Weather Station</h2>";
+  h += "<p>Temperature: <b>" + String(temp, 1) + " C</b></p>";
+  h += "<p>Humidity: <b>" + String(hum, 0) + " %</b></p>";
+  h += "<p>Rain: <b>";
+  h += raining() ? "raining" : "dry";
+  h += "</b></p><p>Wind: <b>" + String(kmh, 1) + " km/h</b></p>";
+  if (raining() || kmh > 15) {          // the spray drifts in wind and washes off in rain
+    h += "<h3 style=\\"color:#d0342c\\">Do not spray pesticide today</h3>";
+  } else {
+    h += "<h3 style=\\"color:#2b8a3e\\">Good weather to spray</h3>";
+  }
+  server.send(200, "text/html", h);
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(rainPin, INPUT);
+  pinMode(windPin, INPUT_PULLUP);       // HIGH, and LOW while the switch is closed
+  dht.begin();
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+  Serial.print("Open on the phone: http://");
+  Serial.println(WiFi.localIP());
+  server.on("/", handleRoot);
+  server.begin();
+  windowStart = millis();
+}
+
+void loop() {
+  server.handleClient();
+  int now = digitalRead(windPin);
+  if (now == LOW) clicks++;             // the switch is closed: count a turn
+  lastState = now;
+  if (millis() - windowStart >= 3000) { // every 3 seconds
+    kmh = clicks / 3.0 * 2.4;           // 1 turn a second = 2.4 km/h
+    clicks = 0;
+    windowStart = millis();
+    temp = dht.readTemperature();
+    hum = dht.readHumidity();
+    Serial.print("Wind ");
+    Serial.print(kmh, 1);
+    Serial.print(" km/h  ");
+    Serial.print(temp, 1);
+    Serial.print(" C  ");
+    Serial.print(hum, 0);
+    Serial.println(" %");
+  }
+}
+`;
+
 export function batch22(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -292,6 +371,59 @@ export function batch22(K, n0) {
       need('rn1.VCC', '3V3', W.join, { a: t3('The rain sensor\'s VCC', 'रेन सेंसर का VCC', 'Rain sensor ka VCC'), b: '3V3' }), need('rn1.GND', 'GND', W.toGnd, { x: t3('rain sensor\'s GND', 'रेन सेंसर का GND', 'Rain sensor ka GND') }),
       need('rn1.OUT', 'D27', W.toPin, { x: t3('rain sensor\'s OUT', 'रेन सेंसर का OUT', 'Rain sensor ka OUT'), p: 27 })],
     done: (S) => okRain(S.runSrc) && S.memRun.rainDry && !S.memRun.rainPump && S.memRun.backAuto });
+
+  // 3 ---------------------------------------------------------------------------------------------- Kisan weather station
+  const winds = (S) => (S.serLines || []).map((x) => /^Wind (\d+(?:\.\d+)?) km\/h/.exec(x)).filter(Boolean).map((m) => +m[1]);
+  const lastWind = (S) => { const v = winds(S); return v.length ? v[v.length - 1] : null; };
+  const near = (S, k, tol) => { const v = lastWind(S); return v !== null && Math.abs(v - k) <= tol; };
+  const windNow = (S) => { const p = S.part('an1'); return p ? p.state.wind || 0 : 0; };
+  const okEdge = (src) => /if\s*\(\s*now\s*==\s*LOW\s*&&\s*lastState\s*==\s*HIGH\s*\)\s*clicks\+\+/.test(src || '');
+  const DHTN = t3('DHT11', 'DHT11', 'DHT11'), ANEMO = t3('anemometer', 'एनीमोमीटर', 'anemometer');
+  L.push({ id: 'kisanws', board: 'esp32', cls: '10', blocks: false, view: 'wide', code: KISAN, drawer: ['dht11', 'rain', 'anemo'], baud: 115200, serial: true, phone: true, tick: (S) => { RT.S = S; },
+    title: t3('Kisan weather station for the panchayat', 'पंचायत के लिए किसान मौसम स्टेशन', 'Panchayat ke liye kisan mausam station'),
+    goal: t3('Should we spray the cotton today? Spray drifts onto the next field in a strong wind and washes off in the rain. Your ESP32 weather station measures temperature, humidity, rain and wind, and any farmer in the village opens its page on a phone for the answer.', 'आज कपास पर छिड़काव करें? तेज़ हवा में दवा बगल के खेत में उड़ जाती है और बारिश में धुल जाती है। आपका ESP32 मौसम स्टेशन तापमान, नमी, बारिश और हवा नापता है, और गाँव का कोई भी किसान फ़ोन पर इसका पेज खोलकर जवाब पाता है।', 'Aaj kapaas par chhidkaav karein? Tez hawa mein dawa bagal ke khet mein ud jaati hai aur baarish mein dhul jaati hai. Aapka ESP32 mausam station temperature, nami, baarish aur hawa naapta hai, aur gaon ka koi bhi kisan phone par iska page khol kar jawab paata hai.'),
+    setup: { parts: [], wires: [...ESP_POWER] },
+    steps: [
+      { k: 'info', do: t3('Ready on the bench: the ESP32 with its rails (3.3 V in front). Three instruments to fit: the DHT11 for temperature and humidity, the rain plate, and a cup anemometer for the wind.', 'बेंच पर तैयार: अपनी रेलों के साथ ESP32 (आगे 3.3 V)। तीन यंत्र लगाने हैं: तापमान और नमी के लिए DHT11, रेन प्लेट, और हवा के लिए कप एनीमोमीटर।', 'Bench par taiyaar: apni rails ke saath ESP32 (aage 3.3 V). Teen yantra lagane hain: temperature aur nami ke liye DHT11, rain plate, aur hawa ke liye cup anemometer.'),
+        see: t3('A real station puts them on a pole 2 m up, the DHT11 in a white louvred box out of the sun.', 'असली स्टेशन इन्हें 2 m ऊँचे खंभे पर लगाता है, DHT11 को धूप से बचाकर सफ़ेद जालीदार डिब्बे में।', 'Asli station inhe 2 m oonche khambhe par lagata hai, DHT11 ko dhoop se bachakar safed jaalidaar dibbe mein.') },
+      { k: 'place', place: P('dht', 'dht11', {}, 'j40', 0), do: t3('Plug the DHT11 into 40j–42j, its grille facing you.', 'DHT11 को 40j–42j में लगाइए, जाली आपकी तरफ़।', 'DHT11 ko 40j–42j mein lagaiye, jaali aapki taraf.'), see: E },
+      w3('dht', 'VCC', 'rail:bp', 'Its middle pin (+) to the front + rail (3.3 V).', 'इसका बीच वाला पिन (+) आगे वाली + रेल (3.3 V) से।', 'Iska beech wala pin (+) aage wali + rail (3.3 V) se.'),
+      w3('dht', 'GND', 'rail:bn', 'Its right pin (−) to the front − rail.', 'इसका दायाँ पिन (−) आगे वाली − रेल से।', 'Iska right pin (−) aage wali − rail se.'),
+      w3('dht', 'DATA', 'D27', 'Its left pin (DATA) to GPIO 27.', 'इसका बायाँ पिन (DATA) GPIO 27 से।', 'Iska left pin (DATA) GPIO 27 se.'),
+      { k: 'place', place: F('rn1', 'rain', {}, -125, 5, 2), do: t3('Put the rain sensor on the mat at the ghost.', 'रेन सेंसर को मैट पर नीली आकृति पर रखिए।', 'Rain sensor ko mat par neeli shape par rakhiye.'), see: E },
+      w3('rn1', 'VCC', 'rail:bp', 'Wire its VCC to the front + rail (3.3 V).', 'इसका VCC आगे वाली + रेल (3.3 V) से जोड़िए।', 'Iska VCC aage wali + rail (3.3 V) se jodiye.'),
+      w3('rn1', 'GND', 'rail:bn', 'Its GND to the front − rail.', 'इसका GND आगे वाली − रेल से।', 'Iska GND aage wali − rail se.'),
+      w3('rn1', 'OUT', 'D26', 'Its OUT to GPIO 26.', 'इसका OUT, GPIO 26 से।', 'Iska OUT, GPIO 26 se.'),
+      { k: 'place', place: F('an1', 'anemo', {}, 110, 85, 2), do: t3('Put the anemometer on the mat at the ghost.', 'एनीमोमीटर को मैट पर नीली आकृति पर रखिए।', 'Anemometer ko mat par neeli shape par rakhiye.'), see: E },
+      w3('an1', 'A', 'D25', 'Wire its lead A to GPIO 25.', 'इसका तार A, GPIO 25 से जोड़िए।', 'Iska taar A, GPIO 25 se jodiye.'),
+      w3('an1', 'B', 'rail:bn', 'Its lead B to the front − rail (GND).', 'इसका तार B आगे वाली − रेल (GND) से।', 'Iska taar B aage wali − rail (GND) se.',
+        t3('No power for the anemometer: it is only a switch. INPUT_PULLUP holds GPIO 25 HIGH, and the switch pulls it LOW once a turn.', 'एनीमोमीटर को बिजली नहीं चाहिए: यह बस एक स्विच है। INPUT_PULLUP, GPIO 25 को HIGH रखता है, और स्विच हर चक्कर में उसे LOW करता है।', 'Anemometer ko bijli nahi chahiye: yeh bas ek switch hai. INPUT_PULLUP, GPIO 25 ko HIGH rakhta hai, aur switch har chakkar mein use LOW karta hai.')),
+      CHECK,
+      { k: 'info', code: [53, 63], do: t3('Read loop(): it counts turns for 3 seconds, then km/h = turns ÷ 3 × 2.4 (one turn a second is 2.4 km/h), and reads the DHT11.', 'loop() पढ़िए: यह 3 सेकंड तक चक्कर गिनता है, फिर km/h = चक्कर ÷ 3 × 2.4 (एक सेकंड में एक चक्कर = 2.4 km/h), और DHT11 पढ़ता है।', 'loop() padhiye: yeh 3 second tak chakkar ginta hai, phir km/h = chakkar ÷ 3 × 2.4 (ek second mein ek chakkar = 2.4 km/h), aur DHT11 padhta hai.'), see: E },
+      RUN(t3('It joins the WiFi and prints its address; every 3 s a line of weather.', 'यह WiFi से जुड़ता है और अपना पता लिखता है; हर 3 s मौसम की एक लाइन।', 'Yeh WiFi se judta hai aur apna address likhta hai; har 3 s mausam ki ek line.')),
+      { k: 'watch', until: (S) => !!net(S).staIP() && S.lineCount() >= 1, do: t3('Wait for the address on the Serial Monitor.', 'सीरियल मॉनिटर पर पते का इंतज़ार कीजिए।', 'Serial Monitor par address ka intezaar kijiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && (paths(S)['/'] || 0) >= 1 && /Kisan Weather Station/.test(body(S)), do: t3('On the phone, open the Browser, type the address and press Go.', 'फ़ोन पर Browser खोलिए, पता लिखिए और Go दबाइए।', 'Phone par Browser kholiye, address likhiye aur Go dabaiye.'),
+        see: t3('The village\'s weather page; it refreshes itself every 3 s.', 'गाँव का मौसम पेज; यह हर 3 s में अपने-आप ताज़ा होता है।', 'Gaon ka mausam page; yeh har 3 s mein apne aap taaza hota hai.') },
+      { k: 'act', until: (S) => fresh(S) && windNow(S) > 0 && windNow(S) <= 20 && (lastWind(S) || 0) > 100 && (S.mem.cyclone = true), do: t3('A light breeze: tap the anemometer and set the wind to 10 km/h. Watch the Serial Monitor.', 'हल्की हवा: एनीमोमीटर को छूइए और हवा 10 km/h कीजिए। सीरियल मॉनिटर देखिए।', 'Halki hawa: anemometer ko touch karo aur hawa 10 km/h kijiye. Serial Monitor dekhiye.'),
+        see: live((lg, S) => { const v = S ? lastWind(S) : null; if (v === null) return ''; return pick(lg, `"Wind ${v} km/h": a cyclone from a breeze? loop() runs thousands of times a second, and while the switch stays closed, every pass adds one more "turn".`, `"Wind ${v} km/h": हल्की हवा से चक्रवात? loop() एक सेकंड में हज़ारों बार चलता है, और जब तक स्विच बंद रहे, हर बार एक और "चक्कर" जुड़ जाता है।`, `"Wind ${v} km/h": halki hawa se cyclone? loop() ek second mein hazaaron baar chalta hai, aur jab tak switch band rahe, har baar ek aur "chakkar" jud jaata hai.`); }) },
+      { k: 'edit', test: okEdge, set: [[/if \(now == LOW\) clicks\+\+;/, 'if (now == LOW && lastState == HIGH) clicks++;']],
+        do: t3('Count a turn only at the moment the switch closes, when the pin goes from HIGH to LOW: change if (now == LOW) to if (now == LOW && lastState == HIGH) and press Run.', 'चक्कर सिर्फ़ उस पल गिनिए जब स्विच बंद होता है, जब पिन HIGH से LOW होता है: if (now == LOW) को if (now == LOW && lastState == HIGH) कीजिए और "चलाइए" दबाइए।', 'Chakkar sirf us pal giniye jab switch band hota hai, jab pin HIGH se LOW hota hai: if (now == LOW) ko if (now == LOW && lastState == HIGH) karo aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && windNow(S) >= 8 && windNow(S) <= 12 && near(S, windNow(S), 2) && (S.memRun.calm = true), do: t3('Keep the wind at 10 km/h and wait for two readings.', 'हवा 10 km/h पर रखिए और दो रीडिंग का इंतज़ार कीजिए।', 'Hawa 10 km/h par rakhiye aur do reading ka intezaar kijiye.'),
+        see: t3('About 10 km/h now: 4 turns a second, counted once each. Catching the edge (the change), not the level, is how every counter works: a bicycle computer, an energy meter, a factory\'s bottle counter.', 'अब लगभग 10 km/h: एक सेकंड में 4 चक्कर, हर एक एक बार गिना। स्तर नहीं, बदलाव (एज) पकड़ना: हर काउंटर ऐसे ही चलता है, साइकिल कंप्यूटर, बिजली मीटर, फ़ैक्ट्री का बोतल काउंटर।', 'Ab lagbhag 10 km/h: ek second mein 4 chakkar, har ek ek baar gina. Level nahi, badlaav (edge) pakadna: har counter aise hi chalta hai, cycle computer, bijli meter, factory ka bottle counter.') },
+      { k: 'act', until: (S) => fresh(S) && windNow(S) >= 18 && near(S, windNow(S), 3) && /Do not spray/.test(body(S)) && (S.memRun.gust = true), do: t3('A gusty afternoon: set the wind to 25 km/h, and look at the phone.', 'तेज़ हवा वाली दोपहर: हवा 25 km/h कीजिए, और फ़ोन देखिए।', 'Tez hawa wali dopahar: hawa 25 km/h kijiye, aur phone dekhiye.'),
+        see: t3('"Do not spray pesticide today": above 15 km/h the fine spray drifts onto the neighbour\'s crop, the school, the pond.', '"Do not spray pesticide today": 15 km/h से ऊपर बारीक छिड़काव पड़ोसी की फ़सल, स्कूल, तालाब पर उड़ जाता है।', '"Do not spray pesticide today": 15 km/h se upar baareek chhidkaav padosi ki fasal, school, taalaab par ud jaata hai.') },
+      { k: 'act', until: (S) => fresh(S) && windNow(S) <= 12 && rainingNow(S) && /Rain: <b>raining/.test(body(S)) && /Do not spray/.test(body(S)) && (S.memRun.wet = true), do: t3('The wind drops to 5 km/h, but it starts to rain: set the wind to 5 and let it rain on the plate.', 'हवा 5 km/h पर आ गई, पर बारिश शुरू हो गई: हवा 5 कीजिए और प्लेट पर बारिश होने दीजिए।', 'Hawa 5 km/h par aa gayi, par baarish shuru ho gayi: hawa 5 kijiye aur plate par baarish hone dijiye.'),
+        see: t3('Still "Do not spray": rain washes the spray off the leaves. raining() || kmh > 15 means either one is enough.', 'अब भी "Do not spray": बारिश पत्तियों से दवा धो देती है। raining() || kmh > 15 का मतलब है कि दोनों में से एक ही काफ़ी है।', 'Ab bhi "Do not spray": baarish pattiyon se dawa dho deti hai. raining() || kmh > 15 ka matlab hai ki dono mein se ek hi kaafi hai.') },
+      { k: 'act', until: (S) => fresh(S) && S.memRun.wet && !rainingNow(S) && /Good weather to spray/.test(body(S)), do: t3('The sky clears: wipe the plate dry.', 'आसमान साफ़: प्लेट पोंछकर सुखाइए।', 'Aasmaan saaf: plate pochh kar sukhaiye.'),
+        see: live((lg, S) => { const v = S ? lastWind(S) : null; return pick(lg, `Your results: wind ${v === null ? '…' : v} km/h, no rain: "Good weather to spray". The panchayat can put this page on the notice-board TV, and IMD's agromet stations give farmers the same advice by SMS.`, `आपके नतीजे: हवा ${v === null ? '…' : v} km/h, बारिश नहीं: "Good weather to spray"। पंचायत यह पेज नोटिस-बोर्ड के टीवी पर लगा सकती है, और IMD के कृषि-मौसम स्टेशन किसानों को यही सलाह SMS से देते हैं।`, `Aapke results: hawa ${v === null ? '…' : v} km/h, baarish nahi: "Good weather to spray". Panchayat yeh page notice-board ke TV par laga sakti hai, aur IMD ke agromet station kisanon ko yahi salah SMS se dete hain.`); }) },
+    ],
+    check: [(S) => (S.conn('VIN', 'GND') || S.conn('3V3', 'GND') ? [W.short] : null), has('dht', DHTN), has('rn1', RAIN), has('an1', ANEMO),
+      (S) => (S.conn('dht.VCC', 'VIN') || S.conn('rn1.VCC', 'VIN') ? [XF.v5] : null),
+      need('dht.VCC', '3V3', W.join, { a: t3('The DHT11\'s + pin', 'DHT11 का + पिन', 'DHT11 ka + pin'), b: '3V3' }), need('dht.GND', 'GND', W.toGnd, { x: t3('DHT11\'s − pin', 'DHT11 का − पिन', 'DHT11 ka − pin') }), need('dht.DATA', 'D27', W.toPin, { x: t3('DHT11\'s DATA', 'DHT11 का DATA', 'DHT11 ka DATA'), p: 27 }),
+      need('rn1.VCC', '3V3', W.join, { a: t3('The rain sensor\'s VCC', 'रेन सेंसर का VCC', 'Rain sensor ka VCC'), b: '3V3' }), need('rn1.GND', 'GND', W.toGnd, { x: t3('rain sensor\'s GND', 'रेन सेंसर का GND', 'Rain sensor ka GND') }),
+      need('rn1.OUT', 'D26', W.toPin, { x: t3('rain sensor\'s OUT', 'रेन सेंसर का OUT', 'Rain sensor ka OUT'), p: 26 }),
+      need('an1.A', 'D25', W.toPin, { x: t3('anemometer\'s lead A', 'एनीमोमीटर का तार A', 'Anemometer ka taar A'), p: 25 }), need('an1.B', 'GND', W.toGnd, { x: t3('anemometer\'s lead B', 'एनीमोमीटर का तार B', 'Anemometer ka taar B') })],
+    done: (S) => okEdge(S.runSrc) && S.memRun.calm && S.memRun.gust && S.memRun.wet && /Good weather to spray/.test(body(S)) });
 
   for (const l of L) { l.n = ++n; l.batch = 22; }
   return L;

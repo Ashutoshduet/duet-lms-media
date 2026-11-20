@@ -55,8 +55,29 @@ function mk(kind) {
   };
 }
 export const TYPES22 = Object.keys(KINDS22);
-export const PARTS22 = Object.fromEntries(TYPES22.map((k) => [k, mk(k)]));
-export const DRAWER22 = TYPES22.slice();
+// (batch 22) a cup anemometer, as on school and farm weather stations: a magnet in its hub closes a reed switch once
+// per turn, between its two leads (A, B). 2.4 km/h of wind turns it once a second, so km/h = turns a second x 2.4. The
+// switch is closed for half a turn here; up to 50 km/h (about 21 turns a second, which the 60 Hz bench still follows)
+export const ANEMO_K = 2.4, ANEMO_MAX = 50;
+const ANEMO = {
+  term: { y: 4 }, cat: 'in', mount: 'free', props: {}, state0: { wind: 0, ph: 0, closed: false, turns: 0 },
+  name: t3('Cup anemometer (wind speed)', 'कप एनीमोमीटर (हवा की गति)', 'Cup anemometer (hawa ki speed)'),
+  pins: [{ id: 'A', at: [-P, 0], name: t3('Lead A: to a pin with INPUT_PULLUP', 'तार A: INPUT_PULLUP वाले पिन पर', 'Taar A: INPUT_PULLUP wale pin par') },
+    { id: 'B', at: [P, 0], name: t3('Lead B: to GND (the switch joins A and B once a turn)', 'तार B: GND पर (स्विच हर चक्कर में A और B को जोड़ता है)', 'Taar B: GND par (switch har chakkar mein A aur B ko jodta hai)') }],
+  elec: (p, N) => [{ type: 'SW', a: N.A, b: N.B, on: !!p.state.closed, role: 'sw' }],
+  dyn: (p, els, lab, dt) => {
+    const s = p.state; const f = Math.max(0, Math.min(ANEMO_MAX, s.wind || 0)) / ANEMO_K; if (!f) { if (s.closed) { s.closed = false; touch(lab); } return; }
+    const ph = s.ph + f * dt; s.turns += Math.floor(ph); s.ph = ph % 1; const c = s.ph < 0.5; if (c !== s.closed) { s.closed = c; touch(lab); }
+  },
+  live: (p) => { const s = p.state; const f = (s.wind || 0) / ANEMO_K; return `${Math.round(s.wind || 0)} km/h · ${f.toFixed(1)} turns/s · switch ${s.closed ? 'closed' : 'open'}`; },
+  specs: () => [['out', 'a reed switch: closes once per turn'], ['k', '1 turn a second = 2.4 km/h'], ['cups', '3 cups, 50 mm arms']],
+  info: t3('Three cups catch the wind and turn the hub; a magnet in the hub closes a reed switch once per turn. The faster the wind, the more closings each second: count them, and 1 a second means 2.4 km/h. Farm and school weather stations use exactly this.',
+    'तीन कप हवा पकड़कर हब घुमाते हैं; हब का चुंबक हर चक्कर में एक बार रीड स्विच बंद करता है। हवा जितनी तेज़, हर सेकंड उतनी बार बंद: गिनिए, और एक सेकंड में 1 बार मतलब 2.4 km/h। खेत और स्कूल के मौसम स्टेशन बिल्कुल यही इस्तेमाल करते हैं।',
+    'Teen cup hawa pakadkar hub ghumate hain; hub ka chumbak har chakkar mein ek baar reed switch band karta hai. Hawa jitni tez, har second utni baar band: giniye, aur ek second mein 1 baar matlab 2.4 km/h. Khet aur school ke mausam station bilkul yahi istemaal karte hain.'),
+};
+export const PARTS22 = Object.fromEntries([...TYPES22.map((k) => [k, mk(k)]), ['anemo', ANEMO]]);
+export const DRAWER22 = [...TYPES22, 'anemo'];
+export function wind22(lab, p, kmh) { p.state.wind = Math.max(0, Math.min(ANEMO_MAX, +kmh || 0)); touch(lab); }
 // what the student does to it (the callout's button; tests call it too): a held one toggles, a short one is a pulse
 export function sense22(lab, p, on) {
   const K = KINDS22[p.type]; if (!K) return;

@@ -888,3 +888,11 @@ heaters.
   the relay, not the water still running out after a Run. The first program pumps in the rain; the edit
   if (s > dry && !raining()) lets the rain water it; the phone's Pump on (manual) and Auto. robo4.go(path) opens a page
   of the board on the phone (screenshots). Class 10: 25 of 26. 1,700 projects.
+  The cup anemometer (parts22.js `anemo`, models22.js): two leads A / B and a reed switch between them, closed half of
+  each turn; 1 turn a second = 2.4 km/h (ANEMO_K), up to 50 km/h (about 21 turns a second, which the 60 Hz bench still
+  samples without losing edges); a Wind km/h slider in its callout (wind22). Inputs change once a frame (the MCU runs
+  the frame, then the circuit is solved), so a sketch counts edges by polling. `kisanws` (Class 10, ESP32 + phone):
+  DHT11 on GPIO 27, rain on GPIO 26, the anemometer on GPIO 25 with INPUT_PULLUP; a page with temperature, humidity,
+  rain, wind and the spraying advice (raining() || kmh > 15: "Do not spray"). The first program counts the level (every
+  loop() pass while the switch is closed: thousands of km/h); the edit counts the HIGH-to-LOW edge. cpp.js: on the
+  ESP32 an int (and unsigned int) is 32 bits, as on the real chip (the Uno's stays 16). Class 10: 26 of 26. 1,701 projects.

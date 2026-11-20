@@ -29438,6 +29438,27 @@
 "note": null
 },
 {
+"id": "live-kisanws",
+"title": "Kisan weather station for the panchayat",
+"family": "live",
+"board": "esp32",
+"parts": [
+"dht11",
+"rain",
+"anemo"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "projects",
+"live": "kisanws",
+"rule": null,
+"note": null
+},
+{
 "id": "live-smartfarm",
 "title": "Smart farm: soil, rain and pump on the phone",
 "family": "live",
@@ -67398,12 +67419,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"anemometer",
+"anemo",
 "lcd16"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 9,
 11
@@ -67424,12 +67443,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"anemometer",
+"anemo",
 "lcd16"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -67450,12 +67467,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"anemometer",
+"anemo",
 "oled"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -67476,12 +67491,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"anemometer",
+"anemo",
 "oled"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -67502,11 +67515,9 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"anemometer"
+"anemo"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 12,
 12
@@ -67528,11 +67539,9 @@
 "board": "uno",
 "parts": [
 "abuzz",
-"anemometer"
+"anemo"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 8,
 10
@@ -67554,11 +67563,9 @@
 "board": "esp32",
 "parts": [
 "abuzz",
-"anemometer"
+"anemo"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -67579,11 +67586,10 @@
 "family": "sensor-to-output",
 "board": "uno",
 "parts": [
-"anemometer",
+"anemo",
 "gsm"
 ],
 "newparts": [
-"anemometer",
 "gsm"
 ],
 "band": [
@@ -67606,11 +67612,10 @@
 "family": "sensor-to-output",
 "board": "esp32",
 "parts": [
-"anemometer",
+"anemo",
 "gsm"
 ],
 "newparts": [
-"anemometer",
 "gsm"
 ],
 "band": [
@@ -78805,11 +78810,9 @@
 "family": "world-maker",
 "board": "uno",
 "parts": [
-"anemometer"
+"anemo"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -78826,11 +78829,9 @@
 "family": "world-maker",
 "board": "esp32",
 "parts": [
-"anemometer"
+"anemo"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 11,
 12
@@ -79875,13 +79876,11 @@
 "family": "india-problems",
 "board": "uno",
 "parts": [
-"anemometer",
+"anemo",
 "dht11",
 "rain"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 10,
 12
@@ -79898,13 +79897,11 @@
 "family": "india-problems",
 "board": "esp32",
 "parts": [
-"anemometer",
+"anemo",
 "dht11",
 "rain"
 ],
-"newparts": [
-"anemometer"
-],
+"newparts": [],
 "band": [
 11,
 12

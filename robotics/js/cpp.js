@@ -256,7 +256,7 @@ const TYPE_WORDS = new Set(['void', 'bool', 'boolean', 'char', 'byte', 'int', 's
 for (const k of Object.keys(LIB3.types)) if (LIB3.isType(k)) TYPE_WORDS.add(k); // batch 3: LiquidCrystal_I2C, DHT, Keypad, …
 for (const k of Object.keys(LIB4.types)) if (LIB4.isType(k)) TYPE_WORDS.add(k); // batch 4: WebServer, BluetoothSerial, …
 class Parser {
-  constructor(toks) { this.toks = toks; this.p = 0; }
+  constructor(toks, int32) { this.toks = toks; this.p = 0; this.int32 = !!int32; } // (batch 22) int32: a 32-bit board (ESP32), where int is 32 bits
   get tok() { return this.toks[this.p]; }
   peek(k = 1) { return this.toks[Math.min(this.p + k, this.toks.length - 1)]; }
   is(v) { const t = this.tok; return t.t === 'op' && t.v === v; }
@@ -293,6 +293,7 @@ class Parser {
       'float': 'float', 'double': 'float', 'long double': 'float', 'String': 'str', 'Servo': 'servo', 'auto': 'auto',
     };
     let t = map[s] || (LIB3.isType(s) ? 'o:' + s : undefined); // batch 3: a library object
+    if (this.int32 && (s === 'int' || s === 'signed' || s === 'signed int')) t = 'long'; else if (this.int32 && (s === 'unsigned' || s === 'unsigned int')) t = 'ulong'; // (batch 22) on the ESP32 an int holds ±2 147 483 647
     if (!t && LIB4.isType(s)) t = 'o4:' + s; // batch 4
     if (!t) throw new CErr('E_TYPE', line, { text: s });
     if (ptr && !String(t).startsWith('o4:')) { if (t === 'char' || t === 'byte') t = 'str'; else throw new CErr('E_UNSUPPORTED', line, { what: 'pointer (*)' }); }
@@ -471,7 +472,7 @@ class Parser {
       if (TYPE_WORDS.has(t.v) && this.is('(')) { // int(x), float(x), String(x)
         if (t.v === 'String') return { k: 'id', name: 'String', line: t.line };
         if (LIB3.isType(t.v)) { this.next(); const args = this.is(')') ? [] : this.args(); this.expect(')'); return { k: 'ctor', ty: t.v, args, line: t.line }; } // batch 3: Keypad(…)
-        const ty = new Parser([t, { t: 'eof', line: t.line }]).type(); this.expect('('); const e = this.expr(); this.expect(')'); return { k: 'cast', to: ty.t, e, line: t.line };
+        const ty = new Parser([t, { t: 'eof', line: t.line }], this.int32).type(); this.expect('('); const e = this.expr(); this.expect(')'); return { k: 'cast', to: ty.t, e, line: t.line };
       }
       return { k: 'id', name: t.v, line: t.line };
     }
@@ -927,7 +928,7 @@ export function compile(src, board) { // board (batch 4): the board's def, so th
   const info = { macros: Object.assign({}, LIB4.macros), includes: [], warnings: [], pins: new Set(), servo: false, serial: false, board: board || null };
   try {
     const toks = lex(String(src || ''), info);
-    const items = new Parser(toks).program();
+    const items = new Parser(toks, !!(board && /^esp32/.test(board.id || ''))).program();
     const gen = new Gen(info);
     const js = gen.program(items);
     let factory;

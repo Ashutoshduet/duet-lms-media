@@ -20,7 +20,28 @@ function mats() {
 }
 const ledMat = (col) => S({ color: 0xf2efe0, emissive: col, emissiveIntensity: 0, roughness: 0.3 });
 
+// (batch 22) the cup anemometer: a little breakout with the two leads, a mast, a hub with three arms and cups that turns
+function buildAnemo() {
+  const Q = mats(), M = Q.M; const g = new THREE.Group();
+  for (const i of [-1, 1]) g.add(box(0.64, 0.64, 8, M.gold, i * P, 4, -3));
+  g.add(box(2 * P + 2.5, 2.5, 2.5, M.black, 0, 4, -6.5));
+  const pcb = TX.pcbTexture(12, 14, (c) => { c.fillStyle = '#eee'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = `700 1.4px ${TX.FONT}`; c.save(); c.translate(6, 6); c.rotate(Math.PI); c.fillText('WIND', 0, 0); c.restore(); }, '#1d6b3a');
+  g.add(box(12, 1.6, 14, [M.fr4, M.fr4, S({ map: pcb, roughness: 0.45 }), M.fr4, M.fr4, M.fr4], 0, 4, -15)); g.add(box(12, 3.2, 14, M.black, 0, 1.6, -15));
+  g.add(box(3, 2, 22, M.black, 0, 1, -33)); // the cable to the mast
+  const mast = new THREE.Group(); mast.position.set(0, 0, -52); g.add(mast);
+  mast.add(cyl(9, 3, M.black, 0, 1.5, 0, 20)); mast.add(cyl(1.6, 70, Q.steel, 0, 38, 0, 12));
+  const hub = new THREE.Group(); hub.position.y = 74; hub.userData.keep = true; mast.add(hub); hub.add(cyl(3.2, 6, S({ color: 0xf2f2ee, roughness: 0.5 }), 0, 0, 0, 16));
+  const cupM = S({ color: 0xf4f4f0, roughness: 0.45, side: THREE.DoubleSide });
+  for (let k = 0; k < 3; k++) { const a = k * 2 * Math.PI / 3; const arm = new THREE.Group(); arm.rotation.y = a; hub.add(arm);
+    const r = box(22, 1.2, 1.2, Q.steel, 11, 0, 0); arm.add(r);
+    const cup = new THREE.Mesh(new THREE.SphereGeometry(5.5, 16, 10, 0, Math.PI * 2, 0, Math.PI / 2), cupM); cup.rotation.x = Math.PI / 2; cup.position.set(24, 0, 0); arm.add(cup); }
+  let vis = 0; g.userData.update = (p, dt) => { const w = p.state.wind || 0; if (!w) return false; vis += Math.min(w / 2.4, 2.5) * 2 * Math.PI * (dt || 0.016); hub.rotation.y = -vis; return true; };
+  g.userData.face = new THREE.Vector3(0, 0, -1);
+  shadows(g); return g;
+}
+
 export function buildPart22(part) {
+  if (part.type === 'anemo') return buildAnemo();
   const K = KINDS22[part.type]; if (!K) return null;
   const Q = mats(), M = Q.M; const g = new THREE.Group(); const kind = part.type;
   // header pins pointing back to the jumpers (VCC, GND, OUT at -P, 0, +P), and the board running away from the student

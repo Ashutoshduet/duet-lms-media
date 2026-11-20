@@ -5355,22 +5355,20 @@
    {
     "class": 10,
     "n": 25,
-    "kind": "I",
+    "kind": "L",
     "title": "Kisan weather station for the panchayat",
     "board": "esp32",
-    "status": "needs-part",
-    "ref": "kisan-weather-station-for-the-panchayat-esp32",
-    "newparts": [
-     "anemometer"
-    ],
-    "family": "india-problems",
+    "status": "live",
+    "ref": "kisanws",
+    "newparts": [],
+    "family": "live-projects",
     "parts": [
-     "anemometer",
      "dht11",
-     "rain"
+     "rain",
+     "anemo"
     ],
     "strand": "Decomposition",
-    "focus": "Smart systems",
+    "focus": "Sensors",
     "term": "Term 4 (January-February)"
    },
    {
