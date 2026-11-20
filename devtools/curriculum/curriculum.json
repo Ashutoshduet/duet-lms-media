@@ -5496,17 +5496,19 @@
    {
     "class": 11,
     "n": 1,
-    "kind": "I",
+    "kind": "L",
     "title": "Robot arm: record and play back moves",
     "board": "uno",
-    "status": "planned",
-    "ref": "robot-arm-record-and-play-back-moves-uno",
+    "status": "live",
+    "ref": "armrecord",
     "newparts": [],
-    "family": "machines",
+    "family": "live-robots",
     "parts": [
-     "mg996r",
      "psu5",
-     "servo"
+     "mg996r",
+     "servo",
+     "pot",
+     "button"
     ],
     "strand": "Decomposition",
     "focus": "Mechanisms",
@@ -5534,17 +5536,18 @@
    {
     "class": 11,
     "n": 3,
-    "kind": "I",
+    "kind": "L",
     "title": "Robot arm: copy a knob arm (master and slave)",
     "board": "uno",
-    "status": "planned",
-    "ref": "robot-arm-copy-a-knob-arm-master-and-slave-uno",
+    "status": "live",
+    "ref": "armcopy",
     "newparts": [],
-    "family": "machines",
+    "family": "live-robots",
     "parts": [
-     "mg996r",
      "psu5",
-     "servo"
+     "mg996r",
+     "servo",
+     "pot"
     ],
     "strand": "Decomposition",
     "focus": "Mechanisms",

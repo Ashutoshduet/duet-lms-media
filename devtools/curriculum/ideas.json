@@ -36766,6 +36766,51 @@
 "note": null
 },
 {
+"id": "live-armrecord",
+"title": "Robot arm: record and play back moves",
+"family": "live",
+"board": "uno",
+"parts": [
+"psu5",
+"mg996r",
+"servo",
+"pot",
+"button"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "robots",
+"live": "armrecord",
+"rule": null,
+"note": null
+},
+{
+"id": "live-armcopy",
+"title": "Robot arm: copy a knob arm (master and slave)",
+"family": "live",
+"board": "uno",
+"parts": [
+"psu5",
+"mg996r",
+"servo",
+"pot"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "robots",
+"live": "armcopy",
+"rule": null,
+"note": null
+},
+{
 "id": "live-kisanws",
 "title": "Kisan weather station for the panchayat",
 "family": "live",

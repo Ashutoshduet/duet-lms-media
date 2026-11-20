@@ -908,3 +908,10 @@ heaters.
   leaning pole, donation box; ATM tamper, machine vibration, footbridge, train coming; auto wiper, mandi grain, floor
   leak, umbrella sign) and seven for the DHT11 (bus-shelter mist, ice-cream cart, cattle shed, exam hall; tea drying,
   medicine store, library dehumidifier): 353 projects. 2,062 projects (235 hand-made + 1,827 bank).
+- Class 11 robot arm (batch 23, lessons23.js; the arm of batch 2, ArmSim level 4). `armcopy`: four knobs on the
+  breadboard (legs 2 columns apart: c, c + 2, c + 4; their ends on the top rails, which are numbered 1–50 along the rail,
+  not by column) are the master; map() each wiper to a joint. The master's shoulder knob is the other way round
+  (map(…, 180, 0): knob up, arm down); after the edit the knobs carry the block from A to B. `armrecord`: the same
+  knobs pre-wired, RECORD (pin 2) and PLAY (pin 4) buttons; poses in four arrays of MAXP; glide() moves all joints
+  together in 40 steps; MAXP = 3 says "Memory full!" (the job needs 7); MAXP = 10; PLAY repeats the job from memory
+  with the knobs anywhere. robocore23.mjs plays both. Class 11: 2 of 26. 2,064 projects.
