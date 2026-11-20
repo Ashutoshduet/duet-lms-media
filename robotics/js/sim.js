@@ -259,6 +259,14 @@ export class Lab {
     for (const p of this.parts) if (PARTS[p.type].us && p.N.ECHO === nd && p.state.echo) {
       const e = p.state.echo; if (e.end > t && e.start < t + timeout) return { start: Math.max(e.start, t), end: e.end };
     }
+    // (batch 14) an Echo that reaches the pin through a divider (the 3.3 V boards): the pin reads HIGH while the echo is
+    // high and LOW after it, as pi6.js's pulseAt does for the Pico and the Pi
+    const vih = this.def.vih || 2.5;
+    for (const p of this.parts) {
+      const e = PARTS[p.type].us && p.state.echo; if (!e || e.end <= t || e.start > t + timeout) continue;
+      const hi = this.readPin(pin, (Math.max(e.start, t) + e.end) / 2), lo = this.readPin(pin, e.end + 3); this.instKey = null;
+      if (hi >= vih && !(lo >= vih)) return { start: Math.max(e.start, t), end: e.end };
+    }
     return null;
   }
 

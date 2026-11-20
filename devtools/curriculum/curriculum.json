@@ -4220,16 +4220,15 @@
    {
     "class": 8,
     "n": 27,
-    "kind": "I",
-    "title": "Smart dustbin that reports when full",
+    "kind": "L",
+    "title": "Dustbin full indicator: IR obstacle sensor → web page on a phone (ESP32)",
     "board": "esp32",
-    "status": "planned",
-    "ref": "smart-dustbin-that-reports-when-full-esp32",
+    "status": "live",
+    "ref": "f_binfull_web_esp",
     "newparts": [],
-    "family": "iot",
+    "family": "live-bank",
     "parts": [
-     "hcsr04",
-     "servo"
+     "ir"
     ],
     "strand": "Decomposition",
     "focus": "IoT",
@@ -4238,14 +4237,15 @@
    {
     "class": 8,
     "n": 28,
-    "kind": "I",
-    "title": "Water tank level meter: ultrasonic sensor and web page on a phone",
+    "kind": "L",
+    "title": "Water tank full alarm: ultrasonic sensor → web page on a phone (ESP32)",
     "board": "esp32",
-    "status": "planned",
-    "ref": "water-tank-level-meter-ultrasonic-sensor-and-web-page-on-a-phone-esp32",
+    "status": "live",
+    "ref": "f_tankfull_web_esp",
     "newparts": [],
-    "family": "sensor-to-output",
+    "family": "live-bank",
     "parts": [
+     "resistor",
      "hcsr04"
     ],
     "strand": "Abstraction",

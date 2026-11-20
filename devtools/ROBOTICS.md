@@ -772,3 +772,8 @@ heaters.
   the phone; `isOn` looks at the page the phone last got. robofactory.mjs opens the page and refreshes it like the
   phone (7793 ok). Class 8 sessions: weather station → `f_heatwave_web_esp`, soil dashboard → `f_thirst_web_esp`.
   1,436 projects.
+- The ESP32 reads an HC-SR04 too (`EIN.sonar`, 43 lessons: every distance job on its outputs and the web page): 5 V from
+  VIN, Trig on GPIO 32, Echo through a ready-made 1 kΩ / 2.2 kΩ divider to GPIO 27. sim.js `pulse()` now also finds an
+  Echo that reaches the pin through a divider (it reads the pin's voltage during and after the echo, as pi6.js does),
+  so pulseIn() works on the 3.3 V boards. Class 8: tank level → `f_tankfull_web_esp`, dustbin full →
+  `f_binfull_web_esp`. robofactory.mjs 8109 ok; robocore, robocore2, robocore4, robocore7 passed. 1,479 projects.

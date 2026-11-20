@@ -8731,6 +8731,358 @@
 "note": null
 },
 {
+"id": "live-f_tollbooth_web_esp",
+"title": "Toll plaza barrier: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tollbooth_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tollbooth_servo_esp",
+"title": "Toll plaza barrier: ultrasonic sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tollbooth_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_silo_web_esp",
+"title": "Grain silo full alarm: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_silo_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_silo_oled_esp",
+"title": "Grain silo full alarm: ultrasonic sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_silo_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_silo_led_esp",
+"title": "Grain silo full alarm: ultrasonic sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_silo_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_silo_lcd_esp",
+"title": "Grain silo full alarm: ultrasonic sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_silo_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_platform_web_esp",
+"title": "Platform edge warning: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_platform_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_platform_oled_esp",
+"title": "Platform edge warning: ultrasonic sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_platform_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_platform_lcd_esp",
+"title": "Platform edge warning: ultrasonic sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_platform_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_platform_buzzer_esp",
+"title": "Platform edge warning: ultrasonic sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_platform_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_screenguard_web_esp",
+"title": "Screen distance guard: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_screenguard_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_screenguard_led_esp",
+"title": "Screen distance guard: ultrasonic sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_screenguard_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_screenguard_buzzer_esp",
+"title": "Screen distance guard: ultrasonic sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_screenguard_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heightcheck_web_esp",
+"title": "Ride height check: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heightcheck_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heightcheck_oled_esp",
+"title": "Ride height check: ultrasonic sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heightcheck_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heightcheck_lcd_esp",
+"title": "Ride height check: ultrasonic sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heightcheck_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heightcheck_servo_esp",
+"title": "Ride height check: ultrasonic sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_heightcheck_servo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_coldwave_web_esp",
 "title": "Cold wave school notice: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -12189,6 +12541,90 @@
 "note": null
 },
 {
+"id": "live-f_carwash_web_esp",
+"title": "Car wash sprinkler: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_carwash_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_carwash_pump_esp",
+"title": "Car wash sprinkler: ultrasonic sensor → water pump (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"aa4",
+"pump",
+"relay",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_carwash_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucks_web_esp",
+"title": "Low bridge height warning: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trucks_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_trucks_buzzer_esp",
+"title": "Low bridge height warning: ultrasonic sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_trucks_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_rainsoon_web_esp",
 "title": "Rain-coming hint: DHT11 sensor (humidity) → web page on a phone (ESP32)",
 "family": "factory",
@@ -13507,6 +13943,109 @@
 "note": null
 },
 {
+"id": "live-f_shopchime_web_esp",
+"title": "Shop entry chime: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shopchime_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_shopchime_buzzer_esp",
+"title": "Shop entry chime: ultrasonic sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_shopchime_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_garage_web_esp",
+"title": "Garage door opener: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_garage_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_garage_buzzer_esp",
+"title": "Garage door opener: ultrasonic sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_garage_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_garage_servo_esp",
+"title": "Garage door opener: ultrasonic sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_garage_servo_esp",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_fishtank_web_esp",
 "title": "Fish tank heater: temperature sensor LM35 → web page on a phone (ESP32)",
 "family": "factory",
@@ -14635,6 +15174,89 @@
 "level": 8,
 "theme": "bank",
 "live": "f_waterplant_pump_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankfull_web_esp",
+"title": "Water tank full alarm: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankfull_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankfull_oled_esp",
+"title": "Water tank full alarm: ultrasonic sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankfull_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankfull_lcd_esp",
+"title": "Water tank full alarm: ultrasonic sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankfull_lcd_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankfull_buzzer_esp",
+"title": "Water tank full alarm: ultrasonic sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_tankfull_buzzer_esp",
 "rule": null,
 "note": null
 },
@@ -15824,6 +16446,274 @@
 "level": 8,
 "theme": "bank",
 "live": "f_thirst_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_distancing_web_esp",
+"title": "Queue distance alarm: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_distancing_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_distancing_led_esp",
+"title": "Queue distance alarm: ultrasonic sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_distancing_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_distancing_buzzer_esp",
+"title": "Queue distance alarm: ultrasonic sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_distancing_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_door_web_esp",
+"title": "Automatic door: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_door_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_door_servo_esp",
+"title": "Automatic door: ultrasonic sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_door_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_blindstick_web_esp",
+"title": "Blind stick (third eye): ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_blindstick_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_blindstick_buzzer_esp",
+"title": "Blind stick (third eye): ultrasonic sensor → buzzer (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"buzzer",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_blindstick_buzzer_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbin_web_esp",
+"title": "Smart dustbin lid: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dustbin_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_dustbin_servo_esp",
+"title": "Smart dustbin lid: ultrasonic sensor → servo (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"servo",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_dustbin_servo_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parkbeep_web_esp",
+"title": "Parking distance warning: ultrasonic sensor → web page on a phone (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_parkbeep_web_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parkbeep_oled_esp",
+"title": "Parking distance warning: ultrasonic sensor → OLED screen (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_parkbeep_oled_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parkbeep_led_esp",
+"title": "Parking distance warning: ultrasonic sensor → LED (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"led",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_parkbeep_led_esp",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_parkbeep_lcd_esp",
+"title": "Parking distance warning: ultrasonic sensor → LCD (ESP32)",
+"family": "factory",
+"board": "esp32",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+8,
+10
+],
+"level": 8,
+"theme": "bank",
+"live": "f_parkbeep_lcd_esp",
 "rule": null,
 "note": null
 },

@@ -23,6 +23,7 @@ const noShort = (W) => (S) => (S.conn('5V', 'GND') ? [W.short] : null);
 const XF = {
   esp5v: t3('This part is joined to VIN (5 V): its signal would push 5 V into the ESP32\'s GPIO and damage it. Power it from 3V3 (the front + rail).', 'यह पुर्ज़ा VIN (5 V) से जुड़ा है: इसका सिग्नल ESP32 के GPIO में 5 V डालेगा और उसे ख़राब कर देगा। इसे 3V3 (आगे वाली + रेल) से बिजली दीजिए।', 'Yeh part VIN (5 V) se juda hai: iska signal ESP32 ke GPIO mein 5 V daalega aur use kharaab kar dega. Ise 3V3 (aage wali + rail) se bijli dijiye.'),
   potEnds3: t3('The knob\'s two outer legs go to 3V3 and GND (the front + and − rails), and its middle leg to GPIO 34.', 'नॉब के दोनों बाहरी पैर 3V3 और GND (आगे वाली + और − रेल) पर, और बीच वाला पैर GPIO 34 पर।', 'Knob ke dono bahari pair 3V3 aur GND (aage wali + aur − rail) par, aur beech wala pair GPIO 34 par.'),
+  espEcho: t3('Echo goes straight to GPIO 27: the HC-SR04 answers with 5 V, too much for the ESP32. Echo must go through the divider.', 'Echo सीधे GPIO 27 पर है: HC-SR04 5 V से जवाब देता है, ESP32 के लिए बहुत ज़्यादा। Echo को डिवाइडर से होकर जाना चाहिए।', 'Echo seedhe GPIO 27 par hai: HC-SR04 5 V se jawab deta hai, ESP32 ke liye bahut zyada. Echo ko divider se hokar jaana chahiye.'),
   piEcho: t3('Echo goes straight to GPIO 24: the HC-SR04 answers with 5 V, too much for the Pi. Echo must go through the divider.', 'Echo सीधे GPIO 24 पर है: HC-SR04 5 V से जवाब देता है, Pi के लिए बहुत ज़्यादा। Echo को डिवाइडर से होकर जाना चाहिए।', 'Echo seedhe GPIO 24 par hai: HC-SR04 5 V se jawab deta hai, Pi ke liye bahut zyada. Echo ko divider se hokar jaana chahiye.'),
   pico5v: t3('This part is joined to VBUS (5 V): its signal would push 5 V into the Pico\'s GPIO and damage it. Power it from the 3V3 pin.', 'यह पुर्ज़ा VBUS (5 V) से जुड़ा है: इसका सिग्नल Pico के GPIO में 5 V डालेगा और उसे ख़राब कर देगा। इसे 3V3 पिन से बिजली दीजिए।', 'Yeh part VBUS (5 V) se juda hai: iska signal Pico ke GPIO mein 5 V daalega aur use kharaab kar dega. Ise 3V3 pin se bijli dijiye.'),
   potEndsP: t3('The knob\'s two outer legs go to 3V3 and GND, and its middle leg to GP26.', 'नॉब के दोनों बाहरी पैर 3V3 और GND पर, और बीच वाला पैर GP26 पर।', 'Knob ke dono bahari pair 3V3 aur GND par, aur beech wala pair GP26 par.'),
@@ -309,6 +310,18 @@ const dhtE = { wires: [w('dht.VCC', 'rail:bp', 'Its middle pin (+) to the front 
   checks: (K) => [has(K.W, 'dht', t3('DHT11', 'DHT11', 'DHT11')), need('dht.VCC', '3V3', K.W.join, { a: 'DHT11 +', b: '3V3' }), need('dht.GND', 'GND', K.W.toGnd, { x: 'DHT11 −' }), need('dht.DATA', 'D27', K.W.toPin, { x: 'DATA', p: 27 })],
   decl: ['DHT dht(27, DHT11);         // the DHT11\'s DATA on GPIO 27'] };
 EIN.dht = Object.assign({}, IN.dht, dhtE);
+// (batch 14) the HC-SR04 on the ESP32: 5 V from VIN for the sensor; its 5 V Echo comes through a 1 kΩ / 2.2 kΩ divider
+// (already on the breadboard, its middle wired to GPIO 27); Trig on GPIO 32 (a 3.3 V pulse is enough for it)
+EIN.sonar = Object.assign({}, IN.sonar, { view: 'wide',
+  preParts: [P('rd1', 'resistor', { ohms: 1000 }, 'g47', 2), P('rd2', 'resistor', { ohms: 2200 }, 'j43', 1)], preWires: [['H:a9', 'H:f43']],
+  placeDo: t3('Plug the ultrasonic sensor into 45j–48j, its "eyes" facing you. The divider for its Echo (1 kΩ and 2.2 kΩ) is already on the breadboard, its middle wired to GPIO 27.', 'अल्ट्रासोनिक सेंसर को 45j–48j में लगाइए, इसकी "आँखें" आपकी तरफ़। इसके Echo का डिवाइडर (1 kΩ और 2.2 kΩ) पहले से ब्रेडबोर्ड पर है, उसका बीच GPIO 27 से जुड़ा है।', 'Ultrasonic sensor ko 45j–48j mein lagaiye, iski "aankhen" aapki taraf. Iske Echo ka divider (1 kΩ aur 2.2 kΩ) pehle se breadboard par hai, uska beech GPIO 27 se juda hai.'),
+  place: P('us1', 'hcsr04', {}, 'j45', 0),
+  wires: [w('us1.VCC', 'rail:tp', 'Wire VCC (column 45) to the back + rail (5 V from VIN): the HC-SR04 needs 5 V.', 'VCC (कॉलम 45) को पीछे वाली + रेल (VIN से 5 V) से जोड़िए: HC-SR04 को 5 V चाहिए।', 'VCC (column 45) ko peeche wali + rail (VIN se 5 V) se jodiye: HC-SR04 ko 5 V chahiye.'),
+    w('us1.TRIG', 'D32', 'Trig (column 46) to GPIO 32 (D32).', 'Trig (कॉलम 46) को GPIO 32 (D32) से।', 'Trig (column 46) ko GPIO 32 (D32) se.'),
+    w('us1.GND', 'rail:bn', 'GND (column 48) to the front − rail.', 'GND (कॉलम 48) को आगे वाली − रेल से।', 'GND (column 48) ko aage wali − rail se.')],
+  checks: (K) => [has(K.W, 'us1', t3('ultrasonic sensor', 'अल्ट्रासोनिक सेंसर', 'ultrasonic sensor')), need('us1.VCC', 'VIN', K.W.join, { a: 'VCC', b: 'VIN (5 V)' }), need('us1.GND', 'GND', K.W.toGnd, { x: 'GND' }), need('us1.TRIG', 'D32', K.W.toPin, { x: 'Trig', p: 32 }),
+    (S) => (S.conn('us1.ECHO', 'D27') ? [XF.espEcho] : null)],
+  decl: ['const int trig = 32, echo = 27;   // Echo comes through the divider'] });
 EIN.hum = Object.assign({}, IN.hum, dhtE);
 // (batch 14) a web page on the phone: the ESP32 joins the school WiFi and serves the job's warning (Class 8 IoT)
 const net = (S) => S.lab.net4 || { seen: { pages: 0, paths: {} } };
