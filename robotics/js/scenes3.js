@@ -1024,10 +1024,39 @@ const WBN = { tray: t3('On the tray', 'ट्रे पर', 'Tray par'), wet: t
   wetB: t3('WET', 'गीला', 'geela'), dryB: t3('DRY', 'सूखा', 'sookha'), floorB: t3('floor', 'फ़र्श', 'farsh'), back: t3('✋ Take it back off the tray', '✋ इसे ट्रे से वापस उठाइए', '✋ Ise tray se wapas uthaiye'),
   banana: t3('banana peel', 'केले का छिलका', 'kele ka chhilka'), apple: t3('apple core', 'सेब का बचा हिस्सा', 'seb ka bacha hissa'), sandwich: t3('leftover sandwich', 'बचा सैंडविच', 'bacha sandwich'), bottle: t3('plastic bottle', 'प्लास्टिक की बोतल', 'plastic ki bottle'), cup: t3('paper cup', 'काग़ज़ का कप', 'kaagaz ka cup'), phone: t3('old phone', 'पुराना फ़ोन', 'puraana phone') };
 
+// ------------------------------------------------------------------ rock-paper-scissors with a camera (batch 40, Class 12)
+// The Camera Module 3 on a stand looks at a white wall; the panel puts the player's hand in front of it showing rock,
+// paper or scissors, or takes it away. A classification model the class trained (rps-cls.pt: paper, rock, scissors;
+// pi37.js) gives a probability for each: a hand is about 0.93 its gesture; with no hand the plain wall still has to be
+// one of the three, and looks most like a flat palm: about paper 0.46, rock 0.31, scissors 0.23. A dim room makes it
+// less sure. A frame remembers which hand was there when it was taken.
+export const RPS = { names: ['paper', 'rock', 'scissors'], empty: [0.46, 0.31, 0.23] };
+export class RpsScene extends Scene {
+  constructor(cfg) { super(cfg); this.hand = 'none'; this.res = {}; }
+  update(dt, lab) {
+    this.t += dt; const me = this; this.light = lab && lab.env ? lab.env.light : 0.75;
+    if (lab && (!lab.cam37 || lab.cam37.scene !== this)) lab.cam37 = { scene: this, ok: () => true, frames: 0, snap: () => ({ hand: me.hand }),
+      classify: (names, at) => { const h = (at && at.hand) || me.hand; const k = clamp(0.55 + 0.6 * me.light, 0.55, 1.03); let p;
+        if (h === 'none') p = names.map((n) => (RPS.empty[RPS.names.indexOf(n)] ?? 1 / names.length) + (Math.random() - 0.5) * 0.08);
+        else { const top = clamp(0.93 * k + (Math.random() - 0.5) * 0.06, 0.34, 0.98); p = names.map((n) => (n === h ? top : (1 - top) / (names.length - 1) * (0.6 + Math.random() * 0.8))); }
+        p = p.map((v) => Math.max(0.005, v)); const sum = p.reduce((a, b) => a + b, 0); return p.map((v) => v / sum); },
+      get started() { return !!me.started; }, set started(v) { me.started = v; if (v) me.flags.add('camOk'); } };
+    return false;
+  }
+  onRun() { super.onRun(); this.flags.delete('camOk'); this.started = false; }
+  control(id, v) { if (id === 'hand' && ['none', 'rock', 'paper', 'scissors'].includes(v)) this.hand = v; }
+  hud() {
+    return { title: t3('Rock, paper, scissors', 'पत्थर, काग़ज़, कैंची', 'Patthar, kaagaz, kainchi'), rows: [[tx(WRP.cam), tx(this.hand === 'none' ? WRP.wall : WRP[this.hand])]],
+      controls: [{ id: 'hand', kind: 'seg', label: WRP.your, options: [['none', WRP.none], ['rock', WRP.rock], ['paper', WRP.paper], ['scissors', WRP.scissors]], value: this.hand }] };
+  }
+}
+const WRP = { cam: t3('In front of the camera', 'कैमरे के सामने', 'Camera ke saamne'), wall: t3('just the white wall', 'बस सफ़ेद दीवार', 'bas safed deewar'), your: t3('Your hand', 'आपका हाथ', 'Aapka haath'), none: t3('Away', 'हटा', 'Hata'),
+  rock: t3('✊ Rock', '✊ पत्थर', '✊ Patthar'), paper: t3('✋ Paper', '✋ काग़ज़', '✋ Kaagaz'), scissors: t3('✌ Scissors', '✌ कैंची', '✌ Kainchi') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'aicam': return new AiCamScene(cfg); case 'face': return new FaceScene(cfg); case 'aibin': return new AiBinScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'aicam': return new AiCamScene(cfg); case 'face': return new FaceScene(cfg); case 'aibin': return new AiBinScene(cfg); case 'rps': return new RpsScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

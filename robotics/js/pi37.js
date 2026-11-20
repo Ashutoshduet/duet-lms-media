@@ -40,6 +40,8 @@ export const COCO = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus'
   'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl', 'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza', 'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed',
   'dining table', 'toilet', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush'];
 const MODELS = { 'yolov8n.pt': 450, 'yolo11n.pt': 420, 'yolov8s.pt': 1300, 'yolo11s.pt': 1150, 'yolov5nu.pt': 480 }; // (ms a frame on a Pi 4 at imgsz=640)
+// (batch 40) classification models a lesson trains: one answer for the whole picture, with a probability for each class
+const CLS_MODELS = { 'rps-cls.pt': { names: ['paper', 'rock', 'scissors'], ms: 95 } };
 
 // a frame: what the camera saw when it was captured
 class Frame extends Obj {
@@ -97,6 +99,30 @@ export function aiModules(m) {
       methods() { const me = this; return { plot: nat('plot', '*', () => me.frame), save: nat('save', ['filename=result.jpg'], (R, n) => { fsOf(m).set(str(n), 'ÿØ JPEG (boxes drawn)'); return str(n); }) }; }
       pyStr() { return `ultralytics Results: ${this.list.length} boxes`; }
     }
+    class Probs extends Obj { // results[0].probs of a classification model
+      constructor(p) { super('Probs'); this.p = p; }
+      top() { let i = 0; this.p.forEach((v, j) => { if (v > this.p[i]) i = j; }); return i; }
+      props() { const me = this; const order = me.p.map((v, i) => i).sort((a, b) => me.p[b] - me.p[a]); return { top1: () => me.top(), top1conf: () => F(me.p[me.top()]), top5: () => order.slice(0, 5), top5conf: () => order.slice(0, 5).map((i) => F(me.p[i])), data: () => me.p.map(F) }; }
+      pyStr() { return `ultralytics Probs: top1=${this.top()} top1conf=${this.p[this.top()].toFixed(4)}`; }
+    }
+    class ClsResults extends Obj {
+      constructor(p, names, ms, frame) { super('Results'); this.p = p; this.names = names; this.ms = ms; this.frame = frame; }
+      props() { const me = this; return { probs: () => new Probs(me.p), boxes: () => null, names: () => { const d = new Dict(); me.names.forEach((n, i) => d.set(i, n)); return d; }, speed: () => { const d = new Dict(); d.set('inference', F(me.ms)); return d; } }; }
+      pyStr() { return 'ultralytics Results (classify)'; }
+    }
+    class YOLOcls extends Obj {
+      constructor(file, M) { super('YOLO'); this.file = file; this.M = M; }
+      run(R, a, kw) {
+        const src = arg(a, kw, 0, 'source', null); if (!(src instanceof Frame)) throw R.err('TypeError', 'N37_SOURCE', { t: typeName(src) }); const verbose = arg(a, kw, 99, 'verbose', true);
+        const ms = this.M.ms * (0.95 + Math.random() * 0.1); tick(m, R, Math.round(ms * 1000 + 4000)); const c = cam(); const p = c && c.classify ? c.classify(this.M.names, src.at) : this.M.names.map(() => 1 / this.M.names.length);
+        if (verbose !== false && verbose !== 0) { const order = p.map((v, i) => i).sort((x, y) => p[y] - p[x]); R.print(`\n0: 224x224 ${order.map((i) => `${this.M.names[i]} ${p[i].toFixed(2)}`).join(', ')}, ${ms.toFixed(1)}ms\nSpeed: 1.2ms preprocess, ${ms.toFixed(1)}ms inference, 0.1ms postprocess per image at shape (1, 3, 224, 224)\n`); }
+        return [new ClsResults(p, this.M.names, ms, src)];
+      }
+      pyCall(R, a, kw) { return this.run(R, a, kw || {}); }
+      methods() { const me = this; return { predict: nat('predict', '*', (R, a, kw) => me.run(R, a, kw || {})) }; }
+      props() { const me = this; return { names: () => { const d = new Dict(); me.M.names.forEach((n, i) => d.set(i, n)); return d; }, task: () => 'classify' }; }
+      pyStr() { return `YOLO("${this.file}")`; }
+    }
     class YOLO extends Obj {
       constructor(file, ms) { super('YOLO'); this.file = file; this.ms0 = ms; }
       run(R, a, kw) {
@@ -115,7 +141,7 @@ export function aiModules(m) {
       props() { return { names: () => namesDict() }; }
       pyStr() { return `YOLO("${this.file}")`; }
     }
-    return new Mod('ultralytics', { YOLO: klass('YOLO', (R, a, kw) => { const f = str(arg(a, kw, 0, 'model', 'yolov8n.pt')); const ms = MODELS[f]; if (!ms) throw R.err('FileNotFoundError', 'N37_MODEL', { f }); tick(m, R, 1800000); return new YOLO(f, ms); }) });
+    return new Mod('ultralytics', { YOLO: klass('YOLO', (R, a, kw) => { const f = str(arg(a, kw, 0, 'model', 'yolov8n.pt')); if (CLS_MODELS[f]) { tick(m, R, 900000); return new YOLOcls(f, CLS_MODELS[f]); } const ms = MODELS[f]; if (!ms) throw R.err('FileNotFoundError', 'N37_MODEL', { f }); tick(m, R, 1800000); return new YOLO(f, ms); }) });
   };
   // ---------------------------------------------------------------- cv2 (batch 38): the little of OpenCV a face tracker uses
   // cvtColor to grey, CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml"), detectMultiScale

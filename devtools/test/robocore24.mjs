@@ -543,4 +543,20 @@ for (const l of L24) {
   ok(!!l.done(rt), `aibin: complete; WET ${sim.bins.wet.join(', ')} · DRY ${sim.bins.dry.join(', ')}`);
 }
 
+// rock-paper-scissors on the Pi (lessons24.js rpsgame, pi37.js classification models, scenes3.js RpsScene): with no hand the
+// wall is "paper 0.46" and rounds are played against nobody; at 0.8 only real hands play
+{ const l = LESSONS.find((x) => x.id === 'rpsgame'); const B = build3(l); const { lab, app, rt, sim } = B; let src = l.code, buf = ''; const dt = 1 / 60;
+  const start = (code) => { const c = compile(code, lab.def); if (!c.ok) throw new Error(JSON.stringify(c.errors)); app.src = code; lab.run(c); rt.onRun(code); };
+  const go = (secs, until, each) => { for (let f = 0; f < secs * 60; f++) { if (each) each(f * dt); lab.step(1000 * dt); sim.update(dt, lab); rt.update(dt);
+    for (const o of lab.mcu.ser.take()) { const str = String.fromCharCode(...o.bytes).replace(/\r/g, ''); buf += str; const ls = buf.split('\n'); buf = ls.pop(); for (const x of ls) rt.onSerialLine(x); }
+    if (lab.mcu.state === 'error') return 'error'; if (until && until(rt)) return f * dt; } return -1; };
+  const acts = [null, (t, S) => { if (t === 0) S.control('hand', 'none'); if (t > 6 && S.hand === 'none') S.control('hand', 'rock'); if (t > 9 && S.hand === 'rock') S.control('hand', 'scissors'); }]; let ai = 0;
+  for (const s of l.steps) {
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e, lab.def).ok, 'rpsgame: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const a = acts[ai++]; const t = go(40, (S) => s.until(S), a ? (x) => a(x, sim) : null); ok(typeof t === 'number' && t >= 0, `rpsgame: act "${s.do.en.slice(0, 50)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s) ${JSON.stringify(rt.memRun)}` : ` — ${t} ${JSON.stringify(rt.memRun)} ${JSON.stringify(rt.serLines.slice(-3))} ${JSON.stringify(lab.mcu.err || '')}`)); }
+  }
+  ok(!!l.done(rt) && rt.serLines.some((x) => /^You: (rock|scissors) 0\.[89]/.test(x)), `rpsgame: complete; ${rt.serLines.filter((x) => /^You:/.test(x)).slice(-2).join(' | ')}`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

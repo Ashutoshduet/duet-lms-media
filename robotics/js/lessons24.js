@@ -1301,6 +1301,36 @@ while True:
     flap.angle = 0
 `;
 
+const RPSC = `# Rock, paper, scissors against the Pi: the model the class trained looks at your hand.
+from picamera2 import Picamera2
+from ultralytics import YOLO
+import random
+import time
+
+picam2 = Picamera2()
+picam2.configure(picam2.create_preview_configuration(main={"format": "RGB888", "size": (640, 480)}))
+picam2.start()
+model = YOLO("rps-cls.pt")       # trained on 900 photos of hands: paper, rock, scissors
+BEATS = {"rock": "scissors", "paper": "rock", "scissors": "paper"}   # what each one beats
+print("Show your hand!")
+
+while True:
+    probs = model(picam2.capture_array(), verbose=False)[0].probs
+    you = model.names[probs.top1]
+    sure = float(probs.top1conf)
+    if sure < 0.3:
+        continue
+    pi = random.choice(["rock", "paper", "scissors"])
+    if you == pi:
+        result = "draw"
+    elif BEATS[you] == pi:
+        result = "you win!"
+    else:
+        result = "Pi wins"
+    print("You:", you, round(sure, 2), " Pi:", pi, " ->", result)
+    time.sleep(2)
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -2025,6 +2055,29 @@ export function batch24(K, n0) {
     ],
     check: [],
     done: (S) => S.w('ewasteHeld') });
+  // 25 ---------------------------------------------------------------- rock-paper-scissors with a camera (Class 12, batch 40)
+  // A classifier must answer one of its classes: with no hand the wall is "paper 0.46" and the Pi plays rounds against
+  // nobody, until a round needs 0.8
+  const rpsWatch = (S) => { const M = S.memRun; const n = (S.serLines || []).filter((x) => /^You: /.test(x)).length; const hand = S.wv('hand');
+    if (M.n === undefined) { M.n = 0; M.ghost = 0; M.real = 0; M.noneT = 0; M.at = S.t; }
+    if (n > M.n) { if (hand === 'none') M.ghost += n - M.n; else M.real += n - M.n; M.n = n; }
+    if (hand === 'none' && S.w('camOk')) M.noneT += Math.max(0, S.t - M.at); M.at = S.t; return M; };
+  const okSure = (src) => { const m = /if\s+sure\s*<\s*([\d.]+)\s*:/.exec(src || ''); return !!m && +m[1] >= 0.7 && +m[1] <= 0.9; };
+  L.push({ id: 'rpsgame', board: 'pi4', cls: '12', blocks: false, view: 'pi6', wview: 'pi6w', rview: 'scene3rp', code: RPSC, drawer: [], serial: true, scene: { kind: 'rps' },
+    title: t3('Rock-paper-scissors with a camera (AI)', 'कैमरे के साथ पत्थर-काग़ज़-कैंची (AI)', 'Camera ke saath patthar-kaagaz-kainchi (AI)'),
+    goal: t3('Play rock, paper, scissors against the Raspberry Pi. A classification model the class trained on photos of hands tells which one you are showing. Find out what a classifier says when there is nothing to see, and why every AI needs to know how sure it is.', 'Raspberry Pi के ख़िलाफ़ पत्थर, काग़ज़, कैंची खेलिए। क्लास ने हाथों की तस्वीरों पर जो क्लासिफ़िकेशन मॉडल ट्रेन किया, वह बताता है कि आप कौन-सा दिखा रहे हैं। पता कीजिए कि देखने को कुछ न हो तो क्लासिफ़ायर क्या कहता है, और हर AI को यह जानना क्यों ज़रूरी है कि वह कितना पक्का है।', 'Raspberry Pi ke khilaaf patthar, kaagaz, kainchi kheliye. Class ne haathon ki tasveeron par jo classification model train kiya, woh batata hai ki aap kaun-sa dikha rahe hain. Pata kijiye ki dekhne ko kuch na ho to classifier kya kehta hai, aur har AI ko yeh jaanna kyon zaroori hai ki woh kitna pakka hai.'),
+    setup: { parts: [], wires: [] },
+    steps: [
+      { k: 'info', do: t3('Beside the Pi: the Camera Module 3 looking at a white wall. rps-cls.pt is a small classification model: one answer for the whole picture, with how sure it is of each of its three classes. It was trained on 900 photos of hands (Teachable Machine or ultralytics can do this in a lesson).', 'Pi के पास: सफ़ेद दीवार की ओर देखता कैमरा मॉड्यूल 3। rps-cls.pt एक छोटा क्लासिफ़िकेशन मॉडल है: पूरी तस्वीर के लिए एक जवाब, अपनी तीनों क्लास में से हर एक पर कितना पक्का। इसे हाथों की 900 तस्वीरों पर ट्रेन किया गया (Teachable Machine या ultralytics एक पाठ में यह कर सकते हैं)।', 'Pi ke paas: safed deewar ki or dekhta Camera Module 3. rps-cls.pt ek chhota classification model hai: poori tasveer ke liye ek jawaab, apni teeno class mein se har ek par kitna pakka. Ise haathon ki 900 tasveeron par train kiya gaya (Teachable Machine ya ultralytics ek paath mein yeh kar sakte hain).'), see: E },
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && rpsWatch(S).ghost >= 2, do: t3('Do not show your hand yet: keep it away, and watch the terminal.', 'अभी हाथ मत दिखाइए: उसे दूर रखिए, और टर्मिनल देखिए।', 'Abhi haath mat dikhaiye: use door rakhiye, aur terminal dekhiye.'),
+        see: t3('"You: paper 0.46 …": it plays against nobody. A classifier has no answer called "nothing": it must pick one of its three, and a plain wall looks a little like a flat palm. 0.46 is not sure at all, but it is more than 0.3.', '"You: paper 0.46 …": यह किसी के ख़िलाफ़ नहीं खेल रहा। क्लासिफ़ायर के पास "कुछ नहीं" नाम का जवाब ही नहीं: उसे तीन में से एक चुनना है, और सादी दीवार थोड़ी सपाट हथेली जैसी दिखती है। 0.46 बिल्कुल पक्का नहीं, पर 0.3 से ज़्यादा है।', '"You: paper 0.46 …": yeh kisi ke khilaaf nahi khel raha. Classifier ke paas "kuch nahi" naam ka jawaab hi nahi: use teen mein se ek chunna hai, aur saadi deewar thodi sapaat hatheli jaisi dikhti hai. 0.46 bilkul pakka nahi, par 0.3 se zyada hai.') },
+      { k: 'edit', test: okSure, set: [[/if sure < 0\.3:/, 'if sure < 0.8:']], do: t3('Play only when it is sure: change if sure < 0.3: to if sure < 0.8: and press Run.', 'तभी खेलिए जब यह पक्का हो: if sure < 0.3: को if sure < 0.8: कीजिए और "चलाइए" दबाइए।', 'Tabhi kheliye jab yeh pakka ho: if sure < 0.3: ko if sure < 0.8: kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => { if (!fresh(S)) return false; const M = rpsWatch(S); return M.ghost === 0 && M.real >= 2 && M.noneT >= 3; }, do: t3('Wait a few seconds with no hand, then play two rounds: show rock, paper or scissors.', 'कुछ सेकंड बिना हाथ के रुकिए, फिर दो राउंड खेलिए: पत्थर, काग़ज़ या कैंची दिखाइए।', 'Kuch second bina haath ke rukiye, phir do round kheliye: patthar, kaagaz ya kainchi dikhaiye.'),
+        see: t3('No hand, no round; a real hand comes back at 0.9 and more, and the game goes on. The model was never told about "nothing", so the program has to say it. Better still, train a fourth class, "no hand", with photos of the empty wall: real systems always add a background class.', 'हाथ नहीं, तो राउंड नहीं; असली हाथ 0.9 या ज़्यादा पर आता है, और खेल चलता है। मॉडल को "कुछ नहीं" के बारे में कभी बताया ही नहीं गया, तो यह प्रोग्राम को कहना पड़ता है। इससे भी अच्छा, ख़ाली दीवार की तस्वीरों से चौथी क्लास "कोई हाथ नहीं" ट्रेन कीजिए: असली सिस्टम हमेशा एक बैकग्राउंड क्लास जोड़ते हैं।', 'Haath nahi, to round nahi; asli haath 0.9 ya zyada par aata hai, aur khel chalta hai. Model ko "kuch nahi" ke baare mein kabhi bataaya hi nahi gaya, to yeh program ko kehna padta hai. Isse bhi achha, khaali deewar ki tasveeron se chauthi class "koi haath nahi" train kijiye: asli system hamesha ek background class jodte hain.') },
+    ],
+    check: [],
+    done: (S) => { const M = S.memRun || {}; return (M.real || 0) >= 2 && M.ghost === 0 && (M.noneT || 0) >= 3; } });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

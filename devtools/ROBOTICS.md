@@ -1306,3 +1306,10 @@ heaters.
   dry_<item>, wrongBin, ewasteDry, ewasteHeld (the phone kept 4 s on the tray), floor. The lesson: banana and bottle
   right; the sandwich wrong until WET lists every COCO food; the phone in DRY until the commented e-waste lines (a "# "
   after the indent, as an editor's toggle-comment leaves them) are switched on.
+- Batch 40: Class 12 rock-paper-scissors with a camera (lessons24.js rpsgame; scenes3.js RpsScene, RPS; worlds3.js
+  rpsSteps, view scene3rp) and classification models in pi37.js: YOLO("rps-cls.pt") (CLS_MODELS: paper, rock,
+  scissors; 95 ms a frame) gives results[0].probs (top1, top1conf, top5, top5conf, data) and model.names; verbose prints
+  ultralytics' "0: 224x224 rock 0.93, …" line. lab.cam37.classify(names, frame.at): a hand is about 0.93 its gesture
+  (× the room light); no hand still has to be one of the three: paper 0.46, rock 0.31, scissors 0.23. The lesson: with
+  sure < 0.3 the Pi plays rounds against an empty wall (counted with S.memRun: a "You:" line while the hand is away); at
+  0.8 only real hands play. The lesson's see text names the fix real systems use: a fourth, background class.

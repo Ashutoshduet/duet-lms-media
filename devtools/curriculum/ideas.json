@@ -71415,6 +71415,23 @@
 "note": null
 },
 {
+"id": "live-rpsgame",
+"title": "Rock-paper-scissors with a camera (AI)",
+"family": "live",
+"board": "pi4",
+"parts": [],
+"newparts": [],
+"band": [
+12,
+12
+],
+"level": 12,
+"theme": "projects",
+"live": "rpsgame",
+"rule": null,
+"note": null
+},
+{
 "id": "live-aibin",
 "title": "Smart bin that sorts by AI image class",
 "family": "live",
