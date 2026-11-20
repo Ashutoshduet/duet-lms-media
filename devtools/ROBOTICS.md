@@ -930,3 +930,16 @@ heaters.
   a short press still shows for `hold = 1.0` s after it ends. The steps say "open the address with :5000". Every digital
   job with a Pi input (`batchF`, `f_<job>_web_pi`): 94 projects. robofactory.mjs asks `:5000` on the Pi: 12,753 ok.
   2,160 projects (239 hand-made + 1,921 bank).
+- The Pi 4's I2C screens (batch 24, pi24.js; pi6.js gives the Pi's Python these modules). `RPLCD`: `from RPLCD.i2c import
+  CharLCD; lcd = CharLCD('PCF8574', 0x27, cols=16, rows=2)`, write_string ("\r" to the start of the row, "\n" down a row,
+  a long line breaks at cols), clear, home, cursor_pos = (row, col) (a ValueError past the edge, so (col, row) the wrong
+  way round is named), backlight_enabled, display_enabled, cursor_mode, shift_display, create_char, close. Like the real
+  library it starts as a 20 × 4 LCD: without cols=16, rows=2 letters 17–20 land off the glass. `luma.oled`:
+  `serial = i2c(port=1, address=0x3C); oled = ssd1306(serial); with canvas(oled) as draw:` draw.text (with
+  `ImageFont.truetype("DejaVuSans.ttf", 20)`: the size picks how big the 5 × 7 letters are; a font the Pi does not have,
+  such as arial.ttf, is Pillow's OSError), rectangle, line, point, ellipse, bounding_box; the picture goes to the OLED when
+  the with block ends. The bus is GPIO 2 (SDA, pin 3) / GPIO 3 (SCL, pin 5); a module that is not powered, swapped, or
+  at another address (a 0x3F backpack) gives OSError [Errno 121] Remote I/O error as smbus does; port=0 has no
+  /dev/i2c-0. The 5 V LCD backpack's 4.7 kΩ pull-ups against the Pi's 1.8 kΩ hold SDA/SCL at about 3.8 V.
+  Factory (factory.js `QOUT.lcd`, `QOUT.oled`; `sketchPi` takes job-made lines, `head`, `init` and the reading on row 0):
+  every LCD job with a Pi input on both screens: 108 projects. robocore24.mjs plays the libraries and the mistakes.

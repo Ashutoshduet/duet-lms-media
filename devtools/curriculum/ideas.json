@@ -2388,6 +2388,46 @@
 "note": null
 },
 {
+"id": "live-f_pharmacy_oled_pi",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_pharmacy_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_pharmacy_lcd_pi",
+"title": "Medicine store humidity alarm: DHT11 sensor (humidity) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_pharmacy_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_pharmacy_rgb_pi",
 "title": "Medicine store humidity alarm: DHT11 sensor (humidity) → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -2425,6 +2465,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_pharmacy_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_oled_pi",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_teadryer_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_teadryer_lcd_pi",
+"title": "Tea leaf drying room fan: DHT11 sensor (humidity) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_teadryer_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -2492,6 +2572,46 @@
 "note": null
 },
 {
+"id": "live-f_cattleshade_oled_pi",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_cattleshade_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_cattleshade_lcd_pi",
+"title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_cattleshade_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_cattleshade_relay_pi",
 "title": "Cattle shed fan for the summer: DHT11 sensor (temperature) → relay and fan (Raspberry Pi)",
 "family": "factory",
@@ -2555,6 +2675,46 @@
 "note": null
 },
 {
+"id": "live-f_busshelter_oled_pi",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busshelter_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busshelter_lcd_pi",
+"title": "Bus shelter cooling mist: DHT11 sensor (temperature) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busshelter_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_busshelter_pump_pi",
 "title": "Bus shelter cooling mist: DHT11 sensor (temperature) → water pump (Raspberry Pi)",
 "family": "factory",
@@ -2592,6 +2752,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_umbrella_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_oled_pi",
+"title": "Take an umbrella sign at the gate: rain sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_umbrella_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_umbrella_lcd_pi",
+"title": "Take an umbrella sign at the gate: rain sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_umbrella_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -2692,6 +2892,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_grainsheet_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_oled_pi",
+"title": "Mandi rain alert: cover the grain: rain sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainsheet_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainsheet_lcd_pi",
+"title": "Mandi rain alert: cover the grain: rain sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainsheet_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -2855,6 +3095,26 @@
 "note": null
 },
 {
+"id": "live-f_bridgeshake_oled_pi",
+"title": "Footbridge shake monitor: vibration sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgeshake_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bridgeshake_led_pi",
 "title": "Footbridge shake monitor: vibration sensor module → LED (Raspberry Pi)",
 "family": "factory",
@@ -2872,6 +3132,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_bridgeshake_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bridgeshake_lcd_pi",
+"title": "Footbridge shake monitor: vibration sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bridgeshake_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -2915,6 +3195,46 @@
 "note": null
 },
 {
+"id": "live-f_motorshake_oled_pi",
+"title": "Machine vibration warning: vibration sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_motorshake_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_motorshake_lcd_pi",
+"title": "Machine vibration warning: vibration sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_motorshake_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_motorshake_rgb_pi",
 "title": "Machine vibration warning: vibration sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -2951,6 +3271,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_atmtamper_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_oled_pi",
+"title": "ATM tamper alarm: vibration sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmtamper_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_atmtamper_lcd_pi",
+"title": "ATM tamper alarm: vibration sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_atmtamper_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -3015,6 +3375,46 @@
 "note": null
 },
 {
+"id": "live-f_donationbox_oled_pi",
+"title": "Donation box tamper alarm: tilt sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_donationbox_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_donationbox_lcd_pi",
+"title": "Donation box tamper alarm: tilt sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_donationbox_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_donationbox_buzzer_pi",
 "title": "Donation box tamper alarm: tilt sensor module → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -3050,6 +3450,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_polelean_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_oled_pi",
+"title": "Leaning electric pole alert: tilt sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_polelean_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_polelean_lcd_pi",
+"title": "Leaning electric pole alert: tilt sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_polelean_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -3150,6 +3590,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_stickfall_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_oled_pi",
+"title": "Fall alarm on a walking stick: tilt sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stickfall_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stickfall_lcd_pi",
+"title": "Fall alarm on a walking stick: tilt sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stickfall_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -3395,6 +3875,46 @@
 "note": null
 },
 {
+"id": "live-f_gearneutral_oled_pi",
+"title": "Bike neutral light: hall effect sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gearneutral_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_gearneutral_lcd_pi",
+"title": "Bike neutral light: hall effect sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_gearneutral_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_gearneutral_led_pi",
 "title": "Bike neutral light: hall effect sensor module → LED (Raspberry Pi)",
 "family": "factory",
@@ -3431,6 +3951,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_liftfloor_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_oled_pi",
+"title": "Lift floor sensor: reed switch module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftfloor_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_liftfloor_lcd_pi",
+"title": "Lift floor sensor: reed switch module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_liftfloor_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -3616,6 +4176,46 @@
 "note": null
 },
 {
+"id": "live-f_windowclosed_oled_pi",
+"title": "All windows shut check: reed switch module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_windowclosed_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_windowclosed_lcd_pi",
+"title": "All windows shut check: reed switch module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_windowclosed_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_windowclosed_led_pi",
 "title": "All windows shut check: reed switch module → LED (Raspberry Pi)",
 "family": "factory",
@@ -3796,6 +4396,46 @@
 "note": null
 },
 {
+"id": "live-f_babycry_oled_pi",
+"title": "Baby cry alert for parents: sound sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babycry_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycry_lcd_pi",
+"title": "Baby cry alert for parents: sound sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babycry_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_babycry_rgb_pi",
 "title": "Baby cry alert for parents: sound sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -3891,6 +4531,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_forestwatch_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_oled_pi",
+"title": "Forest fire watchtower: flame sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_forestwatch_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_forestwatch_lcd_pi",
+"title": "Forest fire watchtower: flame sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_forestwatch_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -4017,6 +4697,46 @@
 "note": null
 },
 {
+"id": "live-f_stovealone_oled_pi",
+"title": "Stove left burning alert: flame sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stovealone_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_stovealone_lcd_pi",
+"title": "Stove left burning alert: flame sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_stovealone_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_stovealone_rgb_pi",
 "title": "Stove left burning alert: flame sensor module → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -4116,6 +4836,26 @@
 "note": null
 },
 {
+"id": "live-f_clothesrain_oled_pi",
+"title": "Rain alert: bring the clothes in: rain sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clothesrain_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_clothesrain_led_pi",
 "title": "Rain alert: bring the clothes in: rain sensor module → LED (Raspberry Pi)",
 "family": "factory",
@@ -4133,6 +4873,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_clothesrain_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_clothesrain_lcd_pi",
+"title": "Rain alert: bring the clothes in: rain sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"rain"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_clothesrain_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -4172,6 +4932,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_quake_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_oled_pi",
+"title": "Earthquake alarm for the classroom: vibration sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quake_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_quake_lcd_pi",
+"title": "Earthquake alarm for the classroom: vibration sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"vibe"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_quake_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -4357,6 +5157,46 @@
 "note": null
 },
 {
+"id": "live-f_bikealarm_oled_pi",
+"title": "Bicycle anti-theft alarm: tilt sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bikealarm_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_bikealarm_lcd_pi",
+"title": "Bicycle anti-theft alarm: tilt sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"tilt"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_bikealarm_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_bikealarm_buzzer_pi",
 "title": "Bicycle anti-theft alarm: tilt sensor module → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -4392,6 +5232,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_wheelturn_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_oled_pi",
+"title": "Cycle wheel turn signal: hall effect sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wheelturn_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_wheelturn_lcd_pi",
+"title": "Cycle wheel turn signal: hall effect sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"hall"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_wheelturn_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -4555,6 +5435,46 @@
 "note": null
 },
 {
+"id": "live-f_floattank_oled_pi",
+"title": "Tank full float switch: reed switch module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_floattank_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_floattank_lcd_pi",
+"title": "Tank full float switch: reed switch module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"reed"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_floattank_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_floattank_led_pi",
 "title": "Tank full float switch: reed switch module → LED (Raspberry Pi)",
 "family": "factory",
@@ -4611,6 +5531,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_library_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_oled_pi",
+"title": "Library noise warning: sound sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_library_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_library_lcd_pi",
+"title": "Library noise warning: sound sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"sound"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_library_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -4777,6 +5737,26 @@
 "note": null
 },
 {
+"id": "live-f_kitchenfire_oled_pi",
+"title": "Kitchen fire alarm: flame sensor module → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kitchenfire_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_kitchenfire_pump_pi",
 "title": "Kitchen fire alarm: flame sensor module → water pump (Raspberry Pi)",
 "family": "factory",
@@ -4795,6 +5775,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_kitchenfire_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kitchenfire_lcd_pi",
+"title": "Kitchen fire alarm: flame sensor module → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"flame"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kitchenfire_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -4840,6 +5840,26 @@
 "note": null
 },
 {
+"id": "live-f_museum_oled_pi",
+"title": "Museum humidity guard: DHT11 sensor (humidity) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_museum_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_museum_buzzer_pi",
 "title": "Museum humidity guard: DHT11 sensor (humidity) → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -4856,6 +5876,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_museum_buzzer_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_museum_lcd_pi",
+"title": "Museum humidity guard: DHT11 sensor (humidity) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_museum_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -4902,6 +5942,26 @@
 "note": null
 },
 {
+"id": "live-f_comfort_oled_pi",
+"title": "Classroom comfort meter: DHT11 sensor (temperature) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_comfort_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_comfort_rgb_pi",
 "title": "Classroom comfort meter: DHT11 sensor (temperature) → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -4919,6 +5979,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_comfort_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_comfort_lcd_pi",
+"title": "Classroom comfort meter: DHT11 sensor (temperature) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_comfort_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -4987,6 +6067,27 @@
 "note": null
 },
 {
+"id": "live-f_silo_oled_pi",
+"title": "Grain silo full alarm: ultrasonic sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_silo_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_silo_led_pi",
 "title": "Grain silo full alarm: ultrasonic sensor → LED (Raspberry Pi)",
 "family": "factory",
@@ -5004,6 +6105,69 @@
 "level": 10,
 "theme": "bank",
 "live": "f_silo_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_silo_lcd_pi",
+"title": "Grain silo full alarm: ultrasonic sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_silo_lcd_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_platform_oled_pi",
+"title": "Platform edge warning: ultrasonic sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_platform_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_platform_lcd_pi",
+"title": "Platform edge warning: ultrasonic sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_platform_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -5071,6 +6235,48 @@
 "note": null
 },
 {
+"id": "live-f_heightcheck_oled_pi",
+"title": "Ride height check: ultrasonic sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_heightcheck_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heightcheck_lcd_pi",
+"title": "Ride height check: ultrasonic sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_heightcheck_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_heightcheck_servo_pi",
 "title": "Ride height check: ultrasonic sensor → servo (Raspberry Pi)",
 "family": "factory",
@@ -5107,6 +6313,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_goal_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_goal_oled_pi",
+"title": "Goal-line sensor: IR obstacle sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_goal_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_goal_lcd_pi",
+"title": "Goal-line sensor: IR obstacle sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_goal_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -5311,6 +6557,46 @@
 "note": null
 },
 {
+"id": "live-f_conveyor_oled_pi",
+"title": "Conveyor box detector: IR obstacle sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_conveyor_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_conveyor_lcd_pi",
+"title": "Conveyor box detector: IR obstacle sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_conveyor_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_conveyor_led_pi",
 "title": "Conveyor box detector: IR obstacle sensor → LED (Raspberry Pi)",
 "family": "factory",
@@ -5371,6 +6657,46 @@
 "note": null
 },
 {
+"id": "live-f_binfull_oled_pi",
+"title": "Dustbin full indicator: IR obstacle sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_binfull_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_binfull_lcd_pi",
+"title": "Dustbin full indicator: IR obstacle sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_binfull_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_binfull_buzzer_pi",
 "title": "Dustbin full indicator: IR obstacle sensor → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -5427,6 +6753,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_kiosk_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kiosk_oled_pi",
+"title": "Information kiosk wake-up: PIR motion sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kiosk_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_kiosk_lcd_pi",
+"title": "Information kiosk wake-up: PIR motion sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_kiosk_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -5567,6 +6933,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_babycot_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycot_oled_pi",
+"title": "Baby cot watcher: PIR motion sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babycot_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_babycot_lcd_pi",
+"title": "Baby cot watcher: PIR motion sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_babycot_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -5789,6 +7195,46 @@
 "note": null
 },
 {
+"id": "live-f_labhelp_oled_pi",
+"title": "Lab help-request light: push button → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_labhelp_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_labhelp_lcd_pi",
+"title": "Lab help-request light: push button → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_labhelp_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_labhelp_rgb_pi",
 "title": "Lab help-request light: push button → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -5969,6 +7415,26 @@
 "note": null
 },
 {
+"id": "live-f_orderready_oled_pi",
+"title": "Canteen order-ready sign: push button → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_orderready_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_orderready_led_pi",
 "title": "Canteen order-ready sign: push button → LED (Raspberry Pi)",
 "family": "factory",
@@ -5986,6 +7452,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_orderready_led_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_orderready_lcd_pi",
+"title": "Canteen order-ready sign: push button → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_orderready_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -6069,6 +7555,46 @@
 "note": null
 },
 {
+"id": "live-f_busstop_oled_pi",
+"title": "Bus stop request bell: push button → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busstop_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_busstop_lcd_pi",
+"title": "Bus stop request bell: push button → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_busstop_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_busstop_buzzer_pi",
 "title": "Bus stop request bell: push button → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -6125,6 +7651,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_touchless_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchless_oled_pi",
+"title": "Contactless doorbell: IR obstacle sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_touchless_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_touchless_lcd_pi",
+"title": "Contactless doorbell: IR obstacle sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_touchless_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -6245,6 +7811,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_piggybank_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_piggybank_oled_pi",
+"title": "Piggy bank coin chime: IR obstacle sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_piggybank_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_piggybank_lcd_pi",
+"title": "Piggy bank coin chime: IR obstacle sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_piggybank_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -6389,6 +7995,46 @@
 "note": null
 },
 {
+"id": "live-f_afterhours_oled_pi",
+"title": "Shop after-hours alarm: PIR motion sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_afterhours_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_afterhours_lcd_pi",
+"title": "Shop after-hours alarm: PIR motion sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_afterhours_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_afterhours_buzzer_pi",
 "title": "Shop after-hours alarm: PIR motion sensor → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -6453,6 +8099,26 @@
 "note": null
 },
 {
+"id": "live-f_rainsoon_oled_pi",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_rainsoon_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_rainsoon_rgb_pi",
 "title": "Rain-coming hint: DHT11 sensor (humidity) → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -6470,6 +8136,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_rainsoon_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_rainsoon_lcd_pi",
+"title": "Rain-coming hint: DHT11 sensor (humidity) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_rainsoon_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -6633,6 +8319,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_turnstile_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_oled_pi",
+"title": "Turnstile gate: IR obstacle sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_turnstile_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_turnstile_lcd_pi",
+"title": "Turnstile gate: IR obstacle sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_turnstile_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -7020,6 +8746,46 @@
 "note": null
 },
 {
+"id": "live-f_watchman_oled_pi",
+"title": "Gate call for the watchman: push button → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_watchman_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_watchman_lcd_pi",
+"title": "Gate call for the watchman: push button → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_watchman_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_watchman_rgb_pi",
 "title": "Gate call for the watchman: push button → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -7103,6 +8869,26 @@
 "note": null
 },
 {
+"id": "live-f_grainstore_oled_pi",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainstore_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_grainstore_rgb_pi",
 "title": "Grain store humidity alert: DHT11 sensor (humidity) → colour LED (Raspberry Pi)",
 "family": "factory",
@@ -7120,6 +8906,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_grainstore_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_grainstore_lcd_pi",
+"title": "Grain store humidity alert: DHT11 sensor (humidity) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_grainstore_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -7185,6 +8991,26 @@
 "note": null
 },
 {
+"id": "live-f_heatwave_oled_pi",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_heatwave_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_heatwave_buzzer_pi",
 "title": "Heat-wave warning: DHT11 sensor (temperature) → buzzer (Raspberry Pi)",
 "family": "factory",
@@ -7222,6 +9048,26 @@
 "level": 10,
 "theme": "bank",
 "live": "f_heatwave_rgb_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_heatwave_lcd_pi",
+"title": "Heat-wave warning: DHT11 sensor (temperature) → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"dht11"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_heatwave_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -7303,6 +9149,48 @@
 "level": 10,
 "theme": "bank",
 "live": "f_bottle_pump_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankfull_oled_pi",
+"title": "Water tank full alarm: ultrasonic sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tankfull_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_tankfull_lcd_pi",
+"title": "Water tank full alarm: ultrasonic sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_tankfull_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -7487,6 +9375,46 @@
 "note": null
 },
 {
+"id": "live-f_slot_oled_pi",
+"title": "Parking slot sensor: IR obstacle sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_slot_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_slot_lcd_pi",
+"title": "Parking slot sensor: IR obstacle sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"ir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_slot_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_tap_web_pi",
 "title": "Smart tap: IR obstacle sensor → web page on a phone (Raspberry Pi)",
 "family": "factory",
@@ -7544,6 +9472,46 @@
 "note": null
 },
 {
+"id": "live-f_intruder_oled_pi",
+"title": "Intruder alert screen: PIR motion sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_intruder_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_intruder_lcd_pi",
+"title": "Intruder alert screen: PIR motion sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_intruder_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_greeter_web_pi",
 "title": "Welcome greeter: PIR motion sensor → web page on a phone (Raspberry Pi)",
 "family": "factory",
@@ -7559,6 +9527,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_greeter_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_oled_pi",
+"title": "Welcome greeter: PIR motion sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_greeter_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_greeter_lcd_pi",
+"title": "Welcome greeter: PIR motion sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"pir"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_greeter_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -7645,6 +9653,27 @@
 "note": null
 },
 {
+"id": "live-f_parkbeep_oled_pi",
+"title": "Parking distance warning: ultrasonic sensor → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parkbeep_oled_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_parkbeep_led_pi",
 "title": "Parking distance warning: ultrasonic sensor → LED (Raspberry Pi)",
 "family": "factory",
@@ -7666,6 +9695,27 @@
 "note": null
 },
 {
+"id": "live-f_parkbeep_lcd_pi",
+"title": "Parking distance warning: ultrasonic sensor → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"resistor",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_parkbeep_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_nurse_web_pi",
 "title": "Hospital bed call button: push button → web page on a phone (Raspberry Pi)",
 "family": "factory",
@@ -7681,6 +9731,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_nurse_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_oled_pi",
+"title": "Hospital bed call button: push button → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nurse_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_nurse_lcd_pi",
+"title": "Hospital bed call button: push button → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_nurse_lcd_pi",
 "rule": null,
 "note": null
 },
@@ -7784,6 +9874,46 @@
 "note": null
 },
 {
+"id": "live-f_crossing_oled_pi",
+"title": "Pedestrian crossing barrier: push button → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_crossing_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_crossing_lcd_pi",
+"title": "Pedestrian crossing barrier: push button → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_crossing_lcd_pi",
+"rule": null,
+"note": null
+},
+{
 "id": "live-f_crossing_servo_pi",
 "title": "Pedestrian crossing barrier: push button → servo (Raspberry Pi)",
 "family": "factory",
@@ -7880,6 +10010,46 @@
 "level": 10,
 "theme": "bank",
 "live": "f_doorbell_web_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_oled_pi",
+"title": "Doorbell: push button → OLED screen (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"oled",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_doorbell_oled_pi",
+"rule": null,
+"note": null
+},
+{
+"id": "live-f_doorbell_lcd_pi",
+"title": "Doorbell: push button → LCD (Raspberry Pi)",
+"family": "factory",
+"board": "pi4",
+"parts": [
+"lcd16",
+"button"
+],
+"newparts": [],
+"band": [
+10,
+12
+],
+"level": 10,
+"theme": "bank",
+"live": "f_doorbell_lcd_pi",
 "rule": null,
 "note": null
 },

@@ -531,17 +531,34 @@ QOUT.servo = Object.assign({}, OUT.servo, { pin: 'GPIO12', wires: [['T:sv1:GND',
 QOUT.rgb = Object.assign({}, OUT.rgb, rgbAt('GPIO5', 'GPIO6', 'GPIO13'), { pin: 'GPIO 5/6/13',
   ready: t3('The RGB LED is already wired: red to GPIO 5, green to GPIO 6, blue to GPIO 13, each through its resistor (100 Ω for green and blue: at 3.3 V they need a smaller one). Green means all is well.', 'RGB एलईडी पहले से लगी है: लाल GPIO 5, हरा GPIO 6, नीला GPIO 13 पर, हर एक अपने रेज़िस्टर से होकर (हरे और नीले के लिए 100 Ω: 3.3 V पर उन्हें छोटा रेज़िस्टर चाहिए)। हरा मतलब सब ठीक।', 'RGB LED pehle se lagi hai: laal GPIO 5, hara GPIO 6, neela GPIO 13 par, har ek apne resistor se hokar (hare aur neele ke liye 100 Ω: 3.3 V par unhe chhota resistor chahiye). Hara matlab sab theek.'),
   pi: { imp: ['LED'], decl: ['red = LED(5)                 # GPIO 5: the RGB LED\'s red', 'green = LED(6)               # GPIO 6: its green', 'blue = LED(13)               # GPIO 13: its blue (not used here)'], on: ['red.on()                     # red: warning', 'green.off()'], off: ['red.off()', 'green.on()                   # green: all well'] } });
+// (batch 24) the Pi's two I2C screens on bus 1 (SDA GPIO 2 = physical pin 3, SCL GPIO 3 = pin 5): the 16×2 LCD with RPLCD,
+// the OLED with luma.oled, as Pi projects on the internet do (pi24.js runs them)
+const piText = (s) => String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+QOUT.lcd = Object.assign({}, OUT.lcd, { pin: 'GPIO 2/3', wires: [['T:lcd:GND', 'H:tn10'], ['T:lcd:VCC', 'H:tp10'], ['T:lcd:SDA', 'GPIO2'], ['T:lcd:SCL', 'GPIO3']],
+  ready: t3('The 16×2 LCD is already wired: VCC to the back + rail (5 V: its backlight needs it), GND to −, SDA to GPIO 2 (physical pin 3) and SCL to GPIO 3 (pin 5), the Pi\'s I2C bus 1. Its backpack is at address 0x27.', '16×2 एलसीडी पहले से लगी है: VCC पीछे वाली + रेल (5 V: इसकी बैकलाइट को चाहिए) पर, GND − पर, SDA GPIO 2 (फ़िज़िकल पिन 3) पर और SCL GPIO 3 (पिन 5) पर: Pi की I2C बस 1। इसका बैकपैक 0x27 पते पर है।', '16×2 LCD pehle se lagi hai: VCC peeche wali + rail (5 V: iski backlight ko chahiye) par, GND − par, SDA GPIO 2 (physical pin 3) par aur SCL GPIO 3 (pin 5) par: Pi ki I2C bus 1. Iska backpack 0x27 address par hai.'),
+  pi: { head: ['from RPLCD.i2c import CharLCD'], decl: ['lcd = CharLCD("PCF8574", 0x27, cols=16, rows=2)   # the LCD\'s backpack on I2C bus 1 (GPIO 2 / GPIO 3)'],
+    init: (j) => [`lcd.write_string("${piText(j.title.en.slice(0, 16))}")`],
+    on: (j) => ['lcd.cursor_pos = (1, 0)       # row 1 (the second), column 0', `lcd.write_string("${piText(pad(j.on))}")`], off: (j) => ['lcd.cursor_pos = (1, 0)', `lcd.write_string("${piText(pad(j.off))}")`],
+    value: (inp) => ['lcd.cursor_pos = (0, 0)', `lcd.write_string((f"${inp.label}: {${inp.v}}" + " " * 16)[:16])`] } });
+QOUT.oled = Object.assign({}, OUT.oled, { pin: 'GPIO 2/3', parts: [P('oled', 'oled', {}, 'e30', 0)], wires: [['H:a30', 'H:tn30'], ['H:a31', 'H:bp31'], ['H:a32', 'GPIO3'], ['H:a33', 'GPIO2']],
+  ready: t3('The OLED screen (128 × 64 dots) is already wired: GND, VCC to the front + rail (3.3 V), SCL to GPIO 3 (physical pin 5), SDA to GPIO 2 (pin 3): the Pi\'s I2C bus 1. Address 0x3C. luma.oled draws on it, and the font DejaVuSans (already on the Pi) gives the big letters.', 'ओएलईडी स्क्रीन (128 × 64 बिंदु) पहले से लगी है: GND, VCC आगे वाली + रेल (3.3 V) पर, SCL GPIO 3 (फ़िज़िकल पिन 5) पर, SDA GPIO 2 (पिन 3) पर: Pi की I2C बस 1। पता 0x3C। luma.oled इस पर चित्र बनाता है, और फ़ॉन्ट DejaVuSans (Pi में पहले से) बड़े अक्षर देता है।', 'OLED screen (128 × 64 dots) pehle se lagi hai: GND, VCC aage wali + rail (3.3 V) par, SCL GPIO 3 (physical pin 5) par, SDA GPIO 2 (pin 3) par: Pi ki I2C bus 1. Address 0x3C. luma.oled is par chitra banata hai, aur font DejaVuSans (Pi mein pehle se) bade akshar deta hai.'),
+  pi: { head: ['from luma.core.interface.serial import i2c', 'from luma.core.render import canvas', 'from luma.oled.device import ssd1306', 'from PIL import ImageFont'],
+    decl: (j) => ['serial = i2c(port=1, address=0x3C)   # the OLED on I2C bus 1 (GPIO 2 / GPIO 3)', 'oled = ssd1306(serial)               # 128 x 64 dots', 'big = ImageFont.truetype("DejaVuSans.ttf", 20)   # big letters: 10 to a line', '',
+      'def show(msg):                       # draw the whole picture; it goes to the screen when the with block ends', '    with canvas(oled) as draw:', `        draw.text((0, 0), "${piText(j.title.en.slice(0, 21))}", fill="white")`, '        draw.text((0, 24), msg, font=big, fill="white")', ''],
+    on: (j) => [`show("${piText(j.on)}")`], off: (j) => [`show("${piText(j.off)}")`] } });
 function sketchPi(job, ik, ok) {
-  const inp = QIN[ik], out = ok === 'relay' ? relayFor(QOUT[ok], job) : QOUT[ok], ip = inp.pi, op = out.pi;
+  const inp = QIN[ik], out = ok === 'relay' ? relayFor(QOUT[ok], job) : QOUT[ok], ip = inp.pi, op0 = out.pi;
+  const fx = (v) => (typeof v === 'function' ? v(job) : v || []); // (batch 24: the screens' lines are made from the job)
+  const op = Object.assign({}, op0, { decl: fx(op0.decl), on: fx(op0.on), off: fx(op0.off) });
   const gz = [...new Set([...(ip.imp || []), ...(op.imp || [])])];
   const L = [`# ${job.title.en}: ${inp.name.en} and ${out.name.en}`, `# ${job.why.en}`];
   if (gz.length) L.push(`from gpiozero import ${gz.join(', ')}`);
-  L.push('import time', ...(ip.mods || []).map((m) => 'import ' + m), '', ...ip.decl, ...op.decl);
+  L.push(...(op.head || []), 'import time', ...(ip.mods || []).map((m) => 'import ' + m), '', ...ip.decl, ...op.decl, ...fx(op.init));
   if (inp.analog) L.push(`limit = ${inp.l0}                  # ${inp.note}`);
   else L.push('hold = 1.0                  # stay on this long after it stops (seconds)', 'last = None                 # when the sensor was last active');
   L.push('', 'while True:');
   if (inp.analog) {
-    L.push(...ip.read.map((x) => '    ' + x), `    if ${inp.v} is None:`, '        time.sleep(2)', '        continue', `    print("${inp.label}:", ${inp.v})`, `    if ${inp.cond}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), (ip.sleep ? `    time.sleep(${ip.sleep})` : '    time.sleep(2)              # a DHT11 answers once every 2 s'));
+    L.push(...ip.read.map((x) => '    ' + x), `    if ${inp.v} is None:`, '        time.sleep(2)', '        continue', `    print("${inp.label}:", ${inp.v})`, ...(op.value ? op.value(inp).map((x) => '    ' + x) : []), `    if ${inp.cond}:`, ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), (ip.sleep ? `    time.sleep(${ip.sleep})` : '    time.sleep(2)              # a DHT11 answers once every 2 s'));
   } else {
     L.push(`    if ${ip.trig}:`, '        last = time.monotonic()  # active now: start the hold time again', '    if last is not None and time.monotonic() - last < hold:', ...op.on.map((x) => '        ' + x), '    else:', ...op.off.map((x) => '        ' + x), '    time.sleep(0.05)');
   }

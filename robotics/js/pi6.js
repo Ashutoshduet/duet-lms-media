@@ -19,7 +19,7 @@ import { LAB_HOOKS } from './boards4.js';
 import { CPP, L, msg } from './i18n.js';
 import { suggest } from './cpp.js';
 import { glyph, CARDS } from './libs3.js';
-import { dataModules, openFn, MSG20 } from './pi20.js'; // (batch 20: files, csv, statistics and matplotlib on the Pi 4) // (batch 17: the ssd1306 driver draws text with the same 5 × 7 font as the Uno's OLED)
+import { dataModules, openFn, MSG20 } from './pi20.js'; import { displayModules, MSG24 } from './pi24.js'; // (batch 24: RPLCD and luma.oled, the Pi's I2C screens) // (batch 20: files, csv, statistics and matplotlib on the Pi 4) // (batch 17: the ssd1306 driver draws text with the same 5 × 7 font as the Uno's OLED)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
@@ -692,7 +692,7 @@ function piHost(m) {
   const wrong = (mod) => (R) => { throw R.err('ImportError', 'N6_MOD_PI', { mod }); };
   return {
     builtins: { open: openFn(m) }, // (batch 20: the Pi's SD card)
-    modules: { ...dataModules(m), gpiozero: gz, time: () => piTime(m), signal, sys, 'RPi.GPIO': () => rpiGPIO(m), RPi: (R) => new Mod('RPi', { GPIO: R.imp('RPi.GPIO') }), board: D.board, adafruit_dht: D.adafruit_dht, Adafruit_DHT: D.Adafruit_DHT, machine: wrong('machine'), utime: wrong('utime'), microbit: wrong('microbit') },
+    modules: { ...dataModules(m), ...displayModules(m), gpiozero: gz, time: () => piTime(m), signal, sys, 'RPi.GPIO': () => rpiGPIO(m), RPi: (R) => new Mod('RPi', { GPIO: R.imp('RPi.GPIO') }), board: D.board, adafruit_dht: D.adafruit_dht, Adafruit_DHT: D.Adafruit_DHT, machine: wrong('machine'), utime: wrong('utime'), microbit: wrong('microbit') },
     print: (s, R) => { m.serial(s, R.t); m.obs6.prints++; m.line6(s); },
     input: (prompt, R) => new R.P((function* () { // the terminal: what the student types in the box under it (Enter sends)
       m.serial(str(isNone(prompt) ? '' : prompt), R.t); const ser = m.ser;
@@ -806,5 +806,5 @@ export const MSG6 = {
   N6_ECHO: t3('No echo came back on {echo}. Check: VCC to 5 V, GND, Trig on {trig}, and Echo through the 1 kΩ / 2.2 kΩ divider to {echo}.', '{echo} पर कोई इको नहीं लौटी। जाँचिए: VCC 5 V पर, GND, Trig {trig} पर, और Echo 1 kΩ / 2.2 kΩ डिवाइडर से होकर {echo} पर।', '{echo} par koi echo nahi lauti. Check kijiye: VCC 5 V par, GND, Trig {trig} par, aur Echo 1 kΩ / 2.2 kΩ divider se hokar {echo} par.'),
   N6_SWAP: t3('DistanceSensor(echo=…, trigger=…): the first pin is Echo. Your sensor\'s Trig is on {echo}: swap the two numbers.', 'DistanceSensor(echo=…, trigger=…): पहला पिन Echo है। आपके सेंसर का Trig {echo} पर है: दोनों नंबर अदल-बदल दीजिए।', 'DistanceSensor(echo=…, trigger=…): pehla pin Echo hai. Aapke sensor ka Trig {echo} par hai: dono number badal dijiye.'),
 };
-Object.assign(CPP, MSG6, MSG20);
+Object.assign(CPP, MSG6, MSG20, MSG24);
 export { suggest, Tup };
