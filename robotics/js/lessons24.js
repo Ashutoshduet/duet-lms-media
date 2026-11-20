@@ -1013,6 +1013,53 @@ void loop() {
 }
 `;
 
+const BEAMC = `// Ball-on-beam balancer: the HC-SR04 finds the ball, and the servo tips the beam to roll it to the middle.
+#include <Servo.h>
+
+Servo beam;
+const int TRIG = 6, ECHO = 7;
+float setpoint = 23;    // where the ball should stay: 23 cm from the sensor (the middle of the beam)
+float Kp = 3;           // ° of servo for each cm the ball is off
+float Ki = 0;           // ° for each cm·s it has been off: it keeps growing while the ball stays off
+float Kd = 0;           // ° for each cm/s the ball is rolling
+float iTerm = 0, lastDist = 0;
+unsigned long lastT;
+
+float readCm() {
+  digitalWrite(TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG, LOW);
+  long us = pulseIn(ECHO, HIGH, 30000);
+  return us * 0.0343 / 2;
+}
+
+void setup() {
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  beam.attach(9);
+  beam.write(90);
+  Serial.begin(9600);
+  lastDist = readCm();
+  lastT = millis();
+}
+
+void loop() {
+  float dist = readCm();
+  float dt = (millis() - lastT) / 1000.0;
+  lastT = millis();
+  float error = setpoint - dist;               // + when the ball is too near the sensor
+  float speed = (dist - lastDist) / dt;        // cm/s, + when it rolls away from the sensor
+  lastDist = dist;
+  iTerm = constrain(iTerm + Ki * error * dt, -30, 30);
+  float out = Kp * error + iTerm - Kd * speed;
+  beam.write(constrain(90 + out, 40, 140));    // above 90 the sensor's end goes up: the ball rolls away from it
+  Serial.println(dist);
+  delay(50);
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1588,6 +1635,30 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('mpu', t3('motion sensor MPU-6050', 'मोशन सेंसर MPU-6050', 'motion sensor MPU-6050')), (S) => (S.conn('mpu.SDA', 'A5') && S.conn('mpu.SCL', 'A4') ? [SWAP] : null), need('mpu.SDA', 'A4', W.join, { a: 'SDA', b: 'A4' }), need('mpu.SCL', 'A5', W.join, { a: 'SCL', b: 'A5' })],
     done: (S) => S.w('level') });
+  // 19 ------------------------------------------------------------------ ball-on-beam balancer (Class 12, batch 34)
+  // P alone swings the ball end to end (nothing slows it); PD stops it, but 2 cm short (the beam is level at 97°, not 90°);
+  // PID creeps the last 2 cm and holds it in the middle
+  L.push({ id: 'ballbeam', cls: '12', blocks: false, view: 'wide', rview: 'scene3bb', code: BEAMC, drawer: [], serial: true, scene: { kind: 'beam' },
+    title: t3('Ball-on-beam balancer', 'बीम पर गेंद संतुलक', 'Beam par gend santulak'),
+    goal: t3('Keep a ping-pong ball still in the middle of a tipping beam. The HC-SR04 at one end measures where the ball is; a servo tips the beam to roll it back. It is the classic test of a PID controller: P, then D, then I, and each one fixes what the last one could not.', 'एक झुकते बीम के बीच में पिंग-पोंग गेंद को स्थिर रखिए। एक सिरे पर लगा HC-SR04 नापता है कि गेंद कहाँ है; सर्वो बीम झुकाकर उसे वापस लुढ़काता है। यह PID कंट्रोलर की क्लासिक परीक्षा है: P, फिर D, फिर I, और हर एक वह ठीक करता है जो पिछला नहीं कर पाया।', 'Ek jhukte beam ke beech mein ping-pong gend ko sthir rakhiye. Ek sire par laga HC-SR04 naapta hai ki gend kahan hai; servo beam jhukaakar use wapas ludhkaata hai. Yeh PID controller ki classic pariksha hai: P, phir D, phir I, aur har ek woh theek karta hai jo pichhla nahi kar paaya.'),
+    setup: { parts: [F('sv', 'servo', {}, 178, 52, 1), P('us', 'hcsr04', {}, 'j50', 0)], wires: [...POWER, ['T:sv:GND', 'H:bn40'], ['T:sv:VP', 'H:bp40'], ['T:sv:SIG', 'D9'], ['H:f50', 'H:tp41'], ['H:f53', 'H:tn44']] },
+    steps: [
+      { k: 'info', do: t3('Beside the bench: a 50 cm aluminium beam on a pivot, the servo (pin 9) pushing its rod, and the HC-SR04 at the left end looking along the beam at the ball. The HC-SR04 on the breadboard is that one; its power is wired, its two signal wires are yours.', 'बेंच के पास: धुरी पर 50 cm का एल्युमिनियम बीम, उसकी छड़ को धकेलता सर्वो (पिन 9), और बाएँ सिरे पर बीम के साथ गेंद की ओर देखता HC-SR04। ब्रेडबोर्ड पर लगा HC-SR04 वही है; उसकी बिजली जुड़ी है, उसके दो सिग्नल तार आपके हैं।', 'Bench ke paas: dhuri par 50 cm ka aluminium beam, uski chhad ko dhakelta servo (pin 9), aur baayein sire par beam ke saath gend ki or dekhta HC-SR04. Breadboard par laga HC-SR04 wahi hai; uski bijli judi hai, uske do signal taar aapke hain.'), see: E },
+      w3('us.TRIG', 'D6', 'Wire its Trig (column 51) to pin 6.', 'इसका Trig (कॉलम 51) पिन 6 से जोड़िए।', 'Iska Trig (column 51) pin 6 se jodiye.'),
+      w3('us.ECHO', 'D7', 'And its Echo (column 52) to pin 7.', 'और इसका Echo (कॉलम 52) पिन 7 से।', 'Aur iska Echo (column 52) pin 7 se.'),
+      CHECK,
+      RUN(t3('Only P for now (Kp = 3, Ki = 0, Kd = 0). The ball starts at the far end; the Serial Monitor prints how far it is from the sensor.', 'अभी सिर्फ़ P (Kp = 3, Ki = 0, Kd = 0)। गेंद दूर वाले सिरे से शुरू होती है; सीरियल मॉनिटर बताता है कि वह सेंसर से कितनी दूर है।', 'Abhi sirf P (Kp = 3, Ki = 0, Kd = 0). Gend door wale sire se shuru hoti hai; Serial Monitor batata hai ki woh sensor se kitni door hai.')),
+      { k: 'act', until: (S) => fresh(S) && S.w('swinging'), do: t3('Watch the ball.', 'गेंद देखिए।', 'Gend dekhiye.'),
+        see: t3('It rolls to the middle … and straight past it, to the other side and back, again and again. P tips the beam only by how far the ball is off. By the middle the ball is already rolling fast, and nothing there slows it: P waits until it is off the other way.', 'यह बीच तक लुढ़कती है … और सीधे उसके आगे, दूसरी तरफ़ और वापस, बार-बार। P बीम को बस उतना झुकाता है जितनी गेंद दूर है। बीच तक पहुँचते-पहुँचते गेंद तेज़ लुढ़क रही होती है, और वहाँ उसे कुछ धीमा नहीं करता: P तब तक रुकता है जब तक वह दूसरी तरफ़ दूर न हो जाए।', 'Yeh beech tak ludhakti hai … aur seedhe uske aage, doosri taraf aur wapas, baar-baar. P beam ko bas utna jhukaata hai jitni gend door hai. Beech tak pahunchte-pahunchte gend tez ludhak rahi hoti hai, aur wahan use kuch dheema nahi karta: P tab tak rukta hai jab tak woh doosri taraf door na ho jaaye.') },
+      { k: 'edit', test: (src) => { const v = numOf(src, 'Kd'); return v !== null && v >= 1 && v <= 4 && !numOf(src, 'Ki'); }, set: [[/float Kd = 0;/, 'float Kd = 2;']], do: t3('Add D: change Kd = 0 to Kd = 2 and press Run. -Kd × speed tips the beam against the way the ball is rolling.', 'D जोड़िए: Kd = 0 को Kd = 2 कीजिए और "चलाइए" दबाइए। -Kd × speed बीम को गेंद के लुढ़कने की दिशा के ख़िलाफ़ झुकाता है।', 'D jodiye: Kd = 0 ko Kd = 2 kijiye aur Run dabaiye. -Kd × speed beam ko gend ke ludhakne ki disha ke khilaaf jhukaata hai.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('offset'), do: t3('Watch it again.', 'इसे फिर देखिए।', 'Ise phir dekhiye.'),
+        see: live((lg, R) => pick(lg, `Calm now: it rolls in and stops. But ${Math.abs(R.off ?? 2)} cm short of the middle, every time. The beam is level at 97°, not 90°: a servo horn only fits every 15° or so, and this one went on a little off. For the ball to stay still the beam must be level, so the servo must be at 97, so out must be 7, so Kp × error = 7: the ball must be 7 ÷ 3 cm off.`, `अब शांत: यह लुढ़ककर आती है और रुक जाती है। पर बीच से ${Math.abs(R.off ?? 2)} cm पहले, हर बार। बीम 97° पर सीधा है, 90° पर नहीं: सर्वो का हॉर्न हर 15° के आसपास ही फ़िट होता है, और यह थोड़ा हटकर लगा। गेंद के रुके रहने के लिए बीम सीधा होना चाहिए, तो सर्वो 97 पर, तो out 7, तो Kp × error = 7: गेंद को 7 ÷ 3 cm दूर रहना ही है।`, `Ab shaant: yeh ludhak kar aati hai aur ruk jaati hai. Par beech se ${Math.abs(R.off ?? 2)} cm pehle, har baar. Beam 97° par seedha hai, 90° par nahi: servo ka horn har 15° ke aaspaas hi fit hota hai, aur yeh thoda hatkar laga. Gend ke ruke rehne ke liye beam seedha hona chahiye, to servo 97 par, to out 7, to Kp × error = 7: gend ko 7 ÷ 3 cm door rehna hi hai.`)) },
+      { k: 'edit', test: (src) => { const v = numOf(src, 'Ki'); return v !== null && v >= 0.5 && v <= 3 && (numOf(src, 'Kd') || 0) >= 1; }, set: [[/float Ki = 0;/, 'float Ki = 1.5;']], do: t3('Add I: change Ki = 0 to Ki = 1.5 and press Run.', 'I जोड़िए: Ki = 0 को Ki = 1.5 कीजिए और "चलाइए" दबाइए।', 'I jodiye: Ki = 0 ko Ki = 1.5 kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('held'), do: t3('Watch it, then flick the ball (👉 in the panel).', 'इसे देखिए, फिर गेंद को झटका दीजिए (पैनल में 👉)।', 'Ise dekhiye, phir gend ko jhatka dijiye (panel mein 👉).'),
+        see: t3('It stops short, then creeps the last 2 cm and stays in the middle. iTerm grows for as long as the ball is off, until it gives the 7° that P alone could only get from an error. That is what I is for: the error that is small but never goes away. Flick it and it comes back.', 'यह पहले रुकती है, फिर आख़िरी 2 cm सरकती है और बीच में रहती है। जब तक गेंद दूर है iTerm बढ़ता रहता है, जब तक वह 7° न दे दे जो अकेला P बस एरर से ही ला सकता था। I इसी के लिए है: वह एरर जो छोटी है पर कभी जाती नहीं। झटका दीजिए, यह लौट आती है।', 'Yeh pehle rukti hai, phir aakhri 2 cm sarakti hai aur beech mein rehti hai. Jab tak gend door hai iTerm badhta rehta hai, jab tak woh 7° na de de jo akela P bas error se hi la sakta tha. I isi ke liye hai: woh error jo chhoti hai par kabhi jaati nahi. Jhatka dijiye, yeh laut aati hai.') },
+    ],
+    check: [...rails, has('us', t3('ultrasonic sensor HC-SR04', 'अल्ट्रासोनिक सेंसर HC-SR04', 'ultrasonic sensor HC-SR04')), need('us.TRIG', 'D6', W.toPin, { x: 'TRIG', p: 6 }), need('us.ECHO', 'D7', W.toPin, { x: 'ECHO', p: 7 }), need('us.VCC', '5V', W.to5v, { x: 'VCC' }), need('us.GND', 'GND', W.toGnd, { x: 'GND' })],
+    done: (S) => S.w('held') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

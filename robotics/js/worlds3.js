@@ -10,6 +10,8 @@
 //   turn     the turntable on the stepper's shaft, a degree ring on the mat to read its angle
 //   gimbal   (batch 33) a hand holding a two-servo camera gimbal: the roll servo on the grip, a U bracket, the pitch servo,
 //            an action camera on the platform with the GY-521 in front of it
+//   beam     (batch 34) a 50 cm aluminium channel on a pivot post, the servo's horn and pushrod, the HC-SR04 at its left
+//            end, a ping-pong ball rolling in it, a centimetre scale and the red mark at the middle
 // Phones and the headset: the still pieces of a scene are merged by material, there are no real-time lights or shadows
 // (the lamp's light is a soft pool on the floor), and a scene is built over a few frames.
 import * as THREE from 'three';
@@ -18,13 +20,14 @@ import * as M2 from './models2.js';
 import * as TX from './tex.js';
 import { VIEWS, nextFrame } from './stage.js';
 import { rotXZ } from './parts.js';
-import { makeScene, PT_TARGETS, TANK, LIFT, CONV, SLIDE, PLOT, PICK } from './scenes3.js';
+import { makeScene, PT_TARGETS, TANK, LIFT, CONV, SLIDE, PLOT, PICK, BEAM } from './scenes3.js';
 import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
+Object.assign(VIEWS, { scene3bb: { tgt: [470, 120, 0], hw: 330, hd: 210, dir: [-0.12, 0.36, 0.92] } }); // (batch 34: the ball-on-beam stand beside the bench)
 Object.assign(VIEWS, { scene3gb: { tgt: [290, 180, 40], hw: 290, hd: 270, dir: [-0.22, 0.32, 0.92] } }); // (batch 33: the gimbal in its hand, beside the bench)
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] }, scene3cv: { tgt: [285, 30, 0], hw: 235, hd: 150, dir: [-0.2, 0.62, 0.76] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal', 'beam']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -93,14 +96,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps(); case 'beam': return this.beamSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt); case 'beam': return this.beamDraw(dt);
     }
     return false;
   }
@@ -685,6 +688,45 @@ class World3 {
     const key = [S.hr, S.hp, aR, aP].map((v) => Math.round((v || 0) * 10)).join(); if (key === this._gbk) return false; this._gbk = key;
     this.gbHand.rotation.set(-(S.hp || 0) * D2R, 0, -(S.hr || 0) * D2R, 'ZXY'); this.gbRoll.rotation.z = -(aR - 90) * D2R; this.gbPitch.rotation.x = -(aP - 90) * D2R;
     this.gimbalScreen(S.pr || 0, S.pp || 0); return true;
+  }
+
+  // ================================================================== the ball-on-beam balancer (batch 34): the beam along x, the sensor's
+  // end on the left (towards the bench). Positive beam angle (scene) = the sensor's end up = rotation.z negative
+  beamSteps() {
+    const r = this.root, S = this.mat; const PV = this.bbPivot = V3(510, 158, -20);
+    return [
+      () => { // the stand: a base, the post and its pivot block
+        const g = new THREE.Group(); const blk = S({ color: 0x24262b, roughness: 0.5 }), wd = this.wood([1, 1], 0xd9c9a8);
+        g.add(box(200, 8, 90, wd, PV.x - 40, 4, PV.z)); g.add(box(16, PV.y - 14, 16, blk, PV.x, (PV.y - 14) / 2 + 8, PV.z - 16)); g.add(box(22, 14, 10, blk, PV.x, PV.y - 7, PV.z - 16));
+        g.add(box(10, 52, 26, blk, PV.x - 100, 34, PV.z - 22)); // (the servo's post)
+        this.still(g); this.blob(240, 120, PV.x - 40, PV.z, 0.3);
+        const sv = M2.sg90Body(); sv.rotation.set(Math.PI / 2, 0, 0); sv.position.set(PV.x - 100 + 5.6, 70, PV.z - 34); r.add(sv); this.bbShaft = V3(PV.x - 100, 70, PV.z - 6); // (its shaft towards the student)
+        const horn = this.bbHorn = new THREE.Group(); horn.position.copy(this.bbShaft); r.add(horn); horn.add(box(25, 4, 3, S({ color: 0xf2f2f2, roughness: 0.5 }), 12.5, 0, 0));
+        this.bbRod = new THREE.Mesh(new THREE.CylinderGeometry(1.2, 1.2, 1, 8), S({ color: 0xbfc3c8, metalness: 0.8, roughness: 0.3 })); r.add(this.bbRod);
+      },
+      () => { // the beam: an aluminium U channel, rubber stops, the scale, the HC-SR04 at the left end, the ball
+        const B = this.bbBeam = new THREE.Group(); B.position.copy(PV); r.add(B); const L = BEAM.L * 10, alu = S({ color: 0xc8ccd2, metalness: 0.75, roughness: 0.35 });
+        B.add(box(L, 2, 24, alu, 0, 0, 0)); for (const z of [-12, 12]) B.add(box(L, 16, 1.6, alu, 0, 8, z));
+        const rub = S({ color: 0x151517, roughness: 0.8 }); B.add(box(4, 16, 22, rub, -L / 2 + 2, 8, 0)); B.add(box(4, 16, 22, rub, L / 2 - 2, 8, 0));
+        const ink = S({ color: 0x2b2b2b, roughness: 0.6 }); for (let i = 0; i <= BEAM.L; i += 5) B.add(box(0.8, i % 10 ? 4 : 7, 0.3, ink, -L / 2 + i * 10, 16 - (i % 10 ? 4 : 7) / 2, 12.9));
+        B.add(box(2, 10, 0.4, S({ color: 0xd42a2a, roughness: 0.5 }), -L / 2 + BEAM.sp * 10, 11, 13.1)); // (the target: the middle)
+        const us = new THREE.Group(); us.position.set(-L / 2 - 4, 14, 0); B.add(us); us.add(box(1.6, 20, 45, S({ color: 0x1f5fb0, roughness: 0.55 }), 0, 0, 0));
+        for (const z of [-13, 13]) { const c = cyl(8, 12, S({ color: 0xc9ccd1, metalness: 0.7, roughness: 0.35 }), 6, 0, z, 18); c.rotation.z = Math.PI / 2; us.add(c); }
+        const ball = this.bbBall = new THREE.Mesh(new THREE.SphereGeometry(20, 24, 16), S({ color: 0xff8a1f, roughness: 0.35 })); B.add(ball); this.bbL = L;
+      },
+      () => this.cables([['sv', [PV.x - 100, 20, PV.z + 10]], ['us', [PV.x - BEAM.L * 5 - 6, 30, PV.z + 26]]]),
+    ];
+  }
+  beamDraw() {
+    if (!this.bbBall) return false; const S = this.sim; const sv = this.part('sv'); const a = sv ? sv.state.angle : 90;
+    if (this.lab.version !== this._bbv) { this._bbv = this.lab.version; const PV = this.bbPivot; this.cables([['sv', [PV.x - 100, 20, PV.z + 10]], ['us', [PV.x - BEAM.L * 5 - 6, 30, PV.z + 26]]]); }
+    const key = [S.x, S.th, a].map((v) => Math.round((v || 0) * 100)).join(); if (key === this._bbk) return false; this._bbk = key;
+    this.bbBeam.rotation.z = -(S.th || 0); this.bbBall.position.set(-this.bbL / 2 + (S.x ?? 40) * 10, 21, 0); this.bbBall.rotation.z = -(S.x ?? 40) * 10 / 20;
+    // the horn turns with the servo (pointing right at 90°); the rod goes from its tip to the beam 10 cm left of the pivot
+    const ph = (90 - a) * D2R; this.bbHorn.rotation.z = -ph; const tip = this.bbShaft.clone().add(V3(25 * Math.cos(ph), -25 * Math.sin(ph), 4));
+    const rz = this.bbBeam.rotation.z, PV = this.bbPivot; const top = V3(PV.x + (-100) * Math.cos(rz) - (-1) * Math.sin(rz), PV.y + (-100) * Math.sin(rz) + (-1) * Math.cos(rz), PV.z + 14); const mid = tip.clone().add(top).multiplyScalar(0.5), d = top.clone().sub(tip);
+    this.bbRod.position.copy(mid); this.bbRod.scale.set(1, d.length(), 1); this.bbRod.quaternion.setFromUnitVectors(V3(0, 1, 0), d.normalize());
+    return true;
   }
 
   stampMark(c, x, y, rot, a) { // a red "QC OK" stamp, 14 × 10 mm (at 64 × 48 px)

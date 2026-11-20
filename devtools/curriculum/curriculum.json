@@ -6143,16 +6143,16 @@
    {
     "class": 12,
     "n": 3,
-    "kind": "I",
-    "title": "Ball-on-beam balancer (PID)",
+    "kind": "L",
+    "title": "Ball-on-beam balancer",
     "board": "uno",
-    "status": "planned",
-    "ref": "ball-on-beam-balancer-pid-uno",
+    "status": "live",
+    "ref": "ballbeam",
     "newparts": [],
-    "family": "world-maker",
+    "family": "live-projects",
     "parts": [
-     "hcsr04",
-     "servo"
+     "servo",
+     "hcsr04"
     ],
     "strand": "Algorithmic thinking",
     "focus": "Control systems",

@@ -819,10 +819,48 @@ const WG = { hand: t3('Your hand (roll · pitch)', 'आपका हाथ (र�
   steady: t3('level', 'सीधा', 'seedha'), tipped: t3('tipped', 'झुका हुआ', 'jhuka hua'), handC: t3('Your hand', 'आपका हाथ', 'Aapka haath'), hLevel: t3('Level', 'सीधा', 'Seedha'),
   hRight: t3('Tilt right', 'दाएँ झुकाइए', 'Right jhukaiye'), hFwd: t3('Tip forward', 'आगे झुकाइए', 'Aage jhukaiye'), hWalk: t3('Walk', 'चलिए', 'Chaliye') };
 
+// ------------------------------------------------------------------ the ball-on-beam balancer (batch 34, Class 12)
+// A 50 cm aluminium channel on a pivot in its middle; the servo (sv, its 25 mm horn) pushes a rod 10 cm from the pivot, so
+// the beam tips a quarter of the servo's turn, about ±14° at most. The beam is level at 97° (the servo was fitted a few
+// teeth off). A 40 mm ping-pong ball rolls in it: x'' = 5/7 g sin θ (a hollow ball: 3/5), a little rolling drag, soft
+// rubber stops at both ends. The HC-SR04 (us) looks along the beam from the end at x = 0: it reads the ball's near side,
+// x − 2 cm (±0.1 cm, and the echo's own ±0.1). Flags: hitEnd (the ball hits a stop), swinging (it rolls past the setpoint and back 4 times, more
+// than 4 cm each way), offset (the ball rests 1.5 cm or more from the setpoint), held (4 s within 1.5 cm of it).
+export const BEAM = { L: 50, r: 2, level: 97, k: 0.25, max: 14, sp: 25, drag: 0.15, hollow: 3 / 5 };
+export class BeamScene extends Scene {
+  constructor(cfg) { super(cfg); this.x = 40; this.v = 0; this.th = 0; this.res = {}; this.sw = 0; this.side = 0; this.restT = 0; this.inT = 0; this.peak = 0; }
+  update(dt, lab) {
+    this.t += dt; const B = BEAM; const sv = lab.byTag('sv'); const a = sv ? sv.state.angle : 90; this.servo = a;
+    const th = clamp((a - B.level) * B.k, -B.max, B.max) * Math.PI / 180; this.th = th;
+    const n = 4, h = dt / n; for (let i = 0; i < n; i++) { const acc = B.hollow * 981 * Math.sin(th) - B.drag * this.v; this.v += acc * h; this.x += this.v * h;
+      if (this.x < B.r + 0.3) { if (this.v < -8) this.flags.add('hitEnd'); this.x = B.r + 0.3; this.v = Math.abs(this.v) * 0.35; } if (this.x > B.L - B.r) { if (this.v > 8) this.flags.add('hitEnd'); this.x = B.L - B.r; this.v = -Math.abs(this.v) * 0.35; } }
+    const us = lab.byTag('us'); if (us) { us.state.ext = true; const d = +(Math.max(2, this.x - B.r + (Math.random() - 0.5) * 0.2)).toFixed(1); if (us.state.dist !== d) { us.state.dist = d; lab.stateV = (lab.stateV || 0) + 1; } }
+    if (this.t - (this.runAt ?? -1e9) < 1.5) return true; // (Run: the hand lets the ball go)
+    const e = this.x - B.sp; const g = e > 4 ? 1 : e < -4 ? -1 : 0; if (g && g !== this.side) { if (this.side) this.sw++; this.side = g; } if (this.sw >= 4) { this.flags.add('swinging'); this.res.swings = this.sw; }
+    this.peak = Math.max(this.peak, Math.abs(e));
+    this.hist = (this.hist || []).filter((q) => this.t - q[0] < 2); this.hist.push([this.t, this.x]); const moved = Math.abs(this.x - this.hist[0][1]); // (where it was 2 s ago)
+    if (this.t - this.hist[0][0] > 1.9 && moved < 0.5 && Math.abs(e) >= 1.5 && this.x > B.r + 1 && this.x < B.L - B.r - 1) { this.flags.add('offset'); this.res.off = +e.toFixed(1); }
+    if (Math.abs(e) < 1.5) this.inT += dt; else this.inT = 0; if (this.inT > 4) { this.flags.add('held'); this.res.err = +Math.abs(e).toFixed(1); }
+    return true;
+  }
+  onRun() { super.onRun(); for (const k of ['hitEnd', 'swinging', 'offset', 'held']) this.flags.delete(k); this.x = 40; this.v = 0; this.sw = 0; this.side = 0; this.hist = []; this.inT = 0; this.peak = 0; this.res = {}; }
+  control(id) { if (id === 'nudge') this.v += this.x < BEAM.sp ? 18 : -18; if (id === 'far') { this.x = 44; this.v = 0; } }
+  hud(lab) {
+    const us = lab && lab.byTag('us'); const B = BEAM;
+    const st = this.flags.has('held') ? WB.held : Math.abs(this.v) < 0.5 ? WB.rest : WB.rolling;
+    return { title: t3('Ball-on-beam balancer', 'बीम पर गेंद संतुलक', 'Beam par gend santulak'),
+      rows: [[tx(WB.ball), `${(this.x - B.r).toFixed(1)} cm · ${tx(WB.target)} ${B.sp - B.r} cm`], [tx(WB.sensor), us && us.state.powered ? `${us.state.dist} cm` : '—'], [tx(WB.beam), `${(this.th * 180 / Math.PI >= 0 ? '+' : '−')}${Math.abs(this.th * 180 / Math.PI).toFixed(1)}° · ${tx(WB.servo)} ${Math.round(this.servo ?? 90)}°`], ['', tx(st)]],
+      controls: [{ id: 'nudge', kind: 'button', label: WB.nudge }, { id: 'far', kind: 'button', label: WB.far }] };
+  }
+}
+const WB = { ball: t3('Ball (from the sensor)', 'गेंद (सेंसर से)', 'Gend (sensor se)'), target: t3('target', 'लक्ष्य', 'lakshya'), sensor: t3('HC-SR04 reads', 'HC-SR04 पढ़ता है', 'HC-SR04 padhta hai'), beam: t3('Beam', 'बीम', 'Beam'),
+  servo: t3('servo', 'सर्वो', 'servo'), held: t3('held at the target', 'लक्ष्य पर थमी हुई', 'lakshya par thami hui'), rest: t3('at rest', 'रुकी हुई', 'ruki hui'), rolling: t3('rolling', 'लुढ़क रही', 'ludhak rahi'),
+  nudge: t3('👉 Flick the ball', '👉 गेंद को झटका', '👉 Gend ko jhatka'), far: t3('Put it at the far end', 'इसे दूर वाले छोर पर रखिए', 'Ise door wale chhor par rakhiye') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

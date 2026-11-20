@@ -458,4 +458,11 @@ for (const l of L24) {
   ok(B.sim.res.worst > 0 && B.sim.res.worst <= 5, `gimbal: walking (±10°), the phone stays within ${B.sim.res.worst}°`);
 }
 
+// the ball-on-beam balancer (lessons24.js ballbeam, scenes3.js BeamScene): P swings it end to end, PD stops it 7/3 cm
+// short (the beam is level at 97°), PID holds it in the middle
+{ const l = LESSONS.find((x) => x.id === 'ballbeam'); const B = build3(l);
+  play3(l, B, [null, null, null]);
+  ok(B.sim.res.err <= 1.5, `ballbeam: held within ${B.sim.res.err} cm of the middle`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

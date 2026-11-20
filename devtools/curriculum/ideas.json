@@ -71415,6 +71415,26 @@
 "note": null
 },
 {
+"id": "live-ballbeam",
+"title": "Ball-on-beam balancer",
+"family": "live",
+"board": "uno",
+"parts": [
+"servo",
+"hcsr04"
+],
+"newparts": [],
+"band": [
+12,
+12
+],
+"level": 12,
+"theme": "projects",
+"live": "ballbeam",
+"rule": null,
+"note": null
+},
+{
 "id": "live-gimbal",
 "title": "Self-stabilising gimbal",
 "family": "live",

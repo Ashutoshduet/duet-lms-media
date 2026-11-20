@@ -1255,3 +1255,10 @@ heaters.
   of walking within 5°). The sketch integrates: pos += Kp × tilt is positive feedback and flips over by itself on the
   sensor's noise; pos −= 2 × tilt shakes at about 10 Hz (the servo takes a new angle once a frame, so the loop pushes
   again before the camera has moved); Kp 0.15–0.5 keeps it within about 3° while walking.
+- Batch 34: the Class 12 ball-on-beam balancer (lessons24.js ballbeam; scenes3.js BeamScene, BEAM; worlds3.js beamSteps,
+  view scene3bb). A 50 cm aluminium channel on a pivot post; the servo (sv, pin 9) pushes a rod 10 cm from the pivot, so
+  the beam tips (servo − 97) × 0.25° (±14°; level at 97°, the horn a few teeth off). A 40 mm ping-pong ball (hollow:
+  x'' = 3/5 g sin θ, drag 0.15/s, rubber stops). The HC-SR04 (us, j50; TRIG 6 and ECHO 7 are the student's wires) at the
+  left end reads x − 2 cm ±0.1. Run puts the ball at 38 cm. Flags: hitEnd, swinging (4 crossings 4 cm past the middle),
+  offset (resting 1.5 cm or more off: moved < 0.5 cm in 2 s), held (4 s within 1.5 cm). Kp 3 swings end to end; Kd 2
+  rests 7/3 cm short; Ki 1.5 holds it. Buttons: flick the ball, put it at the far end.
