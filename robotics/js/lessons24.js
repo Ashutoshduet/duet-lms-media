@@ -971,6 +971,48 @@ void loop() {
 }
 `;
 
+const GIMC = `// Self-stabilising gimbal: the MPU-6050 sits on the camera platform; two servos turn the platform so it stays level.
+#include <Wire.h>
+#include <MPU6050_light.h>
+#include <Servo.h>
+
+MPU6050 mpu(Wire);
+Servo rollServo;                // on top of the handle: tips the platform left and right
+Servo pitchServo;               // on the bracket: tips it forward and back
+float rollPos = 90;             // where the servos are told to be (°)
+float pitchPos = 90;
+float Kp = 2;                   // how far the servos move, each loop, for each degree the platform is off
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+  mpu.begin();
+  rollServo.attach(9);
+  pitchServo.attach(10);
+  rollServo.write(90);
+  pitchServo.write(90);
+  Serial.println("Keep it level and still...");
+  mpu.calcOffsets();
+  Serial.println("Go!");
+}
+
+void loop() {
+  mpu.update();
+  float roll = mpu.getAngleX();     // the platform's tilt to the right (°)
+  float pitch = mpu.getAngleY();    // and forward (°)
+  rollPos = rollPos + Kp * roll;    // move each servo by the tilt
+  pitchPos = pitchPos + Kp * pitch;
+  rollPos = constrain(rollPos, 0, 180);
+  pitchPos = constrain(pitchPos, 0, 180);
+  rollServo.write(rollPos);
+  pitchServo.write(pitchPos);
+  Serial.print(roll);
+  Serial.print(" ");
+  Serial.println(pitch);
+  delay(10);
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1521,6 +1563,31 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('mpu', t3('motion sensor MPU-6050', 'मोशन सेंसर MPU-6050', 'motion sensor MPU-6050')), need('mpu.SDA', 'A4', W.join, { a: 'SDA', b: 'A4' }), need('mpu.SCL', 'A5', W.join, { a: 'SCL', b: 'A5' })],
     done: (S) => S.w('stayed') });
+  // 18 ------------------------------------------------------------------- self-stabilising gimbal (Class 12, batch 33)
+  // The wrong sign runs a servo to its end stop by itself; Kp = 2 shakes the platform at about 10 Hz (the servos only take a
+  // new angle 50 times a second, so the loop pushes again before the phone has moved); Kp = 0.25 keeps it level as you walk
+  const signFixed = (src) => /rollPos\s*=\s*rollPos\s*-\s*Kp\s*\*\s*roll\s*;/.test(src) && /pitchPos\s*=\s*pitchPos\s*-\s*Kp\s*\*\s*pitch\s*;/.test(src);
+  L.push({ id: 'gimbal', cls: '12', blocks: false, view: 'wide', rview: 'scene3gb', code: GIMC, drawer: [], baud: 115200, serial: true, scene: { kind: 'gimbal' },
+    title: t3('Self-stabilising gimbal', 'ख़ुद स्थिर रहने वाला गिम्बल', 'Khud sthir rehne wala gimbal'),
+    goal: t3('A hand-held camera gimbal keeps the camera level however your hand tilts. The MPU-6050 on the camera platform measures its tilt, and two servos turn the platform back. Get the direction right, find out why too strong a correction shakes, and walk with it.', 'हाथ में पकड़ा कैमरा गिम्बल कैमरे को सीधा रखता है, चाहे आपका हाथ कैसे भी झुके। कैमरा प्लेटफ़ॉर्म पर लगा MPU-6050 उसका झुकाव नापता है, और दो सर्वो प्लेटफ़ॉर्म को वापस घुमाते हैं। दिशा सही कीजिए, पता कीजिए कि बहुत ज़ोर का सुधार क्यों हिलाता है, और इसके साथ चलिए।', 'Haath mein pakda camera gimbal camera ko seedha rakhta hai, chahe aapka haath kaise bhi jhuke. Camera platform par laga MPU-6050 uska jhukaav naapta hai, aur do servo platform ko wapas ghumaate hain. Disha sahi kijiye, pata kijiye ki bahut zor ka sudhaar kyon hilaata hai, aur iske saath chaliye.'),
+    setup: { parts: [F('svR', 'servo', {}, 178, 52, 1), F('svP', 'servo', {}, 178, 82, 1), F('mpu', 'mpu6050', {}, 130, 128, 0)], wires: [...POWER, ['T:svR:GND', 'H:bn40'], ['T:svR:VP', 'H:bp40'], ['T:svR:SIG', 'D9'], ['T:svP:GND', 'H:bn44'], ['T:svP:VP', 'H:bp44'], ['T:svP:SIG', 'D10'], ['T:mpu:VCC', 'H:bp48'], ['T:mpu:GND', 'H:bn49']] },
+    steps: [
+      { k: 'info', do: t3('The gimbal stands beside the bench: the handle in your hand, the roll servo (pin 9) on top of it, the pitch servo (pin 10) on its bracket, and the camera platform with an action camera and the GY-521 (MPU-6050) flat in front of it. The servos are wired, and the MPU-6050\'s power; the I2C wires are yours.', 'गिम्बल बेंच के पास खड़ा है: हैंडल आपके हाथ में, उसके ऊपर रोल सर्वो (पिन 9), उसके ब्रैकेट पर पिच सर्वो (पिन 10), और कैमरा प्लेटफ़ॉर्म, जिस पर एक एक्शन कैमरा है और उसके आगे सपाट GY-521 (MPU-6050)। सर्वो जुड़े हैं, और MPU-6050 की बिजली भी; I2C तार आपके हैं।', 'Gimbal bench ke paas khada hai: handle aapke haath mein, uske upar roll servo (pin 9), uske bracket par pitch servo (pin 10), aur camera platform, jis par ek action camera hai aur uske aage sapaat GY-521 (MPU-6050). Servo jude hain, aur MPU-6050 ki bijli bhi; I2C taar aapke hain.'), see: E },
+      w3('mpu.SDA', 'A4', 'Join the GY-521\'s SDA (data) to A4.', 'GY-521 का SDA (डेटा) A4 से जोड़िए।', 'GY-521 ka SDA (data) A4 se jodiye.'),
+      w3('mpu.SCL', 'A5', 'And its SCL (clock) to A5.', 'और इसका SCL (क्लॉक) A5 से।', 'Aur iska SCL (clock) A5 se.'),
+      CHECK,
+      RUN(t3('Keep your hand level while calcOffsets() learns "level" (a second): the Serial Monitor says Go!', 'जब तक calcOffsets() "सीधा" सीखता है (एक सेकंड), हाथ सीधा रखिए: सीरियल मॉनिटर Go! कहता है।', 'Jab tak calcOffsets() "seedha" seekhta hai (ek second), haath seedha rakhiye: Serial Monitor Go! kehta hai.')),
+      { k: 'act', until: (S) => fresh(S) && S.w('wrongWay'), do: t3('Watch the camera after Go!, your hand still level.', 'Go! के बाद कैमरा देखिए, हाथ अब भी सीधा।', 'Go! ke baad camera dekhiye, haath ab bhi seedha.'),
+        see: t3('It flips over by itself until a servo hits its end stop, though your hand never moved. The sensor always reads a few tenths of a degree, and rollPos + Kp × roll turns the servo the same way as that tilt: the tilt grows, the push grows, every loop. That is positive feedback; a controller must push against the error.', 'यह अपने आप पलट जाता है जब तक कोई सर्वो अपने छोर तक न पहुँच जाए, जबकि आपका हाथ हिला ही नहीं। सेंसर हमेशा डिग्री के कुछ दसवें हिस्से पढ़ता है, और rollPos + Kp × roll सर्वो को उसी झुकाव की दिशा में घुमाता है: झुकाव बढ़ता है, धक्का बढ़ता है, हर लूप में। यह पॉज़िटिव फ़ीडबैक है; कंट्रोलर को एरर के ख़िलाफ़ धकेलना चाहिए।', 'Yeh apne aap palat jaata hai jab tak koi servo apne chhor tak na pahunch jaaye, jabki aapka haath hila hi nahi. Sensor hamesha degree ke kuch dasvein hisse padhta hai, aur rollPos + Kp × roll servo ko usi jhukaav ki disha mein ghumaata hai: jhukaav badhta hai, dhakka badhta hai, har loop mein. Yeh positive feedback hai; controller ko error ke khilaaf dhakelna chahiye.') },
+      { k: 'edit', test: signFixed, set: [[/rollPos = rollPos \+ Kp \* roll;/, 'rollPos = rollPos - Kp * roll;'], [/pitchPos = pitchPos \+ Kp \* pitch;/, 'pitchPos = pitchPos - Kp * pitch;']], do: t3('Turn against the tilt: change both + Kp to - Kp:\n  rollPos = rollPos - Kp * roll;\n  pitchPos = pitchPos - Kp * pitch;\nPut your hand level and press Run.', 'झुकाव के ख़िलाफ़ घुमाइए: दोनों + Kp को - Kp कीजिए:\n  rollPos = rollPos - Kp * roll;\n  pitchPos = pitchPos - Kp * pitch;\nहाथ सीधा कीजिए और "चलाइए" दबाइए।', 'Jhukaav ke khilaaf ghumaiye: dono + Kp ko - Kp kijiye:\n  rollPos = rollPos - Kp * roll;\n  pitchPos = pitchPos - Kp * pitch;\nHaath seedha kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('shaky'), do: t3('Watch it, then tilt your hand right.', 'इसे देखिए, फिर हाथ दाएँ झुकाइए।', 'Ise dekhiye, phir haath right jhukaiye.'),
+        see: live((lg, R) => pick(lg, `Now it pushes the right way, but far too hard: the platform shakes about ${Math.round(R.hz ?? 10)} times a second, buzzing. Each loop moves the servo 2 × the tilt, and a servo takes a new angle only 50 times a second, so before the camera has moved the loop has already pushed again. It lands past level on the other side, further each time.`, `अब यह सही दिशा में धकेलता है, पर बहुत ज़्यादा ज़ोर से: प्लेटफ़ॉर्म एक सेकंड में लगभग ${Math.round(R.hz ?? 10)} बार काँपता है, भिनभिनाता हुआ। हर लूप सर्वो को झुकाव का 2 गुना घुमाता है, और सर्वो एक सेकंड में बस 50 बार नया कोण लेता है, तो कैमरे के हिलने से पहले ही लूप फिर धकेल चुका होता है। यह दूसरी तरफ़ सीधे से आगे जा पहुँचता है, हर बार और दूर।`, `Ab yeh sahi disha mein dhakelta hai, par bahut zyada zor se: platform ek second mein lagbhag ${Math.round(R.hz ?? 10)} baar kaanpta hai, bhinbhinaata hua. Har loop servo ko jhukaav ka 2 guna ghumaata hai, aur servo ek second mein bas 50 baar naya angle leta hai, to camera ke hilne se pehle hi loop phir dhakel chuka hota hai. Yeh doosri taraf seedhe se aage ja pahunchta hai, har baar aur door.`)) },
+      { k: 'edit', test: (src) => { const k = numOf(src, 'Kp'); return signFixed(src) && k !== null && k >= 0.15 && k <= 0.5; }, set: [[/float Kp = 2;/, 'float Kp = 0.25;']], do: t3('Gentler: change Kp = 2 to Kp = 0.25 and press Run (hand level).', 'धीमा: Kp = 2 को Kp = 0.25 कीजिए और "चलाइए" दबाइए (हाथ सीधा)।', 'Dheema: Kp = 2 ko Kp = 0.25 kijiye aur Run dabaiye (haath seedha).'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('level'), do: t3('Choose Your hand: Walk, and watch the camera for 5 seconds.', 'आपका हाथ: चलिए चुनिए, और 5 सेकंड कैमरा देखिए।', 'Aapka haath: Chaliye chuniye, aur 5 second camera dekhiye.'),
+        see: live((lg, R) => pick(lg, `Your hand sways ±10°, the camera stays within ${R.worst ?? 4}°. A quarter of the tilt each loop: it catches up in a few loops and never overshoots. Real gimbals use brushless motors instead of servos: they answer in a thousandth of a second, so they can push much harder without shaking.`, `आपका हाथ ±10° झूलता है, कैमरा ${R.worst ?? 4}° के अंदर रहता है। हर लूप में झुकाव का चौथाई: कुछ लूप में यह पकड़ लेता है और कभी आगे नहीं निकलता। असली गिम्बल सर्वो की जगह ब्रशलेस मोटर लगाते हैं: वे एक सेकंड के हज़ारवें हिस्से में जवाब देती हैं, इसलिए बिना हिले बहुत ज़्यादा ज़ोर लगा सकती हैं।`, `Aapka haath ±10° jhoolta hai, camera ${R.worst ?? 4}° ke andar rehta hai. Har loop mein jhukaav ka chauthaai: kuch loop mein yeh pakad leta hai aur kabhi aage nahi nikalta. Asli gimbal servo ki jagah brushless motor lagaate hain: woh ek second ke hazaarvein hisse mein jawaab deti hain, isliye bina hile bahut zyada zor laga sakti hain.`)) },
+    ],
+    check: [...rails, has('mpu', t3('motion sensor MPU-6050', 'मोशन सेंसर MPU-6050', 'motion sensor MPU-6050')), (S) => (S.conn('mpu.SDA', 'A5') && S.conn('mpu.SCL', 'A4') ? [SWAP] : null), need('mpu.SDA', 'A4', W.join, { a: 'SDA', b: 'A4' }), need('mpu.SCL', 'A5', W.join, { a: 'SCL', b: 'A5' })],
+    done: (S) => S.w('level') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

@@ -8,6 +8,8 @@
 //   kitchen  a counter with a two-burner stove, the red LPG cylinder, a window, the leaking gas as a haze
 //   pantilt  the pan-tilt head with its laser on a stand, the target board with A and B, the laser's dot
 //   turn     the turntable on the stepper's shaft, a degree ring on the mat to read its angle
+//   gimbal   (batch 33) a hand holding a two-servo camera gimbal: the roll servo on the grip, a U bracket, the pitch servo,
+//            an action camera on the platform with the GY-521 in front of it
 // Phones and the headset: the still pieces of a scene are merged by material, there are no real-time lights or shadows
 // (the lamp's light is a soft pool on the floor), and a scene is built over a few frames.
 import * as THREE from 'three';
@@ -20,8 +22,9 @@ import { makeScene, PT_TARGETS, TANK, LIFT, CONV, SLIDE, PLOT, PICK } from './sc
 import { CARDS } from './libs3.js';
 
 // the camera that sees the bench and the scene beside it
+Object.assign(VIEWS, { scene3gb: { tgt: [290, 180, 40], hw: 290, hd: 270, dir: [-0.22, 0.32, 0.92] } }); // (batch 33: the gimbal in its hand, beside the bench)
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] }, scene3cv: { tgt: [285, 30, 0], hw: 235, hd: 150, dir: [-0.2, 0.62, 0.76] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -90,14 +93,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt);
     }
     return false;
   }
@@ -638,6 +641,50 @@ class World3 {
         o.tex.needsUpdate = true; ch = true; }
     });
     return ch;
+  }
+
+  // ================================================================== the self-stabilising gimbal (batch 33): a hand holds the grip; the
+  // roll servo on top turns a U bracket about z (front-back), the pitch servo on the bracket turns the camera platform about x.
+  // Positive roll tips the top to the right (as the student sees it), positive pitch tips it forward (away)
+  gimbalSteps() {
+    const r = this.root, S = this.mat; const P0 = this.gbAt = V3(300, 112, 40);
+    return [
+      () => { // the hand: grip, fist and forearm, rotated about the middle of the grip
+        const hand = this.gbHand = new THREE.Group(); hand.position.copy(P0); r.add(hand);
+        const rub = S({ color: 0x1d1f23, roughness: 0.85 }), skin = S({ color: 0xc58c64, roughness: 0.75 }), sleeve = S({ color: 0x2f5d8a, roughness: 0.9 });
+        hand.add(cyl(14, 112, rub, 0, 0, 0, 20)); hand.add(cyl(16, 8, S({ color: 0x9aa0a6, metalness: 0.7, roughness: 0.35 }), 0, 58, 0, 20));
+        const fist = new THREE.Group(); fist.position.set(0, -12, 4); hand.add(fist); const palm = new THREE.Mesh(new THREE.CapsuleGeometry(17, 30, 6, 14), skin); palm.scale.set(1.15, 1, 0.9); palm.position.set(0, 0, 12); fist.add(palm); // (the back of the hand, towards the student)
+        for (let i = 0; i < 4; i++) { const f = new THREE.Mesh(new THREE.CapsuleGeometry(7.5, 22, 4, 10), skin); f.rotation.z = Math.PI / 2; f.position.set(-2, 22 - i * 15, -16); fist.add(f); } // (fingers round the front of the grip)
+        const th = new THREE.Mesh(new THREE.CapsuleGeometry(8, 26, 4, 10), skin); th.rotation.set(0.3, 0, 0.9); th.position.set(-18, 28, 4); fist.add(th);
+        const arm = new THREE.Group(); arm.position.set(0, -40, 26); arm.rotation.x = 0.95; fist.add(arm); arm.add(cyl(21, 60, skin, 0, -30, 0, 18)); arm.add(cyl(27, 150, sleeve, 0, -130, 0, 18));
+        const sv = M2.sg90Body(); sv.rotation.x = Math.PI / 2; sv.position.set(5.6, 72, -14); hand.add(sv); // (the roll servo: its shaft towards the student, along z)
+      },
+      () => { // the roll bracket (a U of black aluminium), the pitch servo on its right arm, the camera platform between the arms
+        const blk = S({ color: 0x1b1b1d, roughness: 0.45 }); const roll = this.gbRoll = new THREE.Group(); roll.position.set(0, 72, 16); this.gbHand.add(roll);
+        roll.add(cyl(9, 3, S({ color: 0xf2f2f2, roughness: 0.5 }), 0, 0, -1, 16).rotateX(Math.PI / 2)); roll.add(box(100, 4, 12, blk, 0, 6, 4)); for (const sg of [-1, 1]) roll.add(box(4, 84, 12, blk, sg * 48, 46, 4));
+        const sv = M2.sg90Body(); sv.rotation.set(0, 0, -Math.PI / 2); sv.position.set(52, 78 + 5.6, 4); roll.add(sv); // (its shaft along −x, into the bracket)
+        const pitch = this.gbPitch = new THREE.Group(); pitch.position.set(0, 78, 4); roll.add(pitch);
+        pitch.add(box(84, 3, 44, blk, 0, -24, 0)); for (const sg of [-1, 1]) pitch.add(box(3, 30, 20, blk, sg * 42, -10, 0));
+        const cam = new THREE.Group(); cam.position.set(0, 0, 0); pitch.add(cam); cam.add(box(62, 42, 30, S({ color: 0x2a2c31, roughness: 0.5 }), 0, -1, 0));
+        const lens = cyl(11, 8, S({ color: 0x0c0d10, roughness: 0.15, metalness: 0.4 }), 14, -2, -18, 20); lens.rotation.x = Math.PI / 2; cam.add(lens);
+        const C = canvas(160, 108); const c = C.getContext('2d'); this.gbScreen = { C, c, tex: ctex(C) }; const scr = new THREE.Mesh(new THREE.PlaneGeometry(48, 32), new THREE.MeshBasicMaterial({ map: this.gbScreen.tex, toneMapped: false })); scr.position.set(0, -1, 15.2); cam.add(scr);
+        cam.add(box(8, 3, 6, S({ color: 0xc9312c, roughness: 0.4 }), -20, 21, -6));
+        const mb = new THREE.Group(); mb.position.set(0, -21.5, 26); pitch.add(mb); mb.add(box(21, 1.6, 16, S({ color: 0x1f5fb0, roughness: 0.55 }), 0, 0, 0)); mb.add(box(4, 1, 4, S({ color: 0x111214, roughness: 0.4 }), 0, 1.3, 0)); // (the GY-521, flat on the platform in front of the camera)
+      },
+      () => this.cables([['svR', [this.gbAt.x - 8, 48, this.gbAt.z + 30]], ['svP', [this.gbAt.x + 8, 50, this.gbAt.z + 30]], ['mpu', [this.gbAt.x, 46, this.gbAt.z + 36]]]),
+    ];
+  }
+  gimbalScreen(roll, pitch) { // the camera's own picture: the horizon, turned and moved as the camera tips; REC
+    const { C, c, tex } = this.gbScreen; const w = C.width, h = C.height; c.save(); c.fillStyle = '#7fb6e8'; c.fillRect(0, 0, w, h); c.translate(w / 2, h / 2 - pitch * 2.2); c.rotate(-roll * D2R); // (the camera tips right: its picture of the horizon turns the other way)
+    c.fillStyle = '#5f8f4a'; c.fillRect(-w, 0, 2 * w, h * 2); c.fillStyle = '#e8e2d0'; c.fillRect(-w, -1, 2 * w, 2); c.restore();
+    c.fillStyle = '#e03030'; c.beginPath(); c.arc(14, 14, 6, 0, 7); c.fill(); c.fillStyle = '#fff'; c.font = `700 14px ${TX.FONT}`; c.fillText('REC', 24, 19); tex.needsUpdate = true;
+  }
+  gimbalDraw() {
+    if (!this.gbPitch) return false; const S = this.sim; const R = this.part('svR'), P = this.part('svP'); const aR = R ? R.state.angle : 90, aP = P ? P.state.angle : 90;
+    if (this.lab.version !== this._gbv) { this._gbv = this.lab.version; this.cables([['svR', [this.gbAt.x - 8, 48, this.gbAt.z + 30]], ['svP', [this.gbAt.x + 8, 50, this.gbAt.z + 30]], ['mpu', [this.gbAt.x, 46, this.gbAt.z + 36]]]); }
+    const key = [S.hr, S.hp, aR, aP].map((v) => Math.round((v || 0) * 10)).join(); if (key === this._gbk) return false; this._gbk = key;
+    this.gbHand.rotation.set(-(S.hp || 0) * D2R, 0, -(S.hr || 0) * D2R, 'ZXY'); this.gbRoll.rotation.z = -(aR - 90) * D2R; this.gbPitch.rotation.x = -(aP - 90) * D2R;
+    this.gimbalScreen(S.pr || 0, S.pp || 0); return true;
   }
 
   stampMark(c, x, y, rot, a) { // a red "QC OK" stamp, 14 × 10 mm (at 64 × 48 px)

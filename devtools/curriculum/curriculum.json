@@ -6161,16 +6161,16 @@
    {
     "class": 12,
     "n": 4,
-    "kind": "I",
+    "kind": "L",
     "title": "Self-stabilising gimbal",
     "board": "uno",
-    "status": "planned",
-    "ref": "self-stabilising-gimbal-uno",
+    "status": "live",
+    "ref": "gimbal",
     "newparts": [],
-    "family": "world-maker",
+    "family": "live-projects",
     "parts": [
-     "mpu6050",
-     "servo"
+     "servo",
+     "mpu6050"
     ],
     "strand": "Algorithmic thinking",
     "focus": "Control systems",

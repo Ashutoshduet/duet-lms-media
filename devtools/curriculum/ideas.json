@@ -71415,6 +71415,26 @@
 "note": null
 },
 {
+"id": "live-gimbal",
+"title": "Self-stabilising gimbal",
+"family": "live",
+"board": "uno",
+"parts": [
+"servo",
+"mpu6050"
+],
+"newparts": [],
+"band": [
+12,
+12
+],
+"level": 12,
+"theme": "projects",
+"live": "gimbal",
+"rule": null,
+"note": null
+},
+{
 "id": "live-balancebot",
 "title": "Self-balancing robot",
 "family": "live",

@@ -451,4 +451,11 @@ for (const l of L24) {
   ok(!!l.done(rt), `balance: complete; ${seen.join(' | ')}`);
 }
 
+// the self-stabilising gimbal (lessons24.js gimbal, scenes3.js GimbalScene): + Kp runs a servo to its end by itself; Kp 2
+// shakes at about 10 Hz; Kp 0.25 keeps the phone level while the hand walks
+{ const l = LESSONS.find((x) => x.id === 'gimbal'); const B = build3(l);
+  play3(l, B, [null, (t, sim) => { if (t > 1.5 && sim.mode !== 'right') sim.control('hand', 'right'); }, (t, sim) => { if (t < 0.1) sim.control('hand', 'level'); else if (t > 2 && sim.mode !== 'walk') sim.control('hand', 'walk'); }]);
+  ok(B.sim.res.worst > 0 && B.sim.res.worst <= 5, `gimbal: walking (±10°), the phone stays within ${B.sim.res.worst}°`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

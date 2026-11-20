@@ -779,10 +779,50 @@ const WK = { stop: t3('At the stop', 'स्टॉप पर', 'Stop par'), boxA
   cup: t3('Suction cup', 'सक्शन कप', 'Suction cup'), holding: t3('holding a box', 'डिब्बा पकड़े', 'dabba pakde'), sucking: t3('pump on', 'पंप चालू', 'pump on'), off: t3('pump off', 'पंप बंद', 'pump band'),
   crate: t3('In the crate', 'क्रेट में', 'Crate mein'), floor: t3('Dropped on the floor', 'फ़र्श पर गिरे', 'Farsh par gire'), dents: t3('Dented boxes', 'पिचके डिब्बे', 'Pichke dabbe') };
 
+// ------------------------------------------------------------------ the self-stabilising gimbal (batch 33, Class 12)
+// A hand-held two-axis gimbal: the roll servo (svR) on top of the grip, the pitch servo (svP) on its bracket, the camera
+// platform on the pitch servo with the MPU-6050 (mpu) on it. The platform's tilt is the hand's plus the servos' turn from
+// 90°: roll = hand roll + (svR − 90), pitch = hand pitch + (svP − 90). The hand: level, tilted right 25°, tipped forward
+// 20°, or walking (it sways ±10° and ±6° and trembles a little); it turns at most 80°/s. Flags: wrongWay (a servo at its
+// end stop with the platform more than 30° off), shaky (the platform swinging past ±2° the other way 4 times in 1.5 s),
+// level (5 s of walking with the platform never more than 5° off).
+export const GIMB = { tilt: 25, tip: 20, sway: [10, 6], hz: [0.5, 0.8], turn: 80, tol: 5 };
+export class GimbalScene extends Scene {
+  constructor(cfg) { super(cfg); this.mode = 'level'; this.hr = 0; this.hp = 0; this.pr = 0; this.pp = 0; this.walkT = 0; this.okT = 0; this.sw = [[], []]; this.sg = [0, 0]; this.res = { worst: 0 }; }
+  aim() { const G = GIMB, t = this.t; if (this.mode === 'walk') return [G.sway[0] * Math.sin(2 * Math.PI * G.hz[0] * t), G.sway[1] * Math.sin(2 * Math.PI * G.hz[1] * t + 1)]; return { level: [0, 0], right: [G.tilt, 0], fwd: [0, G.tip] }[this.mode] || [0, 0]; }
+  update(dt, lab) {
+    this.t += dt; const [tr, tp] = this.aim(); const st = GIMB.turn * dt; const tw = 0.35 * Math.sin(2 * Math.PI * 8.3 * this.t);
+    if (this.mode === 'walk') { this.hr = tr + tw; this.hp = tp + tw * 0.6; } else { this.hr += clamp(tr - this.hr, -st, st); this.hp += clamp(tp - this.hp, -st, st); }
+    const R = lab.byTag('svR'), P = lab.byTag('svP'); const aR = R ? R.state.angle : 90, aP = P ? P.state.angle : 90; this.aR = aR; this.aP = aP;
+    const pr = this.hr + (aR - 90), pp = this.hp + (aP - 90); const rr = dt > 0 ? (pr - this.pr) / dt : 0, rp = dt > 0 ? (pp - this.pp) / dt : 0; this.pr = pr; this.pp = pp;
+    const m = lab.byTag('mpu'); if (m) { const s = m.state; s.ext = true; s.roll = pr; s.pitch = pp; s.to = [pr, pp, 0]; s.rate = [rr, rp, 0]; }
+    if (this.t - (this.runAt ?? -1e9) < 0.4) return true; // (the servos are still finding 90° after a Run)
+    const off = Math.max(Math.abs(pr), Math.abs(pp));
+    if ((aR <= 2 || aR >= 178 || aP <= 2 || aP >= 178) && off > 30) { this.flags.add('wrongWay'); this.res.wrongAt = Math.round(off); }
+    [pr, pp].forEach((v, i) => { const g = v > 2 ? 1 : v < -2 ? -1 : 0; if (g && g !== this.sg[i]) { if (this.sg[i]) this.sw[i].push(this.t); this.sg[i] = g; } this.sw[i] = this.sw[i].filter((x) => this.t - x < 1.5); const a = this.sw[i]; if (a.length >= 4) { this.flags.add('shaky'); this.res.hz = Math.max(this.res.hz || 0, +((a.length - 1) / (2 * Math.max(0.05, a[a.length - 1] - a[0]))).toFixed(1)); } }); // (hz: two crossings a swing)
+    if (this.t - (this.runAt ?? -1e9) > 2 && this.mode !== 'walk') this.res.amp = Math.max(this.res.amp || 0, +off.toFixed(1));
+    if (this.mode === 'walk') { this.walkT += dt; if (off > GIMB.tol) this.okT = 0; else this.okT += dt; if (this.walkT > 1) this.res.worst = Math.max(this.res.worst, +off.toFixed(1)); if (this.okT > 5 && !this.flags.has('wrongWay')) this.flags.add('level'); } else { this.walkT = 0; this.okT = 0; }
+    return true;
+  }
+  onRun() { super.onRun(); for (const k of ['wrongWay', 'shaky', 'level']) this.flags.delete(k); this.sw = [[], []]; this.sg = [0, 0]; this.walkT = 0; this.okT = 0; this.res = { worst: 0 }; }
+  control(id, v) { if (id === 'hand' && ['level', 'right', 'fwd', 'walk'].includes(v)) { this.mode = v; this.walkT = 0; this.okT = 0; this.res.worst = 0; } }
+  hud() {
+    const f = (a, b) => `${a >= 0 ? '+' : '−'}${Math.abs(a).toFixed(1)}° · ${b >= 0 ? '+' : '−'}${Math.abs(b).toFixed(1)}°`; const off = Math.max(Math.abs(this.pr), Math.abs(this.pp));
+    const st = this.flags.has('wrongWay') ? WG.wrong : this.flags.has('level') ? WG.level : off <= GIMB.tol ? WG.steady : WG.tipped;
+    return { title: t3('Self-stabilising gimbal', 'ख़ुद स्थिर रहने वाला गिम्बल', 'Khud sthir rehne wala gimbal'),
+      rows: [[tx(WG.hand), f(this.hr, this.hp)], [tx(WG.plat), f(this.pr, this.pp)], [tx(WG.servos), `${Math.round(this.aR ?? 90)}° · ${Math.round(this.aP ?? 90)}°`], ['', tx(st)]],
+      controls: [{ id: 'hand', kind: 'seg', label: WG.handC, options: [['level', WG.hLevel], ['right', WG.hRight], ['fwd', WG.hFwd], ['walk', WG.hWalk]], value: this.mode }] };
+  }
+}
+const WG = { hand: t3('Your hand (roll · pitch)', 'आपका हाथ (रोल · पिच)', 'Aapka haath (roll · pitch)'), plat: t3('Camera platform', 'कैमरा प्लेटफ़ॉर्म', 'Camera platform'), servos: t3('Servos (roll · pitch)', 'सर्वो (रोल · पिच)', 'Servo (roll · pitch)'),
+  wrong: t3('a servo hit its end: it turned the wrong way', 'सर्वो अपने छोर पर: यह उल्टा घूमा', 'servo apne chhor par: yeh ulta ghooma'), level: t3('steady while you walk', 'चलते हुए भी स्थिर', 'chalte hue bhi sthir'),
+  steady: t3('level', 'सीधा', 'seedha'), tipped: t3('tipped', 'झुका हुआ', 'jhuka hua'), handC: t3('Your hand', 'आपका हाथ', 'Aapka haath'), hLevel: t3('Level', 'सीधा', 'Seedha'),
+  hRight: t3('Tilt right', 'दाएँ झुकाइए', 'Right jhukaiye'), hFwd: t3('Tip forward', 'आगे झुकाइए', 'Aage jhukaiye'), hWalk: t3('Walk', 'चलिए', 'Chaliye') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

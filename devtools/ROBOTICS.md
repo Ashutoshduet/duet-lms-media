@@ -1246,3 +1246,12 @@ heaters.
   speed cannot hold a lean); PI (Ki 200) rocks wider and wider; PID (Kd 1.5) stands, creeping a little (a twentieth of a
   degree of calibration error). The edits accept Ki 150–300 and Kd 1–2. stage.js arenabal: a low side view that
   worlds.js followBal() moves along with the robot. robocore24.mjs plays it.
+- Batch 33: the Class 12 self-stabilising gimbal (lessons24.js gimbal; scenes3.js GimbalScene; worlds3.js gimbalSteps,
+  view scene3gb). A hand holds a two-servo gimbal: the roll servo (svR, pin 9) on the grip, a U bracket, the pitch servo
+  (svP, pin 10), an action camera on the platform with the GY-521 (mpu) in front of it. Platform tilt = the hand's +
+  (servo − 90) on each axis; the scene writes it into the MPU-6050 (state.ext, roll, pitch, rate). The hand: Level, Tilt
+  right (25°), Tip forward (20°) at 80°/s, or Walk (±10° / ±6° at 0.5 / 0.8 Hz, a 0.35° tremor). Flags: wrongWay (a
+  servo at its end with the platform 30° off), shaky (±2° crossings 4 times in 1.5 s on one axis; res.hz), level (5 s
+  of walking within 5°). The sketch integrates: pos += Kp × tilt is positive feedback and flips over by itself on the
+  sensor's noise; pos −= 2 × tilt shakes at about 10 Hz (the servo takes a new angle once a frame, so the loop pushes
+  again before the camera has moved); Kp 0.15–0.5 keeps it within about 3° while walking.
