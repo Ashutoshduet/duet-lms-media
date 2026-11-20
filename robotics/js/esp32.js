@@ -133,6 +133,7 @@ export class ESP32MCU extends MCU {
       case 'WebServer': return new WebRT(this, args);
       case 'AsyncWebServer': return new AsyncRT(this, args);
       case 'BluetoothSerial': return this.bt || (this.bt = new BTRT(this));
+      case 'HTTPClient': return new HTTPRT(this); // (batch 27)
       case 'IPAddress': return new IPAddr(args.length === 4 ? args.join('.') : '0.0.0.0');
     }
     throw new RtError('R_INTERNAL', { msg: 'no library ' + type }, line);
@@ -244,6 +245,52 @@ class AsyncReq {
   method() { return this.req.method; }
 }
 
+// ------------------------------------------------------------------ HTTPClient (batch 27): the ESP32 asks a web server on the internet
+// Only through the school WiFi (its router has internet; the ESP32's own soft AP has none): not connected, or a host the
+// cloud does not know, gives -1 (HTTPC_ERROR_CONNECTION_REFUSED) after the time a real ESP32 waits. The cloud (Net.cloud)
+// answers in about 0.4 s.
+class HTTPRT {
+  constructor(m) { this.m = m; this.url = null; this.body = ''; this.hdr = {}; }
+  begin(url) { this.url = String(url); this.m.t += 80; return 1; }
+  addHeader(n, v) { this.hdr[String(n)] = String(v); }
+  setTimeout() {}
+  *GET() { return yield* this.go('GET', ''); }
+  *POST(b) { return yield* this.go('POST', String(b)); }
+  *go(method, payload) {
+    const m = this.m; this.body = ''; if (!this.url) return -4;
+    if (staStatus(m) !== 3 || !m.lab) { yield* m.delay(staStatus(m) === 3 ? 0 : 20); return -1; }
+    const r = netOf(m.lab).cloudCall(parseUrl(this.url), method, payload, this.hdr); yield* m.delay(r.ms);
+    if (r.code > 0) this.body = r.body; return r.code;
+  }
+  getString() { return this.body; }
+  getSize() { return this.body.length; }
+  end() { this.url = null; this.hdr = {}; }
+  errorToString(c) { return { '-1': 'connection refused', '-4': 'not connected', '-11': 'read Timeout' }[String(c | 0)] || ''; }
+}
+
+// ------------------------------------------------------------------ the cloud (batch 27): a ThingSpeak channel the class owns
+// GET (or POST, form-encoded) http://api.thingspeak.com/update?api_key=<write key>&field1=…&field8=… adds an entry and
+// answers its number; within 15 s of the last entry (the free plan's limit), or with another key, it answers 0 and keeps
+// nothing. The phone's browser shows the channel at thingspeak.com/channels/<id>: a chart a field, refreshed every 15 s.
+export const CLOUD = { id: 2468013, write: 'DUETWX7K2M9Q4R1A', name: 'DUET School Weather', gap: 15 };
+function cloudPage(C, now) {
+  const E = C.entries; const names = ['Temperature (°C)', 'Humidity (%)', 'Pressure (hPa)', 'Rain (cup level)']; const cols = ['#d6336c', '#1c7ed6', '#2b8a3e', '#5f3dc4'];
+  const ago = E.length ? Math.round(now - E[E.length - 1].t) : null;
+  let h = `<html><head><meta http-equiv="refresh" content="15"></head><body style="font-family:sans-serif;background:#f8f9fa"><h2 style="color:#e8590c">${CLOUD.name}</h2>`;
+  h += `<p>Channel ID: ${CLOUD.id} · Entries: ${E.length}${ago === null ? '' : ' · Last entry: ' + ago + ' s ago'}</p>`;
+  if (!E.length) h += '<p style="color:#868e96">No data yet. Updates go to api.thingspeak.com/update with the channel\'s Write API Key.</p>';
+  for (let f = 1; f <= 4; f++) {
+    const pts = E.filter((e) => e.f[f] !== undefined).slice(-24); if (!pts.length && E.length) { h += `<p><b>${names[f - 1]}</b>: no data in field${f}</p>`; continue; } if (!pts.length) continue;
+    const vs = pts.map((e) => e.f[f]); let lo = Math.min(...vs), hi = Math.max(...vs); if (hi - lo < 1e-6) { lo -= 1; hi += 1; } const pad = (hi - lo) * 0.15; lo -= pad; hi += pad;
+    const X = (i) => (pts.length < 2 ? 150 : 20 + (i * 270) / (pts.length - 1)), Y = (v) => 100 - ((v - lo) / (hi - lo)) * 80;
+    h += `<p><b>${names[f - 1]}</b>: ${+vs[vs.length - 1].toFixed(2)}</p><svg viewBox="0 0 300 110" width="300" height="110"><rect x="0" y="0" width="300" height="110" fill="#ffffff" stroke="#dee2e6"/>`;
+    h += `<line x1="20" y1="100" x2="290" y2="100" stroke="#adb5bd"/>${pts.length > 1 ? `<polyline points="${pts.map((e, i) => X(i).toFixed(1) + ',' + Y(e.f[f]).toFixed(1)).join(' ')}" fill="none" stroke="${cols[f - 1]}" stroke-width="2"/>` : ''}`;
+    for (let i = 0; i < pts.length; i++) h += `<circle cx="${X(i).toFixed(1)}" cy="${Y(pts[i].f[f]).toFixed(1)}" r="3" fill="${cols[f - 1]}"/>`;
+    h += '</svg>';
+  }
+  return h + '</body></html>';
+}
+
 // ------------------------------------------------------------------ BluetoothSerial: Serial, over Bluetooth, to the phone
 class BTRT extends SerialPort {
   constructor(m) { super(m); this.baud = 1e6; this.name = ''; }
@@ -282,6 +329,12 @@ class Net {
     const u = parseUrl(url); const req = { url, host: u.host, path: u.path, args: u.args, method: 1, t0: this.now, cb, res: null, srv: null };
     this.reqs.push(req); this.ver++;
     if (!u.host) { req.fail = 'name'; req.failAt = this.now + 0.3; return req; }
+    if (/^(api\.)?thingspeak\.com$/.test(u.host)) { // (batch 27) the cloud, through the school WiFi's internet
+      const m = this.esp(); const onAp = m && m.wifi.ap && this.phone.wifi === m.wifi.ap.ssid; if (onAp) { req.fail = 'name'; req.failAt = this.now + 1.2; return req; }
+      const C = this.cloud || (this.cloud = { entries: [], last: -1e9, calls: 0, zeros: 0 }); const ch = /^\/channels\/(\d+)/.exec(u.path);
+      req.res = ch && +ch[1] === CLOUD.id ? { code: 200, type: 'text/html', body: cloudPage(C, this.now), headers: {} } : { code: 404, type: 'text/html', body: '<h2>ThingSpeak</h2><p>Channel not found. Is the address thingspeak.com/channels/' + CLOUD.id + '?</p>', headers: {} };
+      if (ch && +ch[1] === CLOUD.id) C.viewed = (C.viewed || 0) + 1; req.doneAt = this.now + 0.6; return req;
+    }
     if (!/^\d+\.\d+\.\d+\.\d+$/.test(u.host)) { req.fail = 'name'; req.failAt = this.now + 1.2; return req; }
     if (this.lab.def.id === 'pi4') { // batch 21: Flask on the Pi (pi20.js): it listens on a port (5000), on every address only with host="0.0.0.0"
       const ip = this.piIP(), port = u.port || 80, pm = this.lab.mcu, f = pm && pm.flask6;
@@ -296,6 +349,18 @@ class Net {
     const srv = [...m.webs, ...m.asyncs].find((s) => s.began && s.port === 80);
     if (!srv) { req.fail = 'refused'; req.failAt = this.now + 0.4; return req; }
     req.srv = srv; srv.q.push(req); return req;
+  }
+  // (batch 27) the ESP32 calls the cloud: { code, body, ms }
+  cloudCall(u, method, payload, hdr) {
+    const C = this.cloud || (this.cloud = { entries: [], last: -1e9, calls: 0, zeros: 0 }); C.calls++; this.ver++;
+    if (u.host !== 'api.thingspeak.com' && u.host !== 'thingspeak.com') return { code: -1, body: '', ms: 1800 }; // (the name is not found)
+    let args = u.args; if (method === 'POST') { const p = parseUrl('x/?' + String(payload || '')); args = Object.assign({}, args, p.args); }
+    if (u.path !== '/update' && u.path !== '/update.json') return { code: 404, body: 'Not Found', ms: 380 };
+    const key = String(args.api_key || hdr && hdr['X-THINGSPEAKAPIKEY'] || ''); const ok = key === CLOUD.write; const soon = this.now - C.last < CLOUD.gap;
+    C.lastCall = { t: this.now, ok: ok && !soon, args }; (C.log || (C.log = [])).push({ t: this.now, ok: ok && !soon }); if (C.log.length > 200) C.log.shift();
+    if (!ok || soon) { C.zeros++; if (!ok) C.badKey = (C.badKey || 0) + 1; return { code: 200, body: '0', ms: 420 }; }
+    const f = {}; for (let i = 1; i <= 8; i++) { const v = args['field' + i]; if (v !== undefined && v !== '' && Number.isFinite(+v)) f[i] = +v; }
+    C.entries.push({ t: this.now, f }); if (C.entries.length > 500) C.entries.shift(); C.last = this.now; return { code: 200, body: String(C.entries.length), ms: 420 };
   }
   deliver(req) { if (!req.doneAt) req.doneAt = this.now + 0.035; }
   tick(dt) {

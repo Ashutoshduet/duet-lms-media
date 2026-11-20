@@ -1,6 +1,6 @@
 // DUET Robotics Lab 360, batch 4: what the compiler (cpp.js) knows about the new boards' libraries. No imports (cpp.js
 // imports this file), so it adds no import loop. The runtime of these objects is in esp32.js (ESP32) and mcu4.js (Mega).
-//   WiFi (WiFi.h), WebServer (WebServer.h), AsyncWebServer / AsyncWebServerRequest (ESPAsyncWebServer.h), BluetoothSerial,
+//   WiFi (WiFi.h), HTTPClient (HTTPClient.h: batch 27, to the simulated cloud), WebServer (WebServer.h), AsyncWebServer / AsyncWebServerRequest (ESPAsyncWebServer.h), BluetoothSerial,
 //   IPAddress, Serial1–3 (Mega; Serial2 on the ESP32), and the ESP32 functions: touchRead, hallRead, temperatureRead,
 //   analogReadResolution, analogReadMilliVolts, ledcSetup / ledcAttachPin / ledcAttach / ledcWrite, dacWrite.
 //   Lambdas ([](){ … } and [](AsyncWebServerRequest *request){ … }) for web routes, and raw strings R"(…)".
@@ -18,6 +18,7 @@ const TYPES = {
   AsyncWebServerRequest: { ptr: true, methods: { send: [1, 3, 'void'], hasParam: [1, 2, 'bool'], getParam: [1, 2, 'o4:AsyncWebParameter'], arg: [1, 1, 'str'], hasArg: [1, 1, 'bool'], url: [0, 0, 'str'], method: [0, 0, 'int'], params: [0, 0, 'int'], redirect: [1, 1, 'void'] } },
   AsyncWebParameter: { ptr: true, methods: { value: [0, 0, 'str'], name: [0, 0, 'str'] } },
   BluetoothSerial: { inc: ['BluetoothSerial.h'], need: 'bt', ctor: [0, 0], methods: Object.assign({}, SER, { begin: [0, 2, 'bool'], hasClient: [0, 0, 'bool'], connected: [0, 1, 'bool'], setPin: [1, 1, 'bool'], isReady: [0, 2, 'bool'] }) },
+  HTTPClient: { inc: ['HTTPClient.h'], need: 'wifi', ctor: [0, 0], methods: { begin: [1, 2, 'bool'], GET: [0, 0, 'int', 'y'], POST: [1, 1, 'int', 'y'], getString: [0, 0, 'str'], end: [0, 0, 'void'], addHeader: [2, 3, 'void'], setTimeout: [1, 1, 'void'], errorToString: [1, 1, 'str'], getSize: [0, 0, 'int'] } }, // (batch 27: the cloud, esp32.js HTTPRT)
   IPAddress: { ctor: [0, 4], methods: { toString: [0, 0, 'str'] } },
   WiFiClass: { methods: { begin: [1, 3, 'int'], status: [0, 0, 'int'], localIP: [0, 0, 'o4:IPAddress'], softAP: [1, 4, 'bool'], softAPIP: [0, 0, 'o4:IPAddress'], mode: [1, 1, 'bool'], getMode: [0, 0, 'int'],
     disconnect: [0, 2, 'bool'], reconnect: [0, 0, 'bool'], isConnected: [0, 0, 'bool'], RSSI: [0, 0, 'int'], SSID: [0, 0, 'str'], macAddress: [0, 0, 'str'], setHostname: [1, 1, 'bool'], softAPgetStationNum: [0, 0, 'int'], scanNetworks: [0, 0, 'int', 'y'] } },
@@ -30,9 +31,10 @@ const CONSTS = {
   WIFI_OFF: [0, 'int'], WIFI_STA: [1, 'int'], WIFI_AP: [2, 'int'], WIFI_AP_STA: [3, 'int'],
   HTTP_GET: [1, 'int'], HTTP_POST: [3, 'int'], HTTP_PUT: [4, 'int'], HTTP_DELETE: [8, 'int'], HTTP_ANY: [127, 'int'],
   T0: [4, 'int'], T1: [0, 'int'], T2: [2, 'int'], T3: [15, 'int'], T4: [13, 'int'], T5: [12, 'int'], T6: [14, 'int'], T7: [27, 'int'], T8: [33, 'int'], T9: [32, 'int'],
+  HTTP_CODE_OK: [200, 'int'], HTTPC_ERROR_CONNECTION_REFUSED: [-1, 'int'], HTTPC_ERROR_NOT_CONNECTED: [-4, 'int'], HTTPC_ERROR_READ_TIMEOUT: [-11, 'int'],
   ADC_0db: [0, 'int'], ADC_2_5db: [1, 'int'], ADC_6db: [2, 'int'], ADC_11db: [3, 'int'], SERIAL_8N1: [0x800001c, 'long'],
 };
-const INCLUDES = ['WiFi.h', 'WebServer.h', 'ESPAsyncWebServer.h', 'AsyncTCP.h', 'BluetoothSerial.h', 'WiFiClient.h', 'WiFiAP.h', 'ESPmDNS.h', 'HardwareSerial.h', 'esp32-hal-ledc.h'];
+const INCLUDES = ['WiFi.h', 'HTTPClient.h', 'WebServer.h', 'ESPAsyncWebServer.h', 'AsyncTCP.h', 'BluetoothSerial.h', 'WiFiClient.h', 'WiFiAP.h', 'ESPmDNS.h', 'HardwareSerial.h', 'esp32-hal-ledc.h'];
 // the ESP32's own functions: [min, max, return type, emit, timed, the board must have]
 const fn = (name) => (a) => `rt.${name}(${a.map((x) => x.c)})`;
 const FUNCS = {

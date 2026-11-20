@@ -21,6 +21,7 @@ import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { makeScene } from '../../robotics/js/scenes3.js';
 import { ArmSim, CarSim, carFeed, wifiCheck, CARG } from '../../robotics/js/robots.js';
 import { BO } from '../../robotics/js/parts2.js';
+import { set26 } from '../../robotics/js/parts26.js';
 
 const B = (e) => (/^(H|T|B):/.test(e) ? e : 'B:' + e); // a board pin
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
@@ -378,6 +379,30 @@ for (const l of L24) {
       ok(t >= 0, `gesture: act "${s.do.en.slice(0, 44)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${JSON.stringify({ x: Math.round(sim.x), z: Math.round(sim.z), h: Math.round(sim.h * 57.3), t: +(sim.t - t0).toFixed(1) })} ${[...sim.flags]}`)); seen.push([...sim.flags].filter((k) => /jitter|nostop|handStop|parked/.test(k)).join(',')); }
   }
   ok(!!l.done(rt), `gesture: complete; ${seen.join(' | ')}`);
+}
+
+// the weather station on the cloud (lessons24.js wxcloud; esp32.js HTTPRT, Net.cloudCall, the phone's thingspeak.com page):
+// every 2 s is mostly answered 0 (15 s rule), the rain gauge on GPIO 26 (ADC2) reads 0 with WiFi on, GPIO 34 reads it
+{ const l = LESSONS.find((x) => x.id === 'wxcloud');
+  const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code; const rt = new LessonRT(app); rt.open(l.id);
+  ok(lab.def.id === 'esp32' && compile(l.code, lab.def).ok, 'wxcloud: an ESP32 lesson, the sketch compiles');
+  const N = netOf(lab); let page = null; const view = () => N.request('http://thingspeak.com/channels/2468013', (r) => { page = r; });
+  const ACT = [[[0.5, view]], [[0.3, () => { lab.byTag('wl').state.depth = 25; lab.stateV++; }]], [], [[0.3, () => { set26(lab, lab.byTag('bmp'), 'wx', -25); }]]];
+  for (let f = 0; f < 20; f++) lab.step(1000 / 60);
+  let src = l.code, ai = 0; const start = (code) => { const c = compile(code, lab.def); app.src = code; lab.run(c); rt.onRun(code); }; const seen = [];
+  for (const s of l.steps) {
+    if (s.k === 'wire') { const w0 = lab.wires.find((w) => [w.a, w.b].includes('H:a10')); if (w0) lab.removeWire(w0); else ok(false, 'wxcloud: the wire to GPIO 26 is there'); const g = rt.ghostWire(s.wire); lab.addWire(g[0], g[1]); ok(rt.conn('wl.S', 'D34') && !rt.conn('wl.S', 'D26'), 'wxcloud: S moved to GPIO 34'); }
+    if (s.k === 'check') { const r = rt.runCheck(); ok(!r, 'wxcloud: the circuit check passes' + (r ? ': ' + JSON.stringify(r[0].en) : '')); }
+    if (s.k === 'run') start(src);
+    if (s.k === 'edit') { const e = s.set.reduce((x, [re, v]) => x.replace(re, v), src); ok(s.test(e) && !s.test(src) && compile(e, lab.def).ok, 'wxcloud: the edit is what the step asks'); src = e; start(src); }
+    if (s.k === 'act') { const list = ACT[ai++] || []; const done = new Set(); let t = -1;
+      for (let f = 0; f < 60 * 80; f++) { const tt = f / 60; list.forEach(([at, fn], i) => { if (tt >= at && !done.has(i)) { done.add(i); fn(); } }); if (ai === 1 && page && tt > 1 && f % 900 === 0) view();
+        lab.step(1000 / 60); rt.update(1 / 60); if (lab.mcu.state === 'error') break; if (s.until(rt)) { t = tt; break; } }
+      const C = N.cloud || { entries: [], log: [] }; const e = C.entries[C.entries.length - 1];
+      ok(t >= 0, `wxcloud: act "${s.do.en.slice(0, 44)}" comes true` + (t >= 0 ? ` (${t.toFixed(1)} s)` : ` — timed out ${JSON.stringify({ entries: C.entries.length, last: e && e.f, calls: (C.log || []).length, err: lab.mcu.err })}`)); seen.push(e ? `#${C.entries.length} ${JSON.stringify(e.f)}` : '-'); }
+  }
+  const C = N.cloud; ok(!!l.done(rt) && page && page.code === 200 && /DUET School Weather/.test(page.body) && /<svg/.test(page.body), `wxcloud: complete, the channel page shows charts; ${seen.join(' | ')}`);
+  const zeros = C.log.filter((c) => !c.ok).length; ok(zeros >= 3, `wxcloud: early updates answered 0 (${zeros} of ${C.log.length})`);
 }
 
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

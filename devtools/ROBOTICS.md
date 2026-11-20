@@ -1181,3 +1181,14 @@ heaters.
   fb and lr with 0, so with the hand flat it never stops (nostop: 1.5 s of driving after a drive by hand) and the turn
   lines never run; the edit is a dead zone (20 in all four comparisons, or a const; dzOf); then handStop and parked.
   robocore24.mjs drives it as a person would (taps to line up with P). 3,572 projects live.
+- Batch 27: the cloud. HTTPClient (HTTPClient.h; lib4.js type, esp32.js HTTPRT): begin(url), GET(), POST(body),
+  addHeader, getString, end, errorToString; -1 when the ESP32 is not on the school WiFi (its soft AP has no internet) or
+  the host is unknown. esp32.js CLOUD + Net.cloudCall: a ThingSpeak channel the class owns (ID 2468013, Write API Key
+  DUETWX7K2M9Q4R1A, both fictional): /update?api_key=…&field1..8 answers the entry's number, or 0 within 15 s of the
+  last entry (the free plan's limit) or with another key; Net.cloud.log keeps every call. The phone's browser opens
+  thingspeak.com/channels/2468013 (through the school WiFi only): a chart a field (SVG), refreshed every 15 s.
+- Class 11 weather station that posts to a website (lessons24.js `wxcloud`, ESP32): DHT11 on GPIO 27 (hole a9),
+  BMP180 on 21 / 22 (j14 / j17), the rain gauge (wlevel in its cup) S on GPIO 26 (a10) as its build sheet says. v0 sends
+  every 2 s: most answers are 0; edit delay(20000); rain 25 mm still posts 0 (GPIO 26 is ADC2, dead while WiFi is on);
+  the student moves S to GPIO 34 and sets RAIN = 34; then about 2290; a storm (−25 hPa) shows on the pressure chart.
+  robocore24.mjs plays it (about 20 s an act, as on a real channel). 3,573 projects live.

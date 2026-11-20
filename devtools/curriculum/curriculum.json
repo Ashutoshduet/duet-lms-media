@@ -6032,17 +6032,17 @@
    {
     "class": 11,
     "n": 29,
-    "kind": "I",
+    "kind": "L",
     "title": "Weather station that posts to a website",
     "board": "esp32",
-    "status": "planned",
-    "ref": "weather-station-that-posts-to-a-website-esp32",
+    "status": "live",
+    "ref": "wxcloud",
     "newparts": [],
-    "family": "iot",
+    "family": "live-projects",
     "parts": [
-     "bmp180",
      "dht11",
-     "rain"
+     "bmp180",
+     "wlevel"
     ],
     "strand": "Decomposition",
     "focus": "IoT",

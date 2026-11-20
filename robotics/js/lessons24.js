@@ -830,6 +830,60 @@ void loop() {
 }
 `;
 
+const WXC = `// School weather station: temperature, humidity, air pressure and rain, sent to the cloud (ThingSpeak).
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <Wire.h>
+#include <DHT.h>
+#include <Adafruit_BMP085.h>
+
+const char* ssid = "DUET-School";
+const char* password = "stem2026";
+String writeKey = "DUETWX7K2M9Q4R1A";    // the channel's Write API Key (ThingSpeak channel 2468013)
+
+DHT dht(27, DHT11);                       // the DHT11's DATA on GPIO 27
+Adafruit_BMP085 bmp;                      // the BMP180 on I2C: SDA GPIO 21, SCL GPIO 22
+const int RAIN = 26;                      // the rain gauge's S (a water level sensor standing in a cup)
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+  bmp.begin();
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println();
+  Serial.print("WiFi connected: ");
+  Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  float p = bmp.readPressure() / 100.0;   // Pa to hPa
+  int rain = analogRead(RAIN);            // 0: a dry cup; more water, a bigger number
+
+  String url = "http://api.thingspeak.com/update?api_key=" + writeKey;
+  url += "&field1=" + String(t) + "&field2=" + String(h) + "&field3=" + String(p) + "&field4=" + String(rain);
+
+  HTTPClient http;
+  http.begin(url);
+  int code = http.GET();
+  Serial.print("Sent ");
+  Serial.print(t); Serial.print(" C, ");
+  Serial.print(h); Serial.print(" %, ");
+  Serial.print(p); Serial.print(" hPa, rain ");
+  Serial.println(rain);
+  Serial.print("ThingSpeak answered: ");
+  if (code > 0) Serial.println(http.getString());   // the entry's number, or 0: not saved
+  else Serial.println(code);                       // below 0: no connection
+  http.end();
+  delay(2000);                                     // then the next update
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1282,6 +1336,43 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('mpu', t3('motion sensor MPU-6050', 'मोशन सेंसर MPU-6050', 'motion sensor MPU-6050')), (S) => (S.conn('mpu.SDA', 'A5') && S.conn('mpu.SCL', 'A4') ? [SWAP] : null), need('mpu.VCC', '5V', W.to5v, { x: 'VCC' }), need('mpu.GND', 'GND', W.toGnd, { x: 'GND' }), need('mpu.SDA', 'A4', W.join, { a: 'SDA', b: 'A4' }), need('mpu.SCL', 'A5', W.join, { a: 'SCL', b: 'A5' })],
     done: (S) => S.w('parked') && S.w('handStop') });
+  // 15 --------------------------------------------------------------------- weather station on the cloud (batch 27)
+  // The cloud (esp32.js Net.cloud): what the channel took since this Run (the net's clock and the lesson's both count seconds)
+  const cloud = (S) => { const N = S.lab.net4; const C = N && N.cloud; if (!C) return { got: [], calls: [], C: null, N }; const t0 = N.now - (S.t - (S.freshAt || 0)) - 0.01; return { got: C.entries.filter((e) => e.t >= t0), calls: (C.log || []).filter((c) => c.t >= t0), C, N }; };
+  const lastDelay = (src) => { const m = [...(src || '').matchAll(/delay\(\s*(\d+)\s*\)/g)]; return m.length ? +m[m.length - 1][1] : 0; };
+  let wetAt = null; const cupMm = (S) => { const p = S.lab.byTag('wl'); return p ? p.state.depth || 0 : 0; };
+  L.push({ id: 'wxcloud', board: 'esp32', cls: '11', blocks: false, view: 'wide', code: WXC, drawer: [], baud: 115200, serial: true, phone: true,
+    title: t3('Weather station that posts to a website', 'वेबसाइट पर डेटा भेजने वाला मौसम स्टेशन', 'Website par data bhejne wala mausam station'),
+    goal: t3('An ESP32 measures temperature, humidity, air pressure and rain, and sends them to ThingSpeak, a real IoT cloud: anyone with the link sees the school\'s weather on a chart, from anywhere. Find out why most updates are thrown away, why the rain gauge reads 0 with a cup full of water, and see a storm coming on the pressure chart.', 'एक ESP32 तापमान, नमी, हवा का दबाव और बारिश नापता है, और उन्हें ThingSpeak पर भेजता है, एक असली IoT क्लाउड: लिंक वाला कोई भी, कहीं से भी, स्कूल का मौसम चार्ट पर देखता है। पता कीजिए कि ज़्यादातर अपडेट क्यों फेंक दिए जाते हैं, पानी से भरे कप के साथ भी बारिश मापक 0 क्यों पढ़ता है, और दबाव के चार्ट पर तूफ़ान आता देखिए।', 'Ek ESP32 temperature, humidity, hawa ka dabaav aur baarish naapta hai, aur unhe ThingSpeak par bhejta hai, ek asli IoT cloud: link wala koi bhi, kahin se bhi, school ka mausam chart par dekhta hai. Pata kijiye ki zyaadatar update kyon phenk diye jaate hain, paani se bhare cup ke saath bhi rain gauge 0 kyon padhta hai, aur dabaav ke chart par toofaan aata dekhiye.'),
+    setup: { parts: [P('dht', 'dht11', {}, 'e40', 0), F('bmp', 'bmp180', {}, -55, 80, 0), F('wl', 'wlevel', {}, -150, 95, 0)],
+      wires: [['H:a4', 'H:tp2'], ['H:a5', 'H:tn3'], ['H:j4', 'H:bp2'], ['H:j5', 'H:bn3'], ['H:a40', 'H:a9'], ['H:a41', 'H:bp34'], ['H:a42', 'H:bn35'],
+        ['T:bmp:VIN', 'H:bp30'], ['T:bmp:GND', 'H:bn31'], ['T:bmp:SDA', 'H:j14'], ['T:bmp:SCL', 'H:j17'], ['T:wl:VCC', 'H:bp44'], ['T:wl:GND', 'H:bn45'], ['T:wl:S', 'H:a10']] }, // (the ESP32 sits in the breadboard: a9 is beside GPIO 27, a10 beside 26, j14 beside 21, j17 beside 22)
+    steps: [
+      { k: 'info', do: t3('The school\'s weather station, wired as its build sheet says: a DHT11 (temperature and humidity) on GPIO 27, a BMP180 (air pressure) on I2C (GPIO 21 and 22), and a rain gauge: a water level sensor standing in a cup on the roof, its S on GPIO 26. Everything runs on 3.3 V. The class owns a ThingSpeak channel, number 2468013; its Write API Key is in the sketch.', 'स्कूल का मौसम स्टेशन, उसकी बिल्ड शीट के अनुसार जुड़ा: GPIO 27 पर एक DHT11 (तापमान और नमी), I2C (GPIO 21 और 22) पर एक BMP180 (हवा का दबाव), और एक बारिश मापक: छत पर एक कप में खड़ा पानी स्तर सेंसर, उसका S GPIO 26 पर। सब कुछ 3.3 V पर चलता है। कक्षा का एक ThingSpeak चैनल है, नंबर 2468013; उसकी Write API Key स्केच में है।', 'School ka mausam station, uski build sheet ke hisaab se juda: GPIO 27 par ek DHT11 (temperature aur humidity), I2C (GPIO 21 aur 22) par ek BMP180 (hawa ka dabaav), aur ek rain gauge: chhat par ek cup mein khada water level sensor, uska S GPIO 26 par. Sab kuch 3.3 V par chalta hai. Class ka ek ThingSpeak channel hai, number 2468013; uski Write API Key sketch mein hai.'), see: E },
+      CHECK,
+      RUN(t3('The Serial Monitor (115200 baud) shows the ESP32 joining the school WiFi, then one update every 2 s: what it sent, and what ThingSpeak answered.', 'सीरियल मॉनिटर (115200 बॉड) दिखाता है कि ESP32 स्कूल WiFi से जुड़ता है, फिर हर 2 s में एक अपडेट: उसने क्या भेजा, और ThingSpeak ने क्या जवाब दिया।', 'Serial Monitor (115200 baud) dikhaata hai ki ESP32 school WiFi se judta hai, phir har 2 s mein ek update: usne kya bheja, aur ThingSpeak ne kya jawaab diya.')),
+      { k: 'act', until: (S) => { const c = cloud(S); return !!c.C && (c.C.viewed || 0) > 0 && c.got.length >= 2 && c.calls.filter((x) => !x.ok).length >= 3; }, do: t3('Open the channel on the phone: Browser, tap the address bar, type thingspeak.com/channels/2468013 and Go. Watch it for half a minute (it refreshes every 15 s).', 'फ़ोन पर चैनल खोलिए: ब्राउज़र, पते वाली पट्टी पर टैप, thingspeak.com/channels/2468013 लिखिए और जाइए। आधा मिनट देखिए (यह हर 15 s में ताज़ा होता है)।', 'Phone par channel kholiye: Browser, address bar par tap, thingspeak.com/channels/2468013 likhiye aur Go. Aadha minute dekhiye (yeh har 15 s mein refresh hota hai).'),
+        see: t3('Your data, on the internet. But a point arrives only every 15 s, though the sketch sends every 2 s: most lines on the Serial Monitor say "ThingSpeak answered: 0". The free plan takes one update a channel every 15 s; anything sooner is thrown away. Those sends only waste power and data.', 'आपका डेटा, इंटरनेट पर। पर बिंदु सिर्फ़ हर 15 s में आता है, जबकि स्केच हर 2 s में भेजता है: सीरियल मॉनिटर पर ज़्यादातर लाइनें कहती हैं "ThingSpeak answered: 0"। फ़्री प्लान एक चैनल में हर 15 s में एक ही अपडेट लेता है; उससे पहले वाला फेंक दिया जाता है। वे भेजना बस बिजली और डेटा बर्बाद करते हैं।', 'Aapka data, internet par. Par point sirf har 15 s mein aata hai, jabki sketch har 2 s mein bhejta hai: Serial Monitor par zyaadatar lines kehti hain "ThingSpeak answered: 0". Free plan ek channel mein har 15 s mein ek hi update leta hai; usse pehle wala phenk diya jaata hai. Woh bhejna bas bijli aur data barbaad karte hain.') },
+      { k: 'edit', test: (src) => lastDelay(src) >= 15000 && lastDelay(src) <= 600000, set: [[/delay\(2000\);(\s*\/\/ then the next update)/, 'delay(20000);$1']],
+        do: t3('Send once every 20 s: change the last delay(2000) to delay(20000) and press Run.', 'हर 20 s में एक बार भेजिए: आख़िरी delay(2000) को delay(20000) कीजिए और "चलाइए" दबाइए।', 'Har 20 s mein ek baar bhejiye: aakhri delay(2000) ko delay(20000) kijiye aur Run dabaiye.'),
+        see: t3('Now every update is kept: the answer is the entry\'s number (1, 2, 3 …), never 0.', 'अब हर अपडेट रखा जाता है: जवाब एंट्री का नंबर है (1, 2, 3 …), कभी 0 नहीं।', 'Ab har update rakha jaata hai: jawaab entry ka number hai (1, 2, 3 …), kabhi 0 nahi.') },
+      { k: 'act', until: (S) => { if (cupMm(S) < 15) { wetAt = null; return false; } const c = cloud(S); if (!c.N) return false; if (wetAt === null) wetAt = c.N.now; return c.got.some((e) => e.t > wetAt + 0.5 && e.f[4] === 0); },
+        do: t3('Rain! Tap the water level sensor and fill its cup to 25 mm. Then wait for the next point on the Rain chart.', 'बारिश! पानी स्तर सेंसर को छूइए और उसका कप 25 mm तक भरिए। फिर बारिश वाले चार्ट पर अगले बिंदु का इंतज़ार कीजिए।', 'Baarish! Water level sensor ko touch karo aur uska cup 25 mm tak bhariye. Phir Rain chart par agle point ka intezaar kijiye.'),
+        see: t3('25 mm of water in the cup, and the chart says rain 0. GPIO 26 is an ADC2 pin, and the ESP32\'s WiFi radio uses ADC2: while WiFi is on, analogRead(26) cannot measure and gives 0. The sensor and the wire are fine; the pin is the problem. Only ADC1 pins (32 to 36, 39) read while WiFi is on.', 'कप में 25 mm पानी, और चार्ट कहता है बारिश 0। GPIO 26 एक ADC2 पिन है, और ESP32 का WiFi रेडियो ADC2 का इस्तेमाल करता है: WiFi चालू रहते analogRead(26) नाप नहीं पाता और 0 देता है। सेंसर और तार ठीक हैं; दिक़्क़त पिन की है। WiFi चालू रहते सिर्फ़ ADC1 पिन (32 से 36, 39) पढ़ते हैं।', 'Cup mein 25 mm paani, aur chart kehta hai baarish 0. GPIO 26 ek ADC2 pin hai, aur ESP32 ka WiFi radio ADC2 use karta hai: WiFi on rehte analogRead(26) naap nahi paata aur 0 deta hai. Sensor aur taar theek hain; dikkat pin ki hai. WiFi on rehte sirf ADC1 pin (32 se 36, 39) padhte hain.') },
+      w3('wl.S', 'D34', 'Move the rain gauge to an ADC1 pin: tap the wire from S to GPIO 26 and delete it (🗑), then wire S to GPIO 34.', 'बारिश मापक को ADC1 पिन पर ले जाइए: S से GPIO 26 वाले तार पर टैप करके उसे हटाइए (🗑), फिर S को GPIO 34 से जोड़िए।', 'Rain gauge ko ADC1 pin par le jaiye: S se GPIO 26 wale taar par tap karke use hataiye (🗑), phir S ko GPIO 34 se jodiye.'),
+      { k: 'edit', test: (src) => /const\s+int\s+RAIN\s*=\s*34\s*;/.test(src || ''), set: [[/const int RAIN = 26;/, 'const int RAIN = 34;']], do: t3('And in the sketch: const int RAIN = 34; then press Run.', 'और स्केच में: const int RAIN = 34; फिर "चलाइए" दबाइए।', 'Aur sketch mein: const int RAIN = 34; phir Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => cloud(S).got.some((e) => (e.f[4] || 0) > 500), do: t3('Wait for the next point on the Rain chart (up to 20 s).', 'बारिश वाले चार्ट पर अगले बिंदु का इंतज़ार कीजिए (20 s तक)।', 'Rain chart par agle point ka intezaar kijiye (20 s tak).'),
+        see: t3('There is the rain: about 2200 for 25 mm of water. GPIO 34 is on ADC1, which WiFi leaves alone. Remember it for every ESP32 project with WiFi: analog sensors on 32 to 36 or 39 only.', 'यह रही बारिश: 25 mm पानी के लिए लगभग 2200। GPIO 34, ADC1 पर है, जिसे WiFi नहीं छूता। हर WiFi वाले ESP32 प्रोजेक्ट के लिए याद रखिए: एनालॉग सेंसर सिर्फ़ 32 से 36 या 39 पर।', 'Yeh rahi baarish: 25 mm paani ke liye lagbhag 2200. GPIO 34, ADC1 par hai, jise WiFi nahi chhoota. Har WiFi wale ESP32 project ke liye yaad rakhiye: analog sensor sirf 32 se 36 ya 39 par.') },
+      { k: 'act', until: (S) => cloud(S).got.some((e) => e.f[3] !== undefined && e.f[3] < 995), do: t3('A storm is coming: tap the pressure sensor and set the weather to −25 hPa. Watch the Pressure chart.', 'तूफ़ान आ रहा है: दबाव सेंसर को छूइए और मौसम −25 hPa कीजिए। दबाव वाला चार्ट देखिए।', 'Toofaan aa raha hai: pressure sensor ko touch karo aur mausam −25 hPa kijiye. Pressure chart dekhiye.'),
+        see: t3('The pressure line falls. Forecasters watch exactly this: air pressure falling more than about 3 hPa in 3 hours warns of a storm, often half a day before the clouds come. The station keeps the record for the whole school, and anyone with the link can see it.', 'दबाव की रेखा गिरती है। मौसम विज्ञानी ठीक यही देखते हैं: 3 घंटे में लगभग 3 hPa से ज़्यादा गिरता हवा का दबाव तूफ़ान की चेतावनी है, अक्सर बादल आने से आधा दिन पहले। स्टेशन पूरे स्कूल के लिए रिकॉर्ड रखता है, और लिंक वाला कोई भी उसे देख सकता है।', 'Dabaav ki rekha girti hai. Mausam vigyaani theek yahi dekhte hain: 3 ghante mein lagbhag 3 hPa se zyada girta hawa ka dabaav toofaan ki chetaavni hai, aksar baadal aane se aadha din pehle. Station poore school ke liye record rakhta hai, aur link wala koi bhi use dekh sakta hai.') },
+    ],
+    check: [noShort, (S) => (S.conn('rail:bp', '3V3') ? null : [t3('The front + rail must be joined to the ESP32\'s 3V3 pin.', 'आगे वाली + रेल ESP32 के 3V3 पिन से जुड़ी होनी चाहिए।', 'Aage wali + rail ESP32 ke 3V3 pin se judi honi chahiye.')]),
+      has('dht', t3('DHT11', 'DHT11', 'DHT11')), has('bmp', t3('pressure sensor BMP180', 'दबाव सेंसर BMP180', 'pressure sensor BMP180')), has('wl', t3('water level sensor', 'पानी स्तर सेंसर', 'water level sensor')),
+      (S) => (['dht.VCC', 'bmp.VIN', 'wl.VCC'].some((x) => S.conn(x, 'VIN')) ? [t3('A sensor is on VIN (5 V): its signal would push 5 V into a 3.3 V pin. Power it from 3V3.', 'एक सेंसर VIN (5 V) पर है: उसका सिग्नल 3.3 V पिन में 5 V धकेलेगा। उसे 3V3 से चलाइए।', 'Ek sensor VIN (5 V) par hai: uska signal 3.3 V pin mein 5 V dhakelega. Use 3V3 se chalaiye.')] : null),
+      need('dht.DATA', 'D27', W.join, { a: 'DHT11 DATA', b: 'GPIO 27' }), (S) => (S.conn('bmp.SDA', 'D22') && S.conn('bmp.SCL', 'D21') ? [t3('SDA and SCL are swapped: SDA goes to GPIO 21, SCL to GPIO 22.', 'SDA और SCL आपस में बदल गए हैं: SDA GPIO 21 पर जाता है, SCL GPIO 22 पर।', 'SDA aur SCL aapas mein badal gaye hain: SDA GPIO 21 par jaata hai, SCL GPIO 22 par.')] : null),
+      need('bmp.SDA', 'D21', W.join, { a: 'SDA', b: 'GPIO 21' }), need('bmp.SCL', 'D22', W.join, { a: 'SCL', b: 'GPIO 22' }),
+      (S) => (S.conn('wl.S', 'D26') || S.conn('wl.S', 'D34') ? null : [t3('The rain gauge\'s S must reach its GPIO (26 on the build sheet; 34 later).', 'बारिश मापक का S उसके GPIO तक पहुँचना चाहिए (बिल्ड शीट पर 26; बाद में 34)।', 'Rain gauge ka S uske GPIO tak pahunchna chahiye (build sheet par 26; baad mein 34).')])],
+    done: (S) => cloud(S).got.some((e) => e.f[3] !== undefined && e.f[3] < 995) && cloud(S).got.some((e) => (e.f[4] || 0) > 500) });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }
