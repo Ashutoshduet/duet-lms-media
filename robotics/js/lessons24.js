@@ -38,6 +38,16 @@
 //              takes the pulley as a 20 mm roller (2048 ÷ 62.8 = 32.6 steps a mm): the photos end at 114 mm. 20 teeth × 2 mm
 //              = 40 mm a turn: 51.2 steps a mm. Then the photos are blurred: the shutter clicks while the carriage still
 //              rocks from stopping (scenes3.js SliderScene); half a second's settling time makes every photo sharp.
+//   plotter    a pen plotter: X and Y axes, each a 28BYJ-48 on a GT2 belt (51.2 steps a mm), and an SG90 that lifts the pen
+//              (scenes3.js PlotScene inks the paper wherever the pen moves while down). It draws a house. lineTo() first
+//              moves all of X, then all of Y: the roof's slopes come out as steps. stepBoth() (already in the sketch:
+//              a little X, a little Y, again and again, as a CNC machine interpolates) makes them straight, and then the
+//              pen, still down, draws a line across the house to the door: penUp() and penDown() round that move.
+//   pickplace  the conveyor brings boxes to a stop plate; a two-servo arm with a suction cup (a vacuum pump on a relay)
+//              lifts each into a crate (scenes3.js PickScene). The first program lowers the cup with lift.write(0), the
+//              belt's level: the box is in the way, the servo strains and dents it; 40° is the box's top. Then it stops
+//              the pump as it starts the swing: the cup lets go half-way round and the box falls on the floor (the
+//              program counts it as packed). Waiting 0.6 s for the swing to finish packs three boxes in the crate.
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js. devtools/test/robocore24.mjs plays them end to end.
 import { GLASS, CUR, LIFT, SLIDE } from './scenes3.js';
 import { ARMCUR, CARCUR } from './robots.js';
@@ -458,6 +468,113 @@ void loop() {
 }
 `;
 
+const PLOTC = `// Pen plotter: two steppers move the pen over the paper (X to the right, Y towards you), and a servo lifts it.
+#include <Stepper.h>
+#include <Servo.h>
+
+Stepper sx(2048, 8, 10, 9, 11);          // X axis: IN1-IN4 on pins 8-11
+Stepper sy(2048, 4, 6, 5, 7);            // Y axis: IN1-IN4 on pins 4-7
+Servo pen;
+const float stepsPerMm = 2048 / 40.0;    // 20-tooth GT2 pulleys: 40 mm of belt a turn
+float px = 0, py = 0;                    // where the pen is now (mm)
+
+void penUp()   { pen.write(90); delay(300); }
+void penDown() { pen.write(25); delay(300); }
+
+// both motors together: a few steps of X, a few of Y, again and again, so the pen goes straight
+void stepBoth(long nx, long ny) {
+  long n = max(abs(nx), abs(ny));
+  long doneX = 0, doneY = 0;
+  for (long i = 1; i <= n; i++) {
+    long wantX = nx * i / n;
+    long wantY = ny * i / n;
+    sx.step(wantX - doneX);
+    sy.step(wantY - doneY);
+    doneX = wantX;
+    doneY = wantY;
+  }
+}
+
+// move the pen to (x, y), in mm
+void lineTo(float x, float y) {
+  long nx = round((x - px) * stepsPerMm);
+  long ny = round((y - py) * stepsPerMm);
+  sx.step(nx);                           // all of X first...
+  sy.step(ny);                           // ...then all of Y
+  px = x;
+  py = y;
+}
+
+void setup() {
+  pen.attach(3);
+  penUp();
+  sx.setSpeed(15);
+  sy.setSpeed(15);
+  Serial.begin(9600);
+  lineTo(30, 40);                        // the house's top-left corner
+  penDown();
+  lineTo(70, 40);                        // the walls
+  lineTo(70, 80);
+  lineTo(30, 80);
+  lineTo(30, 40);
+  lineTo(50, 20);                        // the roof
+  lineTo(70, 40);
+  lineTo(45, 80);                        // to the door
+  lineTo(45, 65);                        // the door
+  lineTo(55, 65);
+  lineTo(55, 80);
+  penUp();
+  Serial.println("Done");
+}
+
+void loop() {
+}
+`;
+
+const PICKC = `// Pick-and-place line: the conveyor brings each box to the stop, and the arm lifts it into the crate.
+#include <Stepper.h>
+#include <Servo.h>
+
+Stepper belt(2048, 8, 10, 9, 11);      // the conveyor's motor (IN1-IN4 on pins 8-11)
+Servo swing;                           // turns the arm: 0 = over the belt, 90 = over the crate
+Servo lift;                            // lowers the suction cup: 90 = up
+const int irPin = 2;                   // the IR sensor at the stop: LOW = a box has arrived
+const int pump = 4;                    // the vacuum pump's relay: HIGH = the cup sucks
+int boxes = 0;
+
+void setup() {
+  pinMode(irPin, INPUT);
+  pinMode(pump, OUTPUT);
+  swing.attach(6);
+  lift.attach(5);
+  swing.write(0);
+  lift.write(90);
+  belt.setSpeed(12);
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (digitalRead(irPin) == HIGH) {    // no box at the stop yet: run the belt
+    belt.step(64);
+    return;
+  }
+  lift.write(0);                       // down onto the box
+  delay(500);
+  digitalWrite(pump, HIGH);            // suck
+  delay(300);
+  lift.write(90);                      // up
+  delay(500);
+  swing.write(90);                     // over the crate
+  digitalWrite(pump, LOW);             // let go
+  delay(300);
+  swing.write(0);                      // back over the belt
+  delay(600);
+  boxes++;
+  Serial.print("Boxes packed: ");
+  Serial.println(boxes);
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -705,6 +822,64 @@ export function batch24(K, n0) {
     ],
     check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('ir5', t3('5-channel sensor', '5-चैनल सेंसर', '5-channel sensor')), need('ir5.VCC', '5V', W.to5v, { x: 'VCC' }), need('ir5.GND', 'GND', W.toGnd, { x: 'GND' }), ...S5P.map(([s, a]) => need('ir5.' + s, a, W.join, { a: s, b: a }))],
     done: (S) => S.w('smooth') });
+  // 9 ------------------------------------------------------------------------------------------------------ pen plotter
+  const okBoth = (src) => /lineTo\(float x, float y\) \{[\s\S]*?stepBoth\(\s*nx\s*,\s*ny\s*\)\s*;[\s\S]*?\n\}/.test(src || '') && !/lineTo\(float x, float y\) \{[^}]*sx\.step\(nx\);/.test(src || '');
+  const okLift = (src) => /penUp\(\);\s*\n\s*lineTo\(45,\s*80\);[^\n]*\n\s*penDown\(\);/.test(src || '');
+  L.push({ id: 'plotter', cls: '11', blocks: false, view: 'wide', rview: 'scene3cv', code: PLOTC, drawer: ['servo'], serial: true, scene: { kind: 'plot' },
+    title: t3('Pen plotter with two steppers', 'दो स्टेपर वाला पेन प्लॉटर', 'Do stepper wala pen plotter'),
+    goal: t3('A plotter draws with a pen moved by two motors, one for each direction, as CNC machines and 3D printers do. Make the slanted lines straight by moving both axes together, and lift the pen when it should not draw.', 'प्लॉटर एक पेन से बनाता है जिसे दो मोटरें चलाती हैं, हर दिशा के लिए एक, जैसे CNC मशीनें और 3D प्रिंटर। दोनों अक्षों को साथ चलाकर तिरछी लाइनें सीधी कीजिए, और जहाँ नहीं बनाना वहाँ पेन उठाइए।', 'Plotter ek pen se banata hai jise do motors chalati hain, har disha ke liye ek, jaise CNC machine aur 3D printer. Dono axis ko saath chala kar tirchhi lines seedhi kijiye, aur jahan nahi banana wahan pen uthaiye.'),
+    setup: { parts: [F('stX', 'stepper', { mount: 'plotX' }, 96, 150, 0), F('stY', 'stepper', { mount: 'plotY' }, -66, 150, 0), F('psu', 'psu5', {}, 40, 78, 2)],
+      wires: [['5V', 'H:tp30'], ['GND3', 'H:tn18'], ['T:psu:P', 'H:bp20'], ['T:psu:N', 'H:bn21'], ['GND1', 'H:bn5'], // (the motors on their own 5 V adapter, the front rails; the servo on the Arduino's, the back rails; one ground)
+        ...[['IN1', 8], ['IN2', 9], ['IN3', 10], ['IN4', 11]].map(([id, pin]) => ['T:stX:' + id, 'D' + pin]), ['T:stX:GND', 'H:bn50'], ['T:stX:VCC', 'H:bp50'],
+        ...[['IN1', 4], ['IN2', 5], ['IN3', 6], ['IN4', 7]].map(([id, pin]) => ['T:stY:' + id, 'D' + pin]), ['T:stY:GND', 'H:bn44'], ['T:stY:VCC', 'H:bp44']] },
+    steps: [
+      { k: 'info', do: t3('The X motor moves the pen\'s carriage left and right along a bar; the Y motor moves the whole bar towards and away from you. Both are 28BYJ-48s on GT2 belts (51.2 steps a mm), already wired (X on pins 8–11, Y on 4–7). Together they draw about half an amp, more than the Arduino\'s 5 V pin should give, so they have their own 5 V adapter on the front rails, its − joined to the Arduino\'s GND. An SG90 lifts the pen: 25° puts it on the paper, 90° lifts it.', 'X मोटर पेन की कैरिज को एक छड़ पर बाएँ-दाएँ चलाती है; Y मोटर पूरी छड़ को आपकी ओर और दूर ले जाती है। दोनों GT2 बेल्ट पर 28BYJ-48 हैं (हर mm के 51.2 क़दम), पहले से जुड़ी (X पिन 8–11 पर, Y 4–7 पर)। दोनों मिलकर लगभग आधा एम्पियर लेती हैं, Arduino के 5 V पिन की सीमा से ज़्यादा, इसलिए उनका अपना 5 V एडैप्टर आगे की रेलों पर है, उसका − Arduino के GND से जुड़ा। एक SG90 पेन उठाता है: 25° पर पेन काग़ज़ पर, 90° पर ऊपर।', 'X motor pen ki carriage ko ek rod par left-right chalati hai; Y motor poori rod ko aapki taraf aur door le jaati hai. Dono GT2 belt par 28BYJ-48 hain (har mm ke 51.2 kadam), pehle se judi (X pin 8–11 par, Y 4–7 par). Dono milkar lagbhag aadha ampere leti hain, Arduino ke 5 V pin ki seema se zyada, isliye unka apna 5 V adapter aage ki rails par hai, uska − Arduino ke GND se juda. Ek SG90 pen uthata hai: 25° par pen kaagaz par, 90° par upar.'), see: E },
+      { k: 'place', place: F('svP', 'servo', { mount: 'pen' }, 178, 62, 0), do: t3('Put the pen servo\'s plug on the mat at the ghost (the servo is on the pen\'s carriage).', 'पेन सर्वो के प्लग को मैट पर नीली आकृति पर रखिए (सर्वो पेन की कैरिज पर है)।', 'Pen servo ke plug ko mat par neeli shape par rakhiye (servo pen ki carriage par hai).'), see: E },
+      w3('svP.SIG', 'D3', 'Wire its orange signal wire to pin 3.', 'इसका नारंगी सिग्नल तार पिन 3 से जोड़िए।', 'Iska orange signal wire pin 3 se jodiye.'),
+      w3('svP.VP', 'rail:tp', 'Its red wire to the + rail.', 'इसका लाल तार + रेल से।', 'Iska laal wire + rail se.'),
+      w3('svP.GND', 'rail:tn', 'Its brown wire to the − rail.', 'इसका भूरा तार − रेल से।', 'Iska bhoora wire − rail se.'),
+      CHECK,
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && S.w('stairs'), do: t3('Watch it draw the house (it takes about a minute).', 'इसे घर बनाते देखिए (लगभग एक मिनट लगता है)।', 'Ise ghar banate dekhiye (lagbhag ek minute lagta hai).'),
+        see: live((lg, R) => pick(lg, `The walls are fine, but the roof is two steps instead of two slopes (up to ${R.roofDev ?? '?'} mm off). lineTo() moves all of X and then all of Y, so a slanted line becomes an L.`, `दीवारें ठीक हैं, पर छत दो ढलानों की जगह दो सीढ़ियाँ बन गई (ढलान से ${R.roofDev ?? '?'} mm तक दूर)। lineTo() पहले पूरा X, फिर पूरा Y चलाता है, तो तिरछी लाइन L बन जाती है।`, `Deewarein theek hain, par chhat do dhalaanon ki jagah do seedhiyan ban gayi (dhalaan se ${R.roofDev ?? '?'} mm tak door). lineTo() pehle poora X, phir poora Y chalata hai, to tirchhi line L ban jaati hai.`)) },
+      { k: 'edit', test: okBoth, set: [[/  sx\.step\(nx\);[^\n]*\n  sy\.step\(ny\);[^\n]*\n/, '  stepBoth(nx, ny);                     // both axes together\n']], do: t3('Move both together: in lineTo(), replace the two lines\n  sx.step(nx);\n  sy.step(ny);\nwith\n  stepBoth(nx, ny);\nand press Run (a fresh sheet).', 'दोनों को साथ चलाइए: lineTo() में ये दो लाइनें\n  sx.step(nx);\n  sy.step(ny);\nहटाकर लिखिए\n  stepBoth(nx, ny);\nऔर "चलाइए" दबाइए (नया काग़ज़)।', 'Dono ko saath chalaiye: lineTo() mein yeh do lines\n  sx.step(nx);\n  sy.step(ny);\nhata kar likhiye\n  stepBoth(nx, ny);\naur Run dabaiye (naya kaagaz).'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('drag'), do: t3('Watch the house again.', 'घर फिर से देखिए।', 'Ghar phir se dekhiye.'),
+        see: live((lg, R) => pick(lg, `The roof is straight now (${(R.roofDev ?? 9) < 0.5 ? 'right on its pencil lines' : 'within ' + R.roofDev + ' mm of its pencil lines'}). But a ${R.stray ?? '?'} mm line runs across the house to the door: the pen was still down while it moved there.`, `छत अब सीधी है (${(R.roofDev ?? 9) < 0.5 ? 'ठीक पेंसिल की लाइनों पर' : 'पेंसिल की लाइनों से ' + R.roofDev + ' mm के अंदर'})। पर घर के आर-पार दरवाज़े तक ${R.stray ?? '?'} mm की एक लाइन है: वहाँ जाते समय पेन नीचे ही था।`, `Chhat ab seedhi hai (${(R.roofDev ?? 9) < 0.5 ? 'theek pencil ki lines par' : 'pencil ki lines se ' + R.roofDev + ' mm ke andar'}). Par ghar ke aar-paar darwaze tak ${R.stray ?? '?'} mm ki ek line hai: wahan jaate samay pen neeche hi tha.`)) },
+      { k: 'edit', test: okLift, set: [[/  lineTo\(45, 80\);[^\n]*\n/, '  penUp();\n  lineTo(45, 80);                        // to the door, in the air\n  penDown();\n']], do: t3('Lift the pen for that move: put penUp(); before lineTo(45, 80); and penDown(); after it, then press Run.', 'उस चाल के लिए पेन उठाइए: lineTo(45, 80); से पहले penUp(); और उसके बाद penDown(); लिखिए, फिर "चलाइए" दबाइए।', 'Us chaal ke liye pen uthaiye: lineTo(45, 80); se pehle penUp(); aur uske baad penDown(); likhiye, phir Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('house'), do: t3('Watch the last drawing.', 'आख़िरी ड्रॉइंग देखिए।', 'Aakhri drawing dekhiye.'),
+        see: live((lg, R) => pick(lg, `A clean house: every line on its pencil line (within ${Math.max(0.5, R.dev ?? 0)} mm), ${R.cover ?? '?'} % of it drawn, nothing extra. G-code, the language of CNC machines and 3D printers, has the same two moves: G1 draws a straight line with both axes together, G0 travels with the tool up.`, `एक साफ़ घर: हर लाइन अपनी पेंसिल लाइन पर (${Math.max(0.5, R.dev ?? 0)} mm के अंदर), ${R.cover ?? '?'} % बना, कुछ फ़ालतू नहीं। G-code, CNC मशीनों और 3D प्रिंटरों की भाषा, में यही दो चालें हैं: G1 दोनों अक्षों को साथ चलाकर सीधी लाइन बनाता है, G0 औज़ार उठाकर चलता है।`, `Ek saaf ghar: har line apni pencil line par (${Math.max(0.5, R.dev ?? 0)} mm ke andar), ${R.cover ?? '?'} % bana, kuch faaltu nahi. G-code, CNC machines aur 3D printers ki bhasha, mein yahi do chaalein hain: G1 dono axis ko saath chala kar seedhi line banata hai, G0 tool utha kar chalta hai.`)) },
+    ],
+    check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), (S) => (S.conn('rail:tn', 'GND') ? null : [W.gndRail]), has('svP', t3('pen servo', 'पेन सर्वो', 'pen servo')), need('svP.SIG', 'D3', W.toPin, { x: t3('servo\'s orange wire', 'सर्वो का नारंगी तार', 'servo ka orange wire'), p: 3 }), need('svP.VP', '5V', W.to5v, { x: t3('servo\'s red wire', 'सर्वो का लाल तार', 'servo ka laal wire') }), need('svP.GND', 'GND', W.toGnd, { x: t3('servo\'s brown wire', 'सर्वो का भूरा तार', 'servo ka bhoora wire') })],
+    done: (S) => S.w('house') });
+  // 10 --------------------------------------------------------------------------------------------- pick-and-place line
+  const okTop = (src) => { const m = /\n  lift\.write\((\d+)\);\s*\/\/ down onto the box/.exec(src || ''); return !!m && +m[1] >= 38 && +m[1] <= 45; };
+  const okSwing = (src) => { const m = /swing\.write\(90\);[^\n]*\n\s*delay\((\d+)\);/.exec(src || ''); return !!m && +m[1] >= 400 && +m[1] <= 1500; };
+  L.push({ id: 'pickplace', cls: '11', blocks: false, view: 'wide', rview: 'scene3cv', code: PICKC, drawer: ['servo'], serial: true, scene: { kind: 'pick' },
+    title: t3('Pick-and-place line: conveyor, sensor and arm', 'पिक-एंड-प्लेस लाइन: कन्वेयर, सेंसर और बाँह', 'Pick-and-place line: conveyor, sensor aur baanh'),
+    goal: t3('A small packing line: the conveyor brings each box to a stop, the IR sensor says it has arrived, and an arm with a suction cup lifts it into a crate. Make the arm gentle with the boxes and patient with its moves.', 'एक छोटी पैकिंग लाइन: कन्वेयर हर डिब्बे को स्टॉप तक लाता है, आईआर सेंसर बताता है कि वह आ गया, और सक्शन कप वाली बाँह उसे उठाकर क्रेट में रखती है। बाँह को डिब्बों के साथ नरम और अपनी चालों के साथ धैर्यवान बनाइए।', 'Ek chhoti packing line: conveyor har dabbe ko stop tak laata hai, IR sensor batata hai ki woh aa gaya, aur suction cup wali baanh use utha kar crate mein rakhti hai. Baanh ko dabbon ke saath naram aur apni chaalon ke saath dhairyawaan banaiye.'),
+    setup: { parts: [F('st', 'stepper', { mount: 'belt' }, 96, 150, 0), F('ir1', 'ir', { mount: 'belt' }, 196, 120, 0), F('svS', 'servo', { mount: 'pick' }, 178, 40, 0), F('rl1', 'relay', {}, 30, 118, 0), F('bat', 'aa4', {}, -40, 150, 0), F('pump', 'pump', { mount: 'vac' }, 182, 150, 1)],
+      wires: [...POWER, ...[['IN1', 8], ['IN2', 9], ['IN3', 10], ['IN4', 11]].map(([id, pin]) => ['T:st:' + id, 'D' + pin]), ['T:st:GND', 'H:bn50'], ['T:st:VCC', 'H:bp50'],
+        ['T:ir1:OUT', 'D2'], ['T:ir1:VCC', 'H:tp40'], ['T:ir1:GND', 'H:tn40'], ['T:svS:SIG', 'D6'], ['T:svS:VP', 'H:bp36'], ['T:svS:GND', 'H:bn36'],
+        ['T:rl1:S', 'D4'], ['T:rl1:VCC', 'H:tp44'], ['T:rl1:GND', 'H:tn44'], ['T:pump:N', 'T:bat:N'], ['T:bat:P', 'T:rl1:COM'], ['T:rl1:NO', 'T:pump:P']] },
+    steps: [
+      { k: 'info', do: t3('The conveyor (pins 8–11), the IR sensor at the stop (pin 2), the arm\'s swing servo (pin 6) and the vacuum pump\'s relay (pin 4, the pump on its own battery) are wired. The lift servo, which lowers the suction cup, is not.', 'कन्वेयर (पिन 8–11), स्टॉप पर आईआर सेंसर (पिन 2), बाँह का घुमाने वाला सर्वो (पिन 6) और वैक्यूम पंप का रिले (पिन 4, पंप अपनी बैटरी पर) जुड़े हैं। ऊपर-नीचे करने वाला सर्वो, जो सक्शन कप नीचे लाता है, नहीं जुड़ा।', 'Conveyor (pin 8–11), stop par IR sensor (pin 2), baanh ka ghumane wala servo (pin 6) aur vacuum pump ka relay (pin 4, pump apni battery par) jude hain. Upar-neeche karne wala servo, jo suction cup neeche laata hai, nahi juda.'), see: E },
+      { k: 'place', place: F('svL', 'servo', { mount: 'pick' }, 178, 70, 0), do: t3('Put the lift servo\'s plug on the mat at the ghost (the servo is on the arm).', 'ऊपर-नीचे वाले सर्वो के प्लग को मैट पर नीली आकृति पर रखिए (सर्वो बाँह पर है)।', 'Upar-neeche wale servo ke plug ko mat par neeli shape par rakhiye (servo baanh par hai).'), see: E },
+      w3('svL.SIG', 'D5', 'Wire its orange signal wire to pin 5.', 'इसका नारंगी सिग्नल तार पिन 5 से जोड़िए।', 'Iska orange signal wire pin 5 se jodiye.'),
+      w3('svL.VP', 'rail:bp', 'Its red wire to the front + rail.', 'इसका लाल तार आगे वाली + रेल से।', 'Iska laal wire aage wali + rail se.'),
+      w3('svL.GND', 'rail:bn', 'Its brown wire to the front − rail.', 'इसका भूरा तार आगे वाली − रेल से।', 'Iska bhoora wire aage wali − rail se.'),
+      CHECK,
+      RUN(),
+      { k: 'act', until: (S) => fresh(S) && S.w('press'), do: t3('Watch the first box arrive and the arm come down.', 'पहले डिब्बे को आते और बाँह को नीचे आते देखिए।', 'Pehle dabbe ko aate aur baanh ko neeche aate dekhiye.'),
+        see: t3('The cup lands on the box and keeps pushing: lift.write(0) asks for the belt\'s level, but the box is in the way. The servo strains (it draws its stall current) and the box\'s top is dented. A suction cup only needs to touch: the box\'s top is at 40°.', 'कप डिब्बे पर आता है और दबाता रहता है: lift.write(0) बेल्ट के स्तर तक माँगता है, पर डिब्बा रास्ते में है। सर्वो पूरा ज़ोर लगाता है (रुकने का करंट खींचता है) और डिब्बे का ऊपर पिचक जाता है। सक्शन कप को बस छूना है: डिब्बे का ऊपर 40° पर है।', 'Cup dabbe par aata hai aur dabata rehta hai: lift.write(0) belt ke level tak maangta hai, par dabba raaste mein hai. Servo poora zor lagata hai (rukne ka current kheenchta hai) aur dabbe ka upar pichak jaata hai. Suction cup ko bas chhoona hai: dabbe ka upar 40° par hai.') },
+      { k: 'edit', test: okTop, set: [[/  lift\.write\(0\);([^\n]*)/, '  lift.write(40);$1']], do: t3('Change lift.write(0); (down onto the box) to lift.write(40); and press Run.', 'lift.write(0); (डिब्बे पर नीचे) को lift.write(40); कीजिए और "चलाइए" दबाइए।', 'lift.write(0); (dabbe par neeche) ko lift.write(40); kijiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('dropped'), do: t3('Watch it pick the next box.', 'इसे अगला डिब्बा उठाते देखिए।', 'Ise agla dabba uthate dekhiye.'),
+        see: t3('It lifts the box gently now, but switches the pump off the moment it starts the swing: the cup lets go half-way round, over the gap, and the box falls on the floor. The Serial Monitor still says "Boxes packed": the program cannot see where the arm is. A servo gets its order at once, but takes time to get there.', 'अब यह डिब्बा आराम से उठाती है, पर घूमना शुरू करते ही पंप बंद कर देती है: कप आधे रास्ते में छोड़ देता है, खाली जगह के ऊपर, और डिब्बा फ़र्श पर गिर जाता है। सीरियल मॉनिटर फिर भी कहता है "Boxes packed": प्रोग्राम देख नहीं सकता कि बाँह कहाँ है। सर्वो को आदेश तुरंत मिलता है, पर वहाँ पहुँचने में समय लगता है।', 'Ab yeh dabba aaram se uthati hai, par ghoomna shuru karte hi pump band kar deti hai: cup aadhe raaste mein chhod deta hai, khaali jagah ke upar, aur dabba farsh par gir jaata hai. Serial Monitor phir bhi kehta hai "Boxes packed": program dekh nahi sakta ki baanh kahan hai. Servo ko order turant milta hai, par wahan pahunchne mein samay lagta hai.') },
+      { k: 'edit', test: okSwing, set: [[/(  swing\.write\(90\);[^\n]*\n)/, '$1  delay(600);                          // wait until it is over the crate\n']], do: t3('Wait for the swing: after swing.write(90); add delay(600); and press Run.', 'घुमाव का इंतज़ार कीजिए: swing.write(90); के बाद delay(600); लिखिए और "चलाइए" दबाइए।', 'Ghumaav ka intezaar kijiye: swing.write(90); ke baad delay(600); likhiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('placed3'), do: t3('Watch three boxes go into the crate.', 'तीन डिब्बों को क्रेट में जाते देखिए।', 'Teen dabbon ko crate mein jaate dekhiye.'),
+        see: live((lg, R) => pick(lg, `${R.placed ?? 3} boxes in the crate, none dropped, none dented. Factory pick-and-place robots work the same way, but faster: they wait for a "move done" signal from their motors instead of a fixed delay.`, `क्रेट में ${R.placed ?? 3} डिब्बे, कोई नहीं गिरा, कोई नहीं पिचका। फ़ैक्टरी के पिक-एंड-प्लेस रोबोट भी ऐसे ही काम करते हैं, बस तेज़: वे तय delay की जगह अपनी मोटरों से "चाल पूरी" का सिग्नल लेते हैं।`, `Crate mein ${R.placed ?? 3} dabbe, koi nahi gira, koi nahi pichka. Factory ke pick-and-place robot bhi aise hi kaam karte hain, bas tez: woh fixed delay ki jagah apni motors se "chaal poori" ka signal lete hain.`)) },
+    ],
+    check: [noShort, (S) => (S.conn('rail:tp', '5V') ? null : [W.vRail]), has('svL', t3('lift servo', 'ऊपर-नीचे वाला सर्वो', 'upar-neeche wala servo')), need('svL.SIG', 'D5', W.toPin, { x: t3('lift servo\'s orange wire', 'ऊपर-नीचे वाले सर्वो का नारंगी तार', 'upar-neeche wale servo ka orange wire'), p: 5 }), need('svL.VP', '5V', W.to5v, { x: t3('lift servo\'s red wire', 'सर्वो का लाल तार', 'servo ka laal wire') }), need('svL.GND', 'GND', W.toGnd, { x: t3('lift servo\'s brown wire', 'सर्वो का भूरा तार', 'servo ka bhoora wire') })],
+    done: (S) => S.w('placed3') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

@@ -5594,17 +5594,20 @@
    {
     "class": 11,
     "n": 6,
-    "kind": "I",
+    "kind": "L",
     "title": "Pick-and-place line: conveyor, sensor and arm",
     "board": "uno",
-    "status": "planned",
-    "ref": "pick-and-place-line-conveyor-sensor-and-arm-uno",
+    "status": "live",
+    "ref": "pickplace",
     "newparts": [],
-    "family": "machines",
+    "family": "live-projects",
     "parts": [
-     "mg996r",
-     "psu5",
-     "servo"
+     "stepper",
+     "ir",
+     "servo",
+     "relay",
+     "aa4",
+     "pump"
     ],
     "strand": "Decomposition",
     "focus": "Mechanisms",
@@ -5879,14 +5882,18 @@
    {
     "class": 11,
     "n": 21,
-    "kind": "I",
+    "kind": "L",
     "title": "Pen plotter with two steppers",
     "board": "uno",
-    "status": "planned",
-    "ref": "pen-plotter-with-two-steppers-uno",
+    "status": "live",
+    "ref": "plotter",
     "newparts": [],
-    "family": "machines",
-    "parts": [],
+    "family": "live-projects",
+    "parts": [
+     "stepper",
+     "psu5",
+     "servo"
+    ],
     "strand": "Decomposition",
     "focus": "Mechanisms",
     "term": "Term 3 (October-December)"

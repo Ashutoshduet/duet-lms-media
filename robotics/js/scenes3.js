@@ -670,10 +670,119 @@ export class SliderScene extends Scene {
 const WS = { at: t3('Camera at', 'कैमरा कहाँ', 'Camera kahan'), photos: t3('Photos', 'फ़ोटो', 'Photo'), sharpN: t3('Sharp photos', 'साफ़ फ़ोटो', 'Saaf photo'), last: t3('Last photo', 'आख़िरी फ़ोटो', 'Aakhri photo'),
   sharp: t3('sharp', 'साफ़', 'saaf'), blur: t3('blurred', 'धुँधली', 'dhundhli') };
 
+// ------------------------------------------------------------------ the pen plotter (batch 24, Class 11)
+// Two axes, each a 28BYJ-48 with a 20-tooth GT2 pulley (40 mm of belt a turn: 51.2 steps a mm): X (stX) moves the pen's
+// carriage left–right along the gantry, Y (stY) moves the gantry towards and away from the student. The pen hangs on
+// an SG90 (svP): down at 30° or less (it touches the paper), up above 60°. Paper 120 × 90 mm; (0, 0) is its back-left
+// corner (where the pen starts), x to the right, y towards the student. The ink is every stretch the pen moved while down.
+// The target drawing is a house: a 40 mm square with a roof (two diagonals) and a door. The drawing is judged when the pen
+// has stayed up for a second: the worst distance of ink from the house's lines (res.dev), how much of the lines has ink
+// (res.cover), the ink that belongs to no line (res.stray, mm: a line dragged with the pen down). Flags: stairs (the roof
+// came out as steps: ink more than 6 mm from its slopes), drag (more than 15 mm of stray ink), house (all of it within
+// 2 mm, at least 95 % covered, no stray ink).
+export const PLOT = { mm: 40, w: 120, d: 90, down: 30,
+  house: [[[30, 40], [70, 40], [70, 80], [30, 80], [30, 40]], [[30, 40], [50, 20], [70, 40]], [[45, 80], [45, 65], [55, 65], [55, 80]]] };
+const segD = (q, a, b) => { const dx = b[0] - a[0], dz = b[1] - a[1]; const L2 = dx * dx + dz * dz; const t = L2 ? clamp(((q[0] - a[0]) * dx + (q[1] - a[1]) * dz) / L2, 0, 1) : 0; return Math.hypot(q[0] - a[0] - t * dx, q[1] - a[1] - t * dz); };
+export class PlotScene extends Scene {
+  constructor(cfg) { super(cfg); this.ax = null; this.ay = null; this.x = 0; this.y = 0; this.reset(); }
+  reset() { this.strokes = []; this.cur = null; this.ink = 0; this.res = {}; this.upT = 0; this.judged = 0; this.gen = (this.gen || 0) + 1; }
+  pos(lab) { const X = lab.byTag('stX'), Y = lab.byTag('stY'); if (X && this.ax === null) this.ax = X.state.angle || 0; if (Y && this.ay === null) this.ay = Y.state.angle || 0;
+    return [X ? ((X.state.angle || 0) - this.ax) / 360 * PLOT.mm : this.x, Y ? ((Y.state.angle || 0) - this.ay) / 360 * PLOT.mm : this.y]; }
+  update(dt, lab) {
+    this.t += dt; const [x, y] = this.pos(lab); const moved = Math.hypot(x - this.x, y - this.y) > 0.01; this.x = x; this.y = y;
+    if (x < -2 || y < -2 || x > PLOT.w + 2 || y > PLOT.d + 2) this.flags.add('end'); // (past the end of an axis: it would crash into the frame)
+    const sv = lab.byTag('svP'); const a = sv ? sv.state.angle : 90; this.penA = a; const down = a <= PLOT.down;
+    if (sv && this.runAt === undefined && !this.rested) { sv.state.angle = 90; this.rested = true; } // (the pen was left up)
+    if (down && this.runAt !== undefined) {
+      const q = [+x.toFixed(2), +y.toFixed(2)]; this.upT = 0;
+      if (!this.cur) { this.cur = [q]; this.strokes.push(this.cur); }
+      else { const l = this.cur[this.cur.length - 1]; const d = Math.hypot(q[0] - l[0], q[1] - l[1]); if (d > 0.3) { const n = Math.ceil(d / 0.5); for (let k = 1; k <= n; k++) this.cur.push(k === n ? q : [l[0] + (q[0] - l[0]) * k / n, l[1] + (q[1] - l[1]) * k / n]); this.ink += d; } }
+    } else { this.cur = null; this.upT += dt; if (this.upT > 1 && this.ink > 0 && this.judged !== this.ink) { this.judged = this.ink; this.judge(); } }
+    return moved || down;
+  }
+  judge() {
+    const P = this.strokes.flat(); if (!P.length) return; const segs = PLOT.house.flatMap((L) => L.slice(1).map((b, i) => [L[i], b])); const R = this.res;
+    const roof = segs.slice(4, 6); let dev = 0, stray = 0, roofDev = 0;
+    for (let i = 0; i < P.length; i++) { const q = P[i]; const d = Math.min(...segs.map(([a, b]) => segD(q, a, b))); if (d > 3) { if (i && Math.hypot(q[0] - P[i - 1][0], q[1] - P[i - 1][1]) < 2) stray += Math.hypot(q[0] - P[i - 1][0], q[1] - P[i - 1][1]); } else dev = Math.max(dev, d);
+      if (q[1] < 40 - 1 && q[1] > 20 - 1) roofDev = Math.max(roofDev, Math.min(...roof.map(([a, b]) => segD(q, a, b)))); }
+    let cov = 0, n = 0; for (const [a, b] of segs) { const L = Math.hypot(b[0] - a[0], b[1] - a[1]); const k = Math.max(4, Math.round(L / 2)); for (let j = 0; j <= k; j++) { const x = a[0] + (b[0] - a[0]) * j / k, y = a[1] + (b[1] - a[1]) * j / k; n++; if (P.some((q) => Math.abs(q[0] - x) < 2.5 && Math.abs(q[1] - y) < 2.5)) cov++; } }
+    R.dev = +dev.toFixed(1); R.cover = Math.round(cov / n * 100); R.stray = Math.round(stray); R.roofDev = +roofDev.toFixed(1); R.ink = Math.round(this.ink);
+    if (roofDev > 6) this.flags.add('stairs');
+    if (stray > 15) this.flags.add('drag');
+    if (roofDev <= 2 && R.cover >= 95 && stray <= 5) this.flags.add('house');
+  }
+  onRun(lab) { super.onRun(); const X = lab && lab.byTag('stX'), Y = lab && lab.byTag('stY'); this.ax = X ? X.state.angle || 0 : 0; this.ay = Y ? Y.state.angle || 0 : 0; this.x = 0; this.y = 0; this.reset(); for (const k of ['stairs', 'drag', 'house', 'end']) this.flags.delete(k); }
+  hud() {
+    const R = this.res; const down = (this.penA ?? 90) <= PLOT.down;
+    return { title: t3('Pen plotter', 'पेन प्लॉटर', 'Pen plotter'),
+      rows: [[tx(WP.at), `x ${this.x.toFixed(1)} · y ${this.y.toFixed(1)} mm`], [tx(WP.pen), down ? tx(WP.down) : tx(WP.up)], [tx(WP.ink), `${Math.round(this.ink)} mm`],
+        [tx(WP.roof), R.roofDev !== undefined ? `${R.roofDev} mm` : '—'], [tx(WP.stray), R.stray !== undefined ? `${R.stray} mm` : '—']],
+      controls: [] };
+  }
+}
+const WP = { at: t3('Pen at', 'पेन कहाँ', 'Pen kahan'), pen: t3('Pen', 'पेन', 'Pen'), down: t3('down: drawing', 'नीचे: बना रहा', 'neeche: bana raha'), up: t3('up', 'ऊपर', 'upar'), ink: t3('Ink drawn', 'स्याही की लाइन', 'Syaahi ki line'),
+  roof: t3('Roof: worst distance from its slope', 'छत: ढलान से सबसे ज़्यादा दूरी', 'Chhat: dhalaan se sabse zyada doori'), stray: t3('Ink off the drawing', 'ड्रॉइंग के बाहर स्याही', 'Drawing ke bahar syaahi') };
+
+// ------------------------------------------------------------------ the pick-and-place line (batch 24, Class 11)
+// The conveyor of the stamp lesson (CONV: a 30 mm roller, 94.2 mm of belt a turn) now ends at a stop plate (PICK.stop):
+// boxes stop against it while the belt slides under them, and queue behind each other. The IR sensor (ir1) looks across
+// the belt 4 mm before the stop, so it sees a box that has (all but) arrived. Beside the end stands a two-servo arm with a suction
+// cup: the swing servo (svS, an MG996R on pin 6) turns it from over the belt (0°) to over the crate (90°); the lift servo
+// (svL, an SG90 on pin 5) lowers the cup: 90° up, 40° on a box's top, 0° down at the belt. The cup holds while the vacuum
+// pump runs (relay rl1 on pin 4) and lets go 0.1 s after it stops (air leaks back in). A box under the cup stops the lift
+// at 40° (state.limit): pushed further the servo strains and dents the box (press). A held box rides with the cup; let go
+// within 10° of the crate it lands in it (placed), over the belt it drops back on the belt, anywhere between it falls on
+// the floor (dropped). Flags: arrived, held, press, dropped, placed, placed3 (three boxes in the crate, none dropped or
+// dented since Run).
+export const PICK = { stop: 228, ir: 224, top: 40, crate: 90, n: 6, cupH: 64, arm: 72 };
+export class PickScene extends Scene {
+  constructor(cfg) { super(cfg); this.a0 = null; this.s = 0; this.reset(); }
+  reset() { this.boxes = Array.from({ length: PICK.n }, (_, i) => ({ i, x0: 150 - i * 70, off: 0, st: 'belt', dent: false, f: 150 - i * 70 })); this.res = { placed: 0, dropped: 0, dents: 0 }; this.held = null; this.offT = null; this.gen = (this.gen || 0) + 1; }
+  belt(lab) { const st = lab.byTag('st'); if (!st) return this.s; if (this.a0 === null) this.a0 = st.state.angle || 0; return ((st.state.angle || 0) - this.a0) / 360 * Math.PI * CONV.roller; }
+  cupH(lift) { return Math.max(0, CONV.boxH + (lift - PICK.top) / (90 - PICK.top) * (PICK.cupH - CONV.boxH)); } // (mm above the belt)
+  update(dt, lab) {
+    this.t += dt; const ran = this.runAt !== undefined; const s = this.belt(lab); const ds = Math.max(0, s - this.s); this.s = s;
+    let limit = PICK.stop; // the boxes on the belt: carried along, stopped by the plate and by the box ahead
+    for (const b of this.boxes) { if (b.st !== 'belt') continue; b.f = Math.min(b.x0 + b.off + ds, limit); b.off = b.f - b.x0; limit = b.f - CONV.box - 0.5; }
+    const atStop = this.boxes.find((b) => b.st === 'belt' && b.f >= PICK.stop - 6); this.atStop = atStop; // (within a few mm of the plate: the cup is wide enough)
+    const ir = lab.byTag('ir1'); const near = this.boxes.some((b) => b.st === 'belt' && b.f >= PICK.ir && b.f - CONV.box <= PICK.ir);
+    if (ir) { const d = near ? 1 : 40; if (!ir.state.ext || ir.state.dist !== d) { ir.state.ext = true; ir.state.dist = d; lab.stateV = (lab.stateV || 0) + 1; } }
+    if (atStop && ran) this.flags.add('arrived');
+    // the arm
+    const sS = lab.byTag('svS'), sL = lab.byTag('svL'); const sw = sS ? sS.state.angle : 0, li = sL ? sL.state.angle : 90; this.sw = sw; this.li = li;
+    if (sS && !ran && !this.rested) { sS.state.angle = 0; if (sL) sL.state.angle = 90; this.rested = true; } // (it was left over the belt, up)
+    const over = sw <= 5 && !this.held ? atStop : null; this.under = over;
+    if (sL) { const lim = over ? PICK.top : null; if (sL.state.limit !== lim) sL.state.limit = lim; }
+    if (over && li < PICK.top + 0.5 && sL && sL.state.target !== null && sL.state.target !== undefined && sL.state.target < PICK.top - 3 && ran) { if (!over.dent) { over.dent = true; this.res.dents++; } this.flags.add('press'); }
+    // the cup: holds while the pump runs
+    const rl = lab.byTag('rl1'); const pump = !!(rl && rl.state.on); this.pump = pump;
+    if (pump) this.offT = null; else if (this.offT === null) this.offT = this.t;
+    const holding = pump || (this.offT !== null && this.t - this.offT < 0.1);
+    if (!this.held && pump && over && li <= PICK.top + 1 && ran) { this.held = over; over.st = 'held'; this.flags.add('held'); }
+    if (this.held && !holding) { // let go
+      const b = this.held; this.held = null;
+      if (Math.abs(sw - PICK.crate) <= 10) { b.st = 'crate'; this.res.placed++; this.flags.add('placed'); }
+      else if (sw <= 5) { b.st = 'belt'; b.f = PICK.stop; b.off = b.f - b.x0; }
+      else { b.st = 'floor'; b.at = sw; this.res.dropped++; this.flags.add('dropped'); }
+      if (this.res.placed >= 3 && !this.res.dropped && !this.res.dents) this.flags.add('placed3');
+    }
+    const moved = ds > 0 || Math.abs(sw - (this._sw ?? sw)) > 0.01 || Math.abs(li - (this._li ?? li)) > 0.01; this._sw = sw; this._li = li; return moved;
+  }
+  onRun(lab) { super.onRun(); const st = lab && lab.byTag('st'); this.a0 = st ? st.state.angle || 0 : 0; this.s = 0; this.reset(); for (const k of ['arrived', 'held', 'press', 'dropped', 'placed', 'placed3']) this.flags.delete(k); }
+  hud() {
+    const R = this.res; return { title: t3('Pick-and-place line', 'पिक-एंड-प्लेस लाइन', 'Pick-and-place line'),
+      rows: [[tx(WK.stop), this.atStop ? tx(WK.boxAt) : tx(WK.none)], [tx(WK.arm), `${Math.round(this.sw ?? 0)}° · ${Math.round(this.li ?? 90)}°`], [tx(WK.cup), this.held ? tx(WK.holding) : this.pump ? tx(WK.sucking) : tx(WK.off)],
+        [tx(WK.crate), String(R.placed)], [tx(WK.floor), String(R.dropped)], [tx(WK.dents), String(R.dents)]], controls: [] };
+  }
+}
+const WK = { stop: t3('At the stop', 'स्टॉप पर', 'Stop par'), boxAt: t3('a box', 'एक डिब्बा', 'ek dabba'), none: t3('nothing', 'कुछ नहीं', 'kuch nahi'), arm: t3('Arm: swing · lift', 'बाँह: घुमाव · ऊपर-नीचे', 'Baanh: ghumaav · upar-neeche'),
+  cup: t3('Suction cup', 'सक्शन कप', 'Suction cup'), holding: t3('holding a box', 'डिब्बा पकड़े', 'dabba pakde'), sucking: t3('pump on', 'पंप चालू', 'pump on'), off: t3('pump off', 'पंप बंद', 'pump band'),
+  crate: t3('In the crate', 'क्रेट में', 'Crate mein'), floor: t3('Dropped on the floor', 'फ़र्श पर गिरे', 'Farsh par gire'), dents: t3('Dented boxes', 'पिचके डिब्बे', 'Pichke dabbe') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }

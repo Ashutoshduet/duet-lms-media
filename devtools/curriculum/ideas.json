@@ -55848,6 +55848,51 @@
 "note": null
 },
 {
+"id": "live-pickplace",
+"title": "Pick-and-place line: conveyor, sensor and arm",
+"family": "live",
+"board": "uno",
+"parts": [
+"stepper",
+"ir",
+"servo",
+"relay",
+"aa4",
+"pump"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "pickplace",
+"rule": null,
+"note": null
+},
+{
+"id": "live-plotter",
+"title": "Pen plotter with two steppers",
+"family": "live",
+"board": "uno",
+"parts": [
+"stepper",
+"psu5",
+"servo"
+],
+"newparts": [],
+"band": [
+11,
+12
+],
+"level": 11,
+"theme": "projects",
+"live": "plotter",
+"rule": null,
+"note": null
+},
+{
 "id": "live-pidline",
 "title": "PID line follower (smooth and fast)",
 "family": "live",

@@ -10,6 +10,7 @@ import { MCU } from './mcu.js';
 import { boardPlace, LAB_HOOKS } from './boards4.js'; // batch 4 (more boards): LAB_HOOKS add circuit elements and per-frame work for a board (esp32.js)
 import './esp32.js'; import './mcu4.js'; // batch 4: the ESP32's and the Mega's microcontrollers (they set BOARDS.esp32.mcuClass, …)
 import './pi6.js'; // batch 6: the Raspberry Pi boards run Python (PyMCU, their pin hooks and hints)
+const copyState = (s) => (s ? (typeof structuredClone === 'function' ? structuredClone(s) : JSON.parse(JSON.stringify(s))) : {}); // (batch 24: a part's starting state, deep: arrays in it are its own)
 export { LAB_HOOKS };
 
 export const LAYOUT = { board: { x: -92, z: -2 }, bb: { x: 40, z: 0 } };
@@ -66,7 +67,7 @@ export class Lab {
   // ------------------------------------------------------------ parts and wires
   addPart(type, props, at, rot, tag) {
     const def = PARTS[type];
-    const p = { uid: 'p' + (++UID), type, props: Object.assign({}, def.props, props || {}), rot: rot || 0, at, tag: tag || null, state: Object.assign({}, def.state0 || {}), holes: {} };
+    const p = { uid: 'p' + (++UID), type, props: Object.assign({}, def.props, props || {}), rot: rot || 0, at, tag: tag || null, state: copyState(def.state0), holes: {} }; // (a copy of its own: two steppers must not share one coil array)
     if (def.mount === 'bb') { const f = this.fit(p, at.hole); if (!f.ok) return null; p.holes = f.holes; }
     this.parts.push(p); this.rebuild(); this.emit('parts', p); return p;
   }

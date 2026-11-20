@@ -1070,3 +1070,27 @@ heaters.
   turn = Kp·error + Kd·Δerror. Kp 90 at speed 150 zig-zags (3.3 swings a second); Kp 25: 8.3 s a lap, 1.1 swings;
   speed 210 with Kp 25 runs off a bend (lost); Kp 50 with Kd 150: 6.4 s a lap, 2.3 swings. The live texts read
   robots.js CARCUR. robocore24.mjs plays it. Class 11: 12 of 26.
+- Class 11 pen plotter (batch 24, lessons24.js `plotter`; scenes3.js `PlotScene` and `PLOT`, worlds3.js `plotSteps`,
+  view scene3cv): a white base with the paper (120 × 90 mm, a house pencilled on it), two steel rods for the Y gantry,
+  the gantry with the X carriage, an SG90 and a felt pen; 28BYJ-48s at the back-left corner (Y) and on the gantry's left
+  end (X), both on GT2 belts (51.2 steps a mm). The two steppers draw about half an amp, so they run from their own 5 V
+  adapter (psu5) on the front rails, its − joined to GND1; the servo is on the Arduino's 5 V (back rails): with both
+  motors on the Arduino's 5 V the supply sags and steps are lost silently. The pen writes while the servo is at 30° or
+  less. The drawing is judged when the pen has stayed up for 1 s: the roof's worst distance from its slopes (stairs >
+  6 mm), ink belonging to no line (drag > 15 mm), and house (roof within 2 mm, 95 % covered, under 5 mm stray). The
+  sketch's lineTo() moves all of X then all of Y: the roof comes out as steps (14 mm off). stepBoth() (in the sketch:
+  interleaved slices, as a CNC interpolates) makes it straight, but the pen then drags a 28 mm line to the door;
+  penUp()/penDown() round that move draws a clean house. robocore24.mjs plays it. Class 11: 13 of 26.
+  (Found with the plotter: sim.js gave every part a shallow copy of its state0, so two steppers shared one coil array
+  and stepped each other's patterns; parts now get a deep copy, copyState().)
+- Class 11 pick-and-place line (batch 24, lessons24.js `pickplace`; scenes3.js `PickScene` and `PICK`, worlds3.js
+  `pickSteps` = convSteps({ pick: true }) + the arm, view scene3cv): the stamp lesson's conveyor without its stamp, a
+  yellow stop plate across the belt's end (boxes stop there and queue; the belt slides under them), the IR sensor 4 mm
+  before it, the blue crate beside the line, a post with a two-servo arm (the swing SG90 turns it from the belt, −z of
+  the post, round to the crate, −x; the lift SG90 lowers the suction cup on its rod), the vacuum pump and its tube (the
+  `pump` part with mount 'vac' behind relay rl1 on pin 4, on the AA battery). The cup holds while the pump runs and
+  lets go 0.1 s after it stops; a box under the cup stops the lift at 40° (state.limit): asked for less, the servo
+  strains and dents the box (press). Let go within 10° of 90° → in the crate (placed); over the belt → back on it;
+  anywhere else → on the floor (dropped). The student wires the lift servo (pin 5). The first program lowers to 0°
+  (press, a dent); lift.write(40) is gentle, but the pump stops as the swing starts (dropped, still counted as packed);
+  delay(600) after swing.write(90) packs three (placed3). robocore24.mjs plays it. Class 11: 14 of 26.
