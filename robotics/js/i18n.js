@@ -19,6 +19,10 @@ export const T = {
   grp_boards: t3('Nano · Mega · ESP32', 'Nano · Mega · ESP32', 'Nano · Mega · ESP32'), grp_modules: t3('School-lab projects', 'स्कूल लैब प्रोजेक्ट', 'School lab projects'),
   grp_microbit: t3('micro:bit · Python', 'micro:bit · Python', 'micro:bit · Python'),
   grp_pi: t3('Raspberry Pi · Python', 'Raspberry Pi · Python', 'Raspberry Pi · Python'), // batch 6
+  grp_projects: t3('Arduino projects', 'Arduino प्रोजेक्ट', 'Arduino projects'), // batch 7
+  grp_circuits: t3('Battery circuits', 'बैटरी सर्किट', 'Battery circuits'), // circuits.js
+  grp_bank: t3('Project bank', 'प्रोजेक्ट बैंक', 'Project bank'), // factory.js
+  clsAll: t3('All classes', 'सभी कक्षाएँ', 'Sabhi classes'), clsN: t3('Class {n}', 'कक्षा {n}', 'Class {n}'),
   lessonN: t3('Lesson {n}', 'पाठ {n}', 'Lesson {n}'),
   free: t3('Free build', 'खुद बनाइए', 'Free build'),
   parts: t3('Parts', 'पुर्ज़े', 'Parts'),
@@ -70,6 +74,8 @@ export const T = {
   burnt: t3('Burnt out', 'जल गई', 'Jal gayi'),
   repair: t3('Replace burnt parts', 'जले पुर्ज़े बदलिए', 'Jale parts badliye'),
   vr: t3('Enter VR', 'VR में जाइए', 'VR mein jaiye'),
+  ar: t3('Enter AR', 'AR में देखिए', 'AR mein dekhiye'), arExit: t3('Exit AR', 'AR बंद कीजिए', 'AR band kijiye'),
+  arHint: t3('Point the phone at a table, then tap to put the bench there.', 'फ़ोन को किसी मेज़ की तरफ़ कीजिए, फिर छूकर बेंच वहाँ रखिए।', 'Phone ko kisi mez ki taraf kijiye, phir touch karke bench wahan rakhiye.'),
   credits: t3('Credits and licences', 'श्रेय और लाइसेंस', 'Credits aur licences'),
   code1: t3('Enter school code', 'स्कूल कोड डालिए', 'School code daaliye'),
   dropHere: t3('Drop it on the breadboard (green = fits)', 'इसे ब्रेडबोर्ड पर छोड़िए (हरा = सही जगह)', 'Ise breadboard par chhodiye (green = sahi jagah)'),
@@ -154,6 +160,7 @@ const CPP = {
   E_SERVO_INCLUDE: t3('To use a Servo, put #include <Servo.h> at the top of the sketch.', 'Servo के लिए स्केच में सबसे ऊपर #include <Servo.h> लिखिए।', 'Servo ke liye sketch mein sabse upar #include <Servo.h> likhiye.'),
   E_ARGS: t3('{name}() needs {min} value(s) in its brackets, but it has {got}.', '{name}() के ब्रैकेट में {min} मान चाहिए, पर {got} दिए गए हैं।', '{name}() ke bracket mein {min} value chahiye, par {got} diye gaye hain.'),
   E_ARGS_USER: t3('Your function {name}() takes {need} value(s), but it is given {got}.', 'आपका फ़ंक्शन {name}() {need} मान लेता है, पर {got} दिए गए हैं।', 'Aapka function {name}() {need} value leta hai, par {got} diye gaye hain.'),
+  BAT_SHORT: t3('Short circuit! About {a} A is rushing straight from + to − through a bare wire: a real battery gets hot, can leak or catch fire. Take that wire out.', 'शॉर्ट सर्किट! लगभग {a} A सीधे + से − तक एक नंगे तार से भाग रहा है: असली बैटरी गर्म हो जाती है, रिस सकती है या आग पकड़ सकती है। वह तार हटाइए।', 'Short circuit! Lagbhag {a} A seedhe + se − tak ek nange wire se bhaag raha hai: asli battery garam ho jaati hai, ris sakti hai ya aag pakad sakti hai. Woh wire hataiye.'),
   E_NO_SETUP: t3('There is no void setup(). Every sketch needs setup() (runs once) and loop() (runs again and again).', 'void setup() नहीं है। हर स्केच में setup() (एक बार चलता है) और loop() (बार-बार चलता है) चाहिए।', 'void setup() nahi hai. Har sketch mein setup() (ek baar chalta hai) aur loop() (baar-baar chalta hai) chahiye.'),
   E_NO_LOOP: t3('There is no void loop(). Every sketch needs loop(), even an empty one: void loop() { }', 'void loop() नहीं है। हर स्केच में loop() चाहिए, ख़ाली ही सही: void loop() { }', 'void loop() nahi hai. Har sketch mein loop() chahiye, khaali hi sahi: void loop() { }'),
   E_VOID_SETUP: t3('Write "void" before {name}(): void {name}() {…}', '{name}() से पहले "void" लिखिए: void {name}() {…}', '{name}() se pehle "void" likhiye: void {name}() {…}'),

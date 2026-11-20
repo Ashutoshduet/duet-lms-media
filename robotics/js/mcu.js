@@ -123,6 +123,7 @@ export class MCU {
     const P = this.pin(p, 'digitalRead'); this.t += 3.8;
     if (P.mode === 1 && P.pwm < 0) return P.level;
     const v = this.io.read ? this.io.read(p, this.t) : NaN; this.heavy();
+    if (Number.isNaN(v) && P.mode === 2) return 1; // (batch 7) INPUT_PULLUP with nothing on the pin: the pull-up holds it HIGH, steady
     if (Number.isNaN(v)) { if (!this.warned.has('float' + p)) { this.warned.add('float' + p); this.note('N_FLOATING', { pin: p }); } return this.hum(p) > 2.5 ? 1 : 0; }
     if (v >= 3.0) return 1; if (v <= 1.5) return 0;
     return this.hum(p) > v ? 0 : 1; // in between: it is not sure

@@ -344,6 +344,12 @@ export class Lab {
       const els = byPart.get(p) || [];
       if (PARTS[p.type].dyn) { PARTS[p.type].dyn(p, els, this, dt, vAt); continue; } // batch 3: the module does it itself (parts3.js)
       switch (p.type) {
+        case 'aa4': case 'battery': case 'bat18650': { // a battery shorted out: amps, heat, a warning (circuits.js: the short-circuit lesson)
+          const e = els.find((x) => x.role === 'battery'); const I = e ? Math.abs(e.iAvg || 0) : 0; p.state.amps = I;
+          if (I > 2) { p.state.hotT = (p.state.hotT || 0) + dt; if (p.state.hotT > 0.3 && !p.state.hot) { p.state.hot = true; this.emit('note', { code: 'BAT_SHORT', args: { a: I.toFixed(0) } }); } }
+          else { p.state.hotT = 0; p.state.hot = false; }
+          break;
+        }
         case 'led': case 'rgb': {
           if (p.state.burnt) { p.state.b = 0; break; }
           let maxI = 0; p.state.ch = {};
@@ -401,7 +407,7 @@ export class Lab {
         }
         case 'hc05': { const pow = vAt(p.N.VCC) - vAt(p.N.GND) > 3.5; if (pow !== !!p.state.powered) { p.state.powered = pow; if (!pow) p.state.paired = false; this.stateV++; this.instKey = null; } break; }
         case 'hcsr04': case 'hcsr04f': case 'ir': case 'lm35': {
-          const pow = vAt(p.N.VCC !== undefined ? p.N.VCC : p.N.VS) - vAt(p.N.GND) > 4; if (pow !== !!p.state.powered) { p.state.powered = pow; this.stateV++; this.instKey = null; }
+          const pow = vAt(p.N.VCC !== undefined ? p.N.VCC : p.N.VS) - vAt(p.N.GND) > (p.type === 'ir' ? 3 : 4); if (pow !== !!p.state.powered) { p.state.powered = pow; this.stateV++; this.instKey = null; } // an IR module (FC-51 type) works from 3.3 V too
           if (p.type === 'ir') p.state.near = pow && p.state.dist <= p.state.thr;
           break;
         }

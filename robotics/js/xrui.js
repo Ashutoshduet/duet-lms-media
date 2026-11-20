@@ -239,7 +239,7 @@ export class XRUI {
     this.tex.needsUpdate = true;
   }
   drawLessons() { // every lesson by section, and Free build: open one in the headset
-    const app = this.app; const G = ['basics', 'robots', 'boards', 'modules', 'microbit', 'pi']; // (batch 6: Raspberry Pi; four sections a row)
+    const app = this.app; const G = ['basics', 'robots', 'boards', 'modules', 'microbit', 'pi', 'projects']; // (batch 6: Raspberry Pi; four sections a row; batch 7: Arduino projects)
     if (!this.lgrp) { const cur = LESSONS.find((l) => l.id === app.lessonId); this.lgrp = (app.mode === 'lesson' && cur && cur.group) || 'basics'; const k = LESSONS.filter((l) => l.group === this.lgrp).findIndex((l) => l.id === app.lessonId); this.lpage = Math.max(0, Math.floor(k / 10)); }
     const open = (fn) => { fn(); this.xr.setFocus('bench'); this.tab = 'step'; };
     let y = 110; const bw = (W - 60 - 30) / 4;

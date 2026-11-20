@@ -11,6 +11,7 @@ import { buildPart2, setLite2 } from './models2.js';
 import { buildPart4, setLite4 } from './models4.js'; // batch 4: the new boards' parts (bar graph, resistor network, touch plate, magnet)
 import { buildPart3, setLite3 } from './models3.js'; // batch 3: the school-lab modules (LCD, OLED, relay, keypad, stepper, RFID…)
 import { buildPart6, setLite6 } from './models6.js'; // batch 6: the Pico, the Pi 4 (registered with models4.js), the active buzzer
+import { buildPart7 } from './models7.js'; // batch 7: the bulb / fan on a 230 V box, the sanitizer bottle around the pump
 
 let LITE = false; export function setLite(v) { LITE = v; TX.setLite(v); setLite2(v); setLite4(v); setLite3(v); setLite6(v); }
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -94,7 +95,7 @@ export function buildBench(texLoader) {
     const t = new THREE.Mesh(new THREE.PlaneGeometry(w, d), topM); t.rotation.x = -Math.PI / 2; t.position.y = h / 2; t.receiveShadow = true; s.add(t);
     return s;
   };
-  g.add(slab(1800, 30, 1100, deskMat, side, -20, -3 - 15, 60));
+  const desk = slab(1800, 30, 1100, deskMat, side, -20, -3 - 15, 60); desk.name = 'desk'; g.add(desk); // (AR hides it: the real table is there)
   const matTex = TX.matTexture(); matTex.anisotropy = 8;
   const mTop = new THREE.MeshStandardMaterial({ map: matTex, roughness: 0.86 }), mSide = new THREE.MeshStandardMaterial({ color: 0x1a4433, roughness: 0.9 });
   const mat = slab(TX.MAT.w, 2.5, TX.MAT.d, mTop, mSide, -15, -1.25, 20); mat.name = 'mat';
@@ -427,7 +428,8 @@ export function buildObstacle() {
 }
 
 export function buildPart(part) {
-  let g = buildPart2(part); // batch 2 (robots), and the plugs of servos that sit in a robot
+  let g = buildPart7(part); // batch 7 (models7.js): only the props it knows (load230 show, pump in a bottle)
+  if (!g) g = buildPart2(part); // batch 2 (robots), and the plugs of servos that sit in a robot
   if (!g) g = buildPart4(part); // batch 4
   if (!g) g = buildPart3(part); // batch 3 (models3.js)
   if (!g) g = buildPart6(part); // batch 6 (models6.js)

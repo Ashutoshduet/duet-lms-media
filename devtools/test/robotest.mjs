@@ -177,6 +177,7 @@ const results = [];
 const lessons = await ev(() => (window.app ? [...document.querySelectorAll('#strip .chip')].map((c) => c.dataset.lesson) : []));
 for (const id of ids || lessons) {
   if (!ids && /^mb/.test(id)) { console.log('--   ' + id + ': a micro:bit lesson, played by robotest5.mjs'); continue; } // batch 5
+  if (!ids && /^pi(co)?_/.test(id)) { console.log('--   ' + id + ': a Raspberry Pi lesson, played by robotest6.mjs'); continue; } // batch 6
   const t0 = Date.now(); let ok = false, why = '';
   try {
     if (PHONE) { await page.click('#b-menu'); await sleep(200); }

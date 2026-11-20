@@ -49,6 +49,7 @@ button:focus-visible,select:focus-visible{outline:2px solid var(--ink);outline-o
 /* lesson strip */
 #strip{position:fixed;top:calc(max(10px,env(safe-area-inset-top)) + 54px);left:12px;right:calc(var(--side) + 24px);height:var(--strip);z-index:6;display:flex;gap:4px;padding:5px;overflow-x:auto;scrollbar-width:none;align-items:center}
 #strip::-webkit-scrollbar{display:none}
+#strip .clsf,#strip .clsq{flex:none;height:32px;padding:0 8px;border-radius:9px;border:1px solid rgba(127,209,255,.35);background:rgba(127,209,255,.10);color:var(--txt);font:inherit;font-size:13px;font-weight:700}#strip .clsf{min-width:112px}#strip .clsq{width:110px;font-weight:500}
 .chip{flex:none;display:flex;align-items:center;gap:7px;padding:5px 10px 5px 5px;border-radius:10px;font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap;height:34px}
 .chip i{font-style:normal;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:12px;font-weight:800;background:rgba(127,209,255,.14);color:var(--blue)}
 .chip:hover{background:rgba(255,255,255,.06)}
@@ -192,6 +193,9 @@ body.has-world{--drw:236px}
 #wlabels{position:fixed;inset:0;pointer-events:none;z-index:4;overflow:hidden}
 #wlabels i{position:absolute;left:0;top:0;margin:-11px 0 0 12px;padding:2px 7px;border-radius:7px;font:600 12px/18px var(--mono);font-style:normal;color:#ffd76a;background:rgba(10,13,18,.8);border:1px solid rgba(255,215,106,.35);white-space:nowrap}
 body.in-vr #world,body.in-vr #wlabels{display:none}
+#aroverlay{display:none}body.in-ar #aroverlay{display:block;position:fixed;inset:0;pointer-events:none;z-index:50}#aroverlay>*{pointer-events:auto}
+#ar-hint{position:absolute;left:16px;right:16px;bottom:84px;padding:12px 14px;border-radius:12px;background:rgba(10,14,20,.78);color:#fff;font:600 15px/1.35 system-ui,sans-serif;text-align:center}
+#ar-exit{position:absolute;top:max(16px,env(safe-area-inset-top));right:16px;padding:10px 16px;border-radius:10px;border:0;background:rgba(10,14,20,.78);color:#fff;font:700 14px system-ui,sans-serif}
 /* the installed headset app: if VR cannot start by itself (or after it ends), one big button */
 #xr-wait{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:rgba(10,13,19,.72)}
 body.xr-wait:not(.in-vr) #xr-wait{display:grid}
@@ -253,7 +257,8 @@ html.duet-phone{--panel:rgba(14,18,25,.94)} /* phones: solid panels instead of t
   <div id="modes" class="panel seg" role="tablist"><button id="m-lessons" data-t="lessons">Lessons</button><button id="m-free" data-t="free">Free build</button></div>
   <div class="sp"></div>
   <div id="tools" class="panel"><div id="langs" class="seg" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="hi">हिंदी</button><button data-l="hg">Hinglish</button></div>
-    <button id="b-sound" class="ib" aria-label="Sound">🔊</button><button id="b-code" class="ib" aria-label="Code">{ }</button><button id="b-vr" class="xr" hidden data-t="vr">Enter VR</button></div>
+    <button id="b-sound" class="ib" aria-label="Sound">🔊</button><button id="b-code" class="ib" aria-label="Code">{ }</button><button id="b-vr" class="xr" hidden data-t="vr">Enter VR</button><button id="b-ar" class="xr" hidden data-t="ar">Enter AR</button></div>
+<div id="aroverlay"><div id="ar-hint" hidden data-t="arHint">Point the phone at a table, then tap to put the bench there.</div><button id="ar-exit" data-t="arExit">Exit AR</button></div>
 </header>
 <nav id="strip" class="panel" aria-label="Lessons"></nav>
 <aside id="drawer" class="panel"><h3 data-t="parts">Parts</h3><p class="hint" data-t="partsHint"></p><div id="plist"></div></aside>
