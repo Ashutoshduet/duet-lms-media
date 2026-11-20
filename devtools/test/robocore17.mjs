@@ -12,21 +12,30 @@ import { Lab } from '../../robotics/js/sim.js';
 import { LESSONS } from '../../robotics/js/lessons.js';
 import { LessonRT } from '../../robotics/js/lessonrt.js';
 import { makeScene } from '../../robotics/js/scenes3.js';
+import { CarSim } from '../../robotics/js/robots.js';
+import { BO } from '../../robotics/js/parts2.js';
 
 const only = process.argv[2] ? process.argv[2].split(',') : null;
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
 const L17 = LESSONS.filter((l) => l.batch === 17);
-ok(L17.length === 4 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L17.length} lessons in batch 17, ids unique`);
+ok(L17.length === 6 && new Set(LESSONS.map((l) => l.id)).size === LESSONS.length, `${L17.length} lessons in batch 17, ids unique`);
 
 function build(l, extra) {
   const lab = new Lab(); const app = { lab, code: () => app.src, world: null, onStepDone() {}, onLessonComplete() {} }; app.src = l.code;
   const rt = new LessonRT(app); rt.open(l.id);
-  const sim = makeScene(l.scene); app.world = { flag: (n) => sim.flag(n), val: (n) => sim.val(n), onRun: () => sim.onRun(lab) };
+  let sim; if (l.scene) { sim = makeScene(l.scene); app.world = { flag: (n) => sim.flag(n), val: (n) => sim.val(n), onRun: () => sim.onRun(lab) }; }
+  else { // a robot car (robots.js CarSim): driven by the bench's motors, its sensors fed back as worlds.js does
+    const car = new CarSim(l.world.car); const w = (t) => { const p = lab.byTag(t); return p ? p.state.w / BO.gear * BO.rw : 0; };
+    sim = { car, flags: car.flags, res: {}, flag: (n) => car.flags.has(n), update(dt) { car.update(dt, w('mL'), w('mR'));
+      if (l.world.car === 'line') { const q = car.sensors(); for (const [t, bk] of [['irL', q.L], ['irR', q.R]]) { const p = lab.byTag(t); if (p) { p.state.ext = true; const d = bk ? 40 : 1; if (p.state.dist !== d) { p.state.dist = d; lab.stateV++; lab.instKey = null; } } } }
+      if (l.world.car === 'avoid') { const sv = lab.byTag('sv1'), us = lab.byTag('us1'); if (us) { us.state.ext = true; us.state.dist = car.usCm(sv ? sv.state.angle : 90); } } } };
+    app.world = { flag: (n) => car.flags.has(n), val: (n) => car[n], onRun: () => car.reset() };
+  }
   for (const s of l.steps) {
     if (s.k === 'place') { const q = s.place; if (!lab.byTag(q.tag)) { const p = lab.addPart(q.type, q.props, q.at, q.rot, q.tag); if (!p) ok(false, `${l.id}: place ${q.tag} fits`); } }
     if (s.k === 'wire') { const w = (extra && extra(s)) || s.wire; const g = rt.ghostWire(w); if (!g) { ok(false, `${l.id}: a ghost wire for ${w}`); continue; } lab.addWire(g[0], g[1]); if (!rt.conn(w[0], w[1])) ok(false, `${l.id}: wire ${w} joins`); }
   }
-  for (let f = 0; f < 4 * 60; f++) { lab.step(1000 / 60); sim.update(1 / 60, lab); } // the time the student spends wiring
+  if (l.scene) for (let f = 0; f < 4 * 60; f++) { lab.step(1000 / 60); sim.update(1 / 60, lab); } // the time the student spends wiring
   return { lab, app, rt, sim, l, ser: '', buf: '', t: 0 };
 }
 function start(B, src) { const c = compile(src, B.lab.def); if (!c.ok) throw new Error('compile ' + JSON.stringify(c.errors).slice(0, 300)); B.app.src = src; B.lab.run(c); B.rt.onRun(src); }
@@ -53,7 +62,7 @@ function play(l, acts = {}) {
     if (s.k === 'watch' || s.k === 'act') {
       const t0 = B.t; const done = frames(B, 150, () => { try { return !!s.until(B.rt); } catch (e) { return false; } }, acts[i]);
       log.push(`step ${i} ${done ? 'done' : 'NOT DONE'} in ${(B.t - t0).toFixed(1)} s`);
-      if (!done) { log.push(`  flags ${[...B.sim.flags].join(',')} res ${JSON.stringify(B.sim.res)} serial ${JSON.stringify(B.rt.serLines.slice(-4))}`); break; }
+      if (!done) { log.push(`  flags ${[...B.sim.flags].join(',')} res ${JSON.stringify(B.sim.res)} odo ${B.sim.car ? Math.round(B.sim.car.odo) : ''} serial ${JSON.stringify(B.rt.serLines.slice(-4))}`); break; }
     }
   }
   return { B, log, done: !!l.done(B.rt) && !log.some((x) => /NOT DONE|check says|not what/.test(x)) };
@@ -92,6 +101,19 @@ const T = {
     // the sensor not wired: it reads 0 cm, a "full" tank, so the pump never starts while the tank empties
     const N = build(l, (s) => (s.wire[0] === 'us1.ECHO' ? ['us1.ECHO', 'D11'] : null)); const c = N.rt.runCheck(); N.sim.control('tap', '1'); start(N, l.code); frames(N, 45);
     ok(!!c && !N.sim.flag('pumpOn') && N.sim.h < 5, `smarttank: Echo on the wrong pin -> the check says so, and the tank runs empty (${Math.round(N.sim.h)} %) with the pump off`);
+  },
+  pico_linecar(l) {
+    const r = play(l); ok(r.done, `pico_linecar: plays end to end — ${r.log.join(' | ')}`);
+    const c = r.B.sim.car; ok(c.lap.n >= 1 && c.lap.best > 0, `pico_linecar: ${c.lap.n} laps at 85 %, best ${c.lap.best && c.lap.best.toFixed(1)} s`);
+    // the mistake: an IR sensor on VBUS (5 V)
+    const M = build(l, (s) => (s.wire[0] === 'irL.VCC' ? ['irL.VCC', 'rail:tp'] : null)); const k = M.rt.runCheck();
+    ok(!!k && /5 V/.test(k[0].en), `pico_linecar: a sensor on 5 V -> the check says ${JSON.stringify(k && k[0].en).slice(0, 70)}`);
+  },
+  pico_avoidcar(l) {
+    const r = play(l); ok(r.done, `pico_avoidcar: plays end to end — ${r.log.join(' | ')}`);
+    const d = r.B.rt.serLines.map(Number).filter((x) => x > 0); ok(d.length > 10 && Math.min(...d) < 30, `pico_avoidcar: the Pico read the distances through the divider (${Math.min(...d)}–${Math.max(...d)} cm)`);
+    const M = build(l, (s) => (s.wire[0] === 'rd2.1' ? ['us1.ECHO', 'GP13'] : null)); const k = M.rt.runCheck();
+    ok(!!k && /straight to GP13/.test(k[0].en), `pico_avoidcar: Echo straight to GP13 -> the check says ${JSON.stringify(k && k[0].en).slice(0, 70)}`);
   },
   banklocker(l) {
     const acts = { [ix(l, /without a card/)]: script(keys('4321#')), [ix(l, /blue tag/)]: script([[0.4, ctl('tag')]]), [ix(l, /Now the owner/)]: script([[0.4, ctl('card')], ...keys('4321#', 2.2)]), [ix(l, /new PIN/)]: script([[0.4, ctl('card')], ...keys('8642#', 2.2)]) };

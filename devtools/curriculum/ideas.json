@@ -25464,6 +25464,52 @@
 "note": null
 },
 {
+"id": "live-pico_avoidcar",
+"title": "Obstacle-avoiding car on the Pico",
+"family": "live",
+"board": "pico",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"resistor",
+"hcsr04",
+"servo"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "pico_avoidcar",
+"rule": null,
+"note": null
+},
+{
+"id": "live-pico_linecar",
+"title": "Line-follower car on the Pico",
+"family": "live",
+"board": "pico",
+"parts": [
+"l298n",
+"bat18650",
+"bomotor",
+"ir"
+],
+"newparts": [],
+"band": [
+9,
+11
+],
+"level": 9,
+"theme": "projects",
+"live": "pico_linecar",
+"rule": null,
+"note": null
+},
+{
 "id": "live-smarttank",
 "title": "Smart water tank: level, pump and alarm",
 "family": "live",

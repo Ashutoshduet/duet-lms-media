@@ -6,6 +6,8 @@
 //                  to GP26; the heater warms up first; two limits (alarm and safe) so the alarm does not flicker
 //   smarttank      a rooftop water tank on the Uno: the HC-SR04 in the lid, the pump through a relay, low / high limits, and
 //                  dry-run protection (the level must rise within 5 s, or the pump stops and the alarm sounds)
+//   pico_linecar / pico_avoidcar  the Class 7 cars again on the Pico in MicroPython (L298N on GP16–GP21, PWM in %), the
+//                  sonar's Echo through a 1 kΩ / 2.2 kΩ divider to GP13, time_pulse_us() for its echo
 //   banklocker     a bank locker on the Uno with two factors: the owner's RFID card AND a PIN on the keypad (rows on
 //                  A0–A3, because the reader's SPI takes pins 9–13); "Card first!", an unknown card, three wrong PINs
 // The helpers (t3, P, F, W, need, has, noShort) come from lessons.js; scenes3.js runs the locker / kitchen / bank scenes.
@@ -285,7 +287,95 @@ void loop() {
   delay(500);
 }
 `;
-export const BATCH17_CODE = { PLOCK, PGAS, BANK, TANKC };
+const PDRIVE = `from machine import Pin, PWM
+import time
+
+in1, in2 = Pin(16, Pin.OUT), Pin(17, Pin.OUT)     # motor A: the left wheel
+in3, in4 = Pin(18, Pin.OUT), Pin(19, Pin.OUT)     # motor B: the right wheel
+ena, enb = PWM(Pin(20)), PWM(Pin(21))             # their speed (PWM)
+ena.freq(1000)
+enb.freq(1000)
+
+def wheel(a, b, en, v):           # one wheel: v from -100 (backwards) to 100 (forwards), in %
+    a.value(1 if v > 0 else 0)
+    b.value(1 if v < 0 else 0)
+    en.duty_u16(int(min(100, abs(v)) * 65535 / 100))
+
+def drive(left, right):
+    wheel(in1, in2, ena, left)
+    wheel(in3, in4, enb, right)
+`;
+const PLINE = `# Line follower on the Pico: two IR sensors look down at the floor
+# (their OUT is 0 on white, where the light comes back, and 1 on the black tape)
+${PDRIVE}
+ir_left, ir_right = Pin(14, Pin.IN), Pin(15, Pin.IN)
+speed = 45          # % of full power
+turn = 0            # the inside wheel in a turn: 0 = stop
+
+while True:
+    L = ir_left.value()
+    R = ir_right.value()
+    if L == 0 and R == 0:
+        drive(speed, speed)       # both on white: straight on
+    elif L == 1 and R == 0:
+        drive(turn, speed)        # tape under the left sensor: turn left
+    elif L == 0 and R == 1:
+        drive(speed, turn)        # tape under the right sensor: turn right
+    else:
+        drive(0, 0)               # both on black: stop
+    time.sleep_ms(5)
+`;
+const PAVOID = `# Obstacle-avoiding car on the Pico: it looks ahead; near a wall it stops,
+# looks left and right, backs off, and turns to the side that is more open
+${PDRIVE}from machine import time_pulse_us
+
+trig = Pin(14, Pin.OUT)
+echo = Pin(13, Pin.IN)            # through the 1 k / 2.2 k divider: 5 V becomes 3.4 V
+scan = PWM(Pin(15))
+scan.freq(50)
+speed = 55          # %
+safe = 30           # cm: closer than this is "too close"
+
+def look(angle):
+    scan.duty_u16(int(1638 + angle * 6553 / 180))
+
+def distance_cm():
+    trig.value(0)
+    time.sleep_us(2)
+    trig.value(1)                 # a 10 us ping
+    time.sleep_us(10)
+    trig.value(0)
+    t = time_pulse_us(echo, 1, 30000)   # how long Echo stays HIGH (negative: no echo)
+    if t < 0:
+        return 400
+    return t * 0.0343 / 2
+
+look(90)
+while True:
+    ahead = distance_cm()
+    print(int(ahead))
+    if ahead > safe:
+        drive(speed, speed)       # the way is clear
+        time.sleep_ms(50)
+        continue
+    drive(0, 0)                   # stop, and look round
+    look(170)
+    time.sleep_ms(400)
+    left = distance_cm()
+    look(10)
+    time.sleep_ms(400)
+    right = distance_cm()
+    look(90)
+    time.sleep_ms(300)
+    drive(-speed, -speed)         # back off a little first
+    time.sleep_ms(250)
+    if left > right:
+        drive(-speed, speed)      # spin to the left
+    else:
+        drive(speed, -speed)      # spin to the right
+    time.sleep_ms(450)
+`;
+export const BATCH17_CODE = { PLOCK, PGAS, BANK, TANKC, PLINE, PAVOID };
 
 export function batch17(K, n0) {
   const { P, F, W, need, has, noShort } = K;
@@ -428,6 +518,78 @@ export function batch17(K, n0) {
     check: [noShort, has('us1', t3('ultrasonic sensor', 'अल्ट्रासोनिक सेंसर', 'ultrasonic sensor')), (S) => (S.conn('us1.TRIG', 'D10') && S.conn('us1.ECHO', 'D9') ? [XT.swap] : null),
       (S) => (S.conn('us1.VCC', '5V') && S.conn('us1.GND', 'GND') && S.conn('us1.TRIG', 'D9') && S.conn('us1.ECHO', 'D10') ? null : [XT.us])],
     done: (S) => /int\s+low\s*=\s*(?!30\s*;)\d+/.test(S.runSrc || '') && S.w('full') && (S.wv('res') || {}).onAt >= 40 });
+
+  // 5, 6 ------------------------------------------------------------------------------------------- the Pico robot cars
+  const CARPARTS = [F('drv', 'l298n', {}, -35, 105, 0), F('bat', 'bat18650', {}, -190, 108, 0), F('mL', 'bomotor', { side: 'L' }, -80, 152, 3), F('mR', 'bomotor', { side: 'R' }, 10, 152, 1)];
+  const PICO_BACK_COL = { 16: 21, 17: 20, 18: 18, 19: 17, 20: 16, 21: 15 }; // GP -> the breadboard column of its pin (back row)
+  const PDRV = [['IN1', 16], ['IN2', 17], ['IN3', 18], ['IN4', 19], ['ENA', 20], ['ENB', 21]];
+  const CARW = [['T:bat:P', 'T:drv:VS'], ['T:bat:N', 'T:drv:GND'], ['T:mL:P', 'T:drv:OUT1'], ['T:mL:N', 'T:drv:OUT2'], ['T:mR:P', 'T:drv:OUT3'], ['T:mR:N', 'T:drv:OUT4'], ...PDRV.map(([k, g]) => ['T:drv:' + k, 'H:a' + PICO_BACK_COL[g]]), ...PICO_POWER]; // (setup wires go to the holes beside the Pico's pins)
+  const XC = {
+    drvGnd: t3('The L298N\'s GND must be joined to the Pico\'s GND too (common ground), or IN1–IN4 mean nothing to it.', 'L298N का GND, Pico के GND से भी जुड़ना चाहिए (कॉमन ग्राउंड), वरना IN1–IN4 का उसके लिए कोई मतलब नहीं।', 'L298N ka GND, Pico ke GND se bhi judna chahiye (common ground), warna IN1–IN4 ka uske liye koi matlab nahi.'),
+    ir: t3('The {x} IR sensor: VCC to the Pico\'s 3V3 pin (its OUT then stays at 3.3 V), GND to the − rail, OUT to {p}.', '{x} IR सेंसर: VCC, Pico के 3V3 पिन पर (तब इसका OUT 3.3 V पर रहता है), GND − रेल पर, OUT {p} पर।', '{x} IR sensor: VCC, Pico ke 3V3 pin par (tab iska OUT 3.3 V par rehta hai), GND − rail par, OUT {p} par.'),
+    ir5: t3('An IR sensor is on 5 V (VBUS): its OUT would then put 5 V on a Pico pin. Move its VCC to the 3V3 pin.', 'एक IR सेंसर 5 V (VBUS) पर है: तब इसका OUT Pico के पिन पर 5 V डालेगा। इसका VCC 3V3 पिन पर लगाइए।', 'Ek IR sensor 5 V (VBUS) par hai: tab iska OUT Pico ke pin par 5 V daalega. Iska VCC 3V3 pin par lagaiye.'),
+    echoDirect: t3('Echo goes straight to GP13: the HC-SR04 answers with 5 V, too much for the Pico. Use the divider: Echo → 1 kΩ → the middle → 2.2 kΩ → GND, and GP13 from the middle.', 'Echo सीधे GP13 पर है: HC-SR04 5 V से जवाब देता है, Pico के लिए बहुत ज़्यादा। डिवाइडर लगाइए: Echo → 1 kΩ → बीच → 2.2 kΩ → GND, और GP13 बीच से।', 'Echo seedhe GP13 par hai: HC-SR04 5 V se jawab deta hai, Pico ke liye bahut zyada. Divider lagaiye: Echo → 1 kΩ → beech → 2.2 kΩ → GND, aur GP13 beech se.'),
+    us: t3('The HC-SR04: VCC to the back + rail (VBUS, 5 V), GND to the back − rail, Trig to GP14, Echo through the divider to GP13.', 'HC-SR04: VCC पीछे वाली + रेल (VBUS, 5 V) पर, GND पीछे वाली − रेल पर, Trig GP14 पर, Echo डिवाइडर से होकर GP13 पर।', 'HC-SR04: VCC peeche wali + rail (VBUS, 5 V) par, GND peeche wali − rail par, Trig GP14 par, Echo divider se hokar GP13 par.'),
+    sv: t3('The servo: brown to the − rail, red to the back + rail (VBUS, 5 V), orange to GP15.', 'सर्वो: भूरा − रेल पर, लाल पीछे वाली + रेल (VBUS, 5 V) पर, नारंगी GP15 पर।', 'Servo: bhoora − rail par, laal peeche wali + rail (VBUS, 5 V) par, naarangi GP15 par.'),
+  };
+  const carFresh = (S) => S.running() && S.fresh();
+  const driveChk = [(S) => (S.conn('3V3', 'GND') || S.conn('VBUS', 'GND') ? [W.short] : null), (S) => (S.conn('drv.GND', 'GND') ? null : [XC.drvGnd])];
+  const LEFT = t3('left', 'बायाँ', 'left'), RIGHT = t3('right', 'दायाँ', 'right');
+  const irWires = (tag, gp, side) => [w3(tag, 'VCC', '3V3', `Wire the ${side.en} sensor's VCC to the Pico's 3V3 pin.`, `${side.hi} सेंसर का VCC Pico के 3V3 पिन से जोड़िए।`, `${side.hg} sensor ka VCC Pico ke 3V3 pin se jodiye.`),
+    w3(tag, 'GND', 'rail:bn', 'Its GND to the front − rail.', 'इसका GND आगे वाली − रेल से।', 'Iska GND aage wali − rail se.'), w3(tag, 'OUT', 'GP' + gp, `Its OUT to GP${gp}.`, `इसका OUT, GP${gp} से।`, `Iska OUT, GP${gp} se.`)];
+  L.push({ id: 'pico_linecar', board: 'pico', cls: '9', view: 'carbench', wview: 'carbench', rview: 'arena', code: PLINE, drawer: ['ir'], world: { kind: 'car', car: 'line' },
+    title: t3('Line-follower car on the Pico', 'Pico पर लाइन फ़ॉलोअर कार', 'Pico par line follower car'),
+    goal: t3('The Class 7 line follower, now on a Raspberry Pi Pico in MicroPython: the same two IR sensors and L298N, PWM in percent, and the same tuning of speed against turns.', 'कक्षा 7 वाली लाइन फ़ॉलोअर, अब Raspberry Pi Pico पर MicroPython में: वही दो IR सेंसर और L298N, प्रतिशत में PWM, और रफ़्तार बनाम मोड़ की वही ट्यूनिंग।', 'Class 7 wali line follower, ab Raspberry Pi Pico par MicroPython mein: wahi do IR sensor aur L298N, percent mein PWM, aur speed vs mod ki wahi tuning.'),
+    setup: { parts: CARPARTS, wires: CARW },
+    steps: [
+      { k: 'info', do: t3('The car is on the track (🏁 Robot view); its drive is on the bench: the battery on the L298N, the motors on OUT1–OUT4, and IN1–IN4, ENA, ENB on GP16–GP21.', 'कार ट्रैक पर है (🏁 रोबोट व्यू); इसकी ड्राइव बेंच पर है: बैटरी L298N पर, मोटरें OUT1–OUT4 पर, और IN1–IN4, ENA, ENB, GP16–GP21 पर।', 'Car track par hai (🏁 Robot view); iski drive bench par hai: battery L298N par, motors OUT1–OUT4 par, aur IN1–IN4, ENA, ENB, GP16–GP21 par.'),
+        see: t3('The L298N reads the Pico\'s 3.3 V as HIGH, so no level shifter is needed for its inputs.', 'L298N, Pico के 3.3 V को HIGH पढ़ता है, इसलिए इसके इनपुट के लिए लेवल शिफ़्टर नहीं चाहिए।', 'L298N, Pico ke 3.3 V ko HIGH padhta hai, isliye iske input ke liye level shifter nahi chahiye.') },
+      w3('drv', 'GND', 'GND', 'Join the L298N\'s GND terminal to a GND pin of the Pico.', 'L298N के GND टर्मिनल को Pico के किसी GND पिन से जोड़िए।', 'L298N ke GND terminal ko Pico ke kisi GND pin se jodiye.', t3('Common ground: without it the car will not move.', 'कॉमन ग्राउंड: इसके बिना कार नहीं चलेगी।', 'Common ground: iske bina car nahi chalegi.')),
+      { k: 'place', place: F('irL', 'ir', {}, 140, 62, 2), do: t3('Put an IR sensor at the left ghost: the car\'s left sensor.', 'एक IR सेंसर बाईं नीली आकृति पर रखिए: कार का बायाँ सेंसर।', 'Ek IR sensor left neeli shape par rakhiye: car ka left sensor.'), see: E },
+      { k: 'place', place: F('irR', 'ir', {}, 178, 62, 2), do: t3('And the second at the right ghost.', 'और दूसरा दाईं नीली आकृति पर।', 'Aur doosra right neeli shape par.'), see: E },
+      ...irWires('irL', 14, LEFT), ...irWires('irR', 15, RIGHT),
+      CHECK,
+      { k: 'info', code: [9, 17], do: t3('wheel() and drive() are the Uno\'s motor() and drive() in Python: the direction on two pins, the speed as a PWM duty, 0–65535 for 0–100 %.', 'wheel() और drive() Uno के motor() और drive() ही हैं, Python में: दो पिन पर दिशा, PWM ड्यूटी से रफ़्तार, 0–100 % के लिए 0–65535।', 'wheel() aur drive() Uno ke motor() aur drive() hi hain, Python mein: do pin par disha, PWM duty se speed, 0–100 % ke liye 0–65535.'), see: E },
+      { k: 'run', do: t3('Press Run.', '"चलाइए" दबाइए।', 'Run dabaiye.'), see: t3('Run puts the car at START.', '"चलाइए" कार को START पर रखता है।', 'Run car ko START par rakhta hai.') },
+      { k: 'watch', until: (S) => carFresh(S) && S.w('lap'), do: t3('Watch one lap.', 'एक चक्कर देखिए।', 'Ek chakkar dekhiye.'), see: t3('The same rule as on the Uno: the tape under one sensor, that wheel stops, the car turns back to the line.', 'Uno वाला ही नियम: एक सेंसर के नीचे टेप, वह पहिया रुकता है, कार लाइन पर लौटती है।', 'Uno wala hi niyam: ek sensor ke neeche tape, woh wheel rukta hai, car line par lautti hai.') },
+      { k: 'edit', test: (src) => /speed\s*=\s*(8\d|9\d|100)\b/.test(src), set: [[/speed = 45 /, 'speed = 85 ']], do: t3('Faster: change speed = 45 to speed = 85 and press Run.', 'तेज़: speed = 45 को speed = 85 कीजिए और "चलाइए" दबाइए।', 'Tez: speed = 45 ko speed = 85 karo aur Run dabaiye.'), see: E },
+      { k: 'watch', until: (S) => carFresh(S) && (S.w('lost') || S.w('lap')), do: t3('Watch the S-bend.', 'S-मोड़ देखिए।', 'S-mod dekhiye.'), see: t3('Too fast for a stopped inside wheel: it runs off the line.', 'रुके हुए अंदर वाले पहिये के लिए बहुत तेज़: यह लाइन से उतर जाती है।', 'Ruke hue andar wale wheel ke liye bahut tez: yeh line se utar jaati hai.') },
+      { k: 'edit', test: (src) => /turn\s*=\s*-\s*(speed\s*\/\/?\s*2|[3-9]\d)\b/.test(src) && /speed\s*=\s*(8\d|9\d|100)\b/.test(src), set: [[/turn = 0 /, 'turn = -speed // 2 ']],
+        do: t3('Let the inside wheel go backwards at half speed: change turn = 0 to turn = -speed // 2 and press Run.', 'अंदर वाले पहिये को आधी रफ़्तार से पीछे चलने दीजिए: turn = 0 को turn = -speed // 2 कीजिए और "चलाइए" दबाइए।', 'Andar wale wheel ko aadhi speed se peeche chalne dijiye: turn = 0 ko turn = -speed // 2 karo aur Run dabaiye.'), see: E },
+      { k: 'watch', until: (S) => carFresh(S) && S.w('lap') && !S.w('lost'), do: t3('Watch a full lap at 85 %.', '85 % पर एक पूरा चक्कर देखिए।', '85 % par ek poora chakkar dekhiye.'),
+        see: t3('It holds the line again. // is Python\'s whole-number division: -85 // 2 is -43, a backwards wheel that swings the car round the bend.', 'यह फिर लाइन पकड़े रहती है। // Python का पूरे अंक वाला भाग है: -85 // 2 बराबर -43, पीछे चलता पहिया जो कार को मोड़ पर घुमा देता है।', 'Yeh phir line pakde rehti hai. // Python ka poore ank wala bhaag hai: -85 // 2 barabar -43, peeche chalta wheel jo car ko mod par ghuma deta hai.') },
+    ],
+    check: [...driveChk, has('irL', t3('left IR sensor', 'बायाँ IR सेंसर', 'left IR sensor')), has('irR', t3('right IR sensor', 'दायाँ IR सेंसर', 'right IR sensor')), (S) => (S.conn('irL.VCC', 'VBUS') || S.conn('irR.VCC', 'VBUS') ? [XC.ir5] : null),
+      ...[['irL', 14, LEFT], ['irR', 15, RIGHT]].map(([k, gp, sd]) => (S) => (S.conn(k + '.VCC', '3V3') && S.conn(k + '.GND', 'GND') && S.conn(k + '.OUT', 'GP' + gp) ? null : [XC.ir, { x: sd, p: 'GP' + gp }]))],
+    done: (S) => S.w('lap') && !S.w('lost') && /turn\s*=\s*-/.test(S.runSrc || '') });
+
+  L.push({ id: 'pico_avoidcar', board: 'pico', cls: '9', view: 'carbench', wview: 'carbench', rview: 'arena', code: PAVOID, drawer: ['hcsr04', 'servo', 'resistor'], serial: true, world: { kind: 'car', car: 'avoid' },
+    title: t3('Obstacle-avoiding car on the Pico', 'Pico पर बाधा से बचने वाली कार', 'Pico par baadha se bachne wali car'),
+    goal: t3('An HC-SR04 on a servo looks ahead, left and right, and the Pico steers the car round a room of boxes. The sensor speaks 5 V, the Pico 3.3 V: a divider sits between them.', 'सर्वो पर लगा HC-SR04 आगे, बाएँ और दाएँ देखता है, और Pico डिब्बों वाले कमरे में कार को घुमाता है। सेंसर 5 V बोलता है, Pico 3.3 V: बीच में एक डिवाइडर।', 'Servo par laga HC-SR04 aage, left aur right dekhta hai, aur Pico dibbon wale kamre mein car ko ghumata hai. Sensor 5 V bolta hai, Pico 3.3 V: beech mein ek divider.'),
+    setup: { parts: [...CARPARTS, P('rd1', 'resistor', { ohms: 1000 }, 'g52', 2), P('rd2', 'resistor', { ohms: 2200 }, 'j48', 1)], wires: [...CARW, ['T:drv:GND', 'H:j14']] }, // (GND3, column 14)
+    steps: [
+      { k: 'info', do: t3('The car (🏁 Robot view) is in a room with boxes; its drive is wired as in the line follower. Ready on the breadboard: a 1 kΩ (48g–52g) and a 2.2 kΩ (48j into the − rail), the Echo divider.', 'कार (🏁 रोबोट व्यू) डिब्बों वाले कमरे में है; इसकी ड्राइव लाइन फ़ॉलोअर जैसी जुड़ी है। ब्रेडबोर्ड पर तैयार: 1 kΩ (48g–52g) और 2.2 kΩ (48j से − रेल में), Echo का डिवाइडर।', 'Car (🏁 Robot view) dibbon wale kamre mein hai; iski drive line follower jaisi judi hai. Breadboard par taiyaar: 1 kΩ (48g–52g) aur 2.2 kΩ (48j se − rail mein), Echo ka divider.'), see: E },
+      { k: 'place', place: P('us1', 'hcsr04', {}, 'j50', 0), do: t3('Plug the ultrasonic sensor into 50j–53j: its Echo (column 52) meets the 1 kΩ.', 'अल्ट्रासोनिक सेंसर को 50j–53j में लगाइए: इसका Echo (कॉलम 52) 1 kΩ से मिलता है।', 'Ultrasonic sensor ko 50j–53j mein lagaiye: iska Echo (column 52) 1 kΩ se milta hai.'), see: E },
+      w3('us1', 'VCC', 'rail:tp', 'VCC (column 50) to the back + rail (5 V from VBUS).', 'VCC (कॉलम 50) को पीछे वाली + रेल (VBUS से 5 V) से।', 'VCC (column 50) ko peeche wali + rail (VBUS se 5 V) se.'),
+      w3('us1', 'GND', 'rail:tn', 'GND (column 53) to the back − rail.', 'GND (कॉलम 53) को पीछे वाली − रेल से।', 'GND (column 53) ko peeche wali − rail se.'),
+      w3('us1', 'TRIG', 'GP14', 'Trig (column 51) to GP14: a 3.3 V ping is enough for it.', 'Trig (कॉलम 51) को GP14 से: इसके लिए 3.3 V की पिंग काफ़ी है।', 'Trig (column 51) ko GP14 se: iske liye 3.3 V ki ping kaafi hai.'),
+      w3('rd2', '1', 'GP13', 'The divider\'s middle (column 48) to GP13.', 'डिवाइडर का बीच (कॉलम 48) GP13 से।', 'Divider ka beech (column 48) GP13 se.', t3('5 V × 2.2 / 3.2 = 3.4 V: just inside what a Pico pin can take.', '5 V × 2.2 / 3.2 = 3.4 V: Pico का पिन जितना सह सकता है, उसके अंदर।', '5 V × 2.2 / 3.2 = 3.4 V: Pico ka pin jitna seh sakta hai, uske andar.')),
+      { k: 'place', place: F('sv1', 'servo', {}, 150, 100, 2), do: t3('Put the servo on the mat at the ghost: on the car it turns the sensor.', 'सर्वो को मैट पर नीली आकृति पर रखिए: कार पर यह सेंसर घुमाता है।', 'Servo ko mat par neeli shape par rakhiye: car par yeh sensor ghumata hai.'), see: E },
+      w3('sv1', 'GND', 'rail:bn', 'Its brown wire to the front − rail.', 'इसका भूरा तार आगे वाली − रेल से।', 'Iska bhoora taar aage wali − rail se.'),
+      w3('sv1', 'VP', 'rail:tp', 'Its red wire to the back + rail (5 V).', 'इसका लाल तार पीछे वाली + रेल (5 V) से।', 'Iska laal taar peeche wali + rail (5 V) se.'),
+      w3('sv1', 'SIG', 'GP15', 'Its orange wire to GP15.', 'इसका नारंगी तार GP15 से।', 'Iska naarangi taar GP15 se.'),
+      CHECK,
+      { k: 'run', do: t3('Press Run.', '"चलाइए" दबाइए।', 'Run dabaiye.'), see: E },
+      { k: 'watch', until: (S) => carFresh(S) && S.w('explored'), do: t3('Watch the car explore the room.', 'कार को कमरा घूमते देखिए।', 'Car ko kamra ghoomte dekhiye.'), see: t3('time_pulse_us() times the echo as pulseIn() does on the Uno; under 30 cm the car stops, looks both ways, and turns to the open side.', 'time_pulse_us() इको का समय वैसे ही नापता है जैसे Uno पर pulseIn(); 30 cm से कम पर कार रुकती है, दोनों तरफ़ देखती है, और खुली तरफ़ मुड़ती है।', 'time_pulse_us() echo ka time waise hi naapta hai jaise Uno par pulseIn(); 30 cm se kam par car rukti hai, dono taraf dekhti hai, aur khuli taraf mudti hai.') },
+      { k: 'edit', test: (src) => /safe\s*=\s*[1-4]\b/.test(src), set: [[/safe = 30 /, 'safe = 3 ']], do: t3('What if it looks too late? Change safe = 30 to safe = 3 and press Run.', 'अगर यह बहुत देर से देखे तो? safe = 30 को safe = 3 कीजिए और "चलाइए" दबाइए।', 'Agar yeh bahut der se dekhe to? safe = 30 ko safe = 3 karo aur Run dabaiye.'), see: E },
+      { k: 'watch', until: (S) => carFresh(S) && S.w('bump'), do: t3('Watch the first wall.', 'पहली दीवार देखिए।', 'Pehli deewar dekhiye.'), see: t3('Bump! The car moves while it measures, and the beam sees a slanted wall late: 3 cm is far too close.', 'टक्कर! नापते-नापते कार चलती रहती है, और तिरछी दीवार बीम को देर से दिखती है: 3 cm बहुत पास है।', 'Takkar! Naapte-naapte car chalti rehti hai, aur tirchhi deewar beam ko der se dikhti hai: 3 cm bahut paas hai.') },
+      { k: 'edit', test: (src) => /safe\s*=\s*(2\d|3\d|40)\b/.test(src), set: [[/safe = 3 /, 'safe = 25 ']], do: t3('Choose a safe distance again: safe = 25, and Run.', 'फिर से सुरक्षित दूरी चुनिए: safe = 25, और "चलाइए"।', 'Phir se safe doori chuniye: safe = 25, aur Run.'), see: E },
+      { k: 'watch', until: (S) => carFresh(S) && S.w('explored') && S.wv('exploredBumps') === 0, do: t3('Watch it drive round without a bump.', 'इसे बिना टक्कर घूमते देखिए।', 'Ise bina takkar ghoomte dekhiye.'), see: t3('The same program idea as on the Uno, in another language on another chip: once you know the idea, the board is a detail.', 'Uno वाला ही प्रोग्राम का विचार, दूसरी भाषा में दूसरी चिप पर: विचार समझ आ गया तो बोर्ड एक छोटी बात है।', 'Uno wala hi program ka vichaar, doosri bhasha mein doosri chip par: vichaar samajh aa gaya to board ek chhoti baat hai.') },
+    ],
+    check: [...driveChk, has('us1', t3('ultrasonic sensor', 'अल्ट्रासोनिक सेंसर', 'ultrasonic sensor')), (S) => (S.conn('us1.ECHO', 'GP13') ? [XC.echoDirect] : null),
+      (S) => (S.conn('us1.VCC', 'VBUS') && S.conn('us1.GND', 'GND') && S.conn('us1.TRIG', 'GP14') && S.conn('rd2.1', 'GP13') && S.conn('us1.ECHO', 'rd1.1') ? null : [XC.us]),
+      has('sv1', t3('servo', 'सर्वो', 'servo')), (S) => (S.conn('sv1.GND', 'GND') && S.conn('sv1.VP', 'VBUS') && S.conn('sv1.SIG', 'GP15') ? null : [XC.sv])],
+    done: (S) => S.w('explored') && S.wv('exploredBumps') === 0 });
 
   for (const l of L) { l.n = ++n; l.batch = 17; l.tick = (S) => { RT.S = S; }; if (l.scene) l.world = l.scene; if (l.board === 'pico') l.lang = 'py'; }
   return L;

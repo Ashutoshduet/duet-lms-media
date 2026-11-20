@@ -12,7 +12,7 @@ import { BO } from '../../robotics/js/parts2.js';
 
 const only = process.argv[2] ? process.argv[2].split(',') : null;
 let fails = 0; const ok = (c, m) => { if (!c) { fails++; console.log('FAIL ' + m); } else console.log('ok   ' + m); };
-const NEW = LESSONS.filter((l) => l.world && ['arm', 'car', 'bin', 'hyd'].includes(l.world.kind)); // (batch 2's lessons: the others have their own tests)
+const NEW = LESSONS.filter((l) => l.world && ['arm', 'car', 'bin', 'hyd'].includes(l.world.kind) && l.lang !== 'py' && !l.board); // (Uno only: the Pi / Pico cars have their own tests, robocore6 and robocore17) // (batch 2's lessons: the others have their own tests)
 ok(NEW.length >= 10, `${NEW.length} new lessons (n ${NEW[0].n}–${NEW[NEW.length - 1].n}), ids unique: ${new Set(LESSONS.map((l) => l.id)).size === LESSONS.length}`);
 for (const l of NEW) {
   const c = compile(l.code); ok(c.ok, `${l.id}: sketch compiles` + (c.ok ? (c.warnings.length ? ' (warnings: ' + c.warnings.map((w) => w.code).join(',') + ')' : '') : ' ' + JSON.stringify(c.errors)));

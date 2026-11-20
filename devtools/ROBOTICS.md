@@ -801,3 +801,8 @@ heaters.
   it from the sump, the taps drain it, an empty sump makes the pump run dry; the sketch starts at low = 30 %, stops at
   high = 90 %, and stops a dry pump when the level has not risen in 5 s; worlds3.js draws a clear tank on a brick stand,
   the sump, the pipe, the tap). 1,487 projects.
+- The Class 7 cars on the Pico (`pico_linecar`, `pico_avoidcar`, batch 17): the L298N's IN1–IN4, ENA, ENB on GP16–GP21
+  (setup wires go to the holes beside the Pico's pins, e.g. GP16 = `H:a21`), `wheel()` / `drive()` with PWM duty in %,
+  the IR sensors on 3V3 (the check refuses VBUS), the HC-SR04's Echo through 1 kΩ (48g–52g) / 2.2 kΩ (48j) to GP13 and
+  `time_pulse_us()`, the scan servo on GP15. robocore17.mjs drives the cars (CarSim) as worlds.js does; robocore2 now
+  keeps to the Uno cars. Class 9: 22 of 26. 1,489 projects.
