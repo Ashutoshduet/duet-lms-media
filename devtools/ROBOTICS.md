@@ -1262,3 +1262,10 @@ heaters.
   left end reads x − 2 cm ±0.1. Run puts the ball at 38 cm. Flags: hitEnd, swinging (4 crossings 4 cm past the middle),
   offset (resting 1.5 cm or more off: moved < 0.5 cm in 2 s), held (4 s within 1.5 cm). Kp 3 swings end to end; Kd 2
   rests 7/3 cm short; Ki 1.5 holds it. Buttons: flick the ball, put it at the far end.
+- Batch 35: the Class 12 smart ration shop (lessons24.js rationshop; scenes3.js RationScene, RATION; worlds3.js
+  rationSteps: a jute sack of rice and the FAIR PRICE SHOP board). The RC522 (rf, the water ATM's wiring), the LCD, the
+  beeper on pin 8 (bz, e30) and the load cell (lc, props.load 'rice': models30.js draws a steel bowl with a heap of rice
+  instead of brass weights; DT 2 and SCK 5 are the student's wires). The panel taps Sunita's white card (5.0 kg) or
+  Ramesh's blue tag (3.0 kg), pours 350 g/s (the shopkeeper stops 0.4 s after a beep), empties the bowl. A tap is judged
+  once rf.state.reads has gone up and 0.6 s passed. Flags: shown, stopped, twice (a card that got its rice shows its
+  quota again), refused ("Already taken" once the five commented lines are switched on).

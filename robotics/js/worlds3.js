@@ -12,6 +12,7 @@
 //            an action camera on the platform with the GY-521 in front of it
 //   beam     (batch 34) a 50 cm aluminium channel on a pivot post, the servo's horn and pushrod, the HC-SR04 at its left
 //            end, a ping-pong ball rolling in it, a centimetre scale and the red mark at the middle
+//   ration   (batch 35) a fair-price shop's open jute sack of rice with its steel scoop, and the shop's board
 // Phones and the headset: the still pieces of a scene are merged by material, there are no real-time lights or shadows
 // (the lamp's light is a soft pool on the floor), and a scene is built over a few frames.
 import * as THREE from 'three';
@@ -27,7 +28,7 @@ import { CARDS } from './libs3.js';
 Object.assign(VIEWS, { scene3bb: { tgt: [470, 120, 0], hw: 330, hd: 210, dir: [-0.12, 0.36, 0.92] } }); // (batch 34: the ball-on-beam stand beside the bench)
 Object.assign(VIEWS, { scene3gb: { tgt: [290, 180, 40], hw: 290, hd: 270, dir: [-0.22, 0.32, 0.92] } }); // (batch 33: the gimbal in its hand, beside the bench)
 Object.assign(VIEWS, { scene3: { tgt: [150, 40, 10], hw: 300, hd: 160, dir: [-0.14, 0.6, 0.79] }, scene3pt: { tgt: [190, 70, 10], hw: 340, hd: 190, dir: [-0.1, 0.55, 0.83] }, scene3cv: { tgt: [285, 30, 0], hw: 235, hd: 150, dir: [-0.2, 0.62, 0.76] } }); // (scene3pt: the joystick on the bench and the tall target board behind)
-const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal', 'beam']);
+const KINDS = new Set(['air', 'garden', 'room', 'burglar', 'door', 'attend', 'bank', 'tank', 'greenhouse', 'locker', 'kitchen', 'pantilt', 'turn', 'atm', 'vend', 'tracker', 'lift', 'conveyor', 'slider', 'plot', 'pick', 'gimbal', 'beam', 'ration']);
 export const isWorld3 = (cfg) => !!(cfg && KINDS.has(cfg.kind));
 export function makeWorld3(app, cfg) { return isWorld3(cfg) ? new World3(app, cfg) : null; }
 
@@ -96,14 +97,14 @@ class World3 {
   steps() {
     switch (this.kind) {
       case 'air': return this.airSteps(); case 'garden': case 'greenhouse': return this.gardenSteps(); case 'room': case 'burglar': return this.roomSteps(); case 'door': case 'attend': return this.doorSteps();
-      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps(); case 'beam': return this.beamSteps();
+      case 'locker': case 'bank': return this.lockerSteps(); case 'tank': return this.tankSteps(); case 'kitchen': return this.kitchenSteps(); case 'pantilt': return this.ptSteps(); case 'turn': return this.turnSteps(); case 'atm': return this.atmSteps(); case 'vend': return this.vendSteps(); case 'tracker': return this.trackerSteps(); case 'lift': return this.liftSteps(); case 'conveyor': return this.convSteps(); case 'slider': return this.slideSteps(); case 'plot': return this.plotSteps(); case 'pick': return this.pickSteps(); case 'gimbal': return this.gimbalSteps(); case 'beam': return this.beamSteps(); case 'ration': return this.rationSteps();
     }
     return [];
   }
   draw(dt) {
     switch (this.kind) {
       case 'air': return this.airDraw(dt); case 'garden': case 'greenhouse': return this.gardenDraw(dt); case 'room': case 'burglar': return this.roomDraw(dt); case 'door': case 'attend': return this.doorDraw(dt);
-      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt); case 'beam': return this.beamDraw(dt);
+      case 'locker': case 'bank': return this.lockerDraw(dt); case 'tank': return this.tankDraw(dt); case 'kitchen': return this.kitchenDraw(dt); case 'pantilt': return this.ptDraw(dt); case 'turn': return this.turnDraw(dt); case 'atm': return this.atmDraw(dt); case 'vend': return this.vendDraw(dt); case 'tracker': return this.trackerDraw(dt); case 'lift': return this.liftDraw(dt); case 'conveyor': return this.convDraw(dt); case 'slider': return this.slideDraw(dt); case 'plot': return this.plotDraw(dt); case 'pick': return this.pickDraw(dt); case 'gimbal': return this.gimbalDraw(dt); case 'beam': return this.beamDraw(dt); case 'ration': return this.rationDraw(dt);
     }
     return false;
   }
@@ -728,6 +729,28 @@ class World3 {
     this.bbRod.position.copy(mid); this.bbRod.scale.set(1, d.length(), 1); this.bbRod.quaternion.setFromUnitVectors(V3(0, 1, 0), d.normalize());
     return true;
   }
+
+  // ================================================================== the smart ration shop (batch 35): the sack of rice and the shop's
+  // board beside the bench; the rice itself is weighed in the bowl on the bench's load cell (models30.js)
+  rationSteps() {
+    const r = this.root, S = this.mat;
+    return [
+      () => { const G = new THREE.Group(); G.position.set(360, 0, -150); G.scale.setScalar(0.72); r.add(G); // (the sack and the board, behind and to the right of the bench)
+        const C = canvas(128, 128); const c = C.getContext('2d'); c.fillStyle = '#b48a52'; c.fillRect(0, 0, 128, 128); for (let i = 0; i < 128; i += 4) { c.fillStyle = 'rgba(80,50,20,0.25)'; c.fillRect(i, 0, 1.5, 128); c.fillRect(0, i, 128, 1.5); } grain(c, 128, 128, 0.12);
+        const jute = S({ map: ctex(C, [3, 2]), roughness: 0.95 }); const sack = lathe([[0, 0], [70, 2], [84, 30], [88, 90], [84, 140], [80, 158], [88, 170], [92, 176]], jute, 32); sack.position.set(0, 0, 0); G.add(sack);
+        const rice = new THREE.Mesh(new THREE.CylinderGeometry(80, 80, 6, 32), S({ color: 0xf3eedf, roughness: 0.95 })); rice.position.set(0, 160, 0); G.add(rice); this.rsRice = rice;
+        const heap = new THREE.Mesh(new THREE.ConeGeometry(60, 26, 28), rice.material); heap.position.set(0, 175, 0); G.add(heap);
+        const steel = S({ color: 0xd5d9de, metalness: 0.85, roughness: 0.25 }); const sc = new THREE.Group(); sc.position.set(-12, 178, 12); sc.rotation.set(0.5, 0.6, 0.2); G.add(sc);
+        sc.add(new THREE.Mesh(new THREE.CylinderGeometry(22, 18, 30, 20, 1, true), steel)); sc.add(cyl(4, 70, steel, 0, 0, 50, 10).rotateX(Math.PI / 2));
+        this.blob(150, 150, 360, -150, 0.4);
+        const B = canvas(512, 160); const b = B.getContext('2d'); b.fillStyle = '#1d5e3a'; b.fillRect(0, 0, 512, 160); b.strokeStyle = '#f2d16b'; b.lineWidth = 8; b.strokeRect(8, 8, 496, 144);
+        b.fillStyle = '#fff'; b.font = `700 46px ${TX.FONT}`; b.textAlign = 'center'; b.fillText('FAIR PRICE SHOP', 256, 70); b.font = `600 32px ${TX.FONT}`; b.fillStyle = '#f2d16b'; b.fillText('Rice · Wheat · Sugar', 256, 120);
+        const brd = new THREE.Mesh(new THREE.PlaneGeometry(220, 69), S({ map: ctex(B), roughness: 0.6 })); brd.position.set(0, 330, -90); G.add(brd);
+        const post = S({ color: 0x5b4632, roughness: 0.8 }); for (const x of [-100, 100]) G.add(box(6, 360, 6, post, x, 180, -92));
+      },
+    ];
+  }
+  rationDraw() { return false; }
 
   stampMark(c, x, y, rot, a) { // a red "QC OK" stamp, 14 × 10 mm (at 64 × 48 px)
     c.save(); c.translate(x, y); c.rotate(rot); c.globalAlpha = a; c.strokeStyle = '#c8141c'; c.lineWidth = 3; c.strokeRect(-28, -20, 56, 40); c.fillStyle = '#c8141c'; c.font = `800 17px ${TX.FONT}`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('QC OK', 0, 1); c.restore();

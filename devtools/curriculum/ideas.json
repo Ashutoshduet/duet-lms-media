@@ -71415,6 +71415,28 @@
 "note": null
 },
 {
+"id": "live-rationshop",
+"title": "Smart ration shop: RFID card and grain weight",
+"family": "live",
+"board": "uno",
+"parts": [
+"rfid",
+"lcd16",
+"loadcell",
+"buzzer"
+],
+"newparts": [],
+"band": [
+12,
+12
+],
+"level": 12,
+"theme": "projects",
+"live": "rationshop",
+"rule": null,
+"note": null
+},
+{
 "id": "live-ballbeam",
 "title": "Ball-on-beam balancer",
 "family": "live",

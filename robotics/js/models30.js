@@ -33,7 +33,12 @@ export function buildLoadCell() {
   [[K.red, -4], [K.blk, -1.5], [K.wht, 1.5], [K.grn, 4]].forEach(([m, d]) => g.add(tube([[cx - 38, 26, cz + d], [cx - 50, 14, cz + 16 + d], [-25, 4, -20 + d], [-9, top + 1, -32 + d]], 0.6, m)));
   const weights = new THREE.Group(); weights.position.set(cx + 20, 39.8, cz); g.add(weights);
   let last = -1;
+  let rice = null; // (batch 35: props.load 'rice': a steel bowl of rice on the platform instead of brass weights)
   g.userData.update = (p) => { const gr = Math.round(p.state.grams || 0); if (gr === last) return false; last = gr; weights.clear();
+    if (p.props && p.props.load === 'rice') { if (!rice) rice = { bowl: S({ color: 0xd5d9de, metalness: 0.85, roughness: 0.25 }), grain: S({ color: 0xf3eedf, roughness: 0.95 }) };
+      const bw = new THREE.Mesh(new THREE.CylinderGeometry(44, 34, 30, 28, 1, true), rice.bowl); bw.position.y = 15; weights.add(bw); weights.add(cyl(34, 2, rice.bowl, 0, 1, 0, 28));
+      if (gr > 20) { const f = Math.min(1, gr / 6000); const h = 4 + 34 * Math.sqrt(f); const heap = new THREE.Mesh(new THREE.ConeGeometry(36 + 6 * f, h, 28), rice.grain); heap.position.y = 2 + h / 2 + 6 * f; weights.add(heap); }
+      return true; }
     const big = Math.floor(gr / 500), rest = gr - big * 500; const spot = [[-22, -22], [22, -22], [-22, 22], [22, 22]];
     for (let i = 0; i < Math.min(big, 12); i++) { const [x, z] = spot[i % 4]; const y = 10 + Math.floor(i / 4) * 21; weights.add(cyl(16, 20, K.brass, x, y, z, 24)); weights.add(cyl(5, 6, K.brass, x, y + 13, z, 12)); } // (a 500 g weight: 32 × 20 mm with a knob)
     if (rest > 0) { const h = 3 + 14 * rest / 500; weights.add(cyl(6 + 6 * rest / 500, h, K.brass, 0, h / 2, 0, 20)); } return true; };

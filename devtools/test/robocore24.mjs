@@ -465,4 +465,12 @@ for (const l of L24) {
   ok(B.sim.res.err <= 1.5, `ballbeam: held within ${B.sim.res.err} cm of the middle`);
 }
 
+// the smart ration shop (lessons24.js rationshop, scenes3.js RationScene): Sunita's card shows 5.0 kg, the scale beeps at
+// 5000 g, the same card tapped again gets it all again, until taken[] is checked
+{ const l = LESSONS.find((x) => x.id === 'rationshop'); const B = build3(l);
+  const seq = (...ev) => { const done = new Set(); return (t, sim, lab) => ev.forEach(([at, id, v]) => { if (!done.has(at) && t >= at) { done.add(at); sim.control(id, v ?? null, lab); } }); };
+  const ser = play3(l, B, [seq([1, 'tapS']), seq([0.5, 'pour', '1']), seq([0.5, 'away'], [1, 'tapS']), seq([1.5, 'tapS'], [3, 'pour', '1'], [22, 'away'], [23, 'tapS'])]);
+  ok(/Sunita got 50\d\d/.test(ser), `rationshop: the scale stops at the quota (${(ser.match(/Sunita got \d+/g) || []).join(', ')}); the bag holds ${B.sim.res.given} g`);
+}
+
 console.log(fails ? `${fails} FAILED` : 'all passed'); process.exit(fails ? 1 : 0);

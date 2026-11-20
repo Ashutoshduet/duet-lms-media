@@ -1060,6 +1060,86 @@ void loop() {
 }
 `;
 
+const RATIONC = `// Smart ration shop: a family's ration card shows its rice for the month, and the scale beeps when the bag has exactly that.
+#include <SPI.h>
+#include <MFRC522.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#include <HX711.h>
+
+MFRC522 rfid(10, 9);                   // SDA (SS) on pin 10, RST on pin 9
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+HX711 scale;
+const int BEEP = 8;
+
+String cards[] = {"A3 4F 1C 2D", "5B 2E 91 C4"};   // the families' ration cards
+String names[] = {"Sunita", "Ramesh"};
+long quota[] = {5000, 3000};           // rice this month (g)
+bool taken[] = {false, false};         // has the family had it?
+int who = -1;                          // whose rice is being weighed (-1: nobody's)
+
+void setup() {
+  Serial.begin(9600);
+  SPI.begin();
+  rfid.PCD_Init();
+  lcd.init();
+  lcd.backlight();
+  scale.begin(2, 5);                   // DT on pin 2, SCK on pin 5
+  scale.set_scale(430);                // this load cell: 430 counts a gram
+  scale.tare();                        // the empty bowl reads 0
+  pinMode(BEEP, OUTPUT);
+  lcd.print("Tap ration card");
+}
+
+void loop() {
+  if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+    String uid = "";
+    for (byte i = 0; i < rfid.uid.size; i++) {
+      if (rfid.uid.uidByte[i] < 0x10) uid += "0";
+      uid += String(rfid.uid.uidByte[i], HEX);
+      if (i < rfid.uid.size - 1) uid += " ";
+    }
+    uid.toUpperCase();
+    rfid.PICC_HaltA();
+    who = -1;
+    for (int i = 0; i < 2; i++) {
+      if (uid == cards[i]) who = i;
+    }
+    lcd.clear();
+    if (who == -1) {
+      lcd.print("Unknown card");
+//  } else if (taken[who]) {
+//    lcd.print(names[who]);
+//    lcd.setCursor(0, 1);
+//    lcd.print("Already taken");
+//    who = -1;
+    } else {
+      lcd.print(names[who]);
+      lcd.print(" ");
+      lcd.print(quota[who] / 1000.0, 1);
+      lcd.print(" kg");
+    }
+  }
+  if (who >= 0) {                      // weigh the rice in the bowl
+    long g = scale.get_units(3);
+    lcd.setCursor(0, 1);
+    if (g >= quota[who]) {
+      tone(BEEP, 2000, 400);
+      lcd.print("STOP: all given ");
+      Serial.print(names[who]);
+      Serial.print(" got ");
+      Serial.println(g);
+      taken[who] = true;
+      who = -1;
+    } else {
+      lcd.print("Given ");
+      lcd.print(g);
+      lcd.print(" g      ");
+    }
+  }
+}
+`;
+
 export function batch24(K, n0) {
   const { P, F, W, need, has, noShort } = K;
   const E = t3('', '', '');
@@ -1659,6 +1739,33 @@ export function batch24(K, n0) {
     ],
     check: [...rails, has('us', t3('ultrasonic sensor HC-SR04', 'अल्ट्रासोनिक सेंसर HC-SR04', 'ultrasonic sensor HC-SR04')), need('us.TRIG', 'D6', W.toPin, { x: 'TRIG', p: 6 }), need('us.ECHO', 'D7', W.toPin, { x: 'ECHO', p: 7 }), need('us.VCC', '5V', W.to5v, { x: 'VCC' }), need('us.GND', 'GND', W.toGnd, { x: 'GND' })],
     done: (S) => S.w('held') });
+  // 20 ------------------------------------------------------------------------ smart ration shop (Class 12, batch 35)
+  // The card shows the month's rice; the scale beeps at the quota; the same card tapped again gets it all again, until the
+  // taken[] check is switched on
+  const okTaken = (src) => /\n\s*\}\s*else\s+if\s*\(\s*taken\[who\]\s*\)\s*\{\s*\n\s*lcd\.print\(names\[who\]\);\s*\n\s*lcd\.setCursor\(0,\s*1\);\s*\n\s*lcd\.print\("Already taken"\);\s*\n\s*who\s*=\s*-1;/.test(src || '');
+  L.push({ id: 'rationshop', cls: '12', blocks: false, view: 'wide', rview: 'scene3', code: RATIONC, drawer: [], serial: true, scene: { kind: 'ration' },
+    title: t3('Smart ration shop: RFID card and grain weight', 'स्मार्ट राशन दुकान: RFID कार्ड और अनाज का वज़न', 'Smart ration dukaan: RFID card aur anaaj ka wazan'),
+    goal: t3('A fair-price shop gives each family its month\'s rice: the family\'s ration card is read by RFID, and a load cell weighs the rice so nobody gets less, or more. Build it, find the hole a dishonest customer would use, and close it, as the ePoS machines in real ration shops do.', 'उचित मूल्य की दुकान हर परिवार को उसके महीने का चावल देती है: परिवार का राशन कार्ड RFID से पढ़ा जाता है, और लोड सेल चावल तौलता है ताकि किसी को कम न मिले, न ज़्यादा। इसे बनाइए, वह छेद ढूँढिए जिसे कोई बेईमान ग्राहक इस्तेमाल करेगा, और उसे बंद कीजिए, जैसे असली राशन दुकानों की ePoS मशीनें करती हैं।', 'Uchit mulya ki dukaan har parivaar ko uske mahine ka chaawal deti hai: parivaar ka ration card RFID se padha jaata hai, aur load cell chaawal taulta hai taaki kisi ko kam na mile, na zyada. Ise banaiye, woh chhed dhoondhiye jise koi beimaan grahak istemaal karega, aur use band kijiye, jaise asli ration dukaanon ki ePoS machines karti hain.'),
+    setup: { parts: [F('rf', 'rfid', {}, 110, 160, 0), F('lcd', 'lcd16', {}, -128, 66, 0), F('lc', 'loadcell', { load: 'rice' }, 195, 150, 0), P('bz', 'buzzer', {}, 'e30', 0)],
+      wires: [...POWER, ...RF.map(([p, b]) => ['T:rf:' + p, b]), ['T:lcd:GND', 'H:bn10'], ['T:lcd:VCC', 'H:bp10'], ['T:lcd:SDA', 'A4'], ['T:lcd:SCL', 'A5'], ['T:lc:VCC', 'H:tp46'], ['T:lc:GND', 'H:tn44'], ['D8', 'H:a30'], ['H:a33', 'H:tn27']] },
+    steps: [
+      { k: 'info', do: t3('The counter: the RC522 card reader (SPI, pins 9–13), the LCD (I2C), the beeper on pin 8, and the scale: a 5 kg load cell under a steel bowl, its green HX711 board powered. Its two signal wires are yours.', 'काउंटर: RC522 कार्ड रीडर (SPI, पिन 9–13), LCD (I2C), पिन 8 पर बीपर, और तराज़ू: स्टील के कटोरे के नीचे 5 kg का लोड सेल, उसका हरा HX711 बोर्ड बिजली से जुड़ा। उसके दो सिग्नल तार आपके हैं।', 'Counter: RC522 card reader (SPI, pin 9–13), LCD (I2C), pin 8 par beeper, aur taraazu: steel ke katore ke neeche 5 kg ka load cell, uska hara HX711 board bijli se juda. Uske do signal taar aapke hain.'), see: E },
+      w3('lc.DT', 'D2', 'Wire the HX711\'s DT (data) to pin 2.', 'HX711 का DT (डेटा) पिन 2 से जोड़िए।', 'HX711 ka DT (data) pin 2 se jodiye.'),
+      w3('lc.SCK', 'D5', 'And its SCK (clock) to pin 5.', 'और इसका SCK (क्लॉक) पिन 5 से।', 'Aur iska SCK (clock) pin 5 se.'),
+      CHECK,
+      RUN(t3('tare() takes the empty bowl as 0, so only the rice is weighed.', 'tare() ख़ाली कटोरे को 0 मान लेता है, ताकि सिर्फ़ चावल तौला जाए।', 'tare() khaali katore ko 0 maan leta hai, taaki sirf chaawal taula jaaye.')),
+      { k: 'act', until: (S) => fresh(S) && S.w('shown'), do: t3('In the panel: tap Sunita\'s card (white).', 'पैनल में: सुनीता का कार्ड छुआइए (सफ़ेद)।', 'Panel mein: Sunita ka card chhuaaiye (safed).'), see: t3('Her card is known: 5.0 kg of rice this month.', 'उसका कार्ड पहचाना गया: इस महीने 5.0 kg चावल।', 'Uska card pehchaana gaya: is mahine 5.0 kg chaawal.') },
+      { k: 'act', until: (S) => fresh(S) && S.w('stopped'), do: t3('The shopkeeper pours the rice: choose Pours rice, and watch the LCD.', 'दुकानदार चावल डालता है: चावल डालता है चुनिए, और LCD देखिए।', 'Dukaandaar chaawal daalta hai: Chaawal daalta hai chuniye, aur LCD dekhiye.'),
+        see: live((lg, R) => pick(lg, `Beep: STOP at ${R.stopAt ?? 5000} g. The shopkeeper stops a moment later, so the bag holds ${R.given ?? R.stopAt ?? 5000} g: the scale, not the shopkeeper's eye, decides.`, `बीप: ${R.stopAt ?? 5000} g पर STOP। दुकानदार एक पल बाद रुकता है, तो थैले में ${R.given ?? R.stopAt ?? 5000} g है: तराज़ू तय करता है, दुकानदार की आँख नहीं।`, `Beep: ${R.stopAt ?? 5000} g par STOP. Dukaandaar ek pal baad rukta hai, to thaile mein ${R.given ?? R.stopAt ?? 5000} g hai: taraazu tay karta hai, dukaandaar ki aankh nahi.`)) },
+      { k: 'act', until: (S) => fresh(S) && S.w('twice'), do: t3('Now be the dishonest customer: take the bag away, then tap Sunita\'s card again.', 'अब बेईमान ग्राहक बनिए: थैला ले जाइए, फिर सुनीता का कार्ड फिर से छुआइए।', 'Ab beimaan grahak baniye: thaila le jaaiye, phir Sunita ka card phir se chhuaaiye.'),
+        see: t3('"Sunita 5.0 kg" again: she could fill a second bag, and the next, until the shop\'s stock runs out. The program writes taken[who] = true, but nothing ever reads it.', '"Sunita 5.0 kg" फिर से: वह दूसरा थैला भर सकती है, और अगला, जब तक दुकान का स्टॉक ख़त्म न हो जाए। प्रोग्राम taken[who] = true लिखता है, पर उसे कोई पढ़ता ही नहीं।', '"Sunita 5.0 kg" phir se: woh doosra thaila bhar sakti hai, aur agla, jab tak dukaan ka stock khatam na ho jaaye. Program taken[who] = true likhta hai, par use koi padhta hi nahi.') },
+      { k: 'edit', test: okTaken, set: [[/\/\/  \} else if \(taken\[who\]\) \{\n\/\/    lcd\.print\(names\[who\]\);\n\/\/    lcd\.setCursor\(0, 1\);\n\/\/    lcd\.print\("Already taken"\);\n\/\/    who = -1;\n/, '    } else if (taken[who]) {\n      lcd.print(names[who]);\n      lcd.setCursor(0, 1);\n      lcd.print("Already taken");\n      who = -1;\n']],
+        do: t3('Switch the check on: remove the // at the start of the five lines from } else if (taken[who]) { to who = -1; and press Run.', 'जाँच चालू कीजिए: } else if (taken[who]) { से who = -1; तक की पाँच लाइनों के शुरू से // हटाइए और "चलाइए" दबाइए।', 'Jaanch chaalu kijiye: } else if (taken[who]) { se who = -1; tak ki paanch lines ke shuru se // hataiye aur Run dabaiye.'), see: E },
+      { k: 'act', until: (S) => fresh(S) && S.w('refused'), do: t3('Try it again: tap Sunita\'s card, pour until the beep, take the bag away, and tap her card once more.', 'फिर आज़माइए: सुनीता का कार्ड छुआइए, बीप तक डालिए, थैला ले जाइए, और उसका कार्ड एक बार और छुआइए।', 'Phir aazmaaiye: Sunita ka card chhuaaiye, beep tak daaliye, thaila le jaaiye, aur uska card ek baar aur chhuaaiye.'),
+        see: t3('"Already taken": the hole is closed. But only until the Uno restarts: taken[] lives in RAM, and a power cut forgets it. Real ePoS machines check every card with a state server over the mobile network, with the family\'s Aadhaar fingerprint, and print a receipt.', '"Already taken": छेद बंद। पर बस Uno के दोबारा शुरू होने तक: taken[] RAM में रहता है, और बिजली जाते ही भूल जाता है। असली ePoS मशीनें मोबाइल नेटवर्क से हर कार्ड को राज्य के सर्वर से जाँचती हैं, परिवार के आधार फ़िंगरप्रिंट के साथ, और रसीद छापती हैं।', '"Already taken": chhed band. Par bas Uno ke dobaara shuru hone tak: taken[] RAM mein rehta hai, aur bijli jaate hi bhool jaata hai. Asli ePoS machines mobile network se har card ko rajya ke server se jaanchti hain, parivaar ke Aadhaar fingerprint ke saath, aur raseed chhaapti hain.') },
+    ],
+    check: [...rails, has('lc', t3('load cell with HX711', 'HX711 वाला लोड सेल', 'HX711 wala load cell')), need('lc.DT', 'D2', W.toPin, { x: 'DT', p: 2 }), need('lc.SCK', 'D5', W.toPin, { x: 'SCK', p: 5 })],
+    done: (S) => S.w('refused') });
   for (const l of L) { l.n = ++n; l.batch = 24; if (l.scene) l.world = l.scene; } // (the lesson runtime asks the "world": worlds3.js makes it from the scene)
   return L;
 }

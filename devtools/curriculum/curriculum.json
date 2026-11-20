@@ -6552,20 +6552,21 @@
    {
     "class": 12,
     "n": 28,
-    "kind": "I",
+    "kind": "L",
     "title": "Smart ration shop: RFID card and grain weight",
     "board": "uno",
-    "status": "planned",
-    "ref": "smart-ration-shop-rfid-card-and-grain-weight-uno",
+    "status": "live",
+    "ref": "rationshop",
     "newparts": [],
-    "family": "india-problems",
+    "family": "live-projects",
     "parts": [
+     "rfid",
      "lcd16",
      "loadcell",
-     "rfid"
+     "buzzer"
     ],
     "strand": "Decomposition",
-    "focus": "Smart systems",
+    "focus": "Security systems",
     "term": "Term 4 (January-February)"
    },
    {

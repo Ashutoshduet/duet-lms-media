@@ -7,6 +7,7 @@
 import { tx } from './i18n.js';
 import { lcdText, CARDS, uidText } from './libs3.js';
 import { irSend, rfidShow, keyPress, KEYMAP } from './parts3.js';
+import { set30 } from './parts30.js'; // (batch 35: the ration shop's scale)
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -857,10 +858,51 @@ const WB = { ball: t3('Ball (from the sensor)', 'गेंद (सेंसर �
   servo: t3('servo', 'सर्वो', 'servo'), held: t3('held at the target', 'लक्ष्य पर थमी हुई', 'lakshya par thami hui'), rest: t3('at rest', 'रुकी हुई', 'ruki hui'), rolling: t3('rolling', 'लुढ़क रही', 'ludhak rahi'),
   nudge: t3('👉 Flick the ball', '👉 गेंद को झटका', '👉 Gend ko jhatka'), far: t3('Put it at the far end', 'इसे दूर वाले छोर पर रखिए', 'Ise door wale chhor par rakhiye') };
 
+// ------------------------------------------------------------------ the smart ration shop (batch 35, Class 12)
+// A fair-price shop's counter: the RC522 (rf) reads a family's ration card, the scale (lc, a load cell with a bowl) weighs
+// the rice the shopkeeper pours from the sack, the LCD (lcd) and the beeper (bz) talk. The panel taps the white card
+// (Sunita's) or the blue tag (Ramesh's), pours (350 g a second; the shopkeeper stops 0.4 s after a beep), takes the bag
+// away. A tap counts once the reader has really read the card (rf.state.reads went up). Flags: shown (the LCD shows a
+// name and a quota in kg), stopped (STOP on the LCD), twice (a card that already got its rice got its quota shown
+// again), refused (the LCD says Already).
+export const RATION = { pour: 350, react: 0.4, names: { card: 'Sunita', tag: 'Ramesh' } };
+export class RationScene extends Scene {
+  constructor(cfg) { super(cfg); this.pour = false; this.res = {}; this.got = new Set(); this.wait = null; this.bzT = -1; }
+  update(dt, lab) {
+    this.t += dt; const lc = lab.byTag('lc'), rf = lab.byTag('rf'); const g0 = lc ? lc.state.grams || 0 : 0; let g = g0;
+    const beep = bzOn(lab); if (beep && this.bzT < 0) this.bzT = this.t; if (!beep && this.bzT >= 0 && this.t - this.bzT > 1) this.bzT = -1;
+    if (this.pour) { g += RATION.pour * dt; if (this.bzT >= 0 && this.t - this.bzT > RATION.react) { this.pour = false; this.res.given = Math.round(g); } }
+    if (lc && Math.round(g) !== Math.round(g0)) set30(lab, lc, 'grams', Math.round(g));
+    const [r0, r1] = lcdText(lab.byTag('lcd')); this.lcd = [r0, r1];
+    const m = /(Sunita|Ramesh)\s+(\d+(?:\.\d)?)\s*kg/.exec(r0);
+    if (m) { this.flags.add('shown'); this.cur = m[1]; this.res.quota = +m[2]; }
+    if (/STOP/.test(r1)) { if (!this.flags.has('stopped')) this.res.stopAt = Math.round(g); this.flags.add('stopped'); if (this.cur) this.got.add(this.cur); }
+    if (this.wait && rf && (rf.state.reads || 0) > this.wait.reads && this.t - this.wait.t > 0.6) { // (the reader has read the card, and the sketch has had time to answer)
+      const nm = RATION.names[this.wait.id]; this.wait = null;
+      if (/Already/.test(r0 + r1)) this.flags.add('refused'); else if (this.got.has(nm) && m && m[1] === nm) { this.flags.add('twice'); this.res.twiceName = nm; }
+    }
+    return true;
+  }
+  onRun() { super.onRun(); for (const k of ['shown', 'stopped', 'twice', 'refused']) this.flags.delete(k); this.got = new Set(); this.pour = false; this.res = {}; this.cur = null; this.wait = null; }
+  control(id, v, lab) {
+    if (id === 'tapS' || id === 'tapR') { const card = id === 'tapS' ? 'card' : 'tag'; if (lab) { rfidShow(lab, card); const rf = lab.byTag('rf'); this.wait = { id: card, reads: rf ? rf.state.reads || 0 : 0, t: this.t }; } }
+    if (id === 'pour') this.pour = v === '1';
+    if (id === 'away' && lab) { this.pour = false; const lc = lab.byTag('lc'); if (lc) set30(lab, lc, 'grams', 0); }
+  }
+  hud(lab) {
+    const lc = lab && lab.byTag('lc'); const L = this.lcd || ['', ''];
+    return { title: t3('Smart ration shop', 'स्मार्ट राशन दुकान', 'Smart ration dukaan'),
+      rows: [[tx(WR.bowl), `${Math.round(lc ? lc.state.grams || 0 : 0)} g`], ['LCD', `${L[0].trimEnd() || '—'}`], ['', `${L[1].trimEnd()}`]],
+      controls: [{ id: 'tapS', kind: 'button', label: WR.tapS }, { id: 'tapR', kind: 'button', label: WR.tapR }, { id: 'pour', kind: 'seg', label: WR.rice, options: [['0', WR.stop], ['1', WR.pourB]], value: this.pour ? '1' : '0' }, { id: 'away', kind: 'button', label: WR.away }] };
+  }
+}
+const WR = { bowl: t3('Rice in the bowl', 'कटोरे में चावल', 'Katore mein chaawal'), tapS: t3('💳 Tap Sunita\'s card (white)', '💳 सुनीता का कार्ड छुआइए (सफ़ेद)', '💳 Sunita ka card chhuaaiye (safed)'), tapR: t3('🔑 Tap Ramesh\'s tag (blue)', '🔑 रमेश का टैग छुआइए (नीला)', '🔑 Ramesh ka tag chhuaaiye (neela)'),
+  rice: t3('The shopkeeper', 'दुकानदार', 'Dukaandaar'), stop: t3('Stops', 'रुकता है', 'Rukta hai'), pourB: t3('Pours rice', 'चावल डालता है', 'Chaawal daalta hai'), away: t3('🛍 Take the bag away (empty bowl)', '🛍 थैला ले जाइए (कटोरा ख़ाली)', '🛍 Thaila le jaaiye (katora khaali)') };
+
 export function makeScene(cfg) {
   switch (cfg && cfg.kind) {
     case 'air': return new AirScene(cfg); case 'garden': return new GardenScene(cfg); case 'room': return new RoomScene(cfg); case 'burglar': return new BurglarScene(cfg);
-    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
+    case 'door': return new DoorScene(cfg); case 'atm': return new AtmScene(cfg); case 'vend': return new VendScene(cfg); case 'tracker': return new TrackerScene(cfg); case 'lift': return new LiftScene(cfg); case 'conveyor': return new ConveyorScene(cfg); case 'slider': return new SliderScene(cfg); case 'plot': return new PlotScene(cfg); case 'pick': return new PickScene(cfg); case 'gimbal': return new GimbalScene(cfg); case 'beam': return new BeamScene(cfg); case 'ration': return new RationScene(cfg); case 'attend': return new AttendScene(cfg); case 'bank': return new BankScene(cfg); case 'tank': return new TankScene(cfg); case 'greenhouse': return new GreenhouseScene(cfg); case 'locker': return new LockerScene(cfg); case 'kitchen': return new KitchenScene(cfg); case 'pantilt': return new PanTiltScene(cfg); case 'turn': return new TurnScene(cfg);
   }
   return null;
 }
