@@ -1313,3 +1313,53 @@ heaters.
   (× the room light); no hand still has to be one of the three: paper 0.46, rock 0.31, scissors 0.23. The lesson: with
   sure < 0.3 the Pi plays rounds against an empty wall (counted with S.memRun: a "You:" line while the hand is away); at
   0.8 only real hands play. The lesson's see text names the fix real systems use: a fourth, background class.
+
+
+## The school layer, the project card, the helper (21 Nov 2026)
+
+Made after a competitor study (SPYRAL, Wokwi, Tinkercad, VEXcode VR, CoderZ, PictoBlox): what the lab lacked was the
+school around it. Everything works offline as well as online.
+
+**Students and scores (`js/school.js` data, `js/schoolui.js` in the lab).** 👤 in the top bar: one or many students on a
+device (name, roll, class, section; a shared computer can ask "who is learning?" at start). Every lesson is an attempt:
+active time (a second counts only while the tab is seen and the student did something in the last 90 s, or the sketch
+runs), mistakes (a failed Check, a burnt part, the fuse, a run-time error, compile errors: the first 3; burns do not count
+in lessons that are about burning, e.g. the battery circuits), hints (the helper's 2nd and 3rd). Score = 100 − 7 a
+mistake − 10 a hint (never below 30); ★★★ ≥ 85, ★★ ≥ 60, ★ finished. The best score of each lesson stays; the strip
+shows the stars; the finished card shows them with "Try for ★★★" and 🏁 Challenge (the lesson again with no ghosts and
+no helper, against the clock; the best time is kept). Skills (NEP 2020 / NCF-SE 2023): coding, electronics, sensors and
+data, robotics, AI, IoT, real problems, debugging, each Beginning / Developing / Proficient / Advanced from the stars of
+the lessons that build it (`skillsOf`). Certificates (canvas, A4 landscape, saved as a picture or printed: the Android app
+and headsets have no print dialog): 10, 25, 50 … projects, 75 % of a class's sessions, a finished assignment; a check
+code anyone can recompute (`certCode`).
+
+**Classes.** Online (school Wi-Fi): a teacher's class has a 6-letter code; `?join=CODE` (link or QR) or typing it joins;
+each finished lesson goes to the class register at once (`devtools/school-server/Code.gs`, address `"sync"` in
+licences.json; kept in `st.out` and sent when back online). Offline: the teacher's QR carries the class and its
+assignments (`RLJ1|…`); the student hands in with a QR / text code (`RLH1|…`: 15 letters a lesson, a tamper check).
+A lesson is named in codes by a 30-bit hash of its id (`lhash`, no collisions among the lessons).
+
+**Teacher dashboard (`teacher.html`, `js/teacher.js`).** Classes (code, join QR, offline QR, a private link to use the
+class on another device), assignments from the class's curriculum sessions or any lesson, the students table (live + QR
+hand-ins + this computer's students, merged by roll), a student's skills, report card (A4, printable) and certificate,
+leaderboard, fastest challenge times, CSV for Excel. **Principal**: the school's DUET STEM code shows every class made on
+its devices (classes, students, active this week, lessons, stars, hours, top students, CSV). **Parents**:
+`portfolio.html?p=KEY` (the student's 🔗 in 👤).
+
+**Project card (`js/projectcard.js`, 📋 on the step card).** For every lesson, made from the lesson itself: 📦 what you
+need (each item and how many, with its picture and what it does), 🔌 how to connect (every part's place and wire, from
+where to where, done already or yours), 💻 the finished code (edits applied) explained line by line (~45 patterns: C++,
+MicroPython, gpiozero, micro:bit), 🎓 what you learn (16 ideas found from the code and parts) and a 3-question quiz.
+
+**Helper (`js/helper.js`, 🛟 on the step card).** First what is wrong now (no power, the fuse, burnt parts and why, a
+run-time error, code changed but not run, not running, an LED the wrong way round or with both legs in one strip, the
+Serial Monitor's speed, the lesson's own check), then three hints for the step: what to do, exactly where (the hole, the
+two pins, the lines), and do it for me (places the part, makes the wire, changes the code). Off in a challenge.
+
+**Elsewhere.** ⬇ Install (the browser's own install: an app window and icon, offline). duetpower.in/robotics/lab is a copy
+that updates itself (`devtools/mirror/sync.php`). Laptops without internet: `devtools/desktop/` (Windows Setup, Mac app,
+Linux). QR: `lib/qr/qrgen.js` (qrcode-generator, MIT) and `lib/qr/jsQR.js` (Apache-2.0, only when the browser has no
+BarcodeDetector).
+
+Tests: `devtools/test/roboschool.mjs` (a teacher, a student, the register in memory, the project card, the helper, the
+portfolio, the principal, offline QR hand-in).

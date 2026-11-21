@@ -26,6 +26,9 @@ import { install28 } from './app28.js'; // batch 28: the DS18B20 probe's water
 import { install29 } from './app29.js'; // batch 29: the flex glove's gestures
 import { install30 } from './app30.js'; // batch 30: the load cell's weight, the laser sensor's card
 import { install31 } from './app31.js'; // batch 31: the SIM800L's live line
+import { installSchool } from './schoolui.js'; // the school layer: students, scores and stars, classes, certificates, the parents' portfolio
+import { installCard } from './projectcard.js'; // the project card: what you need, how to connect, the code explained, what you learn (and a quiz)
+import { installHelper } from './helper.js'; // 🛟 Help: what is wrong on the bench, and three hints for the step
 import { install6 } from './app6.js'; // batch 6: Raspberry Pi Pico and Pi 4: Python editor, Shell / Terminal, the Pi's screen (app6.js)
 
 const Q = new URLSearchParams(location.search);
@@ -85,6 +88,9 @@ class App {
     install29(this); // batch 29
     install30(this); // batch 30
     install31(this); // batch 31
+    installSchool(this); // the school layer (schoolui.js)
+    installCard(this); // the project card (projectcard.js)
+    installHelper(this); // the helper (helper.js)
     this.boot();
   }
   get licensed() { return !window.DuetGate || DuetGate.state === 'ok' || (DuetGate.licensedFor && DuetGate.licensedFor('robotics')); }

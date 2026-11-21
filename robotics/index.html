@@ -290,5 +290,6 @@ html.duet-phone{--panel:rgba(14,18,25,.94)} /* phones: solid panels instead of t
 <div id="loader"><div class="box"><img src="brand/duet-stem-logo-light.png" alt="DUET STEM"><h1>Robotics Lab 360</h1><p>Arduino · 3D · Class 6–12</p><div class="bar"><i></i></div></div></div>
 <script type="module" src="js/main.js"></script>
 <script src="./duetoffline.js" defer></script>
+<script>/* duetpower.in/robotics/lab: that copy asks its sync.php for a newer version (at most every 10 minutes; devtools/mirror) */ if (/(^|\.)duetpower\.in$/.test(location.hostname)) setTimeout(function () { fetch('sync.php?check=1', { cache: 'no-store' }).catch(function () {}); }, 4000);</script>
 </body>
 </html>
