@@ -544,6 +544,7 @@ export function grainScene(o = {}) {
 export function handle(it, o) {
   const v = V(0, 0, 0), ab = V(0, 0, 0), ap = V(0, 0, 0);
   it.noGrab = false; it.noPhys = true; it.k = 0; it.dragLift = 0; // the mouse moves it at its own height, so it stays under the pointer
+  it.isKnob = true; // the headset's ray can pull it from a distance (xr.js)
   const kOf = (p) => { const [A, B] = o.path(); ab.subVectors(B, A); ap.subVectors(p, A); const L2 = ab.lengthSq() || 1; const k = clamp01(ap.dot(ab) / L2); const off = ap.addScaledVector(ab, -k).setY(0).length(); return { k, off }; };
   const upd0 = it.update;
   it.update = (dt, t) => {
@@ -554,12 +555,14 @@ export function handle(it, o) {
     if (it.held === 'pointer' && it._set && it.g.position.distanceToSquared(it._set) < 1e-10) return; // the mouse has not moved
     const p = it.g.getWorldPosition(v), r = kOf(p);
     if (it.held !== 'pointer' && r.off > 0.25) return; // a hand far from the path does nothing
-    o.move(r.k, p.clone());
+    it._hk = r.k; o.move(r.k, p.clone());
     if (it.held === 'pointer') { it.g.position.copy(o.at()); it._set = it.g.position.clone(); }
   };
   it.onRelease = () => { if (o.active() && !(it._set && it.g.position.distanceToSquared(it._set) < 1e-10)) { const p = it.g.getWorldPosition(v), r = kOf(p); if (r.off < 0.25 || it.held === 'pointer') o.move(r.k, p.clone()); } // where it was let go counts too
     const q = o.at(); const p0 = it.g.position.clone(), q0 = it.g.quaternion.clone(), q1 = new THREE.Quaternion();
     let n = 0; const step = () => { n++; const e = Math.min(1, n / 12); it.g.position.lerpVectors(p0, o.at(), e); it.g.quaternion.slerpQuaternions(q0, q1, e); if (e < 1 && !it.held) requestAnimationFrame(step); }; void q; step(); };
+  // the trigger aimed at the activity (a headset): a third of the way along the path
+  it.poke = () => { if (!o.active()) return false; const [A, B] = o.path(); const k = clamp01((it._hk ?? 0) + 0.34); it._hk = k; o.move(k, A.clone().lerp(B, k)); if (!it.held) it.g.position.copy(o.at()); return true; };
   return it;
 }
 // a round mat made of rings of coloured rope, one inside the other (radius R, n rings), lying on the table. It can be cut

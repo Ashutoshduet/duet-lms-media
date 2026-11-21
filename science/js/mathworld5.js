@@ -17,6 +17,7 @@ const M = (c, r = 0.6, m = 0, e = 0) => new THREE.MeshStandardMaterial({ color: 
 export function slideKnob(knob, o) {
   handle(knob, { path: o.path, active: o.active, keepVisible: o.keepVisible, move: (k) => o.set(k), at: () => { const [A, B] = o.path(); return A.clone().lerp(B, clamp01(o.k())); } });
   knob.g.position.copy(o.path()[0].clone().lerp(o.path()[1], clamp01(o.k())));
+  knob.poke = () => { if (!o.active()) return false; const k = clamp01(o.k() + 0.34); o.set(k > 0.97 ? 1 : k); if (!knob.held) { const [A, B] = o.path(); knob.g.position.copy(A.clone().lerp(B, clamp01(o.k()))); } return true; }; // the trigger aimed at the activity (a headset)
   return () => { if (!knob.held) { const [A, B] = o.path(); knob.g.position.copy(A.clone().lerp(B, clamp01(o.k()))); } };
 }
 // a post with a letter on it (points of a figure on the ground)

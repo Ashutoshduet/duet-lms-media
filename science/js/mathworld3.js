@@ -43,6 +43,8 @@ export function pushKnob(knob, o) {
     at: () => { const [A, B] = o.path(); return knob.held ? A.clone().lerp(B, k0) : A.clone(); } });
   const u0 = knob.update; knob.update = (dt, t) => { u0(dt, t); if (knob.held && !wasHeld) { wasHeld = true; fired = false; } };
   const r0 = knob.onRelease; knob.onRelease = () => { const pressed = fired; r0(); if (wasHeld && !pressed && o.active()) o.press(); k0 = 0; fired = false; wasHeld = false; };
+  knob.poke = () => { if (!o.active()) return false; o.press(); return true; }; // the trigger aimed at the activity itself (a headset): one push
+  knob.pressOnRelease = true; // a click on the knob (grab and let go) is already one push
   knob.g.position.copy(o.path()[0]);
 }
 

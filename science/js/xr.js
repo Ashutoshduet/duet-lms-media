@@ -52,15 +52,15 @@ export class XRInput {
       const dot = new THREE.Mesh(new THREE.SphereGeometry(0.006, 12, 8), new THREE.MeshBasicMaterial({ color: 0xf0a65a, depthTest: false })); dot.renderOrder = 51; dot.visible = false; app.scene.add(dot);
       const model = controllerModel(); grip.add(model);
       const tips = [0, 1].map(() => { const m = new THREE.Mesh(new THREE.SphereGeometry(0.007, 10, 8), new THREE.MeshStandardMaterial({ color: 0xf3eee6, roughness: 0.6 })); m.visible = false; app.scene.add(m); return m; });
-      const h = { i, c, grip, hand, line, dot, model, tips, held: null, src: null, hover: null, hoverPanel: null };
+      const h = { i, c, grip, hand, line, dot, model, tips, held: null, src: null, hover: null, hoverPanel: null, rayHeld: null, rayBy: null, rayT: 0, rayY: 0 };
       c.addEventListener('connected', (e) => { h.src = e.data; const isHand = !!e.data.hand; const side = e.data.handedness === 'left' ? 'left' : 'right';
         model.visible = !isHand && !h.padObj; if (h.padObj) h.padObj.visible = !isHand; if (h.handObj) h.handObj.visible = isHand; line.visible = true;
         if (isHand) attachHand(h, side); else attachPad(h, side); });
-      c.addEventListener('disconnected', () => { this.release(h); h.src = null; line.visible = false; dot.visible = false; });
+      c.addEventListener('disconnected', () => { this.rayDrop(h); this.release(h); h.src = null; line.visible = false; dot.visible = false; });
       c.addEventListener('selectstart', () => this.select(h));
-      c.addEventListener('selectend', () => { if (h.src && h.src.hand && h.held) this.release(h); });
+      c.addEventListener('selectend', () => { if (h.rayHeld && h.rayBy === 'sel') { this.rayDrop(h); return; } if (h.src && h.src.hand && h.held) this.release(h); });
       c.addEventListener('squeezestart', () => this.grab(h));
-      c.addEventListener('squeezeend', () => this.release(h));
+      c.addEventListener('squeezeend', () => { if (h.rayHeld && h.rayBy === 'sq') { this.rayDrop(h); return; } this.release(h); });
       app.scene.add(c, grip, hand);
       return h;
     });
@@ -74,7 +74,56 @@ export class XRInput {
     const items = this.app.lab.items.filter((it) => it !== h.held && !(this.hands.some((o) => o.held === it)));
     let best = null; for (const it of items) { const hit = this.ray.intersectObjects(it.hitMeshes(), false)[0]; if (hit && (!best || hit.distance < best.d)) best = { it: this.owner(hit.object) || it, d: hit.distance, p: hit.point }; }
     if (ph && (!best || ph.distance < best.d)) return { panel: ph.object.userData.panel, uv: ph.uv, p: ph.point, d: ph.distance };
+    if (!best) { const m = this.magnet(h); if (m) return m; }
     return best ? { item: best.it, p: best.p, d: best.d } : null;
+  }
+  // a handle: an item that moves along its own path when you pull it (maths, physics and biology activities in real places)
+  isHandle(it) { return !!it && it.isKnob === true && typeof it.onRelease === 'function' && !it.noGrab && !it.broken && it.g.visible; }
+  // the handle nearest to the ray, when the ray passes close to it (a few cm, more for a far one): small knobs are hard to hit
+  magnet(h) {
+    const R = this.ray.ray; let best = null;
+    for (const it of this.app.lab.items) {
+      if (!this.isHandle(it) || it.held || this.hands.some((o) => o.held === it || o.rayHeld === it)) continue;
+      const p = it.g.localToWorld(tmp2.set(0, it.grabY ?? 0.02, 0)); const t = tmp.subVectors(p, R.origin).dot(R.direction);
+      if (t < 0.05 || t > this.ray.far) continue;
+      const off = Math.sqrt(R.distanceSqToPoint(p)); if (off > 0.05 + 0.07 * t) continue;
+      if (!best || off < best.off) best = { item: it, p: p.clone(), d: t, off };
+    }
+    return best;
+  }
+  // pull a handle from a distance with the ray, like dragging it with the mouse: the point at the same distance along the ray, at the handle's height
+  rayGrab(h, it, d, by) {
+    if (!this.isHandle(it) || it.held) return false;
+    h.rayHeld = it; h.rayBy = by; h.rayT = Math.max(0.15, d); h.rayY = it.g.position.y; h.rayP0 = null; h.rayOff = null; h.rayMoved = 0; it.held = 'pointer'; it._set = null; if (it.follow) it.follow = null;
+    this.pulse(h, 0.5, 40); this.app.audio.clink(); this.app.lab.emit('grab', { obj: it.id }); return true;
+  }
+  rayDrop(h) {
+    const it = h.rayHeld; if (!it) return; h.rayHeld = null; h.rayBy = null; if (it.held === 'pointer') it.held = null; if (it.onRelease) it.onRelease();
+    if (h.rayMoved > 0.015 || it.pressOnRelease) return; // dragged it (or a lever: letting go is the push)
+    const r = this.app.runner; // a click on it without moving: a third of the way, or the step itself when it is the glowing target
+    if (it.poke && it.poke()) { this.pulse(h, 0.4, 30); return; }
+    if (r && r.state === 'todo' && r.target && r.target() === it) r.doStep();
+  }
+  rayMove(h) {
+    const it = h.rayHeld; if (!it || !this.isHandle(it)) { if (it) this.rayDrop(h); return; }
+    h.c.updateMatrixWorld(); const o = tmp.setFromMatrixPosition(h.c.matrixWorld); const dir = tmp2.set(0, 0, -1).applyQuaternion(h.c.getWorldQuaternion(tq));
+    const p = o.clone().addScaledVector(dir, h.rayT); p.y = h.rayY;
+    if (!h.rayP0) { h.rayP0 = p.clone(); h.rayOff = it.g.position.clone().sub(p).setY(0); } // keep the knob where it was under the ray (no jump)
+    h.rayMoved = Math.max(h.rayMoved || 0, p.distanceTo(h.rayP0)); it.g.position.copy(p.add(h.rayOff));
+    h.line.scale.z = h.rayT; h.dot.visible = true; h.dot.position.copy(it.g.getWorldPosition(tmp));
+  }
+  // the trigger aimed at the step's glowing world (a big scene that has no parts to touch): a handle to pull, if there is one, or the step itself
+  aimWorld(h) {
+    const r = this.app.runner; if (!r || r.state !== 'todo' || !r.target) return false; const tg = r.target(); if (!tg || !tg.g || !tg.g.visible) return false;
+    if (tg.hitMeshes && tg.hitMeshes().length) return false;
+    const box = new THREE.Box3().setFromObject(tg.g); if (box.isEmpty() || !this.ray.ray.intersectsBox(box)) return false;
+    const knob = this.app.lab.items.find((it) => this.isHandle(it) && !it.held && it.update);
+    if (knob && knob.poke) { if (knob.poke()) { this.pulse(h, 0.5, 40); this.app.audio.clink(); } else this.pulse(h, 0.15, 15); return true; } // a lever: one push per trigger
+    const L = this.app.lang;
+    if (knob && knob.pulse) { this.app.ui.toast({ en: 'Point at the glowing yellow knob, hold the trigger and move your hand.', hi: 'चमकती पीली घुंडी की ओर इशारा कीजिए, ट्रिगर दबाए रखिए और हाथ घुमाइए।', hg: 'Chamakti peeli knob ki taraf point kijiye, trigger dabaye rakhiye aur haath ghumaiye.' }[L] || 'Point at the glowing yellow knob, hold the trigger and move your hand.', 3600); this.pulse(h, 0.3, 30); return true; }
+    this.pulse(h, 0.5, 40); const ev = r.step() && r.step().ev;
+    if (ev && ev.type === 'look') { this.app.lab.emit('look', { obj: tg.id }); return true; } // looking at it: done by the student
+    r.doStep(); return true;
   }
   owner(o) { while (o) { if (o.userData.item) return o.userData.item; o = o.parent; } return null; }
   // ------------------------------------------------------------ trigger / pinch
@@ -84,10 +133,11 @@ export class XRInput {
     const hit = this.cast(h);
     if (hit && hit.panel) { const id = hit.panel.hitUV(hit.uv); if (id) { this.pulse(h, 0.4, 30); this.app.audio.tone(900, 0.05, 0.05); this.app.ui.vrClick(id); } return; }
     // with hand tracking, a pinch close to an object picks it up
+    if (!(h.src && h.src.hand) && hit && hit.item && this.isHandle(hit.item) && this.rayGrab(h, hit.item, hit.d, 'sel')) return;
     if (h.src && h.src.hand) { const near = this.nearest(h, 0.06); if (near && near.kind === 'matchbox') { this.takeMatch(h, near); return; } if (near) { this.take(h, near, true); return; } }
     // the ray points at a terminal: wire it (tap one terminal, then another)
     if (hit && hit.p) { let best = null, bd = 0.025; const v = new THREE.Vector3(); for (const it2 of this.app.lab.items) { if (!it2.terms || !it2.g.visible || it2.kind === 'lead') continue; for (const k in it2.terms) { const t = it2.terms[k]; v.copy(t.local); it2.g.localToWorld(v); const d = v.distanceTo(hit.p); if (d < bd) { bd = d; best = t; } } } if (best) { this.pulse(h, 0.4, 30); this.app.wireTap(best); return; } }
-    if (!hit || !hit.item) return;
+    if (!hit || !hit.item) { this.aimWorld(h); return; }
     const r = this.app.runner; const it = hit.item;
     if (it.kind === 'matchbox' && !h.held) { this.takeMatch(h, it); return; } // a match out of the box, into the hand
     if (r.state === 'todo' && r.target() === it) { this.pulse(h, 0.5, 40); r.doStep(); return; }
@@ -128,7 +178,8 @@ export class XRInput {
     this.app.audio.unlock(); if (h.held) return;
     let it = this.nearest(h, 0.09); let far = false;
     if (!it) { const hit = this.cast(h); if (hit && hit.item && hit.d < 2.2 && !['rack', 'tripod'].includes(hit.item.kind)) { it = hit.item; far = true; } }
-    if (it) this.take(h, it, !far);
+    if (it && far && this.isHandle(it) && this.rayGrab(h, it, this.cast(h)?.d ?? 1, 'sq')) return;
+    if (it) this.take(h, it, !far); else this.aimWorld(h);
   }
   take(h, it, near) {
     if (it.inVessel) { const v = it.inVessel; v.solids.splice(v.solids.indexOf(it), 1); it.inVessel = null; }
@@ -222,8 +273,9 @@ export class XRInput {
         for (const bn of h.bones) { const J = h.hand.joints[bn.jointName]; if (J && J.visible !== false) { bn.position.copy(J.position); bn.quaternion.copy(J.quaternion); } }
         if (h.handObj) h.handObj.visible = true; h.tips[0].visible = h.tips[1].visible = false;
       } else if (h.src.hand) { const tipJ = ['index-finger-tip', 'thumb-tip']; tipJ.forEach((n, k) => { const j = h.hand.joints && h.hand.joints[n]; if (j && j.visible !== false) { h.tips[k].visible = true; j.getWorldPosition(h.tips[k].position); } }); }
-      const hit = h.held ? null : this.cast(h); h.hovIt = hit && hit.item && !hit.panel ? hit.item : null;
-      const len = hit ? hit.d : 1.2; h.line.scale.z = len; h.dot.visible = !!hit; if (hit) h.dot.position.copy(hit.p);
+      if (h.rayHeld) this.rayMove(h);
+      const hit = h.held || h.rayHeld ? null : this.cast(h); h.hovIt = hit && hit.item && !hit.panel ? hit.item : null;
+      if (!h.rayHeld) { const len = hit ? hit.d : 1.2; h.line.scale.z = len; h.dot.visible = !!hit; if (hit) h.dot.position.copy(hit.p); }
       const hp = hit && hit.panel ? hit.panel : null; const id = hp ? hp.hitUV(hit.uv) : null;
       if (h.hoverPanel && (h.hoverPanel !== hp || h.hoverPanel.hover !== id)) { h.hoverPanel.hover = null; h.hoverPanel.setHL(null); }
       if (hp && hp.hover !== id) { hp.hover = id; hp.setHL(id); if (id) this.pulse(h, 0.15, 10); }

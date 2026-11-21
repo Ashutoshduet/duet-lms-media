@@ -26,7 +26,7 @@ export function liveSign(h = 0.2, w = 4) {
 }
 // a knob that is carried round a centre: its angle (clockwise from straight ahead, −z, in degrees) is followed, unwrapped
 export function turnKnob(knob, o) {
-  knob.noGrab = false; knob.noPhys = true; knob.dragLift = 0;
+  knob.noGrab = false; knob.noPhys = true; knob.dragLift = 0; knob.isKnob = true; // the headset's ray can turn it from a distance
   let last = null;
   const ang = (p) => Math.atan2(p.x - o.centre.x, -(p.z - o.centre.z)) / DEG;
   const u0 = knob.update;

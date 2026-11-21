@@ -96,7 +96,7 @@ function spreadHand(hh, side, thumb, pinky) {
 // an item the student slides about on a flat surface (mouse drag, or a hand in the headset): o.clamp(p) keeps a world point
 // on the surface where it may go; o.move(p) is told where it is
 function surfaceDrag(it, o) {
-  it.noGrab = false; it.noPhys = true; it.dragLift = 0; const v = V(0, 0, 0);
+  it.noGrab = false; it.noPhys = true; it.dragLift = 0; it.isKnob = true; const v = V(0, 0, 0); // the headset's ray can slide it too
   const u0 = it.update; it.update = (dt, t) => { if (u0) u0(dt, t); if (it.pulse) it.pulse.visible = !!(o.active && o.active()) && !it.held; if (!it.held) return; const p = o.clamp(it.g.getWorldPosition(v).clone());
     if (it.held === 'pointer') it.g.position.copy(p); o.move(p); };
   it.onRelease = () => { const p = o.clamp(it.g.getWorldPosition(v).clone()); const p0 = it.g.position.clone(); let n = 0; const q0 = it.g.quaternion.clone(), q1 = new THREE.Quaternion();
