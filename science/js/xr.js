@@ -117,12 +117,15 @@ export class XRInput {
     const r = this.app.runner; if (!r || r.state !== 'todo' || !r.target) return false; const tg = r.target(); if (!tg || !tg.g || !tg.g.visible) return false;
     if (tg.hitMeshes && tg.hitMeshes().length) return false;
     const box = new THREE.Box3().setFromObject(tg.g); if (box.isEmpty() || !this.ray.ray.intersectsBox(box)) return false;
-    const knob = this.app.lab.items.find((it) => this.isHandle(it) && !it.held && it.update);
-    if (knob && knob.poke) { if (knob.poke()) { this.pulse(h, 0.5, 40); this.app.audio.clink(); } else this.pulse(h, 0.15, 15); return true; } // a lever: one push per trigger
+    const knobs = this.app.lab.items.filter((it) => this.isHandle(it) && !it.held && it.update);
+    for (const k of knobs) if (k.poke && k.poke()) { this.pulse(h, 0.5, 40); this.app.audio.clink(); return true; } // a lever: one push per trigger (a knob not in use yet lets the step go on)
+    const knob = knobs.find((k) => !k.poke);
     const L = this.app.lang;
-    if (knob && knob.pulse) { this.app.ui.toast({ en: 'Point at the glowing yellow knob, hold the trigger and move your hand.', hi: 'चमकती पीली घुंडी की ओर इशारा कीजिए, ट्रिगर दबाए रखिए और हाथ घुमाइए।', hg: 'Chamakti peeli knob ki taraf point kijiye, trigger dabaye rakhiye aur haath ghumaiye.' }[L] || 'Point at the glowing yellow knob, hold the trigger and move your hand.', 3600); this.pulse(h, 0.3, 30); return true; }
-    this.pulse(h, 0.5, 40); const ev = r.step() && r.step().ev;
-    if (ev && ev.type === 'look') { this.app.lab.emit('look', { obj: tg.id }); return true; } // looking at it: done by the student
+    if (knob && !knob.poke && knob.pulse) { this.app.ui.toast({ en: 'Point at the glowing yellow knob, hold the trigger and move your hand.', hi: 'चमकती पीली घुंडी की ओर इशारा कीजिए, ट्रिगर दबाए रखिए और हाथ घुमाइए।', hg: 'Chamakti peeli knob ki taraf point kijiye, trigger dabaye rakhiye aur haath ghumaiye.' }[L] || 'Point at the glowing yellow knob, hold the trigger and move your hand.', 3600); this.pulse(h, 0.3, 30); return true; }
+    const ev = r.step() && r.step().ev;
+    if (ev && ev.type === 'look') { this.pulse(h, 0.5, 40); this.app.lab.emit('look', { obj: tg.id }); return true; } // looking at it: done by the student
+    if (knobs.length) { this.pulse(h, 0.15, 15); return true; } // a lever that is busy (a toy still rolling): wait, the student does this step by hand
+    this.pulse(h, 0.5, 40);
     r.doStep(); return true;
   }
   owner(o) { while (o) { if (o.userData.item) return o.userData.item; o = o.parent; } return null; }
