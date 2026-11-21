@@ -279,7 +279,7 @@ export const EXPERIMENTS_W1 = [
     kind: X('Area of a circle'),
     setup(K) {
       const mat = K.add(MW.ringMat(), 0, -0.82);
-      const cutter = K.add(MW.pizzaCutter(), 0, -0.82), tab = K.add(MW.pullTab(), 0, -0.62);
+      const cutter = K.add(MW.pizzaCutter(), 0, -0.82), tab = K.add(MW.pullTab({ name: { en: 'End of the rope', hi: 'रस्सी का सिरा', hg: 'Rassi ka sira' } }), 0, -0.62);
       MW.bindRingHands(mat, cutter, tab, K.app);
       mat.camView = { p: V3(K, 0, 0.95, 1.05), t: V3(K, 0, 0.0, 0.0) };
       // the same end to each step, done by hand or with the Do it button

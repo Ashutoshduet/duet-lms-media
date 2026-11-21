@@ -642,7 +642,8 @@ export function pizzaCutter(o = {}) {
 }
 // a glowing knob at the cut end of the outer ring: pull it to straighten the rings
 export function pullTab(o = {}) {
-  const it = new Item('wpull', { ...o, name: { en: 'End of the rope', hi: 'रस्सी का सिरा', hg: 'Rassi ka sira' } });
+  // the same glowing knob is the lever or handle of most real-place activities: it is named for what it does (the rope mat names its own)
+  const it = new Item('wpull', { ...o, name: o.name || { en: 'Handle (hold it and move)', hi: 'हैंडल (पकड़कर खिसकाइए)', hg: 'Handle (pakadkar khiskaiye)' } });
   const knob = new THREE.Mesh(new THREE.SphereGeometry(0.014, 20, 14), new THREE.MeshStandardMaterial({ color: 0xffd23f, emissive: 0x7a5a00, roughness: 0.4 })); knob.position.y = 0.012; it.g.add(knob);
   const ring = new THREE.Mesh(new THREE.TorusGeometry(0.026, 0.003, 8, 32), glow(0xffd23f, 0.85)); ring.rotation.x = Math.PI / 2; ring.position.y = 0.006; ring.userData.noHit = true; it.g.add(ring); it.pulse = ring;
   it.height = 0.03; it.radius = 0.02; it.grabY = 0.012; it.base = 0; return it;
