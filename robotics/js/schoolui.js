@@ -38,6 +38,7 @@ const S = {
   folio: t3('Portfolio for parents', 'अभिभावकों के लिए पोर्टफ़ोलियो', 'Parents ke liye portfolio'),
   folioHow: t3('A link to your work (stars, skills, certificates) that your parents can open on their phone.', 'आपके काम (सितारे, कौशल, प्रमाण-पत्र) का लिंक, जो अभिभावक फ़ोन पर खोल सकते हैं।', 'Aapke kaam (stars, skills, certificates) ka link, jo parents phone par khol sakte hain.'),
   recent: t3('Recent lessons', 'हाल के पाठ', 'Haal ke lessons'), teacher: t3('Teacher? Open the dashboard →', 'शिक्षक हैं? डैशबोर्ड खोलिए →', 'Teacher hain? Dashboard kholiye →'),
+  blox: t3('Scratch-style games, music and AI: DUETBlox (13 guided lessons) →', 'Scratch जैसे गेम, संगीत और AI: DUETBlox (13 पाठ) →', 'Scratch jaise games, music aur AI: DUETBlox (13 lessons) →'),
   askWho: t3('Ask "who is learning?" when the lab opens (a shared computer)', 'लैब खुलते ही पूछिए "कौन सीख रहा है?" (साझा कंप्यूटर)', 'Lab khulte hi poochiye "kaun seekh raha hai?" (shared computer)'),
   result: t3('{st}  ·  score {sc}  ·  {t}  ·  {m} mistakes  ·  {h} hints', '{st}  ·  अंक {sc}  ·  {t}  ·  {m} ग़लतियाँ  ·  {h} संकेत', '{st}  ·  score {sc}  ·  {t}  ·  {m} galtiyan  ·  {h} hints'),
   again: t3('Try for ★★★', '★★★ के लिए फिर', '★★★ ke liye phir'), challenge: t3('🏁 Challenge', '🏁 चुनौती', '🏁 Challenge'),
@@ -164,7 +165,8 @@ export function installSchool(app) {
       <h3>${esc(tx(S.folio))}</h3><p class="mute">${esc(tx(S.folioHow))}</p><div class="row"><button class="btn" id="sk-fc">🔗 ${esc(tx(S.copy))}</button><button class="btn" id="sk-fs">${esc(tx(S.share))}</button></div>
       ${recent ? `<h3>${esc(tx(S.recent))}</h3><table>${recent}</table>` : ''}
       <h3> </h3><label class="row mute" style="font-size:13px"><input type="checkbox" id="sk-ask"${st.opts.askWho ? ' checked' : ''}> ${esc(tx(S.askWho))}</label>
-      <p><a href="teacher.html" style="color:#7fd1ff">${esc(tx(S.teacher))}</a></p>`, { wide: true });
+      <p><a href="teacher.html" style="color:#7fd1ff">${esc(tx(S.teacher))}</a></p>
+      <p><a href="https://duetpower.in/duetblox/" target="_blank" rel="noopener" style="color:#9fd17a">🧩 ${esc(tx(S.blox))}</a></p>`, { wide: true });
     bindPick(box);
     box.querySelector('#sk-edit').onclick = () => { const b2 = sheet(`<h2>✎ ${esc(p.name)}</h2>${profileForm(p)}`); bindForm(b2, p); };
     box.querySelector('#sk-add').onclick = () => { const b2 = sheet(`<h2>${esc(tx(S.add))}</h2>${profileForm(null)}`); bindForm(b2, null); };

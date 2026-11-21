@@ -1363,3 +1363,10 @@ BarcodeDetector).
 
 Tests: `devtools/test/roboschool.mjs` (a teacher, a student, the register in memory, the project card, the helper, the
 portfolio, the principal, offline QR hand-in).
+
+## Live classes and DUETBlox (21 Nov 2026)
+
+- Live classes are on: `licences.json` → `"sync"` is the "Live classes v1" Apps Script web app (sheet "DUET STEM classes (live results)", Execute as: me, Who has access: Anyone). Set with `node devtools/licence-server/duetlic.mjs setsync <url>`; `store()` keeps `"sync"`. After editing Code.gs, redeploy as a New version of the same deployment so the URL stays. Tested end to end (mkclass → join → post → class read) on duetpower.in; test rows removed.
+- duetpower.in/robotics/lab/ copies itself from GitHub Pages through `sync.php` (the app asks `sync.php?check=1` at most every 10 minutes; opening `sync.php` runs a step by hand and also refreshes `licences.json` one folder up).
+- The lab's Me sheet links to DUETBlox (duetpower.in/duetblox/), and DUETBlox 0.8.0 links back (home banner, traffic-light lesson → `?lesson=traffic`).
+- DUETBlox 0.8.0 (repo Ashutoshduet/duetblox-platform, commit ce90d59): 13 guided lessons in English, Hindi and Hinglish; Scratch work saved 2 s after each change and when the tab is hidden; the editor's always-on "Leave site?" prompt replaced by one that asks only while an edit is unsaved. Deployed by uploading only the changed shell files (index.html, 6 assets, offline-manifest.json, sw.js) through the Hestia file manager; the manifest was patched from the live one and sw.js rebuilt from src/offline/worker.js (the rebuild of the old live worker was byte-identical, so the method is exact). A new service worker takes over once every DUETBlox tab has been closed (by design: never during unsaved work).
