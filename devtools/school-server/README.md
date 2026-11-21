@@ -9,7 +9,9 @@ No server to run; the apps also work without it (QR codes), so a school with no 
 1. A Google Sheet → Extensions → Apps Script → paste `Code.gs` → save (project "DUET STEM classes").
 2. Deploy → New deployment → Web app: Execute as **Me**, Who has access **Anyone** → Deploy → Authorize access (the
    owner approves: Sheets, and fetching the public licences.json).
-3. Put the web app URL in `licences.json` as `"sync"` (beside `"claim"`), commit and publish. The apps read it from there.
+3. Put the web app URL in `licences.json` as `"sync"`: `node devtools/licence-server/duetlic.mjs setsync <web app URL>`, then commit and publish. The apps read it from there.
+
+Live since 21 Nov 2026: the sheet "DUET STEM classes (live results)" in the DUET STEM Google account, web app deployment "Live classes v1" (Execute as: me, Who has access: Anyone). After editing Code.gs, use Deploy → Manage deployments → edit → Version: New version, so the URL stays the same.
 
 To change the code later: paste the new `Code.gs`, then Deploy → Manage deployments → ✎ → Version: New → Deploy (the URL
 stays the same).

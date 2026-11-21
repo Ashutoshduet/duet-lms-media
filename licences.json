@@ -2,6 +2,7 @@
  "v": 1,
  "note": "DUET STEM subscription codes: hashes only",
  "claim": "https://script.google.com/macros/s/AKfycbyAA5P_PojTJCGIQdDgGwwu-lKSgm-fvGsWUZwRlVXF1qJc-1jyPQf9q73XoiFGX76p/exec",
+ "sync": "https://script.google.com/macros/s/AKfycbyMgDBMSp23Boo5TFQK99n3oXNZfTD56wlBXMnajlqdSwG8Ua24zvmYrdlH7_Xxfcrt/exec",
  "codes": {
   "38bfb6786964791a7b98a859a67ad75e4ec92756e55f8e1559013f2f89a36bca": {
    "u": "2027-12-31",
