@@ -143,7 +143,7 @@ export function chairRows(o = {}) {
 }
 export function bindChairHands(cr, knob, app, s = { rows: 1 }, done = {}) {
   const sync = slideKnob(knob, { path: () => cr.knobPath(), active: () => stepNow(app, s.rows), keepVisible: () => app.runner.i <= s.rows,
-    k: () => cr.kOf(cr.r), set: (k) => { const r = cr.rOf(k); if (r !== cr.r) cr.set(cr.n, r); const mid = [...cr.found].filter((v) => v > 1 && v < cr.n); if (mid.length >= 2) done.found && done.found(); } });
+    k: () => cr.kOf(cr.r), goal: () => cr.kOf(cr.r < cr.n ? cr.r + 1 : 1) /* the trigger tries one more row each time */, set: (k) => { const r = cr.rOf(k); if (r !== cr.r) cr.set(cr.n, r); const mid = [...cr.found].filter((v) => v > 1 && v < cr.n); if (mid.length >= 2) done.found && done.found(); } });
   const s0 = cr.set; cr.set = (n, r) => { s0(n, r); sync(); };
 }
 

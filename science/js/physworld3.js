@@ -159,7 +159,7 @@ export function measureClass(o = {}) {
     if (xe >= 1.25 + 0.06) { rd.set([`${w_('Reading at the right end')}: 2.50 m = 250 cm`], OKC); it.res.tape = 2.5; if (it.onTape) it.onTape(); }
     else rd.set([`${w_('Tape out')}: ${d.toFixed(2)} m · ${w_('the table goes on')}`], YEL); if (it.onK) it.onK(it.k); };
   // footsteps heel to toe along the front wall
-  it.toFeet = () => { it.mode = 'feet'; it.k = 0; tape.visible = false; it.camView = it.views.wall; rd.position.set(0.1, 0.75, -5.2); rd.scale.multiplyScalar(1.8); it.setFeet(0); };
+  it.toFeet = () => { it.mode = 'feet'; it.k = 0; tape.visible = false; it.camView = it.views.wall; if (!it._wallRd) { it._wallRd = true; rd.position.set(0.1, 0.75, -5.2); rd.scale.multiplyScalar(1.8); } it.setFeet(0); };
   const addPrint = (x, mat, dz) => { const p = new THREE.Mesh(printG, mat); p.rotation.set(-Math.PI / 2, 0, -Math.PI / 2); p.position.set(x, 0.004, FZ + dz); p.renderOrder = 2; g.add(p); prints.push(p); return p; };
   it.setFeet = (k) => { if (it.mode !== 'feet') return; it.k = clamp01(k); const f = 0.22, d = it.k * FL, N = Math.floor(FL / f), n = Math.min(N, Math.floor(d / f + 1e-6));
     while (prints.length < n) { const i = prints.length; addPrint(FX0 + i * f + f / 2, soleM, (i % 2 ? 0.06 : -0.06)); }
@@ -172,7 +172,9 @@ export function measureClass(o = {}) {
   return done1(it, { height: 1, radius: 1.3 });
 }
 export function bindMeasureHands(ms, knob, lever, app, s = { span: 1, teacher: 2, tape: 3, feet: 4 }, done = {}) {
-  const sync = slideKnob(knob, { path: () => ms.knobPath(), active: () => (stepNow(app, s.span) && ms.mode === 'span') || (stepNow(app, s.tape) && ms.mode === 'tape') || (stepNow(app, s.feet) && ms.mode === 'feet'),
+  // by hand the tape and the footsteps come out when their step begins (the automatic run brings them out itself)
+  const modeNow = () => { if (stepNow(app, s.tape) && ms.mode === 'span') ms.toTape(); if (stepNow(app, s.feet) && ms.mode !== 'feet') ms.toFeet(); return ms.mode; };
+  const sync = slideKnob(knob, { path: () => ms.knobPath(), active: () => (stepNow(app, s.span) && ms.mode === 'span') || (stepNow(app, s.tape) && modeNow() === 'tape') || (stepNow(app, s.feet) && modeNow() === 'feet'),
     keepVisible: () => [s.span, s.tape, s.feet].includes(app.runner.i), k: () => ms.k,
     set: (k) => { const kk = k > 0.985 ? 1 : k; if (ms.mode === 'span' && kk >= ms.k) ms.setSpan(kk); else if (ms.mode === 'tape') ms.setTape(kk); else if (ms.mode === 'feet' && kk >= ms.k) ms.setFeet(kk); } });
   ['setSpan', 'setTape', 'setFeet'].forEach((f) => { const f0 = ms[f]; ms[f] = (k) => { f0(k); sync(); }; });
@@ -393,7 +395,7 @@ export function seaBreeze(o = {}) {
   return done1(it, { height: 2, radius: 3 });
 }
 export function bindBreezeHands(sb, knob, lever, app, s = { day: 1, loop: 2, night: 3 }, done = {}) {
-  const sync = slideKnob(knob, { path: () => sb.knobPath(), active: () => (stepNow(app, s.day) && sb.phase === 'day') || stepNow(app, s.night), keepVisible: () => app.runner.i === s.day || app.runner.i === s.night, k: () => sb.k,
+  const sync = slideKnob(knob, { path: () => sb.knobPath(), active: () => (stepNow(app, s.day) && sb.phase === 'day') || stepNow(app, s.night), keepVisible: () => app.runner.i === s.day || app.runner.i === s.night, k: () => (stepNow(app, s.night) && sb.phase !== 'night' ? 0 : sb.k), goal: () => 1,
     set: (k) => { if (stepNow(app, s.night) && sb.phase !== 'night') sb.toNight(); const kk = clamp01(k > 0.985 ? 1 : k); if (kk > sb.k) sb.setK(kk); if (sb.k >= 1 - 1e-6) { if (sb.phase === 'day' && done.day) done.day(); if (sb.phase === 'night' && done.night) done.night(); } } });
   const s0 = sb.setK; sb.setK = (k) => { s0(k); sync(); };
   pushKnob(lever, { path: () => sb.leverPath(), active: () => stepNow(app, s.loop), keepVisible: () => app.runner.i === s.loop, press: () => { sb.showLoop(true); sb.camView = sb.views.loop; done.loop && done.loop(); } });
@@ -463,7 +465,7 @@ export function periscope(o = {}) {
 }
 export function bindPeriscopeHands(ps, knob, app, s = { bottom: 1, top: 2 }, done = {}) {
   let held = 0;
-  const sync = slideKnob(knob, { path: () => ps.knobPath(), active: () => stepNow(app, s.bottom) || stepNow(app, s.top), keepVisible: () => app.runner.i === s.bottom || app.runner.i === s.top, k: () => ps.k,
+  const sync = slideKnob(knob, { path: () => ps.knobPath(), active: () => stepNow(app, s.bottom) || stepNow(app, s.top), keepVisible: () => app.runner.i === s.bottom || app.runner.i === s.top, k: () => (stepNow(app, s.top) && ps.which !== 'top' ? (ps.aT - 20) / 50 : ps.k), goal: () => 0.5, // 45°
     set: (k) => { if (stepNow(app, s.top) && ps.which !== 'top') ps.toTop(); ps.setK(k); } });
   const s0 = ps.setK; ps.setK = (k) => { s0(k); sync(); };
   const u0 = ps.update; ps.update = (dt) => { u0(dt); const ok = stepNow(app, s.bottom) ? Math.abs(ps.aB - 45) <= 3 : stepNow(app, s.top) ? ps.which === 'top' && Math.abs(ps.aT - 45) <= 3 && ps.vis > 0.9 : false; held = ok && !knob.held ? held + (dt || 0.016) : 0;
@@ -525,6 +527,7 @@ export function balloonStream(o = {}) {
 }
 export function bindBalloonHands(bs, knob, lever, app, s = { rub: 1, near: 2 }, done = {}) {
   const sync = slideKnob(knob, { path: () => bs.knobPath(), active: () => stepNow(app, s.rub) || stepNow(app, s.near), keepVisible: () => app.runner.i === s.rub || app.runner.i === s.near, k: () => bs.k,
+    goal: () => (stepNow(app, s.rub) ? (bs.k < 0.5 ? 1 : 0) : stepNow(app, s.near) ? (bs.wet ? null : 0.88) : null), pokeStep: () => (stepNow(app, s.rub) ? 1 : 0.34), // the trigger: one stroke on the shawl, then close to the stream
     set: (k) => { if (stepNow(app, s.rub)) bs.rub(k); else { if (bs.mode !== 'near') bs.toNear(); bs.setK(k); } } });
   ['rub', 'setK'].forEach((f) => { const f0 = bs[f]; bs[f] = (k) => { f0(k); sync(); }; });
   bs.onRub = () => { if (bs.strokes >= 6 && stepNow(app, s.rub) && done.rub) done.rub(); };
@@ -586,7 +589,8 @@ export function catchBall(o = {}) {
 }
 export function bindCatchHands(cb, knob, lever, app, s = { stiff: 1, soft: 2 }, done = {}) {
   const on = () => stepNow(app, s.stiff) || stepNow(app, s.soft);
-  const sync = slideKnob(knob, { path: () => cb.knobPath(), active: () => on() && !cb.busy, keepVisible: () => app.runner.i === s.stiff || app.runner.i === s.soft, k: () => cb.k, set: (k) => cb.setK(k) });
+  const sync = slideKnob(knob, { path: () => cb.knobPath(), active: () => on() && !cb.busy, keepVisible: () => app.runner.i === s.stiff || app.runner.i === s.soft, k: () => cb.k, set: (k) => cb.setK(k),
+    goal: () => (stepNow(app, s.stiff) ? 0 : stepNow(app, s.soft) ? 1 : null) }); // the trigger sets the hands, then pushes the lever
   const s0 = cb.setK; cb.setK = (k) => { s0(k); sync(); };
   cb.onCatch = (c) => { if (stepNow(app, s.stiff)) { if (c.s <= 5) done.stiff && done.stiff(); else cb.say([cb.W('That was a soft catch: this time keep your hands stiff (0 cm)')], RED); }
     else if (stepNow(app, s.soft)) { if (c.s >= 30) done.soft && done.soft(); else cb.say([cb.W('Pull your hands back further: 30 cm or more')], RED); } };
@@ -786,7 +790,9 @@ export function wallSwitch(o = {}) {
 }
 export function bindWiringHands(wb, switches, lever, app, s = { on: 1, off: 2, heater: 3, iron: 4 }, done = {}) {
   switches.forEach((sw, i) => { const p = wb.switchAt(i); sw.g.position.copy(p); sw.g.rotation.x = -0.12;
-    pushKnob(sw, { path: () => [p.clone(), p.clone().add(V(0, 0, -0.004))], active: () => (stepNow(app, s.on) || stepNow(app, s.off)) && !wb.tripped, keepVisible: () => true, press: () => { wb.toggle(i); sw.set(wb.loads[i].on); } }); sw.set(false); });
+    pushKnob(sw, { path: () => [p.clone(), p.clone().add(V(0, 0, -0.004))], active: () => (stepNow(app, s.on) || stepNow(app, s.off)) && !wb.tripped, keepVisible: () => true, press: () => { wb.toggle(i); sw.set(wb.loads[i].on); } }); sw.set(false);
+    // the trigger aimed at the board (a headset): only a switch that still has to change (on for 'all on', off for 'one off')
+    sw.poke = () => { if (!((stepNow(app, s.on) || stepNow(app, s.off)) && !wb.tripped)) return false; const on = wb.loads[i].on; if (stepNow(app, s.on) ? on : !on || wb.loads.filter((L) => L.on).length < 3) return false; wb.toggle(i); sw.set(wb.loads[i].on); return true; }; });
   wb.onChange = () => { const n = wb.loads.filter((L) => L.on).length; if (stepNow(app, s.on) && n === 3) done.on && done.on(); if (stepNow(app, s.off) && n === 2) done.off && done.off(); if (stepNow(app, s.heater) && wb.app.heater.on) done.heater && done.heater(); };
   wb.onTrip = () => { switches.forEach((sw) => { sw.pulse.visible = false; }); if (stepNow(app, s.iron)) done.iron && done.iron(); };
   pushKnob(lever, { path: () => wb.leverPath(), active: () => (stepNow(app, s.heater) && !wb.app.heater.on) || (stepNow(app, s.iron) && !wb.app.iron.on), keepVisible: () => app.runner.i === s.heater || app.runner.i === s.iron, press: () => { if (stepNow(app, s.heater)) wb.plug('heater'); else wb.plug('iron'); } });

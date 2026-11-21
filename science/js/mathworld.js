@@ -564,7 +564,9 @@ export function handle(it, o) {
     const q = o.at(); const p0 = it.g.position.clone(), q0 = it.g.quaternion.clone(), q1 = new THREE.Quaternion();
     let n = 0; const step = () => { n++; const e = Math.min(1, n / 12); it.g.position.lerpVectors(p0, o.at(), e); it.g.quaternion.slerpQuaternions(q0, q1, e); if (e < 1 && !it.held) requestAnimationFrame(step); }; void q; step(); };
   // the trigger aimed at the activity (a headset): a third of the way along the path
-  it.poke = () => { if (!o.active()) return false; const [A, B] = o.path(); const k = clamp01((it._hk ?? 0) + 0.34); it._hk = k; o.move(k, A.clone().lerp(B, k)); if (!it.held) it.g.position.copy(o.at()); return true; };
+  it.poke = () => { if (!o.active()) return false; const [A, B] = o.path(); const k0 = it._hk ?? 0; if (k0 >= 0.97) it._dir = -1; else if (k0 <= 0.03) it._dir = 1; const k = clamp01(k0 + 0.34 * (it._dir || 1)); it._hk = k; o.move(k, A.clone().lerp(B, k));
+    if (!it.held && k > 0 && o.at().distanceToSquared(A) < 1e-8) { o.move(1, B.clone()); o.move(0, A.clone()); it._hk = 0; it._dir = 1; } // a lever that springs back: one pull is one whole stroke
+    if (!it.held) it.g.position.copy(o.at()); return true; };
   return it;
 }
 // a round mat made of rings of coloured rope, one inside the other (radius R, n rings), lying on the table. It can be cut

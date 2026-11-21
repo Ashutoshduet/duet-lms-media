@@ -154,8 +154,8 @@ export class Runner {
   update(dt, t) {
     if (this.pend) this.settle(this.app.lab.t ?? t);
     const tg = this.state === 'todo' ? this.target() : null;
-    this.marker.visible = !!tg && !this.app.hideMarker;
-    if (tg) {
+    this.marker.visible = !!(tg && tg.g) && !this.app.hideMarker;
+    if (tg && tg.g) {
       const b = new THREE.Box3().setFromObject(tg.g); const c = b.getCenter(new THREE.Vector3());
       this.mRing.position.set(c.x, b.min.y + 0.002, c.z); const r = Math.max(0.02, Math.min(0.09, Math.max(b.max.x - b.min.x, b.max.z - b.min.z) * 0.62));
       this.mRing.scale.setScalar(r / 0.033 * (1 + Math.sin(t * 4) * 0.05)); this.mArrow.position.set(c.x, b.max.y + 0.04 + Math.sin(t * 4) * 0.01, c.z);

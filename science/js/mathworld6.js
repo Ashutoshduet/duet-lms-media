@@ -68,7 +68,7 @@ export function polyGraph(o = {}) {
 export function bindPolyHands(pg, knob, app, s = { z1: 1, z2: 2 }, done = {}) {
   const found = new Set();
   const sync = slideKnob(knob, { path: () => pg.knobPath(), active: () => stepNow(app, s.z1) || stepNow(app, s.z2), keepVisible: () => app.runner.i >= s.z1 && app.runner.i <= s.z2,
-    k: () => pg.kOf(pg.x), set: (k) => { let x = pg.xOf(k); for (const z of [-1, 3]) if (Math.abs(x - z) < 0.12) x = z; pg.setX(x);
+    k: () => pg.kOf(pg.x), goal: () => (stepNow(app, s.z1) ? pg.kOf(-1) : stepNow(app, s.z2) ? pg.kOf(found.has(-1) ? 3 : -1) : null), set: (k) => { let x = pg.xOf(k); for (const z of [-1, 3]) if (Math.abs(x - z) < 0.12) x = z; pg.setX(x);
       if (x === -1 || x === 3) { if (stepNow(app, s.z1) && !found.size) { found.add(x); done.zero && done.zero(1, x); } else if (stepNow(app, s.z2) && !found.has(x)) { found.add(x); done.zero && done.zero(2, x); } } } });
   const s0 = pg.setX; pg.setX = (x) => { s0(x); sync(); };
   pg.found = found;
@@ -102,7 +102,7 @@ export function twoLines(o = {}) {
 }
 export function bindLinesHands(tl, knob, app, s = { meet: 1 }, done = {}) {
   const sync = slideKnob(knob, { path: () => tl.knobPath(), active: () => stepNow(app, s.meet) && Math.abs(tl.s - 3) > 1e-6, keepVisible: () => app.runner.i <= s.meet,
-    k: () => tl.s / 5, set: (k) => { let x = 5 * clamp01(k); if (Math.abs(x - 3) < 0.12) x = 3; tl.setS(x); if (x === 3) done.meet && done.meet(); } });
+    k: () => tl.s / 5, goal: () => 3 / 5, set: (k) => { let x = 5 * clamp01(k); if (Math.abs(x - 3) < 0.12) x = 3; tl.setS(x); if (x === 3) done.meet && done.meet(); } });
   const s0 = tl.setS; tl.setS = (x) => { s0(x); sync(); };
 }
 
@@ -161,9 +161,9 @@ export function gridPoints(o = {}) {
 }
 export function bindPointHands(gp, kB, kP, app, s = { b: 1, mid: 3 }, done = {}) {
   const syncB = slideKnob(kB, { path: () => gp.bPath(), active: () => stepNow(app, s.b) && gp.by < 10, keepVisible: () => app.runner.i <= s.b,
-    k: () => (gp.by - 2) / 8, set: (k) => { let y = 2 + 8 * clamp01(k); if (y > 9.75) y = 10; gp.setB(y); if (y === 10) done.b && done.b(); } });
+    k: () => (gp.by - 2) / 8, goal: () => 1, set: (k) => { let y = 2 + 8 * clamp01(k); if (y > 9.75) y = 10; gp.setB(y); if (y === 10) done.b && done.b(); } });
   const syncP = slideKnob(kP, { path: () => gp.pPath(), active: () => stepNow(app, s.mid) && Math.abs(gp.t - 0.5) > 1e-6, keepVisible: () => app.runner.i === s.mid,
-    k: () => gp.t, set: (k) => { let t = clamp01(k); if (Math.abs(t - 0.5) < 0.03) t = 0.5; gp.setP(t); if (t === 0.5) done.mid && done.mid(); } });
+    k: () => gp.t, goal: () => 0.5, set: (k) => { let t = clamp01(k); if (Math.abs(t - 0.5) < 0.03) t = 0.5; gp.setP(t); if (t === 0.5) done.mid && done.mid(); } });
   const b0 = gp.setB, p0 = gp.setP; gp.setB = (y) => { b0(y); syncB(); }; gp.setP = (t) => { p0(t); syncP(); };
 }
 
@@ -193,6 +193,6 @@ export function meanPlank(o = {}) {
 }
 export function bindPlankHands(mp, knob, app, s = { bal: 1 }, done = {}) {
   const sync = slideKnob(knob, { path: () => mp.knobPath(), active: () => stepNow(app, s.bal) && Math.abs(mp.f - mp.mean) > 1e-6, keepVisible: () => app.runner.i <= s.bal,
-    k: () => mp.f / 14, set: (k) => { let f = 14 * clamp01(k); if (Math.abs(f - mp.mean) < 0.3) f = mp.mean; mp.setF(f); if (f === mp.mean) done.bal && done.bal(); } });
+    k: () => mp.f / 14, goal: () => mp.mean / 14, set: (k) => { let f = 14 * clamp01(k); if (Math.abs(f - mp.mean) < 0.3) f = mp.mean; mp.setF(f); if (f === mp.mean) done.bal && done.bal(); } });
   const s0 = mp.setF; mp.setF = (f) => { s0(f); sync(); };
 }

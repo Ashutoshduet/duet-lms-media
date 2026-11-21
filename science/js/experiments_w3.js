@@ -46,7 +46,7 @@ export const EXPERIMENTS_W3 = [
       const P = K.app.places; lift.onShift = (y) => { if (P) P.root.position.y = y; };
       onLeave(K, () => { if (P) P.root.position.y = 0; });
       lift.set(0);
-      MW3.bindLiftHands(lift, up, down, K.app, [1, 2, 3]);
+      MW3.bindLiftHands(lift, up, down, K.app, [1, 2, 3], { 1: 3, 2: -2, 3: 1 });
       const em = (t) => K.lab.emit(t, { obj: lift.id });
       const eq = (a, b) => { label(K, a, lift.at('eq'), 0.075, 0, { color: '#8be07a', edge: '#8be07a', step: true }); if (b) label(K, b, lift.at('eq2'), 0.06, 0, { color: '#ffffff', step: true }); };
       const fin = {
@@ -62,14 +62,14 @@ export const EXPERIMENTS_W3 = [
         act: async (K, o) => { K.lab.emit('look', { obj: o.lift.id }); label(K, tl(K, W.up), o.lift.at('disp').clone().add(V3(K, 0, 0.14, 0)), 0.045, 0, { color: '#8be07a', step: true }); label(K, tl(K, W.down), o.lift.at('disp').clone().add(V3(K, 0, 0.08, 0)), 0.045, 0, { color: '#ff9a4a', step: true }); await K.sleep(2); },
         ev: { type: 'look' }, see: X('The floors make a number line standing up: the positive numbers are above 0 and the negative numbers below it.') },
       { do: X('Press the + button three times.'), target: 'lift',
-        act: async (K, o) => { fresh(K); for (let i = 0; i < 3; i++) { o.lift.press(1); await K.sleep(0.4); } await until(K, () => !o.lift.moving && o.lift.f === 3); o.fin.up3(); await K.sleep(1); },
+        act: async (K, o) => { fresh(K); for (let i = 0; i < 12 && o.lift.target !== 3; i++) { o.lift.press(Math.sign(3 - o.lift.target)); await K.sleep(0.4); } await until(K, () => !o.lift.moving && o.lift.f === 3); o.fin.up3(); await K.sleep(1); },
         ev: { type: 'up3' }, see: X('The lift went up three floors: 0 + (+3) = +3. You are at the Computer lab.') },
       { do: X('Now press the − button five times.'), target: 'lift',
-        act: async (K, o) => { fresh(K); for (let i = 0; i < 5; i++) { o.lift.press(-1); await K.sleep(0.4); } await until(K, () => !o.lift.moving && o.lift.f === -2); o.fin.down5(); await K.sleep(1); },
+        act: async (K, o) => { fresh(K); for (let i = 0; i < 12 && o.lift.target !== -2; i++) { o.lift.press(Math.sign(-2 - o.lift.target)); await K.sleep(0.4); } await until(K, () => !o.lift.moving && o.lift.f === -2); o.fin.down5(); await K.sleep(1); },
         ev: { type: 'down5' }, see: X('You went down five floors and passed the ground floor: (+3) + (−5) = −2. You are two floors below the ground, in the Store room.'),
         why: X('Below 0 we need negative numbers: −2 means two floors below the ground.') },
       { do: X('Go up to the Classrooms on floor +1. Which button, and how many times?'), target: 'lift',
-        act: async (K, o) => { fresh(K); for (let i = 0; i < 3; i++) { o.lift.press(1); await K.sleep(0.4); } await until(K, () => !o.lift.moving && o.lift.f === 1); o.fin.back1(); await K.sleep(1); },
+        act: async (K, o) => { fresh(K); for (let i = 0; i < 12 && o.lift.target !== 1; i++) { o.lift.press(Math.sign(1 - o.lift.target)); await K.sleep(0.4); } await until(K, () => !o.lift.moving && o.lift.f === 1); o.fin.back1(); await K.sleep(1); },
         ev: { type: 'back1' }, see: X('Press + three times: (−2) + (+3) = +1. From −2 to +1 is three floors up.'),
         why: X('To find how far apart two floors are, count the floors between them on the number line: +1 − (−2) = 3.') },
       { do: X('Press + twice and then − twice. Where do you end up?'), target: 'lift',

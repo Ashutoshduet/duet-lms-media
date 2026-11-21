@@ -71,9 +71,14 @@ export class XRInput {
     this.ray.ray.direction.set(0, 0, -1).applyQuaternion(h.c.getWorldQuaternion(tq));
     const ui = this.app.ui; const panels = ui.vr.visible ? [ui.menu.mesh, ui.story.mesh] : [];
     const ph = this.ray.intersectObjects(panels, false)[0];
-    const items = this.app.lab.items.filter((it) => it !== h.held && !(this.hands.some((o) => o.held === it)));
+    const items = this.app.lab.items.filter((it) => it !== h.held && it.g.visible && !(this.hands.some((o) => o.held === it))); // a hidden item (the handle in the headset) never stops the ray
     let best = null; for (const it of items) { const hit = this.ray.intersectObjects(it.hitMeshes(), false)[0]; if (hit && (!best || hit.distance < best.d)) best = { it: this.owner(hit.object) || it, d: hit.distance, p: hit.point }; }
-    if (ph && (!best || ph.distance < best.d)) return { panel: ph.object.userData.panel, uv: ph.uv, p: ph.point, d: ph.distance };
+    if (ph && (!best || ph.distance < best.d)) {
+      // a lab-bench activity standing right in front of a board: the ray passes through the glowing item first, so it means the item
+      const r = this.app.runner, tg = r && r.state === 'todo' && !(r.exp && r.exp.world) ? r.target() : null;
+      const bx = tg && tg.g && tg.g.visible ? new THREE.Box3().setFromObject(tg.g).expandByScalar(0.04) : null; const ip = bx && !bx.isEmpty() ? this.ray.ray.intersectBox(bx, new THREE.Vector3()) : null;
+      if (ip && ip.distanceTo(this.ray.ray.origin) < ph.distance - 0.05) return null;
+      return { panel: ph.object.userData.panel, uv: ph.uv, p: ph.point, d: ph.distance }; }
     if (!best) { const m = this.magnet(h); if (m) return m; }
     return best ? { item: best.it, p: best.p, d: best.d } : null;
   }
@@ -98,9 +103,13 @@ export class XRInput {
     this.pulse(h, 0.5, 40); this.app.audio.clink(); this.app.lab.emit('grab', { obj: it.id }); return true;
   }
   rayDrop(h) {
-    const it = h.rayHeld; if (!it) return; h.rayHeld = null; h.rayBy = null; if (it.held === 'pointer') it.held = null; if (it.onRelease) it.onRelease();
-    if (h.rayMoved > 0.015 || it.pressOnRelease) return; // dragged it (or a lever: letting go is the push)
-    const r = this.app.runner; // a click on it without moving: a third of the way, or the step itself when it is the glowing target
+    const it = h.rayHeld; if (!it) return; h.rayHeld = null; h.rayBy = null; if (it.held === 'pointer') it.held = null;
+    const r = this.app.runner, click = !(h.rayMoved > 0.015) && !it.pressOnRelease;
+    // a click without moving on the step's own thing to carry (a thermometer, a bag): the step itself, nothing dropped or flown home
+    if (click && !it.isKnob && r && r.state === 'todo' && r.target && r.target() === it) { this.pulse(h, 0.5, 40); r.doStep(); return; }
+    if (it.onRelease) it.onRelease();
+    if (!click) return; // dragged it (or a lever: letting go is the push)
+    // a click on it without moving: a third of the way, or the step itself when it is the glowing target
     if (it.poke && it.poke()) { this.pulse(h, 0.4, 30); return; }
     if (r && r.state === 'todo' && r.target && r.target() === it) r.doStep();
   }
@@ -118,14 +127,19 @@ export class XRInput {
     if (r.state === 'done' && r.exp && r.exp.world) { // the step is done: say how to go on (the trigger in the air did nothing before)
       const L = this.app.lang, N = `“${this.app.ui.t('next')} ›”`; this.pulse(h, 0.15, 15);
       this.app.ui.toast({ en: `Done ✓ — press ${N} on the board to go on.`, hi: `हो गया ✓ — आगे के लिए बोर्ड पर ${N} दबाइए।`, hg: `Ho gaya ✓ — aage ke liye board par ${N} dabaiye.` }[L] || `Done ✓ — press ${N} on the board to go on.`, 2600); return true; }
-    if (r.state !== 'todo') return false; const tg = r.target(); if (!tg || !tg.g || !tg.g.visible) return false;
+    if (r.state !== 'todo') return false; const tg = r.target(); if (!tg || !tg.g || (!tg.g.visible && !(r.exp && r.exp.world))) return false;
     // in a real place (a world activity) the whole scene is the activity: the ray only has to go towards it (a metre around it);
-    // on the lab bench only a target with nothing of its own to touch, and only when the ray meets it
-    const world = !!(r.exp && r.exp.world); if (!world && tg.hitMeshes && tg.hitMeshes().length) return false;
-    const box = new THREE.Box3().setFromObject(tg.g); if (world) box.expandByScalar(1.0);
-    if (box.isEmpty() || !this.ray.ray.intersectsBox(box)) return false;
+    // on the lab bench a small item of the step (a switch, an LED) counts when the ray passes within 4 cm of it: easy to just miss
+    const world = !!(r.exp && r.exp.world), own = !world && tg.hitMeshes && tg.hitMeshes().length > 0;
+    tg.g.traverse((m) => { if (m.isInstancedMesh && m.visible) m.computeBoundingBox(); }); // rows of chairs, sticks and tiles: where they are now
+    const box = new THREE.Box3().setFromObject(tg.g); if (world) box.expandByScalar(1.0); else if (own) box.expandByScalar(0.04);
+    if (tg.g.visible && (box.isEmpty() || !this.ray.ray.intersectsBox(box))) return false; // a real place whose item is hidden for a view (out in space): anywhere
     const knobs = this.app.lab.items.filter((it) => it.isKnob && (it.inUse ?? it.g.visible) && !it.held && it.update && !it.broken);
-    for (const k of knobs) if (k.poke && k.poke()) { this.pulse(h, 0.5, 40); this.app.audio.clink(); return true; } // a lever: one push per trigger (a knob not in use yet lets the step go on)
+    // never a dead end: pulls that do not finish the step (a lever that never gets free, a slider that cannot reach) do it for the student
+    // (4 pulls when nothing moves, 12 when it moves but the step still is not done)
+    let w = null; if (knobs.length) { const now = performance.now(); w = this._wait; if (!w || w.i !== r.i || w.exp !== r.exp) w = this._wait = { i: r.i, exp: r.exp, n: 0, t: now, moved: false };
+      w.n++; if (w.n > (w.moved ? 12 : 4) && now - w.t > 5000) { this._wait = null; this.pulse(h, 0.5, 40); r.doStep(); return true; } }
+    for (const k of knobs) if (k.poke && k.poke()) { if (w) w.moved = true; this.pulse(h, 0.5, 40); this.app.audio.clink(); return true; } // a lever: one push per trigger (a knob not in use yet lets the step go on)
     const knob = knobs.find((k) => !k.poke);
     const L = this.app.lang;
     if (knob && !knob.poke && knob.pulse) { this.app.ui.toast({ en: 'Point at the glowing part, hold the trigger and move your hand.', hi: 'चमकते हिस्से की ओर इशारा कीजिए, ट्रिगर दबाए रखिए और हाथ घुमाइए।', hg: 'Chamakte hisse ki taraf point kijiye, trigger dabaye rakhiye aur haath ghumaiye.' }[L] || 'Point at the glowing part, hold the trigger and move your hand.', 3600); this.pulse(h, 0.3, 30); return true; }
@@ -135,18 +149,30 @@ export class XRInput {
     this.pulse(h, 0.5, 40);
     r.doStep(); return true;
   }
+  // a step that only asks to look: the trigger anywhere at the activity does it (even on a switch or a handle of it)
+  lookStep(h) {
+    const r = this.app.runner; if (!r || r.state !== 'todo' || !r.step) return false; const ev = r.step() && r.step().ev; if (!ev || ev.type !== 'look') return false;
+    const tg = r.target(); if (!tg || !tg.g || !tg.g.visible) return false;
+    tg.g.traverse((m) => { if (m.isInstancedMesh && m.visible) m.computeBoundingBox(); });
+    const box = new THREE.Box3().setFromObject(tg.g); box.expandByScalar(r.exp && r.exp.world ? 1.0 : 0.04);
+    if (box.isEmpty() || !this.ray.ray.intersectsBox(box)) return false;
+    this.pulse(h, 0.5, 40); this.app.lab.emit('look', { obj: tg.id }); return true;
+  }
   owner(o) { while (o) { if (o.userData.item) return o.userData.item; o = o.parent; } return null; }
   // ------------------------------------------------------------ trigger / pinch
   select(h) {
     this.app.audio.unlock();
     if (h.held && h.held.kind === 'match') { this.strike(h, true); return; } // trigger with a match in hand: strike it on the box
     const hit = this.cast(h);
-    if (hit && hit.panel) { const id = hit.panel.hitUV(hit.uv); if (id) { this.pulse(h, 0.4, 30); this.app.audio.tone(900, 0.05, 0.05); this.app.ui.vrClick(id); } return; }
+    if (hit && hit.panel) { const id = hit.panel.hitUV(hit.uv); if (id) { this.pulse(h, 0.4, 30); this.app.audio.tone(900, 0.05, 0.05); this.app.ui.vrClick(id); } else this.aimWorld(h); return; } // a bare spot of a board: the activity just in front of it may be meant
     // with hand tracking, a pinch close to an object picks it up
+    if (!(h.src && h.src.hand) && this.lookStep(h)) return;
     if (!(h.src && h.src.hand) && hit && hit.item && this.isHandle(hit.item) && this.rayGrab(h, hit.item, hit.d, 'sel')) return;
     if (h.src && h.src.hand) { const near = this.nearest(h, 0.06); if (near && near.kind === 'matchbox') { this.takeMatch(h, near); return; } if (near) { this.take(h, near, true); return; } }
     // the ray points at a terminal: wire it (tap one terminal, then another)
-    if (hit && hit.p) { let best = null, bd = 0.025; const v = new THREE.Vector3(); for (const it2 of this.app.lab.items) { if (!it2.terms || !it2.g.visible || it2.kind === 'lead') continue; for (const k in it2.terms) { const t = it2.terms[k]; v.copy(t.local); it2.g.localToWorld(v); const d = v.distanceTo(hit.p); if (d < bd) { bd = d; best = t; } } } if (best) { this.pulse(h, 0.4, 30); this.app.wireTap(best); return; } }
+    // the glowing item of the step itself: the trigger does the step, even near one of its terminals (as a click does on a computer)
+    const tgNow = this.app.runner && this.app.runner.state === 'todo' ? this.app.runner.target() : null;
+    if (hit && hit.p && !(tgNow && hit.item === tgNow)) { let best = null, bd = 0.025; const v = new THREE.Vector3(); for (const it2 of this.app.lab.items) { if (!it2.terms || !it2.g.visible || it2.kind === 'lead') continue; for (const k in it2.terms) { const t = it2.terms[k]; v.copy(t.local); it2.g.localToWorld(v); const d = v.distanceTo(hit.p); if (d < bd) { bd = d; best = t; } } } if (best) { this.pulse(h, 0.4, 30); this.app.wireTap(best); return; } }
     if (!hit || !hit.item) { this.aimWorld(h); return; }
     const r = this.app.runner; const it = hit.item;
     if (it.kind === 'matchbox' && !h.held) { this.takeMatch(h, it); return; } // a match out of the box, into the hand
@@ -157,8 +183,9 @@ export class XRInput {
         if (!it._lighting) { it._lighting = true; this.pulse(h, 0.3, 30); const L = this.app.lang; this.app.ui.toast({ en: 'Lighting it with a match…', hi: 'माचिस की तीली से जला रहे हैं…', hg: 'Maachis ki teeli se jala rahe hain…' }[L] || 'Lighting it with a match…', 2200);
           Promise.resolve(this.app.runner.K.light(it)).catch(() => it.setLit(true)).finally(() => { it._lighting = false; }); }
         return; }
-      it.setLit(!it.lit); this.app.lab.emit(it.lit ? 'lit' : 'unlit', { obj: it.id }); if (it.lit) this.app.audio.whoosh(); this.pulse(h, 0.4, 40);
+      it.setLit(!it.lit); this.app.lab.emit(it.lit ? 'lit' : 'unlit', { obj: it.id }); if (it.lit) this.app.audio.whoosh(); this.pulse(h, 0.4, 40); return;
     }
+    this.aimWorld(h); // something with nothing of its own to do (a weight hanging on the glowing balance): the step's item, if the ray passes it
   }
   // ------------------------------------------------------------ matches
   takeMatch(h, box) {

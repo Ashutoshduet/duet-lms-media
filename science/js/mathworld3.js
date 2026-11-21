@@ -167,10 +167,14 @@ export function liftButton(sym = 1) {
   it.height = 0.07; it.radius = 0.04; it.grabY = 0; it.base = 0; return it;
 }
 // joins the buttons to the lift; buttons work in the given steps
-export function bindLiftHands(lift, up, down, app, steps = [1, 2, 3]) {
+export function bindLiftHands(lift, up, down, app, steps = [1, 2, 3], goals = {}) {
   const on = () => steps.some((i) => stepNow(app, i)) && !lift.busy;
   pushKnob(up, { path: () => lift.btnPath(1), active: on, keepVisible: () => true, press: () => lift.press(1) });
   pushKnob(down, { path: () => lift.btnPath(-1), active: on, keepVisible: () => true, press: () => lift.press(-1) });
+  // the trigger aimed at the lift itself (a headset): the button that goes towards the step's floor, one floor per pull
+  const goal = () => { for (const i of steps) if (stepNow(app, i)) return goals[i] ?? null; return null; };
+  up.poke = () => { const g = goal(); if (!on() || (g != null && lift.target >= g)) return false; lift.press(1); return true; };
+  down.poke = () => { const g = goal(); if (!on() || (g != null && lift.target <= g)) return false; lift.press(-1); return true; };
 }
 
 // ------------------------------------------------------------------ Class 7: a peek beyond the point, inside a ruler
@@ -333,6 +337,8 @@ export function bindFoldHands(sheet, beyond, foldKnob, lever, app, s = { f1: 1, 
   handle(foldKnob, { path: () => sheet.foldPath(), active: () => (stepNow(app, s.f1) && sheet.folds < 1) || (stepNow(app, s.f2) && sheet.folds < 4), keepVisible: () => app.runner.i <= s.f2 && sheet.folds < 4,
     move: (k) => { if (wait) return; fk = Math.max(fk, k); const f = sheet.folds; sheet.fold(fk > 0.93 ? 1 : fk); if (sheet.folds !== f) { fk = 0; wait = true; } }, at: () => sheet.foldKnob(fk) });
   const r0 = foldKnob.onRelease; foldKnob.onRelease = () => { r0(); wait = false; fk = sheet.k; }; // the next fold needs a fresh grip
+  // the trigger aimed at the sheet (a headset): one whole fold per pull
+  foldKnob.poke = () => { if (!((stepNow(app, s.f1) && sheet.folds < 1) || (stepNow(app, s.f2) && sheet.folds < 4)) || sheet.slide) return false; wait = false; fk = 1; sheet.fold(1); fk = 0; wait = false; return true; };
   const n0 = sheet.fold; sheet.fold = (k) => { n0(k); if (!foldKnob.held) foldKnob.g.position.copy(sheet.foldKnob(sheet.k)); };
   const u0 = sheet.update; sheet.update = (dt) => { u0(dt); if (!foldKnob.held && sheet.slide) foldKnob.g.position.copy(sheet.foldKnob(0)); if (sheet.onFoldDone) { const f = sheet.folds; if (f !== sheet._seen) { sheet._seen = f; done.fold && done.fold(f); } } };
   sheet.onFoldDone = true; sheet._seen = 0;

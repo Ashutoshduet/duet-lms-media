@@ -17,7 +17,11 @@ const M = (c, r = 0.6, m = 0, e = 0) => new THREE.MeshStandardMaterial({ color: 
 export function slideKnob(knob, o) {
   handle(knob, { path: o.path, active: o.active, keepVisible: o.keepVisible, move: (k) => o.set(k), at: () => { const [A, B] = o.path(); return A.clone().lerp(B, clamp01(o.k())); } });
   knob.g.position.copy(o.path()[0].clone().lerp(o.path()[1], clamp01(o.k())));
-  knob.poke = () => { if (!o.active()) return false; const k = clamp01(o.k() + 0.34); o.set(k > 0.97 ? 1 : k); if (!knob.held) { const [A, B] = o.path(); knob.g.position.copy(A.clone().lerp(B, clamp01(o.k()))); } return true; }; // the trigger aimed at the activity (a headset)
+  knob.poke = () => { if (!o.active()) return false; const k0 = clamp01(o.k()); if (k0 >= 0.97) knob._dir = -1; else if (k0 <= 0.03) knob._dir = 1; // at one end it goes back the other way (a step may want it moved back)
+    const g = o.goal ? o.goal() : null; // a step that wants one setting (a mirror at 45°): the trigger goes there, a third of the way at most each time
+    if (g != null && Math.abs(g - k0) < 1e-3) return false; // already there: the next thing (a lever) is meant
+    const st = typeof o.pokeStep === 'function' ? o.pokeStep() : o.pokeStep ?? 0.34;
+    const k = g != null ? (Math.abs(g - k0) <= st ? g : k0 + st * Math.sign(g - k0)) : clamp01(k0 + 0.34 * (knob._dir || 1)); o.set(g != null ? k : k > 0.97 ? 1 : k < 0.03 ? 0 : k); if (!knob.held) { const [A, B] = o.path(); knob.g.position.copy(A.clone().lerp(B, clamp01(o.k()))); } return true; }; // the trigger aimed at the activity (a headset)
   return () => { if (!knob.held) { const [A, B] = o.path(); knob.g.position.copy(A.clone().lerp(B, clamp01(o.k()))); } };
 }
 // a post with a letter on it (points of a figure on the ground)
@@ -62,7 +66,8 @@ export function tileFloor(o = {}) {
 export function bindTileHands(tf, knob, app, s = { tryS: 1, best: 2 }, done = {}) {
   const tried = new Set();
   const sync = slideKnob(knob, { path: () => tf.knobPath(), active: () => stepNow(app, s.tryS) || (stepNow(app, s.best) && tf.size !== 120), keepVisible: () => app.runner.i >= s.tryS && app.runner.i <= s.best,
-    k: () => tf.kOf(tf.size), set: (k) => { const cm = tf.sizes[Math.round(k * (tf.sizes.length - 1))]; tf.setSize(cm); if (stepNow(app, s.tryS)) { tried.add(cm); if (tried.size >= 4) done.tried && done.tried(); } } });
+    k: () => tf.kOf(tf.size), goal: () => (stepNow(app, s.tryS) ? tf.kOf(tf.sizes[(tf.sizes.indexOf(tf.size) + 1) % tf.sizes.length]) : stepNow(app, s.best) ? tf.kOf(120) : null), pokeStep: 1, // the trigger: the next size, then the best
+    set: (k) => { const cm = tf.sizes[Math.round(k * (tf.sizes.length - 1))]; tf.setSize(cm); if (stepNow(app, s.tryS)) { tried.add(cm); if (tried.size >= 4) done.tried && done.tried(); } else if (stepNow(app, s.best) && cm === 120 && !knob.held) done.best && done.best(); } });
   const r0 = knob.onRelease; knob.onRelease = () => { r0(); if (stepNow(app, s.best) && tf.size === 120) done.best && done.best(); };
   const s0 = tf.setSize; tf.setSize = (cm) => { s0(cm); sync(); };
 }
@@ -133,7 +138,7 @@ export function bptTriangle(o = {}) {
 export function bindBptHands(bt, knob, app, s = { half: 1, two: 2 }, done = {}) {
   const goal = () => (stepNow(app, s.half) ? 0.5 : stepNow(app, s.two) ? 2 / 3 : null);
   const sync = slideKnob(knob, { path: () => bt.knobPath(), active: () => goal() != null && Math.abs(bt.t - goal()) > 1e-4, keepVisible: () => app.runner.i >= s.half && app.runner.i <= s.two,
-    k: () => bt.kOf(bt.t), set: (k) => { const G = goal(); if (G == null) return; let t = 0.15 + 0.7 * clamp01(k); if (Math.abs(t - G) < 0.025) t = G; bt.setT(t); if (t === G) done.reach && done.reach(G); } });
+    k: () => bt.kOf(bt.t), goal: () => (goal() == null ? null : (goal() - 0.15) / 0.7), set: (k) => { const G = goal(); if (G == null) return; let t = 0.15 + 0.7 * clamp01(k); if (Math.abs(t - G) < 0.025) t = G; bt.setT(t); if (t === G) done.reach && done.reach(G); } });
   const s0 = bt.setT; bt.setT = (t) => { s0(t); sync(); };
 }
 
