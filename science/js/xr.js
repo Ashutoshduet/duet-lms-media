@@ -115,8 +115,11 @@ export class XRInput {
   // the trigger aimed at the step's glowing world (a big scene that has no parts to touch): a handle to pull, if there is one, or the step itself
   aimWorld(h) {
     const r = this.app.runner; if (!r || r.state !== 'todo' || !r.target) return false; const tg = r.target(); if (!tg || !tg.g || !tg.g.visible) return false;
-    if (tg.hitMeshes && tg.hitMeshes().length) return false;
-    const box = new THREE.Box3().setFromObject(tg.g); if (box.isEmpty() || !this.ray.ray.intersectsBox(box)) return false;
+    // in a real place (a world activity) the whole scene is the activity: the ray only has to go towards it (a metre around it);
+    // on the lab bench only a target with nothing of its own to touch, and only when the ray meets it
+    const world = !!(r.exp && r.exp.world); if (!world && tg.hitMeshes && tg.hitMeshes().length) return false;
+    const box = new THREE.Box3().setFromObject(tg.g); if (world) box.expandByScalar(1.0);
+    if (box.isEmpty() || !this.ray.ray.intersectsBox(box)) return false;
     const knobs = this.app.lab.items.filter((it) => this.isHandle(it) && !it.held && it.update);
     for (const k of knobs) if (k.poke && k.poke()) { this.pulse(h, 0.5, 40); this.app.audio.clink(); return true; } // a lever: one push per trigger (a knob not in use yet lets the step go on)
     const knob = knobs.find((k) => !k.poke);
