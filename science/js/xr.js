@@ -114,7 +114,11 @@ export class XRInput {
   }
   // the trigger aimed at the step's glowing world (a big scene that has no parts to touch): a handle to pull, if there is one, or the step itself
   aimWorld(h) {
-    const r = this.app.runner; if (!r || r.state !== 'todo' || !r.target) return false; const tg = r.target(); if (!tg || !tg.g || !tg.g.visible) return false;
+    const r = this.app.runner; if (!r || !r.target) return false;
+    if (r.state === 'done' && r.exp && r.exp.world) { // the step is done: say how to go on (the trigger in the air did nothing before)
+      const L = this.app.lang, N = `“${this.app.ui.t('next')} ›”`; this.pulse(h, 0.15, 15);
+      this.app.ui.toast({ en: `Done ✓ — press ${N} on the board to go on.`, hi: `हो गया ✓ — आगे के लिए बोर्ड पर ${N} दबाइए।`, hg: `Ho gaya ✓ — aage ke liye board par ${N} dabaiye.` }[L] || `Done ✓ — press ${N} on the board to go on.`, 2600); return true; }
+    if (r.state !== 'todo') return false; const tg = r.target(); if (!tg || !tg.g || !tg.g.visible) return false;
     // in a real place (a world activity) the whole scene is the activity: the ray only has to go towards it (a metre around it);
     // on the lab bench only a target with nothing of its own to touch, and only when the ray meets it
     const world = !!(r.exp && r.exp.world); if (!world && tg.hitMeshes && tg.hitMeshes().length) return false;

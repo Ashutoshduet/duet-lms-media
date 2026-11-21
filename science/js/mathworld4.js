@@ -42,6 +42,7 @@ export function turnKnob(knob, o) {
     if (knob.held === 'pointer') knob.g.position.copy(o.at());
   };
   knob.onRelease = () => { last = null; const p0 = knob.g.position.clone(); let n = 0; const step = () => { n++; const e = Math.min(1, n / 12); knob.g.position.lerpVectors(p0, o.at(), e); if (e < 1 && !knob.held) requestAnimationFrame(step); }; step(); };
+  knob.poke = () => { if (!o.active()) return false; o.move(45); if (!knob.held) knob.g.position.copy(o.at()); return true; }; // the trigger aimed at the activity (a headset): an eighth of a turn
   knob.g.position.copy(o.at());
 }
 
