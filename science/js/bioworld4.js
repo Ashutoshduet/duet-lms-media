@@ -351,8 +351,8 @@ export function snowTrees(o = {}) {
 // the tip handle sets the angle in the two "set the branch" steps; the snow knob lets it snow in the two "snow" steps
 export function bindSnow(sn, tip, knob, app, s, done = {}) {
   const angOK = (i) => (i === s.flat ? sn.ang <= 15 : sn.ang >= 40);
-  slideKnob(tip, { path: () => sn.tipPath(), active: () => (stepNow(app, s.flat) || stepNow(app, s.slope)) && !sn.snowing, keepVisible: () => app.runner.i === s.flat || app.runner.i === s.slope, k: () => sn.ang / 60,
-    set: (k) => { sn.setAng(Math.round(k * 60)); } });
+  slideKnob(tip, { path: () => sn.tipPath(), active: () => (stepNow(app, s.flat) || stepNow(app, s.slope)) && !sn.snowing, keepVisible: () => app.runner.i === s.flat || app.runner.i === s.slope, k: () => sn.ang / 60, goal: () => (stepNow(app, s.flat) ? 0 : stepNow(app, s.slope) ? 50 / 60 : null), // the trigger: level, then sloping down
+    set: (k) => { sn.setAng(Math.round(k * 60)); const i = app.runner.i; if (!tip.held && (stepNow(app, s.flat) || stepNow(app, s.slope)) && angOK(i) && done.set) done.set(i); } });
   const t0 = tip.onRelease; tip.onRelease = () => { t0 && t0(); const i = app.runner.i; if ((stepNow(app, s.flat) || stepNow(app, s.slope)) && angOK(i) && done.set) done.set(i); };
   const s0 = sn.setAng; sn.setAng = (a) => { s0(a); if (!tip.held) { const [A, B] = sn.tipPath(); tip.g.position.copy(A.clone().lerp(B, sn.ang / 60)); } };
   pushKnob(knob, { path: () => [V(0.25, 1.0, -0.62), V(0.25, 1.0, -0.42)], active: () => (stepNow(app, s.snow1) || stepNow(app, s.snow2)) && !sn.snowing, keepVisible: () => app.runner.i === s.snow1 || app.runner.i === s.snow2,
