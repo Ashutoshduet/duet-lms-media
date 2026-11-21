@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { Item } from './apparatus.js';
 import { canvasTex } from './mats.js';
 import { lerp, clamp01 } from './mathlab2.js';
-import { glow, rod, setRod, arc, rightMark, handle } from './mathworld.js';
+import { glow, rod, setRod, arc, rightMark, handle, inVR } from './mathworld.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
@@ -32,7 +32,7 @@ export function turnKnob(knob, o) {
   const u0 = knob.update;
   knob.update = (dt, t) => {
     if (u0) u0(dt, t);
-    const on = o.active(); knob.g.visible = on || !!o.keepVisible?.();
+    const on = o.active(), vis = on || !!o.keepVisible?.(); knob.inUse = vis; knob.g.visible = vis && !(knob.kind === 'wpull' && inVR());
     if (knob.pulse) knob.pulse.scale.setScalar(1 + 0.25 * Math.sin((t || performance.now() / 1000) * 5) * (on && !knob.held ? 1 : 0));
     if (!knob.held || !on) { last = null; return; }
     const p = knob.g.position; if (Math.hypot(p.x - o.centre.x, p.z - o.centre.z) < 0.12) return;

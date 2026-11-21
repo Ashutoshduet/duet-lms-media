@@ -541,6 +541,8 @@ export function grainScene(o = {}) {
 // A handle is an item the student grabs (mouse drag, or a hand / controller in the headset) and moves along a path from A
 // to B; how far along it is (k, 0…1) drives the activity. With the mouse it stays on the path; in a hand it follows the hand
 // and k comes from the nearest point of the path. Let go: it stays where the work has got to.
+// in the headset the glowing lever knob is not shown: the trigger aimed at the activity pushes it (xr.js)
+export const inVR = () => { try { const a = typeof window !== 'undefined' && window.app; return !!(a && a.renderer && a.renderer.xr && a.renderer.xr.isPresenting); } catch (e) { return false; } };
 export function handle(it, o) {
   const v = V(0, 0, 0), ab = V(0, 0, 0), ap = V(0, 0, 0);
   it.noGrab = false; it.noPhys = true; it.k = 0; it.dragLift = 0; // the mouse moves it at its own height, so it stays under the pointer
@@ -549,7 +551,7 @@ export function handle(it, o) {
   const upd0 = it.update;
   it.update = (dt, t) => {
     if (upd0) upd0(dt, t);
-    const on = o.active(); it.g.visible = on || !!o.keepVisible?.();
+    const on = o.active(), vis = on || !!o.keepVisible?.(); it.inUse = vis; it.g.visible = vis && !(it.kind === 'wpull' && inVR()); // in the headset the trigger does it: no knob to find
     if (it.pulse) it.pulse.scale.setScalar(1 + 0.25 * Math.sin((t || performance.now() / 1000) * 5) * (on && !it.held ? 1 : 0));
     if (!it.held || !on) return;
     if (it.held === 'pointer' && it._set && it.g.position.distanceToSquared(it._set) < 1e-10) return; // the mouse has not moved

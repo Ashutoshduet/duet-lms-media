@@ -124,11 +124,11 @@ export class XRInput {
     const world = !!(r.exp && r.exp.world); if (!world && tg.hitMeshes && tg.hitMeshes().length) return false;
     const box = new THREE.Box3().setFromObject(tg.g); if (world) box.expandByScalar(1.0);
     if (box.isEmpty() || !this.ray.ray.intersectsBox(box)) return false;
-    const knobs = this.app.lab.items.filter((it) => this.isHandle(it) && !it.held && it.update);
+    const knobs = this.app.lab.items.filter((it) => it.isKnob && (it.inUse ?? it.g.visible) && !it.held && it.update && !it.broken);
     for (const k of knobs) if (k.poke && k.poke()) { this.pulse(h, 0.5, 40); this.app.audio.clink(); return true; } // a lever: one push per trigger (a knob not in use yet lets the step go on)
     const knob = knobs.find((k) => !k.poke);
     const L = this.app.lang;
-    if (knob && !knob.poke && knob.pulse) { this.app.ui.toast({ en: 'Point at the glowing yellow knob, hold the trigger and move your hand.', hi: 'चमकती पीली घुंडी की ओर इशारा कीजिए, ट्रिगर दबाए रखिए और हाथ घुमाइए।', hg: 'Chamakti peeli knob ki taraf point kijiye, trigger dabaye rakhiye aur haath ghumaiye.' }[L] || 'Point at the glowing yellow knob, hold the trigger and move your hand.', 3600); this.pulse(h, 0.3, 30); return true; }
+    if (knob && !knob.poke && knob.pulse) { this.app.ui.toast({ en: 'Point at the glowing part, hold the trigger and move your hand.', hi: 'चमकते हिस्से की ओर इशारा कीजिए, ट्रिगर दबाए रखिए और हाथ घुमाइए।', hg: 'Chamakte hisse ki taraf point kijiye, trigger dabaye rakhiye aur haath ghumaiye.' }[L] || 'Point at the glowing part, hold the trigger and move your hand.', 3600); this.pulse(h, 0.3, 30); return true; }
     const ev = r.step() && r.step().ev;
     if (ev && ev.type === 'look') { this.pulse(h, 0.5, 40); this.app.lab.emit('look', { obj: tg.id }); return true; } // looking at it: done by the student
     if (knobs.length) { this.pulse(h, 0.15, 15); return true; } // a lever that is busy (a toy still rolling): wait, the student does this step by hand
@@ -270,6 +270,11 @@ export class XRInput {
     if (!this.app.renderer.xr.isPresenting) return;
     const lab = this.app.lab; const ui = this.app.ui;
     this.walk(dt);
+    // a step done with a lever: say once, on the board, that the trigger does it
+    { const r = this.app.runner, key = r && r.exp && r.state === 'todo' ? r.exp.id + ':' + r.i : null;
+      if (key && key !== this._hintKey && lab.items.some((it) => it.isKnob && it.inUse && it.poke && it.kind === 'wpull')) {
+        this._hintKey = key; const L = this.app.lang;
+        ui.toast({ en: 'Point at the activity and pull the trigger: each pull does it once.', hi: 'गतिविधि की ओर इशारा करके ट्रिगर दबाइए: हर बार दबाने पर एक बार होगा।', hg: 'Activity ki taraf point karke trigger dabaiye: har baar dabane par ek baar hoga.' }[L] || 'Point at the activity and pull the trigger: each pull does it once.', 5000); } }
     for (const h of this.hands) {
       if (!h.src) continue;
       // hand speed and spin (for throwing what it lets go of)
