@@ -104,6 +104,13 @@ export class App {
     this.loadVoice();
     document.fonts && document.fonts.ready.then(() => { this.boardFor(this.runner.exp); this.ui.dirty = true; });
     r.setAnimationLoop(() => this.frame());
+    // in the headset some browsers stop the page's own animation frames: small moves (an item flying to its place, a knob
+    // springing back) would then never end. While in VR and those frames have stopped, the headset's frames run them.
+    { const raf0 = window.requestAnimationFrame.bind(window), caf0 = window.cancelAnimationFrame.bind(window), pend = new Map(); let seq = 0, lastReal = performance.now();
+      window.requestAnimationFrame = (cb) => { const id = ++seq; const rid = raf0((t) => { lastReal = performance.now(); if (pend.delete(id)) cb(t); }); pend.set(id, { cb, rid }); return id; };
+      window.cancelAnimationFrame = (id) => { const e = pend.get(id); if (e) { pend.delete(id); caf0(e.rid); } };
+      this.pumpRaf = () => { if (!pend.size || !r.xr.isPresenting) return; const now = performance.now(); if (now - lastReal < 150) return; // the page's frames still run
+        for (const [id, e] of [...pend]) { pend.delete(id); try { e.cb(now); } catch (err) { console.error(err); } } }; }
     window.app = this;
     try { this.questFade = installQuestFade(this); } catch (e) { console.warn(e); } // Meta Quest: black while an experiment loads
     this.boot();
@@ -538,6 +545,7 @@ export class App {
   // ------------------------------------------------------------ the loop
   frame() {
     const dt = Math.min(0.05, this.clock.getDelta()); this.t += dt; LIQ_TIME.value = this.t;
+    if (this.pumpRaf) this.pumpRaf();
     if (this.cls) { try { this.cls.frame(dt); } catch (e) {} } // the classroom link first: nothing later in the frame can stop it (the picture for the teacher's page draws the scene itself)
     if (LITE && (this._shN = (this._shN || 0) + 1) % 3 === 1) this.renderer.shadowMap.needsUpdate = true;
     const xr = this.renderer.xr.isPresenting; const px = this.pxr && this.pxr.on; const vrUI = xr || (px && this.pxr.box);
