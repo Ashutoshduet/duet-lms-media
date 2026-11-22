@@ -25,7 +25,7 @@ window.duetMergeStatic=function(g){const T=THREE;g.updateMatrixWorld(true);const
       mg.computeBoundingSphere();const m=new T.Mesh(mg,list[0].material);m.castShadow=list[0].castShadow;m.receiveShadow=list[0].receiveShadow;m.renderOrder=list[0].renderOrder;g.add(m);
       list.forEach(o=>o.parent.remove(o))}};
 </script>
-<script src="duetgate.js"></script><script>DuetGate.init({app:"space",title:"Solar System 360",demo:{en:"The 3D Solar System, Earth and the Moon",hi:"3D सौरमंडल, पृथ्वी और चंद्रमा",hg:"3D Solar System, Earth aur Moon"}})</script>
+<script src="duetgate.js"></script><script>DuetGate.init({app:"space",title:"Solar System 360",noStart:/[?&]app=mr\b/.test(location.search),demo:{en:"The 3D Solar System, Earth and the Moon",hi:"3D सौरमंडल, पृथ्वी और चंद्रमा",hg:"3D Solar System, Earth aur Moon"}})</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>

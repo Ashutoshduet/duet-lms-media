@@ -102,7 +102,7 @@
       this.o = o || {}; this.app = this.o.app; this.lang = () => { try { const l = this.o.lang && this.o.lang(); return S.title[l] ? l : 'en'; } catch (e) { return 'en'; } };
       if (this.licence()) { this.state = 'ok'; this.recheck(); return; }
       this.state = 'need'; this.watchSessions();
-      const show = () => { if (this.state === 'need' && !this.active) this.open('start'); };
+      const show = () => { if (this.state === 'need' && !this.active && !this.o.noStart) this.open('start'); }; // noStart: an app that is free (Space Lab MR) opens without the code screen
       const later = () => { if (document.body) show(); else document.addEventListener('DOMContentLoaded', show); };
       // a DUET STEM pen drive gives its own code: no code screen
       schoolCode().then((sc) => (sc ? this.check(sc.code, devOf(sc)).catch(() => null) : null)).then((r) => {
@@ -239,7 +239,7 @@
         v1: new T.Vector3(), v2: new T.Vector3(), q: new T.Quaternion(), m: new T.Matrix4() };
       v.renderer.xr.addEventListener('sessionstart', () => {
         this.session = v.renderer.xr.getSession();
-        if (this.state === 'need' || this.active) { if (!this.active) this.mode = 'start'; this.active = true; this.hideDom(); setTimeout(() => this.vrShow(), 200); }
+        if ((this.state === 'need' && !this.o.noStart) || this.active) { if (!this.active) this.mode = 'start'; this.active = true; this.hideDom(); setTimeout(() => this.vrShow(), 200); }
       });
       v.renderer.xr.addEventListener('sessionend', () => { this.vrHide(true); if (this.active) this.domShow(); });
       if (this.active && this.presenting()) this.vrShow();

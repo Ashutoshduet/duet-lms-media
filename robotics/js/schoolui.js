@@ -14,8 +14,11 @@ import { tx, L } from './i18n.js';
 import { LESSONS, BY_ID } from './lessons.js';
 import { CURRICULUM } from './curriculum.js';
 
+// In a headset (Meta Quest and others, where students aged 10 and over may use the Store app) a student's name stays on
+// the device: no live class by code and no portfolio link, so nothing that names a student is sent anywhere.
+const HEADSET = /OculusBrowser|Quest|Pico|Vive|Wolvic/i.test((typeof navigator !== 'undefined' && navigator.userAgent) || '');
 const S = {
-  me: t3('Me', 'मैं', 'Main'), guest: t3('Sign in', 'नाम लिखिए', 'Naam likhiye'),
+  me: t3('Me', 'मैं', 'Main'), guest: t3('Your name', 'अपना नाम', 'Apna naam'),
   who: t3('Who is learning?', 'कौन सीख रहा है?', 'Kaun seekh raha hai?'),
   whyName: t3('Your name goes on your stars, your certificates and your teacher\'s list. Everything stays on this device unless you join a class.', 'आपका नाम आपके सितारों, प्रमाण-पत्रों और शिक्षक की सूची पर आता है। जब तक आप कक्षा से नहीं जुड़ते, सब कुछ इसी डिवाइस पर रहता है।', 'Aapka naam aapke stars, certificates aur teacher ki list par aata hai. Jab tak aap class join nahi karte, sab isi device par rehta hai.'),
   name: t3('Name', 'नाम', 'Naam'), roll: t3('Roll no.', 'रोल नं.', 'Roll no.'), cls: t3('Class', 'कक्षा', 'Class'), sec: t3('Section', 'सेक्शन', 'Section'),
@@ -157,12 +160,12 @@ export function installSchool(app) {
     const box = sheet(`<h2>👤 ${esc(p.name)}${p.cls ? ` · ${esc(tx(S.cls))} ${esc(p.cls)}${esc(p.sec ? '-' + p.sec : '')}` : ''}${p.roll ? ` · ${esc(tx(S.roll))} ${esc(p.roll)}` : ''}</h2>
       <div class="row"><button class="btn sm" id="sk-edit">✎ ${esc(tx(S.edit))}</button>${others.map((o) => `<button class="btn sm" data-pick="${o.id}">${esc(tx(S.switchTo))}: ${esc(o.name)}</button>`).join('')}<button class="btn sm" id="sk-add">${esc(tx(S.add))}</button></div>
       <div class="grid" style="margin-top:10px"><div class="tile"><b>${T.done}</b><span>${esc(tx(S.done))}</span></div><div class="tile"><b class="stars">${T.stars} ★</b><span>${esc(tx(S.stars))}</span></div><div class="tile"><b>${T.three}</b><span>${esc(tx(S.three))}</span></div><div class="tile"><b>${SC.fmtT(T.t)}</b><span>${esc(tx(S.time))}</span></div></div>
-      <h3>${esc(tx(S.classes))}</h3><div id="sk-cls">${classCards(p)}</div>
+      ${HEADSET ? '' : `<h3>${esc(tx(S.classes))}</h3><div id="sk-cls">${classCards(p)}</div>
       <div class="row"><input id="sk-jc" maxlength="2000" placeholder="${esc(tx(S.joinCode))}" style="width:240px"><button class="btn pri" id="sk-j">${esc(tx(S.joinBtn))}</button><button class="btn" id="sk-scan">${esc(tx(S.scan))}</button></div>
-      ${out ? `<p class="mute">⏳ ${esc(tx(S.waiting, { n: out }))}</p>` : ''}
+      ${out ? `<p class="mute">⏳ ${esc(tx(S.waiting, { n: out }))}</p>` : ''}`}
       <h3>${esc(tx(S.skills))}</h3>${skills}
       <h3>${esc(tx(S.certs))}</h3><div id="sk-certs">${certList(p, R)}</div>
-      <h3>${esc(tx(S.folio))}</h3><p class="mute">${esc(tx(S.folioHow))}</p><div class="row"><button class="btn" id="sk-fc">🔗 ${esc(tx(S.copy))}</button><button class="btn" id="sk-fs">${esc(tx(S.share))}</button></div>
+      ${HEADSET ? '' : `<h3>${esc(tx(S.folio))}</h3><p class="mute">${esc(tx(S.folioHow))}</p><div class="row"><button class="btn" id="sk-fc">🔗 ${esc(tx(S.copy))}</button><button class="btn" id="sk-fs">${esc(tx(S.share))}</button></div>`}
       ${recent ? `<h3>${esc(tx(S.recent))}</h3><table>${recent}</table>` : ''}
       <h3> </h3><label class="row mute" style="font-size:13px"><input type="checkbox" id="sk-ask"${st.opts.askWho ? ' checked' : ''}> ${esc(tx(S.askWho))}</label>
       <p><a href="teacher.html" style="color:#7fd1ff">${esc(tx(S.teacher))}</a></p>
@@ -171,10 +174,12 @@ export function installSchool(app) {
     box.querySelector('#sk-edit').onclick = () => { const b2 = sheet(`<h2>✎ ${esc(p.name)}</h2>${profileForm(p)}`); bindForm(b2, p); };
     box.querySelector('#sk-add').onclick = () => { const b2 = sheet(`<h2>${esc(tx(S.add))}</h2>${profileForm(null)}`); bindForm(b2, null); };
     box.querySelector('#sk-ask').onchange = (e) => { st.opts.askWho = e.target.checked; save(); };
-    box.querySelector('#sk-j').onclick = () => joinByText(box.querySelector('#sk-jc').value);
-    box.querySelector('#sk-jc').onkeydown = (e) => { if (e.key === 'Enter') joinByText(e.target.value); };
-    box.querySelector('#sk-scan').onclick = () => scanSheet(null, (t) => { joinByText(t); return true; });
-    const link = folioLink(p); box.querySelector('#sk-fc').onclick = async () => { await copyText(link); app.toast(tx(S.copied)); }; box.querySelector('#sk-fs').onclick = () => shareText(link, p.name);
+    if (!HEADSET) {
+      box.querySelector('#sk-j').onclick = () => joinByText(box.querySelector('#sk-jc').value);
+      box.querySelector('#sk-jc').onkeydown = (e) => { if (e.key === 'Enter') joinByText(e.target.value); };
+      box.querySelector('#sk-scan').onclick = () => scanSheet(null, (t) => { joinByText(t); return true; });
+      const link = folioLink(p); box.querySelector('#sk-fc').onclick = async () => { await copyText(link); app.toast(tx(S.copied)); }; box.querySelector('#sk-fs').onclick = () => shareText(link, p.name);
+    }
     for (const b of box.querySelectorAll('[data-open]')) b.onclick = () => { closeSheet(); app.openLesson(b.dataset.open); };
     for (const b of box.querySelectorAll('[data-next]')) b.onclick = () => { closeSheet(); app.openLesson(b.dataset.next); };
     for (const b of box.querySelectorAll('[data-hand]')) b.onclick = () => handIn(p, b.dataset.hand);
@@ -241,11 +246,11 @@ export function installSchool(app) {
     box.querySelector('#sk-sv').onclick = () => saveCanvas(cv, `DUET-certificate-${p.name.replace(/\s+/g, '-')}.png`); box.querySelector('#sk-pr').onclick = () => printCanvas(cv, c.what);
   }
   // ------------------------------------------------------------ sending results (live classes)
-  let flushT = 0; function flushSoon() { clearTimeout(flushT); flushT = setTimeout(() => SC.flush(st, save, location.href), 400); }
+  let flushT = 0; function flushSoon() { if (HEADSET) return; clearTimeout(flushT); flushT = setTimeout(() => SC.flush(st, save, location.href), 400); }
   addEventListener('online', flushSoon); setInterval(flushSoon, 120000);
   // ------------------------------------------------------------ ?join=CODE (a teacher's link or QR), and the start
   const Q = new URLSearchParams(location.search); const jq = Q.get('join');
-  if (jq) { history.replaceState(null, '', location.pathname + location.search.replace(/[?&]join=[^&]*/, '').replace(/^&/, '?') + location.hash); setTimeout(() => joinByText(jq.length === 6 ? jq : location.href), 900); }
+  if (jq && !HEADSET) { history.replaceState(null, '', location.pathname + location.search.replace(/[?&]join=[^&]*/, '').replace(/^&/, '?') + location.hash); setTimeout(() => joinByText(jq.length === 6 ? jq : location.href), 900); }
   else if (st.opts.askWho && Object.keys(st.profiles).filter((k) => k !== 'guest').length && !Q.has('test')) setTimeout(() => { st.me = null; renderTop(); openMe(); }, 1200);
   app.school = { get state() { return st; }, get attempt() { return att; }, hint() { if (att && !att.done) att.h++; }, quiz(id, right, n) { const R = st.res[pid()] || (st.res[pid()] = {}); const r = R[id] || (R[id] = { s: 0, sc: 0, t: 0, m: 0, h: 0, d: SC.today(), n: 0 }); r.q = Math.max(r.q || 0, right); r.qn = n; save(); }, challenge() { return !!(att && att.ch && !att.done); }, open: openMe, sheetOpen, reload() { st = SC.load(); renderTop(); } };
 }
