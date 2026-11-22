@@ -74,7 +74,12 @@ export function liteMerge(room) {
   let made = 0;
   for (const G of groups.values()) {
     if (G.list.length < 2) continue;
-    const geos = G.list.map((o) => { const src = o.geometry; const g = new THREE.BufferGeometry(); for (const a of G.attrs) g.setAttribute(a, src.attributes[a].clone()); if (src.index) g.setIndex(src.index.clone());
+    // every attribute as plain 32-bit floats first: a compressed model (KHR_mesh_quantization) keeps its positions as
+    // 16-bit numbers between −1 and 1, and moving it to its place in the room would clip everything beyond 1 m
+    // (the stools at the side benches were squashed into a long board across the front of the bench)
+    const toF = (at) => { const n = at.count, s = at.itemSize, out = new Float32Array(n * s), get = ['getX', 'getY', 'getZ', 'getW'];
+      for (let i = 0; i < n; i++) for (let k = 0; k < s; k++) out[i * s + k] = at[get[k]](i); return new THREE.BufferAttribute(out, s); };
+    const geos = G.list.map((o) => { const src = o.geometry; const g = new THREE.BufferGeometry(); for (const a of G.attrs) g.setAttribute(a, toF(src.attributes[a])); if (src.index) g.setIndex(src.index.clone());
       g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld)); return g; });
     let merged = null; try { merged = mergeGeometries(geos, false); } catch (e) { merged = null; }
     geos.forEach((g) => g.dispose()); if (!merged) continue;
