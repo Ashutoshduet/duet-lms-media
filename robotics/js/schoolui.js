@@ -169,7 +169,7 @@ export function installSchool(app) {
       ${recent ? `<h3>${esc(tx(S.recent))}</h3><table>${recent}</table>` : ''}
       <h3> </h3><label class="row mute" style="font-size:13px"><input type="checkbox" id="sk-ask"${st.opts.askWho ? ' checked' : ''}> ${esc(tx(S.askWho))}</label>
       <p><a href="teacher.html" style="color:#7fd1ff">${esc(tx(S.teacher))}</a></p>
-      <p><a href="https://duetpower.in/duetblox/" target="_blank" rel="noopener" style="color:#9fd17a">🧩 ${esc(tx(S.blox))}</a></p>`, { wide: true });
+      ${HEADSET ? '' : `<p><a href="https://duetpower.in/duetblox/" target="_blank" rel="noopener" style="color:#9fd17a">🧩 ${esc(tx(S.blox))}</a></p>`}`, { wide: true });
     bindPick(box);
     box.querySelector('#sk-edit').onclick = () => { const b2 = sheet(`<h2>✎ ${esc(p.name)}</h2>${profileForm(p)}`); bindForm(b2, p); };
     box.querySelector('#sk-add').onclick = () => { const b2 = sheet(`<h2>${esc(tx(S.add))}</h2>${profileForm(null)}`); bindForm(b2, null); };
