@@ -77,10 +77,17 @@ export function liteMerge(room) {
     // every attribute as plain 32-bit floats first: a compressed model (KHR_mesh_quantization) keeps its positions as
     // 16-bit numbers between −1 and 1, and moving it to its place in the room would clip everything beyond 1 m
     // (the stools at the side benches were squashed into a long board across the front of the bench)
-    const toF = (at) => { const n = at.count, s = at.itemSize, out = new Float32Array(n * s), get = ['getX', 'getY', 'getZ', 'getW'];
+    const toF = (at) => { if (!at.isInterleavedBufferAttribute && !at.normalized && at.array instanceof Float32Array) return at.clone();
+      const n = at.count, s = at.itemSize, out = new Float32Array(n * s), get = ['getX', 'getY', 'getZ', 'getW'];
       for (let i = 0; i < n; i++) for (let k = 0; k < s; k++) out[i * s + k] = at[get[k]](i); return new THREE.BufferAttribute(out, s); };
+    // a mirrored piece (a negative scale) is drawn inside out once its matrix is baked in, unless its triangles are turned round
+    const flip = (g) => {
+      if (g.index) { const a = g.index.array; for (let i = 0; i + 2 < a.length; i += 3) { const t = a[i + 1]; a[i + 1] = a[i + 2]; a[i + 2] = t; } }
+      else for (const at of Object.values(g.attributes)) { const s = at.itemSize, a = at.array; for (let i = 0; i + 2 < at.count; i += 3) for (let k = 0; k < s; k++) { const b = (i + 1) * s + k, c = (i + 2) * s + k, t = a[b]; a[b] = a[c]; a[c] = t; } }
+      const tg = g.attributes.tangent; if (tg && tg.itemSize === 4) for (let i = 3; i < tg.array.length; i += 4) tg.array[i] = -tg.array[i];
+    };
     const geos = G.list.map((o) => { const src = o.geometry; const g = new THREE.BufferGeometry(); for (const a of G.attrs) g.setAttribute(a, toF(src.attributes[a])); if (src.index) g.setIndex(src.index.clone());
-      g.applyMatrix4(new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld)); return g; });
+      const mx = new THREE.Matrix4().multiplyMatrices(inv, o.matrixWorld); g.applyMatrix4(mx); if (mx.determinant() < 0) flip(g); return g; });
     let merged = null; try { merged = mergeGeometries(geos, false); } catch (e) { merged = null; }
     geos.forEach((g) => g.dispose()); if (!merged) continue;
     const m = new THREE.Mesh(merged, G.mat); m.castShadow = G.cast; m.receiveShadow = G.recv; m.userData.ar = G.ar; if (G.noHit) m.userData.noHit = true; m.userData.liteMerged = G.list.length;
