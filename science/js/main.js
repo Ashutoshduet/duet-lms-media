@@ -518,6 +518,12 @@ export class App {
     this.baseRef = this.renderer.xr.getReferenceSpace(); this._hgtT = this.t; this._hgtAuto = store.get('hgt') === null; this.setHeight(+(store.get('hgt') || 0), true);
     this._cam = { p: this.camera.position.clone(), t: this.controls.target.clone() };
     s.addEventListener('end', () => { document.body.classList.remove('in-vr'); this.ui.vr.visible = false; if (Q.get('app') === 'vr') { this._vrEnded = true; document.body.classList.add('xr-wait'); } if (this._cam) { this.camera.position.copy(this._cam.p); this.controls.target.copy(this._cam.t); } });
+    // the first three times in a headset: three short tips on the controller, so a new student needs nobody to explain it
+    if (!overlay) try { const n = +(store.get('xrtips') || 0); if (n < 3) { store.set('xrtips', String(n + 1)); const TIPS = [
+      { en: 'Welcome! Point the controller at a button on the board and pull the trigger (index finger) to press it.', hi: 'स्वागत है! कंट्रोलर को बोर्ड के किसी बटन की ओर कीजिए और ट्रिगर (तर्जनी उँगली) दबाइए।', hg: 'Welcome! Controller ko board ke kisi button ki taraf kijiye aur trigger (pehli ungli) dabaiye.' },
+      { en: 'Point at the glowing thing and pull the trigger to do each step. Squeeze the side grip to pick things up.', hi: 'हर स्टेप के लिए चमकती चीज़ की ओर इशारा करके ट्रिगर दबाइए। चीज़ उठाने के लिए साइड का ग्रिप दबाइए।', hg: 'Har step ke liye chamakti cheez ki taraf ishara karke trigger dabaiye. Cheez uthane ke liye side ka grip dabaiye.' },
+      { en: 'When a step is done, press “Next ›” on the board. Stuck? Press “▶▶ Auto play” and watch.', hi: 'स्टेप पूरा हो जाए तो बोर्ड पर “आगे ›” दबाइए। अटक गए? “▶▶ ऑटो प्ले” दबाकर देखिए।', hg: 'Step ho jaye to board par “Next ›” dabaiye. Atak gaye? “▶▶ Auto play” dabakar dekhiye.' }];
+      TIPS.forEach((t, k) => setTimeout(() => { if (this.renderer.xr.isPresenting) this.ui.toast(t[this.lang] || t.en, 6000); }, 2500 + k * 6500)); } } catch (e) {}
   }
   // the student's eye height in the headset: raise or lower the view (a seated student, a short or tall one); saved on this device
   setHeight(dy, quiet) {

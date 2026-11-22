@@ -16,24 +16,35 @@ from PIL import Image
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 GO = shutil.which('go') or '/usr/local/go/bin/go'
-APPS = {  # id: (name, exe name, port, bundle id)
-    'robotics': ('Robotics Lab 360', 'RoboticsLab360', 8761, 'in.duetstem.roboticslab360.desktop'),
+APPS = {  # id: (name, exe name, port, bundle id); each app its own port, so several can run side by side
+    'robotics':  ('Robotics Lab 360', 'RoboticsLab360', 8761, 'in.duetstem.roboticslab360.desktop'),
+    'science':   ('Science Lab 360', 'ScienceLab360', 8762, 'in.duetstem.sciencelab360.desktop'),
+    'maths':     ('Maths Lab 360', 'MathsLab360', 8763, 'in.duetstem.mathslab360.desktop'),
+    'physics':   ('Physics Lab 360', 'PhysicsLab360', 8764, 'in.duetstem.physicslab360.desktop'),
+    'chemistry': ('Chemistry Lab 360', 'ChemistryLab360', 8765, 'in.duetstem.chemistrylab360.desktop'),
+    'biology':   ('Biology Lab 360', 'BiologyLab360', 8766, 'in.duetstem.biologylab360.desktop'),
+    'body':      ('Human Body 360', 'HumanBody360', 8767, 'in.duetstem.humanbody360.desktop'),
+    'space':     ('Solar System 360', 'SolarSystem360', 8768, 'in.duetstem.solarsystem360.desktop'),
+    'drone':     ('Drone Simulator', 'DroneSimulator', 8769, 'in.duetstem.dronesimulator.desktop'),
 }
 STORED = ('.png', '.jpg', '.jpeg', '.webp', '.woff2', '.mp3', '.mp4', '.webm', '.glb', '.ktx2', '.gz', '.zip')
 
 def payload(tree, app):
     man = json.load(open(os.path.join(tree, app, 'offline.json')))
-    files = [f'{app}/{k}' for k in man['files']] + [f'{app}/offline.json', f'{app}/sw.js']
+    # the one-subject labs and Maths list the Science Lab's shared code as ../science/...: stored at science/... in the payload
+    files = [os.path.normpath(f'{app}/{k}').replace(os.sep, '/') for k in man['files']] + [f'{app}/offline.json', f'{app}/sw.js']
+    key = {os.path.normpath(f'{app}/{k}').replace(os.sep, '/'): k for k in man['files']}
     for extra in ('licences.json', 'support.html'):
         if os.path.exists(os.path.join(tree, extra)): files.append(extra)
+    files = list(dict.fromkeys(files))  # ../licences.json in a list is the same file as licences.json
     buf = io.BytesIO(); n = 0
     with zipfile.ZipFile(buf, 'w') as z:
         for rel in files:
             p = os.path.join(tree, rel)
             if not os.path.exists(p): sys.exit(f'missing in the tree: {rel}')
             data = open(p, 'rb').read()
-            if rel.startswith(app + '/') and rel[len(app) + 1:] in man['files']:
-                want = man['files'][rel[len(app) + 1:]][0]
+            if rel in key:
+                want = man['files'][key[rel]][0]
                 if hashlib.sha1(data).hexdigest()[:12] != want: sys.exit(f'{rel}: not the file offline.json lists (build_sw first)')
             zi = zipfile.ZipInfo(rel, date_time=(2026, 1, 1, 0, 0, 0)); zi.external_attr = 0o644 << 16
             zi.compress_type = zipfile.ZIP_STORED if rel.lower().endswith(STORED) else zipfile.ZIP_DEFLATED
