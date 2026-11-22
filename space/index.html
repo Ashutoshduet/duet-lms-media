@@ -2923,7 +2923,7 @@ function SaurXR(stage,menuEl,opt){
     hint3.position.copy(v1).addScaledVector(v2,dist||.85);hint3.position.y-=.12;hint3.lookAt(v1);hint3.visible=true;hintUntil=performance.now()+secs*1000}
   function hideHint(){if(hintUntil-performance.now()>3000)hintUntil=performance.now()+1500}
   const HELP=[["Trigger","open or close a planet card"],["Grip","grab and move the model"],["Thumbstick","make it bigger or smaller"],["A / X","change the speed of time"],["B / Y","bring the model back"]];
-  const HELP_MR=[["Trigger","open a planet card · press a button"],["Grip","grab and move the model"],["Thumbstick","make it bigger or smaller"],["Panel below","speed · bring back · exit"],["A/X · B/Y","speed · bring it back"]];
+  const HELP_MR=[["Trigger / pinch","open a planet card · press a button"],["Panel below","speed · − smaller · + bigger · bring back · exit"],["Grip","grab and move the model"],["Thumbstick","make it bigger or smaller"],["A/X · B/Y","speed · bring it back"]];
 
   /* ---------- leaving: end the immersive view; in the Quest apps (?app=) also go back to the home screen ---------- */
   function exitApp(){const s=R.xr.getSession();if(s){try{s.end()}catch(e){}}else if(mode!=="preview")exitLook();
@@ -2931,21 +2931,22 @@ function SaurXR(stage,menuEl,opt){
       setTimeout(()=>{if(document.visibilityState==="visible")location.href="intent:#Intent;action=android.intent.action.MAIN;category=android.intent.category.HOME;end"},1200)}}
 
   /* ---------- mixed reality control bar (web pages are not visible inside the headset) ---------- */
-  const BAR=[["speed",""],["back","↺  BRING BACK"],["exit","⏻  EXIT"]],BW=1200,BH=200;
+  // the panel under the model in mixed reality: every action also works with a pinch of bare hands (no grip or thumbstick needed)
+  const BAR=[["speed","",330],["small","−",150],["big","+",150],["back","↺  BRING BACK",350],["exit","⏻  EXIT",260]],BH=200;let BW=24;BAR.forEach(b=>{b[3]=BW;BW+=b[2]+24});
   const bc=document.createElement("canvas");bc.width=BW;bc.height=BH;const btex=new T.CanvasTexture(bc);btex.encoding=T.sRGBEncoding;
-  const bar=new T.Mesh(new T.PlaneGeometry(.6,.1),new T.MeshBasicMaterial({map:btex,transparent:true,depthWrite:false,side:T.DoubleSide}));bar.visible=false;bar.renderOrder=30;S.add(bar);
+  const bar=new T.Mesh(new T.PlaneGeometry(.6*BW/1200,.1),new T.MeshBasicMaterial({map:btex,transparent:true,depthWrite:false,side:T.DoubleSide}));bar.visible=false;bar.renderOrder=30;S.add(bar);
   let barHover=null;
   function drawBar(){const g=bc.getContext("2d");g.clearRect(0,0,BW,BH);rr(g,4,4,BW-8,BH-8,40);g.fillStyle="rgba(8,10,20,.86)";g.fill();g.lineWidth=4;g.strokeStyle="#ffb347";g.stroke();
-    BAR.forEach(([id,l],i)=>{const x=24+i*392,w=368,hv=barHover===id,ex=id==="exit";rr(g,x,24,w,152,30);
+    BAR.forEach(([id,l,w,x])=>{const hv=barHover===id,ex=id==="exit";rr(g,x,24,w,152,30);
       g.fillStyle=ex?(hv?"#ffd08a":"#ffb347"):(hv?"rgba(255,255,255,.24)":"rgba(255,255,255,.08)");g.fill();g.lineWidth=hv?6:2;g.strokeStyle=hv?"#ffffff":"rgba(255,255,255,.3)";g.stroke();
       g.fillStyle=ex?"#14100a":"#ece7da";g.textAlign="center";g.textBaseline="middle";
       if(id==="speed"){g.font='600 30px "IBM Plex Mono", ui-monospace, monospace';g.fillStyle="#a4a7ba";g.fillText("SPEED OF TIME",x+w/2,66);g.fillStyle="#ece7da";g.font='700 46px "IBM Plex Sans", system-ui, sans-serif';g.fillText(SPEEDS[sp][1].toUpperCase(),x+w/2,122)}
-      else{g.font='700 50px "IBM Plex Sans", system-ui, sans-serif';g.fillText(l,x+w/2,102)}});
+      else{g.font=(id==="small"||id==="big"?"700 96px":"700 50px")+' "IBM Plex Sans", system-ui, sans-serif';g.fillText(l,x+w/2,id==="small"||id==="big"?106:102)}});
     g.textAlign="left";g.textBaseline="alphabetic";btex.needsUpdate=true}
-  function barHit(rc){if(!bar.visible)return null;bar.updateMatrixWorld();const h=rc.intersectObject(bar,false)[0];if(!h)return null;const x=h.uv.x*BW,i=Math.floor((x-24)/392);return i>=0&&i<BAR.length&&(x-24-i*392)<=368?BAR[i][0]:null}
+  function barHit(rc){if(!bar.visible)return null;bar.updateMatrixWorld();const h=rc.intersectObject(bar,false)[0];if(!h)return null;const x=h.uv.x*BW,b=BAR.find(b=>x>=b[3]&&x<=b[3]+b[2]);return b?b[0]:null}
   function placeBar(){cam.getWorldPosition(v1);cam.getWorldDirection(v2);v2.y=0;if(v2.lengthSq()<1e-4)v2.set(0,0,-1);v2.normalize();
     bar.position.copy(v1).addScaledVector(v2,.62);bar.position.y=v1.y-.38;bar.lookAt(v1);bar.visible=true;drawBar()}
-  function barPress(id){if(id==="speed")cycleSpeed();else if(id==="back"){frontPlacement();placeBar()}else if(id==="exit"){exitApp();return}drawBar()}
+  function barPress(id){if(id==="speed")cycleSpeed();else if(id==="small"||id==="big"){if(W.visible)W.scale.setScalar(Math.min(baseScale*4,Math.max(baseScale*.25,W.scale.x*(id==="big"?1.25:.8))))}else if(id==="back"){frontPlacement();placeBar()}else if(id==="exit"){exitApp();return}drawBar()}
   function ctrlRay(c){tm.identity().extractRotation(c.matrixWorld);ray.ray.origin.setFromMatrixPosition(c.matrixWorld);ray.ray.direction.set(0,0,-1).applyMatrix4(tm);return ray}
 
   /* ---------- speed ---------- */
@@ -3089,7 +3090,7 @@ function SaurXR(stage,menuEl,opt){
     if(!menuEl)return;
     const lab={ok:"Ready",wait:"Checking…",no:"Not on this device",host:"Needs your website",https:"Needs https://",app:"Opens the VR app",appmr:"Opens the MR app",chrome:"Opens in Chrome (internet)",box:"In the app: use Phone VR box ↓"};
     menuEl.innerHTML=MODES.map(m=>{const s0=st[m.id],ok=s0==="ok"||s0==="app"||s0==="chrome";return `<button type="button" class="xr-mode" data-mode="${m.id}" ${ok?"":"disabled"}><b>${m.t}</b><span class="xr-st ${ok?"ok":""}">${lab[s0==="app"&&m.id==="ar"?"appmr":s0]}</span><span class="d">${m.d}</span></button>`}).join("")+
-      (QUEST?`<p class="xr-ctrls"><b>VR Space Lab:</b> a lobby with the DUET STEM Solar System and Rocket Shala. Point and pull the trigger, or pinch with your fingers · left stick fly · right stick turn · hold the trigger on empty space to fly that way · B back · Y hand menu (lobby, narration English / हिंदी / off)<br><b>Mixed reality:</b> trigger open a planet · grip move · thumbstick resize · A/X speed · B/Y bring it back · Meta button: exit</p>`:"");
+      (QUEST?`<p class="xr-ctrls"><b>VR Space Lab:</b> a lobby with the DUET STEM Solar System and Rocket Shala. Point and pull the trigger, or pinch with your fingers · left stick fly · right stick turn · hold the trigger on empty space to fly that way · B back · Y hand menu (lobby, narration English / हिंदी / off)<br><b>Mixed reality:</b> trigger or pinch: open a planet · the panel below it: speed, − smaller, + bigger, bring back, exit (works with bare hands) · grip move · thumbstick resize · A/X speed · B/Y bring it back</p>`:"");
   }
   if(menuEl)menuEl.addEventListener("click",e=>{const b=e.target.closest("[data-mode]");if(!b||b.disabled)return;const m=b.dataset.mode;if(st[m]==="app"){openXRApp(m==="ar"?"mr":"vr");return}if(st[m]==="chrome"){openInChromeAR();return}if(m==="ar"||m==="vr")startXR(m,e.isTrusted);else enterLook(m)});
   renderMenu();
