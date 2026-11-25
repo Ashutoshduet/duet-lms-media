@@ -11,6 +11,7 @@ import { BB, holeAt, stripOf, BOARDS } from './boards.js';
 import { T, t, tx, L, LANGS, msg, SPEC, REGIONS, BOARD_PIN } from './i18n.js';
 import { LESSONS, BY_ID, FREE_CODE } from './lessons.js';
 import { CURRICULUM } from './curriculum.js'; // Class 1-12: the live lessons of each class, in session order (devtools/curriculum)
+import './agegate.js'; // in a headset: Classes 6 to 12 only (users aged 10 and over)
 import { LessonRT } from './lessonrt.js';
 import { Editor } from './editor.js';
 import { Sound } from './audio.js';
