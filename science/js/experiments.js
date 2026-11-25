@@ -385,7 +385,10 @@ export const ALL_EXPERIMENTS = EXPERIMENTS.slice();
 // in a headset (Meta Quest and other standalone headsets) the labs start at Class 6: headsets are for users aged 10 and over
 // (Meta Horizon Store: no app there may be directed at children under 10), so the Class 3 to 5 maths activities stay on
 // phones, tablets, smart panels and computers. The open labs stay.
-export const MIN_CLASS = typeof navigator !== 'undefined' && /OculusBrowser|Quest|Pico|Vive|Wolvic/i.test(navigator.userAgent || '') ? 6 : 1;
+// A headset is known by its browser, or by the installed headset app's own start address (?app=vr), which is remembered
+// for the rest of the visit, so a different browser identity inside the headset app changes nothing.
+const HEADSET_APP = (() => { try { const k = 'duet.headsetApp'; if (new URLSearchParams(location.search).get('app') === 'vr') sessionStorage.setItem(k, '1'); return sessionStorage.getItem(k) === '1'; } catch (e) { return false; } })();
+export const MIN_CLASS = HEADSET_APP || (typeof navigator !== 'undefined' && /OculusBrowser|Quest|Pico|Vive|Wolvic/i.test(navigator.userAgent || '')) ? 6 : 1;
 if (MIN_CLASS > 1) for (let i = EXPERIMENTS.length - 1; i >= 0; i--) { const e = EXPERIMENTS[i]; if (!e.id.startsWith('open_') && e.cls >= 1 && e.cls < MIN_CLASS) EXPERIMENTS.splice(i, 1); }
 EXPERIMENTS.sort((a, b) => a.cls - b.cls); // stable: keeps the book order inside each class
 export const BY_ID = Object.fromEntries(EXPERIMENTS.map((e) => [e.id, e]));
