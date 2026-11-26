@@ -1,0 +1,13 @@
+# DUET STEM LMS media: served the way the GitHub Pages copy was (right file types; pages on another site get
+# Access-Control-Allow-Origin through cors.php, because this server has no mod_headers).
+<IfModule mod_mime.c>
+AddType image/webp .webp
+AddType model/gltf-binary .glb
+AddType text/markdown .md
+</IfModule>
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP:Origin} .
+RewriteCond %{HTTP:Origin} !^https://duetpower\.in$ [NC]
+RewriteRule ^(.+\.(glb|webp|jpe?g|png|svg|js|md))$ cors.php?f=$1 [L,QSA]
+</IfModule>

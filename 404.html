@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DUET STEM</title>
+<script>
+// The LMS lesson videos, walkthroughs and pictures moved to duetpower.in/lms/media/library/ (a full backup stays on the
+// media-archive branch). An old link to one of them lands here and goes straight to the same file on duetpower.in.
+(function () {
+  var p = location.pathname, base = '/duet-lms-media/';
+  if (p.indexOf(base) !== 0) return;
+  var r = p.slice(base.length);
+  if (/^(assets\/|walkthrough\/|[^\/]+\.mp4$)/.test(r)) location.replace('https://duetpower.in/lms/media/library/' + r + location.search + location.hash);
+})();
+</script>
+<style>body{font:16px system-ui,sans-serif;margin:40px;color:#222}a{color:#c46a10}</style>
+</head><body>
+<h1>Page not found</h1>
+<p>DUET STEM lessons: <a href="https://duetpower.in/lms/">duetpower.in/lms</a></p>
+</body></html>
