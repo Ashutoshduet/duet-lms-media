@@ -56,6 +56,7 @@ const (
 type schoolFile struct {
 	Code   string `json:"code"`
 	School string `json:"school"`
+	Open   string `json:"open,omitempty"` // an open drive (owner's own demo drive): hex(HMAC(lockKey, "open|"+code))
 }
 
 type server struct {
@@ -232,6 +233,17 @@ func (s *server) checkLock() {
 	}
 	sum := sha256.Sum256([]byte("duet-dev|" + mid))
 	s.dev = hex.EncodeToString(sum[:])[:24]
+	if sc.Open != "" { // an open drive works on every computer; only a drive built with the lock key carries a valid tag
+		om := hmac.New(sha256.New, []byte(lockKey))
+		om.Write([]byte("open|" + sc.Code))
+		if hmac.Equal([]byte(strings.TrimSpace(sc.Open)), []byte(hex.EncodeToString(om.Sum(nil)))) {
+			s.allowed = true
+			s.schoolJS, _ = json.Marshal(map[string]string{"code": sc.Code, "school": sc.School, "dev": s.dev})
+			fmt.Println("This pen drive works on any computer. · यह पेन ड्राइव किसी भी कंप्यूटर पर चलती है।")
+			return
+		}
+		fmt.Println("(Note: the drive's open tag does not match this program; the drive is tied to its first computer.)")
+	}
 	m := hmac.New(sha256.New, []byte(lockKey))
 	m.Write([]byte(mid + "|" + sc.Code))
 	want := hex.EncodeToString(m.Sum(nil))

@@ -97,6 +97,12 @@ one line about it (English, Hindi), `classes` (Class 6–10 quick links, `?cls=`
   taken for a list. So a withdrawn code stops on a panel that is sometimes online.
 * The lock key: `DUET_PENDRIVE_KEY`, or `~/.config/duet-stem/pendrive-lock.key` (made once at random). It is compiled
   into the launchers (`-X main.lockKey`) and is never in the repo. Without it (`go build` by hand) a dev key is used.
+* **Open drive** (the owner's own demo drive only): `build_pendrive.py … --code CODE --open` with a code of `n: 0`
+  (`duetlic.mjs issue --n 0`, not `--pendrive`). `school.json` then carries `"open"` = hex(HMAC-SHA256(lock key,
+  "open|" + code)); the launcher (same key) skips `.duet-lock`, so the drive starts on any computer and the apps
+  activate by themselves; the guide, `CODE.txt` and `ANDROID/INSTALL.html` say "any computer / any number of
+  devices". A school drive cannot be made open by editing `school.json`: the tag needs the key. Withdraw the code
+  (`duetlic.mjs revoke`) if such a drive is lost.
 * Limits (client-side only): someone who deletes the hidden `.duet-lock`, or copies the drive before its first start,
   can start it on another computer. The online register (the apps' claim with `dev`) is what finally stops a code that
   is used twice, the first time those computers are online.

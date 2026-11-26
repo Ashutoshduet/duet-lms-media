@@ -34,7 +34,7 @@ holds nothing else and a teacher copies or finds a single folder:
 The launcher's lock key (which ties a drive to its first computer) comes from the environment variable
 DUET_PENDRIVE_KEY or the file ~/.config/duet-stem/pendrive-lock.key (made once, at random); it is never in the repo.
 """
-import argparse, datetime, hashlib, html, json, os, re, secrets, shutil, stat, subprocess, sys, tempfile
+import argparse, datetime, hashlib, hmac, html, json, os, re, secrets, shutil, stat, subprocess, sys, tempfile
 sys.dont_write_bytecode = True  # no __pycache__ in the repo from importing pages.py / build_sw.py
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -174,6 +174,7 @@ def main():
     ap.add_argument('outdir'); ap.add_argument('--code', default=''); ap.add_argument('--school', default='')
     ap.add_argument('--apk-dir', default='/mnt/user-data/outputs/apk110'); ap.add_argument('--top', default='DUET-STEM-Smart-Class', help='the one folder on the drive that holds everything'); ap.add_argument('--apps', default='')
     ap.add_argument('--link', action='store_true'); ap.add_argument('--launchers', default=''); ap.add_argument('--force', action='store_true')
+    ap.add_argument('--open', action='store_true', help="the owner's own demo drive: starts on any computer (needs --code; the launchers must be built with the same key)")
     ap.add_argument('--untracked', action='store_true', help='also files not yet in git (a test build before a commit)')
     ap.add_argument('--licences', default=os.path.join(REPO, 'licences.json'), help=argparse.SUPPRESS)  # tests only: another code list
     a = ap.parse_args()
@@ -207,6 +208,9 @@ def main():
         valid_until = ''
         print('No --code: a demo drive (the apps open their free demo, or ask for a code).')
     school = a.school.strip()
+    if a.open and not code: sys.exit('--open needs --code')
+    key = None if a.launchers else lock_key()
+    if a.open and key is None: sys.exit('--open makes its own launchers (no --launchers): the open tag is signed with their key')
 
     # ---------------------------------------------------------------- the web apps
     print('copying the apps…', flush=True)
@@ -225,7 +229,10 @@ def main():
     if os.path.exists(os.path.join(REPO, 'support.html')): put_file(os.path.join(REPO, 'support.html'), os.path.join(web, 'support.html'), False)
     build_id = datetime.datetime.now().strftime('%Y%m%d-%H%M%S') + '-' + secrets.token_hex(4)
     write(os.path.join(web, 'pendrive.json'), json.dumps({'duet': 1, 'id': build_id, 'apps': apps}) + '\n')
-    if code: write(os.path.join(web, 'school.json'), json.dumps({'code': code, 'school': school}, ensure_ascii=False) + '\n')
+    if code:
+        sj = {'code': code, 'school': school}
+        if a.open: sj['open'] = hmac.new(key.encode(), ('open|' + code).encode(), hashlib.sha256).hexdigest()
+        write(os.path.join(web, 'school.json'), json.dumps(sj, ensure_ascii=False) + '\n')
     elif os.path.exists(os.path.join(web, 'school.json')): os.remove(os.path.join(web, 'school.json'))
     for stale in ('.duet-lock', 'licences-last.json'):  # a rebuilt drive starts fresh
         if os.path.lexists(os.path.join(web, stale)): os.chmod(os.path.join(web, stale), 0o644); os.remove(os.path.join(web, stale))
@@ -235,10 +242,12 @@ def main():
     import pages
     write(os.path.join(web, 'index.html'), pages.home(apps))
     guide = pages.guide(code, school, valid_until, apps)
+    if a.open: guide = pages.open_text(guide)
     write(os.path.join(web, 'guide.html'), guide)
     write(os.path.join(out, 'TEACHER-GUIDE.html'), guide)
     if code:
-        write(os.path.join(out, 'CODE.txt'), pages.code_txt(code, school, valid_until).replace('\n', '\r\n'))
+        ct = pages.code_txt(code, school, valid_until)
+        write(os.path.join(out, 'CODE.txt'), (pages.open_text(ct) if a.open else ct).replace('\n', '\r\n'))
     elif os.path.exists(os.path.join(out, 'CODE.txt')): os.remove(os.path.join(out, 'CODE.txt'))
 
     # ---------------------------------------------------------------- Android apps
@@ -248,12 +257,13 @@ def main():
             if f.endswith('.apk') and f.startswith('DUET-'):
                 put_file(os.path.join(a.apk_dir, f), os.path.join(adir, f), a.link); apks.append(f)
     else: print('WARNING: no Android apps (--apk-dir)')
-    write(os.path.join(adir, 'INSTALL.html'), pages.android(apks, code, school))
+    ap_html = pages.android(apks, code, school)
+    write(os.path.join(adir, 'INSTALL.html'), pages.open_text(ap_html) if a.open else ap_html)
 
     # ---------------------------------------------------------------- the launchers
     print('launchers…', flush=True)
     if a.launchers: bins = {dest: os.path.join(a.launchers, os.path.basename(dest)) for _, _, dest in TARGETS}
-    else: bins = build_launchers(lock_key())
+    else: bins = build_launchers(key)
     for dest, b in bins.items():
         if not os.path.exists(b): print('  missing launcher:', b); continue
         put_file(b, os.path.join(out, dest), False)

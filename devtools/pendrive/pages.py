@@ -355,3 +355,29 @@ T="$(mktemp -d)" || exit 1
 trap 'rm -rf "$T"' EXIT INT TERM HUP
 cp "$BIN" "$T/start-duet-stem" && chmod +x "$T/start-duet-stem" && "$T/start-duet-stem" -root "$D/DUET-STEM" "$@"
 '''
+
+
+# an open drive (the owner's own demo drive, build_pendrive.py --open): works on any computer, its code on any number
+# of devices, so the "first computer" sentences change
+OPEN_TEXT = [
+    ('This pen drive works only on the first computer or panel it is started on.', 'This pen drive works on any computer or panel.'),
+    ('यह पेन ड्राइव केवल उसी कंप्यूटर या पैनल पर चलती है जिस पर इसे पहली बार चलाया जाए।', 'यह पेन ड्राइव किसी भी कंप्यूटर या पैनल पर चलती है।'),
+    ('<p class="note">The first time, this computer becomes the pen drive\'s computer. The drive will not open the apps on any other computer.</p>\n', ''),
+    ('<p class="note">पहली बार में यही कंप्यूटर पेन ड्राइव का कंप्यूटर बन जाता है। किसी दूसरे कंप्यूटर पर यह ड्राइव ऐप नहीं खोलेगी।</p>\n', ''),
+    ('The code works without the internet. The first panel it is typed on keeps it: when that panel is ever online it is registered with DUET STEM, and other devices with the same code are refused.', 'The code works without the internet, on any number of panels.'),
+    ('कोड बिना इंटरनेट के चलता है। जिस पैनल पर पहले लिखा जाए, कोड उसी का हो जाता है: वह पैनल जब कभी इंटरनेट से जुड़ेगा, DUET STEM में दर्ज हो जाएगा, और उसी कोड वाले दूसरे डिवाइस मना कर दिए जाएँगे।', 'कोड बिना इंटरनेट के, कितने भी पैनल पर चलता है।'),
+    ("On the pen drive's own computer the apps activate by themselves", 'On any computer the apps activate by themselves'),
+    ('पेन ड्राइव के अपने कंप्यूटर पर ऐप अपने आप चालू होते हैं', 'किसी भी कंप्यूटर पर ऐप अपने आप चालू होते हैं'),
+    ('<dt>The page says "This pen drive is activated on another computer"</dt><dd>The drive works only on its first computer or panel. Use it there, or contact DUET STEM.</dd>\n', ''),
+    ('<dt>पन्ना कहे "This pen drive is activated on another computer"</dt><dd>ड्राइव केवल अपने पहले कंप्यूटर या पैनल पर चलती है। वहीं इस्तेमाल कीजिए, या DUET STEM से संपर्क कीजिए।</dd>\n', ''),
+    ('The code belongs to the first device it is typed on; when that device is ever online it is registered with DUET STEM.', 'The code works on any number of devices.'),
+    ('कोड उसी डिवाइस का हो जाता है जिस पर पहले लिखा जाए; वह डिवाइस जब कभी इंटरनेट से जुड़ेगा, DUET STEM में दर्ज हो जाएगा।', 'यह कोड कितने भी डिवाइस पर चलता है।'),
+    ('activated (on the first computer or panel this pen drive is started on).', 'activated, on any computer or panel.'),
+    ('खुलेंगे (उसी कंप्यूटर या पैनल पर जिस पर यह पेन ड्राइव पहली बार चलाई जाए)।', 'खुलेंगे, किसी भी कंप्यूटर या पैनल पर।'),
+    ('It works without the internet. The first device it is\ntyped on keeps it; when that device is ever online it is registered with\nDUET STEM, and other devices with the same code are refused.', 'It works without the internet, on any number of\ndevices.'),
+]
+
+
+def open_text(s):
+    for a, b in OPEN_TEXT: s = s.replace(a, b)
+    return s
