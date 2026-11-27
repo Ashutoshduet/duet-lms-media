@@ -82,7 +82,7 @@ own hands and, where it makes sense, stands inside the shape.
 | 8 | 4 Quadrilaterals | w8_field_corners | |
 | 8 | 5 Number Play | w8_nine_trick | |
 | 8 | 6 We Distribute, Yet Things Multiply | w8_garden_beds, m8_square_identity | |
-| 8 | 7 Proportional Reasoning-1 | w8_train_speed | |
+| 8 | 7 Proportional Reasoning-1 | w8_train_speed, m8_sharbat_ratio | |
 | 8 | P2 1 Fractions in Disguise | w8_percent_floor | |
 | 8 | P2 2 The Baudhayana-Pythagoras Theorem | m8_pythagoras, w8_pythagoras_water | |
 | 8 | P2 3 Proportional Reasoning-2 | w8_harvest_workers | |
@@ -107,7 +107,7 @@ own hands and, where it makes sense, stands inside the shape.
 | 10 | 7 Coordinate Geometry | w10_distance | |
 | 10 | 8 Introduction to Trigonometry | w10_ladder_trig | |
 | 10 | 9 Some Applications of Trigonometry | w10_flagpole | |
-| 10 | 10 Circles | w10_tangents | |
+| 10 | 10 Circles | w10_tangents, m10_tangent_wire | |
 | 10 | 11 Areas Related to Circles | w10_roti_area, w10_circle_rings | |
 | 10 | 12 Surface Areas and Volumes | m10_sphere_volume, w10_grain_cone, w10_cylinder_net | |
 | 10 | 13 Statistics | w10_mean_balance | |
