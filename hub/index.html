@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>DUET STEM 360</title>
+<meta name="description" content="DUET STEM 360: every DUET STEM activity in one light app. Experiments, the human body, the Solar System, robotics and maths in real places, in 3D and VR, for NCERT Class 3–10 in English, Hindi and Hinglish.">
+<meta name="theme-color" content="#0b0e14">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="catalog.json" as="fetch" crossorigin>
+<link rel="stylesheet" href="hub.css">
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <a id="brand" href="#home" aria-label="DUET STEM 360 home">
+      <img src="../science/brand/duet-stem-logo-light.png" alt="DUET STEM" width="132" height="21"><b>360</b>
+    </a>
+    <div id="modes" role="tablist" aria-label="Ways to use"></div>
+    <form id="sform" role="search"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><input id="q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search"></form>
+    <button id="langbtn" class="pill" type="button" aria-label="Language"></button>
+  </header>
+  <main id="view" tabindex="-1"></main>
+  <nav id="tabs" aria-label="Sections"></nav>
+</div>
+<section id="detail" hidden aria-modal="true" role="dialog"></section>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="ask" hidden role="alertdialog" aria-modal="true"><div class="box"><p id="askq"></p><div class="row"><button id="askno" class="btn ghost" type="button"></button><button id="askyes" class="btn bad" type="button"></button></div></div></div>
+<noscript><p style="padding:24px;color:#fff">DUET STEM 360 needs JavaScript.</p></noscript>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

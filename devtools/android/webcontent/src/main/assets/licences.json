@@ -1,0 +1,58 @@
+{
+ "v": 1,
+ "note": "DUET STEM subscription codes: hashes only",
+ "claim": "https://script.google.com/macros/s/AKfycbyAA5P_PojTJCGIQdDgGwwu-lKSgm-fvGsWUZwRlVXF1qJc-1jyPQf9q73XoiFGX76p/exec",
+ "sync": "https://script.google.com/macros/s/AKfycbyMgDBMSp23Boo5TFQK99n3oXNZfTD56wlBXMnajlqdSwG8Ua24zvmYrdlH7_Xxfcrt/exec",
+ "codes": {
+  "38bfb6786964791a7b98a859a67ad75e4ec92756e55f8e1559013f2f89a36bca": {
+   "u": "2027-12-31",
+   "a": [
+    "body",
+    "space",
+    "drone"
+   ],
+   "n": 0,
+   "e": "RX8NCnftI2eSIuRpBpFOHh3nHhSX3HKZ50b1UDlFROlZCUK9lMNKSqotHF3nqkiEm/UCY52V0E1ggA+uCqwW4vtS"
+  },
+  "8b257ff77bd321e06da37529e671f8bb5eea7ff32b66f02c89995af5eb4140a5": {
+   "u": "2027-12-31",
+   "a": [
+    "*"
+   ],
+   "n": 0,
+   "e": "epFkA+kIB+BWZA3f/py5NPbf01mZS6qlXDvEWfDuoo59oVVKbayhmTfi"
+  },
+  "9f2c7ab614f3df7c8bd3042fc66449b1ed96d8e750dd75323f4454448492e3e2": {
+   "u": "2027-12-31",
+   "a": [
+    "*"
+   ],
+   "n": 5,
+   "e": "GXhuqAtHag6SIXsACMuILztuihjcish9C1pgBMxAE6OVR7JrtZfTQFPuGeg="
+  },
+  "aee2a4a067e92cca58e5aa73bad3125cc9023e493258fdd7c1b3cc31197d68cc": {
+   "u": "2030-12-31",
+   "a": [
+    "*"
+   ],
+   "n": 0,
+   "e": "6efv0CmaPBMwv6ZJtnRTQvQD1YOaRf8oMK/b4vjF/rfyj3Nx13QZs7fQxVmY"
+  },
+  "dd92f844d564b67c57b718ef88cf240e40a99b77acf85fdc0900260e46ca5f91": {
+   "u": "2027-12-31",
+   "a": [
+    "science"
+   ],
+   "n": 0,
+   "e": "c8IQ9G/TAE8eQJ6x1iMBZmMW4u9i7ZroY0PJVCB87lFmVYob4N/ODkbU4zFT"
+  },
+  "f9c8fc8844ea08f806b9eb7673b5b28d470e5c04cad26f7b1ec96f4befb4d93b": {
+   "u": "2026-12-31",
+   "a": [
+    "*"
+   ],
+   "n": 1,
+   "e": "ZROHiZvPUuvsAbvv0AUy5wI92HmQMQU+TUvYwiRcjHQjt8W9Z5H1St9eueG4yWNlEyo="
+  }
+ }
+}

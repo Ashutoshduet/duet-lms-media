@@ -1,0 +1,51 @@
+// Interface text in English, Hindi and Hinglish.
+import { APP } from './mode.js';
+import { XLANGS, XLABEL } from './xlang.js';
+export const MAIN_LANGS = ['en', 'hi', 'hg']; // with their own buttons; the 8 other Indian languages are in the language menu
+export const LANGS = [...MAIN_LANGS, ...XLANGS];
+export const LANG_LABEL = { en: 'English', hi: 'हिंदी', hg: 'Hinglish', ...XLABEL };
+export const FONT = '"Noto Sans Devanagari", "Noto Sans", system-ui, sans-serif';
+export const T = {
+  appTitle: { maths: { en: 'Maths Lab 360', hi: 'मैथ्स लैब 360', hg: 'Maths Lab 360' }, physics: { en: 'Physics Lab 360', hi: 'फ़िज़िक्स लैब 360', hg: 'Physics Lab 360' },
+    chemistry: { en: 'Chemistry Lab 360', hi: 'केमिस्ट्री लैब 360', hg: 'Chemistry Lab 360' }, biology: { en: 'Biology Lab 360', hi: 'बायोलॉजी लैब 360', hg: 'Biology Lab 360' } }[APP] || { en: 'Science Lab 360', hi: 'साइंस लैब 360', hg: 'Science Lab 360' },
+  chemistry: { en: 'Chemistry', hi: 'रसायन विज्ञान', hg: 'Chemistry' },
+  physics: { en: 'Physics', hi: 'भौतिक विज्ञान', hg: 'Physics' }, maths: { en: 'Maths', hi: 'गणित', hg: 'Maths' }, biology: { en: 'Biology', hi: 'जीव विज्ञान', hg: 'Biology' },
+  astronomy: { en: 'Astronomy', hi: 'खगोल विज्ञान', hg: 'Astronomy' }, robotics: { en: 'Robotics', hi: 'रोबोटिक्स', hg: 'Robotics' }, nature: { en: 'Nature', hi: 'प्रकृति', hg: 'Nature' },
+  soon: { en: 'coming soon', hi: 'जल्द आ रहा है', hg: 'jald aa raha hai' },
+  all: { en: 'All', hi: 'सभी', hg: 'All' }, topics: { en: 'Topics', hi: 'टॉपिक', hg: 'Topics' }, byTopic: { en: 'Browse by topic', hi: 'टॉपिक के हिसाब से देखिए', hg: 'Topic ke hisaab se dekhiye' }, cls: { en: 'Class', hi: 'कक्षा', hg: 'Class' },
+  experiments: { en: 'Experiments', hi: 'प्रयोग', hg: 'Experiments' },
+  step: { en: 'Step', hi: 'स्टेप', hg: 'Step' }, of: { en: 'of', hi: 'में से', hg: 'of' },
+  doLabel: { en: 'Do', hi: 'क्या करना है', hg: 'Kya karna hai' }, seeLabel: { en: 'You see', hi: 'आप देखेंगे', hg: 'Aap dekhenge' }, whyLabel: { en: 'Why', hi: 'क्यों', hg: 'Kyun' },
+  doIt: { en: 'Do it', hi: 'करके दिखाएँ', hg: 'Karke dikhao' }, next: { en: 'Next', hi: 'आगे', hg: 'Next' }, back: { en: 'Back', hi: 'पीछे', hg: 'Back' },
+  autoplay: { en: 'Auto play', hi: 'ऑटो प्ले', hg: 'Auto play' }, pause: { en: 'Pause', hi: 'रोकिए', hg: 'Pause' }, reset: { en: 'Start again', hi: 'फिर से शुरू', hg: 'Phir se shuru' },
+  speed: { en: 'Speed', hi: 'स्पीड', hg: 'Speed' }, notebook: { en: 'Lab notebook', hi: 'लैब नोटबुक', hg: 'Lab notebook' },
+  aim: { en: 'Aim', hi: 'प्रयोग का मकसद', hg: 'Aim' }, needs: { en: 'You need', hi: 'क्या-क्या चाहिए', hg: 'Kya-kya chahiye' }, obs: { en: 'Observation', hi: 'क्या दिखा', hg: 'Observation' },
+  eq: { en: 'Equation', hi: 'समीकरण', hg: 'Equation' }, concl: { en: 'Conclusion', hi: 'नतीजा', hg: 'Conclusion' }, realPhoto: { en: 'The real chemicals', hi: 'असली केमिकल', hg: 'Asli chemicals' }, safety: { en: 'Safety', hi: 'सावधानियाँ', hg: 'Safety' },
+  viva: { en: 'Viva questions', hi: 'वाइवा के सवाल', hg: 'Viva ke sawaal' }, showAns: { en: 'Show answer', hi: 'जवाब देखिए', hg: 'Jawaab dekhiye' },
+  finished: { en: 'Experiment complete', hi: 'प्रयोग पूरा हुआ', hg: 'Experiment poora hua' },
+  notComplete: { en: 'Not complete yet', hi: 'प्रयोग अभी पूरा नहीं हुआ', hg: 'Experiment abhi poora nahi hua' },
+  stepOpen: { en: 'Not done as in the method yet. Put it right yourself, or press “Do it”.', hi: 'यह स्टेप अभी विधि के हिसाब से नहीं हुआ। ख़ुद ठीक कीजिए, या “करके दिखाएँ” दबाइए।', hg: 'Ye step abhi method ke hisaab se nahi hua. Khud theek kijiye, ya “Karke dikhao” dabaiye.' },
+  tapHint: { en: 'Tap the glowing item, or press “Do it”.', hi: 'चमकती चीज़ पर टैप कीजिए, या “करके दिखाएँ” दबाइए।', hg: 'Chamakti cheez par tap kijiye, ya “Karke dikhao” dabaiye.' },
+  vrHint: { en: 'Point at the glowing item and pull the trigger — or grab things with the grip button and do it yourself.', hi: 'चमकती चीज़ की तरफ़ पॉइंट करके ट्रिगर दबाइए — या ग्रिप बटन से चीज़ें पकड़कर ख़ुद कीजिए।', hg: 'Chamakti cheez par point karke trigger dabaiye — ya grip button se cheezein pakadkar khud kijiye.' },
+  doing: { en: 'Doing…', hi: 'हो रहा है…', hg: 'Ho raha hai…' },
+  voice: { en: 'Voice', hi: 'आवाज़', hg: 'Voice' }, sound: { en: 'Sounds', hi: 'साउंड', hg: 'Sounds' },
+  enterVR: { en: 'Enter VR', hi: 'VR में जाइए', hg: 'VR mein jaaiye' }, exitVR: { en: 'Exit VR', hi: 'VR से बाहर', hg: 'VR se bahar' }, enterAR: { en: 'AR: in your room', hi: 'AR: अपने कमरे में', hg: 'AR: apne kamre mein' },
+  timelapse: { en: 'Time-lapse', hi: 'टाइम-लैप्स', hg: 'Time-lapse' },
+  menu: { en: 'Menu', hi: 'मेनू', hg: 'Menu' }, recenter: { en: 'Recentre', hi: 'बीच में लाइए', hg: 'Recentre' },
+  pickExp: { en: 'Choose an experiment', hi: 'एक प्रयोग चुनिए', hg: 'Ek experiment chuniye' },
+  welcome: { en: 'Welcome to the DUET STEM science lab. Choose a subject and an experiment to begin.', hi: 'DUET STEM साइंस लैब में आपका स्वागत है। शुरू करने के लिए एक विषय और एक प्रयोग चुनिए।', hg: 'DUET STEM science lab mein aapka swaagat hai. Shuru karne ke liye ek subject aur ek experiment chuniye.' },
+  more: { en: 'More', hi: 'और', hg: 'Aur' },
+  inside: { en: 'See it inside', hi: 'अंदर से देखिए', hg: 'Andar se dekhiye' }, closeView: { en: 'Close', hi: 'बंद कीजिए', hg: 'Band kijiye' },
+  pickClass: { en: 'Which class are you in?', hi: 'आप किस कक्षा में हैं?', hg: 'Aap kis class mein hain?' },
+  pickClassSub: { en: 'You will see the {s} activities of your book, chapter by chapter.', hi: 'आपको अपनी किताब की {s} की गतिविधियाँ, एक-एक चैप्टर करके दिखेंगी।', hg: 'Aapko apni kitaab ki {s} activities, ek-ek chapter karke dikhengi.' },
+  allClasses: { en: 'Teacher: all classes', hi: 'टीचर: सभी कक्षाएँ', hg: 'Teacher: sabhi classes' },
+  changeClass: { en: 'Change class', hi: 'कक्षा बदलिए', hg: 'Class badliye' },
+  doneW: { en: 'done', hi: 'पूरे', hg: 'done' },
+  nextExp: { en: 'Next experiment', hi: 'अगला प्रयोग', hg: 'Agla experiment' },
+  startW: { en: 'Start', hi: 'शुरू कीजिए', hg: 'Shuru kijiye' },
+  otherClasses: { en: 'From other classes', hi: 'दूसरी कक्षाओं से', hg: 'Doosri classes se' },
+  classWelcome: { en: 'Class {c} · {s}: {n} experiments from your book. Start with the first one, or choose any experiment from the list.', hi: 'कक्षा {c} · {s}: आपकी किताब के {n} प्रयोग। पहले प्रयोग से शुरू कीजिए, या लिस्ट में से कोई भी प्रयोग चुनिए।', hg: 'Class {c} · {s}: aapki kitaab ke {n} experiments. Pehle experiment se shuru kijiye, ya list mein se koi bhi experiment chuniye.' },
+  classDone: { en: 'Well done! You have finished every {s} experiment of Class {c}. Choose the next subject at the top.', hi: 'शाबाश! आपने कक्षा {c} के सारे {s} प्रयोग पूरे कर लिए। अब ऊपर से अगला विषय चुनिए।', hg: 'Shabaash! Aapne Class {c} ke saare {s} experiments poore kar liye. Ab upar se agla subject chuniye.' },
+  insideHint: { en: 'Watch what the atoms and ions are doing.', hi: 'देखिए, एटम और आयन क्या कर रहे हैं।', hg: 'Dekhiye, atoms aur ions kya kar rahe hain.' },
+};
+export const tx = (o, L) => (o ? (o[L] || o.en || '') : '');

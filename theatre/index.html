@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kyun? Theatre · DUET STEM</title>
+<meta name="description" content="Kyun? (Why?): short narrated 3D stories that answer everyday science questions, in Hindi, English and Hinglish. Real-time 3D in real places: watch on a screen, in a phone VR box or on Meta Quest, pause and turn the scene, then try the activity yourself.">
+<meta name="theme-color" content="#0b0d12">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(../science/fonts/nsd-latin-400.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(../science/fonts/nsd-latin-600.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(../science/fonts/nsd-latin-700.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2190-21FF,U+2212,U+2215}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:400;font-display:swap;src:url(../science/fonts/nsd-deva-400.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:600;font-display:swap;src:url(../science/fonts/nsd-deva-600.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+@font-face{font-family:"Noto Sans Devanagari";font-weight:700;font-display:swap;src:url(../science/fonts/nsd-deva-700.woff2) format("woff2");unicode-range:U+0900-097F,U+1CD0-1CF9,U+200C-200D,U+20A8,U+20B9,U+25CC,U+A830-A839,U+A8E0-A8FF}
+:root{color-scheme:dark;--bg:#0b0d12;--bg2:#12151d;--card:#161a23;--line:rgba(255,255,255,.09);--ink:#f4efe6;--mute:#a69e92;--acc:#f0a65a;--acc2:#ffd79c;--r:16px;
+  --phys:#4f9cf0;--chem:#e87a5a;--bio:#5cc27e;--space:#b38cff}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:"Noto Sans Devanagari",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+a{color:inherit}
+/* ---------------- home */
+#home{max-width:1240px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 16px 40px}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+.brand img{height:30px;width:auto}
+.brand b{font-size:15px;color:var(--mute);font-weight:600;border-left:1px solid var(--line);padding-left:12px}
+.seg{display:flex;background:rgba(255,255,255,.06);border-radius:11px;padding:3px}
+.seg button{padding:7px 12px;border-radius:8px;font-size:14px;font-weight:600;color:var(--mute);white-space:nowrap}
+.seg button.on{background:var(--ink);color:#14110c}
+.hero{margin:26px 0 18px;display:grid;grid-template-columns:1fr;gap:6px}
+.hero h1{margin:0;font-size:clamp(34px,6vw,58px);line-height:1.02;letter-spacing:-.02em;font-weight:700}
+.hero h1 em{font-style:normal;color:var(--acc)}
+.hero p{margin:6px 0 0;color:var(--mute);font-size:clamp(15px,2vw,18px);max-width:760px;line-height:1.45}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 22px}
+.pills button{padding:7px 13px;border-radius:999px;border:1px solid var(--line);font-size:14px;font-weight:600;color:var(--mute)}
+.pills button.on{border-color:var(--acc);color:var(--ink);background:rgba(240,166,90,.12)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.card{position:relative;background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);text-align:left;display:flex;flex-direction:column;transition:transform .18s,border-color .18s}
+.card:hover{transform:translateY(-3px);border-color:rgba(240,166,90,.45)}
+.card .pic{position:relative;aspect-ratio:16/9;background:#1c212c center/cover no-repeat}
+.card .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(0,0,0,.55))}
+.card .play{position:absolute;right:12px;bottom:12px;z-index:1;width:42px;height:42px;border-radius:50%;background:var(--acc);color:#1b1206;display:grid;place-items:center;font-size:17px;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.card .len{position:absolute;left:12px;bottom:12px;z-index:1;font-size:12.5px;font-weight:700;background:rgba(10,12,18,.72);padding:3px 8px;border-radius:7px}
+.card .txt{padding:13px 15px 15px;display:flex;flex-direction:column;gap:7px;flex:1}
+.card h3{margin:0;font-size:17.5px;line-height:1.3;font-weight:700}
+.card .sub{font-size:13px;color:var(--mute);line-height:1.35}
+.card .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.tag{font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:6px;background:rgba(255,255,255,.07);color:var(--mute)}
+.tag.s{color:#0d0f14}
+.foot{margin-top:34px;color:var(--mute);font-size:13px;display:flex;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px}
+/* ---------------- player */
+#player{position:fixed;inset:0;z-index:10;background:#000;display:none}
+body.playing #player{display:block}body.playing{overflow:hidden}
+#stage{position:absolute;inset:0}#stage canvas{display:block;touch-action:none;width:100%;height:100%}
+.pbar{position:absolute;left:0;right:0;display:flex;align-items:center;gap:10px;padding:10px max(12px,env(safe-area-inset-right)) 10px max(12px,env(safe-area-inset-left));z-index:3}
+#ptop{top:0;background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,0));padding-top:max(10px,env(safe-area-inset-top))}
+#ptop h2{margin:0;font-size:16px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.ib{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:rgba(14,17,24,.62);flex:none}
+.ib:hover{background:rgba(30,34,44,.85)}
+#pbot{bottom:0;flex-direction:column;align-items:stretch;gap:8px;background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,0));padding-bottom:max(12px,env(safe-area-inset-bottom))}
+#cap{align-self:center;max-width:min(900px,94vw);text-align:center;font-size:clamp(16px,2.3vw,23px);line-height:1.38;font-weight:600;background:rgba(8,10,16,.72);padding:9px 16px;border-radius:12px;text-wrap:balance}
+#cap:empty{display:none}
+.ctl{display:flex;align-items:center;gap:10px}
+#time{font-size:13px;font-variant-numeric:tabular-nums;color:#ddd;min-width:84px}
+#scrub{position:relative;flex:1;height:30px;cursor:pointer;touch-action:none}
+#scrub .tr{position:absolute;left:0;right:0;top:13px;height:5px;border-radius:3px;background:rgba(255,255,255,.22)}
+#scrub .fill{position:absolute;left:0;top:13px;height:5px;border-radius:3px;background:var(--acc)}
+#scrub .knob{position:absolute;top:8px;width:15px;height:15px;margin-left:-7px;border-radius:50%;background:#fff;box-shadow:0 1px 5px rgba(0,0,0,.5)}
+#scrub i{position:absolute;top:11px;width:2px;height:9px;background:rgba(255,255,255,.55);border-radius:1px}
+#modes button{padding:6px 10px;font-size:13px}
+/* cards over the picture */
+.over{position:absolute;inset:0;display:none;align-items:center;justify-content:center;z-index:4;padding:16px;background:radial-gradient(ellipse at center,rgba(5,7,12,.35),rgba(5,7,12,.82))}
+.over.on{display:flex}
+.box{width:min(560px,100%);background:rgba(16,19,27,.93);border:1px solid var(--line);border-radius:20px;padding:24px 24px 22px;box-shadow:0 18px 60px rgba(0,0,0,.55);text-align:center}
+.box .k{font-size:13px;font-weight:700;color:var(--acc);letter-spacing:.08em;text-transform:uppercase}
+.box h1{margin:8px 0 6px;font-size:clamp(23px,4vw,32px);line-height:1.18}
+.box .m{color:var(--mute);font-size:14px}
+.box .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.big{padding:13px 22px;border-radius:14px;background:var(--acc);color:#1b1206;font-weight:700;font-size:17px;display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.big:hover{background:var(--acc2)}
+.ghost{padding:11px 16px;border-radius:13px;border:1px solid var(--line);font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.ghost:hover{background:rgba(255,255,255,.06)}
+.hint{margin-top:14px;font-size:12.5px;color:var(--mute);line-height:1.5}
+#count{font-size:min(36vh,220px);font-weight:700;color:#fff;text-shadow:0 8px 40px rgba(0,0,0,.6);background:none}
+#load .spin{width:46px;height:46px;border-radius:50%;border:4px solid rgba(255,255,255,.15);border-top-color:var(--acc);margin:6px auto 12px;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#endc .try{font-size:clamp(22px,3.6vw,28px);font-weight:700;margin:6px 0 2px}
+#endc .act{font-size:15px;color:var(--mute);margin-bottom:6px}
+#toast{position:absolute;left:50%;top:70px;transform:translateX(-50%);background:rgba(16,19,27,.95);padding:9px 14px;border-radius:10px;font-size:14px;z-index:6;display:none}
+/* VR box: only the picture (and a small exit) */
+body.kt-box #ptop,body.kt-box #pbot,body.kt-box .over{display:none!important}
+#boxx{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);z-index:7;display:none;width:34px;height:34px;border-radius:50%;background:rgba(10,12,18,.6);font-size:15px;opacity:.65}
+body.kt-box #boxx{display:grid;place-items:center}
+body.shot #ptop,body.shot #pbot,body.shot .over,body.shot #boxx{display:none!important}
+@media (max-width:640px){#ptop h2{font-size:14px}#time{min-width:0;font-size:12px}#modes button{padding:6px 7px;font-size:12px}.ctl .ib{width:38px;height:38px}#langP button{padding:6px 8px;font-size:12px}}
+html.duet-phone .box,html.duet-phone #cap{background:rgba(16,19,27,.97)}
+</style>
+<script src="./duetperf.js"></script>
+<script type="importmap">{"imports":{"three":"../science/lib/three.module.js","three/addons/":"../science/lib/addons/"}}</script>
+</head>
+<body>
+<main id="home">
+  <div class="top">
+    <div class="brand"><img src="../science/brand/duet-stem-logo-light.png" alt="DUET STEM"><b data-t="theatre">Kyun? Theatre</b></div>
+    <div class="seg" id="langH" role="group" aria-label="Language"><button data-l="en">English</button><button data-l="hi">हिंदी</button><button data-l="hg">Hinglish</button></div>
+  </div>
+  <section class="hero"><h1 id="heroT"></h1><p id="heroP"></p></section>
+  <div class="pills" id="pills"></div>
+  <div class="grid" id="grid"></div>
+  <div class="foot"><a href="credits.html" data-t="credits">Credits and licences</a><span id="offl"></span></div>
+</main>
+<section id="player" aria-label="Story player">
+  <div id="stage"></div>
+  <div class="pbar" id="ptop">
+    <button class="ib" id="pclose" aria-label="Close">✕</button>
+    <h2 id="ptitle"></h2>
+    <div class="seg" id="langP" role="group" aria-label="Language"><button data-l="en">EN</button><button data-l="hi">हिं</button><button data-l="hg">Hing</button></div>
+    <div class="seg" id="modes" role="group" aria-label="Mode"><button data-m="screen">Screen</button><button data-m="box">VR box</button><button data-m="quest" hidden>Quest</button></div>
+  </div>
+  <div class="pbar" id="pbot">
+    <div id="cap" aria-live="polite"></div>
+    <div class="ctl">
+      <button class="ib" id="pplay" aria-label="Play or pause">▶</button>
+      <button class="ib" id="pback5" aria-label="Back 5 seconds">↺</button>
+      <div id="scrub" role="slider" aria-label="Story time" tabindex="0"><div class="tr"></div><div class="fill"></div><div class="knob"></div></div>
+      <button class="ib" id="pfwd5" aria-label="Forward 5 seconds">↻</button>
+      <span id="time">0:00 / 0:00</span>
+      <button class="ib" id="pmute" aria-label="Sound on or off">🔊</button>
+    </div>
+  </div>
+  <div class="over" id="load"><div class="box"><div class="spin"></div><div class="m" data-t="loading">Getting the scene ready…</div></div></div>
+  <div class="over" id="startc"><div class="box">
+    <div class="k" data-t="kyun">Kyun? · क्यों?</div>
+    <h1 id="sq"></h1>
+    <div class="m" id="smeta"></div>
+    <div class="row"><button class="big" id="sgo">▶ <span data-t="play">Play</span></button></div>
+    <div class="row" id="smodes"></div>
+    <div class="hint" id="shint"></div>
+  </div></div>
+  <div class="over" id="countc"><div id="count">3</div></div>
+  <div class="over" id="endc"><div class="box">
+    <div class="k" data-t="nowtry">Ab khud karke dekho</div>
+    <div class="try" id="etry"></div>
+    <div class="act" id="eact"></div>
+    <div class="row" id="elinks"></div>
+    <div class="row"><button class="ghost" id="eagain">↺ <span data-t="again">Watch again</span></button><button class="ghost" id="enext"></button></div>
+  </div></div>
+  <div id="toast"></div>
+  <button id="boxx" aria-label="Leave VR box">✕</button>
+</section>
+<script type="module" src="js/app.js"></script>
+<script src="./duetoffline.js" defer></script>
+</body>
+</html>

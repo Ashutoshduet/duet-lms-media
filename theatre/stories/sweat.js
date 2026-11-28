@@ -1,0 +1,21 @@
+// Kyun? · Why do we sweat?
+export default {
+  id: "sweat", subject: "biology", classes: [6, 7],
+  q: { en: "Why do we sweat?", hi: "हमें पसीना क्यों आता है?", hg: "Hamein paseena kyun aata hai?" },
+  chapter: { en: "Human Body · Skin · Class 7 · Ch 7 Heat Transfer in Nature (evaporation cools)", hi: "मानव शरीर · त्वचा · कक्षा 7 · अध्याय 7 प्रकृति में ऊष्मा का स्थानांतरण", hg: "Human Body · Skin · Class 7 · Ch 7 Heat Transfer in Nature" },
+  links: [{ app: "body", lab: "skin", title: { en: "Skin lab: layers, sweat glands and touch", hi: "त्वचा लैब: परतें, पसीने की ग्रंथियाँ और स्पर्श", hg: "Skin lab: layers, sweat glands aur touch" } },
+    { app: "science", exp: "bio10_transpiration", title: { en: "Plants give out water vapour too", hi: "पौधे भी जलवाष्प छोड़ते हैं", hg: "Paudhe bhi water vapour chhodte hain" } }],
+  async build(K) { await K.setPlace('courtyard'); return {}; },
+  cam0: { p: [0, 1.4, 2], at: [0, 1, 0], fov: 50 },
+  beats: [
+    { say: { en: "Why do we sweat?", hi: "हमें पसीना क्यों आता है?", hg: "Hamein paseena kyun aata hai?" } },
+    { say: { en: "You run around the playground in the hot sun. Soon your face is wet with tiny drops of sweat.", hi: "तुम तेज़ धूप में मैदान में दौड़ते हो। जल्दी ही तुम्हारा चेहरा पसीने की नन्ही बूँदों से भीग जाता है।", hg: "Tum tez dhoop mein maidan mein daudte ho. Jaldi hi tumhara chehra paseene ki nanhi boondon se bheeg jaata hai." } },
+    { say: { en: "Running makes your muscles work hard, and working muscles make heat. But your body must stay close to thirty seven degrees Celsius.", hi: "दौड़ने से तुम्हारी मांसपेशियाँ ज़ोर से काम करती हैं, और काम करती मांसपेशियाँ गर्मी बनाती हैं। लेकिन तुम्हारे शरीर को लगभग सैंतीस डिग्री सेल्सियस पर रहना होता है।", hg: "Daudne se tumhari maanspeshiyan zor se kaam karti hain, aur kaam karti maanspeshiyan garmi banati hain. Lekin tumhare shareer ko lagbhag saintees degree Celsius par rehna hota hai." } },
+    { say: { en: "So your brain sends a message to your skin. The skin has millions of tiny sweat glands, coiled up deep inside it.", hi: "तब तुम्हारा दिमाग त्वचा को संदेश भेजता है। त्वचा में लाखों नन्ही पसीने की ग्रंथियाँ हैं, जो उसके अंदर गहराई में कुंडली की तरह मुड़ी रहती हैं।", hg: "Tab tumhara dimaag tvacha ko sandesh bhejta hai. Tvacha mein laakhon nanhi paseene ki granthiyan hain, jo uske andar gehraai mein kundali ki tarah mudi rehti hain." } },
+    { say: { en: "Each gland takes water and a little salt from the blood, and pushes it up a thin tube to a tiny opening on the skin, a pore.", hi: "हर ग्रंथि खून से पानी और थोड़ा नमक लेती है, और उसे एक पतली नली से ऊपर, त्वचा के एक नन्हे छेद तक भेजती है, जिसे रोम छिद्र कहते हैं।", hg: "Har granthi khoon se paani aur thoda namak leti hai, aur use ek patli nali se upar, tvacha ke ek nanhe chhed tak bhejti hai, jise pore kehte hain." } },
+    { say: { en: "On the skin, the sweat slowly evaporates. To turn into vapour, water needs heat, and it takes that heat from your skin.", hi: "त्वचा पर पसीना धीरे-धीरे भाप बनकर उड़ता है। भाप बनने के लिए पानी को गर्मी चाहिए, और वह गर्मी तुम्हारी त्वचा से लेता है।", hg: "Tvacha par paseena dheere-dheere bhaap bankar udta hai. Bhaap banne ke liye paani ko garmi chahiye, aur woh garmi tumhari tvacha se leta hai." } },
+    { say: { en: "So as the sweat evaporates, it carries heat away, and you cool down. A clay pot, a matka, keeps water cool in the same way.", hi: "इसलिए जब पसीना उड़ता है, तो गर्मी अपने साथ ले जाता है, और तुम ठंडे हो जाते हो। मिट्टी का मटका भी इसी तरह पानी को ठंडा रखता है।", hg: "Isliye jab paseena udta hai, to garmi apne saath le jaata hai, aur tum thande ho jaate ho. Mitti ka matka bhi isi tarah paani ko thanda rakhta hai." } },
+    { say: { en: "Sweat takes water and salt out of your body. So after you sweat a lot, drink plenty of water.", hi: "पसीने के साथ तुम्हारे शरीर का पानी और नमक बाहर निकलता है। इसलिए बहुत पसीना आने के बाद, खूब पानी पियो।", hg: "Paseene ke saath tumhare shareer ka paani aur namak bahar nikalta hai. Isliye bahut paseena aane ke baad, khoob paani piyo." } },
+    { say: { en: "Now try it yourself: explore the layers of the skin.", hi: "अब खुद करके देखो: त्वचा की परतें खोलकर देखो।", hg: "Ab khud karke dekho: tvacha ki partein kholkar dekho." } },
+  ],
+};

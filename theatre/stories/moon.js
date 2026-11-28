@@ -1,0 +1,21 @@
+// Kyun? · Why does the Moon change its shape?
+export default {
+  id: "moon", subject: "space", classes: [6, 8],
+  q: { en: "Why does the Moon change its shape?", hi: "चाँद अपना आकार क्यों बदलता है?", hg: "Chaand apna aakaar kyun badalta hai?" },
+  chapter: { en: "Class 8 · Ch 11 Keeping Time with the Skies", hi: "कक्षा 8 · अध्याय 11 आकाश से समय का ज्ञान", hg: "Class 8 · Ch 11 Keeping Time with the Skies" },
+  links: [{ app: "science", exp: "p8_moon_phases", title: { en: "Phases of the Moon: a model", hi: "चाँद की कलाएँ: एक मॉडल", hg: "Chaand ki kalaayein: ek model" } },
+    { app: "space", go: "planets", hash: "moon", title: { en: "The Moon in the Solar System lab", hi: "सौरमंडल लैब में चाँद", hg: "Solar System lab mein chaand" } }],
+  async build(K) { await K.setPlace('courtyard'); return {}; },
+  cam0: { p: [0, 1.4, 2], at: [0, 1, 0], fov: 50 },
+  beats: [
+    { say: { en: "Why does the Moon change its shape?", hi: "चाँद अपना आकार क्यों बदलता है?", hg: "Chaand apna aakaar kyun badalta hai?" } },
+    { say: { en: "Some nights we see a full, round Moon. Some nights only a thin curve. And on one night, no Moon at all.", hi: "किसी रात हमें पूरा गोल चाँद दिखता है। किसी रात सिर्फ़ एक पतली सी फाँक। और एक रात, चाँद दिखता ही नहीं।", hg: "Kisi raat hamein poora gol chaand dikhta hai. Kisi raat sirf ek patli si phaank. Aur ek raat, chaand dikhta hi nahi." } },
+    { say: { en: "But the Moon itself does not change. It is always a round ball of rock, and it has no light of its own.", hi: "लेकिन चाँद खुद नहीं बदलता। वह हमेशा चट्टान की एक गोल गेंद है, और उसकी अपनी कोई रोशनी नहीं है।", hg: "Lekin chaand khud nahi badalta. Woh hamesha chattaan ki ek gol gend hai, aur uski apni koi roshni nahi hai." } },
+    { say: { en: "The Moon shines because sunlight falls on it. Just like the Earth, one half of the Moon is always lit by the Sun.", hi: "चाँद इसलिए चमकता है क्योंकि उस पर सूरज की रोशनी पड़ती है। पृथ्वी की तरह, चाँद का भी आधा हिस्सा हमेशा सूरज से रोशन रहता है।", hg: "Chaand isliye chamakta hai kyunki us par suraj ki roshni padti hai. Prithvi ki tarah, chaand ka bhi aadha hissa hamesha suraj se roshan rehta hai." } },
+    { say: { en: "The Moon goes around the Earth about once a month. As it moves, we see different amounts of its lit half.", hi: "चाँद लगभग एक महीने में पृथ्वी का एक चक्कर लगाता है। जैसे-जैसे वह घूमता है, हमें उसके रोशन हिस्से का अलग-अलग भाग दिखता है।", hg: "Chaand lagbhag ek mahine mein prithvi ka ek chakkar lagata hai. Jaise-jaise woh ghoomta hai, hamein uske roshan hisse ka alag-alag bhaag dikhta hai." } },
+    { say: { en: "When the Moon is between the Earth and the Sun, its lit side faces away from us, and we see nothing. This is the new Moon, amavasya.", hi: "जब चाँद पृथ्वी और सूरज के बीच होता है, तो उसका रोशन हिस्सा हमसे उल्टी ओर होता है, और हमें कुछ नहीं दिखता। यह अमावस्या है।", hg: "Jab chaand prithvi aur suraj ke beech hota hai, to uska roshan hissa humse ulti or hota hai, aur hamein kuch nahi dikhta. Yeh amavasya hai." } },
+    { say: { en: "Day by day we see a little more: a crescent, then a half Moon. When the Earth is between the Sun and the Moon, we see the whole lit face. This is the full Moon, purnima.", hi: "दिन-ब-दिन हमें थोड़ा ज़्यादा दिखता है: पहले एक पतली फाँक, फिर आधा चाँद। जब पृथ्वी सूरज और चाँद के बीच होती है, तो हमें पूरा रोशन चेहरा दिखता है। यह पूर्णिमा है।", hg: "Din-ba-din hamein thoda zyada dikhta hai: pehle ek patli phaank, phir aadha chaand. Jab prithvi suraj aur chaand ke beech hoti hai, to hamein poora roshan chehra dikhta hai. Yeh poornima hai." } },
+    { say: { en: "Then it shrinks again, back to the new Moon. These changing shapes are the phases of the Moon. One full cycle takes about twenty nine and a half days.", hi: "फिर वह दोबारा घटता है, अमावस्या तक। इन बदलते आकारों को चाँद की कलाएँ कहते हैं। एक पूरा चक्र लगभग साढ़े उनतीस दिन का होता है।", hg: "Phir woh dobaara ghatta hai, amavasya tak. In badalte aakaaron ko chaand ki kalaayein kehte hain. Ek poora chakra lagbhag saadhe untees din ka hota hai." } },
+    { say: { en: "Now try it yourself: make the phases with a ball and a lamp.", hi: "अब खुद करके देखो: गेंद और लैंप से चाँद की कलाएँ बनाओ।", hg: "Ab khud karke dekho: gend aur lamp se chaand ki kalaayein banao." } },
+  ],
+};

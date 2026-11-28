@@ -8,4 +8,4 @@ Scripts as run on the build machine (paths inside them: /root/work, /root/src). 
 2. `hra_peek.py '<regex>' <out.pkl>` then `build_hra3.py urinary pancreas`: NIH HRA united male (CC BY 4.0).
 3. `node /root/gt/labcompress.mjs arm leg urinary pancreas` (meshopt) → `body/models/labs/<lab>.glb`.
 4. `content3.py`: parts, lab steps and journey steps in en / hi / hg into `body/models/content.json`.
-5. `narrate3.py 0 2` and `narrate3.py 1 2` (Piper, two workers), then `narrate3.py index` (audio list, Hinglish = Hindi recording).
+5. `narrate3.py 0 2` and `narrate3.py 1 2` (English Piper LJSpeech, Hindi Kokoro-82M via `devtools/tts/kokoro_hi.py`; two workers), then `narrate3.py index` (audio list, Hinglish = Hindi recording).

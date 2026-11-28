@@ -60,7 +60,7 @@ own hands and, where it makes sense, stands inside the shape.
 | 6 | 7 Fractions | w6_roti_share, m6_fraction_wall | |
 | 6 | 8 Playing with Constructions | w6_rope_compass | |
 | 6 | 9 Symmetry | w6_rangoli_symmetry, m6_symmetry | |
-| 6 | 10 The Other Side of Zero | w6_lift_integers, m6_zero_pairs | |
+| 6 | 10 The Other Side of Zero | w6_lift_integers | |
 | 7 | 1 Large Numbers Around Us | w7_crore_cube | |
 | 7 | 2 Arithmetic Expressions | w7_shop_bill | |
 | 7 | 3 A Peek Beyond the Point | w7_decimal_zoom | |
@@ -97,7 +97,7 @@ own hands and, where it makes sense, stands inside the shape.
 | 9 | 5 I'm Up and Down, and Round and Round | w9_circle_angles, m9_chord_bisector | |
 | 9 | 6 Measuring Space: Perimeter and Area | w9_lean_field, m9_parallelogram_area | |
 | 9 | 7 The Mathematics of Maybe | w9_spinner, m9_coin_probability | |
-| 9 | 8 Predicting What Comes Next | w9_grow_patterns, m9_tower_of_hanoi | |
+| 9 | 8 Predicting What Comes Next | w9_grow_patterns | |
 | 10 | 1 Real Numbers | w10_hcf_tiles | |
 | 10 | 2 Polynomials | w10_poly_graph | |
 | 10 | 3 Pair of Linear Equations | w10_two_lines | |

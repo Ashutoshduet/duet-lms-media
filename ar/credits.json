@@ -483,18 +483,18 @@
    "id": "voice-body",
    "kind": "audio",
    "what": "Narration of the Human Body cards and of every tapped body part (body/audio/en, hi, hg)",
-   "author": "The DUET Human Body app: Piper TTS; English: LJSpeech voice; Hindi and Hinglish: Priyamvada voice",
-   "licence": "English: public domain (LJSpeech). Hindi and Hinglish: CC BY-NC-SA 4.0 (non-commercial; see the open items)",
-   "link": "https://huggingface.co/rhasspy/piper-voices",
+   "author": "The DUET Human Body app; English: Piper TTS with the LJSpeech voice; Hindi and Hinglish: Kokoro-82M by hexgrad, voice hm_omega",
+   "licence": "English: public domain (LJSpeech), Piper: MIT. Hindi and Hinglish: Apache-2.0 (Kokoro-82M)",
+   "link": "https://huggingface.co/hexgrad/Kokoro-82M",
    "changes": "Played from the Human Body app by relative path (not copied)."
   },
   {
    "id": "voice-space",
    "kind": "audio",
    "what": "Narration of the Space cards (space/audio/en, hi, hg)",
-   "author": "The DUET Solar System app",
-   "licence": "As in the Solar System app",
-   "link": "",
+   "author": "The DUET Solar System app; English: Piper TTS with the LJSpeech voice; Hindi and Hinglish: Kokoro-82M by hexgrad, voice hm_omega",
+   "licence": "English: public domain (LJSpeech), Piper: MIT. Hindi and Hinglish: Apache-2.0 (Kokoro-82M)",
+   "link": "https://huggingface.co/hexgrad/Kokoro-82M",
    "changes": "Played from the Solar System app by relative path (not copied)."
   },
   {
@@ -504,7 +504,7 @@
    "author": "DUET STEM, read by Piper TTS (MIT) with the LJSpeech voice",
    "licence": "Public domain voice (LJSpeech); Piper: MIT",
    "link": "https://github.com/rhasspy/piper",
-   "changes": "Made by devtools/ar/make_voice.py. Hindi and Hinglish for these cards are read by the device’s own voice (the Piper Hindi voices are non-commercial, so they are not used for new files)."
+   "changes": "Made by devtools/ar/make_voice.py. Hindi and Hinglish for these cards are read by the device’s own voice."
   },
   {
    "id": "opencv-qr",

@@ -1,0 +1,21 @@
+// Kyun? · Why do stars twinkle but planets don't?
+export default {
+  id: "twinkle", subject: "physics", classes: [10, 8],
+  q: { en: "Why do stars twinkle but planets don't?", hi: "तारे टिमटिमाते क्यों हैं, पर ग्रह क्यों नहीं?", hg: "Taare timtimaate kyun hain, par grah kyun nahi?" },
+  chapter: { en: "Class 10 · Ch 10 The Human Eye and the Colourful World (atmospheric refraction)", hi: "कक्षा 10 · अध्याय 10 मानव नेत्र तथा रंगबिरंगा संसार (वायुमंडलीय अपवर्तन)", hg: "Class 10 · Ch 10 Human Eye aur Colourful World (atmospheric refraction)" },
+  links: [{ app: "space", go: "stars", hash: "sky", title: { en: "Stars and the Milky Way", hi: "तारे और आकाशगंगा", hg: "Taare aur Milky Way" } },
+    { app: "science", exp: "p10_slab", title: { en: "Refraction through a glass slab", hi: "काँच की सिल्ली से अपवर्तन", hg: "Kaanch ki slab se refraction" } }],
+  async build(K) { await K.setPlace('courtyard'); return {}; },
+  cam0: { p: [0, 1.4, 2], at: [0, 1, 0], fov: 50 },
+  beats: [
+    { say: { en: "Why do stars twinkle but planets don't?", hi: "तारे टिमटिमाते क्यों हैं, पर ग्रह क्यों नहीं?", hg: "Taare timtimaate kyun hain, par grah kyun nahi?" } },
+    { say: { en: "On a clear night, look up. The stars seem to twinkle, flickering bright and dim. But a planet like Jupiter shines with a steady light.", hi: "साफ़ रात में ऊपर देखो। तारे टिमटिमाते लगते हैं, कभी तेज़, कभी धीमे। लेकिन बृहस्पति जैसा ग्रह एक जैसी, स्थिर रोशनी से चमकता है।", hg: "Saaf raat mein upar dekho. Taare timtimaate lagte hain, kabhi tez, kabhi dheeme. Lekin Brihaspati jaisa grah ek jaisi, sthir roshni se chamakta hai." } },
+    { say: { en: "Stars are huge suns, but they are so far away that each one looks like a tiny point of light.", hi: "तारे विशाल सूरज हैं, लेकिन वे इतनी दूर हैं कि हर तारा रोशनी का एक नन्हा बिंदु लगता है।", hg: "Taare vishaal suraj hain, lekin woh itni door hain ki har taara roshni ka ek nanha bindu lagta hai." } },
+    { say: { en: "Before it reaches our eyes, starlight must pass through the air around the Earth, our atmosphere.", hi: "हमारी आँखों तक पहुँचने से पहले, तारे की रोशनी को पृथ्वी के चारों ओर की हवा, यानी वायुमंडल, से होकर गुज़रना पड़ता है।", hg: "Hamari aankhon tak pahunchne se pehle, taare ki roshni ko prithvi ke chaaron or ki hawa, yaani vaayumandal, se hokar guzarna padta hai." } },
+    { say: { en: "This air is always moving, with warm and cool patches. Each patch bends the light a little differently. This is refraction again.", hi: "यह हवा हमेशा हिलती रहती है, कहीं गरम तो कहीं ठंडी। हर हिस्सा रोशनी को थोड़ा अलग मोड़ता है। यह फिर से अपवर्तन है।", hg: "Yeh hawa hamesha hilti rehti hai, kahin garam to kahin thandi. Har hissa roshni ko thoda alag modta hai. Yeh phir se refraction hai." } },
+    { say: { en: "So the thin beam from a star keeps shifting. Sometimes more light enters our eye, sometimes less. The star seems to flicker. It twinkles.", hi: "इसलिए तारे की पतली किरण बार-बार खिसकती रहती है। कभी आँख में ज़्यादा रोशनी आती है, कभी कम। तारा झिलमिलाता लगता है। वह टिमटिमाता है।", hg: "Isliye taare ki patli kiran baar-baar khisakti rehti hai. Kabhi aankh mein zyada roshni aati hai, kabhi kam. Taara jhilmilaata lagta hai. Woh timtimaata hai." } },
+    { say: { en: "Planets are much closer. A planet is not a point, but a tiny disc, like many points of light side by side.", hi: "ग्रह बहुत पास हैं। ग्रह एक बिंदु नहीं, बल्कि एक छोटी सी तश्तरी जैसा है, मानो रोशनी के कई बिंदु पास-पास हों।", hg: "Grah bahut paas hain. Grah ek bindu nahi, balki ek chhoti si tashtari jaisa hai, maano roshni ke kai bindu paas-paas hon." } },
+    { say: { en: "When one point gets dimmer, another gets brighter. The changes cancel out, so the planet's light stays steady.", hi: "जब एक बिंदु धीमा होता है, तो दूसरा तेज़ हो जाता है। ये बदलाव एक-दूसरे को बराबर कर देते हैं, इसलिए ग्रह की रोशनी स्थिर रहती है।", hg: "Jab ek bindu dheema hota hai, to doosra tez ho jaata hai. Yeh badlaav ek-doosre ko barabar kar dete hain, isliye grah ki roshni sthir rehti hai." } },
+    { say: { en: "Now try it yourself: visit the stars in the Solar System lab.", hi: "अब खुद करके देखो: सौरमंडल लैब में तारों की सैर करो।", hg: "Ab khud karke dekho: Solar System lab mein taaron ki sair karo." } },
+  ],
+};

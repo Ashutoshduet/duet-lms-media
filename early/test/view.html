@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Model check</title>
+<style>body{margin:0;background:#ddd;font:12px sans-serif}canvas{display:block}</style>
+<script type="importmap">{"imports":{"three":"../lib/three.module.js","three/addons/":"../lib/addons/"}}</script></head><body>
+<script type="module">
+// a check sheet of models: each one from three sides, with its name, triangle count and size (dev tool, not part of the app)
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { model, fit } from '../js/models.js';
+const Q = new URLSearchParams(location.search); const ids = (Q.get('ids') || '').split(',').filter(Boolean); const T = +(Q.get('t') || 200), views = +(Q.get('v') || 3);
+const cols = views, rows = ids.length; const W = T * cols + 120, H = T * rows;
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); r.setPixelRatio(1); r.setSize(W, H); r.outputColorSpace = THREE.SRGBColorSpace; r.toneMapping = THREE.NeutralToneMapping; document.body.appendChild(r.domElement);
+const sc = new THREE.Scene(); sc.background = new THREE.Color(0xe9e2d6); sc.environment = new THREE.PMREMGenerator(r).fromScene(new RoomEnvironment(), 0.04).texture; sc.environmentIntensity = 0.75;
+sc.add(new THREE.HemisphereLight(0xfff6e8, 0x8a7560, 1.25)); const d = new THREE.DirectionalLight(0xfff1dc, 1.7); d.position.set(2.5, 5, 3.5); sc.add(d);
+const cam = new THREE.PerspectiveCamera(30, 1, 0.01, 50); r.setScissorTest(true); r.setClearColor(0xe9e2d6); r.clear();
+const out = []; const lab = document.createElement('canvas'); lab.width = 120; lab.height = H; const g = lab.getContext('2d'); g.font = '12px sans-serif';
+for (let i = 0; i < ids.length; i++) {
+  let o; try { const m = await model(ids[i]); o = fit(m.obj, 1); } catch (e) { out.push(ids[i] + ' FAIL ' + e.message); continue; }
+  sc.add(o); let tris = 0; o.traverse((c) => { if (c.isMesh) tris += (c.geometry.index ? c.geometry.index.count : c.geometry.attributes.position.count) / 3; });
+  const s = o.userData.size; const R = Math.max(s.x, s.y, s.z) * 1.05;
+  for (let v = 0; v < views; v++) { const a = -0.5 + v * (Math.PI * 2 / views); cam.position.set(Math.sin(a) * R * 2.2, s.y * 0.5 + R * 0.9, Math.cos(a) * R * 2.2); cam.lookAt(0, s.y * 0.45, 0);
+    r.setViewport(120 + v * T, H - (i + 1) * T, T, T); r.setScissor(120 + v * T, H - (i + 1) * T, T, T); r.render(sc, cam); }
+  sc.remove(o); g.fillStyle = '#000'; g.fillText(ids[i], 4, i * T + 20); g.fillText(Math.round(tris) + ' tris', 4, i * T + 36); g.fillText(`${s.x.toFixed(2)} ${s.y.toFixed(2)} ${s.z.toFixed(2)}`, 4, i * T + 52);
+  out.push(ids[i] + ' ' + Math.round(tris));
+}
+const c2 = document.createElement('canvas'); c2.width = W; c2.height = H; const g2 = c2.getContext('2d'); g2.drawImage(r.domElement, 0, 0); g2.drawImage(lab, 0, 0);
+document.body.innerHTML = ''; c2.id = 'out'; document.body.appendChild(c2); window.__done = out;
+</script></body></html>

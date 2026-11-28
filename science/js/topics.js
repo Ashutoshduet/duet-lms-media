@@ -33,6 +33,7 @@ export const TOPICS = {
     ['tissue', N('Tissues', 'ऊतक', 'Tissues (ootak)'), /Tissue/],
     ['repro', N('Reproduction', 'जनन', 'Reproduction (janan)'), /Reproduc/],
     ['ocean', N('The ocean and animals', 'समुद्र और जीव-जंतु', 'Samudra aur jeev-jantu'), /^$/],
+    ['heredity', N('Heredity and evolution', 'आनुवंशिकता और जैव विकास', 'Heredity aur evolution'), /Heredity|Evolution/],
   ],
   maths: [
     ['numbers', N('Numbers and patterns', 'संख्याएँ और पैटर्न', 'Numbers aur patterns'), /Square and A Cube|Number|Patterns|Power|Zero|Point|Fraction|Proportional|Integer|Decimal|Progression/],

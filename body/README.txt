@@ -71,6 +71,6 @@ CREDITS (keep these when sharing)
   Organ Labs for the brain, ear, lungs, arm muscles and reflex, and leg muscles and knee jerk: Z-Anatomy, CC BY-SA 4.0
   (arm and leg animation by DUET STEM).
   three.js (MIT). Noto Sans Devanagari (SIL OFL).
-  Teacher voices: Piper TTS (MIT). English LJSpeech voice (public domain). Hindi / Hinglish
-  Priyamvada voice by PravalX on AI4Bharat data, CC BY-NC-SA 4.0 (non-commercial use).
+  Teacher voices: English: Piper TTS (MIT), LJSpeech voice (public domain). Hindi / Hinglish:
+  Kokoro-82M by hexgrad, voice hm_omega, Apache-2.0 (https://huggingface.co/hexgrad/Kokoro-82M).
   The adapted 3D model files in /models are shared under CC BY-SA 4.0.

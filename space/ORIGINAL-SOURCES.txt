@@ -510,3 +510,5 @@ Real recordings and sonifications of real spacecraft data are marked as real in 
 | uranus | Plasma waves around Uranus, recorded by Voyager 2 on 24 January 1986, the only spacecraft ever to visit Uranus | NASA Voyager 2 Plasma Wave Science · The University of Iowa | Courtesy of NASA and The University of Iowa (space-audio.org, CC BY 4.0) | https://space.physics.uiowa.edu/plasma-wave/voyager/audio/ |
 | neptune | An artist's sound for Neptune, home of the fastest winds in the Solar System (not a recording) | DUET STEM Space Lab | — | — |
 | pluto | An artist's sound for faraway, frozen Pluto (not a recording) | DUET STEM Space Lab | — | — |
+| English narration | The spoken narration in English, recorded offline with Piper text-to-speech and the LJSpeech voice | Piper TTS (Rhasspy) · LJ Speech dataset (Keith Ito) | Voice: public domain · Piper: MIT | https://huggingface.co/rhasspy/piper-voices |
+| Hindi and Hinglish narration | The spoken narration in Hindi and Hinglish, recorded offline with the Kokoro-82M text-to-speech model, voice hm_omega | Kokoro-82M by hexgrad | Apache-2.0 | https://huggingface.co/hexgrad/Kokoro-82M |

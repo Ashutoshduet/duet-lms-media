@@ -1,0 +1,62 @@
+[
+ {
+  "id": "clay_pot",
+  "name": "Planter Pot Clay",
+  "authors": { "Amal Kumar": "All" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/planter_pot_clay",
+  "changes": "WebP textures (512), meshopt-compressed; scaled to a 10 cm school flower pot and filled with soil in code (models/bio2/clay_pot.glb)."
+ },
+ {
+  "id": "sadabahar",
+  "name": "Periwinkle Plant (sadabahar, Catharanthus roseus): leaves and flowers",
+  "authors": { "Amal Kumar": "All" },
+  "license": "CC0",
+  "url": "https://polyhaven.com/a/periwinkle_plant",
+  "changes": "Single leaves, yellow leaves and flowers cut out of the colour map (alpha from the black background), turned so the stalk points down and packed into bio2/sadabahar.webp and bio2/testleaf.webp; the potted plants, twigs, wilting, pale growth in the dark, white flowers and red-ink colouring are built in code."
+ },
+ {
+  "id": "leaf_ovate",
+  "name": "Leaf 001",
+  "authors": { "ambientCG (Lennart Demes)": "All" },
+  "license": "CC0",
+  "url": "https://ambientcg.com/a/Leaf001",
+  "changes": "Front side cut out with its opacity map into bio2/leaf_ovate.webp; used for the variegated plant (white margin and patches painted over the real leaf in code), bean seedlings and Hydrilla."
+ },
+ {
+  "id": "bread_slice",
+  "name": "Transparent Slice of Sara Lee white whole grain bread",
+  "user": "Famartin",
+  "authors": { "Famartin": "All" },
+  "license": "CC BY-SA 4.0",
+  "url": "https://commons.wikimedia.org/wiki/File:Transparent_Slice_of_Sara_Lee_white_whole_grain_bread_in_the_Franklin_Farm_section_of_Oak_Hill,_Fairfax_County,_Virginia.png",
+  "changes": "Scaled to 384 px, WebP; the crumb is used as the top of the bread piece in the starch test (bio2/bread_slice.webp)."
+ },
+ {
+  "id": "apple_half",
+  "name": "Red delicious, half",
+  "user": "J.smith",
+  "authors": { "J.smith": "All" },
+  "license": "CC BY-SA 3.0",
+  "url": "https://commons.wikimedia.org/wiki/File:Red_delicious,_half.jpg",
+  "changes": "Background removed, scaled, WebP; the top of the apple slice in the starch test (bio2/apple_half.webp)."
+ },
+ {
+  "id": "cucumber_slice",
+  "name": "Cucumber1",
+  "user": "viZZZual.com",
+  "authors": { "viZZZual.com": "All" },
+  "license": "CC BY 2.0",
+  "url": "https://commons.wikimedia.org/wiki/File:Cucumber1.jpg",
+  "changes": "Background removed, scaled, WebP; the cucumber slices of the starch and fat tests (bio2/cucumber_slice.webp)."
+ },
+ {
+  "id": "raisin_skin",
+  "name": "Sunmaid-Raisin-Pile",
+  "user": "Evan-Amos",
+  "authors": { "Evan-Amos": "All" },
+  "license": "CC0",
+  "url": "https://commons.wikimedia.org/wiki/File:Sunmaid-Raisin-Pile.jpg",
+  "changes": "A patch of the pile cropped and scaled to a 256 px texture (bio2/raisin_skin.webp) for the wrinkled skin of the raisins."
+ }
+]

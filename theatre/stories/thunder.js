@@ -1,0 +1,21 @@
+// Kyun? · Why do we see lightning before we hear thunder?
+export default {
+  id: "thunder", subject: "physics", classes: [8, 9],
+  q: { en: "Why do we see lightning before we hear thunder?", hi: "बिजली की चमक पहले और गड़गड़ाहट बाद में क्यों आती है?", hg: "Bijli ki chamak pehle aur gadgadahat baad mein kyun aati hai?" },
+  chapter: { en: "Class 9 · Ch 10 Sound · Class 8 · Ch 6 Storms", hi: "कक्षा 9 · अध्याय 10 ध्वनि · कक्षा 8 · अध्याय 6 तूफ़ान", hg: "Class 9 · Ch 10 Sound · Class 8 · Ch 6 Storms" },
+  links: [{ app: "science", exp: "pw9_echo_wall", title: { en: "An echo from a wall: the speed of sound", hi: "दीवार से गूँज: ध्वनि की चाल", hg: "Deewar se goonj: sound ki speed" } },
+    { app: "science", exp: "p9_bell_jar", title: { en: "Sound needs a medium: bell in a bell jar", hi: "ध्वनि को माध्यम चाहिए: बेल जार में घंटी", hg: "Sound ko medium chahiye: bell jar mein ghanti" } }],
+  async build(K) { await K.setPlace('courtyard'); return {}; },
+  cam0: { p: [0, 1.4, 2], at: [0, 1, 0], fov: 50 },
+  beats: [
+    { say: { en: "Why do we see lightning before we hear thunder?", hi: "बिजली की चमक पहले दिखती है और गड़गड़ाहट बाद में सुनाई देती है। ऐसा क्यों?", hg: "Bijli ki chamak pehle dikhti hai aur gadgadahat baad mein sunai deti hai. Aisa kyun?" } },
+    { say: { en: "A storm is coming. Flash! The sky lights up. One, two, three... and then, boom! The thunder comes later.", hi: "तूफ़ान आ रहा है। चमक! आसमान रोशन हो जाता है। एक, दो, तीन... और फिर, धड़ाम! गड़गड़ाहट बाद में आती है।", hg: "Toofan aa raha hai. Chamak! Aasmaan roshan ho jaata hai. Ek, do, teen... aur phir, dhadaam! Gadgadahat baad mein aati hai." } },
+    { say: { en: "But the flash and the boom are made at the same moment, in the same place, by the same lightning.", hi: "लेकिन चमक और धमाका, दोनों एक ही पल में, एक ही जगह, एक ही बिजली से बनते हैं।", hg: "Lekin chamak aur dhamaka, dono ek hi pal mein, ek hi jagah, ek hi bijli se bante hain." } },
+    { say: { en: "Lightning is a giant electric spark between a cloud and the ground. It heats the air so fast that the air bursts outwards. That burst is the thunder.", hi: "आसमानी बिजली बादल और ज़मीन के बीच एक बहुत बड़ी चिंगारी है। यह हवा को इतनी तेज़ी से गरम करती है कि हवा झटके से बाहर की ओर फैलती है। वही झटका गड़गड़ाहट है।", hg: "Aasmaani bijli baadal aur zameen ke beech ek bahut badi chingaari hai. Yeh hawa ko itni tezi se garam karti hai ki hawa jhatke se bahar ki or phailti hai. Wahi jhatka gadgadahat hai." } },
+    { say: { en: "Now, a race! Light travels about three hundred thousand kilometres in one second. It reaches you almost at once.", hi: "अब एक दौड़! रोशनी एक सेकंड में लगभग तीन लाख किलोमीटर चलती है। वह लगभग उसी पल तुम तक पहुँच जाती है।", hg: "Ab ek daud! Roshni ek second mein lagbhag teen lakh kilometre chalti hai. Woh lagbhag usi pal tum tak pahunch jaati hai." } },
+    { say: { en: "Sound is much slower. In air it goes about three hundred and forty metres in one second. So it takes about three seconds to travel one kilometre.", hi: "आवाज़ बहुत धीमी है। हवा में वह एक सेकंड में लगभग तीन सौ चालीस मीटर चलती है। यानी एक किलोमीटर चलने में उसे लगभग तीन सेकंड लगते हैं।", hg: "Awaaz bahut dheemi hai. Hawa mein woh ek second mein lagbhag teen sau chaalees metre chalti hai. Yaani ek kilometre chalne mein use lagbhag teen second lagte hain." } },
+    { say: { en: "So count the seconds from the flash to the boom, and divide by three. That tells you how many kilometres away the lightning struck.", hi: "तो चमक से धमाके तक सेकंड गिनो, और तीन से भाग दो। इससे पता चलता है कि बिजली कितने किलोमीटर दूर गिरी।", hg: "To chamak se dhamake tak second gino, aur teen se bhaag do. Isse pata chalta hai ki bijli kitne kilometre door giri." } },
+    { say: { en: "If the boom comes very quickly, the storm is close. Go indoors, and stay away from tall trees and open fields.", hi: "अगर धमाका बहुत जल्दी आए, तो तूफ़ान पास है। घर के अंदर जाओ, और ऊँचे पेड़ों और खुले मैदानों से दूर रहो।", hg: "Agar dhamaka bahut jaldi aaye, to toofan paas hai. Ghar ke andar jao, aur oonche pedon aur khule maidanon se door raho." } },
+    { say: { en: "Now try it yourself: find the speed of sound with an echo.", hi: "अब खुद करके देखो: गूँज से आवाज़ की चाल पता करो।", hg: "Ab khud karke dekho: goonj se awaaz ki speed pata karo." } },
+  ],
+};

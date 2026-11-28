@@ -1,0 +1,21 @@
+// Kyun? · Why are leaves green, and why do some turn yellow?
+export default {
+  id: "leaves", subject: "biology", classes: [7, 10],
+  q: { en: "Why are leaves green, and why do some turn yellow?", hi: "पत्तियाँ हरी क्यों होती हैं, और कुछ पीली क्यों हो जाती हैं?", hg: "Pattiyan hari kyun hoti hain, aur kuch peeli kyun ho jaati hain?" },
+  chapter: { en: "Class 7 · Ch 10 Life Processes in Plants · Class 10 · Ch 5 Life Processes", hi: "कक्षा 7 · अध्याय 10 पौधों में जीवन प्रक्रियाएँ · कक्षा 10 · अध्याय 5 जैव प्रक्रम", hg: "Class 7 · Ch 10 Life Processes in Plants · Class 10 · Ch 5 Life Processes" },
+  links: [{ app: "science", exp: "bio10_variegated_leaf", title: { en: "Is chlorophyll needed to make starch? A variegated leaf", hi: "क्या स्टार्च बनाने के लिए क्लोरोफ़िल ज़रूरी है? चितकबरी पत्ती", hg: "Kya starch banane ke liye chlorophyll zaroori hai? Chitkabri patti" } },
+    { app: "science", exp: "bio7_leaf_light", title: { en: "Do leaves need light to make starch?", hi: "क्या पत्तियों को स्टार्च बनाने के लिए रोशनी चाहिए?", hg: "Kya pattiyon ko starch banane ke liye roshni chahiye?" } }],
+  async build(K) { await K.setPlace('courtyard'); return {}; },
+  cam0: { p: [0, 1.4, 2], at: [0, 1, 0], fov: 50 },
+  beats: [
+    { say: { en: "Why are leaves green, and why do some turn yellow?", hi: "पत्तियाँ हरी क्यों होती हैं, और कुछ पीली क्यों हो जाती हैं?", hg: "Pattiyan hari kyun hoti hain, aur kuch peeli kyun ho jaati hain?" } },
+    { say: { en: "Sunlight looks white, but it is really a mix of all the colours of the rainbow.", hi: "धूप सफ़ेद दिखती है, लेकिन असल में वह इंद्रधनुष के सब रंगों का मेल है।", hg: "Dhoop safed dikhti hai, lekin asal mein woh indradhanush ke sab rangon ka mel hai." } },
+    { say: { en: "Inside a leaf are tiny green bodies called chloroplasts. They are full of a green pigment, chlorophyll.", hi: "पत्ती के अंदर नन्हे हरे कण होते हैं, जिन्हें क्लोरोप्लास्ट कहते हैं। इनमें एक हरा रंग भरा होता है, जिसे क्लोरोफ़िल कहते हैं।", hg: "Patti ke andar nanhe hare kan hote hain, jinhe chloroplast kehte hain. Inmein ek hara rang bhara hota hai, jise chlorophyll kehte hain." } },
+    { say: { en: "Chlorophyll soaks up red and blue light. The leaf uses that energy to make food from water and carbon dioxide. This is photosynthesis.", hi: "क्लोरोफ़िल लाल और नीली रोशनी सोख लेता है। उस ऊर्जा से पत्ती पानी और कार्बन डाइऑक्साइड से भोजन बनाती है। इसे प्रकाश संश्लेषण कहते हैं।", hg: "Chlorophyll laal aur neeli roshni sokh leta hai. Us oorja se patti paani aur carbon dioxide se bhojan banati hai. Ise photosynthesis kehte hain." } },
+    { say: { en: "But green light is hardly used. It bounces back to our eyes. That is why leaves look green.", hi: "लेकिन हरी रोशनी लगभग काम नहीं आती। वह लौटकर हमारी आँखों तक आती है। इसीलिए पत्तियाँ हरी दिखती हैं।", hg: "Lekin hari roshni lagbhag kaam nahi aati. Woh lautkar hamari aankhon tak aati hai. Isiliye pattiyan hari dikhti hain." } },
+    { say: { en: "Leaves also have yellow and orange pigments. Most of the time, the strong green hides them.", hi: "पत्तियों में पीले और नारंगी रंग भी होते हैं। ज़्यादातर समय, गहरा हरा रंग उन्हें छिपा लेता है।", hg: "Pattiyon mein peele aur naarangi rang bhi hote hain. Zyadatar samay, gehra hara rang unhe chhipa leta hai." } },
+    { say: { en: "When a leaf grows old, or the dry season comes, the plant stops making new chlorophyll, and the old chlorophyll breaks down.", hi: "जब पत्ती बूढ़ी होती है, या सूखा मौसम आता है, तो पौधा नया क्लोरोफ़िल बनाना बंद कर देता है, और पुराना क्लोरोफ़िल टूट जाता है।", hg: "Jab patti boodhi hoti hai, ya sookha mausam aata hai, to paudha naya chlorophyll banana band kar deta hai, aur purana chlorophyll toot jaata hai." } },
+    { say: { en: "As the green fades, the hidden yellow shows through. The leaf turns yellow, and soon it falls.", hi: "जैसे-जैसे हरा रंग मिटता है, छिपा हुआ पीला रंग दिखने लगता है। पत्ती पीली हो जाती है, और जल्दी ही गिर जाती है।", hg: "Jaise-jaise hara rang mitta hai, chhipa hua peela rang dikhne lagta hai. Patti peeli ho jaati hai, aur jaldi hi gir jaati hai." } },
+    { say: { en: "Now try it yourself: test a green and white leaf for starch.", hi: "अब खुद करके देखो: हरी और सफ़ेद पत्ती में स्टार्च की जाँच करो।", hg: "Ab khud karke dekho: hari aur safed patti mein starch ki jaanch karo." } },
+  ],
+};
