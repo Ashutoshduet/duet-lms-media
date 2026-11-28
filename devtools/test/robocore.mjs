@@ -8,7 +8,7 @@ const serial = (lab) => { let s = ''; for (const o of lab.mcu.ser.take()) s += S
 const run = (lab, src, frames, each) => { const c = compile(src); if (!c.ok) throw new Error(JSON.stringify(c.errors)); lab.run(c); let out = ''; for (let f = 0; f < frames; f++) { if (each) each(f); lab.step(1000 / 60); out += serial(lab); } return out; };
 
 // every lesson sketch compiles
-for (const l of LESSONS) { const c = compile(l.code); ok(c.ok, `lesson ${l.n} sketch compiles` + (c.ok ? '' : ' ' + JSON.stringify(c.errors))); }
+for (const l of LESSONS.filter((x) => x.lang !== 'py')) { const c = compile(l.code); ok(c.ok, `lesson ${l.n} (${l.id}) sketch compiles` + (c.ok ? '' : ' ' + JSON.stringify(c.errors))); } // (the Python lessons have their own tests)
 ok(compile(FREE_CODE).ok, 'free build sketch compiles');
 // C semantics of the Uno
 { const lab = new Lab(); const out = run(lab, `void setup(){ Serial.begin(9600); int x = 32767; x++; Serial.println(x); Serial.println(7 / 2); Serial.println(7 / 2.0); Serial.println(-7 % 3); unsigned long t = 0; t--; Serial.println(t); byte b = 300; Serial.println(b); Serial.println(map(512, 0, 1023, 0, 180)); Serial.println(String("a") + 5); Serial.println(random(100)); } void loop(){}`, 30);

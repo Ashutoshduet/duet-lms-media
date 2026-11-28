@@ -1,7 +1,7 @@
 """English narration clips for the DUET AR items that have no recorded clip in another app (say "ar:<id>" in catalog.json):
 ar/voice/en/<id>.mp3, read from the item's name and "about" text with Piper and the public-domain LJSpeech voice (the same
-settings as devtools/tts/gen.py). Hindi and Hinglish are read by the device's own voice: the Piper Hindi voices are
-CC BY-NC-SA, which DUET AR does not use for new files.
+settings as devtools/tts/gen.py). Hindi and Hinglish are read by the device's own voice (the DUET Hindi voice,
+Kokoro-82M in devtools/tts/kokoro_hi.py, could record them too; the Piper Hindi voices are CC BY-NC-SA and never used).
 Usage: python3 devtools/ar/make_voice.py [voices dir (default ~/duet-voices)]"""
 import json, os, re, subprocess, sys, tempfile, wave
 from piper import PiperVoice, SynthesisConfig

@@ -62,7 +62,7 @@ const BL = {
   var: { k: 'r', c: 'vars', txt: t3('{name:var}', '{name:var}', '{name:var}'), d: { name: 'count' }, py: (b) => b.f.name },
   num: { k: 'r', c: 'maths', lit: 'num', py: (b) => String(b.f.v) },
   text: { k: 'r', c: 'maths', lit: 'text', py: (b) => pyStr(b.f.v) },
-  arith: { k: 'r', c: 'maths', txt: t3('{a} {op:OPS} {b}', '{a} {op:OPS} {b}', '{a} {op:OPS} {b}'), d: { a: ['num', 0], op: '+', b: ['num', 1] }, py: (b, g) => `${g.v(b, 'a', 4)} ${b.f.op} ${g.v(b, 'b', 5)}` },
+  arith: { k: 'r', c: 'maths', txt: t3('{a} {op:OPS} {b}', '{a} {op:OPS} {b}', '{a} {op:OPS} {b}'), d: { a: ['num', 0], op: '+', b: ['num', 1] }, py: (b, g) => { const p = arithP(b); return `${g.v(b, 'a', p)} ${b.f.op} ${g.v(b, 'b', p + 0.1)}`; } }, // (a - b) // c keeps its brackets
   random: { k: 'r', c: 'maths', txt: t3('random {a} to {b}', '{a} से {b} तक कोई भी', '{a} se {b} tak koi bhi'), d: { a: ['num', 1], b: ['num', 6] }, imp: 'random', py: (b, g) => `random.randint(${g.v(b, 'a')}, ${g.v(b, 'b')})` },
   pyline: { k: 's', c: 'py', raw: true, py: (b) => b.f.code },
   pyexpr: { k: 'r', c: 'py', raw: true, py: (b) => b.f.code },
@@ -85,11 +85,12 @@ export function mk(t, f, i) { const def = BL[t]; const b = { id: 'b' + (++ID), t
   if (def.lit === 'num') b.f.v = 0; if (def.lit === 'text') b.f.v = '';
   Object.assign(b.f, f || {}); Object.assign(b.i, i || {}); return b; }
 const PREC = { pyexpr: 0, and: 1, not: 2, cmp: 3, arith: 4 };
+const arithP = (b) => (b.f.op === '+' || b.f.op === '-' ? 4 : 4.5); // * / // % bind tighter than + -
 export function toPython(prog) {
   const imps = new Set(); const walk = (list) => { for (const b of list) { const d = BL[b.t]; if (d.imp) imps.add(d.imp); if (d.raw) for (const m of String(b.f.code).matchAll(/\b(music|radio|random)\./g)) imps.add(m[1]); for (const v of Object.values(b.i || {})) walk([v]); if (b.s) walk(b.s); if (b.e) walk(b.e); } };
   walk(prog);
   const g = {
-    v(b, k, minPrec = 0) { const x = b.i[k]; if (!x) return 'None'; const s = BL[x.t].py(x, g); const p = x.t === 'pyexpr' ? (simple(s) ? 99 : 0) : PREC[x.t]; return p !== undefined && p < minPrec ? `(${s})` : s; },
+    v(b, k, minPrec = 0) { const x = b.i[k]; if (!x) return 'None'; const s = BL[x.t].py(x, g); const p = x.t === 'pyexpr' ? (simple(s) ? 99 : 0) : x.t === 'arith' ? arithP(x) : PREC[x.t]; return p !== undefined && p < minPrec ? `(${s})` : s; },
     body(list) { const s = (list.length ? list.map((x) => BL[x.t].py(x, g)).join('\n') : 'pass'); return s.split('\n').map((l) => '    ' + l).join('\n'); },
   };
   const head = ['from microbit import *', ...['music', 'radio', 'random'].filter((m) => imps.has(m)).map((m) => 'import ' + m)];

@@ -269,6 +269,7 @@ export class MicroBit {
     this.tempo = { ticks: 4, bpm: 120 };
     for (const b of Object.values(this.btn)) { b.presses = 0; b.was = false; }
     this.gest = { cur: 'face up', hist: [] }; this.micEv = { hist: [], cur: null, loudAt: -1 }; this.thresh = { loud: 128, quiet: 30 };
+    this.shakeT = -1; // (batch 8: the clock starts again at 0, so an old shake's time would lie in the future)
     this.err = null;
   }
   get now() { return this.core.now; }
@@ -651,6 +652,8 @@ export class MBCore {
       case 'results': return ['HAPPY', 'SAD', 'MEH'].reduce((n, k) => n + (o.images.get(k) || 0), 0);
       case 'friendResults': return ['HAPPY', 'SAD', 'MEH'].reduce((n, k) => n + (o.friendImgs.get(k) || 0), 0);
       case 'lastDelay': return o.lastDelay; case 'allLit': return o.allLit; case 'images': return o.images;
+      case 'friendText': return o.friendText || null; case 'friendLit': return this.boards[1] ? [...this.boards[1].pixelsAt(this.now)].filter(Boolean).length : 0;
+      case 'sound': return B.soundLevel(this.now); case 'music': return o.music || 0; case 'tone': return B.toneAt(this.now); // (batch 8)
     }
     return this.vals[n];
   }
@@ -690,7 +693,8 @@ export class MBCore {
       for (const p of ['P0', 'P1', 'P2']) {
         const q = B.pins[p]; if (!q) continue;
         const out = q.mode === 'out' || q.mode === 'pwm' || q.music;
-        if (out) els.push({ type: 'V', a: node(p), b: 0, v: 3.3 * (q.music ? 0.5 : q.mode === 'pwm' ? q.duty : q.level), r: 120, role: 'pin', pin: p });
+        // (batch 8) PWM is full 3.3 V pulses, on for `duty` of the time: an LED on it glows at that share of its full current
+        if (out) els.push({ type: 'V', a: node(p), b: 0, v: 3.3 * (q.music ? 0.5 : q.mode === 'pwm' ? (q.duty > 0 ? 1 : 0) : q.level), r: 120, role: 'pin', pin: p });
         else if (q.mode === 'in') els.push({ type: 'R', a: node(p), b: q.pull === 'up' ? node('3V') : 0, r: q.pull === 'none' ? 1e8 : 13000, role: 'pull' });
         else if (q.mode === 'ain') els.push({ type: 'R', a: node(p), b: 0, r: 1e6, role: 'adc' });
       }
@@ -746,7 +750,7 @@ export class MBCore {
     const C = this.circuit(); const B0 = this.boards[0];
     for (const e of C.els) {
       const p = e.part; if (!p) continue; const va = C.V[e.a] || 0, vb = C.V[e.b] || 0;
-      if (p.type === 'led') { const I = Math.max(0, e.i || 0); const b = Math.min(1.5, Math.pow(I / 0.015, 0.55)); if (Math.abs((p.state.b || 0) - b) > 0.01) moved = true; p.state.b = b; p.state.i = I; this.obs.ledMax[p.tag] = Math.max(this.obs.ledMax[p.tag] || 0, I); }
+      if (p.type === 'led') { const pw = ['P0', 'P1', 'P2'].find((q) => B0.pins[q] && B0.pins[q].mode === 'pwm' && !B0.pins[q].music && (this.conn(q, p.tag + '.A') || this.conn(q, p.tag + '.K'))); const I = Math.max(0, e.i || 0) * (pw ? B0.pins[pw].duty : 1); const b = Math.min(1.5, Math.pow(I / 0.015, 0.55)); if (Math.abs((p.state.b || 0) - b) > 0.01) moved = true; p.state.b = b; p.state.i = I; this.obs.ledMax[p.tag] = Math.max(this.obs.ledMax[p.tag] || 0, I); }
       if (p.type === 'buzzer') { const pin = ['P0', 'P1', 'P2'].find((q) => B0.pins[q] && B0.pins[q].music && this.conn(q, p.tag + '.P')); const f = pin ? B0.toneAt(T) : 0; p.state.on = !!f && this.conn(p.tag + '.N', 'GND'); if (p.state.on) this.sounds.push({ id: 'mbz' + p.tag, kind: 'tone', f, amp: 0.8 }); }
       if (p.type === 'servo' && e.role !== 'sig') {
         const pow = va - vb; const s = p.state; s.powered = pow > 2.6;
@@ -786,6 +790,10 @@ export class MBCore {
       if (c === 'A' || c === 'B') C.push({ id: c, kind: 'button', label: { en: `Press ${c}`, hi: `${c} दबाइए`, hg: `${c} dabaiye` } });
       if (c === 'AB') C.push({ id: 'AB', kind: 'button', label: { en: 'Press A + B', hi: 'A + B दबाइए', hg: 'A + B dabaiye' } });
       if (c === 'logo') C.push({ id: 'logo', kind: 'button', label: W.touchLogo });
+      if (c === 'P0') C.push({ id: 'P0', kind: 'button', label: W.touchP0 });
+      if (c === 'P1') C.push({ id: 'P1', kind: 'button', label: W.touchP1 });
+      if (c === 'P2') C.push({ id: 'P2', kind: 'button', label: W.touchP2 });
+      if (c === 'fAB') { C.push({ id: 'fA', kind: 'button', label: W.fA }); C.push({ id: 'fB', kind: 'button', label: W.fB }); }
       if (c === 'shake') C.push({ id: 'shake', kind: 'button', label: W.shake });
       if (c === 'friend') C.push({ id: 'fshake', kind: 'button', label: W.fshake });
       if (c === 'flip') C.push({ id: 'flip', kind: 'button', label: W.flip });
@@ -804,7 +812,8 @@ export class MBCore {
     const B = this.boards[0];
     const tap = (b, k) => { b.press(k, true); setTimeout(() => b.press(k, false), 260); };
     switch (id) {
-      case 'A': tap(B, 'a'); break; case 'B': tap(B, 'b'); break; case 'AB': tap(B, 'a'); tap(B, 'b'); break; case 'logo': tap(B, 'logo'); break;
+      case 'A': tap(B, 'a'); break; case 'B': tap(B, 'b'); break; case 'AB': tap(B, 'a'); tap(B, 'b'); break; case 'logo': tap(B, 'logo'); break; case 'P0': tap(B, 'P0'); break; case 'P1': tap(B, 'P1'); break; case 'P2': tap(B, 'P2'); break;
+      case 'fA': if (this.boards[1]) tap(this.boards[1], 'a'); break; case 'fB': if (this.boards[1]) tap(this.boards[1], 'b'); break; // (batch 8: the friend's buttons)
       case 'shake': B.shake(); break; case 'fshake': if (this.boards[1]) this.boards[1].shake(); break;
       case 'flip': B.tilt.flip = !B.tilt.flip; if (B.tilt.flip) this.seen.add('flipped'); this.dirty(); break;
       case 'tilt': B.tilt = Object.assign(B.tilt, v === 'left' ? { roll: -55, pitch: 0 } : v === 'right' ? { roll: 55, pitch: 0 } : v === 'up' ? { pitch: 80, roll: 0 } : { pitch: 0, roll: 0 }); this.holdTilt = v !== 'flat'; this.dirty(); break;
@@ -854,7 +863,7 @@ const HUDW = {
   heading: t3('compass.heading()', 'compass.heading()', 'compass.heading()'), notCal: t3('not calibrated', 'कैलिब्रेट नहीं', 'calibrate nahi'), light: t3('read_light_level()', 'read_light_level()', 'read_light_level()'),
   sound: t3('sound_level()', 'sound_level()', 'sound_level()'), moist: t3('Soil moisture', 'मिट्टी की नमी', 'Mitti ki nami'), servo: t3('Servo angle', 'सर्वो का कोण', 'Servo ka angle'),
   noPower: t3('no power', 'बिजली नहीं', 'power nahi'), radio: t3('Radio sent ↑ / got ↓', 'रेडियो भेजा ↑ / मिला ↓', 'Radio bheja ↑ / mila ↓'), you: t3('you', 'आप', 'aap'), friend: t3('friend', 'दोस्त', 'dost'),
-  touchLogo: t3('Touch the logo', 'लोगो छूइए', 'Logo touch karo'), shake: t3('Shake it', 'हिलाइए', 'Hilaiye'), fshake: t3('Friend shakes', 'दोस्त हिलाए', 'Dost hilaye'),
+  touchP0: t3('Touch pin 0', 'पिन 0 छूइए', 'Pin 0 touch karo'), touchP1: t3('Touch pin 1', 'पिन 1 छूइए', 'Pin 1 touch karo'), touchP2: t3('Touch pin 2', 'पिन 2 छूइए', 'Pin 2 touch karo'), fA: t3('Friend presses A', 'दोस्त A दबाए', 'Dost A dabaye'), fB: t3('Friend presses B', 'दोस्त B दबाए', 'Dost B dabaye'), touchLogo: t3('Touch the logo', 'लोगो छूइए', 'Logo touch karo'), shake: t3('Shake it', 'हिलाइए', 'Hilaiye'), fshake: t3('Friend shakes', 'दोस्त हिलाए', 'Dost hilaye'),
   flip: t3('Turn the board over', 'बोर्ड पलटिए', 'Board palatiye'), tilt: t3('Hold it', 'ऐसे पकड़िए', 'Aise pakdiye'), tLeft: t3('left', 'बाएँ', 'left'), tFlat: t3('flat', 'सीधा', 'flat'), tRight: t3('right', 'दाएँ', 'right'), tUp: t3('logo up', 'लोगो ऊपर', 'logo upar'),
   roomTemp: t3('Temperature', 'तापमान', 'Temperature'), roomLight: t3('Room light', 'कमरे की रोशनी', 'Room light'), turn: t3('Turn the board (logo points to)', 'बोर्ड घुमाइए (लोगो किधर)', 'Board ghumaiye (logo kidhar)'),
   autoTilt: t3('Tilt it around for me', 'मेरे लिए चारों ओर झुकाइए', 'Mere liye chaaron taraf jhukaiye'), noise: t3('Noise in the room', 'कमरे का शोर', 'Kamre ka shor'), clap: t3('Clap!', 'ताली!', 'Taali!'),

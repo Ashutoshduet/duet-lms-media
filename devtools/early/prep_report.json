@@ -1,0 +1,1286 @@
+{
+ "banana": {
+  "tris": 16000,
+  "from": 16000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.189,
+   0.585
+  ],
+  "bytes": 315020,
+  "secs": 50
+ },
+ "apple": {
+  "tris": 9414,
+  "from": 9414,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.998,
+   0.995
+  ],
+  "bytes": 163588,
+  "secs": 4
+ },
+ "mango": {
+  "tris": 27348,
+  "from": 27348,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.719,
+   1,
+   0.827
+  ],
+  "bytes": 397096,
+  "secs": 6
+ },
+ "guava": {
+  "tris": 15969,
+  "from": 15969,
+  "prims": 1,
+  "materials": 1,
+  "textures": [],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.777,
+   0.669
+  ],
+  "bytes": 112328,
+  "secs": 24
+ },
+ "papaya": {
+  "tris": 15046,
+  "from": 15046,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.666,
+   0.735
+  ],
+  "bytes": 142044,
+  "secs": 2
+ },
+ "pomegranate": {
+  "tris": 8008,
+  "from": 8008,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.97,
+   1,
+   0.99
+  ],
+  "bytes": 126728,
+  "secs": 2
+ },
+ "litchi": {
+  "tris": 12000,
+  "from": 12000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.922,
+   1,
+   0.926
+  ],
+  "bytes": 203452,
+  "secs": 44
+ },
+ "grapes": {
+  "tris": 29999,
+  "from": 29999,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.531,
+   1,
+   0.52
+  ],
+  "bytes": 350828,
+  "secs": 98
+ },
+ "watermelon": {
+  "tris": 13999,
+  "from": 13999,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.929,
+   0.893
+  ],
+  "bytes": 213748,
+  "secs": 43
+ },
+ "orange": {
+  "tris": 3220,
+  "from": 3220,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.998,
+   0.729,
+   1
+  ],
+  "bytes": 145192,
+  "secs": 3
+ },
+ "coconut": {
+  "tris": 14000,
+  "from": 14000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.86,
+   0.897,
+   1
+  ],
+  "bytes": 353188,
+  "secs": 47
+ },
+ "tomato": {
+  "tris": 13999,
+  "from": 13999,
+  "prims": 1,
+  "materials": 1,
+  "textures": [],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.869,
+   0.983
+  ],
+  "bytes": 88112,
+  "secs": 65
+ },
+ "potato": {
+  "tris": 12000,
+  "from": 12000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.916,
+   1,
+   0.824
+  ],
+  "bytes": 166992,
+  "secs": 54
+ },
+ "onion": {
+  "tris": 14000,
+  "from": 14000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.72,
+   1,
+   0.725
+  ],
+  "bytes": 89716,
+  "secs": 45
+ },
+ "brinjal": {
+  "tris": 2432,
+  "from": 2432,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.222,
+   0.235,
+   1
+  ],
+  "bytes": 96764,
+  "secs": 2
+ },
+ "cauliflower": {
+  "tris": 33988,
+  "from": 33988,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.982,
+   0.771,
+   1
+  ],
+  "bytes": 522440,
+  "secs": 85
+ },
+ "carrot": {
+  "tris": 12000,
+  "from": 12000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.257,
+   0.297
+  ],
+  "bytes": 160788,
+  "secs": 40
+ },
+ "cabbage": {
+  "tris": 30000,
+  "from": 41474,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.954,
+   0.718,
+   1
+  ],
+  "bytes": 925288,
+  "secs": 8
+ },
+ "cucumber": {
+  "tris": 12000,
+  "from": 12000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.312,
+   1,
+   0.268
+  ],
+  "bytes": 238604,
+  "secs": 30
+ },
+ "pumpkin": {
+  "tris": 14027,
+  "from": 14027,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.542,
+   0.484
+  ],
+  "bytes": 439332,
+  "secs": 2
+ },
+ "garlic": {
+  "tris": 2048,
+  "from": 2048,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.944,
+   1,
+   0.917
+  ],
+  "bytes": 178536,
+  "secs": 1
+ },
+ "ginger": {
+  "tris": 16000,
+  "from": 16000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.987,
+   0.505,
+   1
+  ],
+  "bytes": 106228,
+  "secs": 28
+ },
+ "cat": {
+  "tris": 30000,
+  "from": 30000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.166,
+   0.589
+  ],
+  "bytes": 555396,
+  "secs": 3
+ },
+ "dog": {
+  "tris": 29999,
+  "from": 33384,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": true,
+  "anims": 5,
+  "size": [
+   0.005,
+   0.013,
+   0.017
+  ],
+  "bytes": 2396224,
+  "secs": 7
+ },
+ "elephant": {
+  "tris": 5998,
+  "from": 5998,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512"
+  ],
+  "skinned": true,
+  "anims": 1,
+  "size": [
+   0.014,
+   0.008,
+   0.007
+  ],
+  "bytes": 490552,
+  "secs": 3
+ },
+ "fish": {
+  "tris": 20052,
+  "from": 20052,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "1024x1024"
+  ],
+  "skinned": true,
+  "anims": 1,
+  "size": [
+   0.017,
+   0.055,
+   0.096
+  ],
+  "bytes": 1038324,
+  "secs": 6
+ },
+ "goat": {
+  "tris": 30066,
+  "from": 34555,
+  "prims": 3,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "64x64",
+   "512x512"
+  ],
+  "skinned": true,
+  "anims": 1,
+  "size": [
+   0.006,
+   0.013,
+   0.014
+  ],
+  "bytes": 1084084,
+  "secs": 3
+ },
+ "hen": {
+  "tris": 6933,
+  "from": 6933,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.943,
+   1,
+   0.342
+  ],
+  "bytes": 380276,
+  "secs": 3
+ },
+ "lion": {
+  "tris": 29998,
+  "from": 33534,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": true,
+  "anims": 1,
+  "size": [
+   0.004,
+   0.005,
+   0.009
+  ],
+  "bytes": 1348736,
+  "secs": 7
+ },
+ "owl": {
+  "tris": 29314,
+  "from": 29314,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.511,
+   1,
+   0.582
+  ],
+  "bytes": 412672,
+  "secs": 2
+ },
+ "parrot": {
+  "tris": 21998,
+  "from": 21998,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.296,
+   0.191
+  ],
+  "bytes": 326968,
+  "secs": 68
+ },
+ "rabbit": {
+  "tris": 6590,
+  "from": 6590,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.989,
+   0.776
+  ],
+  "bytes": 314252,
+  "secs": 2
+ },
+ "tiger": {
+  "tris": 4650,
+  "from": 4650,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": true,
+  "anims": 1,
+  "size": [
+   4.289,
+   4.309,
+   8.455
+  ],
+  "bytes": 271036,
+  "secs": 3
+ },
+ "zebra": {
+  "tris": 16212,
+  "from": 16212,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.177,
+   0.704,
+   1
+  ],
+  "bytes": 189388,
+  "secs": 1
+ },
+ "pigeon": {
+  "tris": 20000,
+  "from": 20000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.228,
+   0.282
+  ],
+  "bytes": 293644,
+  "secs": 61
+ },
+ "duck": {
+  "tris": 30000,
+  "from": 47280,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.615,
+   1,
+   0.54
+  ],
+  "bytes": 378168,
+  "secs": 2
+ },
+ "bear": {
+  "tris": 29996,
+  "from": 29996,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.433,
+   0.587,
+   1
+  ],
+  "bytes": 341296,
+  "secs": 49
+ },
+ "yak": {
+  "tris": 3846,
+  "from": 3846,
+  "prims": 3,
+  "materials": 3,
+  "textures": [
+   "128x128",
+   "1024x1024",
+   "256x256"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.277,
+   0.503,
+   1
+  ],
+  "bytes": 136376,
+  "secs": 1
+ },
+ "ball": {
+  "tris": 10000,
+  "from": 10000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.993,
+   0.999
+  ],
+  "bytes": 201968,
+  "secs": 27
+ },
+ "icecream": {
+  "tris": 8956,
+  "from": 8956,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.555,
+   1,
+   0.544
+  ],
+  "bytes": 167264,
+  "secs": 2
+ },
+ "jug": {
+  "tris": 13996,
+  "from": 13996,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.653,
+   1,
+   0.636
+  ],
+  "bytes": 199392,
+  "secs": 30
+ },
+ "queen": {
+  "tris": 21568,
+  "from": 21568,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.467,
+   1,
+   0.467
+  ],
+  "bytes": 328408,
+  "secs": 5
+ },
+ "ship": {
+  "tris": 9999,
+  "from": 9999,
+  "prims": 2,
+  "materials": 2,
+  "textures": [
+   "1024x1024",
+   "1024x1024",
+   "512x512",
+   "512x512",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.458,
+   0.267
+  ],
+  "bytes": 804396,
+  "secs": 12
+ },
+ "umbrella": {
+  "tris": 2274,
+  "from": 2274,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.793,
+   1
+  ],
+  "bytes": 98052,
+  "secs": 7
+ },
+ "xylophone": {
+  "tris": 15480,
+  "from": 15480,
+  "prims": 10,
+  "materials": 10,
+  "textures": [],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.137,
+   1,
+   0.693
+  ],
+  "bytes": 251972,
+  "secs": 2
+ },
+ "flowerpot": {
+  "tris": 33463,
+  "from": 33463,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.751,
+   0.983
+  ],
+  "bytes": 731432,
+  "secs": 76
+ },
+ "clock": {
+  "tris": 4426,
+  "from": 4426,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.671,
+   0.354,
+   1
+  ],
+  "bytes": 269860,
+  "secs": 4
+ },
+ "spoon": {
+  "tris": 12000,
+  "from": 24838,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.22,
+   0.305
+  ],
+  "bytes": 140224,
+  "secs": 6
+ },
+ "thermos": {
+  "tris": 10000,
+  "from": 10000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.298,
+   1,
+   0.441
+  ],
+  "bytes": 145372,
+  "secs": 47
+ },
+ "inkpot": {
+  "tris": 6928,
+  "from": 6928,
+  "prims": 3,
+  "materials": 3,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.513,
+   0.555,
+   1
+  ],
+  "bytes": 133092,
+  "secs": 3
+ },
+ "hammer": {
+  "tris": 17008,
+  "from": 17008,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.322,
+   0.091,
+   1
+  ],
+  "bytes": 546144,
+  "secs": 5
+ },
+ "books": {
+  "tris": 7688,
+  "from": 7688,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.46,
+   0.426
+  ],
+  "bytes": 271108,
+  "secs": 5
+ },
+ "fan": {
+  "tris": 24000,
+  "from": 35682,
+  "prims": 1,
+  "materials": 1,
+  "textures": [],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.753,
+   1,
+   0.673
+  ],
+  "bytes": 165724,
+  "secs": 5
+ },
+ "shield": {
+  "tris": 4970,
+  "from": 4970,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.899,
+   0.502
+  ],
+  "bytes": 360236,
+  "secs": 6
+ },
+ "mortar": {
+  "tris": 20000,
+  "from": 20000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.994,
+   0.384,
+   1
+  ],
+  "bytes": 256240,
+  "secs": 98
+ },
+ "spectacles": {
+  "tris": 10309,
+  "from": 10309,
+  "prims": 7,
+  "materials": 7,
+  "textures": [],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.699,
+   0.208,
+   1
+  ],
+  "bytes": 73816,
+  "secs": 2
+ },
+ "h_cart": {
+  "tris": 24000,
+  "from": 24000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.431,
+   0.567,
+   1
+  ],
+  "bytes": 295404,
+  "secs": 88
+ },
+ "h_cart2": {
+  "tris": 23999,
+  "from": 23999,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.32,
+   0.614
+  ],
+  "bytes": 321368,
+  "secs": 104
+ },
+ "h_bull": {
+  "tris": 21997,
+  "from": 21997,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.32,
+   0.614
+  ],
+  "bytes": 262564,
+  "secs": 101
+ },
+ "h_pot1": {
+  "tris": 17856,
+  "from": 17856,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   1,
+   0.723,
+   0.999
+  ],
+  "bytes": 286128,
+  "secs": 5
+ },
+ "h_pot2": {
+  "tris": 17856,
+  "from": 17856,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.999,
+   0.723,
+   1
+  ],
+  "bytes": 326588,
+  "secs": 3
+ },
+ "m_nataraja": {
+  "tris": 40000,
+  "from": 40000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.896,
+   1,
+   0.319
+  ],
+  "bytes": 580120,
+  "secs": 465
+ },
+ "m_buddha": {
+  "tris": 40000,
+  "from": 72064,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.35,
+   1,
+   0.216
+  ],
+  "bytes": 731656,
+  "secs": 5
+ },
+ "m_ganesha": {
+  "tris": 39994,
+  "from": 63950,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.588,
+   1,
+   0.488
+  ],
+  "bytes": 722820,
+  "secs": 5
+ },
+ "m_venus": {
+  "tris": 24058,
+  "from": 24058,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.328,
+   1,
+   0.301
+  ],
+  "bytes": 404148,
+  "secs": 4
+ },
+ "m_discobolus": {
+  "tris": 36000,
+  "from": 36000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.626,
+   1,
+   0.307
+  ],
+  "bytes": 230024,
+  "secs": 127
+ },
+ "m_thinker": {
+  "tris": 40000,
+  "from": 50974,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.849,
+   1,
+   0.596
+  ],
+  "bytes": 784272,
+  "secs": 6
+ },
+ "m_stego": {
+  "tris": 49830,
+  "from": 49856,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.352,
+   0.629,
+   1
+  ],
+  "bytes": 1786160,
+  "secs": 6
+ },
+ "m_nefertiti": {
+  "tris": 40000,
+  "from": 100000,
+  "prims": 1,
+  "materials": 1,
+  "textures": [
+   "1024x1024",
+   "512x512"
+  ],
+  "skinned": false,
+  "anims": 0,
+  "size": [
+   0.735,
+   1,
+   0.484
+  ],
+  "bytes": 810824,
+  "secs": 6
+ }
+}

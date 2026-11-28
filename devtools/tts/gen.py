@@ -1,15 +1,17 @@
-"""Science Lab narration with Piper (offline). python3 gen.py <worker> <workers>. Files are named by a hash of the text,
+"""Science Lab narration (offline): English with Piper's LJSpeech voice (public domain), Hindi with Kokoro-82M
+(Apache-2.0, kokoro_hi.py). python3 gen.py <worker> <workers>. Files are named by a hash of the text,
 so an existing file is never redone."""
 import json, os, subprocess, tempfile, wave, time, sys
 from piper import PiperVoice, SynthesisConfig
 W, N = int(sys.argv[1]), int(sys.argv[2])
 HERE = os.path.dirname(os.path.abspath(__file__)); REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
+sys.path.insert(0, HERE); from kokoro_hi import KokoroHindi, voices_dir
 OUT = os.path.join(REPO, 'science', 'voice')
 VOICES = os.environ.get('DUET_VOICES', os.path.expanduser('~/duet-voices'))
 jobs = json.load(open(os.path.join(HERE, 'jobs.json')))
 todo = [j for j in jobs if not os.path.exists(f"{OUT}/{j['lang']}/{j['key']}.mp3")][W::N]
-V = {'en': PiperVoice.load(os.path.join(VOICES, 'en_US-ljspeech-high.onnx')), 'hi': PiperVoice.load(os.path.join(VOICES, 'hi_IN-priyamvada-medium.onnx'))}
-cfg = {'en': SynthesisConfig(length_scale=1.06), 'hi': SynthesisConfig(length_scale=1.08)}
+V = {'en': PiperVoice.load(os.path.join(VOICES, 'en_US-ljspeech-high.onnx')), 'hi': KokoroHindi(voices_dir(VOICES))}
+cfg = {'en': SynthesisConfig(length_scale=1.06), 'hi': None}  # the Hindi pace is kokoro_hi.SPEED
 # words the voices say badly: spell them for speech only (the screen text is unchanged)
 FIX = {'en': [('pH', 'P H'), ('mL', 'millilitres'), ('°C', 'degrees Celsius'), ('→', 'gives'), ('·', ','), ('—', ','), ('NaOH', 'sodium hydroxide'), ('HCl', 'H C L'), ('CO₂', 'C O 2'), ('KMnO₄', 'potassium permanganate'), ('CuSO₄·5H₂O', 'copper sulphate penta-hydrate'), ('CuSO₄', 'copper sulphate'), ('NH₄Cl', 'ammonium chloride'), ('H₂', 'hydrogen')],
        'hi': [('pH', 'पी एच'), ('mL', 'मिलीलीटर'), ('°C', 'डिग्री सेल्सियस'), ('→', 'से'), ('·', ','), ('—', ','), ('CO₂', 'सी ओ टू'), ('CuSO₄·5H₂O', 'कॉपर सल्फेट पेंटाहाइड्रेट'), ('CuSO₄', 'कॉपर सल्फेट'), ('NaOH', 'सोडियम हाइड्रॉक्साइड'), ('HCl', 'एच सी एल'), ('KMnO₄', 'पोटैशियम परमैंगनेट'), ('NH₄Cl', 'अमोनियम क्लोराइड')]}

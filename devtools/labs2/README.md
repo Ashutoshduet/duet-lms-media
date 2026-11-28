@@ -11,6 +11,7 @@ mouth-male, small-intestine-male, large-intestine-male, liver-male, knee-male-le
    its duct opening; the food ball over the tongue; the knee's hinge line).
 3. `compress.mjs` (gltf-transform + meshoptimizer): `body/models/labs/<lab>.glb`.
 4. `content_new.py`: names, jobs and processes of the new parts and the tour steps (English, Hindi, Hinglish) into
-   `body/models/content.json`; `narrate.py`: Piper narration of the steps (Hinglish plays the Hindi recording).
+   `body/models/content.json`; `narrate.py`: narration of the steps, English with Piper LJSpeech, Hindi with Kokoro-82M
+   (`devtools/tts/kokoro_hi.py`; Hinglish plays the Hindi recording).
 The tours, colours, cut, take-apart, flows and the bending knee are in `body/js/lab.js` (LABS, PAL, STEPS, CUT,
 EXPLODE, defineFlows, buildExtras, update).

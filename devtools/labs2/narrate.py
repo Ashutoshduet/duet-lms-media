@@ -1,11 +1,13 @@
-"""Narration (Piper, offline) for the new Organ Lab steps: English and Hindi voices; Hinglish uses the Hindi recording."""
+"""Narration (offline) for the new Organ Lab steps: English Piper LJSpeech, Hindi Kokoro-82M (devtools/tts/kokoro_hi.py);
+Hinglish uses the Hindi recording."""
 import json, os, re, subprocess, tempfile, wave, shutil, sys
 from piper import PiperVoice, SynthesisConfig
 APP = '/home/claude/duet-lms-media/body'
+sys.path.insert(0, os.path.join(APP, '..', 'devtools', 'tts')); from kokoro_hi import KokoroHindi, voices_dir
 c = json.load(open(f'{APP}/models/content.json'))
 ids = [k for k in c['steps'] if re.match(r'^lab-(mouth|gut|liver|knee)-\d+$', k)]
-V = {'en': PiperVoice.load('/root/tts/voices/en_US-ljspeech-high.onnx'), 'hi': PiperVoice.load('/root/tts/voices/hi_IN-priyamvada-medium.onnx')}
-cfg = {'en': SynthesisConfig(length_scale=1.06), 'hi': SynthesisConfig(length_scale=1.08)}
+V = {'en': PiperVoice.load('/root/tts/voices/en_US-ljspeech-high.onnx'), 'hi': KokoroHindi(voices_dir())}
+cfg = {'en': SynthesisConfig(length_scale=1.06), 'hi': None}
 def en_say(s):
     s = s.replace('–', ' to ').replace('—', ', ').replace('%', ' percent').replace('&', ' and ').replace('ACL', 'A C L').replace('B12', 'B 12')
     s = re.sub(r'\(([^)]*)\)', r', \1,', s); s = re.sub(r'\s+', ' ', s).strip()

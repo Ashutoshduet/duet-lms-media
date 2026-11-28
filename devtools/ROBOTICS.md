@@ -541,3 +541,69 @@ breadboard) and `pi6w` (wiring: the Pi and the breadboard). The car lesson puts 
   and the kind hints for the usual wiring mistakes.
 - `node devtools/test/robotest6.mjs [ids|all] [outdir]` (port 8811): every lesson in headless Chromium through the real UI;
   `XR=1` in WebXR (IWER Quest 3) with the controller ray, `HANDS=1` with pinches; `SLOW=n` for a busy machine.
+
+## Batch 7: thirty Arduino projects (games, alarms, meters, displays, home automation, mechanisms)
+
+Thirty complete projects, Class 6–11, built only from parts the bench already had, on the Uno (27), the Mega (1) and the
+ESP32 (1) (and the Uno's 7-segment, LCD, OLED, keypad, relay, stepper, L298N, IR remote …). Section "Arduino projects" in
+the lesson strip and in the headset's ☰ Lessons. The ideas come from well-known school projects (an owner's "300+ Arduino
+projects" pack was used as a list of ideas only: every circuit, sketch and text here is our own).
+
+| id | Lesson | Board · parts | The student builds, codes and sees (and the realistic mistake the check explains) |
+|---|---|---|---|
+| `sos` | Morse code lighthouse | LED, buzzer | a `String code[26]` table; SOS in light and beeps, then their own name (LED reversed) |
+| `melody` | Music box: play a tune | buzzer, button | notes[] / beats[] arrays; "Twinkle, twinkle"; tempo 300 → 150, the tune's length measured (buzzer on the wrong pin) |
+| `theremin` | Light theremin | LDR divider, buzzer | `map()` light → pitch; the shadow plays low; the map turned round (LDR and resistor swapped: plays backwards) |
+| `rgbtemp` | Colour thermometer | LM35, RGB LED | blue < 20 °C < green < 32 °C < red (LM35 turned round: floating, nonsense readings) |
+| `crossing` | Zebra crossing with a WALK button | 3 LEDs, button, buzzer | press WALK: yellow, red with beeps for the blind; walkTime 5 → 8 (both button wires on one side: it walks by itself) |
+| `quizbuzz` | Quiz buzzer for two teams | 2 buttons, 2 LEDs, buzzer | first press wins, the other is locked out for 5 s (team B on the wrong pin) |
+| `reaction` | Reaction timer game | button, LED, LCD | `random()` wait, `millis()` stopwatch, "Too early!" (LCD on 3.3 V: blank) |
+| `segcount` | Count 0 to 9 on a 7-segment display | 7-seg + 7 resistors | a `digits[10][7]` table; counts up, then down (COM on 5 V: nothing lights) |
+| `dice` | Electronic dice | 7-seg, button | tumbling `random(1, 7)`; a 1–9 lucky-number picker (a segment without its resistor burns) |
+| `countdown` | Rocket launch countdown | 7-seg, buzzer, servo | 9 … 0 in `setup()`, the launch arm swings up; start = 5 (servo on 3.3 V: it never moves) |
+| `lcdnotice` | School notice board on an LCD | LCD | wires the I2C LCD; `substring()` window scrolls a notice; their own notice (SDA/SCL swapped: blank) |
+| `lcddist` | Distance meter with an LCD | HC-SR04, LCD | cm and a # bar, "TOO CLOSE!"; warn 10 → 20 (Trig/Echo swapped: 0 cm) |
+| `speedgun` | Speed gun: two light gates | 2 IR sensors, LCD | v = 10 cm ÷ t; a faster run (gate 2 not wired: its floating pin makes up a speed) |
+| `visitors` | Classroom visitor counter | 2 IR sensors, LCD, LED | IN/OUT counting, "ROOM FULL!"; limit 5 → 3 (LED without resistor burns when full) |
+| `radar` | Radar screen on an OLED | servo, HC-SR04, OLED | sweep, `cos/sin` dots; range 50 → 100 (OLED SDA/SCL swapped: the servo sweeps, the screen stays dark) |
+| `sketch` | Etch-a-sketch with a joystick | joystick, OLED | drawPixel trail, the stick's switch wipes; a thicker pen (VRx/VRy swapped: right draws up) |
+| `calc` | Pocket calculator | keypad, LCD | A–D = + − × ÷, # =; 7 ÷ 2 = 3 (whole numbers), ÷ 0 = Error (rows and columns swapped: wrong keys) |
+| `mathquiz` | Times-table quiz master | keypad, LCD, buzzer | random questions, score, beeps; tables to 12 (buzzer on pin 11: silent) |
+| `schoolbell` | Automatic school bell | LCD, active buzzer | hhmm timetable array, a fast clock, `sizeof`; adds the 12:00 lunch bell (active buzzer reversed: silent) |
+| `lightmeter` | Light meter for your study desk | LDR, OLED | % and a bar, "Too dark"; limit 40 → 60 (divider swapped: bright reads dark) |
+| `corridor` | Corridor light: only at night, only when someone passes | PIR, LDR, relay, 230 V lamp | `&&`, an off-timer with `millis()` (PIR on 3.3 V: dead) |
+| `autofan` | Automatic fan for a hot classroom | LM35, relay, 230 V fan | on > 30 °C, off < 28 °C: hysteresis seen at 29 °C (relay on the wrong pin) |
+| `stairtimer` | Staircase light timer | button, LCD, relay, 230 V lamp | the student wires the relay's 5 V side; countdown; 10 → 5 s (relay + on 3.3 V: it never clicks) |
+| `sanitizer` | No-touch sanitizer dispenser | IR sensor, relay, pump, 4×AA | wires the pump's loop through COM/NO; one dose per hand; 500 → 800 ms (pump on NC: runs all the time) |
+| `remotefan` | Fan regulator with a TV remote | IR receiver, transistor, motor | `switch` on the remote's codes → PWM speeds (receiver turned round: no power, deaf) |
+| `railgate` | Railway level crossing | IR sensor, servo, 2 LEDs, buzzer | boom down, lamps flash in turn, opens 2 s after the train (servo on the wrong pin) |
+| `blinds` | Automatic window blinds | LDR, 28BYJ-48 stepper | half a turn up at > 600, down at < 300 (IN2/IN3 swapped: it only shakes) |
+| `jsdrive` | Joystick drive: test a robot's motors | joystick, L298N, 2 BO motors, 18650 | the common ground; tank mixing left = y + x, right = y − x (no common ground: wheels still) |
+| `mega_chaser` | Light chaser on the Mega | Mega, 10-LED bar, knob | two for loops bounce one light; the knob sets the wait (wiper on A1: A0 floats, the speed jumps) |
+| `esp_alarm` | ESP32 motion alarm | ESP32, PIR on VIN, LED, active buzzer | rising-edge visitor count at 115200 baud (PIR on 3V3: dead; its OUT floats) |
+
+(Numbered at load time after the lessons before them: 71–100 in the page, 48–77 in the node tests. Each has `batch: 7` and `cls`.)
+
+### What is new in shared files (each marked "batch 7")
+
+- `lessonrt.js`: a lesson may have `tick(S, dt)`, called every frame; it keeps what it saw in `S.mem` (all runs) and
+  `S.memRun` (this run, cleared by Run); `S.serLines` holds the Serial Monitor's last 80 lines. Batch 7's `tick7`
+  records the LCD's lines, the 7-segment's digits (`segDigit`), the OLED's lit dots, the relay / 230 V load switching,
+  tones, and `memRun.dtb` (the board's seconds since the last frame). Every time in a step check is the board's own clock
+  (`lab.mcu.t`) or a part's own accumulator (the relay's `onT`), never the page's frame time, so slow frames (a phone,
+  software GL) cannot make a lesson fail.
+- `mcu.js`: an `INPUT_PULLUP` pin with nothing wired to it now reads a steady HIGH (it was treated as floating).
+- `blocks.js`: an arithmetic block's precedence depends on its operator (× ÷ % bind tighter than + −), so `(t2 - t1) / 1000.0`
+  keeps its brackets through C++ → blocks → C++ (it lost them before, which changed the program).
+- `models.js` → `models7.js`: `load230 { show: true }` puts the bulb (it glows with the box's `b`) or a ceiling fan (its
+  blades turn with `a`) on the closed 230 V box, so a bench-only project shows what the relay switched; `pump { mount:
+  'bottle' }` is a sanitizer bottle with a stream while the pump runs.
+- `lessons.js` (registration, in the page and in node), `i18n.js` (`grp_projects`), `xrui.js` (the section in ☰ Lessons).
+
+### Tests
+
+- `node devtools/test/robocore7.mjs [ids]`: every lesson built at its ghosts, checked, run, its act / watch steps done as
+  a student does them (press, slide, wave, type on the keypad, the remote, the joystick), the edits, `done`; and one
+  realistic mistake per lesson: the check's message (all three languages present) and what the bench then does.
+- `node devtools/test/robotest7.mjs [ids|all] [outdir]` (port 8811, `CHROME`, `SLOW=n`, `SHOTS=1`): every lesson through
+  the real page with the mouse; saves `<id>-complete.png`.

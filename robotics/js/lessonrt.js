@@ -10,6 +10,7 @@ export class LessonRT {
   reset() {
     this.flags = new Set(); this.taps = new Set(); this.servoAll = {}; this.nums = []; this.lines = 0; this.piano = new Set(); this.rgb = {}; this.recent = {};
     this.checkOk = false; this.runSrc = null; this.doneSteps = new Set(); this.complete = false; this.t = 0;
+    this.mem = {}; this.memRun = {}; this.serLines = []; // batch 7: what a lesson's tick() saw (all runs / this run), the Serial Monitor's last lines
   }
   get step() { return this.lesson ? this.lesson.steps[this.i] : null; }
   // ------------------------------------------------------------ open a lesson: its parts and wires go on the bench
@@ -83,6 +84,7 @@ export class LessonRT {
     }
     for (const p of lab.parts) if (PARTS[p.type].servo) { const o = lab.obs.servo[p.uid]; if (o && o.n) { const a = this.servoAll[p.uid] || (this.servoAll[p.uid] = { min: 999, max: -999 }); a.min = Math.min(a.min, o.min); a.max = Math.max(a.max, o.max); } }
     for (const p of lab.parts) if (p.type === 'led') { const R = this.recent[p.uid] || (this.recent[p.uid] = []); R.push([this.t, p.state.i || 0]); while (R.length && R[0][0] < this.t - 2.5) R.shift(); }
+    if (this.lesson.tick) { try { this.lesson.tick(this, dt); } catch (e) { /* (batch 7) a lesson's watcher never stops the app */ } }
     // step and lesson
     const s = this.step;
     const was = this.doneSteps.has(this.i);
@@ -101,10 +103,10 @@ export class LessonRT {
     return null;
   }
   onSerialLine(line) {
-    this.lines++;
+    this.lines++; this.serLines.push(String(line)); if (this.serLines.length > 80) this.serLines.shift(); // (batch 7)
     const m = String(line).match(/-?\d+(?:\.\d+)?/g); if (m) { this.nums.push(+m[m.length - 1]); if (this.nums.length > 400) this.nums.shift(); }
   }
-  onRun(src) { if (this.app.world) this.app.world.onRun(); this.runSrc = src; this.lines = 0; this.nums = []; this.piano = new Set(); for (const k of ['pressLit', 'releaseDark', 'darkLit', 'brightDark', 'irAlarm', 'irQuiet']) this.flags.delete(k); this.rgb = {}; this.freshAt = this.t; }
+  onRun(src) { if (this.app.world) this.app.world.onRun(); this.runSrc = src; this.lines = 0; this.nums = []; this.piano = new Set(); for (const k of ['pressLit', 'releaseDark', 'darkLit', 'brightDark', 'irAlarm', 'irQuiet']) this.flags.delete(k); this.rgb = {}; this.freshAt = this.t; this.memRun = {}; this.serLines = []; }
 
   // ------------------------------------------------------------ S: what the lessons ask
   conn(a, b) { return this.lab.conn(this.k(a), this.k(b)); }

@@ -4,6 +4,8 @@
 // a hand (pinch = trigger): wiring, parts, the code, Run, the robot (xrui.js). A/X turns the part you hold, B/Y lets it go.
 // Batch 2: the view can move to the robot beside the bench (the arm, the bin) or to the robot floor (the cars), smaller.
 // In the headset nothing casts a shadow every frame: the bench's shadow map is drawn again only when the bench changes.
+// AR (immersive-ar): on a Quest the bench stands in your real room (passthrough), worked the same way; on a phone the
+// camera finds a table, a tap puts the bench on it (1.5 × its real size), and taps then work the same panel as the rays.
 import * as THREE from 'three';
 import { XRUI } from './xrui.js';
 import { ARM_POS, ARENA_POS, BIN_POS, HYD_POS } from './robots.js';
@@ -23,7 +25,7 @@ export class XR {
       ray.scale.z = 0.6; c.add(ray); c.userData.rayLine = ray; c.visible = false;
       c.addEventListener('squeezestart', () => { this.grab = { c, x: c.position.x, yaw: this.yaw }; });
       c.addEventListener('squeezeend', () => { this.grab = null; });
-      c.addEventListener('selectstart', () => { if (this.ui) this.ui.down(i); });
+      c.addEventListener('selectstart', () => { if (this.phone && !this.placed) { this.putDown(); return; } if (this.ui) this.ui.down(i); });
       c.addEventListener('selectend', () => { if (this.ui) this.ui.up(i); });
       c.addEventListener('connected', (e) => { c.userData.src = e.data; c.visible = true; });
       c.addEventListener('disconnected', () => { c.visible = false; c.userData.src = null; if (this.ui) this.ui.up(i); });
@@ -36,15 +38,24 @@ export class XR {
     this.prevBtn = [[], []];
   }
   async supported() { try { return !!navigator.xr && await navigator.xr.isSessionSupported('immersive-vr'); } catch (e) { return false; } }
-  async enter(quiet) {
+  async supportedAR() { try { return !!navigator.xr && await navigator.xr.isSessionSupported('immersive-ar'); } catch (e) { return false; } }
+  async enter(quiet, ar) {
     if (!navigator.xr || this.session) return !!this.session;
-    let s; try { s = await navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] }); } catch (e) { this.lastErr = `${e.name}: ${e.message}`; if (!quiet) this.app.toast(String(e.message || e)); return false; }
+    const ov = ar ? document.getElementById('aroverlay') : null;
+    const opt = ar ? Object.assign({ optionalFeatures: ['local-floor', 'hit-test', 'hand-tracking', 'dom-overlay'] }, ov ? { domOverlay: { root: ov } } : {}) : { optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'] };
+    let s; try { s = await navigator.xr.requestSession(ar ? 'immersive-ar' : 'immersive-vr', opt); } catch (e) { this.lastErr = `${e.name}: ${e.message}`; if (!quiet) this.app.toast(String(e.message || e)); return false; }
     // 72 Hz, the rate this app holds on every Quest (a Quest 3 may otherwise start at 90 Hz)
     try { const fr = s.supportedFrameRates && [...s.supportedFrameRates].filter((x) => x >= 72).sort((a, b) => a - b)[0]; if (fr && s.updateTargetFrameRate) s.updateTargetFrameRate(fr).catch(() => {}); } catch (e) { /* older browsers */ }
     const st = this.stage; this.session = s; this.saved = { pos: st.root.position.clone(), scale: st.root.scale.clone(), rot: st.root.rotation.clone(), bloom: st.noBloom, blur: st.scene.backgroundBlurriness };
     st.noBloom = true; st.scene.backgroundBlurriness = 0; // in a headset the workshop around you is sharp
     this.saved.near = st.camera.near; this.saved.far = st.camera.far; st.camera.near = 0.02; st.camera.far = 200; st.camera.updateProjectionMatrix(); // metres in the headset, not mm
     const sm = st.renderer.shadowMap; sm.autoUpdate = false; sm.needsUpdate = true; // shadows only when the bench changes
+    this.ar = !!ar; this.phone = !!ar && s.interactionMode === 'screen-space'; this.placed = !this.phone; this.hitPos = null;
+    if (ar) { // the real room shows through: no workshop photo behind the bench
+      const desk = st.root.getObjectByName('desk'); if (desk) { this.saved.desk = desk; desk.visible = false; } // the real table instead of the wooden one
+      this.saved.bg = st.scene.background; st.scene.background = null; this.saved.alpha = st.renderer.getClearAlpha(); st.renderer.setClearAlpha(0); document.body.classList.add('in-ar');
+      if (this.phone) { this.scale = 1.5; this.arTip(true); s.requestReferenceSpace('viewer').then((vs) => s.requestHitTestSource({ space: vs })).then((h) => { this.hit = h; }).catch(() => { this.hit = null; this.placed = true; }); }
+    }
     await st.renderer.xr.setSession(s);
     document.body.classList.add('in-vr'); this.place(); this.ui.show(true);
     s.addEventListener('end', () => this.exit());
@@ -63,10 +74,21 @@ export class XR {
     const r = this.stage.root; const { c, k } = this.centre(); const s = 0.001 * this.scale * k;
     r.scale.setScalar(s); r.rotation.set(0, this.yaw, 0);
     const off = new THREE.Vector3(c[0] * s, c[1] * s, c[2] * s).applyAxisAngle(new THREE.Vector3(0, 1, 0), this.yaw);
+    if (this.phone) { r.visible = this.placed; if (this.placed && this.anchor) r.position.set(this.anchor.x - off.x, this.anchor.y - off.y, this.anchor.z - off.z); this.stage.kick(); return; } // phone AR: on the table that was tapped
     r.position.set(-off.x, 0.86 - off.y, -0.42 - off.z); this.stage.kick();
   }
+  // phone AR: a ring on the table the camera sees; a tap puts the bench there
+  reticle() {
+    if (this.ring) return this.ring;
+    const m = new THREE.Mesh(new THREE.RingGeometry(0.06, 0.075, 40).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0x7fd1ff }));
+    m.matrixAutoUpdate = false; m.visible = false; this.stage.scene.add(m); this.ring = m; return m;
+  }
+  arTip(on) { const t = document.getElementById('ar-hint'); if (t) t.hidden = !on; }
+  putDown() { if (!this.hitPos) return false; this.anchor = this.hitPos.clone(); this.placed = true; if (this.ring) this.ring.visible = false; this.arTip(false); this.place(); return true; }
   exit() {
     const st = this.stage; if (this.saved) { st.root.position.copy(this.saved.pos); st.root.scale.copy(this.saved.scale); st.root.rotation.copy(this.saved.rot); st.noBloom = this.saved.bloom; st.scene.backgroundBlurriness = this.saved.blur; st.camera.near = this.saved.near; st.camera.far = this.saved.far; st.camera.updateProjectionMatrix(); }
+    if (this.ar) { if (this.saved && this.saved.desk) this.saved.desk.visible = true; if (this.saved && this.saved.bg !== undefined) st.scene.background = this.saved.bg; if (this.saved && this.saved.alpha !== undefined) st.renderer.setClearAlpha(this.saved.alpha); document.body.classList.remove('in-ar'); this.arTip(false); }
+    if (this.hit) { try { this.hit.cancel(); } catch (e) { /* gone */ } this.hit = null; } if (this.ring) this.ring.visible = false; st.root.visible = true; if (this.phone) this.scale = 2; this.ar = this.phone = false; this.anchor = null;
     st.renderer.shadowMap.autoUpdate = true; this.ui.show(false); this.ui.drop(); this.focus = 'bench';
     this.session = null; document.body.classList.remove('in-vr'); st.resize(); st.kick();
     if (this.app.onVREnd) this.app.onVREnd();
@@ -79,6 +101,11 @@ export class XR {
   }
   update(dt) {
     if (!this.session) return;
+    if (this.phone && !this.placed) { // phone AR: follow the table under the middle of the screen
+      const xr = this.stage.renderer.xr; const f = xr.getFrame && xr.getFrame(); const ref = xr.getReferenceSpace(); const res = f && this.hit ? f.getHitTestResults(this.hit) : [];
+      const ring = this.reticle(); if (res && res.length) { const pose = res[0].getPose(ref); ring.visible = true; ring.matrix.fromArray(pose.transform.matrix); this.hitPos = new THREE.Vector3().setFromMatrixPosition(ring.matrix); } else ring.visible = false;
+      this.stage.kick(); return;
+    }
     this.ctrls.forEach((c, i) => {
       const src = c.userData.src; const gp = src && src.gamepad; if (!gp || !gp.axes || (src && src.hand)) return;
       const ax = gp.axes.length >= 4 ? gp.axes[2] : gp.axes[0], ay = gp.axes.length >= 4 ? gp.axes[3] : gp.axes[1];

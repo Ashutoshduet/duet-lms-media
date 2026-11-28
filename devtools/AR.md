@@ -67,7 +67,8 @@ Static server first: `python3 -m http.server 8817 --bind 127.0.0.1` (repo root),
 ## Rules kept
 
 - Models are referenced from the app that owns them (never copied), except the robotics snapshots.
-- Licences: CC0 / public domain / CC BY / CC BY-SA only (`ar/credits.json`, shown on `ar/credits.html`). The Human Body app's
-  Hindi and Hinglish narration (played for body cards and parts) is CC BY-NC-SA (the Piper Priyamvada voice): see open items.
+- Licences: CC0 / public domain / CC BY / CC BY-SA only (`ar/credits.json`, shown on `ar/credits.html`). The Human Body and
+  Space apps' Hindi and Hinglish narration (played for body and space cards) is spoken by Kokoro-82M (Apache-2.0,
+  `devtools/tts/kokoro_hi.py`); `make_voice.py` could now record Hindi for the AR cards too.
 - Phones: detection runs in a worker. The whole picture is scaled to 480 px on its long side (130–175 k pixels), and the crop
   round the target is at most 130 k pixels at a higher resolution, which gives the precision.

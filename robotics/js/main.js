@@ -10,6 +10,7 @@ import { PARTS, DRAWER, pinsOf, fmtOhm, RES_VALUES, LED_COLORS } from './parts.j
 import { BB, holeAt, stripOf, BOARDS } from './boards.js';
 import { T, t, tx, L, LANGS, msg, SPEC, REGIONS, BOARD_PIN } from './i18n.js';
 import { LESSONS, BY_ID, FREE_CODE } from './lessons.js';
+import { CURRICULUM } from './curriculum.js'; // Class 1-12: the live lessons of each class, in session order (devtools/curriculum)
 import { LessonRT } from './lessonrt.js';
 import { Editor } from './editor.js';
 import { Sound } from './audio.js';
@@ -84,6 +85,8 @@ class App {
     setTimeout(() => this.makeThumbs(this.drawerList()), TEST ? 50 : 600);
     setTimeout(() => this.warmParts(), TEST ? 2500 : 1500);
     this.xr.supported().then((ok) => { $('#b-vr').hidden = !ok; });
+    this.xr.supportedAR().then((ok) => { $('#b-ar').hidden = !ok; }); // AR: a Quest's passthrough, or a phone's camera (ARCore)
+    $('#aroverlay').addEventListener('beforexrselect', (e) => e.preventDefault()); // (a tap on the overlay is not a tap in the room)
     if (APP_VR) this.autoVR();
   }
   // the installed headset app (Quest: ?app=vr, opened from its Android app, or a standalone window) has no page to look at
@@ -266,6 +269,7 @@ class App {
     $('#w-min').onclick = () => $('#world').classList.toggle('min');
     $('#b-side').onclick = () => { if (innerWidth <= 980) document.body.classList.remove('code-open'); else { document.body.classList.toggle('side-off'); this.layout(); } };
     $('#b-vr').onclick = () => this.xr.enter();
+    $('#b-ar').onclick = () => this.xr.enter(false, true); $('#ar-exit').onclick = () => { const s = this.xr.session; if (s) s.end().catch(() => {}); };
     $('#b-run').onclick = () => this.run(); $('#b-stop').onclick = () => this.stop(); $('#b-reset').onclick = () => this.resetBoard();
     $('#s-speed').onchange = (e) => { this.speed = +e.target.value; };
     $('#b-send').onclick = () => this.sendSerial(); $('#ser-txt').onkeydown = (e) => { if (e.key === 'Enter') this.sendSerial(); };
@@ -299,7 +303,20 @@ class App {
   }
   renderStrip() {
     const s = $('#strip'); s.innerHTML = ''; let g0 = null;
-    for (const l of LESSONS) {
+    // the class filter: one class's lessons from the curriculum, in its session order (?cls=7 opens it so)
+    if (this.clsF === undefined) this.clsF = Q.get('cls') || store.get('cls') || '';
+    const sel = document.createElement('select'); sel.className = 'clsf'; sel.setAttribute('aria-label', tx(T.clsAll));
+    sel.innerHTML = `<option value="">${esc(tx(T.clsAll))}</option>` + Object.keys(CURRICULUM).filter((k) => CURRICULUM[k].length).map((k) => `<option value="${k}">${esc(tx(T.clsN, { n: k }))}</option>`).join('');
+    sel.value = CURRICULUM[this.clsF] ? this.clsF : ''; sel.onchange = () => { this.clsF = sel.value; store.set('cls', this.clsF); this.renderStrip(); };
+    s.appendChild(sel);
+    // search: a word from the title (any language), e.g. "soil", "पंप", "ESP32"
+    const q = document.createElement('input'); q.type = 'search'; q.className = 'clsq'; q.placeholder = '🔍'; q.value = this.qF || ''; q.setAttribute('aria-label', 'Search');
+    q.oninput = () => { this.qF = q.value; clearTimeout(this._qT); this._qT = setTimeout(() => { this.renderStrip(); const q2 = $('#strip .clsq'); if (q2) { q2.focus(); q2.setSelectionRange(q2.value.length, q2.value.length); } }, 250); };
+    s.appendChild(q);
+    const qq = (this.qF || '').trim().toLowerCase();
+    let list = CURRICULUM[this.clsF] ? CURRICULUM[this.clsF].map((x) => BY_ID[x.id] ? Object.assign(Object.create(BY_ID[x.id]), { n: x.n, group: null }) : null).filter(Boolean) : LESSONS;
+    if (qq) list = list.filter((l) => ['en', 'hi', 'hg'].some((k) => String(l.title[k] || '').toLowerCase().includes(qq)));
+    for (const l of list) {
       if (l.group && l.group !== g0) { g0 = l.group; const h = document.createElement('span'); h.className = 'sg'; h.textContent = t('grp_' + l.group); s.appendChild(h); } // a section: basics, robots, boards, modules, micro:bit
       const b = document.createElement('button'); const locked = !l.free && !this.licensed;
       b.className = 'chip' + (l.id === this.lessonId && this.mode === 'lesson' ? ' on' : '') + (this.progress[l.id] ? ' ok' : '') + (locked ? ' lock' : '');

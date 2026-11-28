@@ -10,6 +10,7 @@
 // Words in English, Hindi and Hinglish. The model (toBlocks / toCpp) runs without a page too (devtools/test/robocore3.mjs).
 import { parse, typeName } from './cpp.js';
 import { tx, L } from './i18n.js';
+const ARITHP = (b) => (['*', '/', '%'].includes(b.f.op) ? 13 : 12); // (batch 7) the C++ precedence of an arithmetic block
 
 const t3 = (en, hi, hg) => ({ en, hi, hg });
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -68,7 +69,7 @@ const BK = {
   call: { k: 's', c: 'control', txt: t3('do {n:NAME}', '{n:NAME} करो', '{n:NAME} karo'), d: { n: 'myFunction', a: '' }, g: (b) => `${b.f.n}(${b.f.a || ''});` },
   millis: { k: 'v', c: 'control', txt: t3('milliseconds since start', 'शुरू से मिलीसेकंड', 'shuru se milliseconds'), g: () => 'millis()' },
   // maths and logic
-  arith: { k: 'v', c: 'math', txt: t3('{a} {op:ARITH} {b}', '{a} {op:ARITH} {b}', '{a} {op:ARITH} {b}'), d: { a: ['num', '1'], op: '+', b: ['num', '1'] }, g: (b, G) => `${G.v(b, 'a', 12)} ${b.f.op} ${G.v(b, 'b', 13)}`, p: 12 },
+  arith: { k: 'v', c: 'math', txt: t3('{a} {op:ARITH} {b}', '{a} {op:ARITH} {b}', '{a} {op:ARITH} {b}'), d: { a: ['num', '1'], op: '+', b: ['num', '1'] }, g: (b, G) => { const q = ARITHP(b); return `${G.v(b, 'a', q)} ${b.f.op} ${G.v(b, 'b', q + 1)}`; }, p: (b) => ARITHP(b) }, // (batch 7: × ÷ % bind tighter than + −, so (t2 - t1) / 1000.0 keeps its brackets)
   cmp: { k: 'v', b: true, c: 'math', txt: t3('{a} {op:CMP} {b}', '{a} {op:CMP} {b}', '{a} {op:CMP} {b}'), d: { a: ['num', '1'], op: '<', b: ['num', '10'] }, g: (b, G) => `${G.v(b, 'a', 10)} ${b.f.op} ${G.v(b, 'b', 11)}`, p: 9 },
   logic: { k: 'v', b: true, c: 'math', txt: t3('{a} {op:LOGIC} {b}', '{a} {op:LOGIC} {b}', '{a} {op:LOGIC} {b}'), d: { a: ['bool', 'true'], op: '&&', b: ['bool', 'true'] }, g: (b, G) => `${G.v(b, 'a', 5)} ${b.f.op} ${G.v(b, 'b', 6)}`, p: 4 },
   not: { k: 'v', b: true, c: 'math', txt: t3('not {a}', 'नहीं {a}', 'nahi {a}'), d: { a: ['bool', 'true'] }, g: (b, G) => `!${G.v(b, 'a', 14)}`, p: 14 },
@@ -416,7 +417,7 @@ function val(e) { // an expression as a value block
 // ------------------------------------------------------------------ blocks -> C++
 const cm = (n) => (n ? '// ' + n : '//');
 // a block's slot as C++ (in brackets when the block inside binds less tightly than the place it sits in)
-const G = { v(b, k, min = 0) { const x = b.i[k]; if (!x) return '0'; const d = BK[x.t]; const s = d.g(x, G); return (d.p ?? 16) < min ? `(${s})` : s; } };
+const G = { v(b, k, min = 0) { const x = b.i[k]; if (!x) return '0'; const d = BK[x.t]; const s = d.g(x, G); const p = typeof d.p === 'function' ? d.p(x) : d.p; return (p ?? 16) < min ? `(${s})` : s; } };
 const INC_ORDER = ['Wire.h', 'SPI.h', 'Adafruit_GFX.h', 'Adafruit_SSD1306.h', 'LiquidCrystal_I2C.h', 'DHT.h', 'IRremote.hpp', 'Keypad.h', 'Servo.h', 'Stepper.h', 'MFRC522.h'];
 export function toCpp(prog) {
   const lines = []; const at = new Map(); // line -> block id

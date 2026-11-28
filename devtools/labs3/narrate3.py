@@ -1,5 +1,5 @@
-"""Piper narration (offline) for the new lab steps, journey steps and parts: English and Hindi voices; Hinglish plays the Hindi
-recording (as for the other Organ Labs). Usage: narrate3.py <worker> <workers>; then narrate3.py index (writes content.json audio)."""
+"""Narration (offline) for the new lab steps, journey steps and parts: English Piper LJSpeech, Hindi Kokoro-82M
+(devtools/tts/kokoro_hi.py); Hinglish plays the Hindi recording (as for the other Organ Labs). Usage: narrate3.py <worker> <workers>; then narrate3.py index (writes content.json audio)."""
 import json, os, re, subprocess, tempfile, wave, shutil, sys, hashlib
 APP = '/home/claude/duet-lms-media/body'
 c = json.load(open(f'{APP}/models/content.json'))
@@ -43,8 +43,9 @@ import glob
 done = {}
 for f in glob.glob('/root/work/labs3/narr_done_*.json'): done.update(json.load(open(f)))
 dp = f'/root/work/labs3/narr_done_{W}.json'; mine_d = json.load(open(dp)) if os.path.exists(dp) else {}
-V = {'en': PiperVoice.load('/root/tts/voices/en_US-ljspeech-high.onnx'), 'hi': PiperVoice.load('/root/tts/voices/hi_IN-priyamvada-medium.onnx')}
-cfg = {'en': SynthesisConfig(length_scale=1.06), 'hi': SynthesisConfig(length_scale=1.08)}
+sys.path.insert(0, os.path.join(APP, '..', 'devtools', 'tts')); from kokoro_hi import KokoroHindi, voices_dir
+V = {'en': PiperVoice.load('/root/tts/voices/en_US-ljspeech-high.onnx'), 'hi': KokoroHindi(voices_dir())}
+cfg = {'en': SynthesisConfig(length_scale=1.06), 'hi': None}
 todo = jobs()[W::N]; n = 0
 for k, L, text in todo:
     text = (en_say if L == 'en' else hi_say)(text); key = f'{k}|{L}'
